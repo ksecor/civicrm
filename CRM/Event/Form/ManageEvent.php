@@ -91,14 +91,13 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
         $this->_single = $this->get( 'single' );
 
-        // figure out whether we’re handling an event or an event template
-        if ($this->_id) {
-            $this->_isTemplate = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'is_template');
-        } elseif ($this->_action & CRM_Core_Action::ADD) {
-            $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
-            $this->_templateId = CRM_Utils_Request::retrieve('template_id', 'Integer', $this);
+        $this->_isTemplate = (bool) CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
+        if (!$this->_isTemplate and $this->_id) {
+            $this->_isTemplate = (bool) CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'is_template');
         }
         $this->assign('isTemplate', $this->_isTemplate);
+
+        $this->_templateId = (int) CRM_Utils_Request::retrieve('template_id', 'Integer', $this);
 
         if ($this->_isTemplate) {
             $breadCrumb = array(array('title' => ts('Event Templates'),
@@ -125,18 +124,16 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $defaults);
-        } else {
-            $defaults['is_active'] = 1;
-            $defaults['style']     = 'Inline';
-        }
-        
-        if ($this->_templateId) {
+        } elseif ($this->_templateId) {
             $params = array('id' => $this->_templateId);
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $defaults);
             $defaults['is_template'] = $this->_isTemplate;
             $defaults['template_id'] = $defaults['id'];
             unset($defaults['id']);
+        } else {
+            $defaults['is_active'] = 1;
+            $defaults['style']     = 'Inline';
         }
 
         return $defaults;
@@ -186,9 +183,6 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         }
 
         $this->add('hidden', 'is_template', $this->_isTemplate);
-        if ($this->_templateId and !isset($this->_elementIndex['template_id'])) {
-            $this->add('hidden', 'template_id', $this->_templateId);
-        }
     }
 }
 

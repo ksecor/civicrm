@@ -94,6 +94,7 @@
     <RelationshipType>
         <name>Homeless Services Coordinator</name>
         <creator>1</creator>
+        <manager>1</manager>
     </RelationshipType>
     <RelationshipType>
         <name>Health Services Coordinator</name>

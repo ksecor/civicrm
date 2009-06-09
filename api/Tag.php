@@ -82,7 +82,7 @@ function crm_create_tag($params)
  * This api is used for finding an existing tag.
  * Either id or name of tag are required parameters for this api.
  * 
- * @params  array $params  an associative array of name/value pairs.
+ * @param  array $params  an associative array of name/value pairs.
  *
  * @return  $tagBAO  object of CRM_Core_BAO_Tag
  * @access public

@@ -25,15 +25,18 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 tag functions
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Tag
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id: Contribute.php 9526 2007-05-12 19:36:28Z deepak $
- *
+ * @version $Id$
  */
 
+/**
+ * Include utility functions
+ */
 require_once 'api/v2/utils.php';
 
 /**
@@ -108,7 +111,7 @@ function civicrm_tag_delete( &$params )
  * This api is used for finding an existing tag.
  * Either id or name of tag are required parameters for this api.
  * 
- * @params  array $params  an associative array of name/value pairs.
+ * @param  array $params  an associative array of name/value pairs.
  *
  * @return  array details of found tag else error
  * @access public

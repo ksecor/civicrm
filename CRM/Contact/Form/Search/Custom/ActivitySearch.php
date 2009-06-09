@@ -191,8 +191,7 @@ FROM   $from
     function from( ) {
         return "
 civicrm_contact contact_a
-JOIN civicrm_activity_target at ON contact_a.id = at.target_contact_id
-JOIN civicrm_activity activity ON at.activity_id = activity.id
+JOIN civicrm_activity activity ON contact_a.id = activity.source_contact_id
 JOIN civicrm_option_value ov1 ON activity.activity_type_id = ov1.value AND ov1.option_group_id = 2
 JOIN civicrm_option_value ov2 ON activity.status_id = ov2.value AND ov2.option_group_id = {$this->_groupId}
 JOIN civicrm_contact contact_b ON activity.source_contact_id = contact_b.id

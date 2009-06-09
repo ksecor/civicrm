@@ -6,24 +6,32 @@
     {/foreach}
   </dl>
   {if $context == 'dialog'}
-    <button type="button" onClick="
-      // submit with Ajax
-      dojo.xhrPost ({ldelim}
-        // post the contents of the Form to the Form's URL
-        url: dojo.byId('Form').action,
-        form: 'Form',
-        // on success update the proper field in the form 'below' and hide popup
-        load: function (data) {ldelim}
-          dojo.byId('{$field}').value = dojo.byId('{$field}_{$tsLocale}').value;
-          dijit.byId('i18n-{$field}-dialog').hide();
-        {rdelim},
-        // on error alert the user
-        error: function (error) {ldelim}
-          alert('Error: ', error);
-        {rdelim}
-      {rdelim});
-    ">{ts}Save{/ts}</button>
+    <input type="submit" value="Save"/>
   {else}
     {$form.buttons.html}
   {/if}
 </fieldset>
+{$form.action}
+{literal}
+<script type="text/javascript">
+var fieldName = "{/literal}{$field}{literal}";
+cj('#Form').submit(function() { 
+      cj(this).ajaxSubmit({ 
+                            beforeSubmit: function (formData, jqForm, options) {
+                                                    var queryString = cj.param(formData); 
+                                                    var postUrl     = cj('#Form').attr('action');
+                                                    cj.ajax({
+                                                             type   : "POST",
+                                                             url    : postUrl,    
+                                                             async  : false,
+                                                             data   : queryString,
+                                                             success: function( response ) {
+                                                                      cj("#locale-dialog_"+fieldName).dialog("close");
+                                                                     }
+                                                    });
+                                                return false; 
+                                            }}); 
+          return false; 
+});
+</script>
+{/literal}

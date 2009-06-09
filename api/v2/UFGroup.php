@@ -25,12 +25,13 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 user framework group functions
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_UF
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
@@ -38,7 +39,6 @@
 /**
  * Files required for this package
  */
-
 require_once 'api/v2/utils.php'; 
 require_once 'CRM/Core/BAO/UFGroup.php';
 
@@ -405,7 +405,7 @@ function civicrm_uf_field_delete( $fieldId ) {
  *
  * @param int    $userID    the user id 
  * @param string $title     the title of the group we are interested in
- * @pram  boolean $register is this the registrtion form
+ * @param  boolean $register is this the registrtion form
  * @param int    $action  the action of the form
  *
  * @return error   if data not valid

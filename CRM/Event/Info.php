@@ -62,7 +62,8 @@ class CRM_Event_Info extends CRM_Core_Component_Info
                       'edit event participants',
                       'register for events'    ,
                       'view event info'        ,
-                      'view event participants' );
+                      'view event participants',
+                      'delete in CiviEvent' );
     }
 
     // docs inherited from interface

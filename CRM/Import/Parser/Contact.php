@@ -417,11 +417,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( $contactFields == null) {
             require_once "CRM/Contact/DAO/Contact.php";
             $contactFields =& CRM_Contact_DAO_Contact::import( );
-        }
-        
-        //format common data, CRM-4062
-        $this->formatCommonData( $params, $formatted, $contactFields );
-                
+        }              
         
         //check if external identifier exists in database
         if ( CRM_Utils_Array::value('external_identifier', $params ) && 
@@ -443,17 +439,25 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
             }
         }
-
+        //get contact id to format common data in update/fill mode,
+        //if external identifier is present, CRM-4423
+        if ( $this->_updateWithId  && !CRM_Utils_Array::value('id', $params) ) {
+            if ( $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                     $params['external_identifier'], 'id',
+                                                     'external_identifier' ) ) {
+                $formatted['id'] = $cid;
+            }
+        }
+        
+        //format common data, CRM-4062
+        $this->formatCommonData( $params, $formatted, $contactFields );
+        
         $relationship = false;
         $createNewContact = true;
         // Support Match and Update Via Contact ID
         if ( $this->_updateWithId ) {
             $createNewContact = false;
-            if ( !CRM_Utils_Array::value('id', $params) && CRM_Utils_Array::value('external_identifier', $params) ) {
-                
-                $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                    $params['external_identifier'], 'id',
-                                                    'external_identifier' );
+            if ( !CRM_Utils_Array::value('id', $params) && CRM_Utils_Array::value('external_identifier', $params) ) {                
                 if ( $cid ) {
                     $params['id'] =  $cid; 
                 } else {
@@ -616,17 +620,32 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     
                     $contactFields = null;
                     $contactFields = CRM_Contact_DAO_Contact::import( );
-                    
-                    //format common data, CRM-4062
-                    $this->formatCommonData( $field, $formatting, $contactFields );
-                    
+                                        
                     //Relation on the basis of External Identifier.
                     if ( !CRM_Utils_Array::value( 'id' , $params[$key] ) && isset ( $params[$key]['external_identifier'] ) ) {
                         $params[$key]['id'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact',
                                                                           $params[$key]['external_identifier'],'id',
                                                                           'external_identifier' );
                     }                    
+                    // check for valid related contact id in update/fill mode, CRM-4424
+                    if ( in_array( $onDuplicate, array( CRM_Import_Parser::DUPLICATE_UPDATE, CRM_Import_Parser::DUPLICATE_FILL ) ) && CRM_Utils_Array::value( 'id', $params[$key] ) ) {
+                        $relatedContactType  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                            $params[$key]['id'],
+                                                                            'contact_type' );
+                        if ( ! $relatedContactType ) {
+                            $errorMessage = ts( "No contact found for this related contact ID: %1", array( 1 => $params[$key]['id'] ) );
+                            array_unshift($values, $errorMessage);
+                            return CRM_Import_Parser::NO_MATCH;
+                        } else {
+                            // get related contact id to format data in update/fill mode,
+                            //if external identifier is present, CRM-4423
+                            $formatting['id'] = $params[$key]['id'];
+                        }
+                    } 
                     
+                    //format common data, CRM-4062
+                    $this->formatCommonData( $field, $formatting, $contactFields );
+
                     //fixed for CRM-4148
                     if ( $params[$key]['id'] ) {
                         $contact           = array( 'contact_id' => $params[$key]['id'] );
@@ -642,14 +661,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                     
                     $matchedIDs = array(  );
+                    // To update/fill contact, get the matching contact Ids if duplicate contact found 
+                    // otherwise get contact Id from object of related contact
                     if ( is_array( $relatedNewContact ) && civicrm_error( $relatedNewContact ) ) {
                         if ( civicrm_duplicate($relatedNewContact) ) {
                             $matchedIDs = explode(',',$relatedNewContact['error_message']['params'][0]);
-                            //update the relative contact if dupe 
-                            if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE || 
-                                 $onDuplicate == CRM_Import_Parser::DUPLICATE_FILL ) {
-                                $updatedContact = $this->createContact( $formatting, $contactFields, $onDuplicate, $matchedIDs[0] );
-                            } 
                         } else {
                             $errorMessage = $relatedNewContact['error_message'];
                             array_unshift( $values, $errorMessage );
@@ -660,6 +676,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     } else {
                         $matchedIDs[] = $relatedNewContact->id;
                     }
+                    // update/fill related contact after getting matching Contact Ids, CRM-4424
+                    if ( in_array( $onDuplicate, array( CRM_Import_Parser::DUPLICATE_UPDATE, CRM_Import_Parser::DUPLICATE_FILL ) ) ) {
+                        $updatedContact = $this->createContact( $formatting, $contactFields, $onDuplicate, $matchedIDs[0] );
+                    } 
                     static $relativeContact = array( ) ;
                     if ( civicrm_duplicate( $relatedNewContact ) ) {
                         if ( count( $matchedIDs ) >= 1 ) {
@@ -1305,12 +1325,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
         
         if ( $location ) {
-            for ( $loc = 1; $loc <= count( $params['location'] ); $loc++ ) {
-                $getValue = CRM_Utils_Array::retrieveValueRecursive($contact['location'][$loc], 'location_type_id');
-                
-                if ( $modeFill && isset( $getValue ) ) {
-                    unset( $params['location'][$loc] );
-                }
+            for ( $loc = 1; $loc <= count( $params['location'] ); $loc++ ) {               
+                //if location block is already present for the contact 
+                //then do not fill any data for that location type, CRM-4424
+                if ( $modeFill ) {
+                    foreach ( $contact['location'] as $location => $locationDetails ) {
+                        $getValue = CRM_Utils_Array::value( 'location_type_id', $locationDetails );
+                        if ( isset( $getValue ) 
+                             && $getValue == $params['location'][$loc]['location_type_id'] ) {
+                            unset( $params['location'][$loc] );
+                            break;
+                        }
+                    }
+                 }
                 
                 if ( array_key_exists( 'address', $contact['location'][$loc] ) ) {
                     $fields = array( 'street_address', 'city', 'state_province_id', 
@@ -1531,8 +1558,20 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 
             }
         }
-        
-        
+        // check for primary location type, whether it is already present for the contact or not, CRM-4423
+        if ( CRM_Utils_Array::value( 'id', $formatted ) && isset( $formatted['location'] ) ) {
+            $primaryLocationTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType($formatted['id'], true);
+            if ( isset ( $primaryLocationTypeId ) ) {
+                foreach ( $formatted['location'] as $loc => $details ) {
+                    if ( $primaryLocationTypeId == CRM_Utils_Array::value( 'location_type_id', $details ) ) {
+                        $formatted['location'][$loc]['is_primary'] = 1; 
+                        break;
+                    } else {
+                        $formatted['location'][$loc]['is_primary'] = 0;
+                    }
+                }
+            }
+        }    
     }
     
 }

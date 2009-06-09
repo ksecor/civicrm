@@ -22,7 +22,8 @@
     {/if}
     &nbsp; &nbsp; <input type="button" value="{ts}vCard{/ts}" name="vCard_export" onclick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';"/>
     &nbsp; &nbsp; <input type="button" value="{ts}Print{/ts}" name="contact_print" onclick="window.location='{crmURL p='civicrm/contact/view/print' q="reset=1&print=1&cid=$contactId"}';"/>
-    {if $permission EQ 'edit'}
+    {* CRM-4418 *}
+    {if call_user_func(array('CRM_Core_Permission','check'), 'delete contacts')}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
     {if $dashboardURL } &nbsp; &nbsp; <a href="{$dashboardURL}">&raquo; {ts}View Contact Dashboard{/ts}</a> {/if}

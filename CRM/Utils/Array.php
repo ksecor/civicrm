@@ -342,7 +342,7 @@ class CRM_Utils_Array {
                 if ( !self::crmIsEmptyArray($element) ) {
                     return false;
                 }
-            } elseif ( !empty( $element ) ) {
+            } elseif ( isset( $element ) ) {
                 return false;
             }
         }
