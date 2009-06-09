@@ -1,6 +1,6 @@
 {*common template for compose mail*}
  <div><dt class="label-left">{$form.template.label}</dt><dd>{$form.template.html}</dd></div>
-  <div class="accordion ui-accordion ui-widget ui-helper-reset">{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp}
+  <div class="accordion ui-accordion ui-widget ui-helper-reset">{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp"}
          <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{$form.html_message.label}</a></h3>
           <div class='html'>
               <dl>
