@@ -40,6 +40,9 @@ require_once 'CRM/Core/OptionGroup.php';
 
 class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
 
+    const  
+        ROW_COUNT_LIMIT = 2;
+
     protected $_summary = null;
     
     
@@ -222,7 +225,34 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
         $rows['Payment Method'] = $instrumentRows;
         
         $this->assign_by_ref( 'rows', $rows );
+
+        $this->assign( 'statistics',  $this->statistics( $eventIDs ) );
     }
+
+    function statistics( &$eventIDs ) {
+        $statistics = array();
+        $count      = count($eventIDs);
+        $this->countStat( $statistics, $count );
+        return $statistics;
+    }
+
+    function limit( ) {
+        $this->_limit = 0; 
+        $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );
+        $pageId = $pageId ? $pageId : 1;
+        $offset = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
+        $this->_limit  = $offset ;
+    }
+
+    function setPager( ) {
+        require_once 'CRM/Utils/Pager.php';
+        $params = array( 'total'    => $this->_rowsFound,
+                         'rowCount' => self::ROW_COUNT_LIMIT,
+                         'status'   => ts( 'Events %%StatusMessage%%' ) );
+        $pager = new CRM_Utils_Pager( $params );
+        $this->assign_by_ref( 'pager', $pager );
+    }
+
 
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
@@ -233,7 +263,26 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
         }
         $this->processReportMode( );
 
-        $this->buildEventReport( $this->_params['id_value'] );
+        $this->_rowsFound = count($this->_params['id_value']);
+
+        $this->limit( );
+        $this->setPager( );
+
+        $showEvents = array( );
+        $count      = 0;
+        $numRows    = $this->_limit; 
+
+        while ( $count <  self::ROW_COUNT_LIMIT ) {
+            if( !isset( $this->_params['id_value'][$numRows] ) ) {
+                break;
+            }
+
+            $showEvents[] = $this->_params['id_value'][$numRows];
+            $count++;
+            $numRows++;
+        }
+
+        $this->buildEventReport( $showEvents );
 
         parent::endPostProcess( );
     }   

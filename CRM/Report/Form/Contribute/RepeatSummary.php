@@ -386,6 +386,23 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
         }
     }
 
+    function limit( ) {
+        $this->_limit = 0; 
+        $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );
+        $pageId = $pageId ? $pageId : 1;
+        $offset = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
+        $this->_limit  = $offset ;
+    }
+
+    function setPager( ) {
+        require_once 'CRM/Utils/Pager.php';
+        $params = array( 'total'    => $this->_rowsFound,
+                         'rowCount' => self::ROW_COUNT_LIMIT,
+                         'status'   => ts( 'Contributions %%StatusMessage%%' ) );
+        $pager = new CRM_Utils_Pager( $params );
+        $this->assign_by_ref( 'pager', $pager );
+    }
+
     function postProcess( ) {
         $this->beginPostProcess( );
 

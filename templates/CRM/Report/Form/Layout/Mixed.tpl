@@ -1,3 +1,5 @@
+{if $events}
+{include file="CRM/common/pager.tpl" noForm=1}
 {foreach from=$events item=eventID}
     <table class="form-layout">
         {foreach from=$summary.$eventID item=values key=keys}
@@ -35,5 +37,16 @@
     </table>
     <table>
         <tr></tr>
-    </table
+    </table>
 {/foreach}
+{if $statistics}
+    <br/>
+    <table class="form-layout">
+        {foreach from=$statistics.counts item=row}
+            <tr>
+                <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
+            </tr>
+        {/foreach}
+    </table>
+{/if}
+{/if}

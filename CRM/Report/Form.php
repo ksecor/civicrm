@@ -216,8 +216,16 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->_pdfButtonName      = $this->getButtonName( 'submit', 'pdf'   );
     }
 
+    function addBreadCrumb() {
+        $breadCrumbs = array( array( 'title' => ts('Report Templates'),
+                                     'url'   => CRM_Utils_System::url('civicrm/admin/report/template/list','reset=1') ) );
+        
+        CRM_Utils_System::appendBreadCrumb( $breadCrumbs );
+    }    
+
     function preProcess( ) {
         self::preProcessCommon( );
+        self::addBreadCrumb();
 
         foreach ( $this->_columns as $tableName => $table ) {
             // set alias
