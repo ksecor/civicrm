@@ -339,7 +339,7 @@ LEFT JOIN  civicrm_option_value ON (
            civicrm_option_value.option_group_id = %1 )
 WHERE      civicrm_event.is_active = 1
 GROUP BY   civicrm_event.id
-ORDER BY   civicrm_event.end_date DESC
+ORDER BY   civicrm_event.end_date
 LIMIT      0, 10
 ";
 
