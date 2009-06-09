@@ -42,9 +42,29 @@
 
     {* build the print pdf buttons *}
     {if $rows}
-       {assign var=print value="_qf_"|cat:$form.formName|cat:"_submit_print"}
-       {assign var=pdf   value="_qf_"|cat:$form.formName|cat:"_submit_pdf"}
-       <table class="form-layout-compressed"><tr><td>{$form.$print.html}&nbsp;&nbsp;</td><td>{$form.$pdf.html}</td><td>{if $instanceUrl}&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Available Report(s) For This Template{/ts}</a>{/if}</td></tr></table>
+        {assign var=print value="_qf_"|cat:$form.formName|cat:"_submit_print"}
+        {assign var=pdf   value="_qf_"|cat:$form.formName|cat:"_submit_pdf"}
+        {assign var=chart value="_qf_"|cat:$form.formName|cat:"_submit_chart"}
+        <table style="border:0;">
+            <tr>
+                <td>
+                    <table class="form-layout-compressed">
+                        <td>{$form.$print.html}&nbsp;&nbsp;</td>
+                        <td>{$form.$pdf.html}</td>
+                        {if $instanceUrl}
+                            <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Available Report(s) For This Template{/ts}</a></td>
+                        {/if}
+                    </table>
+                </td>
+                {if $displayChart}
+                    <td>
+                        <table style="border:0;" align="right">
+                            <td align="right">{$form.charts.html}&nbsp;&nbsp;{$form.$chart.html}</td>                        
+                        </table>
+                    </td>
+                {/if}
+            </tr>
+        </table>
     {/if}
 
     <script type="text/javascript">
@@ -69,7 +89,7 @@
 
 {/if} {* NO print section ends *}
 
-{if $form.charts.value.0 eq 'pieGraph' OR $form.charts.value.0 eq 'barGraph'}
+{if $form.charts.value.0 neq '' && $displayChart}
     {include file="CRM/Report/Form/Layout/Graph.tpl"}
 {elseif $mixedType}
    {include file="CRM/Report/Form/Layout/Mixed.tpl"}

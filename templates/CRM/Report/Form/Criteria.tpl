@@ -92,20 +92,6 @@
             {/foreach}
         </table>
  
-    {if $form.charts.html}
-        <br/>
-        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
-            <tr>
-	        <td><strong>{ts}Chart Options{/ts}</strong></td>
-	    </tr>
-	</table>
-        <table class="form-layout">
-            <tr>
-                <td>{$form.charts.label}&nbsp;&nbsp;{$form.charts.html}</td>
-            </tr>
-        </table>
-    {/if}
-
     {literal}
     <script type="text/javascript">
     {/literal}

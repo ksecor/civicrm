@@ -142,6 +142,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_instanceButtonName = null;
     protected $_printButtonName    = null;
     protected $_pdfButtonName      = null;
+    protected $_chartButtonName    = null;
 
     protected $_rollup         = null;
 
@@ -224,6 +225,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->_instanceButtonName = $this->getButtonName( 'submit', 'save'  );
         $this->_printButtonName    = $this->getButtonName( 'submit', 'print' );
         $this->_pdfButtonName      = $this->getButtonName( 'submit', 'pdf'   );
+        $this->_chartButtonName    = $this->getButtonName( 'submit', 'chart' );
     }
 
     function addBreadCrumb() {
@@ -525,6 +527,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( !empty( $this->_charts ) ) {
             $this->addElement( 'select', "charts", ts( 'Chart' ), $this->_charts );
             $this->assign( 'charts', $this->_charts );
+            $this->addElement('submit', $this->_chartButtonName, ts('Go') );
         }
     }
     
@@ -569,7 +572,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         $label = $this->_id ? ts( 'Print PDF' ) : ts( 'Preview PDF' );
         $this->addElement('submit', $this->_pdfButtonName, $label );
-
+        $this->addChartOptions( );
         $this->addButtons( array(
                                  array ( 'type'      => 'submit',
                                          'name'      => ts('Preview Report'),
@@ -584,8 +587,6 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->addFilters( );
       
         $this->addOptions( );
-
-        $this->addChartOptions( );
 
         $this->addGroupBys( );
 

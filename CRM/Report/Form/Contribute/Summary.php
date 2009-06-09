@@ -139,7 +139,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'group_bys'           =>
                           array( 'receive_date' => 
                                  array( 'frequency'  => true,
-                                        'default'    => true ),
+                                        'default'    => true,
+                                        'chart'      => true ),
                                  'contribution_source'     => null, ), ),
 
                    'civicrm_group' => 
@@ -412,6 +413,10 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                 if ( array_key_exists('group_bys', $table) ) {
                     foreach ( $table['group_bys'] as $fieldName => $field ) {
                         if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                            if ( CRM_Utils_Array::value( 'chart', $field ) ) {
+                                $this->assign( 'displayChart', true );
+                            }
+
                             if ( CRM_Utils_Array::value('frequency', $table['group_bys'][$fieldName]) && 
                                  CRM_Utils_Array::value($fieldName, $this->_params['group_bys_freq']) ) {
                                 
@@ -465,6 +470,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                 }
                 $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
                 $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+                $this->_graphPath =  $graphs['0']['file_name'];
             }
         }
     }
