@@ -34,6 +34,7 @@
  */
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'Utils.php';
+require_once 'standalone/civicrm.settings.php';
 
 /**
  *  Class containing all test suites

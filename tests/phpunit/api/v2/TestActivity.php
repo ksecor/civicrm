@@ -91,6 +91,29 @@ class api_v2_TestActivity extends PHPUnit_Extensions_Database_TestCase
         $op->execute( $this->dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__) . '/truncate.xml') );
+ 
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+ 
+        //  Insert a row in civicrm_option_group creating option group
+        //  activity_type 
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__)
+                             . '/option_group_activity_type.xml') );
+ 
+        //  Insert a row in civicrm_option_value creating
+        //  activity_type 5
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/option_value_activity_5.xml') );
     }
 
     /**
@@ -98,15 +121,89 @@ class api_v2_TestActivity extends PHPUnit_Extensions_Database_TestCase
      *  will be called automatically during teardown
      */
     public function tearDown() { }
+    
+    /**
+     * check with empty array
+     */
+    function testActivityCreateEmpty( )
+    {
+        $params = array( );
+        $result = & civicrm_activity_create($params);
+        $this->assertEquals( $result['is_error'], 1 );
+    }
 
     /**
-     *  Test something
+     * check if required fields are not passed
      */
-    public function testSomething()
+    function testActivityCreateWithoutRequired( )
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.');
-    } 
+        $params = array(
+                        'subject'             => 'this case should fail',
+                        'scheduled_date_time' => date('Ymd')
+                        );
+        
+        $result = & civicrm_activity_create($params);
+        $this->assertEquals( $result['is_error'], 1 );
+    }
+
+    /**
+     * check with incorrect required fields
+     */
+    function testActivityCreateWithIncorrectData( )
+    {
+        $params = array(
+                        'activity_name'       => 'Breaking Activity',
+                        'subject'             => 'this case should fail',
+                        'scheduled_date_time' => date('Ymd')
+                        );
+
+        $result = & civicrm_activity_create($params);
+        $this->assertEquals( $result['is_error'], 1 );
+    }
+
+    /**
+     * check with incorrect required fields
+     */
+    function testActivityCreateWithIncorrectContactId( )
+    {
+        $params = array(
+                        'activity_name'       => 'Meeting',
+                        'subject'             => 'this case should fail',
+                        'scheduled_date_time' => date('Ymd')
+                        );
+
+        $result = & civicrm_activity_create($params);
+        
+        $this->assertEquals( $result['is_error'], 1 );
+    }
+
+    /**
+     * this should create activity
+     */
+    function testActivityCreate( )
+    {
+        $params = array(
+                        'source_contact_id'   => 17,
+                        'subject'             => 'Discussion on Apis for v2',
+                        'activity_date_time'  => date('Ymd'),
+                        'duration_hours'      => 30,
+                        'duration_minutes'    => 20,
+                        'location'            => 'Pensulvania',
+                        'details'             => 'a test activity',
+                        'status_id'           => 1,
+                        'activity_name'       => 'Test activity type'
+                        );
+        
+        $result = & civicrm_activity_create( $params );
+        $this->assertEquals( $result['is_error'], 0 );
+        $this->assertEquals( $result['source_contact_id'], 17 );
+        $this->assertEquals( $result['subject'], 'Discussion on Apis for v2' );
+        $this->assertEquals( $result['activity_date_time'], date('Ymd') );
+        $this->assertEquals( $result['location'], 'Pensulvania' );
+        $this->assertEquals( $result['details'], 'a test activity' );
+        $this->assertEquals( $result['status_id'], 1 );
+        
+    }
 
 } // class api_v2_TestActivity
 
