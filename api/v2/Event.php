@@ -27,14 +27,13 @@
 
 /**
  *
- * Definition of CRM API for Event.
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
+ * File for the CiviCRM APIv2 event functions
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Event
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
@@ -100,7 +99,7 @@ function civicrm_event_create( &$params )
  * This api is used to retrieve all data for an existing Event.
  * Required parameters : id of event
  * 
- * @params  array $params  an associative array of title/value property values of civicrm_event
+ * @param  array $params  an associative array of title/value property values of civicrm_event
  * 
  * @return  If successful array of event data; otherwise object of CRM_Core_Error.
  * @access public
@@ -133,7 +132,7 @@ function civicrm_event_get( &$params )
  * Get Event record.
  * 
  *
- * @params  array  $params     an associative array of name/value property values of civicrm_event
+ * @param  array  $params     an associative array of name/value property values of civicrm_event
  *
  * @return  Array of all found event property values.
  * @access public

@@ -598,7 +598,7 @@ AND civicrm_case.is_deleted     = 0";
         if ( CRM_Core_Permission::check( 'edit cases' ) ) {
             $permission = CRM_Core_Permission::EDIT;
         }
-        
+                
         $mask = CRM_Core_Action::mask( $permission );
         while ( $result->fetch() ) {
             foreach( $resultFields as $donCare => $field ) {
@@ -613,8 +613,14 @@ AND civicrm_case.is_deleted     = 0";
                                                             'cxt' => 'dashboard' ) );
                 }
             }
+            //CRM-4510.
+            $caseManagerContact = self::getCaseManagerContact( $result->case_type, $result->case_id );
+            if ( !empty($caseManagerContact) ) {
+                $casesList[$result->case_id]['casemanager_id'] = CRM_Utils_Array::value('casemanager_id', $caseManagerContact );
+                $casesList[$result->case_id]['casemanager'   ] = CRM_Utils_Array::value('casemanager'   , $caseManagerContact );              
+            } 
         }
-
+        
         return $casesList;        
     }
 
@@ -868,6 +874,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $emailActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                                'Email',
                                                                'name' );
+       
+        $activityCondition = " AND v.name IN ('Open Case', 'Change Case Type', 'Change Case Status', 'Change Case Start Date')";
+        $caseAttributeActivities = CRM_Core_OptionGroup::values( 'activity_type', false, false, false, $activityCondition );
+                   
         require_once 'CRM/Case/BAO/Case.php';
         $caseDeleted = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $caseID, 'is_deleted' );
         
@@ -896,9 +906,17 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             if ( !$dao->deleted ) {
                 //hide edit link of activity type email.CRM-4530.
                 if ( $dao->type != $emailActivityTypeID ) {
-                    $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> |";
+                    $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
                 }
-                $url .= "  <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+                              
+                //block deleting activities which affects
+                //case attributes.CRM-4543
+                if ( !array_key_exists($dao->type, $caseAttributeActivities) ) {
+                    if ( !empty($url) ) {
+                        $url .= " | ";   
+                    }
+                    $url .= "<a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+                }
             } else if ( !$caseDeleted ) {
                 $url  = "<a href='" .$restoreUrl.$additionalUrl."'>". ts('Restore') . "</a>";
                 $values[$dao->id]['status']  = $values[$dao->id]['status'].'<br /> (deleted)'; 
@@ -1454,6 +1472,51 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         
         require_once "CRM/Activity/BAO/Activity.php";
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+    }
+
+    /**
+     * Function to get case manger 
+     * contact which is assigned a case role of case manager. 
+     *
+     * @param int    $caseType case type
+     * @param int    $caseId   case id
+     *
+     * @return array $caseManagerContact array of contact on success otherwise empty 
+     *
+     * @static
+     */
+    static function getCaseManagerContact( $caseType, $caseId )
+    {
+        if ( !$caseType || !$caseId ) {
+            return;
+        }
+        
+        $caseManagerContact = array( );
+        require_once 'CRM/Case/XMLProcessor/Process.php';
+        $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
+        
+        $managerRoleId = $xmlProcessor->getCaseManagerRoleId( $caseType );
+        
+        if ( !empty($managerRoleId) ) {
+            $managerRoleQuery = "
+SELECT civicrm_contact.id as casemanager_id, 
+       civicrm_contact.sort_name as casemanager
+FROM civicrm_contact 
+LEFT JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = civicrm_contact.id AND civicrm_relationship.relationship_type_id = %1)
+LEFT JOIN civicrm_case ON civicrm_case.id = civicrm_relationship.case_id
+WHERE civicrm_case.id = %2";
+            
+            $managerRoleParams = array( 1 => array( $managerRoleId  , 'Integer' ),
+                                        2 => array( $caseId         , 'Integer' ) );
+
+            $dao = CRM_Core_DAO::executeQuery( $managerRoleQuery, $managerRoleParams );
+            if ( $dao->fetch() ) {
+                    $caseManagerContact['casemanager_id'] = $dao->casemanager_id;
+                    $caseManagerContact['casemanager'   ] = $dao->casemanager;
+            }
+        }
+        
+        return $caseManagerContact; 
     }
 }
 

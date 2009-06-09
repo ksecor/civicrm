@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--  $Id$  -->
+<dataset>
+  <table name="civicrm_option_value">
+    <column>id</column>
+    <column>option_group_id</column>
+    <column>label</column>
+    <column>value</column>
+    <column>name</column>
+    <column>grouping</column>
+    <column>filter</column>
+    <column>is_default</column>
+    <column>weight</column>
+    <column>description</column>
+    <column>is_optgroup</column>
+    <column>is_reserved</column>
+    <column>is_active</column>
+    <row>
+      <null />
+      <value>2</value>
+      <value>Test activity type</value>
+      <value>5</value>
+      <value>Test activity type</value>
+      <null />
+      <value>0</value>
+      <null />
+      <value>1</value>
+      <null />
+      <value>0</value>
+      <value>0</value>
+      <value>1</value>
+    </row>
+  </table>
+</dataset>

@@ -27,15 +27,13 @@
 
 /**
  *
- * Definition of CRM API for Membership<->Contact relationships.
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
+ * File for the CiviCRM APIv2 membership contact functions
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Membership
+ *  
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
- *
+ * @version $Id$
  */
 
 /**
@@ -116,7 +114,7 @@ function civicrm_membership_contact_create(&$params)
  * This api will also return the mebership records for the contacts
  * having mebership based on the relationship with the direct members.
  * 
- * @params  Array $params key/value pairs for contact_id and some
+ * @param  Array $params key/value pairs for contact_id and some
  *          options affecting the desired results; has legacy support
  *          for just passing the contact_id itself as the argument
  *

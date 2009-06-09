@@ -59,7 +59,8 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
     public function getPermissions()
     {
         return array( 'access CiviPledge',
-                      'edit pledges' );
+                      'edit pledges',
+                      'delete in CiviPledge' );
     }
 
     // docs inherited from interface

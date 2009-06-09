@@ -135,7 +135,14 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         $required = false;
         if ( $this->_gName == 'custom_search' ) {
             $required = true;
+        } elseif ( $this->_gName == 'redaction_rule' ) {
+            $this->add( 'text', 
+                        'value', 
+                        ts('Value'), 
+                        CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'value' ),
+                        true );
         }
+        
         $this->addWysiwyg( 'description',
                            ts('Description'),
                            CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ),

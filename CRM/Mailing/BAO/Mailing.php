@@ -2009,11 +2009,11 @@ SELECT $selectClause
         //insert message Text by selecting "Select Template option"
         $form->add( 'textarea', 
                     'text_message', 
-                    ts('Text Message'),
+                    ts('Plain-text format'),
                     array('cols' => '80', 'rows' => '8',
                           'onkeyup' => "return verify(this)"));
         $form->addWysiwyg( 'html_message',
-                           ts('HTML Message'),
+                           ts('HTML format'),
                            array('cols' => '80', 'rows' => '8',
                                  'onkeyup' =>"return verify(this)" ) );
         

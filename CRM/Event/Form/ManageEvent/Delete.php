@@ -57,8 +57,11 @@ class CRM_Event_Form_ManageEvent_Delete extends CRM_Event_Form_ManageEvent
     public function preProcess()
     {
         parent::preProcess();
-        $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
-                                                     $this->_id, 'title' );
+        if ($this->_isTemplate) {
+            $this->_title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'template_title');
+        } else {
+            $this->_title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'title');
+        }
     }
     
     /**
@@ -102,6 +105,11 @@ class CRM_Event_Form_ManageEvent_Delete extends CRM_Event_Form_ManageEvent
             return;
         } 
         CRM_Event_BAO_Event::del( $this->_id );
-        CRM_Core_Session::setStatus( ts('The event \'%1\' has been deleted.', array( 1 => $this->_title ) ) );
+        if ($this->_isTemplate) {
+            CRM_Core_Session::setStatus(ts("Event template '%1' has been deleted.", array(1 => $this->_title)));
+            CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/eventTemplate', 'reset=1'));
+        } else {
+            CRM_Core_Session::setStatus(ts("Event '%1' has been deleted.", array(1 => $this->_title)));
+        }
     }
 }

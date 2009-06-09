@@ -26,15 +26,13 @@
 */
 
 /**
+ * File for the CiviCRM APIv2 membership status functions
  *
- * Definition of CRM API for MembershipType.
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
- *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Membership
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
@@ -86,7 +84,7 @@ function civicrm_membership_status_create(&$params)
  * 
  * This api is used for finding an existing membership status.
  * 
- * @params  array $params  an associative array of name/value property values of civicrm_membership_status
+ * @param  array $params  an associative array of name/value property values of civicrm_membership_status
  *
  * @return  Array of all found membership status property values.
  * @access public

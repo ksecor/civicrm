@@ -25,15 +25,19 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 group contact functions
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Group
+ *
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
+/**
+ * Include utility functions
+ */
 require_once 'api/v2/utils.php';
 
 /**
@@ -42,7 +46,7 @@ require_once 'api/v2/utils.php';
  * If no status mentioned in params, by default 'added' will be used
  * to fetch the records
  * 
- * @params  array $params  name value pair of contact information
+ * @param  array $params  name value pair of contact information
  *
  * @return  array  list of groups, given contact subsribed to
  */
@@ -58,16 +62,32 @@ function civicrm_group_contact_get( &$params )
     return $values;
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type>
+ */
 function civicrm_group_contact_add( &$params ) 
 {
     return civicrm_group_contact_common( $params, 'add' );
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type>
+ */
 function civicrm_group_contact_remove( &$params ) 
 {
     return civicrm_group_contact_common( $params, 'remove' );
 }
 
+/**
+ *
+ * @param <type> $params
+ * @param <type> $op
+ * @return <type> 
+ */
 function civicrm_group_contact_common( &$params, $op = 'add' ) 
 {
     $contactIDs = array( );

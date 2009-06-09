@@ -193,8 +193,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             // if we dont have a default value
             // retrive it from one of the other custom fields which use this option group
             if ( ! CRM_Utils_Array::value( 'default_value', $params ) ) {
-                $params['default_value'] = self::getOptionGroupDefault( $params['option_group_id'],
-                                                                        $params['html_type'] );
+                //don't insert only value separator as default value, CRM-4579
+                $defaultValue = self::getOptionGroupDefault( $params['option_group_id'],
+                                                             $params['html_type'] );
+                
+                if ( !CRM_Utils_System::isNull( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultValue ) ) ) { 
+                    $params['default_value'] = $defaultValue;
+                }
             }
         }
 
@@ -550,6 +555,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         /**
          * at some point in time we might want to split the below into small functions
          **/
+
         switch ( $field->html_type ) {
         case 'Text':
             if ($field->is_search_range && $search) {
@@ -628,11 +634,20 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'Select':
-            $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $field->id,
-                                                                    $field->option_group_id );
-            $qf->add('select', $elementName, $label,
-                     array( '' => ts('- select -')) + $selectOption,
-                     ( ( $useRequired || ($useRequired && $field->is_required) ) && !$search));
+            if ( $field->data_type == 'Auto-complete' ) {
+                $dataUrl = CRM_Utils_System::url( "civicrm/ajax/auto",
+                                                  "reset=1",
+                                                  false, null, false );
+                $qf->assign('dataUrl',$dataUrl );                                          
+                $qf->addElement( 'text', $elementName, $label );
+                $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
+            } else {
+                $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $field->id,
+                                                                        $field->option_group_id );
+                $qf->add('select', $elementName, $label,
+                         array( '' => ts('- select -')) + $selectOption,
+                         ( ( $useRequired || ($useRequired && $field->is_required) ) && !$search));
+            }
             break;
 
             //added for select multiple
@@ -728,6 +743,16 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         
         case 'RichTextEditor':
             $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray, $search );
+            break;
+                    
+        case 'Contact Reference':
+            $dataUrl = CRM_Utils_System::url( "civicrm/ajax/contactlist",
+                                              "reset=1",
+                                              false, null, false );
+            $qf->assign('dataUrl',$dataUrl );                                          
+            $qf->addElement( 'text', $elementName, $label );
+            $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
+            break;
         }
         
         switch ( $field->data_type ) {
@@ -779,15 +804,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $qf->addRule( $elementName, ts('Enter a valid Website.'),'wikiURL');
                     
             break;
-            
-        case 'Auto-complete':
-            $dataUrl = CRM_Utils_System::url( "civicrm/ajax/contactlist",
-                                              "reset=1",
-                                              false, null, false );
-            $qf->assign('dataUrl',$dataUrl );                                          
-            $qf->addElement( 'text', $elementName, $label );
-            $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
-            break;
+    
         }
     }
     

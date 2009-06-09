@@ -97,8 +97,9 @@ class CRM_Contact_Form_Task_EmailCommon
                 $form->_emails[$email] .= ' ' . ts('(preferred)');
             }
             $form->_emails[$email] = htmlspecialchars( $form->_emails[$email] );
+            $toContact[$cid] = $email;
         }
-
+        $form->assign( 'toContact', $toContact );
         $form->assign( 'single', $form->_single );
     }
     
@@ -140,12 +141,12 @@ class CRM_Contact_Form_Task_EmailCommon
             
         } else {
             if ( $form->_noEmails ) {
-                $to = $form->add( 'select', 'to', ts('To'), $form->_emails );
+                $to = $form->add( 'text', 'to', ts('To') );
                 $form->add('text', 'emailAddress', null, CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
                 $form->addRule('emailAddress', ts('%1 is a required field.', array(1 => 'To')) , 'required');
                 $form->addRule( "emailAddress", ts('Email is not valid.'), 'email' );
             } else {
-                $to =& $form->add( 'select', 'to', ts('To'), $form->_emails, true );
+                $to =& $form->add( 'text', 'to', ts('To') );
             }
             
             if ( count( $form->_emails ) <= 1 ) {
@@ -154,7 +155,6 @@ class CRM_Contact_Form_Task_EmailCommon
                     $form->setDefaults( $defaults );
                 }
                 
-                $to->freeze( );
             }
         }
         
@@ -186,6 +186,8 @@ class CRM_Contact_Form_Task_EmailCommon
             $selectEmails[$k] = htmlspecialchars( $selectEmails[$k] );
         }
         $form->add( 'select', 'fromEmailAddress', ts('From'), $selectEmails, true );
+        $form->add( 'text', 'cc_id', ts('CC') );
+        $form->add( 'text', 'bcc_id', ts('BCC') );
         require_once "CRM/Mailing/BAO/Mailing.php";
         CRM_Mailing_BAO_Mailing::commonCompose( $form );
         
@@ -258,15 +260,26 @@ class CRM_Contact_Form_Task_EmailCommon
     static function postProcess( &$form ) 
     {
         $formValues = $form->controller->exportValues( $form->getName( ) );
-
+               
+        if ( CRM_Utils_Array::value( 'to', $formValues ) ) {
+            $toContacts        = substr( $formValues['to'], 0, -1 );
+            $form->_contactIds = explode( ',', $toContacts );
+            if ( count($form->_contactIds) == 1 ){
+                list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toContacts );
+                $formValues['to']  = '"'.$toDisplayName.'"< '.$toEmail.' >';
+            }
+        } 
+        
         $emailAddress = null;
-        if ( $form->_single ) {
+        if ( $form->_single && count($form->_contactIds) == 1 ) {
             $emailAddress = $formValues['to'];
         }
         $fromEmail = $formValues['fromEmailAddress'];
         $from = CRM_Utils_Array::value( $fromEmail, $form->_fromEmails );
         
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $form, false );
+        $cc  = CRM_Utils_Array::value( 'cc_id' , $formValues );
+        $bcc = CRM_Utils_Array::value( 'bcc_id', $formValues );
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         if ( $form->_noEmails ) {
             $emailAddress = $formValues['emailAddress'];
@@ -373,7 +386,9 @@ class CRM_Contact_Form_Task_EmailCommon
                                                   $emailAddress,
                                                   null,
                                                   $from,
-                                                  $attachments );
+                                                  $attachments,
+                                                  $cc,
+                                                  $bcc );
 
         if ( $sent ) {
             $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));
