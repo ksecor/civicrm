@@ -15,14 +15,12 @@
               <dl>{$form.text_message.html|replace:'80':'105'}<br />{* expanded the text box as per jQuery tab width *}
               {$form.token1.label}{help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}<br/>{*$form.token1.html*}</dl>
           </div>
+        {if ! $noAttach}
+        <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='attachment'></span>
+            <a href="#"><strong>{ts}Attachment{/ts}</strong></a></h3>
+            {include file="CRM/Form/attachment.tpl" noexpand=true}
+        {/if}
   </div>
-{if ! $noAttach}
-    <div class="spacer"></div>
-    {include file="CRM/Form/attachment.tpl"}
-{/if}
-
-<div class="spacer"></div>
-
 <div id="editMessageDetails">
     <div id="updateDetails" >
         {$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}

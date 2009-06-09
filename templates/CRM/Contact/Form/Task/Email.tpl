@@ -1,6 +1,6 @@
 <div class="form-item">
-<fieldset>
 <dl>{$form.buttons.html}</dl>
+<fieldset>
 {if $suppressedEmails > 0}
     <div class="status">
         <p>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts - (no email address on file, or communication preferences specify DO NOT EMAIL, or contact is deceased).'}Email will NOT be sent to %count contact - (no email address on file, or communication preferences specify DO NOT EMAIL, or contact is deceased).{/ts}</p>
@@ -40,6 +40,7 @@
 {/if}
 </dl>
 </fieldset>
+<dl>{$form.buttons.html}</dl>
 </div>
 
 {literal}

@@ -78,11 +78,12 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         CRM_Contact_Form_Task_EmailCommon::preProcess( $this );
         
         // store case id if present
-        $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this, false );
+        $this->_caseId  = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this, false );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, false );
 
-        if ( $cid ) {
+        if ( $cid || $this->_context == 'standalone' ) {
             CRM_Contact_Form_Task_EmailCommon::preProcessSingle( $this, $cid );
         } else {
             parent::preProcess( );

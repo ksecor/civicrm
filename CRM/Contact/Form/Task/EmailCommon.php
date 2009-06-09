@@ -67,39 +67,41 @@ class CRM_Contact_Form_Task_EmailCommon
 
     static function preProcessSingle( &$form, $cid ) 
     {
-        $form->_contactIds = array( $cid );
-        $form->_single     = true;
-        $emails     = CRM_Core_BAO_Email::allEmails( $cid );
-        $form->_emails = array( );
-        $form->_onHold = array( );
-        
-        $toName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                               $cid,
-                                               'display_name' );
-        foreach ( $emails as $emailId => $item ) {
-            $email = $item['email'];
-            if (! $email &&
-                ( count($emails) <= 1 ) ) {
-                $form->_emails[$email] = '"' . $toName . '"';
-                $form->_noEmails = true;
-            } else {
-                if ( $email ) {
-                    if ( isset( $form->_emails[$email] ) ) {
-                        // CRM-3624
-                        continue;
-                    }
-                    $form->_emails[$email] = '"' . $toName . '" <' . $email . '> ' . $item['locationType'];
-                    $form->_onHold[$email] = $item['on_hold'];
-                }
-            }
+        $form->_single  = true;
+        $form->_emails  = array( );
+        if( $form->_context != 'standalone' ) {
+            $form->_contactIds = array( $cid );
+            $emails            = CRM_Core_BAO_Email::allEmails( $cid );
+            $form->_onHold     = array( );
             
-            if ( $item['is_primary'] ) {
+            $toName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                   $cid,
+                                                   'display_name' );
+            foreach ( $emails as $emailId => $item ) {
+                $email = $item['email'];
+                if (! $email &&
+                    ( count($emails) <= 1 ) ) {
+                    $form->_emails[$email] = '"' . $toName . '"';
+                    $form->_noEmails = true;
+                } else {
+                    if ( $email ) {
+                        if ( isset( $form->_emails[$email] ) ) {
+                            // CRM-3624
+                            continue;
+                        }
+                        $form->_emails[$email] = '"' . $toName . '" <' . $email . '> ' . $item['locationType'];
+                        $form->_onHold[$email] = $item['on_hold'];
+                    }
+                }
+                
+                if ( $item['is_primary'] ) {
                 $form->_emails[$email] .= ' ' . ts('(preferred)');
+                }
+                $form->_emails[$email] = htmlspecialchars( $form->_emails[$email] );
+                $toContact[$cid] = $email;
             }
-            $form->_emails[$email] = htmlspecialchars( $form->_emails[$email] );
-            $toContact[$cid] = $email;
+            $form->assign( 'toContact', $toContact );
         }
-        $form->assign( 'toContact', $toContact );
         $form->assign( 'single', $form->_single );
     }
     
@@ -203,7 +205,9 @@ class CRM_Contact_Form_Task_EmailCommon
                 $url  = 
                     CRM_Utils_System::url('civicrm/contact/view/case',
                                           "&reset=1&action=view&cid={$ccid}&id={$form->_caseId}");
-            } else {
+            } else if ( $form->_context ) { 
+                $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );  
+             } else {
                 $url = 
                     CRM_Utils_System::url('civicrm/contact/view',
                                           "&show=1&action=browse&cid={$form->_contactIds[0]}&selectedChild=activity");
