@@ -65,7 +65,8 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
                                  array( 'title'      => ts( 'Contact Source' ),
                                         'type'       => CRM_Utils_Type::T_STRING ),
                                  'id'           => 
-                                 array( 'title'      => ts( 'Contact ID' ) ), ),
+                                 array( 'title'      => ts( 'Contact ID' ),
+                                        'no_display' => true ), ),
                           'grouping'  => 'contact-fields',
                           ),
                    'civicrm_email'   =>

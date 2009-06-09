@@ -63,7 +63,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                           'filters'   =>             
                           array( 'id'           => 
                                  array( 'title'      => ts( 'Contact ID' ),
-                                        'default'    => 'eq' ),
+                                        'no_display' => true ),
                                  'display_name' =>
                                  array( 'title'      => ts( 'Contact Name' ),),),
                           'grouping'  => 'contact-fields',

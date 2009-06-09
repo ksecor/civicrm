@@ -426,55 +426,59 @@ class CRM_Report_Form extends CRM_Core_Form {
     function addFilters( ) {
         require_once 'CRM/Utils/Date.php';
         require_once 'CRM/Core/Form/Date.php';
-        $options = array();
+        $options = $filters = array();
         $count = 1;
         foreach ( $this->_filters as $table => $attributes ) {
             foreach ( $attributes as $fieldName => $field ) {
-                // get ready with option value pair
-                $operations = self::getOperationPair( $field['type'] );
-                
-                switch ( $field['type'] ) {
-                case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM :
-                    // assume a multi-select field
-                    if ( !empty( $field['options'] ) ) {
+                if ( !array_key_exists('no_display', $field ) ) {
+                    // get ready with option value pair
+                    $operations = self::getOperationPair( $field['type'] );
+                    
+                    $filters[$table][$fieldName] = $field;
+                    
+                    switch ( $field['type'] ) {
+                    case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM :
+                        // assume a multi-select field
+                        if ( !empty( $field['options'] ) ) {
+                            $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
+                            $select = $this->addElement('select', "{$fieldName}_value", null, 
+                                                        $field['options'], array( 'size' => 4, 
+                                                                                  'style' => 'width:200px'));
+                            $select->setMultiple( true );
+                        }
+                        break;
+                        
+                    case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN :
+                        // assume a select field
                         $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
-                        $select = $this->addElement('select', "{$fieldName}_value", null, 
-                                                    $field['options'], array( 'size' => 4, 
-                                                                              'style' => 'width:200px'));
-                        $select->setMultiple( true );
+                        $this->addElement('select', "{$fieldName}_value", null, $field['options']);
+                        break;
+                        
+                    case CRM_Utils_Type::T_DATE :
+                    case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
+                        // build datetime fields
+                        CRM_Core_Form_Date::buildDateRange( $this, $fieldName, $count );
+                        $count++;
+                        break;
+                        
+                    case CRM_Utils_Type::T_INT:
+                    case CRM_Utils_Type::T_MONEY:
+                        // and a min value input box
+                        $this->add( 'text', "{$fieldName}_min", ts('Min') );
+                        // and a max value input box
+                        $this->add( 'text', "{$fieldName}_max", ts('Max') );
+                    default:
+                        // default type is string
+                        $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations,
+                                          array('onchange' =>"return showHideMaxMinVal( '$fieldName', this.value );"));
+                        // we need text box for value input
+                        $this->add( 'text', "{$fieldName}_value", null );
+                        break;
                     }
-                    break;
-
-                case CRM_Utils_Type::T_INT + CRM_Utils_Type::T_BOOLEAN :
-                    // assume a select field
-                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
-                    $this->addElement('select', "{$fieldName}_value", null, $field['options']);
-                    break;
-
-                case CRM_Utils_Type::T_DATE :
-                case CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME :
-                    // build datetime fields
-                    CRM_Core_Form_Date::buildDateRange( $this, $fieldName, $count );
-                    $count++;
-                    break;
-
-                case CRM_Utils_Type::T_INT:
-                case CRM_Utils_Type::T_MONEY:
-                    // and a min value input box
-                    $this->add( 'text', "{$fieldName}_min", ts('Min') );
-                    // and a max value input box
-                    $this->add( 'text', "{$fieldName}_max", ts('Max') );
-                default:
-                    // default type is string
-                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations,
-                                      array('onchange' =>"return showHideMaxMinVal( '$fieldName', this.value );"));
-                    // we need text box for value input
-                    $this->add( 'text', "{$fieldName}_value", ts('Value') );
-                    break;
                 }
             }
         }
-        $this->assign( 'filters', $this->_filters );
+        $this->assign( 'filters', $filters );
     }
 
     function addOptions( ) {
