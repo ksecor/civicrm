@@ -94,6 +94,8 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
         $buttons = array( );
         require_once 'CRM/Event/PseudoConstant.php';
         // only pending status class family able to confirm.
+        
+        $statusMsg = ts( 'Please Confirm your Event Registration.' );
         if ( array_key_exists( $this->_participantStatusId, 
                                CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" ) ) ) {
             
@@ -105,7 +107,7 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
             $additonalIds = CRM_Event_BAO_participant::getAdditionalParticipantIds( $this->_participantId );
             $requireSpace = 1 + count( $additonalIds );
             if ( $emptySeats !== null && ( $requireSpace > $emptySeats ) ) {
-                CRM_Core_Session::setStatus( ts( "Oops it's looks like there are no enough space for your event registration." ) );
+                $statusMsg =  ts( "Oops it's looks like there are no enough space for your event registration." );
             } else {
                 $buttons = array_merge( $buttons, array( array( 'type'      => 'next',
                                                                 'name'      => ts('Confirm'), 
@@ -120,7 +122,12 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
             $buttons = array_merge( $buttons, array(array( 'type'    => 'submit',
                                                            'name'    => ts('Cancel the registration'),
                                                            'spacing' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')));
+            if ( !$statusMsg ) {
+                $statusMsg = ts( 'You can cancel your Event Registration.' );
+            }
         }
+        $this->assign( 'statusMsg', $statusMsg );
+        
         $buttons = array_merge( $buttons,  array( array ( 'type'     => 'cancel', 
                                                           'name'     => ts('Cancel') ) ) );
         $this->addButtons( $buttons );

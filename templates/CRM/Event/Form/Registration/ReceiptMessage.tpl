@@ -9,13 +9,17 @@
 
 ===========================================================
 Your registration is on waiting list. If event get enough free spaces, will send you a mail to confirm your registration. 
+{if $isPrimary}
 You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.
+{/if}
 ===========================================================
 {elseif $isRequireApproval}
 
 ===========================================================
 Your registration require approval. If registration get approved, will send you a mail to confirm your registration. 
+{if $isPrimary}
 You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.
+{/if}
 ===========================================================
 {elseif $is_pay_later}
 

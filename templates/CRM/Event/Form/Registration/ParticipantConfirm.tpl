@@ -2,7 +2,7 @@
   <div class="messages status">
     <dl>
 	<dd>
-	   <p>{ts}You can confirm your event registration.{/ts}</p>
+	   <p>{$statusMsg}</p>
         </dd>
     </dl>
   </div>
