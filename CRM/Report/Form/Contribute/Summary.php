@@ -102,12 +102,12 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'filters' =>             
                           array( 'country_id' => 
                                  array( 'title'         => ts( 'Country' ), 
-                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options'       => CRM_Core_PseudoConstant::country( ),), 
-                                 'state_province_id' => 
-                                 array( 'title'          => ts( 'State/Province' ), 
                                         'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
-                                        'options'        => CRM_Core_PseudoConstant::stateProvince( ),), ),
+                                        'options'       => CRM_Core_PseudoConstant::country(null, false),), 
+                                 'state_province_id' => 
+                                 array( 'title'         => ts( 'State/Province' ), 
+                                        'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'       => CRM_Core_PseudoConstant::stateProvince( ),), ),
                           ),
 
                    'civicrm_contribution_type' =>
@@ -540,7 +540,6 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                 if ( $value = $row['civicrm_address_country_id'] ) {
                     $rows[$rowNum]['civicrm_address_country_id'] = 
                         CRM_Core_PseudoConstant::country( $value, false );
-
                     $url = CRM_Utils_System::url( 'civicrm/report/contribute/summary',
                                                   "reset=1&force=1&" . 
                                                   "country_id_op=in&country_id_value={$value}",

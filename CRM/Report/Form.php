@@ -1220,7 +1220,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_rowsFound = CRM_Core_DAO::singleValueQuery( $sql );
             $params = array( 'total'    => $this->_rowsFound,
                              'rowCount' => self::ROW_COUNT_LIMIT,
-                             'status'   => ts( 'Contributions %%StatusMessage%%' ) );
+                             'status'   => ts( 'Records %%StatusMessage%%' ) );
             $pager = new CRM_Utils_Pager( $params );
             $this->assign_by_ref( 'pager', $pager );
         }

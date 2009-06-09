@@ -120,7 +120,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           array( 'country_id' => 
                                  array( 'title'        => ts( 'Country' ), 
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options'      => CRM_Core_PseudoConstant::country( ),), 
+                                        'options'      => CRM_Core_PseudoConstant::country(null,false),), 
                                  'state_province_id' => 
                                  array( 'title'        => ts( 'State/Province' ), 
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
