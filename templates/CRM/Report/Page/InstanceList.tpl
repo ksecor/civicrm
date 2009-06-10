@@ -30,7 +30,7 @@
                     <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/>
                 </dt>
                 <dd>
-                    {ts}There are currently no Report Instance.{/ts}
+                    {ts 1=$templateUrl}Currently there are no ready made reports available however you could create one with the <a href=%1><strong>template</strong></a> of your own choice.{/ts}
                 </dd>
             </dl>
             </div>

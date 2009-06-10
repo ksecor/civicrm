@@ -93,7 +93,6 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
                 $rows[$compName][$dao->id]['label'] = $dao->label;
                 $rows[$compName][$dao->id]['description'] = $dao->description;               
                 $rows[$compName][$dao->id]['url'] = CRM_Utils_System::url( $url, "reset=1&id={$dao->id}");
-                $rows[$compName][$dao->id]['url'] = CRM_Utils_System::url( $url, "reset=1&id={$dao->id}");
                 if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
                     $rows[$compName][$dao->id]['deleteUrl'] = 
                         CRM_Utils_System::url( $url, "action=delete&reset=1&id={$dao->id}");
@@ -115,6 +114,8 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
         $ovID = CRM_Utils_Request::retrieve( 'ovid', 'Positive', $this );
         $rows =& self::info( $ovID );
         $this->assign('list', $rows);
+        $templateUrl  = CRM_Utils_System::url('civicrm/report/template/list', "reset=1");
+        $this->assign( 'templateUrl', $templateUrl );        
         return parent::run();
     }
 

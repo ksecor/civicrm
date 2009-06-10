@@ -52,8 +52,14 @@ class CRM_Report_Page_Instance extends CRM_Core_Page
         $instanceId   = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
         $action       = CRM_Utils_Request::retrieve( 'action', 'String', $this );
         $optionVal    = CRM_Report_Utils_Report::getValueFromUrl( $instanceId );
+        $reportUrl    = CRM_Utils_System::url('civicrm/report/list', "reset=1");
 
         if ( $action & CRM_Core_Action::DELETE ) {
+            if ( !CRM_Core_Permission::check( 'access CiviReport' ) ) {
+                $statusMessage = ts( 'Your do not have permission to Delete Report.' );
+                CRM_Core_Error::statusBounce( $statusMessage,
+                                              $reportUrl );
+            }
             CRM_Report_BAO_Instance::delete( $instanceId );
 
             CRM_Core_Session::setStatus( ts( 'Selected Instance has been deleted.' ) );
@@ -79,6 +85,6 @@ class CRM_Report_Page_Instance extends CRM_Core_Page
             
             CRM_Core_Session::setStatus( ts( 'Could not find template for the instance.' ) );
         }
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/instance/list', "reset=1") );
+        return CRM_Utils_System::redirect( $reportUrl );
     }
 }
