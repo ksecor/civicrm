@@ -1356,3 +1356,11 @@ div#toolTip {
 	margin    : 1em;
 }
 
+/* Class for tokens and helpicon */
+.helpIcon {
+  float       : right;
+  padding     : 5px;
+  position    : relative;
+  z-index     : 1;
+  margin-right: 45px;
+}
