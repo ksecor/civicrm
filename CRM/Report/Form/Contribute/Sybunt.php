@@ -289,6 +289,22 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
             "Group BY contribution.contact_id";  
     }
 
+    function statistics( &$rows ) {
+        $statistics = parent::statistics( $rows );
+        
+        $select = "
+        SELECT 
+               SUM(contribution.total_amount ) as amount 
+        ";
+        $sql = "{$select} {$this->lifeTime_from } {$this->lifeTime_where}";
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        if ( $dao->fetch( ) ) {
+            $statistics['counts']['amount'] = array( 'value' => $dao->amount,
+                                                     'title' => 'Total LifeTime' );
+        }
+        return $statistics;
+    }
+    
     function postProcess( ) 
     {
         // get ready with post process params
@@ -301,6 +317,11 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
         $this->limit( );
 
         $sqlLifeTime = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";
+
+        //use from and where clauses of LifeTime for Statistics
+        $this->lifeTime_from  = $this->_from;
+        $this->lifeTime_where = $this->_where;
+
         $daoLifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );
         $this->setPager( );
         $min = $max = 0;

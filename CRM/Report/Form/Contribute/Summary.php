@@ -446,10 +446,34 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
         }
     }
 
+    function statistics( &$rows ) {
+        $statistics = parent::statistics( $rows );
+        
+        $select = "
+        SELECT COUNT( contribution.total_amount ) as count,
+               SUM(   contribution.total_amount ) as amount,
+               ROUND(AVG(contribution.total_amount), 2) as avg
+        ";
+        
+        $sql = "{$select} {$this->_from} {$this->_where}";
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        
+        if ( $dao->fetch( ) ) {
+            $statistics['counts']['amount'] = array( 'value' => $dao->amount,
+                                                     'title' => 'Total Amount' );
+            $statistics['counts']['count '] = array( 'value' => $dao->count,
+                                                     'title' => 'Total Counts' );
+            $statistics['counts']['avg   '] = array( 'value' => $dao->avg,
+                                                     'title' => 'Average');
+        }
+        
+        return $statistics;
+    }
+    
     function postProcess( ) {
         parent::postProcess( );
     }
-
+    
     function buildChart( &$rows ) {
         $graphRows = array();
         $count = 0;

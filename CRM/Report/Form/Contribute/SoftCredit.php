@@ -372,6 +372,31 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                                        {$alias_constituent}.id, 
                                        {$alias_creditor}.display_name";
     }
+
+    function statistics( &$rows ) {
+        $statistics = parent::statistics( $rows );
+
+        $select = "
+        SELECT COUNT( contribution.total_amount ) as count,
+               SUM(   contribution.total_amount ) as amount,
+               ROUND(AVG(contribution.total_amount), 2) as avg
+        ";
+        
+        $sql = "{$select} {$this->_from} {$this->_where}";
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        
+        if ( $dao->fetch( ) ) {
+            $statistics['counts']['amount'] = array( 'value' => $dao->amount,
+                                                     'title' => 'Total Amount' );
+            $statistics['counts']['count '] = array( 'value' => $dao->count,
+                                                     'title' => 'No.Of Contributions' );
+            $statistics['counts']['avg   '] = array( 'value' => $dao->avg,
+                                                     'title' => 'Average');
+        }
+        
+        return $statistics;
+    }
+    
     
     function postProcess( ) {
         $this->beginPostProcess( );

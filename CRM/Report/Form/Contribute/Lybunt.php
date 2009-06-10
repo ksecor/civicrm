@@ -321,6 +321,22 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $this->_groupBy = $receiveDate ? "Group BY Year(contribution.receive_date), contribution.contact_id" : 
             "Group BY contribution.contact_id";  
     }
+
+    function statistics( &$rows ) {
+        $statistics = parent::statistics( $rows );
+        
+        $select = "
+        SELECT 
+               SUM(contribution.total_amount ) as amount 
+        ";
+        $sql = "{$select} {$this->lifeTime_from } {$this->lifeTime_where}";
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        if ( $dao->fetch( ) ) {
+            $statistics['counts']['amount'] = array( 'value' => $dao->amount,
+                                                     'title' => 'Total LifeTime' );
+        }
+        return $statistics;
+    }
     
     function postProcess( ) {
         
@@ -361,6 +377,10 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $this->groupBy( false );       
         
         $sqlLifeTime  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} ";             
+        //use from and where clauses of LifeTime for Statistics
+        $this->lifeTime_from  = $this->_from;
+        $this->lifeTime_where = $this->_where;
+        
         $current_year = $this->_params['yid_value'] ; 
         $dao_lifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );       
             
