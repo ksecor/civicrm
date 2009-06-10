@@ -460,10 +460,12 @@ LIMIT  1
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
     
-	private function redact( $s, $isRedact = false)
+	private function redact( $s, $isRedact = false, $printReport = false )
 	{
-        if ( $isRedact ) {
+        if ( $isRedact && $printReport ) {
             return sha1($s);
+        } else if ( !$isRedact && $printReport ) {
+            return $s;
         } else if ( $this->_isRedact ) {
 			// Pretty simple for now
 			return sha1($s);
@@ -533,6 +535,7 @@ LIMIT  1
         $clientID          = CRM_Utils_Request::retrieve( 'cid'    , 'Positive', CRM_Core_DAO::$_nullObject );
         $activitySetName   = CRM_Utils_Request::retrieve( 'asn'    , 'String'  , CRM_Core_DAO::$_nullObject );
         $isRedact          = CRM_Utils_Request::retrieve( 'redact' , 'Boolean' , CRM_Core_DAO::$_nullObject );
+       
         $includeActivities = CRM_Utils_Request::retrieve( 'all'    , 'Positive', CRM_Core_DAO::$_nullObject );
         $params = array( );
         
@@ -568,13 +571,13 @@ LIMIT  1
                 unset( $caseRoles[$value['relation_type']] );
             }
 
-            $value['name']  = self::redact( $value['name'] , $isRedact );
-            $value['email'] = self::redact( $value['email'], $isRedact ); 
+            $value['name']  = self::redact( $value['name'] , $isRedact, true );
+            $value['email'] = self::redact( $value['email'], $isRedact, true ); 
         }
         
         $caseRoles['client'] = CRM_Case_BAO_Case::getcontactNames( $caseID );
-        $caseRoles['client']['sort_name']  = self::redact( $caseRoles['client']['sort_name']  , $isRedact );
-        $caseRoles['client']['email'] = self::redact( $caseRoles['client']['email'] , $isRedact );
+        $caseRoles['client']['sort_name']  = self::redact( $caseRoles['client']['sort_name'] , $isRedact, true );
+        $caseRoles['client']['email'] = self::redact( $caseRoles['client']['email'], $isRedact, true );
         
         // Retrieve ALL client relationships
         $relClient = CRM_Contact_BAO_Relationship::getRelationship( $clientID,
@@ -583,10 +586,10 @@ LIMIT  1
         $otherRelationships = array();
         foreach($relClient as $r) {
             
-            $r['name']  = self::redact( $r['name'], $isRedact );
+            $r['name']  = self::redact( $r['name'], $isRedact, true );
 
             if (CRM_Utils_Array::value('email', $r)) {
-                $r['email'] = self::redact( $r['email'], $isRedact );
+                $r['email'] = self::redact( $r['email'], $isRedact, true );
             }
             
             if ( ! array_key_exists( $r['id'], $caseRelationships ) ) {
@@ -598,7 +601,7 @@ LIMIT  1
         $globalGroupInfo = array();
         $relGlobal = CRM_Case_BAO_Case::getGlobalContacts($globalGroupInfo);
         foreach($relGlobal as &$r) {
-         $r['sort_name'] = self::redact( $r['sort_name'], $isRedact );
+            $r['sort_name'] = self::redact( $r['sort_name'], $isRedact, true );
         }
         
         $template->assign( 'caseRelationships', $caseRelationships );

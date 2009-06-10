@@ -113,16 +113,21 @@ There's the potential for collisions (two different labels having the same short
 <script type="text/javascript">
  function printReport(id ) {
         var dataUrl = {/literal}"{crmURL p='civicrm/case/report/print' h=0 q='caseID='}"{literal}+id;
-        dataUrl = dataUrl + '&cid={/literal}{$clientID}{literal}'+'&asn={/literal}{$activitySetName}{literal}';  
-        dataUrl = dataUrl + '&redact={/literal}{$_isRedact}{literal}';
+        dataUrl     = dataUrl + '&cid={/literal}{$clientID}{literal}'+'&asn={/literal}{$activitySetName}{literal}'; 
+        var redact  = '{/literal}{$_isRedact}{literal}'
+
+        var isRedact = 1; 
+        if ( redact == 'false' ) {
+             isRedact = 0;
+        }
 
         var includeActivities = '{/literal}{$includeActivities}{literal}';   
-        
+        var all = 0;
         if( includeActivities == 'All' ) {
-            dataUrl = dataUrl + '&all=1';
-        } else {
-           dataUrl = dataUrl + '&all=0';
-        }       
+            all = 1;
+        }
+ 
+        dataUrl = dataUrl + '&redact='+isRedact + '&all='+ all;
 
         window.location =  dataUrl;
 }
