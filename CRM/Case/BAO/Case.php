@@ -881,6 +881,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         require_once 'CRM/Case/BAO/Case.php';
         $caseDeleted = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $caseID, 'is_deleted' );
         
+        //check for delete activities CRM-4418
+        require_once 'CRM/Core/Permission.php'; 
+        $allowToDeleteActivities = CRM_Core_Permission::check( 'delete activities' );
+        
         while ( $dao->fetch( ) ) { 
             $values[$dao->id]['id']                = $dao->id;
             $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
@@ -911,7 +915,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                               
                 //block deleting activities which affects
                 //case attributes.CRM-4543
-                if ( !array_key_exists($dao->type, $caseAttributeActivities) ) {
+                if ( !array_key_exists($dao->type, $caseAttributeActivities) && $allowToDeleteActivities ) {
                     if ( !empty($url) ) {
                         $url .= " | ";   
                     }

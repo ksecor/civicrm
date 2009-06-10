@@ -261,8 +261,13 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         //get the search base mailing Ids, CRM-3711.
         $searchMailings = $mailing->searchMailingIDs( );
         
+        //check for delete CRM-4418
+        require_once 'CRM/Core/Permission.php'; 
+        $allowToDelete = CRM_Core_Permission::check( 'delete in CiviMail' );
+        
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
+                $actionMask = null;
                 if (!($row['status'] == 'Not scheduled')) {
                     $actionMask = CRM_Core_Action::VIEW;
                     if ( !in_array( $row['id'], $searchMailings ) ) {
@@ -273,8 +278,6 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                     //search base mailing, we should handle it when we fix CRM-3876
                     if ( !in_array( $row['id'], $searchMailings ) ) {
                         $actionMask = CRM_Core_Action::PREVIEW;
-                    } else {
-                        $actionMask = CRM_Core_Action::DELETE;
                     }
                 }
                 if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
@@ -284,8 +287,11 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                     $actionMask |= CRM_Core_Action::RENEW;
                 }
                 
-                $actionMask |= CRM_Core_Action::DELETE;
-               
+                //check for delete permission.
+                if ( $allowToDelete ) {
+                    $actionMask |= CRM_Core_Action::DELETE;
+                }
+                
                 //get status strings as per locale settings CRM-4411.
                 $rows[$key]['status'] = CRM_Mailing_BAO_Job::status( $row['status'] );
                                

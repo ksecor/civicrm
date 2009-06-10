@@ -280,19 +280,22 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          // process the result of the query
          $rows = array( );
          
-         // check is the user has view/edit  permission
-         $permission = CRM_Core_Permission::VIEW;
+         //CRM-4418 check for view, edit, delete
+         $permissions = array( CRM_Core_Permission::VIEW );
          if ( CRM_Core_Permission::check( 'edit grants' ) ) {
-             $permission = CRM_Core_Permission::EDIT;
+             $permissions[] = CRM_Core_Permission::EDIT;
          }
+         if ( CRM_Core_Permission::check( 'delete in CiviGrant' ) ) {
+             $permissions[] = CRM_Core_Permission::DELETE;
+         }
+         $mask = CRM_Core_Action::mask( $permissions );
          
          require_once 'CRM/Grant/PseudoConstant.php';
          $grantStatus  = array( );
          $grantStatus  = CRM_Grant_PseudoConstant::grantStatus( );
          $grantType    = array( );
          $grantType    = CRM_Grant_PseudoConstant::grantType( );
-
-         $mask = CRM_Core_Action::mask( $permission );
+         
          while ($result->fetch()) {
              $row = array();
              // the columns we are interested in

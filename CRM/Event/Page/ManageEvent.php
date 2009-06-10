@@ -246,11 +246,8 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 
         //check for delete CRM-4418
         require_once 'CRM/Core/Permission.php'; 
-        $allowDelete = false;
-        if ( CRM_Core_Permission::check( 'delete in CiviEvent' ) ) {
-            $allowDelete = true;
-        }
-             
+        $allowToDelete = CRM_Core_Permission::check( 'delete in CiviEvent' );
+        
         $query = "
   SELECT *
     FROM civicrm_event
@@ -273,7 +270,7 @@ ORDER BY start_date
                 $action -= CRM_Core_Action::DISABLE;
             }
             //CRM-4418
-            if ( !$allowDelete ) {
+            if ( !$allowToDelete ) {
                 $action -= CRM_Core_Action::DELETE; 
             }
             
