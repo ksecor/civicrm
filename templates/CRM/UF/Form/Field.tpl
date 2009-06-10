@@ -128,7 +128,7 @@ function showLabel( ) {
     if ( custom.substring( 0, 7 ) == 'custom_' ) {
         fieldId = custom.substring( custom.length, 7);
     } else {
-        dojo.byId('help_post').value = "";
+        cj('#help_post').val(" ");
         return;
     }
 
