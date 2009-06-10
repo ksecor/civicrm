@@ -47,7 +47,6 @@ class CRM_Contact_Page_AJAX
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '$name%'
-AND contact_type = 'Individual'
 ORDER BY sort_name ";            
 
         $dao = CRM_Core_DAO::executeQuery( $query );
