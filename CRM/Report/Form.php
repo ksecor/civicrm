@@ -527,7 +527,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( !empty( $this->_charts ) ) {
             $this->addElement( 'select', "charts", ts( 'Chart' ), $this->_charts );
             $this->assign( 'charts', $this->_charts );
-            $this->addElement('submit', $this->_chartButtonName, ts('Go') );
+            $this->addElement('submit', $this->_chartButtonName, ts('View') );
         }
     }
     
