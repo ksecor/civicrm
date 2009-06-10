@@ -131,6 +131,11 @@ class CRM_Contact_Task {
                                                   'result' => true ),
                                   );
            
+            //CRM-4418, check for delete 
+            if ( !CRM_Core_Permission::check( 'delete contacts' ) ) {
+                unset( self::$_tasks[8] );
+            }
+
             //show map action only if map provider and key is set
             $config =& CRM_Core_Config::singleton( );
 
@@ -226,7 +231,11 @@ class CRM_Contact_Task {
                 //usset it, No edit permission and Map provider info
                 //absent, drop down shows blank space
                 unset( $tasks[12] );
-            } 
+            }
+            //CRM-4418, lets keep delete for View and Edit so user can tweak ACL
+            if ( CRM_Core_Permission::check( 'delete contacts' ) ) {
+                $tasks[8] = self::$_tasks[8]['title']; 
+            }
         }
 
         return $tasks;

@@ -594,12 +594,15 @@ AND civicrm_case.is_deleted     = 0";
         require_once "CRM/Contact/BAO/Contact/Utils.php";
         $casesList = array( );
         // check is the user has view/edit signer permission
-        $permission = CRM_Core_Permission::VIEW;
+        $permissions = array( CRM_Core_Permission::VIEW );
         if ( CRM_Core_Permission::check( 'edit cases' ) ) {
-            $permission = CRM_Core_Permission::EDIT;
+            $permissions[] = CRM_Core_Permission::EDIT;
         }
-                
-        $mask = CRM_Core_Action::mask( $permission );
+        if ( CRM_Core_Permission::check( 'delete in CiviCase' ) ) {
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        $mask = CRM_Core_Action::mask( $permissions );
+
         while ( $result->fetch() ) {
             foreach( $resultFields as $donCare => $field ) {
                 $casesList[$result->case_id][$field] = $result->$field;

@@ -475,8 +475,11 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         
         // process the result of the query
         $rows = array( );
-
-        $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
+        $permissions = array( CRM_Core_Permission::getPermission( ) );
+        if ( CRM_Core_Permission::check( 'delete contacts' ) ) {
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        $mask = CRM_Core_Action::mask( $permissions );
 
         $mapMask = $mask & 4095; // mask value to hide map link if there are not lat/long
         

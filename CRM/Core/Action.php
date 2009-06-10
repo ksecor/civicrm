@@ -264,7 +264,7 @@ class CRM_Core_Action {
      */
     static function mask( $permissions ) {
         $mask = null;
-        if ( !is_array( $permissions ) || empty( $permissions ) ) {
+        if ( !is_array( $permissions ) || CRM_Utils_System::isNull( $permissions ) ) {
             return $mask;
         }
         //changed structure since we are handling delete separately - CRM-4418

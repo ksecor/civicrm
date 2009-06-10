@@ -275,19 +275,24 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
         $allGroups = CRM_Core_PseudoConstant::allGroup( );
 
+        $permissions = null;
         if ( CRM_Core_Permission::check( 'edit all contacts' ) ||
              CRM_ACL_API::groupPermission( CRM_ACL_API::EDIT, $id, null,
                                            'civicrm_saved_search', $allGroups ) ) {
-            return CRM_Core_Permission::EDIT;
+            $permissions[] = CRM_Core_Permission::EDIT;
         }
-
+        
         if ( CRM_Core_Permission::check( 'view all contacts' ) ||
              CRM_ACL_API::groupPermission( CRM_ACL_API::VIEW, $id, null,
                                            'civicrm_saved_search', $allGroups ) ) {
-            return CRM_Core_Permission::VIEW;
+            $permissions[] =  CRM_Core_Permission::VIEW;
         }
-
-        return null;
+        
+        if ( CRM_Core_Permission::check( 'delete contacts' ) ) {
+            $permissions[] =  CRM_Core_Permission::DELETE;
+        }
+        
+        return $permissions;
     }
 
     /**
