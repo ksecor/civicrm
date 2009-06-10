@@ -387,6 +387,75 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
         }
     }
 
+    function formRule ( &$fields, &$files, $self ) {
+        require_once 'CRM/Utils/Date.php';
+        
+        $errors = $checkDate = $errorCount = array( );
+        
+        if ( $fields['receive_date1_relative'] == '0' ) {
+            $checkDate['receive_date1']['receive_date1_from'] = $fields['receive_date1_from'];
+            $checkDate['receive_date1']['receive_date1_to'  ] = $fields['receive_date1_to'];
+        } 
+        
+        if ( $fields['receive_date2_relative'] == '0' ) {
+            $checkDate['receive_date2']['receive_date2_from'] = $fields['receive_date2_from'];
+            $checkDate['receive_date2']['receive_date2_to'  ] = $fields['receive_date2_to'];
+        }
+
+        foreach ( $checkDate as $date_range => $range_data ) {
+            foreach ( $range_data as $key => $value ) {
+                
+                if ( CRM_Utils_Date::isDate( $value ) ) {
+                    $errorCount[$date_range][$key]['valid'   ] = 'true';
+                    $errorCount[$date_range][$key]['is_empty'] = 'false';
+                } else {
+                    $errorCount[$date_range][$key]['valid'   ] ='false';
+                    $errorCount[$date_range][$key]['is_empty'] = 'true';
+                    foreach ( $value as $v ) {
+                        if ( $v ) {
+                            $errorCount[$date_range][$key]['is_empty'] = 'false';
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ( $errorCount as $date_range => $error_data) {
+            
+            if ( ( $error_data[$date_range.'_from']['valid'] == 'false' ) && 
+                 ( $error_data[$date_range.'_to']['valid'] == 'false') ) {
+                
+                if ( ( $error_data[$date_range.'_from']['is_empty'] == 'true' ) && 
+                     ( $error_data[$date_range.'_to']['is_empty'] == 'true') ) {
+                    $errors[$date_range.'_relative'] ="select valid date range";
+                }
+                
+                if ( $error_data[$date_range.'_from']['is_empty'] == 'false' ) {
+                    $errors[$date_range.'_from'] = "Select valid 'from' for ".str_replace('_',' ',$date_range);
+                }
+
+                if ( $error_data[$date_range.'_to']['is_empty'] == 'false' ){
+                    $errors[$date_range.'_to'] = "Select valid 'to' for ".str_replace('_',' ',$date_range);
+                }
+                
+            } elseif ( ( $error_data[$date_range.'_from']['valid'] == 'true' ) && 
+                       ( $error_data[$date_range.'_to']['valid'] == 'false') ) {
+                if ( $error_data[$date_range.'_to']['is_empty'] == 'false' ){
+                    $errors[$date_range.'_to'] = "Select valid 'to' for ".str_replace('_',' ',$date_range);
+                }
+                
+            } elseif ( ( $error_data[$date_range.'_from']['valid'] == 'false' ) && 
+                       ( $error_data[$date_range.'_to']['valid'] == 'true' ) ) {
+                if ( $error_data[$date_range.'_from']['is_empty'] == 'false' ){
+                    $errors[$date_range.'_from'] = "Select valid 'from' for ".str_replace('_',' ',$date_range);
+                }
+            }
+        }
+        
+        return $errors;
+    }   
+    
+
     function limit( ) {
         $this->_limit = 0; 
         $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );
@@ -469,36 +538,68 @@ class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
         }
         $this->_columnHeaders['change'] = array('title' => 'Change');
 
-        // order by change DESC
-        arsort( $temp['numeric'] );
-        asort ( $temp['string']  );
-        $temp = $temp['numeric'] + $temp['string'];
-
-        foreach ( $temp as $uid => $change ) {
-            $rows[$uid]['change'] = is_numeric($change) ? $change . ' %' : $change;
-            $temp[$uid] = $rows[$uid];
-            unset($rows[$uid]);
+        if( !empty($temp['numeric']) || !empty($temp['string'])) {
+            // order by change DESC
+            if ( !empty($temp['numeric']) && !empty($temp['string'] ) ) {
+                
+                arsort( $temp['numeric'] );
+                asort( $temp['string'] );
+                $temp = $temp['numeric'] + $temp['string'];
+                
+            } elseif ( !empty($temp['string'] ) ) {
+                
+                asort( $temp['string'] );
+                $temp = $temp['string'];
+                
+            } else {
+                
+                arsort( $temp['numeric'] );
+                $temp = $temp['numeric'];
+            }
+            
+            
+            foreach ( $temp as $uid => $change ) {
+                $rows[$uid]['change'] = is_numeric($change) ? $change . ' %' : $change;
+                $temp[$uid] = $rows[$uid];
+                unset($rows[$uid]);
+                $rowsReference[] = $uid;
+            }
+            
+            // -- sorting and calculation of % ends -- //
+            
+            // hack to fix title
+            list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ), 
+                                                   CRM_Utils_Array::value( "receive_date1_from"    , $this->_params ),
+                                                   CRM_Utils_Array::value( "receive_date1_to"      , $this->_params ) );
+            $from1 = CRM_Utils_Date::customFormat( $from1, null, array('d') );
+            $to1   = CRM_Utils_Date::customFormat( $to1,   null, array('d') );
+            
+            list($from2, $to2) = $this->getFromTo( CRM_Utils_Array::value( "receive_date2_relative", $this->_params ), 
+                                                   CRM_Utils_Array::value( "receive_date2_from"    , $this->_params ),
+                                                   CRM_Utils_Array::value( "receive_date2_to"      , $this->_params ) );
+            $from2 = CRM_Utils_Date::customFormat( $from2, null, array('d') );
+            $to2   = CRM_Utils_Date::customFormat( $to2,   null, array('d') );
+            
+            $this->_columnHeaders['c1_total_amount_sum']['title']   = "$from1 -<br/> $to1";
+            $this->_columnHeaders['c1_total_amount_sum']['colspan'] = 2;
+            $this->_columnHeaders['c2_total_amount_sum']['title']   = "$from2 -<br/> $to2";
+            $this->_columnHeaders['c2_total_amount_sum']['colspan'] = 2;
+            $this->limit();
+            $count   = 0;
+            $numRows = $this->_limit;
+            $this->_rowsFound = count($temp);
+            $rows = array();
+            while ( $count < self::ROW_COUNT_LIMIT ) {
+                if( !isset( $rowsReference[$numRows] ) ){
+                    break;
+                }
+                $rows[$rowsReference[$numRows]] = $temp[$rowsReference[$numRows]];
+                $count++;
+                $numRows++;
+            }   
+        } else {
+            $rows = array();
         }
-        $rows =& $temp;
-        // -- sorting and calculation of % ends -- //
-
-        // hack to fix title
-        list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ), 
-                                               CRM_Utils_Array::value( "receive_date1_from"    , $this->_params ),
-                                               CRM_Utils_Array::value( "receive_date1_to"      , $this->_params ) );
-        $from1 = CRM_Utils_Date::customFormat( $from1, null, array('d') );
-        $to1   = CRM_Utils_Date::customFormat( $to1,   null, array('d') );
-
-        list($from2, $to2) = $this->getFromTo( CRM_Utils_Array::value( "receive_date2_relative", $this->_params ), 
-                                               CRM_Utils_Array::value( "receive_date2_from"    , $this->_params ),
-                                               CRM_Utils_Array::value( "receive_date2_to"      , $this->_params ) );
-        $from2 = CRM_Utils_Date::customFormat( $from2, null, array('d') );
-        $to2   = CRM_Utils_Date::customFormat( $to2,   null, array('d') );
-
-        $this->_columnHeaders['c1_total_amount_sum']['title']   = "$from1 -<br/> $to1";
-        $this->_columnHeaders['c1_total_amount_sum']['colspan'] = 2;
-        $this->_columnHeaders['c2_total_amount_sum']['title']   = "$from2 -<br/> $to2";
-        $this->_columnHeaders['c2_total_amount_sum']['colspan'] = 2;
 
         $this->formatDisplay( $rows );
         
