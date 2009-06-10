@@ -475,8 +475,8 @@ VALUES
 
 -- redaction rule
   (@option_group_id_rr, 'Vancouver', 'city_', NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_rr, '/\d{4}-?\d{2}-?\d{2}/', 'date_', NULL, NULL, 1, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
- 
+  (@option_group_id_rr, '{literal}/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/{/literal}', 'date_', NULL, NULL, 1, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
+
 -- report templates
   (@option_group_id_rt , 'CRM_Report_Form_Contribution_Detail' , 1, 'CRM_Report_Form_Contribution_Detail', NULL, 0, NULL, 1, '{ts escape="sql"}Contribution Detail Report{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_rt , 'CRM_Report_Form_Contribution_Summary', 2, 'CRM_Report_Form_Contribution_Summary', NULL, 0, NULL, 2, '{ts escape="sql"}Contribution Summary Report{/ts}', 0, 0, 1, NULL, NULL);

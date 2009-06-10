@@ -262,9 +262,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
             CRM_Utils_System::setTitle(ts('%1 - Custom Fields', array(1 => $groupTitle)));
         }
 
-        // get the requested action
-        
-
         // assign vars to templates
         $this->assign('action', $action);
 
