@@ -25,22 +25,35 @@
         <div id="navigation-tree" class="navigation-tree" style="height:auto;"></div>
         {literal}
         <script type="text/javascript">
-            cj(function () {
-                cj("#navigation-tree").tree({
-                  data  : {
+        cj(function () {
+            cj("#navigation-tree").tree({
+                data  : {
                     type  : "json",
                     async : true, 
                     url : {/literal}"{crmURL p='civicrm/ajax/menu' h=0 }"{literal},
-                  },
-            	  rules : {
-            		droppable : [ "tree-drop" ],
-            		multiple : true,
-            		deletable : "all",
-            		draggable : "all"
-            	  }
-                });
+                },
+                rules : {
+                    droppable : [ "tree-drop" ],
+                    multiple : true,
+                    deletable : "all",
+                    draggable : "all"
+                },
+                callback : {
+                    onmove      : function( node, reference, type ) {
+                        var postURL = {/literal}"{crmURL p='civicrm/ajax/menutree' h=0 }"{literal};
+                        cj.get( postURL + '&type=move&id=' + node.id + '&ref_id=' + (reference === -1 ? 0 : reference.id) + '&move_type=' + type, 
+                            function (data) {
+                			    if (!node.id) node.id = data;
+                		    }
+                		);                		                    
+                    },
+                    ondrop : function ( NODE,REF_NODE,TYPE,TREE_OBJ ) {
+                         
+                    }
+                }
             });
-            
+        });
+
         </script>
         {/literal}
 

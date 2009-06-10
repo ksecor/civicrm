@@ -250,7 +250,7 @@ ORDER BY parent_id, weight";
                 if ( $navigationString ) {
                     $navigationString .= '},';
                 }
-                $navigationString .= ' { attributes: { id : "node-'.$key.'" }, data: "'. $value['attributes']['label']. '"';
+                $navigationString .= ' { attributes: { id : "node_'.$key.'" }, data: "'. $value['attributes']['label']. '"';
             } else {
                 $name = self::getMenuName( $value );
                 if ( $name ) { 
@@ -283,7 +283,7 @@ ORDER BY parent_id, weight";
                 $appendComma = false;
                 foreach($value['child'] as $k => $val ) {
                     $appendComma = true;                        
-                    $navigationString .= ' { attributes: { id : "node-'.$k.'" }, data: "'. $val['attributes']['label'] .'"';
+                    $navigationString .= ' { attributes: { id : "node_'.$k.'" }, data: "'. $val['attributes']['label'] .'"';
                     self::recurseNavigation($val, $navigationString, $json );
                     if ( $appendComma ) {
                         $navigationString .= ' },';
@@ -424,5 +424,41 @@ ORDER BY parent_id, weight";
         CRM_Core_DAO::executeQuery( $query );
     }          
 
-}
+    /**
+     * Function to process navigation
+     *
+     * @param array $params associated array, $_GET 
+     *
+     * @return void
+     * @static
+     */
+     static function processNavigation( &$params ) {
+         $nodeID      = (int)str_replace("node_","",$params['id']);
+         $referenceID = (int)str_replace("node_","",$params['ref_id']);
+         $moveType    = $params['move_type'];
+         $type        = $params['type'];
+         
+         switch ( $type ) {
+             case "move":
+                self::processMove( $nodeID, $referenceID, $moveType ) ;
+             break;
+         }
+         exit();
+     }
+     
+     /**
+      * Function to process move action
+      */
+      static function processMove( $nodeID, $referenceID, $moveType ) {
+          if ( !in_array($moveType, array("after", "before", "inside") ) ) return false;
+          
+            crm_core_error::debug( '$nodeID', $nodeID );
+            
+            crm_core_error::debug( '$referenceID', $referenceID );
+            
+            crm_core_error::debug( '$moveType', $moveType );
+            
+            
+      }
+ }
 
