@@ -1,19 +1,34 @@
 {*common template for compose mail*}
- <div><dt class="label-left">{$form.template.label}</dt><dd>{$form.template.html}</dd></div>
-  <div class="accordion ui-accordion ui-widget ui-helper-reset">{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp"}
-         <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{$form.html_message.label}</a></h3>
+   <div>
+        <span class="helpIcon" id="helpemail">{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp"}</span>&nbsp;
+        <dt class="label-left">{$form.template.label}</dt><dd>{$form.template.html}</dd>
+    </div>
+   <div class="accordion ui-accordion ui-widget ui-helper-reset">
+        <span class="helpIcon" id="helphtml">
+             <a href="#" onClick="return showToken('Html');">{$form.token2.label}</a> 
+              {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}
+              <div id='tokenHtml' style="display:none">{$form.token2.html}</div>
+         </span>
+         <h3 class="head"> 
+                <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{$form.html_message.label}</a>
+           </h3>
           <div class='html'>
               <dl>
                 {if $editor EQ 'textarea'}
                 <span class="description">{ts}If you are composing HTML-formatted messages, you may want to enable a WYSIWYG editor (Administer CiviCRM &raquo; Global Settings &raquo; Site Preferences).{/ts}</span><br />
             {/if}
                 {$form.html_message.html}<br />
-                {$form.token2.label} {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}<br />{*$form.token2.html*}</dl>
+                </dl>
           </div>
+         <span class="helpIcon" id="helptext" style="display:none;">
+                 <a href="#" onClick="return showToken('Text');">{$form.token1.label}</a>
+                  {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
+                 <div id='tokenText' style="display:none">{$form.token1.html}</div>
+         </span>
         <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='text'></span><a href="#">{$form.text_message.label}</a></h3>
           <div class='text'>
               <dl>{$form.text_message.html|replace:'80':'105'}<br />{* expanded the text box as per jQuery tab width *}
-              {$form.token1.label}{help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}<br/>{*$form.token1.html*}</dl>
+              </dl>
           </div>
         {if ! $noAttach}
         <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='attachment'></span>
@@ -231,21 +246,38 @@ tinyMCE.init({
 {/if}
 {literal}
 
-    cj(function() {
+cj(function() {
         cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
         cj('.ui-state-default, .ui-widget-content .ui-state-default').css( 'width', '95%' );
         cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
-        }, function() { cj(this).removeClass( "ui-state-hover");
-    }).bind('click', function() { 
-        var checkClass = cj(this).find('span').attr( 'class' );
-        var len        = checkClass.length;
-        if ( checkClass.substring( len - 1, len ) == 's' ) {
-            cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
-        } else {
-            cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
-        }
-        cj(this).next().toggle('blind'); return false; }).next().hide();
-        cj('span#html').removeClass().addClass('ui-icon ui-icon-triangle-1-s');cj("div.html").show();          
-    });
+	                           }, function() { cj(this).removeClass( "ui-state-hover");
+	}).bind('click', function() { 
+	  var checkClass = cj(this).find('span').attr( 'class' );
+	  var len        = checkClass.length;
+	  if ( checkClass.substring( len - 1, len ) == 's' ) {
+	    cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
+	    cj("span#help"+cj(this).find('span').attr('id')).hide();
+	  } else {
+	    cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+	    cj("span#help"+cj(this).find('span').attr('id')).show();
+	  }
+	  cj(this).next().toggle('blind'); return false; }).next().hide();
+        cj('span#html').removeClass().addClass('ui-icon ui-icon-triangle-1-s');cj("div.html").show();         
+});
+
+function showToken(element) {
+  cj("#token"+element ).show( ).dialog({
+    title       : 'Insert '+element+' Token',
+      modal       : true,
+      width       : 400,
+      height      : 210,
+      resizable   : true,
+      bgiframe    : true,
+      overlay     : { opacity: 0.5, background: "black" },
+      beforeclose : function(event, ui) { cj(this).dialog("destroy"); },
+      buttons     : { "Done": function() { cj(this).dialog("close");}}
+  });
+  return false;
+}
 </script>
 {/literal}
