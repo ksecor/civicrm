@@ -71,10 +71,10 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
                           'grouping'   => 'member-fields',
                           'filters'    =>
                           array( 'gid' => 
-                                 array( 'name'    =>  'id',
-                                        'title'   =>  ts( 'Membership Types' ),
-                                        'type'    =>  CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' =>  CRM_Member_PseudoConstant::membershipType(),
+                                 array( 'name'          =>  'id',
+                                        'title'         =>  ts( 'Membership Types' ),
+                                        'operatorType'  =>  CRM_Report_Form::OP_MULTISELECT,
+                                        'options'       =>  CRM_Member_PseudoConstant::membershipType(),
                                         ),   
                                  ),
                           ),
@@ -96,9 +96,9 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
                                  array( 'title' => ts('Membership Type') ),
                                  ),
                           'filters'  => 
-                          array( 'end_date'      =>
-                                 array('title'   =>  'Lapsed Memberships', 
-                                       'type'    =>  CRM_Utils_Type::T_DATE ),
+                          array( 'end_date' =>
+                                 array('title'        =>  'Lapsed Memberships', 
+                                       'operatorType' =>   CRM_Report_Form::OP_DATE ),
                                  ),
                           ),
                    
@@ -212,7 +212,8 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+             
+                    if ( $field['operatorType'] & CRM_Utils_Type::T_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
