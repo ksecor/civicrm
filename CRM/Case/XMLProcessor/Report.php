@@ -472,7 +472,7 @@ LIMIT  1
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
     
-	static function redact( $s, $isRedact = false, $printReport = false, $type = 'name')
+	private function redact( $s, $isRedact = false, $printReport = false, $type = 'name')
 	{
          if ( $isRedact && $printReport ) {
             if($type =='name') {
