@@ -107,26 +107,34 @@ class CRM_Report_Form_Instance {
 
     static function setDefaultValues( &$form, &$defaults ) {
         $instanceID = $form->getVar( '_id' );
-        if ( $instanceID ) {
-            // this is already retrieved via Form.php
-            $defaults['description']   = $defaults['description'];
-            $defaults['report_header'] = $defaults['header'];
-            $defaults['report_footer'] = $defaults['footer'];
-        } else {
-            require_once 'CRM/Core/Config.php';
-            $config =& CRM_Core_Config::singleton(); 
-            $defaults['description']   = $form->_description;
-            $defaults['report_header'] = "<html>
+
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton(); 
+        $defaults['report_header'] = $report_header = "<html>
   <head>
     <title>CiviCRM Report</title>
     <style type=\"text/css\" >@import url({$config->userFrameworkResourceURL}css/civicrm.css);</style>
   </head>
   <body><div id=\"crm-container\">";
-            $defaults['report_footer'] = "<p><img src=\"{$config->userFrameworkResourceURL}i/powered_by.png\"></p></div></body>
+
+        $defaults['report_footer'] = $report_footer = "<p><img src=\"{$config->userFrameworkResourceURL}i/powered_by.png\"></p></div></body>
 </html>
 ";
+       
+        if ( $instanceID ) {
+            // this is already retrieved via Form.php
+            $defaults['description']   = $defaults['description'];
+            
+            if ( $defaults['header'] ) {
+                $defaults['report_header'] = $defaults['header'];
+            } 
+            
+            if ( $defaults['footer'] ) {
+                $defaults['report_footer'] = $defaults['footer'];
+            } 
+        } else {
+            $defaults['description']   = $form->_description;
         }
-         
     }
 
     static function postProcess( &$form ) {

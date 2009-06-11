@@ -257,12 +257,19 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
         if ( empty( $this->_params ) && $this->_force ) {
-            $this->_formValues['id_value'] = 
+            $this->_formValues['id_value'][] = 
                 CRM_Utils_Request::retrieve( 'id_value', 'Positive', $this );
             $this->_params = $this->_formValues;
         }
         $this->processReportMode( );
 
+        if ( empty( $this->_params['id_value'][0] ) ) {
+            $this->_params['id_value'] = array();
+            $events = CRM_Event_PseudoConstant::event();
+            foreach ( $events as $key => $dnt) {
+                $this->_params['id_value'][] = $key;
+            }
+        }
         $this->_rowsFound = count($this->_params['id_value']);
 
         $this->limit( );
