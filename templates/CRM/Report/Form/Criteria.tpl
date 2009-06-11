@@ -9,14 +9,20 @@
             {assign  var="count" value="1"}
             <table class="form-layout">
                 <tr>
+                    {assign  var="loopcount" value="1"}
                     {foreach from=$grpFields item=field key=title}
                         <td width="25%">{$form.fields.$field.html}</td>
                         {if $count is div by 4}
+                            {assign var="loopcount" value="0"}
                             </tr>
                             <tr>
                         {/if}
                         {assign var="count" value=`$count+1`}
+                        {assign var="loopcount" value=`$loopcount+1`}
                     {/foreach}
+                    {if $loopcount > 1}
+                        <td colspan="4-$loopcount"></td>
+                    {/if}
                 </tr>
             </table>
         {/foreach}
@@ -32,17 +38,23 @@
         {assign  var="count" value="1"}
         <table class="form-layout">
             <tr>
+                {assign  var="loopcount" value="1"}
                 {foreach from=$groupByElements item=gbElem key=dnc}
                     <td width="25%">{$form.group_bys[$gbElem].html}
                         {if $form.group_bys_freq[$gbElem].html}
                             ,&nbsp;&nbsp;{$form.group_bys_freq[$gbElem].label}&nbsp;{$form.group_bys_freq[$gbElem].html}
                         {/if}</td>
                         {if $count is div by 4}
+                            {assign var="loopcount" value="0"}
                             </tr>
                             <tr>
                         {/if}
                         {assign var="count" value=`$count+1`}
+                        {assign var="loopcount" value=`$loopcount+1`}
                 {/foreach}
+                {if $loopcount > 1}
+                    <td colspan="4-$loopcount"></td>
+                {/if}
             </tr>
         </table>      
     {/if}

@@ -199,6 +199,9 @@ class CRM_Report_Form extends CRM_Core_Form {
             // lets always do a force if a valid id is found in the url.
             $this->_force      = 1;
 
+            $this->assign( 'templeteUrl', 
+                            CRM_Utils_System::url( 'civicrm/report/'.$this->_instanceValues['report_id'],
+                                                    "reset=1" ) );
             // set the mode
             $this->assign( 'mode', 'instance' );
         } else {
