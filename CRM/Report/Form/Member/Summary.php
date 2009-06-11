@@ -77,6 +77,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                                 array('title'      => ts('Join Date'),
                                       'default'    => true,
                                       'frequency'  => true,
+                                      'chart'      => true,
                                       'type'       => 12 ),
                                 'membership_type_id' => 
                                 array( 'title'     => 'Membership Type',
@@ -267,6 +268,9 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                 if ( array_key_exists('group_bys', $table) ) {
                     foreach ( $table['group_bys'] as $fieldName => $field ) {
                         if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
+                            if ( CRM_Utils_Array::value( 'chart', $field ) ) {
+                                $this->assign( 'displayChart', true );
+                            }
                             if ( CRM_Utils_Array::value('frequency', $table['group_bys'][$fieldName]) && 
                                  CRM_Utils_Array::value($fieldName, $this->_params['group_bys_freq']) ) {
                                 
@@ -297,26 +301,30 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
     }
     
     function postProcess( ) {
-        $this->beginPostProcess();
-        
-        $sql  = $this->buildQuery( true );
-        $dao  = CRM_Core_DAO::executeQuery( $sql );
-        $rows = $graphRows = array();
-        
-        while ( $dao->fetch( ) ) { 
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
+        parent::postProcess( );
+      
+    }
+
+    function buildChart( &$rows ) {
+        $graphRows = array();
+        $count = 0;
+        if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
+            foreach ( $rows as $key => $row ) {
+                if ( $row['civicrm_membership_join_date_subtotal'] ) {
+                    $graphRows['receive_date'][]   = $row['civicrm_membership_join_date_start'];
+                    $graphRows[$this->_interval][] = $row['civicrm_membership_join_date_interval'];
+                    $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
+                    $count++;
+                }
             }
-            $rows[] = $row;
+            if ( CRM_Utils_Array::value( 'join_date', $this->_params['group_bys'] ) ) {
+                
+                
+                $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
+                $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+                $this->_graphPath =  $graphs['0']['file_name'];
+            }
         }
-        
-        $this->formatDisplay( $rows );
-        
-        // assign variables to templates
-        $this->doTemplateAssignment( $rows );
-        
-        $this->endPostProcess( );
     }
     
     function alterDisplay( &$rows ){

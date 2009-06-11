@@ -37,8 +37,11 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     
-    protected $_summary = null;    
-  
+      
+    protected $_charts = array( ''         => 'Tabular',
+                                'barGraph' => 'Bar Graph',
+                                'pieGraph' => 'Pie Graph'
+                                );
     
     function __construct( ) {
         $yearsInPast      = 8;
@@ -320,6 +323,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     function groupBy( $receiveDate = false ) {
         $this->_groupBy = $receiveDate ? "Group BY Year(contribution.receive_date), contribution.contact_id" : 
             "Group BY contribution.contact_id";  
+        $this->assign( 'displayChart', true );
     }
 
     function statistics( &$rows ) {
@@ -413,5 +417,32 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         
         
     }   
+
+ function buildChart( &$rows ) {
+      
+        $graphRows                = array();
+        $count                    = 0;
+       
+        $current_year             = $this->_params['yid_value'];
+        $previous_year            =  $current_year - 1 ;
+        $interval[$previous_year] = $previous_year ;
+        $interval['life_time']    = 'life_time' ; 
+
+        foreach ( $rows as $key => $row ) {
+            $display['life_time']                   =  $display[ 'life_time' ] + $row[ 'civicrm_life_time_total' ];           
+            $display[ $previous_year ]              =  $display[ $previous_year ] + $row [ $previous_year ];                    
+        }
+
+        $graphRows['value'] = $display;
+        $chartInfo          = array( 'legend' => 'Lybunt Report',
+                                     'xname'  => 'Amount',
+                                     'yname'  => 'Year'
+                                     );
+        $graphs = CRM_Utils_PChart::reportChart( $graphRows, $this->_params['charts'] , $interval , $chartInfo );
+        $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+        $this->_graphPath =  $graphs['0']['file_name'];
+        
+    }
+
     
 }

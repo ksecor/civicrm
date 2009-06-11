@@ -37,11 +37,17 @@ require_once 'CRM/Report/Form.php';
 
 class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
 
+       protected $_charts = array( ''         => 'Tabular',
+                                'barGraph' => 'Bar Graph',
+                                'pieGraph' => 'Pie Graph'
+                                );
+    
+
     function __construct( ) {
         $yearsInPast      = 8;
         $yearsInFuture    = 2;
         $date             = CRM_Core_SelectValues::date('custom', $yearsInPast, $yearsInFuture, $dateParts ) ;        
-        $count            = $date['maxYear'];
+        $count            = $date['maxYear'] ;
         while ( $date['minYear'] <= $count )  {
             $optionYear[ $date['minYear'] ] = $date['minYear'];
             $date['minYear']++;
@@ -112,8 +118,9 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                                        'title'   => ts( 'Group' ),
                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
-                  );        
-        
+                  );   
+     
+      
         parent::__construct( );
     }
     
@@ -215,7 +222,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     
     function from( $year = null, $yearColumn = false ) {        
         $yearClause = $yearColumn ? "AND YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN ( {$this->_params['yid_value']} - 1, {$this->_params['yid_value']} - 2, {$this->_params['yid_value']} - 3 )" : '';
-
+$this->assign( 'displayChart', true );
         if ( $year ) {
             $yearClause .= " AND YEAR({$this->_aliases['civicrm_contribution']}.receive_date) < $year";
         }
@@ -285,6 +292,7 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
     }
     
     function groupBy( $receiveDate = false ) {
+        $this->assign( 'displayChart', true );
         $this->_groupBy = $receiveDate ? "Group BY Year(contribution.receive_date), contribution.contact_id" : 
             "Group BY contribution.contact_id";  
     }
@@ -309,7 +317,6 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
     {
         // get ready with post process params
         $this->beginPostProcess( );
-
         $this->select ( );
         $this->from   ( );
         $this->where  ( );
@@ -336,7 +343,11 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
             
             $min = ($contact_id < $min) ? $contact_id : ($max > 0) ? $min : $contact_id;
             $max = ($contact_id > $max) ? $contact_id : $max;
+            
+            $chartRow[ 'civicrm_life_time_total' ]      = $chartRow[ 'civicrm_life_time_total' ]  +  $daoLifeTime->civicrm_contribution_total_amount;
+
         }
+
         $daoLifeTime->free( );
 
         $this->from   ( null, true );
@@ -358,7 +369,9 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
             $display[ $contact_id ]["civicrm_upto_{$previous_three_year}"] =
                 $daoUpTo->civicrm_contribution_total_amount;            
             $display[ $contact_id ]['civicrm_contact_display_name'] = $daoUpTo->civicrm_contact_display_name;
-            $display[ $contact_id ]['civicrm_email_email']          = $daoUpTo->civicrm_email_email ;    
+            $display[ $contact_id ]['civicrm_email_email']          = $daoUpTo->civicrm_email_email ;  
+            $chartRow[ "civicrm_upto_{$previous_three_year}" ]      = $chartRow[ "civicrm_upto_{$previous_three_year}" ] + $daoUpTo->civicrm_contribution_total_amount;
+  
         } 
         $daoUpTo->free( );
 
@@ -367,8 +380,11 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
 
             $display[ $contact_id ][ $daoYear->civicrm_contribution_receive_date ] = 
                 $daoYear->civicrm_contribution_total_amount ;
-            $display[ $contact_id ]['civicrm_contact_display_name'] = $daoYear->civicrm_contact_display_name;
-            $display[ $contact_id ]['civicrm_email_email']          = $daoYear->civicrm_email_email ;    
+            $display  [ $contact_id ][ 'civicrm_contact_display_name' ]       = $daoYear->civicrm_contact_display_name;
+            $display  [ $contact_id ][ 'civicrm_email_email' ]                = $daoYear->civicrm_email_email ;
+  
+            $chartRow [ $daoYear->civicrm_contribution_receive_date ]         = $chartRow[ $daoYear->civicrm_contribution_receive_date ]   +     $daoYear->civicrm_contribution_total_amount ;
+  
         }
         $daoYear->free( );
 
@@ -382,7 +398,7 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
                 $rows[] = $row;
             }
         }
-
+       // crm_core_error::debug("crow",$chartRow );
         // format result set. 
         $this->formatDisplay( $rows, false );
 
@@ -391,5 +407,39 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
 
         // do print / pdf / instance stuff if needed
         $this->endPostProcess( );
-     }   
+     }  
+ 
+    function buildChart( &$rows ) {
+        $graphRows           = array();
+        $count               = 0;
+       
+        $current_year        = $this->_params['yid_value'];
+        $previous_year       =  $current_year - 1 ;
+        $previous_two_year   =  $current_year - 2 ;
+        $previous_three_year =  $current_year - 3 ;
+
+        $interval[$previous_year]                = $previous_year ;
+        $interval[$previous_two_year]            = $previous_two_year ;
+        $interval[$previous_three_year]          = $previous_three_year ;
+        $interval["upto_{$previous_three_year}"] = "upto_{$previous_three_year}";
+    
+        foreach ( $rows as $key => $row ) {
+            $display["upto_{$previous_three_year}"] =  
+                   $display["upto_{$previous_three_year}"] + $row[ "civicrm_upto_{$previous_three_year}" ];
+            $display[ $previous_year ]              =  $display[ $previous_year ] + $row [ $previous_year ];
+            $display[ $previous_two_year ]          =  $display[ $previous_two_year ] + $row [ $previous_two_year ];
+            $display[ $previous_three_year ]        =  $display[ $previous_three_year ] + $row [ $previous_three_year ];           
+        }
+
+        $graphRows['value'] = $display;
+        $chartInfo          = array( 'legend' => 'Sybunt Report',
+                                     'xname'  => 'Amount',
+                                     'yname'  => 'Year'
+                                     );
+        
+        $graphs = CRM_Utils_PChart::reportChart( $graphRows, $this->_params['charts'] , $interval , $chartInfo );
+        $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+        $this->_graphPath =  $graphs['0']['file_name'];
+        
+    }
 }
