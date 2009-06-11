@@ -172,21 +172,16 @@ class CRM_Case_Form_Activity_OpenCase
         }
         
         // create contact if cid not present
-        $contactParams = $params;
-        if ( !$form->_currentlyViewedContactId ) {
-            $contactParams['location'][1]['is_primary'] = 1;
-            $contactParams['contact_type']              = 'Individual';
-            $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
-            
+        if ( CRM_Utils_Array::value( 'contact_id', $params ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
-            $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
+            $contact =& CRM_Contact_BAO_Contact::create( $params, true, false );
             $form->_currentlyViewedContactId = $contact->id;
             
             // unset contact params
             unset($params['location'], $params['first_name'], $params['last_name'], 
                   $params['prefix_id'], $params['suffix_id']);
         }
-
+        
         // for open case start date should be set to current date
         $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
         // rename activity_location param to the correct column name for activity DAO
