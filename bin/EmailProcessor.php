@@ -121,50 +121,52 @@ class EmailProcessor {
                     
                     // handle the action by passing it to the proper API call
                     // FIXME: leave only one-letter cases when dropping legacy support
-                    switch ($action) {
-                    case 'b':
-                    case 'bounce':
-                        $text = '';
-                        if ($mail->body instanceof ezcMailText) {
-                            $text = $mail->body->text;
-                        } elseif ($mail->body instanceof ezcMailMultipart) {
-                            foreach ($mail->body->getParts() as $part) {
-                                if (isset($part->subType) and $part->subType == 'plain') {
-                                    $text = $part->text;
-                                    break;
-                                }
-                            }
-                        }
-                        crm_mailer_event_bounce($job, $queue, $hash, $text);
-                        break;
-                    case 'c':
-                    case 'confirm':
-                        crm_mailer_event_confirm($job, $queue, $hash);
-                        break;
-                    case 'o':
-                    case 'optOut':
-                        crm_mailer_event_domain_unsubscribe($job, $queue, $hash);
-                        break;
-                    case 'r':
-                    case 'reply':
-                        // instead of text and HTML parts (4th and 6th params) send the whole email as the last param
-                        crm_mailer_event_reply($job, $queue, $hash, null, $replyTo, null, $mail->generate());
-                        break;
-                    case 'e':
-                    case 're':
-                    case 'resubscribe':
-                        crm_mailer_event_resubscribe($job, $queue, $hash);
-                        break;
-                    case 's':
-                    case 'subscribe':
-                        crm_mailer_event_subscribe($mail->from->email, $job);
-                        break;
-                    case 'u':
-                    case 'unsubscribe':
-                        crm_mailer_event_unsubscribe($job, $queue, $hash);
-                        break;
-                    }
-                    
+					if (! empty($action)) {
+	                    switch ($action) {
+	                    case 'b':
+	                    case 'bounce':
+	                        $text = '';
+	                        if ($mail->body instanceof ezcMailText) {
+	                            $text = $mail->body->text;
+	                        } elseif ($mail->body instanceof ezcMailMultipart) {
+	                            foreach ($mail->body->getParts() as $part) {
+	                                if (isset($part->subType) and $part->subType == 'plain') {
+	                                    $text = $part->text;
+	                                    break;
+	                                }
+	                            }
+	                        }
+	                        crm_mailer_event_bounce($job, $queue, $hash, $text);
+	                        break;
+	                    case 'c':
+	                    case 'confirm':
+	                        crm_mailer_event_confirm($job, $queue, $hash);
+	                        break;
+	                    case 'o':
+	                    case 'optOut':
+	                        crm_mailer_event_domain_unsubscribe($job, $queue, $hash);
+	                        break;
+	                    case 'r':
+	                    case 'reply':
+	                        // instead of text and HTML parts (4th and 6th params) send the whole email as the last param
+	                        crm_mailer_event_reply($job, $queue, $hash, null, $replyTo, null, $mail->generate());
+	                        break;
+	                    case 'e':
+	                    case 're':
+	                    case 'resubscribe':
+	                        crm_mailer_event_resubscribe($job, $queue, $hash);
+	                        break;
+	                    case 's':
+	                    case 'subscribe':
+	                        crm_mailer_event_subscribe($mail->from->email, $job);
+	                        break;
+	                    case 'u':
+	                    case 'unsubscribe':
+	                        crm_mailer_event_unsubscribe($job, $queue, $hash);
+	                        break;
+	                    }
+					}
+					                    
                     $store->markProcessed($key);
                 }
             }

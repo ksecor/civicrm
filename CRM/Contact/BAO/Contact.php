@@ -746,14 +746,18 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $contactType = 'All';
         }
         
-        if ( ! self::$_exportableFields || ! CRM_Utils_Array::value( $contactType, self::$_exportableFields ) ) {
+        $cacheKeyString  = "exportableFields $contactType";
+        $cacheKeyString .= $export ? "_1" : "_0";
+        $cacheKeyString .= $status ? "_1" : "_0";
+
+        if ( ! self::$_exportableFields || ! CRM_Utils_Array::value( $cacheKeyString, self::$_exportableFields ) ) {
             if ( ! self::$_exportableFields ) {
                 self::$_exportableFields = array();
             }
 
             // check if we can retrieve from database cache
             require_once 'CRM/Core/BAO/Cache.php'; 
-            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "exportableFields $contactType $export" );
+            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', $cacheKeyString );
 
             if ( ! $fields ) {
                 $fields = array( );
@@ -864,16 +868,16 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     }
                 }
 
-                CRM_Core_BAO_Cache::setItem( $fields, 'contact fields', "exportableFields $contactType $export" );
+                CRM_Core_BAO_Cache::setItem( $fields, 'contact fields', $cacheKeyString );
             }
-            self::$_exportableFields[$contactType] = $fields;
+            self::$_exportableFields[$cacheKeyString] = $fields;
         }
 
         if ( ! $status ) {
-            $fields = self::$_exportableFields[$contactType];
+            $fields = self::$_exportableFields[$cacheKeyString];
         } else {
             $fields = array_merge( array( '' => array( 'title' => ts('- Contact Fields -') ) ),
-                                   self::$_exportableFields[$contactType] );
+                                   self::$_exportableFields[$cacheKeyString] );
         }
 
         return $fields;

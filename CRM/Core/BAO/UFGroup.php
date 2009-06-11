@@ -752,15 +752,22 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                                                      $cfID );
                                     $params[$index] = $values[$index] = $fileURL['file_url'];
                                 } else {
+                                    $customVal = null;
                                     if ( isset($dao) && ($dao->data_type == 'Int' ||
                                                          $dao->data_type == 'Boolean' ) ) {
                                         $customVal = (int ) ($details->{$name});
                                     } else if ( isset($dao) && $dao->data_type == 'Float' ) {
                                         $customVal = (float ) ($details->{$name});
-                                    } else {
+                                    } else if ( !CRM_Utils_System::isNull( explode( CRM_Core_DAO::VALUE_SEPARATOR, 
+                                                                                    $details->{$name} ) ) ) {
                                         $customVal = $details->{$name};
                                     }
-
+                                    
+                                    //CRM-4582
+                                    if ( CRM_Utils_System::isNull( $customVal ) ) {
+                                        continue;
+                                    }
+                                    
                                     $params[$index] = $customVal;
                                     $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal,
                                                                                                  $cfID,

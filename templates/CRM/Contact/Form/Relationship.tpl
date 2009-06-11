@@ -176,9 +176,11 @@
                 <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
         {if $action eq 2}
-        <dt id="employee">{ts}Is current employee?{/ts}</dt>
-        <dt id="employer">{ts}Is current employer?{/ts}</dt>
-        <dd id="current_employer">{$form.is_current_employer.html}</dd>
+	<div>
+            <dt id="employee">{ts}Is current employee?{/ts}</dt>
+            <dt id="employer">{ts}Is current employer?{/ts}</dt>
+            <dd id="current_employer">{$form.is_current_employer.html}</dd>
+	</div>
         {/if}
         <div id="customData"></div>
         <div class="spacer"></div>

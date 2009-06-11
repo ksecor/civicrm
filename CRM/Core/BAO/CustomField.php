@@ -191,8 +191,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             // if we dont have a default value
             // retrive it from one of the other custom fields which use this option group
             if ( ! CRM_Utils_Array::value( 'default_value', $params ) ) {
-                $params['default_value'] = self::getOptionGroupDefault( $params['option_group_id'],
-                                                                        $params['html_type'] );
+                //don't insert only value separator as default value, CRM-4579
+                $defaultValue = self::getOptionGroupDefault( $params['option_group_id'],
+                                                             $params['html_type'] );
+                
+                if ( !CRM_Utils_System::isNull( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultValue ) ) ) { 
+                    $params['default_value'] = $defaultValue;
+                }
             }
         }
 

@@ -23,10 +23,18 @@
     	<option value="">All</option>
     	<option value="Contact">Contacts</option>
     	<option value="Activity">Activities</option>
+{if call_user_func(array('CRM_Core_Permission','access'), 'CiviCase')}
     	<option value="Case">Cases</option>
+{/if}
+{if call_user_func(array('CRM_Core_Permission','access'), 'CiviContribute')}
       	<option value="Contribution">Contributions</option>
+{/if}
+{if call_user_func(array('CRM_Core_Permission','access'), 'CiviEvent')}
         <option value="Participant">Participants</option>
+{/if}
+{if call_user_func(array('CRM_Core_Permission','access'), 'CiviMember')}
         <option value="Membership">Memberships</option>
+{/if}
     </select> {help id="id-fullText-block" file="CRM/Contact/Form/Search/Custom/FullText.hlp"}
     </form>
 </div>
