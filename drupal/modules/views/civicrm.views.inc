@@ -1084,9 +1084,10 @@ function civicrm_views_data() {
     //PHONE TYPE  , Phone, Mobile, Fax or Pager
     $data['civicrm_phone']['phone_type'] = array(
                                                  'title' => t('Phone Type'),
+                                                 'real field' => 'phone_type_id',
                                                  'help' => t('The Type, either Phone, Mobile, Fax or Pager'),
                                                  'field' => array(
-                                                                  'handler' => 'views_handler_field',
+                                                                  'handler' => 'civicrm_handler_field_phone_type',
                                                                   'click sortable' => TRUE,
                                                                   ),
 
@@ -1096,7 +1097,7 @@ function civicrm_views_data() {
 
                         
                                                  'filter' => array(
-                                                                   'handler' => 'views_handler_filter_string',
+                                                                   'handler' => 'civicrm_handler_filter_phone_type',
                                                                    ),
 
                                                  'sort' => array(
@@ -3297,7 +3298,7 @@ function civicrm_views_handlers() {
                                                                          'parent' => 'views_handler_field',
                                                                          ),
                        'civicrm_handler_field_link_contribution' => array(
-                                                                          'parent' => 'v§iews_handler_field',
+                                                                          'parent' => 'views_handler_field',
                                                                           ),
                        'civicrm_handler_field_link_activity' => array(
                                                                       'parent' => 'views_handler_field',
@@ -3312,6 +3313,9 @@ function civicrm_views_handlers() {
                        'civicrm_handler_field_gender' => array(
                                                                'parent' => 'views_handler_field',
                                                                ),
+                       'civicrm_handler_field_phone_type' => array(
+                                                                      'parent' => 'views_handler_field',
+                                                                      ),
                        'civicrm_handler_field_location_type' => array(
                                                                       'parent' => 'views_handler_field',
                                                                       ),
@@ -3387,6 +3391,9 @@ function civicrm_views_handlers() {
                        'civicrm_handler_filter_gender' => array(
                                                                 'parent' => 'views_handler_filter_in_operator',
                                                                 ),
+                       'civicrm_handler_filter_phone_type' => array(
+                                                                       'parent' => 'views_handler_filter_in_operator',
+                                                                       ),
                        'civicrm_handler_filter_location_type' => array(
                                                                        'parent' => 'views_handler_filter_in_operator',
                                                                        ),
