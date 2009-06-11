@@ -50,18 +50,18 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                    array( 'dao'     => 'CRM_Contact_DAO_Contact',
                           'fields'  =>
                           array( 'display_name' => 
-                                 array( 'title'     => ts( 'Contact Name' ),
-                                        'required'  => true,
-                                        'no_repeat' => true ),
+                                 array( 'title'      => ts( 'Contact Name' ),
+                                        'required'   => true,
+                                        'no_repeat'  => true ),
                                  'id'           => 
                                  array( 'no_display' => true, 
                                         'required'   => true ), ),
                           
-                          'filters' =>
+                          'filters'  =>
                           array('sort_name'     => 
                                 array( 'title'    => ts( 'Contact Name' ),
                                        'operator' => 'like' ),
-                                'id'       => 
+                                'id' => 
                                 array( 'title'    => ts( 'Contact ID' ) ), ),
 
                           'grouping'=> 'contact-fields',
@@ -74,17 +74,17 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                                 'membership_type_id' => array( 'title'     => 'Membership Type', 
                                                                'required'  => true,
                                                                'no_repeat' => true ),
-                                'start_date'         => array( 'title'   => ts('Start Date'),
-                                                               'default' => true ),
-                                'end_date'           => array( 'title'   => ts('End Date'),
-                                                               'default' => true ),
+                                'start_date'         => array( 'title'     => ts('Start Date'),
+                                                               'default'   => true ),
+                                'end_date'           => array( 'title'     => ts('End Date'),
+                                                               'default'   => true ),
                                 'join_date'          => null,
                                 
                                 'source'             => array( 'title' => 'Source'),
                                 ), 
                           'filters' => array( 					      
                                              'join_date'    =>
-                                             array( 'type'  => CRM_Utils_Type::T_DATE ),),
+                                             array( 'operatorType'  => CRM_Report_Form::OP_DATE),),
                           
                           'grouping'=> 'member-fields',
                           ),
@@ -93,15 +93,15 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                    array( 'dao'      => 'CRM_Member_DAO_MembershipStatus',
                           'alias'    => 'mem_status',
                           'fields'   =>
-                          array( 
+                          array(  
                                 'name'  => array ('title' => ts('Status')),
                                 ),
                           
                           'filters'  => array( 'sid' => 
-                                               array( 'name'    => 'id',
-                                                      'title'   => ts( 'Status' ),
-                                                      'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                                      'options' => CRM_Member_PseudoConstant::membershipStatus( ) ), ),
+                                               array( 'name'         => 'id',
+                                                      'title'        => ts( 'Status' ),
+                                                      'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                                      'options'      => CRM_Member_PseudoConstant::membershipStatus( ) ), ),
                           'grouping' => 'member-fields',		
                           ),
                    
@@ -112,9 +112,9 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                                  'city'              => null,
                                  'postal_code'       => null,
                                  'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ), ),
+                                 array( 'title'      => ts( 'State/Province' ), ),
                                  'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ), ), 
+                                 array( 'title'      => ts( 'Country' ), ), 
                                  ),
                           'grouping' => 'contact-fields',
                           ),
@@ -131,10 +131,10 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                           'alias'  => 'cgroup',
                           'filters'=>             
                           array( 'gid' => 
-                                 array( 'name'    => 'id',
-                                        'title'   => ts( 'Group' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                 array( 'name'         => 'id',
+                                        'title'        => ts( 'Group' ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         
         parent::__construct( );
@@ -173,25 +173,35 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
         $this->_from = null;
         
         $this->_from = "
-FROM       civicrm_contact      {$this->_aliases['civicrm_contact']}
-INNER JOIN civicrm_membership {$this->_aliases['civicrm_membership']} 
-       ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_membership']}.contact_id
-
-LEFT  JOIN civicrm_membership_status {$this->_aliases['civicrm_membership_status']}
-       ON {$this->_aliases['civicrm_membership_status']}.id = {$this->_aliases['civicrm_membership']}.status_id
-
-LEFT  JOIN civicrm_group_contact group_contact 
-       ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
-LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
-       ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
-";
+         FROM  civicrm_contact {$this->_aliases['civicrm_contact']}
+               INNER JOIN civicrm_membership {$this->_aliases['civicrm_membership']} 
+                          ON {$this->_aliases['civicrm_contact']}.id = 
+                             {$this->_aliases['civicrm_membership']}.contact_id
+               LEFT  JOIN civicrm_membership_status {$this->_aliases['civicrm_membership_status']}
+                          ON {$this->_aliases['civicrm_membership_status']}.id = 
+                             {$this->_aliases['civicrm_membership']}.status_id
+               LEFT  JOIN civicrm_group_contact group_contact 
+                          ON {$this->_aliases['civicrm_contact']}.id = 
+                              group_contact.contact_id  AND 
+                              group_contact.status='Added'
+               LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
+                          ON  group_contact.group_id = 
+                             {$this->_aliases['civicrm_group']}.id ";
         //used when address field is selected
         if ( $this->_addressField ) {
-            $this->_from .= "LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND {$this->_aliases['civicrm_address']}.is_primary = 1\n";
+            $this->_from .= "
+             LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
+                       ON {$this->_aliases['civicrm_contact']}.id = 
+                          {$this->_aliases['civicrm_address']}.contact_id AND 
+                          {$this->_aliases['civicrm_address']}.is_primary = 1\n";
         }
         //used when email field is selected
         if ( $this->_emailField ) {
-            $this->_from .= "LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND {$this->_aliases['civicrm_email']}.is_primary = 1\n";
+            $this->_from .= "
+              LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} 
+                        ON {$this->_aliases['civicrm_contact']}.id = 
+                           {$this->_aliases['civicrm_email']}.contact_id AND 
+                           {$this->_aliases['civicrm_email']}.is_primary = 1\n";
         }
     }
     
@@ -201,7 +211,7 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                    if ( $field['operatorType'] & CRM_Utils_Type::T_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
@@ -232,7 +242,6 @@ LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
     }
-    
     
     function groupBy( ) {
         $this->_groupBy = " GROUP BY contact.id, membership.membership_type_id";
