@@ -21,7 +21,7 @@
     </div>
     {/if}
     <div id="attachments" class="section-shown">
-    <fieldset>
+    <fieldset {if $noexpand}style="width:92%"{/if}>
     {if !$noexpand}<legend><a href="#" onclick="hide('attachments'); show('attachments_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{$attachTitle}</legend>
     {/if}
         {if $context EQ 'pcpCampaign'}
