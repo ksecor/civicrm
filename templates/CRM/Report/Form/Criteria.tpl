@@ -40,7 +40,8 @@
             <tr>
                 {assign  var="loopcount" value="1"}
                 {foreach from=$groupByElements item=gbElem key=dnc}
-                    <td width="25%">{$form.group_bys[$gbElem].html}
+                    <td width="25%" {if $form.fields.$gbElem} onClick="selectGroupByFields('{$gbElem}');"{/if}>
+                        {$form.group_bys[$gbElem].html}
                         {if $form.group_bys_freq[$gbElem].html}
                             ,&nbsp;&nbsp;{$form.group_bys_freq[$gbElem].label}&nbsp;{$form.group_bys_freq[$gbElem].html}
                         {/if}</td>
@@ -129,6 +130,17 @@
                 cj('#' + fldMinMax ).hide();
             }
         }
+	    
+	function selectGroupByFields(id) {
+	    var field = 'fields\['+ id+'\]';
+	    var group = 'group_bys\['+ id+'\]';	
+	    var groups = document.getElementById( group ).checked;
+	    if ( groups == 1 ) {
+	        document.getElementById( field ).checked = true;	
+	    } else {
+	        document.getElementById( field ).checked = false;	    
+	    }	
+	}
     </script>
     {/literal}
 
