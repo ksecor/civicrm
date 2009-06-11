@@ -146,6 +146,9 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'label'), true);
         
+        // the above value is used by query, so the value has to be have a rule
+        $this->addRule( 'label', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters. The length of the variable string should be less than 31 characters'), 'qfVariable');
+        
         // html_type
         $javascript = 'onchange="option_html_type(this.form)";';
 
