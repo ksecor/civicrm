@@ -51,15 +51,8 @@
                     <table class="form-layout-compressed">
                         <td>{$form.$print.html}&nbsp;&nbsp;</td>
                         <td>{$form.$pdf.html}</td>
-                        {if $instanceUrl OR $templeteUrl}
-                            {if $instanceUrl}
-                                {assign var=displayUrl value=$instanceUrl}
-                                {assign var=urlTitle   value="Available Report(s) For This Template"}
-                            {else}
-                                {assign var=displayUrl value=$templeteUrl}
-                                {assign var=urlTitle   value="Template of this Report"}
-                             {/if} 
-                            <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$displayUrl}">{ts}{$urlTitle}{/ts}</a></td>
+                        {if $instanceUrl}
+                            <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Available Report(s) For This Template{/ts}</a></td>
                         {/if}
                     </table>
                 </td>

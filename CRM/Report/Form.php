@@ -199,9 +199,6 @@ class CRM_Report_Form extends CRM_Core_Form {
             // lets always do a force if a valid id is found in the url.
             $this->_force      = 1;
 
-            $this->assign( 'templeteUrl', 
-                            CRM_Utils_System::url( 'civicrm/report/'.$this->_instanceValues['report_id'],
-                                                    "reset=1" ) );
             // set the mode
             $this->assign( 'mode', 'instance' );
         } else {
@@ -976,9 +973,10 @@ class CRM_Report_Form extends CRM_Core_Form {
     function processReportMode( ) {
         $buttonName = $this->controller->getButtonName( );
 
-        $output = CRM_Utils_Request::retrieve( 'output',
-                                               'String', CRM_Core_DAO::$_nullObject );
-
+        $output     = CRM_Utils_Request::retrieve( 'output',
+                                                   'String', CRM_Core_DAO::$_nullObject );
+        $this->_sendmail = CRM_Utils_Request::retrieve( 'sendmail', 
+                                                        'Boolean', CRM_Core_DAO::$_nullObject );
         $this->_absoluteUrl = false;
         $this->assign( 'printOnly', false );
 
@@ -989,11 +987,15 @@ class CRM_Report_Form extends CRM_Core_Form {
         } else if ( $this->_pdfButtonName   == $buttonName || $output == 'pdf' ) {
             $this->assign( 'printOnly', true );
             $this->assign( 'outputMode', 'pdf' );
-            $this->_outputMode = 'pdf';
+            $this->_outputMode  = 'pdf';
             $this->_absoluteUrl = true;
         } else {
             $this->assign( 'outputMode', 'html' );
             $this->_outputMode = 'html';
+        }
+
+        if ( $this->_sendmail ) {
+            $this->assign( 'printOnly', true );
         }
     }
 
@@ -1158,18 +1160,26 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function endPostProcess( ) {
-        if ( $this->_outputMode == 'print' || $this->_outputMode == 'pdf' ) {
+        if ( $this->_outputMode == 'print' || 
+             $this->_outputMode == 'pdf'   ||
+             $this->_sendmail              ) {
             $templateFile = parent::getTemplateFileName( ); 
-                      
-            if( $this->_graphPath ) {                
-                $image="</br><img src='".$this->_graphPath."'>";               
-            }
+
+            $image   = $this->_graphPath ? "</br><img src='{$this->_graphPath}'>" : '';
             $content =
                 $this->_formValues['report_header'] .
                 CRM_Core_Form::$_template->fetch( $templateFile ). $image .      
                 $this->_formValues['report_footer'] ;
-            
-            if ( $this->_outputMode == 'print' ) {
+
+            if ( $this->_sendmail ) {
+                if ( CRM_Report_Utils_Report::mailReport( $content, $this->_id,
+                                                          $this->_outputMode  ) ) {
+                    CRM_Core_Session::setStatus("Report mail delivered.");
+                } else {
+                    CRM_Core_Session::setStatus("Report mail count not be delivered.");
+                }
+                return;
+            } else if ( $this->_outputMode == 'print' ) {
                 echo $content;
             } else {
                 require_once 'CRM/Utils/PDF/Utils.php';                                

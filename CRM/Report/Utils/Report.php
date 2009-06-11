@@ -80,4 +80,44 @@ WHERE  inst.report_id = %1";
         return $count;
     }
 
+    static function mailReport( $fileContent, $instanceID = null, $outputMode = 'html' ) {
+        if ( ! $instanceID ) {
+            return false;
+        }
+
+        $url = CRM_Utils_System::url("civicrm/report/instance", 
+                                     "reset=1&id={$instanceID}", true);
+        $url = "Report Url: {$url}
+";
+        $fileContent = $url . $fileContent;
+
+        require_once 'CRM/Core/BAO/Domain.php';
+        list( $domainEmailName, 
+              $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
+
+        $params       = array( 'id' => $instanceID );
+        $instanceInfo = array( );
+        CRM_Core_DAO::commonRetrieve( 'CRM_Report_DAO_Instance',
+                                      $params,
+                                      $instanceInfo );
+
+        $from          = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
+        $toDisplayName = "";//$domainEmailName;
+        $toEmail       = $instanceInfo['email_to'];
+        $ccEmail       = $instanceInfo['email_cc'];
+        $subject       = $instanceInfo['email_subject'];
+
+        require_once 'Mail/mime.php';
+        require_once "CRM/Utils/Mail.php";
+        return CRM_Utils_Mail::send( $from, 
+                                     $toDisplayName, 
+                                     $toEmail, 
+                                     $subject, 
+                                     '',
+                                     $ccEmail, 
+                                     null,  
+                                     null, 
+                                     $fileContent, 
+                                     $attachments );
+    }
 }
