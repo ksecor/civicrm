@@ -654,7 +654,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
            
         //check if contact is selected in standalone mode
         if ( isset( $values['contact_select_id'] ) && !$values['contact_select_id'] ) {
-            $errorMsg['contact'] = ts('Please select a contact or create new contact');
+            $errorMsg['contact'] = ts('Please select a valid contact or create new contact');
         }
         
         if ( CRM_Utils_Array::value( 'payment_processor_id', $values ) ) {

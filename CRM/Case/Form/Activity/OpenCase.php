@@ -202,8 +202,13 @@ class CRM_Case_Form_Activity_OpenCase
         if ( $form->_context == 'caseActivity' ) {
             return true;
         }
-        
+
         $errors = array( );
+        //check if contact is selected in standalone mode
+        if ( isset( $values[contact_select_id] ) && !$values[contact_select_id] ) {
+            $errors['contact'] = ts('Please select a valid contact or create new contact');
+        }
+        
         return $errors;
     }
 

@@ -466,6 +466,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     static function formRule( &$fields, &$files, $self ) 
     {
         $errors = array( );
+
+        //check if contact is selected in standalone mode
+        if ( isset( $fields[contact_select_id] ) && !$fields[contact_select_id] ) {
+            $errors['contact'] = ts('Please select a valid contact or create new contact');
+        }
+        
         if ( isset( $fields["honor_type_id"] ) ) {
             if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
                       CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||
