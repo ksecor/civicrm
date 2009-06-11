@@ -58,5 +58,10 @@ cj('body').prepend( cj("#menu-container").html() );
 var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
 cj('#civicrm_menu').clickMenu( {arrowSrc: resourceBase + 'packages/jquery/css/images/arrow.png'} );
 
+//Track Scrolling
+cj(window).scroll( function () { 
+   var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+   cj(".cmDiv").css('top', scroll); 
+});
 </script>
 {/literal}
