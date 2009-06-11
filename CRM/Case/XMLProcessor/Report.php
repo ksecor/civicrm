@@ -82,7 +82,8 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
                 if (!empty($$rule)) {
                     $this->{'_'. $rule} = array_change_key_case(array_flip($$rule),CASE_LOWER);
                     foreach($this->{'_'. $rule} as &$value) {
-                        $value.= rand(100 ,1000);
+                        //suffixed with a randomly generated 4-digit number
+                        $value.= rand(10000 ,100000);
                     }    
                 }    
             }     
