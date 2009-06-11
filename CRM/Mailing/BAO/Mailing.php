@@ -1972,7 +1972,10 @@ SELECT $selectClause
         if ( CRM_Utils_System::getClassName( $form )  == 'CRM_Mailing_Form_Upload' ) {
             $tokens = array_merge( CRM_Core_SelectValues::mailingTokens( ), $tokens );
         }
-        
+
+        //sorted in ascending order tokens by ignoring word case
+        natcasesort($tokens);
+
         $form->add( 'select', 'token1',  ts( 'Insert Tokens' ), 
                     $tokens , false, 
                     array(
