@@ -418,31 +418,30 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         
     }   
 
- function buildChart( &$rows ) {
-      
+    function buildChart( &$rows ) {
+        
         $graphRows                = array();
         $count                    = 0;
-       
+        
         $current_year             = $this->_params['yid_value'];
         $previous_year            =  $current_year - 1 ;
         $interval[$previous_year] = $previous_year ;
         $interval['life_time']    = 'life_time' ; 
-
+        
         foreach ( $rows as $key => $row ) {
             $display['life_time']                   =  $display[ 'life_time' ] + $row[ 'civicrm_life_time_total' ];           
             $display[ $previous_year ]              =  $display[ $previous_year ] + $row [ $previous_year ];                    
         }
-
+        
         $graphRows['value'] = $display;
         $chartInfo          = array( 'legend' => 'Lybunt Report',
                                      'xname'  => 'Amount',
                                      'yname'  => 'Year'
                                      );
-        $graphs = CRM_Utils_PChart::reportChart( $graphRows, $this->_params['charts'] , $interval , $chartInfo );
-        $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
-        $this->_graphPath =  $graphs['0']['file_name'];
-        
-    }
-
-    
+        if($this->_params['charts']) {
+            $graphs = CRM_Utils_PChart::reportChart( $graphRows, $this->_params['charts'] , $interval , $chartInfo );
+            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+            $this->_graphPath =  $graphs['0']['file_name'];
+        }        
+    }  
 }

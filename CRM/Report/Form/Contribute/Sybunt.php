@@ -412,12 +412,10 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
     function buildChart( &$rows ) {
         $graphRows           = array();
         $count               = 0;
-       
         $current_year        = $this->_params['yid_value'];
         $previous_year       =  $current_year - 1 ;
         $previous_two_year   =  $current_year - 2 ;
         $previous_three_year =  $current_year - 3 ;
-
         $interval[$previous_year]                = $previous_year ;
         $interval[$previous_two_year]            = $previous_two_year ;
         $interval[$previous_three_year]          = $previous_three_year ;
@@ -425,21 +423,21 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
     
         foreach ( $rows as $key => $row ) {
             $display["upto_{$previous_three_year}"] =  
-                   $display["upto_{$previous_three_year}"] + $row[ "civicrm_upto_{$previous_three_year}" ];
+                         $display["upto_{$previous_three_year}"] + $row[ "civicrm_upto_{$previous_three_year}" ];
             $display[ $previous_year ]              =  $display[ $previous_year ] + $row [ $previous_year ];
             $display[ $previous_two_year ]          =  $display[ $previous_two_year ] + $row [ $previous_two_year ];
             $display[ $previous_three_year ]        =  $display[ $previous_three_year ] + $row [ $previous_three_year ];           
         }
-
+        
         $graphRows['value'] = $display;
         $chartInfo          = array( 'legend' => 'Sybunt Report',
                                      'xname'  => 'Amount',
                                      'yname'  => 'Year'
                                      );
-        
-        $graphs = CRM_Utils_PChart::reportChart( $graphRows, $this->_params['charts'] , $interval , $chartInfo );
-        $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
-        $this->_graphPath =  $graphs['0']['file_name'];
-        
+        if($this->_params['charts']) {
+            $graphs = CRM_Utils_PChart::reportChart( $graphRows, $this->_params['charts'] , $interval , $chartInfo );
+            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+            $this->_graphPath =  $graphs['0']['file_name'];
+        }        
     }
 }
