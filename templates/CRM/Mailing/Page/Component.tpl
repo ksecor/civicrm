@@ -7,7 +7,7 @@
     <div class="form-item">
        {strip}
        <table cellpadding="0" cellspacing="0" border="0">
-        <tr class="columnheader">
+        <thead class="sticky">
         <th>{ts}Name{/ts}</th>
         <th>{ts}Type{/ts}</th>
         <th>{ts}Subject{/ts}</th>
@@ -16,7 +16,7 @@
         <th>{ts}Default?{/ts}</th>
         <th>{ts}Enabled?{/ts}</th>
         <th></th>
-        </tr>
+        </thead>
        {foreach from=$rows item=row}
          <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
            <td>{$row.name}</td>	

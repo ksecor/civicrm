@@ -11,7 +11,7 @@
      <p></p>
         {strip}
          <table class="selector">
-         <tr class="columnheader">
+         <thead class="sticky">
             <th>{ts}Field Label{/ts}</th>
             <th>{ts}Data Type{/ts}</th>
             <th>{ts}Field Type{/ts}</th>
@@ -19,7 +19,7 @@
             <th>{ts}Req?{/ts}</th>
             <th>{ts}Status?{/ts}</th>
             <th>&nbsp;</th>
-        </tr>
+        </thead>
         {foreach from=$customField item=row}
         <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>

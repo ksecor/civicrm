@@ -11,13 +11,13 @@
           <div class="form-item">
             {strip}
               <table>
-                <tr class="columnheader">
+                <thead class="sticky">
                   <th>{ts}Name{/ts}</th>
                   <th>{ts}Contact Type{/ts}</th>
                   <th>{ts}Level{/ts}</th>
                   <th>{ts}Default?{/ts}</th>
                   <th></th>
-                </tr>
+                </thead>
                 {foreach from=$rows item=row}
                   <tr class="{cycle values="odd-row,even-row"}">
                     <td>{if isset($row.name)}{$row.name}{/if}</td>

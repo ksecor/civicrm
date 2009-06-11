@@ -10,7 +10,7 @@
 <div id="membership_type">
     {strip}
 	<table class="selector">
-        <tr class="columnheader">
+        <thead class="sticky">
             <th>{ts}Membership{/ts}</th>
             <th>{ts}Period{/ts}</th>
             <th>{ts}Fixed Start{/ts}</th>
@@ -21,7 +21,7 @@
             <th>{ts}Order{/ts}</th>
  	        <th>{ts}Enabled?{/ts}</th>
             <th></th>
-        </tr>
+        </thead>
         {foreach from=$rows item=row}
            <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
