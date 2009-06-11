@@ -4,7 +4,7 @@
     {/if}
     <br/>
     {if $statistics}
-        <table class="form-layout">
+        <table class="form-layout" style="width:100%;">
             {foreach from=$statistics.groups item=row}
                 <tr>
                     <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
@@ -19,7 +19,7 @@
         <br/>
     {/if}
     {include file="CRM/common/pager.tpl" noForm=1}
-    <table class="form-layout">
+    <table class="form-layout" style="width:100%;">
         <tr class="columnheader">
             {foreach from=$columnHeaders item=header key=field}
                 {assign var=class value=""}
@@ -95,7 +95,7 @@
 
     {if $statistics}
         <br/>
-        <table class="form-layout">
+        <table class="form-layout" style="width:100%;">
             {foreach from=$statistics.counts item=row}
                 <tr>
                     <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>

@@ -1,7 +1,7 @@
 {if $events}
 {include file="CRM/common/pager.tpl" noForm=1}
 {foreach from=$events item=eventID}
-    <table class="form-layout">
+    <table class="form-layout" style="width:100%;">
         {foreach from=$summary.$eventID item=values key=keys}
 	    {if $keys == 'Title'}
 		<tr class="columnheader">
@@ -41,7 +41,7 @@
 {/foreach}
 {if $statistics}
     <br/>
-    <table class="form-layout">
+    <table class="form-layout" style="width:100%;">
         {foreach from=$statistics.counts item=row}
             <tr>
                 <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
