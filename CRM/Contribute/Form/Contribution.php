@@ -402,16 +402,6 @@ WHERE  contribution_id = {$this->_id}
         }
         
         if ( $this->_id ) {
-            // throw out a warning if pay later contrib in pending state
-            // check if its an online contrib or event registration
-            if ( $defaults['contribution_status_id'] == 2 &&
-                 ( strpos( $defaults['contribution_source'], ts( 'Online Contribution' ) ) !== false ||
-                   strpos( $defaults['contribution_source'], ts( 'Online Event Registration' ) ) !== false ) ) {
-                $message = ts( 'If you have received payment for this Pending online contribution, record it using <strong>Update Pending Contribution Status</strong> from <strong><a href=\'%1\'>CiviContribute &raquo; Find Contributions</a></strong>. If you update the status from here the contributor may not got complete information on their receipt. Also, if there is an associated membership or event registration record - its status will not be updated.',
-                               array( 1 => CRM_Utils_System::url( 'civicrm/contribute/search', "reset=1" )) );
-                CRM_Core_Session::setStatus( $message );
-            }
-                                 
             $this->_contactID = $defaults['contact_id'];
         } else {
             $now = date("Y-m-d");
