@@ -2,8 +2,8 @@
   <div class="messages status">
     <dl>
 	<dd>
-	   <p>{$statusMsg}</p>
-        </dd>
+	   {$statusMsg}
+    </dd>
     </dl>
   </div>
 

@@ -95,9 +95,10 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
         require_once 'CRM/Event/PseudoConstant.php';
         // only pending status class family able to confirm.
         
-        $statusMsg = ts( 'Please Confirm your Event Registration.' );
+        $statusMsg = ts( "Oops it's looks like your event registration already has been cancelled." );
         if ( array_key_exists( $this->_participantStatusId, 
                                CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" ) ) ) {
+
             
             //need to confirm that though participant confirming
             //registration but is there enough space to confirm.
@@ -109,6 +110,7 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
             if ( $emptySeats !== null && ( $requireSpace > $emptySeats ) ) {
                 $statusMsg =  ts( "Oops it's looks like there are no enough space for your event registration." );
             } else {
+                $statusMsg = ts( 'Please Confirm your Event Registration.' );
                 $buttons = array_merge( $buttons, array( array( 'type'      => 'next',
                                                                 'name'      => ts('Confirm'), 
                                                                 'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
