@@ -214,6 +214,7 @@ class CRM_Utils_Type
             }
             break;
             
+        case 'Text' :
         case 'String':
         case 'Link':
         case 'Memo':
