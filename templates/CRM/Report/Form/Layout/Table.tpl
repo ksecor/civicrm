@@ -7,12 +7,12 @@
         <table class="form-layout" style="width:100%;">
             {foreach from=$statistics.groups item=row}
                 <tr>
-                    <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
+                    <td style="width:10%;">{$row.title}&nbsp;</td><td><strong>{$row.value}</strong></td>
                 </tr>
             {/foreach}
             {foreach from=$statistics.filters item=row}
                 <tr>
-                    <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
+                    <td style="width:10%;">{$row.title}&nbsp;</td><td><strong>{$row.value}</strong></td>
                 </tr>
             {/foreach}
         </table>
@@ -98,7 +98,7 @@
         <table class="form-layout" style="width:100%;">
             {foreach from=$statistics.counts item=row}
                 <tr>
-                    <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
+                    <td style="width:10%;">{$row.title}:&nbsp</td><td><strong>{$row.value}</strong></td>
                 </tr>
             {/foreach}
         </table>

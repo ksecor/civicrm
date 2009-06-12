@@ -1020,7 +1020,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( $applyLimit ) {
             $this->limit( );
         }
-        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
+        $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_having} {$this->_orderBy} {$this->_limit}";
 
         return $sql;
     }

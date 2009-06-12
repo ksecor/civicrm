@@ -127,15 +127,32 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                  array( 'title'        => ts( 'Amount Statistics' ),
                                         'default'      => true,
                                         'statistics'   => 
-                                        array('sum'    => ts( 'Total Amount' ), 
-                                              'count'  => ts( 'Count' ), 
+                                        array('sum'    => ts( 'Aggregate Amount' ), 
+                                              'count'  => ts( 'Donations' ), 
                                               'avg'    => ts( 'Average' ), ), ), ),
                           'grouping'              => 'contri-fields',
                           'filters'               =>             
                           array( 'receive_date'   => 
                                  array( 'operatorType' => CRM_Report_Form::OP_DATE ),
                                  'total_amount'   => 
-                                 array( 'title'   => ts( 'Total  Amount' ), ), ),
+                                 array( 'title'   => ts( 'Donation Amount' ), ), 
+
+                                 'total_sum'    => 
+                                 array( 'title'   => ts( 'Aggregate Amount' ),
+                                        'type'    => CRM_Report_Form::OP_INT,
+                                        'dbAlias' => 'civicrm_contribution_total_amount_sum',
+                                        'having'  => true ), 
+
+                                 'total_count'    => 
+                                 array( 'title'   => ts( 'Donations' ),
+                                        'type'    => CRM_Report_Form::OP_INT,
+                                        'dbAlias' => 'civicrm_contribution_total_amount_count',
+                                        'having'  => true ), 
+                                 'total_avg'    => 
+                                 array( 'title'   => ts( 'Average' ),
+                                        'type'    => CRM_Report_Form::OP_INT,
+                                        'dbAlias' => 'civicrm_contribution_total_amount_avg',
+                                        'having'  => true ), ),
                           'group_bys'           =>
                           array( 'receive_date' => 
                                  array( 'frequency'  => true,
@@ -323,7 +340,15 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             if ( CRM_Utils_Date::isDate( $fields['receive_date_from'] ) || CRM_Utils_Date::isDate( $fields['receive_date_to'] ) ) {
                 $errors['receive_date_relative'] = ts("Do not use filter on Date if group by received date not used ");      
             }
+        }         
+        if ( !CRM_Utils_Array::value( 'total_amount', $fields['fields'] ) ) {
+            foreach ( array( 'total_count_value','total_sum_value','total_avg_value' ) as $val ) {
+                if ( CRM_Utils_Array::value( $val, $fields ) ) {
+                    $errors[$val] = ts("Please select the Amount Statistics" );      
+                }
+            }
         }
+        
         return $errors;
     }
 
@@ -365,46 +390,6 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
         }
     }
 
-    function where( ) {
-        $clauses = array( );
-        foreach ( $this->_columns as $tableName => $table ) {
-            if ( array_key_exists('filters', $table) ) {
-                foreach ( $table['filters'] as $fieldName => $field ) {
-                    $clause = null;
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
-                        $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
-                        $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
-                        $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
-                        
-                        if ( $relative || $from || $to ) {
-                            $clause = $this->dateClause( $field['name'], $relative, $from, $to );
-                        }
-                    } else {
-                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
-                        if ( $op ) {
-                            $clause = 
-                                $this->whereClause( $field,
-                                                    $op,
-                                                    CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
-                        }
-                    }
-                    
-                    if ( ! empty( $clause ) ) {
-                        $clauses[] = $clause;
-                    }
-                }
-            }
-        }
-
-        if ( empty( $clauses ) ) {
-            $this->_where = "WHERE ( 1 ) ";
-        } else {
-            $this->_where = "WHERE " . implode( ' AND ', $clauses );
-        }
-    }
-
     function groupBy( ) {
         $this->_groupBy = "";
         if ( is_array($this->_params['group_bys']) && 
@@ -437,7 +422,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             
             if ( !empty($this->_statFields) && 
                  CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) && 
-                 (( $append && count($this->_groupBy) <= 1 ) || (!$append)) ) {
+                 (( $append && count($this->_groupBy) <= 1 ) || (!$append)) && !$this->_having ) {
                 $this->_rollup = " WITH ROLLUP";
             }
             $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " {$this->_rollup} ";
@@ -448,25 +433,26 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
     function statistics( &$rows ) {
         $statistics = parent::statistics( $rows );
+
+        if ( ! $this->_having ) {
+            $select = "
+            SELECT COUNT( contribution.total_amount )       as count,
+                   SUM( contribution.total_amount )         as amount,
+                   ROUND(AVG(contribution.total_amount), 2) as avg
+            ";
         
-        $select = "
-        SELECT COUNT( contribution.total_amount ) as count,
-               SUM(   contribution.total_amount ) as amount,
-               ROUND(AVG(contribution.total_amount), 2) as avg
-        ";
+            $sql = "{$select} {$this->_from} {$this->_where}";
+            $dao = CRM_Core_DAO::executeQuery( $sql );
         
-        $sql = "{$select} {$this->_from} {$this->_where}";
-        $dao = CRM_Core_DAO::executeQuery( $sql );
-        
-        if ( $dao->fetch( ) ) {
-            $statistics['counts']['amount'] = array( 'value' => $dao->amount,
-                                                     'title' => 'Total Amount' );
-            $statistics['counts']['count '] = array( 'value' => $dao->count,
-                                                     'title' => 'Total Counts' );
-            $statistics['counts']['avg   '] = array( 'value' => $dao->avg,
-                                                     'title' => 'Average');
+            if ( $dao->fetch( ) ) {
+                $statistics['counts']['amount'] = array( 'value' => $dao->amount,
+                                                         'title' => 'Total Amount' );
+                $statistics['counts']['count '] = array( 'value' => $dao->count,
+                                                         'title' => 'Total Counts' );
+                $statistics['counts']['avg   '] = array( 'value' => $dao->avg,
+                                                         'title' => 'Average');
+            }
         }
-        
         return $statistics;
     }
     
