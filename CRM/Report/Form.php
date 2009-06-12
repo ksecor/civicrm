@@ -1169,8 +1169,8 @@ class CRM_Report_Form extends CRM_Core_Form {
 
             $image   = $this->_graphPath ? "</br><img src='{$this->_graphPath}'>" : '';
             $content =
-                $this->_formValues['report_header'] .
-                CRM_Core_Form::$_template->fetch( $templateFile ). $image .      
+                $image . $this->_formValues['report_header'] .
+                CRM_Core_Form::$_template->fetch( $templateFile ) .      
                 $this->_formValues['report_footer'] ;
 
             if ( $this->_sendmail ) {
