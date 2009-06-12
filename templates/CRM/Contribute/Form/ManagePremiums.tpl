@@ -14,7 +14,7 @@
   {elseif $action eq 1024}
      {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="previewPremium"}
   {else}  
-    <dl>
+  <dl  class="html-adjust">
  	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Name of the premium (product, service, subscription, etc.) as it will be displayed to contributors.{/ts}</dd>
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
@@ -52,20 +52,22 @@
 	<dt>&nbsp;</dt><dd class="description">{ts}The market value of this premium (e.g. retail price). For tax-deductible contributions, this amount will be used to set the non-deductible amount in the contribution record and receipt.{/ts}</dd>
 	<dt>{$form.cost.label}</dt><dd>{$form.cost.html|crmMoney}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}You may optionally record the actual cost of this premium to your organization. This may be useful when evaluating net return for this incentive.{/ts}</dd>
+<dl class="html-adjust">
 	<dt>{$form.options.label}</dt><dd>{$form.options.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Enter a comma-delimited list of color, size, etc. options for the product if applicable. Contributors will be presented a drop-down menu of these options when they select this product.{/ts}</dd>
-    <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
-    </dl>
-
+	<dt>&nbsp;</dt><dd class="description">{ts}Enter a comma-delimited list of color, size, etc. options for the product if applicable. Contributors will be presented a drop-down menu of these options when they select this product.{/ts}</dd></dl>
+ 	</dl>
+ <div class="spacer"></div> 	 
+  <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
 	<div id="time-delimited[show]" class="data-group-first">
+	<div class="spacer"></div>  
         <a href="#" onclick="hide('time-delimited[show]'); show('time-delimited'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Subscription or Service Settings{/ts}</label><br />
 	</div>	
-
-	<div id="time-delimited">
+	<div id="time-delimited"> 
+	<div class="spacer"></div>  
     <fieldset><legend><a href="#" onclick="hide('time-delimited'); show('time-delimited[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Subscription or Service Settings{/ts}</legend>
-    <dl>
+  <dl>
 	<dt>{$form.period_type.label}</dt><dd>{$form.period_type.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Select 'Rolling' if the subscription or service starts on the current day. Select 'Fixed' if the start date is a fixed month and day within the current year (set this value in the next field).{/ts}</dd>
+<dt>&nbsp;</dt><dd class="description">{ts}Select 'Rolling' if the subscription or service starts on the current day. Select 'Fixed' if the start date is a fixed month and day within the current year (set this value in the next field).{/ts}</dd>
  
 	<dt>{$form.fixed_period_start_day.label}</dt><dd>{$form.fixed_period_start_day.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}Month and day (MMDD) on which a fixed period subscription or service will start. EXAMPLE: A fixed period subscription with Start Day set to 0101 means that the subscription period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dd>

@@ -7,10 +7,10 @@
         {ts}Use Custom Data Groups to add sets of logically related fields to a specific type of CiviCRM record (e.g. contact records, contribution records, etc.).{/ts} {help id="id-group_intro"}
     </div>
     <dl>
-    <dt>{$form.title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_custom_group' field='title' id=$gid}{/if}</dt><dd>{$form.title.html} {help id="id-title"}</dd>
+    <dt>{$form.title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_custom_group' field='title' id=$gid}{/if}</dt> <dl class="html-adjust"><dd>{$form.title.html} {help id="id-title"}</dd>
     <dt>{$form.extends.label}</dt><dd>{$form.extends.html} {help id="id-extends"}</dd>
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html} {help id="id-weight"}</dd>
-    </dl>
+    </dl></dl>
 
     <div id="style"> {* This section shown only when Used For = Contact, Individ, Org or Household. *}
         <dl><dt>&nbsp;</dt><dd>{$form.is_multiple.html}&nbsp;{$form.is_multiple.label} {help id=id-is_multiple"}</dd></dl>
@@ -21,7 +21,7 @@
         <dl><dt>{$form.style.label}</dt><dd>{$form.style.html} {help id="id-display_style}</dd></dl>
     </div>
     
-    <dl>
+      <dl class="html-adjust">
     <dt>&nbsp;</dt><dd>{$form.collapse_display.html} {$form.collapse_display.label} {help id="id-collapse"}</dd>
     <dt>&nbsp;</dt><dd>{$form.collapse_adv_display.html} {$form.collapse_adv_display.label} {help id="id-collapse-adv"}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>

@@ -7,7 +7,7 @@
         {ts}Use this form to setup the title and group-level help of each set of Price fields.{/ts}
         </p>
     </div>
-    <dl>
+    <dl class="html-adjust">
     <dt>{$form.title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_price_set' field='title' id=$sid}{/if}</dt><dd>{$form.title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}The name of this Price Set{/ts}</dd>
     <dt>{$form.help_pre.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_price_set' field='help_pre' id=$sid}{/if}</dt><dd>{$form.help_pre.html}</dd>

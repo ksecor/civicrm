@@ -15,7 +15,7 @@
      <dl>
      <dt>{$form.premiums_active.label}</dt><dd>{$form.premiums_active.html}</dd>
      <dt>&nbsp;</dt><dd class="description">{ts}Is the Premiums section enabled for this Online Contributions page?{/ts}</dd></dl>
-    <div class="form-item"><dl id= "premiumFields">
+    <div class="form-item"><dl id= "premiumFields" class="html-adjust">
     <dt>{$form.premiums_intro_title.label}</dt><dd>{$form.premiums_intro_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Title to appear at the top of the Premiums section.{/ts}</dd>
     <dt>{$form.premiums_intro_text.label}</dt><dd>{$form.premiums_intro_text.html}</dd>
@@ -33,9 +33,11 @@
     </dl></div>
     {if  ! $showForm }   
      {if $action ne 4}
-            <div id="crm-submit-buttons">
-            {$form.buttons.html}
+             <div id="crm-submit-buttons">	
+    <div class="spacer"></div>   
+        <dl><dt></dt><dd >{$form.buttons.html}</dd></dl>  
     </div>
+    
     {else}
             <div id="crm-done-button">
                 {$form.done.html}
