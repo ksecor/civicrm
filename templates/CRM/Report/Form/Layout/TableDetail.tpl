@@ -78,19 +78,21 @@
 		    {*include file="CRM/Report/Form/Layout/Component.tpl"  contactID=$row.contactID*}
 		    {assign var=contribMode value=$row.contactID}
 		    {foreach from=$columnHeadersComponent item=pheader key=component}
+                        {if $componentRows.$contribMode.$component}
+		            <u><strong>{$component|upper}</strong></u>
+                        {/if}
 			<table class="form-layout" style = "width : 100%;">
 			    {*add space before headers*}
 			    {if $componentRows.$contribMode.$component}
 				<tr class="columnheader">
-				    <th style="background-color:#F5F5F5; width:28px;"><u>{$component|upper}</u></th>
 				    {foreach from=$pheader item=header}
 					<th>{$header.title}</th>
 				    {/foreach}
 				</tr>
 			    {/if}
+                             
 			    {foreach from=$componentRows.$contribMode.$component item=row}
 				<tr class="{cycle values="odd-row,even-row"}">
-				    <td></td>
 				    {foreach from=$columnHeadersComponent.$component item=header key=field}
 					{assign var=fieldLink value=$field|cat:"_link"}			
 					<td style="width:20%; white-space : normal;">
