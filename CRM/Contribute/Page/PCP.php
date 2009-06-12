@@ -139,6 +139,11 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
                 $this->set( 'params', null );
             }
         }
+
+        //check for delete CRM-4418
+        require_once 'CRM/Core/Permission.php'; 
+        $allowToDelete = CRM_Core_Permission::check( 'delete in CiviContribute' );
+ 
         $params = $this->get('params') ? $this->get('params') : array();
         $title       = ' AND cp.title LIKE %3';
         $params['3'] = array( $this->_sortByCharacter . '%', 'String' );        
@@ -171,6 +176,11 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
                 $action -= CRM_Core_Action::DISABLE;
                 break;
             }
+            
+            if ( !$allowToDelete ) {
+                $action -= CRM_Core_Action::DELETE; 
+            }
+            
             $pcpSummary[$dao->id]['id']                      = $dao->id;
             $pcpSummary[$dao->id]['start_date']              = $dao->start_date;
             $pcpSummary[$dao->id]['end_date']                = $dao->end_date;

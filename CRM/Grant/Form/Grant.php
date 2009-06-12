@@ -74,6 +74,11 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->assign( 'action', $this->_action );
         $this->assign( 'context', $this->_context );
         
+        //check permission for action.
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviGrant', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );  
+        }
+        
         $this->_noteId =null;
         if ( $this->_id) {
             require_once 'CRM/Core/BAO/Note.php';

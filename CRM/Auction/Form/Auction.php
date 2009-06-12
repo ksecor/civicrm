@@ -66,7 +66,11 @@ class CRM_Auction_Form_Auction extends CRM_Core_Form
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false);
 
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-
+        
+        if ( ! CRM_Core_Permission::checkActionPermission( 'CiviAuction', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }
+        
         if ( ( $this->_action & CRM_Core_Action::VIEW   ||
                $this->_action & CRM_Core_Action::UPDATE ||
                $this->_action & CRM_Core_Action::DELETE ) &&

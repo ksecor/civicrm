@@ -57,6 +57,11 @@ class CRM_Event_Form_ManageEvent_Delete extends CRM_Event_Form_ManageEvent
     public function preProcess()
     {
         parent::preProcess();
+        
+        //check for delete
+        if ( ! CRM_Core_Permission::checkActionPermission( 'CiviEvent', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }    
         if ($this->_isTemplate) {
             $this->_title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'template_title');
         } else {

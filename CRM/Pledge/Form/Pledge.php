@@ -96,16 +96,16 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
-        // check for edit permission
-        if ( ! CRM_Core_Permission::check( 'edit pledges' ) ) {
-            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
-        }
-        
 		$this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
                                                          $this, false, 'add' );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         $this->_context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+
+        // check for action permissions.
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviPledge', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }
         
         $this->assign( 'action', $this->_action );
         $this->assign('context', $this->_context );

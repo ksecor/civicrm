@@ -209,7 +209,39 @@ class CRM_Core_Permission {
         
         return true;
     }
-
+    
+    /** 
+     * check permissions for delete and edit actions
+     *
+     * @param string  $module component name.
+     * @param $action action to be check across component    
+     *
+     **/
+    static function checkActionPermission( $module, $action, $permissionName = null ) {
+        //check delete related permissions.
+        if ( $action & CRM_Core_Action::DELETE ) {
+            if ( !$permissionName ) {
+                $permissionName = "delete in $module";
+            }
+        } else {
+            $editPermissions = array( 'CiviEvent'      => 'edit event participants',
+                                      'CiviMember'     => 'edit memberships',
+                                      'CiviPledge'     => 'edit pledges',
+                                      'CiviContribute' => 'edit contributions'
+                                      );
+            if ( !$permissionName ) {
+                $permissionName = $editPermissions[$module];
+            }
+        }
+        
+        //check for permission.
+        if ( array_key_exists( $permissionName, self::basicPermissions( ) ) ) {
+            return CRM_Core_Permission::check( $permissionName );
+        }
+        
+        return true;
+    }
+    
     static function checkMenu( &$args, $op = 'and' ) {
         if ( ! is_array( $args ) ) {
             return $args;
