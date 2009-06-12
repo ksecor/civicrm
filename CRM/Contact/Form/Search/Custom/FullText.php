@@ -416,6 +416,13 @@ WHERE     cc.id = {$this->_textID}
      * get contribution ids in entity tables.
      */
     function fillContributionIDs() {
+        $contactSQL = array( );
+        $contactSQL[] = "
+SELECT cc.id 
+FROM   civicrm_contribution cc, civicrm_contact c
+WHERE  cc.contact_id = c.id
+AND    c.display_name LIKE {$this->_text}
+";
         $tables = 
             array( 'civicrm_contribution' => array( 'id'     => 'id',
                                                     'fields' => array( 'source'       => null,
@@ -426,6 +433,9 @@ WHERE     cc.id = {$this->_textID}
                                                                        'total_amount' => ($this->_textID) ? 'Int' : null,
                                                                        ) 
                                                     ),
+
+                   'sql'                  => $contactSQL,
+                                     
                    'civicrm_note'         => array( 'id'           => 'entity_id',
                                                     'entity_table' => 'civicrm_contribution',
                                                     'fields'       => array( 'subject' => null,
@@ -449,6 +459,13 @@ WHERE     cc.id = {$this->_textID}
      * get participant ids in entity tables.
      */
     function fillParticipantIDs() {
+        $contactSQL = array( );
+        $contactSQL[] = "
+SELECT cp.id 
+FROM   civicrm_participant cp, civicrm_contact c
+WHERE  cp.contact_id = c.id
+AND    c.display_name LIKE {$this->_text}
+";
         $tables = 
             array( 'civicrm_participant' => array( 'id'     => 'id',
                                                    'fields' => array( 'source'     => null,
@@ -456,6 +473,9 @@ WHERE     cc.id = {$this->_textID}
                                                                       'fee_amount' => ($this->_textID) ? 'Int' : null,
                                                                       ) 
                                                    ),
+
+                   'sql'                  => $contactSQL,
+
                    'civicrm_note'         => array( 'id'           => 'entity_id',
                                                     'entity_table' => 'civicrm_participant',
                                                     'fields'       => array( 'subject' => null,
@@ -480,10 +500,19 @@ WHERE     cc.id = {$this->_textID}
      * get membership ids in entity tables.
      */
     function fillMembershipIDs() {
+        $contactSQL = array( );
+        $contactSQL[] = "
+SELECT cm.id 
+FROM   civicrm_membership cm, civicrm_contact c
+WHERE  cm.contact_id = c.id
+AND    c.display_name LIKE {$this->_text}
+";
         $tables = 
             array( 'civicrm_membership' => array( 'id'     => 'id',
                                                   'fields' => array( 'source' => null )
-                                                  )
+                                                  ),
+                   
+                   'sql'                => $contactSQL
                    );
         
         // get the custom data info
