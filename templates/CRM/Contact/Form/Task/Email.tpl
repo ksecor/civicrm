@@ -10,17 +10,12 @@
 <tr>
     <td class="label">{$form.fromEmailAddress.label}</td><td>{$form.fromEmailAddress.html} {help id ="id-from_email"}</td>
 </tr>
-{if $single eq false}
-    <tr>
-        <td class="label">{ts}Recipient(s){/ts}</td><td>{$to|escape}
-{else}
-    <tr>
-        <td class="label">{$form.to.label}</td>
-        <td>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}
-{/if}
-        <div class="spacer"></div>
-        <span class="bold"><a href="#" id="addcc">{ts}Add CC{/ts}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" id="addbcc"">{ts}Add BCC{/ts}</a></span></td>
-    </tr>
+<tr>
+    <td class="label">{if $single eq false}{ts}Recipient(s){/ts}{else}{$form.to.label}{/if}</td>
+    <td>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}
+    <div class="spacer"></div>
+    <span class="bold"><a href="#" id="addcc">{ts}Add CC{/ts}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" id="addbcc"">{ts}Add BCC{/ts}</a></span></td>
+</tr>
 <tr id="cc" style="display:none;"><td class="label">{$form.cc_id.label}</td><td>{$form.cc_id.html}</td></tr>
 <tr id="bcc" style="display:none;"><td class="label">{$form.bcc_id.label}</td><td>{$form.bcc_id.html}</td></tr>
 <tr>

@@ -130,7 +130,7 @@ class CRM_Contact_Form_Task_EmailCommon
                 if ( $toDoNotEmail || empty( $toEmail ) ) {
                     $suppressedEmails++;
                 } else {
-                    $toArray[] = "\"$toDisplayName\" <$toEmail>";
+                    $toArray[$contactId] = $toEmail;
                 }
             }
 
@@ -138,19 +138,15 @@ class CRM_Contact_Form_Task_EmailCommon
                 CRM_Core_Error::statusBounce( ts('Selected contact(s) do not have a valid email address, or communication preferences specify DO NOT EMAIL, or they are deceased).' ));
             }
 
-            $form->assign('to', implode(', ', $toArray));
+            $form->assign('toContact', $toArray);
             $form->assign('suppressedEmails', $suppressedEmails);
-            
         } else {
             if ( $form->_noEmails ) {
-                $to = $form->add( 'text', 'to', ts('To') );
                 $form->add('text', 'emailAddress', null, CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
                 $form->addRule('emailAddress', ts('%1 is a required field.', array(1 => 'To')) , 'required');
                 $form->addRule( "emailAddress", ts('Email is not valid.'), 'email' );
-            } else {
-                $to =& $form->add( 'text', 'to', ts('To') );
             }
-            
+
             if ( count( $form->_emails ) <= 1 ) {
                 foreach ( $form->_emails as $email => $dontCare ) {
                     $defaults = array( 'to' => $email );
@@ -159,7 +155,7 @@ class CRM_Contact_Form_Task_EmailCommon
                 
             }
         }
-        
+        $to = $form->add( 'text', 'to', ts('To') );
         $form->assign('noEmails', $form->_noEmails);
         
         $session =& CRM_Core_Session::singleton( );
