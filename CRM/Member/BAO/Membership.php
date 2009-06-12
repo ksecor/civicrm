@@ -185,7 +185,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      */
     static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
-    {      
+    {  
         // always cal status if is_override/skipStatusCal is not true.
         // giving respect to is_override during import.  CRM-4012
         
@@ -303,8 +303,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 $membership->source             = CRM_Utils_Array::value( 'source', $data[$membership->id] );
             }
             
+            // create one more activity individual-org CRM-4027
+            $targetContactID = null;
+            if ( CRM_Utils_Array::value( 'is_for_organization', $params ) ) {
+                $targetContactID = $membership->contact_id;
+                $membership->contact_id = $ids['userId'];
+            }
+            
             require_once 'CRM/Activity/BAO/Activity.php';
-            CRM_Activity_BAO_Activity::addActivity( $membership, $activityType );
+            CRM_Activity_BAO_Activity::addActivity( $membership, $activityType, $targetContactID );
         }
         
         $transaction->commit( );
@@ -984,7 +991,9 @@ AND civicrm_membership.is_test = %2";
         $index = $memBlockDetails['is_separate_payment'] ? 2 : 1;
 
         if ( ! CRM_Utils_Array::value( $index, $errors ) ) {
-            $membership = self::renewMembership( $contactID, $membershipTypeID, $isTest, $form );
+            
+            $membership = self::renewMembership( $contactID, $membershipTypeID, 
+                                                 $isTest, $form, null, CRM_Utils_Array::value( 'cms_contactID', $membershipParams ) );
             if ( isset( $contribution[$index] ) ) {
                 //insert payment record
                 require_once 'CRM/Member/DAO/MembershipPayment.php';
@@ -1050,6 +1059,7 @@ AND civicrm_membership.is_test = %2";
      * @param boolean $is_test             if this is test contribution or live contribution
      * @param object  $form                form object  
      * @param array   $ipnParams           array of name value pairs, to be used (for e.g source) when $form not present
+     * @param int     $modifiedID          individual contact id in case of On Behalf signup (CRM-4027 ) 
      *
      * @return object $membership          object of membership
      * 
@@ -1058,7 +1068,7 @@ AND civicrm_membership.is_test = %2";
      * 
      **/
     static function renewMembership( $contactID, $membershipTypeID, $is_test,
-                                     &$form, $changeToday = null )
+                                     &$form, $changeToday = null, $modifiedID = null )
     {                     
         require_once 'CRM/Utils/Hook.php';
         $statusFormat = '%Y-%m-%d';
@@ -1231,8 +1241,13 @@ AND civicrm_membership.is_test = %2";
             $memParams['skipStatusCal'] = true;
         }
         
-        // create / renew membership
-        $ids['userId'] = $contactID;
+        //CRM-4027, create log w/ individual contact.
+        if ( $modifiedID ) {
+            $ids['userId'] = $modifiedID; 
+            $memParams['is_for_organization'] = true; 
+        } else {
+            $ids['userId'] = $contactID;
+        }
         
         $membership =& self::create( $memParams, $ids, false, $activityType );
         $membership->find(true);

@@ -1142,7 +1142,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @static
      * @access public
      */
-    static function addActivity( &$activity, $activityType = 'Membership Signup' )
+    static function addActivity( &$activity, $activityType = 'Membership Signup', $targetContactID = null )
     { 
         if ( $activity->__table == 'civicrm_membership' ) {
             require_once "CRM/Member/PseudoConstant.php";
@@ -1224,6 +1224,11 @@ SELECT  display_name
                                                                                          'name' ),
                                  'skipRecentView'     => true
                                  );
+        
+        //CRM-4027
+        if ( $targetContactID ) {
+            $activityParams['target_contact_id'] = $targetContactID;
+        }
         
         require_once 'api/v2/Activity.php';
         if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
