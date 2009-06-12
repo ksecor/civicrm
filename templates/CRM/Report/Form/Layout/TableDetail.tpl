@@ -4,7 +4,7 @@
     {/if}
     <br/>
     {if $statistics}
-        <table class="form-layout">
+        <table class="form-layout" style = "width : 100%;">
             {foreach from=$statistics.groups item=row}
                 <tr>
                     <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
@@ -21,7 +21,8 @@
     {include file="CRM/common/pager.tpl" noForm=1}
     
     {foreach from=$rows item=row}
-    <table class="form-layout">
+    <br />
+     <table class="form-layout" style = "width : 100%;">
         <tr class="columnheader">
             {foreach from=$columnHeaders item=header key=field}
                 {if !$skip}
@@ -45,7 +46,7 @@
             <tr class="{cycle values="odd-row,even-row"}">
                 {foreach from=$columnHeaders item=header key=field}
                     {assign var=fieldLink value=$field|cat:"_link"}
-                    <td>
+                    <td style="width:20%; white-space : normal;">
                         {if $row.$fieldLink}<a href="{$row.$fieldLink}">{/if}
                         
                         {if $row.$field eq 'Sub Total'}
@@ -70,19 +71,18 @@
                     </td>
                 {/foreach}
             </tr>
+            </table>
 	    {if $columnHeadersComponent}
 		{*include file="CRM/Report/Form/Layout/Component.tpl"  contactID=$row.contactID*}
 		{assign var=contribMode value=$row.contactID}
-		<table class="form-layout">
-		    <tr>
-	           	{foreach from=$columnHeadersComponent item=pheader key=component}
+        <table class="form-layout" style = "width : 100%;">
+        <tr>
+	      {foreach from=$columnHeadersComponent item=pheader key=component}
+               <table class="form-layout" style = "width : 100%;">
 			    {*add space before headers*}
 			    {if $componentRows.$contribMode.$component}
-				<tr>
-				    <td></td>
-				</tr>	
 				<tr class="columnheader">
-				    <th style="background-color:#F5F5F5; width:28px; " >{$component|upper}</th>
+				    <th style="background-color:#F5F5F5; width:28px;"><u>{$component|upper}</u></th>
 				    {foreach from=$pheader item=header}
 					<th>{$header.title}</th>
 				    {/foreach}
@@ -90,10 +90,10 @@
 			    {/if}
 			    {foreach from=$componentRows.$contribMode.$component item=row}
 				<tr class="{cycle values="odd-row,even-row"}">
-				    <td style="background-color:#F5F5F5"></td>
+				    <td></td>
 				    {foreach from=$columnHeadersComponent.$component item=header key=field}
 					{assign var=fieldLink value=$field|cat:"_link"}			
-					<td>
+					<td style="width:20%; white-space : normal;">
 					    {if $row.$fieldLink}
 						<a href="{$row.$fieldLink}">
 					    {/if}
@@ -118,10 +118,11 @@
 					</td>
 				    {/foreach}
 				</tr>
-			    {/foreach}	
-			{/foreach}  
-		    </tr>
-		</table>		
+			    {/foreach}</table>	
+			{/foreach}
+             </tr>
+		</table>
+        <br />	
 	    {/if}
         {/foreach}
         
@@ -142,7 +143,6 @@
             </tr>
             {* /foreach*}
         {/if}
-    </table>
 
     {if $statistics}
         <br/>
