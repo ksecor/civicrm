@@ -56,14 +56,14 @@ var toContact = '';
 {literal} eval( 'toContact = [' + toContact + ']');
 
 cj('#addcc').toggle( function() { cj(this).text('Remove CC');
-                                  cj('#cc').show();
-                   },function() { cj(this).text('Add CC');
-                                  cj('#cc').hide();
+                                  cj('tr#cc').show().find('ul').find('input').focus();
+                   },function() { cj(this).text('Add CC');cj('#cc_id').val('');
+                                  cj('tr#cc ul li:not(:last)').remove();cj('#cc').hide();
 });
 cj('#addbcc').toggle( function() { cj(this).text('Remove BCC');
-                                   cj('#bcc').show();
-                    },function() { cj(this).text('Add BCC');
-                                   cj('#bcc').hide();
+                                   cj('tr#bcc').show().find('ul').find('input').focus();
+                    },function() { cj(this).text('Add BCC');cj('#bcc_id').val('');
+                                   cj('tr#bcc ul li:not(:last)').remove();cj('#bcc').hide();
 });
 
 eval( 'tokenClass = { tokenList: "token-input-list-facebook", token: "token-input-token-facebook", tokenDelete: "token-input-delete-token-facebook", selectedToken: "token-input-selected-token-facebook", highlightedToken: "token-input-highlighted-token-facebook", dropdown: "token-input-dropdown-facebook", dropdownItem: "token-input-dropdown-item-facebook", dropdownItem2: "token-input-dropdown-item2-facebook", selectedDropdownItem: "token-input-selected-dropdown-item-facebook", inputToken: "token-input-input-token-facebook" } ');

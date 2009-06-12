@@ -335,10 +335,21 @@ class CRM_Contact_Form_Task_EmailCommon
             } 
         }
         
-        $status = array( '',
-                         ts('Total Selected Contact(s): %1', array(1 => count($form->_contactIds) ))
-                         );
-        
+        $status   = array( ' ', ts('Total Selected Contact(s): %1', array(1 => '%selected%' ) ) );
+        $status[] = ts('To Contact(s): %1' , array(1 => $allSelected = count($form->_contactIds) ) );
+
+        if ( $cc ) {
+            $status[]     = ts('Cc Contact(s): %1' , array(1 => count( explode( ',"', $cc )) ) );
+            $allSelected += count( explode( ',"', $cc ));
+        }
+
+        if ( $bcc ) {
+            $status[]     = ts('Bcc Contact(s): %1', array(1 => count( explode( ',"', $bcc )) ) );
+            $allSelected += count( explode( ',"', $bcc ));
+
+        }
+        $status = str_replace( '%selected%', $allSelected, $status );
+
         $statusOnHold = '';
         foreach ($form->_contactIds as $item => $contactId) {
             $email     = CRM_Contact_BAO_Contact_Location::getEmailDetails($contactId);
