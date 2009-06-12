@@ -62,7 +62,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                          array(  'display_name'      => 
                                  array( 'title'      => ts( 'Donor Name' ),
                                         'default'    => true,
-                                        'no_repeat ' => true ), ), 
+                                        'required ' => true ), ), 
                          
                          'filters'        =>             
                          array( 'sort_name'   => 
@@ -77,9 +77,19 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                          array( 'email'   => 
                                 array( 'title'      => ts( 'Email' ),
                                        'default'    => true,
-                                       'no_repeat'  => true, ) ,
+                                       ) ,
                                 ), 
                          ), 
+                   'civicrm_phone'    =>
+                   array( 'dao'       => 'CRM_Core_DAO_Phone',
+                          'grouping'  => 'contact-field',
+                          'fields'    =>
+                          array( 'phone'   => 
+                                 array( 'title'      => ts( 'Phone No' ),
+                                        'default' => true,
+                                        ),
+                                 ), 
+                          ),  
                   
                   'civicrm_contribution' =>
                   array(  'dao'           => 'CRM_Contribute_DAO_Contribution',
@@ -87,15 +97,20 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                           array( 'contact_id'  => 
                                  array( 'title'      => ts( 'contactId' ),
                                         'no_display' => true,
-                                        'required'   => true, ) ,
+                                        'required'   => true,
+                                        'no_repeat'  => true, ) ,
                                  
                                  'total_amount'  => 
                                  array( 'title'      => ts( 'Total Amount' ),
-                                        'required'   => true ),
+                                        'no_display' => true,
+                                        'required'   => true,
+                                        'no_repeat'  => true, ),
                                  
                                  'receive_date'  => 
                                  array( 'title'      => ts( 'Year' ),
-                                        'required'   => true ), ),
+                                        'no_display' => true,
+                                        'required'   => true,
+                                        'no_repeat'  => true,), ),
 
                           'filters'       =>             
                           array(  'yid'          =>  
@@ -227,21 +242,21 @@ $this->assign( 'displayChart', true );
             $yearClause .= " AND YEAR({$this->_aliases['civicrm_contribution']}.receive_date) < $year";
         }
 
-        $this->_from = "
-FROM       civicrm_contribution  {$this->_aliases['civicrm_contribution']}
+        $this->_from = " 
+        FROM       civicrm_contribution  {$this->_aliases['civicrm_contribution']}
+                   INNER JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
+                          ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id $yearClause
+                   LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
+                          ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id  
+                          AND {$this->_aliases['civicrm_email']}.is_primary = 1
+                   LEFT  JOIN civicrm_phone  {$this->_aliases['civicrm_phone']} 
+                          ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND
+                         {$this->_aliases['civicrm_phone']}.is_primary = 1  
+                   LEFT  JOIN civicrm_group_contact  group_contact 
+                          ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
 
-INNER JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
-       ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id $yearClause 
-
-LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
-        ON  {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id  
-            AND {$this->_aliases['civicrm_email']}.is_primary = 1
-
-LEFT  JOIN civicrm_group_contact  group_contact 
-        ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
-
-LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
-        ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
+                   LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
+                          ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
 " ;
     }
     
@@ -340,7 +355,7 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
                 $daoLifeTime->civicrm_contribution_total_amount;
             $display[ $contact_id ]['civicrm_contact_display_name'] = $daoLifeTime->civicrm_contact_display_name;
             $display[ $contact_id ]['civicrm_email_email']          = $daoLifeTime->civicrm_email_email ;    
-            
+            $display[ $contact_id ]['civicrm_phone_phone']          = $daoLifeTime->civicrm_phone_phone ; 
             $min = ($contact_id < $min) ? $contact_id : ($max > 0) ? $min : $contact_id;
             $max = ($contact_id > $max) ? $contact_id : $max;
             
@@ -370,7 +385,8 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
             $display[ $contact_id ]["civicrm_upto_{$upto}"] =
                 $daoUpTo->civicrm_contribution_total_amount;            
             $display[ $contact_id ]['civicrm_contact_display_name'] = $daoUpTo->civicrm_contact_display_name;
-            $display[ $contact_id ]['civicrm_email_email']          = $daoUpTo->civicrm_email_email ;  
+            $display[ $contact_id ]['civicrm_email_email']          = $daoUpTo->civicrm_email_email ; 
+            $display[ $contact_id ]['civicrm_phone_phone']          = $daoUpTo->civicrm_phone_phone ; 
             $chartRow[ "civicrm_upto_{$upto}" ]      = $chartRow[ "civicrm_upto_{$upto}" ] + $daoUpTo->civicrm_contribution_total_amount;
   
         } 
@@ -383,6 +399,7 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
                 $daoYear->civicrm_contribution_total_amount ;
             $display  [ $contact_id ][ 'civicrm_contact_display_name' ]       = $daoYear->civicrm_contact_display_name;
             $display  [ $contact_id ][ 'civicrm_email_email' ]                = $daoYear->civicrm_email_email ;
+            $display[ $contact_id ]['civicrm_phone_phone']                    = $daoYear->civicrm_phone_phone ; 
   
             $chartRow [ $daoYear->civicrm_contribution_receive_date ]         = $chartRow[ $daoYear->civicrm_contribution_receive_date ]   +     $daoYear->civicrm_contribution_total_amount ;
   
