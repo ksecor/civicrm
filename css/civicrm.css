@@ -401,7 +401,7 @@ div.spacer, .spacer {
 */
 
 /* Following styles are used to remove the white bullets from the Garland Theme */
-div.block-civicrm li {
+div.block-civicrm li, #crm-container ul.treeview li {
   background-image: none;
 }
 
