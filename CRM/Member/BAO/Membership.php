@@ -303,7 +303,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 $membership->source             = CRM_Utils_Array::value( 'source', $data[$membership->id] );
             }
             
-            // create one more activity individual-org CRM-4027
+            // create activity source = individual, target = org CRM-4027
             $targetContactID = null;
             if ( CRM_Utils_Array::value( 'is_for_organization', $params ) ) {
                 $targetContactID = $membership->contact_id;
