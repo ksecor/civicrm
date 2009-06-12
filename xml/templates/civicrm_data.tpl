@@ -876,7 +876,7 @@ INSERT INTO civicrm_navigation
 ( 'civicrm/mailing?reset=1', '{ts escape="sql"}Find Mailings{/ts}', 'Find Mailings', 'access CiviMail', '', '4', '1', NULL ), 
 ( 'civicrm/member/search?reset=1', '{ts escape="sql"}Find Members{/ts}', 'Find Members', 'access CiviMember', '', '4', '1', NULL ), 
 ( 'civicrm/event/search?reset=1', '{ts escape="sql"}Find Participants{/ts}', 'Find Participants',  'access CiviEvent', '', '4', '1', NULL ), 
-( 'civicrm/pledge/search?reset=1', '{ts escape="sql"}Find Pledges{/ts}', 'Find Pledges', '', 'access CiviPledge',  '4', '1', NULL ), 
+( 'civicrm/pledge/search?reset=1', '{ts escape="sql"}Find Pledges{/ts}', 'Find Pledges', 'access CiviPledge', '', '4', '1', NULL ), 
 ( 'civicrm/contact/search/custom/list?reset=1', '{ts escape="sql"}Custom Searches...{/ts}', 'CustomSearches...', NULL, '', '4', '1', NULL ), 
 ( 'civicrm/contact/search/custom?reset=1&csid=11', '{ts escape="sql"}Contacts by Date Added{/ts}', 'Contacts by Date Added', NULL, '', '15', '1', NULL ), 
 ( 'civicrm/contact/search/custom?reset=1&csid=6', '{ts escape="sql"}Proximity Search{/ts}', 'Proximity Search', NULL, '', '15', '1', NULL ), 
