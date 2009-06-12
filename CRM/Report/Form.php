@@ -206,7 +206,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             $instanceCount = CRM_Report_Utils_Report::getInstanceCount( $optionValue );
             if ( ($instanceCount > 0) && $optionValueID ) {
                 $this->assign( 'instanceUrl', 
-                               CRM_Utils_System::url( 'civicrm/report/instance/list', 
+                               CRM_Utils_System::url( 'civicrm/report/list', 
                                                       "reset=1&ovid=$optionValueID" ) );
             }
 
