@@ -78,6 +78,7 @@ require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Contact/DAO/Relationship.php';
 require_once 'CRM/Event/DAO/Participant.php';
 require_once 'CRM/Contribute/DAO/ContributionSoft.php';
+require_once 'CRM/Member/DAO/MembershipPayment.php';
 
 class CRM_GCD {
 
@@ -88,7 +89,7 @@ class CRM_GCD {
 
     const NUM_DOMAIN = 1;
     const NUM_CONTACT      = 500;
-    const NUM_CONTRIBUTION = 1000;
+    const NUM_CONTRIBUTION = 800;
     const NUM_MEMBERSHIP   = 1000;
     const NUM_PARTICIPANT  = 1000;
 
@@ -1552,8 +1553,56 @@ VALUES
         ";
         CRM_Core_DAO::executeQuery( $pledgePayment, CRM_Core_DAO::$_nullArray );
     }
-    
+
+    function addMembershipPayment()
+    {
+        $amount = array( '50', '100', '1200' );
+
+        $contribution =& new CRM_Contribute_DAO_Contribution();
+        for ( $id = 1; $id <= 200; $id++ ) {
+            $contribution->contact_id = mt_rand(1, self::NUM_CONTACT);
+            $contribution->contribution_type_id   = mt_rand(1, 4);
+            $contribution->payment_instrument_id  = mt_rand(1, 5);
+            $contribution->receive_date           = $this->_getRandomDate();
+            $contribution->total_amount           = $this->_getRandomElement( $amount );
+            $contribution->contribution_status_id = mt_rand(1, 6);
+            $contribution->trxn_id                = "#" . md5($contribution->receive_date);
+            $this->_insert($contribution);
+        }
+        for ( $i = 0; $i < 3; $i++ ) {
+            $contributionsArray = $membershipArray =  array();
+            $contributionSQL = "
+            SELECT  id 
+                FROM    civicrm_contribution
+                WHERE   contribution_page_id IS NULL AND
+                        total_amount = {$amount[$i]} limit 0, 50 ";
+
+            $contributionDAO = CRM_Core_DAO::executeQuery( $contributionSQL, CRM_Core_DAO::$_nullArray );
+
+            while ( $contributionDAO->fetch() ) {
+                $contributionsArray[] = $contributionDAO->id;
+            }
+            $j = $i+1;
+            $membershipSQL = "
+            SELECT  id  
+                FROM  civicrm_membership 
+                WHERE civicrm_membership.membership_type_id = {$j} limit 0, 50"; 
+            $membershipDAO = CRM_Core_DAO::executeQuery( $membershipSQL, CRM_Core_DAO::$_nullArray );
+
+            while ( $membershipDAO->fetch() ) {
+                $membershipArray[] = $membershipDAO->id;
+            }
+
+            $payemntOBJ =& new CRM_Member_DAO_MembershipPayment();
+            foreach ( $membershipArray as $key => $membershipid ) {
+                $payemntOBJ->contribution_id = $contributionsArray[$key];
+                $payemntOBJ->membership_id   = $membershipid;
+                $this->_insert( $payemntOBJ );
+            }
+        }
+    }
 }
+
 function user_access( $str = null ) {
     return true;
 }
@@ -1588,6 +1637,7 @@ $obj1->addPCP();
 $obj1->addSoftContribution();
 $obj1->addPledge();
 $obj1->addPledgePayment();
+$obj1->addMembershipPayment();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
 
