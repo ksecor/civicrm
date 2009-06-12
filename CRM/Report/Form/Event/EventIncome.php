@@ -233,6 +233,8 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
         $statistics = array();
         $count      = count($eventIDs);
         $this->countStat( $statistics, $count );
+        $this->filterStat( $statistics );
+        
         return $statistics;
     }
 
@@ -261,6 +263,7 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
                 CRM_Utils_Request::retrieve( 'id_value', 'Positive', $this );
             $this->_params = $this->_formValues;
         }
+        $this->_formValues = $this->_params ;
         $this->processReportMode( );
 
         if ( empty( $this->_params['id_value'][0] ) ) {
@@ -272,25 +275,30 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
         }
         $this->_rowsFound = count($this->_params['id_value']);
 
-        $this->limit( );
-        $this->setPager( );
-
-        $showEvents = array( );
-        $count      = 0;
-        $numRows    = $this->_limit; 
-
-        while ( $count <  self::ROW_COUNT_LIMIT ) {
-            if( !isset( $this->_params['id_value'][$numRows] ) ) {
-                break;
+        //set pager and limit if output mode is html
+        if ( $this->_outputMode == 'html' ) {
+            $this->limit( );
+            $this->setPager( );
+            
+            $showEvents = array( );
+            $count      = 0;
+            $numRows    = $this->_limit; 
+            
+            while ( $count <  self::ROW_COUNT_LIMIT ) {
+                if ( !isset( $this->_params['id_value'][$numRows] ) ) {
+                    break;
+                }
+                
+                $showEvents[] = $this->_params['id_value'][$numRows];
+                $count++;
+                $numRows++;
             }
-
-            $showEvents[] = $this->_params['id_value'][$numRows];
-            $count++;
-            $numRows++;
-        }
-
-        $this->buildEventReport( $showEvents );
-
+            
+            $this->buildEventReport( $showEvents );
+        } else {
+            $this->buildEventReport( $this->_params['id_value'] );
+        }    
+        
         parent::endPostProcess( );
     }   
 }
