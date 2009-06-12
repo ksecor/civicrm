@@ -147,8 +147,8 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                         if( $fieldName == 'total_amount') {
                             $select[ ]         = "SUM({$field['dbAlias']}) as {$tableName}_{$fieldName}"; 
                             
-                            $this->_columnHeaders[ "civicrm_upto_{$previous_ppyear}"][ 'type' ]  = $field[ 'type' ] ;
-                            $this->_columnHeaders[ "civicrm_upto_{$previous_ppyear}"][ 'title']  = "Up To $upTo_year";
+                            $this->_columnHeaders[ "civicrm_upto_{$upTo_year}"][ 'type' ]  = $field[ 'type' ] ;
+                            $this->_columnHeaders[ "civicrm_upto_{$upTo_year}"][ 'title']  = "Up To $upTo_year";
 
                             $this->_columnHeaders[ "{$previous_ppyear}" ][ 'type' ]  = $field[ 'type' ];
                             $this->_columnHeaders[ "{$previous_ppyear}" ][ 'title']  = $previous_ppyear;
@@ -362,15 +362,16 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
         $daoYear = CRM_Core_DAO::executeQuery( $sqlYear ); 
         $daoUpTo = CRM_Core_DAO::executeQuery( $sqlUpTo );
 
-        $previous_three_year = $this->_params['yid_value'] - 3;
+        $upto = $this->_params['yid_value'] - 4;
+        
         while ( $daoUpTo->fetch( ) ) {
             $contact_id = $daoUpTo->civicrm_contribution_contact_id;
 
-            $display[ $contact_id ]["civicrm_upto_{$previous_three_year}"] =
+            $display[ $contact_id ]["civicrm_upto_{$upto}"] =
                 $daoUpTo->civicrm_contribution_total_amount;            
             $display[ $contact_id ]['civicrm_contact_display_name'] = $daoUpTo->civicrm_contact_display_name;
             $display[ $contact_id ]['civicrm_email_email']          = $daoUpTo->civicrm_email_email ;  
-            $chartRow[ "civicrm_upto_{$previous_three_year}" ]      = $chartRow[ "civicrm_upto_{$previous_three_year}" ] + $daoUpTo->civicrm_contribution_total_amount;
+            $chartRow[ "civicrm_upto_{$upto}" ]      = $chartRow[ "civicrm_upto_{$upto}" ] + $daoUpTo->civicrm_contribution_total_amount;
   
         } 
         $daoUpTo->free( );
@@ -387,7 +388,6 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
   
         }
         $daoYear->free( );
-
         $rows = array( );
         if( ! empty($display) ) {
             foreach( $display as $key => $value ) {              
@@ -398,7 +398,7 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
                 $rows[] = $row;
             }
         }
-       // crm_core_error::debug("crow",$chartRow );
+      
         // format result set. 
         $this->formatDisplay( $rows, false );
 
@@ -416,14 +416,16 @@ LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']}
         $previous_year       =  $current_year - 1 ;
         $previous_two_year   =  $current_year - 2 ;
         $previous_three_year =  $current_year - 3 ;
+        $upto                =  $current_year - 4 ;
+  
         $interval[$previous_year]                = $previous_year ;
         $interval[$previous_two_year]            = $previous_two_year ;
         $interval[$previous_three_year]          = $previous_three_year ;
-        $interval["upto_{$previous_three_year}"] = "upto_{$previous_three_year}";
-    
+        $interval["upto_{$upto}"]   = "upto_{$upto}";
+   
         foreach ( $rows as $key => $row ) {
-            $display["upto_{$previous_three_year}"] =  
-                         $display["upto_{$previous_three_year}"] + $row[ "civicrm_upto_{$previous_three_year}" ];
+            $display["upto_{$upto}"] =  
+                         $display["upto_{$upto}"] + $row[ "civicrm_upto_{$upto}" ];
             $display[ $previous_year ]              =  $display[ $previous_year ] + $row [ $previous_year ];
             $display[ $previous_two_year ]          =  $display[ $previous_two_year ] + $row [ $previous_two_year ];
             $display[ $previous_three_year ]        =  $display[ $previous_three_year ] + $row [ $previous_three_year ];           

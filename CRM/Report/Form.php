@@ -893,8 +893,10 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         // allow building charts if any
-        require_once 'CRM/Utils/PChart.php';
-        $this->buildChart( $rows );
+        if ( ! empty($this->_params['charts']) ) {
+            require_once 'CRM/Utils/PChart.php';
+            $this->buildChart( $rows );
+        }
 
         // unset columns not to be displayed.
         foreach ( $this->_columnHeaders as $key => $value ) {

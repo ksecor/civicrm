@@ -81,7 +81,8 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                                       'type'       => 12 ),
                                 'membership_type_id' => 
                                 array( 'title'     => 'Membership Type',
-                                       'default'  => true,)
+                                       'default'   => true,
+                                      'chart'      => true, )
                                 ),
                          ),
                   
@@ -306,24 +307,69 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
     }
 
     function buildChart( &$rows ) {
-        $graphRows = array();
-        $count = 0;
+        $graphRows            = array();
+        $count                = 0;
+        $membershipTypeValues = CRM_Member_PseudoConstant::membershipType( );
+        $isMembershipType     = CRM_Utils_Array::value( 'membership_type_id', $this->_params['group_bys'] );
+        $isJoiningDate        = CRM_Utils_Array::value( 'join_date', $this->_params['group_bys'] );
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
-            foreach ( $rows as $key => $row ) {
-                if ( $row['civicrm_membership_join_date_subtotal'] ) {
-                    $graphRows['receive_date'][]   = $row['civicrm_membership_join_date_start'];
-                    $graphRows[$this->_interval][] = $row['civicrm_membership_join_date_interval'];
-                    $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
-                    $count++;
-                }
+            foreach ( $rows as $key => $row ) {                                              
+                if ( $isMembershipType ) { 
+                    $join_date            = $row['civicrm_membership_join_date_start'];
+                    $displayInterval      = $row['civicrm_membership_join_date_interval'];
+                    list( $year, $month ) = explode( '-', $join_date );
+                    if ( $row ['civicrm_membership_join_date_subtotal'] ) {
+                        
+                        switch ($this->_interval ) {
+                        case 'Month' :                           
+                            $displayRange = $displayInterval.' '. $year ;                            
+                            break;
+                            
+                        case 'Quarter' :                           
+                            $displayRange = 'Quarter '. $displayInterval.' of '. $year ;                            
+                            break;
+                            
+                        case 'Week' :                           
+                            $displayRange = 'Week '. $displayInterval.' of '. $year ;                            
+                            break;
+                            
+                        case 'Year' :                           
+                            $displayRange = $year;                                                          
+                            break;
+                        }                        
+                        $membershipType = $displayRange ."-". $membershipTypeValues[ $row['civicrm_membership_membership_type_id'] ]; 
+                        
+                    } else {
+                        
+                        $membershipType = $membershipTypeValues[ $row['civicrm_membership_membership_type_id'] ];
+                    }
+                    
+                    $interval[ $membershipType ] = $membershipType;
+                    $display [ $membershipType ] = $row [ 'civicrm_contribution_total_amount_sum' ]; 
+                    
+                } else  {
+                    $graphRows['receive_date'] [ ]   = $row['civicrm_membership_join_date_start'];
+                    $graphRows[$this->_interval] [ ] = $row['civicrm_membership_join_date_interval'];
+                    $graphRows['value'] [ ]          = $row['civicrm_contribution_total_amount_sum'];
+                    $count++ ;                    
+                } 
             }
-            if ( CRM_Utils_Array::value( 'join_date', $this->_params['group_bys'] ) ) {
+            
+            if( $isMembershipType ) {  
                 
+                $graphRows['value'] = $display;
+                $chartInfo          = array( 'legend' => 'MemberShip Summary',
+                                             'xname'  => 'Amount',
+                                             'yname'  => 'Year' );                
+                $graphs             = CRM_Utils_PChart::reportChart( $graphRows, $this->_params['charts'] , $interval , $chartInfo );
                 
-                $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
-                $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
-                $this->_graphPath =  $graphs['0']['file_name'];
+            } else {                
+                $graphs             = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
             }
+            
+            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
+            $this->_graphPath =  $graphs['0']['file_name'];
+            
         }
     }
     
