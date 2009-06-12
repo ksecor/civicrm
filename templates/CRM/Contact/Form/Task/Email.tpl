@@ -18,12 +18,14 @@
         <td class="label">{$form.to.label}</td>
         <td>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}
 {/if}
-        <br /><a href="#" id="addcc">{ts}Add CC{/ts}</a>&nbsp;&nbsp;<a href="#" id="addbcc"">{ts}Add BCC{/ts}</a></td>
+        <div class="spacer"></div>
+        <span class="bold"><a href="#" id="addcc">{ts}Add CC{/ts}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" id="addbcc"">{ts}Add BCC{/ts}</a></span></td>
     </tr>
 <tr id="cc" style="display:none;"><td class="label">{$form.cc_id.label}</td><td>{$form.cc_id.html}</td></tr>
 <tr id="bcc" style="display:none;"><td class="label">{$form.bcc_id.label}</td><td>{$form.bcc_id.html}</td></tr>
 <tr>
-    <td class="label">{$form.subject.label}</td><td>{$form.subject.html|crmReplace:class:huge}</td>
+    <td class="label">{$form.subject.label}</td><td>{$form.subject.html|crmReplace:class:huge}&nbsp;{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp"}
+</td>
 </tr>
 </table>
 

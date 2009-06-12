@@ -135,7 +135,7 @@ class CRM_Contact_Form_Task_EmailCommon
             }
 
             if ( empty( $toArray ) ) {
-                CRM_Core_Error::statusBounce( ts('Selected contact(s) do not have a valid email address' ));
+                CRM_Core_Error::statusBounce( ts('Selected contact(s) do not have a valid email address, or communication preferences specify DO NOT EMAIL, or they are deceased).' ));
             }
 
             $form->assign('to', implode(', ', $toArray));
@@ -182,7 +182,7 @@ class CRM_Contact_Form_Task_EmailCommon
         $form->_fromEmails =
             array('0' => $from ) +
             CRM_Core_PseudoConstant::fromEmailAddress( );
-        $form->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
+        $form->add('text', 'subject', ts('Subject'), 'size=30 maxlength=60', true);
         $selectEmails = $form->_fromEmails;
         foreach ( array_keys( $selectEmails ) as $k ) {
             $selectEmails[$k] = htmlspecialchars( $selectEmails[$k] );
@@ -400,7 +400,7 @@ class CRM_Contact_Form_Task_EmailCommon
         
         //Display the name and number of contacts for those email is not sent.
         if ( $notSent ) {
-            $statusDisplay = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased or Primary email address is On Hold): %1', array(1 => count($notSent))) . '<br />' . ts('Details') . ':';
+            $statusDisplay = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased or Primary email address is On Hold): %1', array(1 => count($notSent))) . '<br />' . ts('Details') . ': ';
             foreach($notSent as $cIds=>$cId) {
                 $name = new CRM_Contact_DAO_Contact();
                 $name->id = $cId;

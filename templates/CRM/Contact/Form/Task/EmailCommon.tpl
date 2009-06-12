@@ -1,47 +1,43 @@
 {*common template for compose mail*}
-   <div>
-        <span class="helpIcon" id="helpemail">{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp"}</span>&nbsp;
-        <dt class="label-left">{$form.template.label}</dt><dd>{$form.template.html}</dd>
-    </div>
-   <div class="accordion ui-accordion ui-widget ui-helper-reset">
+    <table class="form-layout-compressed">
+        <tr><td class="label">{$form.template.label}</td><td>{$form.template.html}</td></tr>
+    </table>
+    <div class="accordion ui-accordion ui-widget ui-helper-reset">
         <span class="helpIcon" id="helphtml">
              <a href="#" onClick="return showToken('Html');">{$form.token2.label}</a> 
               {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}
               <div id='tokenHtml' style="display:none">{$form.token2.html}</div>
-         </span>
-         <h3 class="head"> 
-                <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{$form.html_message.label}</a>
-           </h3>
-          <div class='html'>
-              <dl>
-                {if $editor EQ 'textarea'}
+        </span>
+        <h3 class="head"> 
+            <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{$form.html_message.label}</a>
+        </h3>
+        <div class='html'>
+            {if $editor EQ 'textarea'}
                 <span class="description">{ts}If you are composing HTML-formatted messages, you may want to enable a WYSIWYG editor (Administer CiviCRM &raquo; Global Settings &raquo; Site Preferences).{/ts}</span><br />
             {/if}
-                {$form.html_message.html}<br />
-                </dl>
-          </div>
-         <span class="helpIcon" id="helptext" style="display:none;">
-                 <a href="#" onClick="return showToken('Text');">{$form.token1.label}</a>
-                  {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
-                 <div id='tokenText' style="display:none">{$form.token1.html}</div>
-         </span>
+            {$form.html_message.html}<br />
+        </div>
+        <span class="helpIcon" id="helptext" style="display:none;">
+            <a href="#" onClick="return showToken('Text');">{$form.token1.label}</a>
+            {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
+            <div id='tokenText' style="display:none">{$form.token1.html}</div>
+        </span>
         <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='text'></span><a href="#">{$form.text_message.label}</a></h3>
-          <div class='text'>
-              <dl>{$form.text_message.html|replace:'80':'105'}<br />{* expanded the text box as per jQuery tab width *}
-              </dl>
-          </div>
+        <div class='text'>
+            {$form.text_message.html|replace:'80':'105'}<br />{* expanded the text box as per jQuery tab width *}
+        </div>
         {if ! $noAttach}
-        <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='attachment'></span>
-            <a href="#"><strong>{ts}Attachment{/ts}</strong></a></h3>
+            <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='attachment'></span>
+            <a href="#"><strong>{ts}Attachment(s){/ts}</strong></a></h3>
             {include file="CRM/Form/attachment.tpl" noexpand=true}
         {/if}
-  </div>
-<div id="editMessageDetails">
-    <div id="updateDetails" >
-        {$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}
     </div>
+    <div id="editMessageDetails">
+        <div id="updateDetails" >
+            {$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}
+        </div>
     <div>
-        {$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
+    {$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
     </div>
 </div>
 
