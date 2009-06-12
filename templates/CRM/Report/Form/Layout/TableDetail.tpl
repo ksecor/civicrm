@@ -19,9 +19,11 @@
         <br/>
     {/if}
     {include file="CRM/common/pager.tpl" noForm=1}
-    
+   
     {foreach from=$rows item=row}
     <br />
+    <table style = "width : 100%;">
+    <tr><td>
      <table class="form-layout" style = "width : 100%;">
         <tr class="columnheader">
             {foreach from=$columnHeaders item=header key=field}
@@ -75,9 +77,7 @@
 	    {if $columnHeadersComponent}
 		{*include file="CRM/Report/Form/Layout/Component.tpl"  contactID=$row.contactID*}
 		{assign var=contribMode value=$row.contactID}
-        <table class="form-layout" style = "width : 100%;">
-        <tr>
-	      {foreach from=$columnHeadersComponent item=pheader key=component}
+          {foreach from=$columnHeadersComponent item=pheader key=component}
                <table class="form-layout" style = "width : 100%;">
 			    {*add space before headers*}
 			    {if $componentRows.$contribMode.$component}
@@ -118,14 +118,14 @@
 					</td>
 				    {/foreach}
 				</tr>
-			    {/foreach}</table>	
+			    {/foreach}
+                </table>	
 			{/foreach}
-             </tr>
-		</table>
-        <br />	
-	    {/if}
+          {/if}
+        </td></tr>
+        </table> 
         {/foreach}
-        
+        <br />
         {if $grandStat}
             {* foreach from=$grandStat item=row*}
             <tr>
