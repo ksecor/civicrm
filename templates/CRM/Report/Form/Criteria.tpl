@@ -6,22 +6,18 @@
 	    </tr>
 	</table>
         {foreach from=$colGroups item=grpFields key=dnc}
-            {assign  var="count" value="1"}
+            {assign  var="count" value="0"}
             <table class="form-layout">
                 <tr>
-                    {assign  var="loopcount" value="1"}
                     {foreach from=$grpFields item=field key=title}
+                        {assign var="count" value=`$count+1`}
                         <td width="25%">{$form.fields.$field.html}</td>
                         {if $count is div by 4}
-                            {assign var="loopcount" value="0"}
-                            </tr>
-                            <tr>
+                            </tr><tr>
                         {/if}
-                        {assign var="count" value=`$count+1`}
-                        {assign var="loopcount" value=`$loopcount+1`}
                     {/foreach}
-                    {if $loopcount > 1}
-                        <td colspan="4-$loopcount"></td>
+                    {if $count is not div by 4}
+                        <td colspan="4 - ($count % 4)"></td>
                     {/if}
                 </tr>
             </table>
@@ -35,26 +31,23 @@
 	        <td><strong>{ts}Group by Columns{/ts}</strong></td>
 	    </tr>
 	</table>
-        {assign  var="count" value="1"}
+        {assign  var="count" value="0"}
         <table class="form-layout">
             <tr>
-                {assign  var="loopcount" value="1"}
                 {foreach from=$groupByElements item=gbElem key=dnc}
+                    {assign var="count" value=`$count+1`}
                     <td width="25%" {if $form.fields.$gbElem} onClick="selectGroupByFields('{$gbElem}');"{/if}>
                         {$form.group_bys[$gbElem].html}
                         {if $form.group_bys_freq[$gbElem].html}
                             ,&nbsp;&nbsp;{$form.group_bys_freq[$gbElem].label}&nbsp;{$form.group_bys_freq[$gbElem].html}
-                        {/if}</td>
-                        {if $count is div by 4}
-                            {assign var="loopcount" value="0"}
-                            </tr>
-                            <tr>
                         {/if}
-                        {assign var="count" value=`$count+1`}
-                        {assign var="loopcount" value=`$loopcount+1`}
+                    </td>
+                    {if $count is div by 4}
+                        </tr><tr>
+                    {/if}
                 {/foreach}
-                {if $loopcount > 1}
-                    <td colspan="4-$loopcount"></td>
+                {if $count is not div by 4}
+                    <td colspan="4 - ($count % 4)"></td>
                 {/if}
             </tr>
         </table>      
