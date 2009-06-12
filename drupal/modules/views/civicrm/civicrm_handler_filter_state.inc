@@ -13,7 +13,6 @@ class civicrm_handler_filter_state extends views_handler_filter_in_operator {
     static $_states;
 
     function construct( ) {
-        parent::construct( );
         if ( ! self::$_states ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';
