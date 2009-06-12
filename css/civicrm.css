@@ -1381,3 +1381,11 @@ div.grippie {
     width         : 95%;
     height        : 20%;
 }
+
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+   font-size: 0.8em;
+}
+
+.ui-tabs .ui-tabs-nav li a {
+   padding: 5px !important;
+}
