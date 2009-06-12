@@ -358,3 +358,9 @@ UPDATE civicrm_state_province SET name = "Sofia"       WHERE id = 1859;
 UPDATE civicrm_state_province SET name = "Ulaanbaatar" WHERE id = 3707;
 UPDATE civicrm_state_province SET name = "Achaïa"      WHERE id = 2879;
 
+-- CRM-4569
+
+INSERT INTO 
+   `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+   ('redaction_rule', 'Redaction Rule', 0, 1);
