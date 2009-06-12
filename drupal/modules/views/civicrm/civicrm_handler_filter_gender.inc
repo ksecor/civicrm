@@ -14,6 +14,7 @@ class civicrm_handler_filter_gender extends views_handler_filter_in_operator {
     static $_gender;
 
     function construct( ) {
+        parent::construct();
         if ( ! self::$_gender ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';

@@ -13,6 +13,7 @@ class civicrm_handler_filter_membership_status extends views_handler_filter_in_o
     static $_membershipStatus;
 
     function construct( ) {
+        parent::construct();
         if ( ! self::$_membershipStatus ) {
             civicrm_initialize( );
             require_once 'CRM/Member/PseudoConstant.php';

@@ -12,6 +12,7 @@ class civicrm_handler_filter_participant_role extends views_handler_filter_in_op
     static $_participant_role;
 
     function construct( ) {
+        parent::construct();
         if ( ! self::$_participant_role ) {
             civicrm_initialize( );
             require_once 'CRM/Core/OptionGroup.php';
