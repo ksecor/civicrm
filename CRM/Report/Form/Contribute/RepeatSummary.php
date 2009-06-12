@@ -192,7 +192,8 @@ contribution2_total_amount_count, contribution2_total_amount_sum',
         $select = $uni = array( );
 
         // since contact fields not related to contribution type
-        if ( array_key_exists('contribution_type', $this->_params['group_bys']) ) {
+        if ( array_key_exists('contribution_type', $this->_params['group_bys']) ||
+             array_key_exists('contribution_source', $this->_params['group_bys']) ) {
             unset($this->_columns['civicrm_contact']['fields']['id']);
         }
 
@@ -360,6 +361,51 @@ LEFT  JOIN (
         
         $errors = $checkDate = $errorCount = array( );
         
+        $col_fields     = $fields['fields'];
+        $grp_fields     = $fields['group_bys'];
+        $num_col_fields = count($col_fields);
+        $num_grp_fields = count($grp_fields);
+        
+        if ( $num_grp_fields == 0 ) {
+            $errors['fields'] = "You have to select at least one Group by field.";
+        } else {
+            if ( ($grp_fields['id'] || $grp_fields['country_id'] || $grp_fields['state_province_id'] ) ) {
+                if( !$grp_fields['id'] && ($col_fields['phone'] || $col_fields['email'] ) ) {
+                    $errors['fields'] = "Group by Contact should be selected for Email or/and 
+                                         Phone field(s)";
+                }
+                if ( $col_fields['contribution_source'] || $col_fields['contribution_type'] ) {
+                    $errors['fields'] = "You can not select 'Contribution source' or/and 
+                                        'Contribution type' field(s) with Group by 
+                                        Contact or/and Address ";
+                }
+            }
+            
+            if( $grp_fields['contribution_type'] ) {
+                if ( (!array_key_exists('contribution_type', $col_fields) && $num_col_fields > 2 )
+                     || (array_key_exists('contribution_type', $col_fields) && $num_col_fields > 3 ) ) {
+                    $errors['fields'] = "Should select only 'Contribution type' field with 
+                                         Group by Contribution type";
+                } 
+                if( $num_grp_fields > 1 ) {
+                    $errors['fields'] = "You can not use other Group  by with 
+                                         Contribution type or Contribution source ";
+                } 
+            }
+            
+            if( $grp_fields['contribution_source'] ) {
+                if ( (!array_key_exists('contribution_source', $col_fields) && $num_col_fields > 2 )
+                     ||(array_key_exists('contribution_source', $col_fields) && $num_col_fields > 3 ) ) {
+                    $errors['fields'] = "Should select only 'Contribution source' field with 
+                                        Group by Contribution source";
+                } 
+                if( $num_grp_fields > 1 ) {
+                    $errors['fields'] = "You can not use other Group  by with 
+                                     Contribution type or Contribution source ";
+                } 
+            }
+        }
+            
         if ( $fields['receive_date1_relative'] == '0' ) {
             $checkDate['receive_date1']['receive_date1_from'] = $fields['receive_date1_from'];
             $checkDate['receive_date1']['receive_date1_to'  ] = $fields['receive_date1_to'];
@@ -419,7 +465,7 @@ LEFT  JOIN (
                 }
             }
         }
-        
+
         return $errors;
     }   
     
