@@ -313,6 +313,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            $session =& CRM_Core_Session::singleton( );
             if ( $this->_context == 'standalone' ) {
                 $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/grant', 
                                                                    'reset=1&action=add&context=standalone') );
