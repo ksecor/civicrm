@@ -461,17 +461,83 @@ ORDER BY weight, parent_id";
       * Function to process move action
       */
       static function processMove( $nodeID, $referenceID, $moveType ) {
-          if ( !in_array($moveType, array("after", "before", "inside") ) ) return false;
+          //check if it's a valid move
+          if ( !in_array($moveType, array("after", "before", "inside") ) ) {
+              return false;    
+          }
           
-            crm_core_error::debug( '$nodeID', $nodeID );
-            
-            crm_core_error::debug( '$referenceID', $referenceID );
-            
-            crm_core_error::debug( '$moveType', $moveType );
-            // get the details of reference node
-            $referenInfo = self::getNavigationInfo( $referenceID );
-                crm_core_error::debug( '$referenInfo', $referenInfo );
-                exit();
+          // get the details of reference node
+          $referenInfo = self::getNavigationInfo( $referenceID );
+
+          // determine new parent and weight
+          if ( $moveType == "inside" ) {
+              $newParentID = $referenceID;
+              $newWeight   = 1;
+          } else {
+              $newParentID =  $referenInfo['parent_id'];
+              if ( $moveType == "before" )  {
+                  $newWeight = $referenInfo['weight'];    
+                  } else if ( $moveType == "after" ) {
+                      $newWeight = $referenInfo['weight'] + 1; 
+                  }    
+              }
+
+              // get the details of current node
+              $nodeInfo = self::getNavigationInfo( $nodeID ); 
+              $oldParentID  = $nodeInfo['parent_id'];
+              $oldWeight    = $nodeInfo['weight'];
+
+              // if no parent means these are top menus
+              if ( !$oldParentID ) {
+                  $oldParentID = 'NULL';
+              }
+
+              if ( !$newParentID ) {
+                  $newParentID = 'NULL';
+              }
+
+              // since we need to do multiple updates lets build sql array and then fire all with transaction
+              $sql = array( );
+
+              // reorder was made, since parent are same
+              if ( $oldParentID == $newParentID ) {
+                  if ( $newWeight > $oldWeight ) {
+                      $newWeight = $newWeight - 1;
+                      $sql[] = "UPDATE civicrm_navigation SET weight = weight - 1 
+                                WHERE parent_id = {$oldParentID} AND weight BETWEEN {$oldWeight} + 1 AND {$newWeight}";
+                  }
+
+                  if ( $newWeight < $oldWeight ) {
+                      $sql[] = "UPDATE civicrm_navigation SET weight = weight + 1 
+                                WHERE parent_id = {$oldParentID} AND weight BETWEEN {$newWeight} AND {$oldWeight} - 1";
+                  }
+              } else {
+                  // 1. fix old parent (move siblings up)                  
+                  $sql[] = "UPDATE civicrm_navigation SET weight = weight - 1 
+                            WHERE parent_id = {$oldParentID} AND weight > {$oldWeight}";
+
+                  // 2. set new parent (move sibling down)
+                  $op = '>';
+                  if ( $moveType != "after" ) {
+                      $op = '>=';
+                  }
+                                    
+                  $sql[] = "UPDATE civicrm_navigation SET weight = weight + 1 
+                            WHERE parent_id = {$newParentID} AND weight {$op} $newWeight";
+              }
+
+              // finally set the weight of current node
+              $sql[] = "UPDATE civicrm_navigation SET weight = {$newWeight}, parent_id = {$newParentID} WHERE id = {$nodeID}";
+
+              // now execute all the sql's
+              require_once 'CRM/Core/Transaction.php';
+              $transaction = new CRM_Core_Transaction( );
+
+              foreach ( $sql as $query ) {
+                  CRM_Core_DAO::executeQuery( $query );
+              }
+
+              $transaction->commit( );
       }
       
       /**
@@ -479,17 +545,14 @@ ORDER BY weight, parent_id";
       * 
       * @param int $navigationID  navigation id
       *
-      * @return array
+      * @return array associated array
       * @static
       */
       static function getNavigationInfo( $navigationID ) {
           $query  = "SELECT parent_id, weight FROM civicrm_navigation WHERE id = %1";
           $params = array( $navigationID, 'Integer' );
           $dao =& CRM_Core_DAO::executeQuery( $query, array( 1 => $params ) );
-          $dao->fetch();
-            crm_core_error::debug( '$dao', $dao );
-            exit();
-            
+          $dao->fetch();            
           return array( 'parent_id' => $dao->parent_id,
                         'weight'    => $dao->weight );
       }      

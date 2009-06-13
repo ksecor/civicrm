@@ -215,7 +215,7 @@
   </item>
   <item>
      <path>civicrm/admin/menu</path>
-     <title>CiviCRM Menu</title>
+     <title>Navigation Menu</title>
      <desc>Create your own Menu.</desc>
      <page_callback>CRM_Admin_Page_Navigation</page_callback>
      <adminGroup>Configure</adminGroup>
@@ -436,6 +436,11 @@
   <item>
      <path>civicrm/ajax/menutree</path>
      <page_callback>CRM_Admin_Page_AJAX::menuTree</page_callback>
+     <access_arguments>access CiviCRM,administer CiviCRM</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/ajax/menu/rebuild</path>
+     <page_callback>CRM_Core_BAO_Navigation::resetNavigation</page_callback>
      <access_arguments>access CiviCRM,administer CiviCRM</access_arguments>
   </item>
 </menu>
