@@ -169,7 +169,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
             $separator = '';
         }
 
-        $query = "SELECT id, label, parent_id, weight, is_active FROM civicrm_navigation WHERE {$whereClause} ORDER BY parent_id, weight ASC";
+        $query = "SELECT id, label, parent_id, weight, is_active FROM civicrm_navigation WHERE {$whereClause} ORDER BY weight, parent_id ASC";
         $navigation = CRM_Core_DAO::executeQuery( $query );
 
         while ( $navigation->fetch() ) {
@@ -215,10 +215,9 @@ SELECT id, label, url, permission, permission_operator, has_separator
 FROM civicrm_navigation 
 WHERE {$whereClause} 
 AND is_active = 1
-ORDER BY parent_id, weight";
+ORDER BY weight, parent_id";
 
         $navigation = CRM_Core_DAO::executeQuery( $query );
-
         while ( $navigation->fetch() ) { 
             // for each menu get their children
             $navigationTree[$navigation->id] = array( 'attributes' => array( 'label'      => $navigation->label,
@@ -469,7 +468,30 @@ ORDER BY parent_id, weight";
             crm_core_error::debug( '$referenceID', $referenceID );
             
             crm_core_error::debug( '$moveType', $moveType );
-            
+            // get the details of reference node
+            $referenInfo = self::getNavigationInfo( $referenceID );
+                crm_core_error::debug( '$referenInfo', $referenInfo );
+                exit();
       }
+      
+      /**
+      * Function to get the info on navigation item
+      * 
+      * @param int $navigationID  navigation id
+      *
+      * @return array
+      * @static
+      */
+      static function getNavigationInfo( $navigationID ) {
+          $query  = "SELECT parent_id, weight FROM civicrm_navigation WHERE id = %1";
+          $params = array( $navigationID, 'Integer' );
+          $dao =& CRM_Core_DAO::executeQuery( $query, array( 1 => $params ) );
+          $dao->fetch();
+            crm_core_error::debug( '$dao', $dao );
+            exit();
+            
+          return array( 'parent_id' => $dao->parent_id,
+                        'weight'    => $dao->weight );
+      }      
  }
 
