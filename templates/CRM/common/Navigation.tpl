@@ -61,7 +61,7 @@ cj('#civicrm_menu').clickMenu( {arrowSrc: resourceBase + 'packages/jquery/css/im
 //Track Scrolling
 cj(window).scroll( function () { 
    var scroll = document.documentElement.scrollTop || document.body.scrollTop;
-   cj(".cmDiv").css('top', scroll); 
+   cj(".cmDiv").css({top: "scroll", position: "fixed", top: "0px"}); 
 });
 </script>
 {/literal}
