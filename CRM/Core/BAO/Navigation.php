@@ -377,10 +377,16 @@ ORDER BY parent_id, weight";
           
     /**
      * Function to create navigation for CiviCRM Admin Menu
+     * 
+     * @param int $contactID contact id
+     *
+     * @return string $navigation returns navigation html
+     * @static
      */
-    static function createNavigation(  ) {
-        $session=& CRM_Core_Session::singleton( );
-        $contactID = $session->get('userID');
+    static function createNavigation( $contactID ) {
+        if ( !$contactID ) {
+            return;
+        }
 
         $navigation = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
         if ( ! $navigation ) {
@@ -405,13 +411,19 @@ ORDER BY parent_id, weight";
 
             $navigation = $prepandString.$navigation.$appendSring;
             
-            // save in preference table for this particular user
-            require_once 'CRM/Core/DAO/Preferences.php';
-            $preference =& new CRM_Core_DAO_Preferences();
-            $preference->contact_id = $contactID;
-            $preference->find(true);
-            $preference->navigation = $navigation;
-            $preference->save();
+            // before inserting check if contact id exists in db
+            // this is to handle wierd case when contact id is in session but not in db
+            require_once 'CRM/Contact/DAO/Contact.php';
+            $contact =& new CRM_Contact_DAO_Contact( );
+            $contact->id = $contactID;
+            if ( $contact->find(true ) ) {
+                // save in preference table for this particular user
+                require_once 'CRM/Core/DAO/Preferences.php';
+                $preference =& new CRM_Core_DAO_Preferences();
+                $preference->contact_id = $contactID;
+                $preference->navigation = $navigation;
+                $preference->save();
+            }
         }
         return $navigation;
     }
