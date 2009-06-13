@@ -168,8 +168,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         $this->_contactID 	   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_mode           = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
-		$this->_participantId  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-		$this->_action         = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
+        $this->_participantId  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_action         = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
+        $this->_context        = CRM_Utils_Request::retrieve('context', 'String', $this );
+        $this->assign('context', $this->_context );
         
 		// get the option value for custom data type 	
 		$this->_roleCustomDataTypeID      = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantRole', 'name' );
@@ -246,9 +248,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         if ( ! CRM_Core_Permission::checkActionPermission( 'CiviEvent', $this->_action ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }     
-
-        $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
-        $this->assign('context', $this->_context );
 
         //check the mode when this form is called either single or as
         //search task action
