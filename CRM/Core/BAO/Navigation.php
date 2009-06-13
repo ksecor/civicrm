@@ -430,9 +430,14 @@ ORDER BY weight, parent_id";
     /**
      * Reset navigation for all contacts
      */
-    static function resetNavigation( ) {
+    static function resetNavigation( $redirect = true ) {
         $query = "UPDATE civicrm_preferences SET navigation = NULL WHERE contact_id IS NOT NULL";
         CRM_Core_DAO::executeQuery( $query );
+        if ( $redirect ) {
+            require_once 'CRM/Utils/System.php';
+            $url = CRM_Utils_System::url( 'civicrm/admin/menu', 'reset=1' );
+            return CRM_Utils_System::redirect( $url );
+        }
     }          
 
     /**
@@ -487,12 +492,15 @@ ORDER BY weight, parent_id";
               $oldParentID  = $nodeInfo['parent_id'];
               $oldWeight    = $nodeInfo['weight'];
 
+              $oldParentClause = " parent_id = {$oldParentID}";
               // if no parent means these are top menus
               if ( !$oldParentID ) {
-                  $oldParentID = 'NULL';
+                  $oldParentClause = " parent_id IS NULL";
               }
 
+              $newParentClause = " parent_id = {$newParentID}";
               if ( !$newParentID ) {
+                  $newParentClause = " parent_id IS NULL";
                   $newParentID = 'NULL';
               }
 
@@ -504,26 +512,26 @@ ORDER BY weight, parent_id";
                   if ( $newWeight > $oldWeight ) {
                       $newWeight = $newWeight - 1;
                       $sql[] = "UPDATE civicrm_navigation SET weight = weight - 1 
-                                WHERE parent_id = {$oldParentID} AND weight BETWEEN {$oldWeight} + 1 AND {$newWeight}";
+                                WHERE {$oldParentClause}  AND weight BETWEEN {$oldWeight} + 1 AND {$newWeight}";
                   }
 
                   if ( $newWeight < $oldWeight ) {
                       $sql[] = "UPDATE civicrm_navigation SET weight = weight + 1 
-                                WHERE parent_id = {$oldParentID} AND weight BETWEEN {$newWeight} AND {$oldWeight} - 1";
+                                WHERE {$oldParentClause} AND weight BETWEEN {$newWeight} AND {$oldWeight} - 1";
                   }
               } else {
                   // 1. fix old parent (move siblings up)                  
                   $sql[] = "UPDATE civicrm_navigation SET weight = weight - 1 
-                            WHERE parent_id = {$oldParentID} AND weight > {$oldWeight}";
+                            WHERE {$oldParentClause} AND weight > {$oldWeight}";
 
                   // 2. set new parent (move sibling down)
-                  $op = '>';
+                  $weightOperator = '>';
                   if ( $moveType != "after" ) {
-                      $op = '>=';
+                      $weightOperator = '>=';
                   }
                                     
                   $sql[] = "UPDATE civicrm_navigation SET weight = weight + 1 
-                            WHERE parent_id = {$newParentID} AND weight {$op} $newWeight";
+                            WHERE {$newParentClause} AND weight {$weightOperator} $newWeight";
               }
 
               // finally set the weight of current node

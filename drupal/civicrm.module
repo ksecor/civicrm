@@ -794,6 +794,6 @@ function  civicrm_form_alter( $form, $formValues, $formID ) {
     if ( $formID == 'user_admin_perm' && !empty( $formValues['post'] ) ) {
         // reset navigation only when permissions are changed
         require_once 'CRM/Core/BAO/Navigation.php';
-        CRM_Core_BAO_Navigation::resetNavigation( );
+        CRM_Core_BAO_Navigation::resetNavigation( false );
     }
 }
