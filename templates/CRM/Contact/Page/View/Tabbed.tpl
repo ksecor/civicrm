@@ -214,16 +214,13 @@
     cj( function() {
         var tabIndex = cj('#tab_' + selectedTab).prevAll().length
         cj("#mainTabContainer").tabs( {selected: tabIndex} );        
-    });
 
-   init_blocks = function( ) {
-{/literal}
-      var showBlocks = new Array({$showBlocks});
-      var hideBlocks = new Array({$hideBlocks});
-{literal}
-      on_load_init_blocks( showBlocks, hideBlocks );
-  }
-  dojo.addOnLoad( init_blocks );
+      {/literal}
+            var showBlocks = new Array({$showBlocks});
+            var hideBlocks = new Array({$hideBlocks});
+      {literal}
+            on_load_init_blocks( showBlocks, hideBlocks );
+    });
 {/literal}
  </script>
 
