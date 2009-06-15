@@ -382,6 +382,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             // get the profile ids
             require_once 'CRM/Core/BAO/UFJoin.php'; 
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',   
+                                   'module'       => 'CiviEvent',       // CRM-4377: CiviEvent for the main participant, CiviEvent_Additional for additional participants
                                    'entity_id'    => $this->_eventId );
             list( $this->_values['custom_pre_id'],
                   $this->_values['custom_post_id'] ) =

@@ -50,6 +50,12 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the top of the page (immediately after the introductory message).{/ts}{help id="event-profile"}</dd>
             <dt>{$form.custom_post_id.label}</dt><dd>{$form.custom_post_id.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the bottom of the page.{/ts}</dd>
+            <div id="additional_profiles">
+              <dt>{$form.additional_custom_pre_id.label}</dt><dd>{$form.additional_custom_pre_id.html}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Change this if you want to have a different profile for additional participants.{/ts}</dd>
+              <dt>{$form.additional_custom_post_id.label}</dt><dd>{$form.additional_custom_post_id.html}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Change this if you want to have a different profile for additional participants.{/ts}</dd>
+            </div>
         </dl>
         </fieldset>
         </div>
