@@ -5,7 +5,7 @@
                 <div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
 	            <table class="report-header">
 		        <tr>
-			    <td><strong>{if $report}{$report}{else}Contact{/if} Reports</strong></td>
+			    <td><strong>{if $title}{$title}{elseif $report}{$report}{else}Contact{/if} Reports</strong></td>
 			</tr>
 		    </table>
 	        </div>
@@ -23,6 +23,9 @@
                     </table>
                 </div>
 	    {/foreach}
+            {if $reportUrl}
+	        <a href="{$reportUrl}" class="button"><span>&raquo; {ts}View all Reports{/ts}</span></a></td>
+	    {/if}
         {else}
             <div class="messages status">
             <dl>

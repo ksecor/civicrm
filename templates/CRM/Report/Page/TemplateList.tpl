@@ -9,7 +9,7 @@
 			</tr>
 		    </table>
 	        </div>
-		<div id="{$report}" style="display:none;">
+		<div id="{$report}" style="display:block;">
 	            <table class="report">
 		        {foreach from=$rows item=row}
 	                    <tr>
@@ -52,10 +52,5 @@
 	    e.style.display = 'block';
 	}
     }
-
-    toggle_visibility('Contact');
-    toggle_visibility('Contribute');
-    toggle_visibility('Member');
-    toggle_visibility('Event');
 </script>
 {/literal}

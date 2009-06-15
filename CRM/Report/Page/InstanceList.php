@@ -49,7 +49,7 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
      */
     static $_links = null;
 
-    public static function &info( $ovID = null ) {
+    public static function &info( $ovID = null, &$title = null) {
 
         $report = '';
         if ( $ovID ) {
@@ -89,6 +89,9 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
                 if ( $dao->component_id ) {
                     $compName = $component[$dao->component_id];
                 }
+                if ( $ovID ) {
+                    $title = ts("Report(s) for the Template: %1", array( 1 => $dao->label ) );
+                }
                 $rows[$compName][$dao->id]['title'] = $dao->title;               
                 $rows[$compName][$dao->id]['label'] = $dao->label;
                 $rows[$compName][$dao->id]['description'] = $dao->description;               
@@ -111,11 +114,18 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
     function browse()
     {
         //option value ID of the Report
+        $ovID = $title = null;
         $ovID = CRM_Utils_Request::retrieve( 'ovid', 'Positive', $this );
-        $rows =& self::info( $ovID );
+        $rows =& self::info( $ovID, $title );
+        
         $this->assign('list', $rows);
+        if ( $ovID ) {
+            $reportUrl  = CRM_Utils_System::url('civicrm/report/list', "reset=1");
+            $this->assign( 'reportUrl', $reportUrl );
+            $this->assign( 'title', $title);
+        }
         $templateUrl  = CRM_Utils_System::url('civicrm/report/template/list', "reset=1");
-        $this->assign( 'templateUrl', $templateUrl );        
+        $this->assign( 'templateUrl', $templateUrl );
         return parent::run();
     }
 
