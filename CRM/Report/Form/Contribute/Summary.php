@@ -489,7 +489,6 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
-        $hoverText  = ts("Lists detailed contribution(s) for this record.");
         $entryFound = false;
 
         foreach ( $rows as $rowNum => $row ) {
@@ -528,6 +527,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                                          $this->_id
                                                          );
                 $rows[$rowNum]['civicrm_contribution_receive_date_start_link'] = $url;
+                $rows[$rowNum]['civicrm_contribution_receive_date_start_hover'] = 
+                        ts('List all contribution(s) for this date unit.');
                 $entryFound = true;
             }
 
@@ -548,7 +549,9 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                         CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
                                                              "reset=1&force=1&state_province_id_op=in&state_province_id_value={$value}", 
                                                              $this->_absoluteUrl, $this->_id );
-                    $rows[$rowNum]['civicrm_address_state_province_id_link'] = $url;
+                    $rows[$rowNum]['civicrm_address_state_province_id_link']  = $url;
+                    $rows[$rowNum]['civicrm_address_state_province_id_hover'] = 
+                        ts('List all contribution(s) for this state.');
                 }
                 $entryFound = true;
             }
@@ -563,6 +566,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                                                 "country_id_op=in&country_id_value={$value}",
                                                                 $this->_absoluteUrl, $this->_id );
                     $rows[$rowNum]['civicrm_address_country_id_link'] = $url;
+                    $rows[$rowNum]['civicrm_address_country_id_hover'] = 
+                        ts('List all contribution(s) for this country.');
                 }
                 
                 $entryFound = true;
@@ -571,11 +576,12 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
-                                              $this->_absoluteUrl );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
-                    $row["civicrm_contact_display_name"] . '</a>';
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
+                                                            $this->_absoluteUrl, $this->_id );
+                $rows[$rowNum]['civicrm_contact_display_name_link'] = $url;
+                $rows[$rowNum]['civicrm_contact_display_name_hover'] = 
+                    ts("Lists detailed contribution(s) for this record.");
                 $entryFound = true;
             }
 
