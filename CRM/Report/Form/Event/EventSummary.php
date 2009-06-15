@@ -342,18 +342,18 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
     function alterDisplay( &$rows ) {
       
         if ( is_array( $rows ) ) {
-            $hoverEvent = ts("View Event Income Details for this Event");
             $eventType  = CRM_Core_OptionGroup::values('event_type');
             foreach ( $rows as $rowNum => $row ) {
                 
                 if ( array_key_exists('civicrm_event_title', $row) ) {
                     if ( $value = $row['civicrm_event_id'] ) {
-                        CRM_Event_PseudoConstant::event( $value, false );  
-                        $url = CRM_Utils_System::url( 'civicrm/report/event/eventIncome', 
+                        //CRM_Event_PseudoConstant::event( $value, false );  
+                        $url = CRM_Report_Utils_Report::getNextUrl( 'event/eventIncome', 
                                                       'reset=1&force=1&id_value='.$value,
-                                                      $this->_absoluteUrl );
-                        $rows[$rowNum]['civicrm_event_title'] = 
-                            "<a title='{$hoverEvent}' href='{$url}' >". $rows[$rowNum]['civicrm_event_title']."</a>";
+                                                                    $this->_absoluteUrl, $this->_id);
+                        $rows[$rowNum]['civicrm_event_title_link' ] = $url;
+                        $rows[$rowNum]['civicrm_event_title_hover'] = 
+                            ts("View Event Income For this Event");
                         
                     }
                 }

@@ -264,7 +264,6 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
     function alterDisplay( &$rows ) {
         // custom code to alter rows
         $entryFound = false;
-        $hoverText  = ts("View Membership Details for this Contact");
         $checkList  =  array();
         foreach ( $rows as $rowNum => $row ) {
             
@@ -311,11 +310,12 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/report/member/detail', 
+                $url = CRM_Report_Utils_Report::getNextUrl( 'member/detail', 
                                               'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
-                                              $this->_absoluteUrl );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
-                    $rows[$rowNum]["civicrm_contact_display_name"] . '</a>';
+                                                            $this->_absoluteUrl, $this->_id);
+                $rows[$rowNum]['civicrm_contact_display_name_link'] = $url;
+                $rows[$rowNum]['civicrm_contact_display_name_hover'] =
+                    ts("View Membership Details for this Contact");
                 $entryFound = true;
             }
             

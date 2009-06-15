@@ -568,16 +568,17 @@ LEFT  JOIN (
             // handle country
             if ( array_key_exists('address_country_id', $row) ) {
                 if ( $value = $row['address_country_id'] ) {
-                    $contryName = CRM_Core_PseudoConstant::country( $value, false );
+                    $rows[$rowNum]['address_country_id'] = CRM_Core_PseudoConstant::country( $value, false );
                     
-                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
+                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
                                                   "country_id_op=in&country_id_value={$value}&" .
                                                   "$dateUrl",
-                                                  $this->_absoluteUrl
-                                                  );
+                                                                $this->_absoluteUrl, $this->_id );
+                                                  
 		                                      
-                    $rows[$rowNum]['address_country_id']="<a title='{$hoverCountry }' href='{$url}'>".$contryName."</a>";
+                    $rows[$rowNum]['address_country_id_link' ] = $url;
+                    $rows[$rowNum]['address_country_id_hover'] = ts("View repeatDetails for this Country.");
                 }
                 $entryFound = true;
             }
@@ -585,16 +586,17 @@ LEFT  JOIN (
             // handle state province
             if ( array_key_exists('address_state_province_id', $row) ) {
                 if ( $value = $row['address_state_province_id'] ) {
-                    $stateName = 
+                    $rows[$rowNum]['address_state_province_id'] = 
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
 
-                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
+                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
                                                   "state_province_id_op=in&state_province_id_value={$value}&" .
                                                   "$dateUrl",
-                                                  $this->_absoluteUrl
-                                                  );
-                    $rows[$rowNum]['address_state_province_id'] ="<a title='{$hoverState}' href='{$url}'>".$stateName."</a>";
+                                                                $this->_absoluteUrl, $this->_id );
+                    $rows[$rowNum]['address_state_province_id_link' ] = $url;
+                    $rows[$rowNum]['address_state_province_id_hover'] = 
+                        ts("View repeatDetails for this state.");
                 }
                 $entryFound = true;
             }
@@ -602,13 +604,14 @@ LEFT  JOIN (
             // link contribution type
             if ( array_key_exists('contribution_type_name', $row) ) {
                 if ( $value = $row['contribution_type_name'] ) {
-                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/repeatDetail',
+                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/repeatDetail',
                                                   "reset=1&force=1&" . 
                                                   "contribution_type_op=has&contribution_type_value={$value}&" .
                                                   "$dateUrl",
-                                                  $this->_absoluteUrl
-                                                  );
-                    $rows[$rowNum]['contribution_type_name'] ="<a title='{$hoverContriType}' href='{$url}' >".$value."</a>";
+                                                  $this->_absoluteUrl, $this->_id );
+                    $rows[$rowNum]['contribution_type_name_link' ] = $url;
+                    $rows[$rowNum]['contribution_type_name_hover'] = 
+                        ts("View repeatDetails for this Contribution type.");
                 }
                 $entryFound = true;
             }
@@ -616,11 +619,12 @@ LEFT  JOIN (
             // convert display name to links
             if ( array_key_exists('contact_display_name', $row) && 
                  array_key_exists('contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
                                               'reset=1&force=1&id_op=eq&id_value=' . $row['contact_id'],
-                                              $this->_absoluteUrl );
-                $rows[$rowNum]['contact_display_name'] = "<a href='$url'>" . 
-                    $row["contact_display_name"] . '</a>';
+                                              $this->_absoluteUrl, $this->_id );
+                $rows[$rowNum]['contact_display_name_link' ] = $url;
+                $rows[$rowNum]['contact_display_name_hover'] = 
+                    ts("View Contribution details for this contact");
                 $entryFound = true;
             }
         } // foreach ends

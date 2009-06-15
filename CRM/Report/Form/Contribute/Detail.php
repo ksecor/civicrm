@@ -321,7 +321,6 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
-        $hoverText  = ts("View Detail Contribtion(s) for this Contact.");
         $checkList  = array();
         $entryFound = false;
         
@@ -351,7 +350,9 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                                                 "reset=1&force=1&" . 
                                                                 "state_province_id_op=in&state_province_id_value={$value}",
                                                                 $this->_absoluteUrl, $this->_id );
-                    $rows[$rowNum]['civicrm_address_state_province_id_link'] = $url;
+                    $rows[$rowNum]['civicrm_address_state_province_id_link' ] = $url;
+                    $rows[$rowNum]['civicrm_address_state_province_id_hover'] =
+                        ts("List all contribution(s) for this State.");
                 }
                 $entryFound = true;
             }
@@ -366,7 +367,9 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                                                 "reset=1&force=1&" . 
                                                                 "country_id_op=in&country_id_value={$value}",
                                                                 $this->_absoluteUrl, $this->_id );
-                    $rows[$rowNum]['civicrm_address_country_id_link'] = $url;
+                    $rows[$rowNum]['civicrm_address_country_id_link' ] = $url;
+                    $rows[$rowNum]['civicrm_address_country_id_hover'] = 
+                        ts("List all contribution(s) for this Country.");
                 }
                 
                 $entryFound = true;
@@ -376,12 +379,12 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
                                               'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
-                                              $this->_absoluteUrl );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url'>" . 
-                    $rows[$rowNum]["civicrm_contact_display_name"] . '</a>';
-                $entryFound = true;
+                                              $this->_absoluteUrl, $this->_id );
+                $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
+                $rows[$rowNum]['civicrm_contact_display_name_hover'] =  
+                    ts("View Detail Contribtion(s) for this Contact.");
             }
 
             // skip looking further in rows, if first row itself doesn't 

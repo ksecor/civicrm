@@ -350,7 +350,8 @@ $this->assign( 'displayChart', true );
 
         while ( $daoLifeTime->fetch( ) ) {
             $contact_id = $daoLifeTime->civicrm_contribution_contact_id;
-
+            $display[ $contact_id ]['contact_id'] = $contact_id;
+            $display[ $contact_id ][''] = 
             $display[ $contact_id ]['civicrm_life_time_total'] = 
                 $daoLifeTime->civicrm_contribution_total_amount;
             $display[ $contact_id ]['civicrm_contact_display_name'] = $daoLifeTime->civicrm_contact_display_name;
@@ -381,7 +382,6 @@ $this->assign( 'displayChart', true );
         
         while ( $daoUpTo->fetch( ) ) {
             $contact_id = $daoUpTo->civicrm_contribution_contact_id;
-
             $display[ $contact_id ]["civicrm_upto_{$upto}"] =
                 $daoUpTo->civicrm_contribution_total_amount;            
             $display[ $contact_id ]['civicrm_contact_display_name'] = $daoUpTo->civicrm_contact_display_name;
@@ -394,7 +394,6 @@ $this->assign( 'displayChart', true );
 
         while ( $daoYear->fetch( ) ) { 
             $contact_id = $daoYear->civicrm_contribution_contact_id;            
-
             $display[ $contact_id ][ $daoYear->civicrm_contribution_receive_date ] = 
                 $daoYear->civicrm_contribution_total_amount ;
             $display  [ $contact_id ][ 'civicrm_contact_display_name' ]       = $daoYear->civicrm_contact_display_name;
@@ -406,16 +405,17 @@ $this->assign( 'displayChart', true );
         }
         $daoYear->free( );
         $rows = array( );
+        $this->_columnHeaders['contact_id'] = null;
         if( ! empty($display) ) {
             foreach( $display as $key => $value ) {              
                 $row = array( );                        
                 foreach ( $this->_columnHeaders as $column_key => $column_value ) {
-                    $row[ $column_key ] = $value [ $column_key ]; 
+                    $row[ $column_key ] = $value [ $column_key ];
                 }
                 $rows[] = $row;
             }
         }
-      
+        unset( $this->_columnHeaders['contact_id'] );
         // format result set. 
         $this->formatDisplay( $rows, false );
 
@@ -458,5 +458,21 @@ $this->assign( 'displayChart', true );
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
             $this->_graphPath =  $graphs['0']['file_name'];
         }        
+    }
+    
+    function alterDisplay( &$rows ) {
+        
+        foreach ( $rows as $rowNum => $row ) {
+            //Convert Display name into link
+            if ( array_key_exists('civicrm_contact_display_name', $row) &&
+                 array_key_exists('contact_id', $row) ) {
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['contact_id'],
+                                                            $this->_absoluteUrl, $this->_id );
+                $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
+                $rows[$rowNum]['civicrm_contact_display_name_hover'] =  
+                    ts("View Contribution Details for this Contact.");
+            }
+        }
     }
 }

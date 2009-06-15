@@ -1,3 +1,4 @@
+
 <?php
 
 /*
@@ -445,7 +446,6 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         // custom code to alter rows
  
         $entryFound = false;
-        $hoverText  = "View Contact Summary for this Contact";
 
         foreach ( $rows as $rowNum => $row ) {
             // make count columns point to detail report
@@ -454,10 +454,12 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 
-                $url = CRM_Utils_System::url( 'civicrm/report/contact/summary', 
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contact/summary', 
                                               'reset=1&force=1&id_value=' . $row['civicrm_contact_id'],
-                                              $this->_absoluteUrl );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='{$hoverText}' href='$url' >" . $row['civicrm_contact_display_name'] . "</a>";
+                                                            $this->_absoluteUrl ,$this->_id  );
+                $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
+                $rows[$rowNum]['civicrm_contact_display_name_hover'] = 
+                    ts("View Contact Summary for this Contact");
                 $entryFound = true;
             }
             
@@ -524,6 +526,12 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                         if ( $val = CRM_Utils_Array::value('civicrm_participant_event_id', $row ) ) {
                             $componentRows[$contactID][$component][$rowNum]['civicrm_participant_event_id'] = 
                                 CRM_Event_PseudoConstant::event( $val, false );
+                            $url = CRM_Report_Utils_Report::getNextUrl( 'event/eventIncome', 
+                                                                        'reset=1&force=1&id_op=in&id_value='.$val,
+                                                                        $this->_absoluteUrl, $this->_id);
+                           $componentRows[$contactID][$component][$rowNum]['civicrm_participant_event_id_link' ] = $url;
+                           $componentRows[$contactID][$component][$rowNum]['civicrm_participant_event_id_hover'] = ts("View Event Income details for this Event.");
+                $entryFound = true;
                         }
                         
                         if ( $val = CRM_Utils_Array::value('civicrm_participant_participant_status_id', $row ) ) {

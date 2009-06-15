@@ -47,8 +47,9 @@
 		    <tr class="{cycle values="odd-row,even-row"}">
 		        {foreach from=$columnHeaders item=header key=field}
 		            {assign var=fieldLink value=$field|cat:"_link"}
+			        {assign var=fieldHover value=$field|cat:"_hover"}
 			    <td style="width:20%; white-space : normal;">
-				{if $row.$fieldLink}<a href="{$row.$fieldLink}">{/if}
+				{if $row.$fieldLink}<a title="{$row.$fieldHover}" href="{$row.$fieldLink}">{/if}
                         
 				{if $row.$field eq 'Sub Total'}
 				    {$row.$field}
@@ -94,10 +95,11 @@
 			    {foreach from=$componentRows.$contribMode.$component item=row}
 				<tr class="{cycle values="odd-row,even-row"}">
 				    {foreach from=$columnHeadersComponent.$component item=header key=field}
-					{assign var=fieldLink value=$field|cat:"_link"}			
+					{assign var=fieldLink value=$field|cat:"_link"}
+                    {assign var=fieldHover value=$field|cat:"_hover"}
 					<td style="width:20%; white-space : normal;">
 					    {if $row.$fieldLink}
-						<a href="{$row.$fieldLink}">
+						<a title="{$row.$fieldHover} "href="{$row.$fieldLink}">
 					    {/if}
                         
 					    {if $row.$field eq 'Sub Total'}
@@ -116,7 +118,7 @@
 						{$row.$field}
 					    {/if}
                         
-					    {if $row.$fieldLink}{/if}
+					    {if $row.$fieldLink}</a>{/if}
 					</td>
 				    {/foreach}
 				</tr>
