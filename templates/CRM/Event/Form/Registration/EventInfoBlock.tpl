@@ -25,7 +25,7 @@
   </tr>
 
   {if $isShowLocation}
-    {if $location.1.name || $location.1.address}
+    {if $location.1.address}
       <tr><td><label>{ts}Location{/ts}</label></td>
           <td>
             {$location.1.address.display|nl2br}
