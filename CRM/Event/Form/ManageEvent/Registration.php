@@ -189,7 +189,11 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
         }
      
-        $this->addElement('checkbox', 'is_multiple_registrations', ts('Register multiple participants?')); 
+        $this->addElement('checkbox',
+                          'is_multiple_registrations',
+                          ts('Register multiple participants?'),
+                          null,
+                          array('onclick' => "return showHideByValue('is_multiple_registrations', '', 'additional_profiles', 'block', 'radio', false);"));
         $this->addElement('checkbox', 'allow_same_participant_emails', ts('Allow multiple registrations from the same email address?'));
         $this->addElement('checkbox', 'has_waitlist', ts('Offer a waitlist when the event is full?'));
         $this->addElement('checkbox', 'requires_approval', ts('Require participant approval?'));

@@ -154,3 +154,11 @@ target_element_type ="block"
 field_type          ="radio"
 invert              = 0
 }
+{include file="CRM/common/showHideByFieldValue.tpl"
+trigger_field_id    ="is_multiple_registrations"
+trigger_value       =""
+target_element_id   ="additional_profiles"
+target_element_type ="block"
+field_type          ="radio"
+invert              = 0
+}
