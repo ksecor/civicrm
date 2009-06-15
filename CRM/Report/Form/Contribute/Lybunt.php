@@ -306,9 +306,8 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                 }
             }
         }
-      
-        if ( $IN != NULL && $IN == " (  ) ") {
-            $clauses[] = "contribution.contact_id IN  $IN ";
+        if ( $IN ) {
+            $clauses[] = "contribution.contact_id IN ({$IN}) ";
         }
         
         if ( empty( $clauses ) ) {
@@ -358,7 +357,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $count = 0;     
         $this->setPager( );
         $this->assign ( 'columnHeaders', $this->_columnHeaders );
-        $IN = " ( ";
+      
         while ( $dao->fetch( ) ) {
 
             $row        = array( );         
@@ -371,7 +370,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
             $IN.= "{$contact_id},";            
         }
  
-        $IN = substr( $IN, 0 ,-1 ) . " ) ";
+        $IN = substr( $IN, 0 ,-1 ) ;
         $dao->free( );        
    
         //Build LifeTime Query
