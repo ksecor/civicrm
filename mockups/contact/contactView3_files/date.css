@@ -1,0 +1,117 @@
+.container-inline-date {
+	WIDTH: auto; DISPLAY: inline-block; CLEAR: both; VERTICAL-ALIGN: top; MARGIN-RIGHT: 0.5em
+}
+.container-inline-date .form-item {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FLOAT: none; PADDING-TOP: 0px
+}
+.container-inline-date .form-item .form-item {
+	FLOAT: left
+}
+.container-inline-date .form-item {
+	WIDTH: auto
+}
+.container-inline-date .form-item INPUT {
+	WIDTH: auto
+}
+.container-inline-date .description {
+	CLEAR: both
+}
+.container-inline-date .form-item INPUT {
+	MARGIN-RIGHT: 5px
+}
+.container-inline-date .form-item SELECT {
+	MARGIN-RIGHT: 5px
+}
+.container-inline-date .form-item OPTION {
+	MARGIN-RIGHT: 5px
+}
+.container-inline-date .date-spacer {
+	MARGIN-LEFT: -5px
+}
+.views-right-60 .container-inline-date DIV {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+.container-inline-date .date-timezone .form-item {
+	WIDTH: auto; FLOAT: none; CLEAR: both
+}
+#calendar_div {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#calendar_div TD {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#calendar_div TH {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#calendar_div {
+	MARGIN: 0px; WIDTH: 185px; BORDER-COLLAPSE: separate
+}
+.calendar_control {
+	MARGIN: 0px; WIDTH: 185px; BORDER-COLLAPSE: separate
+}
+.calendar_links {
+	MARGIN: 0px; WIDTH: 185px; BORDER-COLLAPSE: separate
+}
+.calendar_header {
+	MARGIN: 0px; WIDTH: 185px; BORDER-COLLAPSE: separate
+}
+.calendar {
+	MARGIN: 0px; WIDTH: 185px; BORDER-COLLAPSE: separate
+}
+.calendar TD {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+SPAN.date-display-single {
+	
+}
+SPAN.date-display-start {
+	
+}
+SPAN.date-display-end {
+	
+}
+SPAN.date-display-separator {
+	
+}
+.date-repeat-input {
+	WIDTH: auto; FLOAT: left; MARGIN-RIGHT: 5px
+}
+.date-repeat-input SELECT {
+	MIN-WIDTH: 7em
+}
+.date-repeat FIELDSET {
+	FLOAT: none; CLEAR: both
+}
+.date-views-filter INPUT {
+	MIN-WIDTH: 12em; PADDING-BOTTOM: 0px !important; PADDING-LEFT: 0px !important; WIDTH: 12em; PADDING-RIGHT: 0px !important; FLOAT: left !important; MARGIN-RIGHT: 2px !important; PADDING-TOP: 0px !important
+}
+.date-nav {
+	WIDTH: 100%
+}
+.date-nav DIV.date-prev {
+	TEXT-ALIGN: left; WIDTH: 24%; FLOAT: left
+}
+.date-nav DIV.date-next {
+	TEXT-ALIGN: right; WIDTH: 24%; FLOAT: right
+}
+.date-nav DIV.date-heading {
+	TEXT-ALIGN: center; WIDTH: 50%; FLOAT: left
+}
+.date-nav DIV.date-heading H3 {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+.date-clear {
+	DISPLAY: block; CLEAR: both
+}
+.date-clear-block:after {
+	DISPLAY: block; HEIGHT: 0px; VISIBILITY: hidden; CLEAR: both; CONTENT: " "
+}
+.date-clear-block {
+	DISPLAY: inline-block
+}
+* HTML .date-clear-block {
+	HEIGHT: 1%
+}
+.date-clear-block {
+	DISPLAY: block
+}
