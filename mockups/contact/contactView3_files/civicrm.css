@@ -1028,10 +1028,10 @@ DIV.buttons #icons {
 	/*WIDTH: 10%*/
 }
 .ui-tabs .ui-tabs-nav LI A {
-	FONT-SIZE: 0.8em
+	FONT-SIZE: 0.9em
 }
 .ui-tabs-collapsible.ui-tabs .ui-tabs-nav LI.ui-tabs-selected A {
-	FONT-SIZE: 0.8em
+	FONT-SIZE: 0.9em
 }
 .ui-tabs .ui-tabs-nav LI A {
 	PADDING-BOTTOM: 5px !important; PADDING-LEFT: 5px !important; PADDING-RIGHT: 5px !important; PADDING-TOP: 5px !important
