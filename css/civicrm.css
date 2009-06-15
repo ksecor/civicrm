@@ -1198,4 +1198,10 @@ commented since it is overwiting simple td
     -moz-opacity: 0.5;  
     opacity: .50;  
     filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);  
-} 
+}
+#crm-container table.report-header{
+    width           :98%;
+    background-color:#DCDCDC;
+    border          :0;
+    margin          :0;" 
+}

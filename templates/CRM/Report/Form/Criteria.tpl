@@ -1,6 +1,6 @@
 {* Report form criteria section *}
     {if $colGroups}
-        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
+        <table class="report-header">
             <tr>
 	        <td><strong>{ts}Display Columns{/ts}</strong></td>
 	    </tr>
@@ -21,12 +21,13 @@
                     {/if}
                 </tr>
             </table>
+	    <hr style="height:2px;width:98%;background-color:#DCDCDC;margin:0;"/>
         {/foreach}
     {/if}
     
     {if $groupByElements}
         <br/>
-        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
+        <table class="report-header">
             <tr>
 	        <td><strong>{ts}Group by Columns{/ts}</strong></td>
 	    </tr>
@@ -55,7 +56,7 @@
 
     {if $form.options.html}
         <br/>
-        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
+        <table class="report-header">
             <tr>
 	        <td><strong>{ts}Other Options{/ts}</strong></td>
 	    </tr>
@@ -67,7 +68,7 @@
     {/if}
   
         <br/>
-        <table style="width:98%;background-color:gainsboro;border:0;margin:0;">
+        <table class="report-header">
             <tr>
 	        <td><strong>{ts}Set Filters{/ts}</strong></td>
 	    </tr>

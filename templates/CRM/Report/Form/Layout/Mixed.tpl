@@ -7,7 +7,7 @@
     <table class="form-layout" style="width:100%">
         {foreach from=$statistics.filters item=row}
             <tr>
-                <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
+                <td width="5%">{$row.title}</td><td><strong>{$row.value}</strong></td>
             </tr>
         {/foreach}
     </table>
@@ -63,7 +63,7 @@
     <table class="form-layout" style="width:100%;">
         {foreach from=$statistics.counts item=row}
             <tr>
-                <td>{$row.title}:&nbsp;<strong>{$row.value}</strong></td>
+                <td width="5%">{$row.title}</td><td><strong>{$row.value}</strong></td>
             </tr>
         {/foreach}
     </table>

@@ -1,4 +1,8 @@
-&raquo;&nbsp;{ts}Display Settings{/ts}
+<table class="report-header">
+    <tr>
+	<td><strong>{ts}Display Settings{/ts}</strong></td>
+    </tr>
+</table>
 <table class="form-layout">
     <tr>
         <td class="label" width="20%">{$form.title.label}</td>
@@ -17,7 +21,13 @@
         <td>{$form.report_footer.html}</td>
     </tr>
 </table>
-&raquo;&nbsp;{ts}Email Settings{/ts}
+<br/>
+
+<table class="report-header">
+    <tr>
+	<td><strong>{ts}Email Settings{/ts}</strong></td>
+    </tr>
+</table>
 <table class="form-layout">
     <tr>
         <td class="label" width="20%">{$form.email_subject.label}</td>
@@ -32,7 +42,13 @@
         <td>{$form.email_cc.html|crmReplace:class:huge}</td>
     </tr> 
 </table>
-&raquo;&nbsp;{ts}Other Settings{/ts}
+<br/>
+
+<table class="report-header">
+    <tr>
+	<td><strong>{ts}Other Settings{/ts}</strong></td>
+    </tr>
+</table>
 <table class="form-layout">
     <tr>
         <td class="label" width="20%">{$form.permission.label}</td>

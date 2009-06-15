@@ -2,8 +2,8 @@
         {if $list}
             {foreach from=$list item=rows key=report}
 	        <br>
-                <div style="cursor:pointer;background-color:#F5F5F5" onclick="toggle_visibility('{$report}');">
-	            <table class="form-layout">
+                <div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
+	            <table class="report-header">
 		        <tr>
 			    <td><strong>{if $report}{$report}{else}Contact{/if} Reports</strong></td>
 			</tr>
