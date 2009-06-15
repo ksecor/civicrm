@@ -1,4 +1,3 @@
-{include file="CRM/common/WizardHeader.tpl"}
 <fieldset><legend>{ts}Online Registration{/ts}</legend>
 <div id="help">
 {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}

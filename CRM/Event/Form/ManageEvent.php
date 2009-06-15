@@ -106,8 +106,12 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $breadCrumb = array( array('title' => ts('Configure Event'),
                                        'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), "action=update&reset=1&id={$this->_id}" )) );
         }
-        CRM_Utils_System::appendBreadCrumb($breadCrumb);
+
+        // also set up tabs
+        require_once 'CRM/Event/Form/ManageEvent/TabHeader.php';
+        CRM_Event_Form_ManageEvent_TabHeader::build( $this );
         
+        CRM_Utils_System::appendBreadCrumb($breadCrumb);
     }
     
     /**
@@ -184,5 +188,14 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
         $this->add('hidden', 'is_template', $this->_isTemplate);
     }
+
+    function getTemplateFileName( ) {
+        if ( $this->controller->getPrint( ) == CRM_Core_Smarty::PRINT_NOFORM ) {
+            return parent::getTemplateFileName( );
+        } else {
+            return 'CRM/Event/Form/ManageEvent/Tab.tpl';
+        }
+    }
+
 }
 
