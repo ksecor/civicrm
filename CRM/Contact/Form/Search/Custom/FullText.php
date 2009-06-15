@@ -699,13 +699,11 @@ INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name, participant_id, event_title, participant_fee_level, participant_fee_amount, 
 participant_register_date, participant_source, participant_status, participant_role )
    SELECT  'Participant', c.id, c.display_name, cp.id, ce.title, cp.fee_level, cp.fee_amount, cp.register_date, cp.source, 
-           participant_status.label, participant_role.label 
+           participantStatus.label, participant_role.label 
      FROM  {$this->_entityIDTableName} ct, civicrm_participant cp 
 LEFT JOIN  civicrm_contact c ON cp.contact_id = c.id
 LEFT JOIN  civicrm_event ce ON ce.id = cp.event_id
-LEFT JOIN  civicrm_option_group option_group_participantStatus ON option_group_participantStatus.name = 'participant_status'
-LEFT JOIN  civicrm_option_value participant_status 
-           ON ( participant_status.option_group_id = option_group_participantStatus.id AND participant_status.value = cp.status_id )
+LEFT JOIN  civicrm_participant_status_type participantStatus ON participantStatus.id = cp.status_id
 LEFT JOIN  civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
 LEFT JOIN  civicrm_option_value participant_role 
            ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
