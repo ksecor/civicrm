@@ -59,9 +59,6 @@ function civicrm_html_head()
 
     if ( $includeCommon ) {
         $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
-        $head .= "<script type=\"text/javascript\" src=\"{$config->userFrameworkResourceURL}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
-        $head .= "<script type=\"text/javascript\" src=\"{$config->userFrameworkResourceURL}packages/dojo/dojo/commonWidgets.js\"></script>";
-        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
@@ -526,7 +523,7 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
 
     $output = array( );
     if ( $html ) {
-        $html = civicrm_add_jquery( $html );
+        //$html = civicrm_add_jquery( $html );
         $index = empty( $category ) ? 'civicrm-profile-register' : $category;
         $output[$index] = array( '#title' => $category,
                                  '#value' => $html,
@@ -575,7 +572,7 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
     }
     
     if ( $html ) {
-        $html = civicrm_add_jquery( $html );
+        //$html = civicrm_add_jquery( $html );
         $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
         $output[$index][] = array( '#title' => $category,
                                    '#value' => $html,
@@ -789,14 +786,13 @@ function civicrm_views_api() {
 }
 
 function civicrm_add_jquery( &$html ) {
-    $smarty = CRM_Core_Smarty::singleton( );
-    return $smarty->fetch( 'CRM/common/jquery.tpl' ) . $html;
+    return $html . '<script type="text/javascript">jQuery.noConflict(true);</script>';
 }
 
 function  civicrm_form_alter( $form, $formValues, $formID ) {
     if ( $formID == 'user_admin_perm' && !empty( $formValues['post'] ) ) {
         // reset navigation only when permissions are changed
         require_once 'CRM/Core/BAO/Navigation.php';
-        CRM_Core_BAO_Navigation::resetNavigation( );
+        CRM_Core_BAO_Navigation::resetNavigation( false );
     }
 }

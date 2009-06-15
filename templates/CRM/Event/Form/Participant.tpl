@@ -141,7 +141,7 @@
 		if ( eventId) {
 			dataUrl = dataUrl + '&eventId=' + eventId;	
 		} else {
-			dojo.byId('feeBlock').innerHTML = '';
+			cj('#feeBlock').html('');
 			return;
 		}
 

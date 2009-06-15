@@ -13,6 +13,7 @@ class civicrm_handler_filter_location_type extends views_handler_filter_in_opera
     static $_locationTypes;
 
     function construct( ) {
+        parent::construct();
         if ( ! self::$_locationTypes ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';

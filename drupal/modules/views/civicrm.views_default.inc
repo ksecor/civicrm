@@ -186,7 +186,7 @@ $handler->override_option('items_per_page', 0);
 $handler->override_option('use_more', 0);
 $handler->override_option('style_plugin', 'calendar_nav');
 $handler = $view->new_display('calendar', 'Events page', 'calendar_1');
-$handler->override_option('path', 'calendar');
+$handler->override_option('path', 'events');
 $handler->override_option('menu', array(
   'type' => 'none',
   'title' => '',

@@ -11,7 +11,7 @@
        </dl>
       </div>
     {else}
-	<dl>
+	<dl class="html-adjust" >
         {if $gName eq 'custom_search'}
             <dt>{ts}Custom Search Path{/ts}</dt><dd>{$form.label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Enter the "class path" for this custom search here.{/ts} {docURL page="Custom Search Components"}</dd>
@@ -48,6 +48,7 @@
         {/if}
     </dl>
     {/if}
+    <div class="spacer"></div>   
 	<dl><dt></dt><dd>{$form.buttons.html}</dd></dl>
 </fieldset>
 </div>

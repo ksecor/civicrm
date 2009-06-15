@@ -24,12 +24,12 @@
         
         {if $usedBy.civicrm_event} {* If and when Price Sets are used by entities other than events, add condition here and change text above. *}
             <table class="report">
-            <tr class="columnheader-dark">
+            <thead class="sticky">
                 <th scope="col">{ts}Event{/ts}</th>
                 <th scope="col">{ts}Type{/ts}</th>
                 <th scope="col">{ts}Public{/ts}</th>
                 <th scope="col">{ts}Date(s){/ts}</th>
-            </tr>
+            </thead>
 
             {foreach from=$usedBy.civicrm_event item=event key=id}
                 <tr>
@@ -51,11 +51,11 @@
     <p></p>
         {strip}
         <table class="selector">
-        <tr class="columnheader">
+        <thead class="sticky">
             <th>{ts}Set Title{/ts}</th>
             <th>{ts}Status?{/ts}</th>
             <th></th>
-        </tr>
+        </thead>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>

@@ -59,6 +59,12 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
      * @access public 
      */ 
     function preProcess( ) { 
+        
+        //check for delete
+        if ( !CRM_Core_Permission::check( 'delete contacts' ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );  
+        }
+        
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             $this, false ); 
         

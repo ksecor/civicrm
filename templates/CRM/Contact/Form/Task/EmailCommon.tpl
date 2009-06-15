@@ -1,34 +1,43 @@
 {*common template for compose mail*}
- <div><dt class="label-left">{$form.template.label}</dt><dd>{$form.template.html}</dd></div>
-  <div class="accordion ui-accordion ui-widget ui-helper-reset">{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp}
-         <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{$form.html_message.label}</a></h3>
-          <div class='html'>
-              <dl>
-                {if $editor EQ 'textarea'}
+    <table class="form-layout-compressed">
+        <tr><td class="label">{$form.template.label}</td><td>{$form.template.html}</td></tr>
+    </table>
+    <div class="accordion ui-accordion ui-widget ui-helper-reset">
+        <span class="helpIcon" id="helphtml">
+             <a href="#" onClick="return showToken('Html');">{$form.token2.label}</a> 
+              {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}
+              <div id='tokenHtml' style="display:none">{$form.token2.html}</div>
+        </span>
+        <h3 class="head"> 
+            <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{$form.html_message.label}</a>
+        </h3>
+        <div class='html'>
+            {if $editor EQ 'textarea'}
                 <span class="description">{ts}If you are composing HTML-formatted messages, you may want to enable a WYSIWYG editor (Administer CiviCRM &raquo; Global Settings &raquo; Site Preferences).{/ts}</span><br />
             {/if}
-                {$form.html_message.html}<br />
-                {$form.token2.label} {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}<br />{*$form.token2.html*}</dl>
-          </div>
+            {$form.html_message.html}<br />
+        </div>
+        <span class="helpIcon" id="helptext" style="display:none;">
+            <a href="#" onClick="return showToken('Text');">{$form.token1.label}</a>
+            {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
+            <div id='tokenText' style="display:none">{$form.token1.html}</div>
+        </span>
         <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='text'></span><a href="#">{$form.text_message.label}</a></h3>
-          <div class='text'>
-              <dl>{$form.text_message.html|replace:'80':'105'}<br />{* expanded the text box as per jQuery tab width *}
-              {$form.token1.label}{help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}<br/>{*$form.token1.html*}</dl>
-          </div>
-  </div>
-{if ! $noAttach}
-    <div class="spacer"></div>
-    {include file="CRM/Form/attachment.tpl"}
-{/if}
-
-<div class="spacer"></div>
-
-<div id="editMessageDetails">
-    <div id="updateDetails" >
-        {$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}
+        <div class='text'>
+            {$form.text_message.html}<br />
+        </div>
+        {if ! $noAttach}
+            <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='attachment'></span>
+            <a href="#"><strong>{ts}Attachment(s){/ts}</strong></a></h3>
+            {include file="CRM/Form/attachment.tpl" noexpand=true}
+        {/if}
     </div>
+    <div id="editMessageDetails">
+        <div id="updateDetails" >
+            {$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}
+        </div>
     <div>
-        {$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
+    {$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
     </div>
 </div>
 
@@ -233,21 +242,55 @@ tinyMCE.init({
 {/if}
 {literal}
 
-    cj(function() {
+cj(function() {
         cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
+
+        // restructuring css as per jQuery tab width
         cj('.ui-state-default, .ui-widget-content .ui-state-default').css( 'width', '95%' );
+        cj('.resizable-textarea textarea').css( 'width', '99%' );cj('.grippie').css( 'margin-right', '3px');
+
         cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
-        }, function() { cj(this).removeClass( "ui-state-hover");
-    }).bind('click', function() { 
-        var checkClass = cj(this).find('span').attr( 'class' );
-        var len        = checkClass.length;
-        if ( checkClass.substring( len - 1, len ) == 's' ) {
-            cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
-        } else {
-            cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
-        }
-        cj(this).next().toggle('blind'); return false; }).next().hide();
-        cj('span#html').removeClass().addClass('ui-icon ui-icon-triangle-1-s');cj("div.html").show();          
-    });
+	                           }, function() { cj(this).removeClass( "ui-state-hover");
+	}).bind('click', function() { 
+	  var checkClass = cj(this).find('span').attr( 'class' );
+	  var len        = checkClass.length;
+	  if ( checkClass.substring( len - 1, len ) == 's' ) {
+	    cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
+	    cj("span#help"+cj(this).find('span').attr('id')).hide();
+	  } else {
+	    cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+	    cj("span#help"+cj(this).find('span').attr('id')).show();
+	  }
+	  cj(this).next().toggle('blind'); return false; }).next().hide();
+        cj('span#html').removeClass().addClass('ui-icon ui-icon-triangle-1-s');cj("div.html").show();         
+});
+
+function showToken(element) {
+  cj("#token"+element ).show( ).dialog({
+    title       : 'Insert '+element+' Token',
+      modal       : true,
+      width       : 400,
+      height      : 210,
+      resizable   : true,
+      bgiframe    : true,
+      overlay     : { opacity: 0.5, background: "black" },
+      beforeclose : function(event, ui) { cj(this).dialog("destroy"); },
+      buttons     : { "Done": function() { 
+                                cj(this).dialog("close");
+
+                                    //focus on editor/textarea after token selection     
+                                    if (element == 'Text') {
+                                        cj('#text_message').focus();
+                                    } else if (element == 'Html' ) {
+                                        switch ({/literal}"{$editor}"{literal}) {
+                                            case 'fckeditor': { FCKeditorAPI.GetInstance('html_message').Focus(); break;}
+                                            case 'tinymce'  : { tinyMCE.get('html_message').focus(); break; } 
+                                            default         : { cj("#html_message").focus(); break; } 
+                                        }
+                                    }
+                    }}
+  });
+  return false;
+}
 </script>
 {/literal}

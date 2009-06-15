@@ -594,12 +594,15 @@ AND civicrm_case.is_deleted     = 0";
         require_once "CRM/Contact/BAO/Contact/Utils.php";
         $casesList = array( );
         // check is the user has view/edit signer permission
-        $permission = CRM_Core_Permission::VIEW;
+        $permissions = array( CRM_Core_Permission::VIEW );
         if ( CRM_Core_Permission::check( 'edit cases' ) ) {
-            $permission = CRM_Core_Permission::EDIT;
+            $permissions[] = CRM_Core_Permission::EDIT;
         }
-                
-        $mask = CRM_Core_Action::mask( $permission );
+        if ( CRM_Core_Permission::check( 'delete in CiviCase' ) ) {
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        $mask = CRM_Core_Action::mask( $permissions );
+
         while ( $result->fetch() ) {
             foreach( $resultFields as $donCare => $field ) {
                 $casesList[$result->case_id][$field] = $result->$field;
@@ -881,6 +884,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         require_once 'CRM/Case/BAO/Case.php';
         $caseDeleted = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $caseID, 'is_deleted' );
         
+        //check for delete activities CRM-4418
+        require_once 'CRM/Core/Permission.php'; 
+        $allowToDeleteActivities = CRM_Core_Permission::check( 'delete activities' );
+        
         while ( $dao->fetch( ) ) { 
             $values[$dao->id]['id']                = $dao->id;
             $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
@@ -911,7 +918,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                               
                 //block deleting activities which affects
                 //case attributes.CRM-4543
-                if ( !array_key_exists($dao->type, $caseAttributeActivities) ) {
+                if ( !array_key_exists($dao->type, $caseAttributeActivities) && $allowToDeleteActivities ) {
                     if ( !empty($url) ) {
                         $url .= " | ";   
                     }

@@ -99,13 +99,20 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
      */
     public function tearDown() { }
     
+    /**
+     *  Verify that attempt to create contact with empty params fails
+     */
     function testCreateEmptyContact() 
     {
         $params = array();
         $contact =& civicrm_contact_create($params);
-        $this->assertEquals( $contact['is_error'], 1 );
+        $this->assertEquals( $contact['is_error'], 1,
+                             "In line " . __LINE__ );
     }
     
+    /**
+     *  Verify that attempt to create contact with bad contact type fails
+     */
     function testCreateBadTypeContact()
     {
         $params = array( 
@@ -113,9 +120,13 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         'contact_type' => 'Does not Exist' 
                         );
         $contact =& civicrm_contact_create($params);
-        $this->assertEquals( $contact['is_error'], 1 );
+        $this->assertEquals( $contact['is_error'], 1, "In line " . __LINE__ );
     }
     
+    /**
+     *  Verify that attempt to create individual contact with required
+     *  fields missing fails
+     */
     function testCreateBadRequiredFieldsIndividual() 
     {
         $params = array(
@@ -124,9 +135,14 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         );
 
         $contact =& civicrm_contact_create($params);
-        $this->assertEquals( $contact['is_error'], 1 );
+        $this->assertEquals( $contact['is_error'], 1,
+                             "In line " . __LINE__ );
     }
     
+    /**
+     *  Verify that attempt to create household contact with required
+     *  fields missing fails
+     */
     function testCreateBadRequiredFieldsHousehold() 
     {
         $params = array(
@@ -135,9 +151,14 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         );
         
         $contact =& civicrm_contact_create($params);
-        $this->assertEquals( $contact['is_error'], 1 );
+        $this->assertEquals( $contact['is_error'], 1,
+                             "In line " . __LINE__ );
     }
     
+    /**
+     *  Verify that attempt to create organization contact with
+     *  required fields missing fails
+     */
     function testCreateBadRequiredFieldsOrganization()
     {
         $params = array(
@@ -146,9 +167,14 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         );
         
         $contact =& civicrm_contact_create($params);
-        $this->assertEquals( $contact['is_error'], 1 );
+        $this->assertEquals( $contact['is_error'], 1,
+                             "In line " . __LINE__ );
     }
     
+    /**
+     *  Verify that attempt to create individual contact with only an
+     *  email succeeds
+     */
     function testCreateEmailIndividual() 
     {
         $params = array(
@@ -158,10 +184,15 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         );
 
         $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
 
+    /**
+     *  Verify that attempt to create individual contact with only
+     *  first and last names succeeds
+     */
     function testCreateNameIndividual() 
     {
         $params = array(
@@ -171,10 +202,15 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         );
 
         $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
+    /**
+     *  Verify that attempt to create household contact with only
+     *  household name succeeds
+     */
     function testCreateNameHousehold() 
     {
         $params = array(
@@ -183,10 +219,15 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         );
 
         $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
+    /**
+     *  Verify that attempt to create organization contact with only
+     *  organization name succeeds
+     */
     function testCreateNameOrganization() 
     {
         $params = array(
@@ -194,11 +235,16 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         'contact_type' => 'Organization',
                         );
         $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
-    function testCreateIndividualwithEmail() 
+    /**
+     *  Verify that attempt to create individual contact with first
+     *  and last names and email succeeds
+     */
+    function testCreateIndividualWithNameEmail() 
     {
         $params = array(
                         'first_name'   => 'abc3',
@@ -208,11 +254,16 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         );
         
         $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
-    function testCreateIndividualwithEmailLocationType() 
+    /**
+     *  Verify that attempt to create individual contact with first
+     *  and last names, email and location type succeeds
+     */
+    function testCreateIndividualWithNameEmailLocationType() 
         {
         $params = array(
                         'first_name'       => 'abc4',
@@ -222,65 +273,15 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         'location_type_id' => 1
                         );
         $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
-    }
-
-    
-    function testCreateIndividualwithPhone() 
-    {
-        $params = array(
-                        'first_name'    => 'abc5',
-                        'last_name'     => 'xyz5',
-                        'contact_type'  => 'Individual'
-                        );
-        
-        $contact =& civicrm_contact_create($params);
-        
-        $paramsPhone = array(
-                             'contact_id'    => $contact['contact_id'],
-                             'location_type' => 'Work',
-                             'is_primary'    => 1,
-                             'phone'         => '11111',
-                             'phone_type'    => 'Phone'
-                             );
-
-        $location = & civicrm_location_add( $paramsPhone );                
-
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
-    function testCreateIndividualwithAll() 
-    {
-        $params = array(
-                        'first_name'    => 'abc7',
-                        'last_name'     => 'xyz7', 
-                        'contact_type'  => 'Individual',
-                        'do_not_trade'  => 1,
-                        'preferred_communication_method' => array(
-                                                                  '2' => 1,
-                                                                  '3' => 1,
-                                                                  '4' => 1,
-                                                                  )
-                        );
-
-        $contact =& civicrm_contact_create($params);
-        
-        $paramsAll = array(
-                           'contact_id'    => $contact['contact_id'],
-                           'location_type' => 'Work',
-                           'phone'         => '999999',
-                           'phone_type'    => 'Phone',
-                           'email'         => 'man7@yahoo.com'
-                           );
-
-        $location = & civicrm_location_add( $paramsAll );
-
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
-    }
-    
+    /**
+     *  Verify that attempt to create household contact with details
+     *  succeeds
+     */
     function testCreateHouseholdDetails() 
     {
         $params = array(
@@ -291,13 +292,25 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         );
 
         $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $this->_contacts[] = $contact['contact_id'];
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
-    function testUpdateIndividualwithAll()
+    /**
+     *  Verify successful update of individual contact
+     */
+    function testUpdateIndividualWithAll()
     {
+        //  Insert a row in civicrm_contact creating individual contact
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_ind.xml') );
+
         $params = array(
+                        'contact_id'            => 23,
                         'first_name'            => 'abcd',
                         'last_name'             => 'wxyz', 
                         'contact_type'          => 'Individual',
@@ -312,140 +325,118 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
                         'home_URL'              => 'http://some.url.com',
                         'image_URL'             => 'http://some.url.com/image.jpg',
                         'preferred_mail_format' => 'HTML',
-                        'do_not_trade'          => '1',
-                        'is_opt_out'            => '1'
                         );
         
-        $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $retrievedId = array( 'contact_id' => $contact['contact_id'] );
-        $retrieved = &civicrm_contact_get( $retrievedId );
-        
-        $params1 = array('contact_id'            => $contact['contact_id'],
-                         'first_name'            => 'efgh',
-                         'last_name'             => 'stuv', 
-                         'contact_type'          => 'Individual',
-                         'nick_name'             => 'This is nickname second',
-                         'do_not_email'          => '0',
-                         'do_not_phone'          => '0',
-                         'do_not_mail'           => '0',
-                         'do_not_trade'          => '0',
-                         'contact_sub_type'      => 'CertainSubType',
-                         'legal_identifier'      => 'DEF23853XX2235',
-                         'external_identifier'   => '123456789',
-                         'home_URL'              => 'http://some1.url.com',
-                         'image_URL'             => 'http://some1.url.com/image1.jpg',
-                         'preferred_mail_format' => 'Both',
-                         'is_opt_out'            => '0'
-                         );
-        
-        $contact1 =& civicrm_contact_update($params1);
-        $this->assertNotNull( $contact1['contact_id'] );
-        $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
-        $target = &civicrm_contact_get( $retrievedId1 );
-        
-        //get the target contact values.
-        $targetContactValues = array_pop( $target );
-        
-        $this->assertEquals( $contact1['contact_id'], $targetContactValues['contact_id'] );
-        $this->_assertAttributesEqual( $params1, $targetContactValues );
-        $this->_contacts[] = $targetContactValues['contact_id'];
+        $expected = array( 'is_error'   => 0,
+                           'contact_id' => 23 );
+        $result =& civicrm_contact_update($params);
+
+        //  Result should indicate successful update
+        $this->assertEquals( 0, $result['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( $expected, $result, "In line " . __LINE__ );
+
+        //  Check updated civicrm_contact against expected
+        $expected = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                 dirname( __FILE__ ) . '/contact_ind_upd.xml' );
+        $actual = new PHPUnit_Extensions_Database_DataSet_QueryDataset(
+                                       $this->dbconn );
+        $actual->addTable( 'civicrm_contact' );
+        $expected->assertEquals( $actual );
     }        
     
-    function testUpdateOrganizationwithAll()
+    /**
+     *  Verify successful update of organization contact
+     */
+    function testUpdateOrganizationWithAll()
     {
+        //  Insert a row in civicrm_contact creating organization contact
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_org.xml') );
+
         $params = array(
+                        'contact_id'        => 24,
                         'organization_name' => 'WebAccess India Pvt Ltd',
                         'legal_name'        => 'WebAccess',
                         'sic_code'          => 'ABC12DEF',
                         'contact_type'      => 'Organization'
                         );
         
-        $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $retrievedId = array( 'contact_id' => $contact['contact_id'] );
-        $retrieved = &civicrm_contact_get( $retrievedId );
+        $result =& civicrm_contact_update( $params );
         
-        $params1 = array(
-                         'contact_id'        => $contact['contact_id'],
-                         'organization_name' => 'WebAccess Inc Pvt Ltd',
-                         'legal_name'        => 'WebAccess Global',
-                         'sic_code'          => 'GHI34JKL',
-                         'contact_type'      => 'Organization'
-                         );
-        
-        $contact1 =& civicrm_contact_update($params1);
-        $this->assertNotNull( $contact1['contact_id'] );
-        $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
-        $target = &civicrm_contact_get( $retrievedId1 );
-        
-        //get the target contact values.
-        $targetContactValues = array_pop( $target );
-        
-        $this->assertEquals( $contact1['contact_id'], $targetContactValues['contact_id'] );
-        $this->_assertAttributesEqual( $params1, $targetContactValues );
-        $this->_contacts[] = $targetContactValues['contact_id'];
+        $expected = array( 'is_error'   => 0,
+                           'contact_id' => 24 );
+
+        //  Result should indicate successful update
+        $this->assertEquals( 0, $result['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( $expected, $result, "In line " . __LINE__ );
+
+        //  Check updated civicrm_contact against expected
+        $expected = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                 dirname( __FILE__ ) . '/contact_org_upd.xml' );
+        $actual = new PHPUnit_Extensions_Database_DataSet_QueryDataset(
+                                       $this->dbconn );
+        $actual->addTable( 'civicrm_contact' );
+        $expected->assertEquals( $actual );
     }
     
+    /**
+     *  Verify successful update of household contact
+     */
     function testUpdateHouseholdwithAll()
     {
+        //  Insert a row in civicrm_contact creating household contact
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_hld.xml') );
+
         $params = array(
+                        'contact_id'     => 25,
                         'household_name' => 'ABC household',
                         'nick_name'      => 'ABC House',
                         'contact_type'   => 'Household',
                         );
         
-        $contact =& civicrm_contact_create($params);
-        $this->assertNotNull( $contact['contact_id'] );
-        $retrievedId = array( 'contact_id' => $contact['contact_id'] );
-        $retrieved = &civicrm_contact_get( $retrievedId );
+        $result =& civicrm_contact_update( $params );
         
-        $params1 = array(
-                         'contact_id'     => $contact['contact_id'],
-                         'household_name' => 'XYZ household',
-                         'nick_name'      => 'XYZ House',
-                         'contact_type'   => 'Household',
-                         );
+        $expected = array( 'is_error'   => 0,
+                           'contact_id' => 25 );
 
-        $contact1 =& civicrm_contact_update($params1);
-        $this->assertNotNull( $contact1['contact_id'] );
-        $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
-        $target = &civicrm_contact_get( $retrievedId1 );
-        
-        //get the target contact values.
-        $targetContactValues = array_pop( $target );
-        
-        $this->assertEquals( $contact1['contact_id'], $targetContactValues['contact_id'] );
-        $this->_assertAttributesEqual( $params1, $targetContactValues );
-        $this->_contacts[] = $targetContactValues['contact_id'];
+        //  Result should indicate successful update
+        $this->assertEquals( 0, $result['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+        $this->assertEquals( $expected, $result, "In line " . __LINE__ );
+
+        //  Check updated civicrm_contact against expected
+        $expected = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                 dirname( __FILE__ ) . '/contact_hld_upd.xml' );
+        $actual = new PHPUnit_Extensions_Database_DataSet_QueryDataset(
+                                       $this->dbconn );
+        $actual->addTable( 'civicrm_contact' );
+        $expected->assertEquals( $actual );
     }
     
-    private function _assertAttributesEqual( $params, $target ) {
-        if( empty( $params['custom'] ) ){
-            unset( $params['custom'] );
-        }
-        
-        foreach( $params as $paramName => $paramValue ) {
-            if( isset( $target[$paramName] ) ) {
-                $this->assertEquals( $paramValue, $target[$paramName] );
-            } else {
-                $this->fail( "Attribute $paramName not available in results, but present in API call parameters."  );
-            }
-        }        
-    }
-    
+    /**
+     *  Verify deletion of a contact
+     */
     function testDeleteContacts() 
     {
-        foreach ($this->_contacts as $id) {
-            $params = array( 'contact_id' => $id );
-            $result = civicrm_contact_delete( $params );
-            $this->assertEquals( $result['is_error'], 0 );
-        }
-        
-        // delete an unknown id
-        $params = array( 'contact_id' => 1000567 );
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+        $params = array( 'contact_id' => 17 );
         $result = civicrm_contact_delete( $params );
-        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( 0, $result['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
     }
 
 } // class api_v2_TestContact

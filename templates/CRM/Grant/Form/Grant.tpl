@@ -1,6 +1,17 @@
 {* this template is used for adding/editing/deleting grant *}
 <div class="html-adjust">{$form.buttons.html}</div> 
 <fieldset>
+  {if $action eq 8} 
+      <div class="messages status">
+        <dl>
+           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+           <dd>
+             <p>{ts}Are you sure you want to delete this Grant? This delete operation cannot be undone and will delete all transactions associated with these grants.{/ts}</p>
+             <p>{include file="CRM/Grant/Form/Task.tpl"}</p>
+           </dd>
+        </dl>
+      </div>
+  {else}
 	{if $action eq 1}
 	<legend>{ts}New Grant{/ts}</legend>
 	{elseif $action eq 2}
@@ -68,5 +79,6 @@
                         </tr>
 		</table>
 	</div>
+   {/if}
 </fieldset>
 <div class="html-adjust">{$form.buttons.html}</div>

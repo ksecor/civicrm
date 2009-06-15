@@ -1,7 +1,7 @@
 {* this template is used for adding/editing a mailing component  *}
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}New Mailing Component{/ts}{else}{ts}Edit Mailing Component{/ts}{/if}</legend>
-  <dl>
+  <dl class="html-adjust">
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>{$form.component_type.label}</dt><dd>{$form.component_type.html}</dd>
     <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>

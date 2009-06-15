@@ -14,7 +14,7 @@
     <div class="form-item" id=membership_status_id>
         {strip}
         <table cellpadding="0" cellspacing="0" border="0">
-        <tr class="columnheader">
+        <thead class="sticky">
             <th>{ts}Status{/ts}</th>
             <th>{ts}Start Event{/ts}</th>
             <th>{ts}End Event{/ts}</th>
@@ -23,7 +23,7 @@
 	        <th>{ts}Weight{/ts}</th>
 	        <th>{ts}Enabled?{/ts}</th>
 	        <th></th>
-        </tr>
+        </thead>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	

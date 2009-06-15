@@ -13,7 +13,7 @@
      <dt>&nbsp;</dt><dd class="description">{ts}Include a Membership Signup section in this Online Contribution page?{/ts}</dd>
     </dl>
     <div id="memberFields">
-    <dl>
+    <dl class="html-adjust">
     <dt>{$form.new_title.label}</dt><dd>{$form.new_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section title - for new member signups.{/ts}</dd>
 
@@ -65,6 +65,7 @@
   {/if} 
   {if $action ne 4}
       <div id="crm-submit-buttons">
+      <div class="spacer"></div>
           <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
       </div>
   {else}

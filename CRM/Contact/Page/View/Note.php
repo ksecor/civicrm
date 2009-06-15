@@ -79,10 +79,19 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
         $note->entity_id    = $this->_contactId;
 
         $note->orderBy( 'modified_date desc' );
-
+        
+        //CRM-4418, handling edit and delete separately. 
+        $permissions = array( $this->_permission );
+        if ( $this->_permission == CRM_Core_Permission::EDIT   ) {
+            //previously delete was subset of edit 
+            //so for consistency lets grant delete also.
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        $mask  = CRM_Core_Action::mask( $permissions );
+        
         $values =  array( );
         $links  =& self::links( );
-        $action = array_sum(array_keys($links)) & CRM_Core_Action::mask( $this->_permission );
+        $action = array_sum(array_keys($links)) & $mask;
         
         $note->find( );
         while ( $note->fetch( ) ) {

@@ -281,15 +281,17 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
         // process the result of the query
         $rows = array( );
 
-        // check is the user has view/edit contribution permission
-        $permission = CRM_Core_Permission::VIEW;
+        //CRM-4418 check for view/edit/delete
+        $permissions = array( CRM_Core_Permission::VIEW );
         if ( CRM_Core_Permission::check( 'edit contributions' ) ) {
-            $permission = CRM_Core_Permission::EDIT;
+            $permissions[] = CRM_Core_Permission::EDIT;
         }
+        if ( CRM_Core_Permission::check( 'delete in CiviContribute' ) ) {
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        $mask = CRM_Core_Action::mask( $permissions );
         
         $componentId = null;
-        
-        $mask = CRM_Core_Action::mask( $permission );
         While ($result->fetch()) {
             $row = array();
             // the columns we are interested in

@@ -51,10 +51,13 @@
         {edit}
         <dt id="in_selector_desDt">&nbsp;</dt><dd id="in_selector_desDd" class="description">&nbsp;{ts}Is this field included as a column in the search results table? This setting applies only to fields with 'Public Pages' or 'Public Pages and Listings' visibility.{/ts}</dd>
         {/edit}
-        <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd>
+	<dl class="html-adjust">
+        <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd></dl>
         {edit}
+	<div class="spacer"></div>  
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Explanatory text displayed to users for this field (can include HTML formatting tags).{/ts}</dd>
-        {/edit}
+        {/edit} 
+	<div class="spacer"></div>   
         <dt>{$form.weight.label}</dt><dd>&nbsp;{$form.weight.html}</dd>
         {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Weight controls the order in which fields are displayed within a profile. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
@@ -128,7 +131,7 @@ function showLabel( ) {
     if ( custom.substring( 0, 7 ) == 'custom_' ) {
         fieldId = custom.substring( custom.length, 7);
     } else {
-        dojo.byId('help_post').value = "";
+        cj('#help_post').val(" ");
         return;
     }
 

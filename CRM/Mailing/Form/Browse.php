@@ -59,6 +59,11 @@ class CRM_Mailing_Form_Browse extends CRM_Core_Form
         $this->_mailingId = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this);
         
+        // check for action permissions.
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviMail', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }
+        
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->_mailingId;

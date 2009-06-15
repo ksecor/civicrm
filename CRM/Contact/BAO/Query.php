@@ -2637,25 +2637,28 @@ WHERE  id IN ( $groupIDs )
             }
             
             foreach ( $v as $item ) {
-                if( $item ) {
+                if ( $item ) {
                     $pref[] = $item;
                 }
             }
         } else {
-            $pref  = array_keys($value);
+            foreach ( $value as $key => $checked ) {
+                if ( $checked ) {
+                    $pref[] = $key;
+                }
+            }
         }
 
         $commPref = array( );
         $commPref = CRM_Core_PseudoConstant::pcm();
 
         $sqlValue = array( ) ;
-
         $sql = "contact_a.preferred_communication_method";
         foreach ( $pref as $val ) { 
             $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $val . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
             $showValue[] =  $commPref[$val];
         }
-        $this->_where[$grouping][] = implode( ' AND ', $sqlValue ); 
+        $this->_where[$grouping][] = implode( ' OR ', $sqlValue ); 
         $this->_qill[$grouping][]  = ts('Preferred Communication Method') . " $op " . implode(' ' . ts('or') . ' ', $showValue);
     }
 

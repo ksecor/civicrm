@@ -1007,6 +1007,35 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     }
     
     /**
+     *  Check if value present in all genders or 
+     *  as a substring of any gender value, if yes than return corresponding gender.
+     *  eg value might be  m/M, ma/MA, mal/MAL, male return 'Male' 
+     *  but if value is 'maleabc' than return false
+     *  
+     *  @param string $gender check this value across gender values.
+     *
+     *  retunr gender value / false
+     *  @access public
+     */
+    public function checkGender( $gender ) {
+        $gender     = trim( $gender, '.'  );
+        $allGenders = CRM_Core_PseudoConstant::gender( );
+        foreach( $allGenders as $key => $value ) {
+            if ( strlen( $gender ) > strlen( $value ) ) {
+                continue;
+            }
+            if ( $gender == $value ) {
+                return $value;
+            }
+            if ( substr_compare( $value, $gender, 0, strlen( $gender ), true ) === 0 ) {
+                return $value;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
      * function to check if an error in Core( non-custom fields ) field
      *
      * @param String   $errorMessage   A string containing all the error-fields.
@@ -1045,9 +1074,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         self::addToErrorMsg('Is Deceased', $errorMessage);
                     }
                     break;
-                case 'gender':    
-                    if (!self::in_value($value,CRM_Core_PseudoConstant::gender())) {
-                        self::addToErrorMsg('Gender', $errorMessage);
+                case 'gender':  
+                    if ( !self::checkGender( $value ) ) {
+                        self::addToErrorMsg('Gender', $errorMessage);  
                     }
                     break;
                 case 'preferred_communication_method':    
@@ -1424,6 +1453,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
             } else if ( $key == 'is_deceased' && $val ) {
                 $params[$key] = CRM_Utils_String::strtoboolstr( $val );
+            } else if ( $key == 'gender' ) {
+                //CRM-4360
+                $params[$key] = $this->checkGender( $val ); 
             }
         }
         

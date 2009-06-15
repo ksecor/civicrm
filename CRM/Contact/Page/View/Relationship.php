@@ -90,8 +90,16 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
      */
     function browse( ) {
         $links =& self::links( );
-        $mask  = CRM_Core_Action::mask( $this->_permission );
-
+        
+        //CRM-4418, handling edit and delete separately. 
+        $permissions = array( $this->_permission );
+        if ( $this->_permission == CRM_Core_Permission::EDIT   ) {
+            //previously delete was subset of edit 
+            //so for consistency lets grant delete also.
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        $mask  = CRM_Core_Action::mask( $permissions );
+        
         $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId,
                                                                               CRM_Contact_BAO_Relationship::CURRENT  ,
                                                                               0, 0, 0,

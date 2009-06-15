@@ -32,6 +32,7 @@
         <tr>
             <td colspan="2">{$form.msg_text.label}<br />
                             {$form.msg_text.html|crmReplace:class:huge}<br />
+			    
                             <span class="description">{ts}Text formatted message.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
             </td>
         </tr>

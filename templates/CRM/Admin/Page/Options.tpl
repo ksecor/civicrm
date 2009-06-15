@@ -44,7 +44,7 @@
 <div id={$gName}>
         {strip}
         <table class="selector">
-	        <tr class="columnheader">
+	       <thead class="sticky">
             {if $showComponent}
                 <th>{ts}Component{/ts}</th>
             {/if}
@@ -58,7 +58,7 @@
             <th>{ts}Reserved{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
-            </tr>
+            </thead>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"}{$row.class}{if NOT $row.is_active} disabled{/if}">
             {if $showComponent}

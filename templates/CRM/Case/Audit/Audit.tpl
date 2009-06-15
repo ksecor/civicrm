@@ -5,10 +5,14 @@ Notes:
 There's the potential for collisions (two different labels having the same shortened version), but it would be odd for the user to configure fields that way, and at most affects styling as opposed to crashing or something. 
 - Note the whole output gets contained within a <form> with name="Report".
 *}
-
 <script src="{$config->resourceBase}js/Audit/audit.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="{$config->resourceBase}css/Audit/style.css" />
 <input type="hidden" name="currentSelection" value="1" />
+
+ <div align=right>
+     <input type="button" accesskey="P" value="Print Report" name="case_report" onClick="printReport({$caseId});"/>&nbsp;&nbsp;
+ </div>   
+
 <div id="civicase-audit">
 <table><tr><td class="leftpane">
 <table class="report">
@@ -104,3 +108,28 @@ There's the potential for collisions (two different labels having the same short
 	</div>
 </td></tr></table>
 </div>
+ 
+{literal}
+<script type="text/javascript">
+ function printReport(id ) {
+        var dataUrl = {/literal}"{crmURL p='civicrm/case/report/print' h=0 q='caseID='}"{literal}+id;
+        dataUrl     = dataUrl + '&cid={/literal}{$clientID}{literal}'+'&asn={/literal}{$activitySetName}{literal}'; 
+        var redact  = '{/literal}{$_isRedact}{literal}'
+
+        var isRedact = 1; 
+        if ( redact == 'false' ) {
+             isRedact = 0;
+        }
+
+        var includeActivities = '{/literal}{$includeActivities}{literal}';   
+        var all = 0;
+        if( includeActivities == 'All' ) {
+            all = 1;
+        }
+ 
+        dataUrl = dataUrl + '&redact='+isRedact + '&all='+ all;
+
+        window.location =  dataUrl;
+}
+</script>
+{/literal}

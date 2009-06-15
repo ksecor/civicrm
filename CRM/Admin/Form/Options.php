@@ -141,6 +141,9 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                         ts('Value'), 
                         CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'value' ),
                         true );
+            $this->add( 'checkbox', 
+                        'filter', 
+                        ts('Regular Expression?'));
         }
         
         $this->addWysiwyg( 'description',

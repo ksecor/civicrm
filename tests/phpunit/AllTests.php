@@ -85,7 +85,7 @@ class AllTests
 
             //  create test database
             self::$utils = new Utils( $GLOBALS['mysql_host'],
-                                'test_civicrm_db_tools',
+                                'test_civicrm',
                                 $GLOBALS['mysql_user'],
                                 $GLOBALS['mysql_pass'] );
             $query = "DROP DATABASE IF EXISTS test_civicrm;"

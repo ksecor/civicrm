@@ -138,7 +138,6 @@
   <div class="spacer"></div>
   {include file='CRM/Core/BillingBlock.tpl'}
 {/if}
-
 {if ($email OR $batchEmail) and $outBound_option != 2}
     <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>  
       <div class="form-item">
@@ -156,8 +155,26 @@
         </div> 
       </div>
     </fieldset>
+{elseif $context eq 'standalone' and $outBound_option != 2 }
+    <fieldset id="email-receipt" style="display:none;"><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>  
+      <div class="form-item">
+    	 <dl> 
+            <dt class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</dt>
+            <dd class ='html-adjust' >{$form.send_receipt.html}<br>
+            <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {/ts}<span id="email-address"></span>?</span></dd>
+        </dl>
+        <div id='notice'>
+            <dl>
+    		<dt class="label">{$form.receipt_text.label}</dt> 
+                	<dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}</span><br/>
+                    {$form.receipt_text.html|crmReplace:class:huge}</dd>
+            </dl>
+        </div> 
+      </div>
+    </fieldset>
 {/if}
-{if $email and $outBound_option != 2} {* Send receipt field only present if contact has a valid email address. *}
+
+{if ($email and $outBound_option != 2) OR $context eq 'standalone' } {* Send receipt field only present if contact has a valid email address. *}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"
     trigger_value       =""
@@ -177,4 +194,40 @@
     field_type          ="select"
     invert              = 0
 }
-{/if} {* ADD mode if *}    
+{/if} 
+
+{if $context eq 'standalone' and $outBound_option != 2 }
+<script type="text/javascript">
+{literal}
+cj( function( ) {
+    cj("#contact").blur( function( ) {
+        checkEmail( );
+    } );
+    checkEmail( );
+});
+function checkEmail( ) {
+    var contactID = cj("input[name=contact_select_id]").val();
+    if ( contactID ) {
+        var postUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail' h=0}{literal}";
+        cj.post( postUrl, {contact_id: contactID},
+            function ( response ) {
+                if ( response ) {
+                    cj("#email-receipt").show( );
+                    if ( cj("#send_receipt").is(':checked') ) {
+                        cj("#notice").show( );
+                    }
+                
+                    cj("#email-address").html( response );
+                } else {
+                    cj("#email-receipt").hide( );
+                    cj("#notice").hide( );
+                }
+            }
+        );
+    }
+}
+{/literal}
+</script>
+{/if}
+
+{* ADD mode if *}    

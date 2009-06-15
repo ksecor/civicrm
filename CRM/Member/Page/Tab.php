@@ -68,13 +68,16 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
         //$dao->orderBy('name');
         $dao->find();
        
-        // check is the user has view/edit membership permission
-        $permission = CRM_Core_Permission::VIEW;
+        //CRM--4418, check for view, edit, delete
+        $permissions = array( CRM_Core_Permission::VIEW );
         if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
-            $permission = CRM_Core_Permission::EDIT;
+            $permissions[] = CRM_Core_Permission::EDIT;
         }
-        $mask = CRM_Core_Action::mask( $permission );
-
+        if ( CRM_Core_Permission::check( 'delete in CiviMember' ) ) {
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        $mask = CRM_Core_Action::mask( $permissions );
+        
         //checks membership of contact itself
         while ($dao->fetch()) {
             $membership[$dao->id] = array();
