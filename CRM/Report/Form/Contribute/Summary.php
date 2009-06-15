@@ -126,6 +126,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                  'total_amount'        => 
                                  array( 'title'        => ts( 'Amount Statistics' ),
                                         'default'      => true,
+                                        'required'     => true,
                                         'statistics'   => 
                                         array('sum'    => ts( 'Aggregate Amount' ), 
                                               'count'  => ts( 'Donations' ), 
@@ -521,10 +522,11 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                     break;
                 }
                 $url =
-                    CRM_Utils_System::url( 'civicrm/report/contribute/detail',
-                                           "reset=1&force=1&receive_date_from={$dateStart}&receive_date_to={$dateEnd}",
-                                           $this->_absoluteUrl
-                                           );
+                    CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
+                                                         "reset=1&force=1&receive_date_from={$dateStart}&receive_date_to={$dateEnd}",
+                                                         $this->_absoluteUrl,
+                                                         $this->_id
+                                                         );
                 $rows[$rowNum]['civicrm_contribution_receive_date_start_link'] = $url;
                 $entryFound = true;
             }
@@ -542,10 +544,10 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                     $rows[$rowNum]['civicrm_address_state_province_id'] = 
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
 
-                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/summary',
-                                                  "reset=1&force=1&" . 
-                                                  "state_province_id_op=in&state_province_id_value={$value}", 
-                                                  $this->_absoluteUrl );
+                    $url = 
+                        CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
+                                                             "reset=1&force=1&state_province_id_op=in&state_province_id_value={$value}", 
+                                                             $this->_absoluteUrl, $this->_id );
                     $rows[$rowNum]['civicrm_address_state_province_id_link'] = $url;
                 }
                 $entryFound = true;
@@ -556,10 +558,10 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                 if ( $value = $row['civicrm_address_country_id'] ) {
                     $rows[$rowNum]['civicrm_address_country_id'] = 
                         CRM_Core_PseudoConstant::country( $value, false );
-                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/summary',
-                                                  "reset=1&force=1&" . 
-                                                  "country_id_op=in&country_id_value={$value}",
-                                                  $this->_absoluteUrl );
+                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
+                                                                "reset=1&force=1&" . 
+                                                                "country_id_op=in&country_id_value={$value}",
+                                                                $this->_absoluteUrl, $this->_id );
                     $rows[$rowNum]['civicrm_address_country_id_link'] = $url;
                 }
                 

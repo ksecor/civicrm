@@ -69,7 +69,8 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           'fields'    =>
                           array( 'email' => 
                                  array( 'title'      => ts( 'Email' ),
-                                        'default'    => true
+                                        'default'    => true,
+                                        'no_repeat'  => true
                                        ),  ),
                           'grouping'      => 'contact-fields',
                           ),
@@ -79,9 +80,35 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           'fields'    =>
                           array( 'phone' => 
                                  array( 'title'      => ts( 'Phone' ),
-                                        'default'    => true
+                                        'default'    => true,
+                                        'no_repeat'  => true
                                         ), ),
                           'grouping'      => 'contact-fields',
+                          ),
+
+                   'civicrm_address' =>
+                   array( 'dao' => 'CRM_Core_DAO_Address',
+                          'fields' =>
+                          array( 'street_address'    => null,
+                                 'city'              => null,
+                                 'postal_code'       => null,
+                                 'state_province_id' => 
+                                 array( 'title'   => ts( 'State/Province' ), ),
+                                 'country_id'        => 
+                                 array( 'title'   => ts( 'Country' ),  
+                                        'default' => true ), ),
+                          'grouping'=> 'contact-fields',
+                          'filters' =>             
+                          array( 'country_id' => 
+                                 array( 'title'        => ts( 'Country' ), 
+                                        'type'         => CRM_Utils_Type::T_INT,
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Core_PseudoConstant::country(null,false),), 
+                                 'state_province_id' => 
+                                 array( 'title'        => ts( 'State/Province' ), 
+                                        'type'         => CRM_Utils_Type::T_INT,
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Core_PseudoConstant::stateProvince( ),), ),
                           ),
 
                    'civicrm_contribution' =>
@@ -104,29 +131,6 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           'grouping'=> 'contri-fields',
                           ),
                    
-                   'civicrm_address' =>
-                   array( 'dao' => 'CRM_Core_DAO_Address',
-                          'fields' =>
-                          array( 'street_address'    => null,
-                                 'city'              => null,
-                                 'postal_code'       => null,
-                                 'state_province_id' => 
-                                 array( 'title'   => ts( 'State/Province' ), ),
-                                 'country_id'        => 
-                                 array( 'title'   => ts( 'Country' ),  
-                                        'default' => true ), ),
-                          'grouping'=> 'contact-fields',
-                          'filters' =>             
-                          array( 'country_id' => 
-                                 array( 'title'        => ts( 'Country' ), 
-                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options'      => CRM_Core_PseudoConstant::country(null,false),), 
-                                 'state_province_id' => 
-                                 array( 'title'        => ts( 'State/Province' ), 
-                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options'      => CRM_Core_PseudoConstant::stateProvince( ),), ),
-                          ),
-
                    'civicrm_group' => 
                    array( 'dao'    => 'CRM_Contact_DAO_Group',
                           'alias'  => 'cgroup',
@@ -322,22 +326,14 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
         $entryFound = false;
         
         foreach ( $rows as $rowNum => $row ) {
-
             if ( !empty($this->_noRepeats) ) {
-                // not repeat contact display names if it matches with the one 
+                // don't repeat contact display names if it matches with the one 
                 // in previous row
 
                 foreach ( $row as $colName => $colVal ) {
                     if ( is_array($checkList[$colName]) && 
                          in_array($colVal, $checkList[$colName]) ) {
                         $rows[$rowNum][$colName] = "";
-			if(array_key_exists('civicrm_email_email', $row)){
-			  $rows[$rowNum]['civicrm_email_email']="";
-			}
-			if(array_key_exists('civicrm_phone_phone', $row)){
-			  $rows[$rowNum]['civicrm_phone_phone']="";
-			}
-
                     }
                     if ( in_array($colName, $this->_noRepeats) ) {
                         $checkList[$colName][] = $colVal;
@@ -351,10 +347,10 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                     $rows[$rowNum]['civicrm_address_state_province_id'] = 
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
 
-                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail',
-                                                  "reset=1&force=1&" . 
-                                                  "state_province_id_op=in&state_province_id_value={$value}",
-                                                  $this->_absoluteUrl );
+                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
+                                                                "reset=1&force=1&" . 
+                                                                "state_province_id_op=in&state_province_id_value={$value}",
+                                                                $this->_absoluteUrl, $this->_id );
                     $rows[$rowNum]['civicrm_address_state_province_id_link'] = $url;
                 }
                 $entryFound = true;
@@ -366,10 +362,10 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                     $rows[$rowNum]['civicrm_address_country_id'] = 
                         CRM_Core_PseudoConstant::country( $value, false );
 
-                    $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail',
-                                                  "reset=1&force=1&" . 
-                                                  "country_id_op=in&country_id_value={$value}",
-                                                  $this->_absoluteUrl );
+                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
+                                                                "reset=1&force=1&" . 
+                                                                "country_id_op=in&country_id_value={$value}",
+                                                                $this->_absoluteUrl, $this->_id );
                     $rows[$rowNum]['civicrm_address_country_id_link'] = $url;
                 }
                 

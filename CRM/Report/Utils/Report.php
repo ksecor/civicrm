@@ -68,6 +68,36 @@ class CRM_Report_Utils_Report {
         return false;
     }
 
+    static function getInstanceIDForValue( $optionVal ) {
+        static $valId = array();
+
+        if ( ! array_key_exists($optionVal, $valId) ) {
+            $sql = "
+SELECT MAX(id) FROM civicrm_report_instance
+WHERE  report_id = %1";
+            
+            $params = array( 1 => array( $optionVal, 'String' ) );
+            $valId[$optionVal] = CRM_Core_DAO::singleValueQuery( $sql, $params );
+        }
+        return $valId[$optionVal];
+    }
+
+    static function getNextUrl( $urlValue, $query = 'reset=1', $absolute = false, $instanceID = null ) {
+        if ( $instanceID ) {
+            $instanceID = self::getInstanceIDForValue( $urlValue );
+                
+            if ( $instanceID ) {
+                return CRM_Utils_System::url( "civicrm/report/instance", 
+                                              "id={$instanceID}&{$query}", $absolute );
+            } else {
+                return false;
+            }
+        } else {
+            return CRM_Utils_System::url( "civicrm/report/" . trim($urlValue, '/') , 
+                                          $query, $absolute );
+        }
+    }
+
     // get instance count for a template 
     static function getInstanceCount( $optionVal ) {
         $sql = "

@@ -303,7 +303,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                         }
 
                         if ( in_array($this->_columns[$tableName][$fieldGrp][$fieldName]['type'],
-                                      array(CRM_Utils_Type::T_MONEY, CRM_Utils_Type::T_INT)) ) {
+                                      array(CRM_Utils_Type::T_MONEY, CRM_Utils_Type::T_INT)) && 
+                             !isset($this->_columns[$tableName][$fieldGrp][$fieldName]['operatorType']) ) {
                             $this->_columns[$tableName][$fieldGrp][$fieldName]['operatorType'] = 
                                 CRM_Report_Form::OP_INT;
                         }
