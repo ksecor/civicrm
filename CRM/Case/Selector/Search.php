@@ -274,14 +274,19 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          // process the result of the query
          $rows = array( );
                  
-         // check is the user has view/edit signer permission
-         $permission = CRM_Core_Permission::VIEW;
+         //CRM-4418 check for view, edit, delete
+         $permissions = array( CRM_Core_Permission::VIEW );
          if ( CRM_Core_Permission::check( 'edit cases' ) ) {
-             $permission = CRM_Core_Permission::EDIT;
+             $permissions[] = CRM_Core_Permission::EDIT;
          }
+         if ( CRM_Core_Permission::check( 'delete in CiviCase' ) ) {
+             $permissions[] = CRM_Core_Permission::DELETE;
+         }
+         $mask = CRM_Core_Action::mask( $permissions );
+         
          require_once 'CRM/Case/BAO/Case.php';
          $scheduledInfo = array();
-         $mask = CRM_Core_Action::mask( $permission );
+         
          while ( $result->fetch( ) ) {
              $row = array();
              // the columns we are interested in

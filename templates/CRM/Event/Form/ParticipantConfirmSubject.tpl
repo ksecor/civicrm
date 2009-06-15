@@ -1,3 +1,3 @@
 {strip}
-{ts}Please Confirm Event Participation{/ts}
+{ts 1=$event.event_title}Confirm your registration for %1{/ts}
 {/strip}

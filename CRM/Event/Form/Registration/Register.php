@@ -55,7 +55,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      *
      */
     public $_defaults;
-
+    
+    /**
+     * The status message that user view.
+     *
+     */
+    protected $_statusMsg;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -77,13 +83,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $eventFull && !$this->_allowConfirmation &&
              CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) { 
             $this->_allowWaitlist = true;
-            $status = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
-                                              'Event is currently full, but you can register temporarily and be a part of waiting list.' );
-            require_once "CRM/Core/Session.php";
-            CRM_Core_Session::setStatus( $status );
+            $this->_statusMsg = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
+                                                        'Event is currently full, but you can register temporarily and be a part of waiting list.' );
         }
         $this->set( 'allowWaitlist', $this->_allowWaitlist );
-        
         
         //To check if the user is already registered for the event(CRM-2426) 
         self::checkRegistration(null , $this);
@@ -222,7 +225,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             require_once 'CRM/Event/Form/EventFees.php';
             $this->_contactID  = $contactID;
             $this->_discountId = $discountId;
-            $this->_defaults = array_merge( $this->_defaults, CRM_Event_Form_EventFees::setDefaultValues( $this ) );
+            $defaults = CRM_Event_Form_EventFees::setDefaultValues( $this );
+            
+            //though participant was paylater but lets direct to make payment.
+            if ( CRM_Utils_Array::value( 'is_pay_later', $defaults ) && 
+                 !CRM_Utils_Array::value( 'is_pay_later', $this->_defaults ) ) {
+                $defaults['is_pay_later'] = false;
+            }
+            $this->_defaults = array_merge( $this->_defaults, $defaults );
+            
             if ( $this->_additionalParticipantIds  ) {
                 $hasAdditionalParticipants = true;
                 $this->_defaults['additional_participants'] = count( $this->_additionalParticipantIds );
@@ -279,9 +290,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 //case might be group become as a part of waitlist.
                 //If not waitlist then they require admin approve.
                 
-                $statusMessage = ts("This event has only %1 spaces left. if you register as a group and register more than %1, the whole group will be put on the waitlist.<br>", array( 1 => $this->_availableRegistrations ) );
+                $this->_statusMsg = ts("This event has only %1 spaces left. if you register as a group and register more than %1, the whole group will be put on the waitlist.<br>", array( 1 => $this->_availableRegistrations ) );
                 if ( $this->_requireApproval ) {
-                    $statusMessage .= ts( "OR since registration for this event require approval. So if you register as a group and register less than %1. you become as a part of event and will send you a mail to confirm your registration if registration get approved.", array( 1 => $this->_availableRegistrations ) );
+                    $this->_statusMsg .= ts( "OR since registration for this event require approval. So if you register as a group and register less than %1. you become as a part of event and will send you a mail to confirm your registration if registration get approved.", array( 1 => $this->_availableRegistrations ) );
                 }
                 CRM_Core_Session::setStatus( $statusMessage );
             }
@@ -290,9 +301,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         //case where only approval needed no waitlist.
         if ( $this->_requireApproval && 
              !$this->_allowWaitlist && !$bypassPayment ) {
-            require_once "CRM/Core/Session.php";
-            CRM_Core_Session::setStatus( ts( 'Registration for this event require approval. will send you a mail to confirm your registration if registration get approved, You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.' ) ); 
+            $this->_statusMsg =  ts( 'Registration for this event require approval. will send you a mail to confirm your registration if registration get approved, You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.' ); 
         }
+        
+        //lets display status to primary page only.
+        $this->assign( 'statusMsg', $this->_statusMsg );
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );

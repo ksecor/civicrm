@@ -197,6 +197,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     { 
         $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);
         
+        $this->applyFilter('__ALL__', 'trim');
+        
         //hack the address sequence so that state province always comes after country
         $config =& CRM_Core_Config::singleton( );
         $addressSequence = $config->addressSequence();

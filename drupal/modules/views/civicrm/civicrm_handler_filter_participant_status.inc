@@ -14,6 +14,7 @@ class civicrm_handler_filter_participant_status extends views_handler_filter_in_
     static $_participant_status;
 
     function construct( ) {
+        parent::construct();
         if ( ! self::$_participant_status ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';

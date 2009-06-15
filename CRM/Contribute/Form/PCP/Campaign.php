@@ -147,7 +147,8 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         if ( strlen($fields['donate_link_text']) >= 64 ){
             $errors['donate_link_text'] = ts('Button Text must be less than 64 characters.');
         }
-        if ( isset($files['attachFile_1']) ) {
+        if ( isset($files['attachFile_1']) &&
+             CRM_Utils_Array::value( 'tmp_name', $files['attachFile_1'] ) ) {
             list( $width, $height ) = getimagesize( $files['attachFile_1']['tmp_name'] );
             if ( $width > 360 || $height > 360 ) {
                 $errors['attachFile_1'] = "Your picture or image file can not be larger than 360 x 360 pixels in size." . " The dimensions of the image you've selected is ". $width." x ". $height . ". Please shrink or crop the file or find another smaller image and try again.";

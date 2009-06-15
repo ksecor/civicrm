@@ -198,6 +198,23 @@ class CRM_Utils_String {
         return true;
     }
 
+    static function redaction( $str, $regexRules, $stringRules ) {
+        //redact the regular expressions
+        if (!empty($regexRules)){
+            foreach ($regexRules as $pattern => $replacement) {
+                $str = preg_replace( $pattern, $replacement, $str );    
+            }
+        } 
+        //redact the strings
+        if (!empty($stringRules)){
+            foreach ($stringRules as $match => $replace) {
+                $str = str_ireplace($match,$replace,$str);
+            }
+        }
+        //return the redacted output
+        return $str;
+    }
+    
     /**
      * Determine if a string is composed only of utf8 characters
      *

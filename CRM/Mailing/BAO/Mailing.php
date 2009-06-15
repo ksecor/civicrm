@@ -1972,7 +1972,10 @@ SELECT $selectClause
         if ( CRM_Utils_System::getClassName( $form )  == 'CRM_Mailing_Form_Upload' ) {
             $tokens = array_merge( CRM_Core_SelectValues::mailingTokens( ), $tokens );
         }
-        
+
+        //sorted in ascending order tokens by ignoring word case
+        natcasesort($tokens);
+
         $form->add( 'select', 'token1',  ts( 'Insert Tokens' ), 
                     $tokens , false, 
                     array(
@@ -1995,7 +1998,7 @@ SELECT $selectClause
         $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
         if ( !empty( $form->_templates ) ) {
             $form->assign('templates', true);
-            $form->add('select', 'template', ts('Select Template'),
+            $form->add('select', 'template', ts('Use Template'),
                        array( '' => ts( '- select -' ) ) + $form->_templates, false,
                        array('onChange' => "selectValue( this.value );") );
             $form->add('checkbox','updateTemplate',ts('Update Template'), null);

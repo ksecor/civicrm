@@ -14,7 +14,7 @@
         {strip}
         <table id="drag-handle" class="selector">
             <thead class="sticky">
-                <th colspan=2>{ts}CiviCRM Field Name{/ts}</th>
+                <th>{ts}CiviCRM Field Name{/ts}</th>
                 <th>{ts}Visibility{/ts}</th>
                 <th>{ts}Searchable?{/ts}</th>
                 <th>{ts}In Selector?{/ts}</th>
@@ -25,9 +25,8 @@
                 <th>&nbsp;</th>
             </thead>
             {foreach from=$ufField item=row}
-            <tr id="{$row.id}" weight="{$row.weight}" name="{$row.field_name}"class="{cycle values="odd-row,even-row"} {$row.class}
+            <tr class="{cycle values="odd-row,even-row"} {$row.class}
                 {if NOT $row.is_active}disabled{/if}">
-                <td class="dragable"><div class="handle"></div></td>
                 <td>{$row.label}<br/>({$row.field_type})</td>
                 <td>{$row.visibility_display}</td>
                 <td>{if $row.is_searchable   eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
@@ -64,46 +63,3 @@
         {/if}
     {/if}
 {/if}
-
-{literal}
-<script type="text/javascript">
-
-cj(document).ready(function() {
-  civicrm_ajaxURL="{/literal}{crmURL p='civicrm/ajax/rest' h=0}{literal}";
-  var fieldWeight = Array();   
-  var count       = 0;
-  cj('table tr').each(function(){
-    count++;
-    fieldWeight[count] = cj(this).attr('weight');
-  });
-  cj("#drag-handle").tableDnD({
-         onDrop: function(table, row) {
-	   var serialize = cj('#drag-handle').tableDnDSerialize();
-	   serialize = serialize.replace( /&/g , ',');
-	   eval( "serialize = [ 0,"+ serialize.replace( /drag-handle\[\]=/g ,'')+ " ]");
-	   var ufField = "";
-	   for( var index=1; index < serialize.length; index++ ){
-	     weight  = fieldWeight[index];
-	     fieldId = serialize[index];
-	     ufField += "'"+fieldId+"[weight]':"+weight+",";
-	     ufField += "'"+fieldId+"[field_name]':'"+cj("#drag-handle #"+fieldId).attr('name')+"',";
-	     cj("#drag-handle #"+fieldId).attr('weight', weight);
-	   }
-	   eval("ufField ={ " + ufField +" }");
-	   cj('#drag-handle tr:odd').removeClass().addClass('even-row');
-	   cj('#drag-handle tr:even').removeClass().addClass('odd-row');
-	   civiREST ('uF_group','weight', ufField ); 
-         },
-       dragHandle: "dragable"
-   });
-  cj('.dragable .handle').hover ( 
-   function( ){ 
-    cj(this).css( 'background-position','0 -20px' );
-  }, 
-   function( ){ 
-     cj(this).css( 'background-position','0 0px');
-   });
-});
-
-</script>
-{/literal}

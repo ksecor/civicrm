@@ -96,7 +96,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             require_once 'CRM/Utils/Money.php';
             $defaults['name'] = CRM_Utils_Money::format($defaults['name'], null, '%a');
         }
-       
+        
         require_once 'CRM/Core/DAO.php';
         require_once 'CRM/Utils/Weight.php';
         
@@ -146,7 +146,12 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             
             // label
             $this->add('text', 'label', ts('Option Label'),null, true);
-             
+            
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $this->_fid, 'html_type' ) != 'Text' ) {
+                // the above value is used by query, so the value has to be have a rule
+                $this->addRule( 'label', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters. The length of the variable string should be less than 31 characters'), 'qfVariable');
+            }
+            
             // value
             $this->add('text', 'name', ts('Option Amount'),null, true);
                       

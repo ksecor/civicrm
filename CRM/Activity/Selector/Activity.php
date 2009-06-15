@@ -156,14 +156,6 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             }
         }
         
-        //check for delete activities CRM-4418
-        static $deleteActivities;
-        if ( !isset( $deleteActivities ) ) {
-            require_once 'CRM/Core/Permission.php';   
-            $deleteActivities = CRM_Core_Permission::check( 'delete activities' );
-        }
-        $showDelete = ($deleteActivities) ? $showDelete : false;
-        
         self::$_actionLinks = array(
                                     CRM_Core_Action::VIEW => 
                                     array(
@@ -300,6 +292,13 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
 
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
         
+        //CRM-4418
+        $permissions = array( $this->_permission );
+        if ( CRM_Core_Permission::check( 'delete activities' ) ) {
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        $mask = CRM_Core_Action::mask( $permissions );
+        
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
             
@@ -336,7 +335,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                CRM_Utils_Array::value( 'source_record_id', $row ),
                                                $accessMailingReport );
             
-            $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
+            $actionMask  = array_sum(array_keys($actionLinks)) & $mask;
             
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['action'] = CRM_Core_Action::formLink( $actionLinks,

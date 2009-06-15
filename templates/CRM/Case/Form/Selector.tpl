@@ -129,35 +129,18 @@
 
 function buildCaseDetails( caseId, contactId )
 {
-
-  var dataUrl = {/literal}"{crmURL p='civicrm/case/details' h=0 q='snippet=4&caseId='}{literal}" + caseId;
-
-  dataUrl = dataUrl + '&cid=' + contactId;
-	
-    var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
-                        }
-                } else {
-		   // on success
-                   dojo.byId('caseDetails' + caseId).innerHTML = response;
-	       }
-        }
-     });
-
-
+  var dataUrl = {/literal}"{crmURL p='civicrm/case/details' h=0 q='snippet=4&caseId='}{literal}" + caseId +'&cid=' + contactId;
+  cj.ajax({
+            url     : dataUrl,
+            dataType: "html",
+            timeout : 5000, //Time in milliseconds
+            success : function( data ){
+                           cj( '#caseDetails' + caseId ).html( data );
+                      },
+            error   : function( XMLHttpRequest, textStatus, errorThrown ) {
+                              console.error( 'Error: '+ textStatus );
+                    }
+         });
 }
 </script>
 

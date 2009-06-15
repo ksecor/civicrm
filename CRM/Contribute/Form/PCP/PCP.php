@@ -51,6 +51,11 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
     public function preProcess()
     {
         if ( $this->_action & CRM_Core_Action::DELETE  ) {
+            //check permission for action.
+            if ( !CRM_Core_Permission::checkActionPermission( 'CiviContribute', $this->_action ) ) {
+                CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );  
+            }
+            
             $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'title' );
             $this->assign('title', $this->_title);

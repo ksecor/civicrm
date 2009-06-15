@@ -100,6 +100,11 @@ class CRM_Case_Form_Case extends CRM_Core_Form
                 return;
             }
         }
+        
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviCase', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        } 
+        
         if ( $this->_action & CRM_Core_Action::DELETE || $this->_action & CRM_Core_Action::RENEW ) {
             return true;
         }

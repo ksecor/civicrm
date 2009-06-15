@@ -12,7 +12,7 @@ class Audit
 		$this->auditConfig = new AuditConfig($confFilename);
 	}
 		
-	public function getActivities()
+	public function getActivities( $printReport = false )
 	{
 		$retval = array();
 
@@ -31,6 +31,10 @@ class Audit
 			
 			$activityindex = 0;
 			$activityList = $doc->getElementsByTagName("Activity");
+            
+            $caseActivities     = array( );
+            $activityStatusType = array( );
+
 			foreach($activityList as $activity)
 			{
 				$retval[$activityindex] = array();
@@ -92,11 +96,31 @@ class Audit
 							{
 								$retval[$activityindex][$region][$fieldindex]['includeTime'] = $this->auditConfig->includeTime($label, $region);
 							}
-						}
+                            
+                            //CRM-4570
+                            if ( $printReport ) {
+                                if ( !in_array($label, array('Activity Type', 'Status') ) ) {
+                                    $caseActivities[$activityindex][$fieldindex] = array();
+                                    $caseActivities[$activityindex][$fieldindex]['label']    = $label;
+                                    $caseActivities[$activityindex][$fieldindex]['datatype'] = $datatype;
+                                    $caseActivities[$activityindex][$fieldindex]['value']    = $value;
+                                } else {
+                                    $activityStatusType[$activityindex][$fieldindex] = array();
+                                    $activityStatusType[$activityindex][$fieldindex]['label']    = $label;
+                                    $activityStatusType[$activityindex][$fieldindex]['datatype'] = $datatype;
+                                    $activityStatusType[$activityindex][$fieldindex]['value']    = $value;
+                                }
+                            }
+                        }
 					}
 	
 					$fieldindex++;
 				}
+
+                if ( $printReport ) {
+                    $caseActivities[$activityindex] = CRM_Utils_Array::crmArrayMerge($activityStatusType[$activityindex], $caseActivities[$activityindex] );
+                }
+
 
 				if ($includeAll || !$completed)
 				{	
@@ -143,9 +167,13 @@ class Audit
 			}
 			
 			uasort($retval, array(&$this, "compareActivities"));
-		}		
-            
-		return $retval;
+		}
+		
+        if ( $printReport ) {
+            return $caseActivities;
+        } else {      
+            return $retval;
+        }
 	}
 	
 	/* compareActivities
@@ -177,7 +205,7 @@ class Audit
 		}
 	}
 	
-    static function run( $xmlString, $clientID, $caseID ) {
+    static function run( $xmlString, $clientID, $caseID, $printReport = false ) {
 /*
 $fh = fopen('C:/temp/audit2.xml', 'w');
 fwrite($fh, $xmlString);
@@ -185,14 +213,17 @@ fclose($fh);
 */
         $audit = new Audit( $xmlString,
                             'audit.conf.xml' );
-        $activities = $audit->getActivities();
+        $activities = $audit->getActivities( $printReport );
 
         $template = CRM_Core_Smarty::singleton( );
         $template->assign_by_ref( 'activities', $activities );
         $template->assign('caseurl', CRM_Utils_System::url(	'civicrm/contact/view/case',
         													"reset=1&cid=${clientID}&action=view&id={$caseID}&selectedChild=case" ));
-		
-        $contents = $template->fetch( 'CRM/Case/Audit/Audit.tpl' );
+        if ( $printReport ) {
+            $contents = $template->fetch( 'CRM/Case/Audit/Report.tpl' );
+        } else {
+            $contents = $template->fetch( 'CRM/Case/Audit/Audit.tpl' );
+        }
         return $contents;
     }
 }

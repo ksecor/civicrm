@@ -271,7 +271,12 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         $columns     = $this->_search->columns( );
         $columnNames = array_values( $columns );
         $links       = self::links( );
-        $mask        = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
+        
+        $permissions = array( CRM_Core_Permission::getPermission( ) );
+        if ( CRM_Core_Permission::check( 'delete contacts' )  ) {
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        $mask = CRM_Core_Action::mask( $permissions );
         
         $alterRow = false;
         if ( method_exists( $this->_customSearchClass,

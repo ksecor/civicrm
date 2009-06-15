@@ -416,6 +416,13 @@ WHERE     cc.id = {$this->_textID}
      * get contribution ids in entity tables.
      */
     function fillContributionIDs() {
+        $contactSQL = array( );
+        $contactSQL[] = "
+SELECT cc.id 
+FROM   civicrm_contribution cc, civicrm_contact c
+WHERE  cc.contact_id = c.id
+AND    c.display_name LIKE {$this->_text}
+";
         $tables = 
             array( 'civicrm_contribution' => array( 'id'     => 'id',
                                                     'fields' => array( 'source'       => null,
@@ -426,6 +433,9 @@ WHERE     cc.id = {$this->_textID}
                                                                        'total_amount' => ($this->_textID) ? 'Int' : null,
                                                                        ) 
                                                     ),
+
+                   'sql'                  => $contactSQL,
+                                     
                    'civicrm_note'         => array( 'id'           => 'entity_id',
                                                     'entity_table' => 'civicrm_contribution',
                                                     'fields'       => array( 'subject' => null,
@@ -449,6 +459,13 @@ WHERE     cc.id = {$this->_textID}
      * get participant ids in entity tables.
      */
     function fillParticipantIDs() {
+        $contactSQL = array( );
+        $contactSQL[] = "
+SELECT cp.id 
+FROM   civicrm_participant cp, civicrm_contact c
+WHERE  cp.contact_id = c.id
+AND    c.display_name LIKE {$this->_text}
+";
         $tables = 
             array( 'civicrm_participant' => array( 'id'     => 'id',
                                                    'fields' => array( 'source'     => null,
@@ -456,6 +473,9 @@ WHERE     cc.id = {$this->_textID}
                                                                       'fee_amount' => ($this->_textID) ? 'Int' : null,
                                                                       ) 
                                                    ),
+
+                   'sql'                  => $contactSQL,
+
                    'civicrm_note'         => array( 'id'           => 'entity_id',
                                                     'entity_table' => 'civicrm_participant',
                                                     'fields'       => array( 'subject' => null,
@@ -480,10 +500,19 @@ WHERE     cc.id = {$this->_textID}
      * get membership ids in entity tables.
      */
     function fillMembershipIDs() {
+        $contactSQL = array( );
+        $contactSQL[] = "
+SELECT cm.id 
+FROM   civicrm_membership cm, civicrm_contact c
+WHERE  cm.contact_id = c.id
+AND    c.display_name LIKE {$this->_text}
+";
         $tables = 
             array( 'civicrm_membership' => array( 'id'     => 'id',
                                                   'fields' => array( 'source' => null )
-                                                  )
+                                                  ),
+                   
+                   'sql'                => $contactSQL
                    );
         
         // get the custom data info
@@ -670,13 +699,11 @@ INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name, participant_id, event_title, participant_fee_level, participant_fee_amount, 
 participant_register_date, participant_source, participant_status, participant_role )
    SELECT  'Participant', c.id, c.display_name, cp.id, ce.title, cp.fee_level, cp.fee_amount, cp.register_date, cp.source, 
-           participant_status.label, participant_role.label 
+           participantStatus.label, participant_role.label 
      FROM  {$this->_entityIDTableName} ct, civicrm_participant cp 
 LEFT JOIN  civicrm_contact c ON cp.contact_id = c.id
 LEFT JOIN  civicrm_event ce ON ce.id = cp.event_id
-LEFT JOIN  civicrm_option_group option_group_participantStatus ON option_group_participantStatus.name = 'participant_status'
-LEFT JOIN  civicrm_option_value participant_status 
-           ON ( participant_status.option_group_id = option_group_participantStatus.id AND participant_status.value = cp.status_id )
+LEFT JOIN  civicrm_participant_status_type participantStatus ON participantStatus.id = cp.status_id
 LEFT JOIN  civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
 LEFT JOIN  civicrm_option_value participant_role 
            ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )

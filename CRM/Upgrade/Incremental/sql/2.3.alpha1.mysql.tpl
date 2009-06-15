@@ -349,3 +349,18 @@ UPDATE civicrm_state_province SET name = "Chihuahua" WHERE id = 3811;
 --Add collapse_adv_search column to civicrm_custom_group
 
 ALTER TABLE `civicrm_custom_group` ADD `collapse_adv_display` int(10) unsigned default '0' COMMENT 'Will this group be in collapsed or expanded mode on advanced search display ?' AFTER `max_multiple`;
+
+
+
+-- CRM-4587
+
+UPDATE civicrm_state_province SET name = "Sofia"       WHERE id = 1859;
+UPDATE civicrm_state_province SET name = "Ulaanbaatar" WHERE id = 3707;
+UPDATE civicrm_state_province SET name = "Achaïa"      WHERE id = 2879;
+
+-- CRM-4569
+
+INSERT INTO 
+   `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+   ('redaction_rule', 'Redaction Rule', 0, 1);

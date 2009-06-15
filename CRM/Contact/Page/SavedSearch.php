@@ -97,8 +97,8 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
             $group =& new CRM_Contact_BAO_Group( );
             $group->saved_search_id =  $savedSearch->id;
             if ( $group->find( true ) ) {
-                $permission = CRM_Group_Page_Group::checkPermission( $group->id, $group->title );
-                if ( $permission ) {
+                $permissions = CRM_Group_Page_Group::checkPermission( $group->id, $group->title );
+                if ( !CRM_Utils_System::isNull( $permissions ) ) {
                     $row = array();
                     
                     $row['name']        = $group->title;
@@ -110,7 +110,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
                     $row['query_detail'] =  $query->qill( );
 
                     $action = array_sum( array_keys( self::links() ) );
-                    $action = $action & CRM_Core_Action::mask( $permission );
+                    $action = $action & CRM_Core_Action::mask( $permissions );
                     $row['action']       = CRM_Core_Action::formLink( self::links(), $action, array( 'id' => $row['id'] ) );
                     
                     $rows[] = $row;

@@ -486,6 +486,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                       'permission' => "view all contacts"),
                              'add'          => array( 'title'      => ts('Edit Contact'), 
                                                       'permission' => "edit all contacts"),
+                             'delete'       => array( 'title'      => ts('Delete Contact'), 
+                                                      'permission' => "delete contacts"),
                              'contribution' => array( 'title'      => ts('Record Contribution'), 
                                                       'permission' => "access CiviContribute"),
                              'event'        => array( 'title'      => ts('Register for Event'),
@@ -497,14 +499,19 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                              'membership'   => array( 'title'      => ts('Enter Membership'),
                                                       'permission' => "access CiviMember"),
                              'email'        => array( 'title'      => ts('Send an Email'),
+                                                      'permission' => "access CiviCRM"),
+                             'group'        => array( 'title'      => ts('Add to Group'),
+                                                      'permission' => "edit groups"),
+                             'tag'          => array( 'title'      => ts('Tag'),
                                                       'permission' => "access CiviCRM")
                              );
-        $contextContact = array( );
-        foreach(  $contextMenu as $key => $value ) {
-            $component = substr( $value['permission'], 7 );
-            $component = ( $component != 'CiviCRM' ) ? $component : $value['permission']; 
+        $contextContact   = array( );
+        $enableComponents = array_merge( array( 'CiviCRM', 'delete contacts', 'edit groups' ), $config->enableComponents );
+        foreach( $contextMenu as $key => $value ) {
+            $component = substr( $value['permission'], 0, 6 );
+            $component = ( $component == 'access' ) ? substr( $value['permission'], 7 ) : $value['permission'];
             if ( CRM_Core_Permission::check( $value['permission'] ) ) {
-                if ( in_array( $component, $config->enableComponents ) || $component == 'access CiviCRM' ) {
+                if ( in_array( $component, $enableComponents ) ) {
                     $this->_contextMenu[$key] = $value['title'];
                 } else if ( substr( $value['permission'], 9 ) == 'contacts' ) {
                     $contextContact[$key] = $value['title'];

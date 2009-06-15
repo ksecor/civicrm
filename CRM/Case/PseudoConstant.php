@@ -48,6 +48,13 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
     static $caseStatus;
 
     /**
+     * redaction rules
+     * @var array
+     * @static
+     */
+    static $redactionRule;
+
+    /**
      * case type
      * @var array
      * @static
@@ -85,6 +92,34 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
             self::$caseStatus = CRM_Core_OptionGroup::values('case_status');
         }
         return self::$caseStatus;
+    }
+
+    /**
+     * Get all the redaction rules
+     *
+     * @access public
+     * @return array - array reference of all redaction rules
+     * @static
+     */
+
+    public static function redactionRule( $filter = null )
+    {
+        // if ( ! self::$redactionRule ) {
+            self::$redactionRule = array( );
+                        
+            if( $filter === 0) {
+                $condition = "  AND  v.filter = 0";
+
+            } elseif ( $filter === 1) {
+                $condition = "  AND  v.filter = 1";
+            } elseif ( $filter === null) {
+                $condition = null;
+            } 
+            
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$redactionRule = CRM_Core_OptionGroup::values('redaction_rule', false, false, false, $condition);
+            // }
+        return self::$redactionRule;
     }
 
     /**

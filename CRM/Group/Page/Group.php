@@ -277,6 +277,14 @@ ORDER BY name_a_b asc
             CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
         
+        //FIXME CRM-4418, now we are handling delete separately
+        //if we introduce 'delete for group' make sure to handle here.
+        $groupPermissions = array( CRM_Core_Permission::VIEW );
+        if ( CRM_Core_Permission::check( 'edit groups' ) ) {
+            $groupPermissions[] = CRM_Core_Permission::EDIT;
+            $groupPermissions[] = CRM_Core_Permission::DELETE;
+        }
+        
         require_once 'CRM/Core/OptionGroup.php';
         $links =& $this->links( );
         $allTypes = CRM_Core_OptionGroup::values( 'group_type' );
@@ -308,7 +316,8 @@ ORDER BY name_a_b asc
                         $action -= CRM_Core_Action::DISABLE;
                     }
                 }
-                $action = $action & CRM_Core_Action::mask( $groupPermission );
+                                
+                $action = $action & CRM_Core_Action::mask( $groupPermissions );
                 
                 $values[$object->id]['visibility'] = CRM_Contact_BAO_Group::tsEnum('visibility',
                                                                                    $values[$object->id]['visibility']);
