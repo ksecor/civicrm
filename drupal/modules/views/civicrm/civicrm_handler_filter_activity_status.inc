@@ -13,6 +13,7 @@ class civicrm_handler_filter_activity_status extends views_handler_filter_in_ope
     static $_activityStatus;
 
     function construct( ) {
+        parent::construct();
         if ( ! self::$_activityStatus ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';
