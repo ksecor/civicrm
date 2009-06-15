@@ -273,9 +273,13 @@ WHERE cp.contribution_page_id = {$id}";
         $params      = array( );
         $whereClause = $this->whereClause( $params, true );
         $this->pager( $whereClause, $params );
-       
+        
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
-
+        
+        //check for delete CRM-4418
+        require_once 'CRM/Core/Permission.php'; 
+        $allowToDelete = CRM_Core_Permission::check( 'delete in CiviContribute' );
+        
         $query = "
 SELECT *
 FROM civicrm_contribution_page
@@ -284,7 +288,7 @@ ORDER BY title asc
    LIMIT $offset, $rowCount";
 
         $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contribute_DAO_ContributionPage' );
-
+        
         while ($dao->fetch()) {
             $contribution[$dao->id] = array();
             CRM_Core_DAO::storeValues($dao, $contribution[$dao->id]);
@@ -296,6 +300,11 @@ ORDER BY title asc
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
+            }
+            
+            //CRM-4418
+            if ( !$allowToDelete ) {
+                $action -= CRM_Core_Action::DELETE; 
             }
             
             $contribution[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 

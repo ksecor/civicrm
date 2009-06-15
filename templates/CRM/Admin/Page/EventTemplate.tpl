@@ -8,7 +8,7 @@
   <div class="form-item">
     {strip}
       <table cellpadding="0" cellspacing="0" border="0">
-        <tr class="columnheader">
+        <thead class="sticky">
             <th>{ts}Title{/ts}</th>
             <th>{ts}Event Type{/ts}</th>
             <th>{ts}Participant Role{/ts}</th>
@@ -18,7 +18,7 @@
             <th>{ts}Allow Online Registration{/ts}</th>
 	    <th>{ts}Is Active?{/ts}</th>
             <th></th>
-        </tr>
+        </thead>
         {foreach from=$rows item=row}
           <tr id='rowid{$row.id}' class="{cycle values="odd-row,even-row"}">
               <td>{$row.template_title}</td>	

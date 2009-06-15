@@ -1,7 +1,9 @@
 <?php
 
 class civicrm_handler_filter_activityType extends civicrm_handler_filter_option {
+  
     function initialize( ) {
+        parent::construct();
         if ( ! self::$_options ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';

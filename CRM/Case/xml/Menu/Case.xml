@@ -67,4 +67,10 @@
     <icon>admin/small/case_type.gif</icon>
     <weight>400</weight>
   </item>
+  <item>
+    <path>civicrm/case/report/print</path>
+    <page_callback>CRM_Case_XMLProcessor_Report::printCaseReport</page_callback>
+    <access_arguments>access CiviCase</access_arguments>
+  </item>  
+
 </menu>

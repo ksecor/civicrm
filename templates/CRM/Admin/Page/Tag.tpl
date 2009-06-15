@@ -14,13 +14,13 @@
     <div class="form-item">
         {strip}
         <table cellpadding="0" cellspacing="0" border="0">
-	        <tr class="columnheader">
+	    <thead class="sticky">
 	        <th>{ts}Parent ID{/ts}</th>
 	        <th>{ts}Tag{/ts}</th>
             <th>{ts}ID{/ts}</th>
 	        <th>{ts}Description{/ts}</th>
 	        <th></th>
-        </tr>
+        </thead>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
             <td>{$row.parent_id}</td>

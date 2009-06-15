@@ -32,6 +32,8 @@
  *
  */
 
+require_once 'CRM/Utils/Type.php';
+
 /**
  * This class contains all contact related functions that are called using AJAX (jQuery)
  */
@@ -39,14 +41,12 @@ class CRM_Contact_Page_AJAX
 {
     static function getContactList( &$config ) 
     {
-        require_once 'CRM/Utils/Type.php';
         $name = CRM_Utils_Array::value( 's', $_GET );
         
         $query = "
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '$name%'
-AND contact_type = 'Individual'
 ORDER BY sort_name ";            
 
         $dao = CRM_Core_DAO::executeQuery( $query );
@@ -62,13 +62,14 @@ ORDER BY sort_name ";
      */
     function autocomplete( &$config ) 
     {
-        //FIXME: hardcoded for time-being
+        $id = CRM_Utils_Array::value( 'id', $_GET );
+        
         $query = "
 SELECT  v.label as label ,v.value as value, v.id as id
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
-  AND  g.id              = 2
+  AND  g.id              = $id
   AND  v.is_active       = 1 
   AND  g.is_active       = 1 
   ORDER BY v.weight, v.label; 
@@ -86,7 +87,6 @@ WHERE  v.option_group_id = g.id
         // CRM_Core_Error::debug_var( 'GET' , $_GET , true, true );
         // CRM_Core_Error::debug_var( 'POST', $_POST, true, true );
         
-        require_once 'CRM/Utils/Type.php';
         $relType         = CRM_Utils_Array::value( 'rel_type', $_POST );
         $relContactID    = CRM_Utils_Array::value( 'rel_contact', $_POST );
         $sourceContactID = CRM_Utils_Array::value( 'contact_id', $_POST );
@@ -133,7 +133,6 @@ WHERE  v.option_group_id = g.id
      */
     function customField( &$config ) 
     {
-        require_once 'CRM/Utils/Type.php';
         $fieldId = CRM_Utils_Type::escape( $_POST['id'], 'Integer' );
 
         $helpPost = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
@@ -179,7 +178,6 @@ WHERE  v.option_group_id = g.id
     function search( &$config ) 
     {
         $json = true;
-        require_once 'CRM/Utils/Type.php';
         $name = CRM_Utils_Array::value( 'name', $_GET, '' );
         if ( ! array_key_exists( 'name', $_GET ) ) {
             $name = CRM_Utils_Array::value( 's',$_GET ) .'%';
@@ -361,8 +359,7 @@ ORDER BY sort_name ";
      */
     function contact( &$config )
     {
-        require_once 'CRM/Utils/Type.php';
-        $name      = CRM_Utils_Type::escape( $_GET['name'], 'String' );
+        $name = CRM_Utils_Type::escape( $_GET['name'], 'String' );
 
         $query = "                                                                                                                                                                                 
 SELECT id                                                                                                                                                                                          
@@ -383,7 +380,6 @@ WHERE sort_name LIKE '%$name%'";
      *
      */
     function deleteCustomValue( &$config ) {
-        require_once 'CRM/Utils/Type.php';
         $customValueID  = CRM_Utils_Type::escape( $_POST['valueID'], 'Positive' );
         $customGroupID  = CRM_Utils_Type::escape( $_POST['groupID'], 'Positive' );
         
@@ -430,7 +426,6 @@ WHERE sort_name LIKE '%$name%'";
     *  Function to get email address of a contact
     */
     static function getContactEmail( ) {
-        require_once 'CRM/Utils/Type.php';
         if( CRM_Utils_Array::value( 'contact_id', $_POST ) ) {
             $contactID = CRM_Utils_Type::escape( $_POST['contact_id'], 'Positive' );
             require_once 'CRM/Contact/BAO/Contact/Location.php';

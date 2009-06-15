@@ -394,8 +394,9 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         if ( $this->_gid ) {
             $editLink = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_edit_link');
         }
-
-        $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
+        
+        //FIXME : make sure to handle delete separately. CRM-4418
+        $mask = CRM_Core_Action::mask( array( CRM_Core_Permission::getPermission( ) ) );
         if ( $editLink && ( $mask & CRM_Core_Permission::EDIT ) ) {
             $this->_editLink = true;
         }

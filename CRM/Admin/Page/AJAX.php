@@ -38,9 +38,21 @@
  */
 class CRM_Admin_Page_AJAX
 {
+    /**
+     * Function to build menu tree     
+     */    
     static function getNavigationList( ) {
         require_once 'CRM/Core/BAO/Navigation.php';
         echo CRM_Core_BAO_Navigation::buildNavigation( true );           
+        exit();
+    }
+    
+    /**
+     * Function to process drag/move action for menu tree
+     */
+    static function menuTree( ) {
+        require_once 'CRM/Core/BAO/Navigation.php';
+        echo CRM_Core_BAO_Navigation::processNavigation( $_GET );           
         exit();
     }
 }

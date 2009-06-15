@@ -19,7 +19,6 @@
         <link rel="stylesheet" href="{$config->resourceBase}css/civicrm-new.css" type="text/css" />
     {/if}
 {/if}
-{include file="CRM/common/dojo.tpl"}
 {include file="CRM/common/action.tpl"}
 {if $buildNavigation }
     {include file="CRM/common/Navigation.tpl" }

@@ -15,7 +15,7 @@
 <div class="form-item">
 {strip}
 <table cellpadding="0" cellspacing="0" border="0">
-	<tr class="columnheader">
+	<thead class="sticky">
 		<th>{ts}Page Title{/ts}</th>
 		<th>{ts}Supporter{/ts}</th>
 		<th>{ts}Contribution Page{/ts}</th>
@@ -23,7 +23,7 @@
 		<th>{ts}Ends{/ts}</th>
 		<th>{ts}Status{/ts}</th>
 		<th></th>
-	</tr>
+	</thead>
 	{foreach from=$rows item=row}
 	<tr class="{cycle values="odd-row,even-row"} {$row.class}">
 		<td><a href="{crmURL p='civicrm/contribute/pcp/info' q="reset=1&id=`$row.id` "}" title="{ts}View Personal Campaign Page{/ts}">{$row.title}</a></td>

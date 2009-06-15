@@ -6,6 +6,16 @@
 
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
 <div class="form-item">
+
+{* moved to tpl since need to show only for primary participant page *}
+{if $statusMsg}
+  <div class="messages status">
+    <dl>
+	<dd>{$statusMsg}</dd>
+    </dl>
+  </div>
+{/if}
+
 {if $event.intro_text}
     <div id="intro_text">
         <p>{$event.intro_text}</p>

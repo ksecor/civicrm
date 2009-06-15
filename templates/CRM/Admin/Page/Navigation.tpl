@@ -1,6 +1,9 @@
 <div id="help">
-    {capture assign=crmURL}{crmURL p='civicrm/admin/menu' q="action=add&reset=1"}{/capture}
-    {ts 1=$crmURL}Create CiviCRM Menus. ( <a href='%1'>Add Menu</a> ){/ts}
+    <a href="{crmURL p="civicrm/admin/menu" q="action=add&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts}Add New Menu{/ts}</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span id="reset-menu" class="success-status" style="display:none">
+        {capture assign=rebuildURL}{crmURL p='civicrm/admin/menu/rebuild' q="reset=1"}{/capture}
+        {ts 1=$rebuildURL}The changes made to navigation will not be reflected in top navigation bar until you <a href='%1' title="Rebuild Navigation"><strong>click here</strong></a>.{/ts}
+    </span><br/><br/>
 </div>
 {if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/Navigation.tpl"}
@@ -25,22 +28,33 @@
         <div id="navigation-tree" class="navigation-tree" style="height:auto;"></div>
         {literal}
         <script type="text/javascript">
-            cj(function () {
-                cj("#navigation-tree").tree({
-                  data  : {
+        cj(function () {
+            cj("#navigation-tree").tree({
+                data  : {
                     type  : "json",
                     async : true, 
                     url : {/literal}"{crmURL p='civicrm/ajax/menu' h=0 }"{literal},
-                  },
-            	  rules : {
-            		droppable : [ "tree-drop" ],
-            		multiple : true,
-            		deletable : "all",
-            		draggable : "all"
-            	  }
-                });
+                },
+                rules : {
+                    droppable : [ "tree-drop" ],
+                    multiple : true,
+                    deletable : "all",
+                    draggable : "all"
+                },
+                callback : {
+                    onmove      : function( node, reference, type ) {
+                        var postURL = {/literal}"{crmURL p='civicrm/ajax/menutree' h=0 }"{literal};
+                        cj.get( postURL + '&type=move&id=' + node.id + '&ref_id=' + (reference === -1 ? 0 : reference.id) + '&move_type=' + type, 
+                            function (data) {
+                			    //if (!node.id) node.id = data;
+                			    cj("#reset-menu").show( );
+                		    }
+                		);                		                    
+                    }
+                }
             });
-            
+        });
+
         </script>
         {/literal}
 

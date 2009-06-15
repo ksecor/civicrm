@@ -137,7 +137,7 @@
                 {foreach from=$summary.Contribution item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact details{/ts}">{$row.display_name}</a></td>
-                        <td>{$row.contribution_total_amount}</td>
+                        <td>{$row.contribution_total_amount|crmMoney}</td>
                         <td>{$row.contribution_type}</td>
                         <td>{$row.contribution_source}</td>
                         <td>{$row.contribution_receive_date|crmDate}</td>
@@ -176,7 +176,7 @@
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact details{/ts}">{$row.display_name}</a></td>
                         <td>{$row.event_title}</td>
                         <td>{$row.participant_fee_level}</td>
-                        <td>{$row.participant_fee_amount}</td>
+                        <td>{$row.participant_fee_amount|crmMoney}</td>
                         <td>{$row.participant_register_date|crmDate}</td>
                         <td>{$row.participant_source}</td>
                         <td>{$row.participant_status}</td>
@@ -213,7 +213,7 @@
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact details{/ts}">{$row.display_name}</a></td>
                         <td>{$row.membership_type}</td>
-                        <td>{$row.participant_fee}</td>
+                        <td>{$row.membership_fee|crmMoney}</td>
                         <td>{$row.membership_start_date|crmDate}</td>
                         <td>{$row.membership_end_date|crmDate}</td>
                         <td>{$row.membership_source}</td>

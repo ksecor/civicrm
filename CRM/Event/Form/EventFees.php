@@ -469,14 +469,16 @@ class CRM_Event_Form_EventFees
                           array('onclick' =>"return showHideByValue('send_receipt','','notice','block','radio',false);") );
         $form->add('textarea', 'receipt_text', ts('Confirmation Message') );
         
-        // Retrieve the name and email of the contact - form will be the TO for receipt email
-        if ( $form->_contactID ) {
-            list( $form->_contributorDisplayName, 
-                 $form->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $form->_contactID );
-            $form->assign( 'email', $form->_contributorEmail );
-        } else {
-            //show email block for batch update for event
-            $form->assign( 'batchEmail', true );
+        // Retrieve the name and email of the contact - form will be the TO for receipt email ( only if context is not standalone)        
+        if ( $form->_context != 'standalone' ) {    
+            if ( $form->_contactID ) {
+                list( $form->_contributorDisplayName, 
+                     $form->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $form->_contactID );
+                $form->assign( 'email', $form->_contributorEmail );
+            } else {
+                //show email block for batch update for event
+                $form->assign( 'batchEmail', true );
+            }
         }
 
         require_once "CRM/Core/BAO/Preferences.php";

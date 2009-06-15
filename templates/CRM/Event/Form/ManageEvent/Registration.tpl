@@ -41,7 +41,7 @@
 
         <div id="registration_screen">
         <fieldset><legend><a href="#" onclick= "hide('registration_screen'); show('registration_screen_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Registration Screen{/ts}</legend>
-        <dl>
+        <dl class="html-adjust">
             <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Introductory message / instructions for online event registration page (may include HTML formatting tags).{/ts}</dd>
             <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
@@ -61,7 +61,7 @@
 
         <div id="confirm">
         <fieldset><legend><a href="#" onclick="hide('confirm'); show('confirm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Confirmation Screen{/ts}</legend>
-        <dl>
+        <dl class="html-adjust" >
             <dt>{$form.confirm_title.label} <span class="marker">*</span></dt><dd>{$form.confirm_title.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Page title for screen where user reviews and confirms their registration information.{/ts}</dd>
             <dt>{$form.confirm_text.label}</dt><dd>{$form.confirm_text.html}</dd>
@@ -79,7 +79,7 @@
 
         <div id="thankyou">
         <fieldset><legend><a href="#" onclick="hide('thankyou'); show('thankyou_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Thank-you Screen{/ts}</legend>
-        <dl>
+        <dl class="html-adjust">
             <dt>{$form.thankyou_title.label} <span class="marker">*</span></dt><dd>{$form.thankyou_title.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Page title for registration Thank-you screen.{/ts}</dd>
             <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>
@@ -103,7 +103,7 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Do you want a registration confirmation email sent automatically to the user? This email includes event date(s), location and contact information. For paid events, this email is also a receipt for their payment.{/ts}</dd>
         </dl>
         <div id="confirmEmail">
-        <dl>
+        <dl class="html-adjust">
             <dt>{$form.confirm_email_text.label} </dt><dd>{$form.confirm_email_text.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Additional message or instructions to include in confirmation email.{/ts}</dd>
             <dt>{$form.confirm_from_name.label} <span class="marker">*</span></dt><dd>{$form.confirm_from_name.html}</dd>

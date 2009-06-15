@@ -1,6 +1,6 @@
 {ts 1=$contact.display_name}Dear %1{/ts},
 
-{ts}Your Event Registration has been Cancelled.{/ts}
+{ts}Your Event Registration is Cancelled.{/ts}
 
 
 ===========================================================
@@ -52,22 +52,14 @@
 ===========================================================
 {$contact.email}
 {/if}
-{if $event.is_monetary and !$isAdditional} {* This section for Paid events only.*}
-
-===========================================================
-{$event.fee_label}
-===========================================================
-
-{ts}Total Amount{/ts} : {$participant.fee_amount|crmMoney} {*here we might want to display Discount message *}
 
 {if $register_date}
 {ts}Registration Date{/ts}: {$participant.register_date|crmDate}
-{/if}
 {/if}
 
 {ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions
 or need to modify your event registration.{/ts}
 
 
-{ts}Thank you for your participation.{/ts}
+
 
