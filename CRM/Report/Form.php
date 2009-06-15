@@ -170,10 +170,6 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
 
-        //description of the report
-        $session      =& CRM_Core_Session::singleton( );
-        $this->_description = $session->get( 'reportDescription' );
-
         if ( $this->_id ) {
             $params = array( 'id' => $this->_id );
             $this->_instanceValues = array( );
@@ -210,6 +206,9 @@ class CRM_Report_Form extends CRM_Core_Form {
                                                       "reset=1&ovid=$optionValueID" ) );
             }
 
+            $this->_description = 
+                CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $optionValueID, 'description' );
+            
             // set the mode
             $this->assign( 'mode', 'template' );
         }
@@ -243,7 +242,9 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function preProcess( ) {
         self::preProcessCommon( );
-        self::addBreadCrumb();
+        if ( !$this->_id ) {
+            self::addBreadCrumb();
+        }
 
         foreach ( $this->_columns as $tableName => $table ) {
             // set alias
