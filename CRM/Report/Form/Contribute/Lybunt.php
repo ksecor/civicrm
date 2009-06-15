@@ -90,8 +90,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                                         'default' => true,
                                         ),
                                  ), 
-                          ),  
-                   
+                          ),                     
                    'civicrm_contribution' =>
                    array(  'dao'           => 'CRM_Contribute_DAO_Contribution',
                            'fields'        =>
@@ -307,8 +306,8 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                 }
             }
         }
-        
-        if ( $IN != NULL ) {
+      
+        if ( $IN != NULL && $IN == " (  ) ") {
             $clauses[] = "contribution.contact_id IN  $IN ";
         }
         
@@ -386,7 +385,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $this->lifeTime_where = $this->_where;
         
         $current_year = $this->_params['yid_value'] ; 
-        $dao_lifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );       
+        $dao_lifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );      
             
         while ( $dao_lifeTime->fetch( ) ) {
             
