@@ -1007,6 +1007,7 @@ DIV#customFields DIV#contact_panel TD.talabel {
 
 DIV.buttons {
 	TEXT-ALIGN: right;
+    margin:8px 0 0;
 	PADDING: 4px 4px 2px;
 	WIDTH: 100%;
 	background-color: #fff;
