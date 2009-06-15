@@ -222,6 +222,12 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_instanceForm   = false;
         }
 
+        $this->assign( 'criteriaForm', false );
+        if ( CRM_Core_Permission::access( 'CiviReport' ) ||
+             CRM_Core_Permission::check ( 'access Report Criteria' ) ) {
+            $this->assign( 'criteriaForm', true );
+        }
+
         $this->_instanceButtonName = $this->getButtonName( 'submit', 'save'  );
         $this->_printButtonName    = $this->getButtonName( 'submit', 'print' );
         $this->_pdfButtonName      = $this->getButtonName( 'submit', 'pdf'   );

@@ -58,7 +58,7 @@ class CRM_Report_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getPermissions()
     {
-        return array( 'access CiviReport' );
+        return array( 'access CiviReport', 'access Report Criteria' );
     }
 
 
