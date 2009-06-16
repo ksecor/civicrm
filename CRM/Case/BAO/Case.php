@@ -800,7 +800,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         if ( !$sortname AND !$sortorder ) {
             $orderBy = " ORDER BY overdue_date ASC, display_date DESC";
         } else {
-            $orderBy = " ORDER BY {$sortname} {$sortorder}";
+            $orderBy = " ORDER BY {$sortname} {$sortorder}, display_date DESC";
         }
         
         $page = CRM_Utils_Array::value( 'page', $params );
