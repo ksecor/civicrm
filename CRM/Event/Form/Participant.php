@@ -400,7 +400,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $fields["email-{$this->_bltID}"         ] = 1;
                 $fields["email-Primary"                 ] = 1;
                 require_once "CRM/Core/BAO/UFGroup.php";
-                CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
+                if ( $this->_contactID ) {
+                    require_once "CRM/Core/BAO/UFGroup.php";
+                    CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
+                }
+               
                 if ( empty( $defaults["email-{$this->_bltID}"] ) &&
                      ! empty( $defaults["email-Primary"] ) ) {
                     $defaults[$this->_participantId]["email-{$this->_bltID}"] = $defaults["email-Primary"];
