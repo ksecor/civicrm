@@ -489,70 +489,70 @@ ORDER BY weight, parent_id";
               $newParentID =  $referenInfo['parent_id'];
               if ( $moveType == "before" )  {
                   $newWeight = $referenInfo['weight'];    
-                  } else if ( $moveType == "after" ) {
-                      $newWeight = $referenInfo['weight'] + 1; 
-                  }    
-              }
-
-              // get the details of current node
-              $nodeInfo = self::getNavigationInfo( $nodeID ); 
-              $oldParentID  = $nodeInfo['parent_id'];
-              $oldWeight    = $nodeInfo['weight'];
-
-              $oldParentClause = " parent_id = {$oldParentID}";
-              // if no parent means these are top menus
-              if ( !$oldParentID ) {
-                  $oldParentClause = " parent_id IS NULL";
-              }
-
-              $newParentClause = " parent_id = {$newParentID}";
-              if ( !$newParentID ) {
-                  $newParentClause = " parent_id IS NULL";
-                  $newParentID = 'NULL';
-              }
-
-              // since we need to do multiple updates lets build sql array and then fire all with transaction
-              $sql = array( );
-
-              // reorder was made, since parent are same
-              if ( $oldParentID == $newParentID ) {
-                  if ( $newWeight > $oldWeight ) {
-                      $newWeight = $newWeight - 1;
-                      $sql[] = "UPDATE civicrm_navigation SET weight = weight - 1 
-                                WHERE {$oldParentClause}  AND weight BETWEEN {$oldWeight} + 1 AND {$newWeight}";
-                  }
-
-                  if ( $newWeight < $oldWeight ) {
-                      $sql[] = "UPDATE civicrm_navigation SET weight = weight + 1 
-                                WHERE {$oldParentClause} AND weight BETWEEN {$newWeight} AND {$oldWeight} - 1";
-                  }
-              } else {
-                  // 1. fix old parent (move siblings up)                  
+              } else if ( $moveType == "after" ) {
+                  $newWeight = $referenInfo['weight'] + 1; 
+              }    
+          }
+          
+          // get the details of current node
+          $nodeInfo = self::getNavigationInfo( $nodeID ); 
+          $oldParentID  = $nodeInfo['parent_id'];
+          $oldWeight    = $nodeInfo['weight'];
+          
+          $oldParentClause = " parent_id = {$oldParentID}";
+          // if no parent means these are top menus
+          if ( !$oldParentID ) {
+              $oldParentClause = " parent_id IS NULL";
+          }
+          
+          $newParentClause = " parent_id = {$newParentID}";
+          if ( !$newParentID ) {
+              $newParentClause = " parent_id IS NULL";
+              $newParentID = 'NULL';
+          }
+          
+          // since we need to do multiple updates lets build sql array and then fire all with transaction
+          $sql = array( );
+          
+          // reorder was made, since parent are same
+          if ( $oldParentID == $newParentID ) {
+              if ( $newWeight > $oldWeight ) {
+                  $newWeight = $newWeight - 1;
                   $sql[] = "UPDATE civicrm_navigation SET weight = weight - 1 
-                            WHERE {$oldParentClause} AND weight > {$oldWeight}";
-
-                  // 2. set new parent (move sibling down)
-                  $weightOperator = '>';
-                  if ( $moveType != "after" ) {
-                      $weightOperator = '>=';
-                  }
-                                    
+                            WHERE {$oldParentClause}  AND weight BETWEEN {$oldWeight} + 1 AND {$newWeight}";
+              }
+              
+              if ( $newWeight < $oldWeight ) {
                   $sql[] = "UPDATE civicrm_navigation SET weight = weight + 1 
-                            WHERE {$newParentClause} AND weight {$weightOperator} $newWeight";
+                            WHERE {$oldParentClause} AND weight BETWEEN {$newWeight} AND {$oldWeight} - 1";
               }
-
-              // finally set the weight of current node
-              $sql[] = "UPDATE civicrm_navigation SET weight = {$newWeight}, parent_id = {$newParentID} WHERE id = {$nodeID}";
-
-              // now execute all the sql's
-              require_once 'CRM/Core/Transaction.php';
-              $transaction = new CRM_Core_Transaction( );
-
-              foreach ( $sql as $query ) {
-                  CRM_Core_DAO::executeQuery( $query );
+          } else {
+              // 1. fix old parent (move siblings up)                  
+              $sql[] = "UPDATE civicrm_navigation SET weight = weight - 1 
+                        WHERE {$oldParentClause} AND weight > {$oldWeight}";
+              
+              // 2. set new parent (move sibling down)
+              $weightOperator = '>';
+              if ( $moveType != "after" ) {
+                  $weightOperator = '>=';
               }
-
-              $transaction->commit( );
+              
+              $sql[] = "UPDATE civicrm_navigation SET weight = weight + 1 
+                        WHERE {$newParentClause} AND weight {$weightOperator} $newWeight";
+          }
+          
+          // finally set the weight of current node
+          $sql[] = "UPDATE civicrm_navigation SET weight = {$newWeight}, parent_id = {$newParentID} WHERE id = {$nodeID}";
+          
+          // now execute all the sql's
+          require_once 'CRM/Core/Transaction.php';
+          $transaction = new CRM_Core_Transaction( );
+          
+          foreach ( $sql as $query ) {
+              CRM_Core_DAO::executeQuery( $query );
+          }
+          
+          $transaction->commit( );
       }
       
       /**
@@ -568,7 +568,8 @@ ORDER BY weight, parent_id";
        *
        */
        static function processDelete( $nodeID ) {
-
+           $query = "DELETE FROM civicrm_navigation WHERE id = {$nodeID}";
+           CRM_Core_DAO::executeQuery( $query );
        }
        
       /**
