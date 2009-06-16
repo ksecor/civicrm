@@ -16,14 +16,11 @@
 <div class="form-item">
 {strip} 
         <table class="form-layout">
-		<tr>
-            <td class="font-size12pt label">{$form.sort_name.label}</td>
-            <td colspan="4">{$form.sort_name.html} {$form.buttons.html}
-                <div class="description font-italic">
-                    {ts}Complete OR partial name OR email.{/ts}
-                </div>
-            </td>
-        </tr>
+            <tr>
+               <td class="font-size12pt" colspan="3">
+                    {$form.sort_name.label}&nbsp;&nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}&nbsp;&nbsp;&nbsp;{$form.buttons.html}<br />
+               </td>       
+            </tr>
 
         {include file="CRM/Grant/Form/Search/Common.tpl"}
 
