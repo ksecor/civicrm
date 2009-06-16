@@ -1206,7 +1206,87 @@ commented since it is overwiting simple td
 {
     border: 0px;
 }
-  
+
+#crm-container table.caseSelector
+{
+    vertical-align: top;
+    color: #636363;
+    border: 1px solid #4E82CF;
+    margin: 0.5em 0.1em;
+    width: 99%;
+}
+
+#crm-container table.caseSelector tr
+{
+  border-top: 1px solid #92B6EC;
+    
+}
+
+#crm-container table.caseSelector td.status-urgent 
+{
+   
+    color: #CD0000;
+    font-weight: bold;
+
+}
+
+#crm-container table.caseSelector td
+{
+    border-right: 0px;
+    padding: 2px;
+}
+ 
+#crm-container table.nestedActivitySelector
+{
+    margin: 0px;
+    width: 100%;
+    border: 2px solid #5A8FDB;
+    color: #636363;
+}
+
+
+#crm-container table.nestedActivitySelector td 
+{
+    border-right : 0px;
+}
+
+#crm-container table.nestedActivitySelector tr.columnheader 
+{
+    background-color: #4D94E3;
+}
+    	               
+#crm-container table.nestedActivitySelector tr.priority-urgent
+{         
+    background-color: #F8E0EC;
+}
+
+#crm-container table.nestedActivitySelector tr.priority-low
+{
+    background-color: #CEF6F5;
+}
+
+#crm-container table.nestedActivitySelector tr.status-scheduled
+{
+  color: #3B5E2B;   
+}
+
+#crm-container table.nestedActivitySelector tr.status-completed
+{
+   color: #000080; 
+   font-weight: bold;
+   font-size: 10px;
+}
+
+#crm-container table.nestedActivitySelector tr.status-overdue
+{
+   color: #CD0000;
+}
+
+#crm-container table.nestedActivitySelector tr a
+{
+   color: #0000FF
+}
+
 /* fix combobox display in Opera*/
 .tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
       height: 17px;
