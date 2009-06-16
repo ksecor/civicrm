@@ -3,24 +3,26 @@
 {/if}
 <br/>
 {if $statistics and $outputMode}
-    <table class="form-layout" style="width:100%;">
+    <table class="report-layout">
         {foreach from=$statistics.groups item=row}
             <tr>
-               <td width="5%">{$row.title}</td><td><strong>{$row.value}</strong></td>
+               <td class="report-contents">{$row.title}</td>
+               <td><strong>{$row.value}</strong></td>
             </tr>
         {/foreach}
         {foreach from=$statistics.filters item=row}
              <tr>
-                <td width="5%">{$row.title}</td><td><strong>{$row.value}</strong></td>
+                <td class="report-contents">{$row.title}</td>
+                <td><strong>{$row.value}</strong></td>
              </tr>
         {/foreach}
     </table>
     <br/>
 {/if}
 {if $rows}
-    {include file="CRM/common/pager.tpl" noForm=1}
-    <table class="form-layout" style="width:100%;">
-        <tr class="columnheader">
+    {include file="CRM/common/pager.tpl" noForm=1}<br/>
+    <table class="report-layout" style="width:100%;">
+        <tr class="reports-header">
             {foreach from=$columnHeaders item=header key=field}
                 {assign var=class value=""}
                 {if $header.type eq 1024 OR $header.type eq 1}
@@ -28,12 +30,12 @@
 		{/if}
                 {if !$skip}
                    {if $header.colspan}
-                      <th {$class}colspan={$header.colspan}>{$header.title}</th>
+                       <td class="reports-header" colspan={$header.colspan}>{$header.title}</td>
                       {assign var=skip value=true}
                       {assign var=skipCount value=`$header.colspan`}
                       {assign var=skipMade  value=1}
                    {else}
-                      <th {$class}>{$header.title}</th>
+                      <td class="reports-header" {$class}>{$header.title}</td>
                       {assign var=skip value=false}
                    {/if}
                 {else} {* for skip case *}
@@ -44,7 +46,7 @@
         </tr>
         
         {foreach from=$rows item=row}
-            <tr class="{cycle values="odd-row,even-row"}">
+            <tr>
                 {foreach from=$columnHeaders item=header key=field}
                     {assign var=fieldLink value=$field|cat:"_link"}
                     {assign var=fieldHover value=$field|cat:"_hover"}
@@ -95,11 +97,12 @@
     </table>
 
     {if $statistics}
-        <br/>
-        <table class="form-layout" style="width:100%;">
+        <br /><br />
+        <table class="report-layout">
             {foreach from=$statistics.counts item=row}
                 <tr>
-                    <td width="5%">{$row.title}</td><td><strong>{$row.value}</strong></td>
+                    <td class ="report-contents" width="5%">{$row.title}</td>
+                    <td class ="report-contents"><strong>{$row.value}</strong></td>
                 </tr>
             {/foreach}
         </table>

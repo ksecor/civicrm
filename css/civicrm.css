@@ -1205,3 +1205,33 @@ commented since it is overwiting simple td
     border          :0;
     margin          :0;" 
 }
+
+#crm-container .report-layout {
+    background-color : #F5F5F5; 
+    border           : none;
+    margin           : 0em;
+    width            : 100%;
+}
+
+#crm-container .reports-header{
+   background-color  : #DCDCDC;
+   border            : 1px solid #DCDCDC;
+   color             : #000000;
+}
+
+#crm-container .report-contents {
+   border            : 1px groove #DDDDDD;
+   padding           : 4px;
+   width             : 20%;
+   white-space       : normal;"
+   font-size         : 0.95em;
+}
+
+#crm-container table.report-layout td {
+   padding           : 4px;
+   border            : 1px groove #DDDDDD;
+}
+
+#crm-container table .report-layout tr {
+   font-size         : 0.95em; 
+}

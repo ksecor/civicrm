@@ -4,15 +4,17 @@
     {/if}
     <br/>
     {if $statistics}
-        <table class="form-layout" style = "width : 100%;">
+        <table class="report-layout">
             {foreach from=$statistics.groups item=row}
-                <tr>
-                    <td width="5%">{$row.title}</td><td><strong>{$row.value}</strong></td>
+                <tr class="reports-header">
+                    <td class="reports-header" width="5%">{$row.title}</td>
+                    <td class="reports-header"><strong>{$row.value}</strong></td>
                 </tr>
             {/foreach}
             {foreach from=$statistics.filters item=row}
                 <tr>
-                    <td width="5%">{$row.title}</td><td><strong>{$row.value}</strong></td>
+                    <td width="5%">{$row.title}</td>
+                    <td><strong>{$row.value}</strong></td>
                 </tr>
             {/foreach}
         </table>
@@ -25,17 +27,17 @@
     <table style = "width : 100%;">
 	<tr>
 	    <td>
-		<table class="form-layout" style = "width : 100%;">
-		    <tr class="columnheader">
+		<table class="report-layout">
+		    <tr class="reports-header">
 			{foreach from=$columnHeaders item=header key=field}
 			    {if !$skip}
 				{if $header.colspan}
-				    <th colspan={$header.colspan}>{$header.title}</th>
+				    <td class="reports-header" colspan={$header.colspan}>{$header.title}</td>
 				    {assign var=skip value=true}
 				    {assign var=skipCount value=`$header.colspan`}
 				    {assign var=skipMade  value=1}
 				{else}
-				    <th>{$header.title}</th>
+				    <td class="reports-header"><b>{$header.title}</b></td>
 				    {assign var=skip value=false}
 				{/if}
 			    {else} {* for skip case *}
@@ -44,11 +46,11 @@
 			    {/if}
 			{/foreach}
 		    </tr>               
-		    <tr class="{cycle values="odd-row,even-row"}">
+		    <tr>
 		        {foreach from=$columnHeaders item=header key=field}
 		            {assign var=fieldLink value=$field|cat:"_link"}
 			        {assign var=fieldHover value=$field|cat:"_hover"}
-			    <td style="width:20%; white-space : normal;">
+			    <td  class="report-contents">
 				{if $row.$fieldLink}<a title="{$row.$fieldHover}" href="{$row.$fieldLink}">{/if}
                         
 				{if $row.$field eq 'Sub Total'}
@@ -82,22 +84,22 @@
                         {if $componentRows.$contribMode.$component}
 		            <u><strong>{$component|upper}</strong></u>
                         {/if}
-			<table class="form-layout" style = "width : 100%;">
+			<table class="report-layout">
 			    {*add space before headers*}
 			    {if $componentRows.$contribMode.$component}
-				<tr class="columnheader">
+				<tr class="reports-header">
 				    {foreach from=$pheader item=header}
-					<th>{$header.title}</th>
+					<td class="reports-header"><b>{$header.title}</td>
 				    {/foreach}
 				</tr>
 			    {/if}
                              
 			    {foreach from=$componentRows.$contribMode.$component item=row}
-				<tr class="{cycle values="odd-row,even-row"}">
+				<tr>
 				    {foreach from=$columnHeadersComponent.$component item=header key=field}
 					{assign var=fieldLink value=$field|cat:"_link"}
                     {assign var=fieldHover value=$field|cat:"_hover"}
-					<td style="width:20%; white-space : normal;">
+					<td class="report-contents">
 					    {if $row.$fieldLink}
 						<a title="{$row.$fieldHover} "href="{$row.$fieldLink}">
 					    {/if}
@@ -133,6 +135,7 @@
     
     <br />
     {if $grandStat}
+    <table class="report-layout">
         {* foreach from=$grandStat item=row*}
         <tr>
             {foreach from=$columnHeaders item=header key=field}
@@ -148,14 +151,16 @@
             {/foreach}
         </tr>
         {*/foreach*}
+    </table>
     {/if}
 
     {if $statistics}
         <br/>
-        <table class="form-layout">
+        <table class="report-layout">
             {foreach from=$statistics.counts item=row}
                 <tr>
-                    <td width="5%">{$row.title}</td><td><strong>{$row.value}</strong></td>
+                    <td class="report-contents">{$row.title}</td>
+                    <td class="report-contents"><strong>{$row.value}</strong></td>
                 </tr>
             {/foreach}
         </table>
