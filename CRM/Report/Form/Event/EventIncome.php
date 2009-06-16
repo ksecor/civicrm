@@ -259,8 +259,10 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
     function postProcess( ) {
         $this->_params = $this->controller->exportValues( $this->_name );
         if ( empty( $this->_params ) && $this->_force ) {
-            $this->_formValues['id_value'][] = 
-                CRM_Utils_Request::retrieve( 'id_value', 'Positive', $this );
+            if( $id_value = CRM_Utils_Request::retrieve( 'id_value', 'Positive', $this) ) {
+                $this->_formValues['id_value'][] = $id_value;
+            }    
+
             $this->_params = $this->_formValues;
         }
         $this->_formValues = $this->_params ;
