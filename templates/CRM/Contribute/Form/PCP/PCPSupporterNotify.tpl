@@ -12,7 +12,7 @@
 {ts}You can begin your fundraising efforts using our "Tell a Friend" form{/ts}:
 
 1. {ts}Login to your account at{/ts}:
-{$config->userFrameworkBaseURL}
+{$loginUrl}
 
 2. {ts}Click or paste this link into your browser and follow the prompts{/ts}:
 {$pcpTellFriendURL}
@@ -29,7 +29,7 @@ Include this link to your fundraising page in your emails.{/ts}:
 ===================
 {ts}Whenever you want to preview, update or promote your page{/ts}:
 1. {ts}Login to your account at{/ts}:
-{$config->userFrameworkBaseURL}
+{$loginUrl}
 
 2. {ts}Click or paste this link into your browser to go to your page{/ts}:
 {$pcpInfoURL}
@@ -48,7 +48,7 @@ your page, tell friends, and update your contact info.{/ts}
 
 {ts}You can still preview your page prior to approval{/ts}:
 1. {ts}Login to your account at{/ts}:
-{$config->userFrameworkBaseURL}
+{$loginUrl}
 
 2. {ts}Click or paste this link into your browser{/ts}:
 {$pcpInfoURL}

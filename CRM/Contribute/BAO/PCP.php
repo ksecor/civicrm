@@ -377,6 +377,7 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
     static function sendStatusUpdate( $pcpId, $newStatus, $isInitial = false ) {
         require_once 'CRM/Contribute/PseudoConstant.php';
         $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+        $config =& CRM_Core_Config::singleton( );
 
         if ( ! isset($pcpStatus[$newStatus]) ) {
             return false;
@@ -391,7 +392,18 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         if ( $isInitial ) {
             $emailTemplate = 'CRM/Contribute/Form/PCP/PCPSupporterNotify.tpl';
         }
-
+        
+        //set loginUrl
+        $loginUrl = $config->userFrameworkBaseURL;
+        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
+        if ( $isJoomla ) {
+            $loginUrl  = str_replace( 'administrator/', '', $loginUrl );
+            $loginUrl .= 'index.php?option=com_user&view=login';
+        } else {
+            $loginUrl .= 'user';
+        }
+        $template->assign( 'loginUrl', $loginUrl );
+        
         // set appropriate subject
         $contribPageTitle = self::getPcpContributionPageTitle( $pcpId );
         $subject  = "Your Personal Campaign Page for $contribPageTitle";
