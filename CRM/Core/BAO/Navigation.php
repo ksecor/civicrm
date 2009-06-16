@@ -460,9 +460,10 @@ ORDER BY weight, parent_id";
                 self::processMove( $nodeID, $referenceID, $moveType );
                 break;
              case "rename":
-                self::processDelete( $nodeID, $label );
+                self::processRename( $nodeID, $label );
                 break;
              case "delete":
+                self::processDelete( $nodeID );
                 break;
          }
          exit();
@@ -555,11 +556,19 @@ ORDER BY weight, parent_id";
       }
       
       /**
+       *  Function to process rename action for tree
+       *
+       */
+       static function processRename( $nodeID, $label ) {
+           CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_Navigation', $nodeID, 'label', $label );
+       }
+
+      /**
        *  Function to process delete action for tree
        *
        */
-       static function processDelete( $nodeID, $label ) {
-           CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_Navigation', $nodeID, 'label', $label );
+       static function processDelete( $nodeID ) {
+
        }
        
       /**
