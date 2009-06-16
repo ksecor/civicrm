@@ -1,25 +1,4 @@
-{if $printOnly}
-    <h1>{$reportTitle}</h1>
-{/if}
-<br/>
-{if $statistics and $outputMode}
-    <table class="report-layout">
-        {foreach from=$statistics.groups item=row}
-            <tr>
-               <td class="report-contents">{$row.title}</td>
-               <td><strong>{$row.value}</strong></td>
-            </tr>
-        {/foreach}
-        {foreach from=$statistics.filters item=row}
-             <tr>
-                <td class="report-contents">{$row.title}</td>
-                <td><strong>{$row.value}</strong></td>
-             </tr>
-        {/foreach}
-    </table>
-    <br/>
-{/if}
-{if $rows}
+{if ($form.charts.value.0 eq '' || !$displayChart ) && $rows}
     {include file="CRM/common/pager.tpl" noForm=1}<br/>
     <table class="report-layout" style="width:100%;">
         <tr class="reports-header">
@@ -95,25 +74,4 @@
             {* /foreach*}
         {/if}
     </table>
-
-    {if $statistics}
-        <br /><br />
-        <table class="report-layout">
-            {foreach from=$statistics.counts item=row}
-                <tr>
-                    <td class ="report-contents" width="5%">{$row.title}</td>
-                    <td class ="report-contents"><strong>{$row.value}</strong></td>
-                </tr>
-            {/foreach}
-        </table>
-    {/if}
-{else}
-   {if $outputMode eq 'html'}
-   <div class="messages status">
-      <dl>
-         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-         <dd>{ts}Sorry. No reults found.{/ts}</dd>
-      </dl>
-   </div>
-   {/if}
 {/if}        
