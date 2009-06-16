@@ -453,11 +453,17 @@ ORDER BY weight, parent_id";
          $referenceID = (int)str_replace("node_","",$params['ref_id']);
          $moveType    = $params['move_type'];
          $type        = $params['type'];
+         $label       = $params['data'];
          
          switch ( $type ) {
              case "move":
-                self::processMove( $nodeID, $referenceID, $moveType ) ;
-             break;
+                self::processMove( $nodeID, $referenceID, $moveType );
+                break;
+             case "rename":
+                self::processDelete( $nodeID, $label );
+                break;
+             case "delete":
+                break;
          }
          exit();
      }
@@ -548,6 +554,14 @@ ORDER BY weight, parent_id";
               $transaction->commit( );
       }
       
+      /**
+       *  Function to process delete action for tree
+       *
+       */
+       static function processDelete( $nodeID, $label ) {
+           CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_Navigation', $nodeID, 'label', $label );
+       }
+       
       /**
       * Function to get the info on navigation item
       * 

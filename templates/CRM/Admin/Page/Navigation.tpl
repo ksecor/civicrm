@@ -42,15 +42,33 @@
                     draggable : "all"
                 },
                 callback : {
-                    onmove      : function( node, reference, type ) {
+                    onmove  : function( node, reference, type ) {
                         var postURL = {/literal}"{crmURL p='civicrm/ajax/menutree' h=0 }"{literal};
                         cj.get( postURL + '&type=move&id=' + node.id + '&ref_id=' + (reference === -1 ? 0 : reference.id) + '&move_type=' + type, 
                             function (data) {
-                			    //if (!node.id) node.id = data;
                 			    cj("#reset-menu").show( );
                 		    }
                 		);                		                    
-                    }
+                    },
+                    onrename : function( node ) {
+                        var postURL = {/literal}"{crmURL p='civicrm/ajax/menutree' h=0 }"{literal};
+                        cj.get( postURL + '&type=rename&id=' + node.id + '&data=' + cj( node ).children("a:visible").text(), 
+                            function (data) {
+                			    cj("#reset-menu").show( );
+                		    }
+                		);
+        			},
+        			beforedelete : function( node ) {
+        				return confirm("Are you sure you want to delete?");
+        			},
+        			ondelete : function ( node ) {
+                        var postURL = {/literal}"{crmURL p='civicrm/ajax/menutree' h=0 }"{literal};
+                        cj.get( postURL + '&type=delete&id=' + node.id, 
+                            function (data) {
+                			    cj("#reset-menu").show( );
+                		    }
+                		);
+        			}
                 }
             });
         });
