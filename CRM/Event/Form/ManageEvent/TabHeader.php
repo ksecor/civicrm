@@ -55,7 +55,7 @@ class CRM_Event_Form_ManageEvent_TabHeader {
                                                'active' => false,
                                                'current' => false,
                                                ),
-                      'Location'     => array( 'title' => ts( 'Location' ),
+                      'Location'     => array( 'title' => ts( 'Event Location' ),
                                                'link'   => null,
                                                'valid' => false,
                                                'active' => false,
