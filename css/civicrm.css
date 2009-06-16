@@ -1144,10 +1144,21 @@ div.crm-pager a {
     color: #636363;
 }
 
+#crm-container table#activities-selector.nestedActivitySelector
+{
+     border: 0px;
+}
+
 
 #crm-container table.nestedActivitySelector td {
     border-right : 0px;
 }
+
+#crm-container table#activities-selector.nestedActivitySelector tr.status-completed
+{
+  font-size: 11px;  
+}
+
 
 #crm-container table.nestedActivitySelector tr.columnheader {
     background-color: #4D94E3;
