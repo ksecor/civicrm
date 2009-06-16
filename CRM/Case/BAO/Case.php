@@ -843,9 +843,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['id']                = $dao->id;
             $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
             $values[$dao->id]['reporter']          = $dao->reporter;
-            $values[$dao->id]['overdue_date']          = CRM_Utils_Date::customFormat( $dao->overdue_date );
-            $values[$dao->id]['unix_overdue_date']     = CRM_Utils_Date::unixTime( $dao->overdue_date); // this field is only used for calculation
-            $values[$dao->id]['display_date']       = CRM_Utils_Date::customFormat( $dao->display_date );
+            $values[$dao->id]['unix_overdue_date'] = CRM_Utils_Date::unixTime( $dao->overdue_date); // this field is only used for calculation
+            $values[$dao->id]['display_date']      = CRM_Utils_Date::customFormat( $dao->display_date );
             $values[$dao->id]['status']            = $activityStatus[$dao->status];
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
             

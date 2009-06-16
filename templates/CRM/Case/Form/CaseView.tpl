@@ -454,12 +454,11 @@ cj(document).ready(function(){
             url: dataUrl,
             dataType: 'json',
             colModel : [
-            {display: 'Due',     name : 'overdue_date',    width : 70,  sortable : true, align: 'left'},
-            {display: 'Actual',  name : 'display_date', width : 70,  sortable : true, align: 'left'},
-            {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
-            {display: 'Type',    name : 'type',        width : 85,  sortable : true, align: 'left'},
-            {display: 'Reporter',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
-            {display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
+            {display: 'Date',    name : 'display_date', width : 124,  sortable : true, align: 'left'},
+            {display: 'Subject', name : 'subject',     width : 105, sortable : true, align: 'left'},
+            {display: 'Type',    name : 'type',        width : 100,  sortable : true, align: 'left'},
+            {display: 'Reporter',name : 'reporter',    width : 100,  sortable : true, align: 'left'},
+            {display: 'Status',  name : 'status',      width : 65,  sortable : true, align: 'left'},
             {display: '',        name : 'links',       width : 70,  align: 'left'},
             {name : 'unix_overdue_date', hide: true, width: 1} // this col is use only for calculation
             ],
