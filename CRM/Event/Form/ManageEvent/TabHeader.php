@@ -48,6 +48,10 @@ class CRM_Event_Form_ManageEvent_TabHeader {
     }
 
     static function &process( &$form ) {
+        if ( $form->getVar( '_id' ) <= 0 ) {
+            return null;
+        }
+
         $tabs = array(
                       'EventInfo'    => array( 'title'  => ts( 'Info and Settings' ),
                                                'link'   => null,
