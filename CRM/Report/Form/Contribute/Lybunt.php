@@ -191,8 +191,10 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                             $this->_columnHeaders[ "{$tableName}_{$fieldName}" ][ 'type'  ] = $field[ 'type'  ];
                             $this->_columnHeaders[ "{$tableName}_{$fieldName}" ][ 'title' ] = $field[ 'title' ];
                             
-                        }                      
-                        
+                        }
+                        if ( $field['no_display'] ) {
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"][ 'no_display' ] = true;
+                        }                    
                     }
                 }
             }
@@ -362,7 +364,8 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
 
             $row        = array( );         
             $contact_id = $dao->civicrm_contribution_contact_id;            
-            $year       = $dao->civicrm_contribution_receive_date;      
+            $year       = $dao->civicrm_contribution_receive_date;   
+            $display[ $contact_id ]['civicrm_contribution_contact_id']  =  $contact_id;
             $display[ $contact_id ][ $year ]                            =  $dao->civicrm_contribution_total_amount ;            
             $display[ $contact_id ]['civicrm_contact_display_name']     =  $dao->civicrm_contact_display_name ;             
             $display[ $contact_id ]['civicrm_email_email']              =  $dao->civicrm_email_email ; 
@@ -441,5 +444,20 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
             $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
             $this->_graphPath =  $graphs['0']['file_name'];
         }        
-    }  
+    } 
+ 
+    function alterDisplay( &$rows ) {
+        foreach ( $rows as $rowNum => $row ) {
+            //Convert Display name into link
+            if ( array_key_exists('civicrm_contact_display_name', $row) &&
+                 array_key_exists('civicrm_contribution_contact_id', $row) ) {
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contribution_contact_id'],
+                                                            $this->_absoluteUrl, $this->_id );
+                $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
+                $rows[$rowNum]['civicrm_contact_display_name_hover'] =  
+                    ts("View Contribution Details for this Contact.");
+            }
+        }
+    } 
 }

@@ -350,7 +350,7 @@ $this->assign( 'displayChart', true );
 
         while ( $daoLifeTime->fetch( ) ) {
             $contact_id = $daoLifeTime->civicrm_contribution_contact_id;
-            $display[ $contact_id ]['contact_id'] = $contact_id;
+            $display[ $contact_id ]['civicrm_contribution_contact_id'] = $contact_id;
             $display[ $contact_id ][''] = 
             $display[ $contact_id ]['civicrm_life_time_total'] = 
                 $daoLifeTime->civicrm_contribution_total_amount;
@@ -405,7 +405,6 @@ $this->assign( 'displayChart', true );
         }
         $daoYear->free( );
         $rows = array( );
-        $this->_columnHeaders['contact_id'] = null;
         if( ! empty($display) ) {
             foreach( $display as $key => $value ) {              
                 $row = array( );                        
@@ -415,7 +414,6 @@ $this->assign( 'displayChart', true );
                 $rows[] = $row;
             }
         }
-        unset( $this->_columnHeaders['contact_id'] );
         // format result set. 
         $this->formatDisplay( $rows, false );
 
@@ -465,9 +463,9 @@ $this->assign( 'displayChart', true );
         foreach ( $rows as $rowNum => $row ) {
             //Convert Display name into link
             if ( array_key_exists('civicrm_contact_display_name', $row) &&
-                 array_key_exists('contact_id', $row) ) {
+                 array_key_exists('civicrm_contribution_contact_id', $row) ) {
                 $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
-                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['contact_id'],
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contribution_contact_id'],
                                                             $this->_absoluteUrl, $this->_id );
                 $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
                 $rows[$rowNum]['civicrm_contact_display_name_hover'] =  
