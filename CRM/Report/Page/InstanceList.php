@@ -56,48 +56,36 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
             $report = " AND v.id = {$ovID} ";
         }
         $sql = "
-        SELECT inst.id, inst.title, inst.report_id, inst.description, v.label, v.component_id
-          FROM civicrm_option_group g,
-               civicrm_option_value v,
-               civicrm_report_instance inst
+        SELECT inst.id, inst.title, inst.report_id, inst.description, v.label, 
+               ifnull( SUBSTRING(comp.name, 5), 'Contact' ) as compName
+          FROM civicrm_option_group g
+          LEFT JOIN civicrm_option_value v
+                 ON v.option_group_id = g.id AND
+                    g.name  = 'report_template'
+          LEFT JOIN civicrm_report_instance inst
+                 ON v.value = inst.report_id
+          LEFT JOIN civicrm_component comp 
+                 ON v.component_id = comp.id
             
-         WHERE v.option_group_id = g.id AND
-               g.name      = 'report_template'   AND
-               v.value     = inst.report_id  AND
-               v.is_active = 1
-               {$report}
+         WHERE v.is_active = 1 {$report}
 
-         ORDER By  v.weight
+         ORDER BY v.weight
         ";
-        $dao = CRM_Core_DAO::executeQuery( $sql );
+        $dao  = CRM_Core_DAO::executeQuery( $sql );
 
-        $query        = "SELECT id, name FROM civicrm_component ";
-        $componentDAO = CRM_Core_DAO::executeQuery( $query );
-
-        $component    = array();
-        while ( $componentDAO->fetch( ) ) {
-            //use component name CiviContribute as Contribute same for
-            //other component
-            $component[$componentDAO->id] = substr($componentDAO->name, 4 ); 
-        }
-                
         $rows = array();
+        $url  = 'civicrm/report/instance';
         while ( $dao->fetch( ) ) {
             if ( trim( $dao->title ) ) {
-                $url = 'civicrm/report/instance';
-                $compName = 'Contact';
-                if ( $dao->component_id ) {
-                    $compName = $component[$dao->component_id];
-                }
                 if ( $ovID ) {
                     $title = ts("Report(s) for the Template: %1", array( 1 => $dao->label ) );
                 }
-                $rows[$compName][$dao->id]['title'] = $dao->title;               
-                $rows[$compName][$dao->id]['label'] = $dao->label;
-                $rows[$compName][$dao->id]['description'] = $dao->description;               
-                $rows[$compName][$dao->id]['url'] = CRM_Utils_System::url( $url, "reset=1&id={$dao->id}");
+                $rows[$dao->compName][$dao->id]['title']       = $dao->title;               
+                $rows[$dao->compName][$dao->id]['label']       = $dao->label;
+                $rows[$dao->compName][$dao->id]['description'] = $dao->description;               
+                $rows[$dao->compName][$dao->id]['url']         = CRM_Utils_System::url( $url, "reset=1&id={$dao->id}");
                 if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
-                    $rows[$compName][$dao->id]['deleteUrl'] = 
+                    $rows[$dao->compName][$dao->id]['deleteUrl'] = 
                         CRM_Utils_System::url( $url, "action=delete&reset=1&id={$dao->id}");
                 }
             }
@@ -106,13 +94,11 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
     }
 
     /**
-     * Browse all Report Instance List.
+     * run this page (figure out the action needed and perform it).
      *
-     * @return content of the parents run method
-     *
+     * @return void
      */
-    function browse()
-    {
+    function run() {
         //option value ID of the Report
         $ovID = $title = null;
         $ovID = CRM_Utils_Request::retrieve( 'ovid', 'Positive', $this );
@@ -127,20 +113,6 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
         $templateUrl  = CRM_Utils_System::url('civicrm/report/template/list', "reset=1");
         $this->assign( 'templateUrl', $templateUrl );
         return parent::run();
-    }
-
-    /**
-     * run this page (figure out the action needed and perform it).
-     *
-     * @return void
-     */
-    function run() {
-        $action = CRM_Utils_Request::retrieve( 'action',
-                                               'String',
-                                               $this, false, 'browse' );
-
-        $this->assign( 'action', $action );
-        $this->browse( );
     }
 }
 ?>
