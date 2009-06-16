@@ -41,6 +41,26 @@
                     deletable : "all",
                     draggable : "all"
                 },
+                ui : {
+                    context	: 
+                    [ 
+                        { 
+                            id		: "rename",
+                            label	: "Rename", 
+                            icon	: "rename.png",
+                            visible	: function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("renameable", NODE); }, 
+                            action	: function (NODE, TREE_OBJ) { TREE_OBJ.rename(NODE); } 
+                        },
+                        "separator",
+                        { 
+                            id		: "delete",
+                            label	: "Delete",
+                            icon	: "remove.png",
+                            visible	: function (NODE, TREE_OBJ) { var ok = true; $.each(NODE, function () { if(TREE_OBJ.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
+                            action	: function (NODE, TREE_OBJ) { $.each(NODE, function () { TREE_OBJ.remove(this); }); } 
+                        }
+                    ]
+                },                
                 callback : {
                     onmove  : function( node, reference, type ) {
                         var postURL = {/literal}"{crmURL p='civicrm/ajax/menutree' h=0 }"{literal};
