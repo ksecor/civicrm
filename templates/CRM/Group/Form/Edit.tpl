@@ -10,7 +10,7 @@
     </div>
     <table class="form-layout">
         <tr><td class="label">{$form.title.label}</td>
-            <td>{$form.title.html}
+            <td>{$form.title.html|crmReplace:class:huge}
                 {if $group.saved_search_id}&nbsp;({ts}Smart Group{/ts}){/if}
             </td>
         </tr>

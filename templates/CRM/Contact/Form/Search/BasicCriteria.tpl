@@ -130,11 +130,11 @@ dojo.addOnLoad( function( ) {
                 {else}
                     { if $config->groupTree }
                         <a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
-			    <div class="tundra" style="background-color: #f4eeee;" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="getCheckedNodes();">
+                        <div class="tundra" style="background-color: #f4eeee;" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="getCheckedNodes();">
                         </div><br />
                         <span id="id-group-names"></span>
                     {else}
-                        {$form.group.html}
+                        {$form.group.html|crmReplace:class:big}
                     {/if}
                 {/if}
             </td>
