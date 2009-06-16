@@ -364,3 +364,7 @@ INSERT INTO
    `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) 
 VALUES 
    ('redaction_rule', 'Redaction Rule', 0, 1);
+
+-- CRM-4394
+UPDATE civicrm_state_province SET country_id = 1008 WHERE id = 1637;
+
