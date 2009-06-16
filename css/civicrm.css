@@ -820,8 +820,45 @@ div.crm-pager a {
   overflow: hidden;  
 }
 
+.block-civicrm div#recently-viewed ul li.Activity {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Activity.png");
+ }
+.block-civicrm div#recently-viewed ul li.Case {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Case.png");
+ }
+.block-civicrm div#recently-viewed ul li.Contribution {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Contribution.png");
+ }
+.block-civicrm div#recently-viewed ul li.Grant {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Grant.png");
+ }
+.block-civicrm div#recently-viewed ul li.Group {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Group.png");
+ }
+.block-civicrm div#recently-viewed ul li.Household {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Household.png");
+ }
+.block-civicrm div#recently-viewed ul li.Individual {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Individual.png");
+ }
+.block-civicrm div#recently-viewed ul li.Membership {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Membership.png");
+ }
+.block-civicrm div#recently-viewed ul li.Note {
+  background-position:center left; background-repeat:no-repeat; background-image:url("../i/recent/Note.png");
+ }
+.block-civicrm div#recently-viewed ul li.Organization {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Organization.png");
+ }
+.block-civicrm div#recently-viewed ul li.Participant {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Participant.png");
+ }
+.block-civicrm div#recently-viewed ul li.Pledge {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Pledge.png");
+ }
+ 
 .block-civicrm div#recently-viewed ul li a {
-  margin-left: 4px;
+  margin-left: 20px;
 }
 
 .block-civicrm div#recently-viewed ul li img {
