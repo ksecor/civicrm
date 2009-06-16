@@ -4,12 +4,16 @@
 cj( function( ) {
     var currentId  = null;
     var oldcolor   = null;
-    
-    // Hiding action menu while clicking outside
+    var hideAction = false;
+   
+     // Hiding action menu while clicking outside
     cj(document).click(function( ) {
-        //FIX Me need to close more action 
-        //cj("#" + currentId ).toggle( );
-        //currentId = null;
+     if ( !hideAction ) {
+           cj(".btn-slide").each(function( ) {
+                 cj(this).find("ul").hide( ); 
+            });
+        }
+        hideAction = false;
     });
   
     // Effects for action menu
@@ -19,7 +23,8 @@ cj( function( ) {
             cj(".btn-slide").each(function( ) {
                 if ( currentId != cj(this).find("ul").attr('id') ) {
                     cj(this).find("ul").hide( );
-                }
+                    hideAction = true;
+                 }
             });
             
             cj(this).find("ul").toggle( );
