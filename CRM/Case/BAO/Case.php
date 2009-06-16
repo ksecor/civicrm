@@ -565,6 +565,9 @@ AND civicrm_case.is_deleted     = 0";
         $queryParams = array();
         $result = CRM_Core_DAO::executeQuery( $query,$queryParams );
 
+        require_once 'CRM/Core/OptionGroup.php';
+        $caseStatus = CRM_Core_OptionGroup::values( 'case_status', false, false, false, " AND v.name = 'Urgent' " );
+
         $resultFields = array( 'contact_id',
                                'contact_type',
                                'sort_name',
@@ -615,7 +618,7 @@ AND civicrm_case.is_deleted     = 0";
                                                             'cid' => $result->contact_id,
                                                             'cxt' => 'dashboard' ) );
                 } elseif ( $field == 'case_status' ) {  
-                    if ( $result->$field == 'Urgent' ) {
+                    if ( in_array($result->$field, $caseStatus) ) {
                         $casesList[$result->case_id]['class'] = "status-urgent";
                     }else {
                         $casesList[$result->case_id]['class'] = "status-normal";
