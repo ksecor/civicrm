@@ -197,6 +197,15 @@ contribution2_total_amount_count, contribution2_total_amount_sum',
             unset($this->_columns['civicrm_contact']['fields']['id']);
         }
 
+        if ( array_key_exists('country_id', $this->_params['group_bys']) ) {
+            $this->_columns['civicrm_contribution']['fields']['total_amount1']['clause'] = '
+SUM(contribution1_total_amount_count) as contribution1_total_amount_count, 
+SUM(contribution1_total_amount_sum)   as contribution1_total_amount_sum';
+            $this->_columns['civicrm_contribution']['fields']['total_amount2']['clause'] = '
+SUM(contribution2_total_amount_count) as contribution2_total_amount_count, 
+SUM(contribution2_total_amount_sum)   as contribution2_total_amount_sum';
+        }
+
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
@@ -285,8 +294,14 @@ contribution2_total_amount_count, contribution2_total_amount_sum',
             $contriCol  = "contact_id";
             $from .= "
 LEFT JOIN civicrm_address address ON contact.id = address.contact_id
-LEFT JOIN civicrm_email  email    ON contact.id = email.contact_id
-LEFT JOIN civicrm_phone  phone    ON contact.id = phone.contact_id
+LEFT JOIN civicrm_email   email    
+       ON contact.id = email.contact_id AND email.is_primary = 1
+LEFT JOIN civicrm_phone   phone    
+       ON contact.id = phone.contact_id AND phone.is_primary = 1
+LEFT JOIN civicrm_group_contact  group_contact 
+       ON contact.id = group_contact.contact_id  AND group_contact.status='Added'
+LEFT JOIN civicrm_group  cgroup 
+       ON group_contact.group_id = cgroup.id
 ";
         } else if ( $fromTable == 'civicrm_contribution_type' ) {
             $contriCol  = "contribution_type_id";
@@ -469,6 +484,10 @@ LEFT  JOIN (
         return $errors;
     }   
     
+    function statistics( &$rows ) {
+        $statistics = parent::statistics( $rows );
+        return $statistics;
+    }
 
     function postProcess( ) {
         $this->beginPostProcess( );
@@ -540,9 +559,6 @@ LEFT  JOIN (
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
-        $hoverCountry     = ts("View repeatDetails for this Country.");
-        $hoverState       = ts("View repeatDetails for this state.");
-        $hoverContriType  = ts("View repeatDetails for this Contribution type.");
         list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ), 
                                                CRM_Utils_Array::value( "receive_date1_from"    , $this->_params ),
                                                CRM_Utils_Array::value( "receive_date1_to"      , $this->_params ) );
@@ -570,7 +586,7 @@ LEFT  JOIN (
                 if ( $value = $row['address_country_id'] ) {
                     $rows[$rowNum]['address_country_id'] = CRM_Core_PseudoConstant::country( $value, false );
                     
-                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/repeatDetail',
+                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
                                                   "reset=1&force=1&" . 
                                                   "country_id_op=in&country_id_value={$value}&" .
                                                   "$dateUrl",
@@ -578,7 +594,7 @@ LEFT  JOIN (
                                                   
 		                                      
                     $rows[$rowNum]['address_country_id_link' ] = $url;
-                    $rows[$rowNum]['address_country_id_hover'] = ts("View repeatDetails for this Country.");
+                    $rows[$rowNum]['address_country_id_hover'] = ts("View contributions for this Country.");
                 }
                 $entryFound = true;
             }
@@ -589,7 +605,7 @@ LEFT  JOIN (
                     $rows[$rowNum]['address_state_province_id'] = 
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
 
-                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/repeatDetail',
+                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
                                                   "reset=1&force=1&" . 
                                                   "state_province_id_op=in&state_province_id_value={$value}&" .
                                                   "$dateUrl",
