@@ -323,7 +323,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     function groupBy( $receiveDate = false ) {
         $this->_groupBy = $receiveDate ? "Group BY Year(contribution.receive_date), contribution.contact_id" : 
             "Group BY contribution.contact_id";  
-        $this->assign( 'displayChart', true );
+        $this->assign( 'chartSupported', true );
     }
 
     function statistics( &$rows ) {

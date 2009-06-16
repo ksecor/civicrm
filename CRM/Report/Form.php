@@ -904,6 +904,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( ! empty($this->_params['charts']) ) {
             require_once 'CRM/Utils/PChart.php';
             $this->buildChart( $rows );
+            $this->assign( 'chartEnabled', true );
         }
 
         // unset columns not to be displayed.
@@ -1175,9 +1176,7 @@ class CRM_Report_Form extends CRM_Core_Form {
              $this->_sendmail              ) {
             $templateFile = parent::getTemplateFileName( ); 
 
-            $image   = $this->_graphPath ? "</br><img src='{$this->_graphPath}'>" : '';
-            $content =
-                $image . $this->_formValues['report_header'] .
+            $content = $this->_formValues['report_header'] .
                 CRM_Core_Form::$_template->fetch( $templateFile ) .      
                 $this->_formValues['report_footer'] ;
 

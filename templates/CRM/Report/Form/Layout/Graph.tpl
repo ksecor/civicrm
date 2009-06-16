@@ -1,5 +1,5 @@
 {* Display weekly,Quarterly,monthly and yearly contributions using pChart (Bar and Pie) *}
-{if $form.charts.value.0 neq '' && $displayChart && $rows}
+{if $chartEnabled && $chartSupported && $rows}
     <table class="chart">
         <tr>
             <td>

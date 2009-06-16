@@ -400,7 +400,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                     foreach ( $table['group_bys'] as $fieldName => $field ) {
                         if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
                             if ( CRM_Utils_Array::value( 'chart', $field ) ) {
-                                $this->assign( 'displayChart', true );
+                                $this->assign( 'chartSupported', true );
                             }
 
                             if ( CRM_Utils_Array::value('frequency', $table['group_bys'][$fieldName]) && 

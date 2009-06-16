@@ -161,7 +161,7 @@ class CRM_Report_Form_Event_EventSummary extends CRM_Report_Form {
     }
     
     function groupBy( ) {
-        $this->assign( 'displayChart', true );
+        $this->assign( 'chartSupported', true );
         $this->_groupBy = " GROUP BY {$this->_aliases['civicrm_event']}.id";
     }
    

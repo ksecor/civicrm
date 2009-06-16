@@ -237,7 +237,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     
     function from( $year = null, $yearColumn = false ) {        
         $yearClause = $yearColumn ? "AND YEAR({$this->_aliases['civicrm_contribution']}.receive_date) IN ( {$this->_params['yid_value']} - 1, {$this->_params['yid_value']} - 2, {$this->_params['yid_value']} - 3 )" : '';
-$this->assign( 'displayChart', true );
+$this->assign( 'chartSupported', true );
         if ( $year ) {
             $yearClause .= " AND YEAR({$this->_aliases['civicrm_contribution']}.receive_date) < $year";
         }
@@ -307,7 +307,7 @@ $this->assign( 'displayChart', true );
     }
     
     function groupBy( $receiveDate = false ) {
-        $this->assign( 'displayChart', true );
+        $this->assign( 'chartSupported', true );
         $this->_groupBy = $receiveDate ? "Group BY Year(contribution.receive_date), contribution.contact_id" : 
             "Group BY contribution.contact_id";  
     }

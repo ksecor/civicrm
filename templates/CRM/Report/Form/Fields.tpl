@@ -57,7 +57,7 @@
                         {/if}
                     </table>
                 </td>
-                {if $displayChart}
+                {if $chartSupported}
                     <td>
                         <table class="form-layout-compressed" align="right">
                             <td align="right">{$form.charts.html}&nbsp;&nbsp;{$form.$chart.html}</td>                        

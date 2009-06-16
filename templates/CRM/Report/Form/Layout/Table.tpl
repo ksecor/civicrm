@@ -1,4 +1,4 @@
-{if ($form.charts.value.0 eq '' || !$displayChart ) && $rows}
+{if (!$chartEnabled || !$chartSupported )&& $rows}
     {include file="CRM/common/pager.tpl" noForm=1}<br/>
     <table class="report-layout" style="width:100%;">
         <tr class="reports-header">
