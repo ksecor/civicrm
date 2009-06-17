@@ -899,6 +899,11 @@ DIV#toolTip {
 .primary {
 	FONT-WEIGHT: bold
 }
+
+#crm-container .ui-tabs-panel {
+    padding:0em 1.4em 1em 1em;
+}
+
 DIV#contactTopBar {
 	PADDING: 4px;
 	LINE-HEIGHT: 1.4em;
