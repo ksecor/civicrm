@@ -99,6 +99,7 @@ class CRM_Report_Utils_Get {
         case 'neq':
             $value = self::getTypedValue( "{$fieldName}_value", $field['type'] );
             if ( $value !== null ) {
+                self::unsetFilters( $defaults );
                 $defaults["{$fieldName}_value"] = $value;
                 $defaults["{$fieldName}_op"   ] = $fieldOP;
             }
@@ -110,6 +111,7 @@ class CRM_Report_Utils_Get {
             $maxValue = self::getTypedValue( "{$fieldName}_max", $field['type'] );
             if ( $minValue !== null ||
                  $maxValue !== null ) {
+                self::unsetFilters( $defaults );
                 $defaults["{$fieldName}_min"] = $minValue;
                 $defaults["{$fieldName}_max"] = $maxValue;
                 $defaults["{$fieldName}_op" ] = $fieldOP;
@@ -120,6 +122,7 @@ class CRM_Report_Utils_Get {
             // assuming only one value for now. A plus symbol could be used 
             // to diplsay multiple values in url
             $value    = self::getTypedValue( "{$fieldName}_value", $field['type'] );
+            self::unsetFilters( $defaults );
             $defaults["{$fieldName}_value"] = array( $value );
             $defaults["{$fieldName}_op"   ] = $fieldOP;
             break;
@@ -149,7 +152,22 @@ class CRM_Report_Utils_Get {
             }
         }
     }
-
+  
+    //unset default filters
+    function unsetFilters( &$defaults ) {
+        static $unsetFlag = true ;
+        if( $unsetFlag ) {
+            foreach($defaults as $field_name => $field_value ){
+                $newstr  = substr( $field_name , strrpos( $field_name , '_' ) );
+                if( $newstr == '_value' || $newstr == '_op'  ||
+                    $newstr == '_min'   || $newstr == '_max' ) {
+                    unset($defaults[$field_name]);
+                }
+            }
+            $unsetFlag = false;
+        }
+    }
+    
     function processGroupBy( &$fieldGrp, &$defaults ) {
         // process only group_bys for now
         $flag = false;
