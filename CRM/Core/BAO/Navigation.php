@@ -430,14 +430,9 @@ ORDER BY weight, parent_id";
     /**
      * Reset navigation for all contacts
      */
-    static function resetNavigation( $redirect = true ) {
+    static function resetNavigation( ) {
         $query = "UPDATE civicrm_preferences SET navigation = NULL WHERE contact_id IS NOT NULL";
         CRM_Core_DAO::executeQuery( $query );
-        if ( $redirect ) {
-            require_once 'CRM/Utils/System.php';
-            $url = CRM_Utils_System::url( 'civicrm/admin/menu', 'reset=1' );
-            return CRM_Utils_System::redirect( $url );
-        }
     }          
 
     /**
@@ -466,6 +461,9 @@ ORDER BY weight, parent_id";
                 self::processDelete( $nodeID );
                 break;
          }
+         
+         //reset navigation menus
+         self::resetNavigation( );
          exit();
      }
      

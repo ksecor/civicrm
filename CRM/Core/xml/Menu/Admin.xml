@@ -438,9 +438,4 @@
      <page_callback>CRM_Admin_Page_AJAX::menuTree</page_callback>
      <access_arguments>access CiviCRM,administer CiviCRM</access_arguments>
   </item>
-  <item>
-     <path>civicrm/admin/menu/rebuild</path>
-     <page_callback>CRM_Core_BAO_Navigation::resetNavigation</page_callback>
-     <access_arguments>access CiviCRM,administer CiviCRM</access_arguments>
-  </item>
 </menu>

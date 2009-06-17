@@ -1,22 +1,13 @@
 {if $action eq 1 or $action eq 2 or $action eq 8}
     {include file="CRM/Admin/Form/Navigation.tpl"}
 {else}
-    <div class="float-left">
-    <table class="form-layout-compressed">
-    <tr>
-        <td width="135px"><a href="{crmURL p='civicrm/admin/menu' q='action=add&reset=1'}" class="button"><span>&raquo; {ts}Add New Menu{/ts}</span></a></td>
-        <td><a href="{crmURL p='civicrm/admin/menu/rebuild' q='reset=1'}" class="button"><span>&raquo; {ts}Rebuild Navigation{/ts}</span></a></td>
-    </tr>
-    <tr id="reset-menu" style="display:none;" >
-        <td colspan="2">
-            <span class="success-status">
-                {ts}The changes made to navigation will not be reflected in top navigation bar until you rebuild navigation.{/ts}
-            </span>
-        </td>
-    </tr>
-    </table>
+    <div id="help">
+        <a href="{crmURL p="civicrm/admin/menu" q="action=add&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts}Add New Menu{/ts}</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="reset-menu" class="success-status" style="display:none">
+        {capture assign=rebuildURL}{crmURL p='civicrm/admin/menu' q="reset=1"}{/capture}
+        {ts 1=$rebuildURL}<a href='%1' title="Rebuild Navigation"><strong>Click here</strong></a> to see your changes in top navigation menu.{/ts}
+        </span><br/><br/>
     </div>
-    <br/>
     <div id="navigation-tree" class="navigation-tree" style="height:auto;"></div>
     <div class="spacer"></div>
     {literal}

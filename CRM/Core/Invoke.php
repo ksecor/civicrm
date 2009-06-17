@@ -67,7 +67,7 @@ class CRM_Core_Invoke
             CRM_Core_Session::setStatus( ts( 'Menu has been rebuilt' ) );
             // also reset navigation
             require_once 'CRM/Core/BAO/Navigation.php';
-            CRM_Core_BAO_Navigation::resetNavigation( false );
+            CRM_Core_BAO_Navigation::resetNavigation( );
             
             return CRM_Utils_System::redirect( );
         }
