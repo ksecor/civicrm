@@ -7,7 +7,7 @@
         <table class="report-layout">
             {foreach from=$statistics.groups item=row}
                 <tr>
-                   <td class="report-label" width="10%">{$row.title}</td>
+                   <td  width="10%">{$row.title}</td>
                    <td>{$row.value}</td>
                 </tr>
             {/foreach}
@@ -27,7 +27,7 @@
     <table class="report-layout">
         {foreach from=$statistics.counts item=row}
             <tr>
-                <td class="report-label" width="15%">{$row.title}</td>
+                <td width="15%">{$row.title}</td>
                 <td>
                    {if $row.type eq 1024}
                        {$row.value|crmMoney}
