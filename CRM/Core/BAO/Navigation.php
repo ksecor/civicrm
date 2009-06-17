@@ -230,12 +230,8 @@ SELECT id, label, url, permission, permission_operator, has_separator
 FROM civicrm_navigation 
 WHERE {$whereClause} 
 AND is_active = 1
-<<<<<<< .mine
 AND domain_id = $domainID
 ORDER BY parent_id, weight";
-=======
-ORDER BY weight, parent_id";
->>>>>>> .r21917
 
         $navigation = CRM_Core_DAO::executeQuery( $query );
         while ( $navigation->fetch() ) { 
