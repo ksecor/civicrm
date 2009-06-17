@@ -19,7 +19,8 @@
 
         
         {include file="CRM/common/pager.tpl" location="top"}
-        {include file="CRM/common/pagerAToZ.tpl"} 
+        {include file="CRM/common/pagerAToZ.tpl"}
+        <span id="enableDisableStatusMsg" class="success-status" style="display:none;"></span> 
         <table class="selector">
           <thead class="sticky">
             <th>{ts}Title{/ts}</th>
@@ -28,7 +29,7 @@
             <th>&nbsp;</th>
           </thead>
           {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+        <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>
                <strong>{$row.title}</strong>
             </td>
@@ -66,3 +67,8 @@
     </div>
     {/if}
 {/if}
+
+
+{* handle enable/disable actions*}
+{include file="CRM/common/enableDisable.tpl"}
+
