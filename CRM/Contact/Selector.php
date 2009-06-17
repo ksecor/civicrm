@@ -261,7 +261,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     }
 
                     self::$_links[$counter++]  = array(
-                                                       'name'     => $value,
+                                                       'name'     => $value['title'],
                                                        'url'      => $url,
                                                        'qs'       => $qs,
                                                        'title'    => $value['title'],
