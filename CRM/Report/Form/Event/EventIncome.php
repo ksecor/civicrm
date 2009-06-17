@@ -54,9 +54,10 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
                   array( 'dao'     => 'CRM_Event_DAO_Event',
                          'filters' => 
                          array( 'id' => 
-                                array( 'title'   => ts( 'Event Title' ),
+                                array( 'title'         => ts( 'Event Title' ),
                                        'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
-                                       'options' => CRM_Event_PseudoConstant::event(), ), 
+                                       'type'          => CRM_Utils_Type::T_INT,
+                                       'options'       => CRM_Event_PseudoConstant::event(), ), 
                                 ),
                          ),
                   );
@@ -257,16 +258,7 @@ class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
 
 
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-        if ( empty( $this->_params ) && $this->_force ) {
-            if( $id_value = CRM_Utils_Request::retrieve( 'id_value', 'Positive', $this) ) {
-                $this->_formValues['id_value'][] = $id_value;
-            }    
-
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-        $this->processReportMode( );
+        $this->beginPostProcess( );
 
         if ( empty( $this->_params['id_value'][0] ) ) {
             $this->_params['id_value'] = array();
