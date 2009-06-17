@@ -329,6 +329,11 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( array_key_exists('group_bys', $table) ) {
                 $groupBys[$tableName] = $this->_columns[$tableName]['group_bys'];
             }
+
+            if ( array_key_exists('fields', $table) ) {
+                $reportFields[$tableName] = $this->_columns[$tableName]['fields'];
+            }
+            
         }
 
         if ( $this->_force ) {
@@ -340,7 +345,9 @@ class CRM_Report_Form extends CRM_Core_Form {
                                              $this->_defaults );
         CRM_Report_Utils_Get::processGroupBy( $groupBys,
                                               $this->_defaults );
-
+        CRM_Report_Utils_Get::processFields( $reportFields,
+                                             $this->_defaults );
+        
         if ( $this->_force ) {
             $this->_formValues = $this->_defaults;
             $this->postProcess( );

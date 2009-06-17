@@ -191,4 +191,23 @@ class CRM_Report_Utils_Get {
             }
         }
     }
+
+    function processFields( &$reportFields, &$defaults ) {
+        //add filters from url 
+        if ( is_array($reportFields) ) {
+            if ( $urlfileds = CRM_Utils_Array::value( "fld", $_GET) ) {
+                $urlfileds = explode( ',' , $urlfileds );
+            }
+            if ( !empty( $urlfileds ) ){
+                foreach ( $reportFields as $tableName => $fields ) {
+                    foreach ( $urlfileds as $fld ) {
+                        if ( array_key_exists($fld, $fields) ) {
+                            $defaults['fields'][$fld] = 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
