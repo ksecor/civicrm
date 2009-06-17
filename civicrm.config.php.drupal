@@ -31,7 +31,6 @@
  *
  * 10. $confdir/default
  *
- * 11. Check the current directory so we can work with standalone installations
  */
 
 function conf_init() {
@@ -46,9 +45,11 @@ function conf_init() {
     /**
      * Quick test to see if the config file is in the standalone directory
      */
-    $saDir = dirname( __FILE__ ) . '/standalone/';
-    if ( file_exists( $saDir . 'civicrm.settings.php' ) ) {
-      	return $saDir;
+    $standalonedir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'standalone';
+    if ( file_exists( $standalonedir . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) ) {
+      	return $standalonedir;
+    } elseif ( file_exists( $standalonedir . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR .  'default'  . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) ) {
+        $confdir = $standalonedir;
     }
 
     /**
