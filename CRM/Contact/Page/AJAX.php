@@ -387,6 +387,17 @@ WHERE sort_name LIKE '%$name%'";
         CRM_Core_BAO_CustomValue::deleteCustomValue( $customValueID, $customGroupID );
     }
 
+    /**
+     * Function to perform enable / disable actions on record.
+     *
+     */
+    function enableDisable( &$config ) {
+        $recordID  = CRM_Utils_Type::escape( $_POST['recordID'],    'Positive' );
+        $recordDAO = CRM_Utils_Type::escape( $_POST['recordDAO'],   'String'   );
+        $isActivte    = CRM_Utils_Type::escape( $_POST['isActive'], 'Boolean'  );
+        
+        CRM_Core_DAO::setFieldValue( $recordDAO, $recordID, 'is_active', $isActivte );
+    }
  
     /*
      *Function to check the CMS username
