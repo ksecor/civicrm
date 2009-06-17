@@ -288,7 +288,8 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         $dao = CRM_Core_DAO::executeQuery( $sql );
         if ( $dao->fetch( ) ) {
             $statistics['counts']['amount'] = array( 'value' => $dao->amount,
-                                                     'title' => 'Total LifeTime' );
+                                                     'title' => 'Total LifeTime',
+                                                     'type'  => CRM_Utils_Type::T_MONEY );
         }
         return $statistics;
     }

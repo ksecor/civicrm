@@ -307,9 +307,11 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
         if ( $dao->fetch( ) ) {
             $statistics['counts']['amount']    = array( 'value' => $dao->amount,
-                                                        'title' => 'Total Amount' );
+                                                        'title' => 'Total Amount',
+                                                        'type'  => CRM_Utils_Type::T_MONEY );
             $statistics['counts']['avg']       = array( 'value' => $dao->avg,
-                                                        'title' => 'Average' );
+                                                        'title' => 'Average',
+                                                        'type'  => CRM_Utils_Type::T_MONEY );
         }
 
         return $statistics;

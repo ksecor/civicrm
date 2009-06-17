@@ -301,7 +301,33 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
             $this->_groupBy = "GROUP BY membership.join_date";
         }
     }
-    
+
+     function statistics( &$rows ) {
+        $statistics = parent::statistics( $rows );
+
+        $select = "
+        SELECT COUNT( contribution.total_amount ) as count,
+               SUM(   contribution.total_amount ) as amount,
+               ROUND(AVG(contribution.total_amount), 2) as avg
+        ";
+        
+        $sql = "{$select} {$this->_from} {$this->_where}";
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        
+        if ( $dao->fetch( ) ) {
+            $statistics['counts']['amount'] = array( 'value' => $dao->amount,
+                                                     'title' => 'Total Amount',
+                                                     'type'  => CRM_Utils_Type::T_MONEY );
+            $statistics['counts']['count '] = array( 'value' => $dao->count,
+                                                     'title' => 'Total Donations' );
+            $statistics['counts']['avg   '] = array( 'value' => $dao->avg,
+                                                     'title' => 'Average',
+                                                     'type'  => CRM_Utils_Type::T_MONEY );
+        }
+        
+        return $statistics;
+    }
+
     function postProcess( ) {
         parent::postProcess( );
       
