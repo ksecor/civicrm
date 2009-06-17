@@ -347,6 +347,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                                               $this->_defaults );
         CRM_Report_Utils_Get::processFields( $reportFields,
                                              $this->_defaults );
+        CRM_Report_Utils_Get::processChart( $this->_defaults );
         
         if ( $this->_force ) {
             $this->_formValues = $this->_defaults;

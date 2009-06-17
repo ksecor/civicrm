@@ -129,6 +129,13 @@ class CRM_Report_Utils_Get {
         }
     }
 
+    function processChart( &$defaults ) {
+        $chartType = CRM_Utils_Array::value( "charts", $_GET );
+        if ( in_array( $chartType, array('barGraph','pieGraph' ) ) ) {
+            $defaults["charts"] = $chartType;
+        }
+    }
+
     function processFilter( &$fieldGrp, &$defaults ) {
         // process only filters for now
         foreach ( $fieldGrp as $tableName => $fields ) {
