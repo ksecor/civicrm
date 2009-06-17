@@ -1,3 +1,6 @@
+-- CiviReport Component
+INSERT INTO civicrm_component (name, namespace) VALUES ('CiviReport', 'CRM_Report' );
+
 -- Report Templates
 {if $multilingual}
     INSERT INTO civicrm_option_group
