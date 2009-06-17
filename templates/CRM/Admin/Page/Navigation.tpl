@@ -2,12 +2,17 @@
     {include file="CRM/Admin/Form/Navigation.tpl"}
 {else}
     <div id="help">
-        <a href="{crmURL p="civicrm/admin/menu" q="action=add&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts}Add New Menu{/ts}</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+        {ts}Customize the CiviCRM navigation menu bar for your users here.{/ts} {help id="id-navigation"}
+    </div>
+    <div class="spacer"></div>
+    <div id="new-menu-item">
+        <a href="{crmURL p="civicrm/admin/menu" q="action=add&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts}New Menu Item{/ts}</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
         <span id="reset-menu" class="success-status" style="display:none">
         {capture assign=rebuildURL}{crmURL p='civicrm/admin/menu' q="reset=1"}{/capture}
-        {ts 1=$rebuildURL}<a href='%1' title="Rebuild Navigation"><strong>Click here</strong></a> to see your changes in top navigation menu.{/ts}
+        {ts 1=$rebuildURL}<a href='%1' title="Reload page"><strong>Click here</strong></a> to reload the page and see your changes in the menu bar above.{/ts}
         </span><br/><br/>
     </div>
+    <div class="spacer"></div>
     <div id="navigation-tree" class="navigation-tree" style="height:auto;"></div>
     <div class="spacer"></div>
     {literal}
