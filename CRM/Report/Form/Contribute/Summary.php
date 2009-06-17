@@ -324,7 +324,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             foreach ( $self->_columns as $tableName => $table ) {
                 if ( array_key_exists('fields', $table) ) {
                     foreach ( $table['fields'] as $fieldName => $field ) {
-                        if ( $fields['fields'][$field['name']] && 
+                        if ( CRM_Utils_Array::value( $field['name'], $fields['fields'] ) && 
+                             $fields['fields'][$field['name']] && 
                              in_array( $field['name'], array( 'display_name', 'contribution_source', 'contribution_type' ) ) ) {
                             $grouping[] = $field['title'];
                         }

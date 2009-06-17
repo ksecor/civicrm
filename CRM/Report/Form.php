@@ -145,6 +145,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_chartButtonName    = null;
 
     protected $_rollup         = null;
+    protected $_having         = null;
 
     /**
      * To what frequency group-by a date column
@@ -266,7 +267,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
             $fieldGroups = array('fields', 'filters', 'group_bys', 'order_bys');
             foreach ( $fieldGroups as $fieldGrp ) {
-                if ( is_array( $table[$fieldGrp] ) ) {
+                if ( CRM_Utils_Array::value( $fieldGrp, $table ) && is_array( $table[$fieldGrp] ) ) {
                     foreach ( $table[$fieldGrp] as $fieldName => $field ) {
                         if ( array_key_exists($fieldName, $expFields) ) {
                             foreach ( $doNotCopy as $dnc ) {
@@ -309,7 +310,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                                 $alias . '.' . $this->_columns[$tableName][$fieldGrp][$fieldName]['name'];
                         }
 
-                        if ( in_array($this->_columns[$tableName][$fieldGrp][$fieldName]['type'],
+                        if ( CRM_Utils_Array::value('type', $this->_columns[$tableName][$fieldGrp][$fieldName] ) && 
+                             in_array($this->_columns[$tableName][$fieldGrp][$fieldName]['type'],
                                       array(CRM_Utils_Type::T_MONEY, CRM_Utils_Type::T_INT)) && 
                              !isset($this->_columns[$tableName][$fieldGrp][$fieldName]['operatorType']) ) {
                             $this->_columns[$tableName][$fieldGrp][$fieldName]['operatorType'] = 
@@ -439,7 +441,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
     function addColumns( ) {
         $options = array();
-        
+        $colGroups = null;
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('fields', $table) ) {
                 foreach ( $table['fields'] as $fieldName => $field ) {
@@ -469,11 +471,11 @@ class CRM_Report_Form extends CRM_Core_Form {
             foreach ( $attributes as $fieldName => $field ) {
                 if ( !array_key_exists('no_display', $field ) ) {
                     // get ready with option value pair
-                    $operations = self::getOperationPair( $field['operatorType'] );
+                    $operations = self::getOperationPair( CRM_Utils_Array::value( 'operatorType', $field ) );
                     
                     $filters[$table][$fieldName] = $field;
                     
-                    switch ( $field['operatorType'] ) {
+                    switch ( CRM_Utils_Array::value( 'operatorType', $field )) {
                     case CRM_Report_FORM::OP_MULTISELECT :
                         // assume a multi-select field
                         if ( !empty( $field['options'] ) ) {
@@ -547,7 +549,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
                     if ( !empty($field) ) {
                         $options[$field['title']] = $fieldName;
-                        if ( $field['frequency'] ) {
+                        if ( CRM_Utils_Array::value( 'frequency', $field ) ) {
                             $freqElements[$field['title']] = $fieldName;
                         }
                     }
@@ -668,7 +670,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     static function whereClause( &$field, $op,
                                  $value, $min, $max ) {
 
-        $type   = CRM_Utils_Type::typeToString( $field['type'] );
+        $type   = CRM_Utils_Type::typeToString( CRM_Utils_Array::value( 'type', $field ) );
         $clause = null;
 
         switch ( $op ) {
@@ -940,7 +942,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                    if ( CRM_Utils_Array::value( 'type', $field ) & CRM_Utils_Type::T_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
@@ -1102,7 +1104,8 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function groupByStat( &$statistics ) {
-        if ( is_array($this->_params['group_bys']) && 
+        if ( CRM_Utils_Array::value( 'group_bys', $this->_params ) && 
+             is_array($this->_params['group_bys']) && 
              !empty($this->_params['group_bys']) ) {
             foreach ( $this->_columns as $tableName => $table ) {
                 if ( array_key_exists('group_bys', $table) ) {
@@ -1122,7 +1125,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                    if ( CRM_Utils_Array::value( 'type', $field ) & CRM_Utils_Type::T_DATE ) {
                         list($from, $to) = 
                             $this->getFromTo( CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params ), 
                                               CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params ),
@@ -1139,7 +1142,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                         $op    = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         $value = null;
                         if ( $op ) {
-                            $pair  = self::getOperationPair( $field['operatorType'] );
+                            $pair  = self::getOperationPair( CRM_Utils_Array::value( 'operatorType', $field ) );
                             $min   = CRM_Utils_Array::value( "{$fieldName}_min",  $this->_params );
                             $max   = CRM_Utils_Array::value( "{$fieldName}_max",  $this->_params );
                             $val   = CRM_Utils_Array::value( "{$fieldName}_value",$this->_params );

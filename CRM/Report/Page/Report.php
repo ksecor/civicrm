@@ -54,7 +54,7 @@ class CRM_Report_Page_Report extends CRM_Core_Page
         $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_template', "{$optionVal}", 'value',
                                                             'String', false );
 
-        if ( strstr($templateInfo['name'], '_Form') ) {
+        if ( strstr(CRM_Utils_Array::value( 'name', $templateInfo ), '_Form') ) {
             CRM_Utils_System::setTitle( $templateInfo['label'] . ' - Template' );
             $this->assign( 'reportTitle', $templateInfo['label'] );
 

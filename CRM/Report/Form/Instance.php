@@ -125,11 +125,11 @@ class CRM_Report_Form_Instance {
             // this is already retrieved via Form.php
             $defaults['description']   = $defaults['description'];
             
-            if ( $defaults['header'] ) {
+            if ( CRM_Utils_Array::value( 'header', $defaults ) ) {
                 $defaults['report_header'] = $defaults['header'];
             } 
             
-            if ( $defaults['footer'] ) {
+            if ( CRM_Utils_Array::value( 'footer', $defaults ) ) {
                 $defaults['report_footer'] = $defaults['footer'];
             } 
         } else {

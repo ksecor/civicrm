@@ -214,11 +214,13 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                         //isolate the select clause compoenent wise
                         if ( in_array( $table['alias'], $this->_component ) ) {
                             $select[$table['alias']][] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
-                            $this->_columnHeadersComponent[$table['alias']]["{$tableName}_{$fieldName}"]['type'] = $field['type'];
-                            $this->_columnHeadersComponent[$table['alias']]["{$tableName}_{$fieldName}"]['title'] = $field['title'];
+                            $this->_columnHeadersComponent[$table['alias']]["{$tableName}_{$fieldName}"]['type'] = 
+                                CRM_Utils_Array::value( 'type', $field );
+                            $this->_columnHeadersComponent[$table['alias']]["{$tableName}_{$fieldName}"]['title'] =
+                                CRM_Utils_Array::value( 'title', $field );
                         } else {
                             $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
-                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = CRM_Utils_Array::value( 'type', $field );
                             $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                         }
                     }
