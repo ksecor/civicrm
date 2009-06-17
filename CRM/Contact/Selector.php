@@ -246,19 +246,26 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                             'title'    => ts('Map Contact'),
                                                             );
             }
-
+            
             // Adding Context Menu Links in more action
             if ( $contextMenu ) {
                 $counter = 7000;
                 foreach( $contextMenu as $key => $value ) {
-                    if( $key == 'activity' || $key == 'email' ) {
-                        $qs = ( $key == 'activity') ? '&snippet=1' : '&atype=3&action=add';
+                    if ( $key == 'activity' ) {
+                        self::$_links[$counter++]  = array(
+                                                           'name'     => $value,
+                                                           'url'      => "civicrm/contact/view",
+                                                           'qs'       => "action=browse&selectedChild=activity&reset=1&cid=%%id%%",
+                                                           'title'    => $value,
+                                                           );
+                    } else if ( $key == 'email' ) { 
                         self::$_links[$counter++]  = array(
                                                            'name'     => $value,
                                                            'url'      => "civicrm/contact/view/activity",
-                                                           'qs'       => "reset=1&cid=%%id%%{$qs}",
+                                                           'qs'       => "atype=3&action=add&reset=1&cid=%%id%%",
                                                            'title'    => $value,
                                                            );
+
                     } else {
                         self::$_links[$counter++]  = array(
                                                            'name'     => $value,

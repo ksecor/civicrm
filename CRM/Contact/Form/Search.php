@@ -490,7 +490,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                       'permission' => "delete contacts"),
                              'contribution' => array( 'title'      => ts('Record Contribution'), 
                                                       'permission' => "access CiviContribute"),
-                             'event'        => array( 'title'      => ts('Register for Event'),
+                             'participant'  => array( 'title'      => ts('Register for Event'),
                                                       'permission' => "access CiviEvent"),
                              'activity'     => array( 'title'      => ts('Record Activity'),
                                                       'permission' => "access CiviCRM"),
