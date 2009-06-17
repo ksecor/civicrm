@@ -439,7 +439,7 @@ WHERE sort_name LIKE '%$name%'";
             $query="
 SELECT sort_name name, ce.email, cc.id
 FROM civicrm_email ce LEFT JOIN civicrm_contact cc ON cc.id = ce.contact_id
-WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.sort_name LIKE '%$name%';";
+WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.is_deceased = 0 AND cc.do_not_email = 0 AND cc.sort_name LIKE '%$name%';";
             
             $dao = CRM_Core_DAO::executeQuery( $query );
             
