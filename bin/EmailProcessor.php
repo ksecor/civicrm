@@ -191,7 +191,7 @@ if ($lock->isAcquired()) {
 
     // check if the script is being used for civimail processing or email to 
     // activity processing.
-    $isCiviMail = $_REQUEST['emailtoactivity'] ? false : true;
+    $isCiviMail = CRM_Utils_Array::value( 'emailtoactivity', $_REQUEST ) ? false : true;
     EmailProcessor::process($isCiviMail);
 } else {
     throw new Exception('Could not acquire lock, another EmailProcessor process is running');
