@@ -202,7 +202,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                 }
             }
             $this->_columnHeaders["civicrm_membership_member_count"] = array('title' => ts('Member Count'),
-                                                                             'type'  => null); 
+                                                                             'type'  => CRM_Utils_Type::T_INT); 
         }
         $this->_select = "SELECT " . implode( ', ', $select ) . " ";
         

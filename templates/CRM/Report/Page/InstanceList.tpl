@@ -3,9 +3,9 @@
             {foreach from=$list item=rows key=report}
 	        <br>
                 <div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
-	            <table class="report-header">
+	            <table class="report-layout">
 		        <tr>
-			    <td><strong>{if $title}{$title}{elseif $report}{$report}{else}Contact{/if} Reports</strong></td>
+			    <th>{if $title}{$title}{elseif $report}{$report}{else}Contact{/if} Reports</th>
 			</tr>
 		    </table>
 	        </div>

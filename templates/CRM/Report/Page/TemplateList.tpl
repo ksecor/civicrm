@@ -2,12 +2,12 @@
         {if $list}
             {foreach from=$list item=rows key=report}
 	        <br>
-                <div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
-	            <table class="report-header">
-		        <tr>
-			    <td><strong>{if $report}{$report}{else}Contact{/if} Reports</strong></td>
-			</tr>
-		    </table>
+            <div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
+	            <table class="report-layout">
+		             <tr>
+			            <th>{if $report}{$report}{else}Contact{/if} Reports</th>
+		    	     </tr>
+		        </table>
 	        </div>
 		<div id="{$report}" style="display:block;">
 	            <table class="report">

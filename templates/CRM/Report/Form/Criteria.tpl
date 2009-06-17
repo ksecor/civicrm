@@ -1,13 +1,13 @@
 {* Report form criteria section *}
     {if $colGroups}
-        <table class="report-header">
+        <table class="report-layout">
             <tr>
-	        <td><strong>{ts}Display Columns{/ts}</strong></td>
+	           <th>Display Columns</th>
 	    </tr>
 	</table>
         {foreach from=$colGroups item=grpFields key=dnc}
             {assign  var="count" value="0"}
-            <table class="form-layout">
+            <table class="report-layout">
                 <tr>
                     {foreach from=$grpFields item=field key=title}
                         {assign var="count" value=`$count+1`}
@@ -21,19 +21,19 @@
                     {/if}
                 </tr>
             </table>
-	    <hr style="height:2px;width:98%;background-color:#DCDCDC;margin:0;"/>
+	    <hr style="height:2px;width:100%;background-color:#DCDCDC;margin:0;"/>
         {/foreach}
     {/if}
     
     {if $groupByElements}
         <br/>
-        <table class="report-header">
+        <table class="report-layout">
             <tr>
-	        <td><strong>{ts}Group by Columns{/ts}</strong></td>
-	    </tr>
-	</table>
+	          <th>Group by Columns</th>
+	        </tr>
+    	</table>
         {assign  var="count" value="0"}
-        <table class="form-layout">
+        <table class="report-layout">
             <tr>
                 {foreach from=$groupByElements item=gbElem key=dnc}
                     {assign var="count" value=`$count+1`}
@@ -56,24 +56,24 @@
 
     {if $form.options.html}
         <br/>
-        <table class="report-header">
+        <table class="report-layout">
             <tr>
-	        <td><strong>{ts}Other Options{/ts}</strong></td>
+	        <th>Other Options</th>
 	    </tr>
 	</table>
 
-        <table class="form-layout">
-            <tr><td width="25%">{$form.options.html}</td></tr>
+        <table class="report-layout">
+            <tr><td>{$form.options.html}</td></tr>
         </table>
     {/if}
   
         <br/>
-        <table class="report-header">
+        <table class="report-layout">
             <tr>
-	        <td><strong>{ts}Set Filters{/ts}</strong></td>
+	        <th>Set Filters</th>
 	    </tr>
 	</table>
-        <table class="form-layout">
+        <table class="report-layout">
             {foreach from=$filters     item=table key=tableName}
                 {foreach from=$table       item=field key=fieldName}
                     {assign var=fieldOp     value=$fieldName|cat:"_op"}
@@ -81,14 +81,14 @@
                     {assign var=filterMin   value=$fieldName|cat:"_min"}
                     {assign var=filterMax   value=$fieldName|cat:"_max"}
                     {if $field.operatorType & 4}
-                        <tr>
-                            <td><strong>{$field.title}</strong></td>
+                        <tr class="report-contents">
+                            <th class="report-contents">{$field.title}</td>
                             {include file="CRM/Core/DateRange.tpl" fieldName=$fieldName}
                         </tr>
                     {else}
                         <tr>
-                            <td width="20%"><strong>{$field.title}</strong></td>
-                            <td width="20%">{$form.$fieldOp.html}</td>
+                            <th class="report-contents">{$field.title}</th>
+                            <td class="report-contents">{$form.$fieldOp.html}</td>
                             <td>
                                <span id="{$filterVal}_cell">{$form.$filterVal.label}&nbsp;{$form.$filterVal.html}</span>
                                <span id="{$filterMin}_max_cell">{$form.$filterMin.label}&nbsp;{$form.$filterMin.html}&nbsp;&nbsp;{$form.$filterMax.label}&nbsp;{$form.$filterMax.html}</span>

@@ -11,16 +11,16 @@
                 <tr>
                     <td>
                 	<table class="report-layout">
-                            <tr class="reports-header">
+                            <tr>
                                 {foreach from=$columnHeaders item=header key=field}
                                     {if !$skip}
                                         {if $header.colspan}
-                                            <td class="reports-header" colspan={$header.colspan}>{$header.title}</td>
+                                            <th colspan={$header.colspan}>{$header.title}</th>
                                             {assign var=skip value=true}
                                             {assign var=skipCount value=`$header.colspan`}
                                             {assign var=skipMade  value=1}
                                         {else}
-                                            <td class="reports-header"><b>{$header.title}</b></td>
+                                            <th>{$header.title}</th>
                                             {assign var=skip value=false}
                                         {/if}
                                     {else} {* for skip case *}
@@ -70,9 +70,9 @@
                         	<table class="report-layout">
                         	    {*add space before headers*}
                         	    {if $componentRows.$contribMode.$component}
-                        		<tr class="reports-header">
+                        		<tr>
                         		    {foreach from=$pheader item=header}
-                        			<td class="reports-header"><b>{$header.title}</td>
+                        			<th>{$header.title}</th>
                         		    {/foreach}
                         		</tr>
                         	    {/if}
