@@ -130,9 +130,10 @@ if(file_exists($versionFile)) {
 if ( $installType == 'drupal' ) {
     // Ensure that they have downloaded the correct version of CiviCRM
     if ( ( strpos( $civicrm_version, 'PHP5'   ) === false) ||
-        ( strpos( $civicrm_version, 'Drupal' ) === false ) ) {
+        ( ( strpos( $civicrm_version, 'Drupal' ) === false ) &&
+          ( strpos( $civicrm_version, 'Standalone' === false ) ) ) ) {
         $errorTitle = "Oops! Incorrect CiviCRM Version";
-        $errorMsg = "This installer can only be used for the Drupal PHP5 version of CiviCRM. Refer to the online " . $docLink . " for information about installing CiviCRM on PHP4 servers OR installing CiviCRM for Joomla!";
+        $errorMsg = "This installer can only be used for the Drupal or Standalone PHP5 version of CiviCRM. Refer to the online " . $docLink . " for information about installing CiviCRM on PHP4 servers OR installing CiviCRM for Joomla!";
         errorDisplayPage( $errorTitle, $errorMsg );
     }
 
