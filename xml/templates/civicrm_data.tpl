@@ -37,7 +37,7 @@ INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, em
 
 SELECT @locBlockId := id from civicrm_loc_block where phone_id = @phoneId AND email_id = @emailId AND address_id = @addId;
 
-INSERT INTO civicrm_domain (name, version, loc_block_id) VALUES (@domain_name, '2.2', @locBlockId);
+INSERT INTO civicrm_domain (name, version, loc_block_id) VALUES (@domain_name, '2.3', @locBlockId);
 
 INSERT INTO civicrm_mail_settings (name, is_default, domain) VALUES ('default', true, 'FIXME.ORG');
 
@@ -514,9 +514,9 @@ VALUES
 {literal}
 -- Initial state of system preferences
 INSERT INTO 
-     civicrm_preferences(contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url, editor_id, mailing_backend )
+     civicrm_preferences(domain_id,contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url, editor_id, mailing_backend )
 VALUES 
-     (NULL,1,1,'123456789101113','1234','1234567891011121315161718','1234578','1234568910111314','{contact.address_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.contact_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',NULL,NULL,NULL,2,NULL);
+     (1,NULL,1,1,'123456789101113','1234','1234567891011121315161718','1234578','1234568910111314','{contact.address_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.contact_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',NULL,NULL,NULL,2,NULL);
 {/literal}
 
 INSERT INTO `civicrm_preferences_date`

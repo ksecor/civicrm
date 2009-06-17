@@ -437,6 +437,7 @@ ORDER BY parent_id, weight";
                 $preference =& new CRM_Core_DAO_Preferences();
                 $preference->contact_id = $contactID;
                 $preference->navigation = $navigation;
+                $preference->domain_id = CRM_Core_Config::domainID( );
                 $preference->save();
             }
         }
