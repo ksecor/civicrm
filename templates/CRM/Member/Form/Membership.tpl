@@ -169,7 +169,7 @@
     invert              = 0
 }
 {/if}
-{if $emailExists and $outBound_option != 2 }
+{if ($emailExists and $outBound_option != 2) OR $context eq 'standalone' }
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"
     trigger_value       =""

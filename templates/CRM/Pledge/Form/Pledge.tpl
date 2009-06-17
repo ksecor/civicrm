@@ -65,11 +65,11 @@
             <span class="description">{ts}Date of first pledge payment.{/ts}</span></td></tr>
        
         {if $email and $outBound_option != 2}
-        {if $form.is_acknowledge }
-            <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}<br />
-            <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
-        {/if}
-	{elseif $context eq 'standalone' and $outBound_option != 2 }
+            {if $form.is_acknowledge }
+                <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}<br />
+                <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
+            {/if}
+	    {elseif $context eq 'standalone' and $outBound_option != 2 }
                 <tr id="acknowledgment-receipt" style="display:none;"><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html} <span class="description">{ts}Automatically email an acknowledgment of this pledge to {/ts}<span id="email-address"></span>?</span></td></tr>
         {/if}
         <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}
@@ -152,10 +152,11 @@ function loadPanes( id ) {
      function verify( ) {
        var element = document.getElementsByName("is_acknowledge");
         if ( element[0].checked ) {
-         var ok = confirm( "Click OK to save this Pledge record AND send an acknowledgment to {/literal}{$email}{literal} now." );    
-          if (!ok ) {
-            return false;
-          }
+            var ackemail = cj("#email-address").html();
+            var ok = confirm( "Click OK to save this Pledge record AND send an acknowledgment to " + ackemail +" now." );    
+            if (!ok ) {
+                return false;
+            }
         }
      }
      
@@ -200,7 +201,7 @@ function loadPanes( id ) {
                         cj("#acknowledgment-receipt").show( );
                         cj("#email-address").html( response );
                     } else {
-                        cj("#acknowledgment-receipt").show( );
+                        cj("#acknowledgment-receipt").hide( );
                     }
                 }
             );

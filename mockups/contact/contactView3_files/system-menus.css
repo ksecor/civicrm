@@ -1,0 +1,33 @@
+UL.menu {
+	BORDER-BOTTOM: medium none; TEXT-ALIGN: left; BORDER-LEFT: medium none; LIST-STYLE-TYPE: none; BORDER-TOP: medium none; LIST-STYLE-IMAGE: none; BORDER-RIGHT: medium none
+}
+UL.menu LI {
+	MARGIN: 0px 0px 0px 0.5em
+}
+LI.expanded {
+	PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: circle; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0.5em; LIST-STYLE-IMAGE: url(../../misc/menu-expanded.png); PADDING-TOP: 0.2em
+}
+LI.collapsed {
+	PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: disc; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0.5em; LIST-STYLE-IMAGE: url(../../misc/menu-collapsed.png); PADDING-TOP: 0.2em
+}
+LI.leaf {
+	PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: square; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0.5em; LIST-STYLE-IMAGE: url(../../misc/menu-leaf.png); PADDING-TOP: 0.2em
+}
+LI A.active {
+	COLOR: #000
+}
+TD.menu-disabled {
+	BACKGROUND: #ccc
+}
+UL.links {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+UL.inline.links {
+	DISPLAY: inline
+}
+UL.links LI {
+	PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: none; PADDING-LEFT: 0.5em; PADDING-RIGHT: 0.5em; DISPLAY: inline; PADDING-TOP: 0px
+}
+.block UL {
+	PADDING-BOTTOM: 0.25em; MARGIN: 0px; PADDING-LEFT: 1em; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}

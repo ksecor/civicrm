@@ -161,9 +161,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
-        // check for edit permission
-        if ( ! CRM_Core_Permission::check( 'edit contributions' ) ) {
-            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        //check permission for action.
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviContribute', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );  
         }
         
         $this->_cdType = CRM_Utils_Array::value( 'type', $_GET );

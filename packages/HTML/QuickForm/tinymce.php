@@ -158,7 +158,8 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
     theme_advanced_resize_horizontal : false,
     theme_advanced_resizing : true,
     apply_source_formatting : true,
-    spellchecker_languages : "+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv"
+    spellchecker_languages : "+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv",
+    relative_urls : false
     });    
 
 </script>' );

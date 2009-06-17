@@ -891,11 +891,19 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
             $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
         }
-
+        
+        //create contribution activity w/ individual and target
+        //activity w/ organisation contact id when onbelf, CRM-4027 
+        $targetContactID = null; 
+        if ( CRM_Utils_Array::value( 'is_for_organization', $params ) ) {
+            $targetContactID = $contribution->contact_id;  
+            $contribution->contact_id = $contactID;
+        }
+        
         // create an activity record
         require_once 'CRM/Activity/BAO/Activity.php';
-        CRM_Activity_BAO_Activity::addActivity( $contribution );
-
+        CRM_Activity_BAO_Activity::addActivity( $contribution, null, $targetContactID );
+        
         $transaction->commit( ); 
 
         return $contribution;

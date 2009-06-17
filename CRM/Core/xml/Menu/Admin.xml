@@ -49,6 +49,15 @@
      <weight>0</weight>
   </item>  
   <item>
+     <path>civicrm/admin/menu</path>
+     <title>Navigation Menu</title>
+     <desc>Add or remove menu items, and modify the order of items on the navigation menu.</desc>
+     <page_callback>CRM_Admin_Page_Navigation</page_callback>
+     <adminGroup>Customize</adminGroup>
+     <icon>admin/small/template.png</icon>
+     <weight>25</weight>
+  </item>
+  <item>
      <path>civicrm/admin/options/custom_search</path>
      <title>Manage Custom Searches</title>
      <desc>Developers and accidental techies with a bit of PHP and SQL knowledge can create new search forms to handle specific search and reporting needs which aren't covered by the built-in Advanced Search and Search Builder features.</desc>
@@ -57,15 +66,6 @@
      <adminGroup>Customize</adminGroup>
      <icon>admin/small/template.png</icon>
      <weight>30</weight>
-  </item>
-  <item>
-     <path>civicrm/admin/synchUser</path>
-     <title>Synchronize Users to Contacts</title>
-     <desc>Automatically create a CiviCRM contact record for each CMS user record.</desc>
-     <page_callback>CRM_Admin_Page_CMSUser</page_callback>
-     <adminGroup>Manage</adminGroup>
-     <icon>admin/small/Synch_user.png</icon>
-     <weight>140</weight>
   </item>
   <item>
      <path>civicrm/admin/configtask</path>
@@ -153,20 +153,6 @@
      <page_callback>CRM_Admin_Form_Setting_Debugging</page_callback>
   </item>
   <item>
-     <path>civicrm/admin/deduperules</path>
-     <title>Find and Merge Duplicate Contacts</title>
-     <desc>Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed.</desc>
-     <page_callback>CRM_Admin_Page_DedupeRules</page_callback>
-     <adminGroup>Configure</adminGroup>
-     <icon>admin/small/duplicate_matching.png</icon>
-     <weight>245</weight>
-  </item>
-  <item>
-     <path>civicrm/admin/dedupefind</path>
-     <title>Find and Merge Duplicate Contacts</title>
-     <page_callback>CRM_Admin_Page_DedupeFind</page_callback>
-  </item>
-  <item>
      <path>civicrm/admin/mapping</path>
      <title>Import/Export Mappings</title>
      <desc>Import and Export mappings allow you to easily run the same job multiple times. This option allows you to rename or delete existing mappings.</desc>
@@ -212,15 +198,6 @@
      <adminGroup>Configure</adminGroup>
      <icon>admin/small/updatepath.png</icon>
      <weight>280</weight>
-  </item>
-  <item>
-     <path>civicrm/admin/menu</path>
-     <title>CiviCRM Menu</title>
-     <desc>Create your own Menu.</desc>
-     <page_callback>CRM_Admin_Page_Navigation</page_callback>
-     <adminGroup>Configure</adminGroup>
-     <icon>admin/small/template.png</icon>
-     <weight>285</weight>
   </item>
   <item>
      <path>civicrm/admin/weight</path>
@@ -396,6 +373,20 @@
      <weight>400</weight>
   </item>
   <item>
+     <path>civicrm/admin/deduperules</path>
+     <title>Find and Merge Duplicate Contacts</title>
+     <desc>Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed.</desc>
+     <page_callback>CRM_Admin_Page_DedupeRules</page_callback>
+     <adminGroup>Manage</adminGroup>
+     <icon>admin/small/duplicate_matching.png</icon>
+     <weight>105</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/dedupefind</path>
+     <title>Find and Merge Duplicate Contacts</title>
+     <page_callback>CRM_Admin_Page_DedupeFind</page_callback>
+  </item>
+  <item>
      <path>civicrm/admin/access</path>
      <title>Access Control</title>
      <desc>Grant or deny access to actions (view, edit...), features and components.</desc>
@@ -403,6 +394,15 @@
      <adminGroup>Manage</adminGroup>
      <icon>admin/small/03.png</icon>
      <weight>110</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/synchUser</path>
+     <title>Synchronize Users to Contacts</title>
+     <desc>Automatically create a CiviCRM contact record for each CMS user record.</desc>
+     <page_callback>CRM_Admin_Page_CMSUser</page_callback>
+     <adminGroup>Manage</adminGroup>
+     <icon>admin/small/Synch_user.png</icon>
+     <weight>140</weight>
   </item>
   <item>
      <path>civicrm/admin</path>
@@ -436,6 +436,11 @@
   <item>
      <path>civicrm/ajax/menutree</path>
      <page_callback>CRM_Admin_Page_AJAX::menuTree</page_callback>
+     <access_arguments>access CiviCRM,administer CiviCRM</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/admin/menu/rebuild</path>
+     <page_callback>CRM_Core_BAO_Navigation::resetNavigation</page_callback>
      <access_arguments>access CiviCRM,administer CiviCRM</access_arguments>
   </item>
 </menu>

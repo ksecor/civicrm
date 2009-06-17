@@ -1,0 +1,87 @@
+BODY {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000
+}
+INPUT {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000
+}
+TEXTAREA {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000
+}
+SELECT {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000
+}
+UL.primary-links {
+	DISPLAY: none
+}
+UL.secondary-links {
+	DISPLAY: none
+}
+#header-region {
+	DISPLAY: none
+}
+.sidebar {
+	DISPLAY: none
+}
+BODY.sidebars {
+	WIDTH: 640px
+}
+BODY.sideber-left {
+	WIDTH: 640px
+}
+BODY.sidebar-right {
+	WIDTH: 640px
+}
+BODY {
+	WIDTH: 640px
+}
+BODY.sidebar-left #center {
+	MARGIN: 0px
+}
+BODY.sidebar-right #center {
+	MARGIN: 0px
+}
+BODY.sidebars #center {
+	MARGIN: 0px
+}
+BODY.sidebar-left #squeeze {
+	MARGIN: 0px
+}
+BODY.sidebar-right #squeeze {
+	MARGIN: 0px
+}
+BODY.sidebars #squeeze {
+	MARGIN: 0px
+}
+#wrapper {
+	POSITION: static; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: none; CLEAR: both; PADDING-TOP: 0px; LEFT: 0px
+}
+#wrapper #container .breadcrumb {
+	POSITION: static; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: none; CLEAR: both; PADDING-TOP: 0px; LEFT: 0px
+}
+#wrapper #container #center {
+	POSITION: static; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: none; CLEAR: both; PADDING-TOP: 0px; LEFT: 0px
+}
+#wrapper #container #center .right-corner {
+	POSITION: static; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: none; CLEAR: both; PADDING-TOP: 0px; LEFT: 0px
+}
+#wrapper #container #center .right-corner .left-corner {
+	POSITION: static; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: none; CLEAR: both; PADDING-TOP: 0px; LEFT: 0px
+}
+#wrapper #container #footer {
+	POSITION: static; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: none; CLEAR: both; PADDING-TOP: 0px; LEFT: 0px
+}
+#wrapper #container #center #squeeze {
+	POSITION: static; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: none; CLEAR: both; PADDING-TOP: 0px; LEFT: 0px
+}
+#wrapper #container #header {
+	HEIGHT: 130px
+}
+#wrapper #container #header H1 {
+	COLOR: #000; text-shadow: none
+}
+#wrapper #container #header H1 A:link {
+	COLOR: #000; text-shadow: none
+}
+#wrapper #container #header H1 A:visited {
+	COLOR: #000; text-shadow: none
+}

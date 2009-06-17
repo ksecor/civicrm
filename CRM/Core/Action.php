@@ -206,14 +206,18 @@ class CRM_Core_Action {
         $url = array( );
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
-                if ( count($url) > 1 ) {
-                    $extra = str_replace( 'onclick', 'js', CRM_Utils_Array::value( 'extra', $link, '' ) );
-                } else {
+                if ( isset( $link['extra'] ) ) {
                     $extra = CRM_Utils_Array::value( 'extra', $link, '' );
                 }
+                if ( isset( $link['qs'] ) ) {
+                    $urlPath = CRM_Utils_System::url( self::replace( $link['url'], $values ),
+                                        self::replace( $link['qs'] , $values ), true );
+                } else {
+                    $urlPath = $link['url'];
+                }
+                                        
                 $url[] = sprintf('<a href="%s" title="%s"' . $extra . '>%s</a>',
-                                 CRM_Utils_System::url( self::replace( $link['url'], $values ),
-                                                        self::replace( $link['qs'] , $values ), true ),
+                                 $urlPath,
                                  $link['title'], $link['name'] );
             }
         }

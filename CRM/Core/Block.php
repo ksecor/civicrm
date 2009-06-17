@@ -299,14 +299,14 @@ class CRM_Core_Block {
                                            'key'   => 'I',
                                            'title' => ts('Individual') ),
                                     array( 'path'  => 'civicrm/contact/add',
-                                           'query' => 'ct=Organization&reset=1',
-                                           'key'   => 'O',
-                                           'title' => ts('Organization') ),
-                                    array( 'path'  => 'civicrm/contact/add',
                                            'query' => 'ct=Household&reset=1',
                                            'key'   => 'H',
                                            'title' => ts('Household') ),
-                                    );
+                                    array( 'path'  => 'civicrm/contact/add',
+                                           'query' => 'ct=Organization&reset=1',
+                                           'key'   => 'O',
+                                           'title' => ts('Organization') ),
+                                   );
                 if ( CRM_Core_Permission::access( 'Quest' ) ) {
                     $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/quest/search',
                                                                       'query' => 'reset=1',
@@ -315,7 +315,7 @@ class CRM_Core_Block {
      
             }
 
-            // add new activity creation link
+            // new activity (select target contact)
             $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/activity',
                                                               'query' => 'action=add&reset=1&context=standalone',
                                                               'key'   => 'A',
@@ -335,49 +335,60 @@ class CRM_Core_Block {
                 }
             }
             
-            if ( CRM_Core_Permission::check('access CiviContribute') ) {
+            if ( CRM_Core_Permission::check('access CiviContribute') && 
+                 in_array( 'CiviContribute', $config->enableComponents ) ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/contribution',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'title' => ts('Contribution') ) ));
-            }
+            }            
+
+            // new email (select recipients)
+            $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/activity',
+                                                              'query' => 'atype=3&action=add&reset=1&context=standalone',
+                                                              'key'   => 'E',
+                                                              'title' => ts('Email') ) ));
             
-            if ( CRM_Core_Permission::check('access CiviEvent') ) {
+            if ( CRM_Core_Permission::check('access CiviEvent') && 
+                 in_array( 'CiviEvent', $config->enableComponents ) ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/participant',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'title' => ts('Event Registration') ) ));
             }
 
-            if ( CRM_Core_Permission::check('access CiviPledge') ) {
+            if ( CRM_Core_Permission::check('access CiviPledge') && 
+                 in_array( 'CiviPledge', $config->enableComponents ) ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/pledge',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'title' => ts('Pledge') ) ));
             }
 
-            if ( CRM_Core_Permission::check('access CiviGrant') ) {
+            if ( CRM_Core_Permission::check('access CiviGrant') && 
+                 in_array( 'CiviGrant', $config->enableComponents ) ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/grant',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'title' => ts('Grant') ) ));
             }
              
-            if ( CRM_Core_Permission::check('access CiviMember') ) {
+            if ( CRM_Core_Permission::check('access CiviMember') && 
+                 in_array( 'CiviMember', $config->enableComponents ) ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/membership',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'title' => ts('Membership') ) ));
             }
 
-            if ( CRM_Core_Permission::check('edit groups')) {
+            if ( CRM_Core_Permission::check('edit groups') ) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
                                                                    'query' => 'reset=1',
                                                                    'key'   => 'G',
                                                                    'title' => ts('Group') ) ));
             }
 
-            if ( CRM_Core_Permission::check('administer CiviCRM')) {
+            if ( CRM_Core_Permission::check('administer CiviCRM') ) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/admin/tag',
                                                                    'query' => 'reset=1&action=add',
                                                                    'title' => ts('Tag') ) ));

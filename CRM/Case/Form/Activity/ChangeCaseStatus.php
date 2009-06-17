@@ -110,9 +110,10 @@ class CRM_Case_Form_Activity_ChangeCaseStatus
     {
         // Set case end_date if we're closing the case. Clear end_date if we're (re)opening it.
         if( $params['case_status_id'] == 
-            CRM_Core_OptionGroup::getValue( 'case_status', 'Closed', 'name' ) ) {
+            CRM_Core_OptionGroup::getValue( 'case_status', 'Closed', 'name' ) 
+            && CRM_Utils_Array::value('activity_date_time', $params) ) {
             $params['end_date'] = $params['activity_date_time'];
-
+            
         } else if ( $params['case_status_id'] == 
                     CRM_Core_OptionGroup::getValue( 'case_status', 'Open', 'name' ) ) {
             $params['end_date'] = "null";

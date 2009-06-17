@@ -63,6 +63,27 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     function preProcess( ) 
     {
         parent::preProcess( );
+
+        // CRM-4377: additional participants *may* have separate profiles
+        // backward compatibility hack, or ‘why we can’t use CRM_Core_BAO_UFJoin::getUFGroupIds()’:
+        // — no entries means we should stick to the main participant’s profile
+        // — inactive entries mean we should unset the profile altogether
+        require_once 'CRM/Core/DAO/UFJoin.php';
+        $ufJoin = new CRM_Core_DAO_UFJoin;
+        $ufJoin->module       = 'CiviEvent_Additional';
+        $ufJoin->entity_table = 'civicrm_event';
+        $ufJoin->entity_id    = $this->_eventId;
+        $ufJoin->orderBy('weight');
+        $ufJoin->find();
+        if ($ufJoin->fetch()) {
+            if ($ufJoin->is_active) $this->_values['custom_pre_id'] = $ufJoin->uf_group_id;
+            else                    unset($this->_values['custom_pre_id']);
+        }
+        if ($ufJoin->fetch()) {
+            if ($ufJoin->is_active) $this->_values['custom_post_id'] = $ufJoin->uf_group_id;
+            else                    unset($this->_values['custom_post_id']);
+        }
+
         $this->_lineItem = $this->get( 'lineItem' );
         $participantNo = substr( $this->_name, 12 );
         

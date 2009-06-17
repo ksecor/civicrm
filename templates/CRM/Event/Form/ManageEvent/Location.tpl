@@ -1,5 +1,4 @@
 {* this template used to build location block *}
-{include file="CRM/common/WizardHeader.tpl"}
 <fieldset>
     <legend>{ts}Event Location and Contact Information{/ts}</legend>
     <div id="help">

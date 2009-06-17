@@ -46,9 +46,9 @@ You can click url link from your confirmation mail and go to a web page where yo
 {/if}
 
 {if $isShowLocation}
-{if $location.1.name}
+{if $location.1.address.name}
 
-{$location.1.name}
+{$location.1.address.name}
 {/if}
 {if $location.1.address.street_address}{$location.1.address.street_address}
 {/if}

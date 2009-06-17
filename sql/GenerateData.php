@@ -614,13 +614,14 @@ class CRM_GCD {
         // add contacts
         $contact =& new CRM_Contact_DAO_Contact();
 
+        require_once 'CRM/Core/BAO/CustomOption.php';
         for ($id=1; $id<=self::NUM_CONTACT; $id++) {
             $contact->contact_type = $this->getContactType($id+1);
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);
             $contact->do_not_post  = mt_rand(0, 1);
             $contact->do_not_trade = mt_rand(0, 1);
-            $contact->preferred_communication_method = $this->_getRandomElement($this->preferredCommunicationMethod);
+            $contact->preferred_communication_method = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR. $this->_getRandomElement($this->preferredCommunicationMethod) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             $this->_insert($contact);
         }
     }

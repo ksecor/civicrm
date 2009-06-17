@@ -17,14 +17,14 @@
     </div>
    {else}
     <legend>{ts}CiviCRM Profile{/ts}</legend>
-    <dl>
+    <dl class="html-adjust">
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt>{$form.uf_group_type.label} {help id='id-used_for' file="CRM/UF/Form/Group.hlp"}</dt><dd>{$form.uf_group_type.html}&nbsp;{$otherModuleString}</dd>
     <dt>{$form.weight.label}{if $config->userFramework EQ 'Drupal'} {help id='id-profile_weight' file="CRM/UF/Form/Group.hlp"}{/if}</dt><dd>{$form.weight.html}</dd>
     <dt>{$form.help_pre.label} {help id='id-help_pre' file="CRM/UF/Form/Group.hlp"}</dt><dd>{$form.help_pre.html}</dd>
     <dt>{$form.help_post.label} {help id='id-help_post' file="CRM/UF/Form/Group.hlp"}</dt><dd>{$form.help_post.html}</dd>
     </dl>
-    <dl>	
+    <dl><div class="spacer"></div>	
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     </dl>
 

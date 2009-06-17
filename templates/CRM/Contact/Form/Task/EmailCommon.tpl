@@ -24,7 +24,7 @@
         </span>
         <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='text'></span><a href="#">{$form.text_message.label}</a></h3>
         <div class='text'>
-            {$form.text_message.html|replace:'80':'105'}<br />{* expanded the text box as per jQuery tab width *}
+            {$form.text_message.html}<br />
         </div>
         {if ! $noAttach}
             <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='attachment'></span>
@@ -244,7 +244,11 @@ tinyMCE.init({
 
 cj(function() {
         cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
+
+        // restructuring css as per jQuery tab width
         cj('.ui-state-default, .ui-widget-content .ui-state-default').css( 'width', '95%' );
+        cj('.resizable-textarea textarea').css( 'width', '99%' );cj('.grippie').css( 'margin-right', '3px');
+
         cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
 	                           }, function() { cj(this).removeClass( "ui-state-hover");
 	}).bind('click', function() { 
@@ -271,7 +275,20 @@ function showToken(element) {
       bgiframe    : true,
       overlay     : { opacity: 0.5, background: "black" },
       beforeclose : function(event, ui) { cj(this).dialog("destroy"); },
-      buttons     : { "Done": function() { cj(this).dialog("close");}}
+      buttons     : { "Done": function() { 
+                                cj(this).dialog("close");
+
+                                    //focus on editor/textarea after token selection     
+                                    if (element == 'Text') {
+                                        cj('#text_message').focus();
+                                    } else if (element == 'Html' ) {
+                                        switch ({/literal}"{$editor}"{literal}) {
+                                            case 'fckeditor': { FCKeditorAPI.GetInstance('html_message').Focus(); break;}
+                                            case 'tinymce'  : { tinyMCE.get('html_message').focus(); break; } 
+                                            default         : { cj("#html_message").focus(); break; } 
+                                        }
+                                    }
+                    }}
   });
   return false;
 }

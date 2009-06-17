@@ -61,6 +61,7 @@
        <name>parent_id</name>
        <table>civicrm_navigation</table>
        <key>id</key>
+       <onDelete>CASCADE</onDelete>
        <add>2.3</add>
   </foreignKey>
   <field>
@@ -77,8 +78,7 @@
   </field>
   <field>
     <name>weight</name>
-    <type>varchar</type>
-    <length>255</length>
+    <type>int</type>
     <comment>Ordering of the navigation items in various blocks.</comment>
     <add>2.3</add>
   </field>

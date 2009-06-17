@@ -434,7 +434,7 @@ function addRole() {
 	{/if}
   </table>
   <br />
-  <table id="activities-selector" style="display:none"></table>
+  <table id="activities-selector"  class="nestedActivitySelector" style="display:none"></table>
 
 </fieldset>
 </div> <!-- End Activities div -->
@@ -549,7 +549,7 @@ function checkSelection( field ) {
 
 
 function setSelectorClass( ) {
-    cj("#activities-selector tbody tr").parent().attr( 'class','status-completed');
+    console.log(cj("#activities-selector tbody tr").attr( 'class','status-completed'));
     var currentDate = new Date();
     var ct = currentDate.getTime() / 1000;
 
@@ -559,11 +559,10 @@ function setSelectorClass( ) {
         if ( ct > dt ) {
             cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
         } else {
-            cj(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
+            cj(this).parent().attr( 'class','status-scheduled').find(":contains('Scheduled')");
         }	
     });
     
-    cj("#activities-selector tbody tr:odd").addClass('erow');
 }
 </script>
 {/literal}

@@ -523,7 +523,7 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
 
     $output = array( );
     if ( $html ) {
-        $html = civicrm_add_jquery( $html );
+        //$html = civicrm_add_jquery( $html );
         $index = empty( $category ) ? 'civicrm-profile-register' : $category;
         $output[$index] = array( '#title' => $category,
                                  '#value' => $html,
@@ -572,7 +572,7 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
     }
     
     if ( $html ) {
-        $html = civicrm_add_jquery( $html );
+        //$html = civicrm_add_jquery( $html );
         $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
         $output[$index][] = array( '#title' => $category,
                                    '#value' => $html,
@@ -786,14 +786,13 @@ function civicrm_views_api() {
 }
 
 function civicrm_add_jquery( &$html ) {
-    $smarty = CRM_Core_Smarty::singleton( );
-    return $smarty->fetch( 'CRM/common/jquery.tpl' ) . $html;
+    return $html . '<script type="text/javascript">jQuery.noConflict(true);</script>';
 }
 
 function  civicrm_form_alter( $form, $formValues, $formID ) {
     if ( $formID == 'user_admin_perm' && !empty( $formValues['post'] ) ) {
         // reset navigation only when permissions are changed
         require_once 'CRM/Core/BAO/Navigation.php';
-        CRM_Core_BAO_Navigation::resetNavigation( );
+        CRM_Core_BAO_Navigation::resetNavigation( false );
     }
 }

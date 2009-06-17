@@ -386,6 +386,10 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
     
     public static function getOptionId( $optionLabel, $fid ) 
     {
+        if ( !$optionLabel || !$fid ) {
+            return;
+        }
+        
         $optionGroupName = "civicrm_price_field.amount.{$fid}";
         
         $query = "

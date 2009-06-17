@@ -56,11 +56,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
         
-        // check for edit permission
-        if ( ! CRM_Core_Permission::check( 'edit memberships' ) ) {
-            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
-        }
-        
         // action
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
                                                          $this, false, 'add' );
@@ -68,6 +63,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                          $this );
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
+
+        // check for edit permission
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviMember', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }
         
         $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
         $this->assign('context', $this->_context );

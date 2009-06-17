@@ -565,6 +565,9 @@ AND civicrm_case.is_deleted     = 0";
         $queryParams = array();
         $result = CRM_Core_DAO::executeQuery( $query,$queryParams );
 
+        require_once 'CRM/Core/OptionGroup.php';
+        $caseStatus = CRM_Core_OptionGroup::values( 'case_status', false, false, false, " AND v.name = 'Urgent' " );
+
         $resultFields = array( 'contact_id',
                                'contact_type',
                                'sort_name',
@@ -606,7 +609,7 @@ AND civicrm_case.is_deleted     = 0";
         while ( $result->fetch() ) {
             foreach( $resultFields as $donCare => $field ) {
                 $casesList[$result->case_id][$field] = $result->$field;
-                if( $field = 'contact_type' ) {
+                if( $field == 'contact_type' ) {
                     $casesList[$result->case_id]['contact_type_icon'] 
                         = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
                     $casesList[$result->case_id]['action'] 
@@ -614,6 +617,12 @@ AND civicrm_case.is_deleted     = 0";
                                                      array( 'id'  => $result->case_id,
                                                             'cid' => $result->contact_id,
                                                             'cxt' => 'dashboard' ) );
+                } elseif ( $field == 'case_status' ) {  
+                    if ( in_array($result->$field, $caseStatus) ) {
+                        $casesList[$result->case_id]['class'] = "status-urgent";
+                    }else {
+                        $casesList[$result->case_id]['class'] = "status-normal";
+                    }
                 }
             }
             //CRM-4510.
@@ -760,7 +769,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                           ca.activity_date_time actual_date, 
                           ca.status_id as status, 
                           ca.subject as subject,
-                          ca.is_deleted as deleted ';
+                          ca.is_deleted as deleted,
+                          ca.priority_id as priority ';
 
         $from  = 'FROM civicrm_case_activity cca, 
                        civicrm_contact cc,
@@ -863,8 +873,9 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
         require_once "CRM/Utils/Date.php";
         require_once "CRM/Core/PseudoConstant.php";
-        $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
-        
+        $activityStatus   = CRM_Core_PseudoConstant::activityStatus( );
+        $activityPriority = CRM_Core_PseudoConstant::priority( );
+
         $url = CRM_Utils_System::url( "civicrm/case/activity",
                                       "reset=1&cid={$contactID}&caseid={$caseID}", false, null, false ); 
         
@@ -930,14 +941,24 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             } 
             
             $values[$dao->id]['links'] = $url;
-            if ( $values[$dao->id]['status'] == 'Scheduled' && 
-                 CRM_Utils_Date::overdue(  $dao->due_date ) ) {
-                $values[$dao->id]['class']   = 'status-overdue';
-            } else if ( $values[$dao->id]['status'] == 'Scheduled' ) {
-                $values[$dao->id]['class']   = 'status-pending';
-            } else if ( $values[$dao->id]['status'] == 'Completed' ) {
-                $values[$dao->id]['class']   ="status-completed";
+            $values[$dao->id]['class'] = "";
+           
+            if ( $activityPriority[$dao->priority] == 'Urgent' ) {
+                $values[$dao->id]['class']   =  $values[$dao->id]['class']."priority-urgent ";
+            } else if ( $activityPriority[$dao->priority] == 'Low' ) {
+                $values[$dao->id]['class']   = $values[$dao->id]['class']."priority-low ";
+            } 
+            
+            if( $values[$dao->id]['status'] == 'Scheduled' ) {
+                $values[$dao->id]['class']   =  $values[$dao->id]['class']."status-scheduled";
+            } else {
+                $values[$dao->id]['class']   =  $values[$dao->id]['class']."status-completed";
             }
+            
+            if ( CRM_Utils_Date::overdue(  $dao->due_date ) ) {
+                $values[$dao->id]['class'] = $values[$dao->id]['class']." status-overdue";  
+            } 
+            
         }
 
         $dao->free( );

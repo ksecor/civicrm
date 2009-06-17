@@ -160,6 +160,12 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
             }
         } else if ($this->_action & CRM_Core_Action::DELETE) {
             if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
+                
+                // check for action permissions.
+                if ( !CRM_Core_Permission::checkActionPermission( 'CiviMail', $this->_action ) ) {
+                    CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+                }
+                
                 require_once 'CRM/Mailing/BAO/Mailing.php';
                 CRM_Mailing_BAO_Mailing::del($this->_mailingId);
                 CRM_Utils_System::redirect($context);

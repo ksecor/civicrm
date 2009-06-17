@@ -317,7 +317,7 @@ WHERE      a.id = %1
                                        'type'  => 'Date' );
         
         $activity['fields'][] = array( 'label' => 'Details',
-                                       'value' => $this->redact($activityDAO->details, true, false, 'lookup'),
+                                       'value' => $this->redact($activityDAO->details, false, false, 'lookup'),
                                        'type'  => 'Memo' );
         
         // Skip Duration field if empty (to avoid " minutes" output). Might want to do this for all fields at some point. dgg
@@ -475,14 +475,8 @@ LIMIT  1
     
 	private function redact( $s, $isRedact = false, $printReport = false, $type = 'name')
 	{
-         if ( $isRedact && $printReport ) {
-            if($type =='name') {
-                return sha1($s);
-            } elseif($type =='lookup') {
-                require_once 'CRM/Utils/String.php';
-                $s = CRM_Utils_String::redaction( $s, $this->_redactionRegexRules, $this->_redactionStringRules );
-                return $s;
-            }
+        if ( $isRedact && $printReport ) {
+            return sha1($s);
         } else if ( !$isRedact && $printReport ) {
             return $s;
         } else if ( $this->_isRedact ) {

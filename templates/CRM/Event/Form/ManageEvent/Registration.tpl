@@ -1,4 +1,3 @@
-{include file="CRM/common/WizardHeader.tpl"}
 <fieldset><legend>{ts}Online Registration{/ts}</legend>
 <div id="help">
 {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
@@ -41,7 +40,7 @@
 
         <div id="registration_screen">
         <fieldset><legend><a href="#" onclick= "hide('registration_screen'); show('registration_screen_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Registration Screen{/ts}</legend>
-        <dl>
+        <dl class="html-adjust">
             <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Introductory message / instructions for online event registration page (may include HTML formatting tags).{/ts}</dd>
             <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
@@ -50,6 +49,12 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the top of the page (immediately after the introductory message).{/ts}{help id="event-profile"}</dd>
             <dt>{$form.custom_post_id.label}</dt><dd>{$form.custom_post_id.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the bottom of the page.{/ts}</dd>
+            <div id="additional_profiles">
+              <dt>{$form.additional_custom_pre_id.label}</dt><dd>{$form.additional_custom_pre_id.html}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Change this if you want to have a different profile for additional participants.{/ts}</dd>
+              <dt>{$form.additional_custom_post_id.label}</dt><dd>{$form.additional_custom_post_id.html}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Change this if you want to have a different profile for additional participants.{/ts}</dd>
+            </div>
         </dl>
         </fieldset>
         </div>
@@ -61,7 +66,7 @@
 
         <div id="confirm">
         <fieldset><legend><a href="#" onclick="hide('confirm'); show('confirm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Confirmation Screen{/ts}</legend>
-        <dl>
+        <dl class="html-adjust" >
             <dt>{$form.confirm_title.label} <span class="marker">*</span></dt><dd>{$form.confirm_title.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Page title for screen where user reviews and confirms their registration information.{/ts}</dd>
             <dt>{$form.confirm_text.label}</dt><dd>{$form.confirm_text.html}</dd>
@@ -79,7 +84,7 @@
 
         <div id="thankyou">
         <fieldset><legend><a href="#" onclick="hide('thankyou'); show('thankyou_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Thank-you Screen{/ts}</legend>
-        <dl>
+        <dl class="html-adjust">
             <dt>{$form.thankyou_title.label} <span class="marker">*</span></dt><dd>{$form.thankyou_title.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Page title for registration Thank-you screen.{/ts}</dd>
             <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>
@@ -103,7 +108,7 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Do you want a registration confirmation email sent automatically to the user? This email includes event date(s), location and contact information. For paid events, this email is also a receipt for their payment.{/ts}</dd>
         </dl>
         <div id="confirmEmail">
-        <dl>
+        <dl class="html-adjust">
             <dt>{$form.confirm_email_text.label} </dt><dd>{$form.confirm_email_text.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Additional message or instructions to include in confirmation email.{/ts}</dd>
             <dt>{$form.confirm_from_name.label} <span class="marker">*</span></dt><dd>{$form.confirm_from_name.html}</dd>
@@ -144,6 +149,14 @@ invert              = 0
 trigger_field_id    ="is_email_confirm"
 trigger_value       =""
 target_element_id   ="confirmEmail" 
+target_element_type ="block"
+field_type          ="radio"
+invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl"
+trigger_field_id    ="is_multiple_registrations"
+trigger_value       =""
+target_element_id   ="additional_profiles"
 target_element_type ="block"
 field_type          ="radio"
 invert              = 0
