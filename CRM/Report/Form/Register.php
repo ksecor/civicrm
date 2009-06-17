@@ -34,68 +34,96 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/BAO/OptionGroup.php';
+require_once 'CRM/Core/BAO/OptionValue.php';
 
 class CRM_Report_Form_Register extends CRM_Core_Form {
     public $_id;
     
     public function preProcess()  
     {  
-
-        $this->_action = CRM_Utils_Request::retrieve( 'action',
-                                               'String',
-                                               $this, false, 'add' );
+        $this->_action = CRM_Utils_Request::retrieve( 'action','String',$this, false );
+        $this->_id = CRM_Utils_Request::retrieve( 'id','String',$this, false );        
+         if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return;
+         }    
+        
+        //   crm_core_error::debug("$this->_actions", $this->_action);
         $this->_opID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
-                                             'report_template', 'id', 'name' );
-
+                                                    'report_template', 'id', 'name' );
+        $instanceInfo = array( );      
     }
+
     function setDefaultValues( ) 
     {
-        $defaults = array();
-        $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight( 'CRM_Core_DAO_OptionValue', 
-                                                                  array( 'option_group_id' => $this->_opID) );
+        $defaults = $this->_values;
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return $defaults;
+        } 
+        if($this->_id) {            
+            $params   = array( 'id' => $this->_id );
+            $defaults = array();
+            CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue', $params, $defaults );
+        } else {
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight( 'CRM_Core_DAO_OptionValue', 
+                                                                      array( 'option_group_id' => $this->_opID) );
+        }        
         return $defaults;
     }
+
     public function buildQuickForm( )  
-    {
-        
-        $this->add( 'text', 'label',  ts('Title'), array( 'size'=> 40 ), true );
-        $this->add( 'text', 'value',  ts('URL'),   array( 'size'=> 40 ), true );
-        $this->add( 'text', 'name',   ts('Class'), array( 'size'=> 40 ), true );
-        $element = $this->add( 'text', 'weight', ts('Weight'), array( 'size'=> 4 ), true );
-        $element->freeze( );
-        $this->add( 'text', 'description',  ts('Description'), array( 'size'=> 40 )  , true );
-
-        $this->add('checkbox', 'is_active', ts('Enabled?'));
-        require_once 'CRM/Core/Component.php';
-        $this->_components = CRM_Core_Component::getComponents();
-        //unset the report component
-        unset($this->_components['CiviReport']);
-
-        $components = array();
-        foreach( $this->_components as $name => $object ) {
-            $components[$object->componentID] = $object->info['translatedName'];
+        {
+            if ( $this->_action & CRM_Core_Action::DELETE ) {
+                $this->addButtons(array( 
+                                        array ( 'type'      => 'next', 
+                                                'name'      => ts('Delete'), 
+                                                'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                                'isDefault' => true   ), 
+                                        array ( 'type'      => 'cancel', 
+                                                'name'      => ts('Cancel') ), 
+                                        ) 
+                                  );
+                return;
+            }
+            
+            $this->add( 'text', 'label',  ts('Title'), array( 'size'=> 40 ), true );
+            $this->add( 'text', 'value',  ts('URL'),   array( 'size'=> 40 ), true );
+            $this->add( 'text', 'name',   ts('Class'), array( 'size'=> 40 ), true );
+            $element = $this->add( 'text', 'weight', ts('Weight'), array( 'size'=> 4 ), true );
+            $element->freeze( );
+            $this->add( 'text', 'description',  ts('Description'), array( 'size'=> 40 )  , true );
+            
+            $this->add('checkbox', 'is_active', ts('Enabled?'));
+            require_once 'CRM/Core/Component.php';
+            $this->_components = CRM_Core_Component::getComponents();
+            //unset the report component
+            unset($this->_components['CiviReport']);
+            
+            $components = array();
+            foreach( $this->_components as $name => $object ) {
+                $components[$object->componentID] = $object->info['translatedName'];
+            }
+            
+            $this->add( 'select', 'component_id', ts('Component'),   array(''=>ts( 'Contact' )) + $components );     
+            
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'upload',
+                                            'name'      => ts('Save'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                             );          
+            $this->addFormRule( array( 'CRM_Report_Form_Register', 'formRule' ), $this );
         }
-
-        $this->add( 'select', 'component_id', ts('Component'),   array(''=>ts( 'Contact' )) + $components );     
-        
-        $this->addButtons(array( 
-                                array ( 'type'      => 'upload',
-                                        'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ), 
-                                array ( 'type'      => 'cancel', 
-                                        'name'      => ts('Cancel') ), 
-                                ) 
-                          );
-        
-        $this->addFormRule( array( 'CRM_Report_Form_Register', 'formRule' ), $this );
-    }
+    
     static function formRule( &$fields, &$files, $self ) 
-    {  
-        $errors = array( ); 
-        return $errors;
-    } 
-      
+        {  
+            $errors = array( ); 
+            return $errors;
+        } 
+    
     /** 
      * Function to process the form 
      * 
@@ -103,18 +131,30 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
      * @return None 
      */ 
     public function postProcess( )  
-    {   
-        // get the submitted form values. 
-
-        $params = $this->controller->exportValues( $this->_name );
-        
-        $ids    = array( );
-        $groupParams = array( 'name' => ('report_template') );
-        require_once 'CRM/Core/OptionValue.php';
-        $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
-        
-        CRM_Core_Session::setStatus( ts('The %1 \'%2\' has been saved.', array(1 => 'Report Template', 2 => $optionValue->label)) );
-        CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/template/list', "reset=1") );
-    }     
-}
+        {   
+            if($this->_action & CRM_Core_Action::DELETE) {
+                
+                if( CRM_Core_BAO_OptionValue::del($this->_id) ) {            
+                    CRM_Core_Session::setStatus( ts('Selected %1 Report has been deleted.', array(1 => $this->_GName)) );
+                    CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/options/report_template', "reset=1") );
+                } else {
+                    CRM_Core_Session::setStatus( ts('Selected %1 type has not been deleted.', array(1 => $this->_GName)) );
+                    CRM_Utils_Weight::correctDuplicateWeights('CRM_Core_DAO_OptionValue', $fieldValues);
+                } 
+                
+            } else {            
+                // get the submitted form values. 
+                
+                $params = $this->controller->exportValues( $this->_name );
+                
+                $ids    = array( );
+                $groupParams = array( 'name' => ('report_template') );
+                require_once 'CRM/Core/OptionValue.php';
+                $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
+                
+                CRM_Core_Session::setStatus( ts('The %1 \'%2\' has been saved.', array(1 => 'Report Template', 2 => $optionValue->label)) );
+                CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/options/report_template', "reset=1") );
+            }
+        }     
+  }
 ?>
