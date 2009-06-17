@@ -138,8 +138,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                                  array( 'title'         => ts( 'Amount Statistics' ),
                                        'default'       => true,
                                         'statistics'    => 
-                                        array('sum'     => ts( 'Total Amount' ), 
-                                              'count'   => ts( 'Count' ), 
+                                        array('sum'     => ts( 'Aggregate Amount' ), 
+                                              'count'   => ts( 'Donations' ), 
                                               'avg'     => ts( 'Average' ), ), ), ),
                           'grouping'  => 'softcredit-fields',
                           'filters'   =>             
@@ -389,7 +389,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
             $statistics['counts']['amount'] = array( 'value' => $dao->amount,
                                                      'title' => 'Total Amount' );
             $statistics['counts']['count '] = array( 'value' => $dao->count,
-                                                     'title' => 'No.Of Contributions' );
+                                                     'title' => 'Total Donations' );
             $statistics['counts']['avg   '] = array( 'value' => $dao->avg,
                                                      'title' => 'Average');
         }

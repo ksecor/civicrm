@@ -292,7 +292,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                     $rows[$rowNum]['civicrm_participant_event_id'] = 
                         CRM_Event_PseudoConstant::event( $value, false );  
                     $url = CRM_Report_Utils_Report::getNextUrl( 'event/eventIncome', 
-                                                  'reset=1&force=1&id_value='.$value,
+                                                  'reset=1&force=1&id_op=in&id_value='.$value,
                                                                 $this->_absoluteUrl, $this->_id );
                     $rows[$rowNum]['civicrm_participant_event_id_link' ] = $url;
                     $rows[$rowNum]['civicrm_participant_event_id_hover'] = 
