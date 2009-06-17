@@ -159,7 +159,7 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
                             $this->_emailField = true;  
                         }
                         $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = CRM_Utils_Array::value( 'type', $field );
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                     }
                 }
@@ -253,7 +253,8 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
     
     function groupBy( ) {
         $this->_groupBy = "";
-        if ( is_array($this->_params['group_bys']) && 
+        if ( CRM_Utils_Array::value( 'group_bys', $this->_params ) &&
+             is_array($this->_params['group_bys']) && 
              !empty($this->_params['group_bys']) ) {
             foreach ( $this->_columns as $tableName => $table ) {
                 if ( array_key_exists('group_bys', $table) ) {
@@ -311,7 +312,8 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
                 
                 $repeatFound = false;
                 foreach ( $row as $colName => $colVal ) {
-                    if ( is_array($checkList[$colName]) && 
+                    if ( CRM_Utils_Array::value( $colName, $checkList ) && 
+                         is_array($checkList[$colName]) && 
                          in_array($colVal, $checkList[$colName]) ) {
                         $rows[$rowNum][$colName] = "";
                         $repeatFound = true; 

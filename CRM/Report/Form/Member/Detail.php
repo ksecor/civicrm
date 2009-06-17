@@ -160,7 +160,7 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                         }
                         $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = $field['type'];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = CRM_Utils_Array::value( 'type', $field );
                     }
                 }
             }
@@ -211,7 +211,7 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
-                    if ( $field['operatorType'] & CRM_Utils_Type::T_DATE ) {
+                    if ( CRM_Utils_Array::value( 'operatorType', $field ) & CRM_Utils_Type::T_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
@@ -272,7 +272,8 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                 // in previous row
                 $repeatFound = false;
                 foreach ( $row as $colName => $colVal ) {
-                    if ( is_array($checkList[$colName]) && 
+                    if ( CRM_Utils_Array::value( $colName, $checkList ) && 
+                         is_array($checkList[$colName]) && 
                          in_array($colVal, $checkList[$colName]) ) {
                         $rows[$rowNum][$colName] = "";
                         $repeatFound = true;

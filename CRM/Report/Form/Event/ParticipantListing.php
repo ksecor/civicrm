@@ -163,7 +163,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
                         
                         $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = CRM_Utils_Array::value( 'type', $field );
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
 
                     }
@@ -201,7 +201,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     
                     $clause = null;
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                    if ( CRM_Utils_Array::value( 'type', $field ) & CRM_Utils_Type::T_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
@@ -237,7 +237,8 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
 
     function groupBy( ) {
         $this->_groupBy = "";
-        if ( is_array($this->_params['group_bys']) && 
+        if ( CRM_Utils_Array::value( 'group_bys', $this->_params ) &&
+             is_array($this->_params['group_bys']) &&
              !empty($this->_params['group_bys']) ) {
             foreach ( $this->_columns as $tableName => $table ) {
                 if ( array_key_exists('group_bys', $table) ) {

@@ -113,7 +113,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
                         
-                        switch ( $this->_params['group_bys_freq'][$fieldName] ) {
+                        switch ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
                         case 'YEARWEEK' :
                             $select[] = "DATE_SUB({$field['dbAlias']}, INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
                             
@@ -194,8 +194,9 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                             }   
                         } else {
                             $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
-                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
-                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['operatorType'] = $field['operatorType'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['title']        = $field['title'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['operatorType'] = 
+                                CRM_Utils_Array::value( 'operatorType', $field );
                         }
                     }
                 }

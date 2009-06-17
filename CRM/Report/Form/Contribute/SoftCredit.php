@@ -37,7 +37,11 @@ require_once 'CRM/Report/Form.php';
 require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
-    
+
+    protected $_emailField       = false;
+    protected $_emailFieldCredit = false;
+    protected $_phoneField       = false;
+    protected $_phoneFieldCredit = false;
     protected $_charts = array( ''         => 'Tabular',
                                 'barGraph' => 'Bar Graph',
                                 'pieGraph' => 'Pie Graph'
@@ -236,7 +240,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                             
                         } else {
                             $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
-                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = CRM_Utils_Array::value( 'type', $field );
                             $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                         }
                     }
@@ -331,7 +335,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                    if ( CRM_Utils_Array::value( 'type', $field ) & CRM_Utils_Type::T_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
@@ -428,6 +432,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         // custom code to alter rows
         
         $entryFound = false;
+        $dispname_flag = $phone_flag = $email_flag = 0;
         foreach ( $rows as $rowNum => $row ) {
             
             // Handling Creditor's display_name no Repeat
