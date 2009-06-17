@@ -343,8 +343,8 @@ ORDER BY weight, parent_id";
             $permissions = explode(',', $permission ); 
             $config  =& CRM_Core_Config::singleton( );
             
-            $showItem = true;
             foreach ( $permissions as $key ) {
+                $showItem = true;
                 //hack to determine if it's a component related permission
                 if ( $key != 'access CiviCRM' && substr( $key, 0, 6 ) === 'access' ) {
                     $componentName = trim(substr( $key, 6 ));
