@@ -224,11 +224,11 @@ SUM(contribution2_total_amount_sum)   as contribution2_total_amount_sum';
 
                             // FIXME: dirty hack for setting columnHeaders
                             $this->_columnHeaders["{$field['alias']}_{$field['name']}_sum"]['type']    = 
-                                $field['type'];
+                                CRM_Utils_Array::value( 'type', $field );
                             $this->_columnHeaders["{$field['alias']}_{$field['name']}_sum"]['title']   = 
                                 $field['title'];
                             $this->_columnHeaders["{$field['alias']}_{$field['name']}_count"]['type']  = 
-                                $field['type'];
+                                CRM_Utils_Array::value( 'type', $field );
                             $this->_columnHeaders["{$field['alias']}_{$field['name']}_count"]['title'] = 
                                 $field['title'];
                             continue;
@@ -238,7 +238,7 @@ SUM(contribution2_total_amount_sum)   as contribution2_total_amount_sum';
                         $select[] = "{$field['dbAlias']} as {$field['alias']}_{$field['name']}";
                         $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['type'] = $field['type'];
                         $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['title'] = $field['title'];
-                        if ( $field['no_display'] ) {
+                        if ( CRM_Utils_Array::value( 'no_display', $field ) ) {
                             $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['no_display'] = true;
                         }
                     }
@@ -272,7 +272,7 @@ SUM(contribution2_total_amount_sum)   as contribution2_total_amount_sum';
                 }
             }
             
-            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " $rollUP ";
+            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy );
         }
     }
 
@@ -345,7 +345,7 @@ LEFT  JOIN (
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
-                    if ( !($field['type'] & CRM_Utils_Type::T_DATE) ) {
+                    if ( !(CRM_Utils_Array::value( 'type', $field ) & CRM_Utils_Type::T_DATE) ) {
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         if ( $op ) {
                             $clause = 

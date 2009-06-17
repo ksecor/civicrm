@@ -230,7 +230,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                         } else {
                             $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
                             $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
-                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = $field['type'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = CRM_Utils_Array::value( 'type', $field );
                         }
                     }
                 }
@@ -330,7 +330,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                 // in previous row
 
                 foreach ( $row as $colName => $colVal ) {
-                    if ( is_array($checkList[$colName]) && 
+                    if ( CRM_Utils_Array::value($colName, $checkList ) && is_array($checkList[$colName]) && 
                          in_array($colVal, $checkList[$colName]) ) {
                         $rows[$rowNum][$colName] = "";
                     }
