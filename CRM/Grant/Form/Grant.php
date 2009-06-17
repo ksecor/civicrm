@@ -74,6 +74,15 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->assign( 'action', $this->_action );
         $this->assign( 'context', $this->_context );
         
+        //check permission for action.
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviGrant', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );  
+        }
+
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return;
+        }
+        
         $this->_noteId =null;
         if ( $this->_id) {
             require_once 'CRM/Core/BAO/Note.php';
@@ -93,6 +102,10 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
     {
         $defaults = array( );
         $defaults = parent::setDefaultValues();
+        
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return $defaults;
+        }
         
         $params['id'] =  $this->_id;
         if ( $this->_noteId ) {
@@ -131,6 +144,19 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     {         
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Delete'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+            return;
+        }
+        
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Grant/BAO/Grant.php';
         $attributes = CRM_Core_DAO::getAttribute('CRM_Grant_DAO_Grant');
@@ -238,6 +264,8 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
     public function postProcess( )  
     { 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
+            require_once 'CRM/Grant/BAO/Grant.php';
+            CRM_Grant_BAO_Grant::del( $this->_id );
             return;
         }
         
@@ -285,6 +313,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            $session =& CRM_Core_Session::singleton( );
             if ( $this->_context == 'standalone' ) {
                 $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/grant', 
                                                                    'reset=1&action=add&context=standalone') );

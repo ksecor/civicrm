@@ -121,6 +121,14 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $caseRoles    = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
         $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
 
+        $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
+        $caseRoles     = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
+        //adding case manager.CRM-4510.
+        $managerRoleId = $xmlProcessor->getCaseManagerRoleId( $this->_caseType );
+        if ( !empty($managerRoleId) ) {
+            $caseRoles[$managerRoleId] = $caseRoles[$managerRoleId].'<br />'.'('.ts('Case Manager').')';
+        } 
+        
         $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes', true );
         // remove Open Case activity type since we're inside an existing case
         $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
@@ -159,18 +167,23 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                                                                      
 		//get case related relationships (Case Role)
         $caseRelationships = CRM_Case_BAO_Case::getCaseRoles( $this->_contactID, $this->_caseID );
-        $this->assign('caseRelationships', $caseRelationships);
-
+        
         //build reporter select
         $reporters = array( "" => ts(' - any reporter - ') );
-        foreach( $caseRelationships as $key => $value ) {
+        foreach( $caseRelationships as $key => &$value ) {
             $reporters[$value['cid']] = $value['name'] . " ( {$value['relation']} )";
 
+            if ( $managerRoleId == $value['relation_type'] ) {
+                $value['relation'] = $caseRoles[$managerRoleId]; 
+            } 
+
             //calculate roles that don't have relationships
-            if ( $key = array_search( $value['relation'], $caseRoles ) ) {
-                unset( $caseRoles[$key] ) ;
+            if ( CRM_Utils_Array::value($value['relation_type'], $caseRoles) ) {
+                unset( $caseRoles[$value['relation_type']] );
             }
         }
+        
+        $this->assign('caseRelationships', $caseRelationships);
         
         //also add client as role. CRM-4438
         $caseRoles['client'] = CRM_Case_BAO_Case::getcontactNames( $this->_caseID );

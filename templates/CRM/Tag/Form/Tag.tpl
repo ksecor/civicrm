@@ -62,9 +62,19 @@ function initTagTree() {
         cj("#tags").html( tagLabels );
         cj("#tagLink").show( );
     });
+    
+    {/literal}
+    {if $permission neq 'edit'}
+    {literal}
+        cj("#tagtree input").attr('disabled', true);
+    {/literal}
+    {/if}
+    {literal}
+    
 };
 {/literal}
 </script>
+
 <span id="restmsg"></span>
 <div id="Tag" class="view-content">
 <fieldset><legend>{ts}Tags{/ts}</legend>

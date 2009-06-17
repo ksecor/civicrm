@@ -947,7 +947,9 @@ SELECT $select
 
                 case 'Contact Reference':
                     require_once 'CRM/Contact/BAO/Contact.php';
-                    $defaults[$elementName] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'sort_name' );
+                    if ( is_numeric( $value ) ) {
+                        $defaults[$elementName] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'sort_name' );
+                    }
                     break;
                     
                 default:
@@ -1436,11 +1438,12 @@ SELECT $select
     static function formatCustomValues( &$values, &$field )
     {
         $value = $values['data'];
-
-        if ( !isset( $value ) ) {
+        
+        //changed isset CRM-4601
+        if ( CRM_Utils_System::isNull( $value ) ) {
             return; 
         }
-
+        
         $htmlType        = CRM_Utils_Array::value('html_type'       , $field );
         $dataType        = CRM_Utils_Array::value('data_type'       , $field );
         $option_group_id = CRM_Utils_Array::value('option_group_id' , $field );
@@ -1476,7 +1479,7 @@ SELECT $select
             break;
 
         case 'Auto-complete':
-            if ( $htmlType == 'Contact Reference' ) {
+            if ( $htmlType == 'Contact Reference' && CRM_Utils_Array::value( 'data', $values) ) {
                 $retValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $values['data'], 'sort_name' );
             }
             break;

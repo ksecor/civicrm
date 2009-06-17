@@ -68,8 +68,13 @@
 {/if}
 	    </tr>
         <tr>
-            <td>{$form.privacy.label}</td>
-            <td colspan="3">{$form.privacy.html} {help id="id-privacy"}
+            <td colspan="2">
+                {$form.privacy.label}<br />
+                {$form.privacy.html} {help id="id-privacy"}
+            </td>
+            <td colspan="2">
+                {$form.preferred_communication_method.label}<br />
+                {$form.preferred_communication_method.html}
             </td>
         </tr>
         <tr>

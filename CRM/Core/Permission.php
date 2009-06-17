@@ -53,9 +53,10 @@ class CRM_Core_Permission {
      * @var int
      */
     const
-        EDIT = 1,
-        VIEW = 2;
-
+        EDIT   = 1,
+        VIEW   = 2,
+        DELETE = 3; 
+    
     /**
      * get the current permission of this user
      *
@@ -165,7 +166,7 @@ class CRM_Core_Permission {
 
     public static function event( $type = CRM_Core_Permission::VIEW, $eventID = null ) {
         require_once 'CRM/Event/PseudoConstant.php';
-        $events = CRM_Event_PseudoConstant::event( );
+        $events = CRM_Event_PseudoConstant::event( null, true );
 
         // check if user has all powerful permission
         if ( self::check( 'register for events' ) ) {
@@ -208,7 +209,31 @@ class CRM_Core_Permission {
         
         return true;
     }
-
+    
+    /** 
+     * check permissions for delete and edit actions
+     *
+     * @param string  $module component name.
+     * @param $action action to be check across component    
+     *
+     **/
+    static function checkActionPermission( $module, $action ) {
+        //check delete related permissions.
+        if ( $action & CRM_Core_Action::DELETE ) {
+            $permissionName = "delete in $module";
+        } else {
+            $editPermissions = array( 'CiviEvent'      => 'edit event participants',
+                                      'CiviMember'     => 'edit memberships',
+                                      'CiviPledge'     => 'edit pledges',
+                                      'CiviContribute' => 'edit contributions'
+                                      );
+            $permissionName = CRM_Utils_Array::value( $module, $editPermissions );
+        }
+        
+        //check for permission.
+        return CRM_Core_Permission::check( $permissionName );
+    }
+    
     static function checkMenu( &$args, $op = 'and' ) {
         if ( ! is_array( $args ) ) {
             return $args;
@@ -271,6 +296,7 @@ class CRM_Core_Permission {
                       'add contacts'               => ts( 'add contacts' ),
                       'view all contacts'          => ts( 'view all contacts' ),
                       'edit all contacts'          => ts( 'edit all contacts' ),
+                      'delete contacts'            => ts( 'delete contacts' ),
                       'import contacts'            => ts( 'import contacts' ),
                       'edit groups'                => ts( 'edit groups' ),
                       'administer CiviCRM'         => ts( 'administer CiviCRM' ),
@@ -278,6 +304,7 @@ class CRM_Core_Permission {
                       'profile listings and forms' => ts( 'profile listings and forms' ),
                       'access all custom data'     => ts( 'access all custom data' ),
                       'view all activities'        => ts( 'view all activities' ),
+                      'delete activities'          => ts( 'delete activities' ),
                       'access CiviCRM'             => ts( 'access CiviCRM' ),
                       'access Contact Dashboard'   => ts( 'access Contact Dashboard' ),
                       'translate CiviCRM'          => ts( 'translate CiviCRM' ),

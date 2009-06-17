@@ -110,30 +110,17 @@ function buildPaymentDetails( pledgeId, contactId )
 {
     var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q="action=browse&snippet=4&context=`$context`&pledgeId="}"{literal} + pledgeId + '&cid=' + contactId;
 	
-    var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
+  cj.ajax({
+               url     : dataUrl,
+               dataType: "html",
+               timeout : 5000, //Time in milliseconds
+               success : function( data ){
+                              cj( '#paymentDetails' + pledgeId ).html( data );
+                         },
+               error   : function( XMLHttpRequest, textStatus, errorThrown ) {
+                                 console.error( 'Error: '+ textStatus );
                         }
-                } else {
-		   // on success
-                   dojo.byId('paymentDetails' + pledgeId).innerHTML = response;
-	       }
-        }
-     });
-
-
+         });
 }
 </script>
 

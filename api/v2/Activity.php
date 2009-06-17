@@ -26,19 +26,17 @@
 */
 
 /**
- * Definition of the Contact part of the CRM API. 
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
+ * File for the CiviCRM APIv2 activity functions
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Activity
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
 /**
- * Files required for this package
+ * Include common API util functions
  */
 require_once 'api/v2/utils.php';
 
@@ -67,6 +65,7 @@ require_once 'api/v2/ActivityContact.php';
  *                             pairs to insert in new contact.
  * @param string $activity_type Which class of contact is being created.
  *            Valid values = 'SMS', 'Meeting', 'Event', 'PhoneCall'.
+ * {@schema Activity/Activity.xml}
  *                            
  * @return CRM_Activity|CRM_Error Newly created Activity object
  * 
@@ -109,6 +108,12 @@ function &civicrm_activity_create( &$params )
     return $activityArray;
 }
 
+/**
+ *
+ * @param <type> $params
+ * @param <type> $returnCustom
+ * @return <type>
+ */
 function civicrm_activity_get( $params, $returnCustom = false ) {
     _civicrm_initialize( );
     
@@ -385,6 +390,12 @@ function civicrm_activity_processemail( $file, $activityTypeID, $result = array(
     return civicrm_activity_create( $params );
 }
 
+/**
+ *
+ * @param <type> $result
+ * @param <type> $activityTypeID
+ * @return <type>
+ */
 function _civicrm_activity_buildmailparams( $result, $activityTypeID ) {
     // get ready for collecting data about activity to be created
     $params = array();
@@ -414,11 +425,21 @@ function _civicrm_activity_buildmailparams( $result, $activityTypeID ) {
     return $params;
 }
 
+/**
+ *
+ * @param <type> $file
+ * @param <type> $activityTypeID
+ * @return <type>
+ */
 function civicrm_activity_process_email( $file, $activityTypeID ) {
     // TODO: Spit out deprecation warning here
     return civicrm_activity_processemail( $file, $activityTypeID );
 }
 
+/**
+ *
+ * @return <type> 
+ */
 function civicrm_activity_get_types( ) {
     // TODO: Spit out deprecation warning here
     return civicrm_activity_type_get( );

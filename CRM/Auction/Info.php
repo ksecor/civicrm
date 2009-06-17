@@ -60,7 +60,8 @@ class CRM_Auction_Info extends CRM_Core_Component_Info
         return array( 'access CiviAuction',
                       'add auction items',
                       'approve auction items',
-                      'bid on auction items', );
+                      'bid on auction items',
+                      'delete in CiviAuction' );
     }
 
     // docs inherited from interface

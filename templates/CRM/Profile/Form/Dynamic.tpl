@@ -21,6 +21,9 @@
     {assign var=fieldset  value=$zeroField}
     {foreach from=$fields item=field key=fieldName}
     {assign var="profileID" value=$field.group_id}
+    {assign var=n value=$field.name}
+    {if $form.$n}
+
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
            </table>
@@ -55,7 +58,6 @@
         <table class="form-layout-compressed">
      {/if}
 
-    {assign var=n value=$field.name}
     {if $field.is_view eq 0}  
     {if $field.options_per_line}
 	<tr id="editrow-{$n}">
@@ -135,6 +137,7 @@
         <tr id="helprow-{$n}"><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
     {/if}
 
+    {/if}
     {/foreach}
 
         {if $addToGroupId}

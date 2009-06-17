@@ -96,16 +96,16 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
-        // check for edit permission
-        if ( ! CRM_Core_Permission::check( 'edit pledges' ) ) {
-            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
-        }
-        
 		$this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
                                                          $this, false, 'add' );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         $this->_context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+
+        // check for action permissions.
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviPledge', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }
         
         $this->assign( 'action', $this->_action );
         $this->assign('context', $this->_context );
@@ -466,6 +466,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     static function formRule( &$fields, &$files, $self ) 
     {
         $errors = array( );
+
+        //check if contact is selected in standalone mode
+        if ( isset( $fields[contact_select_id] ) && !$fields[contact_select_id] ) {
+            $errors['contact'] = ts('Please select a valid contact or create new contact');
+        }
+        
         if ( isset( $fields["honor_type_id"] ) ) {
             if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
                       CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||

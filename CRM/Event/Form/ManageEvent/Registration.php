@@ -80,11 +80,28 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             
             require_once 'CRM/Core/BAO/UFJoin.php';
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',
+                                   'module'       => 'CiviEvent',
                                    'entity_id'    => $eventId );
 
             list( $defaults['custom_pre_id'],
                   $defaults['custom_post_id'] ) = 
                 CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
+
+            if ($defaults['is_multiple_registrations']) {
+                // CRM-4377: set additional participants’ profiles – set to ‘none’ if explicitely unset (non-active)
+                $ufJoin = new CRM_Core_DAO_UFJoin;
+                $ufJoin->module       = 'CiviEvent_Additional';
+                $ufJoin->entity_table = 'civicrm_event';
+                $ufJoin->entity_id    = $this->_eventId;
+                $ufJoin->orderBy('weight');
+                $ufJoin->find();
+                if ($ufJoin->fetch()) {
+                    $defaults['additional_custom_pre_id']  = $ufJoin->is_active ? $ufJoin->uf_group_id : 'none';
+                }
+                if ($ufJoin->fetch()) {
+                    $defaults['additional_custom_post_id'] = $ufJoin->is_active ? $ufJoin->uf_group_id : 'none';
+                }
+            }
         } else {
             $defaults['is_email_confirm'] = 0;
         }
@@ -158,19 +175,25 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
    
         $this->add('text','registration_link_text',ts('Registration Link Text'));
 
-        $this->add( 'date',
-                    'registration_start_date',
-                    ts( 'Registration Start Date'  ),
-                    CRM_Core_SelectValues::date('datetime') );
-        $this->addRule('registration_start_date', ts('Please select a valid start date.'), 'qfDate');
+        if (!$this->_isTemplate) {
+            $this->add( 'date',
+                        'registration_start_date',
+                        ts( 'Registration Start Date'  ),
+                        CRM_Core_SelectValues::date('datetime') );
+            $this->addRule('registration_start_date', ts('Please select a valid start date.'), 'qfDate');
 
-        $this->add( 'date',
-                    'registration_end_date',
-                    ts( 'Registration End Date'  ),
-                    CRM_Core_SelectValues::date('datetime') );
-        $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
+            $this->add( 'date',
+                        'registration_end_date',
+                        ts( 'Registration End Date'  ),
+                        CRM_Core_SelectValues::date('datetime') );
+            $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
+        }
      
-        $this->addElement('checkbox', 'is_multiple_registrations', ts('Register multiple participants?')); 
+        $this->addElement('checkbox',
+                          'is_multiple_registrations',
+                          ts('Register multiple participants?'),
+                          null,
+                          array('onclick' => "return showHideByValue('is_multiple_registrations', '', 'additional_profiles', 'block', 'radio', false);"));
         $this->addElement('checkbox', 'allow_same_participant_emails', ts('Allow multiple registrations from the same email address?'));
         $this->addElement('checkbox', 'has_waitlist', ts('Offer a waitlist when the event is full?'));
         $this->addElement('checkbox', 'requires_approval', ts('Require participant approval?'));
@@ -202,8 +225,14 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $types    = array( 'Contact', 'Individual', 'Participant' );
         $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
 
-        $form->add('select', 'custom_pre_id', ts('Include Profile') . '<br />' . ts('(top of page)'),array(''=>'- select -') +  $profiles );
-        $form->add('select', 'custom_post_id', ts('Include Profile') . '<br />' . ts('(bottom of page)'),array(''=>'- select -')+  $profiles );
+        $mainProfiles = array('' => ts('- select -')) + $profiles;
+        $addtProfiles = array('' => ts('- same as for main contact -'), 'none' => ts('- no profile -')) + $profiles;
+
+        $form->add('select', 'custom_pre_id',             ts('Include Profile') . '<br />' . ts('(top of page)'),    $mainProfiles);
+        $form->add('select', 'custom_post_id',            ts('Include Profile') . '<br />' . ts('(bottom of page)'), $mainProfiles);
+
+        $form->add('select', 'additional_custom_pre_id',  ts('Profile for Additional Participants') . '<br />' . ts('(top of page)'),    $addtProfiles);
+        $form->add('select', 'additional_custom_post_id', ts('Profile for Additional Participants') . '<br />' . ts('(bottom of page)'), $addtProfiles);
     }
 
     /**
@@ -320,8 +349,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $params['is_email_confirm'] = false;
         }
         
-        $params['registration_start_date'] = CRM_Utils_Date::format( $params['registration_start_date'] );
-        $params['registration_end_date'] = CRM_Utils_Date::format( $params['registration_end_date'] );
+        if (!$this->_isTemplate) {
+            $params['registration_start_date'] = CRM_Utils_Date::format( $params['registration_start_date'] );
+            $params['registration_end_date'] = CRM_Utils_Date::format( $params['registration_end_date'] );
+        }
         
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add( $params );
@@ -342,6 +373,26 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
         CRM_Core_BAO_UFJoin::create( $ufJoinParams );         
          
+        // CRM-4377: also update the profiles for additional participants
+        $ufJoinParams['module'] = 'CiviEvent_Additional';
+        $ufJoinParams['weight'] = 1;
+        $ufJoinParams['uf_group_id'] = $params['custom_pre_id'];
+        if ($params['additional_custom_pre_id'] == 'none') {
+            $ufJoinParams['is_active']   = 0;
+        } elseif ($params['additional_custom_pre_id']) {
+            $ufJoinParams['uf_group_id'] = $params['additional_custom_pre_id'];
+        }
+        CRM_Core_BAO_UFJoin::create($ufJoinParams);
+
+        $ufJoinParams['weight'] = 2;
+        $ufJoinParams['uf_group_id'] = $params['custom_post_id'];
+        if ($params['additional_custom_post_id'] == 'none') {
+            $ufJoinParams['is_active']   = 0;
+        } elseif ($params['additional_custom_post_id']) {
+            $ufJoinParams['uf_group_id'] = $params['additional_custom_post_id'];
+        }
+        CRM_Core_BAO_UFJoin::create($ufJoinParams);
+
     }//end of function
     
     /**

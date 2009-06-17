@@ -748,15 +748,22 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                                                      $cfID );
                                     $params[$index] = $values[$index] = $fileURL['file_url'];
                                 } else {
+                                    $customVal = null;
                                     if ( isset($dao) && ($dao->data_type == 'Int' ||
                                                          $dao->data_type == 'Boolean' ) ) {
                                         $customVal = (int ) ($details->{$name});
                                     } else if ( isset($dao) && $dao->data_type == 'Float' ) {
                                         $customVal = (float ) ($details->{$name});
-                                    } else {
+                                    } else if ( !CRM_Utils_System::isNull( explode( CRM_Core_DAO::VALUE_SEPARATOR, 
+                                                                                    $details->{$name} ) ) ) {
                                         $customVal = $details->{$name};
                                     }
-
+                                    
+                                    //CRM-4582
+                                    if ( CRM_Utils_System::isNull( $customVal ) ) {
+                                        continue;
+                                    }
+                                    
                                     $params[$index] = $customVal;
                                     $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal,
                                                                                                  $cfID,
@@ -1308,6 +1315,12 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
         $view       = $field['is_view'];
         $required = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? false : $field['is_required'];
         $search   = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? true : false;
+
+        // do not display view fields in drupal registration form
+        // CRM-4632
+        if ( $view && $mode == CRM_Profile_Form::MODE_REGISTER ) {
+            return;
+        }
         
         if ($contactId) {
             $name = "field[$contactId][$fieldName]";

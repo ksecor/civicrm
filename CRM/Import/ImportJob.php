@@ -204,7 +204,7 @@ class CRM_Import_ImportJob {
             $this->_mapperRelatedContactImProvider );
         
         $locationTypes  = CRM_Core_PseudoConstant::locationType();
-        $phoneTypes  = CRM_Core_SelectValues::phoneType();
+        $phoneTypes  = CRM_Core_PseudoConstant::phoneType();
         $imProviders = CRM_Core_PseudoConstant::IMProvider();
         
         foreach ($mapper as $key => $value) {

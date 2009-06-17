@@ -1,14 +1,14 @@
 {capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
 {ts 1=$expandIconURL}Click %1 to view case details.{/ts}
-
 {strip}
-<table class="selector">
+<table class="caseSelector">
   <tr class="columnheader">
     <th></th>
     <th>{ts}Client{/ts}</th>
     <th>{ts}Status{/ts}</th>
     <th>{ts}Type{/ts}</th>
     <th>{ts}My Role{/ts}</th>
+    <th>{ts}Case Manager{/ts}</th>      
     <th>{if $list EQ 'upcoming'}{ts}Next Scheduled Activity{/ts}{else}{ts}Most Recent Activity{/ts}{/if}</th>
 
     <th></th>
@@ -16,9 +16,8 @@
 
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  {cycle values="odd-row,even-row" assign=rowClass}
-
-  <tr id='{$list}Rowid{$row.case_id}' class='{$rowClass} {if $row.case_status_name EQ 'Urgent' } disabled{elseif $row.case_status_name EQ 'Resolved'}status-completed{/if}'>
+ 
+  <tr id='{$list}Rowid{$row.case_id}'>
 	<td>
         &nbsp;{$row.contact_type_icon}<br />
         <span id="{$list}{$row.case_id}_show">
@@ -38,10 +37,10 @@
 	</td>
 
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a><br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
-    <td>{$row.case_status}</td>
+    <td class="{$row.class}">{$row.case_status}</td>
     <td>{$row.case_type}</td>
     <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
-
+    <td>{if $row.casemanager_id}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.casemanager_id`"}">{$row.casemanager}</a>{else}---{/if}</td>
     {if $list eq 'upcoming'}
         <td><a href="javascript:viewActivity({$row.case_scheduled_activity_id}, {$row.contact_id});" title="{ts}View this activity.{/ts}">{$row.case_scheduled_activity_type}</a>&nbsp;&nbsp;<a href="{crmURL p="civicrm/case/activity" q="reset=1&cid=`$row.contact_id`&caseid=`$row.case_id`&action=update&id=`$row.case_scheduled_activity_id`"}" title="{ts}Edit this activity.{/ts}"><img src="{$config->resourceBase}i/edit.png" border="0"></a><br />
             {$row.case_scheduled_activity_date|crmDate}
@@ -55,7 +54,7 @@
 
     <td>{$row.action}</td>
    </tr>
-   <tr id="{$list}{$row.case_id}_hide" class='{$rowClass}'>
+   <tr id="{$list}{$row.case_id}_hide">
      <td>
      </td>
      <td colspan="7" width="99%" class="enclosingNested">
@@ -85,33 +84,18 @@
 function {/literal}{$list}{literal}CaseDetails( caseId, contactId )
 {
 
-  var dataUrl = {/literal}"{crmURL p='civicrm/case/details' h=0 q='snippet=4&caseId='}{literal}" + caseId;
-
-  dataUrl = dataUrl + '&cid=' + contactId;
-
-    var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
-                        }
-                } else {
-		   // on success
-                   dojo.byId( '{/literal}{$list}{literal}CaseDetails' + caseId).innerHTML = response;
-	       }
-        }
-     });
+  var dataUrl = {/literal}"{crmURL p='civicrm/case/details' h=0 q='snippet=4&caseId='}{literal}" + caseId +'&cid=' + contactId;
+  cj.ajax({
+            url     : dataUrl,
+            dataType: "html",
+            timeout : 5000, //Time in milliseconds
+            success : function( data ){
+                           cj( '#{/literal}{$list}{literal}CaseDetails' + caseId ).html( data );
+                      },
+            error   : function( XMLHttpRequest, textStatus, errorThrown ) {
+                              console.error( 'Error: '+ textStatus );
+                    }
+         });
 }
-
 </script>
 {/literal}	

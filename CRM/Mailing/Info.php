@@ -60,7 +60,8 @@ class CRM_Mailing_Info extends CRM_Core_Component_Info
     public function getPermissions()
     {
         return array( 'access CiviMail', 
-                      'access CiviMail subscribe/unsubscribe pages' );
+                      'access CiviMail subscribe/unsubscribe pages',
+                      'delete in CiviMail' );
     }
 
 

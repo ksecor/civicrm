@@ -200,7 +200,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      * @access public
      */
     function preProcess( ) 
-    {        
+    {
         $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
         $this->assign('cdType', false);
         if ( $this->_cdType ) {
@@ -236,6 +236,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->assign( 'context', $this->_context );
 
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );
+
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            if ( !CRM_Core_Permission::check( 'delete activities' ) ) {
+                CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );  
+            }
+        }
 
         if ( $this->_context != 'search') {
             // if we're not adding new one, there must be an id to
@@ -435,7 +441,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $defaults['priority_id']       = array_search( 'Normal', $priority );
             $defaults['source_contact_id'] = self::_getDisplayNameById( $this->_sourceContactId );
             $defaults['source_contact_qid'] = $this->_sourceContactId;
-            $target_contact[$this->_targetContactId] = self::_getDisplayNameById( $this->_targetContactId );
+            if ( $this->_context != 'standalone' ) {
+                $target_contact[$this->_targetContactId] = self::_getDisplayNameById( $this->_targetContactId );
+            }
             $this->assign( 'target_contact', $target_contact ); 
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
@@ -588,8 +596,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                );
         } else {
             $js = null;
-            if ( $this->_action & CRM_Core_Action::UPDATE && $this->_context == 'caseActivity' ) {
-                $js = array( 'onclick' => "return verify( );" ); 
+            if ( $this->_context == 'caseActivity' ) {
+                $js = array( 'onclick' => "return verify();" ); 
             }
             $this->addButtons( array(
                                      array ( 'type'      => 'upload',
@@ -741,8 +749,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             $params['assignee_contact_id'] = explode( ',', substr( $params['assignee_contact_id'], 0, -1 ) );
+        } else {
+            $params['assignee_contact_id'] = array( );
         }
-       
+        
         // get ids for associated contacts
         if ( ! $params['source_contact_id'] ) {
             $params['source_contact_id']   = $this->_currentUserId;

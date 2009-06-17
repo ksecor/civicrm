@@ -40,8 +40,8 @@ require_once 'CRM/Core/Page.php';
  */
 class CRM_Admin_Page_Admin extends CRM_Core_Page
 {
-    function run ( ) {
-
+    function run ( ) 
+    {
         // ensure that all CiviCRM tables are InnoDB, else abort
         if ( CRM_Core_DAO::isDBMyISAM( ) ) {
             $errorMessage = 'Your database is configured to use the MyISAM database engine. CiviCRM  requires InnoDB. You will need to convert any MyISAM tables in your database to InnoDB. Using MyISAM tables will result in data integrity issues. This will be a fatal error in CiviCRM v2.1.';
@@ -71,6 +71,10 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             $groups['CiviMail'] = ts( 'CiviMail' );
         }
 
+        if ( in_array("CiviCase", $config->enableComponents) ) {
+            $groups['CiviCase'] = ts( 'CiviCase' );
+        }
+        
         require_once 'CRM/Core/Menu.php';
         $values =& CRM_Core_Menu::getAdminLinks( );
         

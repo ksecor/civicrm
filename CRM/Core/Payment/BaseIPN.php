@@ -479,14 +479,20 @@ class CRM_Core_Payment_BaseIPN {
             CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeId, $paymentIDs, $contribution->contribution_status_id );
         }
 
-         // create an activity record
+        // create an activity record
         require_once "CRM/Activity/BAO/Activity.php";
         if ( $input['component'] == 'contribute' ) {
-            CRM_Activity_BAO_Activity::addActivity( $contribution );
+            //CRM-4027
+            $targetContactID = null;
+            if ( CRM_Utils_Array::value( 'related_contact', $ids ) ) {
+                $targetContactID = $contribution->contact_id;
+                $contribution->contact_id = $ids['related_contact']; 
+            }
+            CRM_Activity_BAO_Activity::addActivity( $contribution, null, $targetContactID );
         } else { // event 
             CRM_Activity_BAO_Activity::addActivity( $participant );
         }
-
+       
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
         $transaction->commit( );
 

@@ -57,27 +57,6 @@ div#crm-container {
   height: 2em;
 }
 
-/*
-** Classes for form section show/hide links
-*/
-/*#crm-container .show-section {
-  width: 25%;
-  font-size: .95em;
-  border: 1px solid #abc;
-  background-color: #eee;
-  padding: .5em;
-  margin-bottom: 1em;
-  margin-left: 0.5em;
-}
-
-#crm-container .hide-section {
-  width: 25%;
-  font-size: .95em;
-  border: 1px solid #abc;
-  padding: .5em;
-  margin-bottom: 1em;
-}
-*/
 #crm-container .add-remove-link {
   font-size: .9em;
 }
@@ -115,13 +94,6 @@ div.spacer, .spacer {
   clear: none;
   overflow: auto; 
 }
-
-/* Use this rule for Box-Grey or other themes with very large default label fonts... */
-/*
-#crm-container div.form-item {
-  font-size: 0.90em;
-}
-*/
 
 #crm-container div.form-item dl, #crm-container .section-hidden dl{
  margin: 0;
@@ -246,17 +218,6 @@ div.spacer, .spacer {
   vertical-align: text-top;
   padding: 5px;
 }
-
-/*
- * These two directives prevent dojo comboBox fields from expanding to fill entire table cell.
- */
-#crm-container .dijitComboBox {
- width: 20em;
-}
-#crm-container .form-layout td.dijitReset, #crm-container .form-layout-compressed td.dijitReset {
- vertical-align: middle;
-}
-
 
 #crm-container .control-panel td {
   padding: 3px;
@@ -401,7 +362,7 @@ div.spacer, .spacer {
 */
 
 /* Following styles are used to remove the white bullets from the Garland Theme */
-div.block-civicrm li {
+div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   background-image: none;
 }
 
@@ -739,18 +700,6 @@ div.crm-pager a {
   padding-left: 100px;
 }
 
-/* 
-** Styles for View pages
-*/
-/*#crm-container .data-group {
-  margin: 0px 0px 5px 5px;
-  padding: 5px;
-  border-bottom: 2px solid #B0B0B0;
-}
-#crm-container .data-group-no-border {
-  margin: 0px 0px 5px 5px;
-  padding: 5px;
-}*/
 #crm-container .section-hidden, #crm-container div.view-content {
   display: block;
   margin: 0px 0px 5px 5px;
@@ -790,6 +739,7 @@ div.crm-pager a {
   padding: .5em 1em .5em;
   text-decoration: none;
   font-size: .95em;
+  background-image: none;
 }
 #crm-container ul.wizard-bar li.current-step {
   background-color: #FAFAFA;
@@ -819,8 +769,45 @@ div.crm-pager a {
   overflow: hidden;  
 }
 
+.block-civicrm div#recently-viewed ul li.Activity {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Activity.png");
+ }
+.block-civicrm div#recently-viewed ul li.Case {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Case.png");
+ }
+.block-civicrm div#recently-viewed ul li.Contribution {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Contribution.png");
+ }
+.block-civicrm div#recently-viewed ul li.Grant {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Grant.png");
+ }
+.block-civicrm div#recently-viewed ul li.Group {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Group.png");
+ }
+.block-civicrm div#recently-viewed ul li.Household {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Household.png");
+ }
+.block-civicrm div#recently-viewed ul li.Individual {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Individual.png");
+ }
+.block-civicrm div#recently-viewed ul li.Membership {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Membership.png");
+ }
+.block-civicrm div#recently-viewed ul li.Note {
+  background-position:center left; background-repeat:no-repeat; background-image:url("../i/recent/Note.png");
+ }
+.block-civicrm div#recently-viewed ul li.Organization {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Organization.png");
+ }
+.block-civicrm div#recently-viewed ul li.Participant {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Participant.png");
+ }
+.block-civicrm div#recently-viewed ul li.Pledge {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Pledge.png");
+ }
+ 
 .block-civicrm div#recently-viewed ul li a {
-  margin-left: 4px;
+  margin-left: 20px;
 }
 
 .block-civicrm div#recently-viewed ul li img {
@@ -894,6 +881,7 @@ div.crm-pager a {
 #crm-container .listing-box {
   margin: 0.25em 2.0em 0.5em 0em;
   width: auto;
+  max-width: 30em;
   height: 7.25em;
   overflow: auto;
   border: 1px solid #92B6EC;
@@ -905,6 +893,7 @@ div.crm-pager a {
 #crm-container .listing-box-tall {
   margin: 0.25em 2.0em 0.5em 0em;
   width: auto;
+  max-width: 30em;
   height: 15em;
   overflow: auto;
   border: 1px solid #92B6EC;
@@ -940,7 +929,6 @@ div.crm-pager a {
 #crm-container input.submit-link {
   color: #285286;
   background-color: transparent;
-  /*text-decoration: underline;*/
   border: none;
   cursor: pointer;
   cursor: hand;
@@ -985,11 +973,9 @@ div.crm-pager a {
 #crm-container .label-pane {
     margin: 0.25em 0em 0em;
     padding: 0.25em;
-    /*background-color: #B0B0B0;*/
     background-color: #6AA8EE;
 	cursor: pointer;
-	/*color: #fff;*/
-        color: #213245;
+    color: #213245;
 	font-weight: bold;
 }
 #crm-container .label-pane :hover {
@@ -1003,31 +989,8 @@ div.crm-pager a {
 }
 
 /*
-** Following styles are used specificaly for dojo based elements
-*/
-
-#crm-container tbody.scrollContent tr:hover  {
-  /*background-color: #b9caf2;*/
-  background-color: #D0E6FD;
-}
-#crm-container thead tr.columnheader th {
-  cursor: pointer;
-  vertical-align: top;
-}
-/*
-commented since it is overwiting simple td
-#crm-container tbody td {
-   padding-left: 20px; 
-}
-*/
-#crm-container thead th.selectedUp, #crm-container thead th.selectedDown { 
-  vertical-align: top;
-}
-
-/*
  editor specific classes
 */
-
 #crm-container dd.editor {
    margin-top: 0.7em;
    margin-left: 0em;
@@ -1084,18 +1047,6 @@ commented since it is overwiting simple td
 #crm-container tr.mceLast { 
     border: 1px solid #EDEDED;                            
  }
-/* overwrite tree icon classes, since we don't want icons*/
-.tundra .dijitFolderOpened  { 
-   display: none;
-}
-
-.tundra .dijitFolderClosed {
-   display: none;
-}
-
-.tundra .dijitLeaf { 
-   display: none;
-}
 
 #location .form-layout table, #location .form-layout td,#crm-container div#location table.form-layout table.inner-table td{
    border: 0px;
@@ -1152,26 +1103,93 @@ commented since it is overwiting simple td
   margin : 0pt;
 }
 
-#crm-container table.nestedSelector
-{
+#crm-container table.nestedSelector {
     margin: 0px;
     width: 100%;
     border: 2px solid #5A8FDB;
 }
 
-#crm-container table.nestedSelector tr.columnheader
-{
+#crm-container table.nestedSelector tr.columnheader {
     background-color: #4D94E3;
 }
 
-#crm-container table.nestedSelector tr.columnheader th
-{
+#crm-container table.nestedSelector tr.columnheader th {
     border: 0px;
 }
-  
-/* fix combobox display in Opera*/
-.tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
-      height: 17px;
+
+#crm-container table.caseSelector {
+    vertical-align: top;
+    color: #636363;
+    border: 1px solid #4E82CF;
+    margin: 0.5em 0.1em;
+    width: 99%;
+}
+
+#crm-container table.caseSelector tr {
+    border-top: 1px solid #92B6EC;
+}
+
+#crm-container table.caseSelector td.status-urgent {   
+    color: #CD0000;
+    font-weight: bold;
+}
+
+#crm-container table.caseSelector td {
+    border-right: 0px;
+    padding: 2px;
+}
+ 
+#crm-container table.nestedActivitySelector {
+    margin: 0px;
+    width: 100%;
+    border: 2px solid #5A8FDB;
+    color: #636363;
+}
+
+#crm-container table#activities-selector.nestedActivitySelector
+{
+     border: 0px;
+}
+
+
+#crm-container table.nestedActivitySelector td {
+    border-right : 0px;
+}
+
+#crm-container table#activities-selector.nestedActivitySelector tr.status-completed
+{
+  font-size: 11px;  
+}
+
+
+#crm-container table.nestedActivitySelector tr.columnheader {
+    background-color: #4D94E3;
+}
+    	               
+#crm-container table.nestedActivitySelector tr.priority-urgent {         
+    background-color: #F8E0EC;
+}
+
+#crm-container table.nestedActivitySelector tr.priority-low {
+    background-color: #CEF6F5;
+}
+
+#crm-container table.nestedActivitySelector tr.status-scheduled {
+  color: #3B5E2B;   
+}
+
+#crm-container table.nestedActivitySelector tr.status-completed {
+   color: #000080; 
+   font-weight: bold;
+   font-size: 10px;
+}
+
+#crm-container table.nestedActivitySelector tr.status-overdue {
+   color: #CD0000;
+}
+
+#crm-container table.nestedActivitySelector tr a {
+   color: #0000FF
 }
 
 #crm-container span.success-status {
@@ -1199,7 +1217,7 @@ commented since it is overwiting simple td
   color: green;
 }
 
-/* Styles for  Action Link */
+/* Styles for  Action Link pop-up */
 
 #panel, .panel {
   display  : none;
@@ -1218,6 +1236,8 @@ commented since it is overwiting simple td
   padding : 5px 15px 0px 5px;
   margin  : 0px;
   list-style : none;
+  background-image: none;
+  border-bottom: 1px solid #CCCCCC;
 }
 
 .btn-slide {
@@ -1251,9 +1271,11 @@ commented since it is overwiting simple td
 }
 
 #crm-container .contextMenu li {
+  background-image: none;
   list-style : none;
   padding    : 0px;
   margin     : 0px;
+  border-bottom: 1px solid #CCCCCC;
 }
 
 #crm-container .contextMenu a {
@@ -1353,3 +1375,36 @@ div#toolTip {
 	margin    : 1em;
 }
 
+/* Class for tokens and helpicon */
+.helpIcon {
+  float       : right;
+  padding     : 5px;
+  position    : relative;
+  z-index     : 1;
+  margin-right: 45px;
+}
+
+/* class for text area resizer jquery plugin*/
+div.grippie {
+    background   : #EEEEEE url('../i/grippie.png') no-repeat scroll center 2px;
+    border-color : #DDDDDD;
+    border-style : solid;
+    border-width : 0pt 1px 1px;
+    cursor       : s-resize;
+    height       : 9px;
+    overflow     : hidden;
+}
+.resizable-textarea textarea {
+    display       : block;
+    margin-bottom : 0pt;
+    width         : 95%;
+    height        : 20%;
+}
+
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+   font-size: 0.9em;
+}
+
+.ui-tabs .ui-tabs-nav li a {
+   padding: 5px !important;
+}

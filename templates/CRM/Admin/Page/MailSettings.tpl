@@ -8,7 +8,7 @@
   <div class="form-item">
     {strip}
       <table cellpadding="0" cellspacing="0" border="0">
-        <tr class="columnheader">
+        <thead class="sticky">
             <th>{ts}Name{/ts}</th>
             <th>{ts}Server{/ts}</th>
             <th>{ts}Username{/ts}</th>
@@ -21,7 +21,7 @@
             <th>{ts}Use SSL?{/ts}</th>
             <th>{ts}Default?{/ts}</th>
             <th></th>
-        </tr>
+        </thead>
         {foreach from=$rows item=row}
           <tr id='rowid{$row.id}' class="{cycle values="odd-row,even-row"}">
               <td>{$row.name}</td>	

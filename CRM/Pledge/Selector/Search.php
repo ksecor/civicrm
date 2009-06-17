@@ -286,13 +286,16 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
          // process the result of the query
          $rows = array( );
          
-         // check is the user has view/edit signer permission
-         $permission = CRM_Core_Permission::VIEW;
+         //4418 check for view, edit and delete
+         $permissions = array( CRM_Core_Permission::VIEW );
          if ( CRM_Core_Permission::check( 'edit pledges' ) ) {
-             $permission = CRM_Core_Permission::EDIT;
+             $permissions[] = CRM_Core_Permission::EDIT;
          }
+         if ( CRM_Core_Permission::check( 'delete in CiviPledge' ) ) {
+             $permissions[] = CRM_Core_Permission::DELETE;
+         }
+         $mask = CRM_Core_Action::mask( $permissions );
          
-         $mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {
              $row = array();
              // the columns we are interested in

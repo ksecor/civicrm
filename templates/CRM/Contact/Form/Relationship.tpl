@@ -155,7 +155,7 @@
         {* Only show start/end date and buttons if action=update, OR if we have $contacts (results)*}
         {if $searchRows OR $action EQ 2}
             <div class="form-item">
-                <dl>
+                <dl class="html-adjust">
                 <dt>{$form.start_date.label}</dt>
                 <dd>{$form.start_date.html} {include file="CRM/common/calendar/desc.tpl" trigger=trigger_relationship_1}
 {include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=1985 endDate=2025 trigger=trigger_relationship_1}
@@ -178,9 +178,11 @@
                 <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
         {if $action eq 2}
-        <dt id="employee">{ts}Is current employee?{/ts}</dt>
-        <dt id="employer">{ts}Is current employer?{/ts}</dt>
-        <dd id="current_employer">{$form.is_current_employer.html}</dd>
+	<div>
+            <dt id="employee">{ts}Is current employee?{/ts}</dt>
+            <dt id="employer">{ts}Is current employer?{/ts}</dt>
+            <dd id="current_employer">{$form.is_current_employer.html}</dd>
+	</div>
         {/if}
         <div id="customData"></div>
         <div class="spacer"></div>

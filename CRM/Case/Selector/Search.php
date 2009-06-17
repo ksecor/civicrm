@@ -274,14 +274,22 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          // process the result of the query
          $rows = array( );
                  
-         // check is the user has view/edit signer permission
-         $permission = CRM_Core_Permission::VIEW;
+         //CRM-4418 check for view, edit, delete
+         $permissions = array( CRM_Core_Permission::VIEW );
          if ( CRM_Core_Permission::check( 'edit cases' ) ) {
-             $permission = CRM_Core_Permission::EDIT;
+             $permissions[] = CRM_Core_Permission::EDIT;
          }
-
+         if ( CRM_Core_Permission::check( 'delete in CiviCase' ) ) {
+             $permissions[] = CRM_Core_Permission::DELETE;
+         }
+         $mask = CRM_Core_Action::mask( $permissions );
+         
+         require_once 'CRM/Core/OptionGroup.php';
+         $caseStatus = CRM_Core_OptionGroup::values( 'case_status', false, false, false, " AND v.name = 'Urgent' " );
+         
+         require_once 'CRM/Case/BAO/Case.php';
          $scheduledInfo = array();
-         $mask = CRM_Core_Action::mask( $permission );
+         
          while ( $result->fetch( ) ) {
              $row = array();
              // the columns we are interested in
@@ -310,12 +318,24 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
              require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
              $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
              
+             //adding case manager to case selector.CRM-4510.
+             $caseManagerContact = CRM_Case_BAO_Case::getCaseManagerContact( $result->case_type_id, $result->case_id );
+             if ( !empty($caseManagerContact) ) {
+                 $row['casemanager_id'] = CRM_Utils_Array::value('casemanager_id', $caseManagerContact );
+                 $row['casemanager'   ] = CRM_Utils_Array::value('casemanager'   , $caseManagerContact );              
+             } 
+
+             if ( in_array($result->case_status_id, $caseStatus) ) {
+                 $row['class'] = "status-urgent";
+             } else {
+                 $row['class'] = "status-normal";
+             }
+                          
              $rows[$result->case_id] = $row;
          }
          
          //retrive the scheduled & recent Activity type and date for selector
          if( ! empty ( $scheduledInfo ) ) {
-             require_once 'CRM/Case/BAO/Case.php';
              $schdeduledActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo, 'upcoming' );
              foreach( $schdeduledActivity as $key => $value) {
                  $rows[$key]['case_scheduled_activity_date'] = $value['date'];
@@ -372,6 +392,10 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                 'sort'      => 'case_role',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
+                                          array( 
+                                                'name'      => ts('Case Manager'), 
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                 ),
                                           array(
                                                 'name'      => ts('Most Recent Activity'),
                                                 'sort'      => 'case_recent_activity_date',

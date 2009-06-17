@@ -114,6 +114,17 @@ class CRM_Contact_Form_Search_Criteria {
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_toggle', null, $t['do_not_toggle']);
         
         $form->addGroup($privacy, 'privacy', ts('Privacy'), array( '&nbsp;', '&nbsp;', '&nbsp;', '<br/>' ) );
+
+        // preferred communication method 
+        require_once 'CRM/Core/PseudoConstant.php';
+        $comm = CRM_Core_PseudoConstant::pcm(); 
+        
+        $commPreff = array();
+        foreach ( $comm as $k => $v ) {
+            $commPreff[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
+        }
+        $form->addGroup($commPreff, 'preferred_communication_method', ts('Preferred Communication Method'));
+        
     }
 
     static function location( &$form ) {

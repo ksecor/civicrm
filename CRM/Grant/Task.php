@@ -71,12 +71,11 @@ class CRM_Grant_Task
     static function &tasks()
     {
         if (!(self::$_tasks)) {
-            self::$_tasks = array(
-                                  1 => ts( 'Delete Grants'   )
-                                  );
+            if ( CRM_Core_Permission::checkActionPermission( 'CiviGrant', CRM_Core_Action::DELETE ) ) {
+                self::$_tasks = array( 1 => ts( 'Delete Grants' ) );
+            }
         }
-
-        asort(self::$_tasks);        
+        
         return self::$_tasks;
     }
 

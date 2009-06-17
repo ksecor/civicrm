@@ -161,9 +161,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
-        // check for edit permission
-        if ( ! CRM_Core_Permission::check( 'edit contributions' ) ) {
-            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        //check permission for action.
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviContribute', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );  
         }
         
         $this->_cdType = CRM_Utils_Array::value( 'type', $_GET );
@@ -402,16 +402,6 @@ WHERE  contribution_id = {$this->_id}
         }
         
         if ( $this->_id ) {
-            // throw out a warning if pay later contrib in pending state
-            // check if its an online contrib or event registration
-            if ( $defaults['contribution_status_id'] == 2 &&
-                 ( strpos( $defaults['contribution_source'], ts( 'Online Contribution' ) ) !== false ||
-                   strpos( $defaults['contribution_source'], ts( 'Online Event Registration' ) ) !== false ) ) {
-                $message = ts( 'If you have received payment for this Pending online contribution, record it using <strong>Update Pending Contribution Status</strong> from <strong><a href=\'%1\'>CiviContribute &raquo; Find Contributions</a></strong>. If you update the status from here the contributor may not got complete information on their receipt. Also, if there is an associated membership or event registration record - its status will not be updated.',
-                               array( 1 => CRM_Utils_System::url( 'civicrm/contribute/search', "reset=1" )) );
-                CRM_Core_Session::setStatus( $message );
-            }
-                                 
             $this->_contactID = $defaults['contact_id'];
         } else {
             $now = date("Y-m-d");
@@ -1161,8 +1151,22 @@ WHERE  contribution_id = {$this->_id}
                 } elseif ( $contribution->contribution_status_id == 1 ) {
                     if ( $membership ) {
                         $format       = '%Y%m%d';
+                        require_once 'CRM/Member/BAO/Membership.php';
                         require_once 'CRM/Member/BAO/MembershipType.php';  
-                        $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                        
+                        //CRM-4523
+                        $currentMembership =  CRM_Member_BAO_Membership::getContactMembership( $membership->contact_id,
+                                                                                               $membership->membership_type_id, 
+                                                                                               $membership->is_test, $membership->id );
+                        if ( $currentMembership ) {
+                            CRM_Member_BAO_Membership::fixMembershipStatusBeforeRenew( $currentMembership, 
+                                                                                       $changeToday = null  );
+                            $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id, 
+                                                                                                      $changeToday = null );
+                            $dates['join_date'] =  CRM_Utils_Date::customFormat($currentMembership['join_date'], $format );
+                        } else {
+                            $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                        }
                         
                         $membership->join_date     = 
                             CRM_Utils_Date::customFormat( $dates['join_date'],     $format );

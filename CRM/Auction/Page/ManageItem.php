@@ -208,8 +208,11 @@ class CRM_Auction_Page_ManageItem extends CRM_Core_Page
         $whereClause = $this->whereClause( $params, true, $this->_force );
         $this->pager( $whereClause, $params );
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
-
-             
+        
+        //check for delete CRM-4418
+        require_once 'CRM/Core/Permission.php'; 
+        $allowToDelete = CRM_Core_Permission::check( 'delete in CiviAuction' );
+        
         $query = "
   SELECT i.*, c.display_name as donorName
     FROM civicrm_auction_item i, 
@@ -238,6 +241,10 @@ class CRM_Auction_Page_ManageItem extends CRM_Core_Page
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
+            }
+            //check for delete
+            if ( !$allowToDelete ) {
+                $action -= CRM_Core_Action::DELETE;
             }
             
             $items[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(),

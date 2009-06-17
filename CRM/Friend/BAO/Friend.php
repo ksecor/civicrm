@@ -233,16 +233,15 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      *
      * @param array   $defaults (reference) the default values.
      *
-     * @return void
-     * @access public
-     * @static
+     * @return booelan  whether anything was found
      */
     static function getValues( &$defaults )
     {
         $friend =& new CRM_Friend_BAO_Friend( );
         $friend->copyValues( $defaults );        
-        $friend->find(true) ;           
+        $found = $friend->find(true);
         CRM_Core_DAO::storeValues( $friend, $defaults );
+        return $found;
     }  
 
     /**

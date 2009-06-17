@@ -1,0 +1,1048 @@
+#crm-container .two {
+	WIDTH: 2em
+}
+#crm-container .four {
+	WIDTH: 4em
+}
+#crm-container .six {
+	WIDTH: 6em
+}
+#crm-container .eight {
+	WIDTH: 8em
+}
+#crm-container .twelve {
+	WIDTH: 12em
+}
+#crm-container .twenty {
+	WIDTH: 20em
+}
+#crm-container .medium {
+	WIDTH: 12em
+}
+#crm-container .big {
+	WIDTH: 15em
+}
+#crm-container .huge {
+	WIDTH: 25em
+}
+#crm-container TEXTAREA.big {
+	WIDTH: 35em; HEIGHT: 4em
+}
+#crm-container TEXTAREA.huge {
+	WIDTH: 45em; HEIGHT: 16em
+}
+#crm-container TEXTAREA.huge40 {
+	WIDTH: 40em; HEIGHT: 16em
+}
+#crm-container TEXTAREA.nowrap {
+	WIDTH: 45em; WHITE-SPACE: nowrap; HEIGHT: 4.5em; OVERFLOW: auto
+}
+DIV#crm-container {
+	LINE-HEIGHT: 135%; OVERFLOW: auto
+}
+#crm-container .texttolabel {
+	BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-TOP-STYLE: none; BORDER-LEFT-STYLE: none
+}
+#crm-container .no-border {
+	BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-TOP-STYLE: none; BORDER-LEFT-STYLE: none
+}
+#crm-container DIV.solid-border-bottom {
+	BORDER-BOTTOM: #777 2px solid
+}
+#crm-container DIV.solid-border-top {
+	MARGIN-TOP: 15px; BORDER-TOP: #4e82cf 1px solid
+}
+#crm-container .ht-one {
+	HEIGHT: 1em
+}
+#crm-container .ht-two {
+	HEIGHT: 2em
+}
+#crm-container .add-remove-link {
+	FONT-SIZE: 0.9em
+}
+DIV.spacer {
+	HEIGHT: 5px; CLEAR: left
+}
+.spacer {
+	HEIGHT: 5px; CLEAR: left
+}
+#crm-container INPUT.form-submit {
+	VERTICAL-ALIGN: middle
+}
+#crm-container SELECT {
+	VERTICAL-ALIGN: middle
+}
+#crm-container TD.compressed SELECT {
+	FONT-SIZE: 0.9em
+}
+#crm-container TD.compressed INPUT {
+	FONT-SIZE: 0.9em
+}
+#crm-container FIELDSET {
+	
+}
+#crm-container FIELDSET.form-layout {
+	PADDING-BOTTOM: 1px; MARGIN: 0.25em 0em 0.5em; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; PADDING-TOP: 1px
+}
+#crm-container DIV.form-item {
+	PADDING-BOTTOM: 5px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; BORDER-TOP-STYLE: none; CLEAR: none; OVERFLOW: auto; PADDING-TOP: 3px
+}
+#crm-container DIV.form-item DL {
+	MARGIN: 0px
+}
+#crm-container .section-hidden DL {
+	MARGIN: 0px
+}
+#crm-container DIV.form-item DT {
+	TEXT-ALIGN: right; PADDING-BOTTOM: 5px; PADDING-LEFT: 0px; WIDTH: 22%; PADDING-RIGHT: 15px; WHITE-SPACE: normal; FLOAT: left; CLEAR: left; FONT-SIZE: 0.95em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; PADDING-TOP: 5px
+}
+#crm-container .section-hidden DT {
+	TEXT-ALIGN: left; PADDING-BOTTOM: 5px; PADDING-LEFT: 0px; WIDTH: 22%; PADDING-RIGHT: 15px; WHITE-SPACE: nowrap; FLOAT: left; CLEAR: left; FONT-WEIGHT: bold; PADDING-TOP: 5px
+}
+#crm-container DIV.form-item DT.extra-long-hundred {
+	PADDING-BOTTOM: 100px
+}
+#crm-container DIV.form-item DT.extra-long-eighty {
+	PADDING-BOTTOM: 80px
+}
+#crm-container DIV.form-item DT.extra-long-sixty {
+	PADDING-BOTTOM: 60px
+}
+#crm-container DIV.form-item DT.extra-long-fourty {
+	PADDING-BOTTOM: 40px
+}
+#crm-container DIV.form-item DT.extra-long-twenty {
+	PADDING-BOTTOM: 20px
+}
+#crm-container DIV.form-item DD {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; PADDING-TOP: 5px
+}
+#crm-container .section-hidden DD {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; PADDING-TOP: 5px
+}
+#crm-container DIV.form-item DD.html-adjust {
+	WIDTH: 57%; FLOAT: left
+}
+#crm-container DIV.form-item DL.html-adjust DD {
+	WIDTH: 57%; FLOAT: left
+}
+#crm-container DIV.form-item DD.description {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; WHITE-SPACE: normal; PADDING-TOP: 0px
+}
+#crm-container DIV.form-item SPAN.labels {
+	TEXT-ALIGN: left; WIDTH: 25%; FLOAT: left
+}
+#crm-container DIV.form-item SPAN.fields {
+	TEXT-ALIGN: left; WIDTH: 75%; FLOAT: right
+}
+#crm-container TABLE.form-layout {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; MARGIN: 0em; WIDTH: 98%; BORDER-COLLAPSE: collapse; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container TABLE.control-panel {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; MARGIN: 0em; WIDTH: 98%; BORDER-COLLAPSE: collapse; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container TABLE.no-border {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; MARGIN: 0em; WIDTH: 98%; BORDER-COLLAPSE: collapse; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container TABLE.form-layout-compressed {
+	BORDER-BOTTOM: 1px; BORDER-LEFT: 1px; MARGIN: 0em; WIDTH: auto; BORDER-COLLAPSE: collapse; BORDER-TOP: 1px; BORDER-RIGHT: 1px
+}
+#crm-container TABLE.advmultiselect {
+	BORDER-BOTTOM: #4e82cf 1px solid; BORDER-LEFT: #4e82cf 1px solid; MARGIN: 0em; WIDTH: auto; BORDER-COLLAPSE: collapse; BORDER-TOP: #4e82cf 1px solid; BORDER-RIGHT: #4e82cf 1px solid
+}
+#crm-container TABLE.advmultiselect TD {
+	PADDING-BOTTOM: 10px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; PADDING-TOP: 10px
+}
+#crm-container TBODY {
+	BORDER-TOP: medium none
+}
+#crm-container .form-layout TD {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; WHITE-SPACE: nowrap; VERTICAL-ALIGN: text-top; PADDING-TOP: 5px
+}
+#crm-container .form-layout TD.report {
+	WHITE-SPACE: normal
+}
+#crm-container .form-layout TD.description {
+	WHITE-SPACE: normal
+}
+#crm-container .form-layout-compressed TD.description {
+	WHITE-SPACE: normal
+}
+#crm-container .form-layout-compressed TD {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; VERTICAL-ALIGN: text-top; PADDING-TOP: 5px
+}
+#crm-container .form-layout-compressed TH {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; VERTICAL-ALIGN: text-top; PADDING-TOP: 5px
+}
+#crm-container .dijitComboBox {
+	WIDTH: 20em
+}
+#crm-container .form-layout TD.dijitReset {
+	VERTICAL-ALIGN: middle
+}
+#crm-container .form-layout-compressed TD.dijitReset {
+	VERTICAL-ALIGN: middle
+}
+#crm-container .control-panel TD {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: center; BORDER-LEFT: 0px; PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; WIDTH: 25%; PADDING-RIGHT: 3px; WHITE-SPACE: nowrap; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 3px
+}
+#crm-container .form-layout TD.label {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: right; BORDER-LEFT: 0px; PADDING-BOTTOM: 0em; PADDING-LEFT: 0.75em; PADDING-RIGHT: 0.5em; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0.5em
+}
+#crm-container .form-layout-compressed TD.label {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: right; BORDER-LEFT: 0px; PADDING-BOTTOM: 0em; PADDING-LEFT: 0.75em; PADDING-RIGHT: 0.5em; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0.5em
+}
+#crm-container .selector TD.label {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: right; BORDER-LEFT: 0px; PADDING-BOTTOM: 0em; PADDING-LEFT: 0.75em; PADDING-RIGHT: 0.5em; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0.5em
+}
+#crm-container .form-layout-compressed TH.label {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: right; BORDER-LEFT: 0px; PADDING-BOTTOM: 0em; PADDING-LEFT: 0.75em; PADDING-RIGHT: 0.5em; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0.5em
+}
+#crm-container TD.op-checkbox LABEL {
+	FONT-STYLE: italic; FONT-WEIGHT: normal
+}
+#crm-container .form-layout TD.label-left {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: left; BORDER-LEFT: 0px; PADDING-BOTTOM: 0em; PADDING-LEFT: 0.75em; WIDTH: 20%; PADDING-RIGHT: 0.5em; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0.5em
+}
+#crm-container .form-layout-compressed TD.label-left {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: left; BORDER-LEFT: 0px; PADDING-BOTTOM: 0em; PADDING-LEFT: 0.75em; WIDTH: 20%; PADDING-RIGHT: 0.5em; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0.5em
+}
+#crm-container TABLE.selector TD {
+	BORDER-RIGHT: #dddddd 1px solid
+}
+#crm-container .form-layout TD.view-value {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: left; BORDER-LEFT: 0px; PADDING-BOTTOM: 0em; PADDING-LEFT: 0.5em; PADDING-RIGHT: 0em; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0.5em
+}
+#crm-container .form-layout-compressed TD.view-value {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: left; BORDER-LEFT: 0px; PADDING-BOTTOM: 0em; PADDING-LEFT: 0.5em; PADDING-RIGHT: 0em; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 0.5em
+}
+#crm-container .form-layout .buttons {
+	PADDING-TOP: 10px
+}
+#crm-container .form-layout-compressed .buttons {
+	PADDING-TOP: 10px
+}
+#crm-container .form-layout-compressed TD.describe-image {
+	PADDING-BOTTOM: 0em; PADDING-LEFT: 0em; PADDING-RIGHT: 0em; FONT-SIZE: 0.9em; VERTICAL-ALIGN: top; PADDING-TOP: 0.5em
+}
+#crm-container .right {
+	TEXT-ALIGN: right
+}
+#crm-container .form-layout-compressed TD.option-label {
+	TEXT-ALIGN: right; PADDING-BOTTOM: 0em; PADDING-LEFT: 0.75em; PADDING-RIGHT: 0.5em; VERTICAL-ALIGN: top; PADDING-TOP: 0.75em
+}
+#crm-container DIV.status {
+	BORDER-BOTTOM: #5a8fdb 1px solid; BORDER-LEFT: #5a8fdb 1px solid; PADDING-BOTTOM: 0.25em; BACKGROUND-COLOR: #ffff99; MARGIN: 0.5em; PADDING-LEFT: 0.5em; PADDING-RIGHT: 0.5em; BORDER-TOP: #5a8fdb 1px solid; BORDER-RIGHT: #5a8fdb 1px solid; PADDING-TOP: 0.25em
+}
+#crm-container .footer {
+	FONT-SIZE: 0.8em
+}
+#crm-container #civicrm-footer {
+	TEXT-ALIGN: center; PADDING-BOTTOM: 0.8em; MARGIN-TOP: 2em; PADDING-LEFT: 0.8em; PADDING-RIGHT: 0.8em; BORDER-TOP: #ddd 1px solid; PADDING-TOP: 0.8em
+}
+#crm-container #record-log {
+	TEXT-ALIGN: right; PADDING-BOTTOM: 0em; PADDING-LEFT: 0em; PADDING-RIGHT: 0.8em; PADDING-TOP: 0.8em
+}
+#crm-container #access {
+	TEXT-ALIGN: right; PADDING-BOTTOM: 0em; PADDING-LEFT: 0em; PADDING-RIGHT: 0.8em; PADDING-TOP: 0.8em
+}
+#crm-container DIV.status UL {
+	MARGIN: 0px
+}
+#crm-container DIV.status DT {
+	WIDTH: 30px; FLOAT: left; CLEAR: none
+}
+#crm-container .messages {
+	MARGIN: 1em 0em
+}
+#crm-container .action-link {
+	MARGIN: 0.25em 0em; FONT-WEIGHT: bold
+}
+#crm-container .header-dark {
+	PADDING-BOTTOM: 0.5em; BACKGROUND-COLOR: #4d94e3; MARGIN: 0.5em 0em; PADDING-LEFT: 0.5em; PADDING-RIGHT: 0.5em; COLOR: #badaff; FONT-WEIGHT: bold; PADDING-TOP: 0.5em
+}
+#crm-container DIV.display-block {
+	MARGIN: 1em 2em; FONT-WEIGHT: normal
+}
+#crm-container .col1 {
+	TEXT-ALIGN: left; MARGIN: 0px 25px; WIDTH: 40%; FLOAT: left; VERTICAL-ALIGN: top
+}
+#crm-container .col2 {
+	TEXT-ALIGN: left; MARGIN: 0px; WIDTH: 50%; FLOAT: right; VERTICAL-ALIGN: top
+}
+#crm-container UL.indented {
+	PADDING-LEFT: 3em
+}
+.menu LI.no-display {
+	LIST-STYLE-TYPE: none
+}
+#crm-container LI {
+	BACKGROUND-IMAGE: none
+}
+#crm-container UL LI {
+	BACKGROUND-IMAGE: none
+}
+DIV.block-civicrm UL LI {
+	BACKGROUND-IMAGE: none
+}
+#crm-container UL LI.leaf {
+	LIST-STYLE-IMAGE: url(menu-leaf.png)
+}
+DIV.block-civicrm UL LI.leaf {
+	LIST-STYLE-IMAGE: url(menu-leaf.png)
+}
+#crm-container UL LI.leaf {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0.5em; PADDING-TOP: 0.2em
+}
+#crm-container UL LI.collapsed {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0.5em; PADDING-TOP: 0.2em
+}
+DIV.block-civicrm UL LI.leaf {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0.5em; PADDING-TOP: 0.2em
+}
+DIV.block-civicrm UL LI.collapsed {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0.5em; PADDING-TOP: 0.2em
+}
+DIV.block-civicrm UL LI.leaf {
+	MARGIN: 0px 0px 0px 0.3em
+}
+DIV.block-civicrm UL LI.collapsed {
+	MARGIN: 0px 0px 0px 0.3em
+}
+DIV.block-civicrm UL LI.expanded {
+	MARGIN: 0px 0px 0px 0.3em
+}
+#crm-container .description {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; WHITE-SPACE: normal; FONT-SIZE: 0.9em; PADDING-TOP: 0px
+}
+#crm-container .form-layout-compressed TD.description {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 20px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#crm-container #help {
+	MARGIN: 1em 0em 0.5em
+}
+#crm-container .help {
+	MARGIN: 1em 0em 0.5em
+}
+#crm-container LABEL {
+	DISPLAY: inline; FONT-WEIGHT: bold
+}
+#crm-container #Advanced LABEL {
+	FONT-WEIGHT: normal
+}
+#crm-container .notorg {
+	FONT-WEIGHT: normal
+}
+#crm-container .labels {
+	FONT-WEIGHT: bold
+}
+.label {
+	FONT-WEIGHT: bold
+}
+#crm-container .font-light {
+	FONT-WEIGHT: lighter
+}
+#crm-container .bold {
+	FONT-WEIGHT: bold
+}
+.font-italic {
+	FONT-STYLE: italic
+}
+.font-size11pt {
+	FONT-SIZE: 1.1em
+}
+.font-size12pt {
+	FONT-SIZE: 1.2em
+}
+.qill {
+	LINE-HEIGHT: 1.1em; FONT-WEIGHT: normal
+}
+.status-pending {
+	COLOR: green
+}
+.status-completed {
+	COLOR: #000080
+}
+.upper {
+	TEXT-TRANSFORM: uppercase
+}
+#crm-container TABLE {
+	BORDER-BOTTOM: #4e82cf 1px solid; 
+	BORDER-LEFT: #4e82cf 1px solid; 
+	MARGIN: 0.5em 0.1em; 
+	/*WIDTH: 99%;*/ 
+	BORDER-COLLAPSE: collapse; 
+	BORDER-TOP: #4e82cf 1px solid; 
+	BORDER-RIGHT: #4e82cf 1px solid;
+}
+#crm-container #map-field TABLE {
+	WIDTH: auto
+}
+#crm-container TABLE.report {
+	WIDTH: auto
+}
+#crm-container TABLE.chart {
+	WIDTH: auto
+}
+#crm-container TR {
+	FONT-SIZE: 0.8em /*0.95*/
+}
+#crm-container TD {
+	PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; VERTICAL-ALIGN: top; PADDING-TOP: 4px
+}
+#crm-container TD.enclosingNested {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#crm-container .nowrap {
+	WHITE-SPACE: nowrap
+}
+#crm-container .order-icon {
+	WIDTH: 10px; PADDING-RIGHT: 4px; HEIGHT: 15px; PADDING-TOP: 4px
+}
+#crm-container TR.columnheader {
+	BORDER-BOTTOM: #5a8fdb 1px solid; BORDER-LEFT: #5a8fdb 1px solid; BACKGROUND-COLOR: #b3d1ff; COLOR: #000000; BORDER-TOP: #5a8fdb 1px solid; BORDER-RIGHT: #5a8fdb 1px solid
+}
+#crm-container TR.columnheader A {
+	COLOR: #000; VERTICAL-ALIGN: top; TEXT-DECORATION: none
+}
+#crm-container TR.columnheader-dark {
+	BORDER-BOTTOM: #5a8fdb 1px solid; BORDER-LEFT: #5a8fdb 1px solid; BACKGROUND-COLOR: #4d94e3; COLOR: #cde4ff; BORDER-TOP: #5a8fdb 1px solid; BORDER-RIGHT: #5a8fdb 1px solid
+}
+#crm-container TH {
+	BORDER-BOTTOM: #5a8fdb 1px solid; TEXT-ALIGN: left; PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; VERTICAL-ALIGN: top; BORDER-TOP: #5a8fdb 1px solid; PADDING-TOP: 8px
+}
+#crm-container TR.columnheader-dark TD {
+	FONT-SIZE: 1.1em; FONT-WEIGHT: bold
+}
+#crm-container TR.columnheader-dark TH {
+	FONT-SIZE: 1.1em; FONT-WEIGHT: bold
+}
+#crm-container TR.columnheader TD {
+	FONT-SIZE: 1.1em; FONT-WEIGHT: bold
+}
+#crm-container TR.columnfooter TD {
+	FONT-SIZE: 1.1em; FONT-WEIGHT: bold
+}
+#crm-container TR.columnheader-dark TH SPAN.extra {
+	FONT-SIZE: 0.95em; FONT-WEIGHT: normal
+}
+#crm-container TR.columnfooter {
+	FONT-SIZE: 1.1em; BORDER-TOP: #4e82cf 2px solid
+}
+#crm-container #map-field TH {
+	BORDER-RIGHT: #5a8fdb 1px solid
+}
+#crm-container #map-field TD {
+	PADDING-BOTTOM: 4px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; PADDING-TOP: 10px
+}
+#crm-container .report TD {
+	PADDING-BOTTOM: 4px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; PADDING-TOP: 10px
+}
+#crm-container .chart TD {
+	PADDING-BOTTOM: 4px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; PADDING-TOP: 10px
+}
+#crm-container .report TD {
+	BORDER-BOTTOM: #92b6ec 1px solid; BORDER-LEFT: #92b6ec 1px solid; BACKGROUND-COLOR: #f6f6f6; BORDER-TOP: #92b6ec 1px solid; BORDER-RIGHT: #92b6ec 1px solid
+}
+#crm-container TABLE.report TD.splitter {
+	BORDER-RIGHT: #92b6ec 5px double
+}
+#crm-container .report TD.separator {
+	BACKGROUND-COLOR: #ffffff; BORDER-RIGHT-COLOR: #ffffff; BORDER-LEFT-COLOR: #ffffff; PADDING-TOP: 1em
+}
+#crm-container .chart TD {
+	BORDER-BOTTOM: #92b6ec 2px solid; BORDER-LEFT: #92b6ec 2px solid; BORDER-TOP: #92b6ec 2px solid; BORDER-RIGHT: #92b6ec 2px solid
+}
+#crm-container .odd-row {
+	BACKGROUND-COLOR: #fafafa
+}
+TBODY.scrollContent {
+	BACKGROUND-COLOR: #fafafa
+}
+#crm-container .even-row {
+	BACKGROUND-COLOR: #e8f2ff
+}
+TBODY.scrollContent TR.alternateRow {
+	BACKGROUND-COLOR: #e8f2ff
+}
+#crm-container TR.even-row TD {
+	BORDER-COLLAPSE: collapse; BORDER-TOP: #92b6ec 1px solid
+}
+#crm-container TR.odd-row TD {
+	BORDER-COLLAPSE: collapse; BORDER-TOP: #92b6ec 1px solid
+}
+#crm-container .selected {
+	PADDING-BOTTOM: 3px; BACKGROUND-COLOR: #ffff99; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; CLEAR: none; PADDING-TOP: 3px
+}
+#crm-container TD.yes-no {
+	TEXT-ALIGN: center
+}
+#crm-container .font-red {
+	COLOR: #ff0105
+}
+#crm-container .status-removed {
+	COLOR: #ff0105
+}
+#crm-container .disabled {
+	COLOR: #ff0105
+}
+#crm-container .status-overdue {
+	COLOR: #ff0105
+}
+#crm-container .status-hold {
+	COLOR: #ff0105
+}
+#crm-container A.sort-ascending {
+	WHITE-SPACE: nowrap
+}
+#crm-container A.sort-descending {
+	WHITE-SPACE: nowrap
+}
+#crm-container A.sort-none {
+	WHITE-SPACE: nowrap
+}
+#crm-container A.sort-ascending:before {
+	VERTICAL-ALIGN: middle; CONTENT: url(sort-asc.png); MARGIN-RIGHT: 5px
+}
+#crm-container THEAD TH.selectedDown:before {
+	VERTICAL-ALIGN: middle; CONTENT: url(sort-asc.png); MARGIN-RIGHT: 5px
+}
+#crm-container A.sort-descending:before {
+	VERTICAL-ALIGN: middle; CONTENT: url(sort-desc.png); MARGIN-RIGHT: 5px
+}
+#crm-container THEAD TH.selectedUp:before {
+	VERTICAL-ALIGN: middle; CONTENT: url(sort-desc.png); MARGIN-RIGHT: 5px
+}
+#crm-container A.sort-none:before {
+	VERTICAL-ALIGN: middle; CONTENT: url(sort-none.png); MARGIN-RIGHT: 5px
+}
+#crm-container .horizontal-position {
+	MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px
+}
+#crm-container .horizontal-center {
+	TEXT-ALIGN: center; MARGIN: 0px auto; WIDTH: 80%
+}
+#crm-container .place-left {
+	FLOAT: left; MARGIN-LEFT: 30px; MARGIN-RIGHT: 30px
+}
+#crm-container .float-right {
+	PADDING-BOTTOM: 10px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 5px; FLOAT: right; CLEAR: none; PADDING-TOP: 0px
+}
+#crm-container .align-right {
+	TEXT-ALIGN: right; DISPLAY: block; MARGIN-RIGHT: 20px
+}
+#crm-container .element-right {
+	POSITION: absolute; RIGHT: 35px
+}
+#crm-container #search-status {
+	BORDER-BOTTOM: #4e82cf 1px solid; BORDER-LEFT: #4e82cf 1px solid; PADDING-BOTTOM: 0.25em; BACKGROUND-COLOR: #b3d1ff; PADDING-LEFT: 0.25em; PADDING-RIGHT: 0.25em; FONT-SIZE: 0.95em; BORDER-TOP: #4e82cf 1px solid; FONT-WEIGHT: bold; BORDER-RIGHT: #4e82cf 1px solid; PADDING-TOP: 0.25em
+}
+#crm-container #search-status UL {
+	MARGIN: 0em 0em 0em -2em
+}
+#crm-container UL.left-alignment {
+	MARGIN: 0em 0em 0em -2em
+}
+#crm-container TD UL {
+	MARGIN: 0em 0em 0em -2em
+}
+#crm-container #search-status UL LI {
+	LIST-STYLE-POSITION: inside; DISPLAY: list-item; MARGIN-LEFT: 2em
+}
+#crm-container UL.left-alignment LI {
+	LIST-STYLE-POSITION: inside; DISPLAY: list-item; MARGIN-LEFT: 2em
+}
+DIV.crm-pager {
+	BORDER-BOTTOM: #4a88df thin solid; POSITION: relative; BORDER-LEFT: #4a88df thin solid; BACKGROUND-COLOR: #2e7ed6; HEIGHT: 25px; COLOR: #213245; MARGIN-LEFT: -1px; BORDER-TOP: #4a88df thin solid; BORDER-RIGHT: #4a88df thin solid; PADDING-TOP: 5px
+}
+DIV.crm-pager A {
+	COLOR: #cde4ff
+}
+.crm-pager-nav {
+	PADDING-LEFT: 100px; HEIGHT: 25px
+}
+#crm-container .section-hidden {
+	PADDING-BOTTOM: 5px; MARGIN: 0px 0px 5px 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; DISPLAY: block; PADDING-TOP: 5px
+}
+#crm-container DIV.view-content {
+	PADDING-BOTTOM: 5px; MARGIN: 0px 0px 5px 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; DISPLAY: block; PADDING-TOP: 5px
+}
+#crm-container .section-hidden-border {
+	BORDER-BOTTOM: #b0b0b0 1px solid
+}
+#crm-container .section-shown {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; PADDING-TOP: 0px
+}
+#crm-container .data-group-first {
+	PADDING-BOTTOM: 5px; MARGIN: 10px 5px 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; CLEAR: none; BORDER-TOP: #85ace8 2px solid; PADDING-TOP: 5px
+}
+#crm-container UL.wizard-bar {
+	PADDING-BOTTOM: 0em; LINE-HEIGHT: normal; LIST-STYLE-TYPE: none; MARGIN: 10px 0px 20px; PADDING-LEFT: 1em; WIDTH: auto; PADDING-RIGHT: 0em; BORDER-COLLAPSE: collapse; WHITE-SPACE: nowrap; HEIGHT: auto; BORDER-TOP: #bbb 3px solid; LIST-STYLE-IMAGE: none; PADDING-TOP: 0em
+}
+#crm-container UL.wizard-bar LI {
+	BORDER-BOTTOM: #92b6ec 1px solid; BORDER-LEFT: #92b6ec 1px solid; PADDING-BOTTOM: 0.5em; BACKGROUND-COLOR: #fafafa; PADDING-LEFT: 1em; PADDING-RIGHT: 1em; DISPLAY: inline; HEIGHT: auto; FONT-SIZE: 0.95em; BORDER-TOP: #92b6ec 1px solid; MARGIN-RIGHT: 1em; BORDER-RIGHT: #92b6ec 1px solid; TEXT-DECORATION: none; PADDING-TOP: 0.5em
+}
+#crm-container UL.wizard-bar LI.current-step {
+	BORDER-BOTTOM-COLOR: #92b6ec; BACKGROUND-COLOR: #fafafa; BORDER-TOP-COLOR: #92b6ec; BORDER-RIGHT-COLOR: #92b6ec; BORDER-LEFT-COLOR: #92b6ec; FONT-WEIGHT: bold
+}
+#crm-container UL.wizard-bar LI.past-step {
+	BACKGROUND-COLOR: #edf2ff; COLOR: #666
+}
+.block-civicrm DIV#recently-viewed UL {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT-SIZE: 0.9em; PADDING-TOP: 0px
+}
+.block-civicrm DIV#recently-viewed UL LI {
+	BORDER-BOTTOM: #92b6ec 1px solid; BORDER-LEFT: #92b6ec 1px solid; PADDING-BOTTOM: 1px; BACKGROUND-COLOR: #fff; MARGIN: 1px; PADDING-LEFT: 3px; PADDING-RIGHT: 1px; WHITE-SPACE: nowrap; OVERFLOW: hidden; BORDER-TOP: #92b6ec 1px solid; BORDER-RIGHT: #92b6ec 1px solid; PADDING-TOP: 1px
+}
+.block-civicrm DIV#recently-viewed UL LI A {
+	MARGIN-LEFT: 4px
+}
+.block-civicrm DIV#recently-viewed UL LI IMG {
+	VERTICAL-ALIGN: middle
+}
+#crm-container DIV#alpha-filter {
+	TEXT-ALIGN: center; MARGIN: 10px 0px 5px; WIDTH: 100%
+}
+#crm-container #recently-viewed UL {
+	PADDING-BOTTOM: 0em; LIST-STYLE-TYPE: none; MARGIN: 3px; PADDING-LEFT: 0em; WIDTH: auto; PADDING-RIGHT: 0em; BORDER-COLLAPSE: collapse; HEIGHT: auto; PADDING-TOP: 0em
+}
+#crm-container #alpha-filter UL {
+	PADDING-BOTTOM: 0em; LIST-STYLE-TYPE: none; MARGIN: 3px; PADDING-LEFT: 0em; WIDTH: auto; PADDING-RIGHT: 0em; BORDER-COLLAPSE: collapse; HEIGHT: auto; PADDING-TOP: 0em
+}
+#crm-container #alpha-filter LI {
+	BORDER-BOTTOM: #4a88df 1px solid; BORDER-LEFT: #4a88df 1px solid; PADDING-BOTTOM: 2px; BACKGROUND-COLOR: #edf2ff; MARGIN: 0px 1px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; DISPLAY: inline; HEIGHT: auto; COLOR: #aaa; FONT-SIZE: 0.95em; BORDER-TOP: #4a88df 1px solid; FONT-WEIGHT: normal; BORDER-RIGHT: #4a88df 1px solid; PADDING-TOP: 2px
+}
+#crm-container #alpha-filter LI.active {
+	BACKGROUND-COLOR: #fff
+}
+#crm-container #alpha-filter A {
+	COLOR: #000; FONT-WEIGHT: normal
+}
+#crm-container #alpha-filter A.active {
+	COLOR: #000; FONT-WEIGHT: bold
+}
+#crm-container #recently-viewed A {
+	COLOR: #4a88df; FONT-SIZE: 0.95em; FONT-WEIGHT: normal
+}
+#crm-container DIV#lang-switch {
+	Z-INDEX: 2; MARGIN: -24px 30px 0px 0px; FLOAT: right
+}
+#crm-container DIV#printer-friendly {
+	POSITION: relative; MARGIN: -24px 0px 0px; FLOAT: right
+}
+#crm-container .listing-box {
+	BORDER-BOTTOM: #92b6ec 1px solid; BORDER-LEFT: #92b6ec 1px solid; MARGIN: 0.25em 2em 0.5em 0em; WIDTH: auto; HEIGHT: 7.25em; OVERFLOW: auto; BORDER-TOP: #92b6ec 1px solid; BORDER-RIGHT: #92b6ec 1px solid
+}
+#crm-container .listing-box-tall {
+	BORDER-BOTTOM: #92b6ec 1px solid; BORDER-LEFT: #92b6ec 1px solid; MARGIN: 0.25em 2em 0.5em 0em; WIDTH: auto; HEIGHT: 15em; OVERFLOW: auto; BORDER-TOP: #92b6ec 1px solid; BORDER-RIGHT: #92b6ec 1px solid
+}
+#crm-container .action-icon {
+	PADDING-BOTTOM: 2px; MARGIN: 2px 2px 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 2px; VERTICAL-ALIGN: middle; CURSOR: hand; PADDING-TOP: 2px
+}
+#crm-container .hide-block {
+	DISPLAY: none
+}
+#crm-container .hide-row {
+	DISPLAY: none
+}
+#crm-container .show-block {
+	DISPLAY: block
+}
+#crm-container .show-row {
+	DISPLAY: table-row
+}
+#crm-container INPUT.submit-link {
+	BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BACKGROUND-COLOR: transparent; MARGIN: 0em -0.5em; COLOR: #285286; BORDER-TOP: medium none; CURSOR: hand; BORDER-RIGHT: medium none
+}
+#crm-container .underline-effect {
+	COLOR: #285286
+}
+#crm-container .underline-effect:hover {
+	TEXT-DECORATION: underline
+}
+#crm-container .underline-effect:before {
+	CONTENT: "\00BB"
+}
+#crm-container DIV#searchForm {
+	WIDTH: 100%; HEIGHT: auto
+}
+#crm-container DIV#searchForm TABLE.form-layout TD {
+	BORDER-BOTTOM: #dddddd 1px groove; BORDER-LEFT: #dddddd 1px groove; PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; BACKGROUND: #f5f5f5; BORDER-TOP: #dddddd 1px groove; BORDER-RIGHT: #dddddd 1px groove; PADDING-TOP: 4px
+}
+#crm-container DIV#searchForm FIELDSET {
+	BACKGROUND-IMAGE: none
+}
+#crm-container #main {
+	POSITION: relative; WIDTH: 95%; HEIGHT: 95%; TOP: 1%; LEFT: 1%
+}
+#crm-container .label-pane {
+	PADDING-BOTTOM: 0.25em; BACKGROUND-COLOR: #6aa8ee; MARGIN: 0.25em 0em 0em; PADDING-LEFT: 0.25em; PADDING-RIGHT: 0.25em; COLOR: #213245; CURSOR: pointer; FONT-WEIGHT: bold; PADDING-TOP: 0.25em
+}
+#crm-container .label-pane :hover {
+	CURSOR: pointer
+}
+#crm-container FIELDSET.collapsible {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container .content-pane {
+	OVERFLOW: auto
+}
+#crm-container TBODY.scrollContent TR:hover {
+	BACKGROUND-COLOR: #d0e6fd
+}
+#crm-container THEAD TR.columnheader TH {
+	VERTICAL-ALIGN: top; CURSOR: pointer
+}
+#crm-container THEAD TH.selectedUp {
+	VERTICAL-ALIGN: top
+}
+#crm-container THEAD TH.selectedDown {
+	VERTICAL-ALIGN: top
+}
+#crm-container DD.editor {
+	MARGIN-TOP: 0.7em; WIDTH: 58em; FLOAT: left; MARGIN-LEFT: 0em; VERTICAL-ALIGN: top
+}
+.clear#crm-container {
+	WIDTH: 100%; OVERFLOW: hidden
+}
+#crm-container A.button {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 14px; DISPLAY: block; FONT: 12px arial, sans-serif; BACKGROUND: url(bg_button_a.gif) no-repeat right top; FLOAT: left; HEIGHT: 24px; COLOR: #444; MARGIN-RIGHT: 6px; TEXT-DECORATION: none; PADDING-TOP: 0px
+}
+#crm-container A.button SPAN {
+	PADDING-BOTTOM: 5px; LINE-HEIGHT: 14px; PADDING-LEFT: 12px; PADDING-RIGHT: 0px; DISPLAY: block; BACKGROUND: url(bg_button_span.gif) no-repeat; PADDING-TOP: 5px
+}
+#crm-container A.button:active {
+	OUTLINE-STYLE: none; OUTLINE-COLOR: invert; OUTLINE-WIDTH: medium; BACKGROUND-POSITION: right bottom; COLOR: #000
+}
+#crm-container A.button:active SPAN {
+	PADDING-BOTTOM: 4px; PADDING-LEFT: 12px; PADDING-RIGHT: 0px; BACKGROUND-POSITION: left bottom; PADDING-TOP: 6px
+}
+#crm-container TABLE.mceLayout TD {
+	BORDER-BOTTOM: #ededed 2px solid; BORDER-LEFT: #ededed 2px solid; PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; BACKGROUND: #ededed; FONT-SIZE: 0em; VERTICAL-ALIGN: top; BORDER-TOP: #ededed 2px solid; BORDER-RIGHT: #ededed 2px solid; PADDING-TOP: 0px
+}
+#crm-container TABLE.mceLayout TABLE {
+	BORDER-BOTTOM: #ededed 2px solid; BORDER-LEFT: #ededed 2px solid; PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; WIDTH: auto; PADDING-RIGHT: 0px; BACKGROUND: #ededed; FONT-SIZE: 0em; VERTICAL-ALIGN: top; BORDER-TOP: #ededed 2px solid; BORDER-RIGHT: #ededed 2px solid; PADDING-TOP: 0px
+}
+#crm-container TR.mceLast {
+	BORDER-BOTTOM: #ededed 1px solid; BORDER-LEFT: #ededed 1px solid; BORDER-TOP: #ededed 1px solid; BORDER-RIGHT: #ededed 1px solid
+}
+.tundra .dijitFolderOpened {
+	DISPLAY: none
+}
+.tundra .dijitFolderClosed {
+	DISPLAY: none
+}
+.tundra .dijitLeaf {
+	DISPLAY: none
+}
+#location .form-layout TABLE {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: auto; MARGIN-BOTTOM: -5px; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#location .form-layout TD {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: auto; MARGIN-BOTTOM: -5px; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container DIV#location TABLE.form-layout TABLE.inner-table TD {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: auto; MARGIN-BOTTOM: -5px; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container TABLE.campaign TH {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: auto; FONT-SIZE: 9pt; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+TABLE.campaign TD {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: auto; FONT-SIZE: 9pt; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container TABLE.campaign {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: auto; FONT-SIZE: 9pt; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container TABLE.campaign TABLE.form-layout TD {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: auto; FONT-SIZE: 9pt; VERTICAL-ALIGN: top; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container TABLE.campaign TABLE {
+	BACKGROUND: #f7f7f7
+}
+#crm-container DIV.remaining {
+	BACKGROUND: url(../i/contribute/pcp_remain.gif)
+}
+#crm-container DIV.achieved {
+	BACKGROUND: url(../i/contribute/pcp_achieve.gif)
+}
+#crm-container .honor_roll {
+	BORDER-BOTTOM: #9d9fca 1px solid; BORDER-LEFT: #9d9fca 1px solid; PADDING-BOTTOM: 10px; BACKGROUND-COLOR: #fafafa; MARGIN: 5px 20px 0px 0px; PADDING-LEFT: 10px; WIDTH: 120px; PADDING-RIGHT: 10px; BORDER-TOP: #9d9fca 1px solid; BORDER-RIGHT: #9d9fca 1px solid; PADDING-TOP: 10px
+}
+#crm-container .flexigrid TH {
+	BORDER-BOTTOM: 0px; PADDING-BOTTOM: 0px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; BORDER-TOP: 0px; PADDING-TOP: 0px
+}
+#crm-container .flexigrid TR {
+	FONT-SIZE: 1.1em
+}
+#crm-container .flexigrid DIV {
+	LINE-HEIGHT: 100%
+}
+#crm-container .flexigrid TABLE {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; MARGIN: 0pt; WIDTH: 100%; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+#crm-container TABLE.nestedSelector {
+	BORDER-BOTTOM: #5a8fdb 2px solid; BORDER-LEFT: #5a8fdb 2px solid; MARGIN: 0px; WIDTH: 100%; BORDER-TOP: #5a8fdb 2px solid; BORDER-RIGHT: #5a8fdb 2px solid
+}
+#crm-container TABLE.nestedSelector TR.columnheader {
+	BACKGROUND-COLOR: #4d94e3
+}
+#crm-container TABLE.nestedSelector TR.columnheader TH {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+.tundra .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
+	HEIGHT: 17px
+}
+#crm-container SPAN.success-status {
+	BORDER-BOTTOM: #5a8fdb 1px solid; BORDER-LEFT: #5a8fdb 1px solid; PADDING-BOTTOM: 0.25em; BACKGROUND-COLOR: #ffff99; PADDING-LEFT: 0.5em; PADDING-RIGHT: 0.5em; MARGIN-LEFT: 6px; BORDER-TOP: #5a8fdb 1px solid; BORDER-RIGHT: #5a8fdb 1px solid; PADDING-TOP: 0.25em
+}
+.ac_results UL LI {
+	BACKGROUND-IMAGE: none
+}
+.Individual {
+	PADDING-LEFT: 20px; BACKGROUND: url(../i/contact_ind.gif) no-repeat
+}
+.Household {
+	PADDING-LEFT: 20px; BACKGROUND: url(../i/contact_house.png) no-repeat
+}
+.Organization {
+	PADDING-LEFT: 20px; BACKGROUND: url(../i/contact_org.gif) no-repeat
+}
+#crm-container TD.tasklist A {
+	FONT-WEIGHT: bold
+}
+#crm-container TD.tasklist A:link {
+	COLOR: #ff0105
+}
+#crm-container TD.tasklist A:visited {
+	COLOR: green
+}
+#panel {
+	Z-INDEX: 1; BORDER-BOTTOM: #cccccc 1px solid; POSITION: absolute; BORDER-LEFT: #cccccc 1px solid; BACKGROUND-COLOR: #eeeeee; DISPLAY: none; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid
+}
+.panel {
+	Z-INDEX: 1; BORDER-BOTTOM: #cccccc 1px solid; POSITION: absolute; BORDER-LEFT: #cccccc 1px solid; BACKGROUND-COLOR: #eeeeee; DISPLAY: none; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid
+}
+#crm-container TD UL.panel {
+	PADDING-BOTTOM: 0px; MARGIN: -20px 0px 0px 55px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#crm-container TD UL.panel LI {
+	PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: none; MARGIN: 0px; PADDING-LEFT: 5px; PADDING-RIGHT: 15px; LIST-STYLE-IMAGE: none; PADDING-TOP: 5px
+}
+.btn-slide {
+	BORDER-BOTTOM: medium none; TEXT-ALIGN: left; BORDER-LEFT: medium none; BORDER-TOP: medium none; CURSOR: pointer; BORDER-RIGHT: medium none; TEXT-DECORATION: none
+}
+#crm-container .panel LI A {
+	DISPLAY: block; COLOR: #333333; TEXT-DECORATION: none
+}
+#crm-container .contextMenu {
+	Z-INDEX: 9999; BORDER-BOTTOM: #ccc 1px solid; POSITION: absolute; BORDER-LEFT: #ccc 1px solid; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 132px; PADDING-RIGHT: 0px; DISPLAY: none; BACKGROUND: #eee; BORDER-TOP: #ccc 1px solid; BORDER-RIGHT: #ccc 1px solid; PADDING-TOP: 0px
+}
+#squeeze .contextMenu {
+	MARGIN: -95px 0px 0px -275px
+}
+#crm-container .contextMenu LI {
+	PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: none; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; LIST-STYLE-IMAGE: none; PADDING-TOP: 0px
+}
+#crm-container .contextMenu A {
+	PADDING-BOTTOM: 1px; LINE-HEIGHT: 20px; OUTLINE-STYLE: none; OUTLINE-COLOR: invert; PADDING-LEFT: 5px; OUTLINE-WIDTH: medium; PADDING-RIGHT: 0px; DISPLAY: block; BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: 6px center; HEIGHT: 20px; COLOR: #333; TEXT-DECORATION: none; PADDING-TOP: 0px
+}
+#crm-container .contextMenu LI.hover A {
+	BACKGROUND-COLOR: #3399ff; COLOR: #fff
+}
+#crm-container THEAD DIV.sticky-header {
+	BORDER-BOTTOM: #5a8fdb 1px solid; BACKGROUND-COLOR: #b3d1ff; HEIGHT: 15px; FONT-SIZE: 1em
+}
+#crm-container THEAD.sticky {
+	BORDER-BOTTOM: #5a8fdb 1px solid; BORDER-LEFT: #5a8fdb 1px solid; BACKGROUND-COLOR: #b3d1ff; COLOR: #000000; BORDER-TOP: #5a8fdb 1px solid; BORDER-RIGHT: #5a8fdb 1px solid
+}
+#crm-container THEAD.sticky A {
+	COLOR: #000; VERTICAL-ALIGN: top; TEXT-DECORATION: none
+}
+#drag-handle .handle {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 5px; PADDING-RIGHT: 15px; BACKGROUND: url(../i/draggable.png) no-repeat 0px 0px; FLOAT: left; CURSOR: move; PADDING-TOP: 15px
+}
+#drag-handle TD.dragable {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 5px; PADDING-RIGHT: 4px; VERTICAL-ALIGN: middle; PADDING-TOP: 5px
+}
+BODY .ac_loading {
+	BACKGROUND: url(../i/loading.gif) no-repeat right center
+}
+.ac_input {
+	BACKGROUND: url(../i/magnify.gif) no-repeat right center
+}
+#crm-container #overlay {
+	Z-INDEX: 1000; POSITION: fixed; FILTER: progid:DXImageTransform.Microsoft.Alpha(opacity=50); BACKGROUND-COLOR: #333; WIDTH: 100%; DISPLAY: none; HEIGHT: 100%; TOP: 0px; LEFT: 0px; opacity: .50; -moz-opacity: 0.5
+}
+.cmsmessagebox {
+	POSITION: absolute; PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; WIDTH: auto; PADDING-RIGHT: 3px; MARGIN-LEFT: 10px; PADDING-TOP: 3px
+}
+DIV.helpicon {
+	PADDING-LEFT: 12px; DISPLAY: inline; BACKGROUND: url(../i/quiz.png) no-repeat; CURSOR: pointer
+}
+DIV#toolTip {
+	BORDER-BOTTOM: #7eabcd 1px solid; TEXT-ALIGN: left; BORDER-LEFT: #7eabcd 1px solid; PADDING-BOTTOM: 10px; MARGIN: 1em; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; BACKGROUND: url(../i/popupMenuBg.gif) #ffffff repeat-x left bottom; COLOR: black; FONT-SIZE: small; BORDER-TOP: #7eabcd 1px solid; BORDER-RIGHT: #7eabcd 1px solid; PADDING-TOP: 10px
+}
+.onHold A {
+	COLOR: #ff6655 !important
+}
+.onHold A.visited {
+	COLOR: #ff6655 !important
+}
+.primary {
+	FONT-WEIGHT: bold
+}
+DIV#contactTopBar {
+	PADDING: 4px;
+	LINE-HEIGHT: 1.4em;
+	MARGIN: 8px 0pt 0px;
+	/*FONT-SIZE: 1.1em;*/
+	background-color: #eee;
+	border: 1px solid #CCCCCC;
+	width: 100%;
+}
+DIV#contact_details, DIV#contactTopBar {
+	PADDING: 4px;
+	LINE-HEIGHT: 1.4em;
+	MARGIN: 8px 0pt 0px;
+	/*FONT-SIZE: 1.1em;*/
+	background-color: #F7F7F7;
+	border: 1px solid #CCCCCC;
+	width: 100%;
+}
+DIV#contactTopBar * {
+//	MARGIN-RIGHT: 5px
+}
+DIV#contactName span.label {
+	LINE-HEIGHT: 1.4em;
+	COLOR: gray;
+	FONT-SIZE: 0.75em;
+	margin-right: 6px;
+	margin-left: 0px;
+}
+DIV#contactTopBar span {
+//	margin-right: 10px;
+}
+
+DIV#contactName .grouplabel {
+	LINE-HEIGHT: 1.4em; FONT-SIZE: 0.7em
+}
+DIV#contact_panel, DIV#contactTopBar {
+	WIDTH: 100%; DISPLAY: block
+}
+
+DIV#contact_panel *,
+DIV#contactName *,
+DIV#contactTopBar * {
+	BORDER: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-RIGHT: 0px;
+	PADDING-TOP: 0px;
+}
+
+DIV#contactCardLeft, DIV#Top {
+	WIDTH: 49%; DISPLAY: block; FLOAT: left
+}
+DIV#contactCardRight {
+	WIDTH: 49%; DISPLAY: block; FLOAT: right
+}
+DIV#contactCardLeft .label, DIV#contactTopBar .label {
+	COLOR: gray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
+}
+DIV#contactCardRight .label {
+	COLOR: gray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
+}
+DIV#contactCardLeft .grouplabel, 
+DIV#contactCardRight .grouplabel {
+	BORDER-BOTTOM: grey 1px solid; 
+	/*TEXT-ALIGN: center;*/ 
+	WIDTH: 100%; 
+	FONT-SIZE: 0.9em; 
+	FONT-WEIGHT: bold;
+	background-color: #ddd;
+}
+DIV#contact_panel .spacer {
+	PADDING-BOTTOM: 8px; PADDING-LEFT: 8px; PADDING-RIGHT: 8px; PADDING-TOP: 8px
+}
+DIV#contact_panel TD, DIV#contactTopBar TD  {
+	PADDING-BOTTOM: 4px;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	VERTICAL-ALIGN: top;
+	PADDING-TOP: 4px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #E2E2E2;
+}
+DIV#contact_panel TD.label, DIV#contactTopBar TD.label {
+	background-color: #EEEEEE;
+}
+
+DIV#contact_panel TD.last {
+	BORDER-BOTTOM: 0px
+}
+
+DIV#customFields {
+	width: 100%;
+}
+
+DIV#customFields DIV#contact_panel TD {
+	BORDER-BOTTOM: lightgray 1px solid; PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; VERTICAL-ALIGN: top; PADDING-TOP: 4px
+}
+DIV#customFields DIV#contact_panel TD.talabel {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0pt; PADDING-LEFT: 4px; PADDING-RIGHT: 0pt; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 4px
+}
+
+#customFields #contact_panel .customFieldGroup {
+	background-color:#F7F7F7;
+	border:1px solid #CCCCCC;
+	line-height:1.4em;
+	margin:8px 0 0;
+	padding:4px;
+	width:100%;
+}
+
+
+DIV.buttons {
+	TEXT-ALIGN: right;
+    margin:8px 0 0;
+	PADDING: 4px 4px 2px;
+	WIDTH: 100%;
+	background-color: #fff;
+	border: none;
+}
+DIV.buttons INPUT {
+	FONT-SIZE: 0.9em; VERTICAL-ALIGN: top !important
+}
+DIV.buttons SELECT {
+	FONT-SIZE: 0.9em; VERTICAL-ALIGN: top !important
+}
+DIV.buttons #actions {
+	TEXT-ALIGN: left; 
+	/*WIDTH: 89%;*/ 
+	FLOAT: left
+}
+DIV.buttons #icons {
+	/*WIDTH: 10%*/
+}
+.ui-tabs .ui-tabs-nav LI A {
+	FONT-SIZE: 0.9em
+}
+.ui-tabs-collapsible.ui-tabs .ui-tabs-nav LI.ui-tabs-selected A {
+	FONT-SIZE: 0.9em
+}
+.ui-tabs .ui-tabs-nav LI A {
+	PADDING-BOTTOM: 5px !important; PADDING-LEFT: 5px !important; PADDING-RIGHT: 5px !important; PADDING-TOP: 5px !important
+}
+
+.separator {
+	border-bottom: solid 2px #ccc;
+}
+
+.individual h2 {background:url("../../../i/contact_ind.gif") no-repeat 0 50%;padding-left:20px;}
+
+.button {}
+.edit {background:url("../../../i/edit.png") transparent no-repeat; padding-left:18px;}
+.delete {background:url("../../../i/delete.png") transparent no-repeat; padding-left:18px;}

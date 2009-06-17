@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--  $Id$  -->
+<dataset>
+  <table name="civicrm_activity">
+    <column>id</column>
+    <column>source_contact_id</column>
+    <column>source_record_id</column>
+    <column>activity_type_id</column>
+    <column>subject</column>
+    <column>activity_date_time</column>
+    <column>due_date_time</column>
+    <column>duration</column>
+    <column>location</column>
+    <column>phone_id</column>
+    <column>phone_number</column>
+    <column>details</column>
+    <column>status_id</column>
+    <column>priority_id</column>
+    <column>parent_id</column>
+    <column>is_test</column>
+    <column>medium_id</column>
+    <column>is_auto</column>
+    <column>relationship_id</column>
+    <column>is_current_revision</column>
+    <column>original_id</column>
+    <column>is_deleted</column>
+    <row>
+      <value>4</value>                      <!--  id  -->
+      <value>17</value>                      <!--  source_contact_id  -->
+      <null />                              <!--  source_record_id  -->
+      <value>5</value>                      <!--  activity_type_id  -->
+      <value>test activity type id</value>  <!--  subject  -->
+      <null />                              <!--  activity_date_time  -->
+      <null />                              <!--  due_date_time  -->
+      <null />  <!--  duration  -->
+      <null />  <!--  location  -->
+      <null />  <!--  phone_id  -->
+      <null />  <!--  phone_number  -->
+      <null />  <!--  details  -->
+      <null />  <!--  status_id  -->
+      <null />  <!--  priority_id  -->
+      <null />  <!--  parent_id  -->
+      <null />  <!--  is_test  -->
+      <null />  <!--  medium_id  -->
+      <null />  <!--  is_auto  -->
+      <null />  <!--  relationship_id  -->
+      <null />   <!--  is_current_revision  -->
+      <null />   <!--  original_id  -->
+      <null />   <!--  is_deleted  -->
+    </row>
+    <row>
+      <value>13</value>                      <!--  id  -->
+      <value>17</value>                      <!--  source_contact_id  -->
+      <null />                              <!--  source_record_id  -->
+      <value>5</value>                      <!--  activity_type_id  -->
+      <value>test activity type id</value>  <!--  subject  -->
+      <null />                              <!--  activity_date_time  -->
+      <null />                              <!--  due_date_time  -->
+      <null />  <!--  duration  -->
+      <null />  <!--  location  -->
+      <null />  <!--  phone_id  -->
+      <null />  <!--  phone_number  -->
+      <null />  <!--  details  -->
+      <null />  <!--  status_id  -->
+      <null />  <!--  priority_id  -->
+      <null />  <!--  parent_id  -->
+      <null />  <!--  is_test  -->
+      <null />  <!--  medium_id  -->
+      <null />  <!--  is_auto  -->
+      <null />  <!--  relationship_id  -->
+      <null />   <!--  is_current_revision  -->
+      <null />   <!--  original_id  -->
+      <null />   <!--  is_deleted  -->
+    </row>
+  </table>
+</dataset>

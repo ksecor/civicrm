@@ -19,14 +19,14 @@
 
         
         {include file="CRM/common/pager.tpl" location="top"}
-        {include file="CRM/common/pagerAToZ.tpl} 
+        {include file="CRM/common/pagerAToZ.tpl"} 
         <table class="selector">
-          <tr class="columnheader">
+          <thead class="sticky">
             <th>{ts}Title{/ts}</th>
             <th>{ts}ID{/ts}</th>
             <th>{ts}Status?{/ts}</th>
             <th>&nbsp;</th>
-          </tr>
+          </thead>
           {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>

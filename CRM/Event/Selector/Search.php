@@ -277,18 +277,22 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          // process the result of the query
          $rows = array( );
          
-         // check is the user has view/edit participation permission
-         $permission = CRM_Core_Permission::VIEW;
+         //lets handle view, edit and delete separately. CRM-4418 
+         $permissions = array( CRM_Core_Permission::VIEW );
          if ( CRM_Core_Permission::check( 'edit event participants' ) ) {
-             $permission = CRM_Core_Permission::EDIT;
+             $permissions[] = CRM_Core_Permission::EDIT;
          }
-
+         if ( CRM_Core_Permission::check( 'delete in CiviEvent' ) ) {
+             $permissions[] = CRM_Core_Permission::DELETE; 
+         }
+         $mask = CRM_Core_Action::mask( $permissions );
+         
          require_once 'CRM/Event/BAO/Event.php';
          require_once 'CRM/Event/PseudoConstant.php';
          $statusTypes   = CRM_Event_PseudoConstant::participantStatus();
          $statusClasses = CRM_Event_PseudoConstant::participantStatusClass();
 
-         $mask = CRM_Core_Action::mask( $permission );
+         
          while ( $result->fetch( ) ) {
              $row = array();
              // the columns we are interested in

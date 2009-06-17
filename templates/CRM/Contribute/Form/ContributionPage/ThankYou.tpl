@@ -7,7 +7,7 @@
  
 <div class="form-item">
     <fieldset><legend>{ts}Thank-you Message and Receipting{/ts}</legend>
-    <dl>
+    <dl class="html-adjust">
     <dt>{$form.thankyou_title.label}</dt><dd>{$form.thankyou_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}This title will be displayed at the top of the thank-you / transaction confirmation page.{/ts}</dd>
     <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>
@@ -18,7 +18,7 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want an electronic receipt to be sent automatically.{/ts}</dd>
     </dl>
     <div id="receiptDetails">
-    <dl>
+    <dl class="html-adjust">
     <dt>{$form.receipt_from_name.label}</dt><dd>{$form.receipt_from_name.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter the FROM name to be used when receipts are emailed to contributors.{/ts}</dd>
     <dt>{$form.receipt_from_email.label}{$reqMark}</dt><dd>{$form.receipt_from_email.html}</dd>
@@ -31,13 +31,14 @@
     <dt>&nbsp;</dt><dd class="description">{ts}If you want member(s) of your organization to receive a BLIND carbon copy of each emailed receipt, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
     </dl>
     </div>
-    <div id="crm-submit-buttons">
-        <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
+    <div id="crm-submit-buttons">	
+    <div class="spacer"></div>   
+        <dl><dt></dt><dd >{$form.buttons.html}</dd></dl>  
     </div>
     
     </fieldset>
 </div>
-
+	 
 <script type="text/javascript">
  showReceipt();
  {literal}

@@ -25,15 +25,19 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 Contribution functions
  *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Contribute
+ *
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
+/**
+ * Include utility functions
+ */
 require_once 'api/v2/utils.php';
 require_once 'CRM/Utils/Rule.php';
 
@@ -214,6 +218,11 @@ function &civicrm_contribution_search( &$params ) {
     return $contribution;
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type> 
+ */
 function &civicrm_contribution_format_create( &$params ) {
     _civicrm_initialize( );
    
@@ -256,7 +265,7 @@ function &civicrm_contribution_format_create( &$params ) {
  *                             pairs to insert in new contribution.
  *
  * @return bool|CRM_Utils_Error
- * @access public
+ * @access private
  */
 function _civicrm_contribute_check_params( &$params ) {
     static $required = array( 'contact_id', 'total_amount', 'contribution_type_id' );
@@ -290,7 +299,7 @@ function _civicrm_contribute_check_params( &$params ) {
  *                             pairs to insert in new contribution.
  *
  * @return array|CRM_Error
- * @access public
+ * @access private
  */
 function _civicrm_contribute_duplicate_check( &$params ) {
     require_once 'CRM/Contribute/BAO/Contribution.php';

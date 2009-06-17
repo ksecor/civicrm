@@ -1,6 +1,6 @@
 <div class="form-item">
+<dl>{$form.buttons.html}</dl>
 <fieldset>
-<legend>{ts}Send an Email{/ts}</legend>
 {if $suppressedEmails > 0}
     <div class="status">
         <p>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts - (no email address on file, or communication preferences specify DO NOT EMAIL, or contact is deceased).'}Email will NOT be sent to %count contact - (no email address on file, or communication preferences specify DO NOT EMAIL, or contact is deceased).{/ts}</p>
@@ -8,19 +8,19 @@
 {/if}
 <table class="form-layout-compressed">
 <tr>
-    <td class="label">{$form.fromEmailAddress.label}</td><td>{$form.fromEmailAddress.html} {help id ="id-from_email"}</td>
+    <td class="label">{$form.fromEmailAddress.label}</td><td>{$form.fromEmailAddress.html} {help id ="id-from_email" file="CRM/Contact/Form/Task/Email.hlp"}</td>
 </tr>
-{if $single eq false}
-    <tr>
-        <td class="label">{ts}Recipient(s){/ts}</td><td>{$to|escape}</td>
-    </tr>
-{else}
-    <tr>
-        <td class="label">{$form.to.label}</td><td>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</td>
-    </tr>
-{/if}
 <tr>
-    <td class="label">{$form.subject.label}</td><td>{$form.subject.html|crmReplace:class:huge}</td>
+    <td class="label">{if $single eq false}{ts}Recipient(s){/ts}{else}{$form.to.label}{/if}</td>
+    <td>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}
+    <div class="spacer"></div>
+    <span class="bold"><a href="#" id="addcc">{ts}Add CC{/ts}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" id="addbcc"">{ts}Add BCC{/ts}</a></span></td>
+</tr>
+<tr id="cc" style="display:none;"><td class="label">{$form.cc_id.label}</td><td>{$form.cc_id.html}</td></tr>
+<tr id="bcc" style="display:none;"><td class="label">{$form.bcc_id.label}</td><td>{$form.bcc_id.html}</td></tr>
+<tr>
+    <td class="label">{$form.subject.label}</td><td>{$form.subject.html|crmReplace:class:huge}&nbsp;{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp"}
+</td>
 </tr>
 </table>
 
@@ -36,8 +36,38 @@
     <dt></dt><dd>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts.'}Email will NOT be sent to %count contact.{/ts}</dd>
 {/if}
 </dl>
-<dl>
-<dt></dt><dd>{$form.buttons.html}</dd>
-</dl>
 </fieldset>
+<dl>{$form.buttons.html}</dl>
 </div>
+
+{literal}
+<script type="text/javascript">
+var toContact = '';
+
+{/literal}
+{foreach from=$toContact key=id item=name}
+     {literal} toContact += '{"name":"'+{/literal}"{$name}"{literal}+'","id":"'+{/literal}"{$id}"{literal}+'"},';{/literal}
+{/foreach}
+{literal} eval( 'toContact = [' + toContact + ']');
+
+cj('#addcc').toggle( function() { cj(this).text('Remove CC');
+                                  cj('tr#cc').show().find('ul').find('input').focus();
+                   },function() { cj(this).text('Add CC');cj('#cc_id').val('');
+                                  cj('tr#cc ul li:not(:last)').remove();cj('#cc').hide();
+});
+cj('#addbcc').toggle( function() { cj(this).text('Remove BCC');
+                                   cj('tr#bcc').show().find('ul').find('input').focus();
+                    },function() { cj(this).text('Add BCC');cj('#bcc_id').val('');
+                                   cj('tr#bcc ul li:not(:last)').remove();cj('#bcc').hide();
+});
+
+eval( 'tokenClass = { tokenList: "token-input-list-facebook", token: "token-input-token-facebook", tokenDelete: "token-input-delete-token-facebook", selectedToken: "token-input-selected-token-facebook", highlightedToken: "token-input-highlighted-token-facebook", dropdown: "token-input-dropdown-facebook", dropdownItem: "token-input-dropdown-item-facebook", dropdownItem2: "token-input-dropdown-item2-facebook", selectedDropdownItem: "token-input-selected-dropdown-item-facebook", inputToken: "token-input-input-token-facebook" } ');
+
+var sourceDataUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail'}{literal}";
+var toDataUrl     = "{/literal}{crmURL p='civicrm/ajax/checkemail' q='id=1' }{literal}";
+cj( "#to"     ).tokenInput( toDataUrl, { prePopulate: toContact, classes: tokenClass });
+cj( "#cc_id"  ).tokenInput( sourceDataUrl, { classes: tokenClass });
+cj( "#bcc_id" ).tokenInput( sourceDataUrl, { classes: tokenClass });
+cj( 'ul.token-input-list-facebook, div.token-input-dropdown-facebook' ).css( 'width', '450px' );
+</script>
+{/literal}

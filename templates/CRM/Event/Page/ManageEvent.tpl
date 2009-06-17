@@ -20,9 +20,9 @@
     <div id=event_status_id>
         {strip}
         {include file="CRM/common/pager.tpl" location="top"}
-        {include file="CRM/common/pagerAToZ.tpl}    
+        {include file="CRM/common/pagerAToZ.tpl"}    
         <table class="selector">
-         <tr class="columnheader">
+         <thead class="sticky">
             <th>{ts}Event{/ts}</th>
             <th>{ts}City{/ts}</th>
             <th>{ts}State/Province{/ts}</th>
@@ -31,7 +31,7 @@
             <th>{ts}Ends{/ts}</th>
 	        <th>{ts}Active?{/ts}</th>
 	        <th></th>
-         </tr>
+         </thead>
         {foreach from=$rows item=row}
           <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td><a href="{crmURL p='civicrm/event/info' q="id=`$row.id`&reset=1"}" title="{ts}View event info page{/ts}" class="bold">{$row.title}</a>&nbsp;&nbsp;({ts}ID:{/ts} {$row.id})<br /><a href="{crmURL p='civicrm/event/search' q="reset=1&force=1&event=`$row.id`"}" title="{ts}List participants for this event (all statuses){/ts}">({ts}participants{/ts})</a></td> 

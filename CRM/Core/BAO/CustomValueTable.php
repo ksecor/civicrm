@@ -163,9 +163,13 @@ class CRM_Core_BAO_CustomValueTable
                         break;
                         
                     case 'Auto-complete':
-                        //Fix me
-                        $type = 'Integer';
+                        if ( $value == null ) {
+                            $type  = 'Timestamp'; 
+                        } else {
+                            $type = 'Integer';
+                        }
                         break;
+                        
                     case 'RichTextEditor':
                         $type  = 'String';
                         break;
@@ -207,9 +211,8 @@ class CRM_Core_BAO_CustomValueTable
                     } else {
                         $query = "$sqlOP SET $setClause $where";
                     }
-
                     $dao = CRM_Core_DAO::executeQuery( $query, $params );
-                    
+                   
                     $dao->free( );
                     require_once 'CRM/Utils/Hook.php';
                     CRM_Utils_Hook::custom( $hookOP,

@@ -2,7 +2,6 @@
 {if $cdType} 
 	{include file="CRM/Custom/Form/CustomData.tpl"} 
 {else} 
-	{include file="CRM/common/WizardHeader.tpl"} 
 	{capture assign=mapURL}{crmURL p='civicrm/admin/setting/mapping' q="reset=1"}{/capture} 
 	{assign var=eventID value=$id}
 	<div class="form-item">

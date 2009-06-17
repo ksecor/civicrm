@@ -276,11 +276,22 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
     {
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $statusMsg = null;
-            $params = array( 'id' => $this->_activityId );
-            $activityDelete = CRM_Activity_BAO_Activity::deleteActivity( $params, true );
-            if ( $activityDelete ) {
-                $statusMsg = ts('The selected activity has been moved to the Trash. You can view and / or restore deleted activities by checking "Deleted Activities" from the Case Activities search filter (under Manage Case).<br />');
+          
+            //block deleting activities which affects
+            //case attributes.CRM-4543
+            $activityCondition = " AND v.name IN ('Open Case', 'Change Case Type', 'Change Case Status', 'Change Case Start Date')";
+            $caseAttributeActivities = CRM_Core_OptionGroup::values( 'activity_type', false, false, false, $activityCondition );
+            
+            if ( !array_key_exists($this->_activityTypeId, $caseAttributeActivities) ) {
+                $params = array( 'id' => $this->_activityId );
+                $activityDelete = CRM_Activity_BAO_Activity::deleteActivity( $params, true );
+                if ( $activityDelete ) {
+                    $statusMsg = ts('The selected activity has been moved to the Trash. You can view and / or restore deleted activities by checking "Deleted Activities" from the Case Activities search filter (under Manage Case).<br />');
+                }
+            } else {
+                $statusMsg = ts("Selected Activity cannot be deleted.");
             }
+            
             CRM_Core_Session::setStatus( $statusMsg );
             return;
         }
@@ -341,6 +352,14 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 	                                                                   'Activity' );
         }
 
+        if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
+            $assineeContacts = explode( ',', substr( $params['assignee_contact_id'], 0, -1 ) );
+            $assineeContacts = array_unique( $assineeContacts );
+            unset( $params['assignee_contact_id'] );
+        } else {
+            $params['assignee_contact_id'] = $assineeContacts = array( );  
+        }
+        
         if ( isset($this->_activityId) ) { 
             
             // activity which hasn't been modified by a user yet
@@ -350,7 +369,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
             // always create a revision of an case activity. CRM-4533
             $newActParams = $params;
-            
+                      
             // record status for status msg
             $recordStatus = 'updated';
         }
@@ -416,6 +435,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             $params = $newActParams;
         }
 
+        $params['assignee_contact_id'] = $assineeContacts;
         // update existing case record if needed
         $caseParams       = $params;
         $caseParams['id'] = $this->_caseId;
@@ -441,9 +461,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // create activity assignee records
         $assigneeParams = array( 'activity_id' => $activity->id );
-
+        
         if ( !CRM_Utils_Array::crmIsEmptyArray($params['assignee_contact_id']) ) {
-            $params['assignee_contact_id'] = array_unique( $params['assignee_contact_id'] );
             //skip those assignee contacts which are already assigned
             //while sending a copy.CRM-4509.
             $activityAssigned = array_flip( $params['assignee_contact_id'] );
@@ -468,7 +487,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $mailStatus = '';
         $mailToContacts = array( );
         
-        foreach( array( 'contact_check', 'assignee_contact' ) as $val ) {
+        foreach( array( 'contact_check', 'assignee_contact_id' ) as $val ) {
             if ( array_key_exists ( $val, $params ) && !CRM_Utils_array::crmIsEmptyArray($params[$val]) ) {
                 if ( $val == 'contact_check' ) {
                     $mailStatus = ts("A copy of the activity has also been sent to selected contacts(s).");  

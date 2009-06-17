@@ -26,15 +26,13 @@
 */
 
 /**
+ * File for the CiviCRM APIv2 participant functions
  *
- * Definition of CRM API for Participant.
- * More detailed documentation can be found 
- * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
- * here}
- *
- * @package CRM
+ * @package CiviCRM_APIv2
+ * @subpackage API_Participant
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id$
+ * @version $Id$
  *
  */
 
@@ -139,7 +137,7 @@ function &civicrm_participant_get( &$params ) {
  * 
  * This api is used for finding an existing participant record.
  *
- * @params  array  $params     an associative array of name/value property values of civicrm_participant
+ * @param  array  $params     an associative array of name/value property values of civicrm_participant
  *
  * @return  participant property values.
  * @access public
@@ -396,6 +394,12 @@ function civicrm_participant_payment_delete( &$params )
     return $participant->deleteParticipantPayment( $params ) ? civicrm_create_success( ) : civicrm_create_error('Error while deleting participantPayment');
 }
 
+/**
+ *
+ * @param <type> $params
+ * @param <type> $onDuplicate
+ * @return <type>
+ */
 function civicrm_create_participant_formatted( &$params , $onDuplicate ) 
 {
     _civicrm_initialize( );
@@ -417,6 +421,11 @@ function civicrm_create_participant_formatted( &$params , $onDuplicate )
     return civicrm_participant_create( $params );
 }
 
+/**
+ *
+ * @param <type> $params
+ * @return <type> 
+ */
 function civicrm_participant_check_params( &$params ) 
 {
     require_once 'CRM/Event/BAO/Participant.php';

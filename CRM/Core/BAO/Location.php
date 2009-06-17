@@ -345,10 +345,16 @@ WHERE e.id = %1";
                 $values['location'][1] = $primary_loc_val;
             }
         }
+
         if ( empty( $values['location'] ) ) {
             // mark the first location as primary if none exists
             $values['location'][1] = array( );
             $values['location'][1]['is_primary'] = 1;
+
+            // Retrieve the default location type.
+            require_once 'CRM/Core/BAO/LocationType.php';
+            $locationType = CRM_Core_BAO_LocationType::getDefault();
+            $values['location'][1]['location_type_id'] = $locationType->id;
         }
         
         return $values['location'];

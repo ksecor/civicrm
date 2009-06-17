@@ -46,7 +46,7 @@ class CRM_ParticipantProcessor
         $config->cleanURL = 1;
     }
     
-    public function updateParticipantStatus( $sendReminders = false )
+    public function updateParticipantStatus( )
     {
         require_once 'CRM/Event/PseudoConstant.php';
         $participantRole = CRM_Event_PseudoConstant::participantRole( );

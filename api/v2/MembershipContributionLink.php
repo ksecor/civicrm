@@ -25,15 +25,20 @@
 */
 
 /**
- * new version of civicrm apis. See blog post at
- * http://civicrm.org/node/131
+ * File for the CiviCRM APIv2 membership contribution link functions
  *
- * @package CRM
+ * @todo Probably needs renaming
+ *
+ * @package CiviCRM_APIv2
+ * @subpackage API_Membership
+ * 
  * @copyright CiviCRM LLC (c) 2004-2009
- * $Id: Contribute.php 14828 2008-05-30 14:23:01Z shot $
- *
+ * @version $Id$
  */
 
+/**
+ * Include utility functions
+ */
 require_once 'api/v2/utils.php';
 
 /**

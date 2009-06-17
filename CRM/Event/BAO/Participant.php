@@ -1096,6 +1096,14 @@ SELECT  civicrm_contribution.total_amount
                                             $mailType ) {
         //send emails.
         $mailSent = false;
+        
+        //don't send confirmation mail to additional 
+        //since only primary able to confirm registration.
+        if ( CRM_Utils_Array::value( 'registered_by_id',  $participantValues ) &&
+             $mailType == 'Confirm' ) {
+            return $mailSent;
+        }
+        
         if ( $toEmail = CRM_Utils_Array::value( 'email', $contactDetails ) ) {
             
             $contactId       = $participantValues['contact_id'];

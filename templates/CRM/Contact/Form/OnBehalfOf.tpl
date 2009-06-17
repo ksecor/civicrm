@@ -192,18 +192,17 @@
     }
 {/if}
 
-{* If mid present in the url, take the required action (poping up related existing contact ..etc) *}
-{if $membershipContactID}
-<script type="text/javascript">
-   dojo.addOnLoad( function( ) {ldelim} 
-   dijit.byId( 'organization_id' ).setValue("{$membershipContactID}");
-   {rdelim} );
-</script>
-{/if}
-
-{* Javascript method to populate the location fields when a different existing related contact is selected *}
 {literal}
 <script type="text/javascript">
+{/literal}
+{* If mid present in the url, take the required action (poping up related existing contact ..etc) *}
+{if $membershipContactID}
+{literal}
+cj(document).ready( function( ) { cj( '#organization_id' ).val("{/literal}{$membershipContactID}{literal}"); });
+{/literal}
+{/if}
+{* Javascript method to populate the location fields when a different existing related contact is selected *}
+{literal}
 var dataUrl   = "{/literal}{$employerDataURL}{literal}";
 cj('#organization_id').autocomplete( dataUrl, { width : 180, selectFirst : false
                             }).result( function(event, data, formatted) {

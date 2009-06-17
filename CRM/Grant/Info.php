@@ -60,7 +60,8 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
     public function getPermissions()
     {
         return array( 'access CiviGrant', 
-                      'edit grants');
+                      'edit grants',
+                      'delete in CiviGrant' );
     }
 
     // docs inherited from interface

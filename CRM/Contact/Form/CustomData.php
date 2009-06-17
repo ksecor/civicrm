@@ -206,6 +206,48 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     }
     
     /**
+     * This function is used to add the rules (mainly global rules) for form.
+     * All local rules are added near the element
+     *
+     * @return None
+     * @access public
+     * @see valid_date
+     */
+    function addRules( )
+    {
+        $this->addFormRule( array( 'CRM_Contact_Form_CustomData', 'formRule' ) );
+    }
+
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     * @param array $errors list of errors to be posted back to the form
+     *
+     * @return void
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields )
+    {
+        $errors = array( );
+        foreach ( $fields as $key => $value ) {
+            if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) &&
+                 substr($key,0,7) == 'custom_' &&
+                 array_key_exists( $key. '_id', $fields ) &&
+                 $fields[$key] && !is_numeric( $fields[$key .'_id'] ) ) {
+                $errors[$key] = ts('Please select valid custom value.');
+            }
+        }
+        
+        if ( !empty( $errors ) ) {
+            return $errors;
+        }  
+        return true;
+    }
+
+
+    /**
      * Process the user submitted custom data values.
      *
      * @access public
@@ -215,7 +257,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     {
         // Get the form values and groupTree
         $params = $this->controller->exportValues( $this->_name );
-
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         CRM_Core_BAO_CustomValueTable::postProcess( $params,
                                                     $this->_groupTree[$this->_groupID]['fields'],

@@ -84,6 +84,10 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
 
         $dao =& new CRM_Core_DAO_UFJoin( );
         
+        // CRM-4377 (ab)uses the module column
+        if (isset($params['module'])) {
+            $dao->module = CRM_Utils_Array::value('module', $params);
+        }
         $dao->entity_table = CRM_Utils_Array::value( 'entity_table', $params );
         $dao->entity_id    = CRM_Utils_Array::value( 'entity_id'   , $params );
         // user reg / my account can have multiple entries, so we return if thats
@@ -126,6 +130,10 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
     
         $dao =& new CRM_Core_DAO_UFJoin( ); 
          
+        // CRM-4377 (ab)uses the module column
+        if (isset($params['module'])) {
+            $dao->module = CRM_Utils_Array::value('module', $params);
+        }
         $dao->entity_table = CRM_Utils_Array::value( 'entity_table', $params );
         $dao->entity_id    = CRM_Utils_Array::value( 'entity_id'   , $params );
         $dao->orderBy( 'weight' );

@@ -296,9 +296,17 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
                 }
             }
         }
-
+        
+        //CRM-4418, handling edit and delete separately.
+        $permissions = array( $permission ); 
+        if ( $permission == CRM_Core_Permission::EDIT ) {
+            //previously delete was subset of edit 
+            //so for consistency lets grant delete also.
+            $permissions[] = CRM_Core_Permission::DELETE;
+        }
+        
         // make sure we only allow those actions that the user is permissioned for
-        $newAction = $newAction & CRM_Core_Action::mask( $permission );
+        $newAction = $newAction & CRM_Core_Action::mask( $permissions );
 
         $values['action'] = CRM_Core_Action::formLink( $links, $newAction, array( 'id' => $object->id ) );
     }

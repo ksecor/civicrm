@@ -301,8 +301,8 @@ class CRM_Core_SelectValues
             $config =& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Drupal' ) {
                 $ufGroupType += array(
-                                      'User Registration' => ts('User Registration'),
-                                      'User Account'      => ts('View/Edit User Account') );
+                                      'User Registration' => ts('Drupal User Registration'),
+                                      'User Account'      => ts('View/Edit Drupal User Account') );
             }
         }
         return $ufGroupType;
@@ -618,7 +618,7 @@ class CRM_Core_SelectValues
                 } 
                 //keys for $tokens should be constant. $token Values are changed for Custom Fields. CRM-3734
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $val ) ) {
-                    $tokens["{contact.$val}"] = "{contact.".$customFields[$customFieldId]['groupTitle'].": ".$customFields[$customFieldId]['label']."}";
+                    $tokens["{contact.$val}"] = "{contact.".$customFields[$customFieldId]['label'].": ".$customFields[$customFieldId]['groupTitle']."}";
                 } else {
                     $tokens["{contact.$val}"] = "{contact.$val}";
                 }

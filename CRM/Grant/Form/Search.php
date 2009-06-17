@@ -227,7 +227,7 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
  */
     function buildQuickForm( ) 
     {
-        $this->addElement('text', 'sort_name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->addElement('text', 'sort_name', ts('Name or Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         
         require_once 'CRM/Grant/BAO/Query.php';
         CRM_Grant_BAO_Query::buildSearchForm( $this );
@@ -256,8 +256,12 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
             $permission = CRM_Core_Permission::getPermission( );
 
             require_once 'CRM/Grant/Task.php';
-            $tasks = array( '' => ts('- more actions -') ) + CRM_Grant_Task::permissionedTaskTitles( $permission );
-
+            $tasks = array( '' => ts('- more actions -') );
+            $permissionedTask = CRM_Grant_Task::permissionedTaskTitles( $permission );
+            if ( is_array( $permissionedTask ) && !CRM_Utils_System::isNull( $permissionedTask ) ) {
+                $tasks += $permissionedTask;
+            }
+            
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
                        array( 'class' => 'form-submit', 

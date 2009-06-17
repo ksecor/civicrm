@@ -59,7 +59,8 @@ class CRM_Member_Info extends CRM_Core_Component_Info
     public function getPermissions()
     {
         return array( 'access CiviMember',
-                      'edit memberships');
+                      'edit memberships', 
+                      'delete in CiviMember' );
     }
 
     // docs inherited from interface

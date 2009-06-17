@@ -123,7 +123,7 @@ class CRM_Contact_Form_Search_Custom_Basic
     function all( $offset = 0, $rowCount = 0, $sort = null,
                   $includeContactIDs = false ) {
         return $this->_query->searchQuery( $offset, $rowCount, $sort,
-                                           false, $includeContactIds,
+                                           false, $includeContactIDs,
                                            false, false, true );
     }
     
