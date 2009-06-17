@@ -462,18 +462,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     }
     
     /**
-     * get the domain Id of the current user
-     *
-     * @param
-     * @access private
-     * @return int
-     */
-    static function domainID( ) 
-    {
-        CRM_Core_Error::backtrace( 'Aborting due to invalid call to domainID' );
-    }
-
-    /**
      * delete the web server writable directories
      *
      * @param int $value 1 - clean templates_c, 2 - clean upload, 3 - clean both
@@ -525,6 +513,13 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     function reset( ) {
         $query = "UPDATE civicrm_domain SET config_backend = null";
         CRM_Core_DAO::executeQuery( $query );
+    }
+
+    /**
+     * one function to get domain ID
+     */
+    static function domainID( ) {
+        return defined( 'CIVICRM_DOMAIN_ID' ) ? CIVICRM_DOMAIN_ID : 1;
     }
 
 } // end CRM_Core_Config

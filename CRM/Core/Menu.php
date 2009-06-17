@@ -230,8 +230,6 @@ class CRM_Core_Menu
 
         }
 
-        self::buildNavigation( $menu );
-
         self::buildAdminLinks( $menu );
     }
 
@@ -246,9 +244,12 @@ class CRM_Core_Menu
 
         require_once "CRM/Core/DAO/Menu.php";
 
+        $config =& CRM_Core_Config::singleton( );
+
         foreach ( $menu as $path => $item ) {
             $menu  =& new CRM_Core_DAO_Menu( );
             $menu->path      = $path;
+            $menu->domain_id = CRM_Core_Config::domainID( );
 
             $menu->find( true );
             
@@ -265,62 +266,6 @@ class CRM_Core_Menu
 
             $menu->save( );
         }
-    }
-
-    static function buildNavigation( &$menu ) {
-
-        $compNames = CRM_Core_Component::getNames( true );
-        foreach( $compNames as $donCare => $name ) {
-            $elements[$name] = 1;
-        }
-        // supplement the list with additional non-component positions
-        $elements[ts('Logout')] = 1;
-        $elements[ts('Import')] = 1;
-
-        $values = array( );
-        foreach ( $menu as $path => $item ) {
-            if ( ! CRM_Utils_Array::value( 'page_type', $item ) ) {
-                continue;
-            }
-
-            if ( $item['page_type'] ==  CRM_Core_Menu::MENU_ITEM ) {
-                $query = CRM_Utils_Array::value( 'path_arguments', $item ) 
-                    ? str_replace(',', '&', $item['path_arguments']) . '&reset=1' : 'reset=1';
-                
-                $value = array( );
-                $value['url'  ]  = CRM_Utils_System::url( $path, $query, false );
-                $value['title']  = $item['title'];
-                $value['path']   = $path;
-                $value['access_callback' ] = $item['access_callback' ];
-                $value['access_arguments'] = $item['access_arguments'];
-                $value['component_id'    ] = $item['component_id'    ];
-                
-                if ( array_key_exists( $item['title'], $elements ) ) {
-                    $value['class']  = 'collapsed';
-                } else {
-                    $value['class']  = 'leaf';
-                }
-                $value['parent'] = null;
-                $value['start']  = $value['end'] = null;
-                $value['active'] = '';
-
-                // check if there is a parent
-                foreach ( $values as $weight => $v ) {
-                    if ( strpos( $path, $v['path'] ) !== false) {
-                        $value['parent'] = $weight;
-
-                        // only reset if still a leaf
-                        if ( $values[$weight]['class'] == 'leaf' ) {
-                            $values[$weight]['class'] = 'collapsed';
-                        }
-                    }
-                }
-                
-                $values[$item['weight'] . '.' . $item['title']] = $value;
-            }
-        }
-
-        $menu['navigation'] = array( 'breadcrumb' => $values );
     }
 
     static function buildAdminLinks( &$menu ) {
@@ -360,6 +305,8 @@ class CRM_Core_Menu
     }
 
     static function &getNavigation( $all = false ) {
+        CRM_Core_Error::fatal( );
+
         if ( ! self::$_menuCache ) {
             self::get( 'navigation' );
         }
@@ -584,12 +531,14 @@ class CRM_Core_Menu
         }
 
         $queryString = implode( ', ', $elements );
-        
+        $domainID    = CRM_Core_Config::domainID( );
+
         $query = "
 ( 
   SELECT * 
   FROM     civicrm_menu 
   WHERE    path in ( $queryString )
+  AND      domain_id = $domainID
   ORDER BY length(path) DESC
   LIMIT    1 
 )
@@ -600,7 +549,8 @@ class CRM_Core_Menu
 UNION ( 
   SELECT *
   FROM   civicrm_menu 
-  WHERE   path IN ( 'navigation' )
+  WHERE  path IN ( 'navigation' )
+  AND    domain_id = $domainID
 )
 ";
         }

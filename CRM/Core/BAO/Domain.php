@@ -79,6 +79,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         static $domain = null;
         if ( ! $domain ) {
             $domain =& new CRM_Core_BAO_Domain();
+            $domain->id = CRM_Core_Config::domainID( );
             if ( ! $domain->find(true) ) {
                 CRM_Core_Error::fatal( );
             }

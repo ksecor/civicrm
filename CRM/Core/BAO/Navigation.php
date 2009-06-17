@@ -65,9 +65,13 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
      * @return array associated array
      */
     static function getMenus( ) {
+
         $menus = array( );
         require_once "CRM/Core/DAO/Menu.php";
         $menu  =& new CRM_Core_DAO_Menu( );
+
+        $menu->domain_id = CRM_Core_Config::domainID( );
+        
         $menu->find();
         while ( $menu->fetch() ) {
             if ( $menu->title ) {
@@ -96,6 +100,9 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
         $params['permission'] = implode( ',', $params['permission'] );
 
         $navigation->copyValues( $params );
+
+        $navigation->domain_id = CRM_Core_Config::domainID( );
+        
         $navigation->save();
         return $navigation;
     } 
@@ -117,6 +124,9 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
     static function retrieve( &$params, &$defaults ) {
         $navigation =& new CRM_Core_DAO_Navigation( );
         $navigation->copyValues( $params );
+
+        $navigation->domain_id = CRM_Core_Config::domainID( );
+        
         if ( $navigation->find( true ) ) {
             CRM_Core_DAO::storeValues( $navigation, $defaults );
             return $navigation;
@@ -134,14 +144,16 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
      * @static
      */
     static function calculateWeight( $parentID = null, $menuID = null ) {
+        $domainID = CRM_Core_Config::domainID( );
+
         $weight = 1;
         // we reset weight for each parent, i.e we start from 1 to n
         // calculate max weight for top level menus, if parent id is absent
         if ( !$parentID ) {
-            $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id IS NULL";
+            $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id IS NULL AND domain_id = $domainID";
         } else {
             // if parent is passed, we need to get max weight for that particular parent
-            $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id = {$parentID}";
+            $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id = {$parentID} AND domain_id = $domainID";
         }
 
         $dao = CRM_Core_DAO::executeQuery( $query );
@@ -169,7 +181,8 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
             $separator = '';
         }
 
-        $query = "SELECT id, label, parent_id, weight, is_active FROM civicrm_navigation WHERE {$whereClause} ORDER BY weight, parent_id ASC";
+        $domainID = CRM_Core_Config::domainID( );
+        $query = "SELECT id, label, parent_id, weight, is_active FROM civicrm_navigation WHERE {$whereClause} AND domain_id = $domainID ORDER BY weight, parent_id ASC";
         $navigation = CRM_Core_DAO::executeQuery( $query );
 
         while ( $navigation->fetch() ) {
@@ -209,13 +222,20 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
             $whereClause = " parent_id = {$parentID}"; 
         }
 
+        $domainID = CRM_Core_Config::domainID( );
+
         // get the list of menus
         $query = "
 SELECT id, label, url, permission, permission_operator, has_separator 
 FROM civicrm_navigation 
 WHERE {$whereClause} 
 AND is_active = 1
+<<<<<<< .mine
+AND domain_id = $domainID
+ORDER BY parent_id, weight";
+=======
 ORDER BY weight, parent_id";
+>>>>>>> .r21917
 
         $navigation = CRM_Core_DAO::executeQuery( $query );
         while ( $navigation->fetch() ) { 
