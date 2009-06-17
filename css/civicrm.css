@@ -1159,7 +1159,7 @@ div.crm-pager a {
     color: #333333;
 }
 
-#crm-container table.nestedActivitySelector tr.columnheader {
+#crm-container table.nestedActivitySelector tr.columnheader th {
     color: #000000;
     background-color: #999999;
     border-top-color: #666666;
