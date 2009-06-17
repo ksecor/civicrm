@@ -52,7 +52,7 @@ class CRM_Activity_Page_AJAX
         $total = $params['total'];
 
         require_once "CRM/Utils/JSON.php";
-        $selectorElements = array( 'display_date', 'subject', 'type', 'reporter', 'status', 'links', 'unix_overdue_date' );
+        $selectorElements = array( 'display_date', 'subject', 'type', 'reporter', 'status', 'links', 'class' );
         echo CRM_Utils_JSON::encodeSelector( $activities, $page, $total, $selectorElements );
         exit();
     }

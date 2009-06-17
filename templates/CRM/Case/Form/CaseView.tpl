@@ -461,7 +461,7 @@ cj(document).ready(function(){
             {display: 'Reporter',name : 'reporter',    width : 100,  sortable : true, align: 'left'},
             {display: 'Status',  name : 'status',      width : 65,  sortable : true, align: 'left'},
             {display: '',        name : 'links',       width : 70,  align: 'left'},
-            {name : 'unix_overdue_date', hide: true, width: 1} // this col is use only for calculation
+            {name : 'class', hide: true, width: 1}  // this col is use for applying css classes
             ],
             usepager: true,
             useRp: true,
@@ -549,20 +549,10 @@ function checkSelection( field ) {
 
 
 function setSelectorClass( ) {
-    console.log(cj("#activities-selector tbody tr").attr( 'class','status-completed'));
-    var currentDate = new Date();
-    var ct = currentDate.getTime() / 1000;
-
-    cj("#activities-selector tbody tr:contains('Scheduled') td:last-child").each( function( ) {
-        var dt = cj(this).text();
- 
-        if ( ct > dt ) {
-            cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
-        } else {
-            cj(this).parent().attr( 'class','status-scheduled').find(":contains('Scheduled')");
-        }	
-    });
     
+    cj("#activities-selector td:last-child").each( function( ) {
+       cj(this).parent().attr( 'class', cj(this).text() );
+    });
 }
 </script>
 {/literal}

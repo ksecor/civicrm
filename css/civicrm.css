@@ -1146,19 +1146,17 @@ div.crm-pager a {
     color: #636363;
 }
 
-#crm-container table#activities-selector.nestedActivitySelector
-{
-     border: 0px;
-}
+#crm-container table#activities-selector.nestedActivitySelector, #crm-container table#activities-selector.nestedActivitySelector td {
+    border: 0px;
+}    
 
 
 #crm-container table.nestedActivitySelector td {
     border-right : 0px;
 }
 
-#crm-container table#activities-selector.nestedActivitySelector tr.status-completed
-{
-  font-size: 11px;  
+#crm-container table#activities-selector.nestedActivitySelector tr.status-completed {
+    font-size: 11px;  
 }
 
 
