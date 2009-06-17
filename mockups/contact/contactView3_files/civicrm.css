@@ -886,16 +886,15 @@ DIV#toolTip {
 
 /* Styles for Contact Summary mockup start here. dgg */
 #crm-container span.email-hold, #crm-container span.do-not-email, #crm-container span.do-not-phone {
-  background-position:3px; background-repeat:no-repeat; background-image:url("stop-icon.png");
-  padding-left: 24px;
+    background-position:3px; background-repeat:no-repeat; background-image:url("stop-icon.png");
+    padding-left: 24px;
+	color: #ff6655 !important
  }
 
-.email-hold a {
-	COLOR: #ff6655 !important
+#crm-container span.email-hold a:link, #crm-container span.email-hold a:visited, #crm-container span.do-not-email a:link, #crm-container span.email-hold a:visited {
+	color: #ff6655 !important
 }
-.email-hold a.visited {
-	COLOR: #ff6655 !important
-}
+
 .primary {
 	FONT-WEIGHT: bold
 }
@@ -943,8 +942,8 @@ DIV#contactCardLeft, DIV#Top {
 DIV#contactCardRight {
 	WIDTH: 49%; DISPLAY: block; FLOAT: right
 }
-DIV#contactCardLeft .label, DIV#contactTopBar .label, DIV#contactCardRight .label {
-	COLOR: gray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
+DIV#contactTopBar .label, DIV#contactCardLeft .label, DIV#contactCardRight .label {
+	color: DimGray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
 }
 
 DIV#contactCardLeft .grouplabel, 
