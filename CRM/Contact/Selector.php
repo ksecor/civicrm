@@ -251,29 +251,22 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             if ( $contextMenu ) {
                 $counter = 7000;
                 foreach( $contextMenu as $key => $value ) {
+                    $url = "civicrm/contact/view/{$key}";
+                    $qs  = "reset=1&action=add&cid=%%id%%&context={$key}";
                     if ( $key == 'activity' ) {
-                        self::$_links[$counter++]  = array(
-                                                           'name'     => $value,
-                                                           'url'      => "civicrm/contact/view",
-                                                           'qs'       => "action=browse&selectedChild=activity&reset=1&cid=%%id%%",
-                                                           'title'    => $value,
-                                                           );
-                    } else if ( $key == 'email' ) { 
-                        self::$_links[$counter++]  = array(
-                                                           'name'     => $value,
-                                                           'url'      => "civicrm/contact/view/activity",
-                                                           'qs'       => "atype=3&action=add&reset=1&cid=%%id%%",
-                                                           'title'    => $value,
-                                                           );
-
-                    } else {
-                        self::$_links[$counter++]  = array(
-                                                           'name'     => $value,
-                                                           'url'      => "civicrm/contact/view/{$key}",
-                                                           'qs'       => "reset=1&action=add&cid=%%id%%&context={$key}",
-                                                           'title'    => $value,
-                                                           );
+                        $qs = "action=browse&selectedChild=activity&reset=1&cid=%%id%%";
+                    } else if ( $key == 'email' ) {
+                        $url = "civicrm/contact/view/activity";
+                        $qs  = "atype=3&action=add&reset=1&cid=%%id%%";
                     }
+
+                    self::$_links[$counter++]  = array(
+                                                       'name'     => $value,
+                                                       'url'      => $url,
+                                                       'qs'       => $qs,
+                                                       'title'    => $value['title'],
+                                                       'ref'      => $value['ref']
+                                                       );
                 }
             }
         }
