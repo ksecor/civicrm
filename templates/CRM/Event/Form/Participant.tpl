@@ -14,10 +14,9 @@
 <div id="help">
 	{ts 1=$displayName 2=$registerMode}Use this form to submit an event registration on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
 </div>
-{else}
+{/if}
 <div class="html-adjust">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend>
-	{/if} 
 	{if $action eq 1 AND $paid}
 	<div id="help">
 		{ts}If you are accepting offline payment from this participant, check <strong>Record Payment</strong>. You will be able to fill in the payment information, and optionally send a receipt.{/ts}
