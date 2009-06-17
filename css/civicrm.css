@@ -794,7 +794,7 @@ div.crm-pager a {
   background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Membership.png");
  }
 .block-civicrm div#recently-viewed ul li.Note {
-  background-position:center left; background-repeat:no-repeat; background-image:url("../i/recent/Note.png");
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Note.png");
  }
 .block-civicrm div#recently-viewed ul li.Organization {
   background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Organization.png");
