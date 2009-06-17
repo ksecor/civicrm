@@ -76,3 +76,20 @@ SELECT @option_group_id_report         := max(id) from civicrm_option_group wher
         (@option_group_id_report , 'Pledge Report',                           'pledge/summary',                 'CRM_Report_Form_Pledge_Summary',                  23, 'Pledge Report',                                                                                                                                                                                                                             0, @pledgeCompId ),			
         (@option_group_id_report , 'Pledged But not Paid Report',             'pledge/pbnp',                    'CRM_Report_Form_Pledge_Pbnp',                     24, 'Pledged but not Paid Report',                                                                                                                                                                                                               0, @pledgeCompId );
 {/if}
+
+-- civicrm_report_instance
+CREATE TABLE civicrm_report_instance (
+    id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Report Instance ID',
+    title varchar(255)    COMMENT 'Report Instance Title.',
+    report_id varchar(64) NOT NULL   COMMENT 'FK to civicrm_option_value for the report template',
+    description varchar(255)    COMMENT 'Report Instance description.',
+    permission varchar(255)    COMMENT 'permission required to be able to run this instance',
+    form_values text    COMMENT 'Submitted form values for this report',
+    is_active tinyint    COMMENT 'Is this entry active?',
+    email_subject varchar(255)    COMMENT 'Subject of email',
+    email_to text    COMMENT 'comma-separated list of email addresses to send the report to',
+    email_cc text    COMMENT 'comma-separated list of email addresses to send the report to',
+    header text    COMMENT 'comma-separated list of email addresses to send the report to',
+    footer text    COMMENT 'comma-separated list of email addresses to send the report to',
+    PRIMARY KEY ( id ) 
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
