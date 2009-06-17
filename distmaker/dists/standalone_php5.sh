@@ -25,7 +25,7 @@ if [ -d $TRG ] ; then
 fi
 
 # copy all the stuff
-for CODE in css i js l10n packages PEAR templates bin joomla CRM api drupal extern Reports install; do
+for CODE in css i js l10n packages PEAR templates bin CRM api extern Reports standalone install; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
@@ -67,16 +67,16 @@ fi
 cp $SRC/agpl-3.0.txt $TRG
 cp $SRC/gpl.txt $TRG 
 cp $SRC/README.txt $TRG
-cp $SRC/civicrm.config.php.drupal $TRG/civicrm.config.php
+cp $SRC/civicrm.config.php.standalone $TRG/civicrm.config.php
 
 # final touch
-echo "$DM_VERSION Drupal PHP5 $DM_REVISION" > $TRG/civicrm-version.txt
+echo "$DM_VERSION Standalone PHP5 $DM_REVISION" > $TRG/civicrm-version.txt
 
 
 # gen tarball
 cd $TRG/..
-tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-drupal.tar.gz --exclude l10n --exclude 'civicrm_*.??_??.mysql' civicrm
-tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-l10n.tar.gz --exclude '*.po' --exclude pot civicrm/l10n civicrm/sql/civicrm_*.??_??.mysql
+tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-standalone.tar.gz --exclude l10n --exclude 'civicrm_*.??_??.mysql' civicrm
+tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-l10n.tar.gz --exclude '*.po' --exclude pot $SRC/l10n $SRC/sql/civicrm_*.??_??.mysql
 
 # clean up
 rm -rf $TRG
