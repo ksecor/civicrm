@@ -4,7 +4,7 @@
     <div class="float-left">
     <table class="form-layout-compressed">
     <tr>
-        <td width="125px"><a href="{crmURL p='civicrm/admin/menu' q='action=add&reset=1'}" class="button"><span>&raquo; {ts}Add New Menu{/ts}</span></a></td>
+        <td width="135px"><a href="{crmURL p='civicrm/admin/menu' q='action=add&reset=1'}" class="button"><span>&raquo; {ts}Add New Menu{/ts}</span></a></td>
         <td><a href="{crmURL p='civicrm/admin/menu/rebuild' q='reset=1'}" class="button"><span>&raquo; {ts}Rebuild Navigation{/ts}</span></a></td>
     </tr>
     <tr id="reset-menu" style="display:none;" >
