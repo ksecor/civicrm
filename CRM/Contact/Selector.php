@@ -224,12 +224,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                                    'url'      => 'civicrm/contact/view',
                                                                    'qs'       => 'reset=1&cid=%%id%%',
                                                                    'title'    => ts('View Contact Details'),
+                                                                   'ref'      => 'view-contact'
                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/add',
                                                                    'qs'       => 'reset=1&action=update&cid=%%id%%',
                                                                    'title'    => ts('Edit Contact Details'),
+                                                                   'ref'      => 'edit-contact'
                                                                   ),
                                   );
 

@@ -218,13 +218,17 @@ class CRM_Core_Action {
                     $urlPath = $link['url'];
                 }
                 
+                $ref = '';
+                if ( isset( $link['ref'] ) ) {
+                    $ref = "class = {$link['ref']}";
+                }
                 if ( $urlPath ) {                      
-                    $url[$m] = sprintf('<a href="%s" title="%s" class=' . $m . ' ' . $extra . '>%s</a>',
+                    $url[] = sprintf('<a href="%s" title="%s" %s ' . $extra . '>%s</a>',
                                        $urlPath,
-                                       $link['title'], $link['name'] );
+                                       $link['title'], $ref, $link['name'] );
                 } else {
-                    $url[$m] = sprintf('<a title="%s" class='. $m . ' ' . $extra . '>%s</a>',
-                                       $link['title'], $link['name'] );
+                    $url[] = sprintf('<a title="%s" %s ' . $extra . '>%s</a>',
+                                       $link['title'], $ref, $link['name'] );
                 }
             }
         }
