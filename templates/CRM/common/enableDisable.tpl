@@ -1,4 +1,5 @@
 {* handle common enable/disable actions *}
+<span id="enableDisableStatusMsg" class="success-status" style="display:none;"></span>
 {literal}
 <script type="text/javascript">
 function modifyLinkAttributes( recordID, op ) {
