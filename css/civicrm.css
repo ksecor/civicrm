@@ -1203,7 +1203,7 @@ commented since it is overwiting simple td
 #crm-container .report-layout {
    background-color : #F5F5F5; 
    border           : none;
-   margin           : 0em;
+   margin           : 0em 0em 0em 0.1em;
    width            : 100%;
 }
 
