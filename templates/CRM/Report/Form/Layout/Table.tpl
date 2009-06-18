@@ -1,5 +1,8 @@
 {if (!$chartEnabled || !$chartSupported )&& $rows}
-    {include file="CRM/common/pager.tpl" noForm=1}<br/>
+    <div class="report-pager">
+        {include file="CRM/common/pager.tpl" noForm=1}
+    </div>
+    <br/>
     <table class="report-layout">
         <tr>
             {foreach from=$columnHeaders item=header key=field}

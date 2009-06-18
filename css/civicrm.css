@@ -1257,3 +1257,11 @@ commented since it is overwiting simple td
 #crm-container table.report-layout th.report-contents {
    background-color : #F5F5F5;	       
 }
+/*override default pager for report*/
+.report-pager .crm-pager {
+    background-color: #DCDCDC;
+    border          : thin solid #999999;
+}
+.report-pager .crm-pager-nav a {
+    color           : #000000;
+}
