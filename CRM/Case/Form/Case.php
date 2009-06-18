@@ -102,8 +102,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         }
         
         //CRM-4418
-        if ( $this->_action & CRM_Core_Action::DELETE && 
-             !CRM_Core_Permission::check( 'delete in CiviCase' ) ) {
+        if ( !CRM_Core_Permission::checkActionPermission( 'CiviCase', $this->_action ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
         
