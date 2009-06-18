@@ -406,6 +406,8 @@ WHERE sort_name LIKE '%$name%'";
         if ( isset( $isActive ) ) { 
            CRM_Core_DAO::setFieldValue( $recordDAO, $recordID, 'is_active', $isActive );
         }
+
+        exit( );
      }
  
     /*
