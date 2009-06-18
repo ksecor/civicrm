@@ -100,10 +100,10 @@
     on_load_init_checkboxes(fname);
  {literal}
 cj(document).ready( function() {
-var url         = "{/literal}{crmURL p='civicrm/contact/view/changeaction q="reset=1&action=add&cid=changeid&context=changeaction" h=0}{literal}";
-var activityUrl = "{/literal}{crmURL p='civicrm/contact/view q="action=browse&selectedChild=activity&reset=1&cid=changeid" h=0}{literal}";
-var emailUrl    = "{/literal}{crmURL p='civicrm/contact/view/activity q="atype=3&action=add&reset=1&cid=changeid" h=0}{literal}";
-var contactUrl  = "{/literal}{crmURL p='civicrm/contact/changeaction q="reset=1&cid=changeid" h=0}{literal}";
+var url         = "{/literal}{crmURL p='civicrm/contact/view/changeaction' q="reset=1&action=add&cid=changeid&context=changeaction" h=0}{literal}";
+var activityUrl = "{/literal}{crmURL p='civicrm/contact/view' q="action=browse&selectedChild=activity&reset=1&cid=changeid" h=0}{literal}";
+var emailUrl    = "{/literal}{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=changeid" h=0}{literal}";
+var contactUrl  = "{/literal}{crmURL p='civicrm/contact/changeaction' q="reset=1&cid=changeid" h=0}{literal}";
 // Show menu when contact row is right clicked
 cj(".selector tr").contextMenu({
       menu: 'contactMenu'
@@ -124,7 +124,8 @@ cj(".selector tr").contextMenu({
             break;
         }
         eval( 'locationUrl = locationUrl.replace( /changeid/, contactId );');
-        window.location = locationUrl;
+        var destination = "{/literal}{crmURL q="force=1" h=0}{literal}";
+        window.location = locationUrl + '&destination=' + destination;
    });
 });
 
