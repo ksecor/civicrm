@@ -4,7 +4,9 @@
     {include file="CRM/Report/Form/Statistics.tpl" top=true}
 
     {if $rows}
-        {include file="CRM/common/pager.tpl" noForm=1}
+        <div class="report-pager">
+            {include file="CRM/common/pager.tpl" noForm=1}
+        </div>
         {foreach from=$rows item=row}
             <br />
             <table style = "width : 100%;">

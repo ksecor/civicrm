@@ -5,7 +5,9 @@
     {include file="CRM/Report/Form/Statistics.tpl" top=true}    
     
     {if $events}
-        {include file="CRM/common/pager.tpl" noForm=1}
+        <div class="report-pager">
+            {include file="CRM/common/pager.tpl" noForm=1}
+        </div>
         {foreach from=$events item=eventID}
             <table style="width:100%">
                 <tr>
