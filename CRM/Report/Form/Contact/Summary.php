@@ -246,6 +246,8 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
             }
             //temparary fix
             $this->_groupBy = "GROUP BY civicrm_contact_id";// . implode( ', ', $this->_groupBy );
+        } else {
+            $this->_groupBy = "GROUP BY contact.id";
         }
     }
 
