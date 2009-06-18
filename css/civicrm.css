@@ -1124,7 +1124,7 @@ div.crm-pager a {
     width: 99%;
 }
 
-#crm-container table.caseSelector tr.columnheader th {
+#crm-container table.caseSelector tr.columnheader th, #crm-container table.caseSelector tr.columnheader th a {
     color: #FFFFFF;
     background-color: #666666;
     border-top-color: #333333;
