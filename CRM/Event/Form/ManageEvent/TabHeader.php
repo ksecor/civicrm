@@ -45,6 +45,7 @@ class CRM_Event_Form_ManageEvent_TabHeader {
             $form->set( 'tabHeader', $tabs );
         }
         $form->assign_by_ref( 'tabHeader', $tabs );
+        return $tabs;
     }
 
     static function &process( &$form ) {
@@ -89,6 +90,11 @@ class CRM_Event_Form_ManageEvent_TabHeader {
 
         $fullName  = $form->getVar( '_name' );
         $className = CRM_Utils_String::getClassName( $fullName );
+
+        // hack for tell a friend, since class name is different
+        if ( $className == 'Event' ) {
+            $className = 'Friend';
+        }
         if ( array_key_exists( $className, $tabs ) ) {
             $tabs[$className]['current'] = true;
             $form->assign_by_ref( 'selectedTab', $className );
@@ -131,13 +137,24 @@ WHERE      e.id = %1
     }
 
     static function reset( &$form ) {
-        $tabs =& self::process( $tabs );
+        $tabs =& self::process( $form );
         $form->set( 'tabHeader', $tabs );
     }
 
+    static function getNextSubPage( $form, $currentSubPage = 'EventInfo' ) {
+        $tabs = self::build( $form );
+        $flag = false;
+
+        if ( is_array($tabs) ) {
+            foreach ( $tabs as $subPage => $pageVal ) {
+                if ( $flag && $pageVal['valid'] ) {
+                    return $subPage;
+                }
+                if ( $subPage == $currentSubPage ) {
+                    $flag = true;
+                }
+            }
+        }
+        return 'EventInfo';
+    }
 }
-
-
-
-
-

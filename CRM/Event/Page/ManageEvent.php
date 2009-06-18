@@ -155,16 +155,9 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD ) {
-            $session =& CRM_Core_Session::singleton( ); 
-
-            $title = $this->_isTemplate ? ts('New Event Template Wizard') : ts('New Event Wizard');
-            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' ) );
-            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
-            CRM_Utils_System::setTitle( $title );
-            
-            require_once 'CRM/Event/Controller/ManageEvent.php';
-            $controller =& new CRM_Event_Controller_ManageEvent( );
-            return $controller->run( );
+            require_once 'CRM/Event/Page/ManageEventEdit.php';
+            $page =& new CRM_Event_Page_ManageEventEdit( );
+            return $page->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
             CRM_Utils_System::appendBreadCrumb( $breadCrumb );
 

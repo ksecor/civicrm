@@ -110,7 +110,16 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         // also set up tabs
         require_once 'CRM/Event/Form/ManageEvent/TabHeader.php';
         CRM_Event_Form_ManageEvent_TabHeader::build( $this );
-        
+
+        // make submit buttons shift to next available valid(not disabled) tabs
+        if ( $this->_id ) {
+            $subPage     = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
+            $nextsubPage = CRM_Event_Form_ManageEvent_TabHeader::getNextSubPage( $this, $subPage );
+            $session =& CRM_Core_Session::singleton(); 
+            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
+                                                              "action=update&reset=1&id={$this->_id}&subPage={$nextsubPage}" ) );
+        }
+
         CRM_Utils_System::appendBreadCrumb($breadCrumb);
     }
     
