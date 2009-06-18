@@ -95,10 +95,10 @@ class CRM_Report_Page_Options extends CRM_Core_Page_Basic
         self::$_GName = ucwords(str_replace('_', ' ', self::$_gName));
         
         $this->assign('GName', self::$_GName);
-        $newReportURL = CRM_Utils_System::url( "civicrm/report/register",
+        $newReportURL = CRM_Utils_System::url( "civicrm/admin/report/register",
                                                'reset=1' );
         $this->assign('newReport', $newReportURL);
-        CRM_Utils_System::setTitle(ts('%1 Options', array(1 => self::$_GName)));
+        CRM_Utils_System::setTitle(ts('Registered Templates'));
     }
     
     /**
@@ -125,26 +125,26 @@ class CRM_Report_Page_Options extends CRM_Core_Page_Basic
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/report/register/' . self::$_gName,
+                                                                    'url'   => 'civicrm/admin/report/register/' . self::$_gName,
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/report/options/' . self::$_gName,
+                                                                    'url'   => 'civicrm/admin/report/options/' . self::$_gName,
                                                                     'qs'    => '&action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                     'title' => ts('Disable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/report/options/' . self::$_gName,
+                                                                    'url'   => 'civicrm/admin/report/options/' . self::$_gName,
                                                                     'qs'    => '&action=enable&id=%%id%%',
                                                                     'title' => ts('Enable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/report/register/' . self::$_gName,
+                                                                    'url'   => 'civicrm/admin/report/register/' . self::$_gName,
                                                                     'qs'    => 'action=delete&id=%%id%%&reset=1',
                                                                     'title' => ts('Delete %1 Type', array(1 => self::$_gName) ),
                                                                     ), 
@@ -177,11 +177,14 @@ class CRM_Report_Page_Options extends CRM_Core_Page_Basic
         {
             require_once 'CRM/Core/OptionValue.php';            
             $groupParams = array( 'name' => self::$_gName );
-            $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'component_id,weight');
+            $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'weight');
             $gName       = self::$_gName;
-            $returnURL   = CRM_Utils_System::url( "civicrm/report/options/$gName",
+            $returnURL   = CRM_Utils_System::url( "civicrm/admin/report/options/$gName",
                                                   "reset=1" );
             $filter      = "option_group_id = " . self::$_gId;
+
+            $session =& new CRM_Core_Session();
+            $session->replaceUserContext($returnURL);
             require_once 'CRM/Utils/Weight.php';
             CRM_Utils_Weight::addOrder( $optionValue, 'CRM_Core_DAO_OptionValue',
                                         'id', $returnURL, $filter );

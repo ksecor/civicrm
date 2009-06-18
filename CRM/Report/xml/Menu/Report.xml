@@ -43,9 +43,6 @@
      <page_callback>CRM_Report_Form_Register</page_callback>
      <desc>Register the Report templates.</desc>
      <access_arguments>access CiviReport</access_arguments>
-     <adminGroup>CiviReport</adminGroup>
-     <icon>admin/small/07.png</icon>
-     <weight>400</weight>
   </item>
   <item>
      <path>civicrm/admin/report/template/list</path>
@@ -58,8 +55,8 @@
      <weight>410</weight>
   </item>
  <item>
-     <path>civicrm/report/options/report_template</path>
-     <title>List Reports</title>
+     <path>civicrm/admin/report/options/report_template</path>
+     <title>Manage Report Templates</title>
      <page_callback>CRM_Report_Page_Options</page_callback>
      <desc>Browse, Edite and Delete the Report templates.</desc>
      <access_arguments>access CiviReport</access_arguments>
@@ -67,5 +64,4 @@
      <icon>admin/small/07.png</icon>
      <weight>400</weight>
   </item>
-
 </menu>

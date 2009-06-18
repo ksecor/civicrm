@@ -4,6 +4,7 @@
 
 {if $rows}
     <div id={$gName}>
+	
         {strip}
             <table class="selector">
 		<tr class="columnheader">      
@@ -37,12 +38,16 @@
 	    </table>
 	{/strip}
 
-	{if $action ne 1 and $action ne 2}
-	    <div class="action-link">
-	        <a href="{$newReport}" id="new"|cat:$GName class="button"><span>&raquo; {ts 1=$GName}New %1{/ts}</span></a>
-	    </div>
-	{/if}
+
+        {if $action ne 1 and $action ne 2}
+            <div class="action-link">
+		
+                <a href="{$newReport}"  id="new"|cat:$GName class="button"><span>&raquo; {ts 1=$GName}Register New %1{/ts}</span></a>
+            </div>
+
+        {/if}
     </div>
+
 {else}
     <div class="messages status">
 	<dl>

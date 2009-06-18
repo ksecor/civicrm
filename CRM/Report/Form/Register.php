@@ -51,6 +51,7 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
         //   crm_core_error::debug("$this->_actions", $this->_action);
         $this->_opID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
                                                     'report_template', 'id', 'name' );
+        CRM_Utils_System::setTitle(ts('Report Template'));
         $instanceInfo = array( );      
     }
 
@@ -90,7 +91,7 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
             $this->add( 'text', 'value',  ts('URL'),   array( 'size'=> 40 ), true );
             $this->add( 'text', 'name',   ts('Class'), array( 'size'=> 40 ), true );
             $element = $this->add( 'text', 'weight', ts('Weight'), array( 'size'=> 4 ), true );
-            $element->freeze( );
+            // $element->freeze( );
             $this->add( 'text', 'description',  ts('Description'), array( 'size'=> 40 )  , true );
             
             $this->add('checkbox', 'is_active', ts('Enabled?'));
@@ -136,24 +137,21 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
                 
                 if( CRM_Core_BAO_OptionValue::del($this->_id) ) {            
                     CRM_Core_Session::setStatus( ts('Selected %1 Report has been deleted.', array(1 => $this->_GName)) );
-                    CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/options/report_template', "reset=1") );
+                    CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin/report/options/report_template', "reset=1") );
                 } else {
                     CRM_Core_Session::setStatus( ts('Selected %1 type has not been deleted.', array(1 => $this->_GName)) );
                     CRM_Utils_Weight::correctDuplicateWeights('CRM_Core_DAO_OptionValue', $fieldValues);
                 } 
                 
             } else {            
-                // get the submitted form values. 
-                
+                // get the submitted form values.                 
                 $params = $this->controller->exportValues( $this->_name );
-                
                 $ids    = array( );
                 $groupParams = array( 'name' => ('report_template') );
                 require_once 'CRM/Core/OptionValue.php';
                 $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
-                
                 CRM_Core_Session::setStatus( ts('The %1 \'%2\' has been saved.', array(1 => 'Report Template', 2 => $optionValue->label)) );
-                CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/options/report_template', "reset=1") );
+                CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin/report/options/report_template', "reset=1") );
             }
         }     
   }
