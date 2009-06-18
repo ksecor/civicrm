@@ -9,7 +9,7 @@
     <th>{ts}Type{/ts}</th>
     <th>{ts}My Role{/ts}</th>
     <th>{ts}Case Manager{/ts}</th>      
-    <th>{if $list EQ 'upcoming'}{ts}Next Scheduled Activity{/ts}{else}{ts}Most Recent Activity{/ts}{/if}</th>
+    <th>{if $list EQ 'upcoming'}{ts}Next Sched.{/ts}{else}{ts}Most Recent{/ts}{/if}</th>
 
     <th></th>
   </tr>
