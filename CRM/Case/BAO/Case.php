@@ -859,7 +859,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             
             $values[$dao->id]['links'] = $url;
             if ( $values[$dao->id]['status'] == 'Scheduled' && 
-                 CRM_Utils_Date::overdue(  $dao->due_date ) ) {
+                 CRM_Utils_Date::overdue(  $dao->overdue_date ) ) {
                 $values[$dao->id]['class']   = 'status-overdue';
             } else if ( $values[$dao->id]['status'] == 'Scheduled' ) {
                 $values[$dao->id]['class']   = 'status-pending';
