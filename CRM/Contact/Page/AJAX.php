@@ -392,12 +392,21 @@ WHERE sort_name LIKE '%$name%'";
      *
      */
     function enableDisable( &$config ) {
-        $recordID  = CRM_Utils_Type::escape( $_POST['recordID'],    'Positive' );
-        $recordDAO = CRM_Utils_Type::escape( $_POST['recordDAO'],   'String'   );
-        $isActivte    = CRM_Utils_Type::escape( $_POST['isActive'], 'Boolean'  );
+        $op        = CRM_Utils_Type::escape( $_POST['op'       ],  'String'   );
+        $recordID  = CRM_Utils_Type::escape( $_POST['recordID' ],  'Positive' );
+        $recordDAO = CRM_Utils_Type::escape( $_POST['recordDAO'],  'String'   );
+ 
+        $isActive = null;
+        if ( $op == 'disable-enable' ) {
+           $isActive = true;
+        } else if ( $op == 'enable-disable' ) {
+           $isActive = false;
+        }
         
-        CRM_Core_DAO::setFieldValue( $recordDAO, $recordID, 'is_active', $isActivte );
-    }
+        if ( isset( $isActive ) ) { 
+           CRM_Core_DAO::setFieldValue( $recordDAO, $recordID, 'is_active', $isActive );
+        }
+     }
  
     /*
      *Function to check the CMS username

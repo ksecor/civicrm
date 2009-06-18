@@ -90,12 +90,14 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_DAO_Event' . '\',\'' . false . '\'  );"',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_DAO_Event' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
                                                                           'title' => ts('Disable Event') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_DAO_Event' . '\',\'' . true . '\'  );"',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_DAO_Event' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
                                                                           'title' => ts('Enable Event') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
@@ -247,6 +249,12 @@ ORDER BY start_date desc
             
             // form all action links
             $action = array_sum(array_keys($this->links()));
+            
+            if ($dao->is_active) {
+                $action -= CRM_Core_Action::ENABLE;
+            } else {
+                $action -= CRM_Core_Action::DISABLE;
+            }
             
             //CRM-4418
             if ( !$allowToDelete ) {

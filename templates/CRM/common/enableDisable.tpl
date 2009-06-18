@@ -1,31 +1,44 @@
 {* handle common enable/disable actions *}
 {literal}
 <script type="text/javascript">
+function modifyLinkAttributes( recordID, op ) {
+ //we changed record from enable to disable
+ if ( op == 'enable-disable' ) {
+    //change html title
+    cj( "#row_"+ recordID + " a.disable-action" ).html( 'Enable'); 	
+   
+    //change title
+    cj("#row_"+ recordID + " a.disable-action").attr({title:"Enable Event"});
 
-//inital show/hide enable/disable action links.
-initialShowHideLinks( );
+    //need to update js - change op from js since 
+    var updatedJavaScript = cj("#row_"+ recordID + " a.disable-action").attr("onClick").replace( "enable-disable", "disable-enable" );
+  
+    //set updated js
+    cj("#row_"+ recordID + " a.disable-action").attr({ onClick : updatedJavaScript });
 
-function initialShowHideLinks( ) {
-{/literal}
- {foreach from=$rows item=row}
-    {literal}
-    var recordID = {/literal}{$row.id}{literal};
-    {/literal} 
-    {if $row.is_active eq 1}{* row is enabled so hide enable action link*}
-        {literal}
-         cj("#row_"+ recordID + " a.32").hide( );
-        {/literal}
-    {else}{* row is disabled so hide disabled action link*}
-        {literal}
-        cj("#row_"+ recordID + " a.64").hide( );
-        {/literal}
-    {/if}
- {/foreach}
-{literal}
+    //finally change class to enable-action.
+    cj("#row_"+ recordID + " a.disable-action").attr({class:"enable-action"});
+ } else if ( op == 'disable-enable' ) {
+    //we changed record from enable to disable.
+    //change html title
+    cj("#row_"+ recordID + " a.enable-action").html('Disable'); 	
+   
+    //change title
+    cj("#row_"+ recordID + " a.enable-action").attr({title:"Disable Event"});
+
+    //need to update js - change op from js
+    var updatedJavaScript = cj("#row_"+ recordID + " a.enable-action").attr("onClick").replace( "disable-enable", "enable-disable" );
+
+    //set updated js
+    cj("#row_"+ recordID + " a.enable-action").attr({ onClick : updatedJavaScript });
+
+    //finally change class to disable-action.
+    cj("#row_"+ recordID + " a.enable-action").attr({class:"disable-action"});
+ } 
 }
 
-function modifySelectorRow( recordID, isActive ) {
- if ( isActive ) {
+function modifySelectorRow( recordID, op ) {
+ if ( op == "disable-enable" ) {
     //we are enabling record.
     if ( cj( "#row_" + recordID ).hasClass( "even-row" ) ) {
        cj( "#row_" + recordID ).removeClass( );
@@ -34,20 +47,9 @@ function modifySelectorRow( recordID, isActive ) {
        cj( "#row_" + recordID ).removeClass( );
        cj( "#row_" + recordID ).addClass("odd-row");
     }
-    //need to hide enable action link.
-    cj("#row_"+ recordID + " a.32").hide( );	
-
-    //show disable action link
-    cj("#row_"+ recordID + " a.64").show( );
- } else {
+ } else if ( op == "enable-disable" )  {
     //we are disabling record.
     cj( "#row_" + recordID ).addClass("disabled");
-   
-    //need to hide disable action link.
-    cj("#row_"+ recordID + " a.64").hide( );
-   
-    //show enable action link
-    cj("#row_"+ recordID + " a.32").show( );
  }
 }
 
@@ -55,30 +57,28 @@ function hideEnableDisableStatusMsg( ) {
   cj( '#enableDisableStatusMsg' ).hide( );
 }
 
-function enableDisable( recordID, recordDAO, isActive ) {
- 
- //hack to pass false.
+function enableDisable( recordID, recordDAO, op ) {
  var statusMsg = '{/literal}{ts}Are you sure you want to enable this record?{/ts}{literal}';
- if ( !isActive ) {
-    isActive  = 0;
+ if ( op == 'enable-disable' ) {
     statusMsg = '{/literal}{ts}Are you sure you want to disable this record?{/ts}{literal}';
  }
 
- var confirmMsg =  statusMsg + '&nbsp; <a href="javascript:saveEnableDisable( ' + recordID + ',\'' + recordDAO + '\'' + ', '+ isActive +'  );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
-        cj( '#enableDisableStatusMsg' ).show( ).html( confirmMsg );
+ var confirmMsg =  statusMsg + '&nbsp; <a href="javascript:saveEnableDisable( ' + recordID + ',\'' + recordDAO + '\'' + ', \'' + op + '\'' + ' );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
+
+       cj( '#enableDisableStatusMsg' ).show( ).html( confirmMsg );
 }
 
-function saveEnableDisable( recordID, recordDAO, isActive ) {
+function saveEnableDisable( recordID, recordDAO, op ) {
         var postUrl = {/literal}"{crmURL p='civicrm/ajax/ed' h=0 }"{literal};
 
         var statusMsg = '{/literal}{ts}The selected record has been disabled.{/ts}{literal}';
-        if ( isActive ) {
+        if ( op == 'disable-enable' ) {
            statusMsg = '{/literal}{ts}The selected record has been enabled.{/ts}{literal}';
-        }
+        } 
 
         cj.ajax({
           type: "POST",
-          data:  "recordID=" + recordID + "&recordDAO=" + recordDAO + "&isActive=" + isActive,    
+          data:  "recordID=" + recordID + "&recordDAO=" + recordDAO + "&op=" + op,    
           url: postUrl,
  
           success: function(html){
@@ -89,7 +89,10 @@ function saveEnableDisable( recordID, recordDAO, isActive ) {
         });
 
         //change row class and show/hide action links.
-        modifySelectorRow( recordID, isActive );
+        modifySelectorRow( recordID, op );
+
+        //modify action link html        
+        modifyLinkAttributes( recordID, op );
  }
 </script>
 {/literal}
