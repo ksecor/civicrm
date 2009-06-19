@@ -192,6 +192,16 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                                     break;
                                 }
                             }   
+                        } elseif ($fieldName == 'membership_type_id') {
+                            if ( ! CRM_Utils_Array::value( 'membership_type_id', $this->_params['group_bys'] ) && 
+                                 CRM_Utils_Array::value( 'join_date', $this->_params['group_bys'] ) ) {
+                                $select[] = "GROUP_CONCAT(DISTINCT {$field['dbAlias']}  ORDER BY {$field['dbAlias']} ) as {$tableName}_{$fieldName}";
+                            } else {
+                                $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}"; 
+                            }
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['title']        = $field['title'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['operatorType'] = 
+                                CRM_Utils_Array::value( 'operatorType', $field );
                         } else {
                             $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                             $this->_columnHeaders["{$tableName}_{$fieldName}"]['title']        = $field['title'];
@@ -447,8 +457,12 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
             // handle Membership Types
             if ( array_key_exists('civicrm_membership_membership_type_id', $row) ) {
                 if ( $value = $row['civicrm_membership_membership_type_id'] ) {
+                    $value = explode( ',' , $value );
+                    foreach ($value as $key => $id ) {
+                        $value[$key] = CRM_Member_PseudoConstant::membershipType( $id, false );
+                    }
                     $rows[$rowNum]['civicrm_membership_membership_type_id'] = 
-                        CRM_Member_PseudoConstant::membershipType( $value, false );
+                        implode(' , ',$value );
                 }
                 $entryFound = true;
             }       
