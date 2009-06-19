@@ -165,18 +165,28 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         
         $buttons = array( );
         if ( $this->_single ) {
-
             // make this form an upload since we dont know if the custom data injected dynamically
             // is of type file etc $uploadNames = $this->get( 'uploadNames' );
-            $this->addButtons(array(
-                                    array ( 'type'      => 'upload',
-                                            'name'      => ts('Save'),
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                            'isDefault' => true   ),
-                                    array ( 'type'      => 'cancel',
-                                            'name'      => ts('Cancel') ),
-                                    )
-                              );
+            $buttons = array(
+                             array ( 'type'      => 'upload',
+                                     'name'      => ts('Save'),
+                                     'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                     'isDefault' => true   ),
+                             array ( 'type'      => 'cancel',
+                                     'name'      => ts('Cancel'), ), 
+                             );
+            if ( $this->_id ) {
+                // add js to cancel button
+                $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
+                                              "action=update&reset=1&id={$this->_id}", 
+                                              false, null, false );
+
+                $buttons[1]['js'] = array( 'onclick' => 
+                                           "location.href='{$url}';return false;" );
+            }
+
+            $this->addButtons( $buttons );
+
         } else {
             $buttons = array( );
             if ( ! $this->_first ) {
