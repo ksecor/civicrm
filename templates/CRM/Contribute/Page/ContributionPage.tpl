@@ -16,11 +16,12 @@
 {if $rows}
     <div id="configure_contribution_page">
         {strip}
-
         
         {include file="CRM/common/pager.tpl" location="top"}
         {include file="CRM/common/pagerAToZ.tpl"}
-        <span id="enableDisableStatusMsg" class="success-status" style="display:none;"></span> 
+        {* handle enable/disable actions *}
+        {include file="CRM/common/enableDisable.tpl"}
+
         <table class="selector">
           <thead class="sticky">
             <th>{ts}Title{/ts}</th>
@@ -68,7 +69,4 @@
     {/if}
 {/if}
 
-
-{* handle enable/disable actions*}
-{include file="CRM/common/enableDisable.tpl"}
 

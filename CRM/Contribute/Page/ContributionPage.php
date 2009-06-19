@@ -75,6 +75,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
             // helper variable for nicer formatting
             $deleteExtra = ts('Are you sure you want to delete this Contribution page?');
             $copyExtra = ts('Are you sure you want to make a copy of this Contribution page?');
+            
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Configure'),
@@ -97,11 +98,13 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'title' => ts('Disable'),
-                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contribute_DAO_ContributionPage' . '\',\'' . false . '\'  );"',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contribute_DAO_ContributionPage' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action'
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contribute_DAO_ContributionPage' . '\',\'' . true . '\'  );"',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contribute_DAO_ContributionPage' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
                                                                           'title' => ts('Enable'),
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
@@ -284,6 +287,12 @@ ORDER BY title asc
             CRM_Core_DAO::storeValues($dao, $contribution[$dao->id]);
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
+            
+            if ( $dao->is_active ) {
+                $action -= CRM_Core_Action::ENABLE;
+            } else {
+                $action -= CRM_Core_Action::DISABLE;
+            }   
             
             //CRM-4418
             if ( !$allowToDelete ) {
