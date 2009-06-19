@@ -83,6 +83,35 @@ class CRM_Contact_Form_Individual {
       
         // job title
         $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);
+        
+        // add email and postal greeting on contact form, CRM-4575
+        // the filter value for Individual contact type is set to 1
+        $filterCondition = "AND (v.filter IS NULL OR v.filter = 1)";
+        //email greeting
+        $emailGreeting = CRM_Core_PseudoConstant::emailGreeting( $filterCondition );
+        if ( !empty( $emailGreeting ) ) {
+            $this->addElement('select', 'email_greeting_id', ts('Email Greeting'), 
+                              array('' => ts('- select -')) + $emailGreeting, 
+                              array( 'onchange' => " showEmailGreeting();" ));
+            //email greeting custom
+            $this->addElement('text', 'email_greeting_custom', ts('Custom Email Greeting'), 
+                              array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'email_greeting_custom' ),
+                                           array( 'onfocus' => "if (!this.value) this.value='Dear'; else return false",
+                                                  'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
+        }
+        
+        //postal greeting
+        $postalGreeting = CRM_Core_PseudoConstant::postalGreeting( $filterCondition );
+        if ( !empty( $postalGreeting ) ) {
+            $this->addElement('select', 'postal_greeting_id', ts('Postal Greeting'), 
+                              array('' => ts('- select -')) + $postalGreeting, 
+                              array( 'onchange' => " showPostalGreeting();") );
+            //postal greeting custom
+            $this->addElement('text', 'postal_greeting_custom', ts('Custom Postal Greeting'), 
+                              array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'postal_greeting_custom' ), 
+                                           array( 'onfocus' => "if (!this.value) this.value='Dear'; else return false",
+                                                  'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
+        }
 
         if ( $form->_showDemographics ) {
             // radio button for gender
@@ -275,7 +304,16 @@ class CRM_Contact_Form_Individual {
                 $template->assign( 'isshareHouseholdNew', false );
             } 
         }
-        
+        //if email/postal greeting type is 'Customized' 
+        //then Custom greeting field must have a value. CRM-4575
+        if( CRM_Utils_Array::value('email_greeting_id',$fields) == 4 && 
+            !CRM_Utils_Array::value('email_greeting_custom',$fields) ) {
+            $errors['email_greeting_custom'] = ts('Custom  Email Greeting is a required field if Email Greeting is of type Customized.');
+        }
+        if( CRM_Utils_Array::value('postal_greeting_id',$fields) == 4 && 
+            !CRM_Utils_Array::value('postal_greeting_custom',$fields) ) {
+            $errors['postal_greeting_custom'] = ts('Custom  Postal Greeting is a required field if Postal Greeting is of type Customized.');
+        }
         return empty($errors) ? true : $errors;
     }
 

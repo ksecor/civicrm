@@ -139,8 +139,7 @@ VALUES
    ('from_email_address'            , '{ts escape="sql"}From Email Address{/ts}'                 , 0, 1),
    ('mapping_type'                  , '{ts escape="sql"}Mapping Type{/ts}'                       , 0, 1),
    ('wysiwyg_editor'                , '{ts escape="sql"}WYSIWYG Editor{/ts}'                     , 0, 1),
-   ('recur_frequency_units'         , '{ts escape="sql"}Recurring Frequency Units{/ts}'          , 0, 1),
-   ('greeting_type'                 , '{ts escape="sql"}Greeting Type{/ts}'                      , 0, 1), 
+   ('recur_frequency_units'         , '{ts escape="sql"}Recurring Frequency Units{/ts}'          , 0, 1), 
    ('phone_type'                    , '{ts escape="sql"}Phone Type{/ts}'                         , 0, 1),
    ('custom_data_type'              , '{ts escape="sql"}Custom Data Type{/ts}'                   , 0, 1),  
    ('visibility'                    , '{ts escape="sql"}Visibility{/ts}'                         , 0, 1),
@@ -148,8 +147,10 @@ VALUES
    ('auction_item_type'             , '{ts escape="sql"}Auction Item Type{/ts}'                  , 0, 1),
    ('priority'                      , '{ts escape="sql"}Priority{/ts}'                           , 0, 1),
    ('redaction_rule'                , '{ts escape="sql"}Redaction Rule{/ts}'                     , 0, 1),	
-   ('report_template'               , '{ts escape="sql"}Report Template{/ts}'                    , 0, 1);
-  
+   ('report_template'               , '{ts escape="sql"}Report Template{/ts}'                    , 0, 1),
+   ('email_greeting'                , '{ts escape="sql"}Email Greeting Type{/ts}'                , 0, 1),
+   ('postal_greeting'               , '{ts escape="sql"}Postal Greeting Type{/ts}'               , 0, 1),
+   ('addressee'                     , '{ts escape="sql"}Addressee Type{/ts}'                     , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -183,7 +184,6 @@ SELECT @option_group_id_sfe            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_mt             := max(id) from civicrm_option_group where name = 'mapping_type';
 SELECT @option_group_id_we             := max(id) from civicrm_option_group where name = 'wysiwyg_editor';
 SELECT @option_group_id_fu             := max(id) from civicrm_option_group where name = 'recur_frequency_units';
-SELECT @option_group_id_gr             := max(id) from civicrm_option_group where name = 'greeting_type';
 SELECT @option_group_id_pht            := max(id) from civicrm_option_group where name = 'phone_type';
 SELECT @option_group_id_fma            := max(id) from civicrm_option_group where name = 'from_email_address';
 SELECT @option_group_id_cdt            := max(id) from civicrm_option_group where name = 'custom_data_type';
@@ -193,7 +193,9 @@ SELECT @option_group_id_aitype         := max(id) from civicrm_option_group wher
 SELECT @option_group_id_rt             := max(id) from civicrm_option_group where name = 'report_template';
 SELECT @option_group_id_priority       := max(id) from civicrm_option_group where name = 'priority';
 SELECT @option_group_id_rr             := max(id) from civicrm_option_group where name = 'redaction_rule';
-
+SELECT @option_group_id_emailGreeting  := max(id) from civicrm_option_group where name = 'email_greeting';
+SELECT @option_group_id_postalGreeting := max(id) from civicrm_option_group where name = 'postal_greeting';
+SELECT @option_group_id_addressee      := max(id) from civicrm_option_group where name = 'addressee';
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
 VALUES
@@ -433,12 +435,6 @@ VALUES
   (@option_group_id_fu, '{ts escape="sql"}monthly{/ts}'  , 'month',  'month',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_fu, '{ts escape="sql"}yearly{/ts}'   , 'year' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL, NULL),
 
- -- greeting types
-  (@option_group_id_gr, '{ts escape="sql"}Dear [first]{/ts}',                 1, 'Dear [first]',                 NULL, 0, 1,    1, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_gr, '{ts escape="sql"}Dear [prefix] [first] [last]{/ts}', 2, 'Dear [prefix] [first] [last]', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_gr, '{ts escape="sql"}Dear [prefix] [last]{/ts}',         3, 'Dear [prefix] [last]',         NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_gr, '{ts escape="sql"}Customized{/ts}',                   4, 'Customized',                   NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL, NULL),
-
 -- phone types.
   (@option_group_id_pht, '{ts escape="sql"}Phone{/ts}' ,        1, 'Phone'      , NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_pht, '{ts escape="sql"}Mobile{/ts}',        2, 'Mobile'     , NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
@@ -479,9 +475,26 @@ VALUES
 
 -- report templates
   (@option_group_id_rt , 'CRM_Report_Form_Contribution_Detail' , 1, 'CRM_Report_Form_Contribution_Detail', NULL, 0, NULL, 1, '{ts escape="sql"}Contribution Detail Report{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_rt , 'CRM_Report_Form_Contribution_Summary', 2, 'CRM_Report_Form_Contribution_Summary', NULL, 0, NULL, 2, '{ts escape="sql"}Contribution Summary Report{/ts}', 0, 0, 1, NULL, NULL);
+  (@option_group_id_rt , 'CRM_Report_Form_Contribution_Summary', 2, 'CRM_Report_Form_Contribution_Summary', NULL, 0, NULL, 2, '{ts escape="sql"}Contribution Summary Report{/ts}', 0, 0, 1, NULL, NULL),
 
-  
+-- email greeting.
+  (@option_group_id_emailGreeting, '{literal}Dear {contact.first_name}{/literal}',                                                 1, '{literal}Dear {contact.first_name}{/literal}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_emailGreeting, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', 2, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_emailGreeting, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      3, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_emailGreeting, '{literal}Customized{/literal}',                                                                4, '{literal}Customized{/literal}',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
+  (@option_group_id_emailGreeting, '{literal}Dear {contact.household_name}{/literal}',                                             5, '{literal}Dear {contact.househols_name}{/literal}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
+--postal greeting.
+  (@option_group_id_postalGreeting, '{literal}Dear {contact.first_name}{/literal}',                                                 1, '{literal}Dear {contact.first_name}{/literal}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_postalGreeting, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', 2, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_postalGreeting, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      3, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_postalGreeting, '{literal}Customized{/literal}',                                                                4, '{literal}Customized{/literal}',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
+  (@option_group_id_postalGreeting, '{literal}Dear {contact.household_name}{/literal}',                                             5, '{literal}Dear {contact.househols_name}{/literal}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
+--addressee.
+  (@option_group_id_addressee, '{literal}{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}{/literal}',          '1', '{literal}}{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}{/literal}',         NULL ,   '1', '1', '1', NULL , '0', '0', '1', NULL , NULL),
+  (@option_group_id_addressee, '{literal}{contact.household_name}{/literal}',    '2', '{literal}{contact.household_name}{/literal}',    NULL ,   '2', '0', '2', NULL , '0', '0', '1', NULL , NULL),
+  (@option_group_id_addressee, '{literal}{contact.organization_name}{/literal}', '3', '{literal}{contact.organization_name}{/literal}', NULL ,   '3', '0', '3', NULL , '0', '0', '1', NULL , NULL),
+  (@option_group_id_addressee, '{literal}Customized{/literal}',                  '4', '{literal}Customized{/literal}',                  NULL , NULL , '0', '4', NULL , '0', '1', '1', NULL , NULL);
+
 -- /*******************************************************
 -- *
 -- * Encounter Medium Option Values (for case activities)
@@ -514,9 +527,9 @@ VALUES
 {literal}
 -- Initial state of system preferences
 INSERT INTO 
-     civicrm_preferences(contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url, editor_id, mailing_backend )
+     civicrm_preferences(contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, address_standardization_provider, address_standardization_userid, address_standardization_url, editor_id, mailing_backend )
 VALUES 
-     (NULL,1,1,'123456789101113','1234','1234567891011121315161718','1234578','1234568910111314','{contact.address_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.contact_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',NULL,NULL,NULL,2,NULL);
+     (NULL,1,1,'123456789101113','1234','1234567891011121315161718','1234578','1234568910111314','{contact.address_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.addressee}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}',NULL,NULL,NULL,2,NULL);
 {/literal}
 
 INSERT INTO `civicrm_preferences_date`

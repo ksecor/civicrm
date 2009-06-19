@@ -248,15 +248,15 @@ class CRM_Core_OptionValue
      * @access public
      * @static
      */
-    static function getFields( $mode = '') 
+    static function getFields( $mode = '' ,$contactType = 'Individual') 
     {
         if ( !self::$_fields || ! CRM_Utils_Array::value( $mode, self::$_fields ) || $mode) {
             if ( !self::$_fields ) {
                 self::$_fields = array();
             }
-            require_once "CRM/Core/DAO/OptionValue.php";
+            require_once "CRM/Core/DAO/OptionValue.php";  
             $option = CRM_Core_DAO_OptionValue::import( );
-            
+
             foreach (array_keys( $option ) as $id ) {
                 $optionName = $option[$id];
             }
@@ -267,26 +267,45 @@ class CRM_Core_OptionValue
                                                                  'headerPattern' => '/^payment|(p(ayment\s)?instrument)$/i'
                                                                  )
                                    );
-            } else if ( $mode == '' ) {
-                $nameTitle = array('gender'            => array('name' => 'gender',
-                                                                'title'=> 'Gender',
-                                                                'headerPattern' => '/^gender$/i'
-                                                                ),
-                                   'individual_prefix' => array('name' => 'individual_prefix',
-                                                                'title'=> 'Individual Prefix',
-                                                                'headerPattern' => '/^(prefix|title)/i'
-                                                                ),
-                                   'individual_suffix' => array('name' => 'individual_suffix',
-                                                                'title'=> 'Individual Suffix',
-                                                                'headerPattern' => '/^suffix$/i'
-                                                                ),
-                                   'greeting_type' => array('name' => 'greeting_type',
-                                                            'title'=> 'Greeting Type'
-                                                                )                                     
-                                   );
+            } else if ( $mode == '' ) {  
+                //the fields email greeting and postal greeting are meant only for Individual and Household
+                //the field addressee is meant for all contact types, CRM-4575
+                if ( in_array($contactType, array('Individual', 'Household', 'Organization', 'All') ) ) {
+                    $nameTitle = array( 'addressee'     => array('name' => 'addressee',
+                                                                 'title'=> 'Addressee',
+                                                                 'headerPattern' => '/^addressee$/i'
+                                                                 ),
+                                        );
+                }
+                if ( $contactType == 'Individual' || $contactType == 'Household' || $contactType == 'All' ) {
+                    $title = array( 'email_greeting'    => array('name' => 'email_greeting',
+                                                                 'title'=> 'Email Greeting'
+                                                                 ),  
+                                    'postal_greeting'   => array('name' => 'postal_greeting',
+                                                                 'title'=> 'Postal Greeting',
+                                                                 ),
+                                    );
+                    $nameTitle = array_merge( $nameTitle, $title );
+                }
+                if ( $contactType == 'Individual' || $contactType == 'All') {
+                    $title = array( 'gender'            => array('name' => 'gender',
+                                                                 'title'=> 'Gender',
+                                                                 'headerPattern' => '/^gender$/i'
+                                                                 ),
+                                    'individual_prefix' => array('name' => 'individual_prefix',
+                                                                 'title'=> 'Individual Prefix',
+                                                                 'headerPattern' => '/^(prefix|title)/i'
+                                                                 ),
+                                    'individual_suffix' => array('name' => 'individual_suffix',
+                                                                 'title'=> 'Individual Suffix',
+                                                                 'headerPattern' => '/^suffix$/i'
+                                                                 ),
+                                    );
+                    $nameTitle = array_merge( $nameTitle, $title ); 
+                }
             }
-
-            if ( is_array( $nameTitle ) ) {
+            
+            if ( is_array( $nameTitle ) ) {   
                 foreach ( $nameTitle as $name => $attribs ) {
                     self::$_fields[$mode][$name] = $optionName;
                     list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
@@ -300,7 +319,7 @@ class CRM_Core_OptionValue
                 }
             }
         }
-
+        
         return self::$_fields[$mode];
     }
     

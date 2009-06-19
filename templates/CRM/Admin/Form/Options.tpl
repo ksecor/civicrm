@@ -46,6 +46,9 @@
         {if $showDefault}
             <dt>{$form.is_default.label}</dt><dd>{$form.is_default.html}</dd>
         {/if}
+        {if $showContactFilter}{* contactOptions is exposed for email/postal greeting and addressee types to set filter for contact types *}
+            <dt>{$form.contactOptions.label}</dt><dd>{$form.contactOptions.html}</dd>
+        {/if}    
     </dl>
     {/if}
     <div class="spacer"></div>   

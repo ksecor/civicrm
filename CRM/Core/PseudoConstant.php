@@ -80,13 +80,6 @@ class CRM_Core_PseudoConstant
      * @static
      */
     private static $individualSuffix;
-    
-    /**
-     * greeting
-     * @var array
-     * @static
-     */
-    private static $greeting;
 
     /**
      * gender
@@ -299,6 +292,27 @@ class CRM_Core_PseudoConstant
      */
     private static $mailProtocol;
     
+    /**
+     * Email Greeting
+     * @var array
+     * @static
+     */
+    private static $emailGreeting;
+    
+    /**
+     * Postal Greeting
+     * @var array
+     * @static
+     */
+    private static $postalGreeting;
+    
+     /**
+     * Addressee
+     * @var array
+     * @static
+     */
+    private static $addressee;
+
     /**
      * populate the object from the database. generic populate
      * method
@@ -513,28 +527,6 @@ class CRM_Core_PseudoConstant
             self::$individualSuffix = CRM_Core_OptionGroup::values('individual_suffix');
         }
         return self::$individualSuffix;
-    }
-    
-    /**
-     * Get all Greeting.
-     *
-     * The static array greeting is returned
-     *
-     * @access public
-     * @static
-     *
-     * @param boolean $all - get All Greeting - default is to get only active ones.
-     *
-     * @return array - array reference of all greetings.
-     *
-     */
-    public static function &greeting( )
-    {
-        if ( ! self::$greeting ) {
-            require_once 'CRM/Core/OptionGroup.php';
-            self::$greeting = CRM_Core_OptionGroup::values('greeting_type');
-        }
-        return self::$greeting;
     }
     
     /**
@@ -1396,6 +1388,73 @@ ORDER BY name";
         return $result;
     }
 
+    /**
+     * Get all Email Greetings.
+     *
+     * The static array of email greetings is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All Email Greetings - default is to get only active ones.
+     *
+     * @return array - array reference of all email greetings.
+     *
+     */
+    public static function &emailGreeting( $filterCondition )
+    {
+        if ( ! self::$emailGreeting ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$emailGreeting = CRM_Core_OptionGroup::values('email_greeting', null, null, null, 
+                                                                $filterCondition);
+        }
+        return self::$emailGreeting;
+    }
+
+    /**
+     * Get all Postal Greetings.
+     *
+     * The static array of postal greeting is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All Postal Greetings - default is to get only active ones.
+     *
+     * @return array - array reference of all postal greetings.
+     *
+     */
+    public static function &postalGreeting( $filterCondition )
+    {
+        if ( ! self::$postalGreeting ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$postalGreeting = CRM_Core_OptionGroup::values('postal_greeting', null, null, null, 
+                                                                 $filterCondition);
+        }
+        return self::$postalGreeting;
+    }
+    
+    /**
+     * Get all addressee.
+     *
+     * The static array of addressee is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All addressee - default is to get only active ones.
+     *
+     * @return array - array reference of all addressee.
+     *
+     */
+    public static function &addressee( $filterCondition )
+    {
+        if ( ! self::$addressee ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$addressee = CRM_Core_OptionGroup::values('addressee', null, null, null, $filterCondition);
+        }
+        return self::$addressee;
+    }
 }
 
 
