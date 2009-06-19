@@ -211,7 +211,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
 
         // get the list of menus
         $query = "
-SELECT id, label, url, permission, permission_operator, has_separator 
+SELECT id, label, url, permission, permission_operator, has_separator, parent_id 
 FROM civicrm_navigation 
 WHERE {$whereClause} 
 AND is_active = 1
@@ -224,7 +224,9 @@ ORDER BY weight, parent_id";
                                                                              'url'        => $navigation->url,
                                                                              'permission' => $navigation->permission,
                                                                              'operator'   => $navigation->permission_operator,
-                                                                             'separator'  => $navigation->has_separator ) );
+                                                                             'separator'  => $navigation->has_separator,
+                                                                             'parentID'   => $navigation->parent_id,
+                                                                             'navID'      => $navigation->id) );
             self::buildNavigationTree( $navigationTree[$navigation->id]['child'], $navigation->id );
         }
 
@@ -244,6 +246,8 @@ ORDER BY weight, parent_id";
         self::buildNavigationTree( $navigations, $parent = NULL );
         $navigationString = null;
 
+        //skip children menu item if user don't have access to parent menu item
+        $skipMenuItems = array( );
         foreach( $navigations as $key => $value ) {
             if ( $json ) {
                 if ( $navigationString ) {
@@ -251,17 +255,21 @@ ORDER BY weight, parent_id";
                 }
                 $navigationString .= ' { attributes: { id : "node_'.$key.'" }, data: "'. $value['attributes']['label']. '"';
             } else {
-                $name = self::getMenuName( $value );
+                $name = self::getMenuName( $value, $skipMenuItems );
                 if ( $name ) { 
                     $navigationString .= '<li class="menumain">' . $name;
                 }
             }
             
-            self::recurseNavigation( $value, $navigationString, $json );
+            self::recurseNavigation( $value, $navigationString, $json, $skipMenuItems );
         }
         
         if ( $json ) {
             $navigationString = '[' .$navigationString . '}]';
+        } else {
+            // clean up - Need to remove empty <ul>'s, this happens when user don't have 
+            // permission to access parent
+            $navigationString = str_replace( '<ul></ul>', '', $navigationString );
         }
 
         return $navigationString;
@@ -270,7 +278,7 @@ ORDER BY weight, parent_id";
     /**
      * Recursively check child menus
      */
-    function recurseNavigation(&$value, &$navigationString, $json ) {
+    function recurseNavigation(&$value, &$navigationString, $json, $skipMenuItems ) {
         if ( $json ) {
             if ( !empty( $value['child'] ) ) {
                 $navigationString .= ', children : [ ';
@@ -283,7 +291,7 @@ ORDER BY weight, parent_id";
                 foreach($value['child'] as $k => $val ) {
                     $appendComma = true;                        
                     $navigationString .= ' { attributes: { id : "node_'.$k.'" }, data: "'. $val['attributes']['label'] .'"';
-                    self::recurseNavigation($val, $navigationString, $json );
+                    self::recurseNavigation($val, $navigationString, $json, $skipMenuItems );
                     if ( $appendComma ) {
                         $navigationString .= ' },';
                     }
@@ -306,10 +314,10 @@ ORDER BY weight, parent_id";
 
             if ( !empty( $value['child'] ) ) {
                 foreach($value['child'] as $val ) {
-                    $name = self::getMenuName( $val );
+                    $name = self::getMenuName( $val, $skipMenuItems );
                     if ( $name ) { 
                         $navigationString .= '<li>' . $name;
-                        self::recurseNavigation($val, $navigationString, $json );
+                        self::recurseNavigation($val, $navigationString, $json, $skipMenuItems );
                     }
                 }
             }
@@ -323,11 +331,17 @@ ORDER BY weight, parent_id";
     /**
      *  Get Menu name
      */
-    function getMenuName( &$value ) {
+    function getMenuName( &$value, &$skipMenuItems ) {
         $name       = $value['attributes']['label'];
         $url        = $value['attributes']['url'];
         $permission = $value['attributes']['permission'];
         $operator   = $value['attributes']['operator'];
+        $parentID   = $value['attributes']['parentID'];
+        $navID      = $value['attributes']['navID'];
+        
+        if ( in_array( $parentID, $skipMenuItems ) ) {
+            return false;
+        }
               
         $makeLink = false;
         if ( isset( $url ) && $url) {
@@ -352,18 +366,21 @@ ORDER BY weight, parent_id";
                          !CRM_Core_Permission::check( $key ) ) {
                         $showItem = false;
                         if ( $operator == 'AND' ) {
+                            $skipMenuItems[] = $navID;
                             return $showItem;
                         }
                     }
                } else if ( !CRM_Core_Permission::check( $key ) ) {
                      $showItem = false;
                      if ( $operator == 'AND' ) {
+                         $skipMenuItems[] = $navID;
                          return $showItem;
                      }
                 }
             }
             
             if ( !$showItem ) {
+                $skipMenuItems[] = $navID;
                 return false;
             }   
         }
