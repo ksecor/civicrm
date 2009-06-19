@@ -1,7 +1,7 @@
 {include file="CRM/common/jquery.tpl"}
 <div id="menu-container" style="display:none;">
-    <ul id="civicrm_menu">
-        <li id="crm-qsearch">
+    <ul id="civicrm-menu">
+        <li id="crm-qsearch" class="menumain">
             <form action="{crmURL p='civicrm/contact/search/basic' h=0 }" name="search_block" id="id_search_block" method="post" onsubmit="getSearchURLValue( );">
                 <input type="text" class="form-text" id="sort_name" name="sort_name" style="width: 12em;"/>
                 <input type="hidden" id="sort_contact_id" value="">
@@ -39,8 +39,8 @@ function getSearchURLValue( )
 
 /* Need to fix this properly*/
 cj( function() {
-    cj("#admin-menu").find("li a:last").click(function() { 
-        cj(".cmDiv").toggle();
+    cj("#admin-menu").find("li :contains('CiviCRM')").click(function() {
+        cj("#civicrm-menu").toggle();
         return false;
     });
 
@@ -56,12 +56,12 @@ cj( function() {
 
 cj('body').prepend( cj("#menu-container").html() );
 var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
-cj('#civicrm_menu').clickMenu( {arrowSrc: resourceBase + 'packages/jquery/css/images/arrow.png'} );
+cj('#civicrm-menu').menu( {arrowSrc: resourceBase + 'packages/jquery/css/images/arrow.png'} );
 
 //Track Scrolling
 cj(window).scroll( function () { 
    var scroll = document.documentElement.scrollTop || document.body.scrollTop;
-   cj(".cmDiv").css({top: "scroll", position: "fixed", top: "0px"}); 
+   cj('#civicrm-menu').css({top: "scroll", position: "fixed", top: "0px"}); 
 });
 </script>
 {/literal}
