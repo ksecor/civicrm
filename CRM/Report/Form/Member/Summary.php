@@ -400,9 +400,8 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         }
     }
     
-    function alterDisplay( &$rows ){
+    function alterDisplay( &$rows ){ 
         // custom code to alter rows
-        $hoverText  = ts("Lists Summary of Memberships.");
         $entryFound = false;
         foreach ( $rows as $rowNum => $row ) {
             // make count columns point to detail report
@@ -434,11 +433,14 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                 }
                 
                 $url =
-                    CRM_Utils_System::url( 'civicrm/report/member/detail',
-                                           "reset=1&force=1&join_date_from={$dateStart}&join_date_to={$dateEnd}"
-                                           );
+                    CRM_Report_Utils_Report::getNextUrl( 'member/detail',
+                                                         "reset=1&force=1&join_date_from={$dateStart}&join_date_to={$dateEnd}", 
+                                                         $this->_absoluteUrl, $this->_id );
                 $row['civicrm_membership_join_date_start'] =  CRM_Utils_Date::format($row['civicrm_membership_join_date_start']);
-                $rows[$rowNum]['civicrm_membership_join_date_start_link'] = $url;
+                $rows[$rowNum]['civicrm_membership_join_date_start_link' ] = $url;
+                $rows[$rowNum]['civicrm_membership_join_date_start_hover'] = 
+                    ts("Lists Summary of Memberships for this date unit.");
+
                 $entryFound = true;
             }
             

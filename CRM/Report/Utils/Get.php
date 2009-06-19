@@ -54,14 +54,17 @@ class CRM_Report_Utils_Get {
 
         $from     = self::getTypedValue( "{$fieldName}_from", $type );
         $to       = self::getTypedValue( "{$fieldName}_to",   $type );
-        
+                
+        $relative = CRM_Utils_Array::value("{$fieldName}_relative", $_GET );
+        if( $relative ) {
+            list( $from, $to ) = CRM_Report_Form::getFromTo( $relative, null, null );
+        }
+
         if ( !($from || $to) ) {
             return false;
         } else if ( $from || $to || $relative ) {
             // unset other criteria
-            unset( $defaults["{$fieldName}_relative"],
-                   $defaults["{$fieldName}_from"],
-                   $defaults["{$fieldName}_to"] );
+            self::unsetFilters( $defaults );
         }
         $defaults["{$fieldName}_from"] = CRM_Utils_Date::unformat($from, '');
         $defaults["{$fieldName}_to"]   = CRM_Utils_Date::unformat($to, '');
@@ -79,6 +82,7 @@ class CRM_Report_Utils_Get {
         case 'neq' :
             $value = self::getTypedValue( "{$fieldName}_value", $field['type'] );
             if ( $value !== null ) {
+                self::unsetFilters( $defaults );
                 $defaults["{$fieldName}_value"] = $value;
                 $defaults["{$fieldName}_op"   ] = $fieldOP;
             }
@@ -167,7 +171,9 @@ class CRM_Report_Utils_Get {
             foreach($defaults as $field_name => $field_value ){
                 $newstr  = substr( $field_name , strrpos( $field_name , '_' ) );
                 if( $newstr == '_value' || $newstr == '_op'  ||
-                    $newstr == '_min'   || $newstr == '_max' ) {
+                    $newstr == '_min'   || $newstr == '_max' ||
+                    $newstr == '_from'  || $newstr == '_to'  ||
+                    $newstr == '_relative' ) {
                     unset($defaults[$field_name]);
                 }
             }
