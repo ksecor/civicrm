@@ -54,7 +54,7 @@
         </table>      
     {/if}
 
-    {if $form.options.html}
+    {if $form.options.html || $form.options.html}
         <br/>
         <table class="report-layout">
             <tr>
@@ -63,7 +63,12 @@
 	</table>
 
         <table class="report-layout">
-            <tr><td>{$form.options.html}</td></tr>
+            <tr>
+	        <td>{$form.options.html}</td>
+	        {if $form.blank_column_end}
+	            <td>{$form.blank_column_end.label}&nbsp;&nbsp;{$form.blank_column_end.html}</td>
+                {/if}
+            </tr>
         </table>
     {/if}
   

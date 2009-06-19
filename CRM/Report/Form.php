@@ -537,8 +537,13 @@ class CRM_Report_Form extends CRM_Core_Form {
             
             $options = array();
             foreach ( $this->_options as $fieldName => $field ) {
-                $options[$field['title']] = $fieldName;
+                if ( $field['type'] == 'select' ) {
+                    $this->addElement( 'select', "{$fieldName}", $field['title'], $field['options']);
+                } else {
+                    $options[$field['title']] = $fieldName;
+                }
             }
+
             $this->addCheckBox( "options", $field['title'], 
                                 $options, null, 
                                 null, null, null, $this->_fourColumnAttribute );
