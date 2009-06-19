@@ -13,6 +13,7 @@ class civicrm_handler_filter_membership_type extends views_handler_filter_in_ope
     static $_membershipType;
 
     function construct( ) {
+        parent::construct();
         if ( ! self::$_membershipType ) {
             civicrm_initialize( );
             require_once 'CRM/Member/PseudoConstant.php';

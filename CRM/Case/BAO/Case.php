@@ -722,20 +722,22 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         
         $select = 'SELECT ca.id as id, 
                           ca.activity_type_id as type, 
-                          cc.sort_name as reporter, 
-                          ca.due_date_time as due_date, 
-                          ca.activity_date_time actual_date, 
+                          cc.sort_name as reporter,
+                          IF(COALESCE(ca.activity_date_time, ca.due_date_time) < NOW() AND ca.status_id=ov.value,
+                            COALESCE(ca.activity_date_time, ca.due_date_time),
+                            DATE_ADD(NOW(), INTERVAL 1 YEAR)
+                          ) as overdue_date,
+                          COALESCE(ca.activity_date_time, ca.due_date_time) as display_date,
                           ca.status_id as status, 
-                          ca.subject as subject,
+                          ca.subject as subject, 
                           ca.is_deleted as deleted ';
 
-        $from  = 'FROM civicrm_case_activity cca, 
-                       civicrm_activity ca, 
-                       civicrm_contact cc '; 
+        $from  = 'FROM civicrm_case_activity cca INNER JOIN civicrm_activity ca ON ca.id = cca.activity_id
+                  INNER JOIN civicrm_contact cc ON cc.id = ca.source_contact_id
+                  LEFT OUTER JOIN civicrm_option_group og ON og.name="activity_status"
+                  LEFT OUTER JOIN civicrm_option_value ov ON ov.option_group_id=og.id AND ov.name="Scheduled" '; 
 
         $where = 'WHERE cca.case_id= %1 
-                    AND ca.id = cca.activity_id 
-                    AND cc.id = ca.source_contact_id
                     AND ca.is_current_revision = 1';
 
 		if ( CRM_Utils_Array::value( 'reporter_id', $params ) ) {
@@ -795,11 +797,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $sortname  = CRM_Utils_Array::value( 'sortname', $params );
         $sortorder = CRM_Utils_Array::value( 'sortorder', $params );
         
-        // Default sort is status_id ASC, due_date_time ASC (so completed activities drop to bottom)
         if ( !$sortname AND !$sortorder ) {
-            $orderBy = " ORDER BY status_id ASC, due_date_time ASC";
+            $orderBy = " ORDER BY overdue_date ASC, display_date DESC";
         } else {
-            $orderBy = " ORDER BY {$sortname} {$sortorder}";
+            $orderBy = " ORDER BY {$sortname} {$sortorder}, display_date DESC";
         }
         
         $page = CRM_Utils_Array::value( 'page', $params );
@@ -842,9 +843,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['id']                = $dao->id;
             $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
             $values[$dao->id]['reporter']          = $dao->reporter;
-            $values[$dao->id]['due_date']          = CRM_Utils_Date::customFormat( $dao->due_date );
-            $values[$dao->id]['unix_due_date']     = CRM_Utils_Date::unixTime( $dao->due_date); // this field is only used for calculation
-            $values[$dao->id]['actual_date']       = CRM_Utils_Date::customFormat( $dao->actual_date );
+            $values[$dao->id]['unix_overdue_date'] = CRM_Utils_Date::unixTime( $dao->overdue_date); // this field is only used for calculation
+            $values[$dao->id]['display_date']      = CRM_Utils_Date::customFormat( $dao->display_date );
             $values[$dao->id]['status']            = $activityStatus[$dao->status];
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
             
@@ -859,7 +859,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             
             $values[$dao->id]['links'] = $url;
             if ( $values[$dao->id]['status'] == 'Scheduled' && 
-                 CRM_Utils_Date::overdue(  $dao->due_date ) ) {
+                 CRM_Utils_Date::overdue(  $dao->overdue_date ) ) {
                 $values[$dao->id]['class']   = 'status-overdue';
             } else if ( $values[$dao->id]['status'] == 'Scheduled' ) {
                 $values[$dao->id]['class']   = 'status-pending';

@@ -13,6 +13,7 @@ class civicrm_handler_filter_event_type extends views_handler_filter_in_operator
     static $_event_type;
 
     function construct( ) {
+        parent::construct();
         if ( ! self::$_event_type ) {
             civicrm_initialize( );
             require_once 'CRM/Core/OptionGroup.php';

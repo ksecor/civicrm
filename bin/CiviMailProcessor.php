@@ -160,7 +160,7 @@ if ($lock->isAcquired()) {
     if (!ini_get('safe_mode')) set_time_limit(0);
 
     // if there are named sets of settings, use them - otherwise use the default (null)
-    $names = is_array($_REQUEST['names']) ? $_REQUEST['names'] : array(null);
+    $names = isset($_REQUEST['names']) && is_array($_REQUEST['names']) ? $_REQUEST['names'] : array(null);
     foreach ($names as $name) {
         CiviMailProcessor::process($name);
     }

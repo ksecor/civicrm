@@ -13,6 +13,7 @@ class civicrm_handler_filter_contact_type extends views_handler_filter_in_operat
     static $_contactTypes;
 
     function construct( ) {
+        parent::construct();
         if ( ! self::$_contactTypes ) {
             civicrm_initialize( );
             require_once 'CRM/Core/SelectValues.php';

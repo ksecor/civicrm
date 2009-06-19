@@ -18,6 +18,8 @@
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
     {foreach from=$fields item=field key=fieldName}
+    {assign var=n value=$field.name}
+    {if $form.$n}
 
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
@@ -53,7 +55,6 @@
         <table class="form-layout-compressed">
      {/if}
 
-    {assign var=n value=$field.name}
     {if $field.options_per_line}
 	<tr id="editrow-{$n}">
         <td class="option-label">{$form.$n.label}</td>
@@ -131,6 +132,7 @@
         <tr id="helprow-{$n}"><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
     {/if}
 
+    {/if}
     {/foreach}
 
         {if $addToGroupId}

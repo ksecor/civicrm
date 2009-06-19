@@ -2,8 +2,7 @@
 {if $rows}
   <table class="nestedSelector">
     <tr class="columnheader">
-      <th>{ts}Due date{/ts}</th>
-      <th>{ts}Actual date{/ts}</th>
+      <th>{ts}Date{/ts}</th>
       <th>{ts}Subject{/ts}</th>
       <th>{ts}Type{/ts}</th>
       <th>{ts}Reporter{/ts}</th>
@@ -14,8 +13,7 @@
     {counter start=0 skip=1 print=false}
     {foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-      <td>{$row.due_date}</td>
-      <td>{$row.actual_date}</td>
+      <td>{$row.display_date}</td>
       <td>{$row.subject}</td>
       <td>{$row.type}</td>
       <td>{$row.reporter}</td>
