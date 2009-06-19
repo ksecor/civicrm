@@ -553,7 +553,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         // make sure we have edit permission for this contact
         // before we delete
         require_once 'CRM/Contact/BAO/Contact/Permission.php';
-        if ( ! CRM_Contact_BAO_Contact_Permission::allow( $id, CRM_Core_Permission::EDIT ) ) {
+        if ( !CRM_Core_Permission::check( 'delete contacts' ) ) {
             return false;
         }
 
