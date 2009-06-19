@@ -386,7 +386,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                               $this->_absoluteUrl, $this->_id );
                 $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
                 $rows[$rowNum]['civicrm_contact_display_name_hover'] =  
-                    ts("View Detail Contribtion(s) for this Contact.");
+                    ts("View Detailed Contribution(s) for this Contact.");
             }
 
             // skip looking further in rows, if first row itself doesn't 
