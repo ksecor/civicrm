@@ -937,12 +937,14 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             
             $values[$dao->id]['links'] = $url;
             $values[$dao->id]['class'] = "";
-           
-            if ( $activityPriority[$dao->priority] == 'Urgent' ) {
-                $values[$dao->id]['class']   =  $values[$dao->id]['class']."priority-urgent ";
-            } else if ( $activityPriority[$dao->priority] == 'Low' ) {
-                $values[$dao->id]['class']   = $values[$dao->id]['class']."priority-low ";
-            } 
+
+            if ( !empty($dao->priority) ) {
+                if ( $activityPriority[$dao->priority] == 'Urgent' ) {
+                    $values[$dao->id]['class']   =  $values[$dao->id]['class']."priority-urgent ";
+                } else if ( $activityPriority[$dao->priority] == 'Low' ) {
+                    $values[$dao->id]['class']   = $values[$dao->id]['class']."priority-low ";
+                } 
+            }
             
             if( $values[$dao->id]['status'] == 'Scheduled' ) {
                 $values[$dao->id]['class']   =  $values[$dao->id]['class']."status-scheduled";
