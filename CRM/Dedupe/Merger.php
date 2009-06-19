@@ -37,7 +37,7 @@ class CRM_Dedupe_Merger
     // FIXME: this should be auto-generated from the schema
     static $validFields = array(
         'birth_date', 'contact_source', 'contact_type', 'custom_greeting', 
-        'deceased_date', 'do_not_email', 'do_not_mail', 'do_not_phone', 
+        'deceased_date', 'do_not_email', 'do_not_mail', 'do_not_sms', 'do_not_phone', 
         'do_not_trade', 'external_identifier', 'first_name', 'gender', 
         'greeting_type', 'home_URL', 'household_name', 'image_URL', 
         'individual_prefix', 'individual_suffix', 'is_deceased', 'is_opt_out', 

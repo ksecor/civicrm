@@ -368,3 +368,6 @@ VALUES
 -- CRM-4394
 UPDATE civicrm_state_province SET country_id = 1008 WHERE id = 1637;
 
+---CRM-4633
+ALTER TABLE `civicrm_contact`
+  ADD `do_not_sms` tinyint(4) default '0' AFTER `do_not_mail`;

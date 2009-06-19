@@ -1148,6 +1148,7 @@ class CRM_Contact_BAO_Query
         case 'do_not_phone':
         case 'do_not_email':
         case 'do_not_mail':
+        case 'do_not_sms':
         case 'do_not_trade':
         case 'is_opt_out':
             $this->privacy( $values );
@@ -2833,6 +2834,7 @@ WHERE  id IN ( $groupIDs )
                                                                // FIXME: should we use defaultHierReturnProperties() for the below?
                                                                'do_not_email'           => 1,
                                                                'do_not_mail'            => 1,
+                                                               'do_not_sms'             => 1,
                                                                'do_not_phone'           => 1,
                                                                'do_not_trade'           => 1,
                                                                'is_opt_out'             => 1,
@@ -3240,7 +3242,8 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
                                                         'preferred_communication_method' => 1,
                                                         'do_not_phone'                   => 1, 
                                                         'do_not_email'                   => 1, 
-                                                        'do_not_mail'                    => 1, 
+                                                        'do_not_mail'                    => 1,
+                                                        'do_not_sms'                     => 1,
                                                         'do_not_trade'                   => 1, 
                                                         'location'                       => 
                                                         array( '1' => array ( 'location_type'      => 1,

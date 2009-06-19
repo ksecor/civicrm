@@ -325,7 +325,7 @@ function civicrm_views_data() {
                                                                      ),
                                                      );
   
-    //BOOLEAN : DO NOT EMAIL
+    //BOOLEAN : DO NOT PHONE
     $data['civicrm_contact']['do_not_phone'] = array(
                                                      'title' => t('Do Not Phone'),
                                                      'help' => t('Does this contact not want to be phoned?'),
@@ -347,7 +347,7 @@ function civicrm_views_data() {
                                                                      ),
                                                      );
   
-    //BOOLEAN : DO NOT Mail
+    //BOOLEAN : DO NOT MAIL
     $data['civicrm_contact']['do_not_mail'] = array(
                                                     'title' => t('Do Not Mail'),
                                                     'help' => t('Does this contact not want to be mailed?'),
@@ -369,9 +369,31 @@ function civicrm_views_data() {
                                                                     ),
                                                     );
   
-    //BOOLEAN : DO NOT Trade
+    //BOOLEAN : DO NOT SMS
+    $data['civicrm_contact']['do_not_sms'] = array(
+                                                    'title'    => t('Do Not Sms'),
+                                                    'help'     => t('Does this contact not want to receive messages?'),
+                                                    'field'    => array(
+                                                                        'handler'        => 'views_handler_field_boolean',
+                                                                        'click sortable' => TRUE,
+                                                                        ),
+
+                                                    'argument' => array(
+                                                                        'handler' => 'views_handler_argument',
+                                                                        ),
+
+                                                    'filter'   => array(
+                                                                        'handler' => 'views_handler_filter_boolean_operator',
+                                                                        ),
+
+                                                    'sort'     => array(
+                                                                        'handler' => 'views_handler_sort',
+                                                                        ),
+                                                    );
+  
+    //BOOLEAN : DO NOT TRADE
     $data['civicrm_contact']['do_not_trade'] = array(
-                                                     'title' => t('Do Not Mail'),
+                                                     'title' => t('Do Not Trade'),
                                                      'help' => t('Does this contact not want trade?'),
                                                      'field' => array(
                                                                       'handler' => 'views_handler_field_boolean',

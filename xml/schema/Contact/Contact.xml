@@ -75,7 +75,16 @@
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
-  </field> 
+  </field>
+  <field>
+       <name>do_not_sms</name>
+       <type>boolean</type>
+       <import>true</import>
+       <headerPattern>/d(o )?(not )?(sms)/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
+       <default>0</default>
+       <add>2.3</add>
+  </field>
   <field>
        <name>do_not_trade</name>
        <type>boolean</type>
