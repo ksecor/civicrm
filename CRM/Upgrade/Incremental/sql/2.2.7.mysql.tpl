@@ -1,6 +1,12 @@
 -- CiviReport Component
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviReport', 'CRM_Report' );
 
+INSERT INTO civicrm_acl
+    (name, deny, entity_table, entity_id, operation, object_table, object_id, acl_table, acl_id, is_active) 
+VALUES 
+    ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviReport',      NULL, NULL, NULL, 1),
+    ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access Report Criteria', NULL, NULL, NULL, 1);
+
 -- Report Templates
 {if $multilingual}
     INSERT INTO civicrm_option_group
@@ -59,7 +65,7 @@ SELECT @option_group_id_report         := max(id) from civicrm_option_group wher
         (@option_group_id_report , 'Activity Report',                         'activity',                       'CRM_Report_Form_Activity',                        3,  'Provides a list of constituent activity including activity statistics for one/all contacts during a given date range(required)',    0, NULL ),
         (@option_group_id_report , 'Walk / Phone List Report',                'walklist',                       'CRM_Report_Form_Walklist',                        4,  'Provides a detailed report for your walk/phonelist for targetted contacts',                                                         0, NULL ),
         (@option_group_id_report , 'Current Employer Report',                 'contact/currentEmployer',        'CRM_Report_Form_Contact_CurrentEmployer',         5,  'Provides detail list of employer employee relationships along with employment details Ex Join Date',                                0, NULL ),
-        (@option_group_id_report , 'Donor Report ( Summary )',                'contribute/summary',             'CRM_Report_Form_Contribute_Summary',              6,  'Shows contribution / amount statistics by month / week / year .. country / state .. type.', 1, @contributeCompId ),
+        (@option_group_id_report , 'Donor Report (Summary)',                  'contribute/summary',             'CRM_Report_Form_Contribute_Summary',              6,  'Shows contribution / amount statistics by month / week / year .. country / state .. type.', 1, @contributeCompId ),
         (@option_group_id_report , 'Donor Report (Detail)',                   'contribute/detail',              'CRM_Report_Form_Contribute_Detail',               7,  'Lists detailed contribution(s) for one / all contacts .. Contribution summary report points to this report for specific details.',                                                                                                          1, @contributeCompId ),
         (@option_group_id_report , 'Donation Summary Report (Repeat)',        'contribute/repeatSummary',       'CRM_Report_Form_Contribute_RepeatSummary',        8,  'Given two date ranges, shows contacts (and their contributions) who contributed in both the date ranges with percentage increase / decrease.',                                                                                              1, @contributeCompId ),
         (@option_group_id_report , 'Donation Detail Report (Repeat)' ,        'contribute/repeatDetail',        'CRM_Report_Form_Contribute_RepeatDetail',         9,  'Allows the user to analyze repeat contributions, contributions that come from the same contact during two periods. Ex if a user wants to see contributions made by people in 2007/2008 and then changed in their contribution behaviour',   0, @contributeCompId ),

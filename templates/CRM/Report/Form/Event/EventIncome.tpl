@@ -15,7 +15,7 @@
                 	<table class="report-layout" >
                 	    {foreach from=$summary.$eventID item=values key=keys}
                 	        {if $keys == 'Title'}
-                        	        <tr>
+                        	    <tr>
                                         <th>{$keys}</th>
                                         <th colspan="3">{$values}</th>
                                     </tr>
@@ -29,20 +29,20 @@
                         </table>
                         {foreach from=$rows item=row key=keys}
                             <table class="report-layout">
-                        	   {if $row}
-                        	       <tr>
-                        	           <th width="34%">{$keys} Breakdown</th>
-                                	   <th width="22%">Total</th>
-                                       <th width="22%">% of Total</th>
-                                       <th width="22%">Revenue</th>
-                                   </tr>
+                        	{if $row}
+                        	    <tr>
+                        	        <th width="34%">{ts 1=$keys}%1 Breakdown{/ts}</th>
+                                	<th class="reports-header-right">{ts}Total{/ts}</th>
+                                        <th class="reports-header-right">{ts}% of Total{/ts}</th>
+                                        <th class="reports-header-right">{ts}Revenue{/ts}</th>
+                                    </tr>
                                     {foreach from=$row.$eventID item=row key=role}
-                                    <tr>
-                                        <td class="report-contents">{$role}</td>
-                                        <td class="report-contents">{$row.0}</td>
-                                        <td class="report-contents">{$row.1}</td>
-                                        <td class="report-contents">{$row.2|crmMoney}</td>	        
-                                       </tr>
+                                        <tr>
+                                            <td class="report-contents" width="34%">{$role}</td>
+                                            <td class="report-contents-right">{$row.0}</td>
+                                            <td class="report-contents-right">{$row.1}</td>
+                                            <td class="report-contents-right">{$row.2|crmMoney}</td>	        
+                                        </tr>
                                     {/foreach}
                                 {/if}
                             </table>
