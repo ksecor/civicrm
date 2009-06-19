@@ -55,7 +55,7 @@
                         <td>{$form.$print.html}&nbsp;&nbsp;</td>
                         <td>{$form.$pdf.html}&nbsp;&nbsp;</td>
                         <td>{$form.$csv.html}&nbsp;&nbsp;</td>
-                        <td>{$form.$group.html}</td>
+                        <td>{$form.groups.html}&nbsp;{$form.$group.html}</td>
                         {if $instanceUrl}
                             <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Available Report(s) For This Template{/ts}</a></td>
                         {/if}

@@ -598,10 +598,21 @@ class CRM_Report_Form extends CRM_Core_Form {
         $label = $this->_id ? ts( 'Export to CSV' ) : ts( 'Preview CSV' );
         $this->addElement('submit', $this->_csvButtonName, $label );
 
-        /*
-        $label = $this->_id ? ts( 'Export to Group' ) : ts( 'Preview Group' );
+        require_once 'CRM/Contact/BAO/Group.php';
+        $groupList = array();
+        $groups = CRM_Contact_BAO_Group::getGroups( );
+        $groupList[''] = ts('- select group -');
+        foreach ($groups as $group) {
+          $groupList[$group->id] = $group->title;
+        }        
+        asort($groupList);
+        
+        $this->addElement( 'select', 'groups', ts( 'Group' ), $groupList );
+        $this->assign( 'group', $this->_groups );
+        
+        //$this->addElement('select', 'select_add_to_group_id', ts('Group'), $groupList);
+        $label = ts( 'Add Results' );
         $this->addElement('submit', $this->_groupButtonName, $label );
-        */
 
         $this->addChartOptions( );
         $this->addButtons( array(
@@ -1285,6 +1296,23 @@ class CRM_Report_Form extends CRM_Core_Form {
         } else if ( $this->_instanceButtonName == $this->controller->getButtonName( ) ) {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::postProcess( $this );
+        }
+
+        if ( $this->_outputMode == 'group' ) {
+          $group_id = $this->_submitValues['groups'];
+          
+          if (is_numeric($group_id) && isset($this->_aliases['civicrm_contact'])) {
+            require_once 'CRM/Contact/BAO/GroupContact.php';
+
+            $sql = 'SELECT DISTINCT ' . $this->_aliases['civicrm_contact'] . '.id AS contact_id ' . $this->_from . ' ' . $this->_where;          
+            $dao = CRM_Core_DAO::executeQuery( $sql );
+            
+            // Add resulting contacts to group
+            while ( $dao->fetch( ) ) {
+              $contact_ids = array($dao->contact_id);
+              CRM_Contact_BAO_GroupContact::addContactsToGroup($contact_ids, $group_id);
+            }
+          }
         }
     }
 
