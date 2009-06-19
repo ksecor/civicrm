@@ -9,7 +9,7 @@
         </div>
         {foreach from=$rows item=row}
             <br />
-            <table style = "width : 100%;">
+            <table class="report-layout">
                 <tr>
                     <td>
                 	<table class="report-layout">

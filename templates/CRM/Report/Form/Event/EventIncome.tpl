@@ -9,7 +9,8 @@
             {include file="CRM/common/pager.tpl" noForm=1}
         </div>
         {foreach from=$events item=eventID}
-            <table style="width:100%">
+            <br />
+            <table class="report-layout">
                 <tr>
                     <td>    
                 	<table class="report-layout" >

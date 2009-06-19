@@ -1,12 +1,62 @@
 /* CiviCRM Print Media Stylesheet */
 
-// Hide any buttons or other form items when printing
+/* Hide any buttons or other form items when printing*/
 .form-item {
-  display: none;
+     display: none;
 }
 .form-item .element-right{
-  display: none;
-}
+     display: none;
+ }
 #crm-container {   
-  overflow: visible !important;
+    overflow: visible !important;
+}
+/* CSS for Print and PDF of Reports */
+#crm-container .report-layout {
+    border           : 1px groove #DDDDDD;
+    width            : 100%;
+    font-family      : sans-serif;	
+    border-collapse  : collapse;
+}
+
+#crm-container .reports-header-right {
+    text-align       : right;
+}
+
+#crm-container .report-contents {
+    border           : 1px groove #DDDDDD;
+    padding          : 4px;
+    width            : 20%;
+}
+
+#crm-container .report-contents-right {
+    border           : 1px groove #DDDDDD;
+    padding          : 4px;
+    text-align       : right;
+}
+
+#crm-container table.report-layout td {
+    border           : 1px groove #DDDDDD;
+}
+
+#crm-container table.report-layout tr {
+    font-size        : 0.95em; 
+}
+
+#crm-container .report-label {
+    text-align       : right;
+    font-weight      : bold;
+}
+
+#crm-container table.report-layout th {
+    background-color : #DCDCDC;
+}
+
+#crm-container table.report-layout th.report-contents {
+    background-color : #F5F5F5;	       
+}
+
+#crm-container h1 {
+    text-align       : left;
+    font-size        : 30pt; font-style: italic;
+    margin           : 0;
 }
