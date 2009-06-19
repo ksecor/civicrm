@@ -1912,6 +1912,16 @@ SELECT $selectClause
             }
         }
         
+        //get custom values of email/postal greeting or addressee, CRM-4575
+        $element = array( 'email_greeting'   => 'email_greeting_custom', 
+                           'postal_greeting' => 'postal_greeting_custom', 
+                           'addressee'       => 'addressee_custom' );
+        foreach( $element as $field => $customField ) {
+            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
+                $returnProperties[$customField] = 1;
+            }
+        }    
+        
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $contactIDs );
         
@@ -1920,7 +1930,7 @@ SELECT $selectClause
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
         
         $contactDetails =& $details[0];
-        
+                
         foreach ( $contactIDs as $key => $contactID ) {
             if ( array_key_exists( $contactID, $contactDetails ) ) {
                 
@@ -1941,6 +1951,14 @@ SELECT $selectClause
                     }
                     $contactDetails[$contactID]['preferred_communication_method'] = implode( ', ', $result );
                 }
+                //If the contact has a "Customized" value for email/postal greeting or addressee
+                //then output the corresponding custom value instead. CRM-4575
+                foreach( $element as $field => $customField ) {
+                    $fieldId = $field."_id";
+                    if($contactDetails[$contactID][$fieldId] == 4 ) {
+                        $contactDetails[$contactID][$field] = $contactDetails[$contactID][$customField];
+                    } 
+                }
                 
                 foreach ( $custom as $cfID ) {
                     if ( isset ( $contactDetails[$contactID]["custom_{$cfID}"] ) ) {
@@ -1955,7 +1973,7 @@ SELECT $selectClause
         // also call a hook and get token details
         require_once 'CRM/Utils/Hook.php';
         CRM_Utils_Hook::tokenValues( $details[0], $contactIDs );
-        return $details;
+        return $details; 
     }
 
     /**
