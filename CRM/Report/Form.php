@@ -142,6 +142,8 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_instanceButtonName = null;
     protected $_printButtonName    = null;
     protected $_pdfButtonName      = null;
+    protected $_csvButtonName      = null;
+    protected $_groupButtonName    = null;
     protected $_chartButtonName    = null;
 
     protected $_rollup         = null;
@@ -231,6 +233,8 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->_instanceButtonName = $this->getButtonName( 'submit', 'save'  );
         $this->_printButtonName    = $this->getButtonName( 'submit', 'print' );
         $this->_pdfButtonName      = $this->getButtonName( 'submit', 'pdf'   );
+        $this->_csvButtonName      = $this->getButtonName( 'submit', 'csv'   );
+        $this->_groupButtonName    = $this->getButtonName( 'submit', 'group' );
         $this->_chartButtonName    = $this->getButtonName( 'submit', 'chart' );
     }
 
@@ -590,6 +594,15 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         $label = $this->_id ? ts( 'Print PDF' ) : ts( 'Preview PDF' );
         $this->addElement('submit', $this->_pdfButtonName, $label );
+
+        $label = $this->_id ? ts( 'Export to CSV' ) : ts( 'Preview CSV' );
+        $this->addElement('submit', $this->_csvButtonName, $label );
+
+        /*
+        $label = $this->_id ? ts( 'Export to Group' ) : ts( 'Preview Group' );
+        $this->addElement('submit', $this->_groupButtonName, $label );
+        */
+
         $this->addChartOptions( );
         $this->addButtons( array(
                                  array ( 'type'      => 'submit',
@@ -916,7 +929,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->buildChart( $rows );
             $this->assign( 'chartEnabled', true );
         }
-
+        
         // unset columns not to be displayed.
         foreach ( $this->_columnHeaders as $key => $value ) {
             if ( is_array($value) && isset($value['no_display']) ) {
@@ -1010,6 +1023,15 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->assign( 'outputMode', 'pdf' );
             $this->_outputMode  = 'pdf';
             $this->_absoluteUrl = true;
+        } else if ( $this->_csvButtonName   == $buttonName || $output == 'csv' ) {
+            $this->assign( 'printOnly', true );
+            $this->assign( 'outputMode', 'csv' );
+            $this->_outputMode  = 'csv';
+            $this->_absoluteUrl = true;
+        } else if ( $this->_groupButtonName   == $buttonName || $output == 'group' ) {
+            $this->assign( 'printOnly', true );
+            $this->assign( 'outputMode', 'group' );
+            $this->_outputMode  = 'group';
         } else {
             $this->assign( 'outputMode', 'html' );
             $this->_outputMode = 'html';
@@ -1185,8 +1207,8 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( $this->_outputMode == 'print' || 
              $this->_outputMode == 'pdf'   ||
              $this->_sendmail              ) {
-            $templateFile = parent::getTemplateFileName( ); 
-
+            $templateFile = parent::getTemplateFileName( );
+            
             $content = $this->_formValues['report_header'] .
                 CRM_Core_Form::$_template->fetch( $templateFile ) .      
                 $this->_formValues['report_footer'] ;
@@ -1206,6 +1228,60 @@ class CRM_Report_Form extends CRM_Core_Form {
                 CRM_Utils_PDF_Utils::html2pdf( $content, "CiviReport.pdf" );
             }
             exit( );
+        } else if ( $this->_outputMode == 'csv' ) {
+          // Mark as a CSV file.
+          header('Content-Type: text/csv');
+          
+          // Force a download and name the file using the current timestamp.
+          header('Content-Disposition: attachment; filename=report_' . $_SERVER['REQUEST_TIME'] . '.csv');
+                  
+          // Load rows
+          $sql = $this->_select . ' ' . $this->_from . ' ' . $this->_where . ' ' . $this->_groupBy . ' ' . $this->_orderBy;
+          $dao = CRM_Core_DAO::executeQuery( $sql );
+          
+          // Output rows
+          $first_row = true;
+          while ( $dao->fetch( ) ) {
+            $rows = array((array) $dao);
+            $this->alterDisplay($rows);
+            $row = $rows[0];
+            
+            // Clean up fields.
+            unset($row['N']);
+            foreach ($row as $key => $value) {
+            
+              // Remove HTML, unencode entities, and escape quotation marks.
+              $row[$key] = '"' . str_replace('"', '""', html_entity_decode(strip_tags($value))) . '"';
+              
+              // Remove non-CiviCRM fields.
+              if (substr($key, 0, 1) == '_') {
+                unset($row[$key]);
+              }
+            }
+            
+            // Output headers if this is the first row.
+            if ($first_row) {
+              $headers = array_keys($row);
+              
+              // Replace internal header names with friendly ones, where available.
+              /*
+              foreach ($headers as $i => $header) {
+                if (isset($this->_columnHeaders[$header])) {
+                  $headers[$i] = $this->_columnHeaders[$header]['title'];
+                }
+              }
+              */
+              
+              // Output the headers.
+              echo implode(',', $headers) . "\n";
+              $first_row = false;
+            }
+            
+            // Output the data row.
+            echo implode(',', $row) . "\n";
+          }
+          
+          exit( );
         } else if ( $this->_instanceButtonName == $this->controller->getButtonName( ) ) {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::postProcess( $this );

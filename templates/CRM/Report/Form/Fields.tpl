@@ -45,13 +45,17 @@
     {if $rows}
         {assign var=print value="_qf_"|cat:$form.formName|cat:"_submit_print"}
         {assign var=pdf   value="_qf_"|cat:$form.formName|cat:"_submit_pdf"}
+        {assign var=csv   value="_qf_"|cat:$form.formName|cat:"_submit_csv"}
+        {assign var=group value="_qf_"|cat:$form.formName|cat:"_submit_group"}
         {assign var=chart value="_qf_"|cat:$form.formName|cat:"_submit_chart"}
         <table style="border:0;">
             <tr>
                 <td>
                     <table class="form-layout-compressed">
                         <td>{$form.$print.html}&nbsp;&nbsp;</td>
-                        <td>{$form.$pdf.html}</td>
+                        <td>{$form.$pdf.html}&nbsp;&nbsp;</td>
+                        <td>{$form.$csv.html}&nbsp;&nbsp;</td>
+                        <td>{$form.$group.html}</td>
                         {if $instanceUrl}
                             <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Available Report(s) For This Template{/ts}</a></td>
                         {/if}
