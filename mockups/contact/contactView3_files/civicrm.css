@@ -883,15 +883,26 @@ DIV.helpicon {
 DIV#toolTip {
 	BORDER-BOTTOM: #7eabcd 1px solid; TEXT-ALIGN: left; BORDER-LEFT: #7eabcd 1px solid; PADDING-BOTTOM: 10px; MARGIN: 1em; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; BACKGROUND: url(../i/popupMenuBg.gif) #ffffff repeat-x left bottom; COLOR: black; FONT-SIZE: small; BORDER-TOP: #7eabcd 1px solid; BORDER-RIGHT: #7eabcd 1px solid; PADDING-TOP: 10px
 }
-.onHold A {
-	COLOR: #ff6655 !important
+
+/* Styles for Contact Summary mockup start here. dgg */
+#crm-container span.email-hold, #crm-container span.do-not-email, #crm-container span.do-not-phone {
+    background-position:3px; background-repeat:no-repeat; background-image:url("stop-icon.png");
+    padding-left: 24px;
+	color: #ff6655 !important
+ }
+
+#crm-container span.email-hold a:link, #crm-container span.email-hold a:visited, #crm-container span.do-not-email a:link, #crm-container span.email-hold a:visited {
+	color: #ff6655 !important
 }
-.onHold A.visited {
-	COLOR: #ff6655 !important
-}
+
 .primary {
 	FONT-WEIGHT: bold
 }
+
+#crm-container .ui-tabs-panel {
+    padding:0em 1.4em 1em 1em;
+}
+
 DIV#contactTopBar {
 	PADDING: 4px;
 	LINE-HEIGHT: 1.4em;
@@ -910,29 +921,12 @@ DIV#contact_details, DIV#contactTopBar {
 	border: 1px solid #CCCCCC;
 	width: 100%;
 }
-DIV#contactTopBar * {
-//	MARGIN-RIGHT: 5px
-}
-DIV#contactName span.label {
-	LINE-HEIGHT: 1.4em;
-	COLOR: gray;
-	FONT-SIZE: 0.75em;
-	margin-right: 6px;
-	margin-left: 0px;
-}
-DIV#contactTopBar span {
-//	margin-right: 10px;
-}
 
-DIV#contactName .grouplabel {
-	LINE-HEIGHT: 1.4em; FONT-SIZE: 0.7em
-}
 DIV#contact_panel, DIV#contactTopBar {
 	WIDTH: 100%; DISPLAY: block
 }
 
 DIV#contact_panel *,
-DIV#contactName *,
 DIV#contactTopBar * {
 	BORDER: 0px;
 	PADDING-BOTTOM: 0px;
@@ -948,16 +942,13 @@ DIV#contactCardLeft, DIV#Top {
 DIV#contactCardRight {
 	WIDTH: 49%; DISPLAY: block; FLOAT: right
 }
-DIV#contactCardLeft .label, DIV#contactTopBar .label {
-	COLOR: gray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
+DIV#contactTopBar .label, DIV#contactCardLeft .label, DIV#contactCardRight .label {
+	color: DimGray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
 }
-DIV#contactCardRight .label {
-	COLOR: gray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
-}
+
 DIV#contactCardLeft .grouplabel, 
 DIV#contactCardRight .grouplabel {
 	BORDER-BOTTOM: grey 1px solid; 
-	/*TEXT-ALIGN: center;*/ 
 	WIDTH: 100%; 
 	FONT-SIZE: 0.9em; 
 	FONT-WEIGHT: bold;
@@ -978,6 +969,14 @@ DIV#contact_panel TD, DIV#contactTopBar TD  {
 }
 DIV#contact_panel TD.label, DIV#contactTopBar TD.label {
 	background-color: #EEEEEE;
+}
+
+DIV#contactTopBar TD.label {
+    width: 14%;
+}
+
+DIV#contact_panel TD.label {
+    width: 28%;
 }
 
 DIV#contact_panel TD.last {

@@ -362,16 +362,6 @@
      <icon>admin/small/01.png</icon>
      <weight>398</weight>
   </item>
-   <item>
-     <path>civicrm/admin/options/greeting_type</path>
-     <title>Greeting Types</title>
-     <desc>Options for assigning greeting to individual and household contacts.</desc>
-     <path_arguments>group=greeting_type</path_arguments>
-     <page_callback>CRM_Admin_Page_Options</page_callback>
-     <adminGroup>Option Lists</adminGroup>
-     <icon>admin/small/01.png</icon>
-     <weight>400</weight>
-  </item>
   <item>
      <path>civicrm/admin/deduperules</path>
      <title>Find and Merge Duplicate Contacts</title>
@@ -380,6 +370,36 @@
      <adminGroup>Manage</adminGroup>
      <icon>admin/small/duplicate_matching.png</icon>
      <weight>105</weight>
+  </item> 
+  <item>
+     <path>civicrm/admin/options/email_greeting</path>
+     <title>Email Greetings</title>
+     <desc>Options for assigning email greetings to individual and household contacts.</desc>
+     <path_arguments>group=email_greeting</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Option Lists</adminGroup>
+     <icon>admin/small/01.png</icon>
+     <weight>405</weight>
+  </item> 
+  <item>
+     <path>civicrm/admin/options/postal_greeting</path>
+     <title>Postal Greetings</title>
+     <desc>Options for assigning postal greetings to individual and household contacts.</desc>
+     <path_arguments>group=postal_greeting</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Option Lists</adminGroup>
+     <icon>admin/small/01.png</icon>
+     <weight>410</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options/addressee</path>
+     <title>Addressee</title>
+     <desc>Options for assigning addressee to individual, household and organization contacts.</desc>
+     <path_arguments>group=addressee</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Option Lists</adminGroup>
+     <icon>admin/small/01.png</icon>
+     <weight>415</weight>
   </item>
   <item>
      <path>civicrm/admin/dedupefind</path>
@@ -436,11 +456,6 @@
   <item>
      <path>civicrm/ajax/menutree</path>
      <page_callback>CRM_Admin_Page_AJAX::menuTree</page_callback>
-     <access_arguments>access CiviCRM,administer CiviCRM</access_arguments>
-  </item>
-  <item>
-     <path>civicrm/admin/menu/rebuild</path>
-     <page_callback>CRM_Core_BAO_Navigation::resetNavigation</page_callback>
      <access_arguments>access CiviCRM,administer CiviCRM</access_arguments>
   </item>
 </menu>

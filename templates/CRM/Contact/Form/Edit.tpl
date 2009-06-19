@@ -25,30 +25,30 @@
 		<td>{$form.middle_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$contactId}{/if}</td>
 		<td>{$form.last_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$contactId}{/if}</td>
 		{if $form.suffix_id}<td>{$form.suffix_id.label}</td>{/if}
-	</tr>
+  	</tr>
 	<tr>
 		<td>{if $form.prefix_id}{$form.prefix_id.html}{/if}</td>
 		<td>{$form.first_name.html}</td>
 		<td>{$form.middle_name.html|crmReplace:class:eight}</td>
 		<td>{$form.last_name.html}</td>
-		{if $form.suffix_id}<td>{$form.suffix_id.html}</td>{/if}
+  		{if $form.suffix_id}<td>{$form.suffix_id.html}</td>{/if}
 	</tr>
    	 <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.label}</td>
         <td>{$form.nick_name.label}</td>
-	{if $form.greeting_type_id}
-        <td>{$form.greeting_type_id.label} &nbsp; </td>
-        <td><span id="greetingLabel">{$form.custom_greeting.label}</span></td>
+	{if $form.email_greeting_id}
+        <td>{$form.email_greeting_id.label} &nbsp; </td>
+        <td><span id="emailGreetingLabel">{$form.email_greeting_custom.label}</span></td>
 	{/if}	
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.html|crmReplace:class:big}</td>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
-	{if $form.greeting_type_id}
-        <td>{$form.greeting_type_id.html}</td>
-        <td><span id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</span></td>
+	{if $form.email_greeting_id}
+        <td>{$form.email_greeting_id.html|crmReplace:class:big}</td>
+        <td><span id="emailGreetingHtml">{$form.email_greeting_custom.html|crmReplace:class:big}</span></td>
 	{/if}	
     </tr>
     <tr>
@@ -65,6 +65,28 @@
         <td>{$form.external_identifier.html}</td>
         <td>&nbsp;</td>        
     </tr>
+    <tr>
+        <td>&nbsp;</td>    
+    {if $form.postal_greeting_id}
+        <td>{$form.postal_greeting_id.label} &nbsp; </td>
+        <td><span id="postalGreetingLabel">{$form.postal_greeting_custom.label}</span></td>
+	{/if}
+    {if $form.addressee_id}
+        <td>{$form.addressee_id.label} &nbsp; </td>
+        <td><span id="addresseeLabel">{$form.addressee_custom.label}</span></td>
+	{/if}
+    </tr>
+    <tr>
+        <td>&nbsp;</td>       
+    {if $form.postal_greeting_id}
+        <td>{$form.postal_greeting_id.html|crmReplace:class:big}</td>
+        <td><span id="postalGreetingHtml">{$form.postal_greeting_custom.html|crmReplace:class:big}</span></td>
+	{/if}
+    {if $form.addressee_id}
+        <td>{$form.addressee_id.html|crmReplace:class:big}</td>
+        <td><span id="addresseeHtml">{$form.addressee_custom.html|crmReplace:class:big}</span></td>
+	{/if}
+   </tr>
     <tr>
         <td>&nbsp;</td>
         <td colspan=4>{$form.current_employer.label}</td>
@@ -93,22 +115,30 @@
     <tr>
 	<td>{$form.household_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='household_name' id=$contactId}{/if}</td>
         <td>{$form.contact_source.label}</td>
+    {if $form.addressee_id}
+        <td>{$form.addressee_id.label} &nbsp; </td>
+        <td><span id="addresseeLabel">{$form.addressee_custom.label}</span></td>
+   {/if} 
     </tr>
     <tr>
         <td>{$form.household_name.html|crmReplace:class:big}</td>
         <td>{$form.contact_source.html}</td>
+     {if $form.addressee_id}
+        <td>{$form.addressee_id.html|crmReplace:class:big}</td>
+        <td><span id="addresseeHtml">{$form.addressee_custom.html|crmReplace:class:big}</span></td>
+	 {/if}
     </tr>
     <tr>
        	<td>{$form.nick_name.label}</td>
         <td>{$form.external_identifier.label}</td>        
-        <td>{$form.greeting_type_id.label}</td>
-        <td id="greetingLabel">{$form.custom_greeting.label}</td>	
+        <td>{$form.email_greeting_id.label}</td>
+        <td> <span id="emailGreetingLabel">{$form.email_greeting_custom.label}</span></td>	
 	</tr>
     <tr>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.external_identifier.html}</td>        
-        <td>{$form.greeting_type_id.html}</td>
-        <td id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</td>	
+        <td>{$form.email_greeting_id.html}</td>
+        <td> <span id="emailGreetingHtml">{$form.email_greeting_custom.html|crmReplace:class:big}</span></td>	
     </tr>
     </table>
     {$form._qf_Edit_refresh_dedupe.html}    
@@ -144,6 +174,19 @@
         <td>{$form.home_URL.html|crmReplace:class:big}</td>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.external_identifier.html}</td>        
+    </tr>
+    {if $form.addressee_id}
+        <td>{$form.addressee_id.label} &nbsp; </td>
+        <td><span id="addresseeLabel">{$form.addressee_custom.label}</span></td>
+	{/if}
+    <tr>
+    <tr>
+    {if $form.addressee_id}
+        <td>{$form.addressee_id.html|crmReplace:class:big}</td>
+        <td><span id="addresseeHtml">{$form.addressee_custom.html|crmReplace:class:big}</span></td>
+	{/if}
+    </tr>
+    
     </tr>
     </table>
     {$form._qf_Edit_refresh_dedupe.html}    
@@ -249,15 +292,49 @@ dojo.addOnLoad( function( )
 {if $contact_type eq 'Individual' or $contact_type eq 'Household'}
 {literal}
 <script type="text/javascript">
-showGreeting( );
-function showGreeting( )
+showEmailGreeting( );
+function showEmailGreeting( )
 {
-    if (document.getElementById("greeting_type_id").value == 4) {
-        show('greetingLabel');
-        show('greetingHtml');	
+    if (document.getElementById("email_greeting_id").value == 4) {
+        show('emailGreetingLabel');
+        show('emailGreetingHtml');	
     } else {
-        hide('greetingLabel');
-        hide('greetingHtml');
+        hide('emailGreetingLabel');
+        hide('emailGreetingHtml');
+    }
+}
+</script>
+{/literal}
+{/if}
+{if $contact_type eq 'Individual'}
+{literal}
+<script type="text/javascript">
+showPostalGreeting( );
+function showPostalGreeting( )
+{
+    if (document.getElementById("postal_greeting_id").value == 4) {
+        show('postalGreetingLabel');
+        show('postalGreetingHtml');	
+    } else {
+        hide('postalGreetingLabel');
+        hide('postalGreetingHtml');
+    }
+}
+</script>
+{/literal}
+{/if}
+{if $contact_type eq 'Individual' or $contact_type eq 'Household' or $contact_type eq 'Organization'}
+{literal}
+<script type="text/javascript">
+showAddressee( );
+function showAddressee( )
+{
+    if (document.getElementById("addressee_id").value == 4) {
+        show('addresseeLabel');
+        show('addresseeHtml');	
+    } else {
+        hide('addresseeLabel');
+        hide('addresseeHtml');
     }
 }
 </script>

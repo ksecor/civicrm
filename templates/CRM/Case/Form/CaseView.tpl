@@ -454,14 +454,14 @@ cj(document).ready(function(){
             url: dataUrl,
             dataType: 'json',
             colModel : [
-            {display: 'Due',     name : 'due_date',    width : 70,  sortable : true, align: 'left'},
-            {display: 'Actual',  name : 'actual_date', width : 70,  sortable : true, align: 'left'},
-            {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
-            {display: 'Type',    name : 'type',        width : 85,  sortable : true, align: 'left'},
-            {display: 'Reporter/ Assignee',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
-            {display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
+
+            {display: 'Date',    name : 'display_date', width : 124,  sortable : true, align: 'left'},
+            {display: 'Subject', name : 'subject',     width : 105, sortable : true, align: 'left'},
+            {display: 'Type',    name : 'type',        width : 100,  sortable : true, align: 'left'},
+            {display: 'Reporter',name : 'reporter',    width : 100,  sortable : true, align: 'left'},
+            {display: 'Status',  name : 'status',      width : 65,  sortable : true, align: 'left'},
             {display: '',        name : 'links',       width : 70,  align: 'left'},
-            {name : 'unix_due_date', hide: true, width: 1} // this col is use only for calculation
+            {name : 'class', hide: true, width: 1}  // this col is use for applying css classes
             ],
             usepager: true,
             useRp: true,
@@ -549,20 +549,10 @@ function checkSelection( field ) {
 
 
 function setSelectorClass( ) {
-    console.log(cj("#activities-selector tbody tr").attr( 'class','status-completed'));
-    var currentDate = new Date();
-    var ct = currentDate.getTime() / 1000;
-
-    cj("#activities-selector tbody tr:contains('Scheduled') td:last-child").each( function( ) {
-        var dt = cj(this).text();
- 
-        if ( ct > dt ) {
-            cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
-        } else {
-            cj(this).parent().attr( 'class','status-scheduled').find(":contains('Scheduled')");
-        }	
-    });
     
+    cj("#activities-selector td:last-child").each( function( ) {
+       cj(this).parent().attr( 'class', cj(this).text() );
+    });
 }
 </script>
 {/literal}

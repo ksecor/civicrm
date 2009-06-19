@@ -359,12 +359,13 @@ ORDER BY parent_id, weight";
             $permissions = explode(',', $permission ); 
             $config  =& CRM_Core_Config::singleton( );
             
-            $showItem = true;
             foreach ( $permissions as $key ) {
+                $showItem = true;
                 //hack to determine if it's a component related permission
                 if ( $key != 'access CiviCRM' && substr( $key, 0, 6 ) === 'access' ) {
                     $componentName = trim(substr( $key, 6 ));
-                    if ( !in_array( $componentName, $config->enableComponents ) ) {
+                    if ( !in_array( $componentName, $config->enableComponents ) || 
+                         !CRM_Core_Permission::check( $key ) ) {
                         $showItem = false;
                         if ( $operator == 'AND' ) {
                             return $showItem;
@@ -447,14 +448,9 @@ ORDER BY parent_id, weight";
     /**
      * Reset navigation for all contacts
      */
-    static function resetNavigation( $redirect = true ) {
+    static function resetNavigation( ) {
         $query = "UPDATE civicrm_preferences SET navigation = NULL WHERE contact_id IS NOT NULL";
         CRM_Core_DAO::executeQuery( $query );
-        if ( $redirect ) {
-            require_once 'CRM/Utils/System.php';
-            $url = CRM_Utils_System::url( 'civicrm/admin/menu', 'reset=1' );
-            return CRM_Utils_System::redirect( $url );
-        }
     }          
 
     /**
@@ -483,6 +479,9 @@ ORDER BY parent_id, weight";
                 self::processDelete( $nodeID );
                 break;
          }
+         
+         //reset navigation menus
+         self::resetNavigation( );
          exit();
      }
      

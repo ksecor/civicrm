@@ -224,12 +224,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                                    'url'      => 'civicrm/contact/view',
                                                                    'qs'       => 'reset=1&cid=%%id%%',
                                                                    'title'    => ts('View Contact Details'),
+                                                                   'ref'      => 'view-contact'
                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/add',
                                                                    'qs'       => 'reset=1&action=update&cid=%%id%%',
                                                                    'title'    => ts('Edit Contact Details'),
+                                                                   'ref'      => 'edit-contact'
                                                                   ),
                                   );
 
@@ -246,27 +248,27 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                             'title'    => ts('Map Contact'),
                                                             );
             }
-
+            
             // Adding Context Menu Links in more action
             if ( $contextMenu ) {
                 $counter = 7000;
                 foreach( $contextMenu as $key => $value ) {
-                    if( $key == 'activity' || $key == 'email' ) {
-                        $qs = ( $key == 'activity') ? '&snippet=1' : '&atype=3&action=add';
-                        self::$_links[$counter++]  = array(
-                                                           'name'     => $value,
-                                                           'url'      => "civicrm/contact/view/activity",
-                                                           'qs'       => "reset=1&cid=%%id%%{$qs}",
-                                                           'title'    => $value,
-                                                           );
-                    } else {
-                        self::$_links[$counter++]  = array(
-                                                           'name'     => $value,
-                                                           'url'      => "civicrm/contact/view/{$key}",
-                                                           'qs'       => "reset=1&action=add&cid=%%id%%&context={$key}",
-                                                           'title'    => $value,
-                                                           );
+                    $url = "civicrm/contact/view/{$key}";
+                    $qs  = "reset=1&action=add&cid=%%id%%&context={$key}";
+                    if ( $key == 'activity' ) {
+                        $qs = "action=browse&selectedChild=activity&reset=1&cid=%%id%%";
+                    } else if ( $key == 'email' ) {
+                        $url = "civicrm/contact/view/activity";
+                        $qs  = "atype=3&action=add&reset=1&cid=%%id%%";
                     }
+
+                    self::$_links[$counter++]  = array(
+                                                       'name'     => $value['title'],
+                                                       'url'      => $url,
+                                                       'qs'       => $qs,
+                                                       'title'    => $value['title'],
+                                                       'ref'      => $value['ref']
+                                                       );
                 }
             }
         }

@@ -483,27 +483,38 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $config =& CRM_Core_Config::singleton( );
         $contextMenu = array( 
                              'view'         => array( 'title'      => ts('View Contact'), 
-                                                      'permission' => "view all contacts"),
+                                                      'permission' => "view all contacts",
+                                                      'ref'        =>  'view-contact'),
                              'add'          => array( 'title'      => ts('Edit Contact'), 
-                                                      'permission' => "edit all contacts"),
+                                                      'permission' => "edit all contacts",
+                                                      'ref'        =>  'edit-contact'),
                              'delete'       => array( 'title'      => ts('Delete Contact'), 
-                                                      'permission' => "delete contacts"),
+                                                      'permission' => "delete contacts",
+                                                      'ref'        =>  'delete-contact'),
                              'contribution' => array( 'title'      => ts('Record Contribution'), 
-                                                      'permission' => "access CiviContribute"),
-                             'event'        => array( 'title'      => ts('Register for Event'),
-                                                      'permission' => "access CiviEvent"),
+                                                      'permission' => "access CiviContribute",
+                                                      'ref'        =>  'new-contribution'),
+                             'participant'  => array( 'title'      => ts('Register for Event'),
+                                                      'permission' => "access CiviEvent",
+                                                      'ref'        =>  'new-participant'),
                              'activity'     => array( 'title'      => ts('Record Activity'),
-                                                      'permission' => "access CiviCRM"),
+                                                      'permission' => "access CiviCRM",
+                                                      'ref'        =>  'new-activity'),
                              'pledge'       => array( 'title'      => ts('Add Pledge'),
-                                                      'permission' => "access CiviPledge"),
+                                                      'permission' => "access CiviPledge",
+                                                      'ref'        =>  'new-pledge'),
                              'membership'   => array( 'title'      => ts('Enter Membership'),
-                                                      'permission' => "access CiviMember"),
+                                                      'permission' => "access CiviMember",
+                                                      'ref'        =>  'new-membership'),
                              'email'        => array( 'title'      => ts('Send an Email'),
-                                                      'permission' => "access CiviCRM"),
+                                                      'permission' => "access CiviCRM",
+                                                      'ref'        =>  'new-email'),
                              'group'        => array( 'title'      => ts('Add to Group'),
-                                                      'permission' => "edit groups"),
+                                                      'permission' => "edit groups",
+                                                      'ref'        =>  'group-add-contact'),
                              'tag'          => array( 'title'      => ts('Tag'),
-                                                      'permission' => "access CiviCRM")
+                                                      'permission' => "access CiviCRM",
+                                                      'ref'        =>  'tag-contact')
                              );
         $contextContact   = array( );
         $enableComponents = array_merge( array( 'CiviCRM', 'delete contacts', 'edit groups' ), $config->enableComponents );
@@ -512,9 +523,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $component = ( $component == 'access' ) ? substr( $value['permission'], 7 ) : $value['permission'];
             if ( CRM_Core_Permission::check( $value['permission'] ) ) {
                 if ( in_array( $component, $enableComponents ) ) {
-                    $this->_contextMenu[$key] = $value['title'];
+                    $this->_contextMenu[$key] = array( 'title' => $value['title'],
+                                                       'ref'   => $value['ref'] );
                 } else if ( substr( $value['permission'], 9 ) == 'contacts' ) {
-                    $contextContact[$key] = $value['title'];
+                    $contextContact[$key] = array( 'title' => $value['title'],
+                                                   'ref'   => $value['ref'] );
                 }
             }
         }

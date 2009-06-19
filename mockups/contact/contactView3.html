@@ -16,7 +16,7 @@
   <meta name="GENERATOR" content="MSHTML 8.00.6001.18783" />
   <style type="text/css">
 /*<![CDATA[*/
-  @import url( contactView3_files/jquery-ui.css );
+    @import url(../../packages/jquery/themes/smoothness/jquery-ui.css);
   /*]]>*/
   </style>
   <link rel="stylesheet" type="text/css" href=
@@ -643,17 +643,10 @@
 
                       <li id="tab_log"><a title="Change Log" href=
                       "http://sandbox.civicrm.org/sites/sandbox.civicrm.org/modules/civicrm/mockups/contact/contactView3.html#Change_Log">
-                      Change Log</a></li><!--
-        <li id="tab_member"><a href="#Memberships" title="Memberships">Memberships (1)</a></li>
-        <li id="tab_participant"><a href="#Events" title="Events">Events</a></li>
-        <li id="tab_case"><a href="#Cases" title="Cases">Cases</a></li>
-        <li id="tab_grant"><a href="#Grants" title="Grants">Grants</a></li>
-        <li id="tab_pledge"><a href="#Pledges" title="Pledges">Pledges</a></li>         
--->
+                      Change Log</a></li>
                     </ul>
 
-                    <div title="Summary" id="summary" class=
-                    "ui-tabs-panel ui-widget-content ui-corner-bottom">
+                    <div title="Summary" id="contact-summary" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
                     <div class="buttons ui-corner-all">
                         <span id="actions"><input accesskey="E"
                         onclick=
@@ -701,37 +694,36 @@
                         "contactView3_files/print-icon.png" /></a></span>
                       </div><!-- .buttons -->
 
-                      <div id="contactTopBar" class=
-                      "ui-corner-all">
+                      <div id="contactTopBar" class="ui-corner-all">
                         <table>
                           <tbody>
                             <tr>
-                              <td class="label" width="14%">
-                              Position:</td>
+                              <td class="label">
+                              Position</td>
 
                               <td title="Position">Trainer</td>
 
-                              <td class="label">Employer:</td>
+                              <td class="label">Employer</td>
 
                               <td title="Employer"><a title=
                               "view current employer" href=
                               "http://sandbox.civicrm.org/sites/sandbox.civicrm.org/modules/civicrm/mockups/contact/">
                               Compasspoint</a></td>
 
-                              <td class="label">Nickname:</td>
+                              <td class="label">Nickname</td>
 
                               <td title="Nickname">Johnny</td>
                             </tr>
 
                             <tr>
-                              <td class="label" width="14%">
-                              Tags:</td>
+                              <td class="label">
+                              Tags</td>
 
                               <td title="Tags"><a href=
                               "linktotags">Major Donor,
                               Volunteer</a></td>
 
-                              <td class="label">Source:</td>
+                              <td class="label">Source</td>
 
                               <td colspan="3" title="Source">Fall
                               fundraiser</td>
@@ -749,23 +741,22 @@
                             <table>
                               <tbody>
                                 <tr>
-                                  <td class="label" width="28%">
-                                  Work phone:</td>
+                                  <td class="label">
+                                  Work phone</td>
 
                                   <td title="Primary phone" width=
                                   "72%"><span class=
-                                  "primary">+28371094712</span></td>
+                                  "primary do-not-phone" title="Privacy flag: Do Not Phone">+28371094712</span></td>
                                 </tr>
 
                                 <tr>
-                                  <td class="label">Mobile:</td>
+                                  <td class="label">Mobile</td>
 
-                                  <td>+243912620705</td>
+                                  <td><span class="do-not-phone" title="Privacy flag: Do Not Phone">+243912620705</span></td>
                                 </tr>
 
                                 <tr>
-                                  <td class="label last" width=
-                                  "28%">Skype:</td>
+                                  <td class="label last">Skype</td>
 
                                   <td class="last primary" title=
                                   "Primary instant messenger"
@@ -779,8 +770,8 @@
                             <table>
                               <tbody>
                                 <tr>
-                                  <td class="label" width="28%">
-                                  Email:</td>
+                                  <td class="label">
+                                  Email</td>
 
                                   <td title=
                                   "Primary email address">
@@ -790,20 +781,16 @@
                                 </tr>
 
                                 <tr>
-                                  <td class="label">Email:</td>
+                                  <td class="label">Email</td>
 
-                                  <td class="onHold"><a href=
-                                  "mailto:johndoe@privmail.com">johndoe@privmail.com</a>
-                                  <img title=
-                                  "This email is on hold due to bounces."
-                                  align="top" src=
-                                  "contactView3_files/stop-icon.png" />
+                                  <td>
+                                  <span class="email-hold" title="This email is on hold due to bounces."><a href="mailto:johndoe@privmail.com">johndoe@privmail.com</a>
                                   (Bulk)</td>
                                 </tr>
 
                                 <tr>
                                   <td class="label last">
-                                  Website:</td>
+                                  Website</td>
 
                                   <td class="last"><a href=
                                   "http://longnameactually.org/"
@@ -824,8 +811,7 @@
                             <table>
                               <tbody>
                                 <tr>
-                                  <td class="label last" width=
-                                  "28%">Work Address:</td>
+                                  <td class="label last">Work Address</td>
 
                                   <td class="last" width="72%">
                                   <span class="street-address">Some
@@ -853,8 +839,7 @@
                             <table>
                               <tbody>
                                 <tr>
-                                  <td class="label last" width=
-                                  "28%">Home Address:</td>
+                                  <td class="label last">Home Address</td>
 
                                   <td class="last" width="72%">
                                   <span class=
@@ -882,8 +867,8 @@
                             <table>
                               <tbody>
                                 <tr>
-                                  <td class="label" width="28%">
-                                  Privacy:</td>
+                                  <td class="label">
+                                  Privacy</td>
 
                                   <td width="72%"><span class=
                                   "font-red upper">Do not
@@ -892,16 +877,15 @@
                                 </tr>
 
                                 <tr>
-                                  <td class="label" width="28%">
-                                  Method:</td>
+                                  <td class="label">
+                                  Method</td>
 
                                   <td width="72%">Postal Mail,
                                   Fax</td>
                                 </tr>
 
                                 <tr>
-                                  <td class="label last" width=
-                                  "28%">Email Format:</td>
+                                  <td class="label last">Email Format</td>
 
                                   <td class="last" width="72%">
                                   Both</td>
@@ -914,15 +898,15 @@
                             <table>
                               <tbody>
                                 <tr>
-                                  <td class="label" width="28%">
-                                  Gender:</td>
+                                  <td class="label">
+                                  Gender</td>
 
                                   <td width="72%">Male</td>
                                 </tr>
 
                                 <tr>
-                                  <td class="label" width="28%">
-                                  Date of Birth:</td>
+                                  <td class="label">
+                                  Date of Birth</td>
 
                                   <td width="72%">March 12th,
                                   1977</td>
@@ -930,7 +914,7 @@
 
                                 <tr>
                                   <td class="label last" width=
-                                  "28%">Age:</td>
+                                  "28%">Age</td>
 
                                   <td class="last" width="72%">32
                                   years</td>
@@ -946,8 +930,7 @@
                       <div id="customFields">
                         <div id="contact_panel">
                           <div id="contactCardLeft">
-                            <div class=
-                            "customFieldGroup ui-corner-all">
+                            <div class="customFieldGroup ui-corner-all">
                               <table>
                                 <tbody>
                                   <tr>
@@ -957,22 +940,22 @@
                                   </tr>
 
                                   <tr>
-                                    <td class="label" width="28%">
-                                    Most Important Issue:</td>
+                                    <td class="label">
+                                    Most Important Issue</td>
 
                                     <td>Education</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">Marital
-                                    Status:</td>
+                                    Status</td>
 
                                     <td>Married</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">Marriage
-                                    Date:</td>
+                                    Date</td>
 
                                     <td>May 4th, 1998</td>
                                   </tr>
@@ -980,8 +963,7 @@
                               </table>
                             </div>
 
-                            <div class=
-                            "customFieldGroup ui-corner-all">
+                            <div class="customFieldGroup ui-corner-all">
                               <table>
                                 <tbody>
                                   <tr>
@@ -992,15 +974,15 @@
                                   </tr>
 
                                   <tr>
-                                    <td class="label" width="28%">
-                                    Most Important Issue:</td>
+                                    <td class="label">
+                                    Most Important Issue</td>
 
                                     <td>Education</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">Marital
-                                    Status:</td>
+                                    Status</td>
 
                                     <td>Married</td>
                                   </tr>
@@ -1022,7 +1004,7 @@
 
                                   <tr>
                                     <td class="label">First
-                                    Field:</td>
+                                    Field</td>
 
                                     <td>The Very Value of the very
                                     first field, being pretty long
@@ -1034,36 +1016,36 @@
                                   </tr>
 
                                   <tr>
-                                    <td class="label" width="28%">
-                                    Second Field:</td>
+                                    <td class="label">
+                                    Second Field</td>
 
                                     <td>Yes</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">Third
-                                    Field:</td>
+                                    Field</td>
 
                                     <td>42</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">Fourth
-                                    Field:</td>
+                                    Field</td>
 
-                                    <td>Costarica</td>
+                                    <td>Costa Rica</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">Fifth
-                                    Field:</td>
+                                    Field</td>
 
                                     <td>600 USD</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">First Field
-                                    Repeated:</td>
+                                    Repeated</td>
 
                                     <td>The Very Value of the very
                                     first field, being pretty long
@@ -1074,30 +1056,30 @@
 
                                   <tr>
                                     <td class="label">Second Field
-                                    Repeated:</td>
+                                    Repeated</td>
 
                                     <td>Yes</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">Third Field
-                                    Repeated:</td>
+                                    Repeated</td>
 
                                     <td>42</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">And so
-                                    on:</td>
+                                    on</td>
 
-                                    <td>Costarica</td>
+                                    <td>Costa Rica</td>
                                   </tr>
 
                                   <tr>
                                     <td class="label">Until we have
-                                    10:</td>
+                                    10</td>
 
-                                    <td>600 USD</td>
+                                    <td>$600.00</td>
                                   </tr>
                                 </tbody>
                               </table>

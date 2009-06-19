@@ -482,7 +482,7 @@ class CRM_Contact_BAO_Query
                         $this->_cfIDs[$cfID] = array( );
                     }
                 } else if ( isset( $field['where'] ) ) {
-                    list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
+                    list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );
                     if ( isset( $tableName ) ) { 
                      
                         if (substr( $tableName, 0, 6  ) == 'quest_' ) {
@@ -498,12 +498,12 @@ class CRM_Contact_BAO_Query
                             $this->_element['address_id']     = 1;
                         }
                         
-                        if ($tableName == 'gender' || $tableName == 'individual_prefix' 
-                            || $tableName == 'individual_suffix' || $tableName == 'im_provider' || $tableName == 'greeting_type' ) {
-                            
+                        if ( $tableName == 'gender' || $tableName == 'individual_prefix' 
+                             || $tableName == 'individual_suffix' || $tableName == 'im_provider' 
+                             || $tableName == 'email_greeting' || $tableName == 'postal_greeting' 
+                             || $tableName == 'addressee' ) {
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
-                            $this->_select['custom_greeting']  = 'contact_a.custom_greeting as custom_greeting';
                         } else {
                             $this->_tables[$tableName]         = 1;
                             
@@ -1148,6 +1148,7 @@ class CRM_Contact_BAO_Query
         case 'do_not_phone':
         case 'do_not_email':
         case 'do_not_mail':
+        case 'do_not_sms':
         case 'do_not_trade':
         case 'is_opt_out':
             $this->privacy( $values );
@@ -1393,14 +1394,6 @@ class CRM_Contact_BAO_Query
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             $this->_qill[$grouping][] = ts('Individual Suffix') . " $op '$value'";
-        } else if ( $name === 'greeting_type' ) {
-            $greetings =& CRM_Core_PseudoConstant::greeting( ); 
-            if ( is_numeric( $value ) ) { 
-                $value     =  $greetings[(int ) $value];  
-            }
-            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
-            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
-            $this->_qill[$grouping][] = ts('Greeting Type') . " $op '$value'";
         } else if ( $name === 'gender' ) {
             $genders =& CRM_Core_PseudoConstant::gender( );  
             if ( is_numeric( $value ) ) {  
@@ -1456,6 +1449,30 @@ class CRM_Contact_BAO_Query
             $this->_where[$grouping][] = self::buildClause( $wc, $op,
                                                             "'$value' AND contact_a.contact_type ='Individual'" );
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
+        } else if ( $name === 'email_greeting' ) {
+            $emailGreetings =& CRM_Core_PseudoConstant::emailGreeting( $filterCondition ); 
+            if ( is_numeric( $value ) ) { 
+                $value     =  $emailGreetings[(int ) $value];  
+            }
+            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
+            $this->_qill[$grouping][] = ts('Email Greeting') . " $op '$value'";
+        } else if ( $name === 'postal_greeting' ) {
+            $postalGreetings =& CRM_Core_PseudoConstant::postalGreeting( $filterCondition ); 
+            if ( is_numeric( $value ) ) { 
+                $value     =  $postalGreetings[(int ) $value];  
+            }
+            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
+            $this->_qill[$grouping][] = ts('Postal Greeting') . " $op '$value'";
+        } else if ( $name === 'addressee' ) {
+            $addressee =& CRM_Core_PseudoConstant::addressee( $filterCondition ); 
+            if ( is_numeric( $value ) ) { 
+                $value     =  $addressee[(int ) $value];  
+            }
+            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
+            $this->_qill[$grouping][] = ts('Addressee') . " $op '$value'";
         } else {
             // sometime the value is an array, need to investigate and fix
             if ( is_array( $value ) ) {
@@ -1845,11 +1862,6 @@ class CRM_Contact_BAO_Query
                 $from .= " $side JOIN civicrm_option_value individual_suffix ON (contact_a.suffix_id = individual_suffix.value AND option_group_suffix.id = individual_suffix.option_group_id ) ";
                 continue;
                 
-            case 'greeting_type':
-                $from .= " $side JOIN civicrm_option_group option_group_greeting ON (option_group_greeting.name = 'greeting_type')";
-                $from .= " $side JOIN civicrm_option_value greeting_type ON (contact_a.greeting_type_id = greeting_type.value AND option_group_greeting.id = greeting_type.option_group_id ) ";
-                continue;   
-
             case 'gender':
                 $from .= " $side JOIN civicrm_option_group option_group_gender ON (option_group_gender.name = 'gender')";
                 $from .= " $side JOIN civicrm_option_value gender ON (contact_a.gender_id = gender.value AND option_group_gender.id = gender.option_group_id) ";
@@ -1889,8 +1901,24 @@ class CRM_Contact_BAO_Query
 
             case 'civicrm_grant':
                 $from .= CRM_Grant_BAO_Query::from( $name, $mode, $side );
-                continue;    
+                continue;   
             
+            //build fromClause for email greeting, postal greeting, addressee CRM-4575    
+            case 'email_greeting':
+                $from .= " $side JOIN civicrm_option_group option_group_email_greeting ON (option_group_email_greeting.name = 'email_greeting')";
+                $from .= " $side JOIN civicrm_option_value email_greeting ON (contact_a.email_greeting_id = email_greeting.value AND option_group_email_greeting.id = email_greeting.option_group_id ) ";
+                continue;  
+                
+            case 'postal_greeting':
+                $from .= " $side JOIN civicrm_option_group option_group_postal_greeting ON (option_group_postal_greeting.name = 'postal_greeting')";
+                $from .= " $side JOIN civicrm_option_value postal_greeting ON (contact_a.postal_greeting_id = postal_greeting.value AND option_group_postal_greeting.id = postal_greeting.option_group_id ) ";
+                continue;  
+
+            case 'addressee':
+                $from .= " $side JOIN civicrm_option_group option_group_addressee ON (option_group_addressee.name = 'addressee')";
+                $from .= " $side JOIN civicrm_option_value addressee ON (contact_a.addressee_id = addressee.value AND option_group_addressee.id = addressee.option_group_id ) ";
+                continue;   
+
             default:
                 $from .= CRM_Core_Component::from( $name, $mode, $side );
                 continue;
@@ -2833,6 +2861,7 @@ WHERE  id IN ( $groupIDs )
                                                                // FIXME: should we use defaultHierReturnProperties() for the below?
                                                                'do_not_email'           => 1,
                                                                'do_not_mail'            => 1,
+                                                               'do_not_sms'             => 1,
                                                                'do_not_phone'           => 1,
                                                                'do_not_trade'           => 1,
                                                                'is_opt_out'             => 1,
@@ -3235,12 +3264,16 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
                                                         'last_name'              => 1, 
                                                         'individual_prefix'      => 1, 
                                                         'individual_suffix'      => 1,
+                                                        'email_greeting'         => 1,
+                                                        'postal_greeting'        => 1,
+                                                        'addressee'              => 1,
                                                         'birth_date'             => 1,
                                                         'gender'                 => 1,
                                                         'preferred_communication_method' => 1,
                                                         'do_not_phone'                   => 1, 
                                                         'do_not_email'                   => 1, 
-                                                        'do_not_mail'                    => 1, 
+                                                        'do_not_mail'                    => 1,
+                                                        'do_not_sms'                     => 1,
                                                         'do_not_trade'                   => 1, 
                                                         'location'                       => 
                                                         array( '1' => array ( 'location_type'      => 1,

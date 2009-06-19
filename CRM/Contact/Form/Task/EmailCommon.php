@@ -178,7 +178,7 @@ class CRM_Contact_Form_Task_EmailCommon
         $form->_fromEmails =
             array('0' => $from ) +
             CRM_Core_PseudoConstant::fromEmailAddress( );
-        $form->add('text', 'subject', ts('Subject'), 'size=30 maxlength=60', true);
+        $form->add('text', 'subject', ts('Subject'), 'size=50 maxlength=254', true);
         $selectEmails = $form->_fromEmails;
         foreach ( array_keys( $selectEmails ) as $k ) {
             $selectEmails[$k] = htmlspecialchars( $selectEmails[$k] );

@@ -1,14 +1,20 @@
-<div id="help">
-    <a href="{crmURL p="civicrm/admin/menu" q="action=add&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts}Add New Menu{/ts}</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <span id="reset-menu" class="success-status" style="display:none">
-        {capture assign=rebuildURL}{crmURL p='civicrm/admin/menu/rebuild' q="reset=1"}{/capture}
-        {ts 1=$rebuildURL}The changes made to navigation will not be reflected in top navigation bar until you <a href='%1' title="Rebuild Navigation"><strong>click here</strong></a>.{/ts}
-    </span><br/><br/>
-</div>
 {if $action eq 1 or $action eq 2 or $action eq 8}
     {include file="CRM/Admin/Form/Navigation.tpl"}
 {else}
+    <div id="help">
+        {ts}Customize the CiviCRM navigation menu bar for your users here.{/ts} {help id="id-navigation"}
+    </div>
+    <div class="spacer"></div>
+    <div id="new-menu-item">
+        <a href="{crmURL p="civicrm/admin/menu" q="action=add&reset=1"}" class="button" style="margin-left: 6px;"><span>&raquo; {ts}New Menu Item{/ts}</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="reset-menu" class="success-status" style="display:none">
+        {capture assign=rebuildURL}{crmURL p='civicrm/admin/menu' q="reset=1"}{/capture}
+        {ts 1=$rebuildURL}<a href='%1' title="Reload page"><strong>Click here</strong></a> to reload the page and see your changes in the menu bar above.{/ts}
+        </span><br/><br/>
+    </div>
+    <div class="spacer"></div>
     <div id="navigation-tree" class="navigation-tree" style="height:auto;"></div>
+    <div class="spacer"></div>
     {literal}
     <script type="text/javascript">
     cj(function () {
@@ -28,19 +34,32 @@
                 context	: 
                 [ 
                     { 
+                        id		: "edit",
+                        label	: "Edit", 
+                        icon	: "create.png",
+                        visible	: function (node, treeObject) { if(node.length != 1) return false; return treeObject.check("renameable", node); }, 
+                        action	: function (node, treeObject) { 
+                                    var nid = cj(node).attr('id');
+                                    var nodeID = nid.substr( 5 );
+                                    var editURL = {/literal}"{crmURL p='civicrm/admin/menu' h=0 q='action=update&reset=1&id='}"{literal} + nodeID;
+                                    location.href =  editURL;  
+                                  } 
+                    },
+                    "separator",
+                    { 
                         id		: "rename",
                         label	: "Rename", 
                         icon	: "rename.png",
-                        visible	: function (NODE, TREE_OBJ) { if(NODE.length != 1) return false; return TREE_OBJ.check("renameable", NODE); }, 
-                        action	: function (NODE, TREE_OBJ) { TREE_OBJ.rename(NODE); } 
+                        visible	: function (node, treeObject) { if(node.length != 1) return false; return treeObject.check("renameable", node); }, 
+                        action	: function (node, treeObject) { treeObject.rename(node); } 
                     },
                     "separator",
                     { 
                         id		: "delete",
                         label	: "Delete",
                         icon	: "remove.png",
-                        visible	: function (NODE, TREE_OBJ) { var ok = true; $.each(NODE, function () { if(TREE_OBJ.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
-                        action	: function (NODE, TREE_OBJ) { $.each(NODE, function () { TREE_OBJ.remove(this); }); } 
+                        visible	: function (node, treeObject) { var ok = true; $.each(node, function () { if(treeObject.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
+                        action	: function (node, treeObject) { $.each(node, function () { treeObject.remove(this); }); } 
                     }
                 ]
             },                

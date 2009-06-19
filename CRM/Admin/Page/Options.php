@@ -110,7 +110,7 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
        } else {
             CRM_Utils_System::setTitle(ts('%1 Options', array(1 => self::$_GName)));
         }
-        if ( self::$_gName == 'from_email_address' || self::$_gName == 'greeting_type' ) {
+        if ( self::$_gName == 'from_email_address' ) {
             $this->assign( 'showIsDefault', true );
         }
         if ( self::$_gName == 'participant_status' ) {

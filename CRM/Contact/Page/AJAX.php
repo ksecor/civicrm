@@ -387,6 +387,28 @@ WHERE sort_name LIKE '%$name%'";
         CRM_Core_BAO_CustomValue::deleteCustomValue( $customValueID, $customGroupID );
     }
 
+    /**
+     * Function to perform enable / disable actions on record.
+     *
+     */
+    function enableDisable( &$config ) {
+        $op        = CRM_Utils_Type::escape( $_POST['op'       ],  'String'   );
+        $recordID  = CRM_Utils_Type::escape( $_POST['recordID' ],  'Positive' );
+        $recordDAO = CRM_Utils_Type::escape( $_POST['recordDAO'],  'String'   );
+ 
+        $isActive = null;
+        if ( $op == 'disable-enable' ) {
+           $isActive = true;
+        } else if ( $op == 'enable-disable' ) {
+           $isActive = false;
+        }
+        
+        if ( isset( $isActive ) ) { 
+           CRM_Core_DAO::setFieldValue( $recordDAO, $recordID, 'is_active', $isActive );
+        }
+
+        exit( );
+     }
  
     /*
      *Function to check the CMS username
@@ -439,7 +461,7 @@ WHERE sort_name LIKE '%$name%'";
             $query="
 SELECT sort_name name, ce.email, cc.id
 FROM civicrm_email ce LEFT JOIN civicrm_contact cc ON cc.id = ce.contact_id
-WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.sort_name LIKE '%$name%';";
+WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.is_deceased = 0 AND cc.do_not_email = 0 AND cc.sort_name LIKE '%$name%';";
             
             $dao = CRM_Core_DAO::executeQuery( $query );
             

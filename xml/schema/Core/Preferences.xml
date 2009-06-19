@@ -130,6 +130,7 @@
        <type>text</type>
        <comment>Format to display a individual name</comment>
        <add>1.8</add>
+       <drop>2.3</drop>
   </field>
   <field>
        <name>address_standardization_provider</name>
