@@ -1354,6 +1354,11 @@ class CRM_Utils_Date
         $birthMonth = $bDate[1]; 
         $birthDay   = $bDate[2]; 
         $year_diff  = date("Y") - $birthYear; 
+
+        // don't calculate age CRM-3143
+        if ( $birthYear == '1900' ) {
+            return $results;
+        }
         
         switch ($year_diff) {
         case 1: 
