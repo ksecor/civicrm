@@ -232,11 +232,10 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         //build blocks ( email, phone, im, openid )
         
         // build edit blocks ( custom data, address, communication preference, notes, tags and groups )
-        foreach( $this->_editOptions as $title => $status ) {                
-            if ( $status && $title != 'CustomData' ) {
-                $fileName = str_replace( ' ', '', $title );
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $fileName) . ".php");
-                eval( 'CRM_Contact_Form_Edit_' . $fileName . '::buildQuickForm( $this );' );
+        foreach( $this->_editOptions as $name => $status ) {                
+            if ( $status && $name != 'CustomData' ) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name) . ".php");
+                eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
             }
         }
 

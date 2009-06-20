@@ -21,8 +21,7 @@
     
     {foreach from = $editOptions item = "row" key="title"}
         {if $row } 
-            {assign var = fileName value= $title|strip:''}
-            {include file="CRM/Contact/Form/Edit/$fileName.tpl"}
+            {include file="CRM/Contact/Form/Edit/$title.tpl"}
         {/if}
     {/foreach}
     
