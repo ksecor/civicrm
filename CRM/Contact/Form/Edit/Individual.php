@@ -43,7 +43,7 @@ require_once 'CRM/Core/BAO/UFGroup.php';
  * a small set of static methods
  *
  */
-class CRM_Contact_Form_Individual {
+class CRM_Contact_Form_Edit_Individual {
     /**
      * This function provides the HTML form elements that are specific to the Individual Contact Type
      * 
@@ -111,24 +111,6 @@ class CRM_Contact_Form_Individual {
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'postal_greeting_custom' ), 
                                            array( 'onfocus' => "if (!this.value) this.value='Dear'; else return false",
                                                   'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
-        }
-
-        if ( $form->_showDemographics ) {
-            // radio button for gender
-            $genderOptions = array( );
-            $gender =CRM_Core_PseudoConstant::gender();
-            foreach ($gender as $key => $var) {
-                $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
-            }
-            $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
-            
-            $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
-            
-            $form->addElement('date', 'deceased_date', ts('Deceased date'), CRM_Core_SelectValues::date('birth'));
-            $form->addRule('deceased_date', ts('Select a valid date.'), 'qfDate');
-            
-            $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
-            $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
         }
         
         // Declare javascript methods to be used, for use-household-address checkbox.

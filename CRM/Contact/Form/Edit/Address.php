@@ -36,7 +36,7 @@
 /**
  * This class is used to build address block
  */
-class CRM_Contact_Form_Address
+class CRM_Contact_Form_Edit_Address
 {
     /**
      * build form for address input fields 
@@ -49,8 +49,8 @@ class CRM_Contact_Form_Address
      * @access public
      * @static
      */
-    static function buildAddressBlock(&$form, &$location, $locationId, $countryDefault = null)
-    {
+    static function buildQuickForm(&$form) {
+        //, &$location, $locationId, $countryDefault = null
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 

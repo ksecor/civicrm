@@ -115,7 +115,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
 
     protected $_editOptions = array( );
 
-    protected $_showCommBlock = true;
+    protected $_blocks;
 
     /**
      * build all the data structures needed to build the form
@@ -131,14 +131,14 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
         
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, 'label' );
+        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, true );            
         $this->assign( 'editOptions', $this->_editOptions );
 
         // make blocks semi-configurable
-        $blocks = array( 'Email'  => 1,
-                         'Phone'  => 1,
-                         'IM'     => 1,
-                         'OpenID' => 1);
+        $this->_blocks = array( 'Email'  => 1,
+                                'Phone'  => 1,
+                                'IM'     => 1,
+                                'OpenID' => 1);
         
         $this->assign( 'blocks', $blocks );
                           
@@ -214,7 +214,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     function addRules( )
     {
-        //$this->addFormRule( array( 'CRM_Contact_Form_' . $this->_contactType, 'formRule' ), $this->_contactId );
+        $this->addFormRule( array( 'CRM_Contact_Form_Edit_' . $this->_contactType, 'formRule' ), $this->_contactId );
     }
 
     /**
@@ -225,6 +225,20 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        //build contact type specific fields
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_contactType) . ".php");
+        eval( 'CRM_Contact_Form_Edit_' . $this->_contactType . '::buildQuickForm( $this, $this->_action );' );
+        
+        //build blocks ( email, phone, im, openid )
+        
+        // build edit blocks ( custom data, address, communication preference, notes, tags and groups )
+        foreach( $this->_editOptions as $title => $status ) {                
+            if ( $status && $title != 'CustomData' ) {
+                $fileName = str_replace( ' ', '', $title );
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $fileName) . ".php");
+                eval( 'CRM_Contact_Form_Edit_' . $fileName . '::buildQuickForm( $this );' );
+            }
+        }
 
         // add the dedupe button
         $this->addElement('submit', 

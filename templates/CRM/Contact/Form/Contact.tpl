@@ -9,6 +9,7 @@
     </h3>
     <div id="contact-details">
         {include file="CRM/Contact/Form/Edit/$contactType.tpl"}
+        <br/>
         <table class="form-layout-compressed">
             {foreach from=$blocks item="status" key="block"}
                 {if $status }
