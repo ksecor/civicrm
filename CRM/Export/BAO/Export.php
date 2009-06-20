@@ -145,7 +145,7 @@ class CRM_Export_BAO_Export
          } else {
             $primary = true;
             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
-
+            
             foreach ($fields as $key => $var) { 
                 if ( $key &&
                      ( substr($key,0, 6) !=  'custom' ) ) { //for CRM=952
@@ -185,7 +185,7 @@ class CRM_Export_BAO_Export
                 break;
             }
             
-            if ( $queryMode != CRM_Contact_BAO_Query::MODE_CONTACTS ) {
+            if ( $queryMode != CRM_Contact_BAO_Query::MODE_CONTACTS ) { 
                 $componentReturnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( $queryMode );
                 $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
         
@@ -199,25 +199,35 @@ class CRM_Export_BAO_Export
                 }
             }
         }
-        
         if ( $moreReturnProperties ) {
-            $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
+            $returnProperties = array_merge( $returnProperties, $moreReturnProperties );       
         }
+
         foreach( $ids as $keys => $values ) {
-            if ( CRM_Utils_Array::value( 'greeting_type', $returnProperties ) ) {
-                $greetingTypeValue = CRM_Core_DAO::getFieldValue(
-                                                                 'CRM_Contact_DAO_Contact', 
-                                                                 $values, 
-                                                                 'greeting_type_id' 
-                                                                ); 
-                if ( $greetingTypeValue == 4 ) {
-                    $returnProperties['custom_greeting'] = 1;   
+            if ( ! $primary ) {
+                //If the contact have 'Customized' value for email/postal greeting or addessee 
+                //then output corresponding "custom" column value instead.  CRM-4575
+                $elements = array('email_greeting'  => 'email_greeting_custom', 
+                                  'postal_greeting' => 'postal_greeting_custom', 
+                                  'addressee'       => 'addressee_custom'
+                                  ); 
+                foreach( $elements as $field => $customField ) {
+                    if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
+                        $fieldId = $field."_id";
+                        $fieldValue =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                                    $values, 
+                                                                    $fieldId
+                                                                    ); 
+                        if ( $fieldValue == 4 ) {
+                            $returnProperties[$customField] = 1;
+                        }
+                    }
                 }
             }
         }
         //crm_core_error::debug('$returnProperties', $returnProperties ); exit();
-        $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
-
+        $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode );
+        
         list( $select, $from, $where ) = $query->query( );
         
         // make sure the groups stuff is included only if specifically specified
@@ -256,7 +266,7 @@ class CRM_Export_BAO_Export
                 $queryString .= " ORDER BY $order";
             }
         }
-
+        
         //hack for student data
         require_once 'CRM/Core/OptionGroup.php';
         $multipleSelectFields = array( 'preferred_communication_method' => 1 );
@@ -288,11 +298,15 @@ class CRM_Export_BAO_Export
         while ( $dao->fetch( ) ) {
             $row = array( );
             //first loop through returnproperties so that we return what is required, and in same order.
+            //do not allow custom greeting / addressee fields in exported file,CRM-4575
             foreach( $returnProperties as $field => $value ) {
+                if ( in_array($field, array('email_greeting_custom', 'postal_greeting_custom', 'addressee_custom') ) ) {
+                    continue;
+                }
                 //we should set header only once
                 if ( $setHeader ) { 
                     if ( isset( $query->_fields[$field]['title'] ) ) {
-                        $headerRows[] = $query->_fields[$field]['title'];
+                        $headerRows[] = $query->_fields[$field]['title'];       
                     } else if ($field == 'phone_type_id'){
                         $headerRows[] = 'Phone Type';
                     } else if ( $field == 'provider_id' ) { 
@@ -324,20 +338,39 @@ class CRM_Export_BAO_Export
                         $headerRows[] = $field;
                     }
                 }
-                
+                    
                 //build row values (data)
                 if ( property_exists( $dao, $field ) ) {
-                    $fieldValue = $dao->$field;
+                    $fieldValue = $dao->$field;                         
                     // to get phone type from phone type id
                     if ( $field == 'phone_type_id' ) {
                         $fieldValue = $phoneTypes[$fieldValue];
                     } else if ( $field == 'provider_id' ) {
                         $fieldValue = CRM_Utils_Array::value( $fieldValue , $imProviders );  
-                    } 
+                    }
+                    //if email/postal greeting or addressee has a customized value 
+                    //then output the corresponding "custom" column value instead, CRM-4575
+                    $elements = array( 'email_greeting_custom'  => 'email_greeting', 
+                                       'postal_greeting_custom' => 'postal_greeting', 
+                                       'addressee_custom'       => 'addressee'
+                                       );
+                    if ( in_array($field,$elements) ) {
+                        $label = null;
+                        foreach( $elements as $k => $v ) {
+                            if( $field == $v ) {
+                                require_once 'CRM/Core/OptionGroup.php';
+                                $label = key( CRM_Core_OptionGroup::values( $v, true, null, null, 
+                                                                            'AND v.name = "Customized"' ) );
+                                if( $fieldValue == $label ) {
+                                    $fieldValue = $dao->$k;
+                                }
+                            }
+                        }
+                    }
+                   
                 } else {
                     $fieldValue = '';
                 }
-                
                 if ( $field == 'id' ) {
                     $row[$field] = $dao->contact_id;
                 } else if ( $field == 'pledge_balance_amount' ) { //special case for calculated field

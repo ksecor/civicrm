@@ -207,18 +207,29 @@ class CRM_Core_Action {
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
                 if ( isset( $link['extra'] ) ) {
-                    $extra = CRM_Utils_Array::value( 'extra', $link, '' );
+                    $extra = self::replace( CRM_Utils_Array::value( 'extra', $link, '' ),  $values );
                 }
-                if ( isset( $link['qs'] ) ) {
+                
+                $urlPath = null;
+                if ( !CRM_Utils_System::isNull( $link['qs'] ) ) {
                     $urlPath = CRM_Utils_System::url( self::replace( $link['url'], $values ),
-                                        self::replace( $link['qs'] , $values ), true );
+                                                      self::replace( $link['qs'] , $values ), true );
                 } else {
                     $urlPath = $link['url'];
                 }
-                                        
-                $url[] = sprintf('<a href="%s" title="%s"' . $extra . '>%s</a>',
-                                 $urlPath,
-                                 $link['title'], $link['name'] );
+                
+                $ref = '';
+                if ( isset( $link['ref'] ) ) {
+                    $ref = "class = {$link['ref']}";
+                }
+                if ( $urlPath ) {                      
+                    $url[] = sprintf('<a href="%s" title="%s" %s ' . $extra . '>%s</a>',
+                                       $urlPath,
+                                       $link['title'], $ref, $link['name'] );
+                } else {
+                    $url[] = sprintf('<a title="%s" %s ' . $extra . '>%s</a>',
+                                       $link['title'], $ref, $link['name'] );
+                }
             }
         }
         
@@ -238,7 +249,7 @@ class CRM_Core_Action {
         $result = "<span>{$resultLink} &nbsp;</span><span class='btn-slide' id=xx>{$resultDiv}</span>";
         return $result;
     }
-
+    
     /**
      * given a string and an array of values, substitute the real values
      * in the placeholder in the str in the CiviCRM format
@@ -286,7 +297,7 @@ class CRM_Core_Action {
         
         return $mask;
     }
-    
+
 }
 
 

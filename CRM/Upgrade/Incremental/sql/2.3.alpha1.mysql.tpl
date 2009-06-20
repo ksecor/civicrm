@@ -368,3 +368,9 @@ VALUES
 -- CRM-4394
 UPDATE civicrm_state_province SET country_id = 1008 WHERE id = 1637;
 
+---CRM-4633
+ALTER TABLE `civicrm_contact`
+  ADD `do_not_sms` tinyint(4) default '0' AFTER `do_not_mail`;
+
+---CRM-4664
+ALTER TABLE `civicrm_option_value` MODIFY `name` VARCHAR(255) COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT 'Stores a fixed (non-translated) name for this option value. Lookup functions should use the name as the key for the option value row.'

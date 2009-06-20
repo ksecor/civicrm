@@ -78,6 +78,7 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
 
         if ( empty( $this->_config->mailing_format ) ) {
             $defaults['mailing_format'] = "
+{addressee}
 {contact_name}
 <{street_address}
 {supplemental_address_1}
@@ -87,14 +88,6 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
 ";
         } else {
             $defaults['mailing_format'] = $this->_config->mailing_format;
-        }
-
-
-        if ( empty( $this->_config->individual_name_format ) ) {
-            $defaults['individual_name_format'] =
-                '{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}';
-        } else {
-            $defaults['individual_name_format'] = $this->_config->individual_name_format;
         }
 
 
@@ -118,7 +111,6 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
         $this->addRule( 'location_count', ts( 'Location count must be a positive integer (e.g. 1 or 2 or ...).' ), 'positiveInteger' );
 
         // address formatting options
-        $this->addElement('textarea','individual_name_format', ts('Individual Name Format'), array("class"=>"nowrap","wrap"=>"off"));
         $this->addElement('textarea','mailing_format', ts('Mailing Label Format'));  
         $this->addElement('textarea','address_format', ts('Display Format'));  
 
@@ -169,7 +161,7 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
         $this->_params = $this->controller->exportValues( $this->_name );
 
         // trim the format and unify line endings to LF
-        $format = array( 'address_format', 'mailing_format', 'individual_name_format' );
+        $format = array( 'address_format', 'mailing_format' );
         foreach ( $format as $f ) {
           if ( ! empty( $this->_params[$f] ) ) {
             $this->_params[$f] = trim( $this->_params[$f] );

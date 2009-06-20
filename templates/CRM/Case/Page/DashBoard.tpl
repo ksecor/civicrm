@@ -10,7 +10,7 @@
    {if $newClient}	
     <tr>
       <td>
-        <a href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case for New Client{/ts}</span></a>
+        <a href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case{/ts}</span></a>
       </td>
     </tr>
    {/if}

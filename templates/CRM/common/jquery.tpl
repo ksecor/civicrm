@@ -12,8 +12,11 @@
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/css.js"></script>
 <style type="text/css">@import url({$config->resourceBase}packages/jquery/css/tree_component.css);</style>
 
-<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.clickmenu.pack.js"></script>
-<style type="text/css">@import url({$config->resourceBase}packages/jquery/css/clickmenu.css);</style>
+<!--script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.clickmenu.pack.js"></script-->
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.menu.pack.js"></script>
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.dimensions.js"></script>
+<style type="text/css">@import url({$config->resourceBase}packages/jquery/css/menu.css);</style>
+<!--style type="text/css">@import url({$config->resourceBase}packages/jquery/css/clickmenu.css);</style-->
 
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.chainedSelects.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.treeview.min.js"></script>

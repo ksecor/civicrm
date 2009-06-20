@@ -99,10 +99,14 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
     function setDefaultValues( ) 
     {
         $defaults = parent::setDefaultValues( );
-        
+       
         if (! isset($defaults['weight']) || ! $defaults['weight']) {
             $fieldValues = array('option_group_id' => $this->_gid);
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
+        }
+        //setDefault of contact types for email greeting, postal greeting, addressee, CRM-4575
+        if ( in_array( $this->_gName, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) && ! $isReserved ) {
+            $defaults['contactOptions'] = ( $defaults['filter'] ) ? $defaults['filter'] : null;
         }
         return $defaults;
     }
@@ -185,11 +189,21 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         }
         
         //fix for CRM-3552
-        if ( $this->_gName == 'from_email_address' || $this->_gName == 'greeting_type' ) {
+        if ( $this->_gName == 'from_email_address' ) {
             $this->assign( 'showDefault', true );
             $this->add('checkbox', 'is_default', ts('Default Option?'));
         }
         
+         //get contact type for which user want to create a new greeting/addressee type, CRM-4575
+        if ( in_array( $this->_gName, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) && ! $isReserved ) {
+            $values = array( 1 => ts('Individual'), 2 => ts('Household') );
+            if ( $this->_gName == 'addressee' ) {
+                $values[] =  ts('Organization'); 
+            }
+            $this->add( 'select', 'contactOptions', ts('Contact Type'),array('' => '-select-' ) + $values, true );
+            $this->assign( 'showContactFilter', true );
+        }
+                
         if ($this->_gName == 'participant_status') {
             // For Participant Status options, expose the 'filter' field to track which statuses are "Counted", and the Visibility field
             $element = $this->add('checkbox', 'filter', ts('Counted?'));
@@ -226,7 +240,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                 $errors['label'] = ts( 'Please follow the proper format for From Email Address' ); 
             }
         }
-        
+                
         return $errors;
     }
     
@@ -256,6 +270,8 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         } else {
             $params = $ids = array( );
             $params = $this->exportValues();
+            //save contact type for email greeting, postal greeting, addressee, CRM-4575
+            $params['filter'] = array_key_exists ( 'contactOptions', $params ) ? CRM_Utils_Array::value( 'contactOptions', $params ) : null;
             $groupParams = array( 'name' => ($this->_gName) );
             require_once 'CRM/Core/OptionValue.php';
             $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);

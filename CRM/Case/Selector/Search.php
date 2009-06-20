@@ -397,12 +397,12 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                  ),
                                           array(
-                                                'name'      => ts('Most Recent Activity'),
+                                                'name'      => ts('Most Recent'),
                                                 'sort'      => 'case_recent_activity_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Next Scheduled Activity'),
+                                                'name'      => ts('Next Sched.'),
                                                 'sort'      => 'case_scheduled_activity_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),

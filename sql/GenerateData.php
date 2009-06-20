@@ -126,8 +126,7 @@ class CRM_GCD {
     private $prefix = array(1 => 'Mrs', 2 => 'Ms', 3 => 'Mr', 4 => 'Dr');
     private $suffix = array(1 => 'Jr', 2 => 'Sr');
     private $gender = array(1 => 'Female', 2 =>'Male');    
-    private $greetingType = array(1 => 'Dear [first]', 2 => 'Dear [prefix] [first] [last]', 3 => 'Dear [prefix] [last]');
-    
+       
 // store domain id's
     private $domain = array();
 
@@ -641,8 +640,6 @@ class CRM_GCD {
      * middle_name 'Middle Name $contact_uuid'
      * last_name 'Last Name $contact_uuid'
      * job_title 'Job Title $contact_uuid'
-     * greeting_type - randomly select from the enum values
-     * custom_greeting - "custom greeting $contact_uuid'
      *
      *******************************************************/
     public function addIndividual()
@@ -656,7 +653,6 @@ class CRM_GCD {
             $contact->last_name = ucfirst($this->_getRandomElement($this->lastName));
             $contact->prefix_id = $this->_getRandomIndex($this->prefix);
             $contact->suffix_id = $this->_getRandomIndex($this->suffix);
-            $contact->greeting_type_id = $this->_getRandomIndex($this->greetingType);
             $contact->gender_id = $this->_getRandomIndex($this->gender);
             $contact->birth_date = date("Ymd", mt_rand(0, time()));
             $contact->is_deceased = mt_rand(0, 1);

@@ -99,14 +99,30 @@
              {assign var="provider" value=$n|cat:"-provider_id"}
              {$form.$provider.html}&nbsp;
            {/if}
-           {if $n eq 'greeting_type'}
+           {if $n eq 'email_greeting'}
                <table class="form-layout-compressed">
                   <tr>
-                     <td>{$form.$n.html} </td>
-                     <td id="customGreeting">
-                     {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}</td>
+                     <td>{$form.$n.html|crmReplace:class:medium} </td>
+                     <td id="emailCustomGreeting">
+                     {$form.email_greeting_custom.label}&nbsp;&nbsp;&nbsp;{$form.email_greeting_custom.html|crmReplace:class:eight}</td>
                   </tr>
                </table> 
+           {elseif $n eq 'postal_greeting'}
+               <table class="form-layout-compressed">
+                  <tr>
+                     <td>{$form.$n.html|crmReplace:class:medium} </td>
+                     <td id="postalCustomGreeting">
+                     {$form.postal_greeting_custom.label}&nbsp;&nbsp;&nbsp;{$form.postal_greeting_custom.html|crmReplace:class:eight}</td>
+                  </tr>
+               </table> 
+           {elseif $n eq 'addressee'} 
+               <table class="form-layout-compressed">
+                  <tr>
+                     <td>{$form.$n.html|crmReplace:class:medium} </td>
+                     <td id="addresseeCustom">
+                     {$form.addressee_custom.label}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.addressee_custom.html|crmReplace:class:eight}</td>
+                  </tr>
+               </table>
             {elseif $n eq 'group' && $form.group}
                 <table id="selector" class="selector" style="width:auto;">
                     <tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
@@ -196,25 +212,43 @@ field_type          ="radio"
 invert              = 0
 }
 {/if}
-
-{if $form.greeting_type}
+{*if $form.email_greeting*}
+{if $form.email_greeting or $form.postal_greeting or $form.addressee}
   {literal}
     <script type="text/javascript">
       window.onload = function() {
-        showGreeting();
+        showEmailGreeting();
+        showPostalGreeting();
+        showAddressee();
       }
   {/literal}
     </script>
 {/if}
+
 {literal}
 <script type="text/javascript">
-    function showGreeting() {
-       if( document.getElementById("greeting_type").value == 4 ) {
-           show('customGreeting');                   
-       } else {
-           hide('customGreeting');      
-       }     
-    }
+ function showAddressee() {
+    if( document.getElementById("addressee").value == 4 ) {
+        show('addresseeCustom');                   
+    } else {
+           hide ('addresseeCustom');      
+    }     
+ }
+ function showEmailGreeting() {
+    if( document.getElementById("email_greeting").value == 4 ) {
+        show('emailCustomGreeting');                   
+    } else {
+        hide('emailCustomGreeting');      
+    }     
+ }
+ function showPostalGreeting() {
+    if( document.getElementById("postal_greeting").value == 4 ) {
+        show('postalCustomGreeting');                   
+    } else {
+        hide('postalCustomGreeting');      
+    }     
+ }
+   
 cj(document).ready(function(){ 
 	cj('#selector tr:even').addClass('odd-row ');
 	cj('#selector tr:odd ').addClass('even-row');

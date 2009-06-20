@@ -64,7 +64,7 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
             $this->assign('CiviEvent', true );
         }
 
-        $this->_id = CRM_Utils_Request::retrieve('id', 'Positive',
+        $this->_id  = CRM_Utils_Request::retrieve('id', 'Positive',
                                                  $this, false, 0);
 
         // figure out whether we’re handling an event or an event template
@@ -78,17 +78,22 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
         $this->assign('action', $action);
         $this->assign( 'id', $this->_id );
         
-        $subPage = CRM_Utils_Request::retrieve('subPage', 'String',
-                                               $this );
+        $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
         
-        $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title'));
+        if ( !$subPage && ($action & CRM_Core_Action::ADD) ) {
+            $subPage = 'EventInfo';
+        }
 
-        if ($this->_isTemplate) {
-            $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'template_title');
-            CRM_Utils_System::setTitle(ts('Configure Event Template') . " - $title");
-        } else {
-            $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'title');
-            CRM_Utils_System::setTitle(ts('Configure Event') . " - $title");
+        if ($this->_id) {
+            $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title'));
+
+            if ($this->_isTemplate) {
+                $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'template_title');
+                CRM_Utils_System::setTitle(ts('Configure Event Template') . " - $title");
+            } else {
+                $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'title');
+                CRM_Utils_System::setTitle(ts('Configure Event') . " - $title");
+            }
         }
 
         require_once 'CRM/Event/PseudoConstant.php';
@@ -102,9 +107,11 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
         
         $this->assign('findParticipants', $findParticipants);
         
-        $participantListingID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                           $this->_id,
-                                                           'participant_listing_id' );
+        if ($this->_id) {
+            $participantListingID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
+                                                                 $this->_id,
+                                                                 'participant_listing_id' );
+        }
         if ( $participantListingID ) {
             $participantListingURL = CRM_Utils_System::url( 'civicrm/event/participant',
                                                             "reset=1&id={$this->_id}",
@@ -137,12 +144,8 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
         }
 
         if ( $form ) {
-            $session =& CRM_Core_Session::singleton( );
-
             require_once 'CRM/Core/Controller/Simple.php'; 
             $controller =& new CRM_Core_Controller_Simple($form, $subPage, $action); 
-            $session =& CRM_Core_Session::singleton(); 
-            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'action=update&reset=1&id=' . $this->_id ) );
             $controller->set('id', $this->_id); 
             $controller->set('single', true );
             $controller->process(); 

@@ -83,6 +83,11 @@ class CRM_Contribute_Task {
                                   6 => ts( 'Update Pending Contribution Status' ),
                                   4 => ts( 'Batch Update Contributions Via Profile' ),
                                   );
+            
+            //CRM-4418, check for delete 
+            if ( !CRM_Core_Permission::check( 'delete in CiviContribute' ) ) {
+                unset( self::$_tasks[1] );
+            }
         }
         return self::$_tasks;
     }
@@ -108,6 +113,12 @@ class CRM_Contribute_Task {
                            5  => self::$_tasks[5],
                            7  => self::$_tasks[7],
                            );
+            
+            //CRM-4418,
+            if ( CRM_Core_Permission::check( 'delete in CiviContribute' ) ) {
+                $tasks[1] = self::$_tasks[1]; 
+            }
+            
             return $tasks;
         }
     }
