@@ -384,6 +384,17 @@ class CRM_Core_SelectValues
         if ($type == 'birth') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
+            // support for birthdate format, CRM-3090 
+            $format = trim( $dao->format );
+            if ( array_key_exists( $format, CRM_Core_SelectValues::birthDateFormats( ) ) ) {
+                $formatParts = explode( ' ', $format );
+                if ( in_array( 'M', $formatParts ) ) {
+                    $formatParts[array_search( 'M', $formatParts )] = $config->dateformatMonthVar;
+                }
+                $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate, $formatParts );
+            } else {
+                $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate );
+            }
         } elseif ($type == 'relative') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
@@ -464,7 +475,7 @@ class CRM_Core_SelectValues
         $year = date('Y');
         $newDate['minYear'] = $year - $minOffset;
         $newDate['maxYear'] = $year + $maxOffset;
-
+        
         return $newDate;
     }
 
@@ -637,6 +648,26 @@ class CRM_Core_SelectValues
         }
         
         return $tokens;
+    }
+    
+    /*
+     * supportable birth date formats.
+     * @static
+     */
+    static function &birthDateFormats( )
+    {
+        //presently this function is used for viewing birthdate and deceased date
+        static $birthDateFormats = null;
+        if ( !$birthDateFormats ) {
+            $birthDateFormats = array(
+                                      'M Y'   => '%Y%m',
+                                      'Y M'   => '%Y%m',
+                                      'M d'   => '%d %m',
+                                      'd M'   => '%d %m',
+                                      'Y'     => '%Y'
+                                      );
+        }
+        return $birthDateFormats;
     }
 }
 

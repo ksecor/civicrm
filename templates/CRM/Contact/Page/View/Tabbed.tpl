@@ -181,11 +181,21 @@
         <label>{ts}Contact is Deceased{/ts}</label><br />
     {/if}
     {if $deceased_date}
-        <label>{ts}Date Deceased:{/ts}</label> {$deceased_date|crmDate}
+        <label>{ts}Date Deceased:{/ts}</label> 
+        {if $birthDateViewFormat }           
+            {$deceased_date|date_format:$birthDateViewFormat|crmDate}
+        {else}
+            {$deceased_date|crmDate}
+        {/if}
     {/if}
    </div>
    <div class="col2">
-    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
+    <label>{ts}Date of Birth:{/ts}</label> 
+    {if $birthDateViewFormat }           
+        {$birth_date|date_format:$birthDateViewFormat|crmDate}
+    {else}
+        {$birth_date|crmDate}
+    {/if}<br />
     {* Show calculated age unless contact is deceased. *}
     {if $is_deceased neq 1}
         {if $age.y}  
