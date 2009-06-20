@@ -1471,13 +1471,13 @@ class CRM_Utils_Date
      * and retrun supportable birth date format w/ qf mapping.
      *
      * @param $format given format ( eg 'M Y', 'Y M' ) 
-     * return format mapping eg array( 'M Y' => '%Y%m' )
+     * return array of qfMapping and date parts for date format.
      */
     function checkBrithDateFormat( $format = null )
     {
         if ( !$format ) {
             $format = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
-                                                  'birth' , 'format','name');
+                                                  'birth', 'format', 'name' );
         }
         
         //get complete qf mapping to all date parts
@@ -1495,10 +1495,10 @@ class CRM_Utils_Date
         }
         
         $supportableFormats = array(
-                                    'MY'   => '%Y%m',
-                                    'YM'   => '%Y%m',
-                                    'Md'   => '%d%m',
-                                    'dM'   => '%d%m',
+                                    'MY'   => '%B %Y',
+                                    'YM'   => '%Y %B',
+                                    'Md'   => '%B %E%f',
+                                    'dM'   => '%E%f %B',
                                     'Y'    => '%Y'
                                     );
         
