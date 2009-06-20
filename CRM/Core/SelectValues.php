@@ -384,10 +384,12 @@ class CRM_Core_SelectValues
         if ($type == 'birth') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
+            
             // support for birthdate format, CRM-3090 
             $format = trim( $dao->format );
-            if ( array_key_exists( $format, CRM_Core_SelectValues::birthDateFormats( ) ) ) {
-                $formatParts = explode( ' ', $format );
+            $birthDateFormat = CRM_Utils_Date::checkBrithDateFormat( $format );
+            if ( $birthDateFormat ) {
+                $formatParts = $birthDateFormat['dateParts'];
                 if ( in_array( 'M', $formatParts ) ) {
                     $formatParts[array_search( 'M', $formatParts )] = $config->dateformatMonthVar;
                 }
@@ -650,24 +652,34 @@ class CRM_Core_SelectValues
         return $tokens;
     }
     
-    /*
-     * supportable birth date formats.
-     * @static
+    /**
+     * get qf mappig for all date parts.
+     *
      */
-    static function &birthDateFormats( )
+    static function &qfDatePartsMapping( )
     {
-        //presently this function is used for viewing birthdate and deceased date
-        static $birthDateFormats = null;
-        if ( !$birthDateFormats ) {
-            $birthDateFormats = array(
-                                      'M Y'   => '%Y%m',
-                                      'Y M'   => '%Y%m',
-                                      'M d'   => '%d %m',
-                                      'd M'   => '%d %m',
-                                      'Y'     => '%Y'
-                                      );
+        static $qfDatePartsMapping = null;
+        if ( !$qfDatePartsMapping ) {
+            $qfDatePartsMapping = array(
+                                        '%b' => 'M',
+                                        '%B' => 'F',
+                                        '%d' => 'd',
+                                        '%e' => 'j',
+                                        '%E' => 'j',
+                                        '%f' => 'S',
+                                        '%H' => 'H',
+                                        '%I' => 'h',
+                                        '%k' => 'G',
+                                        '%l' => 'g',
+                                        '%m' => 'm',
+                                        '%M' => 'i',
+                                        '%p' => 'a',
+                                        '%P' => 'A',
+                                        '%Y' => 'Y'
+                                        );
         }
-        return $birthDateFormats;
+        
+        return $qfDatePartsMapping;
     }
 }
 

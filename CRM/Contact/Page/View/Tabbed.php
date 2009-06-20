@@ -179,9 +179,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             $defaults['current_employer_id'] = $currentEmployer[ $this->_contactId ]['org_id'];
             
             //for birthdate format with respect to birth format set 
-            $this->assign( 'birthDateViewFormat', CRM_Utils_Array::value( CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
-                                                                                                      'birth' , 'format','name'), 
-                                                                          CRM_Core_SelectValues::birthdateFormats( ) ) );
+            $this->assign( 'birthDateViewFormat',  CRM_Utils_Array::value( 'qfMapping', CRM_Utils_Date::checkBrithDateFormat( ) ) );
         }
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        

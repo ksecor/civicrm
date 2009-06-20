@@ -131,8 +131,7 @@ class CRM_Contact_Form_Individual {
             $form->addRule('birth_date', ts('Select a valid date.'), 'qfBirthDate' );
 
             $showCalender = true;
-            if ( array_key_exists( CRM_Core_Dao::getFieldValue( 'CRM_Core_DAO_PreferencesDate', 'birth', 'format', 'name' ),
-                                   CRM_Core_SelectValues::birthDateFormats( ) ) ) {
+            if ( CRM_Utils_Date::checkBrithDateFormat( ) ) {
                 $showCalender = false;
             }
             $this->assign( 'showCalender', $showCalender );
