@@ -395,13 +395,18 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         
         //set loginUrl
         $loginUrl = $config->userFrameworkBaseURL;
-        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
-        if ( $isJoomla ) {
+        switch ( ucfirst($config->userFramework) ) 
+        {
+        case 'Joomla' : 
             $loginUrl  = str_replace( 'administrator/', '', $loginUrl );
             $loginUrl .= 'index.php?option=com_user&view=login';
-        } else {
+            break;
+            
+        case 'Drupal' :
             $loginUrl .= 'user';
+            break;
         }
+        
         $template->assign( 'loginUrl', $loginUrl );
         
         // set appropriate subject
