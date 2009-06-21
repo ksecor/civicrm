@@ -11,10 +11,6 @@
 			{$form.mailing_format.label}
 			{$form.mailing_format.html|crmReplace:class:huge}
 			<span class="description">{ts}Address format for mailing labels. Use the {literal}{contact.state_province}{/literal} token for state/province abbreviation or {literal}{contact.state_province_name}{/literal} for full name.{/ts}{help id='label-tokens'}</span>
-
-			{$form.individual_name_format.label}
-			{$form.individual_name_format.html|crmReplace:class:huge}
-			<span class="description">{ts}Formatting for individual contact names when {literal}{contact.contact_name}{/literal} token is included in mailing labels.{/ts} {help id='name-tokens'}</span>
 		</fieldset>
 
 		<fieldset><legend>{ts}Address Display{/ts}</legend>

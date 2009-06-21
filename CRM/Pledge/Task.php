@@ -76,6 +76,11 @@ class CRM_Pledge_Task
                                   1     => ts( 'Delete Pledges' ),
                                   3     => ts( 'Export Pledges' ),
                                   );
+            
+            //CRM-4418, check for delete 
+            if ( !CRM_Core_Permission::check( 'delete in CiviPledge' ) ) {
+                unset( self::$_tasks[1] );
+            }
         }
 
         asort( self::$_tasks );
@@ -114,6 +119,10 @@ class CRM_Pledge_Task
             $tasks = array( 
                            3  => self::$_tasks[3]
                            );
+            //CRM-4418,
+            if ( CRM_Core_Permission::check( 'delete in CiviPledge' ) ) {
+                $tasks[1] = self::$_tasks[1]; 
+            }
             return $tasks;
         }
     }

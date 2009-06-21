@@ -225,7 +225,11 @@ class CRM_Core_Permission {
             $editPermissions = array( 'CiviEvent'      => 'edit event participants',
                                       'CiviMember'     => 'edit memberships',
                                       'CiviPledge'     => 'edit pledges',
-                                      'CiviContribute' => 'edit contributions'
+                                      'CiviContribute' => 'edit contributions',
+                                      'CiviCase'       => 'access CiviCase',
+                                      'CiviGrant'      => 'edit grants',
+                                      'CiviMail'       => 'access CiviMail',
+                                      'CiviAuction'    => 'add auction items'
                                       );
             $permissionName = CRM_Utils_Array::value( $module, $editPermissions );
         }

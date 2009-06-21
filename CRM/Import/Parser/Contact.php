@@ -178,7 +178,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         
         $index = 0 ;
         foreach ( $this->_mapperKeys as $key ) {
-            if ( substr( $key, 0, 5 ) == 'email' ) {
+            if ( substr( $key, 0, 5 ) == 'email' && substr( $key, 0, 14 ) != 'email_greeting') {
                 $this->_emailIndex = $index;
                 $this->_allEmails  = array( );
             }
@@ -365,11 +365,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //checking error in core data
         $this->isErrorInCoreData($params, $errorMessage);
         if ( $errorMessage ) {
-            if ( $errorMessage != 'custom_greeting' ) { 
-                $tempMsg = "Invalid value for field(s) : $errorMessage";
-            } else {
-                $tempMsg = "Missing required field : Greeting Type";
-            }
+            $tempMsg = "Invalid value for field(s) : $errorMessage";
             // put the error message in the import record in the DB
             $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $tempMsg);
             $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
@@ -1104,11 +1100,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         self::addToErrorMsg('Individual Suffix', $errorMessage);
                     }   
                     break;
-                case 'greeting_type':
-                    if ( !self::in_value($value,CRM_Core_PseudoConstant::greeting()) ) {
-                        self::addToErrorMsg('Greeting Type', $errorMessage);
-                    }   
-                    break;     
                 case 'state_province':
                     if ( ! empty( $value )) {
                         foreach($value as $stateValue ) {
@@ -1182,16 +1173,65 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         }
                     }
                     break;
-                case 'custom_greeting' :
-                     $greetingTypeLabel = CRM_Core_DAO::getFieldValue( 
-                                                                         'CRM_Core_DAO_OptionValue', 
-                                                                         'Customized', 
-                                                                         'label', 
-                                                                         'name'
-                                                                          );
-                     
-                    if ( CRM_Utils_Array::value( 'greeting_type', $params ) != $greetingTypeLabel ) {
-                        self::addToErrorMsg('custom_greeting', $errorMessage);
+                    //check for any error in email/postal greeting, addressee, 
+                    //custom email/postal greeting, custom addressee, CRM-4575
+                    case 'email_greeting':
+                    if ( $this->_contactType == 'Individual' ) {
+                        $filterVal = "v.filter = 1";
+                    } else if ( $this->_contactType == 'Household' ) {
+                        $filterVal = "v.filter = 2";
+                    }
+                    $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+                    if ( !self::in_value($value, CRM_Core_PseudoConstant::emailGreeting($filterCondition) ) ) {
+                        self::addToErrorMsg('Email Greeting', $errorMessage);
+                    }   
+                    break;  
+                case 'postal_greeting':
+                    if ( $this->_contactType == 'Individual' ) {
+                        $filterVal = "v.filter = 1";
+                    } else if ( $this->_contactType == 'Household' ) {
+                        $filterVal = "v.filter = 2";
+                    }
+                    $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+                    if ( !self::in_value($value, CRM_Core_PseudoConstant::postalGreeting($filterCondition) ) ) {
+                        self::addToErrorMsg('Postal Greeting', $errorMessage);
+                    }   
+                    break;  
+                case 'addressee':
+                    if ( $this->_contactType == 'Individual' ) {
+                        $filterVal = "v.filter = 1";
+                    } else if ( $this->_contactType == 'Household' ) {
+                        $filterVal = "v.filter = 2";
+                    } else if ( $this->_contactType == 'Organization' ) {
+                        $filterVal = "v.filter = 3";
+                    }
+                    $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+                    if ( !self::in_value($value,CRM_Core_PseudoConstant::addressee($filterCondition) ) ) {
+                        self::addToErrorMsg('Addressee', $errorMessage);
+                    }   
+                    break; 
+                case 'email_greeting_custom' :
+                    if ( array_key_exists('email_greeting', $params) ) {                                     
+                        $emailGreetingLabel = CRM_Core_OptionGroup::getLabel('email_greeting', '4');
+                        if ( CRM_Utils_Array::value( 'email_greeting', $params ) != $emailGreetingLabel ) {
+                            self::addToErrorMsg('Email Greeting', $errorMessage);
+                        }
+                    }
+                    break;
+                case 'postal_greeting_custom' :
+                    if ( array_key_exists('postal_greeting', $params) ) {    
+                        $postalGreetingLabel = CRM_Core_OptionGroup::getLabel('postal_greeting', '4');
+                        if ( CRM_Utils_Array::value( 'postal_greeting', $params ) != $postalGreetingLabel ) {
+                            self::addToErrorMsg('Postal Greeting', $errorMessage);
+                        }
+                    }
+                    break;
+                case 'addressee_custom' :
+                    if ( array_key_exists('addressee', $params) ) {    
+                        $addresseeLabel = CRM_Core_OptionGroup::getLabel('addressee', '4');
+                        if ( CRM_Utils_Array::value( 'addressee', $params ) != $addresseeLabel ) {
+                            self::addToErrorMsg('Addressee', $errorMessage);
+                        }
                     }
                     break;
                 case 'home_URL':
@@ -1263,7 +1303,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         
         //get the prefix id etc if exists
         CRM_Contact_BAO_Contact::resolveDefaults($formatted, true);
-
+        
         require_once 'api/v2/Contact.php';
         // setting required check to false, CRM-2839
         // plus we do our own required check in import
@@ -1433,6 +1473,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     {
         //take contact cutom fields.
         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type', $formatted ) );
+        //if a Custom Email Greeting, Custom Postal Greeting or Custom Addressee is mapped, and no "Greeting / Addressee Type ID" is provided, then automatically set the type = Customized, CRM-4575
+        $elements = array( 'email_greeting_custom' => 'email_greeting', 
+                           'postal_greeting_custom' => 'postal_greeting', 
+                           'addressee_custom' => 'addressee' );
+        foreach( $elements as $k => $v ) {
+            if ( array_key_exists($k, $params) && !(array_key_exists($v, $params) ) ) {
+                $label = key( CRM_Core_OptionGroup::values( $v, true, null, null, 'AND v.name = "Customized"' ) );
+                $params[$v] = $label;
+            }
+        }
         
         //format date first
         $session  =& CRM_Core_Session::singleton();
@@ -1462,7 +1512,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //now format custom data.
         foreach ( $params as $key => $field ) {
             if ( $field == null || $field === '' ) {
-                continue;
+                continue;  
             }
             
             if ( is_array( $field ) ) {
@@ -1481,7 +1531,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $break = true;
                     }
                     
-                    if ( !$break ) {                    
+                    if ( !$break ) {  
                         _civicrm_add_formatted_param( $value, $formatted );
                     }
                 }
@@ -1503,7 +1553,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
             
             _civicrm_add_formatted_param( $formatValues, $formatted );
-            
+         
             //Handling Custom Data
             if ( ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) 
                  && array_key_exists( $customFieldID, $customFields ) ) {
@@ -1603,7 +1653,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                 }
             }
-        }    
+        }   
     }
     
 }

@@ -1,8 +1,7 @@
 {capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
 {ts 1=$expandIconURL}Click %1 to view case details.{/ts}
-
 {strip}
-<table class="selector">
+<table class="caseSelector">
   <tr class="columnheader">
     <th></th>
     <th>{ts}Client{/ts}</th>
@@ -10,16 +9,15 @@
     <th>{ts}Type{/ts}</th>
     <th>{ts}My Role{/ts}</th>
     <th>{ts}Case Manager{/ts}</th>      
-    <th>{if $list EQ 'upcoming'}{ts}Next Scheduled Activity{/ts}{else}{ts}Most Recent Activity{/ts}{/if}</th>
+    <th>{if $list EQ 'upcoming'}{ts}Next Sched.{/ts}{else}{ts}Most Recent{/ts}{/if}</th>
 
     <th></th>
   </tr>
 
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  {cycle values="odd-row,even-row" assign=rowClass}
-
-  <tr id='{$list}Rowid{$row.case_id}' class='{$rowClass} {if $row.case_status_name EQ 'Urgent' } disabled{elseif $row.case_status_name EQ 'Resolved'}status-completed{/if}'>
+ 
+  <tr id='{$list}Rowid{$row.case_id}'>
 	<td>
         &nbsp;{$row.contact_type_icon}<br />
         <span id="{$list}{$row.case_id}_show">
@@ -39,7 +37,7 @@
 	</td>
 
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a><br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
-    <td>{$row.case_status}</td>
+    <td class="{$row.class}">{$row.case_status}</td>
     <td>{$row.case_type}</td>
     <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
     <td>{if $row.casemanager_id}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.casemanager_id`"}">{$row.casemanager}</a>{else}---{/if}</td>
@@ -56,7 +54,7 @@
 
     <td>{$row.action}</td>
    </tr>
-   <tr id="{$list}{$row.case_id}_hide" class='{$rowClass}'>
+   <tr id="{$list}{$row.case_id}_hide">
      <td>
      </td>
      <td colspan="7" width="99%" class="enclosingNested">

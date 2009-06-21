@@ -364,12 +364,12 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Amount Requested'),
+                                                'name'      => ts('Requested'),
                                                 'sort'      => 'grant_amount_total',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Amount Granted'),
+                                                'name'      => ts('Granted'),
                                                 'sort'      => 'grant_amount_granted',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),

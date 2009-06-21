@@ -18,6 +18,9 @@
         {elseif $gName eq 'from_email_address'}
             <dt>{ts}FROM Email Address{/ts} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_option_value' field='label' id=$id}{/if}</dt><dd>{$form.label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Include double-quotes (&quot;) around the name and angle-brackets (&lt; &gt;) around the email address.<br />EXAMPLE: <em>&quot;Client Services&quot; &lt;clientservices@example.org&gt;</em>{/ts}</dd>
+        {elseif $gName eq 'redaction_rule'}
+            <dt>{ts}Match Value or Expression{/ts} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_option_value' field='label' id=$id}{/if}</dt><dd>{$form.label.html}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}A "string value" or regular expression to be redacted (replaced).{/ts}</dd>
         {else}
             <dt>{$form.label.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_option_value' field='label' id=$id}{/if}</dt><dd>{$form.label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}The option label is displayed to users.{/ts}</dd>
@@ -26,15 +29,20 @@
             <dt>{ts}Search Title{/ts}</dt><dd>{$form.description.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This title is displayed to users in the Custom Search listings.{/ts}</dd>
         {else}
-	    <dt>{$form.value.label}</dt><dd>{$form.value.html}</dd>
+            {if $gName eq 'redaction_rule'}
+                <dt>{ts}Replacement (prefix){/ts}</dt><dd>{$form.value.html}</dd>
+                <dt>&nbsp;</dt><dd class="description">{ts}Matched values are replaced with this prefix plus a unique code. EX: If replacement prefix for &quot;Vancouver&quot; is <em>city_</em>, occurrences will be replaced with <em>city_39121</em>.{/ts}</dd>
+            {else}
+                <dt>{$form.value.label}</dt><dd>{$form.value.html}</dd>
+            {/if}
+            {if $form.filter.html} {* Filter property is only exposed for some option groups. *}
+                <dt>{$form.filter.label}</dt><dd>{$form.filter.html}</dd>
+            {/if} 
             <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
             {if $gName eq 'activity_type'}
                 <dt>&nbsp;</dt><dd class="description">{ts}Description is included at the top of the activity edit and view pages for this type of activity.{/ts}</dd>
             {/if}
         {/if}
-        {if $form.filter.html} {* Filter property is only exposed for some option groups. *}
-            <dt>{$form.filter.label}</dt><dd>{$form.filter.html}</dd>
-        {/if} 
         {if $gName eq 'participant_status'}
             <dt>{$form.visibility_id.label}</dt><dd>{$form.visibility_id.html}</dd>	
         {/if}
@@ -46,6 +54,9 @@
         {if $showDefault}
             <dt>{$form.is_default.label}</dt><dd>{$form.is_default.html}</dd>
         {/if}
+        {if $showContactFilter}{* contactOptions is exposed for email/postal greeting and addressee types to set filter for contact types *}
+            <dt>{$form.contactOptions.label}</dt><dd>{$form.contactOptions.html}</dd>
+        {/if}    
     </dl>
     {/if}
     <div class="spacer"></div>   

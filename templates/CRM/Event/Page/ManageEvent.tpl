@@ -20,7 +20,9 @@
     <div id=event_status_id>
         {strip}
         {include file="CRM/common/pager.tpl" location="top"}
-        {include file="CRM/common/pagerAToZ.tpl}    
+        {include file="CRM/common/pagerAToZ.tpl"}
+        {* handle enable/disable actions*}
+        {include file="CRM/common/enableDisable.tpl"}         
         <table class="selector">
          <thead class="sticky">
             <th>{ts}Event{/ts}</th>
@@ -33,7 +35,7 @@
 	        <th></th>
          </thead>
         {foreach from=$rows item=row}
-          <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+          <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td><a href="{crmURL p='civicrm/event/info' q="id=`$row.id`&reset=1"}" title="{ts}View event info page{/ts}" class="bold">{$row.title}</a>&nbsp;&nbsp;({ts}ID:{/ts} {$row.id})<br /><a href="{crmURL p='civicrm/event/search' q="reset=1&force=1&event=`$row.id`"}" title="{ts}List participants for this event (all statuses){/ts}">({ts}participants{/ts})</a></td> 
             <td>{$row.city}</td>  
             <td>{$row.state_province}</td>	

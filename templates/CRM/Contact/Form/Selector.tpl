@@ -91,7 +91,7 @@
 <!-- Context Menu populated as per component and permission-->
 <ul id="contactMenu" class="contextMenu">
 {foreach from=$contextMenu item=value key=key}
-  <li><a href="#{$key}">{ts}{$value}{/ts}</a></li>
+  <li class="{$value.ref}"><a href="#{$key}">{ts}{$value.title}{/ts}</a></li>
 {/foreach}
 </ul>
 <script type="text/javascript">
@@ -100,30 +100,33 @@
     on_load_init_checkboxes(fname);
  {literal}
 cj(document).ready( function() {
-var url= "{/literal}{crmURL p='civicrm/contact/view/changeaction q="reset=1&action=add&cid=changeid&context=changeaction" h=0}{literal}";
-var activityUrl = "{/literal}{crmURL p='civicrm/contact/view/activity q="reset=1&snippet=1&cid=changeid" h=0}{literal}";
-var contactUrl = "{/literal}{crmURL p='civicrm/contact/changeaction q="reset=1&cid=changeid" h=0}{literal}";
+var url         = "{/literal}{crmURL p='civicrm/contact/view/changeaction' q="reset=1&action=add&cid=changeid&context=changeaction" h=0}{literal}";
+var activityUrl = "{/literal}{crmURL p='civicrm/contact/view' q="action=browse&selectedChild=activity&reset=1&cid=changeid" h=0}{literal}";
+var emailUrl    = "{/literal}{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=changeid" h=0}{literal}";
+var contactUrl  = "{/literal}{crmURL p='civicrm/contact/changeaction' q="reset=1&cid=changeid" h=0}{literal}";
 // Show menu when contact row is right clicked
 cj(".selector tr").contextMenu({
-		menu: 'contactMenu'
-    }, function( action ){ 
-         cj(".selector tr").mouseover(function() {
-             var contactId = cj(this).attr('id').substr(5);
-             if ( action == 'activity' || action == 'email' ) {
-                 if ( action == 'email' ) {
-                  activityUrl = activityUrl.replace( /&snippet=1/, '&atype=3&action=add' );
-                 }
-               url = activityUrl.replace( /changeid/, contactId );
-             } else if ( action == 'view' || action == 'add' ) {
-               url = ( action == 'add') ? contactUrl.replace( /changeid/, contactId+'&action=update' ) 
-                                        : contactUrl.replace( /changeid/, contactId ); 
-               url =  url.replace( /changeaction/, action);
-             }else {
-               url =  url.replace( /changeaction/g, action ); url = url.replace( /changeid/, contactId );
-             }
-           window.location = url;
-        });
-	});
+      menu: 'contactMenu'
+    }, function( action, el ){
+        var contactId = el.attr('id').substr(5);
+        switch (action) {
+          case 'activity':
+          case 'email':
+            eval( 'locationUrl = '+action+'Url;');
+            break;
+          case 'add':
+            contactId += '&action=update';
+          case 'view':
+            locationUrl = contactUrl.replace( /changeaction/g, action );
+            break;
+          default:
+            locationUrl = url.replace( /changeaction/g, action );
+            break;
+        }
+        eval( 'locationUrl = locationUrl.replace( /changeid/, contactId );');
+        var destination = "{/literal}{crmURL q="force=1" h=0}{literal}";
+        window.location = locationUrl + '&destination=' + destination;
+   });
 });
 
 {/literal}

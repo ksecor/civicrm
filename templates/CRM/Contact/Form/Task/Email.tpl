@@ -14,7 +14,7 @@
     <td class="label">{if $single eq false}{ts}Recipient(s){/ts}{else}{$form.to.label}{/if}</td>
     <td>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}
     <div class="spacer"></div>
-    <span class="bold"><a href="#" id="addcc">{ts}Add CC{/ts}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" id="addbcc"">{ts}Add BCC{/ts}</a></span></td>
+    <span class="bold"><a href="#" id="addcc">{ts}Add CC{/ts}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" id="addbcc">{ts}Add BCC{/ts}</a></span></td>
 </tr>
 <tr id="cc" style="display:none;"><td class="label">{$form.cc_id.label}</td><td>{$form.cc_id.html}</td></tr>
 <tr id="bcc" style="display:none;"><td class="label">{$form.bcc_id.label}</td><td>{$form.bcc_id.html}</td></tr>
@@ -63,11 +63,12 @@ cj('#addbcc').toggle( function() { cj(this).text('Remove BCC');
 
 eval( 'tokenClass = { tokenList: "token-input-list-facebook", token: "token-input-token-facebook", tokenDelete: "token-input-delete-token-facebook", selectedToken: "token-input-selected-token-facebook", highlightedToken: "token-input-highlighted-token-facebook", dropdown: "token-input-dropdown-facebook", dropdownItem: "token-input-dropdown-item-facebook", dropdownItem2: "token-input-dropdown-item2-facebook", selectedDropdownItem: "token-input-selected-dropdown-item-facebook", inputToken: "token-input-input-token-facebook" } ');
 
+var hintText = "{/literal}{ts}Type in a partial or complete name or email{/ts}{literal}";
 var sourceDataUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail'}{literal}";
 var toDataUrl     = "{/literal}{crmURL p='civicrm/ajax/checkemail' q='id=1' }{literal}";
-cj( "#to"     ).tokenInput( toDataUrl, { prePopulate: toContact, classes: tokenClass });
-cj( "#cc_id"  ).tokenInput( sourceDataUrl, { classes: tokenClass });
-cj( "#bcc_id" ).tokenInput( sourceDataUrl, { classes: tokenClass });
+cj( "#to"     ).tokenInput( toDataUrl, { prePopulate: toContact, classes: tokenClass, hintText: hintText });
+cj( "#cc_id"  ).tokenInput( sourceDataUrl, { classes: tokenClass, hintText: hintText });
+cj( "#bcc_id" ).tokenInput( sourceDataUrl, { classes: tokenClass, hintText: hintText });
 cj( 'ul.token-input-list-facebook, div.token-input-dropdown-facebook' ).css( 'width', '450px' );
 </script>
 {/literal}

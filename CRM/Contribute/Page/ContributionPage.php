@@ -73,9 +73,9 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
         // check if variable _actionsLinks is populated
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this Contribution page?');
             $deleteExtra = ts('Are you sure you want to delete this Contribution page?');
             $copyExtra = ts('Are you sure you want to make a copy of this Contribution page?');
+            
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Configure'),
@@ -97,15 +97,14 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => CRM_Utils_System::currentPath( ),
-                                                                          'qs'    => 'action=disable&id=%%id%%',
                                                                           'title' => ts('Disable'),
-                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contribute_DAO_ContributionPage' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action'
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => CRM_Utils_System::currentPath( ),
-                                                                          'qs'    => 'action=enable&id=%%id%%',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contribute_DAO_ContributionPage' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
                                                                           'title' => ts('Enable'),
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
@@ -212,13 +211,7 @@ WHERE cp.contribution_page_id = {$id}";
             }
         } else {
             require_once 'CRM/Contribute/BAO/ContributionPage.php';
-            // if action is enable or disable to the needful.
-            if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_DAO::setFieldValue( 'CRM_Contribute_BAO_ContributionPage', $id, 'is_active', 0);
-            } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_DAO::setFieldValue( 'CRM_Contribute_BAO_ContributionPage', $id, 'is_active', 1);
-            }
-
+            
             // finally browse the contribution pages
             $this->browse();
             CRM_Utils_System::setTitle( ts('Manage Contribution Pages') );
@@ -295,12 +288,11 @@ ORDER BY title asc
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
             
-            // update enable/disable links depending on custom_group properties.
-            if ($dao->is_active) {
+            if ( $dao->is_active ) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
-            }
+            }   
             
             //CRM-4418
             if ( !$allowToDelete ) {

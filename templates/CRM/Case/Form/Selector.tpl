@@ -6,7 +6,7 @@
 {ts 1=$expandIconURL}Click %1 to view case activities.{/ts}
 {/if}
 {strip}
-<table class="selector">
+<table class="caseSelector">
   <tr class="columnheader">
 
   {if ! $single and $context eq 'Search' }
@@ -33,10 +33,8 @@
 
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  {cycle values="odd-row,even-row" assign=rowClass}
 
-  {* FIXME: Styling for Urgent and Resolved case status should be based on option_value.name NOT .label so translated sites function properly. dgg *}
-  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id EQ 'Urgent' } disabled{elseif $row.case_status_id EQ 'Resolved'}status-completed{/if}'>
+  <tr id='rowid{$list}{$row.case_id}'>
     {if $context eq 'Search' && !$single}
         {assign var=cbName value=$row.checkbox}
         <td>{$form.$cbName.html}</td> 
@@ -67,7 +65,7 @@
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a><br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
     {/if}
     
-    <td>{$row.case_status_id}</td>
+    <td class="{$row.class}">{$row.case_status_id}</td>
     <td>{$row.case_type_id}</td>
     <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
     <td>{if $row.casemanager_id}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.casemanager_id`"}">{$row.casemanager}</a>{else}---{/if}</td>

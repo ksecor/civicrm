@@ -66,39 +66,6 @@ class CRM_Admin_Page_Navigation extends CRM_Core_Page_Basic
      */
     function &links()
     {
-        if (!(self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this menu?');
-
-            self::$_links = array(
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/menu',
-                                                                    'qs'    => 'action=update&id=%%id%%&reset=1',
-                                                                    'title' => ts('Edit Menu') 
-                                                                   ),
-                                  CRM_Core_Action::DISABLE => array(
-                                                                    'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/menu',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                    'title' => ts('Disable Menu') 
-                                                                   ),
-                                  CRM_Core_Action::ENABLE  => array(
-                                                                    'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/menu',
-                                                                    'qs'    => 'action=enable&id=%%id%%',
-                                                                    'title' => ts('Enable Menu') 
-                                                                    ),
-                                   CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/menu',
-                                                                    'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete Menu') 
-                                                                   )
-                                  );
-        }
-        return self::$_links;
     }
 
     /**
@@ -134,36 +101,8 @@ class CRM_Admin_Page_Navigation extends CRM_Core_Page_Basic
     /**
      * Browse all menus
      */
-     function browse( $action = null, $sort ) {
-         $allMenus = array( );
-         CRM_Core_BAO_Navigation::getNavigationList( $allMenus, false );
-         
-         $links =& $this->links();
-         if ($action == null) {
-             if ( ! empty( $links ) ) {
-                 $action = array_sum(array_keys($links));
-             }
-         }
-
-         $permission = CRM_Core_Permission::EDIT;
-         foreach ( $allMenus as $key => $value ) {
-             // populate action links
-             $menuValues[$key] = $value;
-             // form all action links
-             $action = array_sum(array_keys($this->links()));
-
-             if ( $value['is_active'] ) {
-                 $action -= CRM_Core_Action::ENABLE;
-             } else {
-                 $action -= CRM_Core_Action::DISABLE;
-             }
-             
-             $menuValues[$key]['action'] = CRM_Core_Action::formLink ( self::links(), 
-                                                                       $action, 
-                                                                       array('id' => $key ) );
-         }
-         
-         $this->assign('rows', $menuValues );
+     function browse(  ) {
+         // need this so that we don't call parent
      }
 }
 

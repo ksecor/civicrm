@@ -24,7 +24,6 @@
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 */
-
 /**
  *
  * @package CRM
@@ -63,7 +62,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      *
      * @var array
      */
-    static $_commPrefs = array( 'do_not_phone', 'do_not_email', 'do_not_mail', 'do_not_trade' );
+    static $_commPrefs = array( 'do_not_phone', 'do_not_email', 'do_not_mail', 'do_not_sms', 'do_not_trade' );
 
     /**
      * static field for all the contact information that we can potentially import
@@ -391,15 +390,35 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             if (is_array($defaults['birth_date'])) {
                 $defaults['birth_date'] = CRM_Utils_Date::format( 
                                                                  $defaults['birth_date'], '-' 
-                                                                );
+                                                                );       
             }
         } 
-
+        
         CRM_Utils_Array::lookupValue( $defaults, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
-        CRM_Utils_Array::lookupValue( $defaults, 'greeting_type', CRM_Core_PseudoConstant::greeting(), $reverse );
-
+        
+        //lookup value of email/postal greeting, addressee, CRM-4575
+        $filterVal = null;
+        $filterCondition = null;
+        switch( $defaults['contact_type'] ) {
+        case 'Individual': 
+            $filterVal = "v.filter = 1";
+            break;
+        case 'Household':
+            $filterVal = "v.filter = 2";
+            break;
+        case 'Organization':
+            $filterVal = "v.filter = 3";
+            break;
+        }
+        $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+        CRM_Utils_Array::lookupValue( $defaults, 'email_greeting', 
+                                      CRM_Core_PseudoConstant::emailGreeting($filterCondition),  $reverse );
+        CRM_Utils_Array::lookupValue( $defaults, 'postal_greeting', 
+                                      CRM_Core_PseudoConstant::postalGreeting($filterCondition), $reverse );
+        CRM_Utils_Array::lookupValue( $defaults, 'addressee', 
+                                      CRM_Core_PseudoConstant::addressee($filterCondition),      $reverse );
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
 
@@ -534,7 +553,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         // make sure we have edit permission for this contact
         // before we delete
         require_once 'CRM/Contact/BAO/Contact/Permission.php';
-        if ( ! CRM_Contact_BAO_Contact_Permission::allow( $id, CRM_Core_Permission::EDIT ) ) {
+        if ( !CRM_Core_Permission::check( 'delete contacts' ) ) {
             return false;
         }
 
@@ -669,10 +688,10 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 $fields = array_merge($fields, CRM_Contact_DAO_Contact::import( ));
 
                 require_once "CRM/Core/OptionValue.php";
-                // the fields are only meant for Individual contact type
-                if ( ($contactType == 'Individual') || ($contactType == 'All')) {
-                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );                
-                }
+                // get the fields thar are meant for contact types
+                if ( in_array($contactType, array('Individual', 'Household', 'Organization', 'All')) ) {
+                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields('', $contactType ) );  
+                }  
                 $locationFields = array_merge( CRM_Core_DAO_Address::import( ),
                                                CRM_Core_DAO_Phone::import( ),
                                                CRM_Core_DAO_Email::import( ),
@@ -689,19 +708,20 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 $fields = array_merge($fields,
                                       CRM_Contact_DAO_Contact::import( ) );
                 $fields = array_merge($fields,
-                                      CRM_Core_DAO_Note::import());
-                if ( $contactType != 'All' ) { 
+                                      CRM_Core_DAO_Note::import());          
+                if ( $contactType != 'All' ) {  
                     $fields       = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $showAll) );
                     //unset the fields, which are not related to their
                     //contact type.
                     $commonValues = array ( 'Individual'   => array( 'household_name','legal_name','sic_code','organization_name' ),
-                                            'Household'    => array( 'first_name','middle_name','last_name','greeting_type',
-                                                                     'job_title','gender_id','birth_date','organization_name',
-                                                                     'legal_name', 'legal_identifier', 'sic_code','home_URL',
-                                                                     'is_deceased','deceased_date' ),
-                                            'Organization' => array( 'first_name','middle_name','last_name','greeting_type',
-                                                                     'job_title','gender_id','birth_date','household_name',
-                                                                     'is_deceased','deceased_date' ) 
+                                            'Household'    => array( 'first_name','middle_name','last_name','job_title',
+                                                                     'gender_id','birth_date','organization_name','legal_name',
+                                                                     'legal_identifier','sic_code','home_URL','is_deceased',
+                                                                     'deceased_date' ),
+                                            'Organization' => array( 'first_name','middle_name','last_name','job_title',
+                                                                     'gender_id','birth_date','household_name','email_greeting',
+                                                                     'email_greeting_custom','postal_greeting',
+                                                                     'postal_greeting_custom','is_deceased','deceased_date' ) 
                                             );
                     foreach ( $commonValues[$contactType] as $value ) {
                         unset( $fields[$value] );
@@ -711,7 +731,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                         $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($type, $showAll));
                     }
                 }
-
+                
                 //Sorting fields in alphabetical order(CRM-1507)
                 foreach ( $fields as $k=>$v ) {
                     $sortArray[$k] = $v['title'];
@@ -751,7 +771,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @access public
      */
     function &exportableFields( $contactType = 'Individual', $status = false, $export = false ) 
-    {
+        {
         if ( empty( $contactType ) ) {
             $contactType = 'All';
         }
@@ -773,12 +793,11 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 $fields = array( );
                 $fields = array_merge($fields, CRM_Contact_DAO_Contact::export( ));
             
-                // the fields are only meant for Individual contact type
-                if ( $contactType == 'Individual') {
+                // the fields are meant for contact types
+                if ( in_array( $contactType, array('Individual', 'Household', 'Organization') ) ) {
                     require_once 'CRM/Core/OptionValue.php';
-                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );
+                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( '', $contactType ) );  
                 }
-                
                 // add current employer for individuals
                 $fields = array_merge( $fields, array( 'current_employer' =>
                                                        array ( 'name'  => 'organization_name',
@@ -832,7 +851,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                         $fields = array_merge($fields, 
                                               CRM_Core_BAO_CustomField::getFieldsForImport($type));
                         //fix for CRM-2394
-                        if ( $type == 'Individual' ) { 
+                        if ( $type == 'Individual' || $type == 'Household' || $type == 'Organization') { 
                             require_once "CRM/Core/OptionValue.php";
                             $fields = array_merge( $fields,
                                                    CRM_Core_OptionValue::getFields( )
@@ -858,23 +877,26 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 }
 
                 $fields = array_merge( $sortArray, $fields );
-            
                 //unset the field which are not related to their contact type.
                 if ( $contactType != 'All') { 
-                    $commonValues = array ( 'Individual'   => array( 'household_name','legal_name','sic_code','organization_name' ),
-                                            'Household'    => array( 'first_name','middle_name','last_name','greeting_type',
-                                                                     'job_title','gender_id','birth_date','organization_name',
-                                                                     'legal_name', 'legal_identifier', 'sic_code','home_URL',
-                                                                     'is_deceased','deceased_date', 'current_employer' ),
-                                            'Organization' => array( 'first_name','middle_name','last_name','greeting_type',
-                                                                     'job_title','gender_id','birth_date','household_name',
+                    $commonValues = array ( 'Individual'   => array( 'household_name','legal_name','sic_code','organization_name',
+                                                                     'email_greeting_custom','postal_greeting_custom',
+                                                                     'addressee_custom'),
+                                            'Household'    => array( 'first_name','middle_name','last_name','job_title',
+                                                                     'gender_id','birth_date','organization_name','legal_name', 
+                                                                     'legal_identifier', 'sic_code','home_URL','is_deceased',
+                                                                     'deceased_date', 'current_employer','email_greeting_custom',
+                                                                     'postal_greeting_custom','addressee_custom',
+                                                                     'individual_prefix','individual_suffix','gender' ),
+                                            'Organization' => array( 'first_name','middle_name','last_name','job_title',
+                                                                     'gender_id','birth_date','household_name','email_greeting',
+                                                                     'postal_greeting','email_greeting_custom',
+                                                                     'postal_greeting_custom','individual_prefix',
+                                                                     'individual_suffix','gender','addressee_custom',
                                                                      'is_deceased','deceased_date', 'current_employer' ) 
                                             );
                     foreach ( $commonValues[$contactType] as $value ) {
                         unset( $fields[$value] );
-                    }
-                    if ( CRM_Utils_Array::value( 'custom_greeting', $fields ) ) {  
-                        unset( $fields['custom_greeting'] ); 
                     }
                 }
 
@@ -904,16 +926,21 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @access public
      */
     static function getHierContactDetails( $contactId, &$fields ) 
-    {
-        $params  = array( array( 'contact_id', '=', $contactId, 0, 0 ) ); 
+    {   
+        $params  = array( array( 'contact_id', '=', $contactId, 0, 0 ) );
         $options = array( );                
 
         $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
-        if ( CRM_Utils_Array::value( 'greeting_type',
-                                     $returnProperties ) ) {
-            $returnProperties['custom_greeting'] = 1;
-        }
-
+        
+        //set default values of custom email/postal greeting or addressee on profile, CRM-4575
+        $elements = array( 'email_greeting' => 'email_greeting_custom', 
+                           'postal_greeting' => 'postal_greeting_custom', 
+                           'addressee' => 'addressee_custom' );
+        foreach( $elements as $field => $customField ) {
+            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
+                $returnProperties[$customField] = 1;
+            }
+        }      
         // we dont know the contents of return properties, but we need the lower level ids of the contact
         // so add a few fields
         $returnProperties['first_name'] = $returnProperties['organization_name'] = $returnProperties['household_name'] = $returnProperties['contact_type'] = 1;
@@ -1272,8 +1299,12 @@ AND    civicrm_contact.id = %1";
                     $data['prefix_id'] = $value;
                 } else if ($key === 'gender') { 
                     $data['gender_id'] = $value;
-                } else if ($key === 'greeting_type') { 
-                    $data['greeting_type_id'] = $value;
+                } else if ($key === 'email_greeting') {  //save email/postal greeting and addressee values if any, CRM-4575 
+                    $data['email_greeting_id'] = $value;  
+                } else if ($key === 'postal_greeting') { 
+                    $data['postal_greeting_id'] = $value;
+                } else if ($key === 'addressee') { 
+                    $data['addressee_id'] = $value;  
                 } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
                                                                  $data['custom'], 

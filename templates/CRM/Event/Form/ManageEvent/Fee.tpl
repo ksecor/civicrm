@@ -1,5 +1,4 @@
 {* this template is used for adding event  *}
-{include file="CRM/common/WizardHeader.tpl"}
 {capture assign="adminPriceSets"}{crmURL p='civicrm/admin/price' q="reset=1"}{/capture}
 
 <div class="form-item">

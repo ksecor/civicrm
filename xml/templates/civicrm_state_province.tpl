@@ -261,7 +261,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (1634, 1014, "7", "Tirol"),
 (1635, 1014, "8", "Vorarlberg"),
 (1636, 1014, "9", "Wien"),
-(1637, 1013, "AAT", "Australian Antarctic Territory"),
+(1637, 1008, "AAT", "Australian Antarctic Territory"),
 (1638, 1013, "ACT", "Australian Capital Territory"),
 (1639, 1013, "NT", "Northern Territory"),
 (1640, 1013, "NSW", "New South Wales"),
