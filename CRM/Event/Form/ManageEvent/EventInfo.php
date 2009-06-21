@@ -302,6 +302,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 
             // if no Tell-a-Friend defined, check whether there’s one for template and copy if so
             $tafParams = array('entity_table' => 'civicrm_event', 'entity_id' => $event->id);
+            require_once 'CRM/Friend/BAO/Friend.php';
             if (!CRM_Friend_BAO_Friend::getValues($tafParams)) {
                 $tafParams['entity_id'] = $params['template_id'];
                 if (CRM_Friend_BAO_Friend::getValues($tafParams)) {
@@ -313,6 +314,10 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         $this->set( 'id', $event->id );
 
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
+                                                               "action=update&reset=1&subPage=Location&id={$event->id}" ) );
+        }
     }//end of function
     
     /**

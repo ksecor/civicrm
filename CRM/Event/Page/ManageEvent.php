@@ -65,10 +65,9 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
     {
         if (!(self::$_actionLinks)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this Event?');
-            $deleteExtra = ts('Are you sure you want to delete this Event?');
             $copyExtra = ts('Are you sure you want to make a copy of this Event?');
-
+            $deleteExtra = ts('Are you sure you want to delete this Event?');
+            
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Configure'),
@@ -82,24 +81,23 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
                                                                           'title' => ts('Preview') 
                                                                           ),
-                                        CRM_Core_Action::FOLLOWUP    => array(
-                                                                          'name'  => ts('Live Page'),
-                                                                          'url'   => 'civicrm/event/info',
-                                                                          'qs'    => 'reset=1&id=%%id%%',
-                                                                          'title' => ts('FollowUp'),
-                                                                          ),
+                                        CRM_Core_Action::FOLLOWUP => array(
+                                                                           'name'  => ts('Live Page'),
+                                                                           'url'   => 'civicrm/event/info',
+                                                                           'qs'    => 'reset=1&id=%%id%%',
+                                                                           'title' => ts('FollowUp'),
+                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => CRM_Utils_System::currentPath( ),
-                                                                          'qs'    => 'action=disable&id=%%id%%',
-                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                          'title' => ts('Disable Event') 
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_DAO_Event' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
+                                                                          'title' => ts( 'Disable Event' )
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => CRM_Utils_System::currentPath( ),
-                                                                          'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable Event') 
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_DAO_Event' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
+                                                                          'title' => ts( 'Enable Event' )
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),
@@ -158,28 +156,15 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD ) {
-            $session =& CRM_Core_Session::singleton( ); 
-
-            $title = $this->_isTemplate ? ts('New Event Template Wizard') : ts('New Event Wizard');
-            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' ) );
-            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
-            CRM_Utils_System::setTitle( $title );
-            
-            require_once 'CRM/Event/Controller/ManageEvent.php';
-            $controller =& new CRM_Event_Controller_ManageEvent( );
-            return $controller->run( );
+            require_once 'CRM/Event/Page/ManageEventEdit.php';
+            $page =& new CRM_Event_Page_ManageEventEdit( );
+            return $page->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
             CRM_Utils_System::appendBreadCrumb( $breadCrumb );
 
             require_once 'CRM/Event/Page/ManageEventEdit.php';
             $page =& new CRM_Event_Page_ManageEventEdit( );
             return $page->run( );
-        } else if ($action & CRM_Core_Action::DISABLE ) {
-            require_once 'CRM/Event/BAO/Event.php';
-            CRM_Event_BAO_Event::setIsActive($id ,0);
-        } else if ($action & CRM_Core_Action::ENABLE ) {
-            require_once 'CRM/Event/BAO/Event.php';
-            CRM_Event_BAO_Event::setIsActive($id ,1); 
         } else if ($action & CRM_Core_Action::DELETE ) {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=browse' ) );
@@ -194,7 +179,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         } else if ($action & CRM_Core_Action::COPY ) {
             $this->copy( );
         }
-
+        
         // finally browse the custom groups
         $this->browse();
         
@@ -269,6 +254,7 @@ ORDER BY start_date desc
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
+            
             //CRM-4418
             if ( !$allowToDelete ) {
                 $action -= CRM_Core_Action::DELETE; 

@@ -106,8 +106,21 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $breadCrumb = array( array('title' => ts('Configure Event'),
                                        'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), "action=update&reset=1&id={$this->_id}" )) );
         }
+
+        // also set up tabs
+        require_once 'CRM/Event/Form/ManageEvent/TabHeader.php';
+        CRM_Event_Form_ManageEvent_TabHeader::build( $this );
+
+        // make submit buttons shift to next available valid(not disabled) tabs
+        if ( $this->_id ) {
+            $subPage     = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
+            $nextsubPage = CRM_Event_Form_ManageEvent_TabHeader::getNextSubPage( $this, $subPage );
+            $session =& CRM_Core_Session::singleton(); 
+            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
+                                                              "action=update&reset=1&id={$this->_id}&subPage={$nextsubPage}" ) );
+        }
+
         CRM_Utils_System::appendBreadCrumb($breadCrumb);
-        
     }
     
     /**
@@ -152,18 +165,28 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         
         $buttons = array( );
         if ( $this->_single ) {
-
             // make this form an upload since we dont know if the custom data injected dynamically
             // is of type file etc $uploadNames = $this->get( 'uploadNames' );
-            $this->addButtons(array(
-                                    array ( 'type'      => 'upload',
-                                            'name'      => ts('Save'),
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                            'isDefault' => true   ),
-                                    array ( 'type'      => 'cancel',
-                                            'name'      => ts('Cancel') ),
-                                    )
-                              );
+            $buttons = array(
+                             array ( 'type'      => 'upload',
+                                     'name'      => ts('Save'),
+                                     'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                     'isDefault' => true   ),
+                             array ( 'type'      => 'cancel',
+                                     'name'      => ts('Cancel'), ), 
+                             );
+            if ( $this->_id ) {
+                // add js to cancel button
+                $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
+                                              "action=update&reset=1&id={$this->_id}", 
+                                              false, null, false );
+
+                $buttons[1]['js'] = array( 'onclick' => 
+                                           "location.href='{$url}';return false;" );
+            }
+
+            $this->addButtons( $buttons );
+
         } else {
             $buttons = array( );
             if ( ! $this->_first ) {
@@ -184,5 +207,15 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
         $this->add('hidden', 'is_template', $this->_isTemplate);
     }
+
+    function getTemplateFileName( ) {
+        if ( $this->controller->getPrint( ) == CRM_Core_Smarty::PRINT_NOFORM ||
+             $this->getVar( '_id' ) <= 0 ) {
+            return parent::getTemplateFileName( );
+        } else {
+            return 'CRM/Event/Form/ManageEvent/Tab.tpl';
+        }
+    }
+
 }
 

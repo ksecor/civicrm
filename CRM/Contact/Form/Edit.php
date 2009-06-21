@@ -521,17 +521,31 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             self::buildCommunicationBlock($this);
         }
         
-        // greeting type
-        $greetings = CRM_Core_PseudoConstant::greeting( );
-        if ( !empty( $greetings ) ) {
-            $this->addElement('select', 'greeting_type_id', ts('Greeting'), 
-                              array('' => ts('- select -')) + $greetings, array( 'onchange' => " showGreeting();") );
-            
-            // custom greeting
-            $this->addElement('text', 'custom_greeting', ts('Custom Greeting'), 
-                              CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'custom_greeting' ));
+        //check contact type and build filter clause accordingly for addressee, CRM-4575
+        $filterVal = null;
+        $filterCondition = null;
+        switch( $this->_contactType ) {
+        case 'Individual': 
+            $filterVal = "v.filter = 1";
+            break;
+        case 'Household':
+            $filterVal = "v.filter = 2";
+            break;
+        case 'Organization':
+            $filterVal = "v.filter = 3";
+            break;
         }
-        
+        $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+
+        //add addressee in Contact form
+        $addressee = CRM_Core_PseudoConstant::addressee( $filterCondition );
+        if ( !empty( $addressee ) ) {
+            $this->addElement('select', 'addressee_id', ts('Addressee'), 
+                              array('' => ts('- select -')) + $addressee, array( 'onchange' => " showAddressee();") );
+            //custom addressee
+            $this->addElement('text', 'addressee_custom', ts('Custom Addressee'), 
+                              CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'addressee_custom' ));
+        }
         //hack the address sequence so that state province always comes after country
         $addressSequence = $config->addressSequence();
         $key = array_search( 'country', $addressSequence);
@@ -603,11 +617,17 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
-        //if greeting type is not customized, unset previously set custom greeting.
-        if ( CRM_Utils_Array::value('greeting_type_id', $params) != 4 ) {
-            $params['custom_greeting'] = "";
-        }
- 
+        //if email/postal greeting or addressee is not of the type customized, 
+        //unset previously set custom value,CRM-4575
+        $elements = array( 'email_greeting_id'  => 'email_greeting_custom', 
+                           'postal_greeting_id' => 'postal_greeting_custom', 
+                           'addressee_id'       => 'addressee_custom' );
+        foreach( $elements as $field => $customField ) {
+            if ( CRM_Utils_Array::value( $field, $params ) != 4) {
+                $params[$customField] = "";
+            }
+        }    
+        
         $params['contact_type'] = $this->_contactType;
         
         if ( $this->_contactId ) {
@@ -741,6 +761,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_phone', null, $t['do_not_phone']);
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_email', null, $t['do_not_email']);
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, $t['do_not_mail']);
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_sms' ,  null, $t['do_not_sms']);
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_trade', null, $t['do_not_trade']);
 
         $form->addGroup($privacy, 'privacy', ts('Privacy'), '&nbsp;');
@@ -874,6 +895,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $errors["location[1][is_primary]"] = ts('One location should be marked as primary.');
             }
         }
+        //CRM-4575
+        if( CRM_Utils_Array::value('addressee_id',$fields) == 4 && !CRM_Utils_Array::value('addressee_custom',$fields) ) {
+            $errors['addressee_custom'] = ts('Custom Addressee is a required field if Addressee is of type Customized.');
+        }
+       
         return $primaryID;
     }
 

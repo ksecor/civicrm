@@ -61,6 +61,7 @@
        <name>parent_id</name>
        <table>civicrm_navigation</table>
        <key>id</key>
+       <onDelete>CASCADE</onDelete>
        <add>2.3</add>
   </foreignKey>
   <field>

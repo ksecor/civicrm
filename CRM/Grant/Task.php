@@ -96,6 +96,10 @@ class CRM_Grant_Task
             return $allTasks; 
         } else {
             $tasks = array( );
+            //CRM-4418,
+            if ( CRM_Core_Permission::check( 'delete in CiviGrant' ) ) {
+                $tasks[1] = self::$_tasks[1]; 
+            }
             return $tasks;
         }
     }

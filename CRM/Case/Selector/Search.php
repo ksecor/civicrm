@@ -284,6 +284,9 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          }
          $mask = CRM_Core_Action::mask( $permissions );
          
+         require_once 'CRM/Core/OptionGroup.php';
+         $caseStatus = CRM_Core_OptionGroup::values( 'case_status', false, false, false, " AND v.name = 'Urgent' " );
+         
          require_once 'CRM/Case/BAO/Case.php';
          $scheduledInfo = array();
          
@@ -321,7 +324,13 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                  $row['casemanager_id'] = CRM_Utils_Array::value('casemanager_id', $caseManagerContact );
                  $row['casemanager'   ] = CRM_Utils_Array::value('casemanager'   , $caseManagerContact );              
              } 
-             
+
+             if ( in_array($result->case_status_id, $caseStatus) ) {
+                 $row['class'] = "status-urgent";
+             } else {
+                 $row['class'] = "status-normal";
+             }
+                          
              $rows[$result->case_id] = $row;
          }
          
@@ -388,12 +397,12 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                  ),
                                           array(
-                                                'name'      => ts('Most Recent Activity'),
+                                                'name'      => ts('Most Recent'),
                                                 'sort'      => 'case_recent_activity_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Next Scheduled Activity'),
+                                                'name'      => ts('Next Sched.'),
                                                 'sort'      => 'case_scheduled_activity_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),

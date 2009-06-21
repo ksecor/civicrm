@@ -1,0 +1,33 @@
+.node-unpublished {
+	BACKGROUND-COLOR: #fff4f4
+}
+.preview .node {
+	BACKGROUND-COLOR: #ffffea
+}
+#node-admin-filter UL {
+	PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: none; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 100%; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#node-admin-buttons {
+	FLOAT: left; MARGIN-LEFT: 0.5em; CLEAR: right
+}
+TD.revision-current {
+	BACKGROUND: #ffc
+}
+.node-form .form-text {
+	WIDTH: 95%; DISPLAY: block
+}
+.node-form .container-inline .form-text {
+	WIDTH: auto; DISPLAY: inline
+}
+.node-form .standard {
+	CLEAR: both
+}
+.node-form TEXTAREA {
+	WIDTH: 95%; DISPLAY: block
+}
+.node-form .attachments FIELDSET {
+	DISPLAY: block; FLOAT: none
+}
+.terms-inline {
+	DISPLAY: inline
+}

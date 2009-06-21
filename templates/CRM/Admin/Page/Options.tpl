@@ -48,8 +48,20 @@
             {if $showComponent}
                 <th>{ts}Component{/ts}</th>
             {/if}
-            <th>{ts}Label{/ts}</th>
-            <th>{ts}Value{/ts}</th>
+            <th>
+                {if $gName eq "redaction_rule"}
+                    {ts}Match Value or Expression{/ts}
+                {else}
+                    {ts}Label{/ts}
+                {/if}
+            </th>
+            <th>
+                {if $gName eq "redaction_rule"}
+                    {ts}Replacement{/ts}
+                {else}
+                    {ts}Value{/ts}
+                {/if}
+            </th>
             {if $showCounted}<th>{ts}Counted?{/ts}</th>{/if}
             {if $showVisibility}<th>{ts}Visibility{/ts}</th>{/if}
             <th>{ts}Description{/ts}</th>

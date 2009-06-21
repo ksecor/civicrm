@@ -178,7 +178,7 @@ class CRM_Contact_Form_Task_EmailCommon
         $form->_fromEmails =
             array('0' => $from ) +
             CRM_Core_PseudoConstant::fromEmailAddress( );
-        $form->add('text', 'subject', ts('Subject'), 'size=30 maxlength=60', true);
+        $form->add('text', 'subject', ts('Subject'), 'size=50 maxlength=254', true);
         $selectEmails = $form->_fromEmails;
         foreach ( array_keys( $selectEmails ) as $k ) {
             $selectEmails[$k] = htmlspecialchars( $selectEmails[$k] );
@@ -331,21 +331,6 @@ class CRM_Contact_Form_Task_EmailCommon
             } 
         }
         
-        $status   = array( ' ', ts('Total Selected Contact(s): %1', array(1 => '%selected%' ) ) );
-        $status[] = ts('To Contact(s): %1' , array(1 => $allSelected = count($form->_contactIds) ) );
-
-        if ( $cc ) {
-            $status[]     = ts('Cc Contact(s): %1' , array(1 => count( explode( ',"', $cc )) ) );
-            $allSelected += count( explode( ',"', $cc ));
-        }
-
-        if ( $bcc ) {
-            $status[]     = ts('Bcc Contact(s): %1', array(1 => count( explode( ',"', $bcc )) ) );
-            $allSelected += count( explode( ',"', $bcc ));
-
-        }
-        $status = str_replace( '%selected%', $allSelected, $status );
-
         $statusOnHold = '';
         foreach ($form->_contactIds as $item => $contactId) {
             $email     = CRM_Contact_BAO_Contact_Location::getEmailDetails($contactId);
@@ -402,7 +387,7 @@ class CRM_Contact_Form_Task_EmailCommon
                                                   $bcc );
 
         if ( $sent ) {
-            $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));
+            $status = array( '', ts('Your message has been sent.') );
         }
         
         //Display the name and number of contacts for those email is not sent.

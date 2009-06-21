@@ -105,7 +105,7 @@ class CRM_Utils_Address
         if (! $microformat) {
             $replacements =
                 array( // replacements in case of Individual Name Format
-                      'contact_name'           => $contactName,
+                      'addressee'              => CRM_Utils_Array::value( 'addressee', $fields ),
                       'display_name'           => CRM_Utils_Array::value( 'display_name', $fields ),
                       'individual_prefix'      => CRM_Utils_Array::value( 'individual_prefix', $fields ),
                       'first_name'             => CRM_Utils_Array::value( 'first_name', $fields ),
@@ -132,6 +132,7 @@ class CRM_Utils_Address
                       'do_not_email'           => CRM_Utils_Array::value( 'do_not_email', $fields ),
                       'do_not_phone'           => CRM_Utils_Array::value( 'do_not_phone', $fields ),
                       'do_not_mail'            => CRM_Utils_Array::value( 'do_not_mail', $fields ),
+                      'do_not_sms'             => CRM_Utils_Array::value( 'do_not_sms', $fields ),
                       'do_not_trade'           => CRM_Utils_Array::value( 'do_not_trade', $fields ),
                       'job_title'              => CRM_Utils_Array::value( 'job_title', $fields ),
                       'birth_date'             => CRM_Utils_Array::value( 'birth_date', $fields ),
@@ -144,7 +145,9 @@ class CRM_Utils_Address
                       'contact_source'         => CRM_Utils_Array::value( 'contact_source', $fields ),
                       'external_identifier'    => CRM_Utils_Array::value( 'external_identifier', $fields ),
                       'contact_id'             => CRM_Utils_Array::value( 'id', $fields ),
-                      'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields )
+                      'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields ),
+                      'email_greeting'         => CRM_Utils_Array::value( 'email_greeting', $fields ),
+                      'postal_greeting'        => CRM_Utils_Array::value( 'postal_greeting', $fields )
                        );
         } else {
             $replacements =

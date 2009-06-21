@@ -1,9 +1,8 @@
 {strip}
 {if $rows}
-  <table class="nestedSelector">
+  <table class="nestedActivitySelector">
     <tr class="columnheader">
-      <th>{ts}Due date{/ts}</th>
-      <th>{ts}Actual date{/ts}</th>
+      <th>{ts}Date{/ts}</th>
       <th>{ts}Subject{/ts}</th>
       <th>{ts}Type{/ts}</th>
       <th>{ts}Reporter/ Assignee{/ts}</th>
@@ -13,9 +12,8 @@
 
     {counter start=0 skip=1 print=false}
     {foreach from=$rows item=row}
-    <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-      <td>{$row.due_date}</td>
-      <td>{$row.actual_date}</td>
+    <tr class="{$row.class}">
+      <td>{$row.display_date}</td>
       <td>{$row.subject}</td>
       <td>{$row.type}</td>
       <td>{$row.reporter}</td>
@@ -26,6 +24,6 @@
 
   </table>
 {else}
-    <strong>There are no activities defined for this case.</strong>
+    <strong>{ts}There are no activities defined for this case.{/ts}</strong>
 {/if}
 {/strip}

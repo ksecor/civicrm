@@ -68,37 +68,15 @@
      <weight>370</weight>
   </item>
   <item>
-     <path>civicrm/admin/options/event_type</path>
-     <title>Event Types</title>
-     <page_callback>CRM_Admin_Page_Options</page_callback>
-     <desc>Use Event Types to categorize your events. Event feeds can be filtered by Event Type and participant searches can use Event Type as a criteria.</desc>
-     <path_arguments>group=event_type</path_arguments>
+     <path>civicrm/admin/eventTemplate</path>
+     <title>Event Templates</title>
+     <page_callback>CRM_Admin_Page_EventTemplate</page_callback>
+     <desc>Administrators can create Event Templates - which are basically master event records pre-filled with default values</desc>
      <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
-     <icon>admin/small/event_type.png</icon>
+     <icon>admin/small/template.png</icon>
      <weight>375</weight>
-  </item>
-  <item>
-     <path>civicrm/admin/participant_status</path>
-     <title>Participant Status</title>
-     <page_callback>CRM_Admin_Page_ParticipantStatus</page_callback>
-     <desc>Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.</desc>
-     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
-     <adminGroup>CiviEvent</adminGroup>
-     <icon>admin/small/parti_status.png</icon>
-     <weight>380</weight>
-  </item>
-  <item>
-     <path>civicrm/admin/options/participant_role</path>
-     <title>Participant Role</title>
-     <page_callback>CRM_Admin_Page_Options</page_callback>
-     <desc>Define participant roles for events here (e.g. Attendee, Host, Speaker...). You can then assign roles and search for participants by role.</desc>
-     <path_arguments>group=participant_role</path_arguments>
-     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
-     <adminGroup>CiviEvent</adminGroup>
-     <icon>admin/small/parti_role.png</icon>
-     <weight>385</weight>
-  </item>
+  </item>  
   <item>
      <path>civicrm/admin/price</path>
      <title>Price Sets</title>
@@ -107,18 +85,8 @@
      <access_arguments>access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/price_sets.png</icon>
-     <weight>390</weight>
+     <weight>380</weight>
   </item>
-  <item>
-     <path>civicrm/admin/eventTemplate</path>
-     <title>Event Templates</title>
-     <page_callback>CRM_Admin_Page_EventTemplate</page_callback>
-     <desc>Administrators can create Event Templates - which are basically master event records pre-filled with default values</desc>
-     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
-     <adminGroup>CiviEvent</adminGroup>
-     <icon>admin/small/template.png</icon>
-     <weight>395</weight>
-  </item>  
   <item>
      <path>civicrm/admin/price/add</path>
      <title>New Price Set</title>
@@ -137,6 +105,38 @@
      <path>civicrm/admin/price/field/option</path>
      <title>Price Field Options</title>
      <page_callback>CRM_Price_Page_Option</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/options/event_type</path>
+     <title>Event Types</title>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <desc>Use Event Types to categorize your events. Event feeds can be filtered by Event Type and participant searches can use Event Type as a criteria.</desc>
+     <path_arguments>group=event_type</path_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <adminGroup>CiviEvent</adminGroup>
+     <icon>admin/small/event_type.png</icon>
+     <weight>385</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/participant_status</path>
+     <title>Participant Status</title>
+     <page_callback>CRM_Admin_Page_ParticipantStatus</page_callback>
+     <desc>Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.</desc>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <adminGroup>CiviEvent</adminGroup>
+     <icon>admin/small/parti_status.png</icon>
+     <weight>390</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options/participant_role</path>
+     <title>Participant Role</title>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <desc>Define participant roles for events here (e.g. Attendee, Host, Speaker...). You can then assign roles and search for participants by role.</desc>
+     <path_arguments>group=participant_role</path_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <adminGroup>CiviEvent</adminGroup>
+     <icon>admin/small/parti_role.png</icon>
+     <weight>395</weight>
   </item>
   <item>
      <path>civicrm/event/search</path>

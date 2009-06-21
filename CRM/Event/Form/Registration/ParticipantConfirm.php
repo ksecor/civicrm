@@ -67,14 +67,16 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
         $csContactID = CRM_Utils_Array::value( 'contact_id', $values );
         
         // make sure we have right permission to edit this user
+        $this->_csContactID = null;
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $csContactID && $this->_eventId ) {
             $session =& CRM_Core_Session::singleton( );
             if ( $csContactID != $session->get( 'userID' ) ) {
                 require_once 'CRM/Contact/BAO/Contact/Permission.php';
                 if ( CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $csContactID, $this ) ) {
-                    $session =& CRM_Core_Session::singleton( );
-                    $session->set( 'userID', $csContactID );
+                    //since we have landing page so get this contact
+                    //id in session if user really want to walk wizard.
+                    $this->_csContactID = $csContactID;
                 }
             }
         } else {
@@ -149,6 +151,10 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
         $participantId = $this->_participantId;
         
         if ( $buttonName == '_qf_ParticipantConfirm_next' ) {
+            //lets get contact id in session.
+            $session =& CRM_Core_Session::singleton( );
+            $session->set( 'userID', $this->_csContactID );
+            
             //check user registration status is from pending class
             $url = CRM_Utils_System::url( 'civicrm/event/register', "reset=1&id={$eventId}&participantId={$participantId}" );
             CRM_Utils_System::redirect( $url );

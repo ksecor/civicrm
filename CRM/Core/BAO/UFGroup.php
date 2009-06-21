@@ -268,8 +268,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             if( $searchable ) {
                 $where .= " AND is_searchable = 1"; 
-            }
-            
+            }     
             if ( ! $showAll ) {
                 $where .= " AND is_active = 1";
             }
@@ -303,7 +302,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once 'CRM/Core/Component.php';
             $importableFields = array_merge($importableFields, 
                                             CRM_Core_Component::getQueryFields( ));
-
+            
             $importableFields['group']['title'] = ts('Group(s)');
             $importableFields['group']['where'] = null;
             $importableFields['tag'  ]['title'] = ts('Tag(s)');
@@ -383,16 +382,34 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'field_type'       => $field->field_type,
                           'field_id'         => $field->id
                           );
-                if( $name == 'greeting_type' && ( $action == 2 || $action == 4 ) )  {
-                    $fields['custom_greeting'] = array (
-                                                        'name'       => 'custom_greeting',
-                                                        'where'      => 'contact_a.custom_greeting',
-                                                        'title'      => 'Custom Greeting',
-                                                        'group_id'   => $group->id,
-                                                        'visibility' => $field->visibility
-                                                        );
+                //add fields custom addressee, custom email/postal greeting if Addressee, 
+                //email greeting or postal greeting are present, CRM-4575
+                if( $name == 'addressee' && ( $action == 2 || $action == 4 ) )  {
+                    $fields['addressee_custom'] = array (
+                                                         'name'       => 'addressee_custom',
+                                                         'where'      => 'contact_a.addressee_custom',
+                                                         'title'      => 'Custom Addressee',
+                                                         'group_id'   => $group->id,
+                                                         'visibility' => $field->visibility
+                                                         );
+                } else if ( $name == 'email_greeting' && ( $action == 2 || $action == 4 ) )  {
+                    $fields['email_greeting_custom'] = array (
+                                                              'name'       => 'email_greeting_custom',
+                                                              'where'      => 'contact_a.email_greeting_custom',
+                                                              'title'      => 'Custom Email Greeting',
+                                                              'group_id'   => $group->id,
+                                                              'visibility' => $field->visibility
+                                                              );
+                } else if( $name == 'postal_greeting' && ( $action == 2 || $action == 4 ) )  {
+                    $fields['postal_greeting_custom'] = array (
+                                                               'name'       => 'postal_greeting_custom',
+                                                               'where'      => 'contact_a.postal_greeting_custom',
+                                                               'title'      => 'Custom Postal Greeting',
+                                                               'group_id'   => $group->id,
+                                                               'visibility' => $field->visibility
+                                                               );
                 }
-
+                
                 //adding custom field property 
                 if ( substr($name, 0, 6) == 'custom' ) {
                     // if field is not present in customFields, that means the user
@@ -627,14 +644,22 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
-
+        //set default values of custom email/postal greeting or addressee on profile, CRM-4575
+        $elements = array( 'email_greeting'  => 'email_greeting_custom', 
+                           'postal_greeting' => 'postal_greeting_custom', 
+                           'addressee'       => 'addressee_custom' );
+        foreach( $elements as $field => $customField ) {
+            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
+                $returnProperties[$customField] = 1;
+            }
+        }    
         $params  = array( array( 'contact_id', '=', $cid, 0, 0 ) );
         
         // add conditions specified by components. eg partcipant_id etc
         if ( !empty($componentWhere) ) {
             $params = array_merge($params, $componentWhere);
         }
-
+       
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
         $options =& $query->_options;
         
@@ -642,7 +667,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ( ! $details->fetch( ) ) {
             return;
         }
-
+        
         $config =& CRM_Core_Config::singleton( );
         
         require_once 'CRM/Core/PseudoConstant.php'; 
@@ -651,22 +676,25 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $imProviders   = CRM_Core_PseudoConstant::IMProvider( );
 
         //start of code to set the default values
-        foreach ($fields as $name => $field ) { 
+        foreach ($fields as $name => $field ) {    
             // fix for CRM-3962
             if ( $name == 'id' ) {
-                $name = 'contact_id';
+                $name = 'contact_id';     
             }
 
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
             $customFieldName = null;
-            
+            $elements= array('email_greeting_custom'  => 'email_greeting', 
+                             'postal_greeting_custom' => 'postal_greeting', 
+                             'addressee_custom'       => 'addressee');
             if ( isset($details->$name) || $name == 'group' || $name == 'tag') {//hack for CRM-665
                 // to handle gender / suffix / prefix
-                if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix', 'greeting_type' ) ) ) {
+                if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix', 
+                                             'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
                     $values[$index] = $details->$name;
                     $name = $name . '_id';
-                    $params[$index] = $details->$name ;
+                    $params[$index] = $details->$name;
                 } else if ( in_array( $name, array( 'state_province', 'country', 'county' ) ) ) {
                     $values[$index] = $details->$name;
                     $idx = $name . '_id';
@@ -875,15 +903,43 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                       urlencode( $params[$index] ) );
                     }
                 } else {
-                    if ( $fieldName == 'custom_greeting' ) {   
-                        if ( CRM_Utils_Array::value('Greeting Type', $params) != 4 ) { 
+                    if ( $fieldName == 'email_greeting_custom' ) {   
+                        if ( CRM_Utils_Array::value('Email Greeting', $params) != 4 ) { 
                             array_pop($values); 
                         } else {    
                             $url = CRM_Utils_System::url( 'civicrm/profile',
                                                           'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-                                                          urlencode( 'greeting_type' ) .
+                                                          urlencode( 'email_greeting' ) .
                                                           '=' .
-                                                          urlencode( $params['Greeting Type'] ) . '&'.
+                                                          urlencode( $params['Email Greeting'] ) . '&'.
+                                                          urlencode( $fieldName ) .
+                                                          '=' .
+                                                          urlencode( $params[$index] ) 
+                                                          );
+                        }
+                    } else if ( $fieldName == 'postal_greeting_custom' ) {
+                        if ( CRM_Utils_Array::value('Email Greeting', $params) != 4 ) { 
+                            array_pop($values); 
+                        } else {    
+                            $url = CRM_Utils_System::url( 'civicrm/profile',
+                                                          'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                          urlencode( 'postal_greeting' ) .
+                                                          '=' .
+                                                          urlencode( $params['Postal Greeting'] ) . '&'.
+                                                          urlencode( $fieldName ) .
+                                                          '=' .
+                                                          urlencode( $params[$index] ) 
+                                                          );
+                        }
+                    } else if ( $fieldName == 'addressee_custom' ) {
+                        if ( CRM_Utils_Array::value('Addressee', $params) != 4 ) { 
+                            array_pop($values); 
+                        } else {    
+                            $url = CRM_Utils_System::url( 'civicrm/profile',
+                                                          'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                          urlencode( 'addressee' ) .
+                                                          '=' .
+                                                          urlencode( $params['Addressee'] ) . '&'.
                                                           urlencode( $fieldName ) .
                                                           '=' .
                                                           urlencode( $params[$index] ) 
@@ -1327,7 +1383,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
         } else {
             $name = $fieldName;
         }
-
+        
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
@@ -1382,12 +1438,39 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
         } else if ( $fieldName === 'individual_suffix' ){
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
-        } else if ( $fieldName === 'greeting_type' ){            
-            $form->add('select', $name, $title, 
-                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required, array( 'onchange' => "showGreeting();"));
-            // adding custom greeting element alongwith greeting type         
-             $form->add('text', 'custom_greeting', ts('Custom Greeting'), null, false);
-            
+        } else if (in_array($fieldName, array('email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+            //add email greeting, postal greeting, addressee, CRM-4575
+            $gId =$form->get('gid');
+            require_once 'CRM/Core/BAO/UFField.php';
+            $profileType = CRM_Core_BAO_UFField::getProfileType( $gId);
+            switch( $profileType ) {
+            case 'Individual': 
+                $filterVal = "v.filter = 1";
+                break;
+            case 'Household':
+                $filterVal = "v.filter = 2";
+                break;
+            case 'Organization':
+                $filterVal = "v.filter = 3";
+                break;
+            }
+            $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+            if( $fieldName == 'email_greeting') {
+                $form->add('select', $name, $title, 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::emailGreeting($filterCondition), $required, array( 'onchange' => "showEmailGreeting();"));
+                // adding custom email greeting element alongwith email greeting        
+                $form->add('text', 'email_greeting_custom', ts('Custom Email Greeting'), null, false);   
+            } else if ( $fieldName === 'postal_greeting' ) { 
+                $form->add('select', $name, $title, 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::postalGreeting($filterCondition), $required, array( 'onchange' => "showPostalGreeting();"));
+                // adding custom postal greeting element alongwith postal greeting         
+                $form->add('text', 'postal_greeting_custom', ts('Custom Postal Greeting'), null, false);   
+            } else if ( $fieldName === 'addressee' ) { 
+                $form->add('select', $name, $title, 
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::addressee($filterCondition), $required, array( 'onchange' => "showAddressee();"));
+                // adding custom addressee  element alongwith addressee type         
+                $form->add('text', 'addressee_custom', ts('Custom Addressee'), null, false);   
+            }
         } else if ($fieldName === 'preferred_communication_method') {
             $communicationFields = CRM_Core_PseudoConstant::pcm();
             foreach ( $communicationFields as $key => $var ) {
@@ -1533,7 +1616,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             require_once 'CRM/Contact/BAO/Contact.php';
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
             $details = $contactDetails[$contactId];
-
+            
             //start of code to set the default values
             foreach ($fields as $name => $field ) {
                 //set the field name depending upon the profile mode(single/batch)
@@ -1550,7 +1633,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                 if( $name == 'tag' ) {
                     CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG, $fldName ); 
                 }
-
+                
                 if (CRM_Utils_Array::value($name, $details ) || isset( $details[$name] ) ) {
                     //to handle custom data (checkbox) to be written
                     // to handle gender / suffix / prefix / greeting_type
@@ -1560,9 +1643,15 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                         $defaults[$fldName] = $details['individual_prefix_id'];
                     } else if ($name == 'individual_suffix') {
                         $defaults[$fldName] = $details['individual_suffix_id'];
-                    } else if ($name == 'greeting_type') {
-                        $defaults[$fldName] = $details['greeting_type_id'];
-                        $defaults['custom_greeting'] = $details['custom_greeting'];
+                    } else if ($name == 'email_greeting') {
+                         $defaults[$fldName] = $details['email_greeting_id'];
+                         $defaults['email_greeting_custom'] = $details['email_greeting_custom'];
+                    } else if ($name == 'postal_greeting') {
+                        $defaults[$fldName] = $details['postal_greeting_id'];
+                        $defaults['postal_greeting_custom'] = $details['postal_greeting_custom'];
+                    } else if ($name == 'addressee') {
+                        $defaults[$fldName] = $details['addressee_id'];
+                        $defaults['addressee_custom'] = $details['addressee_custom'];
                     } else if ($name == 'preferred_communication_method') {
                         $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                         foreach ( $v as $item ) {

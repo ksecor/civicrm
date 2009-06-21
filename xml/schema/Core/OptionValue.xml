@@ -53,9 +53,9 @@
        <name>name</name>
        <title>Option Name</title>
        <type>varchar</type>
-       <length>64</length>
+       <length>255</length>
        <import>true</import>
-       <comment>May be used to store an option string that is different from the display title. One use case is when a non-translated value needs to be set / sent to another application (e.g. for Credit Card type).</comment>
+       <comment>Stores a fixed (non-translated) name for this option value. Lookup functions should use the name as the key for the option value row.</comment>
        <add>1.5</add>
   </field>
   <field>

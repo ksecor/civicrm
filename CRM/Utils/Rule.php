@@ -201,7 +201,53 @@ class CRM_Utils_Rule
         }
         return false;
     }
-
+    
+    /**
+     * check the validity of the birth date (in qf format)
+     * note that only a year is valid, or a mon-year or day-month  is
+     * also valid in addition to day-mon-year
+     *
+     * @param array $date
+     *
+     * @return bool true if valid date
+     * @static
+     * @access public
+     */
+    static function qfBirthDate( $date ) 
+    {
+        //if birth format is not set then execute qfDate function
+        if( !CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 'birth' , 'format', 'name') ) {
+            return self::qfDate( $date );
+        }
+        
+        $config =& CRM_Core_Config::singleton( );
+        
+        $d = CRM_Utils_Array::value( 'd', $date );
+        $m = CRM_Utils_Array::value( $config->dateformatMonthVar, $date );
+        $y = CRM_Utils_Array::value( 'Y', $date );
+        
+        if ( ! $d && ! $m && ! $y ) {
+            return true; 
+        } 
+        
+        if ( in_array( '', $date ) ) {
+            return false;
+        }
+        
+        $day = $mon = 1; 
+        $year = 1000;
+        
+        if ( $d ) $day  = $d;
+        if ( $m ) $mon  = $m;
+        if ( $y ) $year = $y;
+        
+        if ( ! empty( $day ) || ! empty( $mon ) || ! empty( $year ) ) {
+            return checkdate( $mon, $day, $year );
+        }
+        
+        return false;
+    } 
+    
     /** 
      * check the validity of the date (in qf format) 
      * note that only a year is valid, or a mon-year is 

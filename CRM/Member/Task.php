@@ -80,6 +80,11 @@ class CRM_Member_Task {
                                   4  => ts( 'Send Email to Contacts' ),
                                   5  => ts( 'Batch Update Members Via Profile' ),
                                   );
+            
+            //CRM-4418, check for delete 
+            if ( !CRM_Core_Permission::check( 'delete in CiviMember' ) ) {
+                unset( self::$_tasks[1] );
+            }
         }
         asort(self::$_tasks); 
         return self::$_tasks;
@@ -105,6 +110,10 @@ class CRM_Member_Task {
                            3  => self::$_tasks[3],
                            4  => self::$_tasks[4]
                            );
+            //CRM-4418,
+            if ( CRM_Core_Permission::check( 'delete in CiviMember' ) ) {
+                $tasks[1] = self::$_tasks[1]; 
+            }
             return $tasks;
         }
     }
