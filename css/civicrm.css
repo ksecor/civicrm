@@ -1261,6 +1261,7 @@ commented since it is overwiting simple td
 .report-pager .crm-pager {
     background-color: #DCDCDC;
     border          : thin solid #999999;
+    margin-left	    : 0.1em;
 }
 .report-pager .crm-pager-nav a {
     color           : #000000;
