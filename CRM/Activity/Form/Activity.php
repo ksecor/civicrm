@@ -152,8 +152,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                          ),
                   'priority_id'               =>  array( 'type'       => 'select',
                                                          'label'      => 'Priority',
-                                                         'attributes' => array('' => '- select priority -') +
+                                                         'attributes' => 
                                                          CRM_Core_PseudoConstant::priority( ),
+                                                         'required'   => true,
                                                          ),
                   'source_contact_id'         =>  array( 'type'       => 'text',
                                                          'label'      => 'Added By',
@@ -435,10 +436,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             // since those are jQuery fields, unfortunately we cannot use defaults directly
             $this->_sourceContactId = $this->_currentUserId;
             $this->_targetContactId = $this->_currentlyViewedContactId;
-            
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $priority = CRM_Core_PseudoConstant::priority( );
-            $defaults['priority_id']       = array_search( 'Normal', $priority );
+      
             $defaults['source_contact_id'] = self::_getDisplayNameById( $this->_sourceContactId );
             $defaults['source_contact_qid'] = $this->_sourceContactId;
             if ( $this->_context != 'standalone' ) {
@@ -460,6 +458,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_activityTypeFile ) {
             eval('$defaults += CRM_'.$this->_crmDir.'_Form_Activity_'. 
                  $this->_activityTypeFile . '::setDefaultValues($this);');
+        }
+        if ( ! CRM_Utils_Array::value( 'priority_id', $defaults ) ) {
+            require_once 'CRM/Core/PseudoConstant.php';
+            $priority = CRM_Core_PseudoConstant::priority( );
+            $defaults['priority_id'] = array_search( 'Normal', $priority );
         }
         return $defaults;
     }
@@ -718,7 +721,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( ! $params ) {
             $params = $this->controller->exportValues( $this->_name );
         }
-
+        
         //set activity type id
         if ( ! CRM_Utils_Array::value( 'activity_type_id', $params ) ) {
             $params['activity_type_id']   = $this->_activityTypeId;
