@@ -78,13 +78,13 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                         'filters' =>   
                                         array( 'activity_date_time' => 
                                                array( 'default'    => 'this.month',
-                                                      'type'    => CRM_Utils_Type::T_DATE ),
+                                                      'operatorType' => CRM_Report_Form::OP_DATE),
                                                'subject' => 
                                                array( 'title'      => ts( 'Activity Subject' ),
                                                       'operator'   => 'like' ),
                                                'activity_type_id' => 
                                                array( 'title'   => ts( 'Activity Type' ),
-                                                      'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                                      'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                                       'options' => CRM_Core_PseudoConstant::activityType(), ), 
                                                ),
                                         'group_bys'=>             
