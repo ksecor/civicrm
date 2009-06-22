@@ -2,18 +2,18 @@
         {if $list}
             {foreach from=$list item=rows key=report}
 	        <br>
-            <div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
+                <div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
 	            <table class="report-layout">
-		             <tr>
-			            <th>{if $report}{$report}{else}Contact{/if} Reports</th>
-		    	     </tr>
-		        </table>
+		        <tr>
+			    <th>{if $report}{$report}{else}Contact{/if} Reports</th>
+		    	</tr>
+		    </table>
 	        </div>
 		<div id="{$report}" style="display:block;">
-	            <table class="report">
+	            <table class="report-layout">
 		        {foreach from=$rows item=row}
 	                    <tr>
-  		                <td width="300">
+  		                <td style="width:35%;">
      		                    <a href="{$row.url}" title="{$row.description}">&raquo; <strong>{$row.title}</strong></a>
    				    {if $row.instanceUrl}
 					<div align="right">
@@ -21,7 +21,7 @@
 					</div>
 				    {/if}
 			        </td>
-				<td style="cursor:help;width:450px;">
+				<td style="cursor:help;">
 				    {$row.description}
 				</td>
 			    </tr>
