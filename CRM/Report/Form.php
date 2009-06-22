@@ -147,8 +147,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_chartButtonName    = null;
 
     protected $_rollup         = null;
-    protected $_having         = null;
-
+    
     /**
      * To what frequency group-by a date column
      *
@@ -604,16 +603,8 @@ class CRM_Report_Form extends CRM_Core_Form {
         $label = $this->_id ? ts( 'Export to CSV' ) : ts( 'Preview CSV' );
         $this->addElement('submit', $this->_csvButtonName, $label );
 
-        require_once 'CRM/Contact/BAO/Group.php';
-        $groupList = array();
-        $groups = CRM_Contact_BAO_Group::getGroups( );
-        $groupList[''] = ts('- select group -');
-        foreach ($groups as $group) {
-          $groupList[$group->id] = $group->title;
-        }        
-        asort($groupList);
-        
-        $this->addElement( 'select', 'groups', ts( 'Group' ), $groupList );
+        $this->addElement( 'select', 'groups', ts( 'Group' ), 
+                           array( '' => ts( '- select group -' )) + CRM_Core_PseudoConstant::staticGroup( ) );
         $this->assign( 'group', $this->_groups );
         
         //$this->addElement('select', 'select_add_to_group_id', ts('Group'), $groupList);
@@ -1011,6 +1002,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         if ( empty( $whereClauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
+            $this->_having = "";
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $whereClauses );
         }
@@ -1046,7 +1038,6 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_outputMode  = 'csv';
             $this->_absoluteUrl = true;
         } else if ( $this->_groupButtonName   == $buttonName || $output == 'group' ) {
-            $this->assign( 'printOnly', true );
             $this->assign( 'outputMode', 'group' );
             $this->_outputMode  = 'group';
         } else {
@@ -1246,80 +1237,14 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
             exit( );
         } else if ( $this->_outputMode == 'csv' ) {
-          // Mark as a CSV file.
-          header('Content-Type: text/csv');
-          
-          // Force a download and name the file using the current timestamp.
-          header('Content-Disposition: attachment; filename=report_' . $_SERVER['REQUEST_TIME'] . '.csv');
-                  
-          // Load rows
-          $sql = $this->_select . ' ' . $this->_from . ' ' . $this->_where . ' ' . $this->_groupBy . ' ' . $this->_orderBy;
-          $dao = CRM_Core_DAO::executeQuery( $sql );
-          
-          // Output rows
-          $first_row = true;
-          while ( $dao->fetch( ) ) {
-            $rows = array((array) $dao);
-            $this->alterDisplay($rows);
-            $row = $rows[0];
-            
-            // Clean up fields.
-            unset($row['N']);
-            foreach ($row as $key => $value) {
-            
-              // Remove HTML, unencode entities, and escape quotation marks.
-              $row[$key] = '"' . str_replace('"', '""', html_entity_decode(strip_tags($value))) . '"';
-              
-              // Remove non-CiviCRM fields.
-              if (substr($key, 0, 1) == '_') {
-                unset($row[$key]);
-              }
-            }
-            
-            // Output headers if this is the first row.
-            if ($first_row) {
-              $headers = array_keys($row);
-              
-              // Replace internal header names with friendly ones, where available.
-              /*
-              foreach ($headers as $i => $header) {
-                if (isset($this->_columnHeaders[$header])) {
-                  $headers[$i] = $this->_columnHeaders[$header]['title'];
-                }
-              }
-              */
-              
-              // Output the headers.
-              echo implode(',', $headers) . "\n";
-              $first_row = false;
-            }
-            
-            // Output the data row.
-            echo implode(',', $row) . "\n";
-          }
-          
-          exit( );
+            CRM_Report_Utils_Report::export2csv( $this );
+        } else if ( $this->_outputMode == 'group' ) {
+            $group = $this->_params['groups'];
+            CRM_Report_Utils_Report::add2group( $this, $group );
         } else if ( $this->_instanceButtonName == $this->controller->getButtonName( ) ) {
             require_once 'CRM/Report/Form/Instance.php';
             CRM_Report_Form_Instance::postProcess( $this );
-        }
-
-        if ( $this->_outputMode == 'group' ) {
-          $group_id = $this->_submitValues['groups'];
-          
-          if (is_numeric($group_id) && isset($this->_aliases['civicrm_contact'])) {
-            require_once 'CRM/Contact/BAO/GroupContact.php';
-
-            $sql = 'SELECT DISTINCT ' . $this->_aliases['civicrm_contact'] . '.id AS contact_id ' . $this->_from . ' ' . $this->_where;          
-            $dao = CRM_Core_DAO::executeQuery( $sql );
-            
-            // Add resulting contacts to group
-            while ( $dao->fetch( ) ) {
-              $contact_ids = array($dao->contact_id);
-              CRM_Contact_BAO_GroupContact::addContactsToGroup($contact_ids, $group_id);
-            }
-          }
-        }
+        }      
     }
 
     function postProcess( ) {
