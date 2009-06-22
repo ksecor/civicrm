@@ -79,7 +79,7 @@ class CRM_Report_Form_Pledge_Pbnp extends CRM_Report_Form {
                           'filters'  => 
                           array( 'create_date' =>
                                  array('title'    =>  'Pledged Date', 
-                                       'type'     =>  CRM_Utils_Type::T_DATE ),
+                                       'operatorType' => CRM_Report_Form::OP_DATE ),
                                  ),
                           'grouping' => 'pledge-fields',
                           ),
@@ -129,8 +129,8 @@ class CRM_Report_Form_Pledge_Pbnp extends CRM_Report_Form {
                           'filters' =>             
                           array( 'gid' => 
                                  array( 'name'    => 'id',
-                                        'title'   => ts( 'Group ID' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                        'title'   => ts( 'Group' ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         parent::__construct( );
@@ -376,10 +376,10 @@ class CRM_Report_Form_Pledge_Pbnp extends CRM_Report_Form {
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view', 
-                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
-                    $row["civicrm_contact_display_name"] . '</a>';
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contact/detail', 
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
+                                                            $this->_absoluteUrl, $this->_id );
+                $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
                 $entryFound = true;
             }
             

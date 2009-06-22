@@ -56,7 +56,7 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
                          'filters'   =>
                          array(   'organization_name'       => 
                                   array( 'title'      => ts( 'Employer Name' ),
-                                         'type'       => CRM_Utils_Type::T_STRING ),),
+                                          'operatorType' => CRM_Report_Form::OP_STRING ),),
                          ),
                   
                   'civicrm_contact' =>
@@ -82,7 +82,7 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
                                array( 'title' => ts( 'Employee Name' )  ),
                                
                                'id'           => 
-                               array( 'title' => ts( 'Employee Contact ID' ) ), ),
+                               array( 'no_display' => true ), ),
                          'grouping'  => 'contact-fields',
                          ),
                   
@@ -96,7 +96,7 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
                          'filters'   =>  
                          array( 'start_date' => 
                                 array( 'title'      => ts( 'Employee Since' ),
-                                       'type'       => CRM_Utils_Type::T_DATE ),),
+                                       'operatorType' => CRM_Report_Form::OP_DATE ),),
                          ),
                   
                   'civicrm_email'   =>
@@ -123,11 +123,11 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
                          'filters'   =>             
                          array( 'country_id' => 
                                 array( 'title'   => ts( 'Country' ), 
-                                       'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                       'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                        'options' => CRM_Core_PseudoConstant::country(null,false), ), 
                                 'state_province_id' =>  
                                 array( 'title'   => ts( 'State/Province' ), 
-                                       'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
+                                       'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                        'options' => CRM_Core_PseudoConstant::stateProvince( ), ), ),
                          ),
                   
@@ -209,7 +209,7 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                    if ( $field['operatorType'] & CRM_Report_Form::OP_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
@@ -241,13 +241,6 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
         }
     }
     
-    function statistics( &$rows ) {
-      
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        return $statistics;
-    }
-    
     function groupBy( ) {
         
         $this->_groupBy = "GROUP BY {$this->_aliases['civicrm_employer']}.id,{$this->_aliases['civicrm_contact']}.id";
@@ -255,17 +248,7 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
     }
     
     function postProcess( ) {
-        
-        $this->beginPostProcess( );;
-        
-        $sql  = $this->buildQuery( true );
-        
-        $rows = array( );
-        $this-> buildRows( $sql, &$rows );
-        
-        $this->formatDisplay( $rows );        
-        $this->doTemplateAssignment( $rows );
-        $this->endPostProcess( );
+        parent::postProcess();
     }
     
     function alterDisplay( &$rows ) {
@@ -278,11 +261,10 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
             // convert employer name to links
             if ( array_key_exists('civicrm_employer_organization_name', $row) && 
                  array_key_exists('civicrm_employer_id', $row) ) {
-                
-                $url = CRM_Utils_System::url( 'civicrm/contact/view', 
-                                              'reset=1&cid=' . $rows[$rowNum]['civicrm_employer_id'] );
-                $rows[$rowNum]['civicrm_employer_organization_name'] ="<a href='$url'>" . $row["civicrm_employer_organization_name"] . '</a>';;
-                
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contact/detail', 
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_employer_id'],
+                                                            $this->_absoluteUrl, $this->_id );
+                $rows[$rowNum]['civicrm_employer_organization_name_link' ] = $url;
                 $entryFound = true;
             }
             
@@ -300,8 +282,8 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
                     }
                 }
             }
-            
-            //handle gender
+             
+           //handle gender
             if ( array_key_exists('civicrm_contact_gender_id', $row) ) {
                 if ( $value = $row['civicrm_contact_gender_id'] ) {
                     $gender=CRM_Core_PseudoConstant::gender();
@@ -313,10 +295,10 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
             // convert employee name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/report/contact/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
-                    $row["civicrm_contact_display_name"] . '</a>';
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contact/detail', 
+                                                             'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
+                                                             $this->_absoluteUrl, $this->_id );
+                $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
                 $entryFound = true;
             }
             

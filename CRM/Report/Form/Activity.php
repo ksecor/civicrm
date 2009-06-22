@@ -90,7 +90,8 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                         'group_bys'=>             
                                         array( 'activity_date_time' => 
                                                array( 'frequency'  => true ),
-                                               'activity_type_id'  => null,
+                                               'activity_type_id'  =>
+                                               array( 'title'   => ts( 'Activity Type' )),
                                                'source_contact_id' =>
                                                array( 'default'    => true ),
                                                ),
@@ -297,14 +298,6 @@ INNER JOIN civicrm_contact source ON {$this->_aliases['civicrm_activity']}.sourc
         $this->_orderBy = "";
     }
 
-    function statistics( &$rows ) {
-        $statistics = array();
-        
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        return $statistics;
-    }
-
     function removeDuplicates( &$rows ) {
         if ( empty($this->_noRepeats) ) {
             return;
@@ -352,45 +345,7 @@ INNER JOIN civicrm_contact source ON {$this->_aliases['civicrm_activity']}.sourc
     }
 
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-
-        $this->processReportMode( );
-
-        $this->select ( );
-        $this->from   ( );
-        $this->where  ( );
-        $this->groupBy( );
-        $this->orderBy( );
-        $this->limit  ( );
-                
-        $sql  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_orderBy} {$this->_limit}";
-        $dao  = CRM_Core_DAO::executeQuery( $sql );
-        $rows = array( );
-        while ( $dao->fetch( ) ) {
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
-            $rows[] = $row;
-        }
-
-        $this->removeDuplicates( $rows );
-        $this->formatDisplay( $rows );
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-
-        if ( CRM_Utils_Array::value( 'include_statistics', $this->_params['options'] ) ) {
-            $this->assign( 'statistics',
-                           $this->statistics( $rows ) );
-        }
-
-        parent::endPostProcess( );
+        parent::postProcess();
     }
 
     function alterDisplay( &$rows ) {
