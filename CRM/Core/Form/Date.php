@@ -78,6 +78,73 @@ Class CRM_Core_Form_Date
         $form->setDefaults(array('dateFormats' => self::DATE_yyyy_mm_dd));
     }
     
+    /**
+     * This function is to build the date range - relative or absolute
+     *
+     * @param Object  $form   the form object that we are operating on
+     * 
+     * @static
+     * @access public
+     */
+    static function buildDateRange( &$form, $fieldName, $count = 1, $required = false ) {
+        $selector = array ('Choose Date Range',
+                           'this.year'        => 'This Year',
+                           'this.fiscal_year' => 'This Fiscal Year',
+                           'this.quarter'     => 'This Quarter',
+                           'this.month'       => 'This Month',
+                           'this.week'        => 'This Week',
+                           'this.day'         => 'This Day',
+                           
+                           'previous.year'        => 'Previous Year',
+                           'previous.fiscal_year' => 'Previous Fiscal Year',
+                           'previous.quarter'     => 'Previous Quarter',
+                           'previous.month'       => 'Previous Month',
+                           'previous.week'        => 'Previous Week',
+                           'previous.day'         => 'Previous Day',
+
+                           'previous_before.year'    => 'Previous Before Year',
+                           'previous_before.quarter' => 'Previous Before Quarter',
+                           'previous_before.month'   => 'Previous Before Month',
+                           'previous_before.week'    => 'Previous Before Week',
+                           'previous_before.day'     => 'Previous Before Day',
+                           
+                           'previous_2.year'    => 'Previous 2 Years',
+                           'previous_2.quarter' => 'Previous 2 Quarters',
+                           'previous_2.month'   => 'Previous 2 Months',
+                           'previous_2.week'    => 'Previous 2 Weeks',
+                           'previous_2.day'     => 'Previous 2 Days',
+
+                           'earlier.year'    => 'Earlier Year',
+                           'earlier.quarter' => 'Earlier Quarter',
+                           'earlier.month'   => 'Earlier Month',
+                           'earlier.week'    => 'Earlier Week',
+                           'earlier.day'     => 'Earlier Day',
+
+                           'greater.year'    => 'Greater Year',
+                           'greater.quarter' => 'Greater Quarter',
+                           'greater.month'   => 'Greater Month',
+                           'greater.week'    => 'Greater Week',
+                           'greater.day'     => 'Greater Day'
+                           );
+
+        $config =& CRM_Core_Config::singleton();
+        //if fiscal year start on 1 jan then remove fiscal year task
+        //form list
+        if ( $config->fiscalYearStart['d'] == 1 & $config->fiscalYearStart['M'] == 1 ) {
+            unset($selector['this.fiscal_year']);
+            unset($selector['previous.fiscal_year']);
+        }
+
+        $form->add('select',
+                   "{$fieldName}_relative",
+                   ts('Relative Date Range'),
+                   $selector,
+                   $required,
+                   array('onclick' => "showAbsoluteRange(this.value, '{$fieldName}_relative');"));
+        
+        $form->addDateRange($fieldName);
+    }
+
 }
 
 

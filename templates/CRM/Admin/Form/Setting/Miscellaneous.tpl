@@ -13,30 +13,6 @@
         </tr>
     </table>
 </fieldset>
-<fieldset><legend>{ts}Contact Search{/ts}</legend>
-    <table class="form-layout">
-        <tr>
-            <td>{$form.includeWildCardInName.label}</td>
-            <td>{$form.includeWildCardInName.html}<br />
-                <span class="description">{ts}If enabled, wildcards are automatically added when users search for contacts by Name. EXAMPLE: Searching for 'ada' will return any contact whose name includes those letters - e.g. 'Adams, Janet', 'Nadal, Jorge', etc. Disabling this feature will speed up search significantly for larger databases, but users must use MySQL wildcard characters for partial name searches (e.g. '%' or '_').{/ts}</span></td>
-        </tr>
-        <tr>
-            <td>{$form.includeEmailInName.label}</td>
-            <td>{$form.includeEmailInName.html}<br />
-                <span class="description">{ts}If enabled, email addresses are automatically included when users search by Name. Disabling this feature will speed up search significantly for larger databases, but users will need to use the Email search fields (from Advanced Search, Search Builder, or Profiles) to find contacts by email address.{/ts}</span></td>
-        </tr>
-        <tr>
-            <td>{$form.includeNickNameInName.label}</td>
-            <td>{$form.includeNickNameInName.html}<br />
-                <span class="description">{ts}If enabled, nicknames are automatically included when users search by Name.{/ts}</span></td>
-        </tr>
-        <tr>
-            <td>{$form.smartGroupCacheTimeout.label}</td>
-            <td>{$form.smartGroupCacheTimeout.html}<br />
-                <span class="description">{ts}The number of minutes to cache smart group contacts. A value of '0' means the cache is emptied immediately when any contact is edited or a new one is added. If your contact data changes frequently, you may want to try setting this to a value of 5 minutes or so.{/ts}</span></td>
-        </tr>
-    </table>
-</fieldset>
 <fieldset><legend>{ts}reCAPTCHA Keys{/ts}</legend>
     <div class="description">
         {ts}reCAPTCHA is a free service that helps prevent automated abuse of your site. To use reCAPTCHA on public-facing CiviCRM forms: sign up at <a href="http://recaptcha.net">recaptcha.net</a>; enter the provided public and private reCAPTCHA keys here; then enable reCAPTCHA under Advanced Settings in any Profile.{/ts}

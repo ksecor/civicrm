@@ -49,6 +49,11 @@
 </tr>
 
 <tr>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/search' q='reset=1'}" id="idMisc">&raquo; {ts}Search Settings{/ts}</a></td>
+    <td>{ts}Configure Contact Search behavior.{/ts}</td>
+</tr>
+
+<tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/date' q='reset=1'}" id="idDates">&raquo; {ts}Date Formats{/ts}</a></td>
     <td>{ts}Configure input and display formats for Date fields.{/ts}</td>
 </tr>
@@ -62,7 +67,7 @@
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/misc' q='reset=1'}" id="idMisc">&raquo; {ts}Miscellaneous Settings{/ts}</a></td>
-    <td>{ts}Enable Version Checking, configure Contact Search behavior, and configure optional reCAPTCHA feature to prevent automated abuse of public forms.{/ts}</td>
+    <td>{ts}Enable Version Checking and configure optional reCAPTCHA feature to prevent automated abuse of public forms.{/ts}</td>
 </tr>
 
 <tr>

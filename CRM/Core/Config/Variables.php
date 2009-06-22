@@ -321,8 +321,9 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      *
      * @var array
      */
-    public $enableComponents   = array( 'CiviContribute','CiviPledge','CiviMember','CiviEvent', 'CiviMail' );
-    public $enableComponentIDs = array( 1, 6, 2, 3, 4);
+    public $enableComponents   = array( 'CiviContribute','CiviPledge','CiviMember',
+                                        'CiviEvent', 'CiviMail', 'CiviReport' );
+    public $enableComponentIDs = array( 1, 6, 2, 3, 4, 8 );
 
     /**
      * Should payments be accepted only via SSL?
@@ -387,6 +388,8 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $includeEmailInName     = 1;
     public $includeNickNameInName  = 0;
     public $smartGroupCacheTimeout = 0;
+
+    public $defaultSearchProfileID = null;
 
     /**
      * Optimization related variables

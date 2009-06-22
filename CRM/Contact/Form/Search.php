@@ -406,6 +406,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                                $this );
         $this->_ufGroupID       = CRM_Utils_Request::retrieve( 'id'             , 'Positive',
                                                                $this );
+
+        // if we dont get this from the url, use default if one exsts
+        $config =& CRM_Core_Config::singleton( );
+        if ( $this->_ufGroupID == null &&
+             $config->defaultSearchProfileID != null ) {
+            $this->_ufGroupID = $config->defaultSearchProfileID;
+        }
+
         /*
          * assign context to drive the template display, make sure context is valid
          */

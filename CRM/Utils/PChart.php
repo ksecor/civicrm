@@ -62,6 +62,7 @@ class CRM_Utils_PChart
         if ( empty( $params ) ) {
             return;
         }
+
         //configure the directory for pChart.
         $config =& CRM_Core_Config::singleton( );
 
@@ -99,6 +100,8 @@ class CRM_Utils_PChart
                 }
             }
             $legend = CRM_Utils_Array::value('legend', $chartValues );
+            $xname  = CRM_Utils_Array::value('xname', $chartValues );
+            $yname  = CRM_Utils_Array::value('yname', $chartValues );
             
             $dataSet = new pData;
             $dataSet->AddPoint( $names, "Serie2" );
@@ -108,7 +111,7 @@ class CRM_Utils_PChart
             
             //Initialise the graph variables.
             //with only radius we can resize entire image.
-            $radius         = 110;
+            $radius         = 150;
             $skew           = 50;
             $spliceHeight   = 20;
             $spliceDistance = 4;
@@ -152,6 +155,16 @@ class CRM_Utils_PChart
             if ( $legend ) {
                 $chart->setFontProperties( $pChartPath . "tahoma.ttf", 10 );
                 $chart->drawTitle( ($xPosition-(strlen($legend)*3)), 22, $legend, 50, 50, 50 );
+            }
+
+            if ( $xname ) {
+                $chart->setFontProperties( $pChartPath . "tahoma.ttf", 8 );
+                $chart->drawTitle( ($xPosition-(strlen($xname)-158)), 8, $xname, 10, 10, 10 );
+            }
+
+            if ( $yname ) {
+                $chart->setFontProperties( $pChartPath . "tahoma.ttf", 8 );
+                $chart->drawTitle( ($yPosition-(strlen($yname)-254)), 8, $yname, 5, 30, 10 );
             }
             
             $fileName = "pChart{$chartCount}" . time( ) . '.png';
@@ -233,6 +246,8 @@ class CRM_Utils_PChart
                 $shades++;
             }
             $legend = CRM_Utils_Array::value('legend', $chartValues );
+            $xname  = CRM_Utils_Array::value('xname', $chartValues );
+            $yname  = CRM_Utils_Array::value('yname', $chartValues );
             
             //calculate max scale for graph.
             $maxScale =  ceil( max( $values ) * 1.1 );
@@ -310,7 +325,16 @@ class CRM_Utils_PChart
                 $chart->setFontProperties( $pChartPath . "tahoma.ttf", 10 );
                 $chart->drawTitle( 10, 20, $legend, 50, 50, 50 );
             }
-            
+
+            if ( $xname ) {
+                $chart->setFontProperties( $pChartPath . "tahoma.ttf", 8 );
+                $chart->drawTitle( 0, 90, $xname, 2,0,2 );      
+            }
+            if ( $yname ) {
+                $chart->setFontProperties( $pChartPath . "tahoma.ttf", 8 );
+                $chart->drawTitle( 40, 290, $yname, 2,0,20 );      
+            }   
+         
             $fileName = "pChartByMonth{$chartCount}" . time( ) . '.png';
             $chart->Render( $uploadDirPath . $fileName );
             
@@ -338,6 +362,68 @@ class CRM_Utils_PChart
         }
         
         return $filesValues;
+    }
+
+    static function chart( $rows, $chart, $interval ) 
+    {
+        switch ( $interval ) {
+        case 'Month' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph[substr($rows['Month'][$key],0,3) .' '. $year ] = $rows['value'][$key];
+            }
+            
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Monthly Contribution Summary') );
+            break;
+            
+        case 'Quarter' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph['Quarter '. $rows['Quarter'][$key] .' of '. $year ] = $rows['value'][$key];
+            }
+            
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Quarterly Contribution Summary') );
+            break;
+            
+        case 'Week' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph['Week '. $rows['Week'][$key] .' of '. $year ] = $rows['value'][$key];
+            }
+            
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Weekly Contribution Summary') );
+            break;
+            
+        case 'Year' :
+            foreach ( $rows['receive_date'] as $key => $val ) {
+                list( $year, $month ) = explode( '-', $val );
+                $graph[$year] = $rows['value'][$key];
+                
+            }
+            $barChart[] = array('values' => $graph,
+                                'legend' => ts('Yearly Contribution Summary') );
+            break;
+            
+        }
+        return self::$chart($barChart);
+    }
+
+    static function reportChart($rows, $chart, $interval, &$chartInfo ) 
+    {
+        foreach ( $interval as $key => $val ) {
+            $graph[$val] = $rows['value'][$key];
+        }
+        
+        $reportChart[] = array( 'values' => $graph,
+                                'legend' => $chartInfo['legend'],
+                                'xname'  => $chartInfo['xname'],
+                                'yname'  => $chartInfo['yname']
+                                );
+        
+        return self::$chart($reportChart);
     }
 }
 

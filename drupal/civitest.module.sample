@@ -412,12 +412,31 @@ function civitest_civicrm_eventDiscount( &$form, &$params ) {
  * in the sample data
  */
 function civitest_civicrm_buildForm( $formName, &$form ) {
+
     if ( $formName == 'CRM_Contact_Form_Edit' ) {
         $defaultDate = array( );
         CRM_Utils_Date::getAllDefaultValues( $defaultDate );
         $defaults['custom_3_-1'] = $defaultDate;
         $form->setDefaults( $defaults );
     }
+
+    // enable tracking feature
+    if ( ( $formName == 'CRM_Contribute_Form_Contribution_Main' ||
+           $formName == 'CRM_Contribute_Form_Contribution_Confirm' ||
+           $formName == 'CRM_Contribute_Form_Contribution_ThankYou' ) &&
+         $form->getVar( '_id' ) == 1 ) { // Use Contribution Page ID here
+	 //     // enable tracking feature
+    if ( ( $formName == 'CRM_Contribute_Form_Contribution_Main' ||
+           $formName == 'CRM_Contribute_Form_Contribution_Confirm' ||
+           $formName == 'CRM_Contribute_Form_Contribution_ThankYou' ) &&
+         $form->getVar( '_id' ) == 1 ) { // use  CONTRIBUTION PAGE ID here
+        // use the custom field ID and custom field label here
+        $trackingFields = array( 'custom_4' => 'Campaign',
+                                 'custom_5' => 'Appeal',
+                                 'custom_6' => 'Fund' );
+        $form->assign( 'trackingFields', $trackingFields );
+    }
+
 }
 
 /**
