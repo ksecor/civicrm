@@ -1423,3 +1423,165 @@ div.grippie {
 .ui-tabs .ui-tabs-nav li a {
    padding: 5px !important;
 }
+
+/* Styles for Contact Summary mockup start here. dgg */
+#crm-container span.email-hold, #crm-container span.do-not-email, #crm-container span.do-not-phone {
+    background-position:3px; background-repeat:no-repeat; background-image:url("../i/stop-icon.png");
+    padding-left: 24px;
+	color: #ff6655 !important
+ }
+
+#crm-container span.email-hold a:link, #crm-container span.email-hold a:visited, #crm-container span.do-not-email a:link, #crm-container span.email-hold a:visited {
+	color: #ff6655 !important
+}
+
+.primary {
+	FONT-WEIGHT: bold
+}
+
+#crm-container .ui-tabs-panel {
+    padding:0em 1.4em 1em 1em;
+}
+
+DIV#contactTopBar {
+	PADDING: 4px;
+	LINE-HEIGHT: 1.4em;
+	MARGIN: 8px 0pt 0px;
+	/*FONT-SIZE: 1.1em;*/
+	background-color: #eee;
+	border: 1px solid #CCCCCC;
+	width: 100%;
+}
+DIV#contact_details, DIV#contactTopBar {
+	PADDING: 4px;
+	LINE-HEIGHT: 1.4em;
+	MARGIN: 8px 0pt 0px;
+	/*FONT-SIZE: 1.1em;*/
+	background-color: #F7F7F7;
+	border: 1px solid #CCCCCC;
+	width: 100%;
+}
+
+DIV#contact_panel, DIV#contactTopBar {
+	WIDTH: 100%; DISPLAY: block
+}
+
+DIV#contact_panel *,
+DIV#contactTopBar * {
+	BORDER: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-RIGHT: 0px;
+	PADDING-TOP: 0px;
+}
+
+DIV#contactCardLeft, DIV#Top {
+	WIDTH: 49%; DISPLAY: block; FLOAT: left
+}
+DIV#contactCardRight {
+	WIDTH: 49%; DISPLAY: block; FLOAT: right
+}
+DIV#contactTopBar .label, DIV#contactCardLeft .label, DIV#contactCardRight .label {
+	color: DimGray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
+}
+
+DIV#contactCardLeft .grouplabel, 
+DIV#contactCardRight .grouplabel {
+	BORDER-BOTTOM: grey 1px solid; 
+	WIDTH: 100%; 
+	FONT-SIZE: 0.9em; 
+	FONT-WEIGHT: bold;
+	background-color: #ddd;
+}
+DIV#contact_panel .spacer {
+	PADDING-BOTTOM: 8px; PADDING-LEFT: 8px; PADDING-RIGHT: 8px; PADDING-TOP: 8px
+}
+DIV#contact_panel TD, DIV#contactTopBar TD  {
+	PADDING-BOTTOM: 4px;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	VERTICAL-ALIGN: top;
+	PADDING-TOP: 4px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #E2E2E2;
+}
+DIV#contact_panel TD.label, DIV#contactTopBar TD.label {
+	background-color: #EEEEEE;
+}
+
+DIV#contactTopBar TD.label {
+    width: 14%;
+}
+
+DIV#contact_panel TD.label {
+    width: 28%;
+}
+
+DIV#contact_panel TD.last {
+	BORDER-BOTTOM: 0px
+}
+
+DIV#customFields {
+	width: 100%;
+}
+
+DIV#customFields DIV#contact_panel TD {
+	BORDER-BOTTOM: lightgray 1px solid; PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; VERTICAL-ALIGN: top; PADDING-TOP: 4px
+}
+DIV#customFields DIV#contact_panel TD.talabel {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0pt; PADDING-LEFT: 4px; PADDING-RIGHT: 0pt; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 4px
+}
+
+#customFields #contact_panel .customFieldGroup {
+	background-color:#F7F7F7;
+	border:1px solid #CCCCCC;
+	line-height:1.4em;
+	margin:8px 0 0;
+	padding:4px;
+	width:100%;
+}
+
+
+DIV.buttons {
+	TEXT-ALIGN: right;
+    margin:8px 0 0;
+	PADDING: 4px 4px 2px;
+	WIDTH: 100%;
+	background-color: #fff;
+	border: none;
+}
+DIV.buttons INPUT {
+	FONT-SIZE: 0.9em; VERTICAL-ALIGN: top !important
+}
+DIV.buttons SELECT {
+	FONT-SIZE: 0.9em; VERTICAL-ALIGN: top !important
+}
+DIV.buttons #actions {
+	TEXT-ALIGN: left; 
+	/*WIDTH: 89%;*/ 
+	FLOAT: left
+}
+DIV.buttons #icons {
+	/*WIDTH: 10%*/
+}
+.ui-tabs .ui-tabs-nav LI A {
+	FONT-SIZE: 0.9em
+}
+.ui-tabs-collapsible.ui-tabs .ui-tabs-nav LI.ui-tabs-selected A {
+	FONT-SIZE: 0.9em
+}
+.ui-tabs .ui-tabs-nav LI A {
+	PADDING-BOTTOM: 5px !important; PADDING-LEFT: 5px !important; PADDING-RIGHT: 5px !important; PADDING-TOP: 5px !important
+}
+
+.separator {
+	border-bottom: solid 2px #ccc;
+}
+
+.individual h2 {background:url("../i/contact_ind.gif") no-repeat 0 50%;padding-left:20px;}
+
+.button {}
+.edit {background:url("../i/edit.png") transparent no-repeat; padding-left:18px;}
+.delete {background:url("../i/delete.png") transparent no-repeat; padding-left:18px;}

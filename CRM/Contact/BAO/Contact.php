@@ -1713,8 +1713,87 @@ UNION
         }
         return null;
     }
-
     
+    /**
+     * Given the component name and returns 
+     * the count of participation of contact
+     *
+     * @param string $component input component name
+     * @param integer $contactId input contact id
+     *
+     * @return total number of count of occurence in database
+     * @access public
+     * @static
+     */
+    
+    static function getCountComponent( $component, $contactId ) 
+    {
+        $object = null;
+        switch ($component) {
+            
+        case 'tag' :
+            require_once 'CRM/Core/BAO/EntityTag.php';
+            return count( CRM_Core_BAO_EntityTag::getTag( $contactId ) );
+            
+        case 'rel':
+            require_once 'CRM/Contact/BAO/Relationship.php';
+            return count( CRM_Contact_BAO_Relationship::getRelationship( $contactId ) );
+            
+        case 'group':
+            require_once 'CRM/Contact/BAO/GroupContact.php';
+            return CRM_Contact_BAO_GroupContact::getContactGroup( $contactId, null, null, true );
+            
+        case 'log' :
+        case 'note':
+            require_once 'CRM/Core/DAO.php';
+            eval( '$object =& new CRM_Core_DAO_'.$component.'( );');
+            $object->entity_table = 'civicrm_contact';
+            $object->entity_id    = $contactId;
+            $object->orderBy( 'modified_date desc' );
+            break;
+            
+        case 'contribution' :
+            require_once 'CRM/Core/DAO.php';
+            require_once 'CRM/Contribute/DAO/Contribution.php';
+            eval( '$object =& new CRM_Contribute_DAO_Contribution( );');
+            $object->contact_id = $contactId;
+            $object->is_test    = 0;
+            break;
+            
+        case 'membership' :
+            require_once 'CRM/Core/DAO.php';
+            require_once 'CRM/Member/DAO/Membership.php';
+            eval( '$object =& new CRM_Member_DAO_Membership( );');
+            $object->contact_id = $contactId;
+            $object->is_test    = 0;
+            break;
+            
+        case 'participant' :
+            require_once 'CRM/Core/DAO.php';
+            require_once 'CRM/Event/DAO/Participant.php';
+            eval( '$object =& new CRM_Event_DAO_Participant( );');
+            $object->contact_id = $contactId;
+            $object->is_test    = 0;
+            break;
+            
+        case 'pledge' :
+            require_once 'CRM/Core/DAO.php';
+            require_once 'CRM/Pledge/DAO/Pledge.php';
+            eval( '$object =& new CRM_Pledge_DAO_Pledge( );');
+            $object->contact_id = $contactId;
+            $object->is_test    = 0;
+            break;
+            
+        case 'activity' :
+            require_once 'CRM/Core/DAO.php';
+            require_once 'CRM/Activity/DAO/Activity.php';
+            eval( '$object =& new CRM_Activity_DAO_Activity( );');
+            $object->source_contact_id = $contactId;
+            $object->is_test    = 0;
+            break;            
+        }
+        
+        $object->find( );
+        return $object->N;
+    }
 }
-
-
