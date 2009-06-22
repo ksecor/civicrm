@@ -19,10 +19,8 @@
         </table>
     </div>
     
-    {foreach from = $editOptions item = "row" key="title"}
-        {if $row } 
-            {include file="CRM/Contact/Form/Edit/$title.tpl"}
-        {/if}
+    {foreach from = $editOptions item = "title" key="name"}
+            {include file="CRM/Contact/Form/Edit/$name.tpl"}
     {/foreach}
     
 </div>

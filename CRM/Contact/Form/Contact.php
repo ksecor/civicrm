@@ -131,9 +131,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
         
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, true );            
+        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, 'name', true );
         $this->assign( 'editOptions', $this->_editOptions );
-
+        
         // make blocks semi-configurable
         $this->_blocks = array( 'Email'  => 1,
                                 'Phone'  => 1,
@@ -183,6 +183,11 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->_contactId = null;
         } else {
             //update mode
+            
+            //hack for now - remove when start edit code.
+            $this->_contactId = 102;
+            $this->_contactType = 'Individual';
+            $this->assign( 'contactType', $this->_contactType );
         }
         
         
@@ -232,9 +237,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         //build blocks ( email, phone, im, openid )
         
         // build edit blocks ( custom data, address, communication preference, notes, tags and groups )
-        foreach( $this->_editOptions as $name => $status ) {                
-            if ( $status && $name != 'CustomData' ) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name) . ".php");
+        foreach( $this->_editOptions as $name => $label ) {                
+            if ( $name != 'CustomData' ) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name ) . ".php");
                 eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
             }
         }
@@ -273,7 +278,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        
+        exit( );
     }
 
 }
