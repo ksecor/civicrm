@@ -51,7 +51,8 @@ class CRM_Report_Form_Walklist extends CRM_Report_Form {
                           'fields'  =>
                           array( 'id'           => 
                                  array( 'title' => ts( 'Contact ID' ),
-                                        'required'  => true, ),  
+                                        'no_display'  => true, 
+                                        'required'    => true),  
                                 'display_name' => 
                                  array( 'title' => ts( 'Contact Name' ),
                                         'required'  => true,
@@ -106,10 +107,6 @@ class CRM_Report_Form_Walklist extends CRM_Report_Form {
                           'grouping'=> 'location-fields',
                           ),
                    );
-        $this->_options = array( 'include_statistics' => array( 'title'  => ts( 'Include Statistics' ),
-                                                                'type'   => 'checkbox',
-                                                                'default'=> true )
-                                 );
         parent::__construct( );
     }
 
@@ -149,7 +146,6 @@ class CRM_Report_Form_Walklist extends CRM_Report_Form {
         $this->_from = "
 FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
 ";
-
         if ( $this->_addressField ) {
             $this->_from .= "LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND {$this->_aliases['civicrm_address']}.is_primary = 1\n";
         }
@@ -215,61 +211,14 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
         $this->_orderBy = "ORDER BY " . implode( ', ', $this->_orderBy ) . " ";
     }
 
-    function statistics( &$rows ) {
-        $statistics   = array();
-
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-
-        
-        return $statistics;
-    }
-
     function postProcess( ) {
-        $this->_params = $this->controller->exportValues( $this->_name );
-
-        if ( empty( $this->_params ) &&
-             $this->_force ) {
-            $this->_params = $this->_formValues;
-        }
-        $this->_formValues = $this->_params ;
-
-        $this->processReportMode( );
-
-        $this->select ( );
-        $this->from   ( );
-        $this->where  ( );
-        $this->orderBy( );
-        $this->limit  ( );
-
-        $sql  = "{$this->_select} {$this->_from} {$this->_where} {$this->_orderBy} {$this->_limit}";
-        $dao  = CRM_Core_DAO::executeQuery( $sql );
-        $rows = array( );
-        while ( $dao->fetch( ) ) {
-            $row = array( );
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
-            $rows[] = $row;
-        }
-
-        $this->formatDisplay( $rows );
-
-        $this->assign_by_ref( 'columnHeaders', $this->_columnHeaders );
-        $this->assign_by_ref( 'rows', $rows );
-
-        if ( CRM_Utils_Array::value( 'include_statistics', $this->_params['options'] ) ) {
-            $this->assign( 'statistics',
-                           $this->statistics( $rows ) );
-        }
-
-        parent::endPostProcess( );
+        parent::postProcess();
     }
 
     function alterDisplay( &$rows ) {
         // custom code to alter rows
         $entryFound = false;
-        foreach ( $rows as $rowNum => $row ) {
+        foreach ( $rows as $rowNum => $row ) { 
             // handle state province
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
@@ -291,11 +240,12 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view', 
-                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
-                    $row["civicrm_contact_display_name"] . '</a>';
-                $entryFound = true;
+                 $url = CRM_Report_Utils_Report::getNextUrl( 'contact/detail', 
+                                                             'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
+                                                             $this->_absoluteUrl, $this->_id );
+                 $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
+                     $row["civicrm_contact_display_name"] . '</a>';
+                 $entryFound = true;
             }
 
             // skip looking further in rows, if first row itself doesn't 
