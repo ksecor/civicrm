@@ -208,9 +208,10 @@ class CRM_Report_Form extends CRM_Core_Form {
                                CRM_Utils_System::url( 'civicrm/report/list', 
                                                       "reset=1&ovid=$optionValueID" ) );
             }
-
-            $this->_description = 
-                CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $optionValueID, 'description' );
+            if ( $optionValueID ) {
+                $this->_description = 
+                    CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $optionValueID, 'description' );
+            }
             
             // set the mode
             $this->assign( 'mode', 'template' );
