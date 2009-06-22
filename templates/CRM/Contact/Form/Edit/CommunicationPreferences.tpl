@@ -20,31 +20,24 @@
         </tr>
         <tr>
             <td>{$form.privacy.label}<br />
-                {$form.privacy.html}
+                {assign var="index" value="1"}
+                {foreach key=key item=item from=$form.privacy}
+                   {if $index < 10}
+                     {assign var="index" value=`$index+1`}
+                   {else}
+                     {$form.privacy.$key.html}<br />
+                   {/if}
+                {/foreach}   
             </td>
             <td>{$form.preferred_communication_method.label} <img src="../../i/quiz.png" / alt="help"><br />
-                {assign var="count" value="1"}
-                {strip}
-                  <table class="form-layout">
-                   <tr>
-                    {assign var="index" value="1"}
-                    {foreach name=outer key=key item=item from=$form.preferred_communication_method}
-                       {if $index < 10}
-                         {assign var="index" value=`$index+1`}
-                       {else}
-                        <td class="labels font-light">{$form.preferred_communication_method.$key.html}</td>
-                         {if $count == 5}
-
-                         {assign var="count" value="1"}
-                         {else}
-                         {assign var="count" value=`$count+1`}
-                         {/if}
-                        {/if}
-                   {/foreach}
-                   {*{$form.preferred_communication_method[1].html}*}
-                   </tr>
-                 </table>
-                {/strip}
+                {assign var="index" value="1"}
+                {foreach key=key item=item from=$form.preferred_communication_method}
+                   {if $index < 10}
+                     {assign var="index" value=`$index+1`}
+                   {else}
+                     {$form.preferred_communication_method.$key.html}<br />
+                   {/if}
+                {/foreach}                
             </td>
         </tr>
         <tr>
