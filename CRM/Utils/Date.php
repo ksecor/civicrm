@@ -480,23 +480,7 @@ class CRM_Utils_Date
      */
     static function posixToPhp($format, $filter = null)
     {
-        static $replacements = array(
-            '%b' => 'M',
-            '%B' => 'F',
-            '%d' => 'd',
-            '%e' => 'j',
-            '%E' => 'j',
-            '%f' => 'S',
-            '%H' => 'H',
-            '%I' => 'h',
-            '%k' => 'G',
-            '%l' => 'g',
-            '%m' => 'm',
-            '%M' => 'i',
-            '%p' => 'a',
-            '%P' => 'A',
-            '%Y' => 'Y'
-        );
+        $replacements = CRM_Core_SelectValues::qfDatePartsMapping( ); 
         if ( $filter ) {
             $filteredReplacements = $replacements;
             foreach ( $replacements as $key => $value ) {
@@ -1370,6 +1354,11 @@ class CRM_Utils_Date
         $birthMonth = $bDate[1]; 
         $birthDay   = $bDate[2]; 
         $year_diff  = date("Y") - $birthYear; 
+
+        // don't calculate age CRM-3143
+        if ( $birthYear == '1900' ) {
+            return $results;
+        }
         
         switch ($year_diff) {
         case 1: 
@@ -1480,6 +1469,51 @@ class CRM_Utils_Date
             $fy = intval($currentYear);           
         }       
         return $fy;
+    }
+    
+    /** 
+     * function to check given format is valid for bith date.
+     * and retrun supportable birth date format w/ qf mapping.
+     *
+     * @param $format given format ( eg 'M Y', 'Y M' ) 
+     * return array of qfMapping and date parts for date format.
+     */
+    function checkBrithDateFormat( $format = null )
+    {
+        if ( !$format ) {
+            $format = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
+                                                  'birth', 'format', 'name' );
+        }
+        
+        //get complete qf mapping to all date parts
+        $allMapping = CRM_Core_SelectValues::qfDatePartsMapping( );
+        
+        $dateFormat = null;
+        $formatMapping = array( );
+        for ( $i = 0; $i <= strlen( $format ); $i++ ) {
+            if ( $char = trim( $format[$i] ) ) {
+                if ( in_array( $char, $allMapping ) ) {
+                    $dateFormat .= $char;
+                    $formatMapping[] = $char;
+                }
+            }
+        }
+        
+        $supportableFormats = array(
+                                    'MY'   => '%B %Y',
+                                    'YM'   => '%Y %B',
+                                    'Md'   => '%B %E%f',
+                                    'dM'   => '%E%f %B',
+                                    'Y'    => '%Y'
+                                    );
+        
+        $birthDateFormat = null;
+        if ( array_key_exists( $dateFormat, $supportableFormats ) ) {
+            $birthDateFormat = array( 'qfMapping' => $supportableFormats[$dateFormat],
+                                      'dateParts' => $formatMapping );
+        }
+        
+        return $birthDateFormat;
     }
 }
 

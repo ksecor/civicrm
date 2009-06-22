@@ -764,24 +764,22 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $select = 'SELECT count(ca.id) as ismultiple, ca.id as id, 
                           ca.activity_type_id as type, 
                           cc.sort_name as reporter,
-                          acc.sort_name AS assignee, 
-                          ca.due_date_time as due_date, 
-                          ca.activity_date_time actual_date, 
+                          IF(COALESCE(ca.activity_date_time, ca.due_date_time) < NOW() AND ca.status_id=ov.value,
+                            COALESCE(ca.activity_date_time, ca.due_date_time),
+                            DATE_ADD(NOW(), INTERVAL 1 YEAR)
+                          ) as overdue_date,
+                          COALESCE(ca.activity_date_time, ca.due_date_time) as display_date,
                           ca.status_id as status, 
-                          ca.subject as subject,
+                          ca.subject as subject, 
                           ca.is_deleted as deleted,
                           ca.priority_id as priority ';
 
-        $from  = 'FROM civicrm_case_activity cca, 
-                       civicrm_contact cc,
-                       civicrm_activity ca 
-                  LEFT JOIN civicrm_activity_assignment caa 
-                  ON caa.activity_id = ca.id 
-                  LEFT JOIN civicrm_contact acc ON acc.id = caa.assignee_contact_id '; 
+        $from  = 'FROM civicrm_case_activity cca INNER JOIN civicrm_activity ca ON ca.id = cca.activity_id
+                  INNER JOIN civicrm_contact cc ON cc.id = ca.source_contact_id
+                  LEFT OUTER JOIN civicrm_option_group og ON og.name="activity_status"
+                  LEFT OUTER JOIN civicrm_option_value ov ON ov.option_group_id=og.id AND ov.name="Scheduled" '; 
 
         $where = 'WHERE cca.case_id= %1 
-                    AND ca.id = cca.activity_id 
-                    AND cc.id = ca.source_contact_id
                     AND ca.is_current_revision = 1';
 
 		if ( CRM_Utils_Array::value( 'reporter_id', $params ) ) {
@@ -843,11 +841,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         
         $groupBy = " GROUP BY ca.id ";
         
-        // Default sort is status_id ASC, due_date_time ASC (so completed activities drop to bottom)
         if ( !$sortname AND !$sortorder ) {
-            $orderBy = " ORDER BY status_id ASC, due_date_time ASC";
+            $orderBy = " ORDER BY overdue_date ASC, display_date DESC";
         } else {
-            $orderBy = " ORDER BY {$sortname} {$sortorder}";
+            $orderBy = " ORDER BY {$sortname} {$sortorder}, display_date DESC";
         }
         
         $page = CRM_Utils_Array::value( 'page', $params );
