@@ -372,5 +372,56 @@ UPDATE civicrm_state_province SET country_id = 1008 WHERE id = 1637;
 ALTER TABLE `civicrm_contact`
   ADD `do_not_sms` tinyint(4) default '0' AFTER `do_not_mail`;
 
----CRM-4664
-ALTER TABLE `civicrm_option_value` MODIFY `name` VARCHAR(255) COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT 'Stores a fixed (non-translated) name for this option value. Lookup functions should use the name as the key for the option value row.'
+--CRM-4664
+ALTER TABLE `civicrm_option_value` MODIFY `name` VARCHAR(255) COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT 'Stores a fixed (non-translated) name for this option value. Lookup functions should use the name as the key for the option value row.';
+
+-- CRM-4605
+-- A. upgrade wt and val by 2
+-- B. Insert Custom data and Address as group for first two empty location 
+-- C. Update Communication Pref name  
+-- D. Swap wt and value for Comm Pref, Notes, Demographics and make sure these record has to have wt and val 3, 4, 5 in sequence.
+
+-- get option group id for contact_edit_options
+SELECT @option_group_id_ceOpt := max(id) from civicrm_option_group where name = 'contact_edit_options';
+
+-- increment all wt and val by 2 and make first two location empty.
+UPDATE civicrm_option_value SET value = value + 2, weight = weight + 2 WHERE option_group_id = @option_group_id_ceOpt;
+
+-- insert value for Custom Data and Address at first two locations.
+INSERT INTO  
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES
+   (@option_group_id_ceOpt, '{ts escape="sql"}Custom Data{/ts}',  1, 'CustomData', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
+   (@option_group_id_ceOpt, '{ts escape="sql"}Address{/ts}'   ,   2, 'Address', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL);
+
+-- update Comm pref group name.
+UPDATE civicrm_option_value SET name = 'CommunicationPreferences' WHERE option_group_id=@option_group_id_ceOpt AND name = 'CommBlock';
+
+-- 1. Communication pref.
+-- swap wt and val and make commumication pref wt and val = 3
+Update civicrm_option_value otherRecord, civicrm_option_value commPref
+SET otherRecord.value = commPref.value, otherRecord.weight = commPref.weight, commPref.value = 3,  commPref.weight=3
+WHERE  otherRecord.value = 3 AND commPref.name = 'CommunicationPreferences' AND commPref.option_group_id = @option_group_id_ceOpt AND otherRecord.option_group_id = @option_group_id_ceOpt;
+
+-- make sure comm has val and wt = 3 
+Update civicrm_option_value SET value = 3, weight = 3 WHERE name = 'CommunicationPreferences' and option_group_id = @option_group_id_ceOpt;
+
+-- 2.  Notes.
+-- swap wt and val and make notes wt and val = 4
+Update civicrm_option_value otherRecord, civicrm_option_value notes
+SET otherRecord.value = notes.value, otherRecord.weight = notes.weight, notes.value = 4,  notes.weight=4
+WHERE  otherRecord.value = 4 AND notes.name = 'Notes' AND notes.option_group_id = @option_group_id_ceOpt AND otherRecord.option_group_id = @option_group_id_ceOpt;
+
+-- make sure Notes has val and wt = 4
+Update civicrm_option_value SET value = 4, weight = 4 WHERE name = 'Notes' and option_group_id = @option_group_id_ceOpt;
+
+-- 3.  Demographics.
+-- swap wt and val and make demographics wt and val = 5
+Update civicrm_option_value otherRecord, civicrm_option_value demographics
+SET otherRecord.value = demographics.value, otherRecord.weight = demographics.weight, demographics.value = 5,  demographics.weight=5
+WHERE  otherRecord.value = 5 AND demographics.name = 'Demographics' AND demographics.option_group_id = @option_group_id_ceOpt AND otherRecord.option_group_id = @option_group_id_ceOpt;
+
+-- make sure Demoghraphics has val and wt = 5 
+Update civicrm_option_value SET value = 5, weight = 5 WHERE name = 'Demographics' and option_group_id = @option_group_id_ceOpt;
+
+-- End of CRM-4605
