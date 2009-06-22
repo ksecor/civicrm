@@ -1405,9 +1405,11 @@ AND cl.modified_id  = c.id
             return;
         }
        
+        $session = & CRM_Core_Session::singleton();
+       
         $followupParams                      = array( );
         $followupParams['parent_id']         = $activityId;
-        $followupParams['source_contact_id'] = $params['source_contact_id'];
+        $followupParams['source_contact_id'] = $session->get('userID');
         $followupParams['status_id']         = 
             CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
         
