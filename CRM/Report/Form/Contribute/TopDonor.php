@@ -71,16 +71,15 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
                           'filters'               =>             
                           array( 'receive_date'   => 
                                  array( 'default' => 'this.year',
-                                        'type'    => CRM_Utils_Type::T_DATE),
+                                        'operatorType' =>   CRM_Report_Form::OP_DATE ),
                                  'total_range'   => 
                                  array( 'title'   => ts( 'Show no. of Top Donors' ),
-                                        'default' => 'eq',
                                         'type'    => CRM_Utils_Type::T_INT ),
                                  'contribution_type_id'=>
-                                 array( 'title'   => ts( 'Contribution Type' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Contribute_PseudoConstant::contributionType( ), 
-                                        ),
+                                 array( 'name'    => 'contribution_type_id',
+                                        'title'   => ts( 'Contribution Type' ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options' => CRM_Contribute_PseudoConstant::contributionType( ) ),
                                  ),
                           ),
                    
@@ -91,8 +90,9 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
                           array( 'gid' => 
                                  array( 'name'    => 'id',
                                         'title'   => ts( 'Group' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) 
+                                        ), ), ),
                    );
         
         $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
@@ -106,9 +106,9 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    function setDefaultValues( ) {
+    /* function setDefaultValues( ) {
         return parent::setDefaultValues( );
-    }
+        }*/
 
     function select( ) {
         $select = array( );
@@ -192,13 +192,15 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
                             $clause = $this->dateClause( $field['name'], $relative, $from, $to );
                         }
                     } else {
+
                         $op    = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         $value = CRM_Utils_Array::value( "total_range_value", $this->_params );
+
                         $this->_limit = '';
                         if ( $value ) {
                             $value++;
                             $this->_limit = " LIMIT 0, {$value} ";
-                        } else if ( $op ) {
+                        } else if( $op ) {
                             
                             $clause = 
                                 $this->whereClause( $field,
@@ -236,9 +238,30 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
              CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) ) {             
             $this->_rollup = " WITH ROLLUP";
         }
-        
+
         $this->_groupBy = "GROUP BY contact.id {$this->_rollup}";
     }
+
+    function grandTotal( &$rows ) {
+
+        $lastRow = array_pop($rows);
+
+        $grandFlag = false;
+        foreach ($this->_columnHeaders as $fld => $val) {
+            if ( !in_array($fld, $this->_statFields) ) {
+                if ( !$grandFlag ) {
+                    $lastRow[$fld] = "Grand Total";
+                    $grandFlag = true;
+                } else{
+                    $lastRow[$fld] = "";
+                }
+            }
+        }
+
+        $this->assign( 'grandStat', $lastRow );
+        return true;
+    }
+
 
     function postProcess( ) {
 
@@ -298,10 +321,10 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
-                    $row["civicrm_contact_display_name"] . '</a>';
+                $url =CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
+                                                           'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
+                                                           $this->_absoluteUrl, $this->_id  );
+                $rows[$rowNum]['civicrm_contact_display_name_link'] = $url;
                 $entryFound = true;
             }
 

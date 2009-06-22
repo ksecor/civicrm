@@ -90,7 +90,8 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                                array( 'title'      => ts( 'Contact Name' ),
                                       'operator'   => 'like' ),
                                'id'    => 
-                               array( 'title'      => ts( 'Contact ID' ) ), ),
+                               array( 'title'      => ts( 'Contact ID' ),
+                                      'no_display' => true ), ),
                          'grouping'=> 'contact-fields',
                          ),
                   
@@ -107,7 +108,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                                 ),
                          'filters' =>             
                          array( 'receive_date' => 
-                                array( 'type'       => CRM_Utils_Type::T_DATE ),
+                                array('operatorType' =>   CRM_Report_Form::OP_DATE ), 
                                 'total_amount' => 
                                 array( 'title'      => ts( 'Amount Between' ) ),
                                 ),
@@ -140,10 +141,11 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                          'alias'   => 'cgroup',
                          'filters' =>             
                          array( 'gid' => 
-                                array( 'name'    => 'id',
-                                       'title'   => ts( 'Group' ),
-                                       'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                       'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                 array( 'name'    => 'id',
+                                        'title'   => ts( 'Group' ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) 
+                                        ), ), ),
                   );
         
         
@@ -330,28 +332,20 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
         $this->_groupBy = " GROUP BY report.org_contact_id, report.rel_contact_id, contribution.id, report.rel_type ";
     }
 
-    function statistics( &$rows ) {
-        $statistics   = array();
-        
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-	 return $statistics;
-    }
-
     function postProcess( ) {
 
         $this->tempTable( );
 	
         $this->beginPostProcess( );
-        $sql  = $this->buildQuery( false );
+        $sql  = $this->buildQuery( true );
 	
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
 	
+        $this->_columnHeaders['rel_type'] = null;
         while ( $dao->fetch( ) ) {
             $row = array( );
             //assign null value to rel_type : refere it in alterDispaly function
-            $this->_columnHeaders['rel_type'] = null;
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
             }
@@ -451,9 +445,10 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . $rows[$rowNum]["civicrm_contact_display_name"] . '</a>'; 
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
+                                                          'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'], 
+                                              $this->_absoluteUrl, $this->_id );
+                $rows[$rowNum]['civicrm_contact_display_name_link'] = $url;
                 
                 $entryFound = true;
             }

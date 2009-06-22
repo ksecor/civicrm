@@ -55,7 +55,7 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                                array( 'title' => ts( 'Contact Name' )  ),
                                
                                'id'           => 
-                               array( 'title' => ts( 'Contact ID' ) ), ),
+                               array( 'no_display' => true ), ),
                          'grouping'  => 'contact-fields',
                          ),
 			    
@@ -101,14 +101,12 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                               ),
                         'filters'   => 
                         array(
-                              'create_date' => array( 'title'   => 'Event Create Date',
-                                                      'type'    => CRM_Utils_Type::T_DATE ),
+                              'create_date' => array( 'title'        => 'Event Create Date',
+                                                      'operatorType' => CRM_Report_Form::OP_DATE ),
                               'sid'         => array( 'name'    => 'status_id',
                                                       'title'   => ts( 'Status Type' ),
-                                                      'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                                      'options' => CRM_Core_OptionGroup::values('contribution_status') ),
-                              ),
-                        ),
+                                                      'operatorType' => CRM_Report_Form::OP_MULTISELECT ,
+                                                      'options' => CRM_Core_OptionGroup::values('contribution_status') ), ), ),
                   
                   'civicrm_group' => 
                   array( 'dao'    => 'CRM_Contact_DAO_Group',
@@ -116,9 +114,9 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                          'filters' =>             
                          array( 'gid' => 
                                 array( 'name'    => 'id',
-                                       'title'   => ts( 'Group' ),
-                                       'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                       'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                       'title'   => ts( 'Creditor\'s Group' ),
+                                       'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                       'options' => CRM_Core_PseudoConstant::staticGroup( ) ) ), ),
                   );
         
         parent::__construct( );
@@ -203,31 +201,7 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
             $this->_where = "WHERE  ({$this->_aliases['civicrm_pledge']}.is_test=0 )  AND " . implode( ' AND ', $clauses );
         }
     }
-    
-    function statistics( &$rows ) {
-        $statistics = array();
-        
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        
-        if ( is_array($this->_params['group_bys']) && 
-             !empty($this->_params['group_bys']) ) {
-            foreach ( $this->_columns as $tableName => $table ) {
-                if ( array_key_exists('group_bys', $table) ) {
-                    foreach ( $table['group_bys'] as $fieldName => $field ) {
-                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            $combinations[] = $field['title'];
-                        }
-                    }
-                }
-            }
-            $statistics[] = array( 'title' => ts('Grouping(s)'),
-                                   'value' => implode( ' & ', $combinations ) );
-        }
-        
-        return $statistics;
-    }
-    
+ 
     function groupBy( ) {
         
         $this->_groupBy = "GROUP BY {$this->_aliases['civicrm_pledge']}.contact_id ,{$this->_aliases['civicrm_pledge']}.id, payment.id ";
@@ -334,10 +308,11 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_pledge_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/report/contact/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_pledge_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
-                    $row['civicrm_contact_display_name'] . '</a>';
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contact/detail', 
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_pledge_contact_id'], 
+                                                            $this->_absoluteUrl, $this->_id);
+                $rows[$rowNum]['civicrm_contact_display_name'] = $row['civicrm_contact_display_name'];
+                $rows[$rowNum]['civicrm_contact_display_name_link'] = $url; 
                 $entryFound = true;
             }
             

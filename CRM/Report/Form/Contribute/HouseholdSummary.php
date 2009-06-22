@@ -39,11 +39,6 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
 
     protected $_summary = null;
 
-    protected $_charts = array( ''         => 'Tabular',
-                                'barGraph' => 'Bar Graph',
-                                'pieGraph' => 'Pie Graph'
-                                );
-    
     function __construct( ) {
         $this->_columns = 
             array( 'civicrm_contact_household'  =>
@@ -88,7 +83,8 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
                                 array( 'title'       => ts( 'Contact Name' ),
                                        'operator'    => 'like' ),
                                 'id' => 
-                                array( 'title'       => ts( 'Contact ID' ) ), ),
+                                array( 'title'       => ts( 'Contact ID' ),
+                                       'no_display' => true, ), ),
                           'grouping'=> 'contact-fields',
                           ),
                    
@@ -119,15 +115,13 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
                           array( 'total_amount'  => array( 'title' => ts( 'Amount' ),
                                                            'required'      => true,
                                                            'statistics'   => 
-                                                           array('sum'    => ts( 'Total Amount' ), 
-                                                                 ),
-                                                           ),
+                                                           array('sum'    => ts( 'Total Amount' ) ), ),
                                  'trxn_id'       => null,
                                  'receive_date'  => array( 'default' => true ),
                                  ),
                           'filters'     =>             
                           array( 'receive_date' => 
-                                 array( 'type'    => CRM_Utils_Type::T_DATE),
+                                 array('operatorType' =>   CRM_Report_Form::OP_DATE ),
                                  'total_amount' => 
                                  array( 'title'   => ts( 'Amount Between' ), ), ),
                           'grouping' => 'contri-fields',
@@ -137,17 +131,14 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
                    array( 'dao'     => 'CRM_Contact_DAO_Group',
                           'alias'   => 'cgroup',
                           'filters' =>             
-                          array( 'gid' => 
+                          array( 'gid' =>
                                  array( 'name'    => 'id',
                                         'title'   => ts( 'Group' ),
-                                        'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) 
+                                        ), ), ),
                    );
-
-        $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
-                                                                 'type'   => 'checkbox',
-                                                                 'default'=> true ),
-                                 );
+        
         parent::__construct( );
     }
     
@@ -352,13 +343,6 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
         }
     }
     
-    function statistics( &$rows ) {
-        $statistics = array();
-        $statistics[] = array( 'title' => ts('Row(s) Listed'),
-                               'value' => count($rows) );
-        return $statistics; 
-    }
-    
     function groupBy( ) {
         $this->_groupBy = " GROUP BY report.household_contact_id, report.relationship_contact_id, 
                                      contribution.id, report.relationship_type";
@@ -368,25 +352,18 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
         $this->tempTable ( );
         
         $this->beginPostProcess( );
-        $sql   = $this->buildQuery( false );
+        $sql   = $this->buildQuery( true );
         $dao   = CRM_Core_DAO::executeQuery( $sql );
         $rows  = $graphRows = array();
         $count = 0;
+
+        $this->_columnHeaders['relationship_type']=null;
         while ( $dao->fetch( ) ) {
             $row = array( );
-            $this->_columnHeaders['relationship_type']=null;
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
             }
-            
-            require_once 'CRM/Utils/PChart.php';
-            if ( CRM_Utils_Array::value('charts', $this->_params ) && 
-                 $row['civicrm_contribution_receive_date_subtotal'] ) {
-                $graphRows['receive_date'][]   = $row['civicrm_contribution_receive_date_start'];
-                $graphRows[$this->_interval][] = $row['civicrm_contribution_receive_date_interval'];
-                $graphRows['value'][]          = $row['civicrm_contribution_total_amount_sum'];
-                $count++;
-            }
+
             $rows[] = $row;
         }
         $this->formatDisplay( $rows );
@@ -395,14 +372,6 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
         // assign variables to templates
         $this->doTemplateAssignment( $rows );
         
-        require_once 'CRM/Utils/PChart.php';
-        if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
-            foreach ( array ( 'receive_date', $this->_interval, 'value' ) as $ignore ) {
-                unset( $graphRows[$ignore][$count-1] );
-            }
-            $graphs = CRM_Utils_PChart::chart( $graphRows, $this->_params['charts'], $this->_interval );
-            $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
-        }
         $this->endPostProcess( );
     }
     
@@ -492,10 +461,10 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Utils_System::url( 'civicrm/report/contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'] );
-                $rows[$rowNum]['civicrm_contact_display_name'] = "<a href='$url'>" . 
-                    $rows[$rowNum]["civicrm_contact_display_name"] . '</a>';
+                $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
+                                                       $this->_absoluteUrl, $this->_id    );
+                $rows[$rowNum]['civicrm_contact_display_name_link'] = $url ;
                 $entryFound = true;
             }
             
