@@ -405,6 +405,20 @@ ORDER BY weight, parent_id";
             return;
         }
 
+        //handle memory size exhaust problem.
+        $dbUpgraded = false;
+        $allcolumns = CRM_Core_DAO::executeQuery( "SHOW columns FROM civicrm_preferences" );
+        while ( $allcolumns->fetch( ) ) {
+            if ( $allcolumns->Field == 'navigation' ) {
+                $dbUpgraded = true;
+                break;
+            }
+        }
+        //hey its time to upgrade CiviCRM to v2.3
+        if ( !$dbUpgraded ) {
+            return;
+        }
+
         $navigation = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
         if ( ! $navigation ) {
             //retrieve navigation if it's not cached.       
