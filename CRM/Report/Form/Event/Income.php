@@ -38,7 +38,7 @@ require_once 'CRM/Event/PseudoConstant.php';
 require_once 'CRM/Contribute/PseudoConstant.php';
 require_once 'CRM/Core/OptionGroup.php';
 
-class CRM_Report_Form_Event_EventIncome extends CRM_Report_Form {
+class CRM_Report_Form_Event_Income extends CRM_Report_Form {
 
     const  
         ROW_COUNT_LIMIT = 2;

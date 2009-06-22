@@ -35,7 +35,7 @@
 
 require_once 'CRM/Report/Form.php';
 
-class CRM_Report_Form_Contribute_RepeatSummary extends CRM_Report_Form {
+class CRM_Report_Form_Contribute_Repeat extends CRM_Report_Form {
 
     function __construct( ) {
         $this->_columns = 

@@ -36,7 +36,7 @@
 require_once 'CRM/Report/Form.php';
 require_once 'CRM/Member/PseudoConstant.php';
 
-class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
+class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
 
     protected $_summary = null;
 
@@ -86,10 +86,13 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
                           array( 'membership_type_id' => 
                                  array( 'title'       => 'Membership Type',
                                         'required'    => true,
+                                        'type'        => CRM_Utils_Type::T_STRING
                                         ),  
-                                 'start_date'     => array('title' => ts('Current Cycle Start Date'),),
-                                 'end_date'       => array('title' => ts('Membership Lapse Date'),
-                                                           'required' => true),
+                                 'start_date'     => array( 'title'    => ts('Current Cycle Start Date'),
+                                                            'type'     => CRM_Utils_Type::T_DATE+ CRM_Utils_Type::T_TIME),
+                                 'end_date'       => array( 'title'    => ts('Membership Lapse Date'),
+                                                            'required' => true,
+                                                            'type'     => CRM_Utils_Type::T_DATE+ CRM_Utils_Type::T_TIME ),
                                  ), 
                           'group_bys' =>  
                           array( 'membership_type_id' => 
@@ -139,7 +142,6 @@ class CRM_Report_Form_Member_LapseSummary extends CRM_Report_Form {
     }
     
     function preProcess( ) {
-        $this->assign( 'reportTitle', ts('Membership Lapse Summary Report' ) );
         parent::preProcess( );
     }
     
