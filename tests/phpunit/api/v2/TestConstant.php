@@ -38,6 +38,8 @@ require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
 require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
 require_once 'AllTests.php';
 require_once 'api/v2/Constant.php';
+require_once 'CRM/Core/I18n.php';
+require_once 'CRM/Utils/Cache.php';
 
 /**
  *  Test APIv2 civicrm_activity_* functions
@@ -100,12 +102,90 @@ class api_v2_TestConstant extends PHPUnit_Extensions_Database_TestCase
     public function tearDown() { }
 
     /**
-     *  Test something
+     *  Test civicrm_constant_get( ) for unknown constant
      */
-    public function testSomething()
+    public function testUnknownContant()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.');
+        $result = civicrm_constant_get( 'thisTypeDoesNotExist' );
+        $this->assertEquals( 1, $result['is_error'], "In line " . __LINE__  );
+    }
+
+    /**
+     *  Test civicrm_constant_get( 'activityStatus' )
+     */
+    public function testActivityStatus()
+    {
+        //  Insert 'activity_status' option group
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__)
+                             . '/option_group_activity_status.xml') );
+
+        //  Insert some activity status values
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/option_value_activity_status.xml') );
+
+        $result = civicrm_constant_get( 'activityStatus' );
+        $this->assertEquals( 3, count( $result ), "In line " . __LINE__  );
+        $this->assertContains( 'Scheduled', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Completed', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Canceled', $result, "In line " . __LINE__  );
+        $this->assertTrue( empty( $result['is_error'] ),
+                           "In line " . __LINE__  );
+    } 
+
+    /**
+     *  Test civicrm_constant_get( 'emailGreeting' )
+     */
+    public function testEmailGreeting()
+    {
+        //  Insert 'email_greeting' option group
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__)
+                             . '/option_group_email_greeting.xml') );
+
+        //  Insert some email greeting values
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/option_value_email_greeting.xml') );
+
+        $result = civicrm_constant_get( 'emailGreeting' );
+        var_dump($result);
+        $this->assertEquals( 3, count( $result ), "In line " . __LINE__  );
+        $this->assertContains( 'Dear', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Highness', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Holiness', $result, "In line " . __LINE__  );
+        $this->assertTrue( empty( $result['is_error'] ),
+                           "In line " . __LINE__  );
+    } 
+
+    /**
+     *  Test civicrm_constant_get( 'locationType' )
+     */
+    public function testLocationType()
+    {
+        //  Insert default location type values
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/location_type_data.xml') );
+
+        $result = civicrm_constant_get( 'locationType' );
+        $this->assertEquals( 5, count( $result ), "In line " . __LINE__  );
+        $this->assertContains( 'Home', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Work', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Main', $result, "In line " . __LINE__  );
+        $this->assertTrue( empty( $result['is_error'] ),
+                           "In line " . __LINE__  );
     } 
 
 } // class api_v2_TestConstant
