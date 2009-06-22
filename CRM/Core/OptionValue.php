@@ -129,7 +129,7 @@ class CRM_Core_OptionValue
             if ( CRM_Utils_Array::value( 'component_id', $optionValue[$dao->id] ) ) {
                 $optionValue[$dao->id]['component_name'] = $componentNames[$optionValue[$dao->id]['component_id']];
             } else {
-                $optionValue[$dao->id]['component_name'] = 'Core';
+                $optionValue[$dao->id]['component_name'] = 'Contact';
             }
             
             if (  CRM_Utils_Array::value( 'visibility_id', $optionValue[$dao->id] ) ) {
