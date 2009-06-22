@@ -603,7 +603,7 @@ LEFT  JOIN (
             if ( array_key_exists('address_state_province_id', $row) ) {
                 if ( $value = $row['address_state_province_id'] ) {
                     $rows[$rowNum]['address_state_province_id'] = 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
+                        CRM_Core_PseudoConstant::stateProvince( $value, false );
 
                     $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
                                                   "reset=1&force=1&" . 

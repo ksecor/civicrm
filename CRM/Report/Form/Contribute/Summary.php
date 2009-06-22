@@ -103,7 +103,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           array( 'country_id' => 
                                  array( 'title'         => ts( 'Country' ), 
                                         'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
-                                        'options'       => CRM_Core_PseudoConstant::country(null, false),), 
+                                        'options'       => CRM_Core_PseudoConstant::country( ),), 
                                  'state_province_id' => 
                                  array( 'title'         => ts( 'State/Province' ), 
                                         'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
@@ -546,7 +546,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
                     $rows[$rowNum]['civicrm_address_state_province_id'] = 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
+                        CRM_Core_PseudoConstant::stateProvince( $value, false );
 
                     $url = 
                         CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',

@@ -54,20 +54,26 @@
                     <table class="form-layout-compressed">
                         <td>{$form.$print.html}&nbsp;&nbsp;</td>
                         <td>{$form.$pdf.html}&nbsp;&nbsp;</td>
-                        <td>{$form.$csv.html}&nbsp;&nbsp;</td>
-                        <td>{$form.groups.html}&nbsp;{$form.$group.html}</td>
+                        <td>{$form.$csv.html}&nbsp;&nbsp;</td>                        
                         {if $instanceUrl}
                             <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Available Report(s) For This Template{/ts}</a></td>
                         {/if}
                     </table>
                 </td>
-                {if $chartSupported}
-                    <td>
-                        <table class="form-layout-compressed" align="right">
-                            <td align="right">{$form.charts.html}&nbsp;&nbsp;{$form.$chart.html}</td>                        
-                        </table>
-                    </td>
-                {/if}
+                <td>
+                    <table class="form-layout-compressed" align="right">                        
+                        {if $chartSupported}
+                            <tr>
+                                <td>{$form.charts.html|crmReplace:class:big}</td>
+                                <td align="right">{$form.$chart.html}</td>
+                            </tr>
+                        {/if}
+                        <tr>
+                            <td>{$form.groups.html|crmReplace:class:big}</td>
+                            <td align="right">{$form.$group.html}</td>
+                        </tr>                                               
+                    </table>
+                </td>
             </tr>
         </table>
     {/if}
