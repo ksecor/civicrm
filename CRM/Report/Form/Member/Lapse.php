@@ -57,12 +57,6 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                                  array( 'no_display' => true,
                                         'required'   => true, ),
                                  ), 
-                          'group_bys' => 
-                          array( 'id' =>  
-                                 array( 'title'  => ts( 'Contact ID' ) ),
-                                 'display_name'  =>  
-                                 array( 'title'  => ts( 'Contact Name' ), ),
-                                 ),
                           'grouping'  => 'contact-fields',
                           ),
 
@@ -94,10 +88,6 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                                                             'required' => true,
                                                             'type'     => CRM_Utils_Type::T_DATE+ CRM_Utils_Type::T_TIME ),
                                  ), 
-                          'group_bys' =>  
-                          array( 'membership_type_id' => 
-                                 array( 'title' => ts('Membership Type') ),
-                                 ),
                           'filters'  => 
                           array( 'end_date' =>
                                  array('title'        =>  'Lapsed Memberships', 
@@ -110,7 +100,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                           'alias'    => 'mem_status',
                           'fields'   =>
                           array( 
-                                'name'      => array ('title' => ts('Status'),
+                                'name'      => array ('title' => ts('Current Status'),
                                                       'required'  => true),
                                  ),
                           'grouping' => 'member-fields',		
@@ -250,31 +240,6 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
             } else {
                 $this->_where = "WHERE " . implode( ' AND ', $clauses );
             }
-        }
-    }
-    
-    function groupBy( ) {
-        $this->_groupBy = "";
-        if ( CRM_Utils_Array::value( 'group_bys', $this->_params ) &&
-             is_array($this->_params['group_bys']) && 
-             !empty($this->_params['group_bys']) ) {
-            foreach ( $this->_columns as $tableName => $table ) {
-                if ( array_key_exists('group_bys', $table) ) {
-                    foreach ( $table['group_bys'] as $fieldName => $field ) {
-                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            $this->_groupBy[] = $field['dbAlias'];
-                        }
-                    }
-                }
-            }
-            
-            if ( !empty($this->_statFields) && 
-                 (( $append && count($this->_groupBy) <= 1 ) || (!$append)) ) {
-                $this->_rollup = " WITH ROLLUP";
-            }
-            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " {$this->_rollup} ";
-        } else {
-            $this->_groupBy = "GROUP BY contact.id";
         }
     }
     
