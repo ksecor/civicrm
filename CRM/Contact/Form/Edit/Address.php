@@ -51,6 +51,11 @@ class CRM_Contact_Form_Edit_Address
      */
     static function buildQuickForm(&$form) {
         //, &$location, $locationId, $countryDefault = null
+        
+
+        //FIXME
+        $locationId = 1; 
+        
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
@@ -110,7 +115,7 @@ class CRM_Contact_Form_Edit_Address
                     }
                     $location[$locationId]['address'][$name] =
                         $form->addElement( 'select',
-                                           "location[$locationId][address][$name]",
+                                           "address[$locationId][$name]",
                                            $title,
                                            $selectOptions );
                 } else {
@@ -120,22 +125,21 @@ class CRM_Contact_Form_Edit_Address
                     
                     $location[$locationId]['address'][$name] =
                         $form->addElement( 'text',
-                                           "location[$locationId][address][$name]",
+                                           "address[$locationId][$name]",
                                            $title,
                                            $attributes );
                 }
             } else {
                 $location[$locationId]['address'][$name] =
                     $form->addElement( 'select',
-                                       "location[$locationId][address][$name]",
+                                       "address[$locationId][$name]",
                                        $title,
                                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
             }
         }
-
+        
         require_once 'CRM/Core/BAO/Address.php';
         CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
-
     }
     
     /**

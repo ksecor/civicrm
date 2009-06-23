@@ -223,7 +223,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     function addRules( )
     {
-        $this->addFormRule( array( 'CRM_Contact_Form_Edit_' . $this->_contactType, 'formRule' ), $this->_contactId );
+        //$this->addFormRule( array( 'CRM_Contact_Form_Edit_' . $this->_contactType, 'formRule' ), $this->_contactId );
     }
 
     /**
@@ -282,6 +282,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        //get the submitted values in an array
+        $params = $this->controller->exportValues( $this->_name );
+        CRM_Core_Error::debug( '$params', $params );
         exit( );
     }
 
