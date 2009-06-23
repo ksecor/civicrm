@@ -1168,7 +1168,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('filters', $table) ) {
                 foreach ( $table['filters'] as $fieldName => $field ) {
-                    if ( CRM_Utils_Array::value( 'type', $field ) & CRM_Utils_Type::T_DATE ) {
+                    if ( CRM_Utils_Array::value( 'operatorType', $field ) & CRM_Utils_Type::T_DATE ) {
                         list($from, $to) = 
                             $this->getFromTo( CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params ), 
                                               CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params ),

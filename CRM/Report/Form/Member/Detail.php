@@ -75,8 +75,10 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                                                                'required'  => true,
                                                                'no_repeat' => true ),
                                 'start_date'         => array( 'title'     => ts('Start Date'),
+                                                               'type'      => CRM_Utils_Type::T_DATE,
                                                                'default'   => true ),
                                 'end_date'           => array( 'title'     => ts('End Date'),
+                                                               'type'      => CRM_Utils_Type::T_DATE,
                                                                'default'   => true ),
                                 'join_date'          => null,
                                 

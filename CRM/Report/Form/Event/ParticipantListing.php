@@ -83,7 +83,8 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                                              'default' => true ),
                                 'fee_amount'       => array( 'title'   => ts('Fee Amount'),
                                                              'type'    => CRM_Utils_Type::T_MONEY ),
-                                'register_date'    => array( 'title'   => ts('Registration Date') ),
+                                'register_date'    => array( 'title'   => ts('Registration Date'),
+                                                             'type'    => CRM_Utils_Type::T_DATE ),
                                 ), 
                          'grouping' => 'event-fields',
                          'filters'  =>             
