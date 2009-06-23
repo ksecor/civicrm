@@ -641,7 +641,7 @@ class CRM_Core_PseudoConstant
      */
     public static function &stateProvince($id = false, $limit = true)
     {
-        if ( ( $id && !array_key_exists( $id, self::$stateProvince ) ) || !self::$stateProvince || !$id ) {
+        if ( ( $id && !CRM_Utils_Array::value( $id, self::$stateProvince ) ) || !self::$stateProvince || !$id ) {
             $whereClause = false;
             $config =& CRM_Core_Config::singleton();
             if ( $limit ) {
@@ -754,7 +754,7 @@ WHERE  id = %1";
      */
     public static function country($id = false, $applyLimit = true) 
     {
-        if ( ( $id && !array_key_exists( $id, self::$country ) ) || !self::$country || !$id  ) {
+        if ( ( $id && !CRM_Utils_Array::value( $id, self::$country ) ) || !self::$country || !$id  ) {
 
             $config =& CRM_Core_Config::singleton();
 
