@@ -208,7 +208,8 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
     function getTemplateFileName( ) {
         if ( $this->controller->getPrint( ) == CRM_Core_Smarty::PRINT_NOFORM ||
-             $this->getVar( '_id' ) <= 0 ) {
+             $this->getVar( '_id' ) <= 0 ||
+             ( $this->_action & CRM_Core_Action::DELETE ) ) {
             return parent::getTemplateFileName( );
         } else {
             return 'CRM/Event/Form/ManageEvent/Tab.tpl';
