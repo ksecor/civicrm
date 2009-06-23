@@ -401,10 +401,11 @@ ORDER BY weight, parent_id";
      * @static
      */
     static function createNavigation( $contactID ) {
-        if ( !$contactID ) {
+        if ( !$contactID || 
+             !CRM_Core_DAO::checkFieldExists( 'civicrm_preferences', 'navigation' ) ) {
             return;
         }
-
+        
         $navigation = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
         if ( ! $navigation ) {
             //retrieve navigation if it's not cached.       

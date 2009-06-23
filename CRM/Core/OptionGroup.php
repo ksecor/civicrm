@@ -337,4 +337,34 @@ SELECT v.label
         return CRM_Core_DAO::singleValueQuery( $query, $params );
 
     }
+
+    static function getRowValues( $groupName, $fieldValue, $field = 'name', 
+                                  $fieldType  = 'String', $active = true ) 
+    {
+        $query = "
+SELECT v.id, v.label, v.value, v.name, v.weight, v.description 
+FROM   civicrm_option_value v, 
+       civicrm_option_group g 
+WHERE  v.option_group_id = g.id 
+  AND  g.name            = %1
+  AND  g.is_active       = 1  
+  AND  v.$field          = %2
+";
+
+        if ( $active ) {
+            $query .= " AND  v.is_active = 1";
+        }
+
+        $p = array( 1 => array( $groupName , 'String' ),
+                    2 => array( $fieldValue, $fieldType ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+        $row = array( );
+
+        if ( $dao->fetch( ) ) {
+            foreach ( array('id','name','value','label','weight','description') as $fld ) {
+                $row[$fld]  = $dao->$fld;
+            }
+        }
+        return $row;
+    }
 }

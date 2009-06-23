@@ -87,7 +87,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
     {
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false);
 
-        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_id     = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
 
         $this->_single = $this->get( 'single' );
 
@@ -98,14 +98,6 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         $this->assign('isTemplate', $this->_isTemplate);
 
         $this->_templateId = (int) CRM_Utils_Request::retrieve('template_id', 'Integer', $this);
-
-        if ($this->_isTemplate) {
-            $breadCrumb = array(array('title' => ts('Event Templates'),
-                                      'url'   => CRM_Utils_System::url('civicrm/admin/eventTemplate', 'reset=1')));
-        } elseif ($this->_id) {
-            $breadCrumb = array( array('title' => ts('Configure Event'),
-                                       'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), "action=update&reset=1&id={$this->_id}" )) );
-        }
 
         // also set up tabs
         require_once 'CRM/Event/Form/ManageEvent/TabHeader.php';
@@ -119,8 +111,14 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
                                                               "action=update&reset=1&id={$this->_id}&subPage={$nextsubPage}" ) );
         }
-
-        CRM_Utils_System::appendBreadCrumb($breadCrumb);
+        
+        if ( $this->_id ) {
+            $breadCrumb = 
+                array( array('title' => ts('Configure Event'),
+                             'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
+                                                               "action=update&reset=1&id={$this->_id}" )) );
+            CRM_Utils_System::appendBreadCrumb($breadCrumb);
+        }
     }
     
     /**

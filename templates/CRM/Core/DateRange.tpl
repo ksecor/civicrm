@@ -1,24 +1,20 @@
-<table class="form-layout">
-    <tr>
-        {assign var=relativeName   value=$fieldName|cat:"_relative"}
-        <td colspan=2>{$form.$relativeName.html}</td>
-    </tr>
-    <tr id="absolute_{$relativeName}">
+{*this is included inside the table*}
+{assign var=relativeName   value=$fieldName|cat:"_relative"}
+<td >{$form.$relativeName.html}</td>
+<td>   
+    <span id="absolute_{$relativeName}"> 
         {assign var=fromName   value=$fieldName|cat:"_from"}
-        <td>
-            {$form.$fromName.label}&nbsp;{$form.$fromName.html} &nbsp; 
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$fromName} 
-            {include file="CRM/common/calendar/body.tpl" dateVar=$fromName startDate=startYear endDate=endYear offset=5 trigger=trigger_$fromName}
-        </td>
-        {assign var=toName   value=$fieldName|cat:"_to"}
-        <td>
-            {$form.$toName.label}&nbsp;{$form.$toName.html} &nbsp; 
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$toName} 
-            {include file="CRM/common/calendar/body.tpl" dateVar=$toName startDate=startYear endDate=endYear offset=5 trigger=trigger_$toName}
-        </td>
-    </tr>
-</table>
-
+        {$form.$fromName.label}&nbsp;{$form.$fromName.html} &nbsp; 
+        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$fromName} 
+        {include file="CRM/common/calendar/body.tpl" dateVar=$fromName startDate=startYear endDate=endYear offset=5 trigger=trigger_$fromName}
+    <br/>               
+        {assign var=toName   value=$fieldName|cat:"_to"}&nbsp;&nbsp;&nbsp;&nbsp;
+        {$form.$toName.label}&nbsp;{$form.$toName.html} &nbsp; 
+        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$toName} 
+        {include file="CRM/common/calendar/body.tpl" dateVar=$toName startDate=startYear endDate=endYear offset=5 trigger=trigger_$toName}
+    </span>   
+            
+</td>
 {literal}
 <script type="text/javascript">
     var val       = document.getElementById("{/literal}{$relativeName}{literal}").value;

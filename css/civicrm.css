@@ -1585,3 +1585,71 @@ DIV.buttons #icons {
 .button {}
 .edit {background:url("../i/edit.png") transparent no-repeat; padding-left:18px;}
 .delete {background:url("../i/delete.png") transparent no-repeat; padding-left:18px;}
+
+#crm-container .report-layout {
+   background-color : #F5F5F5; 
+   border           : none;
+   margin           : 0em 0em 0em 0.1em;
+   width            : 100%;
+}
+
+#crm-container .reports-header {
+   background-color : #DCDCDC;
+   border           : 1px solid #DCDCDC;
+   color            : #000000;
+}
+
+#crm-container .reports-header-right {
+   text-align       : right;
+}
+
+#crm-container .report-contents {
+   background-color : #F5F5F5;	       
+   border           : 1px groove #DDDDDD;
+   padding          : 4px;
+   width            : 20%;
+   white-space      : normal;
+   font-size        : 0.95em;
+}
+
+#crm-container .report-contents-right {
+   border           : 1px groove #DDDDDD;
+   padding          : 4px;
+   font-size        : 0.95em;
+   text-align	    : right;
+}
+
+#crm-container table.report-layout td {
+   padding          : 4px;
+   border           : 1px groove #DDDDDD;
+   vertical-align   : top;
+}
+
+#crm-container table.report-layout tr {
+   font-size        : 0.95em; 
+}
+
+#crm-container .report-label {
+  text-align        : right;
+  font-weight       : bold;
+}
+
+#crm-container table.report-layout th {
+   background-color : #DCDCDC;
+   border           : 1px solid #DCDCDC;
+   color            : #000000;
+}
+
+#crm-container table.report-layout th.report-contents {
+   background-color : #F5F5F5;	       
+
+}
+/*override default pager for report*/
+.report-pager .crm-pager {
+    background-color: #DCDCDC;
+    border          : thin solid #999999;
+    margin-left	    : 0.1em;
+}
+.report-pager .crm-pager-nav a {
+    color           : #000000;
+}

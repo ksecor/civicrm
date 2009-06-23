@@ -487,6 +487,18 @@ class CRM_Contribute_BAO_Contribution_Utils {
             $params['contact_id'] = $contact->id;
         }
 
+        // handle contribution custom data
+        $customFields = 
+            CRM_Core_BAO_CustomField::getFields  ( 'Contribution',
+                                                   false,
+                                                   false, 
+                                                   CRM_Utils_Array::value('contribution_type_id',
+                                                                          $params ) );
+        $params['custom'] = 
+            CRM_Core_BAO_CustomField::postProcess( $params,
+                                                   $customFields,
+                                                   CRM_Utils_Array::value( 'id', $params, null ),
+                                                   'Contribution' );
         // create contribution
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params,
