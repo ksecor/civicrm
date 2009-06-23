@@ -130,9 +130,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
         
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, 'name', true );
-        $this->assign( 'editOptions', $this->_editOptions );
         
         // make blocks semi-configurable
         $this->_blocks = array( 'Email'  => 1,
@@ -189,8 +186,15 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->_contactType = 'Individual';
             $this->assign( 'contactType', $this->_contactType );
         }
-        
-        
+
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, 'name', true );
+        if ( $this->_contactType != 'Individual' &&
+             array_key_exists( 'Demographics', $this->_editOptions ) ) {
+            unset( $this->_editOptions['Demographics'] );
+        }
+        $this->assign( 'editOptions', $this->_editOptions );
+    
     }
 
     /**
