@@ -127,7 +127,7 @@
      <path>civicrm/contact/view</path>
      <path_arguments>cid=%%cid%%</path_arguments>
      <title>Contact Summary</title>
-     <page_callback>CRM_Contact_Page_View_Tabbed</page_callback>
+     <page_callback>CRM_Contact_Page_View_Summary</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/delete</path>
