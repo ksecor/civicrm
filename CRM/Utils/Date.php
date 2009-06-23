@@ -1010,7 +1010,7 @@ class CRM_Utils_Date
         $year_diff  = date("Y") - $birthYear; 
 
         // don't calculate age CRM-3143
-        if ( $birthYear == '1900' ) {
+        if ( $birthYear == '1902' ) {
             return $results;
         }
         
