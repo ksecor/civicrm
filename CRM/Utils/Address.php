@@ -105,7 +105,7 @@ class CRM_Utils_Address
         if (! $microformat) {
             $replacements =
                 array( // replacements in case of Individual Name Format
-                      'contact_name'           => $contactName,
+                      'addressee'              => CRM_Utils_Array::value( 'addressee', $fields ),
                       'display_name'           => CRM_Utils_Array::value( 'display_name', $fields ),
                       'individual_prefix'      => CRM_Utils_Array::value( 'individual_prefix', $fields ),
                       'first_name'             => CRM_Utils_Array::value( 'first_name', $fields ),
@@ -145,7 +145,9 @@ class CRM_Utils_Address
                       'contact_source'         => CRM_Utils_Array::value( 'contact_source', $fields ),
                       'external_identifier'    => CRM_Utils_Array::value( 'external_identifier', $fields ),
                       'contact_id'             => CRM_Utils_Array::value( 'id', $fields ),
-                      'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields )
+                      'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields ),
+                      'email_greeting'         => CRM_Utils_Array::value( 'email_greeting', $fields ),
+                      'postal_greeting'        => CRM_Utils_Array::value( 'postal_greeting', $fields )
                        );
         } else {
             $replacements =

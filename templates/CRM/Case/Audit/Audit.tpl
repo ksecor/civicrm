@@ -9,10 +9,15 @@ There's the potential for collisions (two different labels having the same short
 <link rel="stylesheet" type="text/css" href="{$config->resourceBase}css/Audit/style.css" />
 <input type="hidden" name="currentSelection" value="1" />
 
- <div align=right>
-     <input type="button" accesskey="P" value="Print Report" name="case_report" onClick="printReport({$caseId});"/>&nbsp;&nbsp;
- </div>   
-
+<table class = "form-layout">
+<tr>
+   <td colspan=2>    
+    &nbsp;<input type="button" accesskey="P" value="Print Report" name="case_report" onClick="printReport({$caseId}, this );"/>&nbsp;&nbsp;
+    &nbsp;<input type="button" accesskey="B" value="Back to Case" name="back" onClick="printReport({$caseId}, this );"/>&nbsp;&nbsp;
+   </td>
+</tr>    
+<tr>
+<td>
 <div id="civicase-audit">
 <table><tr><td class="leftpane">
 <table class="report">
@@ -61,8 +66,7 @@ There's the potential for collisions (two different labels having the same short
 		<div class="activityheader" id="civicase-audit-header-{$smarty.foreach.activityloop.iteration}">
 		<div class="auditmenu">
 			<span class="editlink"><a target="editauditwin" href="{$activity.editurl}">{ts}Edit{/ts}</a></span>
-			<span class="editlink"><a href="{$caseurl}">{ts}Back to Case{/ts}</a></span>
-		</div>	
+	    </div>	
 		{foreach from=$activity.rightpaneheader item=field name=fieldloop}
 			<div class="civicase-audit-{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''}">
 			<label>{$field.label|escape}</label>
@@ -108,28 +112,44 @@ There's the potential for collisions (two different labels having the same short
 	</div>
 </td></tr></table>
 </div>
- 
+</td>
+</tr>
+<tr>
+   <td colspan=2>    
+    &nbsp;<input type="button" accesskey="P" value="Print Report" name="case_report" onClick="printReport({$caseId}, this );"/>&nbsp;&nbsp;
+    &nbsp;<input type="button" accesskey="B" value="Back to Case" name="back" onClick="printReport({$caseId}, this );"/>&nbsp;&nbsp;
+   </td>
+</tr>
+</table> 
 {literal}
 <script type="text/javascript">
- function printReport(id ) {
-        var dataUrl = {/literal}"{crmURL p='civicrm/case/report/print' h=0 q='caseID='}"{literal}+id;
-        dataUrl     = dataUrl + '&cid={/literal}{$clientID}{literal}'+'&asn={/literal}{$activitySetName}{literal}'; 
-        var redact  = '{/literal}{$_isRedact}{literal}'
+ function printReport( id, button ) {
 
-        var isRedact = 1; 
-        if ( redact == 'false' ) {
-             isRedact = 0;
-        }
+       if ( button.name == 'case_report' ) {
+            var dataUrl = {/literal}"{crmURL p='civicrm/case/report/print' h=0 q='caseID='}"{literal}+id;
+            dataUrl     = dataUrl + '&cid={/literal}{$clientID}{literal}'+'&asn={/literal}{$activitySetName}{literal}'; 
+            var redact  = '{/literal}{$_isRedact}{literal}'
+        
+            var isRedact = 1; 
+            if ( redact == 'false' ) {
+                 isRedact = 0;
+            }
+        
+            var includeActivities = '{/literal}{$includeActivities}{literal}';   
+            var all = 0;
+            if( includeActivities == 'All' ) {
+                all = 1;
+            }
+       
+            dataUrl = dataUrl + '&redact='+isRedact + '&all='+ all;
 
-        var includeActivities = '{/literal}{$includeActivities}{literal}';   
-        var all = 0;
-        if( includeActivities == 'All' ) {
-            all = 1;
-        }
- 
-        dataUrl = dataUrl + '&redact='+isRedact + '&all='+ all;
+       } else {
 
-        window.location =  dataUrl;
+          var dataUrl = {/literal}"{crmURL p='civicrm/contact/view/case' h=0 q='reset=1&action=view&id='}"{literal}+id;
+          dataUrl     = dataUrl + '&cid={/literal}{$clientID}{literal}'+'&selectedChild=case';
+       }
+
+       window.location =  dataUrl;
 }
 </script>
 {/literal}

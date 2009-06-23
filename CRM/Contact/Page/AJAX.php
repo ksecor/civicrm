@@ -403,10 +403,14 @@ WHERE sort_name LIKE '%$name%'";
            $isActive = false;
         }
         
+        $status = array( 'status' => 'record-updated-fail' );
         if ( isset( $isActive ) ) { 
-           CRM_Core_DAO::setFieldValue( $recordDAO, $recordID, 'is_active', $isActive );
+           $updated = CRM_Core_DAO::setFieldValue( $recordDAO, $recordID, 'is_active', $isActive );
+           if ( $updated ) {
+              $status = array( 'status' => 'record-updated-success' );
+           }
         }
-
+        echo json_encode( $status );
         exit( );
      }
  

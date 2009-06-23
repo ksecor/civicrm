@@ -101,7 +101,7 @@ class CRM_Contact_Form_Search_Criteria {
             }
         }
         
-        $form->addElement('select', 'uf_group_id', ts('Search Views'),  array('' => ts('- default view -')) + $searchProfiles);
+        $form->addElement('select', 'uf_group_id', ts('Search Views'),  array('0' => ts('- default view -')) + $searchProfiles);
 
         // checkboxes for DO NOT phone, email, mail
         // we take labels from SelectValues

@@ -125,10 +125,16 @@ class CRM_Contact_Form_Individual {
             $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
             
             $form->addElement('date', 'deceased_date', ts('Deceased date'), CRM_Core_SelectValues::date('birth'));
-            $form->addRule('deceased_date', ts('Select a valid date.'), 'qfDate');
+            $form->addRule('deceased_date', ts('Select a valid date.'), 'qfBirthDate' );
             
             $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
-            $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
+            $form->addRule('birth_date', ts('Select a valid date.'), 'qfBirthDate' );
+
+            $showCalender = true;
+            if ( CRM_Utils_Date::checkBrithDateFormat( ) ) {
+                $showCalender = false;
+            }
+            $this->assign( 'showCalender', $showCalender );
         }
         
         // Declare javascript methods to be used, for use-household-address checkbox.

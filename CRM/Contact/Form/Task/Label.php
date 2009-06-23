@@ -122,7 +122,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         require_once 'CRM/Core/BAO/Preferences.php';
        
         $sequence = CRM_Core_BAO_Preferences::value( 'mailing_sequence' );
-        
+                
         foreach ($sequence as $v) {
             $address[$v] = 1;
         }
@@ -189,18 +189,26 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
 
         $custom = array( );
         foreach ( $returnProperties as $name => $dontCare ) {
-            $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
+            $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );      
             if ( $cfID ) {
                 $custom[] = $cfID;
             }
         }
-        
+       //get custom values of custom email/postal greeting or addressee, CRM-4575
+        $elements = array( 'email_greeting' => 'email_greeting_custom', 
+                           'postal_greeting' => 'postal_greeting_custom', 
+                           'addressee' => 'addressee_custom' );
+        foreach( $elements as $field => $customField ) {
+            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
+                $returnProperties[$customField] = 1;
+            }
+        }       
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $this->_contactIds );
         require_once 'CRM/Contact/BAO/Query.php';      
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
-
+                      
         // also get all token values
         require_once 'CRM/Utils/Hook.php';
         CRM_Utils_Hook::tokenValues( $details[0], $this->_contactIds );
@@ -222,7 +230,17 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 }
             }
             $contact = CRM_Utils_Array::value( $value, $details['0'] );
-            
+                        
+            //if email/postal greeting or addressee has a customized value 
+            //then output the corresponding "custom" column value instead, CRM-4575
+            foreach( $elements as $field => $customField ) {
+                $fieldId = $field."_id";
+                if( $contact[$fieldId] == 4 ) {
+                    $contact[$field] = $contact[$customField];
+                    unset($contact['email_greeting_custom']);
+                } 
+            }
+
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
@@ -251,7 +269,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 if ( CRM_Utils_Array::value( 'county_id', $contact )  ) {
                     unset( $contact['county_id'] );
                 }
-                
+               
                 foreach ( $contact as $field => $fieldValue ) {
                     $rows[$value][$field] = $fieldValue;
                 }
@@ -277,7 +295,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                             foreach ( $vals as $k => $v ){
                                 if ( in_array( $k, array( 'email', 'phone', 'im','openid' ) ) ) {
                                     if ( $k == 'im' ) {
-                                        $rows[$value][$k] = $v['1']['name'];
+                                        $rows[$value][$k] = $v['1']['name'];            
                                     } else {
                                         $rows[$value][$k] = $v['1'][$k];
                                     }
@@ -328,7 +346,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         }
         // format the addresses according to CIVICRM_ADDRESS_FORMAT (CRM-1327)
         require_once 'CRM/Utils/Address.php';
-        foreach ($rows as $id => $row) {
+        foreach ($rows as $id => $row) { 
             if ( $commMethods = CRM_Utils_Array::value( 'preferred_communication_method', $row ) ) {
                 require_once 'CRM/Core/PseudoConstant.php';
                 $val  = array_filter( explode( CRM_Core_DAO::VALUE_SEPARATOR, $commMethods ) );
@@ -340,7 +358,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 $row['preferred_communication_method'] = implode(', ', $temp);
             }
             $row['id'] = $id;
-            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat, $tokenFields );
+            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat, $tokenFields );          
 
             // CRM-2211: UFPDF doesn't have bidi support; use the PECL fribidi package to fix it.
             // On Ubuntu (possibly Debian?) be aware of http://pecl.php.net/bugs/bug.php?id=12366

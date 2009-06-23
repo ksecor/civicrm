@@ -184,7 +184,7 @@ function _civicrm_add_formatted_param(&$values, &$params)
 
     /* Cache the various object fields */
     static $fields = null;
-
+    
     if ($fields == null) {
         $fields = array();
     }
@@ -225,17 +225,64 @@ function _civicrm_add_formatted_param(&$values, &$params)
         return true;
     }
     
-    if ( isset($values['greeting_type']) ) {
-        if ( $params['greeting_type_id'] ) {
-            $greetings = array( );
-            $greetings = CRM_Core_PseudoConstant::greeting( );
-            $params['greeting_type'] = $greetings[$params['greeting_type_id']];
+    //CRM-4575
+    if ( isset( $values['email_greeting'] ) ) {
+        if ( $params['email_greeting_id'] ) {
+            $emailGreetings = array( );
+            $filterCondition = null;
+            if( $params['contact_type'] == 'Individual' ) {
+                $filterVal = "v.filter = 1";
+            } else if ( $params['contact_type'] == 'Household' ) {
+                $filterVal = "v.filter = 2"; 
+            }
+            $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+            $emailGreetings = CRM_Core_PseudoConstant::emailGreeting( $filterCondition );
+            $params['email_greeting'] = $emailGreetings[$params['email_greeting_id']];
         } else {
-            $params['greeting_type'] = $values['greeting_type'];
+            $params['email_greeting'] = $values['email_greeting'];
+        }
+        
+        return true;
+    }
+    
+    if ( isset($values['postal_greeting'] ) ) {
+        if ( $params['postal_greeting_id'] ) {
+            $postalGreetings = array( );
+            $filterCondition = null;
+            if( $params['contact_type'] == 'Individual' ) {
+                $filterVal = "v.filter = 1";
+            } else if ( $params['contact_type'] == 'Household' ) {
+                $filterVal = "v.filter = 2";
+            }
+            $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+            $postalGreetings = CRM_Core_PseudoConstant::postalGreeting( $filterCondition );
+            $params['postal_greeting'] = $postalGreetings[$params['postal_greeting_id']];
+        } else {
+            $params['postal_greeting'] = $values['postal_greeting'];
         }
         return true;
     }
-
+    
+    if ( isset($values['addressee'] ) ) {
+        if ( $params['addressee_id'] ) {
+            $addressee = array( );
+            $filterCondition = null;
+            if( $params['contact_type'] == 'Individual' ) {
+                $filterVal = "v.filter = 1";
+            } else if ( $params['contact_type'] == 'Household' ) {
+                $filterVal = "v.filter = 2";
+            } else if ( $params['contact_type'] == 'organization' ) {
+                $filterVal = "v.filter = 3";
+            } 
+            $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+            $addressee = CRM_Core_PseudoConstant::addressee( $filterCondition );
+            $params['addressee'] = $addressee[$params['addressee_id']];
+        } else {
+            $params['addressee'] = $values['addressee'];
+        }
+        return true;
+    }
+    
     if ( isset($values['gender']) ) {
         if ( $params['gender_id'] ) {
             $genders = array( );

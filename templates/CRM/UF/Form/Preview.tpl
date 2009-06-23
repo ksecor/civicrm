@@ -77,16 +77,36 @@
 		<table id="selector" class="selector" style="width:auto;">
 		<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
 		</table>
-    {elseif $n eq 'greeting_type'}
+    {elseif $n eq 'email_greeting'}
           <table class="form-layout-compressed">
              <tr>
-                <td>{$form.$n.html}</td>
-                <td id='customGreeting'>
-                   {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;
-                   {$form.custom_greeting.html|crmReplace:class:big}
+                <td>{$form.$n.html|crmReplace:class:big}</td>
+                <td id='emailCustomGreeting'>
+                   {$form.email_greeting_custom.label}&nbsp;&nbsp;&nbsp;
+                   {$form.email_greeting_custom.html|crmReplace:class:big}
                 </td>
              </tr>
           </table>
+    {elseif $n eq 'postal_greeting'}
+          <table class="form-layout-compressed">
+             <tr>
+                <td>{$form.$n.html|crmReplace:class:big}</td>
+                <td id='postalCustomGreeting'>
+                   {$form.postal_greeting_custom.label}&nbsp;&nbsp;&nbsp;
+                   {$form.postal_greeting_custom.html|crmReplace:class:big}
+                </td>
+             </tr>
+          </table>   
+    {elseif $n eq 'addressee'}
+          <table class="form-layout-compressed">
+             <tr>
+                <td>{$form.$n.html|crmReplace:class:big}</td>
+                <td id='addresseeCustom'>
+                   {$form.addressee_custom.label}&nbsp;&nbsp;&nbsp;
+                   {$form.addressee_custom.html|crmReplace:class:big}
+                </td>
+             </tr>
+          </table>       
 	{else}
 	   {$form.$n.html}
 	   {if $field.is_view eq 0}
@@ -127,22 +147,38 @@
 <div class=" horizontal-center "> 
 	{$form.buttons.html}
 </div>
-{if $form.greeting_type}
+{if $form.email_greeting or $form.postal_greeting or $form.addressee}
   {literal}
     <script type="text/javascript">
       window.onload = function() {
-        showGreeting();
+        showEmailGreeting();
+        showPostalGreeting();
+        showAddressee();
       }
     </script>
   {/literal}
 {/if}
 {literal}
 <script type="text/javascript">
-  function showGreeting() {
-      if( document.getElementById("greeting_type").value == 4 ) {
-           show('customGreeting');                   
+  function showEmailGreeting() {
+      if( document.getElementById("email_greeting").value == 4 ) {
+           show('emailCustomGreeting');                   
       } else {
-           hide('customGreeting');      
+           hide('emailCustomGreeting');      
+      }     
+  }
+  function showPostalGreeting() {
+      if( document.getElementById("postal_greeting").value == 4 ) {
+           show('postalCustomGreeting');                   
+      } else {
+           hide('postalCustomGreeting');      
+      }     
+  }
+  function showAddressee() {
+      if( document.getElementById("addressee").value == 4 ) {
+           show('addresseeCustom');                   
+      } else {
+           hide('addresseeCustom');      
       }     
   }
 cj(document).ready(function(){ 

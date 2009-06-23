@@ -384,6 +384,19 @@ class CRM_Core_SelectValues
         if ($type == 'birth') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
+            
+            // support for birthdate format, CRM-3090 
+            $format = trim( $dao->format );
+            $birthDateFormat = CRM_Utils_Date::checkBrithDateFormat( $format );
+            if ( $birthDateFormat ) {
+                $formatParts = $birthDateFormat['dateParts'];
+                if ( in_array( 'M', $formatParts ) ) {
+                    $formatParts[array_search( 'M', $formatParts )] = $config->dateformatMonthVar;
+                }
+                $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate, $formatParts );
+            } else {
+                $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate );
+            }
         } elseif ($type == 'relative') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
@@ -464,7 +477,7 @@ class CRM_Core_SelectValues
         $year = date('Y');
         $newDate['minYear'] = $year - $minOffset;
         $newDate['maxYear'] = $year + $maxOffset;
-
+        
         return $newDate;
     }
 
@@ -637,6 +650,36 @@ class CRM_Core_SelectValues
         }
         
         return $tokens;
+    }
+    
+    /**
+     * get qf mappig for all date parts.
+     *
+     */
+    static function &qfDatePartsMapping( )
+    {
+        static $qfDatePartsMapping = null;
+        if ( !$qfDatePartsMapping ) {
+            $qfDatePartsMapping = array(
+                                        '%b' => 'M',
+                                        '%B' => 'F',
+                                        '%d' => 'd',
+                                        '%e' => 'j',
+                                        '%E' => 'j',
+                                        '%f' => 'S',
+                                        '%H' => 'H',
+                                        '%I' => 'h',
+                                        '%k' => 'G',
+                                        '%l' => 'g',
+                                        '%m' => 'm',
+                                        '%M' => 'i',
+                                        '%p' => 'a',
+                                        '%P' => 'A',
+                                        '%Y' => 'Y'
+                                        );
+        }
+        
+        return $qfDatePartsMapping;
     }
 }
 

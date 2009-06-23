@@ -80,7 +80,7 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
             foreach ( array('redactionStringRules', 'redactionRegexRules' ) as $key => $rule ) {
                 $$rule = CRM_Case_PseudoConstant::redactionRule($key);
                 if (!empty($$rule)) {
-                    $this->{'_'. $rule} = array_change_key_case(array_flip($$rule),CASE_LOWER);
+                    $this->{'_'. $rule} = array_change_key_case($$rule,CASE_LOWER);
                     foreach($this->{'_'. $rule} as &$value) {
                         //suffixed with a randomly generated 4-digit number
                         $value.= rand(10000 ,100000);
@@ -262,7 +262,7 @@ WHERE      a.id = %1
                                        'type'     => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Subject',
-                                       'value' => $activityDAO->subject,
+                                       'value' => $this->redact($activityDAO->subject, false, false, 'lookup'),
                                        'type'  => 'Memo' );
         
         $activity['fields'][] = array( 'label' => 'Created By',
@@ -368,7 +368,12 @@ WHERE      a.id = %1
                     if ( strstr($value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR) ) {
                         $value = trim($value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
                     }
-                    
+                    if ( CRM_Utils_Array::value('type', $typeValue) == 'String' ||
+                         CRM_Utils_Array::value('type', $typeValue) == 'Memo' ) {
+                        $value = $this->redact($value, false, false, 'lookup');
+                    }
+
+                    //$typeValue
                     $customGroup[] = array( 'label'  => $typeValue['label'],
                                             'value'  => $value,
                                             'type'   => $typeValue['type'] );
@@ -376,7 +381,7 @@ WHERE      a.id = %1
                 $customGroups[$dao->groupTitle] = $customGroup;
             }
         }
-        
+
         return empty( $customGroups ) ? null : $customGroups;
     }
     

@@ -120,9 +120,6 @@ WHERE      c.id           = a.contact_id
   AND      ( a.geo_code_1 is null OR a.geo_code_1 = 0 )
   AND      ( a.geo_code_2 is null OR a.geo_code_2 = 0 )
   AND      a.country_id is not null
-  AND      a.state_province_id is not null
-  AND      a.state_province_id = s.id
-  AND      a.country_id = o.id
   $contactClause
 ORDER BY a.id
 ";

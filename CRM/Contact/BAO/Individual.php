@@ -204,6 +204,11 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
         
         if ( $date = CRM_Utils_Array::value('birth_date', $params) ) {
             if (is_array($date)) {
+                //CRM-3143
+                if ( !CRM_Utils_System::isNull( $date ) && 
+                     !CRM_Utils_Array::value( 'Y', $date ) ) {
+                    $date['Y'] = '1900';
+                }
                 $contact->birth_date = CRM_Utils_Date::format( $date );
             } else {
                 $contact->birth_date = preg_replace('/[^0-9]/', '', $date);
@@ -214,6 +219,11 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
         
         if ( $date = CRM_Utils_Array::value('deceased_date', $params) ) {
             if (is_array($date)) {
+                //CRM-3143
+                if ( !CRM_Utils_System::isNull( $date ) && 
+                     !CRM_Utils_Array::value( 'Y', $date ) ) {
+                    $date['Y'] = '1900';
+                }
                 $contact->deceased_date = CRM_Utils_Date::format( $date );
             } else {
                 $contact->deceased_date = preg_replace('/[^0-9]/', '', $date);
@@ -225,7 +235,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
         if ( $middle_name = CRM_Utils_Array::value('middle_name', $params)) {
             $contact->middle_name = $middle_name;
         }
-
+        
         return $contact;
     }
 

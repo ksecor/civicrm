@@ -35,7 +35,7 @@
 {include file="CRM/common/jquery.tpl"}
 {include file="CRM/common/action.tpl"}
 
-{if $buildNavigation }
+{if $buildNavigation and !$urlIsPublic }
     {include file="CRM/common/Navigation.tpl" }
 {/if}
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>

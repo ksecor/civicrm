@@ -8,6 +8,7 @@
     <column>do_not_email</column>
     <column>do_not_phone</column>
     <column>do_not_mail</column>
+    <column>do_not_sms</column>
     <column>do_not_trade</column>
     <column>is_opt_out</column>
     <column>legal_identifier</column>
@@ -28,8 +29,12 @@
     <column>last_name</column>
     <column>prefix_id</column>
     <column>suffix_id</column>
-    <column>greeting_type_id</column>
-    <column>custom_greeting</column>
+    <column>email_greeting_id</column>
+    <column>email_greeting_custom</column>
+    <column>postal_greeting_id</column>
+    <column>postal_greeting_custom</column>
+    <column>addressee_id</column>
+    <column>addressee_custom</column>
     <column>job_title</column>
     <column>gender_id</column>
     <column>birth_date</column>
@@ -49,6 +54,7 @@
       <null />           <!--  do_not_email  -->
       <null />           <!--  do_not_phone  -->
       <null />           <!--  do_not_mail  -->
+      <null />           <!--  do_not_sms  -->
       <null />           <!--  do_not_trade  -->
       <value>0</value>   <!--  is_opt_out  -->
       <null />           <!--  legal_identifier  -->
@@ -69,8 +75,12 @@
       <null />  <!--  last_name  -->
       <null /><!--  prefix_id  -->
       <null /><!--  suffix_id  -->
-      <null /><!--  greeting_type_id  -->
-      <null /><!--  custom_greeting  -->
+      <null /><!--  email_greeting_id  -->
+      <null /><!--  email_greeting_custom  -->
+      <null /><!--  postal_greeting_id  -->
+      <null /><!--  postal_greeting_custom  -->
+      <null /><!--  addressee_id  -->
+      <null /><!--  addressee_custom  -->
       <null /><!--  job_title  -->
       <null /><!--  gender_id  -->
       <null /><!--  birth_date  -->

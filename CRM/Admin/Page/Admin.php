@@ -75,6 +75,10 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             $groups['CiviCase'] = ts( 'CiviCase' );
         }
         
+        if ( in_array("CiviReport", $config->enableComponents) ) {
+            $groups['CiviReport'] = ts( 'CiviReport' );
+        }
+
         require_once 'CRM/Core/Menu.php';
         $values =& CRM_Core_Menu::getAdminLinks( );
         
@@ -89,7 +93,6 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             $adminPanel[$group]['hide' ] = $v['hide'];
             $adminPanel[$group]['title'] = $title;
         }
-
         require_once 'CRM/Utils/VersionCheck.php';
         $versionCheck =& CRM_Utils_VersionCheck::singleton();
         $this->assign('newVersion',   $versionCheck->newerVersion());

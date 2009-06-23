@@ -217,8 +217,7 @@ fclose($fh);
 
         $template = CRM_Core_Smarty::singleton( );
         $template->assign_by_ref( 'activities', $activities );
-        $template->assign('caseurl', CRM_Utils_System::url(	'civicrm/contact/view/case',
-        													"reset=1&cid=${clientID}&action=view&id={$caseID}&selectedChild=case" ));
+       
         if ( $printReport ) {
             $contents = $template->fetch( 'CRM/Case/Audit/Report.tpl' );
         } else {

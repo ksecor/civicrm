@@ -291,6 +291,13 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                 CRM_Core_BAO_OptionGroup::copyValue('event', $params['template_id'], $event->id);
             }
 
+            // copy price sets if any
+            require_once 'CRM/Core/BAO/PriceSet.php';
+            $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $params['template_id'] );
+            if ( $priceSetId ) {
+                CRM_Core_BAO_PriceSet::addTo( 'civicrm_event', $event->id, $priceSetId );
+            }
+
             // link profiles if none linked
             $ufParams = array('entity_table' => 'civicrm_event', 'entity_id' => $event->id);
             require_once 'CRM/Core/BAO/UFJoin.php';

@@ -259,7 +259,6 @@ class CRM_Case_BAO_Query
            
             $query->_where[$grouping][] = "(civicrm_case.case_type_id LIKE '%{$value}%')";
             
-            $value = $caseType[$value];
             $query->_qill[$grouping ][] = ts( 'Case Type %1', array( 1 => $op))  . ' ' . implode( ' ' . ts('or') . ' ', $names );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;

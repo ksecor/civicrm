@@ -187,8 +187,8 @@ function &civicrm_contact_add( &$params ) {
 /**
  * Retrieve one or more contacts, given a set of search params
  *
- * @param  array   $params           (reference ) input parameters
- * @param  bool    $deprecated_behavior  follow the pre-2.2.3 behavior of this function
+ * @param  mixed[]  (reference ) input parameters
+ * @param  bool  follow the pre-2.2.3 behavior of this function
  *
  * @return array (reference )        array of properties, if error an array with an error id and error message
  * @static void

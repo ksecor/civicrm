@@ -8,7 +8,14 @@ function selectActivity(i)
 	ele.style.display = "none";
 	ele = document.getElementById("civicase-audit-body-" + j);
 	ele.style.display = "none";
-	
+
+	if ( i != 1 ) {
+	    cj('#civicase-audit-activity-1').removeClass('activity selected');
+	    cj('#civicase-audit-activity-1').addClass('activity');
+	    cj('#civicase-audit-header-1').css({"display":"none"});
+	    cj('#civicase-audit-body-1').css({"display":"none"});
+        }
+
 	// select selected one
 	ele = document.getElementById("civicase-audit-activity-" + i);
 	ele.className = "activity selected";

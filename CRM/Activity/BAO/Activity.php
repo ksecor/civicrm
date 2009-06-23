@@ -293,6 +293,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 $params['status_id'] = 1;
             }
         }
+        
+        //set priority to Normal for Auto-populated activities (for Cases)
+        if ( ! CRM_Utils_Array::value( 'priority_id', $params ) ) {
+            require_once 'CRM/Core/PseudoConstant.php';
+            $priority = CRM_Core_PseudoConstant::priority( );
+            $params['priority_id'] = array_search( 'Normal', $priority );
+        }
         if ( empty( $params['id'] ) ) {
             unset( $params['id'] );
         }
@@ -1398,9 +1405,11 @@ AND cl.modified_id  = c.id
             return;
         }
        
+        $session = & CRM_Core_Session::singleton();
+       
         $followupParams                      = array( );
         $followupParams['parent_id']         = $activityId;
-        $followupParams['source_contact_id'] = $params['source_contact_id'];
+        $followupParams['source_contact_id'] = $session->get('userID');
         $followupParams['status_id']         = 
             CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
         

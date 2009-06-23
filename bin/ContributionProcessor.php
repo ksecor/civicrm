@@ -256,6 +256,9 @@ class CiviContributeProcessor {
                 } else {
                     CRM_Core_Error::debug_log_message( "Skipped - line $row of csv file .. {$params['email']}, {$params['transaction']['total_amount']}, {$params['transaction']['trxn_id']} ..<p>", true ) ;
                 }
+                
+                // clean up memory from dao's
+                CRM_Core_DAO::freeResult( );
             } else {
                 // we assuming - first row is always the header line
                 $header = $data;

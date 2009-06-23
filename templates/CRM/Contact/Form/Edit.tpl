@@ -239,9 +239,11 @@
         {$form.birth_date.label}
         </span>
         <span class="fields">
-		{$form.birth_date.html} &nbsp;            
+		{$form.birth_date.html} &nbsp;  
+        {if $showCalender}          
         {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_1}
         {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear trigger=trigger_demographics_1 }
+        {/if}
         </span>
     </div>
 	<div class="form-item">
@@ -254,8 +256,10 @@
         </span>
         <span class="fields">
 		{$form.deceased_date.html} &nbsp;
+        {if $showCalender}
         {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_2}
         {include file="CRM/common/calendar/body.tpl" dateVar=deceased_date startDate=1905 endDate=currentYear trigger=trigger_demographics_2 }
+        {/if}
         </span>
     </div>
   </fieldset>
