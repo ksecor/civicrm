@@ -71,7 +71,7 @@
 	</tr>
       </table>
     </div>
-  {* All address phone and other stuffs*}
+
   <div id="contact_details" class="ui-corner-all">
       <div id="contact_panel">
         <div id="contactCardLeft">
@@ -99,7 +99,7 @@
               {foreach from=$loc.email item=email}
                 {if $email.email}
                   <tr>
-                    <td class="label">{ts}Email:{/ts}</td>
+                    <td class="label">{ts}Email{/ts}</td>
                     <td><span class={if $email.is_primary eq 1}"primary" {else if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email"{/if}><a href="mailto:{$email.email}">{$email.email}</a>{if $email.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
                   </tr>
                 {/if}
@@ -116,8 +116,7 @@
       </div>       
       <div id="contact_panel">
         {foreach from=$location item=add key=locationIndex}
-        {cycle values="contactCardLeft,contactCardRight" assign=divClass}
-          <div id={$divClass}>
+            <div id="{cycle name=location values="contactCardLeft,contactCardRight"}">
             <table>
               <tr>
                 <td class="label">{$add.location_type}&nbsp;{ts}Address{/ts}</td>
@@ -125,7 +124,8 @@
               </tr>
             </table>
           </div>
-        {/foreach}        
+        {/foreach}
+      <div class="separator">&nbsp;</div>
       </div>
       <div class="spacer">&nbsp;</div>
       <div id="contact_panel">
@@ -160,29 +160,25 @@
               {if $deceased_date}<td class="label">{ts}Date Deceased{/ts}</td><td>{$deceased_date|crmDate}</td>{else}<td class="label" colspan=2><span class="font-red upper">{ts}Contact is Deceased{/ts}</span></td>{/if}
               {else}
               <td class="label">{ts}Age{/ts}</td>
-              <td>{if $age.y}{ts count=$age.y plural='%count years'}%count year{/ts}{else if $age.m}{ts count=$age.m plural='%count months'}%count month{/ts}{/if} </td>
+              <td>{if $age.y}{ts count=$age.y plural='%count years'}%count year{/ts}{elseif $age.m}{ts count=$age.m plural='%count months'}%count month{/ts}{/if} </td>
               {/if}
             </tr>
           </table>
           {/if}
         </div>
+      <div class="separator">&nbsp;</div>
       </div>
-      
-  
-  
-  {* All address phone and other stuffs*}
-
-
-
-
-
-
-
-
+      <div class="spacer">&nbsp;</div>
+  </div>
+  <div class="spacer">&nbsp;</div>
+  <div id="customFields">
+    <div id="contact_panel">
+        {include file="CRM/Custom/Page/CustomDataView.tpl"}
+      <div class="separator">&nbsp;</div>
+    </div>
+    <div class="spacer">&nbsp;</div>
+  </div>
 {*
-
-
-
   {foreach from=$loc.user_unique_id item=user_unique_id}
     {if $user_unique_id.user_unique_id}
       {if $user_unique_id.is_primary eq 1}<strong>{/if}
@@ -210,9 +206,6 @@
         <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$loc.location_type_id`"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
     {/if}
     
-
-
-
 </div>
 </div>
 *}
@@ -234,5 +227,4 @@
     });
 {/literal}
  </script>
-
 {/if}

@@ -9,48 +9,57 @@
       </div>      
     {/if}
     {assign var="showEdit" value=0}
-    <span id="statusmessg_{$index}" class="success-status" style="display:none;"></span>    
+{*
+  <span id="statusmessg_{$index}" class="success-status" style="display:none;"></span>    
     <div id="{$cd_edit.name}_show_{$index}" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$cd_edit.title}</label>{if $groupId and $cvID and $editCustomData}&nbsp; <a href="javascript:showDelete( {$cvID}, '{$cd_edit.name}_show_{$index}', {$customGroupId} );"><img title="delete this record" src="{$config->resourceBase}i/delete.png" class="action-icon" alt="{ts}delete this record{/ts}" /></a>{/if}<br />
     </div>
-
-    <div id="{$cd_edit.name}_{$index}" class="section-shown form-item">
+  
+   <div id="{$cd_edit.name}_{$index}" class="section-shown form-item">
     <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$cd_edit.title}{if $groupId and $cvID and $editCustomData}&nbsp;&nbsp;&nbsp;<a href="javascript:showDelete( {$cvID}, '{$cd_edit.name}_{$index}', {$customGroupId} );"><img title="delete this record" src="{$config->resourceBase}i/delete.png" class="action-icon" alt="{ts}delete this record{/ts}" /></a>{/if}</legend>
-
-    <dl>
-    {foreach from=$cd_edit.fields item=element key=field_id}
-        {if $element.options_per_line != 0}
-            <dt>{$element.field_title}</dt>
-            <dd class="html-adjust">
+*}
+  {cycle name=fieldId values="contactCardLeft,contactCardRight" assign=divFieldId}
+   <div id="{$divFieldId}">
+   <div class="customFieldGroup ui-corner-all">
+      <table>
+      <tr><td colspan="2" class="grouplabel">{$cd_edit.title}{if $groupId and $cvID and $editCustomData}&nbsp;&nbsp;&nbsp;<a href="javascript:showDelete( {$cvID}, '{$cd_edit.name}_{$index}', {$customGroupId} );"><img title="delete this record" src="{$config->resourceBase}i/delete.png" class="action-icon" alt="{ts}delete this record{/ts}" /></a>{/if}</td></tr>
+      {foreach from=$cd_edit.fields item=element key=field_id}
+	  {if $element.options_per_line != 0}
+	  <tr>
+	    <td class="label">{$element.field_title}</td>
+            <td>
                     {* sort by fails for option per line. Added a variable to iterate through the element array*}
                     {foreach from=$element.field_value item=val}
-                        {$val}<br/>
+                        {$val}
                     {/foreach}
-            </dd>
+            </td>
         {else}
-            <dt>{$element.field_title}</dt>
+	    <td class="label">{$element.field_title}</td>
             {if $element.field_type == 'File'}
                 {if $element.field_value.displayURL}
-                    <dd class="html-adjust"><a href="javascript:imagePopUp('{$element.field_value.displayURL}')" ><img src="{$element.field_value.displayURL}" height = "100" width="100"></a></dd>
+                    <td><a href="javascript:imagePopUp('{$element.field_value.displayURL}')" ><img src="{$element.field_value.displayURL}" height = "100" width="100"></a></td>
                 {else}
-                    <dd class="html-adjust"><a href="{$element.field_value.fileURL}">{$element.field_value.fileName}</a></dd>
+                    <td class="html-adjust"><a href="{$element.field_value.fileURL}">{$element.field_value.fileName}</a></td>
                 {/if}
             {else}
-                <dd class="html-adjust">{$element.field_value}</dd>
+                <td class="html-adjust">{$element.field_value}</td>
             {/if}
+	    <tr>
         {/if}
-    {/foreach}
-    </dl>
-    </fieldset>
+      {/foreach}
+      </table>
     </div>
-
-	<script type="text/javascript">
+  </div>
+  {if $divFieldId eq 'contactCardRight'}<div class="spacer">&nbsp;</div>{/if}
+{*
+<script type="text/javascript">
 	{if $cd_edit.collapse_display eq 0 }
 		hide("{$cd_edit.name}_show_{$index}"); show("{$cd_edit.name}_{$index}");
 	{else}
 		show("{$cd_edit.name}_show_{$index}"); hide("{$cd_edit.name}_{$index}");
 	{/if}
 	</script>
+*}
 {/foreach}
 {/foreach}
 
