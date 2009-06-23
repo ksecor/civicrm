@@ -471,9 +471,15 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             require_once 'CRM/Contact/BAO/Contact.php';
             $recentContactDisplay = CRM_Contact_BAO_Contact::displayName( $recentContactId );
             // add the recently created Activity
-            $activityTypes = CRM_Core_Pseudoconstant::activityType( true );
+            $activityTypes   = CRM_Core_Pseudoconstant::activityType( true, true );
+            $activitySubject = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $activity->id, 'subject' );
+
+            $title = "";
+            if ( isset($activitySubject) ) {
+                $title =  $activitySubject . ' - ';
+            }
             
-            $title = $activity->subject . ' - ' . $recentContactDisplay .' (' . $activityTypes[$activity->activity_type_id] . ')';
+            $title =  $title . $recentContactDisplay .' (' . $activityTypes[$activity->activity_type_id] . ')';
 
             CRM_Utils_Recent::add( $title,
                                    $url,
