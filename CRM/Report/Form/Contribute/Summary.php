@@ -339,7 +339,9 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
         }
          
         if ( !$fields['group_bys']['receive_date'] ) {
-            if ( CRM_Utils_Date::isDate( $fields['receive_date_from'] ) || CRM_Utils_Date::isDate( $fields['receive_date_to'] ) ) {
+            if ( CRM_Utils_Date::isDate( $fields['receive_date_relative'] ) || 
+                 CRM_Utils_Date::isDate( $fields['receive_date_from'] ) || 
+                 CRM_Utils_Date::isDate( $fields['receive_date_to'] ) ) {
                 $errors['receive_date_relative'] = ts("Do not use filter on Date if group by received date not used ");      
             }
         }         

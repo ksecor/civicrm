@@ -62,8 +62,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                          'fields'    =>
                          array(  'display_name'      => 
                                  array( 'title'      => ts( 'Donor Name' ),
-                                        'default'    => true,
-                                        'required ' => true ), ), 
+                                        'required'   => true ), ), 
                          
                          'filters'        =>             
                          array( 'sort_name'   => 

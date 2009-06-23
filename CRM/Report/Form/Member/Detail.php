@@ -71,18 +71,16 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                    array( 'dao'       => 'CRM_Member_DAO_Membership',
                           'fields'    =>
                           array(                              
-                                'membership_type_id' => array( 'title'     => 'Membership Type', 
-                                                               'required'  => true,
-                                                               'no_repeat' => true ),
-                                'start_date'         => array( 'title'     => ts('Start Date'),
-                                                               'type'      => CRM_Utils_Type::T_DATE,
-                                                               'default'   => true ),
-                                'end_date'           => array( 'title'     => ts('End Date'),
-                                                               'type'      => CRM_Utils_Type::T_DATE,
-                                                               'default'   => true ),
-                                'join_date'          => null,
+                                'membership_type_id'    => array( 'title'     => 'Membership Type', 
+                                                                  'required'  => true,
+                                                                  'no_repeat' => true ),
+                                'membership_start_date' => array( 'title'     => ts('Start Date'),
+                                                                  'default'   => true ),
+                                'membership_end_date'   => array( 'title'     => ts('End Date'),
+                                                                  'default'   => true ),
+                                'join_date'             => null,
                                 
-                                'source'             => array( 'title' => 'Source'),
+                                'source'                => array( 'title' => 'Source'),
                                 ), 
                           'filters' => array( 					      
                                              'join_date'    =>
@@ -160,7 +158,7 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                         } else if ( $tableName == 'civicrm_email' ) {
                             $this->_emailField = true;
                         }
-                        $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                        $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = CRM_Utils_Array::value( 'type', $field );
                     }

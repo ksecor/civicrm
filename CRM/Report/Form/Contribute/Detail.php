@@ -174,11 +174,6 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
           );
         }
         
-        $this->_options = array( 'include_statistics' => array( 'title'  => ts( 'Include Contribution Statistics' ),
-                                                                'type'   => 'checkbox',
-                                                                'default'=> true ),
-                                 );
-        
         parent::__construct( );
     }
 
