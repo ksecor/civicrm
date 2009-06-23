@@ -52,12 +52,14 @@
             <tr>
                 <td>
                     <table class="form-layout-compressed">
-                        <td>{$form.$print.html}&nbsp;&nbsp;</td>
-                        <td>{$form.$pdf.html}&nbsp;&nbsp;</td>
-                        <td>{$form.$csv.html}&nbsp;&nbsp;</td>                        
-                        {if $instanceUrl}
-                            <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Available Report(s) For This Template{/ts}</a></td>
-                        {/if}
+                        <tr>
+                            <td>{$form.$print.html}&nbsp;&nbsp;</td>
+                            <td>{$form.$pdf.html}&nbsp;&nbsp;</td>
+                            <td>{$form.$csv.html}&nbsp;&nbsp;</td>                        
+                            {if $instanceUrl}
+                                <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Available Report(s) For This Template{/ts}</a></td>
+                            {/if}
+                        </tr>
                     </table>
                 </td>
                 <td>
@@ -68,10 +70,12 @@
                                 <td align="right">{$form.$chart.html}</td>
                             </tr>
                         {/if}
-                        <tr>
-                            <td>{$form.groups.html|crmReplace:class:big}</td>
-                            <td align="right">{$form.$group.html}</td>
-                        </tr>                                               
+                        {if $form.groups}
+                            <tr>
+                                <td>{$form.groups.html|crmReplace:class:big}</td>
+                                <td align="right">{$form.$group.html}</td>
+                            </tr>
+                        {/if}
                     </table>
                 </td>
             </tr>

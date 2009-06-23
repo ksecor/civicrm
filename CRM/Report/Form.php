@@ -606,9 +606,11 @@ class CRM_Report_Form extends CRM_Core_Form {
         $label = $this->_id ? ts( 'Export to CSV' ) : ts( 'Preview CSV' );
         $this->addElement('submit', $this->_csvButtonName, $label );
 
-        $this->addElement( 'select', 'groups', ts( 'Group' ), 
-                           array( '' => ts( '- select group -' )) + CRM_Core_PseudoConstant::staticGroup( ) );
-        $this->assign( 'group', $this->_groups );
+        if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
+            $this->addElement( 'select', 'groups', ts( 'Group' ), 
+                               array( '' => ts( '- select group -' )) + CRM_Core_PseudoConstant::staticGroup( ) );
+            $this->assign( 'group', $this->_groups );
+        }
         
         //$this->addElement('select', 'select_add_to_group_id', ts('Group'), $groupList);
         $label = ts( 'Add Results' );
