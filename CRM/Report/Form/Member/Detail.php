@@ -62,7 +62,7 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                                 array( 'title'    => ts( 'Contact Name' ),
                                        'operator' => 'like' ),
                                 'id' => 
-                                array( 'title'    => ts( 'Contact ID' ) ), ),
+                                array( 'no_display'  => true ), ),
 
                           'grouping'=> 'contact-fields',
                           ),
