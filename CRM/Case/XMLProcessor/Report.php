@@ -93,6 +93,7 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
         // add Client to the strings to be redacted across the case session
         $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
                                                      array($client => 'client_' .rand(10000 ,100000) ) );
+                                                     
         $case['clientName'] = $this->redact($client);
         
         require_once 'CRM/Case/DAO/Case.php';
@@ -255,9 +256,11 @@ WHERE      a.id = %1
             $clientName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $clientID, 'display_name' );
             // add Client Name to the strings to be redacted across the case session 
             // suffixed with a randomly generated 4-digit number
-            $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
-                                                         array($clientName => 'client_'.rand(10000 ,100000) ) );
-            
+            if (!array_key_exists($clientName, $this->_redactionStringRules)) {
+                $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
+                                                             array($clientName => 'client_'.rand(10000 ,100000) ) );
+            }
+         
             $activity['fields'][] = array( 'label' => 'Client',
                                            'value' => $this->redact( $clientName ),
                                            'type'  => 'String' );
@@ -274,8 +277,10 @@ WHERE      a.id = %1
 
         $creator = $this->getCreatedBy( $activityDAO->id );
         // add Creator to the strings to be redacted across the case session
-        $this->_redactionStringRules = array_merge ( $this->_redactionStringRules,
-                                                     array($creator => 'creator_' .rand(10000 ,100000) ) );
+        if (!array_key_exists($creator, $this->_redactionStringRules)) {
+            $this->_redactionStringRules = array_merge ( $this->_redactionStringRules,
+                                                         array($creator => 'creator_' .rand(10000 ,100000) ) ); 
+        }
         $activity['fields'][] = array( 'label' => 'Created By',
                                        'value' => $this->redact( $creator ),
                                        'type'  => 'String' );
@@ -283,9 +288,12 @@ WHERE      a.id = %1
         $reporter = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                  $activityDAO->source_contact_id,
                                                  'display_name' );
+        
         // add Reporter to the strings to be redacted across the case session
-        $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
-                                                     array($reporter => 'reporter_' .rand(10000 ,100000) ) );
+        if (!array_key_exists($reporter, $this->_redactionStringRules)) {    
+            $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
+                                                         array($reporter => 'reporter_' .rand(10000 ,100000) ) );
+        }
         $activity['fields'][] = array( 'label' => 'Reported By',
                                        'value' => $this->redact( $reporter ),
                                        'type'  => 'String' );
