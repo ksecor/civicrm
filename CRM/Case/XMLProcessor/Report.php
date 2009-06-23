@@ -74,7 +74,7 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
     
     function &caseInfo( $clientID,
                         $caseID ) {
-        $case = array( );
+        $case = $this->_redactionStringRules = $this->_redactionRegexRules = array();
         if ( $this->_isRedact == 1 ) {
             require_once "CRM/Case/PseudoConstant.php";
             foreach ( array('redactionStringRules', 'redactionRegexRules' ) as $key => $rule ) {
@@ -88,10 +88,12 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
                 }    
             }     
         }
-        
-        $case['clientName'] = $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                         $clientID,
-                                                                         'display_name' ));
+
+        $client = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $clientID, 'display_name' );
+        // add Client to the strings to be redacted across the case session
+        $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
+                                                     array($client => 'client_' .rand(10000 ,100000) ) );
+        $case['clientName'] = $this->redact($client, false, false, 'lookup');
         
         require_once 'CRM/Case/DAO/Case.php';
         $dao = new CRM_Case_DAO_Case( );
@@ -248,11 +250,14 @@ WHERE      a.id = %1
             $activity['editURL'] = CRM_Utils_System::url( 'civicrm/case/activity',
                                                           "reset=1&cid={$clientID}&caseid={$activityDAO->caseID}&action=update&atype={$activityDAO->activity_type_id}&id={$activityDAO->id}" );
             
+            $clientName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $clientID, 'display_name' );
+            // add Client Name to the strings to be redacted across the case session 
+            // suffixed with a randomly generated 4-digit number
+            $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
+                                                         array($clientName => 'client_'.rand(10000 ,100000) ) );
+            
             $activity['fields'][] = array( 'label' => 'Client',
-                                           'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                                                 $clientID,
-                                                                                                 'display_name' )
-                                                                    ),
+                                           'value' => $this->redact( $clientName, false, false, 'lookup' ),
                                            'type'  => 'String' );
         }
         
@@ -264,16 +269,23 @@ WHERE      a.id = %1
         $activity['fields'][] = array( 'label' => 'Subject',
                                        'value' => $this->redact($activityDAO->subject, false, false, 'lookup'),
                                        'type'  => 'Memo' );
-        
+
+        $creator = $this->getCreatedBy( $activityDAO->id );
+        // add Creator to the strings to be redacted across the case session
+        $this->_redactionStringRules = array_merge ( $this->_redactionStringRules,
+                                                     array($creator => 'creator_' .rand(10000 ,100000) ) );
         $activity['fields'][] = array( 'label' => 'Created By',
-                                       'value' => $this->redact($this->getCreatedBy( $activityDAO->id )),
+                                       'value' => $this->redact( $creator, false, false, 'lookup' ),
                                        'type'  => 'String' );
         
+        $reporter = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                 $activityDAO->source_contact_id,
+                                                 'display_name' );
+        // add Reporter to the strings to be redacted across the case session
+        $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
+                                                     array($reporter => 'reporter_' .rand(10000 ,100000) ) );
         $activity['fields'][] = array( 'label' => 'Reported By',
-                                      'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                                            $activityDAO->source_contact_id,
-                                                                                            'display_name' )
-                                                               ),
+                                       'value' => $this->redact( $reporter, false, false, 'lookup' ),
                                        'type'  => 'String' );
         
         // For Emails, include the recipient
@@ -291,7 +303,6 @@ WHERE      a.id = %1
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
             $assignee_contact_names = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activityDAO->id, true );
             $assigneeContacts       = implode( ', ', $assignee_contact_names );
-            
             $activity['fields'][] = array( 'label' => 'Assigned To',
                                            'value' => $this->redact( $assigneeContacts ), 
                                            'type'  => 'String' );
@@ -478,18 +489,22 @@ LIMIT  1
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
     
-	private function redact( $s, $isRedact = false, $printReport = false, $type = 'name')
+	private function redact( $s, $isRedact = false, $printReport = false, $type = 'name', $replace = array() )
 	{
         if ( $isRedact && $printReport ) {
-            return sha1($s);
+            require_once 'CRM/Utils/String.php';
+            $s = CRM_Utils_String::redaction( $s, $replace, CRM_Core_DAO::$_nullArray );
+            return $s;
+            //return sha1($s);
         } else if ( !$isRedact && $printReport ) {
             return $s;
         } else if ( $this->_isRedact ) {
             if($type =='name') {
                 return sha1($s);
+
             } elseif($type =='lookup') {
                 require_once 'CRM/Utils/String.php';
-                $s = CRM_Utils_String::redaction( $s, $this->_redactionRegexRules, $this->_redactionStringRules );
+                $s = CRM_Utils_String::redaction( $s, $this->_redactionStringRules, $this->_redactionRegexRules );
                 return $s;
             }
 		} else {
@@ -580,36 +595,68 @@ LIMIT  1
         //get case related relationships (Case Role)
         require_once('CRM/Case/BAO/Case.php');
         $caseRelationships = CRM_Case_BAO_Case::getCaseRoles( $clientID, $caseID );
-       
+        $email = $phone = $client = array();
         $caseType  = CRM_Case_PseudoConstant::caseTypeName( $caseID );
         require_once ('CRM/Case/XMLProcessor/Process.php');
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
         $caseRoles    = $xmlProcessor->get( $caseType['name'], 'CaseRoles' );
-
         foreach( $caseRelationships as $key => &$value ) {          
             if ( CRM_Utils_Array::value($value['relation_type'], $caseRoles) ) {
                 unset( $caseRoles[$value['relation_type']] );
             }
-
-            $value['name']  = self::redact( $value['name'] , $isRedact, true );
-            $value['email'] = self::redact( $value['email'], $isRedact, true ); 
+            if (!array_key_exists($value['email'], $email)) {
+                $email = array ($value['email'] => 'email_' . rand(10000,100000));
+            }
+            $value['email'] = self::redact( $value['email'], $isRedact, true,'name', $email ); 
+            if (!array_key_exists($value['phone'], $phone)) {
+                $phone = array ($value['phone'] => 'phone_' . rand(10000,100000));      
+            }
+            $value['phone'] = self::redact( $value['phone'], $isRedact, true,'name', $phone );
+            if (!array_key_exists($value['name'], $client)) {
+                $client = array ($value['name'] => 'client_' . rand(10000,100000));               
+            }
+            $value['name'] = self::redact( $value['name'], $isRedact, true,'name', $client ); 
         }
-        
         $caseRoles['client'] = CRM_Case_BAO_Case::getcontactNames( $caseID );
-        $caseRoles['client']['sort_name']  = self::redact( $caseRoles['client']['sort_name']  , $isRedact, true );
-        $caseRoles['client']['email'] = self::redact( $caseRoles['client']['email'] , $isRedact, true  );
-        
+
+        if (!array_key_exists($caseRoles['client']['sort_name'], $client)) {
+            $client[$caseRoles['client']['sort_name']] = 'client_' . rand(10000,100000);
+        }
+        $caseRoles['client']['sort_name']  = self::redact( $caseRoles['client']['sort_name']  , $isRedact, true, 'name', $client );
+       
+        if (!array_key_exists($caseRoles['client']['email'], $email)) {
+            $email[$caseRoles['client']['email']] = 'email_' . rand(10000,100000);
+        }
+        $caseRoles['client']['email'] = self::redact( $caseRoles['client']['email'] , $isRedact, true, 'name', $email );
+       
+        if (!array_key_exists($caseRoles['client']['phone'], $phone)) {
+            $email[$caseRoles['client']['phone']] = 'phone_' . rand(10000,100000);
+        }
+        $caseRoles['client']['phone'] = self::redact( $caseRoles['client']['phone'] , $isRedact, true, 'name', $phone );
+       
         // Retrieve ALL client relationships
         $relClient = CRM_Contact_BAO_Relationship::getRelationship( $clientID,
                                                                     CRM_Contact_BAO_Relationship::CURRENT,
                                                                     0, 0, 0, null, null, false);
         $otherRelationships = array();
         foreach($relClient as $r) {
+            if (!array_key_exists($r['name'], $client)) {
+                $client[$r['name']] = 'client_' . rand(10000,100000);
+            }
+            $r['name']  = self::redact( $r['name'], $isRedact, true, 'name', $client );
             
-            $r['name']  = self::redact( $r['name'], $isRedact, true );
-
             if (CRM_Utils_Array::value('email', $r)) {
-                $r['email'] = self::redact( $r['email'], $isRedact, true );
+               if (!array_key_exists($r['email'], $email)) {
+                  $email[$r['email']] = 'email_' . rand(10000,100000);
+               }
+               $r['email']  = self::redact( $r['email'], $isRedact, true, 'name', $email );
+
+            }
+            if (CRM_Utils_Array::value('phone', $r)) {
+               if (!array_key_exists($r['phone'], $phone)) {
+                  $phone[$r['phone']] = 'phone_' . rand(10000,100000);
+               }
+               $r['phone']  = self::redact( $r['phone'], $isRedact, true, 'name', $phone );
             }
             
             if ( ! array_key_exists( $r['id'], $caseRelationships ) ) {
@@ -621,7 +668,10 @@ LIMIT  1
         $globalGroupInfo = array();
         $relGlobal = CRM_Case_BAO_Case::getGlobalContacts($globalGroupInfo);
         foreach($relGlobal as &$r) {
-         $r['sort_name'] = self::redact( $r['sort_name'], $isRedact, true );
+            if (!array_key_exists($r['sort_name'], $client)) {
+                $client[$r['sort_name']] = 'client_' . rand(10000,100000);
+            }
+            $r['sort_name']  = self::redact( $r['sort_name'], $isRedact, true, 'name', $client );
         }
         
         $template->assign( 'caseRelationships', $caseRelationships );
