@@ -82,14 +82,13 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                                         'required'    => true,
                                         'type'        => CRM_Utils_Type::T_STRING
                                         ),  
-                                 'start_date'     => array( 'title'    => ts('Current Cycle Start Date'),
-                                                            'type'     => CRM_Utils_Type::T_DATE+ CRM_Utils_Type::T_TIME),
-                                 'end_date'       => array( 'title'    => ts('Membership Lapse Date'),
-                                                            'required' => true,
-                                                            'type'     => CRM_Utils_Type::T_DATE+ CRM_Utils_Type::T_TIME ),
+                                 'membership_start_date' => array( 'title'    => ts('Current Cycle Start Date'), ),
+                                 
+                                 'membership_end_date'   => array( 'title'    => ts('Membership Lapse Date'),
+                                                                   'required' => true, ),
                                  ), 
                           'filters'  => 
-                          array( 'end_date' =>
+                          array( 'membership_end_date' =>
                                  array('title'        =>  'Lapsed Memberships', 
                                        'operatorType' =>   CRM_Report_Form::OP_DATE ),
                                  ),

@@ -64,8 +64,9 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                          
                          'filters'     =>             
                          array( 'join_date' =>
-                                array('title'        =>  'Memberships Join Date', 
-                                      'operatorType' =>   CRM_Report_Form::OP_DATE ),
+                                array('title'         => 'Memberships Join Date',
+                                      'type'          => CRM_Utils_Type::T_DATE,
+                                      'operatorType'  => CRM_Report_Form::OP_DATE ),
                                 'membership_type_id'  =>
                                 array('title'         => ts('Membership Type'),
                                       'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
