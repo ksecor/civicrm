@@ -2,9 +2,9 @@
 <!--  $Id$  -->
 <dataset>
   <civicrm_option_group
-    id="99"
+    id="42"
     name="email_greeting"
-    description="Email Greeting"
+    description="Email Greeting Type"
     is_reserved="0"
     is_active="1"
    />
