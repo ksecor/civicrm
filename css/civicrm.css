@@ -388,7 +388,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 /* CONTEXT MENU */
 .tree-default-context { width:160px; background:#F0F0F0 url("../packages/jquery/plugins/themes/default/context.gif") 22px 0 repeat-y; border:1px solid silver; position:absolute; }
-.tree-context a:link, .tree-default-context a, .tree-default-context a.disabled:hover { display:block; text-decoration:none; color:black; line-height:20px; background-repeat: no-repeat; background-position:2px center; padding:1px 0 1px 25px; background-color:transparent; border:1px solid #f0f0f0; border-width:0 1px; margin:0; }
+.tree-context a, .tree-default-context a, .tree-default-context a.disabled:hover { display:block; text-decoration:none; color:black; line-height:20px; background-repeat: no-repeat; background-position:2px center; padding:1px 0 1px 25px !important; background-color:transparent; border:1px solid #f0f0f0; border-width:0 1px; margin:0; }
 .tree-default-context a:hover { background-color:#e7f4f9; border:1px solid #d8f0fa; padding:0 0 0 25px; margin:0; }
 .tree-default-context a.disabled, .tree-default-context a.disabled:hover { color:silver; opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50); zoom:1; }
 .tree-context span.separator, .tree-default-context .separator { background:#FFFFFF;border-top:1px solid #E0E0E0;font-size:1px;height:1px;line-height:1px;margin:0 2px 0 24px;min-height:1px;display:block; }
