@@ -50,11 +50,12 @@
         <td>{ts}View the Event Information page as it will be displayed to site visitors.{/ts}</td>
     </tr>
 
+    {if $isOnlineRegistration}
     <tr>
         <td class="nowrap"><a href="{crmURL p='civicrm/event/register' q="reset=1&action=preview&id=`$id`"}" id="idTest-drive">&raquo; {ts}Test-drive Registration{/ts}</a></td>
         <td>{ts}Test-drive the entire online registration process - including custom fields, confirmation, thank-you page, and receipting. Fee payment transactions will be directed to your payment processor's test server. <strong>No live financial transactions will be submitted. However, a contact record will be created or updated and participant and contribution records will be saved to the database. Use obvious test contact names so you can review and delete these records as needed.</strong>{/ts}</td>
     </tr>
-    {if $is_active}
+
     <tr>
         <td class="nowrap"><a href="{crmURL p='civicrm/event/register' q="reset=1&id=`$id`"}" id="idLive">&raquo; {ts}Live Registration{/ts}</a></td>
         <td>{ts}Review your customized <strong>LIVE</strong> online event registration page here. Use the following URL in links and buttons on any website to send visitors to this live page{/ts}:<br />
