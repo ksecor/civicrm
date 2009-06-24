@@ -754,9 +754,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
 
         // also add location name to the array
-        $params["address_name-{$this->_bltID}"] = 
-            CRM_Utils_Array::value( "billing_first_name", $params ) . ' ' . CRM_Utils_Array::value( "billing_middle_name", $params ) . ' ' . CRM_Utils_Array::value( "billing_last_name", $params );
-        $fields["address_name-{$this->_bltID}"] = 1;
+        if ($this->_values['event']['is_monetary']){
+            $params["address_name-{$this->_bltID}"] = 
+                CRM_Utils_Array::value( "billing_first_name", $params ) . ' ' . 
+                CRM_Utils_Array::value( "billing_middle_name", $params ) . ' ' . 
+                CRM_Utils_Array::value( "billing_last_name", $params );
+            $fields["address_name-{$this->_bltID}"] = 1;
+        }
         $fields["email-{$this->_bltID}"] = 1;
         $fields["email-Primary"] = 1;
         //if its pay later or additional participant set email address as primary.
