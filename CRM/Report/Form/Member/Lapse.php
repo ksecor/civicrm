@@ -126,6 +126,17 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                           array( 'email' => null),
                           'grouping'=> 'contact-fields',
                           ),
+                   'civicrm_group' => 
+                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                          'alias'  => 'cgroup',
+                          'filters'=>             
+                          array( 'grpid' => 
+                                 array( 'name'         => 'id',
+                                        'title'        => ts( 'Group' ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                   
+                   
                    );
         parent::__construct( );
     }
@@ -180,7 +191,14 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                             {$this->_aliases['civicrm_membership']}.status_id
               LEFT  JOIN civicrm_membership_type {$this->_aliases['civicrm_membership_type']} 
                          ON {$this->_aliases['civicrm_membership']}.membership_type_id =
-                            {$this->_aliases['civicrm_membership_type']}.id";        
+                            {$this->_aliases['civicrm_membership_type']}.id
+              LEFT  JOIN civicrm_group_contact group_contact 
+                         ON {$this->_aliases['civicrm_contact']}.id = 
+                              group_contact.contact_id  AND 
+                              group_contact.status = 'Added'
+              LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
+                         ON  group_contact.group_id = 
+                             {$this->_aliases['civicrm_group']}.id ";        
 
         //  include address field if address column is to be included
         if ( $this->_addressField ) {  
@@ -233,8 +251,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE end_date < '" .date('Y-m-d'). "' AND mem_status.name = 'Expired'";
         } else {
-            if ( array_key_exists('gid', $clauses ) &&
-                 !array_key_exists('end_date', $clauses) ) {
+            if ( !array_key_exists('end_date', $clauses) ) {
                 $this->_where = "WHERE end_date < '".date('Y-m-d')."' AND " . implode( ' AND ', $clauses );
             } else {
                 $this->_where = "WHERE " . implode( ' AND ', $clauses );

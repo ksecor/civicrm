@@ -84,7 +84,13 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                                 ), 
                           'filters' => array( 					      
                                              'join_date'    =>
-                                             array( 'operatorType'  => CRM_Report_Form::OP_DATE),),
+                                             array( 'operatorType'  => CRM_Report_Form::OP_DATE),
+                                             'tid'          =>
+                                             array( 'name'          =>  'membership_type_id',
+                                                    'title'         =>  ts( 'Membership Types' ),
+                                                    'operatorType'  =>  CRM_Report_Form::OP_MULTISELECT,
+                                                    'options'       =>  CRM_Member_PseudoConstant::membershipType(),
+                                                    ), ),
                           
                           'grouping'=> 'member-fields',
                           ),
