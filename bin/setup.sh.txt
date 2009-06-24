@@ -111,7 +111,6 @@ echo; echo "DONE!"
 # mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm.mysql
 # mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_data.mysql
 # mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_sample.mysql
-# mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_sample_report_instance.mysql
 # mysql -u $DBUSER $PASSWDSECTION $DBNAME < zipcodes.mysql
 # php GenerateData.php
 # echo "drop table zipcodes ; update civicrm_domain set config_backend = null" | mysql -u $DBUSER $PASSWDSECTION $DBNAME
