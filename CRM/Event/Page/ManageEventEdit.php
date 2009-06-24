@@ -77,6 +77,7 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
         // assign vars to templates
         $this->assign('action', $action);
         $this->assign( 'id', $this->_id );
+        $this->assign('isTemplate', $this->_isTemplate);
         
         $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
         
@@ -89,7 +90,7 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
 
             if ($this->_isTemplate) {
                 $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'template_title');
-                CRM_Utils_System::setTitle(ts('Configure Event Template') . " - $title");
+                CRM_Utils_System::setTitle(ts('Edit Event Template') . " - $title");
             } else {
                 $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'title');
                 CRM_Utils_System::setTitle(ts('Configure Event') . " - $title");
