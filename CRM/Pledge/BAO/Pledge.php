@@ -267,7 +267,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         $select = $from = $queryDate = null;
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
-        $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( true );
+        $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
         $statusId = array_search( $status, $allStatus);
         
         switch ( $status ) {
@@ -399,13 +399,11 @@ WHERE  $whereCond
         
         //get all status.
         require_once 'CRM/Contribute/PseudoConstant.php';
-        $status = CRM_Contribute_Pseudoconstant::contributionStatus( $honorDAO->status_id );
-        
         while( $honorDAO->fetch( ) ) {
             $params[$honorDAO->id] = array (
                                             'honorId'          => $honorDAO->contact_id,
                                             'amount'           => $honorDAO->amount,
-                                            'status'           => CRM_Utils_Array::value($honorDAO->status_id, $status),
+                                            'status'           => CRM_Contribute_Pseudoconstant::contributionStatus( $honorDAO->status_id ),
                                             'create_date'      => $honorDAO->create_date,
                                             'acknowledge_date' => $honorDAO->acknowledge_date,
                                             'type'             => CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', 
