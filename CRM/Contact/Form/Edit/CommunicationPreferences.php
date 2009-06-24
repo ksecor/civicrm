@@ -66,7 +66,7 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
 
         // preferred communication method 
         require_once 'CRM/Core/PseudoConstant.php';
-        $comm = CRM_Core_PseudoConstant::pcm(); 
+        $comm = CRM_Core_PseudoConstant::pcm();
 
         $commPreff = array();
         foreach ( $comm as $k => $v ) {
@@ -77,6 +77,8 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
         $form->add('select', 'preferred_mail_format', ts('Email Format'), CRM_Core_SelectValues::pmf());
 
         $form->add('checkbox', 'is_opt_out', ts( 'NO BULK EMAILS (User Opt Out)' ) );
+        $commPreference = array( 'privacy' => $t, 'preferred_communication_method' => $comm );
+        $form->assign( 'commPreference', $commPreference );
     }
 }
 

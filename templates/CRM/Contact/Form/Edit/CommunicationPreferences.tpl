@@ -19,32 +19,21 @@
             <td></td>
         </tr>
         <tr>
-            <td>{$form.privacy.label}<br />
-                {assign var="index" value="1"}
-                {foreach key=key item=item from=$form.privacy}
-                   {if $index < 10}
-                     {assign var="index" value=`$index+1`}
-                   {else}
-                     {$form.privacy.$key.html}<br />
-                   {/if}
-                {/foreach}   
-            </td>
-            <td>{$form.preferred_communication_method.label} <img src="../../i/quiz.png" / alt="help"><br />
-                {assign var="index" value="1"}
-                {foreach key=key item=item from=$form.preferred_communication_method}
-                   {if $index < 10}
-                     {assign var="index" value=`$index+1`}
-                   {else}
-                     {$form.preferred_communication_method.$key.html}<br />
-                   {/if}
-                {/foreach}                
-            </td>
+            {foreach key=key item=item from=$commPreference}
+              <td>  
+                 {$form.$key.label}{help id="id-$key"}
+                 {foreach key=k item=i from=$item}
+                  <br />{$form.$key.$k.html}
+                 {/foreach}
+              </td>
+            {/foreach}
         </tr>
         <tr>
             <td>{$form.is_opt_out.html} {$form.is_opt_out.label} {help id="id-optOut"}</td>
             <td>{$form.preferred_mail_format.label} &nbsp;
                 {$form.preferred_mail_format.html} {help id="id-emailFormat"}
             </td>
+
         </tr>
     </table>
 </div>
