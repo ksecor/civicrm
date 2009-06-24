@@ -812,7 +812,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         if ( $to ) {
-            $clauses[] = "( {$fieldName} <= $to )";
+            $clauses[] = "( {$fieldName} <= {$to}235959 )";
         }
 
         if ( ! empty( $clauses ) ) {

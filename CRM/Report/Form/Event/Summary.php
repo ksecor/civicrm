@@ -197,10 +197,10 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
         foreach ( $participant_data as $event_id => $event_data ){
             foreach ( $event_data as $status_id => $data) {
                 
-                //total income of event 
-                $amt = $amt + $data['amount'];
                 if ( array_key_exists($status_id , $statusType1 ) ) {
-                    
+                    //total income of event 
+                    $amt = $amt + $data['amount'];
+                
                     //number of Registered/Attended participants    
                     $particiType1 = $particiType1 + $data['participant'];
                 } else if ( array_key_exists( $info->statusId , $statusType2 ) ) {

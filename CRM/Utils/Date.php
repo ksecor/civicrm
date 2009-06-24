@@ -1001,8 +1001,6 @@ class CRM_Utils_Date
         $now  = getDate();
         $from = $to = $dateRange = array();
         $from['H']  = $from['i'] = $from['s'] = 0;
-        $to['H'] = 23;
-        $to['i'] = $to['s'] = 59;
         
         switch( $unit ) {
 
@@ -1236,8 +1234,6 @@ class CRM_Utils_Date
                 $from['Y'] = $now['year'];
                 $from = self::intervalAdd( 'day', -1*($now['wday']), $from );
                 $to   = self::intervalAdd( 'day', 6, $from );
-                $to['H'] = 23;
-                $to['i'] = $to['s'] = 59;
                 break;
                 
             case 'previous':
@@ -1246,8 +1242,6 @@ class CRM_Utils_Date
                 $from['Y'] = $now['year'];
                 $from = self::intervalAdd( 'day', -1*($now['wday'])-7, $from );
                 $to   = self::intervalAdd( 'day', 6, $from );
-                $to['H'] = 23;
-                $to['i'] = $to['s'] = 59;
                 break;
 
             case 'previous_before':
@@ -1256,8 +1250,6 @@ class CRM_Utils_Date
                 $from['Y'] = $now['year'];
                 $from = self::intervalAdd( 'day', -1*($now['wday'])-14, $from );
                 $to   = self::intervalAdd( 'day', 6, $from );
-                $to['H'] = 23;
-                $to['i'] = $to['s'] = 59;
                 break;
                 
             case 'previous_2':
@@ -1266,16 +1258,12 @@ class CRM_Utils_Date
                 $from['Y'] = $now['year'];
                 $from = self::intervalAdd( 'day', -1*($now['wday'])-14, $from );
                 $to   = self::intervalAdd( 'day', 13, $from );
-                $to['H'] = 23;
-                $to['i'] = $to['s'] = 59;
                 break;
 
             case 'earlier':
                 $to['d'] = $now['mday'];
                 $to['M'] = $now['mon'];
                 $to['Y'] = $now['year'];
-                $to['H'] = 23;
-                $to['i'] = $to['s'] = 59;
                 $to   = self::intervalAdd( 'day', -1*($now['wday'])-1, $to );
                 unset($from);
                 break;
