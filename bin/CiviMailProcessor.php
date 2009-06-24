@@ -36,6 +36,29 @@
 class CiviMailProcessor {
 
     /**
+     * Delete old files from a given directory (recursively)
+     *
+     * @param string $dir  directory to cleanup
+     * @param int    $age  files older than this many seconds will be deleted (default: 60 days)
+     * @return void
+     */
+    static function cleanupDir($dir, $age = 5184000)
+    {
+        // return early if we can’t read/write the dir
+        if (!is_writable($dir) or !is_readable($dir) or !is_dir($dir)) return;
+
+        foreach (scandir($dir) as $file) {
+
+            // don’t go up the directory stack and skip new files/dirs
+            if ($file == '.' or $file == '..')           continue;
+            if (filemtime("$dir/$file") > time() - $age) continue;
+
+            // it’s an old file/dir, so delete/recurse
+            is_dir("$dir/$file") ? self::cleanupDir("$dir/$file", $age) : unlink("$dir/$file");
+        }
+    }
+
+    /**
      * Process the mailbox defined by the named set of settings from civicrm_mail_settings
      *
      * @param string $name  name of the set of settings from civicrm_mail_settings (null for default set)
@@ -158,6 +181,10 @@ $lock = new CRM_Core_Lock('CiviMailProcessor');
 if ($lock->isAcquired()) {
     // try to unset any time limits
     if (!ini_get('safe_mode')) set_time_limit(0);
+
+    // cleanup directories with old mail files (if they exist): CRM-4452
+    CiviMailProcessor::cleanupDir($config->customFileUploadDir . DIRECTORY_SEPARATOR . 'CiviMail.ignored');
+    CiviMailProcessor::cleanupDir($config->customFileUploadDir . DIRECTORY_SEPARATOR . 'CiviMail.processed');
 
     // if there are named sets of settings, use them - otherwise use the default (null)
     $names = isset($_REQUEST['names']) && is_array($_REQUEST['names']) ? $_REQUEST['names'] : array(null);
