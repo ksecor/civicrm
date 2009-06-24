@@ -36,7 +36,7 @@
 /**
  * form helper class for a phone object 
  */
-class CRM_Contact_Form_Phone 
+class CRM_Contact_Form_Edit_Phone 
 {
     /**
      * build the form elements for a phone object
@@ -50,7 +50,10 @@ class CRM_Contact_Form_Phone
      * @access public
      * @static
      */
-    static function buildPhoneBlock( &$form, &$location, $locationId, $count, $phoneType = null ) {
+    static function buildQuickForm( &$form ) {
+        
+        //FIXME : &$location, $locationId, $count, $phoneType = null
+        
         require_once 'CRM/Core/ShowHideBlocks.php';
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? ts('Phone (preferred)') : ts('Phone');

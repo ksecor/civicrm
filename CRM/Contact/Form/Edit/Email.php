@@ -36,7 +36,7 @@
 /**
  * form helper class for an Email object
  */
-class CRM_Contact_Form_Email 
+class CRM_Contact_Form_Edit_Email 
 {
     /**
      * build the form elements for an email object
@@ -50,8 +50,10 @@ class CRM_Contact_Form_Email
      * @access public
      * @static
      */
-    static function buildEmailBlock(&$form, &$location, $locationId, $count) 
+    static function buildQuickForm( &$form ) 
     {
+        //FIXME &$location, $locationId, $count
+        
         require_once 'CRM/Core/ShowHideBlocks.php';
 
         $showBulkMailing = true;

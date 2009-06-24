@@ -137,7 +137,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                                 'IM'     => 1,
                                 'OpenID' => 1);
         
-        $this->assign( 'blocks', $blocks );
+        $this->assign( 'blocks', $this->_blocks );
                           
         $session = & CRM_Core_Session::singleton( );
         if ( $this->_action == CRM_Core_Action::ADD ) {
@@ -239,6 +239,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         eval( 'CRM_Contact_Form_Edit_' . $this->_contactType . '::buildQuickForm( $this, $this->_action );' );
         
         //build blocks ( email, phone, im, openid )
+        foreach ( $this->_blocks as $name => $active ) {
+            if ( $active ) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name ) . ".php");
+                eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
+            }
+        }
         
         // build edit blocks ( custom data, address, communication preference, notes, tags and groups )
         foreach( $this->_editOptions as $name => $label ) {                

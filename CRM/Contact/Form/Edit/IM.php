@@ -44,7 +44,7 @@
 /**
  * form helper class for an IM object 
  */
-class CRM_Contact_Form_IM
+class CRM_Contact_Form_Edit_IM
 {
     /**
      * build the form elements for an IM object
@@ -58,7 +58,10 @@ class CRM_Contact_Form_IM
      * @access public
      * @static
      */
-    static function buildIMBlock(&$form, &$location, $locationId, $count) {
+    static function buildQuickForm( &$form ) {
+        
+        //FIXME : &$location, $locationId, $count 
+        
         require_once 'CRM/Core/BAO/Preferences.php';
         
         if ( CRM_Utils_Array::value( 'im', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {

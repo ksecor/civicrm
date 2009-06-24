@@ -36,7 +36,7 @@
 /**
  * form helper class for an OpenID object
  */
-class CRM_Contact_Form_OpenID
+class CRM_Contact_Form_Edit_OpenID
 {
     /**
      * build the form elements for an open id object
@@ -50,7 +50,10 @@ class CRM_Contact_Form_OpenID
      * @access public
      * @static
      */
-    static function buildOpenIDBlock(&$form, &$location, $locationId, $count) {
+    static function buildQuickForm( &$form ) {
+        
+        //FIXME : &$location, $locationId, $count
+        
         require_once 'CRM/Core/ShowHideBlocks.php';
         require_once 'CRM/Core/BAO/Preferences.php';
         
