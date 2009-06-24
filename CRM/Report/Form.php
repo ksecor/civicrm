@@ -195,7 +195,9 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
 
             // lets always do a force if a valid id is found in the url.
-            $this->_force      = 1;
+            if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
+                $this->_force = 1;
+            }
 
             // set the mode
             $this->assign( 'mode', 'instance' );
