@@ -75,14 +75,12 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
         
         $eventID = implode(',', $eventIDs );
 
-        $participantStatus  = CRM_Event_PseudoConstant::participantStatus( );
+        $participantStatus  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
         $participantRole    = CRM_Event_PseudoConstant::participantRole( );
         $paymentInstruments = CRM_Contribute_PseudoConstant::paymentInstrument();
 
         $rows = $eventSummary = $roleRows = $statusRows = $instrumentRows = $count = array( );
-        
-        $this->assign( 'mixedType', true );
-        
+
         require_once 'CRM/Utils/Money.php';
         require_once 'CRM/Core/DAO/OptionGroup.php';
         $optionGroupDAO = new CRM_Core_DAO_OptionGroup();
@@ -91,6 +89,15 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
         if ($optionGroupDAO->find(true) ) {
             $optionGroupId = $optionGroupDAO->id;
         }
+        //show the income of active participant status (Counted = filter = 1)
+        $activeParticipantStatusIDArray = $activeParticipantStatusLabelArray = array();
+        foreach ( $participantStatus as $id => $label ) {
+            $activeParticipantStatusIDArray[]     = $id;
+            $activeParticipantStatusLabelArray[]  = $label;
+        }
+        $activeParticipantStatus      = implode(',', $activeParticipantStatusIDArray );
+        $activeparticipnatStutusLabel = implode(', ', $activeParticipantStatusLabelArray );
+        $activeParticipantClause = " AND civicrm_participant.status_id IN ( $activeParticipantStatus ) ";
 
         $sql = "
             SELECT  civicrm_event.id                    as event_id,
@@ -108,11 +115,12 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
                          civicrm_option_value.option_group_id = {$optionGroupId} )
             LEFT JOIN  civicrm_participant ON ( civicrm_event.id = civicrm_participant.event_id )
 
-            WHERE      civicrm_event.id IN( {$eventID})
-
+            WHERE      civicrm_event.id IN( {$eventID}) 
+                       {$activeParticipantClause}
             GROUP BY   civicrm_event.id
             ";
         $eventDAO  = CRM_Core_DAO::executeQuery( $sql );
+
         while ( $eventDAO->fetch( ) ) {
             $eventSummary[$eventDAO->event_id]['Title']                   = $eventDAO->event_title;
             $eventSummary[$eventDAO->event_id]['Max Participants']        = $eventDAO->max_participants;
@@ -120,7 +128,7 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
             $eventSummary[$eventDAO->event_id]['End Date']                = CRM_Utils_Date::customFormat( $eventDAO->end_date );
             $eventSummary[$eventDAO->event_id]['Event Type']              = $eventDAO->event_type;
             $eventSummary[$eventDAO->event_id]['Event Income']            = CRM_Utils_Money::format( $eventDAO->total);
-            $eventSummary[$eventDAO->event_id]['Registered Participant']  = $eventDAO->participant;
+            $eventSummary[$eventDAO->event_id]['Registered Participant']  = "{$eventDAO->participant} ({$activeparticipnatStutusLabel})";
         }
         $this->assign_by_ref( 'summary', $eventSummary );
 
@@ -132,7 +140,7 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
 
             WHERE    civicrm_participant.event_id IN( {$eventID}) AND 
                      civicrm_participant.is_test  = 0 
-
+                     {$activeParticipantClause}
             GROUP BY civicrm_participant.event_id
              ";
         
@@ -152,7 +160,7 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
 
             WHERE    civicrm_participant.event_id IN ( {$eventID}) AND
                      civicrm_participant.is_test  = 0 
-
+                     {$activeParticipantClause}
             GROUP BY civicrm_participant.role_id, civicrm_participant.event_id
             ";
 
@@ -178,7 +186,7 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
 
             WHERE    civicrm_participant.event_id IN ({$eventID}) AND
                      civicrm_participant.is_test  = 0 
-
+                     {$activeParticipantClause}
             GROUP BY civicrm_participant.status_id, civicrm_participant.event_id
             ";
 
@@ -196,19 +204,19 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
         //Count the Participant by payment instrument ID for Event
         //e.g. Credit Card, Check,Cash etc
         $paymentInstrument = "
-            SELECT c.payment_instrument_id as INSTRUMENT, 
-                   COUNT( c.id )           as participant, 
-                   SUM(p.fee_amount)       as amount,
-                   p.event_id              as event_id
+            SELECT c.payment_instrument_id               as INSTRUMENT, 
+                   COUNT( c.id )                         as participant, 
+                   SUM(civicrm_participant.fee_amount)   as amount,
+                   civicrm_participant.event_id          as event_id
 
-            FROM      civicrm_participant  p
-            LEFT JOIN civicrm_participant_payment pp ON(pp.participant_id = p.id )
+            FROM      civicrm_participant
+            LEFT JOIN civicrm_participant_payment pp ON(pp.participant_id = civicrm_participant.id )
             LEFT JOIN civicrm_contribution c ON ( pp.contribution_id = c.id)
 
-            WHERE     p.event_id IN ( {$eventID}) AND
-                      p.is_test  = 0
-
-            GROUP BY  c.payment_instrument_id, p.event_id
+            WHERE     civicrm_participant.event_id IN ( {$eventID}) AND
+                      civicrm_participant.is_test  = 0
+                      {$activeParticipantClause}
+            GROUP BY  c.payment_instrument_id, civicrm_participant.event_id
             ";
 
         $instrumentDAO = CRM_Core_DAO::executeQuery( $paymentInstrument );

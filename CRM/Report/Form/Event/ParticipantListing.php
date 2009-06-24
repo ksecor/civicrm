@@ -53,7 +53,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                        'required'  => true,
                                        'no_repeat' => true ),
                                 ),
-                         
+                         'grouping'  => 'contact-fields',
                          'filters' =>             
                          array('sort_name'     => 
                                array( 'title'      => ts( 'Participant Name' ),
@@ -67,9 +67,21 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                 array( 'title'     => ts( 'Email' ),
                                        'no_repeat' => true 
                                        ),
-                                ), 
+                                ),
+                         'grouping'  => 'contact-fields',
+                         'filters' =>
+                         array( 'email' => 
+                                array( 'title'    => ts( 'Participant E-mail' ),
+                                       'operator' => 'like' ) ), 
                          ),
-                  
+                
+                  'civicrm_address'     =>
+                  array( 'dao'          => 'CRM_Core_DAO_Address',
+                         'fields'       =>
+                         array( 'street_address' => null,                                
+                                ),
+                         'grouping'  => 'contact-fields',
+                         ),                  
                   'civicrm_participant' =>
                   array( 'dao'     => 'CRM_Event_DAO_Participant',
                          'fields'  =>
@@ -128,22 +140,8 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                          array( 'event_type_id'      => 
                                 array( 'title'      => ts( 'Event Type ' ), ), ),
                          ),                
-                  
-                  'civicrm_address'     =>
-                  array( 'dao'          => 'CRM_Core_DAO_Address',
-                         'fields'       =>
-                         array( 'street_address' => null,                                
-                                ),
-                         'grouping'     => 'event-fields',
-                         ),
+  
 
-                  'civicrm_email' => 
-                  array( 'dao'     => 'CRM_Core_DAO_Email',                         
-                         'filters' =>
-                         array( 'email' => 
-                                array( 'title'    => ts( 'Participant E-mail' ),
-                                       'operator' => 'like' ) ),
-                         ),
                   );
         $this->_options = array( 'blank_column_begin' => array( 'title'   => ts('Blank column at the Begining'),
                                                                 'type'    => 'checkbox' ),
