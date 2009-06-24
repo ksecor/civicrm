@@ -42,7 +42,7 @@ require_once 'CRM/Core/ShowHideBlocks.php';
  * a small set of static methods
  *
  */
-class CRM_Contact_Form_Household 
+class CRM_Contact_Form_Edit_Household 
 {
     /**
      * This function provides the HTML form elements that are specific to the Individual Contact Type
@@ -50,7 +50,7 @@ class CRM_Contact_Form_Household
      * @access public
      * @return None
      */
-    public function buildQuickForm( &$form ) 
+    public function buildQuickForm( &$form, $action = null ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
         
@@ -99,9 +99,7 @@ class CRM_Contact_Form_Household
     static function formRule( &$fields ,&$files, $options) 
     {
         $errors = array( );
-
-        $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
-
+        
         // make sure that household name is set
         if (! CRM_Utils_Array::value( 'household_name', $fields ) ) {
             $errors['household_name'] = 'Household Name should be set.';
@@ -144,7 +142,7 @@ class CRM_Contact_Form_Household
             !CRM_Utils_Array::value('email_greeting_custom',$fields) ) {
             $errors['email_greeting_custom'] = ts('Custom  Email Greeting is a required field if Email Greeting is of type Customized.');
         }
-        return empty( $errors ) ? true : $errors;
+        return $errors;
     }
 
     /**

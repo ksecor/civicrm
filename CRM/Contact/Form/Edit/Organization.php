@@ -42,7 +42,7 @@ require_once 'CRM/Core/ShowHideBlocks.php';
  * a small set of static methods
  *
  */
-class CRM_Contact_Form_Organization extends CRM_Core_Form 
+class CRM_Contact_Form_Edit_Organization  
 {
     /**
      * This function provides the HTML form elements that are specific to this Contact Type
@@ -84,11 +84,9 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
 			array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
     }
 
-    static function formRule( &$fields ,&$files, $options) {
+    static function formRule( &$fields ,&$files, $options = null ) {
        
         $errors = array( );
-        
-        $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         
         // make sure that organization name is set
         if (! CRM_Utils_Array::value( 'organization_name', $fields ) ) {
@@ -127,7 +125,7 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
             }
         } 
         // add code to make sure that the uniqueness criteria is satisfied
-        return empty( $errors ) ? true : $errors;
+        return $errors;
     }
 }
 

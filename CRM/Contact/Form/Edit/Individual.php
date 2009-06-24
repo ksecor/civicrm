@@ -220,24 +220,23 @@ class CRM_Contact_Form_Edit_Individual {
      * @access public
      * @static
      */
-    static function formRule( &$fields, &$files, $options ) 
+    static function formRule( &$fields, &$files, $options = null ) 
     {
         $errors = array( );
+       
         //FIXME 
         if ( CRM_Utils_Array::value( 'state_province_id', $fields['location'][1]['address'] )  == 'undefined' ) {
             $fields['location'][1]['address']['state_province_id'] ='';
         }
-        $primaryID = CRM_Contact_Form_Edit::formRule( $fields, $errors, $options );
-        
+                
         // check for state/country mapping
-        CRM_Contact_Form_Address::formRule($fields, $errors);
+        //CRM_Contact_Form_Edit_Address::formRule($fields, $errors);
 
         // make sure that firstName and lastName or a primary OpenID is set
-        if (! ( (CRM_Utils_Array::value( 'first_name', $fields ) && 
-                 CRM_Utils_Array::value( 'last_name' , $fields )    ) ||
-                ! empty( $primaryID ) ) ) {
+        if (!(CRM_Utils_Array::value( 'first_name', $fields ) && 
+              CRM_Utils_Array::value( 'last_name' , $fields ) ) ) {
 	 
-            $errors['_qf_default'] = ts('First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.');
+            $errors['missingRequired'] = true;
         }
 
         // if this is a forced save, ignore find duplicate rule
@@ -296,7 +295,8 @@ class CRM_Contact_Form_Edit_Individual {
             !CRM_Utils_Array::value('postal_greeting_custom',$fields) ) {
             $errors['postal_greeting_custom'] = ts('Custom  Postal Greeting is a required field if Postal Greeting is of type Customized.');
         }
-        return empty($errors) ? true : $errors;
+        
+        return $errors;
     }
 
     /**

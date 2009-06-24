@@ -223,9 +223,53 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     function addRules( )
     {
-        //$this->addFormRule( array( 'CRM_Contact_Form_Edit_' . $this->_contactType, 'formRule' ), $this->_contactId );
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+           return true;
+        }
+        
+        $this->addFormRule( array( 'CRM_Contact_Form_Contact', 'formRule'), $this );
     }
 
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     * @param array $errors list of errors to be posted back to the form
+     *
+     * @return void
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields, $files, &$form )
+    {
+        $errors = array( );
+        eval("\$formErrors = CRM_Contact_Form_Edit_".$form->_contactType."::formRule( \$fields, \$files );");
+        $errors = array_merge($errors, $formErrors);
+      
+        $primaryID = false;
+        foreach ( $form->_blocks as $name => $active ) {
+            if ( $active ) {
+                foreach ( $fields[$name] as $count => $values ) {
+                    if ( in_array($name, array('email', 'openid')) && isset($values[$name]) ) {
+                        $primaryID = true;
+                    }
+                    
+                    if ( !CRM_Utils_Array::value('is_primary', $values) && !isset($values[$name]) ) {
+                        $errors[$name][$count] = ts('Primary %1 should not be empty.', array( 1 => $name) );
+                    } 
+                }
+            }
+        }
+        
+        if ( $form->_contactType == 'Individual' ) {   
+            if ( !$primaryID && CRM_Utils_Array::value('missingRequired', $errors ) ) {
+                $errors['_qf_default'] = ts('First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.'); 
+            }  
+        }
+        
+        return empty($errors) ? true : $errors;
+    }
+    
     /**
      * Function to actually build the form
      *
