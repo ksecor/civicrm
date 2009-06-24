@@ -229,9 +229,6 @@ class CRM_Contact_Form_Edit_Individual {
             $fields['location'][1]['address']['state_province_id'] ='';
         }
                 
-        // check for state/country mapping
-        //CRM_Contact_Form_Edit_Address::formRule($fields, $errors);
-
         // make sure that firstName and lastName or a primary OpenID is set
         if (!(CRM_Utils_Array::value( 'first_name', $fields ) && 
               CRM_Utils_Array::value( 'last_name' , $fields ) ) ) {
