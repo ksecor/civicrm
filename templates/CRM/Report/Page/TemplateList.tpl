@@ -1,40 +1,34 @@
 {strip}
 {if $list}
-    <table class="report-layout">
-	<tr>
-	    <td>
-		{foreach from=$list item=rows key=report}		
-		    <div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
-			<table class="report-layout">
-			    <tr>
-				<th>{if $report}{$report}{else}Contact{/if} Reports</th>
-			    </tr>
-			</table>
-		    </div>
-		    <div id="{$report}" style="display:block;">
-			<table class="report-layout">
-			    {foreach from=$rows item=row}
-				<tr>
-				    <td style="width:35%;">
-					<a href="{$row.url}" title="{$row.description}">&raquo; <strong>{$row.title}</strong></a>
-					{if $row.instanceUrl}
-					    <div align="right">
-						<a href="{$row.instanceUrl}">{ts}Available Report(s){/ts}</a>
-					    </div>
-					{/if}
-				    </td>
-				    <td style="cursor:help;">
-					{$row.description}
-				    </td>
-				</tr>
-			    {/foreach}
-			</table>
-		    </div>
-		    <br />
+    {foreach from=$list item=rows key=report}		
+	<div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
+	    <table class="report-layout">
+		<tr>
+		    <th>{if $report}{$report}{else}Contact{/if} Reports</th>
+		</tr>
+	    </table>
+	</div>
+	<div id="{$report}" style="display:block;">
+	    <table class="report-layout">
+		{foreach from=$rows item=row}
+		    <tr>
+			<td style="width:35%;">
+			    <a href="{$row.url}" title="{$row.description}">&raquo; <strong>{$row.title}</strong></a>
+			    {if $row.instanceUrl}
+				<div align="right">
+				    <a href="{$row.instanceUrl}">{ts}Available Report(s){/ts}</a>
+				</div>
+			    {/if}
+			</td>
+			<td style="cursor:help;">
+			    {$row.description}
+			</td>
+		    </tr>
 		{/foreach}
-	    </td>
-	</tr>
-    </table>
+	    </table>
+	</div>
+	<br />
+    {/foreach}
 {else}
     <div class="messages status">
         <dl>

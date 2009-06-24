@@ -1,37 +1,31 @@
 {strip}
 {if $list}
-    <table class="report-layout">
-	<tr>
-	    <td>
-		{foreach from=$list item=rows key=report}		
-		    <div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
-			<table class="report-layout">
-			    <tr>
-				<th>{if $title}{$title}{elseif $report}{$report}{else}Contact{/if} Reports</th>
-			    </tr>
-			</table>
-		    </div>
-		    <div id="{$report}" style="display:block;">
-			<table class="report-layout">
-			    {foreach from=$rows item=row}
-				<tr >
-				    <td style="width:30%"><a href="{$row.url}">&raquo; <strong>{$row.title}</strong></a></td>
-				    <td >{$row.description}</td>
-				    {if $row.deleteUrl}
-					<td style = "width:5%"><a href="{$row.deleteUrl}" onclick="return window.confirm('Are you sure you want Delete this Instance?');">{ts}Delete{/ts}</a></td>
-				    {/if}
-				</tr>
-			    {/foreach}
-			</table>
-		    </div>
-		    <br />
+    {foreach from=$list item=rows key=report}		
+	<div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
+	    <table class="report-layout">
+		<tr>
+		    <th>{if $title}{$title}{elseif $report}{$report}{else}Contact{/if} Reports</th>
+		</tr>
+	    </table>
+	</div>
+	<div id="{$report}" style="display:block;">
+	    <table class="report-layout">
+		{foreach from=$rows item=row}
+		    <tr >
+			<td style="width:35%"><a href="{$row.url}">&raquo; <strong>{$row.title}</strong></a></td>
+			<td >{$row.description}</td>
+			{if $row.deleteUrl}
+			    <td style = "width:5%"><a href="{$row.deleteUrl}" onclick="return window.confirm('Are you sure you want Delete this Instance?');">{ts}Delete{/ts}</a></td>
+			{/if}
+		    </tr>
 		{/foreach}
-		{if $reportUrl}
-		    <a href="{$reportUrl}" class="button"><span>&raquo; {ts}View all Reports{/ts}</span></a></td>
-		{/if}
-	    </td>
-	</tr>
-    </table>
+	    </table>
+	</div>
+	<br />
+    {/foreach}
+    {if $reportUrl}
+	<a href="{$reportUrl}" class="button"><span>&raquo; {ts}View all Reports{/ts}</span></a></td>
+    {/if}
 {else}
     <div class="messages status">
         <dl>
