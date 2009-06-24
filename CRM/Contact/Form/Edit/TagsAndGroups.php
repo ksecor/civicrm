@@ -106,20 +106,12 @@ class CRM_Contact_Form_Edit_TagsandGroups
                          $dao->visibility == 'User and User Admin Only' ) {
                         continue;
                     }
-                    $title  = '</td><td><strong>'.$dao->title.'</strong></td>';
-                    if ( ! empty( $dao->description ) ) {
-                        // CRM-3448
-                        $title .= '<td>'.$dao->description.'</td></tr>';
-                    } else {
-                        $title .= '<td></td></tr>';
-                    }
-
-                    //$elements[] =& HTML_QuickForm::createElement('checkbox', $dao->id, $title, $attributes );
-                    $elements[] =& $form->addElement('advcheckbox', $dao->id, null, $title, $attributes );
+                    $tagGroup[$fName][$dao->id]['description'] = $dao->description;
+                    $elements[] =& $form->addElement('advcheckbox', $dao->id, null, $dao->title, $attributes );
                 }
             
     	        if ( ! empty( $elements ) ) {
-                    $form->addGroup( $elements, $fName, $groupName, '<tr><td>' );
+                    $form->addGroup( $elements, $fName, $groupName, '&nbsp;' );
                     $form->assign('groupCount', count($elements));
                     if ( $isRequired ) {
                         $form->addRule( $fName , ts('%1 is a required field.', array(1 => $groupName)) , 'required');   
@@ -133,7 +125,7 @@ class CRM_Contact_Form_Edit_TagsandGroups
             if ($fieldName) {
                 $fName = $fieldName; 
             }
-
+            $tagGroup[$fName] = 1;
             $elements = array( );
             $tag =& CRM_Core_PseudoConstant::tag  ( );
             foreach ($tag as $id => $name) {
@@ -148,6 +140,7 @@ class CRM_Contact_Form_Edit_TagsandGroups
                 $form->addRule( $fName , ts('%1 is a required field.', array(1 => $tagName)) , 'required');   
             }
         }
+        $form->assign('tagGroup', $tagGroup); 
     }
 
     /**
