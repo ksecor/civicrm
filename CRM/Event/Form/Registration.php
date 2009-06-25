@@ -298,6 +298,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             if ( ! $this->_values['event']['is_online_registration'] ) {
                 CRM_Core_Error::statusBounce( ts( 'Online registration is not currently available for this event (contact the site administrator for assistance).' ), $infoUrl );
             }
+
+            // is this an event template ?
+            if ( $this->_values['event']['is_template'] ) {
+                CRM_Core_Error::statusBounce( ts( 'Event templates are not meant to be registered.' ), $infoUrl );
+            }
+
             $now = time( );
 
             $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',

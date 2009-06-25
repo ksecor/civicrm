@@ -41,7 +41,7 @@
                         
                         {if $row.$field eq 'Sub Total'}
                             {$row.$field}
-                        {elseif $header.type eq 12}
+                        {elseif $header.type & 4}
                             {if $header.group_by eq 'MONTH' or $header.group_by eq 'QUARTER'}
                                 {$row.$field|crmDate:$config->dateformatPartial}
                             {elseif $header.group_by eq 'YEAR'}	

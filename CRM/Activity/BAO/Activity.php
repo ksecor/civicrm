@@ -466,14 +466,26 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $transaction->commit( );  
         if ( ! CRM_Utils_Array::value( 'skipRecentView', $params ) ) {
             require_once 'CRM/Utils/Recent.php';
-            $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
-                   "action=view&reset=1&id={$activity->id}&atype={$activity->activity_type_id}&cid={$activity->source_contact_id}" );
+            
+            $q = "action=view&reset=1&id={$activity->id}&atype={$activity->activity_type_id}&cid={$activity->source_contact_id}";
+            if ( $activity->activity_type_id != CRM_Core_OptionGroup::getValue( 'activity_type', 'Email', 'name' ) ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', $q );
+            } else {
+                $url = CRM_Utils_System::url( 'civicrm/activity', $q );
+            }
+            
             require_once 'CRM/Contact/BAO/Contact.php';
             $recentContactDisplay = CRM_Contact_BAO_Contact::displayName( $recentContactId );
             // add the recently created Activity
-            $activityTypes = CRM_Core_Pseudoconstant::activityType( true );
+            $activityTypes   = CRM_Core_Pseudoconstant::activityType( true, true );
+            $activitySubject = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $activity->id, 'subject' );
+
+            $title = "";
+            if ( isset($activitySubject) ) {
+                $title =  $activitySubject . ' - ';
+            }
             
-            $title = $activity->subject . ' - ' . $recentContactDisplay .' (' . $activityTypes[$activity->activity_type_id] . ')';
+            $title =  $title . $recentContactDisplay .' (' . $activityTypes[$activity->activity_type_id] . ')';
 
             CRM_Utils_Recent::add( $title,
                                    $url,

@@ -53,7 +53,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                        'required'  => true,
                                        'no_repeat' => true ),
                                 ),
-                         
+                         'grouping'  => 'contact-fields',
                          'filters' =>             
                          array('sort_name'     => 
                                array( 'title'      => ts( 'Participant Name' ),
@@ -67,41 +67,53 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                 array( 'title'     => ts( 'Email' ),
                                        'no_repeat' => true 
                                        ),
-                                ), 
+                                ),
+                         'grouping'  => 'contact-fields',
+                         'filters' =>
+                         array( 'email' => 
+                                array( 'title'    => ts( 'Participant E-mail' ),
+                                       'operator' => 'like' ) ), 
                          ),
-                  
+                
+                  'civicrm_address'     =>
+                  array( 'dao'          => 'CRM_Core_DAO_Address',
+                         'fields'       =>
+                         array( 'street_address' => null,                                
+                                ),
+                         'grouping'  => 'contact-fields',
+                         ),                  
                   'civicrm_participant' =>
                   array( 'dao'     => 'CRM_Event_DAO_Participant',
                          'fields'  =>
-                         array( 'participant_id'   => array( 'title' => 'Participant ID' ),
+                         array( 'participant_id'            => array( 'title' => 'Participant ID' ),
 
-                                'event_id'         => array( 'default' => true,
-                                                             'type'    =>  CRM_Utils_Type::T_STRING ),
-                                'status_id'        => array( 'title'   => ts('Status'),
-                                                             'default' => true ),
-                                'role_id'          => array( 'title'   => ts('Role'),
-                                                             'default' => true ),
-                                'fee_amount'       => array( 'title'   => ts('Fee Amount'),
-                                                             'type'    => CRM_Utils_Type::T_MONEY ),
-                                'register_date'    => array( 'title'   => ts('Registration Date') ),
+                                'event_id'                  => array( 'default' => true,
+                                                                      'type'    =>  CRM_Utils_Type::T_STRING ),
+                                'status_id'                 => array( 'title'   => ts('Status'),
+                                                                      'default' => true ),
+                                'role_id'                   => array( 'title'   => ts('Role'),
+                                                                      'default' => true ),
+                                'participant_fee_amount'    => array( 'title'   => ts('Fee Amount'),),
+                                
+                                'participant_register_date' => array( 'title'   => ts('Registration Date') ),
                                 ), 
                          'grouping' => 'event-fields',
                          'filters'  =>             
-                         array( 'event_id'         => array( 'name'         => 'event_id',
-                                                             'title'        => ts( 'Event' ),
-                                                             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                                             'options'      => CRM_Event_PseudoConstant::event( ), ), 
+                         array( 'event_id'                  => array( 'name'         => 'event_id',
+                                                                      'title'        => ts( 'Event' ),
+                                                                      'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                                                      'options'      => CRM_Event_PseudoConstant::event( ), ), 
                                 
-                                'sid'              => array( 'name'         => 'status_id',
-                                                             'title'        => ts( 'Participant Status' ),
-                                                             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                                             'options'      => CRM_Event_PseudoConstant::participantStatus( ) ), 
-                                'rid'              => array( 'name'         => 'role_id',
-                                                             'title'        => ts( 'Participant Role' ),
-                                                             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                                             'options'      => CRM_Event_PseudoConstant::participantRole( ) ),
-                                'register_date'    => array( 'title'        => ' Registration Date',
-                                                             'operatorType' => CRM_Report_Form::OP_DATE ),
+                                'sid'                       => array( 'name'         => 'status_id',
+                                                                      'title'        => ts( 'Participant Status' ),
+                                                                      'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                                                      'options'      => CRM_Event_PseudoConstant::participantStatus( ) ),
+                                'rid'                       => array( 'name'         => 'role_id',
+                                                                      'title'        => ts( 'Participant Role' ),
+                                                                      'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                                                      'options'      => CRM_Event_PseudoConstant::participantRole( ) ),
+                                'participant_register_date' => array( 'title'        => ' Registration Date',
+                                                                      'operatorType' => CRM_Report_Form::OP_DATE ),
                                 ),
                          
                          'group_bys' => 
@@ -128,22 +140,8 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                          array( 'event_type_id'      => 
                                 array( 'title'      => ts( 'Event Type ' ), ), ),
                          ),                
-                  
-                  'civicrm_address'     =>
-                  array( 'dao'          => 'CRM_Core_DAO_Address',
-                         'fields'       =>
-                         array( 'street_address' => null,                                
-                                ),
-                         'grouping'     => 'event-fields',
-                         ),
+  
 
-                  'civicrm_email' => 
-                  array( 'dao'     => 'CRM_Core_DAO_Email',                         
-                         'filters' =>
-                         array( 'email' => 
-                                array( 'title'    => ts( 'Participant E-mail' ),
-                                       'operator' => 'like' ) ),
-                         ),
                   );
         $this->_options = array( 'blank_column_begin' => array( 'title'   => ts('Blank column at the Begining'),
                                                                 'type'    => 'checkbox' ),
@@ -270,9 +268,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                 }
             }
             $this->_groupBy = "ORDER BY " . implode( ', ', $this->_groupBy ) ;
-        } else {
-            $this->_groupBy = "GROUP BY contact.id";
-        }
+        } 
     }
 
     function postProcess( ) {
@@ -312,7 +308,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                 if ( $value = $row['civicrm_participant_event_id'] ) {
                     $rows[$rowNum]['civicrm_participant_event_id'] = 
                         CRM_Event_PseudoConstant::event( $value, false );  
-                    $url = CRM_Report_Utils_Report::getNextUrl( 'event/eventIncome', 
+                    $url = CRM_Report_Utils_Report::getNextUrl( 'event/income', 
                                                   'reset=1&force=1&id_op=in&id_value='.$value,
                                                                 $this->_absoluteUrl, $this->_id );
                     $rows[$rowNum]['civicrm_participant_event_id_link' ] = $url;

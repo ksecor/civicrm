@@ -532,7 +532,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                         if ( $val = CRM_Utils_Array::value('civicrm_participant_event_id', $row ) ) {
                             $componentRows[$contactID][$component][$rowNum]['civicrm_participant_event_id'] = 
                                 CRM_Event_PseudoConstant::event( $val, false );
-                            $url = CRM_Report_Utils_Report::getNextUrl( 'event/eventIncome', 
+                            $url = CRM_Report_Utils_Report::getNextUrl( 'event/income', 
                                                                         'reset=1&force=1&id_op=in&id_value='.$val,
                                                                         $this->_absoluteUrl, $this->_id);
                            $componentRows[$contactID][$component][$rowNum]['civicrm_participant_event_id_link' ] = $url;

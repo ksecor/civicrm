@@ -124,6 +124,9 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             $h = $parsed->headers->getCaseSensitiveArray();
             $b = $parsed->generateBody();
 
+            // strip Return-Path of possible bounding brackets, CRM-4502
+            $h['Return-Path'] = trim($h['Return-Path'], '<>');
+
             // FIXME: ugly hack - find the first MIME boundary in 
             // the body and make the boundary in the header match it
             $ct =& $h['Content-Type'];

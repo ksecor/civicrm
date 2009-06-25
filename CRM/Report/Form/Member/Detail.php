@@ -62,7 +62,7 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                                 array( 'title'    => ts( 'Contact Name' ),
                                        'operator' => 'like' ),
                                 'id' => 
-                                array( 'title'    => ts( 'Contact ID' ) ), ),
+                                array( 'no_display'  => true ), ),
 
                           'grouping'=> 'contact-fields',
                           ),
@@ -71,20 +71,26 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                    array( 'dao'       => 'CRM_Member_DAO_Membership',
                           'fields'    =>
                           array(                              
-                                'membership_type_id' => array( 'title'     => 'Membership Type', 
-                                                               'required'  => true,
-                                                               'no_repeat' => true ),
-                                'start_date'         => array( 'title'     => ts('Start Date'),
-                                                               'default'   => true ),
-                                'end_date'           => array( 'title'     => ts('End Date'),
-                                                               'default'   => true ),
-                                'join_date'          => null,
+                                'membership_type_id'    => array( 'title'     => 'Membership Type', 
+                                                                  'required'  => true,
+                                                                  'no_repeat' => true ),
+                                'membership_start_date' => array( 'title'     => ts('Start Date'),
+                                                                  'default'   => true ),
+                                'membership_end_date'   => array( 'title'     => ts('End Date'),
+                                                                  'default'   => true ),
+                                'join_date'             => null,
                                 
-                                'source'             => array( 'title' => 'Source'),
+                                'source'                => array( 'title' => 'Source'),
                                 ), 
                           'filters' => array( 					      
                                              'join_date'    =>
-                                             array( 'operatorType'  => CRM_Report_Form::OP_DATE),),
+                                             array( 'operatorType'  => CRM_Report_Form::OP_DATE),
+                                             'tid'          =>
+                                             array( 'name'          =>  'membership_type_id',
+                                                    'title'         =>  ts( 'Membership Types' ),
+                                                    'operatorType'  =>  CRM_Report_Form::OP_MULTISELECT,
+                                                    'options'       =>  CRM_Member_PseudoConstant::membershipType(),
+                                                    ), ),
                           
                           'grouping'=> 'member-fields',
                           ),
@@ -158,7 +164,7 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                         } else if ( $tableName == 'civicrm_email' ) {
                             $this->_emailField = true;
                         }
-                        $select[] = "{$table['alias']}.{$fieldName} as {$tableName}_{$fieldName}";
+                        $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = CRM_Utils_Array::value( 'type', $field );
                     }
@@ -295,7 +301,7 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
                     $rows[$rowNum]['civicrm_address_state_province_id'] = 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
+                        CRM_Core_PseudoConstant::stateProvince( $value, false );
                 }
                 $entryFound = true;
             }

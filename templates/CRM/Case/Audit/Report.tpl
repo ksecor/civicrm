@@ -104,6 +104,12 @@
           {ts}The group {$globalGroupInfo.title} has no members.{/ts}
         </dd>
       </dl>
+    {else}
+      <dl>
+      <dt></dt>
+        <dd>{ts}There are no Global Case Contacts exists for this client.{/ts}
+        </dd>
+      </dl>
     {/if}
 <dl><dt><label>{ts}Activities{/ts}</label></dt>
     <dd></dd>

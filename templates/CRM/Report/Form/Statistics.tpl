@@ -7,18 +7,17 @@
         <table class="report-layout">
             {foreach from=$statistics.groups item=row}
                 <tr>
-                   <td  style="width:5%;white-space:nowrap;">{$row.title}</td>
+                   <th class="statistics" scope="row">{$row.title}</th>
                    <td>{$row.value}</td>
                 </tr>
             {/foreach}
             {foreach from=$statistics.filters item=row}
                 <tr>
-                    <td style="width:5%;white-space:nowrap;">{$row.title}</td>
+                    <th class="statistics" scope="row">{$row.title}</th>
                     <td>{$row.value}</td>
                 </tr>
             {/foreach}
         </table>
-        <br/>
     {/if}
 {/if}
 
@@ -27,7 +26,7 @@
     <table class="report-layout">
         {foreach from=$statistics.counts item=row}
             <tr>
-                <td style="width:5%;white-space:nowrap;">{$row.title}</td>
+                <th class="statistics" scope="row">{$row.title}</th>
                 <td>
                    {if $row.type eq 1024}
                        {$row.value|crmMoney}

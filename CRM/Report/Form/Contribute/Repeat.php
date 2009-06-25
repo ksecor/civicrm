@@ -376,51 +376,60 @@ LEFT  JOIN (
         
         $errors = $checkDate = $errorCount = array( );
         
-        $col_fields     = $fields['fields'];
-        $grp_fields     = $fields['group_bys'];
-        $num_col_fields = count($col_fields);
-        $num_grp_fields = count($grp_fields);
+        $rules = array( 'id'                  => array( 'display_name', 'email', 'phone',
+                                                        'state_province_id','country_id' ),
+                        'country_id'          => array( 'country_id' ),
+                        'state_province_id'   => array( 'country_id', 'state_province_id' ),
+                        'contribution_source' => array( 'contribution_source' ),
+                        'contribution_type'   => array( 'contribution_type' ),
+                        );
+        $idMapping = array( 'id'                  => 'Contact',
+                            'country_id'          => 'Country',
+                            'state_province_id'   => 'State/Province',
+                            'contribution_source' => 'Contribution Source',
+                            'contribution_type'   => 'Contribution Type',
+                            'display_name'        => 'Contact Name',
+                            'email'               => 'Email',
+                            'phone'               => 'Phone' );
         
-        if ( $num_grp_fields == 0 ) {
-            $errors['fields'] = "You have to select at least one Group by field.";
+        if ( empty($fields['group_bys']) ){
+            $errors['fields'] = ts('Please select at least one Group by field.');
+            
+        } else if ( ( array_key_exists('contribution_source', $fields['group_bys'] )  ||
+                      array_key_exists('contribution_type',   $fields['group_bys'] )) &&
+                    ( count( $fields['group_bys']) > 1 ) ) {
+            
+            $errors['fields'] = ts('You can not use other Group by with Contribution type or Contribution source.');
         } else {
-            if ( ($grp_fields['id'] || $grp_fields['country_id'] || $grp_fields['state_province_id'] ) ) {
-                if( !$grp_fields['id'] && ($col_fields['phone'] || $col_fields['email'] ) ) {
-                    $errors['fields'] = "Group by Contact should be selected for Email or/and 
-                                         Phone field(s)";
-                }
-                if ( $col_fields['contribution_source'] || $col_fields['contribution_type'] ) {
-                    $errors['fields'] = "You can not select 'Contribution source' or/and 
-                                        'Contribution type' field(s) with Group by 
-                                        Contact or/and Address ";
+            foreach ( $fields['fields'] as $fld_id => $value ) {
+                if ( !($fld_id == 'total_amount1') && !($fld_id == 'total_amount2') ) {
+                    $found = false;
+                    $invlidGroups = array( );
+                    foreach ( $fields['group_bys'] as $grp_id => $val ) {
+                        $validFields = $rules[$grp_id];
+                        if( in_array( $fld_id , $validFields ) ) {
+                            $found = true;  
+                        } else {
+                            $invlidGroups[] = $idMapping[$grp_id];   
+                        }
+                    } 
+                    if ( !$found ) {
+                        $erorrGrps    = implode( ',' , $invlidGroups ); 
+                        $tempErrors[] = ts("Do not select field %1 with Group by %2.", array( 1 => $idMapping[$fld_id], 2 => $erorrGrps ));
+                    }
                 }
             }
-            
-            if( $grp_fields['contribution_type'] ) {
-                if ( (!array_key_exists('contribution_type', $col_fields) && $num_col_fields > 2 )
-                     || (array_key_exists('contribution_type', $col_fields) && $num_col_fields > 3 ) ) {
-                    $errors['fields'] = "Should select only 'Contribution type' field with 
-                                         Group by Contribution type";
-                } 
-                if( $num_grp_fields > 1 ) {
-                    $errors['fields'] = "You can not use other Group  by with 
-                                         Contribution type or Contribution source ";
-                } 
-            }
-            
-            if( $grp_fields['contribution_source'] ) {
-                if ( (!array_key_exists('contribution_source', $col_fields) && $num_col_fields > 2 )
-                     ||(array_key_exists('contribution_source', $col_fields) && $num_col_fields > 3 ) ) {
-                    $errors['fields'] = "Should select only 'Contribution source' field with 
-                                        Group by Contribution source";
-                } 
-                if( $num_grp_fields > 1 ) {
-                    $errors['fields'] = "You can not use other Group  by with 
-                                     Contribution type or Contribution source ";
-                } 
+            if ( !empty( $tempErrors ) ) {
+                $errors['fields'] = implode( "<br>" , $tempErrors );
             }
         }
-            
+        
+        if ( !empty( $fields['gid_value'] ) ) {
+            if ( !array_key_exists( 'id', $fields['group_bys'] ) ) {
+                $errors['gid_value'] = ts("Filter with Group only allow with group by Contact");
+            }
+        }
+        
         if ( $fields['receive_date1_relative'] == '0' ) {
             $checkDate['receive_date1']['receive_date1_from'] = $fields['receive_date1_from'];
             $checkDate['receive_date1']['receive_date1_to'  ] = $fields['receive_date1_to'];
@@ -430,7 +439,7 @@ LEFT  JOIN (
             $checkDate['receive_date2']['receive_date2_from'] = $fields['receive_date2_from'];
             $checkDate['receive_date2']['receive_date2_to'  ] = $fields['receive_date2_to'];
         }
-
+        
         foreach ( $checkDate as $date_range => $range_data ) {
             foreach ( $range_data as $key => $value ) {
                 
@@ -438,7 +447,7 @@ LEFT  JOIN (
                     $errorCount[$date_range][$key]['valid'   ] = 'true';
                     $errorCount[$date_range][$key]['is_empty'] = 'false';
                 } else {
-                    $errorCount[$date_range][$key]['valid'   ] ='false';
+                    $errorCount[$date_range][$key]['valid'   ] = 'false';
                     $errorCount[$date_range][$key]['is_empty'] = 'true';
                     foreach ( $value as $v ) {
                         if ( $v ) {
@@ -449,6 +458,7 @@ LEFT  JOIN (
             }
         }
 
+        $errorText = ts("Select valid date range");
         foreach ( $errorCount as $date_range => $error_data) {
             
             if ( ( $error_data[$date_range.'_from']['valid'] == 'false' ) && 
@@ -456,27 +466,27 @@ LEFT  JOIN (
                 
                 if ( ( $error_data[$date_range.'_from']['is_empty'] == 'true' ) && 
                      ( $error_data[$date_range.'_to']['is_empty'] == 'true') ) {
-                    $errors[$date_range.'_relative'] ="select valid date range";
+                    $errors[$date_range.'_relative'] = $errorText;
                 }
                 
                 if ( $error_data[$date_range.'_from']['is_empty'] == 'false' ) {
-                    $errors[$date_range.'_from'] = "Select valid 'from' for ".str_replace('_',' ',$date_range);
-                }
-
+                    $errors[$date_range.'_from'] = $errorText;
+                } 
+                
                 if ( $error_data[$date_range.'_to']['is_empty'] == 'false' ){
-                    $errors[$date_range.'_to'] = "Select valid 'to' for ".str_replace('_',' ',$date_range);
+                    $errors[$date_range.'_to'] = $errorText;
                 }
                 
             } elseif ( ( $error_data[$date_range.'_from']['valid'] == 'true' ) && 
                        ( $error_data[$date_range.'_to']['valid'] == 'false') ) {
                 if ( $error_data[$date_range.'_to']['is_empty'] == 'false' ){
-                    $errors[$date_range.'_to'] = "Select valid 'to' for ".str_replace('_',' ',$date_range);
+                    $errors[$date_range.'_to'] = $errorText;
                 }
                 
             } elseif ( ( $error_data[$date_range.'_from']['valid'] == 'false' ) && 
                        ( $error_data[$date_range.'_to']['valid'] == 'true' ) ) {
                 if ( $error_data[$date_range.'_from']['is_empty'] == 'false' ){
-                    $errors[$date_range.'_from'] = "Select valid 'from' for ".str_replace('_',' ',$date_range);
+                    $errors[$date_range.'_from'] = $errorText;
                 }
             }
         }
@@ -603,7 +613,7 @@ LEFT  JOIN (
             if ( array_key_exists('address_state_province_id', $row) ) {
                 if ( $value = $row['address_state_province_id'] ) {
                     $rows[$rowNum]['address_state_province_id'] = 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
+                        CRM_Core_PseudoConstant::stateProvince( $value, false );
 
                     $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
                                                   "reset=1&force=1&" . 

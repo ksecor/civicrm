@@ -78,7 +78,7 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
         while ( $dao->fetch( ) ) {
             if ( trim( $dao->title ) ) {
                 if ( $ovID ) {
-                    $title = ts("Report(s) for the Template: %1", array( 1 => $dao->label ) );
+                    $title = ts("Report(s) created from the template: %1", array( 1 => $dao->label ) );
                 }
                 $rows[$dao->compName][$dao->id]['title']       = $dao->title;               
                 $rows[$dao->compName][$dao->id]['label']       = $dao->label;
@@ -110,8 +110,11 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
             $this->assign( 'reportUrl', $reportUrl );
             $this->assign( 'title', $title);
         }
-        $templateUrl  = CRM_Utils_System::url('civicrm/report/template/list', "reset=1");
-        $this->assign( 'templateUrl', $templateUrl );
+        // assign link to template list for users with appropriate permissions
+        if ( CRM_Core_Permission::check ( 'access CiviReport' ) ) {
+            $templateUrl  = CRM_Utils_System::url('civicrm/report/template/list', "reset=1");
+            $this->assign( 'templateUrl', $templateUrl );
+        }
         return parent::run();
     }
 }

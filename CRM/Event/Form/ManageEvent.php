@@ -105,11 +105,11 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
         // make submit buttons shift to next available valid(not disabled) tabs
         if ( $this->_id ) {
-            $subPage     = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
-            $nextsubPage = CRM_Event_Form_ManageEvent_TabHeader::getNextSubPage( $this, $subPage );
+            $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
+            //$nextsubPage = CRM_Event_Form_ManageEvent_TabHeader::getNextSubPage( $this, $subPage );
             $session =& CRM_Core_Session::singleton(); 
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
-                                                              "action=update&reset=1&id={$this->_id}&subPage={$nextsubPage}" ) );
+                                                              "action=update&reset=1&id={$this->_id}&subPage={$subPage}" ) );
         }
         
         if ( $this->_id ) {
@@ -208,7 +208,8 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
     function getTemplateFileName( ) {
         if ( $this->controller->getPrint( ) == CRM_Core_Smarty::PRINT_NOFORM ||
-             $this->getVar( '_id' ) <= 0 ) {
+             $this->getVar( '_id' ) <= 0 ||
+             ( $this->_action & CRM_Core_Action::DELETE ) ) {
             return parent::getTemplateFileName( );
         } else {
             return 'CRM/Event/Form/ManageEvent/Tab.tpl';

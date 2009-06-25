@@ -150,7 +150,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                           array( 'receive_date'   => 
                                  array( 'operatorType' => CRM_Report_Form::OP_DATE ),
                                  'total_amount'   => 
-                                 array( 'title'   => ts( 'Total  Amount Between' ), ), ),
+                                 array( 'title'   => ts( 'Donation Amount' ), ), ),
                           ),
                    
                    'civicrm_contribution_soft' =>
@@ -177,10 +177,6 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         
-        $this->_options = array( 'include_grand_total' => array( 'title'   => ts( 'Include Grand Totals' ),
-                                                                 'type'    => 'checkbox',
-                                                                 'default' => true ),
-                                 );
         parent::__construct( );
     }
     

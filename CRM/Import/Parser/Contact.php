@@ -1239,6 +1239,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         self::addToErrorMsg('Website', $errorMessage);
                     }
                     break;
+                case 'do_not_email':
+                case 'do_not_phone':
+                case 'do_not_mail' :
+                case 'do_not_sms'  :
+                case 'do_not_trade':                
+                    if( CRM_Utils_Rule::boolean( $value )== false ) {
+                        $key = ucwords( str_replace( "_", " ", $key ) );
+                        self::addToErrorMsg( $key, $errorMessage);
+                    }
+                    break;
                 default : 
                     if ( is_array( $params[$key] ) && 
                          isset( $params[$key]["contact_type"] ) ) {

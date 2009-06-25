@@ -293,16 +293,18 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     function statistics( &$rows ) {
         $statistics = parent::statistics( $rows );
         
-        $select = "
-        SELECT 
-               SUM(contribution.total_amount ) as amount ";
-
-        $sql    = "{$select} {$this->lifeTime_from } {$this->lifeTime_where}";
-        $dao    = CRM_Core_DAO::executeQuery( $sql );
-        if ( $dao->fetch( ) ) {
-            $statistics['counts']['amount'] = array( 'value' => $dao->amount,
-                                                     'title' => 'Total LifeTime',
-                                                     'type'  => CRM_Utils_Type::T_MONEY );
+        if ( $this->lifeTime_from && $this->lifeTime_where ) {
+            $select = "
+                    SELECT 
+                         SUM(contribution.total_amount ) as amount ";
+            
+            $sql    = "{$select} {$this->lifeTime_from } {$this->lifeTime_where}";
+            $dao    = CRM_Core_DAO::executeQuery( $sql );
+            if ( $dao->fetch( ) ) {
+                $statistics['counts']['amount'] = array( 'value' => $dao->amount,
+                                                         'title' => 'Total LifeTime',
+                                                         'type'  => CRM_Utils_Type::T_MONEY );
+            }
         }
         return $statistics;
     }
@@ -345,39 +347,41 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
  
         $IN = substr( $IN, 0 ,-1 ) ;
         $dao->free( );        
-   
-        //Build LifeTime Query
-        $this->from   ( );
-        $this->where  ( $IN );
-        $this->groupBy( false );       
         
-        $sqlLifeTime  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} ";             
-        //use from and where clauses of LifeTime for Statistics
-        $this->lifeTime_from  = $this->_from;
-        $this->lifeTime_where = $this->_where;
-        
-        $current_year = $this->_params['yid_value'] ; 
-        $dao_lifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );      
+        if ( !empty($display) ) {
+            //Build LifeTime Query
+            $this->from   ( );
+            $this->where  ( $IN );
+            $this->groupBy( false );       
             
-        while ( $dao_lifeTime->fetch( ) ) {
+            $sqlLifeTime  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} ";             
+            //use from and where clauses of LifeTime for Statistics
+            $this->lifeTime_from  = $this->_from;
+            $this->lifeTime_where = $this->_where;
             
-            $contact_id                                                 = $dao_lifeTime->civicrm_contribution_contact_id;         
-            $display[ $contact_id ]['civicrm_life_time_total']          = $dao_lifeTime->civicrm_contribution_total_amount;
-        }
-   
-        $dao_lifeTime->free( );   
-             
-        if( ! empty($display) ) {
-            foreach( $display as $key => $value ) {                
-                $row = array( );  
-                foreach ( $this->_columnHeaders as $column_key => $column_value ) {
-                    if ( CRM_Utils_Array::value( $column_key, $value ) ) {
-                        $row[ $column_key ] = $value [ $column_key ];
-                    }
-                } 
+            $current_year = $this->_params['yid_value'] ; 
+            $dao_lifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );      
+            
+            while ( $dao_lifeTime->fetch( ) ) {
                 
-                $rows [ ]  = $row;
-            }     
+                $contact_id                                                 = $dao_lifeTime->civicrm_contribution_contact_id;         
+                $display[ $contact_id ]['civicrm_life_time_total']          = $dao_lifeTime->civicrm_contribution_total_amount;
+            }
+            
+            $dao_lifeTime->free( );   
+            
+            if( ! empty($display) ) {
+                foreach( $display as $key => $value ) {                
+                    $row = array( );  
+                    foreach ( $this->_columnHeaders as $column_key => $column_value ) {
+                        if ( CRM_Utils_Array::value( $column_key, $value ) ) {
+                            $row[ $column_key ] = $value [ $column_key ];
+                        }
+                    } 
+                    
+                    $rows [ ]  = $row;
+                }     
+            }
         }
         // format result set. 
         $this->formatDisplay( $rows, false );
