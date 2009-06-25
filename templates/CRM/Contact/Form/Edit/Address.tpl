@@ -1,11 +1,10 @@
+{if $title}
 <h3 class="head"> 
     <span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{ts}{$title}{/ts}</a>
 </h3>
+{/if}
 
-
-{* FIXME *}
-{assign var="index" value=1}
-
+{assign var="index" value=$addressBlockCount}
 <div id="addressBlock">
   <table class="form-layout-compressed">   
      <tr>
@@ -65,4 +64,13 @@
         {/if}
      </tr>
   </table>
+
+ <div id="Address_Block_{$addressBlockCount+1}"> </div>
+
+ {if $addMoreAddress}
+   <div id = "addMoreAddress" >
+    <br />&nbsp;&nbsp;<a href="#" onclick="buildAdditionalBlocks( 'Address', '{$addressBlockCount+1}', '{$contactType}' );" style="font-size: 10px;">add address</a><br /><br />
+   </div>
+ {/if}
+
 </div>

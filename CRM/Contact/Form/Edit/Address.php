@@ -49,16 +49,21 @@ class CRM_Contact_Form_Edit_Address
      * @access public
      * @static
      */
-    static function buildQuickForm(&$form) {
+    static function buildQuickForm( &$form ) 
+    {
         //, &$location, $locationId, $countryDefault = null
         
-
-        //FIXME
-        $locationId = 1; 
+        $locationId = ( $form->_Address_Block_Count ) ? $form->_Address_Block_Count  : 1;
+        $addMoreAddress = false;
+        if ( $form->_maxLocationBlocks >=  $locationId + 1 ) {
+            $addMoreAddress = true;
+        }
+        $form->assign( 'addMoreAddress', $addMoreAddress ); 
+        $form->assign( 'addressBlockCount', $locationId ); 
         
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
-
+        
         $config =& CRM_Core_Config::singleton( );
         if ( $countryDefault == null ) {
             $countryDefault = $config->defaultContactCountry;

@@ -1,4 +1,7 @@
 {* This form is for Contact Add/Edit interface *}
+{if $addBlock}
+{include file="CRM/Contact/Form/Edit/$blockName.tpl"}
+{else}
 <div class="crm-submit-buttons">
    {$form.buttons.html}
 </div>
@@ -28,6 +31,7 @@
 <div class="crm-submit-buttons">
    {$form.buttons.html}
 </div>
+{/if}
 
 {literal}
 <script type="text/javascript" >
@@ -52,5 +56,23 @@ cj(function( ) {
     cj('span#contact').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
     cj("#contact-details").show( );
 });
+
+function buildAdditionalBlocks( blockName, blockCount, contactType ) {
+  var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + blockCount; 
+  var fname = '#' + blockName + '_Block_' + blockCount;
+  cj( fname ).show( );
+  cj('#addMore' + blockName ).hide();
+  var response = cj.ajax({ url: dataUrl, async: false }).responseText;
+  cj( fname ).html( response );
+ 
+
+  if ( blockName == 'Address' ) {
+    cj('#addressBlock').show( );
+  } else {
+    cj("#contact-details").show( ); 
+  }
+   
+}
+
 </script>
 {/literal}

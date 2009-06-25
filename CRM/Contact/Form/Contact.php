@@ -51,7 +51,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      *
      * @var string
      */
-    protected $_contactType;
+    public $_contactType;
 
     /**
      * The contact type of the form
@@ -111,7 +111,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     protected $_duplicateButtonName;
 
-    protected $_maxLocationBlocks = 0;
+    public $_maxLocationBlocks = 0;
 
     protected $_editOptions = array( );
 
@@ -123,13 +123,16 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      * @return void
      * @access public
      */
-    function preProcess( ) 
+    function preProcess( )
     {
         $this->_action  = CRM_Utils_Request::retrieve('action', 'String',$this, false, 'add' );
                                                        
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
-        
+
+        // find the system config related location blocks
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_maxLocationBlocks = CRM_Core_BAO_Preferences::value( 'location_count' );
         
         // make blocks semi-configurable
         $this->_blocks = array( 'Email'  => 1,
@@ -138,7 +141,18 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                                 'OpenID' => 1);
         
         $this->assign( 'blocks', $this->_blocks );
-                          
+        
+        $this->_addBlockName  = CRM_Utils_Array::value( 'block', $_GET );
+        $addblockCountName    = "_{$this->_addBlockName}_Block_Count";
+        $locationCount        = CRM_Utils_Array::value( 'count', $_GET );
+        
+        $this->assign( "addBlock", false );
+        if ( $this->_addBlockName && $locationCount ) {
+            $this->assign( "addBlock", true );
+            $this->assign( 'blockName', $this->_addBlockName );
+            $this->$addblockCountName = $locationCount;
+        }
+        
         $session = & CRM_Core_Session::singleton( );
         if ( $this->_action == CRM_Core_Action::ADD ) {
             // check for add contacts permissions
@@ -194,7 +208,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             unset( $this->_editOptions['Demographics'] );
         }
         $this->assign( 'editOptions', $this->_editOptions );
-    
     }
 
     /**
@@ -278,6 +291,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        //load form for child blocks
+        if ( $this->_addBlockName ) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_addBlockName ) . ".php");
+            return eval( 'CRM_Contact_Form_Edit_' . $this->_addBlockName . '::buildQuickForm( $this );' );
+        }
+        
         //build contact type specific fields
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_Edit_' . $this->_contactType . '::buildQuickForm( $this, $this->_action );' );
@@ -297,7 +316,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
             }
         }
-
+        
         // add the dedupe button
         $this->addElement('submit', 
                           $this->_dedupeButtonName,
