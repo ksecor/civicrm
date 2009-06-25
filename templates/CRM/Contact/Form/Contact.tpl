@@ -5,6 +5,7 @@
 <div class="crm-submit-buttons">
    {$form.buttons.html}
 </div>
+<span style="float:right;"><a href="#expand" id="expand">{ts}Expand all tabs{/ts}</a></span>
 <br/>
 <div class="accordion ui-accordion ui-widget ui-helper-reset">
     <h3 class="head"> 
@@ -75,5 +76,23 @@ function buildAdditionalBlocks( blockName, blockCount, contactType ) {
   cj( "#hidden_" + blockName ).val( blockCount );
 }
 
+cj('a#expand').click( function( ){
+     if( cj(this).attr('href') == '#expand') {   
+          var message = {/literal}{ts}"Collapse all tabs"{/ts}{literal};
+          var class   = 'ui-icon ui-icon-triangle-1-s';
+          var event   = 'show';
+          cj(this).attr('href', '#collapse');
+     } else {
+          var message = {/literal}{ts}"Expand all tabs"{/ts}{literal};
+          var class   = 'ui-icon ui-icon-triangle-1-e';
+          var event   = 'hide';
+          cj(this).attr('href', '#expand');
+     }
+          cj(this).html(message);
+          cj('div.accordion div').each(function() {
+             cj(this).parent().find('h3 span').removeClass( ).addClass(class);
+                 eval( " var me = cj(this)." + event + "();" ); 
+          }); 
+});
 </script>
 {/literal}
