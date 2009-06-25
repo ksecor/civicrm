@@ -121,7 +121,31 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
     
     static function formRule( &$fields, &$files, $self ) 
         {  
-            $errors = array( ); 
+            $errors = array( );
+            $dupeClass = false;
+            $reportUrl = new CRM_Core_DAO_OptionValue( );
+            $reportUrl->option_group_id = $self->_opID;
+            $reportUrl->value           = $fields['value'];
+            
+            if ( $reportUrl->find( true ) &&  $self->_id != $reportUrl->id ) {
+                $errors['value'] = ts('Url already exists in Database.');
+                
+                if ( $reportUrl->name == $fields['name'] ) {
+                    $dupeClass = true;
+                }
+            }         
+            if ( !$dupeClass ) {
+                $reportClass = new CRM_Core_DAO_OptionValue( );
+                $reportClass->option_group_id = $self->_opID;
+                $reportClass->name            = $fields['name'];
+                if ( $reportClass->find( true ) &&  $self->_id != $reportClass->id ) {
+                    $dupeClass = true;
+                }
+            }
+
+            if ( $dupeClass ) {
+                $errors['name'] = ts('Claas already exists in Database.');
+            }
             return $errors;
         } 
     

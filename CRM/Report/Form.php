@@ -195,7 +195,9 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
 
             // lets always do a force if a valid id is found in the url.
-            $this->_force      = 1;
+            if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
+                $this->_force = 1;
+            }
 
             // set the mode
             $this->assign( 'mode', 'instance' );
@@ -592,7 +594,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
             $this->addElement( 'submit', $this->_instanceButtonName, $label );
             $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
-            $this->addElement('submit', $this->_pdfButtonName, ts( 'Print PDF' ) );
+            $this->addElement('submit', $this->_pdfButtonName, ts( 'PDF' ) );
 
             $this->assign( 'instanceForm', true );
         }
@@ -600,15 +602,17 @@ class CRM_Report_Form extends CRM_Core_Form {
         $label = $this->_id ? ts( 'Print Report' ) : ts( 'Print Preview' );
         $this->addElement('submit', $this->_printButtonName, $label );
 
-        $label = $this->_id ? ts( 'Print PDF' ) : ts( 'Preview PDF' );
+        $label = $this->_id ? ts( 'PDF' ) : ts( 'Preview PDF' );
         $this->addElement('submit', $this->_pdfButtonName, $label );
 
         $label = $this->_id ? ts( 'Export to CSV' ) : ts( 'Preview CSV' );
         $this->addElement('submit', $this->_csvButtonName, $label );
 
-        $this->addElement( 'select', 'groups', ts( 'Group' ), 
-                           array( '' => ts( '- select group -' )) + CRM_Core_PseudoConstant::staticGroup( ) );
-        $this->assign( 'group', $this->_groups );
+        if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
+            $this->addElement( 'select', 'groups', ts( 'Group' ), 
+                               array( '' => ts( '- select group -' )) + CRM_Core_PseudoConstant::staticGroup( ) );
+            $this->assign( 'group', $this->_groups );
+        }
         
         //$this->addElement('select', 'select_add_to_group_id', ts('Group'), $groupList);
         $label = ts( 'Add Results' );
@@ -808,7 +812,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         if ( $to ) {
-            $clauses[] = "( {$fieldName} <= $to )";
+            $clauses[] = "( {$fieldName} <= {$to}235959 )";
         }
 
         if ( ! empty( $clauses ) ) {

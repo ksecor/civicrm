@@ -103,7 +103,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                  array( 'title'        => ts( 'Country' ), 
                                         'type'         => CRM_Utils_Type::T_INT,
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options'      => CRM_Core_PseudoConstant::country(null,false),), 
+                                        'options'      => CRM_Core_PseudoConstant::country( ),), 
                                  'state_province_id' => 
                                  array( 'title'        => ts( 'State/Province' ), 
                                         'type'         => CRM_Utils_Type::T_INT,
@@ -173,11 +173,6 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
             'fields' => $fields,
           );
         }
-        
-        $this->_options = array( 'include_statistics' => array( 'title'  => ts( 'Include Contribution Statistics' ),
-                                                                'type'   => 'checkbox',
-                                                                'default'=> true ),
-                                 );
         
         parent::__construct( );
     }
@@ -346,7 +341,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
                     $rows[$rowNum]['civicrm_address_state_province_id'] = 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
+                        CRM_Core_PseudoConstant::stateProvince( $value, false );
 
                     $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail',
                                                                 "reset=1&force=1&" . 
