@@ -174,9 +174,30 @@ class CRM_Report_Form_Instance {
         $dao->save( );
 
         $form->set( 'id', $dao->id );
+        if ( $dao->id ) {
+            $instanceParams   = array( 'value' => $dao->report_id );
+            $instanceDefaults = array();
+            $cmpName   = "Contact";
+            $statusMsg = "null";
+            CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue',
+                                          $instanceParams,
+                                          $instanceDefaults );
+            if ( $cmpID = $instanceDefaults['component_id'] ) {
+                $cmpName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component', $cmpID,
+                                                        'name', 'id');
+                $cmpName = substr( $cmpName, 4 );
+            }
+            
+            $statusMsg = ts('Report "%1" has been created and is now available in the report listings under "%2" Reports', array( 1 => $dao->title, 2 => $cmpName ));
+            if ( $instanceID ) {
+                $statusMsg = ts('Report "%1" has been updated', array( 1 => $dao->title ));
+            }
+            CRM_Core_Session::setStatus( $statusMsg );
+        }
     }
+    
+  }
 
-}
 
 
 
