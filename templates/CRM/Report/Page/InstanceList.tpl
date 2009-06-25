@@ -5,6 +5,11 @@
 	    <table class="report-layout">
 		<tr>
 		    <th>{if $title}{$title}{elseif $report EQ 'Contribute'}{ts}Contribution{/ts}{else}{$report}{/if} {ts}Reports{/ts}</th>
+            <th>
+                <div style=" float:right; width:10px;"> 
+                    <img id="report_{$report}" src="{$config->resourceBase}i/menu-expanded.png" />
+                </div>
+            </th>
 		</tr>
 	    </table>
 	</div>
@@ -47,11 +52,15 @@
 {literal}
 <script type="text/javascript">
     function toggle_visibility(id) {
+    var basepath = '{/literal}{$config->resourceBase}{literal}';
 	var e = document.getElementById(id);
+    var i = document.getElementById('report_'+id);
 	if (e.style.display == 'block') {
 	    e.style.display = 'none';
+        i.src =  basepath + 'i/menu-collapsed.png'
 	} else {
 	    e.style.display = 'block';
+        i.src = basepath + 'i/menu-expanded.png';
 	}
     }
 </script>
