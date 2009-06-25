@@ -209,6 +209,8 @@ function tokenReplHtml ( )
 	{
 	 	oEditor = FCKeditorAPI.GetInstance('html_message');
 		oEditor.SetHTML( {/literal}'{$message_html}'{literal});
+		FCKConfig.BaseHref = '' ;
+		FCKConfig.UserFilesPath = '' ; 
 		loadEditor();	
 		editorInstance.Events.AttachEvent( 'OnFocus',verify ) ;
     	}
