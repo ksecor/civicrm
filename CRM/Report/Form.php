@@ -594,7 +594,7 @@ class CRM_Report_Form extends CRM_Core_Form {
 
             $this->addElement( 'submit', $this->_instanceButtonName, $label );
             $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
-            $this->addElement('submit', $this->_pdfButtonName, ts( 'Print PDF' ) );
+            $this->addElement('submit', $this->_pdfButtonName, ts( 'PDF' ) );
 
             $this->assign( 'instanceForm', true );
         }
@@ -602,7 +602,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $label = $this->_id ? ts( 'Print Report' ) : ts( 'Print Preview' );
         $this->addElement('submit', $this->_printButtonName, $label );
 
-        $label = $this->_id ? ts( 'Print PDF' ) : ts( 'Preview PDF' );
+        $label = $this->_id ? ts( 'PDF' ) : ts( 'Preview PDF' );
         $this->addElement('submit', $this->_pdfButtonName, $label );
 
         $label = $this->_id ? ts( 'Export to CSV' ) : ts( 'Preview CSV' );

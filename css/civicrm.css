@@ -1203,7 +1203,7 @@ commented since it is overwiting simple td
 #crm-container .report-layout {
    background-color : #F5F5F5; 
    border           : none;
-   margin           : 0em 0em 0em 0.1em;
+   margin           : 0em 0em 1em 0.1em;
    //width            : 100%;
 }
 
@@ -1252,11 +1252,18 @@ commented since it is overwiting simple td
    background-color : #DCDCDC;
    border           : 1px solid #DCDCDC;
    color            : #000000;
+   padding          : 4px;
 }
 
 #crm-container table.report-layout th.report-contents {
    background-color : #F5F5F5;	       
 }
+
+#crm-container table.report-layout th.statistics {
+    width            : 5%;
+    white-space      : nowrap;
+}
+
 /*override default pager for report*/
 .report-pager .crm-pager {
     background-color: #DCDCDC;

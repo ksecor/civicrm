@@ -4,18 +4,18 @@
 	<div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
 	    <table class="report-layout">
 		<tr>
-		    <th>{if $title}{$title}{elseif $report}{$report}{else}Contact{/if} Reports</th>
+		    <th>{if $title}{$title}{elseif $report EQ 'Contribute'}{ts}Contribution{/ts}{else}{$report}{/if} {ts}Reports{/ts}</th>
 		</tr>
 	    </table>
 	</div>
 	<div id="{$report}" style="display:block;">
 	    <table class="report-layout">
 		{foreach from=$rows item=row}
-		    <tr >
-			<td style="width:35%"><a href="{$row.url}">&raquo; <strong>{$row.title}</strong></a></td>
-			<td >{$row.description}</td>
+		    <tr>
+			<td style="width:35%"><a href="{$row.url}" title="{ts}Run this report{/ts}">&raquo; <strong>{$row.title}</strong></a></td>
+			<td>{$row.description}</td>
 			{if $row.deleteUrl}
-			    <td style = "width:5%"><a href="{$row.deleteUrl}" onclick="return window.confirm('Are you sure you want Delete this Instance?');">{ts}Delete{/ts}</a></td>
+			    <td style = "width:5%"><a href="{$row.deleteUrl}" onclick="return window.confirm('{ts}Are you sure you want delete this report? This action can not be undone.{/ts}');">{ts}Delete{/ts}</a></td>
 			{/if}
 		    </tr>
 		{/foreach}
@@ -33,7 +33,12 @@
                 <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/>
             </dt>
             <dd>
-                {ts 1=$templateUrl}Currently there are no ready made reports available however you could create one with the <a href=%1><strong>template</strong></a> of your own choice.{/ts}
+                {ts}No report instances have been created for your site.{/ts} &nbsp;
+                {if $templateUrl}
+                    {ts 1=$templateUrl}You can create reports by selecting from the <a href="%1">list of report templates here.</a>{/ts}
+                {else}
+                    {ts}Contact your site administrator for help creating reports.{/ts}
+                {/if}
             </dd>
         </dl>
     </div>

@@ -22,6 +22,10 @@
     text-align       : right;
 }
 
+#crm-container .reports-header {
+    text-align       : left;
+}
+
 #crm-container .report-contents {
     border           : 1px groove #DDDDDD;
     padding          : 4px;
@@ -36,6 +40,7 @@
 
 #crm-container table.report-layout td {
     border           : 1px groove #DDDDDD;
+    padding          : 4px;
 }
 
 #crm-container table.report-layout tr {
@@ -48,6 +53,7 @@
 }
 
 #crm-container table.report-layout th {
+    padding          : 4px;
     background-color : #DCDCDC;
 }
 
@@ -55,8 +61,15 @@
     background-color : #F5F5F5;	       
 }
 
+#crm-container table.report-layout th.statistics {
+    width            : 5%;
+    white-space      : nowrap;
+}
+
 #crm-container h1 {
     text-align       : left;
-    font-size        : 30pt; font-style: italic;
+    font-family      : sans-serif;
+    font-size        : 20pt;
+    font-style       : italic;
     margin           : 0;
 }
