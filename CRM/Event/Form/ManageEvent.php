@@ -91,6 +91,8 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
         $this->_single = $this->get( 'single' );
 
+        $subPage       = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
+
         $this->_isTemplate = (bool) CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
         if (!$this->_isTemplate and $this->_id) {
             $this->_isTemplate = (bool) CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'is_template');
@@ -103,16 +105,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         require_once 'CRM/Event/Form/ManageEvent/TabHeader.php';
         CRM_Event_Form_ManageEvent_TabHeader::build( $this );
 
-        // make submit buttons shift to next available valid(not disabled) tabs
-        if ( $this->_id ) {
-            $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
-            //$nextsubPage = CRM_Event_Form_ManageEvent_TabHeader::getNextSubPage( $this, $subPage );
-            $session =& CRM_Core_Session::singleton(); 
-            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
-                                                              "action=update&reset=1&id={$this->_id}&subPage={$subPage}" ) );
-        }
-        
-        if ( $this->_id ) {
+        if ( !$this->_isTemplate && $this->_id ) {
             $breadCrumb = 
                 array( array('title' => ts('Configure Event'),
                              'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
@@ -173,16 +166,6 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
                              array ( 'type'      => 'cancel',
                                      'name'      => ts('Cancel'), ), 
                              );
-            if ( $this->_id ) {
-                // add js to cancel button
-                $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
-                                              "action=update&reset=1&id={$this->_id}", 
-                                              false, null, false );
-
-                $buttons[1]['js'] = array( 'onclick' => 
-                                           "location.href='{$url}';return false;" );
-            }
-
             $this->addButtons( $buttons );
 
         } else {
@@ -204,6 +187,15 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         }
 
         $this->add('hidden', 'is_template', $this->_isTemplate);
+    }
+
+    function endPostProcess( ) {
+        // make submit buttons shift to next available valid(not disabled) tabs
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
+                                                               "action=update&reset=1&id={$this->_id}&subPage={$subPage}" ) );
+        }
     }
 
     function getTemplateFileName( ) {

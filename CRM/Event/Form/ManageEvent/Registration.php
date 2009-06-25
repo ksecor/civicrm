@@ -393,6 +393,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         }
         CRM_Core_BAO_UFJoin::create($ufJoinParams);
 
+        parent::endPostProcess( );
     }//end of function
     
     /**

@@ -147,7 +147,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         }
         
         if ($this->_isTemplate) {
-            $breadCrumb = array(array('title' => ts('Event Templates'),
+            $breadCrumb = array(array('title' => ts('Manage Event Templates'),
                                       'url'   => CRM_Utils_System::url('civicrm/admin/eventTemplate', 'reset=1')));
         } elseif ($this->_id) {
             $breadCrumb = array(array('title' => ts('Manage Events'),
