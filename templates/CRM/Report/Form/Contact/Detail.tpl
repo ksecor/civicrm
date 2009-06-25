@@ -37,7 +37,7 @@
                                     <td  class="report-contents">
                                         {if $row.$fieldLink}<a title="{$row.$fieldHover}" href="{$row.$fieldLink}">{/if}
                         
-                                        {if $row.$field eq 'Sub Total'}
+                                        {if $row.$field eq 'Subtotal'}
                                             {$row.$field}
                                         {elseif $header.type eq 12}
                                             {if $header.group_by eq 'MONTH' or $header.group_by eq 'QUARTER'}

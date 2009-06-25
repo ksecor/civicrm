@@ -900,7 +900,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                     "<strong>{$row[$colName]}</strong>";
             } else if ( isset($this->_columnHeaders[$colName]) ) {
                 if ( $subtotal ) {
-                    $row[$colName] = "Sub Total";
+                    $row[$colName] = "Subtotal";
                     $subtotal = false;
                 } else {
                     unset($row[$colName]);
