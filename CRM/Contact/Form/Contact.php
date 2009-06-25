@@ -262,13 +262,14 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $primaryID = false;
         foreach ( $form->_blocks as $name => $active ) {
             if ( $active ) {
+                $name = strlower($name);
                 foreach ( $fields[$name] as $count => $values ) {
-                    if ( in_array($name, array('email', 'openid')) && isset($values[$name]) ) {
+                    if ( in_array($name, array('email', 'openid')) && !empty($values[$name]) ) {
                         $primaryID = true;
                     }
                     
-                    if ( !CRM_Utils_Array::value('is_primary', $values) && !isset($values[$name]) ) {
-                        $errors[$name][$count] = ts('Primary %1 should not be empty.', array( 1 => $name) );
+                    if ( CRM_Utils_Array::value('is_primary', $values) && empty($values[$name]) ) {
+                        $errors[$name][$count][$name] = ts('Primary %1 should not be empty.', array( 1 => $name) );
                     } 
                 }
             }
