@@ -72,6 +72,7 @@ function buildAdditionalBlocks( blockName, blockCount, contactType ) {
     cj("#contact-details").show( ); 
   }
    
+  cj( "#hidden_" + blockName ).val( blockCount );
 }
 
 </script>

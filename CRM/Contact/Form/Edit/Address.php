@@ -53,13 +53,33 @@ class CRM_Contact_Form_Edit_Address
     {
         //, &$location, $locationId, $countryDefault = null
         
-        $locationId = ( $form->_Address_Block_Count ) ? $form->_Address_Block_Count  : 1;
+        $locationId = ( $form->get( 'Address_Block_Count' ) ) ? $form->get( 'Address_Block_Count' ) : 1;
         $addMoreAddress = false;
         if ( $form->_maxLocationBlocks >=  $locationId + 1 ) {
             $addMoreAddress = true;
         }
         $form->assign( 'addMoreAddress', $addMoreAddress ); 
-        $form->assign( 'addressBlockCount', $locationId ); 
+        $form->assign( 'addressBlockCount', $locationId );
+        
+        $form->addElement( 'hidden', 'hidden_Address', $locationId, array( 'id' => 'hidden_Address' ) );
+        $form->addElement('select',
+                          "address[$locationId][location_type_id]",
+                          ts( 'Location Type' ),
+                          array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+        
+        $form->addElement(
+                          'checkbox', 
+                          "address[$locationId][is_primary]", 
+                          ts('Primary location for this contact'),  
+                          ts('Primary location for this contact'), 
+                          array('onchange' => "location_onclick('" . $form->getName( ) . "', $locationId, $form->_maxLocationBlocks, 'is_primary');" ) );
+        
+        $form->addElement(
+                          'checkbox', 
+                          "address[$locationId][is_billing]", 
+                          ts('Billing location for this contact'),  
+                          ts('Billing location for this contact'), 
+                          array('onchange' => "location_onclick('" . $form->getName( ) . "', $locationId, $form->_maxLocationBlocks, 'is_billing');" ) );
         
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
@@ -69,7 +89,7 @@ class CRM_Contact_Form_Edit_Address
             $countryDefault = $config->defaultContactCountry;
         }
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
-              
+        
         $elements = array( 
                           'address_name'           => array( ts('Address Name')      ,  $attributes['address_name'], null ),
                           'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
@@ -118,28 +138,25 @@ class CRM_Contact_Form_Edit_Address
                             $selectOptions = array( '' => ts( '- select a country -' ) );
                         }
                     }
-                    $location[$locationId]['address'][$name] =
-                        $form->addElement( 'select',
-                                           "address[$locationId][$name]",
-                                           $title,
-                                           $selectOptions );
+                    $form->addElement( 'select',
+                                       "address[$locationId][$name]",
+                                       $title,
+                                       $selectOptions );
                 } else {
                     if ( $name == 'address_name' ) {
                         $name = "name";
                     }
                     
-                    $location[$locationId]['address'][$name] =
-                        $form->addElement( 'text',
-                                           "address[$locationId][$name]",
-                                           $title,
-                                           $attributes );
-                }
-            } else {
-                $location[$locationId]['address'][$name] =
-                    $form->addElement( 'select',
+                    $form->addElement( 'text',
                                        "address[$locationId][$name]",
                                        $title,
-                                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
+                                       $attributes );
+                }
+            } else {
+                $form->addElement( 'select',
+                                   "address[$locationId][$name]",
+                                   $title,
+                                   array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
             }
         }
         

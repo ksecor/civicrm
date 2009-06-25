@@ -6,13 +6,22 @@
 
 {assign var="index" value=$addressBlockCount}
 <div id="addressBlock">
-  <table class="form-layout-compressed">   
+  <table class="form-layout-compressed">
+     <tr>
+        <td colspan="2">
+           {$form.address.$index.location_type_id.label}
+           {$form.address.$index.location_type_id.html}
+           {$form.address.$index.is_primary.html}
+           {$form.address.$index.is_billing.html}
+        </td>
+     </tr>
+     {if $form.use_household_address} 
      <tr>
         <td>{$form.use_household_address.html}{$form.use_household_address.label}<img src="../../i/quiz.png" / alt="help"> &nbsp;&nbsp;
         </td>
         <td></td>
      </tr>
-     
+     {/if}
      {if $form.address.$index.street_address}
      <tr>
         <td colspan="2">

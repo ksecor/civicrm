@@ -143,14 +143,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $this->assign( 'blocks', $this->_blocks );
         
         $this->_addBlockName  = CRM_Utils_Array::value( 'block', $_GET );
-        $addblockCountName    = "_{$this->_addBlockName}_Block_Count";
-        $locationCount        = CRM_Utils_Array::value( 'count', $_GET );
-        
+        $additionalblockCount = CRM_Utils_Array::value( 'count', $_GET );
         $this->assign( "addBlock", false );
-        if ( $this->_addBlockName && $locationCount ) {
+        if ( $this->_addBlockName && $additionalblockCount ) {
             $this->assign( "addBlock", true );
-            $this->assign( 'blockName', $this->_addBlockName );
-            $this->$addblockCountName = $locationCount;
+            $this->assign( "blockName", $this->_addBlockName );
+            $this->set( $this->_addBlockName."_Block_Count", $additionalblockCount );
         }
         
         $session = & CRM_Core_Session::singleton( );
@@ -208,6 +206,19 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             unset( $this->_editOptions['Demographics'] );
         }
         $this->assign( 'editOptions', $this->_editOptions );
+        
+        foreach ( array_merge( array( 'Address' => 1 ), $this->_blocks ) as $blockName => $active ) {
+            $hiddenCount = CRM_Utils_Array::value( "hidden_".$blockName, $_POST );
+            if (  $hiddenCount > 1 ) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
+                for ( $instance = 2; $instance <= $hiddenCount; $instance++ ) {
+                    $this->assign( "addBlock", true );
+                    $this->assign( 'blockName', $blockName );
+                    $this->set( $blockName."_Block_Count", $instance );
+                    eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' ); 
+                }
+            }
+        }
     }
 
     /**
@@ -255,10 +266,11 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     static function formRule( &$fields, $files, &$form )
     {
-        $errors = array( );
+        return $errors = array( );
+        
         eval("\$formErrors = CRM_Contact_Form_Edit_".$form->_contactType."::formRule( \$fields, \$files );");
         $errors = array_merge($errors, $formErrors);
-      
+        
         $primaryID = false;
         foreach ( $form->_blocks as $name => $active ) {
             if ( $active ) {
@@ -294,7 +306,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     {
         //load form for child blocks
         if ( $this->_addBlockName ) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_addBlockName ) . ".php");
+            require_once( str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_addBlockName ) . ".php");
             return eval( 'CRM_Contact_Form_Edit_' . $this->_addBlockName . '::buildQuickForm( $this );' );
         }
         
@@ -314,6 +326,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         foreach( $this->_editOptions as $name => $label ) {                
             if ( $name != 'CustomData' ) {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name ) . ".php");
+                $this->set( $name."_Block_Count", 1 );
                 eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
             }
         }
