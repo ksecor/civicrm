@@ -1,67 +1,25 @@
 {* tpl for building phone related fields*}
-
-<tr id="row0">
-
-  <td style="
-  vertical-align:
-bottom"
-><span style="font-size:
-12px;">Phone</span>
-  &nbsp;
-  
-<a style="font-size: 10px; color:#A9290A;"
-href="#"
-onclick="cj('#row3').show();cj('#show2').hide();return
-false;">add</a>                                                      
-  
-  </td>
-  <td colspan="2"></td>
-  <td
-  align="center">Primary?</td>                                                                                                            
+<tr>
+        <td><strong>{ts}Phone{/ts}</strong>
+             &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="addRemovePhoneBlock();">add</a>
+        </td>
+        <td colspan="2"></td>
+        <td>{ts}Primary?{/ts}</td>
 </tr>
-                                                    <tr class="last-row">
-
-
-                                                        <td>
-
-   <input maxlength="64" size="26" name="location[1][phone][1][phone]" id="location_1_phone_1_phone" type="text">
-
-        <select name="location[1][location_type_id]" id="location_1_location_type_id" class="form-select">
-            <option value="5">Billing</option>
-            <option value="1" selected="selected">Home</option>
-            <option value="3">Main</option>
-            <option value="4">Other</option>
-            <option value="2">Work</option>
-        </select>
-        
-
-
-</td>
-
-<td colspan="2">
-
-        <select name="location[1][phone][1][phone_type_id]" id="location_1_phone_1_phone_type_id" class="form-select">
-
-             <option value="">- select -</option>
-             <option value="1" selected="selected">Phone</option>
-             <option value="2">Mobile</option>
-             <option value="3">Fax</option>
-             <option value="4">Pager</option>
-             <option value="5">Voicemail</option>
-         </select>        
-                                                        
-</td>
-
-
-                                                        <td
-                                                    style="vertical-align:
-                                                        middle;" align="center"><input
-                                                    name="phone-primary"
-                                                        value=""
-                                                    checked="checked"
-                                                        disabled="disabled"
-                                                    type="radio"></td>
-
-                                               <td></td>         
-                                                    </tr>
-
+{section name=loop start=1 loop=`$phoneCount+1`} 
+{assign var=key value=$smarty.section.loop.index}
+<tr id="phone-{$key}">
+     <td>{$form.phone.$key.phone.html|crmReplace:class:twenty}
+         &nbsp;{$form.phone.$key.location_id.html}</td>
+     <td colspan="2">{$form.phone.$key.phone_type_id.html}</td>
+     <td align="center">{$form.phone.$key.is_primary.html}</td>
+</tr>
+{/section}
+{literal}
+<script type="text/javascript">
+cj('#phone-2').hide();
+function addRemovePhoneBlock( ) {
+    cj('#phone-2').toggle();
+}
+</script>
+{/literal}

@@ -54,33 +54,34 @@ class CRM_Contact_Form_Edit_Email
     {
         //FIXME &$location, $locationId, $count
         
-        require_once 'CRM/Core/ShowHideBlocks.php';
-
+        $count = 2;
         $showBulkMailing = true;
+        
         //suppress Bulk Mailings (CRM-2881)
         if ( is_object( $form ) && ($form instanceof CRM_Event_Form_ManageEvent_Location ) ) {
             $showBulkMailing = false;
         }
-   
+        
         for ($i = 1; $i <= $count; $i++) {
-            $label = ($i == 1) ? ts('Email (preferred)') : ts('Email');
-
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][email]", ts('another email'), ts('hide this email'));
+            //Email box
+            $form->addElement('text',"email[$i][email]",  ts('Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email', 'email'));
             
-            $location[$locationId]['email'][$i]['email'] = $form->addElement('text', 
-                                                                             "location[$locationId][email][$i][email]",
-                                                                             $label,
-                                                                             CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
-                                                                                                   'email'));
-            $form->addRule( "location[$locationId][email][$i][email]", ts('Email is not valid.'), 'email' );
+            //Block type
+            $form->addElement('select',"email[$i][location_id]", '' , CRM_Core_PseudoConstant::locationType());
             
-            $location[$locationId]['email'][$i]['on_hold'] = $form->addElement('advcheckbox',
-                                                                             "location[$locationId][email][$i][on_hold]",null, ts('On Hold'));
+            //On-hold checkbox
+            $form->addElement('advcheckbox', "email[$i][on_hold]",null);
+            
             if ( $showBulkMailing ) {
-                $location[$locationId]['email'][$i]['is_bulkmail'] = $form->addElement('advcheckbox',
-                                                                                       "location[$locationId][email][$i][is_bulkmail]",ts('Use for Bulk Mailings'), ts('Use for Bulk Mailings'), array('onchange' => "email_is_bulkmail_onclick('" . $form->getName() . "', $i, $count, $locationId);" ));
+                //Bulkmail checkbox
+                $form->addElement('advcheckbox', "email[$i][is_bulkmail]", null);
             }
+            
+            //Primary radio
+            $options = array( HTML_QuickForm::createElement('radio', null, '') );
+            $form->addGroup($options, "email[$i][is_primary]", '');            
         }
+        $form->assign( 'emailCount', $count );
     }
 }
 

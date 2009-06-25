@@ -53,33 +53,33 @@ class CRM_Contact_Form_Edit_Phone
     static function buildQuickForm( &$form ) {
         
         //FIXME : &$location, $locationId, $count, $phoneType = null
-        
+        $count = 2;
         require_once 'CRM/Core/ShowHideBlocks.php';
         for ($i = 1; $i <= $count; $i++) {
-            $label = ($i == 1) ? ts('Phone (preferred)') : ts('Phone');
-
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", ts('another phone'), ts('hide this phone'));
-            
             if ( ! $phoneType ) {
                 $phoneType = CRM_Core_PseudoConstant::phoneType( );
             }
-            
-            $location[$locationId]['phone'][$i]['phone_type_id'] = $form->addElement('select',
-                                                                                  "location[$locationId][phone][$i][phone_type_id]",
-                                                                                  $label,
-                                                                                  array('' =>  ts('- select -'))+$phoneType,
-                                                                                  null
-                                                                                  );
 
-            $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text',
-                                                                                  "location[$locationId][phone][$i][phone]", 
-                                                                                  $label,
-                                                                                  CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
-                                                                                                        'phone'));
+            //phone type select
+            $form->addElement('select', "phone[$i][phone_type_id]", ts('Phone'), $phoneType, null );
+            
+            //Block type select
+            $form->addElement('select',"phone[$i][location_id]", '' , CRM_Core_PseudoConstant::locationType());
+            
+            //phone box
+            $form->addElement('text', "phone[$i][phone]", ts('Phone'), 
+                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone', 'phone'));
+            
+            
+            //Primary radio
+            $options = array( HTML_QuickForm::createElement('radio', null, '') );
+            $form->addGroup($options, "phone[$i][is_primary]", ''); 
+            
 
             // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number
-//             $form->addRule( "location[$locationId][phone][$i][phone]", ts('Phone number is not valid.'), 'phone' );
+            // $form->addRule( "location[$locationId][phone][$i][phone]", ts('Phone number is not valid.'), 'phone' );
         }
+        $form->assign( 'phoneCount', $count );
     }
 
 }
