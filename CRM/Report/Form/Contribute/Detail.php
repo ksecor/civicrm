@@ -285,7 +285,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
     }
 
     function orderBy( ) {
-        $this->_orderBy = " ORDER BY contact.display_name ";
+        $this->_orderBy = " ORDER BY contact.id ";
     }
 
     function statistics( &$rows ) {
@@ -320,23 +320,37 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
         // custom code to alter rows
         $checkList  = array();
         $entryFound = false;
+        $display_flag = $prev_cid = $cid =  0;
         
         foreach ( $rows as $rowNum => $row ) {
             if ( !empty($this->_noRepeats) ) {
-                // don't repeat contact display names if it matches with the one 
-                // in previous row
-
-                foreach ( $row as $colName => $colVal ) {
-                    if ( CRM_Utils_Array::value($colName, $checkList ) && is_array($checkList[$colName]) && 
-                         in_array($colVal, $checkList[$colName]) ) {
-                        $rows[$rowNum][$colName] = "";
-                    }
-                    if ( in_array($colName, $this->_noRepeats) ) {
-                        $checkList[$colName][] = $colVal;
+                // don't repeat contact details if its same as the previous row
+                if ( array_key_exists('civicrm_contact_id', $row ) ) {
+                    if ( $cid =  $row['civicrm_contact_id'] ) {
+                        if ( $rowNum == 0 ) {
+                            $prev_cid = $cid;
+                        } else {
+                            if( $prev_cid == $cid ) {
+                                $display_flag = 1;
+                                $prev_cid = $cid;
+                            } else {
+                                $display_flag = 0;
+                                $prev_cid = $cid;
+                            }
+                        }
+                        
+                        if ( $display_flag ) {
+                            foreach ( $row as $colName => $colVal ) {
+                                if ( in_array($colName, $this->_noRepeats) ) {
+                                    unset($rows[$rowNum][$colName]);          
+                                }
+                            }
+                        }
+                        $entryFound = true;
                     }
                 }
             }
-
+            
             // handle state province
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
