@@ -195,11 +195,6 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
           );
         }
 
-
-        $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
-                                                                 'type'   => 'checkbox',
-                                                                 'default'=> true ),
-                                 );
         parent::__construct( );
     }
 
@@ -425,7 +420,6 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             }
             
             if ( !empty($this->_statFields) && 
-                 CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) && 
                  (( $append && count($this->_groupBy) <= 1 ) || (!$append)) && !$this->_having ) {
                 $this->_rollup = " WITH ROLLUP";
             }
