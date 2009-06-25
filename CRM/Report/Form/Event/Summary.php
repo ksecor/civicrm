@@ -61,28 +61,27 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                                'event_type_id'    => array( 'title'     => ts( 'Event Type' ),
                                                             'required'  => true ),
                                'fee_label'        => array( 'title'     => ts( 'Fee Label' ) ),
-                               'start_date'       => array( 'title'     => ts( 'Event Start Date' ),),
-                               'end_date'         => array( 'title'     => ts( 'Event End Date' ) ),
+                               'event_start_date' => array( 'title'     => ts( 'Event Start Date' ),),
+                               'event_end_date'   => array( 'title'     => ts( 'Event End Date' ) ),
                                'max_participants' => array( 'title'     => ts( 'Capacity' ) )
                                ),
                          
                          'filters' =>             
                          array( 			 			   
-                               'eid'        => array( 'name'    => 'title',
-                                                      'title'   => ts( 'Event Title' ),
-                                                      'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
-                                                      'options' => CRM_Event_PseudoConstant::event() ), 
+                               'eid'              => array( 'name'    => 'title',
+                                                            'title'   => ts( 'Event Title' ),
+                                                            'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
+                                                            'options' => CRM_Event_PseudoConstant::event() ), 
                                
-                               'tid'        => array( 'name'    => 'event_type_id',
-                                                      'title'   => ts( 'Event Type' ),
-                                                      'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
-                                                      'options' => CRM_Core_OptionGroup::values('event_type') ),
-                               'start_date' => array( 'title'   => 'Event Start Date',
-                                                      'operatorType' => CRM_Report_Form::OP_DATE ),
-                                                
-                               'end_date'   => array( 'title'   => 'Event End Date',
-                                                      'operatorType' => CRM_Report_Form::OP_DATE ), ),
-                                                      
+                               'tid'              => array( 'name'    => 'event_type_id',
+                                                            'title'   => ts( 'Event Type' ),
+                                                            'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
+                                                            'options' => CRM_Core_OptionGroup::values('event_type') ),
+                               'event_start_date' => array( 'title'   => 'Event Start Date',
+                                                            'operatorType' => CRM_Report_Form::OP_DATE ),
+                               
+                               'event_end_date'   => array( 'title'   => 'Event End Date',
+                                                            'operatorType' => CRM_Report_Form::OP_DATE ), ),
                          ),
                   );
      
@@ -198,10 +197,10 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
         foreach ( $participant_data as $event_id => $event_data ){
             foreach ( $event_data as $status_id => $data) {
                 
-                //total income of event 
-                $amt = $amt + $data['amount'];
                 if ( array_key_exists($status_id , $statusType1 ) ) {
-                    
+                    //total income of event 
+                    $amt = $amt + $data['amount'];
+                
                     //number of Registered/Attended participants    
                     $particiType1 = $particiType1 + $data['participant'];
                 } else if ( array_key_exists( $info->statusId , $statusType2 ) ) {
@@ -348,7 +347,7 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                 if ( array_key_exists('civicrm_event_title', $row) ) {
                     if ( $value = $row['civicrm_event_id'] ) {
                         //CRM_Event_PseudoConstant::event( $value, false );  
-                        $url = CRM_Report_Utils_Report::getNextUrl( 'event/eventIncome', 
+                        $url = CRM_Report_Utils_Report::getNextUrl( 'event/income', 
                                                       'reset=1&force=1&id_op=in&id_value='.$value,
                                                                     $this->_absoluteUrl, $this->_id);
                         $rows[$rowNum]['civicrm_event_title_link' ] = $url;

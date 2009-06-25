@@ -388,7 +388,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 /* CONTEXT MENU */
 .tree-default-context { width:160px; background:#F0F0F0 url("../packages/jquery/plugins/themes/default/context.gif") 22px 0 repeat-y; border:1px solid silver; position:absolute; }
-.tree-context a:link, .tree-default-context a, .tree-default-context a.disabled:hover { display:block; text-decoration:none; color:black; line-height:20px; background-repeat: no-repeat; background-position:2px center; padding:1px 0 1px 25px; background-color:transparent; border:1px solid #f0f0f0; border-width:0 1px; margin:0; }
+.tree-context a, .tree-default-context a, .tree-default-context a.disabled:hover { display:block; text-decoration:none; color:black; line-height:20px; background-repeat: no-repeat; background-position:2px center; padding:1px 0 1px 25px !important; background-color:transparent; border:1px solid #f0f0f0; border-width:0 1px; margin:0; }
 .tree-default-context a:hover { background-color:#e7f4f9; border:1px solid #d8f0fa; padding:0 0 0 25px; margin:0; }
 .tree-default-context a.disabled, .tree-default-context a.disabled:hover { color:silver; opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50); zoom:1; }
 .tree-context span.separator, .tree-default-context .separator { background:#FFFFFF;border-top:1px solid #E0E0E0;font-size:1px;height:1px;line-height:1px;margin:0 2px 0 24px;min-height:1px;display:block; }
@@ -1589,8 +1589,8 @@ DIV.buttons #icons {
 #crm-container .report-layout {
    background-color : #F5F5F5; 
    border           : none;
-   margin           : 0em 0em 0em 0.1em;
-   width            : 100%;
+   margin           : 0em 0em 1em 0.1em;
+   //width            : 100%;
 }
 
 #crm-container .reports-header {
@@ -1638,17 +1638,25 @@ DIV.buttons #icons {
    background-color : #DCDCDC;
    border           : 1px solid #DCDCDC;
    color            : #000000;
+   padding          : 4px;
 }
 
 #crm-container table.report-layout th.report-contents {
    background-color : #F5F5F5;	       
 
 }
+
+#crm-container table.report-layout th.statistics {
+    width            : 5%;
+    white-space      : nowrap;
+}
+
 /*override default pager for report*/
 .report-pager .crm-pager {
     background-color: #DCDCDC;
     border          : thin solid #999999;
     margin-left	    : 0.1em;
+    width           : 99%;
 }
 .report-pager .crm-pager-nav a {
     color           : #000000;

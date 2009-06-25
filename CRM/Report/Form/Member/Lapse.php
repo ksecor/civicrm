@@ -57,12 +57,6 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                                  array( 'no_display' => true,
                                         'required'   => true, ),
                                  ), 
-                          'group_bys' => 
-                          array( 'id' =>  
-                                 array( 'title'  => ts( 'Contact ID' ) ),
-                                 'display_name'  =>  
-                                 array( 'title'  => ts( 'Contact Name' ), ),
-                                 ),
                           'grouping'  => 'contact-fields',
                           ),
 
@@ -88,18 +82,13 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                                         'required'    => true,
                                         'type'        => CRM_Utils_Type::T_STRING
                                         ),  
-                                 'start_date'     => array( 'title'    => ts('Current Cycle Start Date'),
-                                                            'type'     => CRM_Utils_Type::T_DATE+ CRM_Utils_Type::T_TIME),
-                                 'end_date'       => array( 'title'    => ts('Membership Lapse Date'),
-                                                            'required' => true,
-                                                            'type'     => CRM_Utils_Type::T_DATE+ CRM_Utils_Type::T_TIME ),
+                                 'membership_start_date' => array( 'title'    => ts('Current Cycle Start Date'), ),
+                                 
+                                 'membership_end_date'   => array( 'title'    => ts('Membership Lapse Date'),
+                                                                   'required' => true, ),
                                  ), 
-                          'group_bys' =>  
-                          array( 'membership_type_id' => 
-                                 array( 'title' => ts('Membership Type') ),
-                                 ),
                           'filters'  => 
-                          array( 'end_date' =>
+                          array( 'membership_end_date' =>
                                  array('title'        =>  'Lapsed Memberships', 
                                        'operatorType' =>   CRM_Report_Form::OP_DATE ),
                                  ),
@@ -110,7 +99,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                           'alias'    => 'mem_status',
                           'fields'   =>
                           array( 
-                                'name'      => array ('title' => ts('Status'),
+                                'name'      => array ('title' => ts('Current Status'),
                                                       'required'  => true),
                                  ),
                           'grouping' => 'member-fields',		
@@ -137,6 +126,17 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                           array( 'email' => null),
                           'grouping'=> 'contact-fields',
                           ),
+                   'civicrm_group' => 
+                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                          'alias'  => 'cgroup',
+                          'filters'=>             
+                          array( 'grpid' => 
+                                 array( 'name'         => 'id',
+                                        'title'        => ts( 'Group' ),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                   
+                   
                    );
         parent::__construct( );
     }
@@ -191,7 +191,14 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                             {$this->_aliases['civicrm_membership']}.status_id
               LEFT  JOIN civicrm_membership_type {$this->_aliases['civicrm_membership_type']} 
                          ON {$this->_aliases['civicrm_membership']}.membership_type_id =
-                            {$this->_aliases['civicrm_membership_type']}.id";        
+                            {$this->_aliases['civicrm_membership_type']}.id
+              LEFT  JOIN civicrm_group_contact group_contact 
+                         ON {$this->_aliases['civicrm_contact']}.id = 
+                              group_contact.contact_id  AND 
+                              group_contact.status = 'Added'
+              LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
+                         ON  group_contact.group_id = 
+                             {$this->_aliases['civicrm_group']}.id ";        
 
         //  include address field if address column is to be included
         if ( $this->_addressField ) {  
@@ -244,37 +251,11 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE end_date < '" .date('Y-m-d'). "' AND mem_status.name = 'Expired'";
         } else {
-            if ( array_key_exists('gid', $clauses ) &&
-                 !array_key_exists('end_date', $clauses) ) {
+            if ( !array_key_exists('end_date', $clauses) ) {
                 $this->_where = "WHERE end_date < '".date('Y-m-d')."' AND " . implode( ' AND ', $clauses );
             } else {
                 $this->_where = "WHERE " . implode( ' AND ', $clauses );
             }
-        }
-    }
-    
-    function groupBy( ) {
-        $this->_groupBy = "";
-        if ( CRM_Utils_Array::value( 'group_bys', $this->_params ) &&
-             is_array($this->_params['group_bys']) && 
-             !empty($this->_params['group_bys']) ) {
-            foreach ( $this->_columns as $tableName => $table ) {
-                if ( array_key_exists('group_bys', $table) ) {
-                    foreach ( $table['group_bys'] as $fieldName => $field ) {
-                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            $this->_groupBy[] = $field['dbAlias'];
-                        }
-                    }
-                }
-            }
-            
-            if ( !empty($this->_statFields) && 
-                 (( $append && count($this->_groupBy) <= 1 ) || (!$append)) ) {
-                $this->_rollup = " WITH ROLLUP";
-            }
-            $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " {$this->_rollup} ";
-        } else {
-            $this->_groupBy = "GROUP BY contact.id";
         }
     }
     
@@ -339,7 +320,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
                     $rows[$rowNum]['civicrm_address_state_province_id'] = 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
+                        CRM_Core_PseudoConstant::stateProvince( $value, false );
                 }
                 $entryFound = true;
             }

@@ -207,7 +207,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                 //CRM-3143
                 if ( !CRM_Utils_System::isNull( $date ) && 
                      !CRM_Utils_Array::value( 'Y', $date ) ) {
-                    $date['Y'] = '1900';
+                    $date['Y'] = '1902';
                 }
                 $contact->birth_date = CRM_Utils_Date::format( $date );
             } else {
@@ -222,7 +222,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                 //CRM-3143
                 if ( !CRM_Utils_System::isNull( $date ) && 
                      !CRM_Utils_Array::value( 'Y', $date ) ) {
-                    $date['Y'] = '1900';
+                    $date['Y'] = '1902';
                 }
                 $contact->deceased_date = CRM_Utils_Date::format( $date );
             } else {

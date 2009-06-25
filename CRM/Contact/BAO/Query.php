@@ -2642,9 +2642,14 @@ WHERE  id IN ( $groupIDs )
     function privacy( &$values ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
-        $this->_where[$grouping][] = "contact_a.{$name} $op $value";
-
+        //fixed for profile search listing CRM-4633
+        if ( strpbrk( $value, "[" ) ) {
+            $value = "'{$value}'";
+            $op    = "!{$op}";
+            $this->_where[$grouping][] = "contact_a.{$name} $op $value";
+        } else {
+            $this->_where[$grouping][] = "contact_a.{$name} $op $value";
+        }
         $field = CRM_Utils_Array::value( $name, $this->_fields );
         $title = $field ? $field['title'] : $name;
         $this->_qill[$grouping][]  = "$title $op $value";

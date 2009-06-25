@@ -91,6 +91,24 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                    "reset=1&cid={$this->_contactID}&caseid={$this->_caseID}&asn=", 
                                    false, null, false ); 
         $this->assign ( 'reportUrl', $reportUrl );
+
+        // add to recently viewed    
+        require_once 'CRM/Utils/Recent.php';
+        require_once 'CRM/Contact/BAO/Contact.php';
+               
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case', 
+               "action=view&reset=1&id={$this->_caseID}&cid={$this->_contactID}" );
+
+        $title = CRM_Contact_BAO_Contact::displayName( $this->_contactID ) . ' - ' . $caseType['name'];
+        
+        // add the recently created case
+        CRM_Utils_Recent::add( $title,
+                               $url,
+                               $this->_caseID,
+                               'Case',
+                               $this->_contactID,
+                               null
+                               );
         
     }
 

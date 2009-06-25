@@ -35,6 +35,7 @@
 
 require_once "CRM/Core/Form.php";
 require_once "CRM/Activity/BAO/Activity.php";
+require_once "CRM/Activity/BAO/ActivityTarget.php";
 
 /**
  * This class does pre processing for viewing an activity or their revisions
@@ -54,7 +55,9 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
         $activityID = CRM_Utils_Request::retrieve( 'aid' , 'Integer', $this, true );
         $revs       = CRM_Utils_Request::retrieve( 'revs', 'Boolean', CRM_Core_DAO::$_nullObject );
         $caseID     = CRM_Utils_Request::retrieve( 'caseID', 'Boolean', CRM_Core_DAO::$_nullObject );
-
+        $activitySubject =  CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', 
+                                                         $activityID,
+                                                         'subject' );
         $this->assign('contactID', $contactID );
         $this->assign('caseID', $caseID );
        
@@ -81,10 +84,8 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
             $priorActivities = CRM_Activity_BAO_Activity::getPriorAcitivities( $activityID );
 
             $this->assign( 'result' , $priorActivities );
-            $this->assign( 'subject',
-                           CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', 
-                                                        $activityID,
-                                                        'subject' ) );
+            $this->assign( 'subject', $activitySubject );
+            
             $this->assign( 'latestRevisionID', $latestRevisionID );
         } else {
             $countPriorActivities = CRM_Activity_BAO_Activity::getPriorCount( $activityID );
@@ -102,5 +103,39 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
         if ( $parentID ) { 
             $this->assign( 'parentID', $parentID );
         }
+
+        //viewing activity should get diplayed in recent list.CRM-4670 
+        $activityTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $activityID, 'activity_type_id' );
+        
+        $activityTargetContacts = CRM_Activity_BAO_ActivityTarget::retrieveTargetIdsByActivityId( $activityID ); 
+        if (!empty( $activityTargetContacts ) ) {
+            $recentContactId = $activityTargetContacts[1];
+        } else {
+            $recentContactId = $contactID; 
+        }
+        require_once 'CRM/Utils/Recent.php';
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
+                                      "action=view&reset=1&id={$activityID}&atype={$activityTypeID}&cid={$recentContactId}&selectedChild=case" );
+
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $recentContactDisplay = CRM_Contact_BAO_Contact::displayName( $recentContactId );
+        // add the recently created Activity
+        $activityTypes = CRM_Core_Pseudoconstant::activityType( true, true );
+        
+        $title = "";
+        if ( isset($activitySubject) ) {
+            $title = $activitySubject . ' - ';
+        }
+        
+        $title =  $title . $recentContactDisplay .' (' . $activityTypes[$activityTypeID] . ')';
+        
+        CRM_Utils_Recent::add( $title,
+                               $url,
+                               $activityID,
+                               'Activity',
+                               $recentContactId,
+                               $recentContactDisplay
+                               );
+        
     }
 }

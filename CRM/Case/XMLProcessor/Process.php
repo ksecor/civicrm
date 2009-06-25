@@ -383,8 +383,13 @@ AND        ca.case_id = %3
             return true;
         }
 
+        if ( CRM_Utils_Array::value('is_auto', $activityParams) ) {
+            $activityParams['skipRecentView'] = true;
+        }
+        
         require_once 'CRM/Activity/BAO/Activity.php';
         $activity = CRM_Activity_BAO_Activity::create( $activityParams );
+        
         if ( ! $activity ) {
             CRM_Core_Error::fatal( );
             return false;

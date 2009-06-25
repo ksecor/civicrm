@@ -81,7 +81,10 @@
             		);
     			},
     			beforedelete : function( node ) {
-    				return confirm("Are you sure you want to delete?");
+    			    var nid = cj( node ).attr("id");
+    			    var menuItem = cj("#" + nid ).find("a").html();
+    			    var deleteMsg = {/literal}"Are you sure you want to delete this menu item: "{literal} + menuItem + {/literal}" ? This action can not be undone."{literal};
+    				return confirm( deleteMsg );
     			},
     			ondelete : function ( node ) {
                     var postURL = {/literal}"{crmURL p='civicrm/ajax/menutree' h=0 }"{literal};
