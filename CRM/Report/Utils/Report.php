@@ -224,7 +224,7 @@ WHERE  inst.report_id = %1";
     static function getInstanceID() {
         $arg       = explode( '/',$_GET['q']);
         $secondArg = CRM_Utils_Array::value( 2, $arg );
-
+        require_once 'CRM/Utils/Rule.php';
         if ( $arg[1]    == 'report' &&
              $secondArg == 'instance' ) {
             if ( CRM_Utils_Rule::positiveInteger( $arg[3] ) ) {

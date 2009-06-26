@@ -613,7 +613,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
         
         //$this->addElement('select', 'select_add_to_group_id', ts('Group'), $groupList);
-        $label = ts( 'Add Results' );
+        $label = ts( 'Add these Contacts to Group' );
         $this->addElement('submit', $this->_groupButtonName, $label );
 
         $this->addChartOptions( );
