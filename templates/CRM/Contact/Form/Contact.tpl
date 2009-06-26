@@ -1,4 +1,5 @@
 {* This form is for Contact Add/Edit interface *}
+<div id="temp" style="display:none"></div>
 {if $addBlock}
 {include file="CRM/Contact/Form/Edit/$blockName.tpl"}
 {else}
@@ -32,7 +33,6 @@
 <div class="crm-submit-buttons">
    {$form.buttons.html}
 </div>
-{/if}
 
 {literal}
 <script type="text/javascript" >
@@ -59,20 +59,19 @@ cj(function( ) {
 });
 
 function buildAdditionalBlocks( blockName, blockCount, contactType ) {
-  var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + blockCount; 
-  var fname = '#' + blockName + '_Block_' + blockCount;
-  cj( fname ).show( );
+  var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + blockCount;
+  var blockId = parseInt(blockCount) - 1;
+  var fname = '#' + blockName + '_Block_' + blockId;
   cj('#addMore' + blockName ).hide();
-  var response = cj.ajax({ url: dataUrl, async: false }).responseText;
-  cj( fname ).html( response );
- 
-
-  if ( blockName == 'Address' ) {
-    cj('#addressBlock').show( );
-  } else {
-    cj("#contact-details").show( ); 
-  }
-   
+  cj.ajax({ 
+            url     : dataUrl,   
+            async   : false,
+            success : function(html){
+                         //FIX ME !!!   Remove the div with id="crm-container-snippet" .... 
+                         cj('#temp').html(html);
+                         cj(fname).append( cj('#temp div#crm-container-snippet').html() );
+                      }
+         });
   cj( "#hidden_" + blockName ).val( blockCount );
 }
 
@@ -96,3 +95,4 @@ cj('a#expand').click( function( ){
 });
 </script>
 {/literal}
+{/if}
