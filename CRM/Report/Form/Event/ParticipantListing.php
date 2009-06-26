@@ -93,7 +93,9 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                                                                       'default' => true ),
                                 'role_id'                   => array( 'title'   => ts('Role'),
                                                                       'default' => true ),
-                                'participant_fee_amount'    => array( 'title'   => ts('Fee Amount'),),
+                                'participant_fee_amount'    => null,
+
+                                'participant_fee_level'     => null,
                                 
                                 'participant_register_date' => array( 'title'   => ts('Registration Date') ),
                                 ), 
@@ -126,7 +128,6 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                          'fields'     =>
                          array( 
                                'event_type_id' => array( 'title' => ts('Event Type') ), 
-                               'fee_label'     => array( 'title' => ts('Fee Label') ),
                                ),
                          'grouping'  => 'event-fields', 
                          'filters'   =>             

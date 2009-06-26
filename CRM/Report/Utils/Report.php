@@ -87,8 +87,8 @@ WHERE  report_id = %1";
             $instanceID = self::getInstanceIDForValue( $urlValue );
                 
             if ( $instanceID ) {
-                return CRM_Utils_System::url( "civicrm/report/instance", 
-                                              "id={$instanceID}&{$query}", $absolute );
+                return CRM_Utils_System::url( "civicrm/report/instance/{$instanceID}", 
+                                              "{$query}", $absolute );
             } else {
                 return false;
             }
@@ -220,5 +220,16 @@ WHERE  inst.report_id = %1";
 
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contact_ids, $groupID );
         } 
+    }
+    static function getInstanceID() {
+        $arg       = explode( '/',$_GET['q']);
+        $secondArg = CRM_Utils_Array::value( 2, $arg );
+
+        if ( $arg[1]    == 'report' &&
+             $secondArg == 'instance' ) {
+            if ( CRM_Utils_Rule::positiveInteger( $arg[3] ) ) {
+                return $arg[3];
+            }
+        }
     }
 }

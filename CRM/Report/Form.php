@@ -170,8 +170,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                                                      'Boolean',
                                                      CRM_Core_DAO::$_nullObject );
 
-        $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
 
+        $this->_id  = CRM_Report_Utils_Report::getInstanceID( );
         if ( $this->_id ) {
             $params = array( 'id' => $this->_id );
             $this->_instanceValues = array( );
@@ -194,8 +194,8 @@ class CRM_Report_Form extends CRM_Core_Form {
 
             $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
 
-            // lets always do a force if a valid id is found in the url.
-            if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
+            // lets always do a force if reset is found in the url.
+            if ( CRM_Utils_Array::value( 'reset', $_GET ) ) {
                 $this->_force = 1;
             }
 
@@ -483,49 +483,47 @@ class CRM_Report_Form extends CRM_Core_Form {
         $count = 1;
         foreach ( $this->_filters as $table => $attributes ) {
             foreach ( $attributes as $fieldName => $field ) {
-                if ( !array_key_exists('no_display', $field ) ) {
-                    // get ready with option value pair
-                    $operations = self::getOperationPair( CRM_Utils_Array::value( 'operatorType', $field ) );
-                    
-                    $filters[$table][$fieldName] = $field;
-                    
-                    switch ( CRM_Utils_Array::value( 'operatorType', $field )) {
-                    case CRM_Report_FORM::OP_MULTISELECT :
-                        // assume a multi-select field
-                        if ( !empty( $field['options'] ) ) {
-                            $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
-                            $select = $this->addElement('select', "{$fieldName}_value", null, 
-                                                        $field['options'], array( 'size' => 4, 
-                                                                                  'style' => 'width:200px'));
-                            $select->setMultiple( true );
-                        }
-                        break;
-
-                    case CRM_Report_FORM::OP_SELECT :
-                        // assume a select field
+                // get ready with option value pair
+                $operations = self::getOperationPair( CRM_Utils_Array::value( 'operatorType', $field ) );
+                
+                $filters[$table][$fieldName] = $field;
+                
+                switch ( CRM_Utils_Array::value( 'operatorType', $field )) {
+                case CRM_Report_FORM::OP_MULTISELECT :
+                    // assume a multi-select field
+                    if ( !empty( $field['options'] ) ) {
                         $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
-                        $this->addElement('select', "{$fieldName}_value", null, $field['options']);
-                        break;
-
-                    case CRM_Report_FORM::OP_DATE :
-                        // build datetime fields
-                        CRM_Core_Form_Date::buildDateRange( $this, $fieldName, $count );
-                        $count++;
-                        break;
-
-                    case CRM_Report_FORM::OP_INT:
-                        // and a min value input box
-                        $this->add( 'text', "{$fieldName}_min", ts('Min') );
-                        // and a max value input box
-                        $this->add( 'text', "{$fieldName}_max", ts('Max') );
-                    default:
-                        // default type is string
-                        $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations,
-                                          array('onchange' =>"return showHideMaxMinVal( '$fieldName', this.value );"));
-                        // we need text box for value input
-                        $this->add( 'text', "{$fieldName}_value", null );
-                        break;
+                        $select = $this->addElement('select', "{$fieldName}_value", null, 
+                                                    $field['options'], array( 'size' => 4, 
+                                                                              'style' => 'width:200px'));
+                        $select->setMultiple( true );
                     }
+                    break;
+                    
+                case CRM_Report_FORM::OP_SELECT :
+                    // assume a select field
+                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
+                    $this->addElement('select', "{$fieldName}_value", null, $field['options']);
+                    break;
+                    
+                case CRM_Report_FORM::OP_DATE :
+                    // build datetime fields
+                    CRM_Core_Form_Date::buildDateRange( $this, $fieldName, $count );
+                    $count++;
+                    break;
+                    
+                case CRM_Report_FORM::OP_INT:
+                    // and a min value input box
+                    $this->add( 'text', "{$fieldName}_min", ts('Min') );
+                    // and a max value input box
+                    $this->add( 'text', "{$fieldName}_max", ts('Max') );
+                default:
+                    // default type is string
+                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations,
+                                      array('onchange' =>"return showHideMaxMinVal( '$fieldName', this.value );"));
+                    // we need text box for value input
+                    $this->add( 'text', "{$fieldName}_value", null );
+                    break;
                 }
             }
         }

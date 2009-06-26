@@ -31,7 +31,7 @@
                    {if $row.type eq 1024}
                        {$row.value|crmMoney}
                    {else}
-                       {$row.value}
+                       {$row.value|crmNumberFormat}
                    {/if}
 
                 </td>

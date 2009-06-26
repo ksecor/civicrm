@@ -91,7 +91,7 @@
                             {include file="CRM/Core/DateRange.tpl" fieldName=$fieldName}
                         </tr>
                     {else}
-                        <tr>
+                        <tr {if $field.no_display} style="display: none;"{/if}>
                             <th class="report-contents">{$field.title}</th>
                             <td class="report-contents">{$form.$fieldOp.html}</td>
                             <td>
@@ -110,7 +110,7 @@
         {foreach from=$filters item=table key=tableName}
             {foreach from=$table item=field key=fieldName}
 		{literal}var val = "dnc";{/literal}
-		{if !($field.operatorType == 4)} 
+		{if !($field.operatorType == 4) && !$field.no_display} 
                     {literal}var val = document.getElementById("{/literal}{$fieldName}_op{literal}").value;{/literal}
 		{/if}
                 {literal}showHideMaxMinVal( "{/literal}{$fieldName}{literal}", val );{/literal}
