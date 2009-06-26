@@ -21,7 +21,7 @@
                     {/if}
                 </tr>
             </table>
-	    <hr style="height:2px;width:100%;background-color:#DCDCDC;margin:0;"/>
+	    <hr style="height:2px;width:98%;background-color:#DCDCDC;margin:0;"/>
         {/foreach}
     {/if}
     
