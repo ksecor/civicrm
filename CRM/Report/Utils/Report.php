@@ -159,22 +159,22 @@ WHERE  inst.report_id = %1";
                   
         //Load rows
         $sql = " {$form->_select}  {$form->_from}  {$form->_where}  {$form->_groupBy}  {$form->_having} {$form->_orderBy} ";
-        $dao = CRM_Core_DAO::executeQuery( $sql );
+        
+        $rows = array();
+        $form->buildRows( $sql, $rows );
+        $form->formatDisplay( $rows );
         
         //Output rows
         $first_row = true;
-        while ( $dao->fetch( ) ) {
-            $rows = array((array) $dao);
-            $form->alterDisplay( $rows );
-            $row = $rows[0];
-            
-            //Clean up fields.
-            unset( $row['N'] );
+        foreach ( $rows as $row ) {
             foreach ( $row as $key => $value ) {
                 // Remove HTML, unencode entities, and escape quotation marks.
                 $row[$key] = '"' . str_replace('"', '""', html_entity_decode(strip_tags($value))) . '"';
                 
                 // Remove non-CiviCRM fields.
+                if ( strstr($key, 'link') || strstr($key, 'hover') ) {
+                    unset($row[$key]);
+                }
                 if ( substr($key, 0, 1) == '_' ) {
                     unset($row[$key]);
                 }
@@ -185,13 +185,11 @@ WHERE  inst.report_id = %1";
                 $headers = array_keys($row);
                 
                 // Replace internal header names with friendly ones, where available.
-                /*
                 foreach ( $headers as $i => $header ) {
-                    if ( isset( $this->_columnHeaders[$header] ) ) {
-                        $headers[$i] = $this->_columnHeaders[$header]['title'];
+                    if ( isset( $form->_columnHeaders[$header] ) ) {
+                        $headers[$i] = $form->_columnHeaders[$header]['title'];
                     }
                 }
-                */
                 
                 //Output the headers.
                 echo implode(',', $headers) . "\n";
