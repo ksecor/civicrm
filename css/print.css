@@ -9,6 +9,7 @@
  }
 #crm-container {   
     overflow: visible !important;
+    font-family      : serif;	
 }
 
 /* CSS for Print and PDF of Reports */
@@ -16,7 +17,6 @@
     border           : 1px groove #DDDDDD;
     width            : 100%;
     border-collapse  : collapse;
-    font-family      : sans-serif;	
 }
 
 #crm-container .criterial-group {
@@ -69,7 +69,7 @@
 #crm-container table.report-layout th {
     padding          : 4px;
     background-color : #DCDCDC;
-    text-align       : left;
+//    text-align       : left;
     vertical-align   : top;
 }
 
@@ -83,9 +83,14 @@
 }
 
 #crm-container h1 {
-    text-align       : left;
-    font-family      : sans-serif;
+    text-align       : center;
     font-size        : 1.5em;
     font-style       : italic;
     margin           : 0;
+}
+
+#crm-container div#report-date {
+    font-size        : .8em;
+    font-style       : italic;
+    float            : right;
 }

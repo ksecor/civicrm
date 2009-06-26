@@ -1,6 +1,7 @@
 {if $top}
     {if $printOnly}
         <h1>{$reportTitle}</h1>
+        <div id="report-date">{$reportDate}</div>
     {/if}
     <br/>
     {if $statistics and $outputMode}

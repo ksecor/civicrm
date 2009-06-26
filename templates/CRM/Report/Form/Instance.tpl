@@ -1,11 +1,11 @@
 <table class="report-layout">
     <tr>
-	<th>Display Settings</th>
+	<th>{ts}General Settings{/ts}</th>
     </tr>
 </table>
 <table class="report-layout">
     <tr>
-        <td class="report-label" width="20%">{$form.title.label}</td>
+        <td class="report-label" width="20%">{$form.title.label} {help id="id-report_title" file="CRM/Report/Form/Settings.hlp"}</td>
         <td >{$form.title.html}</td>
     </tr>
     <tr>
@@ -13,7 +13,7 @@
         <td>{$form.description.html}</td>
     </tr>
     <tr>
-        <td class="report-label" width="20%">{$form.report_header.label}</td>
+        <td class="report-label" width="20%">{$form.report_header.label}<br /> {help id="id-report_header" file="CRM/Report/Form/Settings.hlp"}</td>
         <td>{$form.report_header.html}</td>
     </tr>
     <tr>
@@ -25,7 +25,7 @@
 
 <table class="report-layout">
     <tr>
-	<th>Email Settings</th>
+	<th>{ts}Email Delivery Settings{/ts} {help id="id-email_settings" file="CRM/Report/Form/Settings.hlp"}</th>
     </tr>
 </table>
 <table class="report-layout">
@@ -46,12 +46,12 @@
 
 <table class="report-layout">
     <tr>
-	<th>Other Settings</th>
+	<th>{ts}Other Settings{/ts}</th>
     </tr>
 </table>
 <table class="report-layout">
     <tr>
-        <td class="report-label" width="20%">{$form.permission.label}</td>
+        <td class="report-label" width="20%">{$form.permission.label} {help id="id-report_perms" file="CRM/Report/Form/Settings.hlp"}</td>
         <td>{$form.permission.html|crmReplace:class:huge}</td>
     </tr> 
 </table>

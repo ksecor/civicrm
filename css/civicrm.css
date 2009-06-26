@@ -256,6 +256,9 @@ div.spacer, .spacer {
  vertical-align: middle;
 }
 
+#crm-container .dijitDropDownButton {
+    margin: 0em !important;
+}
 
 #crm-container .control-panel td {
   padding: 3px;

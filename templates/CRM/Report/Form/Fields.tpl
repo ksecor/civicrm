@@ -57,7 +57,7 @@
                             <td>{$form.$pdf.html}&nbsp;&nbsp;</td>
                             <td>{$form.$csv.html}&nbsp;&nbsp;</td>                        
                             {if $instanceUrl}
-                                <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Available Report(s) For This Template{/ts}</a></td>
+                                <td>&nbsp;&nbsp;&raquo;&nbsp;<a href="{$instanceUrl}">{ts}Existing report(s) from this template{/ts}</a></td>
                             {/if}
                         </tr>
                     </table>

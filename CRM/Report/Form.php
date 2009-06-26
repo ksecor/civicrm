@@ -1030,19 +1030,23 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->_sendmail = CRM_Utils_Request::retrieve( 'sendmail', 
                                                         'Boolean', CRM_Core_DAO::$_nullObject );
         $this->_absoluteUrl = false;
+        $printOnly = false;
         $this->assign( 'printOnly', false );
 
         if ( $this->_printButtonName == $buttonName || $output == 'print' ) {
             $this->assign( 'printOnly', true );
+            $printOnly = true;
             $this->assign( 'outputMode', 'print' );
             $this->_outputMode = 'print';
         } else if ( $this->_pdfButtonName   == $buttonName || $output == 'pdf' ) {
             $this->assign( 'printOnly', true );
+            $printOnly = true;
             $this->assign( 'outputMode', 'pdf' );
             $this->_outputMode  = 'pdf';
             $this->_absoluteUrl = true;
         } else if ( $this->_csvButtonName   == $buttonName || $output == 'csv' ) {
             $this->assign( 'printOnly', true );
+            $printOnly = true;
             $this->assign( 'outputMode', 'csv' );
             $this->_outputMode  = 'csv';
             $this->_absoluteUrl = true;
@@ -1056,6 +1060,14 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         if ( $this->_sendmail ) {
             $this->assign( 'printOnly', true );
+            $printOnly = true;
+        }
+        
+        // Get today's date to include in printed reports
+        if ( $printOnly ) {
+            require_once 'CRM/Utils/Date.php';
+            $reportDate = CRM_Utils_Date::customFormat( date('Y-m-d H:i') );
+            $this->assign( 'reportDate', $reportDate );
         }
     }
 
