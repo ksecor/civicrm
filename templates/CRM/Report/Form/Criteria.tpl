@@ -3,11 +3,11 @@
         <table class="report-layout">
             <tr>
 	           <th>Display Columns</th>
-	    </tr>
-	</table>
+            </tr>
+        </table>
         {foreach from=$colGroups item=grpFields key=dnc}
             {assign  var="count" value="0"}
-            <table class="report-layout">
+            <table class="report-layout criteria-group">
                 <tr>
                     {foreach from=$grpFields item=field key=title}
                         {assign var="count" value=`$count+1`}
@@ -21,7 +21,6 @@
                     {/if}
                 </tr>
             </table>
-	    <hr style="height:2px;width:98%;background-color:#DCDCDC;margin:0;"/>
         {/foreach}
     {/if}
     

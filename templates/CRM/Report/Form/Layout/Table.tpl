@@ -66,7 +66,7 @@
         
         {if $grandStat}
             {* foreach from=$grandStat item=row*}
-            <tr>
+            <tr class="total-row">
                 {foreach from=$columnHeaders item=header key=field}
                     <td class="report-label">
                         {if $header.type eq 1024}

@@ -30,7 +30,7 @@
                                     {/if}
                                 {/foreach}
                             </tr>               
-                            <tr>
+                            <tr class="group-row">
                                 {foreach from=$columnHeaders item=header key=field}
                                     {assign var=fieldLink value=$field|cat:"_link"}
                                     {assign var=fieldHover value=$field|cat:"_hover"}
