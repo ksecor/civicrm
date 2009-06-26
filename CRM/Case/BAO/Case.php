@@ -876,10 +876,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $url = CRM_Utils_System::url( "civicrm/case/activity",
                                       "reset=1&cid={$contactID}&caseid={$caseID}", false, null, false ); 
         
-        $editUrl     = "{$url}&action=update";
-        $deleteUrl   = "{$url}&action=delete";
-        $restoreUrl  = "{$url}&action=renew";
-        $viewTitle = ts('View this activity.');
+        $editUrl    = "{$url}&action=update";
+        $deleteUrl  = "{$url}&action=delete";
+        $restoreUrl = "{$url}&action=renew";
+        $viewTitle  = ts('View this activity.');
 
         require_once 'CRM/Core/OptionGroup.php';
         $emailActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
@@ -897,12 +897,12 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $allowToDeleteActivities = CRM_Core_Permission::check( 'delete activities' );
         
         while ( $dao->fetch( ) ) { 
-            $values[$dao->id]['id']                = $dao->id;
-            $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
-            $values[$dao->id]['reporter']          = $dao->reporter;
-            $values[$dao->id]['display_date']      = CRM_Utils_Date::customFormat( $dao->display_date );
-            $values[$dao->id]['status']            = $activityStatus[$dao->status];
-            $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
+            $values[$dao->id]['id']           = $dao->id;
+            $values[$dao->id]['type']         = $activityTypes[$dao->type]['label'];
+            $values[$dao->id]['reporter']     = $dao->reporter;
+            $values[$dao->id]['display_date'] = CRM_Utils_Date::customFormat( $dao->display_date );
+            $values[$dao->id]['status']       = $activityStatus[$dao->status];
+            $values[$dao->id]['subject']      = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
            
             // add activity assignee to activity selector. CRM-4485.
             if ( isset($dao->assignee) ) {
@@ -919,7 +919,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             if ( !$dao->deleted ) {
                 //hide edit link of activity type email.CRM-4530.
                 if ( $dao->type != $emailActivityTypeID ) {
-                    $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
+                    $url = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
                 }
                               
                 //block deleting activities which affects
@@ -931,7 +931,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                     $url .= "<a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
                 }
             } else if ( !$caseDeleted ) {
-                $url  = "<a href='" .$restoreUrl.$additionalUrl."'>". ts('Restore') . "</a>";
+                $url = "<a href='" .$restoreUrl.$additionalUrl."'>". ts('Restore') . "</a>";
                 $values[$dao->id]['status']  = $values[$dao->id]['status'].'<br /> (deleted)'; 
             } 
             
@@ -940,22 +940,29 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
             if ( !empty($dao->priority) ) {
                 if ( $activityPriority[$dao->priority] == 'Urgent' ) {
-                    $values[$dao->id]['class']   =  $values[$dao->id]['class']."priority-urgent ";
+                    $values[$dao->id]['class'] = $values[$dao->id]['class']."priority-urgent ";
                 } else if ( $activityPriority[$dao->priority] == 'Low' ) {
-                    $values[$dao->id]['class']   = $values[$dao->id]['class']."priority-low ";
+                    $values[$dao->id]['class'] = $values[$dao->id]['class']."priority-low ";
                 } 
             }
             
-            if( $values[$dao->id]['status'] == 'Scheduled' ) {
-                $values[$dao->id]['class']   =  $values[$dao->id]['class']."status-scheduled";
-            } else {
-                $values[$dao->id]['class']   =  $values[$dao->id]['class']."status-completed";
-            }
-            
-            if ( CRM_Utils_Date::overdue( $dao->display_date ) ) {
-                $values[$dao->id]['class'] = $values[$dao->id]['class']." status-overdue";  
-            } 
-            
+            switch ( $values[$dao->id]['status'] ) {
+            case 'Completed': 
+                $values[$dao->id]['class'] = $values[$dao->id]['class']." status-completed";    
+                break;
+                
+            case 'Scheduled': 
+                if ( CRM_Utils_Date::overdue( $dao->display_date ) ) {
+                    $values[$dao->id]['class'] = $values[$dao->id]['class']." status-overdue";  
+                } else {
+                    $values[$dao->id]['class'] = $values[$dao->id]['class']." status-scheduled";
+                }    
+                break;
+                
+            default:
+                $values[$dao->id]['class'] = $values[$dao->id]['class']." status-completed";    
+                break;       
+            }           
         }
 
         $dao->free( );
