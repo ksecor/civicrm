@@ -939,34 +939,28 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['class'] = "";
 
             if ( !empty($dao->priority) ) {
-                if ( $activityPriority[$dao->priority] == 'Urgent' ) {
+                if ( $dao->priority == CRM_Core_OptionGroup::getValue( 'priority', 'Urgent', 'name' ) ) {
                     $values[$dao->id]['class'] = $values[$dao->id]['class']."priority-urgent ";
-                } else if ( $activityPriority[$dao->priority] == 'Low' ) {
+                } elseif ( $dao->priority == CRM_Core_OptionGroup::getValue( 'priority', 'Low', 'name' ) ) {
                     $values[$dao->id]['class'] = $values[$dao->id]['class']."priority-low ";
-                } 
+                }
             }
             
-            switch ( $values[$dao->id]['status'] ) {
-            case 'Completed': 
-                $values[$dao->id]['class'] = $values[$dao->id]['class']." status-completed";    
-                break;
-                
-            case 'Scheduled': 
+            if ( $dao->status == CRM_Core_OptionGroup::getValue( 'activity_status', 'Completed', 'name' ) ) {
+                $values[$dao->id]['class'] = $values[$dao->id]['class']." status-completed";
+            } elseif ( $dao->status == CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' ) ) {
                 if ( CRM_Utils_Date::overdue( $dao->display_date ) ) {
                     $values[$dao->id]['class'] = $values[$dao->id]['class']." status-overdue";  
                 } else {
                     $values[$dao->id]['class'] = $values[$dao->id]['class']." status-scheduled";
                 }    
-                break;
-                
-            default:
+            } else {
                 if ( CRM_Utils_Date::overdue( $dao->display_date ) ) {
                     $values[$dao->id]['class'] = $values[$dao->id]['class']." status-overdue";  
                 } else {
                     $values[$dao->id]['class'] = $values[$dao->id]['class']." status-completed";    
-                }
-                break;       
-            }           
+                } 
+            }
         }
 
         $dao->free( );
