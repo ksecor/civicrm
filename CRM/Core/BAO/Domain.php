@@ -171,18 +171,23 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     }
     
     static function addContactToGroup( $contactID, $groupID = null ) {
-        require_once 'CRM/Contact/DAO/GroupContact.php';
-
         if ( !$groupID ) {
             $groupID = self::getGroupId( );
         }
         if ( $groupID ) {
             $contactIDs = array( $contactID );
+            require_once 'CRM/Contact/DAO/GroupContact.php';
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIDs, $groupID );
         }
     }
 
     static function getGroupId( ) {
+        static $groupID = null;
+
+        if ( $groupID ) {
+            return $groupID;
+        }
+
         if ( defined('CIVICRM_DOMAIN_GROUP_ID') ) {
             $groupID = CIVICRM_DOMAIN_GROUP_ID;
         } else if ( defined('CIVICRM_DOMAIN_GROUP') ) {
@@ -191,18 +196,18 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         } else {
             // create a group /w that of domain name
             $title   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain', 
-                                                    CRM_Core_Config::domainID( ), 'name', );
+                                                    CRM_Core_Config::domainID( ), 'name' );
             $groupID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', 
-                                                    $title, 'id', 'name' );
-            if ( !$groupID ) {
-                $groupParams = array( 'title'           => $title,
-                                      'is_active'       => 1,
-                                      'is_hidden'       => 1 );
-                $group   = CRM_Contact_BAO_GroupContact::create( $groupParams );
+                                                    $title, 'id', 'title' );
+            if ( empty($groupID) && !empty($title) ) {
+                $groupParams = array( 'title'            => $title,
+                                      'is_active'        => 1,
+                                      'no_parent'        => 1 );
+                require_once 'CRM/Contact/DAO/Group.php';
+                $group   = CRM_Contact_BAO_Group::create( $groupParams );
                 $groupID = $group->id;
             }
         }
-
         return $groupID ? $groupID : false;
     }
 
