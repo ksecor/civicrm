@@ -63,29 +63,32 @@ class CRM_Contact_Form_Edit_IM
         //FIXME : &$location, $locationId, $count 
         
         require_once 'CRM/Core/BAO/Preferences.php';
-        $count = 2;
+        $form->assign( 'addBlock', $form->_addBlockName );
+        $locationId = ( $form->get( 'IM_Block_Count' ) ) ? $form->get( 'IM_Block_Count' ) : 1;
+        $form->assign( 'locationId', $locationId );
+        
         if ( CRM_Utils_Array::value( 'im', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
             $form->assign('showIM', true);
-            for ($i = 1; $i <= $count; $i++) {
-                
-                //IM provider select
-                $form->addElement('select', "im[$i][provider_id]", '',
-                                  array('' => ts('- select service -')) + CRM_Core_PseudoConstant::IMProvider() );
 
-                //Block type select
-                $form->addElement('select',"im[$i][location_id]", '' , CRM_Core_PseudoConstant::locationType());
+            //Location Index
+            $form->addElement( 'hidden', 'imBlockCount', $locationId ,array( 'id' => 'imBlockCount') );
 
-                //IM box
-                $form->addElement('text', "im[$i][name]", ts('Instant Messenger'),
-                                  CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM', 'name') );
-
-                //Primary radio
-                $options = array( HTML_QuickForm::createElement('radio', null, '') );
-                $form->addGroup($options, "im[$i][is_primary]", ''); 
-            }
+            //IM provider select
+            $form->addElement('select', "im[$locationId][provider_id]", '',
+                              array('' => ts('- select service -')) + CRM_Core_PseudoConstant::IMProvider() );
+            
+            //Block type select
+            $form->addElement('select',"im[$locationId][location_id]", '' , CRM_Core_PseudoConstant::locationType());
+            
+            //IM box
+            $form->addElement('text', "im[$locationId][name]", ts('Instant Messenger'),
+                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM', 'name') );
+            
+            //Primary radio
+            $options = array( HTML_QuickForm::createElement('radio', null, '') );
+            $form->addGroup($options, "im[$locationId][is_primary]", ''); 
         }
-        $form->assign( 'imCount', $count );
-    }
+    }    
 }
 
 
