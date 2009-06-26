@@ -145,7 +145,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                         'having'  => true ), 
 
                                  'total_count'    => 
-                                 array( 'title'   => ts( 'Donations' ),
+                                 array( 'title'   => ts( 'Donation Count' ),
                                         'type'    => CRM_Report_Form::OP_INT,
                                         'dbAlias' => 'civicrm_contribution_total_amount_count',
                                         'having'  => true ), 
