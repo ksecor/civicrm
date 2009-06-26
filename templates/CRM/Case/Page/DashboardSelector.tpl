@@ -1,5 +1,4 @@
 {capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
-{ts 1=$expandIconURL}Click %1 to view case details.{/ts}
 {strip}
 <table class="caseSelector">
   <tr class="columnheader">
@@ -19,7 +18,7 @@
  
   <tr id='{$list}Rowid{$row.case_id}'>
 	<td>
-        &nbsp;{$row.contact_type_icon}<br />
+        {* &nbsp;{$row.contact_type_icon}<br /> *}
         <span id="{$list}{$row.case_id}_show">
 	    <a href="#" onclick="show('{$list}CaseDetails{$row.case_id}', 'table-row');
                              {$list}CaseDetails('{$row.case_id}','{$row.contact_id}'); 
