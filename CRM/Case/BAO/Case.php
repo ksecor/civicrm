@@ -960,7 +960,11 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                 break;
                 
             default:
-                $values[$dao->id]['class'] = $values[$dao->id]['class']." status-completed";    
+                if ( CRM_Utils_Date::overdue( $dao->display_date ) ) {
+                    $values[$dao->id]['class'] = $values[$dao->id]['class']." status-overdue";  
+                } else {
+                    $values[$dao->id]['class'] = $values[$dao->id]['class']." status-completed";    
+                }
                 break;       
             }           
         }
