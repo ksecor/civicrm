@@ -45,6 +45,7 @@ class CRM_Event_Form_ManageEvent_TabHeader {
             $form->set( 'tabHeader', $tabs );
         }
         $form->assign_by_ref( 'tabHeader', $tabs );
+        $form->assign_by_ref( 'selectedTab', self::getCurrentTab($tabs) );
         return $tabs;
     }
 
@@ -97,7 +98,6 @@ class CRM_Event_Form_ManageEvent_TabHeader {
         }
         if ( array_key_exists( $className, $tabs ) ) {
             $tabs[$className]['current'] = true;
-            $form->assign_by_ref( 'selectedTab', $className );
         }
 
         if ( $eventID ) {
@@ -156,5 +156,30 @@ WHERE      e.id = %1
             }
         }
         return 'EventInfo';
+    }
+
+    static function getSubPageInfo( $form, $subPage, $info = 'title' ) {
+        $tabs = self::build( $form );
+
+        if ( is_array($tabs[$subPage]) && array_key_exists($info, $tabs[$subPage]) ) {
+            return $tabs[$subPage][$info];
+        }
+        return false;
+    }
+
+    static function getCurrentTab( $tabs ) {
+        static $current = false;
+
+        if ( $current ) {
+            return $current;
+        }
+        foreach ( $tabs as $subPage => $pageVal ) {
+            if ( $pageVal['current'] === true ) {
+                $current = $subPage;
+                break;
+            }
+        }
+        $current = $current ? $current : 'EventInfo';
+        return $current;
     }
 }

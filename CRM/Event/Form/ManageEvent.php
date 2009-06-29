@@ -193,6 +193,10 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         // make submit buttons shift to next available valid(not disabled) tabs
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
+            if ( $subPage ) {
+                $title = CRM_Event_Form_ManageEvent_TabHeader::getSubPageInfo( $this, $subPage );
+            }
+            CRM_Core_Session::setStatus( ts("'%1' tab infomation saved.", array(1 => $title)) );
             CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
                                                                "action=update&reset=1&id={$this->_id}&subPage={$subPage}" ) );
         }
