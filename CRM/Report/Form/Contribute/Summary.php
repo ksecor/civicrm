@@ -216,7 +216,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                         $this->_addressField = true;
                     }
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                        switch ( $this->_params['group_bys_freq'][$fieldName] ) {
+                        switch ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
                         case 'YEARWEEK' :
                             $select[] = "DATE_SUB({$field['dbAlias']}, INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
                             $select[] = "YEARWEEK({$field['dbAlias']}) AS {$tableName}_{$fieldName}_subtotal";
@@ -391,6 +391,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
     function groupBy( ) {
         $this->_groupBy = "";
+        $append = false;
         if ( is_array($this->_params['group_bys']) && 
              !empty($this->_params['group_bys']) ) {
             foreach ( $this->_columns as $tableName => $table ) {

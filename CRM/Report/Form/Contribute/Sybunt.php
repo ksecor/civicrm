@@ -312,7 +312,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         $daoLifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );
         $this->setPager( );
         $min = $max = 0;
-
+        $chartRow = array( 'civicrm_life_time_total' => 0);
         while ( $daoLifeTime->fetch( ) ) {
             $contact_id = $daoLifeTime->civicrm_contribution_contact_id;
             $display[ $contact_id ]['civicrm_contribution_contact_id'] = $contact_id;
@@ -329,7 +329,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
             $min = ($contact_id < $min) ? $contact_id : ($max > 0) ? $min : $contact_id;
             $max = ($contact_id > $max) ? $contact_id : $max;
             
-            $chartRow[ 'civicrm_life_time_total' ]      = $chartRow[ 'civicrm_life_time_total' ]  +  $daoLifeTime->civicrm_contribution_total_amount;
+            $chartRow['civicrm_life_time_total']  += $daoLifeTime->civicrm_contribution_total_amount;
 
         }
 

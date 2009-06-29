@@ -388,7 +388,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
-                 $rows[$rowNum]['civicrm_contact_display_name'] && 
+                 CRM_Utils_Array::value( 'civicrm_contact_display_name', $rows[$rowNum] ) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
                                               'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
