@@ -407,7 +407,7 @@ function addRole() {
     </tr>
     <tr>
         <td> 
-	            <label>- {ts}From{/ts}</label> 
+	            {$form.activity_date_low.label} 
                 <br />
                 {$form.activity_date_low.html}
                 &nbsp;
@@ -416,7 +416,8 @@ function addRole() {
                 
         </td>
         <td> 
-                <label>{ts}To{/ts}</label><br />                  
+                {$form.activity_date_high.label}
+                <br /> 
                 {$form.activity_date_high.html}
                 &nbsp;
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_2} 
