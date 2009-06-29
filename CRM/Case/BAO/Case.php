@@ -1443,12 +1443,6 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
             return;    
         }
         
-        // add activity record for case role assignment/added.
-        require_once 'CRM/Core/OptionGroup.php';
-        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                          'Assign Case Role',
-                                                          'name' );
-        
         $queryParam = array( );
         if ( is_array($relationshipId) ) {
             $relationshipId     = implode( ',', $relationshipId );
@@ -1460,8 +1454,11 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
 
         $query = "
                   SELECT civicrm_relationship.contact_id_b as rel_contact_id, civicrm_relationship.contact_id_a as assign_contact_id, 
-                  civicrm_relationship_type.label_b_a as relation, civicrm_relationship.case_id as caseId   
-                  FROM civicrm_relationship, civicrm_relationship_type  
+                  civicrm_relationship_type.label_b_a as relation, civicrm_relationship.case_id as caseId,
+                  cc.display_name as clientName, cca.display_name as  assigneeContactName  
+                  FROM civicrm_relationship_type,  civicrm_relationship 
+                  LEFT JOIN civicrm_contact cc  ON cc.id  = civicrm_relationship.contact_id_b  
+                  LEFT JOIN civicrm_contact cca ON cca.id = civicrm_relationship.contact_id_a
                   WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id AND {$relationshipClause}";
         
               
@@ -1471,27 +1468,37 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
             $caseRelationship  = $dao->relation;
             //to get valid assignee contact(s).
              if ( isset($dao->caseId) || $dao->rel_contact_id != $contactId ) { 
-                 $assigneContactIds[$dao->rel_contact_id] = $dao->rel_contact_id;
+                 $assigneContactIds[$dao->rel_contact_id]  = $dao->rel_contact_id;
+                 $assigneContactName = $dao->clientName;
              } else {
-                 $assigneContactIds[$dao->assign_contact_id] = $dao->assign_contact_id; 
+                 $assigneContactIds[$dao->assign_contact_id]  = $dao->assign_contact_id; 
+                 $assigneContactName = $dao->assigneeContactName;
              }
         }
-     
+
+        require_once 'CRM/Core/OptionGroup.php';
         $session = & CRM_Core_Session::singleton();
         $activityParams = array('source_contact_id'    => $session->get( 'userID' ),
-                                'activity_type_id'     => $activityTypeID,
+                                'subject'              => $caseRelationship.' : '. $assigneContactName,
                                 'activity_date_time'   => date('YmdHis'),
                                 'due_date_time'        => date('YmdHis'),
-                                'status_id'            => 2
+                                'status_id'            => CRM_Core_OptionGroup::getValue( 'activity_status', 'Completed', 'name' )
                                 );
-        
+
         //if $relContactId is passed, role is added or modified.
         if ( !empty($relContactId) ) {
             $activityParams['assignee_contact_id'] = $assigneContactIds;
-            $activityParams['subject']             = $caseRelationship.': ' .ts('Case Role assigned');
+
+            $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                              'Assign Case Role',
+                                                              'name' );
         } else {
-            $activityParams['subject']             = $caseRelationship.': ' .ts('Case Role removed');
+            $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                              'Remove Case Role',
+                                                              'name' );
         }
+        
+        $activityParams['activity_type_id']    = $activityTypeID;
         
         require_once "CRM/Activity/BAO/Activity.php";
         $activity = CRM_Activity_BAO_Activity::create( $activityParams );

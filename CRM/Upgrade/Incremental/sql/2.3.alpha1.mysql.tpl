@@ -145,13 +145,15 @@ SELECT @max_wt  := max(weight) from civicrm_option_value where option_group_id=@
   INSERT INTO civicrm_option_value
     (option_group_id,                {foreach from=$locales item=locale}label_{$locale}, description_{$locale},{/foreach}      value,                            name,           weight,                           filter,          component_id) VALUES
     (@option_group_id_activity_type, {foreach from=$locales item=locale}'Bulk Email',   'Bulk Email Sent.',    {/foreach}     (SELECT @max_val := @max_val+1),  'Bulk Email',    (SELECT @max_wt := @max_wt+1),  1,                NULL ),
-    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Assign Case Role',   '',    {/foreach}     (SELECT @max_val := @max_val+2),       'Assign Case Role',    (SELECT @max_wt := @max_wt+2),  0,            @caseCompId );
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Assign Case Role',   '',    {/foreach}     (SELECT @max_val := @max_val+2),       'Assign Case Role',    (SELECT @max_wt := @max_wt+2),  0,            @caseCompId ),
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Remove Case Role',   '',    {/foreach}     (SELECT @max_val := @max_val+3),       'Remove Case Role',    (SELECT @max_wt := @max_wt+3),  0,            @caseCompId );
 
 {else}
   INSERT INTO civicrm_option_value
     (option_group_id,                label,            description,          value,                           name,           weight,                           filter,                   component_id) VALUES
     (@option_group_id_activity_type, 'Bulk Email',     'Bulk Email Sent.',   (SELECT @max_val := @max_val+1), 'Bulk Email',   (SELECT @max_wt := @max_wt+1),  1,                         NULL ),
-    (@option_group_id_activity_type, 'Assign Case Role',     '',   (SELECT @max_val := @max_val+2), 'Assign Case Role',       (SELECT @max_wt := @max_wt+2),  0,   @caseCompId );
+    (@option_group_id_activity_type, 'Assign Case Role',     '',   (SELECT @max_val := @max_val+2), 'Assign Case Role',       (SELECT @max_wt := @max_wt+2),  0,   @caseCompId ),
+    (@option_group_id_activity_type, 'Remove Case Role',     '',   (SELECT @max_val := @max_val+3), 'Remove Case Role',       (SELECT @max_wt := @max_wt+3),  0,   @caseCompId );
     
 {/if}
 
