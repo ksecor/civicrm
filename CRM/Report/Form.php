@@ -1077,7 +1077,9 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_params = $this->_formValues;
         }
         $this->_formValues = $this->_params ;
-
+        if ( isset($this->_id) && $this->_instanceButtonName == $this->controller->getButtonName( ).'_save' ) {
+            $this->assign( 'updateReportButton', true );
+        }
         $this->processReportMode( );
     }
 
