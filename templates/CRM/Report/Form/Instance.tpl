@@ -43,7 +43,7 @@
     </tr> 
 </table>
 <br/>
-
+{if $config->userFramework != 'Joomla'}
 <table class="report-layout">
     <tr>
 	<th>{ts}Other Settings{/ts}</th>
@@ -55,3 +55,4 @@
         <td>{$form.permission.html|crmReplace:class:huge}</td>
     </tr> 
 </table>
+{/if}

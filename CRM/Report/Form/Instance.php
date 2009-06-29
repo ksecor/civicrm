@@ -139,6 +139,7 @@ class CRM_Report_Form_Instance {
 
     static function postProcess( &$form ) {
         $params = $form->getVar( '_params' );
+        $config =& CRM_Core_Config::singleton(); 
 
         $params['header']    = $params['report_header'];
         $params['footer']    = $params['report_footer'];
@@ -152,8 +153,11 @@ class CRM_Report_Form_Instance {
         if ( ! is_array( $dao->permission ) ) {
             $dao->permission = array($dao->permission);
         }
-
-        $dao->permission = serialize( array($dao->permission, 'and') );
+        if ( $config->userFramework == 'Joomla' ) {
+            $dao->permission = NULL;
+        } else {
+            $dao->permission = serialize( array($dao->permission, 'and') );
+        }
         
         // unset all the params that we use
         $fields = array( 'title', 'to_emails', 'cc_emails', 'header', 'footer',
