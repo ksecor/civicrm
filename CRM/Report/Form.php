@@ -185,8 +185,10 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_instanceValues['permission'] = 
                 unserialize( $this->_instanceValues['permission'] );
             if ( $this->_instanceValues['permission'][0][0] && 
-                 (!CRM_Core_Permission::checkMenu( $this->_instanceValues['permission'][0], 
-                                                   $this->_instanceValues['permission'][1] )) ) {
+                 (!(CRM_Core_Permission::checkMenu( $this->_instanceValues['permission'][0], 
+                                                    $this->_instanceValues['permission'][1] ) ||
+                    CRM_Core_Permission::access( 'CiviReport' ) )
+                  ) ) {
                 CRM_Utils_System::permissionDenied( );
                 exit();
             }
@@ -435,10 +437,8 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_defaults = array_merge( $this->_defaults, $this->_instanceValues );
         }
 
-        if ( $this->_instanceForm ) {
-            require_once 'CRM/Report/Form/Instance.php';
-            CRM_Report_Form_Instance::setDefaultValues( $this, $this->_defaults );
-        }
+        require_once 'CRM/Report/Form/Instance.php';
+        CRM_Report_Form_Instance::setDefaultValues( $this, $this->_defaults );
         
         return $this->_defaults;
     }
@@ -584,16 +584,15 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function buildInstanceAndButtons( ) {
-        if ( $this->_instanceForm ) {
-            require_once 'CRM/Report/Form/Instance.php';
-            CRM_Report_Form_Instance::buildForm( $this );
-            
-            $label = $this->_id ? ts( 'Update Report' ) : ts( 'Create Report' );
-
-            $this->addElement( 'submit', $this->_instanceButtonName, $label );
-            $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
-            $this->addElement('submit', $this->_pdfButtonName, ts( 'PDF' ) );
-
+        require_once 'CRM/Report/Form/Instance.php';
+        CRM_Report_Form_Instance::buildForm( $this );
+        
+        $label = $this->_id ? ts( 'Update Report' ) : ts( 'Create Report' );
+        
+        $this->addElement( 'submit', $this->_instanceButtonName, $label );
+        $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
+        $this->addElement('submit', $this->_pdfButtonName, ts( 'PDF' ) );
+        if ( $this->_instanceForm ){
             $this->assign( 'instanceForm', true );
         }
 
