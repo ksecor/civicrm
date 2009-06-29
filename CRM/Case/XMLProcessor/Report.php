@@ -335,11 +335,7 @@ WHERE      a.id = %1
         $activity['fields'][] = array( 'label' => 'Location',
                                        'value' => $activityDAO->location,
                                        'type'  => 'String' );
-        
-        $activity['fields'][] = array( 'label' => 'Due Date',
-                                       'value' => $activityDAO->due_date_time,
-                                       'type'  => 'Date' );
-        
+       
         $activity['fields'][] = array( 'label' => 'Actual Date',
                                        'value' => $activityDAO->activity_date_time,
                                        'type'  => 'Date' );

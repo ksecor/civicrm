@@ -115,14 +115,6 @@
        <comment>Date and time this activity is scheduled to occur. Formerly named scheduled_date_time.</comment>
        <add>2.0</add>
   </field>  
-
-  <field>
-       <name>due_date_time</name>
-       <type>datetime</type>
-       <comment>Date and time this activity is due.</comment>
-       <add>2.0</add>
-  </field>  
-  
   <field>
        <name>duration_hours</name>
        <type>int unsigned</type>

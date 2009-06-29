@@ -108,14 +108,6 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
               <td class="view-value">{$form.medium_id.html}&nbsp;&nbsp;&nbsp;{$form.location.label} &nbsp;{$form.location.html}</td>
            </tr> 
            <tr>
-              <td class="label">{$form.due_date_time.label}</td>
-              <td class="view-value">{$form.due_date_time.html | crmDate }
-                  {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity doTime=1}
-                  {include file="CRM/common/calendar/body.tpl" dateVar=due_date_time startDate=currentYear 
-                                 endDate=endYear offset=10 doTime=1 trigger=trigger_activity ampm=1}
-              </td>
-           </tr> 
-           <tr>
               <td class="label">{$form.activity_date_time.label}</td>
               <td class="view-value">{$form.activity_date_time.html | crmDate }
                   {if $action neq 4}

@@ -407,8 +407,7 @@ function addRole() {
     </tr>
     <tr>
         <td> 
-	        {$form.date_range.html}
-                 &nbsp;&nbsp; <label>- {ts}From{/ts}</label> 
+	            <label>- {ts}From{/ts}</label> 
                 <br />
                 {$form.activity_date_low.html}
                 &nbsp;
@@ -502,7 +501,6 @@ function search(com)
 	    newp:1, 
 		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
 			{name:'status_id', value: cj("select#status_id").val()},
-			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
 			{name:'activity_date_low', value: activity_date_low },
 			{name:'activity_date_high', value: activity_date_high},
 			{name:'activity_deleted', value: activity_deleted }

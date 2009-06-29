@@ -298,7 +298,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     static function deleteCase( $caseId , $moveToTrash = false ) 
     {
         //delete activities
-        $activities = self::getCaseActivityDueDates( $caseId );
+        $activities = self::getCaseActivityDates( $caseId );
         if ( $activities ) {
             require_once"CRM/Activity/BAO/Activity.php";
             foreach( $activities as $value ) {
@@ -443,7 +443,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   civicrm_activity.status_id,
                   case_relation_type.label_b_a as case_role, ";
         if ( $type == 'upcoming' ) {
-            $query .=  " civicrm_activity.due_date_time as case_scheduled_activity_date,
+            $query .=  " civicrm_activity.activity_date_time as case_scheduled_activity_date,
                          civicrm_activity.id as case_scheduled_activity_id,
                          aov.label as case_scheduled_activity_type ";       
         } else if ( $type == 'recent' ) {
@@ -465,7 +465,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                              ON ( civicrm_case_activity.activity_id = civicrm_activity.id
                                   AND civicrm_activity.is_current_revision = 1
                                   AND civicrm_activity.status_id = $scheduledStatusId
-                                  AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) ";
+                                  AND civicrm_activity.activity_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) ";
         } else if ( $type == 'recent' ) {
             $query .= " LEFT JOIN civicrm_activity
                              ON ( civicrm_case_activity.activity_id = civicrm_activity.id
@@ -508,8 +508,8 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         
         if ( $type == 'upcoming' ) {
             $query .= "AND ca2.status_id = $scheduledStatusId
-                       AND ca2.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) 
-                       AND civicrm_activity.due_date_time > ca2.due_date_time )";
+                       AND ca2.activity_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) 
+                       AND civicrm_activity.activity_date_time > ca2.activity_date_time )";
         } else if ( $type == 'recent' ) {
             $query .= "AND ca2.status_id != $scheduledStatusId
                        AND ca2.activity_date_time <= NOW() 
@@ -764,11 +764,11 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $select = 'SELECT count(ca.id) as ismultiple, ca.id as id, 
                           ca.activity_type_id as type, 
                           cc.sort_name as reporter,
-                          IF(COALESCE(ca.activity_date_time, ca.due_date_time) < NOW() AND ca.status_id=ov.value,
-                            COALESCE(ca.activity_date_time, ca.due_date_time),
+                          IF(ca.activity_date_time < NOW() AND ca.status_id=ov.value,
+                            ca.activity_date_time,
                             DATE_ADD(NOW(), INTERVAL 1 YEAR)
                           ) as overdue_date,
-                          COALESCE(ca.activity_date_time, ca.due_date_time) as display_date,
+                          ca.activity_date_time as display_date,
                           ca.status_id as status, 
                           ca.subject as subject, 
                           ca.is_deleted as deleted,
@@ -802,31 +802,21 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         }
 
 		if ( CRM_Utils_Array::value( 'activity_date_low', $params ) ) {
-            $fromDueDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
+            $fromActivityDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
         }
 		if ( CRM_Utils_Array::value( 'activity_date_high', $params ) ) {
-            $toDueDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
-            $toDueDate   = $toDueDate ? $toDueDate . '235959' : null;
+            $toActivityDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
+            $toActivityDate   = $toActivityDate ? $toActivityDate . '235959' : null;
         }
         
-		if ( CRM_Utils_Array::value( 'date_range', $params ) ) {
-            if ( $params['date_range'] == 1 ) {
-                if ( $fromDueDate ) {
-                    $where .= " AND ca.due_date_time >= '{$fromDueDate}'";
-                }
-                if ( $toDueDate ) {
-                    $where .= " AND ca.due_date_time <= '{$toDueDate}'";
-                }
-            } else if ( $params['date_range'] == 2 ) {
-                if ( $fromDueDate ) {
-                    $where .= " AND ca.activity_date_time >= '{$fromDueDate}'";
-                }
-                if ( $toDueDate ) {
-                    $where .= " AND ca.activity_date_time <= '{$toDueDate}'";
-                }
-            }
+        if ( $fromActivityDate ) {
+            $where .= " AND ca.activity_date_time >= '{$fromActivityDate}'";
         }
-
+            
+        if ( $toActivityDate ) {
+            $where .= " AND ca.activity_date_time <= '{$toActivityDate}'";
+        }
+            
         // hack to handle to allow initial sorting to be done by query
         if ( CRM_Utils_Array::value( 'sortname', $params ) == 'undefined' ) {
             $params['sortname'] = null;
@@ -1053,7 +1043,6 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $activityParams['source_contact_id']  = $session->get( 'userID' ); 
         $activityParams['activity_type_id']   = CRM_Core_OptionGroup::getValue( 'activity_type', 'Email', 'name' );
         $activityParams['activity_date_time'] = date('YmdHis');
-        $activityParams['due_date_time']      = date('YmdHis');
         $activityParams['status_id']          = CRM_Core_OptionGroup::getValue( 'activity_status', 'Completed', 'name' );
         $activityParams['medium_id']          = CRM_Core_OptionGroup::getValue( 'encounter_medium', 'email', 'name' );
         $activityParams['is_auto']            = 0;
@@ -1189,7 +1178,6 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
                 $params = array( );
                 $params['subject']            = $result['subject'];
                 $params['activity_date_time'] = $result['date'];
-                $params['due_date_time']      = $result['date'];
                 $params['details']            = $result['body'];
                 $params['source_contact_id']  = $result['from']['id'];
                 $params['status_id']          = CRM_Core_OptionGroup::getValue('activity_status',
@@ -1303,7 +1291,7 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
     static function restoreCase( $caseId ) 
     {
         //restore activities
-        $activities = self::getCaseActivityDueDates( $caseId );
+        $activities = self::getCaseActivityDates( $caseId );
         if ( $activities ) {
             require_once"CRM/Activity/BAO/Activity.php";
             foreach( $activities as $value ) {
@@ -1386,10 +1374,10 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
      *
      * @static
      */
-    static function getCaseActivityDueDates( $caseID, $criteriaParams = array( ), $latestDate = false )
+    static function getCaseActivityDates( $caseID, $criteriaParams = array( ), $latestDate = false )
     {
         $values     = array( );
-        $selectDate = " ca.due_date_time";
+        $selectDate = " ca.activity_date_time";
         $where      = $groupBy = ' ';
         
         if ( !$caseID ) {
@@ -1404,13 +1392,13 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
             }
             
             if ( CRM_Utils_Array::value( 'newest', $criteriaParams ) ) {
-                $selectDate = " max(ca.due_date_time) "; 
+                $selectDate = " max(ca.activity_date_time) "; 
             } else {
-                $selectDate = " min(ca.due_date_time) "; 
+                $selectDate = " min(ca.activity_date_time) "; 
             }
         }
         
-        $query = "SELECT ca.id, {$selectDate} as due_date
+        $query = "SELECT ca.id, {$selectDate} as activity_date
                   FROM civicrm_activity ca 
                   LEFT JOIN civicrm_case_activity cca ON cca.activity_id = ca.id LEFT JOIN civicrm_case cc ON cc.id = cca.case_id 
                   WHERE cc.id = %1 {$where} {$groupBy}";
@@ -1419,8 +1407,8 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
         
         while ( $dao->fetch( ) ) {
-            $values[$dao->id]['id']       = $dao->id;
-            $values[$dao->id]['due_date'] = $dao->due_date;
+            $values[$dao->id]['id']            = $dao->id;
+            $values[$dao->id]['activity_date'] = $dao->activity_date;
         }
         $dao->free( );
         return $values;
@@ -1481,7 +1469,6 @@ AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
         $activityParams = array('source_contact_id'    => $session->get( 'userID' ),
                                 'subject'              => $caseRelationship.' : '. $assigneContactName,
                                 'activity_date_time'   => date('YmdHis'),
-                                'due_date_time'        => date('YmdHis'),
                                 'status_id'            => CRM_Core_OptionGroup::getValue( 'activity_status', 'Completed', 'name' )
                                 );
 

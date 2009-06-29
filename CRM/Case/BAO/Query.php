@@ -171,7 +171,7 @@ class CRM_Case_BAO_Query
         }
 
         if ( CRM_Utils_Array::value( 'case_scheduled_activity_date', $query->_returnProperties) ) {
-            $query->_select['case_scheduled_activity_date']  = "case_activity.due_date_time as case_scheduled_activity_date";
+            $query->_select['case_scheduled_activity_date']  = "case_activity.activity_date_time as case_scheduled_activity_date";
             $query->_element['case_scheduled_activity_date'] = 1;
             $query->_tables['case_activity']                 = 1;
             $query->_tables['civicrm_case_contact']          = 1; 
@@ -323,7 +323,7 @@ class CRM_Case_BAO_Query
 
         case 'case_scheduled_activity_date':
             $date = CRM_Utils_Date::format( $value );
-            $query->_where[$grouping][] =  CRM_Contact_BAO_Query::buildClause( "case_activity.due_date_time", $op, $date, 'Date' );
+            $query->_where[$grouping][] =  CRM_Contact_BAO_Query::buildClause( "case_activity.activity_date_time", $op, $date, 'Date' );
             if ( $date ) {
                 $date = CRM_Utils_Date::customFormat( $date );
                 $query->_qill[$grouping][]  = ts ("Activity Schedule Date %1 %2", array(1 => $op, 2 => $date ));
