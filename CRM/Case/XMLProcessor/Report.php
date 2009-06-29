@@ -92,7 +92,7 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
         $client = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $clientID, 'display_name' );
         // add Client to the strings to be redacted across the case session
         $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
-                                                     array($client => 'client_' .rand(10000 ,100000) ) );
+                                                     array($client => 'client_' .substr(md5(time()),0,5) ) );
                                                      
         $case['clientName'] = $this->redact($client);
         
@@ -258,9 +258,8 @@ WHERE      a.id = %1
             // suffixed with a randomly generated 4-digit number
             if (!array_key_exists($clientName, $this->_redactionStringRules)) {
                 $this->_redactionStringRules = array_merge ( $this->_redactionStringRules, 
-                                                             array($clientName => 'client_'.rand(10000 ,100000) ) );
+                                                             array($clientName => 'client_'. substr(md5(time()),0,5) ) );
             }
-         
             $activity['fields'][] = array( 'label' => 'Client',
                                            'value' => $this->redact( $clientName ),
                                            'type'  => 'String' );
@@ -578,7 +577,7 @@ LIMIT  1
         $isRedact          = CRM_Utils_Request::retrieve( 'redact' , 'Boolean' , CRM_Core_DAO::$_nullObject );
         $includeActivities = CRM_Utils_Request::retrieve( 'all'    , 'Positive', CRM_Core_DAO::$_nullObject );
         $params = array( );
-        
+      
         $report = new CRM_Case_XMLProcessor_Report( $isRedact ); 
         
         if ( $includeActivities ) {
@@ -620,7 +619,7 @@ LIMIT  1
                }
                $value['phone'] = self::redact( $value['phone'], true, $phone );
                if (!array_key_exists($value['name'], $client)) {
-                  $client = array ($value['name'] => 'client_' . rand(10000,100000));               
+                  $client = array ($value['name'] => 'client_' . substr(md5(time()),0,5));               
                }
                $value['name'] = self::redact( $value['name'], true, $client ); 
             }
