@@ -283,7 +283,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $formValues    = $this->controller->exportValues( $this->_name );
 
         foreach ( $uploadParams as $key ) {
-            if ( CRM_Utils_Array::value( $key, $formValues ) ) {
+            if ( CRM_Utils_Array::value( $key, $formValues ) ||
+                 in_array( $key, array( 'header_id', 'footer_id' ) ) ) {
                 $params[$key] = $formValues[$key];
                 $this->set($key, $formValues[$key]);
             }
