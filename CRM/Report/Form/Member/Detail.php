@@ -259,7 +259,7 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
         $sql  = $this->buildQuery( true );
         
         $rows = array( );
-        $this-> buildRows( $sql, &$rows );
+        $this-> buildRows( $sql, $rows );
         
         $this->formatDisplay( $rows );        
         $this->doTemplateAssignment( $rows );

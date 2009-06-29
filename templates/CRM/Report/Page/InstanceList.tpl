@@ -29,7 +29,7 @@
 	<br />
     {/foreach}
     {if $reportUrl}
-	<a href="{$reportUrl}" class="button"><span>&raquo; {ts}View all Reports{/ts}</span></a></td>
+	<a href="{$reportUrl}" class="button"><span>&raquo; {ts}View All Reports{/ts}</span></a></td>
     {/if}
 {else}
     <div class="messages status">

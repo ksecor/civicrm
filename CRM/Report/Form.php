@@ -661,7 +661,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             return array( 'eq'  => 'Is equal to' );
             break;
         case CRM_Report_FORM::OP_MULTISELECT :
-            return array( 'in'  => 'Is all of' );
+            return array( 'in'  => 'Is one of' );
             break;
         default:
             // type is string
