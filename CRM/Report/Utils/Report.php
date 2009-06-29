@@ -187,7 +187,7 @@ WHERE  inst.report_id = %1";
                 // Replace internal header names with friendly ones, where available.
                 foreach ( $headers as $i => $header ) {
                     if ( isset( $form->_columnHeaders[$header] ) ) {
-                        $headers[$i] = $form->_columnHeaders[$header]['title'];
+                        $headers[$i] = html_entity_decode(strip_tags($form->_columnHeaders[$header]['title']));
                     }
                 }
                 
