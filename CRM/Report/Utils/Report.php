@@ -220,7 +220,9 @@ WHERE  inst.report_id = %1";
         } 
     }
     static function getInstanceID() {
-        $arg       = explode( '/',$_GET['q']);
+
+        $config    =& CRM_Core_Config::singleton( );
+        $arg       = explode( '/', $_GET[$config->userFrameworkURLVar] );
         $secondArg = CRM_Utils_Array::value( 2, $arg );
         require_once 'CRM/Utils/Rule.php';
         if ( $arg[1]    == 'report' &&

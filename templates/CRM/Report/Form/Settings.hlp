@@ -1,0 +1,22 @@
+{htxt id='id-report_title'}
+<strong>{ts}Report Title:{/ts}</strong>
+<br />
+{ts}The title set for report will appear on the Report Listing page.{/ts}</p>
+{/htxt}
+
+{htxt id='id-report_header'}
+<strong>{ts}Report Header:{/ts}</strong>
+<br />{ts}The Report header and CSS to be included will be applied to report.{/ts}</p>
+{/htxt}
+
+{htxt id='id-email_settings'}
+<strong>{ts}Email Delivery Settings:{/ts}</strong>
+<br />{ts}Your site administrator will need to setup a server "cron job" (automatically scheduled task) to trigger creation and delivery of each report. The cron job should use invoke the URL for this report with the addition of the following parameter: <em>&amp;sendmail=1</em>.
+The cron job will also need to include authentication parameters.{/ts}
+{ts}{docURL page="Command-line Script Configuration"}{/ts}</p>
+{/htxt}
+
+{htxt id='id-report_perms'}
+<strong>{ts}Report access permission:{/ts}</strong>
+<br />{ts}Restrict the view of this report for privileged users.{/ts}</p>
+{/htxt}
