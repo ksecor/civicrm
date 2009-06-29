@@ -110,9 +110,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      * @access protected
      */
     protected $_duplicateButtonName;
-
-    public $_maxLocationBlocks = 0;
-
+    
+    protected $_maxLocationBlocks = 0;
+    
     protected $_editOptions = array( );
 
     protected $_blocks;
@@ -129,10 +129,13 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                                                        
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
-
-        // find the system config related location blocks
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_maxLocationBlocks = CRM_Core_BAO_Preferences::value( 'location_count' );
+        
+        if ( !$this->get( 'maxLocationBlocks' )  ) {
+            // find the system config related location blocks
+            require_once 'CRM/Core/BAO/Preferences.php';
+            $this->_maxLocationBlocks = CRM_Core_BAO_Preferences::value( 'location_count' );
+            $this->set( 'maxLocationBlocks',  $this->_maxLocationBlocks );
+        }
         
         // make blocks semi-configurable
         $this->_blocks = array( 'Email'  => 1,
@@ -206,19 +209,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             unset( $this->_editOptions['Demographics'] );
         }
         $this->assign( 'editOptions', $this->_editOptions );
-        
-        foreach ( array_merge( array( 'Address' => 1 ), $this->_blocks ) as $blockName => $active ) {
-            $hiddenCount = CRM_Utils_Array::value( "hidden_".$blockName, $_POST );
-            if (  $hiddenCount > 1 ) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
-                for ( $instance = 2; $instance <= $hiddenCount; $instance++ ) {
-                    $this->assign( "addBlock", true );
-                    $this->assign( 'blockName', $blockName );
-                    $this->set( $blockName."_Block_Count", $instance );
-                    eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' ); 
-                }
-            }
-        }
     }
 
     /**
@@ -326,8 +316,20 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         foreach( $this->_editOptions as $name => $label ) {                
             if ( $name != 'CustomData' ) {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name ) . ".php");
-                $this->set( $name."_Block_Count", 1 );
                 eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
+            }
+        }
+        
+        foreach ( array_merge( array( 'Address' => 1 ), $this->_blocks ) as $blockName => $active ) {
+            $hiddenCount = CRM_Utils_Array::value( "hidden_".$blockName ."_Count", $_POST );
+            if (  $hiddenCount > 1 ) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
+                for ( $instance = 2; $instance <= $hiddenCount; $instance++ ) {
+                    $this->assign( "addBlock", true );
+                    $this->assign( 'blockName', $blockName );
+                    $this->set( $blockName."_Block_Count", $instance );
+                    eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' ); 
+                }
             }
         }
         
@@ -369,8 +371,110 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $params = $this->controller->exportValues( $this->_name );
         CRM_Core_Error::debug( '$params', $params );
         exit( );
+        
+        //sample params array
+        $params = array( 'contact_id'          => 102,
+                         'prefix_id'           => 3,
+                         'first_name'          => 'firstName',
+                         'middle_name'         => '',
+                         'last_name'           => 'lastName',
+                         'suffix_id'           => 2,
+                         'nick_name'           => '',
+                         'job_title'           => '',
+                         'current_employer'    => '',
+                         'contact_source'      => '',
+                         'external_identifier' => '', 
+                         'hidden_Email_Count'  => 2,
+                         'hidden_Phone_Count'  => 2,
+                         'hidden_IM_Count'     => 2,
+                         'hidden_OpenID_Count' => 2,
+                         'hidden_Address_Count'=> 2,
+                         'email' => array ( 1 => array (
+                                                        'email'            => 'email_one@y.com',
+                                                        'location_type_id' => 1,
+                                                        'on_hold'          => false,
+                                                        'is_bulkmail'      => 1,
+                                                        'is_primary'       => 1,
+                                                        ),
+                                            2 => array (
+                                                        'email'            => 'email_two@y.com',
+                                                        'location_type_id' => 5,
+                                                        'on_hold'          => 1,
+                                                        'is_bulkmail'      => false,
+                                                        'is_primary'       => false,
+                                                        ) 
+                                            ),
+                         'phone' => array ( 1 => array ( 
+                                                        'phone'            => 1111111,
+                                                        'phone_type_id'    => 1,
+                                                        'location_type_id' => 1,
+                                                        'is_primary'       => true
+                                                        ),
+                                            2 => array ( 
+                                                        'phone'            => 2222222,
+                                                        'phone_type_id'    => 2,
+                                                        'location_type_id' => 5,
+                                                        'is_primary'       => false
+                                                        ),
+                                            ),
+                         'im' => array ( 1 => array ( 'name'               => 'im_one',
+                                                      'provider_id'        => 3,
+                                                      'location_type_id'   => 1,
+                                                      'is_primary'         => true
+                                                      ),
+                                         2 => array ( 'name'               => 'im_two',
+                                                      'provider_id'        => 4,
+                                                      'location_type_id'   => 5,
+                                                      'is_primary'         => false
+                                                      ),
+                                         ),
+                         'openid' => array ( 1 => array ( 'openid'           => 'http://civicrm.org/', 
+                                                          'is_primary'       => 1, 
+                                                          'location_type_id' => 1,
+                                                          ),
+                                             2 => array ( 'openid'           => 'http://civicrm.org/blog', 
+                                                          'is_primary'       => false, 
+                                                          'location_type_id' => 5,
+                                                          ),
+                                             ),
+                         'address' => array ( 1 => array ( 'location_type_id'       => 1,
+                                                           'is_primary'             => 1,
+                                                           'street_address'         => 'Street Address 1',
+                                                           'supplemental_address_1' => "Addt'l Address 1 1",
+                                                           'city'                   => 'City 1',
+                                                           'postal_code'            => '12345',
+                                                           'postal_code_suffix'     => '123',
+                                                           'state_province_id'      => '1004',
+                                                           'country_id'             => '1228',
+                                                           ),
+                                              2 => array ( 'location_type_id'       => 5,
+                                                           'is_billing'             => 1,
+                                                           'street_address'         => 'Street Address 2',
+                                                           'supplemental_address_1' => "Addt'l Address 1 2",
+                                                           'city'                   => 'City 2',
+                                                           'postal_code'            => 12345,
+                                                           'postal_code_suffix'     => 123,
+                                                           'state_province_id'      => 1000,
+                                                           'country_id'             => 1228,
+                                                           ),
+                                              ),
+                         'privacy' => array ( 'do_not_phone' => false,
+                                              'do_not_email' => false,
+                                              'do_not_mail' => false,
+                                              'do_not_sms' => false,
+                                              'do_not_trade' => false, 
+                                              ),
+                         'preferred_communication_method' => array ( 1 => true,
+                                                                     2 => true,
+                                                                     3 => true,
+                                                                     4 => true,
+                                                                     5 => true,
+                                                                     ),
+                         );
+    
+        
     }
-
+    
 }
 
 

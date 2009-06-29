@@ -53,15 +53,18 @@ class CRM_Contact_Form_Edit_Address
     {
         //, &$location, $locationId, $countryDefault = null
         
+        $maxBlocks  = ( $form->get( 'maxLocationBlocks'   ) ) ? $form->get( 'maxLocationBlocks'   ) : 1;
+        
         $locationId = ( $form->get( 'Address_Block_Count' ) ) ? $form->get( 'Address_Block_Count' ) : 1;
         $addMoreAddress = false;
-        if ( $form->_maxLocationBlocks >=  $locationId + 1 ) {
+        
+        if ( $maxBlocks >=  $locationId + 1 ) {
             $addMoreAddress = true;
         }
         $form->assign( 'addMoreAddress', $addMoreAddress ); 
         $form->assign( 'addressBlockCount', $locationId );
         
-        $form->addElement( 'hidden', 'hidden_Address', $locationId, array( 'id' => 'hidden_Address' ) );
+        $form->addElement( 'hidden', 'hidden_Address_Count', $locationId, array( 'id' => 'hidden_Address_Count' ) );
         $form->addElement('select',
                           "address[$locationId][location_type_id]",
                           ts( 'Location Type' ),
@@ -72,14 +75,14 @@ class CRM_Contact_Form_Edit_Address
                           "address[$locationId][is_primary]", 
                           ts('Primary location for this contact'),  
                           ts('Primary location for this contact'), 
-                          array('onchange' => "location_onclick('" . $form->getName( ) . "', $locationId, $form->_maxLocationBlocks, 'is_primary');" ) );
+                          array('onchange' => "location_onclick('" . $form->getName( ) . "', $locationId, $maxBlocks, 'is_primary');" ) );
         
         $form->addElement(
                           'checkbox', 
                           "address[$locationId][is_billing]", 
                           ts('Billing location for this contact'),  
                           ts('Billing location for this contact'), 
-                          array('onchange' => "location_onclick('" . $form->getName( ) . "', $locationId, $form->_maxLocationBlocks, 'is_billing');" ) );
+                          array('onchange' => "location_onclick('" . $form->getName( ) . "', $locationId, $maxBlocks, 'is_billing');" ) );
         
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );

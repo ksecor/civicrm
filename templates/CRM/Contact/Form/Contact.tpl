@@ -72,7 +72,7 @@ function buildAdditionalBlocks( blockName, blockCount, contactType ) {
                          cj(fname).append( cj('#temp div#crm-container-snippet').html() );
                       }
          });
-  cj( "#hidden_" + blockName ).val( blockCount );
+  cj( "#hidden_" + blockName + "Count" ).val( blockCount );
 }
 
 cj('a#expand').click( function( ){
