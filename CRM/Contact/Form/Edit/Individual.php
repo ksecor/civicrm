@@ -112,94 +112,43 @@ class CRM_Contact_Form_Edit_Individual {
                                            array( 'onfocus' => "if (!this.value) this.value='Dear'; else return false",
                                                   'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
         }
-        
-        // Declare javascript methods to be used, for use-household-address checkbox.
-        // Also set label to be used for 'select-household' combo-box.
-        $extraOnAddFlds = '';
-        $addressFlds = array('location_1_address_street_address',
-                             'location_1_address_supplemental_address_1',
-                             'location_1_address_supplemental_address_2',
-                             'location_1_address_city',
-                             'location_1_address_postal_code',
-                             'location_1_address_postal_code_suffix',
-                             'location_1_address_county_id',
-                             'location_1_address_state_province_id',
-                             'location_1_address_country_id',
-                             'location_1_address_geo_code_1',
-                             'location_1_address_geo_code_2');
-
-        foreach ( $addressFlds as $addFld ) {
-            $extraOnAddFlds = $extraOnAddFlds ? ($extraOnAddFlds . "|" . $addFld) : $addFld;
-        }
-        $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
-
-        //   $sharedOptionsExtra = array( 'onclick' => "setAddressFields();" );   
         if ( $action & CRM_Core_Action::UPDATE ) {
             $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                                $form->_contactId, 
                                                                'mail_to_household_id', 
                                                                'id' );
             if ( isset($mailToHouseholdID) ) {
+                // if already a household being selected
                 $sharedOptionsExtra = array( 'onclick' => "resetByValue('use_household_address','', $extraOnAddFlds, 'text', 'radio', true );" );
             }
         }
+       
+        //Shared Address Element
+        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address') );
+        $housholdDataURL = CRM_Utils_System::url( 'civicrm/ajax/search', "hh=1", false, null, false );
+        $form->assign('housholdDataURL',$housholdDataURL );
+        $form->add( 'text', 'shared_household', ts( 'Select Household' ) );
+        $form->add( 'hidden', 'shared_household_id', '', array( 'id' => 'shared_household_id' ));
         
-        if ( isset( $mailToHouseholdID ) ) {
-            $useHouseholdExtra = array( 'onclick' => "showHideHouseAddress();showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);resetByValue('use_household_address','', $extraOnAddFlds,'text', 'radio', false);setDefaultAddress();" );
-        } else {
-            $useHouseholdExtra = array( 'onclick' => "showHideAddress();showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);setDefaultAddress();" );
-        }
-              
-        // shared address element block
-        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
-        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
-        
-        $attributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
-                                'mode'         => 'remote',
-                                'store'        => 'addressStore',
-                                'style'        => 'width:450px; border: 1px solid #cfcfcf;',
-                                'class'        => 'tundra',
-                                'pageSize'     => 10,
-                                'onchange'     => 'showSelectedAddress( "shared_household" )'
-                                );
-
-        $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "hh=1",
-                                           false, null, false );
-
-        $form->assign('dataURL',$dataURL );
-        $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
-     
-        $form->add( 'text', 'shared_household', ts( 'Select Household' ), $attributes );
-        
-        // shared address element-block Ends.
+        //Home Url Element
         $form->addElement('text', 'home_URL', ts('Website'),
                           array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
                                        array('onfocus' => "if (!this.value) this.value='http://'; else return false",
                                              'onblur'=> "if ( this.value == 'http://') this.value=''; else return false")
                                        ));
         $form->addRule('home_URL', ts('Enter a valid web location beginning with \'http://\' or \'https://\'. EXAMPLE: http://www.mysite.org/'), 'url');
-
-        $employerAttributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
-                                        'mode'         => 'remote',
-                                        'store'        => 'organizationStore',
-                                        'style'        => 'width:400px; border: 1px solid #cfcfcf;',
-                                        'class'        => 'tundra',
-                                        'pageSize'     => 10,
-                                        'onchange'     => 'showSelectedAddress("current_employer")',
-                                        
-                                        );
         
-        $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                   "org=1",
-                                                   false, null, false );
-        
+        //Current Employer Element
+        $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search', 'org=1', false, null, false );
         $form->assign('employerDataURL',$employerDataURL );
         
-        $form->addElement('text', 'current_employer', ts('Current Employer'), $employerAttributes );
-
+        $form->addElement('text', 'current_employer', ts('Current Employer'), '' );
+        $form->addElement('hidden', 'current_employer_id', '', array( 'id' => 'current_employer_id') );
         $form->addElement('text', 'contact_source', ts('Source'));
-        $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
+
+        //External Identifier Element
+        $form->add('text', 'external_identifier', ts('External Id'), 
+                   CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
 
         $form->addRule( 'external_identifier',
                         ts('External ID already exists in Database.'), 
@@ -272,7 +221,7 @@ class CRM_Contact_Form_Edit_Individual {
         
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
         if ( CRM_Utils_Array::value('use_household_address',$fields) ) {
-            if ( ! CRM_Utils_Array::value( 'shared_household', $fields ) ) {
+            if ( !CRM_Utils_Array::value( 'shared_household', $fields ) && !CRM_Utils_Array::value( 'shared_household_id', $fields ) ) {
                 $errors["shared_household"] = ts("Please select a household from the 'Select Household' list");
             }
      

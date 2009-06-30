@@ -39,9 +39,7 @@
     <tr>
         <td colspan="2">
             {$form.current_employer.label}<br />
-            <div align="right">
-                {$form.current_employer.html}
-            </div>
+            {$form.current_employer.html|crmReplace:class:twenty}
         </td>
                 
         <td>
@@ -54,3 +52,11 @@
         </td>
     </tr>
 </table>
+{literal}
+<script type="text/javascript">
+var dataUrl = "{/literal}{$employerDataURL}{literal}";
+cj('#current_employer').autocomplete( dataUrl, { width : 250, selectFirst : false 
+                                              }).result( function(event, data, formatted) { cj( "#current_employer_id" ).val( data[1] );
+                                              });
+</script>
+{/literal}
