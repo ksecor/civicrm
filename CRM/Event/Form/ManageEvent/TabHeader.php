@@ -173,12 +173,16 @@ WHERE      e.id = %1
         if ( $current ) {
             return $current;
         }
-        foreach ( $tabs as $subPage => $pageVal ) {
-            if ( $pageVal['current'] === true ) {
-                $current = $subPage;
-                break;
+        
+        if ( is_array($tabs) ) {
+            foreach ( $tabs as $subPage => $pageVal ) {
+                if ( $pageVal['current'] === true ) {
+                    $current = $subPage;
+                    break;
+                }
             }
         }
+        
         $current = $current ? $current : 'EventInfo';
         return $current;
     }
