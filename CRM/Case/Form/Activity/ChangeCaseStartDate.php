@@ -153,7 +153,7 @@ WHERE civicrm_case.id=  %1";
                                     'caseType'           => $caseType,
                                     'activityTypeName'   => 'Change Case Start Date',
                                     'activitySetName'    => 'standard_timeline',
-                                    'is_StartdateChanged'=> 1,           
+                                    'resetTimeline'      => 1,           
                                      );
         
         $xmlProcessor->run( $caseType, $xmlProcessorParams );

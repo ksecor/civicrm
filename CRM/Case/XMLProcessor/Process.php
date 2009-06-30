@@ -332,7 +332,7 @@ AND        ca.case_id = %3
             if ( $referenceActivityName = (string) $activityTypeXML->reference_activity  ) {
 
                 //we skip open case as reference activity.CRM-4374.
-                if ( CRM_Utils_Array::value('is_StartdateChanged', $params) && $referenceActivityName == 'Open Case' ) {
+                if ( CRM_Utils_Array::value('resetTimeline', $params) && $referenceActivityName == 'Open Case' ) {
                     $activityDate = $params['activity_date_time']; 
                 } else {
                     $referenceActivityInfo = CRM_Utils_Array::value( $referenceActivityName, $activityTypes );
