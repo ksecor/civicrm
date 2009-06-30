@@ -474,7 +474,7 @@ UPDATE civicrm_state_province
 	WHEN 3707 THEN "Ulaanbaatar"
 	WHEN 2879 THEN "Achaïa"
    ELSE name
-END
+END;
 
 -- CRM-4569
 
