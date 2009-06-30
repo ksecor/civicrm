@@ -170,15 +170,17 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         CRM_Core_Error::fatal( $status );
     }
     
-    static function addContactToGroup( $contactID, $groupID = null ) {
-        if ( !$groupID ) {
-            $groupID = self::getGroupId( );
-        }
+    static function addContactToDomainGroup( $contactID ) {
+        $groupID = self::getGroupId( );
+
         if ( $groupID ) {
             $contactIDs = array( $contactID );
             require_once 'CRM/Contact/DAO/GroupContact.php';
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIDs, $groupID );
+
+            return $groupID;
         }
+        return false;
     }
 
     static function getGroupId( ) {
@@ -203,7 +205,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
                 $groupParams = array( 'title'            => $title,
                                       'is_active'        => 1,
                                       'no_parent'        => 1 );
-                require_once 'CRM/Contact/DAO/Group.php';
+                require_once 'CRM/Contact/BAO/Group.php';
                 $group   = CRM_Contact_BAO_Group::create( $groupParams );
                 $groupID = $group->id;
             }

@@ -250,6 +250,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         
         $params['contact_id'] = $contact->id;
 
+        // add contact to domain/multi-site group
+        if ( $contact->id ) {
+            require_once 'CRM/Core/BAO/Domain.php';
+            $domainGroupID = CRM_Core_BAO_Domain::addContactToDomainGroup( $contact->id );
+        }
+
         //add location Block data
         $location = array( );
         $location = CRM_Core_BAO_Location::create( $params, $fixAddress );

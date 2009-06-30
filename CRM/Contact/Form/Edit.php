@@ -700,6 +700,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         if ( $this->_showTagsAndGroups ) {
             //add contact to group
+            if ( array_key_exists('group', $params) ) {
+                require_once 'CRM/Core/BAO/Domain.php';
+                $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
+                // make sure domain-group is always checked
+                if ( $domainGroupID ) {
+                    $params['group'][$domainGroupID] = 1;
+                }
+            }
             require_once 'CRM/Contact/BAO/GroupContact.php';
             CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
             
