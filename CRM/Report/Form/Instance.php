@@ -186,15 +186,19 @@ class CRM_Report_Form_Instance {
             CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue',
                                           $instanceParams,
                                           $instanceDefaults );
+
             if ( $cmpID = $instanceDefaults['component_id'] ) {
                 $cmpName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component', $cmpID,
                                                         'name', 'id');
                 $cmpName = substr( $cmpName, 4 );
             }
             
-            $statusMsg = ts('Report "%1" has been created and is now available in the report listings under "%2" Reports', array( 1 => $dao->title, 2 => $cmpName ));
+            // Url to view this report and others created FROM this template
+            $instanceUrl = CRM_Utils_System::url( 'civicrm/report/list',
+                                                  "reset=1&ovid={$instanceDefaults['id']}" );
+            $statusMsg = ts('Report "%1" has been created and is now available in the <a href="%3">report listings under "%2" Reports</a>.', array( 1 => $dao->title, 2 => $cmpName, 3 => $instanceUrl ));
             if ( $instanceID ) {
-                $statusMsg = ts('Report "%1" has been updated', array( 1 => $dao->title ));
+                $statusMsg = ts('Report "%1" has been updated.', array( 1 => $dao->title ));
             }
             CRM_Core_Session::setStatus( $statusMsg );
         }

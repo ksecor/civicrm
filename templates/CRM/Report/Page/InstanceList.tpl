@@ -4,7 +4,7 @@
 	<div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
 	    <table class="report-layout">
 		<tr>
-		    <th>{if $title}{$title}{elseif $report EQ 'Contribute'}{ts}Contribution{/ts}{else}{$report}{/if} {ts}Reports{/ts}</th>
+		    <th>{if $title}{$title}{elseif $report EQ 'Contribute'}{ts}Contribution Reports{/ts}{else}{$report} {ts}Reports{/ts}{/if}</th>
             <th>
                 <div style=" float:right; width:10px;"> 
                     <img id="report_{$report}" src="{$config->resourceBase}i/menu-expanded.png" />
