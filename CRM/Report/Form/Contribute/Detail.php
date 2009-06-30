@@ -390,12 +390,11 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  CRM_Utils_Array::value( 'civicrm_contact_display_name', $rows[$rowNum] ) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
-                                              $this->_absoluteUrl, $this->_id );
+                $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
+                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
                 $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
                 $rows[$rowNum]['civicrm_contact_display_name_hover'] =  
-                    ts("View Contribution Details for this Contact.");
+                    ts("View Contact Summary for this Contact.");
             }
 
             // skip looking further in rows, if first row itself doesn't 

@@ -99,9 +99,9 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                    array( 'dao'      => 'CRM_Member_DAO_MembershipStatus',
                           'alias'    => 'mem_status',
                           'fields'   =>
-                          array(  
-                                'name'  => array ('title' => ts('Status')),
-                                ),
+                          array( 'name'  =>  array( 'title'   => ts('Status'),
+                                                    'default' => true ),
+                                 ),
                           
                           'filters'  => array( 'sid' => 
                                                array( 'name'         => 'id',
@@ -317,12 +317,11 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Report_Utils_Report::getNextUrl( 'member/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
-                                                            $this->_absoluteUrl, $this->_id);
+                $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
+                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
                 $rows[$rowNum]['civicrm_contact_display_name_link'] = $url;
                 $rows[$rowNum]['civicrm_contact_display_name_hover'] =
-                    ts("View Membership Details for this Contact");
+                    ts("View Contact Summary for this Contact.");
                 $entryFound = true;
             }
             
