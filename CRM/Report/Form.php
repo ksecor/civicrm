@@ -145,6 +145,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_csvButtonName      = null;
     protected $_groupButtonName    = null;
     protected $_chartButtonName    = null;
+    protected $_csvSupported       = true;
 
     protected $_rollup         = null;
     
@@ -603,7 +604,10 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->addElement('submit', $this->_pdfButtonName, $label );
 
         $label = $this->_id ? ts( 'Export to CSV' ) : ts( 'Preview CSV' );
-        $this->addElement('submit', $this->_csvButtonName, $label );
+
+        if ( $this->_csvSupported ) {
+            $this->addElement('submit', $this->_csvButtonName, $label );
+        }
 
         if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
             $this->addElement( 'select', 'groups', ts( 'Group' ), 
