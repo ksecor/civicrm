@@ -1,7 +1,4 @@
 {if $tabHeader and count($tabHeader) gt 1}
-{if $doneUrl}
-   <table class="form-layout"><tr><td align="right"><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{$doneUrl}';"/></td></tr></table>
-{/if}
 <div id="mainTabContainer">
 <ul>
 {foreach from=$tabHeader key=tabName item=tabValue}
@@ -13,6 +10,9 @@
    {/if}
    </li>
 {/foreach}
+{if $doneUrl}
+   <li class="float-right"><div><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{$doneUrl}';"/></div></li>
+{/if}
 </ul>
 </div>
 {/if}
