@@ -448,6 +448,16 @@ UPDATE civicrm_state_province SET name = "Coahuila"  WHERE id = 3808;
 UPDATE civicrm_state_province SET name = "Colima"    WHERE id = 3809;
 UPDATE civicrm_state_province SET name = "Chihuahua" WHERE id = 3811;
 
+-- CRM-4686
+INSERT INTO civicrm_state_province
+    (id, name, abbreviation, country_id)
+VALUES
+    (10004, 'Bonaire',       'BON', 1151),
+    (10005, 'Curaçao',       'CUR', 1151),
+    (10006, 'Saba',          'SAB', 1151),
+    (10007, 'St. Eustatius', 'EUA', 1151),
+    (10008, 'St. Maarten',   'SXM', 1151);
+
 
 -- CRM-4469
 --Add collapse_adv_search column to civicrm_custom_group
