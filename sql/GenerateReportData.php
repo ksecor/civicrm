@@ -1509,19 +1509,24 @@ VALUES
         
         $softContribution =& new CRM_Contribute_DAO_ContributionSoft();
 
-        $sql = "SELECT id, contact_id, total_amount from civicrm_contribution LIMIT 200";
+        $sql = "SELECT DISTINCT(contact_id), id, total_amount from civicrm_contribution LIMIT 200";
 
         $contriInfo = CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
+        $prevContactID = null;
+
         while ( $contriInfo->fetch() ) {
-            $softContribution->contribution_id     = $contriInfo->id;
-            $softContribution->contact_id          = $contriInfo->contact_id;
-            $softContribution->amount              = $contriInfo->total_amount;
-            $softContribution->pcp_id              = 1;
-            $softContribution->pcp_display_in_roll = 1;
-            $softContribution->pcp_roll_nickname   = $this->_getRandomElement( $pcpRollNickNAme );
-            $softContribution->pcp_personal_note   = $this->_getRandomElement( $pcpPersonalNote );
-            $this->_insert( $softContribution );
+            if ( $prevContactID ) {
+                $softContribution->contribution_id     = $contriInfo->id;
+                $softContribution->contact_id          = $prevContactID;
+                $softContribution->amount              = $contriInfo->total_amount;
+                $softContribution->pcp_id              = 1;
+                $softContribution->pcp_display_in_roll = 1;
+                $softContribution->pcp_roll_nickname   = $this->_getRandomElement( $pcpRollNickNAme );
+                $softContribution->pcp_personal_note   = $this->_getRandomElement( $pcpPersonalNote );
+                $this->_insert( $softContribution );
+            }
+            $prevContactID = $contriInfo->contact_id;
         }
     }
 
