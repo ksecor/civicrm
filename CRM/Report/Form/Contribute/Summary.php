@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Report/Form.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
     protected $_addressField = false;
@@ -135,6 +136,13 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'filters'               =>             
                           array( 'receive_date'   => 
                                  array( 'operatorType' => CRM_Report_Form::OP_DATE ),
+
+                                 'contribution_status_id' => 
+                                 array( 'title'        => ts( 'Donation Status' ), 
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ),
+                                        'default'      => array( 1 ),
+                                        ), 
                                  'total_amount'   => 
                                  array( 'title'   => ts( 'Donation Amount' ), ), 
 

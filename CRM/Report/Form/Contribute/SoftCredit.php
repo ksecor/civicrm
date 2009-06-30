@@ -147,10 +147,16 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                                               'avg'     => ts( 'Average' ), ), ), ),
                           'grouping'  => 'softcredit-fields',
                           'filters'   =>             
-                          array( 'receive_date'   => 
+                          array( 'receive_date'           => 
                                  array( 'operatorType' => CRM_Report_Form::OP_DATE ),
-                                 'total_amount'   => 
-                                 array( 'title'   => ts( 'Donation Amount' ), ), ),
+                                 'contribution_status_id' => 
+                                 array( 'title'        => ts( 'Donation Status' ), 
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ),
+                                        'default'      => array( 1 ),
+                                        ),
+                                 'total_amount'          => 
+                                 array( 'title'        => ts( 'Donation Amount' ), ), ),
                           ),
                    
                    'civicrm_contribution_soft' =>

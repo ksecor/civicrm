@@ -894,11 +894,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         require_once 'CRM/Utils/Money.php';
         foreach ( $row as $colName => $colVal ) {
             if ( in_array($colName, $fields) ) {
-                if ( CRM_Utils_Array::value( 'type', $this->_columnHeaders[$colName] ) == '1024' ) {
-                    $row[$colName] = '<strong>'.CRM_Utils_Money::format($row[$colName]).'</strong>';
-                } else {
-                    $row[$colName] = "<strong>{$row[$colName]}</strong>";
-                }
+                $row[$colName] = $row[$colName];
             } else if ( isset($this->_columnHeaders[$colName]) ) {
                 if ( $subtotal ) {
                     $row[$colName] = "Subtotal";
