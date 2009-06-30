@@ -501,4 +501,5 @@ UPDATE civicrm_activity ca INNER JOIN civicrm_case_activity cca ON ca.id = cca.a
 
 ALTER TABLE civicrm_activity DROP COLUMN due_date_time;
 
-        
+-- CRM-4120
+ALTER TABLE `civicrm_event` CHANGE `default_discount_id` `default_discount_fee_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.';
