@@ -105,33 +105,13 @@ class CRM_Core_BAO_Block
         $block->orderBy( 'is_primary desc, location_type_id desc, id asc' );
         $block->find( );
         
-        $locationTypes = array( );
-        $blocks =array( );
-        $count = 1;
+        $count  = 1;
+        $blocks = array( );
         while ( $block->fetch( ) ) {
-            $values = array( );
-            CRM_Core_DAO::storeValues( $block, $values );
-            //logic to check when we should increment counter
-            if ( !empty( $locationTypes ) ) {
-                if ( array_key_exists ( $block->location_type_id, $locationTypes ) ) {
-                    $count = $locationTypes[$block->location_type_id];
-                    $count++;
-                    $locationTypes[$block->location_type_id] = $count;
-                } else {
-                    $locationTypes[$block->location_type_id]  = 1;
-                    $count = 1;
-                }
-            } else {
-                $locationTypes[$block->location_type_id]  = 1;
-                $count = 1;
-            }
-            
-            $blocks[$block->location_type_id][$count] = $values;
-            if ( $block->is_primary ) {
-                $blocks[$block->location_type_id]['is_primary'] = 1;    
-            }
+            CRM_Core_DAO::storeValues( $block, $blocks[$count] );
+            $count++; 
         }
-
+        
         return $blocks ;
     }
     

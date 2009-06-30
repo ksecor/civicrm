@@ -101,7 +101,6 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
                         }
                         $values['location_type_id'] = $primaryLocTypeId;
                     }
-                    $values['contact_id'] = CRM_Utils_Array::value( 'contact_id', $params );
                 }
             }
             
@@ -324,70 +323,70 @@ WHERE e.id = %1";
      */
     static function &getValues( $entityBlock, &$values, $microformat = false ) 
     {  
-        $locations = array( );
         //get all the blocks for this contact
         foreach ( self::$blocks as $block ) {
             $name = ucfirst( $block );
-            
-            eval( '$location[$block] = CRM_Core_BAO_' . $name . '::getValues( $entityBlock, $values );');
-        }
-       
-        //format locations blocks for setting defaults
-        $locationCount = 1;
-        $locationTypes = array( );
-        $primary_location_type = null;
-        foreach ( $location as $key => $value ) {
-            
-            if ( ! is_array( $value ) || empty( $value) ) {
-                continue;
-            }
-            
-            foreach ( $value as $locationTypeId => $val ) { 
-                //logic to check when we should increment counter
-                if ( !empty( $locationTypes ) ) {
-                    if ( in_array ( $locationTypeId, $locationTypes ) ) {
-                        $locationNo = array_search( $locationTypeId, $locationTypes );
-                    } else {
-                        $locationCount++;
-                        $locationTypes[ $locationCount ] = $locationTypeId;
-                        $locationNo = $locationCount;
-                    }
-                } else {
-                    $locationTypes[ $locationCount ]  = $locationTypeId;
-                    $locationNo = $locationCount;
-                }
-                
-                $locations[ $locationNo ]['location_type_id'] = $locationTypeId;
-                $locations[ $locationNo ][$key] = $val;
-                
-                if ( CRM_Utils_Array::value( 'is_primary' , $val ) ) { 
-                    $primary_location_type = $locationTypeId;
-                }
-            }
+            eval( '$values[$block] = CRM_Core_BAO_' . $name . '::getValues( $entityBlock, $values );');
         }
         
-        $values['location'] = $allLocations['location'] = $locations;
-        
-        foreach($values['location'] as $key => $val) {
-            if($val['location_type_id'] == $primary_location_type) {
-                $primary_loc_val = $values['location'][$key];
-                $values['location'][$key] = $values['location'][1];
-                $values['location'][1] = $primary_loc_val;
-            }
-        }
+        return $values;
 
-        if ( empty( $values['location'] ) ) {
-            // mark the first location as primary if none exists
-            $values['location'][1] = array( );
-            $values['location'][1]['is_primary'] = 1;
-
-            // Retrieve the default location type.
-            require_once 'CRM/Core/BAO/LocationType.php';
-            $locationType = CRM_Core_BAO_LocationType::getDefault();
-            $values['location'][1]['location_type_id'] = $locationType->id;
-        }
+//         //format locations blocks for setting defaults
+//         $locationCount = 1;
+//         $locationTypes = array( );
+//         $primary_location_type = null;
+//         foreach ( $location as $key => $value ) {
+            
+//             if ( ! is_array( $value ) || empty( $value) ) {
+//                 continue;
+//             }
+            
+//             foreach ( $value as $locationTypeId => $val ) { 
+//                 //logic to check when we should increment counter
+//                 if ( !empty( $locationTypes ) ) {
+//                     if ( in_array ( $locationTypeId, $locationTypes ) ) {
+//                         $locationNo = array_search( $locationTypeId, $locationTypes );
+//                     } else {
+//                         $locationCount++;
+//                         $locationTypes[ $locationCount ] = $locationTypeId;
+//                         $locationNo = $locationCount;
+//                     }
+//                 } else {
+//                     $locationTypes[ $locationCount ]  = $locationTypeId;
+//                     $locationNo = $locationCount;
+//                 }
+                
+//                 $locations[ $locationNo ]['location_type_id'] = $locationTypeId;
+//                 $locations[ $locationNo ][$key] = $val;
+                
+//                 if ( CRM_Utils_Array::value( 'is_primary' , $val ) ) { 
+//                     $primary_location_type = $locationTypeId;
+//                 }
+//             }
+//         }
         
-        return $values['location'];
+//         $values['location'] = $allLocations['location'] = $locations;
+        
+//         foreach($values['location'] as $key => $val) {
+//             if($val['location_type_id'] == $primary_location_type) {
+//                 $primary_loc_val = $values['location'][$key];
+//                 $values['location'][$key] = $values['location'][1];
+//                 $values['location'][1] = $primary_loc_val;
+//             }
+//         }
+
+//         if ( empty( $values['location'] ) ) {
+//             // mark the first location as primary if none exists
+//             $values['location'][1] = array( );
+//             $values['location'][1]['is_primary'] = 1;
+
+//             // Retrieve the default location type.
+//             require_once 'CRM/Core/BAO/LocationType.php';
+//             $locationType = CRM_Core_BAO_LocationType::getDefault();
+//             $values['location'][1]['location_type_id'] = $locationType->id;
+//         }
+        
+//         return $values['location'];
     }
 
     /**
@@ -438,34 +437,42 @@ WHERE e.id = %1";
     {
         //get the contact id from params
         $contactId = CRM_Utils_Array::value( 'contact_id', $params );
-
-        // build submitted location types
-        if ( isset( $params['location'] ) ) {
-            $submittedLocationTypes = array( );
-            foreach ( $params['location'] as $key => $value ) {
-                $submittedLocationTypes[ $value['location_type_id'] ] = $value['location_type_id'];
-            }
-        }
-
+        
         // get existing locations
-        $entityBlock = array( 'contact_id' => $contactId );
-        $locations    = self::getValues( $entityBlock, $defaults );
+        $entityBlock   = array( 'contact_id' => $contactId );
+        $dbBlockValues = self::getValues( $entityBlock, $defaults );
         
-        if ( !empty( $locations ) ) {
-            $existingLocationTypes = array( );
-            foreach ( $locations as $key => $value ) {
-                if ( CRM_Utils_Array::value( 'location_type_id', $value ) ) {
-                    $existingLocationTypes[ $value['location_type_id'] ] = $value['location_type_id'];
+        $deleteBlocks = array( );
+        foreach ( self::$blocks as $block ) {
+            if ( !is_array( $dbBlockValues[$block] ) ) continue;
+            foreach ( $dbBlockValues[$block] as $dbCount => $dbValues ) {
+                if ( !is_array( $params[$block] ) ) {
+                    $deleteBlocks[$block] = $dbBlockValues[$block];
+                    continue;
+                }
+                
+                $valueSubmitted = false;
+                foreach ( $params[$block] as $submitCount => $submitValues ) {
+                    if ( $submitValues['location_type_id'] == $dbValues['location_type_id'] ) {
+                        //unset from submitted since we map it across db.
+                        unset( $params[$block][$submitCount] );
+                        $valueSubmitted = true;
+                        break;
+                    }
+                }
+                
+                //since this value not present in submit params.
+                if ( !$valueSubmitted ) {
+                    $deleteBlocks[$block][$dbCount] = $dbValues;
                 }
             }
         }
         
-        // deleted existing locations that are not submitted
-        if ( !empty( $existingLocationTypes ) ) {
-            foreach ( $existingLocationTypes as $lType ) {
-                if ( !in_array( $lType, $submittedLocationTypes ) ) {
-                    self::deleteLocationBlocks( $contactId, $lType );
-                }
+        //finally delete unwanted blocks.
+        foreach ( $deleteBlocks as $blockName => $blockValues ) {
+            if ( !is_array( $blockValues ) ) continue;
+            foreach ( $blockValues as $count => $deleteBlock ) {
+                CRM_Core_BAO_Block::blockDelete( $blockName, $deleteBlock ); 
             }
         }
     }

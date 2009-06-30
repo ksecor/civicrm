@@ -368,6 +368,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        // check if dedupe button, if so return.
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->_dedupeButtonName ) {
+            return;
+        }
+        
         //get the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         
@@ -433,11 +439,11 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
 //             $params['mail_to_household_id'] = 'null';
 //         }
 
-//         // cleanup unwanted location types
-//         if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
-//             require_once 'CRM/Core/BAO/Location.php';
-//             CRM_Core_BAO_Location::cleanupContactLocations( $params );
-//         }
+        // cleanup unwanted location blocks
+        if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            require_once 'CRM/Core/BAO/Location.php';
+            CRM_Core_BAO_Location::cleanupContactLocations( $params );
+        }
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create( $params, true,false );

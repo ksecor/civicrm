@@ -348,7 +348,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             }
         } 
         $address->find( );
-
+        
+        $count = 1;
         while ( $address->fetch( ) ) {
             $stree = $address->street_address;
             $values = array( );
@@ -373,7 +374,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
             $values['display'] = $address->display;
 
-            $addresses[$address->location_type_id] = $values;
+            $addresses[$count] = $values;
+            $count++;
         }
         return $addresses;
     }
