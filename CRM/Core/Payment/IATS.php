@@ -40,8 +40,7 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
     const
         CHARSET  = 'UFT-8'; # (not used, implicit in the API, might need to convert?)
     const
-//        CURRENCIES = 'CAD';         
-        CURRENCIES = 'CAD,USD';         
+        CURRENCIES = 'CAD,USD,AUD,GBP,EUR,NZD'; /* check IATS website for additional supported currencies */
     /** 
      * Constructor 
      *
