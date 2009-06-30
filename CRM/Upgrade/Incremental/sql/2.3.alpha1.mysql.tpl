@@ -477,13 +477,13 @@ ALTER TABLE `civicrm_contact`
   ADD `do_not_sms` tinyint(4) default '0' AFTER `do_not_mail`;
 
 ---CRM-4664
-ALTER TABLE `civicrm_option_value` MODIFY `name` VARCHAR(255) COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT 'Stores a fixed (non-translated) name for this option value. Lookup functions should use the name as the key for the option value row.'
+ALTER TABLE `civicrm_option_value` MODIFY `name` VARCHAR(255) COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT 'Stores a fixed (non-translated) name for this option value. Lookup functions should use the name as the key for the option value row.';
 
---CRM-4687
---set activity_date = due_date and drop due_date_time column from civicrm_activity.
+-- CRM-4687
+-- set activity_date = due_date and drop due_date_time column from civicrm_activity.
 
 UPDATE civicrm_activity ca INNER JOIN civicrm_case_activity cca ON ca.id = cca.activity_id 
-       SET activity_date_time = COALESCE( due_date_time, activity_date_time );
+       SET activity_date_time = COALESCE( ca.due_date_time, ca.activity_date_time );
 
 ALTER TABLE civicrm_activity DROP COLUMN due_date_time;
 
