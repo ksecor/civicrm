@@ -153,6 +153,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->assign( "blockName", $this->_addBlockName );
             $this->set( $this->_addBlockName."_Block_Count", $additionalblockCount );
         }
+        $this->assign( "blockCount", ( $additionalblockCount ) ? $additionalblockCount : 1 );
         
         $session = & CRM_Core_Session::singleton( );
         if ( $this->_action == CRM_Core_Action::ADD ) {

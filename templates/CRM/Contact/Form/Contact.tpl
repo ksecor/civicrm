@@ -57,10 +57,18 @@ cj(function( ) {
     cj("#contact-details").show( );
 });
 
-function buildAdditionalBlocks( blockName, blockCount, contactType ) {
-  var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + blockCount;
-  var blockId = (cj(fname).val()) ? parseInt(blockCount) - 1 : 1;  
-  var fname = '#' + blockName + '_Block_' + blockId;
+function buildAdditionalBlocks( blockName, contactType ) {
+
+
+var previousBlockCount = cj( "#hidden_" + blockName + "_Count" ).val( );
+var currentBlockCount  = parseInt( previousBlockCount ) + 1; 
+
+  var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + currentBlockCount;
+
+  
+  blockId = (cj('#' + blockName + '_Block_'+ previousBlockCount ).html()) ? previousBlockCount : 1;  
+  var fname = '#' + blockName + '_Block_'+ blockId;
+
   cj('#addMore' + blockName ).hide();
   cj.ajax({ 
             url     : dataUrl,   
@@ -70,7 +78,7 @@ function buildAdditionalBlocks( blockName, blockCount, contactType ) {
                          cj(fname).after(html[1]);
                       }
          });
-  cj( "#hidden_" + blockName + "Count" ).val( blockCount );
+  cj( "#hidden_" + blockName + "_Count" ).val( currentBlockCount );
 }
 
 cj('a#expand').click( function( ){

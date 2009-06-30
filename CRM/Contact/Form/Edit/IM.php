@@ -65,7 +65,6 @@ class CRM_Contact_Form_Edit_IM
         require_once 'CRM/Core/BAO/Preferences.php';
         $form->assign( 'addBlock', $form->_addBlockName );
         $locationId = ( $form->get( 'IM_Block_Count' ) ) ? $form->get( 'IM_Block_Count' ) : 1;
-        $form->assign( 'locationId', $locationId );
         
         if ( CRM_Utils_Array::value( 'im', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
             $form->assign('showIM', true);

@@ -1,21 +1,13 @@
 {* tpl for building IM related fields*}
+{assign var="locationId" value=$blockCount}
 {if !$addBlock}
 <tr>
     <td><strong>{ts}Instant Messenger{/ts}</strong>
-         &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'IM', countIM(cj('#hidden_IM_Count').val()), '{$contactType}');return false;">add</a>
+         &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'IM', '{$contactType}');return false;">add</a>
     </td>
     <td colspan="2"></td>
     <td>{ts}Primary?{/ts}</td>
 </tr>
-{literal}
-<script type="text/javascript">
-function countIM(count){
-    var locationId = parseInt(count) + 1;
-    cj('#hidden_IM_Count').val(locationId);
-    return locationId;
-}
-</script>
-{/literal}
 {/if}
 <!-Add->
 <tr id="IM_Block_{$locationId}">

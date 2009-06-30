@@ -1,4 +1,4 @@
-{assign var="index" value=$addressBlockCount}
+{assign var="index" value=$blockCount}
 {if $title}
 <h3 class="head"> 
     <span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{ts}{$title}{/ts}</a>
@@ -7,7 +7,7 @@
 <div id="addressBlock">
 {/if}
 <!-Add->
- <div id="Address_Block_{$addressBlockCount}">
+ <div id="Address_Block_{$index}">
   <table class="form-layout-compressed">
      <tr>
         <td colspan="2">
@@ -77,7 +77,7 @@
   </table>
 {if $addMoreAddress}
 <div id = "addMoreAddress" >
-    <br />&nbsp;&nbsp;<a href="#" onclick="buildAdditionalBlocks( 'Address', '{$addressBlockCount+1}', '{$contactType}' );return false;" style="font-size: 10px;">add address</a><br /><br />
+    <br />&nbsp;&nbsp;<a href="#" onclick="buildAdditionalBlocks( 'Address', '{$contactType}' );return false;" style="font-size: 10px;">add address</a><br /><br />
 </div>
 {/if}
  </div>

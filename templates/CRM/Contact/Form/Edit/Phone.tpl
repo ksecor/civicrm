@@ -1,21 +1,13 @@
 {* tpl for building phone related fields*}
+{assign var="locationId" value=$blockCount}
 {if !$addBlock}
 <tr>
         <td><strong>{ts}Phone{/ts}</strong>
-             &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Phone', countPhone(cj('#hidden_Phone_Count').val()), '{$contactType}');return false;">add</a>
+             &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Phone', '{$contactType}');return false;">add</a>
         </td>
         <td colspan="2"></td>
         <td>{ts}Primary?{/ts}</td>
 </tr>
-{literal}
-<script type="text/javascript">
-function countPhone(count){
-    var locationId = parseInt(count) + 1;
-    cj('#hidden_Phone_Count').val(locationId);
-    return locationId;
-}
-</script>
-{/literal}
 {/if}
 <!-Add->
 <tr id="Phone_Block_{$locationId}">

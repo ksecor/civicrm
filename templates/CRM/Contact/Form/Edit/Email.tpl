@@ -1,22 +1,14 @@
 {* tpl file for building email block*}
+{assign var="locationId" value=$blockCount}
 {if !$addBlock}
 <tr>
     <td><strong>{ts}Email{/ts}</strong>
-      &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Email', countEmail(cj('#hidden_Email_Count').val()), '{$contactType}');return false;">{ts}add{/ts}</a>
+      &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Email', '{$contactType}');return false;">{ts}add{/ts}</a>
      </td> 
     <td>{ts}On Hold?{/ts} {help id="id-hold"}</td>
     <td>{ts}Bulk Mailings?{/ts} {help id="id-bulk"}</td>
     <td>{ts}Primary?{/ts}</td>
 </tr>
-{literal}
-<script type="text/javascript">
-function countEmail(count){
-    var locationId = parseInt(count) + 1;
-    cj('#hidden_Email_Count').val(locationId);
-    return locationId;
-}
-</script>
-{/literal}
 {/if}
 <!-Add->
 <tr id="Email_Block_{$locationId}">

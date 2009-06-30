@@ -57,8 +57,7 @@ class CRM_Contact_Form_Edit_OpenID
         require_once 'CRM/Core/BAO/Preferences.php';
         $form->assign( 'addBlock', $form->_addBlockName );
         $locationId = ( $form->get( 'OpenID_Block_Count' ) ) ? $form->get( 'OpenID_Block_Count' ) : 1;
-        $form->assign( 'locationId', $locationId );
-
+        
         if ( CRM_Utils_Array::value( 'openid', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
             $form->assign('showOpenID', true);
             $form->addElement('text', "openid[$locationId][openid]", ts('OpenID'),

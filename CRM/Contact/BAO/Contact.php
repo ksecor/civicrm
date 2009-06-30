@@ -454,6 +454,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     $ims =& $location['im'];
                     foreach ($ims as $innerIndex => $im) {
                         $im =& $ims[$innerIndex];
+                        if ( !is_array( $im ) ) continue;
                         CRM_Utils_Array::lookupValue( $im, 'provider', 
                                                       CRM_Core_PseudoConstant::IMProvider(), $reverse );
                         unset($im);

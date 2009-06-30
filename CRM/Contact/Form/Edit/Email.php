@@ -57,7 +57,6 @@ class CRM_Contact_Form_Edit_Email
         $showBulkMailing = true;
         $form->assign( 'addBlock', $form->_addBlockName );
         $locationId = ( $form->get( 'Email_Block_Count' ) ) ? $form->get( 'Email_Block_Count' ) : 1;
-        $form->assign( 'locationId', $locationId );
         
         //suppress Bulk Mailings (CRM-2881)
         if ( is_object( $form ) && ($form instanceof CRM_Event_Form_ManageEvent_Location ) ) {
