@@ -232,4 +232,24 @@ WHERE  inst.report_id = %1";
             }
         }
     }
+    static function isInstancePermission( $instanceId ) {
+        if ( !( $instanceId ) ) {
+            return true;
+        }
+        $params = array( 'id' => $instanceId );
+        $instanceValues = array( );
+        CRM_Core_DAO::commonRetrieve( 'CRM_Report_DAO_Instance',
+                                      $params,
+                                      $instanceValues );
+        $instanceValues['permission'] = unserialize( $instanceValues['permission'] );
+        if ( $instanceValues['permission'][0][0] && 
+             ( !(CRM_Core_Permission::checkMenu( $instanceValues['permission'][0], 
+                                                 $instanceValues['permission'][1] ) ||
+                 CRM_Core_Permission::access( 'CiviReport' ) )
+               ) ) {
+            return false;
+        }
+        
+        return true;
+    }
 }
