@@ -67,7 +67,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         $addresses = array( );
         $contactId = null;
         if ( ! $entity ) {
-            $contactId = $params['address']['contact_id'];
+            $contactId = $params['contact_id'];
             //get all the addresses for this contact
             $addresses = self::allAddress( $contactId );
         } else {

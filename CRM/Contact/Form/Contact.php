@@ -130,7 +130,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
         
-        if ( !$this->get( 'maxLocationBlocks' )  ) {
+        if ( !$this->get( 'maxLocationBlocks' ) ) {
             // find the system config related location blocks
             require_once 'CRM/Core/BAO/Preferences.php';
             $this->_maxLocationBlocks = CRM_Core_BAO_Preferences::value( 'location_count' );
@@ -370,9 +370,132 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     {
         //get the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        CRM_Core_Error::debug( '$params', $params );
-        exit( );
         
+        //if email/postal greeting or addressee is not of the type customized, 
+        //unset previously set custom value,CRM-4575
+        $elements = array( 'email_greeting_id'  => 'email_greeting_custom', 
+                           'postal_greeting_id' => 'postal_greeting_custom', 
+                           'addressee_id'       => 'addressee_custom' );
+        foreach( $elements as $field => $customField ) {
+            if ( CRM_Utils_Array::value( $field, $params ) != 4) {
+                $params[$customField] = "";
+            }
+        }    
+        
+        $params['contact_type'] = $this->_contactType;
+        if ( $this->_contactId ) {
+            $params['contact_id'] = $this->_contactId;
+        }
+        
+        //make deceased date null when is_deceased = false
+        if ( $this->_contactType == 'Individual' && 
+             CRM_Utils_Array::value( 'Demographics',  $this->_editOptions ) &&
+             !CRM_Utils_Array::value( 'is_deceased', $params ) ) {
+            $params['is_deceased']        = false;
+            $params['deceased_date']['M'] = null;
+            $params['deceased_date']['d'] = null;
+            $params['deceased_date']['Y'] = null;
+        }
+        
+        // action is taken depending upon the mode
+        require_once 'CRM/Utils/Hook.php';
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $params['contact_id'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
+        }
+        
+        require_once 'CRM/Core/BAO/CustomField.php';
+        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, true );
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_contactId,
+                                                                   $params['contact_type'],
+                                                                   true );
+        
+        if ( array_key_exists( 'CommunicationPreferences',  $this->_editOptions ) ) {
+            // this is a chekbox, so mark false if we dont get a POST value
+            $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
+        }
+        
+//         // copy household address, if use_household_address option (for individual form) is checked
+//         if ( $this->_contactType == 'Individual' ) {
+//             if ( CRM_Utils_Array::value( 'use_household_address', $params ) && 
+//                  CRM_Utils_Array::value( 'shared_household',$params ) ) {
+//                 if ( is_numeric( $params['shared_household'] ) ) {
+//                     CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
+//                 }
+//                 CRM_Contact_Form_Individual::createSharedHousehold( $params );
+//             } else { 
+//                 $params['mail_to_household_id'] = 'null';
+//             }
+//         } else {
+//             $params['mail_to_household_id'] = 'null';
+//         }
+
+//         // cleanup unwanted location types
+//         if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+//             require_once 'CRM/Core/BAO/Location.php';
+//             CRM_Core_BAO_Location::cleanupContactLocations( $params );
+//         }
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact =& CRM_Contact_BAO_Contact::create( $params, true,false );
+        
+//         if ( $this->_contactType == 'Individual' && ( CRM_Utils_Array::value( 'use_household_address', $params )) &&
+//              CRM_Utils_Array::value( 'mail_to_household_id',$params ) ) {
+//             // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
+//             CRM_Contact_Form_Individual::handleSharedRelation($contact->id , $params );
+//         }
+        
+//         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+//             //TO DO: commented because of schema changes
+//             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
+//         }
+
+//         if ( $this->_showTagsAndGroups ) {
+//             //add contact to group
+//             require_once 'CRM/Contact/BAO/GroupContact.php';
+//             CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+            
+//             //add contact to tags
+//             require_once 'CRM/Core/BAO/EntityTag.php';
+//             CRM_Core_BAO_EntityTag::create( $params['tag'], $params['contact_id'] );
+//         }
+        
+        
+        // here we replace the user context with the url to view this contact
+        $session =& CRM_Core_Session::singleton( );
+        CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display)));
+        
+        $buttonName = $this->controller->getButtonName( );
+        if ( ($buttonName == $this->getButtonName( 'next', 'new' ) ) ||
+             ($buttonName == $this->getButtonName( 'upload', 'new' ) ) ) {
+            require_once 'CRM/Utils/Recent.php';
+
+            // add the recently viewed contact
+            $displayName = CRM_Contact_BAO_Contact::displayName( $contact->id );
+            CRM_Utils_Recent::add( $displayName,
+                                   CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ),
+                                   $contact->id,
+                                   $this->_contactType,
+                                   $contact->id,
+                                   $displayName );
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', 'reset=1&ct=' . $contact->contact_type ) );
+        } else {
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
+        }
+
+        // now invoke the post hook
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+            CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
+        } else {
+            CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
+        }
+    }
+
+
+    function sampleParams( ) {
         //sample params array
         $params = array( 'contact_id'          => 102,
                          'prefix_id'           => 3,
@@ -472,8 +595,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                                                                      5 => true,
                                                                      ),
                          );
-    
-        
+
+        return $params; 
     }
     
 }
