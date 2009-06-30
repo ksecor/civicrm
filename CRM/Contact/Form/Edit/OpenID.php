@@ -56,7 +56,7 @@ class CRM_Contact_Form_Edit_OpenID
       
         require_once 'CRM/Core/BAO/Preferences.php';
         $form->assign( 'addBlock', $form->_addBlockName );
-        $locationId = ( $form->get( 'OpenId_Block_Count' ) ) ? $form->get( 'OpenId_Block_Count' ) : 1;
+        $locationId = ( $form->get( 'OpenID_Block_Count' ) ) ? $form->get( 'OpenID_Block_Count' ) : 1;
         $form->assign( 'locationId', $locationId );
 
         if ( CRM_Utils_Array::value( 'openid', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
@@ -65,7 +65,7 @@ class CRM_Contact_Form_Edit_OpenID
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_OpenID', 'openid'));
           
             //Location Index
-            $form->addElement( 'hidden', 'openidBlockCount', $locationId ,array( 'id' => 'openidBlockCount') );  
+            $form->addElement( 'hidden', 'hidden_OpenID_Count', $locationId ,array( 'id' => 'hidden_OpenID_Count') );  
             
             $config=& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Standalone' ) { 

@@ -1,5 +1,4 @@
 {* This form is for Contact Add/Edit interface *}
-<div id="temp" style="display:none"></div>
 {if $addBlock}
 {include file="CRM/Contact/Form/Edit/$blockName.tpl"}
 {else}
@@ -60,16 +59,15 @@ cj(function( ) {
 
 function buildAdditionalBlocks( blockName, blockCount, contactType ) {
   var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + blockCount;
-  var blockId = parseInt(blockCount) - 1;
+  var blockId = (cj(fname).val()) ? parseInt(blockCount) - 1 : 1;  
   var fname = '#' + blockName + '_Block_' + blockId;
   cj('#addMore' + blockName ).hide();
   cj.ajax({ 
             url     : dataUrl,   
             async   : false,
             success : function(html){
-                         //FIX ME !!!   Remove the div with id="crm-container-snippet" .... 
-                         cj('#temp').html(html);
-                         cj(fname).append( cj('#temp div#crm-container-snippet').html() );
+                         var html = html.split('<!-Add->',2);
+                         cj(fname).after(html[1]);
                       }
          });
   cj( "#hidden_" + blockName + "Count" ).val( blockCount );

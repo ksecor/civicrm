@@ -71,14 +71,14 @@ class CRM_Contact_Form_Edit_IM
             $form->assign('showIM', true);
 
             //Location Index
-            $form->addElement( 'hidden', 'imBlockCount', $locationId ,array( 'id' => 'imBlockCount') );
+            $form->addElement( 'hidden', 'hidden_IM_Count', $locationId ,array( 'id' => 'hidden_IM_Count') );
 
             //IM provider select
             $form->addElement('select', "im[$locationId][provider_id]", '',
                               array('' => ts('- select service -')) + CRM_Core_PseudoConstant::IMProvider() );
             
             //Block type select
-            $form->addElement('select',"im[$locationId][location_id]", '' , CRM_Core_PseudoConstant::locationType());
+            $form->addElement('select',"im[$locationId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
             
             //IM box
             $form->addElement('text', "im[$locationId][name]", ts('Instant Messenger'),

@@ -62,13 +62,13 @@ class CRM_Contact_Form_Edit_Phone
             $phoneType = CRM_Core_PseudoConstant::phoneType( );
         }
         //Location Index
-        $form->addElement( 'hidden', 'phoneBlockCount', $locationId ,array( 'id' => 'phoneBlockCount') );
+        $form->addElement( 'hidden', 'hidden_Phone_Count', $locationId ,array( 'id' => 'hidden_Phone_Count') );
         
         //phone type select
         $form->addElement('select', "phone[$locationId][phone_type_id]", ts('Phone'), $phoneType, null );
         
         //Block type select
-        $form->addElement('select',"phone[$locationId][location_id]", '' , CRM_Core_PseudoConstant::locationType());
+        $form->addElement('select',"phone[$locationId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
         
         //phone box
         $form->addElement('text', "phone[$locationId][phone]", ts('Phone'), 

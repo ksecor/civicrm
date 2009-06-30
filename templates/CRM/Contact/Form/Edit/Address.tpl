@@ -6,6 +6,7 @@
 
 <div id="addressBlock">
 {/if}
+<!-Add->
  <div id="Address_Block_{$addressBlockCount}">
   <table class="form-layout-compressed">
      <tr>
@@ -80,6 +81,7 @@
 </div>
 {/if}
  </div>
+<!-Add->
 {if $title}
 </div>
 {/if}
