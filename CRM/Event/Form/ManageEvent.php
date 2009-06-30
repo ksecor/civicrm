@@ -112,6 +112,10 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
                                                                "action=update&reset=1&id={$this->_id}" )) );
             CRM_Utils_System::appendBreadCrumb($breadCrumb);
         }
+
+        $session =& CRM_Core_Session::singleton(); 
+        $doneUrl = $session->readUserContext( );
+        $this->assign( 'doneUrl', $doneUrl );
     }
     
     /**
