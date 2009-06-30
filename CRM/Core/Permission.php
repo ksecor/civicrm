@@ -312,6 +312,7 @@ class CRM_Core_Permission {
                       'access CiviCRM'             => ts( 'access CiviCRM' ),
                       'access Contact Dashboard'   => ts( 'access Contact Dashboard' ),
                       'translate CiviCRM'          => ts( 'translate CiviCRM' ),
+                      'administer Multiple Organizations' => ts( 'administer Multiple Organizations' ),
                       );
 
             $config = CRM_Core_Config::singleton( );
