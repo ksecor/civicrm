@@ -532,9 +532,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                                 $search = false,
                                                 $label = null ) 
     {
-        if( isset( $qf->_submitValues['_qf_Relationship_refresh'] ) && 
-            ( $qf->_submitValues['_qf_Relationship_refresh'] == 'Search' || 
-              $qf->_submitValues['_qf_Relationship_refresh'] == 'Search Again') ) {
+        // we use $_POST directly, since we dont want to use session memory, CRM-4677
+        if( isset( $_POST['_qf_Relationship_refresh'] ) && 
+            ( $_POST['_qf_Relationship_refresh'] == 'Search' || 
+              $_POST['_qf_Relationship_refresh'] == 'Search Again') ) {
             $useRequired = 0;
         }
         

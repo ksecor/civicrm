@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Report/Form.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
     
@@ -130,10 +131,13 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
 (SELECT distinct cont.id FROM civicrm_contact cont, civicrm_contribution contri
  WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) >= \$value)"
                                           ), 
+                                   'contribution_status_id'         => 
+                                   array( 'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                          'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ) ,
+                                          'default'      => array('1') ),
                                    ),                            
-                           ) , 
-                 
-                   
+                           ) ,
+                                    
                    'civicrm_group' => 
                    array( 'dao'    => 'CRM_Contact_DAO_Group',
                           'alias'  => 'cgroup',
@@ -320,7 +324,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $this->limit( );  
         
         
-        $sql   = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}{$this->_limit}";
+        $sql   = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}{$this->_limit}"; 
         $dao   = CRM_Core_DAO::executeQuery( $sql );       
         $rows  = array( );
         $count = 0;

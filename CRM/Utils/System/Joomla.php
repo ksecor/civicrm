@@ -152,7 +152,11 @@ class CRM_Utils_System_Joomla {
             $fragment = '#'. $fragment;
         }
 
-        $base = ($absolute ? $config->userFrameworkBaseURL : '');
+        if ( ! isset( $config->useFrameworkRelativeBase ) ) {
+            $base = parse_url( $config->userFrameworkBaseURL );
+            $config->useFrameworkRelativeBase = $base['path'];
+        }
+        $base = $absolute ? $config->userFrameworkBaseURL : $config->useFrameworkRelativeBase;
         $separator = $htmlize ? '&amp;' : '&';
 
         if ( isset( $query ) ) {

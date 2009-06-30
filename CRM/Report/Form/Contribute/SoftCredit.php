@@ -53,14 +53,14 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                    array( 'dao'       => 'CRM_Contact_DAO_Contact',
                           'fields'    =>
                           array( 'display_name_creditor'      => 
-                                 array( 'title'      => ts( 'Soft Creditor\'s Name' ),
+                                 array( 'title'      => ts( 'Soft Credit Name' ),
                                         'name'       => 'display_name',
                                         'alias'      => 'creditorname',
                                         'required'   => true,
                                         'no_repeat'  => true,
                                         ), 
                                  'id_creditor'       =>
-                                 array( 'title'      => ts('Creditor Id'),
+                                 array( 'title'      => ts('Soft Credit Id'),
                                         'name'       => 'id',
                                         'alias'      => 'creditorname',
                                         'no_display' => true,
@@ -87,7 +87,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                    array( 'dao'    => 'CRM_Core_DAO_Email',
                           'fields' =>
                           array( 'email_creditor'    => 
-                                 array( 'title'      => ts('Creditors\'s Email'), 
+                                 array( 'title'      => ts('Soft Credit Email'), 
                                         'name'       => 'email',
                                         'alias'      => 'emailcredit',
                                         'default'    => true,
@@ -106,7 +106,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                    array( 'dao'    => 'CRM_Core_DAO_Phone',
                           'fields' =>
                           array( 'phone_creditor'    => 
-                                 array( 'title'      => ts('Creditors\'s Phone'), 
+                                 array( 'title'      => ts('Soft Credit Phone'), 
                                         'name'       => 'phone',
                                         'alias'      => 'pcredit',
                                         'default'    => true,
@@ -147,10 +147,16 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                                               'avg'     => ts( 'Average' ), ), ), ),
                           'grouping'  => 'softcredit-fields',
                           'filters'   =>             
-                          array( 'receive_date'   => 
+                          array( 'receive_date'           => 
                                  array( 'operatorType' => CRM_Report_Form::OP_DATE ),
-                                 'total_amount'   => 
-                                 array( 'title'   => ts( 'Donation Amount' ), ), ),
+                                 'contribution_status_id' => 
+                                 array( 'title'        => ts( 'Donation Status' ), 
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ),
+                                        'default'      => array( 1 ),
+                                        ),
+                                 'total_amount'          => 
+                                 array( 'title'        => ts( 'Donation Amount' ), ), ),
                           ),
                    
                    'civicrm_contribution_soft' =>
@@ -172,7 +178,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                           'filters'    =>             
                           array( 'gid' => 
                                  array( 'name'    => 'id',
-                                        'title'   => ts( 'Creditor\'s Group' ),
+                                        'title'   => ts( 'Soft Credit Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );

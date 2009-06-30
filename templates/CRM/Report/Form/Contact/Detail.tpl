@@ -30,14 +30,14 @@
                                     {/if}
                                 {/foreach}
                             </tr>               
-                            <tr>
+                            <tr class="group-row">
                                 {foreach from=$columnHeaders item=header key=field}
                                     {assign var=fieldLink value=$field|cat:"_link"}
                                     {assign var=fieldHover value=$field|cat:"_hover"}
                                     <td  class="report-contents">
                                         {if $row.$fieldLink}<a title="{$row.$fieldHover}" href="{$row.$fieldLink}">{/if}
                         
-                                        {if $row.$field eq 'Sub Total'}
+                                        {if $row.$field eq 'Subtotal'}
                                             {$row.$field}
                                         {elseif $header.type eq 12}
                                             {if $header.group_by eq 'MONTH' or $header.group_by eq 'QUARTER'}

@@ -219,6 +219,10 @@ div.spacer, .spacer {
   padding: 5px;
 }
 
+#crm-container .dijitDropDownButton {
+  margin: 0em !important;
+}
+
 #crm-container .control-panel td {
   padding: 3px;
   width: 25%;
@@ -1434,8 +1438,11 @@ div.grippie {
 #crm-container .report-layout {
    background-color : #F5F5F5; 
    border           : none;
-   margin           : 0em 0em 1em 0.1em;
-   //width            : 100%;
+   margin           : 0em 0em 0em 0.1em;
+}
+
+#crm-container table.criteria-group {
+   border-bottom: 3px solid #DCDCDC;
 }
 
 #crm-container .reports-header {
@@ -1474,6 +1481,15 @@ div.grippie {
    font-size        : 0.95em; 
 }
 
+#crm-container table.report-layout tr.group-row {
+  font-size        : 1.1em;
+}
+
+#crm-container table.report-layout tr.total-row {
+  font-size        : 1em;
+  border-top       : 2px groove #DCDCDC;
+}
+
 #crm-container .report-label {
   text-align        : right;
   font-weight       : bold;
@@ -1499,7 +1515,7 @@ div.grippie {
 .report-pager .crm-pager {
     background-color: #DCDCDC;
     border          : thin solid #999999;
-    margin-left	    : 0.1em;
+    margin    	    : 1em 0 0 0.1em;
     width           : 99%;
 }
 .report-pager .crm-pager-nav a {

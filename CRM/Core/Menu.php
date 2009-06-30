@@ -347,7 +347,8 @@ class CRM_Core_Menu
                 $values[$item['adminGroup']] = array( );
                 $values[$item['adminGroup']]['fields'] = array( );
             }
-            $values[$item['adminGroup']]['fields'][$item['weight'] . '.' . $item['title']] = $value;
+            $weight = CRM_Utils_Array::value( 'weight', $item, 0 );
+            $values[$item['adminGroup']]['fields']["{weight}.{$item['title']}"] = $value;
             $values[$item['adminGroup']]['component_id'] = $item['component_id'];
         }
 
@@ -578,8 +579,11 @@ class CRM_Core_Menu
         $args = explode( '/', $path );
 
         $elements = array( );
+        $dao =& new CRM_Core_DAO( );
         while ( ! empty( $args ) ) {
-            $elements[] = "'" . implode( '/', $args ) . "'";
+            $string = implode( '/', $args );
+            $string = $dao->escape( $string );
+            $elements[] = "'{$string}'";
             array_pop( $args );
         }
 
