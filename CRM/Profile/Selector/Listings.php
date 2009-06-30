@@ -202,6 +202,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                                    ),
                                   ); 
 
+            echo "editLink: $editLink<p>";
             if ( $editLink ) {
                 self::$_links[CRM_Core_Action::UPDATE] = array(
                                                                'name'  => ts('Edit'),
@@ -397,7 +398,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
 
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
         if ( $editLink && ( $mask & CRM_Core_Permission::EDIT ) ) {
-            $this->_editLink = true;
+            // do not allow edit for anon users in joomla frontend, CRM-4668
+            $config =& CRM_Core_Config::singleton( );
+            if ( ! $config->userFrameworkFrontend ) {
+                $this->_editLink = true;
+            }
         }
         $links =& self::links( $this->_map, $this->_editLink, $this->_linkToUF );
         

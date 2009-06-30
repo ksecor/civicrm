@@ -255,7 +255,10 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
 
             // the selector will override this if the user does have
             // edit permissions as determined by the mask, CRM-4341
-            if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
+            // do not allow edit for anon users in joomla frontend, CRM-4668
+            $config =& CRM_Core_Config::singleton( );
+            if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ||
+                 $config->userFrameworkFrontend == 1 ) {
                 $editLink = false;
             }
             
