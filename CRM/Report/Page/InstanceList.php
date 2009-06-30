@@ -76,6 +76,22 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
         $rows = array();
         $url  = 'civicrm/report/instance';
         while ( $dao->fetch( ) ) {
+            
+            //filter report listings by permissions
+            $params = array( 'id' => $dao->id );
+            $instanceValues = array( );
+            CRM_Core_DAO::commonRetrieve( 'CRM_Report_DAO_Instance',
+                                          $params,
+                                          $instanceValues );
+            $instanceValues['permission'] = unserialize( $instanceValues['permission'] );
+            if ( $instanceValues['permission'][0][0] && 
+                 ( !(CRM_Core_Permission::checkMenu( $instanceValues['permission'][0], 
+                                                     $instanceValues['permission'][1] ) ||
+                     CRM_Core_Permission::access( 'CiviReport' ) )
+                   ) ) {
+                continue;
+            }
+                
             if ( trim( $dao->title ) ) {
                 if ( $ovID ) {
                     $title = ts("Report(s) created from the template: %1", array( 1 => $dao->label ) );
