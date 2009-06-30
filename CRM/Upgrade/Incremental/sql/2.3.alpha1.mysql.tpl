@@ -458,9 +458,13 @@ ALTER TABLE `civicrm_custom_group` ADD `collapse_adv_display` int(10) unsigned d
 
 -- CRM-4587
 
-UPDATE civicrm_state_province SET name = "Sofia"       WHERE id = 1859;
-UPDATE civicrm_state_province SET name = "Ulaanbaatar" WHERE id = 3707;
-UPDATE civicrm_state_province SET name = "Achaïa"      WHERE id = 2879;
+UPDATE civicrm_state_province
+   SET name = CASE id
+	WHEN 1859 THEN "Sofia"
+	WHEN 3707 THEN "Ulaanbaatar"
+	WHEN 2879 THEN "Achaïa"
+   ELSE name
+END
 
 -- CRM-4569
 
