@@ -158,7 +158,15 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         // reset the cache
         require_once 'CRM/Core/BAO/Cache.php';
         CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
-    
+
+
+        require_once 'CRM/Utils/Hook.php';
+        if ( $tableName ) {
+            CRM_Utils_Hook::post( 'create', 'CustomGroup', $group->id, $group );
+        } else {
+            CRM_Utils_Hook::post( 'edit'  , 'CustomGroup', $group->id, $group );
+        }
+
         return $group;
     }
     
@@ -845,6 +853,10 @@ SELECT $select
 
         //delete  custom group
         $group->delete();
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::post( 'delete', 'CustomGroup', $group->id, $group );
+
         return true;
     }
 
