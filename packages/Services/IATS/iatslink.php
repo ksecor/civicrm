@@ -1,41 +1,47 @@
 <?php
-
-/* 
+/************************************************************************ 
+*                                                                       * 
+*  FILE NAME: iatslink.php                                              *
+*  Copyright (C) 2005 Ticketmaster Canada                               *
+*  Requirements:  PHP5, cURL, SSL, creditcard.php                       * 
+*  It only requires that cURL is installed                              * 
+*                                                                       * 
+*  V1.32: Aug. 18, 2008, Haibin                                       *
+*                                                                       * 
+************************************************************************/ 
+/*
  * Code provided by Ticketmaster/IATS in their php API 
  * Used by IATS Payment processor code
  *
  * Requires 'creditcard' code used for validating cc numbers
  *
  */
-
  include_once( "creditcard.php" );
  
  class iatslink
  {
    // Constants.
-   private $version; 		//String 
-
+   private $version;     //String 
    // Inputs common to both US and Canadian credit card processing.
    private $agentCode;
    private $password;
    private $cardType;
    private $cardNumber;
    private $cardExpiry;
-   private $dollarAmount;	//double   
+   private $dollarAmount;  //double   
    private $webServer;
   
-
    // Optional inputs.
    private $preapprovalCode;
    private $invoiceNumber;
    private $comment;
    private $CVV2;
-   private $testMode;		//boolean 
-   private $proxyHost;		 
-   private $proxyPort;		//int
+   private $issueNumber;
+   private $testMode;    //boolean 
+   private $proxyHost;     
+   private $proxyPort;    //int
    private $proxyUsername;
    private $proxyPassword;
-
    // Inputs specific to US credit card processing.
    private $firstName;
    private $lastName;
@@ -43,24 +49,19 @@
    private $city;
    private $state;
    private $zipCode;
-
-   // Inputs specific to Canadian credit card processing.
-   private $cardholderName;
-
    // Outputs.
-   private $status;		//int
+   private $status;    //int
    private $authorizationResult;
    private $error;
-
    // Constructor.  
    function iatslink()
    { 
-      $this->version ="1.10"; 	 
-      // Proxy Setting	
+      $this->version ="1.32";    
+      // Proxy Setting  
       $this->proxyHost   = "";
       $this->proxyPort   = -1;
       $this->proxyUsername = "";
-      $this->proxyPassword = "";	
+      $this->proxyPassword = "";  
       // Initialize inputs.
       
       $this->agentCode = "";
@@ -74,6 +75,8 @@
       $this->invoiceNumber = "";
       $this->comment = "";
       $this->CVV2 = "";
+      $this->issueNumber = "";
+      
       $this->testMode = false;
       $this->firstName = "";
       $this->lastName = "";
@@ -81,8 +84,6 @@
       $this->city = "";
       $this->state = "";
       $this->zipCode = "";
-      $this->cardholderName = "";
-
       // Initialize outputs.
       $this->status = 0;
       $this->authorizationResult = "REJECT: 1";
@@ -114,62 +115,54 @@
    {
       $this->agentCode = $newAgentCode;
    }
-
    public function setPassword($newPassword)
    {
       $this->password = $newPassword;
    }
-
    public function setCardType($newCardType)
    {
       $this->cardType = $newCardType;
    }
-
    public function setCardNumber($newCardNumber)
    {
       $this->cardNumber = $newCardNumber;
    }
-
    public function setCardExpiry($newCardExpiry)
    {
       $this->cardExpiry = $newCardExpiry;
    }
-
    public function setDollarAmount($newDollarAmount)
    {
       $this->dollarAmount = $newDollarAmount;
    }
-
    public function setWebServer($newWebServer)
    {
       $this->webServer = $newWebServer;
    }
-
    public function setPreapprovalCode($newPreapprovalCode)
    {
       $this->preapprovalCode = $newPreapprovalCode;
    }
-
    public function setInvoiceNumber($newInvoiceNumber)
    {
       $this->invoiceNumber = $newInvoiceNumber;
    }
-
    public function setComment($newComment)
    {
       $this->comment = $newComment;
    }
-
    public function setCVV2($newCVV2)
    {
       $this->CVV2 = $newCVV2;
    }
-
+   public function setIssueNumber($newIssueNumber)
+   {
+    $this->issueNumber = $newIssueNumber;
+   }
    public function setTestMode($newTestMode)
    {
       $this->testMode = $newTestMode;
    }
-
    /**
     * Methods for setting inputs specific to processing a US credit card.
     */
@@ -177,40 +170,26 @@
    {
       $this->firstName = $newFirstName;
    }
-
    public function setLastName($newLastName)
    {
       $this->lastName = $newLastName;
    }
-
    public function setStreetAddress($newStreetAddress)
    {
       $this->streetAddress = $newStreetAddress;
    }
-
    public function setCity($newCity)
    {
       $this->city = $newCity;
    }
-
    public function setState($newState)
    {
       $this->state = $newState;
    }
-
    public function setZipCode($newZipCode)
    {
       $this->zipCode = $newZipCode;
    }
-
-   /**
-    * Methods for setting inputs specific to processing a Canadian credit card.
-    */
-   public function setCardholderName($newCardholderName)
-   {
-      $this->cardholderName = $newCardholderName;
-   }
-
    /**
     * Methods for retrieving results of processing a credit card.
     */
@@ -218,17 +197,14 @@
    {
       return $this->status;
    }
-
    public function getAuthorizationResult()
    {
       return $this->authorizationResult;
    }
-
    public function getError()
    {
       return $this->error;
    }
-
    /**
    * Methods for processing a credit card.
    */
@@ -245,15 +221,15 @@
         
          if ($creditCard1->isValid($this->cardNumber) == false )
          {
-      	  $this->status = 1;
+          $this->status = 1;
           $this->authorizationResult = "REJECT: 40";
-          $this->error = "INVALID CC NUMBER!"; 	
+          $this->error = "INVALID CC NUMBER!";   
           return;
          } 
       } catch (Exception $e ) {
           $this->status = 1;
           $this->authorizationResult = "REJECT: 40";
-          $this->error = "INVALID CC NUMBER!"; 	
+          $this->error = "INVALID CC NUMBER!";   
           return;
       }
       
@@ -263,13 +239,13 @@
       }
       else 
       {
-      	  $this->cardType = $creditCard1->ccType($this->cardNumber);
+          $this->cardType = $creditCard1->ccType($this->cardNumber);
           if ($this->cardType == "UNKNOWN")
           {
            $this->status = 1;
            $this->authorizationResult = "REJECT: 40";
-           $this->error = "UNKNOWN CC TYPE!"; 	
-           return;	
+           $this->error = "UNKNOWN CC TYPE!";   
+           return;  
           }
       }
      
@@ -280,8 +256,8 @@
       {
   
          $params = "AgentCode=" . $this->agentCode;   
-   	 $params = $params . "&Password=" . $this->password;  
-   	 $params = $params . "&CCNum="   .  $creditCard1->cleanNum($this->cardNumber);
+      $params = $params . "&Password=" . $this->password;  
+      $params = $params . "&CCNum="   .  $creditCard1->cleanNum($this->cardNumber);
          $params = $params . "&CCExp="   .  $this->cardExpiry;
          $params = $params . "&MOP="     .  $this->cardType;
          $params = $params . "&Total="   .  $this->dollarAmount;
@@ -302,23 +278,18 @@
          {
           $params = $params . "&CVV2=" . $this->CVV2;
          }
-         
-         
-         if ($this->cardholderName !="")
+         if ($this->issueNumber !="")
          {
-            // Fields setting for Canadian credit card processing
-            $params = $params . "&FirstName=" . $this->cardholderName;
+          $params = $params . "&IssueNum=" . $this->issueNumber;
          }
-         else
-         {
-            // Fields setting for US credit card processing.
-            $params = $params . "&FirstName=" . $this->firstName;
-            $params = $params . "&LastName="  . $this->lastName;
-   	    $params = $params . "&Address="   . $this->streetAddress;
-            $params = $params . "&City="      . $this->city;
-            $params = $params . "&State="     . $this->state;
-            $params = $params . "&ZipCode="   . $this->zipCode; 
-         }
+         
+         $params = $params . "&FirstName=" . $this->firstName;
+         $params = $params . "&LastName="  . $this->lastName;
+      $params = $params . "&Address="   . $this->streetAddress;
+         $params = $params . "&City="      . $this->city;
+         $params = $params . "&State="     . $this->state;
+         $params = $params . "&ZipCode="   . $this->zipCode; 
+ 
          $params = $params . "&Version=" . $this->version;
        
          $url = "";
@@ -328,11 +299,11 @@
          try {           
            if ($this->testMode == true)
            {
-            $url = "http://"  . $this->webServer . $postAction; 	  
+            $url = "http://"  . $this->webServer . $postAction;     
            }
            else
            {  
-            $url = "https://" . $this->webServer . $postAction; 	
+            $url = "https://" . $this->webServer . $postAction;   
            }
       
                                  
@@ -365,7 +336,7 @@
               $this->status = 0;
               $this->error = "Error:" + $this->error;
               $this->authorizationResult = "REJECT: ERRORPOST";
-              return;	 
+              return;   
            } else {
               
               $this->status = 0;
@@ -374,7 +345,6 @@
                             
               $iatsReturn = stristr($iatsReturn,"AUTHORIZATION RESULT:");
               $iatsReturn = substr($iatsReturn, strpos($iatsReturn,":")+1, strpos($iatsReturn,"<")-strpos($iatsReturn,":")-1);
-
               if ($iatsReturn == "")
               {
                $this->status = 0;
@@ -392,10 +362,9 @@
             $this->status = 0;
             $this->error = "Error: ERRORCONN" ;
             $this->authorizationResult = "REJECT: ERRORCONN";
-            return; 	
+            return;   
           }
           
-
       } catch (Exception $e)  {
          $this->status = 0;
          $this->error = "12002";
@@ -407,4 +376,3 @@
    
    
  }
-
