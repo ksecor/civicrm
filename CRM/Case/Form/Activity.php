@@ -89,7 +89,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->assign( 'context', $this->_context );
         
         $result = parent::preProcess( );
-        
+
+        $scheduleStatusId = CRM_Core_OptionGroup::getValue('activity_status', 'Scheduled', 'name' );
+        $this->assign('scheduleStatusId', $scheduleStatusId);
+
         if ( $this->_cdType  || $this->_addAssigneeContact || $this->_addTargetContact  ) {
             return $result;
         }

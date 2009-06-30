@@ -235,26 +235,28 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
    {literal}
     <script type="text/javascript">
      function verify( ) {
-      	  var month = cj("select#activity_date_time\\[M\\]").val( );
+          var scheduleStatusId = {/literal}{$scheduleStatusId}{literal};
+      	
+          var month = cj("select#activity_date_time\\[M\\]").val( );
           if ( month.length == 1 ) month = "0" + month;
 
           var day  = cj("select#activity_date_time\\[d\\]").val( );
           if ( day.length == 1 ) day = "0" + day;
 
-       	  var activity_date_time  = cj("select#activity_date_time\\[Y\\]").val() + month + day;
-	  var status = cj('#status_id').val();
+          var activity_date_time  = cj("select#activity_date_time\\[Y\\]").val() + month + day;
+	      var status = cj('#status_id').val();
 
-	  if ( status == 2 && !activity_date_time ) {
-	     var okMessage = confirm( 'This activity does not have an Actual Date set, but the status is still "Completed". If you meant to set the Actual Date, click Cancel and set the Actual Date field. Otherwise click OK to save the activity with "Completed" status.' );    
-             if (!okMessage ) {
-                return false;
-	     }
-	  } else if ( status == 1 && activity_date_time ) {
-	     var ok = confirm( 'This activity has an Actual Date set, but the status is still "Scheduled". If you meant to set the status to "Completed", click Cancel and update the status field. Otherwise click OK to save the activity with "Scheduled" status.' );    
-             if (!ok ) {
-                return false;
-	     }
+	      if ( status == scheduleStatusId && !activity_date_time ) {
+	             var okMessage = confirm( 'This activity does not have an Actual Date set, but the status is still "Completed". If you meant to set the Actual Date, click Cancel and set the Actual Date field. Otherwise click OK to save the activity with "Completed" status.' );    
+                 if (!okMessage ) {
+                        return false;
+	             }
+	      } else if ( status == 1 && activity_date_time ) {
+	             var ok = confirm( 'This activity has an Actual Date set, but the status is still "Scheduled". If you meant to set the status to "Completed", click Cancel and update the status field. Otherwise click OK to save the activity with "Scheduled" status.' );    
+                 if (!ok ) {
+                       return false;
+	             }
           }
      }
-    </script>
-    {/literal}
+</script>
+{/literal}
