@@ -1521,3 +1521,7 @@ div.grippie {
 .report-pager .crm-pager-nav a {
     color           : #000000;
 }
+#crm-container .report-layout .sticky-header {
+  background-color  : #DCDCDC;
+  border            : 1px solid #DCDCDC;
+}
