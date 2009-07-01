@@ -162,7 +162,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
      * @return array $navigations returns associated array
      * @static
      */
-    static function getNavigationList( &$navigations, $flatList = true, $parentID = null, $separtor = '&nbsp;&nbsp;' ) {
+    static function getNavigationList( &$navigations, $parentID = null, $separtor = '&nbsp;&nbsp;' ) {
         $whereClause = " parent_id IS NULL";
         if (  $parentID ) {
             $whereClause = " parent_id = {$parentID}"; 
@@ -181,15 +181,8 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
                 $label = "{$separtor}{$navigation->label}";
             }
 
-            if ( $flatList ) {
-                $navigations[$navigation->id] = $label;
-            } else {
-                $navigations[$navigation->id] = array( 'label'     => $label,
-                                                       'is_active' => $navigation->is_active,
-                                                       'parent_id' => $navigation->parent_id );
-            }
-
-            self::getNavigationList( $navigations, $flatList, $navigation->id, $separtor );
+            $navigations[$navigation->id] = $label;
+            self::getNavigationList( $navigations, $navigation->id, $separtor );
         }
 
         return $navigations;           

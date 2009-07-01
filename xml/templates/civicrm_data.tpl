@@ -957,7 +957,7 @@ INSERT INTO civicrm_navigation
 ( 45, 'civicrm/event/import?reset=1', '{ts escape="sql"}Import Participants{/ts}', 'Import Participants', NULL, '', '41', '1', '1', 4 ), 
 ( 46, 'civicrm/event/add?reset=1&action=add', '{ts escape="sql"}New Event{/ts}', 'New Event', NULL, '', '41', '1', NULL, 5 ), 
 ( 47, 'civicrm/event/manage?reset=1', '{ts escape="sql"}Manage Events{/ts}', 'Manage Events', NULL, '', '41', '1', 1, 6 ), 
-( 48, 'civicrm/admin/eventTemplate?reset=1', '{ts escape="sql"}Event Templates{/ts}', 'Event Templates', 'access CiviEvent, administer CiviCRM', '', '41', '1', 1, 7 ), 
+( 48, 'civicrm/admin/eventTemplate?reset=1', '{ts escape="sql"}Event Templates{/ts}', 'Event Templates', 'access CiviEvent,administer CiviCRM', '', '41', '1', 1, 7 ), 
 ( 49, 'civicrm/admin/price?reset=1&action=add', '{ts escape="sql"}New Price Set{/ts}', 'New Price Set', NULL, '', '41', '1', NULL, 8 ), 
 ( 50, 'civicrm/event/price?reset=1', '{ts escape="sql"}Manage Price Sets{/ts}', 'Manage Price Sets', NULL, '', '41', '1', NULL, 9 ),
 
@@ -976,7 +976,7 @@ INSERT INTO civicrm_navigation
 ( 62, 'civicrm/member/search?reset=1', '{ts escape="sql"}Find Members{/ts}', 'Find Members', NULL, '', '59', '1', NULL, 3 ), 
 ( 63, 'civicrm/member/import?reset=1', '{ts escape="sql"}Import Members{/ts}', 'Import Members', NULL, '', '59', '1', NULL, 4 ), 
 
-( 64, NULL, '{ts escape="sql"}Other{/ts}', 'Other', 'access CiviGrant, access CiviCase', 'OR', NULL, '1', NULL, 8 ), 
+( 64, NULL, '{ts escape="sql"}Other{/ts}', 'Other', 'access CiviGrant,access CiviCase', 'OR', NULL, '1', NULL, 8 ), 
 ( 65, NULL, '{ts escape="sql"}Cases{/ts}', 'Cases', 'access CiviCase', '', '64', '1', NULL, 1 ), 
 ( 66, 'civicrm/case?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '64', '1', NULL, 1 ), 
 ( 67, 'civicrm/contact/view/case?reset=1&action=add&atype=13&context=standalone', '{ts escape="sql"}New Case{/ts}', 'New Case', NULL, '', '64', '1', NULL, 2 ), 
@@ -1042,11 +1042,11 @@ INSERT INTO civicrm_navigation
 ( 119, 'civicrm/admin/options/phone_type?group=phone_type&reset=1', '{ts escape="sql"}Phone Types{/ts}', 'Phone Types', NULL, '', '106', '1', NULL, 13 ), 
 ( 120, 'civicrm/admin/options/preferred_communication_method?group=preferred_communication_method&reset=1', '{ts escape="sql"}Preferred Communication Methods{/ts}', 'Preferred Communication Methods', NULL, '', '106', '1', NULL, 14 ), 
 
-( 121, NULL, '{ts escape="sql"}CiviCase{/ts}', 'CiviCase', 'access CiviCase, administer CiviCRM', '', '73', '1', NULL, 6 ), 
-( 122, 'civicrm/admin/options/case_type?group=case_type&reset=1', '{ts escape="sql"}Case Types{/ts}', 'Case Types', 'access CiviCase, administer CiviCRM', '', '121', '1', NULL, 1 ), 
-( 123, 'civicrm/admin/options/redaction_rule?group=redaction_rule&reset=1', '{ts escape="sql"}Redaction Rules{/ts}', 'Redaction Rules', 'access CiviCase, administer CiviCRM', '', '121', '1', NULL, 2 ), 
+( 121, NULL, '{ts escape="sql"}CiviCase{/ts}', 'CiviCase', 'access CiviCase,administer CiviCRM', 'AND', '73', '1', NULL, 6 ), 
+( 122, 'civicrm/admin/options/case_type?group=case_type&reset=1', '{ts escape="sql"}Case Types{/ts}', 'Case Types', 'access CiviCase,administer CiviCRM', '', '121', '1', NULL, 1 ), 
+( 123, 'civicrm/admin/options/redaction_rule?group=redaction_rule&reset=1', '{ts escape="sql"}Redaction Rules{/ts}', 'Redaction Rules', 'access CiviCase,administer CiviCRM', '', '121', '1', NULL, 2 ), 
 
-( 124, NULL, '{ts escape="sql"}CiviContribute{/ts}', 'CiviContribute', 'access CiviContribute, administer CiviCRM', '', '73', '1', NULL, 7 ), 
+( 124, NULL, '{ts escape="sql"}CiviContribute{/ts}', 'CiviContribute', 'access CiviContribute,administer CiviCRM', 'AND', '73', '1', NULL, 7 ), 
 ( 125, 'civicrm/admin/contribute?reset=1&action=add', '{ts escape="sql"}New Contribution Page{/ts}', 'New Contribution Page', NULL, '', '124', '1', NULL, 6 ), 
 ( 126, 'civicrm/admin/contribute?reset=1', '{ts escape="sql"}Manage Contribution Pages{/ts}', 'Manage Contribution Pages', NULL, '', '124', '1', '1', 7 ), 
 ( 127, 'civicrm/admin/pcp?reset=1', '{ts escape="sql"}Personal Campaign Pages{/ts}', 'Personal Campaign Pages', NULL, '', '124', '1', NULL, 8 ), 
@@ -1055,10 +1055,10 @@ INSERT INTO civicrm_navigation
 ( 130, 'civicrm/admin/options/payment_instrument?group=payment_instrument&reset=1', '{ts escape="sql"}Payment Instruments{/ts}', 'Payment Instruments', NULL, '', '124', '1', NULL, 11	 ), 
 ( 131, 'civicrm/admin/options/accept_creditcard?group=accept_creditcard&reset=1', '{ts escape="sql"}Accepted Credit Cards{/ts}', 'Accepted Credit Cards', NULL, '', '124', '1', NULL, 12	 ), 
 
-( 132, NULL, '{ts escape="sql"}CiviEvent{/ts}', 'CiviEvent', 'access CiviEvent, administer CiviCRM', '', '73', '1', NULL, 8 ), 
+( 132, NULL, '{ts escape="sql"}CiviEvent{/ts}', 'CiviEvent', 'access CiviEvent,administer CiviCRM', 'AND', '73', '1', NULL, 8 ), 
 ( 133, 'civicrm/event/add?reset=1&action=add', '{ts escape="sql"}New Event{/ts}', 'New Event', NULL, '', '132', '1', NULL, 1 ), 
 ( 134, 'civicrm/event/manage?reset=1', '{ts escape="sql"}Manage Events{/ts}', 'Manage Events', NULL, '', '132', '1', 1, 2 ), 
-( 135, 'civicrm/admin/eventTemplate?reset=1', '{ts escape="sql"}Event Templates{/ts}', 'Event Templates', 'access CiviEvent, administer CiviCRM', '', '132', '1', 1, 3 ), 
+( 135, 'civicrm/admin/eventTemplate?reset=1', '{ts escape="sql"}Event Templates{/ts}', 'Event Templates', 'access CiviEvent,administer CiviCRM', '', '132', '1', 1, 3 ), 
 ( 136, 'civicrm/admin/price?reset=1&action=add', '{ts escape="sql"}New Price Set{/ts}', 'New Price Set', NULL, '', '132', '1', NULL, 4 ), 
 ( 137, 'civicrm/event/price?reset=1', '{ts escape="sql"}Manage Price Sets{/ts}', 'Manage Price Sets', NULL, '', '132', '1', 1, 5 ),
 ( 138, 'civicrm/admin/options/participant_listing?group=participant_listing&reset=1', '{ts escape="sql"}Participant Listing Templates{/ts}', 'Participant Listing Templates', NULL, '', '132', '1', NULL, 6 ), 
@@ -1066,18 +1066,18 @@ INSERT INTO civicrm_navigation
 ( 140, 'civicrm/admin/participant_status?reset=1', '{ts escape="sql"}Participant Statuses{/ts}', 'Participant Statuses', NULL, '', '132', '1', NULL, 8 ), 
 ( 141, 'civicrm/admin/options/participant_role?group=participant_role&reset=1', '{ts escape="sql"}Participant Roles{/ts}', 'Participant Roles', NULL, '', '132', '1', NULL, 9 ), 
 
-( 142, NULL, '{ts escape="sql"}CiviGrant{/ts}', 'CiviGrant', 'access CiviGrant, administer CiviCRM', '', '73', '1', NULL, 9 ), 
-( 143, 'civicrm/admin/options/grant_type?group=grant_type&reset=1', '{ts escape="sql"}Grant Types{/ts}', 'Grant Types', 'access CiviGrant, administer CiviCRM', '', '142', '1', NULL, 1 ), 
+( 142, NULL, '{ts escape="sql"}CiviGrant{/ts}', 'CiviGrant', 'access CiviGrant,administer CiviCRM', 'AND', '73', '1', NULL, 9 ), 
+( 143, 'civicrm/admin/options/grant_type?group=grant_type&reset=1', '{ts escape="sql"}Grant Types{/ts}', 'Grant Types', 'access CiviGrant,administer CiviCRM', '', '142', '1', NULL, 1 ), 
 
-( 144, NULL, '{ts escape="sql"}CiviMail{/ts}', 'CiviMail', 'access CiviMail, administer CiviCRM', '', '73', '1', NULL, 10 ), 
+( 144, NULL, '{ts escape="sql"}CiviMail{/ts}', 'CiviMail', 'access CiviMail,administer CiviCRM', 'AND', '73', '1', NULL, 10 ), 
 ( 145, 'civicrm/admin/component?reset=1', '{ts escape="sql"}Headers, Footers, and Automated Messages{/ts}', 'Headers, Footers, and Automated Messages', NULL, '', '144', '1', NULL, 1 ), 
 ( 146, 'civicrm/admin/messageTemplates?reset=1', '{ts escape="sql"}Message Templates{/ts}', 'Message Templates', NULL, '', '144', '1', NULL, 2 ), 
 ( 147, 'civicrm/admin/options/from_email?group=from_email_address&reset=1', '{ts escape="sql"}From Email Addresses{/ts}', 'From Email Addresses', NULL, '', '144', '1', NULL, 3 ), 
 ( 148, 'civicrm/admin/mailSettings?reset=1', '{ts escape="sql"}Mail Accounts{/ts}', 'Mail Accounts', NULL, '', '144', '1', NULL, 4 ), 
 
-( 149, NULL, '{ts escape="sql"}CiviMember{/ts}', 'CiviMember', 'access CiviMember, administer CiviCRM', '', '73', '1', NULL, 11 ), 
-( 150, 'civicrm/admin/member/membershipType?reset=1', '{ts escape="sql"}Membership Types{/ts}', 'Membership Types', 'access CiviMember, administer CiviCRM', '', '149', '1', NULL, 1 ), 
-( 151, 'civicrm/admin/member/membershipStatus?reset=1', '{ts escape="sql"}Membership Status Rules{/ts}', 'Membership Status Rules', 'access CiviMember, administer CiviCRM', '', '149', '1', NULL, 2 ), 
+( 149, NULL, '{ts escape="sql"}CiviMember{/ts}', 'CiviMember', 'access CiviMember,administer CiviCRM', 'AND', '73', '1', NULL, 11 ), 
+( 150, 'civicrm/admin/member/membershipType?reset=1', '{ts escape="sql"}Membership Types{/ts}', 'Membership Types', 'access CiviMember,administer CiviCRM', '', '149', '1', NULL, 1 ), 
+( 151, 'civicrm/admin/member/membershipStatus?reset=1', '{ts escape="sql"}Membership Status Rules{/ts}', 'Membership Status Rules', 'access CiviMember,administer CiviCRM', '', '149', '1', NULL, 2 ), 
 
 ( 152, NULL, '{ts escape="sql"}CiviReport{/ts}', 'CiviReport', 'administer CiviCRM', '', '73', '1', NULL, 12 ), 
 ( 153, 'civicrm/report/list?reset=1', '{ts escape="sql"}Manage Reports{/ts}', 'Manage Reports', NULL, '', '152', '1', NULL, 1 ), 
