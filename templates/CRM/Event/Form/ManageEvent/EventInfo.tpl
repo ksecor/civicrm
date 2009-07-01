@@ -5,7 +5,10 @@
 	{capture assign=mapURL}{crmURL p='civicrm/admin/setting/mapping' q="reset=1"}{/capture} 
 	{assign var=eventID value=$id}
 	<div class="form-item">
-	<fieldset><legend>{ts}Event Information{/ts}</legend>
+        <div class="crm-submit-buttons">
+            {$form.buttons.html}
+        </div>
+	<fieldset>
 	<table class="form-layout-compressed">
 		{if $form.template_title}
 			<tr>
@@ -130,10 +133,9 @@
 			});
 		</script>
 	{/literal}
-	<dl>    
-		<dt></dt>
-		<dd class="html-adjust">{$form.buttons.html}</dd>   
-	</dl> 
 	</fieldset>     
+        <div class="crm-submit-buttons">
+            {$form.buttons.html}
+        </div>
 	</div>
 {/if}

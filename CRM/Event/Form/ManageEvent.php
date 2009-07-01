@@ -165,7 +165,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $buttons = array(
                              array ( 'type'      => 'upload',
                                      'name'      => ts('Save'),
-                                     'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                     'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                      'isDefault' => true   ),
                              array ( 'type'      => 'cancel',
                                      'name'      => ts('Cancel'), ), 

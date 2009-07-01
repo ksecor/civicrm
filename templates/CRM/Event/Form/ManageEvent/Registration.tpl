@@ -1,4 +1,7 @@
-<fieldset><legend>{ts}Online Registration{/ts}</legend>
+<div class="crm-submit-buttons">
+    {$form.buttons.html}
+</div>
+<fieldset>
 <div id="help">
 {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
 {ts 1=$ppUrl}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href="%1">payment processor</a> for your site.{/ts}
@@ -126,13 +129,9 @@
         </div>
     </div>
     </div> {*end of div registration_blocks*}
-    <dl>
-    <dt>&nbsp;</dt><dd>
-        <div id="crm-submit-buttons">
+    <div class="crm-submit-buttons">
         {$form.buttons.html}
-        </div>
-        </dd>
-    </dl>  
+    </div>
 </div> {* End of form-item div *}
 </fieldset>
 
