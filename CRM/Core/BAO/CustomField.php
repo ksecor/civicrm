@@ -638,7 +638,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             if ( $field->data_type == 'Auto-complete' ) {
                 static $customUrls = array( );
                 $customUrls[$elementName] = CRM_Utils_System::url( "civicrm/ajax/auto",
-                                                                   "reset=1&id={$field->option_group_id}",
+                                                                   "reset=1&ogid={$field->option_group_id}&cfid={$field->id}",
                                                                    false, null, false );
                                                         
                 $qf->assign( "customUrls", $customUrls );                                          

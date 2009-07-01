@@ -62,24 +62,18 @@ ORDER BY sort_name ";
      */
     function autocomplete( &$config ) 
     {
-        $id    = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
-        $label = CRM_Utils_Type::escape( $_GET['s'], 'String' );
+        $fieldID       = CRM_Utils_Type::escape( $_GET['cfid'], 'Integer' );
+        $optionGroupID = CRM_Utils_Type::escape( $_GET['ogid'], 'Integer' );
+        $label         = CRM_Utils_Type::escape( $_GET['s'], 'String' );
         
-        $query = "
-SELECT  v.label as label ,v.value as value, v.id as id
-FROM   civicrm_option_value v,
-       civicrm_option_group g
-WHERE  v.option_group_id = g.id
-  AND  g.id              = $id
-  AND  v.is_active       = 1 
-  AND  g.is_active       = 1 
-  AND  v.label LIKE '$label%'
-  ORDER BY v.weight, v.label; 
-";   
-        $dao = CRM_Core_DAO::executeQuery( $query );
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $fieldID, $optionGroupID );
+
         $completeList = null;
-        while ( $dao->fetch( ) ) {
-            echo $completeList = "$dao->label|$dao->id\n";
+        foreach ( $selectOption as $id => $value ) {
+            if ( strtolower( $label ) == strtolower( substr( $value, 0, strlen( $label ) ) ) ) {
+                echo $completeList = "$value|$id\n";
+            }
         }
         exit();
     }
