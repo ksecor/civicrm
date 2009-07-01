@@ -116,6 +116,22 @@ cj('a#expand').click( function( ){
                  eval( " var me = cj(this)." + event + "();" ); 
           }); 
 });
+
+//current employer default setting
+var employerId = "{/literal}{$currentEmployer}{literal}";
+if( employerId ) {
+   var dataUrl = "{/literal}{crmURL p='civicrm/ajax/search' h=0 q="org=1&id=" }{literal}" + employerId ;
+    cj.ajax({ 
+        url     : dataUrl,   
+        async   : false,
+        success : function(html){
+                    //fixme for showing address in div
+                    htmlText = html.split( '|' , 2);
+                    cj('input#current_employer').val(htmlText[0]);
+                    cj('input#current_employer_id').val(htmlText[1]);
+                  }
+            }); 
+}
 </script>
 {/literal}
 {/if}

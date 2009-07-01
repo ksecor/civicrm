@@ -117,10 +117,7 @@ class CRM_Contact_Form_Edit_Individual {
                                                                $form->_contactId, 
                                                                'mail_to_household_id', 
                                                                'id' );
-            if ( isset($mailToHouseholdID) ) {
-                // if already a household being selected
-                $sharedOptionsExtra = array( 'onclick' => "resetByValue('use_household_address','', $extraOnAddFlds, 'text', 'radio', true );" );
-            }
+            $form->assign('mailToHouseholdID',$mailToHouseholdID );  
         }
        
         //Shared Address Element
@@ -271,10 +268,11 @@ class CRM_Contact_Form_Edit_Individual {
  
         $addressFields = CRM_Core_DAO_Address::fields();
         foreach($addressFields as  $key =>$val ){
-            if( !CRM_Utils_Array::value( $key, $values[1]['address'] ) ){
+		   if( !CRM_Utils_Array::value( $key, $values[1]['address'] ) ){
                 $values[1]['address'][$key]="";
             }
         }
+		
         if( $values[1]['address']['country_id']=="null"){
             $values[1]['address']['country_id']=0;
         }
@@ -282,12 +280,12 @@ class CRM_Contact_Form_Edit_Individual {
             $values[1]['address']['state_province_id']=0;
         }
       
-        $params['location'][1]['address'] = $values[1]['address'];
-          
+        $params['address'][1] = $values['address'][1];
+
         // unset all the ids and unwanted fields
         $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
         foreach ( $unsetFields as $fld ) {
-            unset( $params['location'][1]['address'][$fld] );
+            unset( $params['address'][1][$fld] );
         } 
     }
     
@@ -310,14 +308,8 @@ class CRM_Contact_Form_Edit_Individual {
         } else {
             $householdParams = array();
 
-            $householdParams['location'] = $params['location'];
+            $householdParams['address']['1'] = $params['address']['1'];
           
-            unset( $householdParams['location']['2'], 
-                   $householdParams['location']['1']['phone'], 
-                   $householdParams['location']['1']['email'], 
-                   $householdParams['location']['1']['im'] ,
-                   $householdParams['location']['1']['openid']);
-
             $householdParams['household_name'] = $params['shared_household'];
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($householdParams, 'Household');
@@ -328,7 +320,7 @@ class CRM_Contact_Form_Edit_Individual {
                 //create new Household
                 $newHousehold = array ( 'contact_type'   => 'Household',
                                         'household_name' => $params['shared_household'], 
-                                        'location'       => $householdParams['location'] );
+                                        'address'        => $householdParams['address'] );
                 $houseHold   = CRM_Contact_BAO_Contact::create( $newHousehold );
                 $houseHoldId = $houseHold->id;
             } else {

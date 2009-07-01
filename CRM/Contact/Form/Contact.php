@@ -277,8 +277,20 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             }
             $this->assign( 'loadDefaultBlocks',  $loadDefaultBlocks  );
             $this->assign( 'defaultBlocksCount', $defaultBlocksCount );
+            
+            if ( isset( $this->_elementIndex[ "shared_household" ] ) ) {
+                $sharedHousehold = $this->getElementValue( "shared_household" );
+                if ( $sharedHousehold ) {
+                    $this->assign('defaultSharedHousehold', $sharedHousehold );
+                } elseif ( CRM_Utils_Array::value('mail_to_household_id', $defaults) ) {
+                    $defaults['use_household_address'] = true;
+                    $this->assign('defaultSharedHousehold', $defaults['mail_to_household_id'] );
+                }
+            }
+            require_once 'CRM/Contact/BAO/Relationship.php';
+            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
+            $this->assign( 'currentEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
         }
-
         return $defaults;
     }
 
@@ -431,6 +443,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         //get the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         
+        //get the related id for shared / current employer
+        if ( CRM_Utils_Array::value( 'shared_household_id',$params ) ) {
+            $params['shared_household'] = $params['shared_household_id'];
+        }
+        $params['current_employer'] = $params['current_employer_id'];
+                
         //if email/postal greeting or addressee is not of the type customized, 
         //unset previously set custom value,CRM-4575
         $elements = array( 'email_greeting_id'  => 'email_greeting_custom', 
@@ -477,21 +495,21 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             // this is a chekbox, so mark false if we dont get a POST value
             $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
         }
-        
-//         // copy household address, if use_household_address option (for individual form) is checked
-//         if ( $this->_contactType == 'Individual' ) {
-//             if ( CRM_Utils_Array::value( 'use_household_address', $params ) && 
-//                  CRM_Utils_Array::value( 'shared_household',$params ) ) {
-//                 if ( is_numeric( $params['shared_household'] ) ) {
-//                     CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
-//                 }
-//                 CRM_Contact_Form_Individual::createSharedHousehold( $params );
-//             } else { 
-//                 $params['mail_to_household_id'] = 'null';
-//             }
-//         } else {
-//             $params['mail_to_household_id'] = 'null';
-//         }
+    //    crm_core_error::debug( 'debug', $params);
+         // copy household address, if use_household_address option (for individual form) is checked
+         if ( $this->_contactType == 'Individual' ) {
+             if ( CRM_Utils_Array::value( 'use_household_address', $params ) && 
+                  CRM_Utils_Array::value( 'shared_household',$params ) ) {
+                 if ( is_numeric( $params['shared_household'] ) ) {
+                     CRM_Contact_Form_Edit_Individual::copyHouseholdAddress( $params );
+                 }
+                 CRM_Contact_Form_Edit_Individual::createSharedHousehold( $params );
+             } else { 
+                 $params['mail_to_household_id'] = 'null';
+             }
+         } else {
+             $params['mail_to_household_id'] = 'null';
+         }
 
         // cleanup unwanted location blocks
         if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
@@ -502,11 +520,11 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create( $params, true,false );
         
-//         if ( $this->_contactType == 'Individual' && ( CRM_Utils_Array::value( 'use_household_address', $params )) &&
-//              CRM_Utils_Array::value( 'mail_to_household_id',$params ) ) {
-//             // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
-//             CRM_Contact_Form_Individual::handleSharedRelation($contact->id , $params );
-//         }
+         if ( $this->_contactType == 'Individual' && ( CRM_Utils_Array::value( 'use_household_address', $params )) &&
+              CRM_Utils_Array::value( 'mail_to_household_id',$params ) ) {
+             // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
+             CRM_Contact_Form_Edit_Individual::handleSharedRelation($contact->id , $params );
+         }
         
 //         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
 //             //TO DO: commented because of schema changes

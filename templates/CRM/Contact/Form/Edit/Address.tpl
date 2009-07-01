@@ -23,7 +23,8 @@
             {$form.use_household_address.html}{$form.use_household_address.label}<br /><br />
             <div id="share_household" style="display:none">
                 {$form.shared_household.label}<br />
-                {$form.shared_household.html|crmReplace:class:huge}&nbsp;&nbsp;<span id="shared_address"></span>
+                {$form.shared_household.html|crmReplace:class:huge}&nbsp;&nbsp;<span id="show_address"></span>
+				{if $mailToHouseholdID}<div id="shared_address"></div>{/if}
             </div>
         </td>
      </tr>
@@ -96,15 +97,48 @@
 {/if}
 {literal}
 <script type="text/javascript">
-cj('#use_household_address').click( function() { 
-    cj('#share_household, table#address').toggle();
+cj(document).ready( function() { 
+    //shared household default setting
+	var householdId = "{/literal}{$mailToHouseholdID}{literal}";
+	if ( cj('#use_household_address').is(':checked') || householdId) {
+		var dataUrl = "{/literal}{crmURL p='civicrm/ajax/search' h=0 q="hh=1&id=" }{literal}" + householdId ;
+		cj.ajax({ 
+            url     : dataUrl,   
+            async   : false,
+            success : function(html){ 
+                        //fixme for showing address in div
+                        htmlText = html.split( '|' , 2);
+                        cj('input#shared_household').val(htmlText[0]);
+                        cj('input#shared_household_id').val(htmlText[1]);
+                        htmlDiv = htmlText[0].replace( /::/gi, '<br />');
+                        cj('div#shared_address').html('<br />'+htmlDiv);
+                      }
+                });
+		cj('#share_household, table#address').toggle(); 
+	}
+	//event handler for use_household_address check box
+	cj('#use_household_address').click( function() { 
+		cj('#share_household').toggle( );
+        if( ! cj('#use_household_address').is(':checked')) {
+            cj('table#address').show( );
+        } else {
+           cj('table#address').toggle( );
+        }
+	});	
 });
 
 var dataUrl = "{/literal}{$housholdDataURL}{literal}";
 cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : false 
                                               }).result( function(event, data, formatted) { 
-                                                    cj( "span#shared_address" ).html( data[0] ); 
-                                                    cj( "#shared_household_id" ).val( data[1] );
+                                                    if( isNaN( data[1] ) ){
+                                                        cj( "span#show_address" ).html( 'New Household Record'); 
+                                                        cj( "#shared_household_id" ).val( '' );
+                                                        cj( 'table#address' ).toggle( ); 
+                                                    } else {
+                                                        cj( 'table#address' ).hide( ); 
+                                                        cj( "span#show_address" ).html( data[0] ); 
+                                                        cj( "#shared_household_id" ).val( data[1] );
+                                                    }
                                               });
 </script>
 {/literal}
