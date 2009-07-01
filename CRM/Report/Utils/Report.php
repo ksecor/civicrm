@@ -155,7 +155,7 @@ WHERE  inst.report_id = %1";
         header('Content-Type: text/csv');
           
         //Force a download and name the file using the current timestamp.
-        header('Content-Disposition: attachment; filename=report_' . $_SERVER['REQUEST_TIME'] . '.csv');
+        header('Content-Disposition: attachment; filename=Report_' . $_SERVER['REQUEST_TIME'] . '.csv');
                   
         //Load rows
         $sql = " {$form->_select}  {$form->_from}  {$form->_where}  {$form->_groupBy}  {$form->_having} {$form->_orderBy} ";
@@ -163,39 +163,44 @@ WHERE  inst.report_id = %1";
         $rows = array();
         $form->buildRows( $sql, $rows );
         $form->formatDisplay( $rows );
-        
-        //Output rows
-        $first_row = true;
+        require_once 'CRM/Utils/Money.php';
+        $config    =& CRM_Core_Config::singleton( );        
+        //Output headers if this is the first row.
+        $columnHeaders = array_keys( $form->_columnHeaders );
+
+        // Replace internal header names with friendly ones, where available.
+        foreach ( $columnHeaders as $header ) {
+            if ( isset( $form->_columnHeaders[$header] ) ) {
+                $headers[] = html_entity_decode(strip_tags($form->_columnHeaders[$header]['title']));
+            }
+        }
+        //Output the headers.
+        echo implode(',', $headers) . "\n";
+
         foreach ( $rows as $row ) {
             foreach ( $row as $key => $value ) {
                 // Remove HTML, unencode entities, and escape quotation marks.
                 $row[$key] = '"' . str_replace('"', '""', html_entity_decode(strip_tags($value))) . '"';
-                
-                // Remove non-CiviCRM fields.
                 if ( strstr($key, 'link') || strstr($key, 'hover') ) {
                     unset($row[$key]);
                 }
                 if ( substr($key, 0, 1) == '_' ) {
                     unset($row[$key]);
                 }
-            }
-            
-            //Output headers if this is the first row.
-            if ( $first_row ) {
-                $headers = array_keys($row);
-                
-                // Replace internal header names with friendly ones, where available.
-                foreach ( $headers as $i => $header ) {
-                    if ( isset( $form->_columnHeaders[$header] ) ) {
-                        $headers[$i] = html_entity_decode(strip_tags($form->_columnHeaders[$header]['title']));
+
+                if ( CRM_Utils_Array::value( 'type', $form->_columnHeaders[$key] ) & 4 ) {
+                    if ( $form->_columnHeaders[$key]['group_by'] == 'MONTH' ||
+                         $form->_columnHeaders[$key]['group_by'] ==  'QUARTER' ) {
+                        $row[$key] =  CRM_Utils_Date::customFormat( $value, $config->dateformatPartial );
+                    } elseif ( $form->_columnHeaders[$key]['group_by'] == 'YEAR' ) {
+                        $row[$key] =  CRM_Utils_Date::customFormat( $value, $config->dateformatYear );
+                    } else {
+                        $row[$key] =  CRM_Utils_Date::customFormat( $value );
                     }
+                } else if ( CRM_Utils_Array::value( 'type', $form->_columnHeaders[$key] ) == 1024 ) {
+                    $row[$key] =  CRM_Utils_Money::format( $value );
                 }
-                
-                //Output the headers.
-                echo implode(',', $headers) . "\n";
-                $first_row = false;
             }
-            
             //Output the data row.
             echo implode(',', $row) . "\n";
         }
