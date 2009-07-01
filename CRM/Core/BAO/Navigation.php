@@ -422,7 +422,11 @@ ORDER BY parent_id, weight";
             return;
         }
         
-        $navigation = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
+        $navParams = array( 'contact_id' => $contactID,
+                            'domain_id'  => CRM_Core_Config::domainID( ) );
+        CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_Preferences', $navParams, $navParams );
+        $navigation = array_key_exists('navigation', $navParams) ? $navParams['navigation'] : false;
+
         if ( ! $navigation ) {
             //retrieve navigation if it's not cached.       
             require_once 'CRM/Core/BAO/Navigation.php';
@@ -454,8 +458,9 @@ ORDER BY parent_id, weight";
                 require_once 'CRM/Core/DAO/Preferences.php';
                 $preference =& new CRM_Core_DAO_Preferences();
                 $preference->contact_id = $contactID;
+                $preference->domain_id  = CRM_Core_Config::domainID( );
+                $preference->find(true);
                 $preference->navigation = $navigation;
-                $preference->domain_id = CRM_Core_Config::domainID( );
                 $preference->save();
             }
         }
