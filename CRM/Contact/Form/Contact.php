@@ -117,6 +117,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
 
     protected $_blocks;
 
+    protected $_values = array( );
+
     /**
      * build all the data structures needed to build the form
      *
@@ -196,13 +198,49 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->_contactId = null;
         } else {
             //update mode
+            if ( ! $this->_contactId ) {
+                $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
+            }
             
-            //hack for now - remove when start edit code.
-            $this->_contactId = 102;
-            $this->_contactType = 'Individual';
-            $this->assign( 'contactType', $this->_contactType );
+            if ( $this->_contactId ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $contact =& new CRM_Contact_DAO_Contact( );
+                $contact->id = $this->_contactId;
+                if ( ! $contact->find( true ) ) {
+                    CRM_Core_Error::statusBounce( ts('contact does not exist: %1', array(1 => $this->_contactId)) );
+                }
+                $this->_contactType = $contact->contact_type;
+                $this->_contactSubType = $contact->contact_sub_type;
+                
+                $this->assign( 'contactType', $this->_contactType );
+                
+                // check for permissions
+                require_once 'CRM/Contact/BAO/Contact/Permission.php';
+                if ( ! CRM_Contact_BAO_Contact_Permission::allow( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
+                    CRM_Core_Error::statusBounce( ts('You do not have the necessary permission to edit this contact.') );
+                }
+                
+                list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
+                
+                CRM_Utils_System::setTitle( $displayName, $contactImage . ' ' . $displayName ); 
+                
+                // need this for custom data in edit mode
+                $this->assign('entityID', $this->_contactId );
+                
+                //get the no of locations for the contact
+                $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
+                $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid='. $this->_contactId ));
+                
+                // get values from contact table
+                $params = array( 'id'         => $this->_contactId,
+                                 'contact_id' => $this->_contactId ) ;
+                $contact = CRM_Contact_BAO_Contact::retrieve( $params, $this->_values );
+                $this->set( 'values', $this->_values );
+            } else {
+                CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
+            }
         }
-
+        
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, 'name', true );
         if ( $this->_contactType != 'Individual' &&
@@ -211,7 +249,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         $this->assign( 'editOptions', $this->_editOptions );
     }
-
+    
     /**
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
@@ -222,8 +260,24 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     function setDefaultValues( ) 
     {
 
-        $defaults = array( );
+        $defaults = $this->_values;
         $params   = array( );
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+       
+        } else {
+            //need to set default blocks.
+            $loadDefaultBlocks = false;
+            $defaultBlocksCount = array( );
+            foreach ( array_merge( array( 'Address' => 1 ), $this->_blocks ) as $blockName => $active ) {
+                $name = strtolower($blockName);
+                if ( is_array( $defaults[$name] ) ) {
+                    $loadDefaultBlocks = true;
+                    $defaultBlocksCount[$blockName] = count( $defaults[$name] );
+                }
+            }
+            $this->assign( 'loadDefaultBlocks',  $loadDefaultBlocks  );
+            $this->assign( 'defaultBlocksCount', $defaultBlocksCount );
+        }
 
         return $defaults;
     }

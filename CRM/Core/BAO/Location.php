@@ -326,10 +326,11 @@ WHERE e.id = %1";
         //get all the blocks for this contact
         foreach ( self::$blocks as $block ) {
             $name = ucfirst( $block );
-            eval( '$values[$block] = CRM_Core_BAO_' . $name . '::getValues( $entityBlock, $values );');
+            eval( '$blocks[$block] = CRM_Core_BAO_' . $name . '::getValues( $entityBlock, $values );');
         }
+        $values = array_merge( $values, $blocks ); 
+        return $blocks;
         
-        return $values;
 
 //         //format locations blocks for setting defaults
 //         $locationCount = 1;
@@ -439,10 +440,10 @@ WHERE e.id = %1";
         $contactId = CRM_Utils_Array::value( 'contact_id', $params );
         
         // get existing locations
+        $deleteBlocks  = $defaults = array( );
         $entityBlock   = array( 'contact_id' => $contactId );
         $dbBlockValues = self::getValues( $entityBlock, $defaults );
         
-        $deleteBlocks = array( );
         foreach ( self::$blocks as $block ) {
             if ( !is_array( $dbBlockValues[$block] ) ) continue;
             foreach ( $dbBlockValues[$block] as $dbCount => $dbValues ) {

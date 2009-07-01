@@ -57,6 +57,18 @@ cj(function( ) {
     cj("#contact-details").show( );
 });
 
+cj( function( ) {
+{/literal}
+{if $loadDefaultBlocks} 
+    {foreach from=$defaultBlocksCount key="blockName" item="count"}
+      {section name=blockCount loop=$count-1}
+      buildAdditionalBlocks( '{$blockName}', '{$contactType}' );
+      {/section}
+    {/foreach}
+{/if}
+{literal}
+});
+
 function buildAdditionalBlocks( blockName, contactType ) {
 
 
@@ -64,8 +76,11 @@ var previousBlockCount = cj( "#hidden_" + blockName + "_Count" ).val( );
 var currentBlockCount  = parseInt( previousBlockCount ) + 1; 
 
   var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + currentBlockCount;
-
-  
+	
+  {/literal}{if $action eq 2}
+  dataUrl += "&action=update&cid={$entityID}";
+  {/if}{literal}
+   
   blockId = (cj('#' + blockName + '_Block_'+ previousBlockCount ).html()) ? previousBlockCount : 1;  
   var fname = '#' + blockName + '_Block_'+ blockId;
 
@@ -79,6 +94,8 @@ var currentBlockCount  = parseInt( previousBlockCount ) + 1;
                       }
          });
   cj( "#hidden_" + blockName + "_Count" ).val( currentBlockCount );
+  if ( blockName == 'Address' ) cj("#addressBlock").show( );
+ 
 }
 
 cj('a#expand').click( function( ){

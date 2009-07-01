@@ -507,10 +507,10 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         
         //get the block information for this contact
         $entityBlock = array( 'contact_id' => $params['contact_id'] );
-        $contact->location  =& CRM_Core_BAO_Location::getValues( $entityBlock, 
-                                                                 $defaults, 
-                                                                 $microformat );
-        
+        $blocks      =& CRM_Core_BAO_Location::getValues( $entityBlock, 
+                                                          $defaults, 
+                                                          $microformat );
+        foreach ( $blocks as $block => $value ) $contact->$block = $value;
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults );
