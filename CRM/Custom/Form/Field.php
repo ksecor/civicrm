@@ -156,9 +156,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                         array('StateProvince' => ts('Select State/Province'),'Multi-Select' => ts('Multi-Select State/Province')),
                         array('Country' => ts('Select Country'),'Multi-Select' => ts('Multi-Select Country ')),
                         array('File' => ts('Select File')),
-                        array('Link' => ts ('Link')),
-                        array('ContactReference' => ts ('Contact Reference'),
-                              'Select'           => ts ('Select'))
+                        array('Link' => ts('Link')),
+                        array('ContactReference' => ts('Contact Reference'),
+                              'Select'           => ts('Select') )
                         );
         }
     }
