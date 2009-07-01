@@ -41,7 +41,7 @@ class CRM_Contact_Page_AJAX
 {
     static function getContactList( &$config ) 
     {
-        $name = CRM_Utils_Array::value( 's', $_GET );
+        $name = CRM_Utils_Type::escape( $_GET['s'], 'String' );
         
         $query = "
 SELECT sort_name, id
@@ -62,7 +62,8 @@ ORDER BY sort_name ";
      */
     function autocomplete( &$config ) 
     {
-        $id = CRM_Utils_Array::value( 'id', $_GET );
+        $id    = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
+        $label = CRM_Utils_Type::escape( $_GET['s'], 'String' );
         
         $query = "
 SELECT  v.label as label ,v.value as value, v.id as id
@@ -72,6 +73,7 @@ WHERE  v.option_group_id = g.id
   AND  g.id              = $id
   AND  v.is_active       = 1 
   AND  g.is_active       = 1 
+  AND  v.label LIKE '$label%'
   ORDER BY v.weight, v.label; 
 ";   
         $dao = CRM_Core_DAO::executeQuery( $query );

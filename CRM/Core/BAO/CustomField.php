@@ -636,10 +636,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             
         case 'Select':
             if ( $field->data_type == 'Auto-complete' ) {
-                $dataUrl = CRM_Utils_System::url( "civicrm/ajax/auto",
-                                                  "reset=1&id={$field->option_group_id}",
-                                                  false, null, false );
-                $qf->assign('dataUrl',$dataUrl );                                          
+                static $customUrls = array( );
+                $customUrls[$elementName] = CRM_Utils_System::url( "civicrm/ajax/auto",
+                                                                   "reset=1&id={$field->option_group_id}",
+                                                                   false, null, false );
+                                                        
+                $qf->assign( "customUrls", $customUrls );                                          
                 $qf->addElement( 'text', $elementName, $label );
                 $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
             } else {
