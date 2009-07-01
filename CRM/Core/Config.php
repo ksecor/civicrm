@@ -396,7 +396,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $rrb = parse_url( $this->userFrameworkResourceURL );
             // dont use absolute path if resources are stored on a different server
             // CRM-4642
-            $this->resourceBase = ($rrb['host'] == $_SERVER['HTTP_HOST']) ? $rrb['path'] : $this->userFrameworkResourceURL;
+            $this->resourceBase = $this->userFrameworkResourceURL;
+            if ( isset( $_SERVER['HTTP_HOST']) ) {
+                $this->resourceBase = ($rrb['host'] == $_SERVER['HTTP_HOST']) ? $rrb['path'] : $this->userFrameworkResourceURL;
+            }
         } 
             
         if ( !$this->customFileUploadDir ) {
