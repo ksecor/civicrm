@@ -353,11 +353,13 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         if ( CRM_Utils_Array::value( 'no_parent', $params ) !== 1 ) {
             require_once 'CRM/Core/BAO/Domain.php';
             $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
-            if ( array_key_exists('parents', $params) && is_array($params['parents']) ) {
-                $params['parents'][$domainGroupID] = 1;
-                $reset = true;
-            } else {
+            if ( empty($params['parents']) ) {
                 $params['parents'] = array( $domainGroupID => 1 );
+            } else if ( !is_array($params['parents']) ) {
+                $params['parents'] = array( $params['parents'] => 1 );
+            } else {
+                // if array with at least one value
+                $reset = true;
             }
             require_once 'CRM/Contact/BAO/GroupNesting.php';
             if ( $reset ) {
