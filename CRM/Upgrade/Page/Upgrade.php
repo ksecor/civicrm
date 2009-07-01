@@ -242,18 +242,10 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
     function upgrade_2_2_7( $rev ) {
         $upgrade =& new CRM_Upgrade_Form( );
         $upgrade->processSQL( $rev );
-        $sql  = " SELECT id, permission ,form_values from civicrm_report_instance ";
-        $dao  = CRM_Core_DAO::executeQuery( $sql );
-        while ( $dao->fetch( ) ) {
-            $permString       = str_replace( '#', ';', $dao->permission  );
-            $formValuesstring = str_replace( '#', ';', $dao->form_values );
-            $sqlUpdate  = "
-                          UPDATE civicrm_report_instance SET
-                                 permission  = '{$permString}' ,
-                                 form_values = '{$formValuesstring}' 
-                           WHERE id  = {$dao->id} ";
-            CRM_Core_DAO::executeQuery( $sqlUpdate ,CRM_Core_DAO::$_nullArray );
-        }
+        $sql = "UPDATE civicrm_report_instance 
+                       SET form_values = REPLACE(form_values,'#',';'),
+                           permission  = REPLACE(permission, '#',';') ";
+        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
     }
 }
 
