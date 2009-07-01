@@ -181,8 +181,8 @@ class CRM_Utils_System_Joomla {
      * @static  
      */  
     static function mapConfigToSSL( ) {
-        global $mosConfig_live_site;
-        $mosConfig_live_site = str_replace( 'http://', 'https://', $mosConfig_live_site );
+        // dont need to do anything, let CMS handle their own switch to SSL
+        return;
     }
 
     /**
