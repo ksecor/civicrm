@@ -749,10 +749,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
                     
         case 'Contact Reference':
-            $dataUrl = CRM_Utils_System::url( "civicrm/ajax/contactlist",
-                                              "reset=1",
-                                              false, null, false );
-            $qf->assign('dataUrl',$dataUrl );                                          
+            static $customUrls = array( );
+            $customUrls[$elementName] = CRM_Utils_System::url( "civicrm/ajax/contactlist",
+                                                               "reset=1",
+                                                               false, null, false );
+            $qf->assign('customUrls', $customUrls );                                          
             $qf->addElement( 'text', $elementName, $label );
             $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
             break;
