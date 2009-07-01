@@ -1600,7 +1600,7 @@ ORDER BY html_type";
         foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
                 //handle the transfer of hidden id value
-                if ( substr($key,0,7) == 'custom_'  && isset($value) && isset ( $params[$key. '_id'] ) ) {
+                if ( substr($key,0,7) == 'custom_'  && !empty($value) && isset ( $params[$key. '_id'] ) ) {
                     $value = $params[$key. '_id'];
                 }
                 
