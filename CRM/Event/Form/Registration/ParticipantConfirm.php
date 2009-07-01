@@ -64,22 +64,25 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
         
         $this->_participantStatusId = $values['status_id'];
         $this->_eventId = CRM_Utils_Array::value( 'event_id', $values );
-        $csContactID = CRM_Utils_Array::value( 'contact_id', $values );
+        $csContactId    = CRM_Utils_Array::value( 'contact_id', $values );
         
         // make sure we have right permission to edit this user
         $this->_csContactID = null;
-        require_once 'CRM/Contact/BAO/Contact.php';
-        if ( $csContactID && $this->_eventId ) {
+        if ( $csContactId && $this->_eventId ) {
             $session =& CRM_Core_Session::singleton( );
-            if ( $csContactID != $session->get( 'userID' ) ) {
+            if ( $csContactId == $session->get( 'userID' ) ) {
+                $this->_csContactID = $csContactId;
+            } else {
                 require_once 'CRM/Contact/BAO/Contact/Permission.php';
-                if ( CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $csContactID, $this ) ) {
+                if ( CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $csContactId, $this ) ) {
                     //since we have landing page so get this contact
                     //id in session if user really want to walk wizard.
-                    $this->_csContactID = $csContactID;
+                    $this->_csContactID = $csContactId;
                 }
             }
-        } else {
+        }
+        
+        if ( !$this->_csContactID ) {
             $config =& CRM_Core_Config::singleton( );
             CRM_Core_Error::statusBounce( ts( 'You do not have permission to access this event registration. Contact the site administrator if you need assistance.' ),$config->userFrameworkBaseURL );
         }
