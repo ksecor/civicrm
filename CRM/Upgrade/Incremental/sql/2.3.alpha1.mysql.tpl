@@ -505,3 +505,7 @@ ALTER TABLE civicrm_activity DROP COLUMN due_date_time;
 
 -- CRM-4120
 ALTER TABLE `civicrm_event` CHANGE `default_discount_id` `default_discount_fee_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.';
+
+ALTER TABLE `civicrm_event`
+  ADD COLUMN `is_template` tinyint(4) default NULL COMMENT 'whether the event has template',
+  ADD COLUMN `template_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Event Template Title';
