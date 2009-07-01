@@ -49,13 +49,11 @@ class CRM_Event_Form_Task_ParticipantStatus extends CRM_Event_Form_Task_Batch
 
         require_once 'CRM/Event/PseudoConstant.php';
         $statuses =& CRM_Event_PseudoConstant::participantStatus();
-        $changeText = ts('Change all participant statuses to:');
-        $changeLinks = array();
-        foreach ($statuses as $statusId => $statusName) {
-            $changeLinks[] = "<a href='#' onClick='setStatusesTo($statusId); return false;'>$statusName</a>";
-        }
-        $changeText .= ' ' . implode(', ', $changeLinks) . '.';
-        $this->assign('statusChangeText', $changeText);
+        asort($statuses, SORT_STRING);
+        $this->add('select', 'status_change', ts('Change All Statuses'),  
+                   array( '' => ts('- select status -')) + $statuses, null,
+                   array('onchange' => "if (this.value) setStatusesTo(this.value);") );
+        $this->assign('context', 'statusChange');
 
         parent::buildQuickForm();
     }

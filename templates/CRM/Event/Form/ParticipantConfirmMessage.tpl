@@ -1,5 +1,4 @@
 {ts 1=$contact.display_name}Dear %1{/ts},
-
 {if !$isAdditional and $participant.id}
 
 ===========================================================
