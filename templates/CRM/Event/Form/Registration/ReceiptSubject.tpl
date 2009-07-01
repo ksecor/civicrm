@@ -1,3 +1,3 @@
 {strip}
-{ts}Registration Confirmation{/ts} - {$title}
+{if $isOnWaitlist}{ts}Wait List Confirmation{/ts}{else}{ts}Registration Confirmation{/ts}{/if} - {$title}
 {/strip}

@@ -650,7 +650,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 #crm-container .float-right {
   float: right;
   width: auto;
-  padding: 0px 5px 10px 0px;
+  padding: 0px 5px 5px 0px;
   clear: none;
 }
 

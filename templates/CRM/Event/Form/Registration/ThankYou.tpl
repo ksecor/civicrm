@@ -5,7 +5,8 @@
 {include file="CRM/common/TrackingFields.tpl"}
 
 <div class="form-item">
-    {if $event.thankyou_text} 
+    {* Don't use "normal" thank-you message for Waitlist and Approval Required registrations - since it will probably not make sense for those situations. dgg *}
+    {if $event.thankyou_text AND (not $isOnWaitlist AND not $isRequireApproval)} 
         <div id="intro_text">
             <p>
             {$event.thankyou_text}
@@ -21,18 +22,22 @@
     {/if}  
 
     <div id="help">
-        {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
         {if $isOnWaitlist}
-	   <div class="bold">{ts}Your Event registration is on waiting list. Once event get enough free spaces, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
-           </div> 
-	{elseif $isRequireApproval}
-	    <div class="bold">{ts}Your Event registration require approval. Once registration get approved, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
-            </div>
+            <p>
+                <span class="bold">{ts}You have been added to the WAIT LIST for this event.{/ts}</span>
+                {ts}If space becomes available you will receive an email with a link to a web page where you can complete your registration.{/ts}
+            </p> 
+        {elseif $isRequireApproval}
+            <p>
+                <span class="bold">{ts}Your registration has been submitted.{/ts}
+                {ts}Once your registration has been reviewed, you will receive an email with a link to a web page where you can complete the registration process.{/ts}</span>
+            </p>
         {elseif $is_pay_later and $paidEvent}
             <div class="bold">{$pay_later_receipt}</div>
             {if $is_email_confirm}
                 <p>{ts 1=$email}An email with event details has been sent to %1.{/ts}</p>
             {/if}
+        {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
         {elseif $contributeMode EQ 'notify' and $paidEvent}
             <p>{ts 1=$paymentProcessor.processorName}Your registration payment has been submitted to %1 for processing. Please print this page for your records.{/ts}</p>
             {if $is_email_confirm}
