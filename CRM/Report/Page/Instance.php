@@ -55,7 +55,7 @@ class CRM_Report_Page_Instance extends CRM_Core_Page
         $reportUrl    = CRM_Utils_System::url('civicrm/report/list', "reset=1");
 
         if ( $action & CRM_Core_Action::DELETE ) {
-            if ( !CRM_Core_Permission::check( 'access CiviReport' ) ) {
+            if ( !CRM_Core_Permission::check( 'administer Reports' ) ) {
                 $statusMessage = ts( 'Your do not have permission to Delete Report.' );
                 CRM_Core_Error::statusBounce( $statusMessage,
                                               $reportUrl );

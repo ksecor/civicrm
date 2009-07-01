@@ -19,7 +19,7 @@
      <path>civicrm/report/template/list</path>
      <title>Create Reports from Templates</title>
      <page_callback>CRM_Report_Page_TemplateList</page_callback>
-     <access_arguments>access CiviReport</access_arguments>
+     <access_arguments>administer Reports</access_arguments>
      <page_type>1</page_type>
      <weight>1220</weight>
   </item>
@@ -27,7 +27,7 @@
      <path>civicrm/report/options/report_template</path>
      <title>Manage Templates</title>
      <page_callback>CRM_Report_Page_Options</page_callback>
-     <access_arguments>access CiviReport</access_arguments>
+     <access_arguments>administer Reports</access_arguments>
      <page_type>1</page_type>
      <weight>1241</weight>
   </item>

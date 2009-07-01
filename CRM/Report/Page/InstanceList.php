@@ -90,7 +90,7 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
                 $rows[$dao->compName][$dao->id]['label']       = $dao->label;
                 $rows[$dao->compName][$dao->id]['description'] = $dao->description;               
                 $rows[$dao->compName][$dao->id]['url']         = CRM_Utils_System::url( "{$url}/{$dao->id}", "reset=1");
-                if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
+                if ( CRM_Core_Permission::check( 'administer Reports' ) ) {
                     $rows[$dao->compName][$dao->id]['deleteUrl'] = 
                         CRM_Utils_System::url( "{$url}/{$dao->id}", 'action=delete&reset=1');
                 }
@@ -117,7 +117,7 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
             $this->assign( 'title', $title);
         }
         // assign link to template list for users with appropriate permissions
-        if ( CRM_Core_Permission::check ( 'access CiviReport' ) ) {
+        if ( CRM_Core_Permission::check ( 'administer Reports' ) ) {
             $templateUrl  = CRM_Utils_System::url('civicrm/report/template/list', "reset=1");
             $this->assign( 'templateUrl', $templateUrl );
         }

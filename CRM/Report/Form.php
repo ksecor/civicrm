@@ -188,7 +188,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( $this->_instanceValues['permission'][0][0] && 
                  (!(CRM_Core_Permission::checkMenu( $this->_instanceValues['permission'][0], 
                                                     $this->_instanceValues['permission'][1] ) ||
-                    CRM_Core_Permission::access( 'CiviReport' ) )
+                    CRM_Core_Permission::check( 'administer Reports' ) )
                   ) ) {
                 CRM_Utils_System::permissionDenied( );
                 exit();
@@ -225,13 +225,13 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->_instanceForm       = $this->_force || $this->_id || ( ! empty( $_POST ) );
 
         // do not display instance form if CiviReport permission is absent
-        if ( !CRM_Core_Permission::access( 'CiviReport' ) ) {
+        if ( ! CRM_Core_Permission::check( 'administer Reports' ) ) {
             $this->_instanceForm   = false;
         }
 
         $this->assign( 'criteriaForm', false );
-        if ( CRM_Core_Permission::access( 'CiviReport' ) ||
-             CRM_Core_Permission::check ( 'access Report Criteria' ) ) {
+        if ( CRM_Core_Permission::check( 'administer Reports' ) ||
+             CRM_Core_Permission::check( 'access Report Criteria' ) ) {
             $this->assign( 'criteriaForm', true );
         }
 
@@ -609,7 +609,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->addElement('submit', $this->_csvButtonName, $label );
         }
 
-        if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
+        if ( CRM_Core_Permission::check( 'administer Reports' ) ) {
             $this->addElement( 'select', 'groups', ts( 'Group' ), 
                                array( '' => ts( '- select group -' )) + CRM_Core_PseudoConstant::staticGroup( ) );
             $this->assign( 'group', $this->_groups );
@@ -1077,7 +1077,9 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_params = $this->_formValues;
         }
         $this->_formValues = $this->_params ;
-        if ( isset($this->_id) && $this->_instanceButtonName == $this->controller->getButtonName( ).'_save' ) {
+        if ( CRM_Core_Permission::check( 'administer Reports' ) &&
+             isset( $this->_id ) && 
+             $this->_instanceButtonName == $this->controller->getButtonName( ).'_save' ) {
             $this->assign( 'updateReportButton', true );
         }
         $this->processReportMode( );
