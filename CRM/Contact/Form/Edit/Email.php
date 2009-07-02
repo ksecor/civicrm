@@ -71,12 +71,13 @@ class CRM_Contact_Form_Edit_Email
         //suppress Bulk Mailings (CRM-2881)
         if ( is_object( $form ) && !( $form instanceof CRM_Event_Form_ManageEvent_Location ) ) {     
             //Bulkmail checkbox
-            $form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null);
+            $js = array( 'id' => 'bulk_email', 'onClick' => 'singleSelect(this, this.id);');
+            $form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null, '', $js);
         }
         
-        //Primary radio
-        $options = array( HTML_QuickForm::createElement('radio', null, '') );
-        $form->addGroup($options, "email[$blockId][is_primary]", '');            
+        //is_Primary radio
+        $js = array( 'id' => 'primary_email', 'onClick' => 'singleSelect(this, this.id);');
+        $form->addElement('radio', "email[$blockId][is_primary]", null,'', $blockId, $js );
     }
 }
 

@@ -14,7 +14,7 @@
     <td>{$form.email.$blockId.email.html|crmReplace:class:twenty}&nbsp;{$form.email.$blockId.location_type_id.html}</td>
     <td align="center">{$form.email.$blockId.on_hold.html}</td>
     <td align="center">{$form.email.$blockId.is_bulkmail.html}</td>
-    <td align="center">{$form.email.$blockId.is_primary.html}</td>
+    <td align="center">{$form.email.$blockId.is_primary.$blockId.html}</td>
   {if $blockId gt 1}
     <td><a href="#" title={ts}Remove{/ts} onClick='cj("tr#Email_Block_{$blockId}").remove();return false;'>{ts}remove{/ts}</a></td>
   {/if}

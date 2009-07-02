@@ -134,6 +134,15 @@ if( employerId ) {
                   }
             }); 
 }
+
+//select single is_bulk & is_primary
+function singleSelect( object, element ){
+cj('input#'+element).each(function() { 
+    if( cj(object).attr('name') != cj(this).attr('name') ) {
+        cj(this).attr( 'checked', false );
+    }
+});
+}
 </script>
 {/literal}
 {/if}

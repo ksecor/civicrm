@@ -74,9 +74,9 @@ class CRM_Contact_Form_Edit_OpenID
                     $form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, ts('Allowed to Login'));
             }
             
-            //Primary radio
-            $options = array( HTML_QuickForm::createElement('radio', null, '') );
-            $form->addGroup($options, "openid[$blockId][is_primary]", ''); 
+            //is_Primary radio
+            $js = array( 'id' => 'primary_openid', 'onClick' => 'singleSelect(this, this.id);');
+            $form->addElement('radio', "openid[$blockId][is_primary]", null,'', $blockId, $js );
         }
     }
 }

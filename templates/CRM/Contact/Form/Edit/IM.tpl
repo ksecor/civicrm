@@ -13,7 +13,7 @@
      <td>{$form.im.$blockId.name.html|crmReplace:class:twenty}
             &nbsp;{$form.im.$blockId.location_type_id.html}</td>
     <td colspan="2">{$form.im.$blockId.provider_id.html}</td>
-    <td align="center">{$form.im.$blockId.is_primary.html}</td>
+    <td align="center">{$form.im.$blockId.is_primary.$blockId.html}</td>
     {if $blockId gt 1}
      <td><a href="#" title={ts}Remove{/ts} onClick='cj("tr#IM_Block_{$blockId}").remove();return false;'>{ts}remove{/ts}</a></td>
     {/if}
