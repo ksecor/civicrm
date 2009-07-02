@@ -1661,7 +1661,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                         } 
                     } else if ($name == 'world_region') {
                         $defaults[$fldName] = $details['worldregion_id'];
-                    } else if ( substr( $name, 0, 7 ) == 'custom_') {
+                    } else if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
                         //fix for custom fields
                         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'Individual', $values ) );
 
@@ -1672,7 +1672,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                                                                             CRM_Core_BAO_CustomField::getFieldsForImport($value));
                         }
                         
-                        switch( $customFields[substr($name,7,9)]['html_type'] ) {
+                        switch( $customFields[$customFieldId]['html_type'] ) {
                         case 'Multi-Select State/Province':
                         case 'Multi-Select Country':
                         case 'AdvMulti-Select':
@@ -1697,6 +1697,20 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                             }
                             break;
                             
+                        case 'Autocomplete-Select':                            
+                            if ( $customFields[$customFieldId]['data_type'] == "ContactReference" ) {
+                                require_once 'CRM/Contact/BAO/Contact.php';
+                                if ( is_numeric( $details[$name] ) ) {
+                                    $defaults[$fldName.'_id'] = $details[$name]; 
+                                    $defaults[$fldName] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $details[$name], 'sort_name' );
+                                }
+                            } else {
+                                $label = CRM_Core_BAO_CustomOption::getOptionLabel( $customFieldId, $details[$name] );
+                                $defaults[$fldName.'_id'] = $details[$name];
+                                $defaults[$fldName] = $label;
+                            }
+                            break;
+                                
                         default:
                             $defaults[$fldName] = $details[$name];
                             break;

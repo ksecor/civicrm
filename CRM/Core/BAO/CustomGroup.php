@@ -965,9 +965,7 @@ SELECT $select
                             $defaults[$elementName] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'sort_name' );
                         }
                     } else {
-                                
                         $label = CRM_Core_BAO_CustomOption::getOptionLabel( $field['id'], $value );
-
                         $defaults[$elementName.'_id'] = $value;
                         $defaults[$elementName] = $label;
                     }
