@@ -115,8 +115,8 @@ WHERE  inst.report_id = %1";
             return false;
         }
 
-        $url = CRM_Utils_System::url("civicrm/report/instance", 
-                                     "reset=1&id={$instanceID}", true);
+        $url = CRM_Utils_System::url("civicrm/report/instance/{$instanceID}", 
+                                     "reset=1", true);
         $url = "Report Url: {$url} ";
         $fileContent = $url . $fileContent;
 
@@ -228,10 +228,16 @@ WHERE  inst.report_id = %1";
 
         $config    =& CRM_Core_Config::singleton( );
         $arg       = explode( '/', $_GET[$config->userFrameworkURLVar] );
-        $secondArg = CRM_Utils_Array::value( 2, $arg );
+        $cronJob   = CRM_Utils_Request::retrieve( 'cron', 'Boolean', CRM_Core_DAO::$_nullObject );
+
+        if ( $cronJob ) {
+            $arg   = array('3' => CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                                               CRM_Core_DAO::$_nullObject, true ));
+        }
+
         require_once 'CRM/Utils/Rule.php';
-        if ( $arg[1]    == 'report' &&
-             $secondArg == 'instance' ) {
+        if ( ( $arg[1] == 'report' &&
+               CRM_Utils_Array::value( 2, $arg ) == 'instance' ) || $cronJob ) {
             if ( CRM_Utils_Rule::positiveInteger( $arg[3] ) ) {
                 return $arg[3];
             }

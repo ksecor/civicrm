@@ -36,6 +36,7 @@
 require_once 'CRM/Core/Page.php';
 require_once 'CRM/Report/Utils/Report.php';
 require_once 'CRM/Report/BAO/Instance.php';
+require_once 'CRM/Utils/Wrapper.php';
 
 /**
  * Page for invoking report instances

@@ -1032,7 +1032,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $printOnly = false;
         $this->assign( 'printOnly', false );
 
-        if ( $this->_printButtonName == $buttonName || $output == 'print' ) {
+        if ( $this->_printButtonName == $buttonName || $output == 'print' || $this->_sendmail ) {
             $this->assign( 'printOnly', true );
             $printOnly = true;
             $this->assign( 'outputMode', 'print' );
@@ -1057,11 +1057,6 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_outputMode = 'html';
         }
 
-        if ( $this->_sendmail ) {
-            $this->assign( 'printOnly', true );
-            $printOnly = true;
-        }
-        
         // Get today's date to include in printed reports
         if ( $printOnly ) {
             require_once 'CRM/Utils/Date.php';
@@ -1248,6 +1243,11 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( $this->_sendmail ) {
                 if ( CRM_Report_Utils_Report::mailReport( $content, $this->_id,
                                                           $this->_outputMode  ) ) {
+                    $cronJob = CRM_Utils_Request::retrieve( 'cron', 'Boolean',
+                                                            CRM_Core_DAO::$_nullObject );
+                    if ( $cronJob ) {
+                        exit();
+                    }
                     CRM_Core_Session::setStatus("Report mail delivered.");
                 } else {
                     CRM_Core_Session::setStatus("Report mail count not be delivered.");
