@@ -619,8 +619,7 @@ class CRM_Utils_Rule
     
     static function validContact( $value ) {
         if ( $value ) {
-            $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'id', 'sort_name' );
-            
+            $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', str_replace( '\\', '', $value), 'id', 'sort_name' );
             if ( !$contactID ) {
                 return false;
             }

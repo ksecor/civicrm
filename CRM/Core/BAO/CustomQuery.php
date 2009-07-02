@@ -360,7 +360,12 @@ SELECT label, value
                                                 $value,
                                                 $grouping );
                         } else {
-                            $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
+                            if ( $field['html_type'] == 'Autocomplete-Select' ) {
+                                $val = array_search( $value, $this->_options[$field['id']] );
+                            } else {
+                                $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
+                            }
+
                             if ( $wildcard ) {
                                 $val = strtolower( CRM_Core_DAO::escapeString( $val ) );
                                 $val = "%$val%";
@@ -373,7 +378,12 @@ SELECT label, value
                         }
                     } 
                     continue;
-
+                case 'ContactReference':
+                    $label = $value;
+                    $value = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', str_replace( '\\', '', $value), 'id', 'sort_name' );
+                    $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'String' );
+                    $this->_qill[$grouping][]  = $field['label'] . " $op $label";                    
+                    continue;
                 case 'Int':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
                         $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );

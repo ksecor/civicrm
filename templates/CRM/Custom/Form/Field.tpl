@@ -18,13 +18,7 @@ function custom_option_html_type( ) {
             document.getElementById("hideDescDef").style.display="none";
             document.getElementById("searchByRange").style.display = "none";
             document.getElementsByName("is_search_range")[1].checked = true;
-                
-            if ( html_type_name != 'Autocomplete-Select' ) {
-                document.getElementById("is_searchable").style.display = "block";
-            } else {
-                document.getElementById("is_searchable").style.display = "none";
-            }
-
+            document.getElementById("is_searchable").style.display = "block";
         } else {
             document.getElementById("showoption").style.display="none";
             document.getElementById("showoption").style.display="none";
@@ -43,7 +37,6 @@ function custom_option_html_type( ) {
             document.getElementById("hideDescTxt").style.display="none";
             document.getElementById("hideDescDef").style.display="none";
         } else if ( data_type_id == 11 ) {
-            document.getElementById("is_searchable").style.display = "none";
             document.getElementById("hideDefaultValTxt").style.display="none";
             document.getElementById("hideDefaultValDef").style.display="none";            
         } else {

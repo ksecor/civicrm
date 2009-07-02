@@ -3126,7 +3126,7 @@ WHERE  id IN ( $groupIDs )
 		}	
 
         $query = "$select $from $where $groupBy $order $limit";
-        //CRM_Core_Error::debug('query', $query);
+        //CRM_Core_Error::debug('query', $query); exit();
 
         if ( $returnQuery ) {
             return $query;
