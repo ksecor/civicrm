@@ -65,7 +65,7 @@ function loadEditor()
             oEditor = FCKeditorAPI.GetInstance('html_message');
             oEditor.SetHTML( msg );
         } else if ( editor == "tinymce" ) {
-            tinyMCE.get('html_message').setContent( msg );
+            cj('#html_message').html( msg );
         }
     }
 }
@@ -106,7 +106,7 @@ function selectValue( val ) {
             oEditor = FCKeditorAPI.GetInstance('html_message');
             oEditor.SetHTML('');
         } else if ( editor == "tinymce" ) {
-            tinyMCE.get('html_message').setContent('');
+            cj('#html_message').html('');
         } else {	
             document.getElementById("html_message").value = '' ;
         }
@@ -133,7 +133,7 @@ function selectValue( val ) {
             oEditor = FCKeditorAPI.GetInstance('html_message');
             oEditor.SetHTML( html_body );
         } else if ( editor == "tinymce" ) {
-            tinyMCE.get('html_message').setContent( html_body );
+            cj('#html_message').html( html_body );
         } else {	
             cj("#html_message").val( html_body );
         }
@@ -197,7 +197,7 @@ function tokenReplHtml ( )
     var token2 = document.getElementById("token2").options[document.getElementById("token2").selectedIndex].text;
     var editor = {/literal}"{$editor}"{literal};
     if ( editor == "tinymce" ) {
-        tinyMCE.execInstanceCommand("html_message", "mceInsertContent", false, token2);
+        cj('#html_message').tinymce().execCommand('mceInsertContent',false, token2);
     } else if ( editor == "fckeditor" ) {
         oEditor = FCKeditorAPI.GetInstance('html_message');
         oEditor.InsertHtml( token2 );	
@@ -229,17 +229,12 @@ function tokenReplHtml ( )
 {/if}
 {if $editor eq "tinymce"}
 {literal}
-	function customEvent() {
-		loadEditor();
-		tinyMCE.get('html_message').onKeyPress.add(function(ed, e) {
- 		verify();
-		});
-	}
-
-tinyMCE.init({
-	oninit : "customEvent"
+cj( function( ) {
+    loadEditor( );
+    cj("#html_message").keypress( function( e ) {
+        verify();
+    });
 });
-
 {/literal}
 {/if}
 {literal}
