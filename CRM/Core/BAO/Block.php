@@ -221,7 +221,10 @@ class CRM_Core_BAO_Block
             if ( is_array( $blockIds ) && !empty( $blockIds ) ) {
                 foreach ( $blockIds as $blockId => $blockValue ) {
                     if ( $blockValue['locationTypeId'] == $value['location_type_id'] ) {
+                        //assigned id as first come first serve basis 
                         $value['id'] = $blockValue['id'];
+                        unset( $blockIds[$blockId] );
+                        break;
                     }
                 }
             }
