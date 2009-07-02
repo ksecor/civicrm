@@ -199,7 +199,7 @@ SELECT @og_id_pr  := id FROM civicrm_option_group WHERE name = 'priority';
 
 ALTER TABLE `civicrm_custom_field` 
 MODIFY `data_type` enum ('String', 'Int', 'Float', 'Money', 'Memo', 'Date', 'Boolean', 'StateProvince', 'Country', 'File', 'Link', 'ContactReference')NOT NULL COMMENT 'Controls location of data storage in extended_data table.',
-MODIFY `html_type` enum ('Text', 'TextArea', 'Select', 'Multi-Select', 'AdvMulti-Select', 'Radio', 'CheckBox', 'Select Date', 'Select State/Province', 'Select Country', 'Multi-Select Country', 'Multi-Select State/Province', 'File', 'Link', 'RichTextEditor', 'AutoComplete-Select')NOT NULL COMMENT 'HTML types plus several built-in extended types.';
+MODIFY `html_type` enum ('Text', 'TextArea', 'Select', 'Multi-Select', 'AdvMulti-Select', 'Radio', 'CheckBox', 'Select Date', 'Select State/Province', 'Select Country', 'Multi-Select Country', 'Multi-Select State/Province', 'File', 'Link', 'RichTextEditor', 'Autocomplete-Select')NOT NULL COMMENT 'HTML types plus several built-in extended types.';
 
 -- CRM-4407
 -- Add civicrm_navigation table for CiviCRM Menu
