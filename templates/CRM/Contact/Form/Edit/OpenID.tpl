@@ -11,7 +11,7 @@
 {/if}
 <!-Add->
 <tr id="OpenID_Block_{$locationId}">
-     <td>{$form.openid.$locationId.openid.html|crmReplace:class:twenty}</td>
+     <td>{$form.openid.$locationId.openid.html|crmReplace:class:twenty}&nbsp;{$form.openid.$locationId.location_type_id.html}</td>
      <td colspan="2"></td>
      <td align="center">{$form.openid.$locationId.is_primary.html}</td>
    {if $locationId gt 1}

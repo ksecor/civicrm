@@ -66,6 +66,9 @@ class CRM_Contact_Form_Edit_OpenID
             //Location Index
             $form->addElement( 'hidden', 'hidden_OpenID_Count', $locationId ,array( 'id' => 'hidden_OpenID_Count') );  
             
+            //Block type
+            $form->addElement('select',"openid[$locationId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+            
             $config=& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Standalone' ) { 
                 $location[$locationId]['openid'][$locationId]['allowed_to_login'] = 
