@@ -68,8 +68,7 @@ function smarty_function_help( $params, &$smarty ) {
     $smarty->assign( 'id', $params['id'] );
     $help = $smarty->fetch( $file );
     return <<< EOT
-<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.toolTip.js"></script>
-<script type="text/javascript"> cj(document).ready( function() { cj(".helpicon").toolTip(); });</script>
+<script type="text/javascript"> cj( function() { cj(".helpicon").toolTip(); });</script>
 <div class="helpicon">&nbsp;<span id="{$id}_help" style="display:none">$help</span></div>
 EOT;
 }

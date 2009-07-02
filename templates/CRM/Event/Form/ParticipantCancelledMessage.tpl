@@ -1,6 +1,6 @@
 {ts 1=$contact.display_name}Dear %1{/ts},
 
-{ts}Your Event Registration is Cancelled.{/ts}
+{ts}Your Event Registration has been cancelled.{/ts}
 
 
 ===========================================================
@@ -57,8 +57,7 @@
 {ts}Registration Date{/ts}: {$participant.register_date|crmDate}
 {/if}
 
-{ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions
-or need to modify your event registration.{/ts}
+{ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions.{/ts}
 
 
 

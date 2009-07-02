@@ -50,43 +50,40 @@
 			<dt></dt><dd class="html-adjust description">{$element.help_post}</dd>
 			{/if}
 			{else}
-			<dt>{$form.$element_name.label}</dt>
-			<dd class="html-adjust">{$form.$element_name.html}
-				{if $element.html_type eq 'Radio'}
-				&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 
-				{/if}
-				{if $element.data_type eq 'File'}
-                    {if $element.element_value.data}
-                    <span class="html-adjust"><br />
-                        &nbsp;{ts}Attached File{/ts}: &nbsp;
-                        {if $element.element_value.displayURL }
-                        <a href="javascript:popUp('{$element.element_value.displayURL}')" ><img src="{$element.element_value.displayURL}" height = "100" width="100"></a>
+    			<dt>{$form.$element_name.label}</dt>
+    			<dd class="html-adjust">{$form.$element_name.html}
+    				{if $element.html_type eq 'Radio'}
+    				    &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 
+    				{elseif $element.data_type eq 'File'}
+                        {if $element.element_value.data}
+                        <span class="html-adjust"><br />
+                            &nbsp;{ts}Attached File{/ts}: &nbsp;
+                            {if $element.element_value.displayURL }
+                                <a href="javascript:popUp('{$element.element_value.displayURL}')" ><img src="{$element.element_value.displayURL}" height = "100" width="100"></a>
+                            {else}
+                                <a href="{$element.element_value.fileURL}">{$element.element_value.fileName}</a>
+                            {/if}
+                            {if $element.element_value.deleteURL }
+                                <br />
+                            {$element.element_value.deleteURL}
+                            {/if}	
+                        </span>  
+                        {/if} 
+    				{elseif $element.data_type eq 'Date' && $element.skip_calendar NEQ true } 
+                        {if $element.skip_ampm NEQ true }
+                            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name doTime=1}
+                            {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name}
                         {else}
-                        <a href="{$element.element_value.fileURL}">{$element.element_value.fileName}</a>
-                        {/if}
-                        {if $element.element_value.deleteURL }
-                        <br />
-                        {$element.element_value.deleteURL}
-                        {/if}	
-                    </span>  
-                    {/if} 
-				{/if}
-				{if $element.data_type eq 'Date' && $element.skip_calendar NEQ true } 
-                    {if $element.skip_ampm NEQ true }
-                    {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name doTime=1}
-                    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name}
-                    {else}
-                    {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name}
-                    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name ampm=1}
-                    {/if} 
-				{/if}
-                                {if $element.data_type eq 'Auto-complete'}
-                    {include file="CRM/Custom/Form/AutoComplete.tpl"}
-				{/if}
-			</dd>                
-			{if $element.help_post}
-			<dt>&nbsp;</dt><dd class="html-adjust description">{$element.help_post}</dd>
-			{/if}
+                            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name}
+                            {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name ampm=1}
+                        {/if} 
+                    {elseif $element.data_type eq 'Auto-complete'}
+                        {include file="CRM/Custom/Form/AutoComplete.tpl"}
+    				{/if}
+    			</dd>                
+    			{if $element.help_post}
+    			    <dt>&nbsp;</dt><dd class="html-adjust description">{$element.help_post}</dd>
+    			{/if}
 			{/if}
 			{/if}
 			{/foreach}
@@ -109,5 +106,3 @@
 {/if}
 </script>
 {/foreach}
-
-

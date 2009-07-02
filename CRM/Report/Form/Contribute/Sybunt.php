@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Report/Form.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
 
@@ -121,8 +122,14 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                                          'default' => date('Y'),
                                          'clause'  => "contribution.contact_id NOT IN
 (SELECT distinct cont.id FROM civicrm_contact cont, civicrm_contribution contri
- WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) >= \$value)" ),       
-                                  ), ),   
+ WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) >= \$value)" ),  
+                                  'contribution_status_id'         => 
+                                  array( 'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                         'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ) ,
+                                         'default'      => array('1') 
+                                         ),
+                                  ),                          
+                          ),   
                           
                   'civicrm_group' => 
                   array( 'dao'    => 'CRM_Contact_DAO_Group',
@@ -312,7 +319,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         $daoLifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );
         $this->setPager( );
         $min = $max = 0;
-
+        $chartRow = array( 'civicrm_life_time_total' => 0);
         while ( $daoLifeTime->fetch( ) ) {
             $contact_id = $daoLifeTime->civicrm_contribution_contact_id;
             $display[ $contact_id ]['civicrm_contribution_contact_id'] = $contact_id;
@@ -329,7 +336,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
             $min = ($contact_id < $min) ? $contact_id : ($max > 0) ? $min : $contact_id;
             $max = ($contact_id > $max) ? $contact_id : $max;
             
-            $chartRow[ 'civicrm_life_time_total' ]      = $chartRow[ 'civicrm_life_time_total' ]  +  $daoLifeTime->civicrm_contribution_total_amount;
+            $chartRow['civicrm_life_time_total']  += $daoLifeTime->civicrm_contribution_total_amount;
 
         }
 

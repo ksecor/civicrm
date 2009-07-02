@@ -1030,17 +1030,6 @@ UPDATE  civicrm_participant
                     $updateParticipantIds[] = $additonalId;
                     $processedParticipantIds[] = $additonalId;
                 }
-                
-                //hack to get total amount(additonal + primary)
-                $query = "
-SELECT  civicrm_contribution.total_amount 
-  FROM  civicrm_contribution, civicrm_participant_payment
- WHERE  civicrm_contribution.id = civicrm_participant_payment.contribution_id
-   AND  civicrm_participant_payment.participant_id = {$participantId}";
-                $totalAmount = CRM_Core_DAO::singleValueQuery( $query );
-                if ( $totalAmount ) {
-                    $participantValues['fee_amount'] = $totalAmount;
-                }
             }
             
             //now send email appropriate mail to primary.

@@ -160,15 +160,19 @@ class CRM_Utils_System_Drupal {
     function url($path = null, $query = null, $absolute = false,
                  $fragment = null, $htmlize = true,
                  $frontend = false ) {
-        $config        =& CRM_Core_Config::singleton( );
-        $script = 'index.php';
+        $config =& CRM_Core_Config::singleton( );
+        $script =  'index.php';
 
         if (isset($fragment)) {
             $fragment = '#'. $fragment;
         }
 
-        $relBase = parse_url( $config->userFrameworkBaseURL );
-        $base = $absolute ? $config->userFrameworkBaseURL : $relBase['path'] ;
+        if ( ! isset( $config->useFrameworkRelativeBase ) ) {
+            $base = parse_url( $config->userFrameworkBaseURL );
+            $config->useFrameworkRelativeBase = $base['path'];
+        }
+        $base = $absolute ? $config->userFrameworkBaseURL : $config->useFrameworkRelativeBase;
+
         $separator = $htmlize ? '&amp;' : '&';
 
         if (! $config->cleanURL ) {

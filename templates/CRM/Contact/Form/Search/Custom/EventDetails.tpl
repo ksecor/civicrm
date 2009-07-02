@@ -59,7 +59,7 @@
 
 {strip}
 <table summary="{ts}Search results listings.{/ts}">
-  <tr class="columnheader">
+  <thead class="sticky">
   {foreach from=$columnHeaders item=header}
     <th scope="col">
     {if $header.sort}
@@ -68,7 +68,7 @@
     {else}
       {$header.name}
     {/if}
-    </th>
+   </thead>
   {/foreach}
   </tr>
 

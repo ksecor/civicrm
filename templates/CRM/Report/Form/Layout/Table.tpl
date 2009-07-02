@@ -1,10 +1,14 @@
 {if (!$chartEnabled || !$chartSupported )&& $rows}
-    <div class="report-pager">
-        {include file="CRM/common/pager.tpl" noForm=1}
-    </div>
-    <br/>
+    {if $pager and $pager->_response and $pager->_response.numPages > 1}
+        <br />
+        <div class="report-pager">
+            {include file="CRM/common/pager.tpl" noForm=1}
+        </div>
+    {/if}
+    <br />
     <table class="report-layout">
         <tr>
+            <thead class="sticky">
             {foreach from=$columnHeaders item=header key=field}
                 {assign var=class value=""}
                 {if $header.type eq 1024 OR $header.type eq 1}
@@ -27,6 +31,7 @@
                    {if $skipMade >= $skipCount}{assign var=skip value=false}{/if}
                 {/if}
             {/foreach}
+            </thead>
         </tr>
         
         {foreach from=$rows item=row}
@@ -34,19 +39,19 @@
                 {foreach from=$columnHeaders item=header key=field}
                     {assign var=fieldLink value=$field|cat:"_link"}
                     {assign var=fieldHover value=$field|cat:"_hover"}
-                    <td {if $header.type eq 1024 OR $header.type eq 1} class="report-contents-right"{/if}>
+                    <td {if $header.type eq 1024 OR $header.type eq 1} class="report-contents-right"{elseif $row.$field eq 'Subtotal'} class="report-label"{/if}>
                         {if $row.$fieldLink}
-			    <a title="{$row.$fieldHover}" href="{$row.$fieldLink}">
+                            <a title="{$row.$fieldHover}" href="{$row.$fieldLink}">
                         {/if}
                         
-                        {if $row.$field eq 'Sub Total'}
+                        {if $row.$field eq 'Subtotal'}
                             {$row.$field}
                         {elseif $header.type & 4}
                             {if $header.group_by eq 'MONTH' or $header.group_by eq 'QUARTER'}
                                 {$row.$field|crmDate:$config->dateformatPartial}
                             {elseif $header.group_by eq 'YEAR'}	
                                 {$row.$field|crmDate:$config->dateformatYear}
-                            {else}				
+                            {else}		
                                 {$row.$field|truncate:10:''|crmDate}
                             {/if}	
                         {elseif $header.type eq 1024}
@@ -63,7 +68,7 @@
         
         {if $grandStat}
             {* foreach from=$grandStat item=row*}
-            <tr>
+            <tr class="total-row">
                 {foreach from=$columnHeaders item=header key=field}
                     <td class="report-label">
                         {if $header.type eq 1024}

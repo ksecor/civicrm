@@ -37,6 +37,7 @@ require_once 'CRM/Report/Form.php';
 require_once 'CRM/Member/PseudoConstant.php';
 require_once "CRM/Member/BAO/MembershipType.php";
 require_once "CRM/Member/BAO/Membership.php";
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
     
@@ -64,13 +65,18 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                          
                          'filters'     =>             
                          array( 'join_date' =>
-                                array('title'         => 'Memberships Join Date',
+                                array('title'         => 'Membership Join Date',
                                       'type'          => CRM_Utils_Type::T_DATE,
                                       'operatorType'  => CRM_Report_Form::OP_DATE ),
                                 'membership_type_id'  =>
                                 array('title'         => ts('Membership Type'),
                                       'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
                                       'options'       => CRM_Member_PseudoConstant::membershipType(),
+                                      ),
+                                'status_id' =>
+                                array('title'         => ts('Membership Status'),
+                                      'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
+                                      'options'       => CRM_Member_PseudoConstant::membershipStatus(),
                                       ),
                                 ),  
                          'group_bys'        =>
@@ -94,9 +100,16 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                                 array( 'title'        => ts( 'Amount Statistics' ),
                                        'required'     => true,
                                        'statistics'   => 
-                                       array('sum'    => ts( 'Total Payment Made' ), 
+                                       array('sum'    => ts( 'Total Payments Made' ), 
                                              'count'  => ts( 'Contribution Count' ), 
                                              'avg'    => ts( 'Average' ), ), 
+                                       ),
+                                ),
+                         'filters'       => 
+                         array( 'contribution_status_id' => 
+                                array( 'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                       'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ),
+                                       'default'      => array( 1 )
                                        ),
                                 ),
                          'grouping'   => 'member-fields',

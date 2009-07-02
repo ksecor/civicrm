@@ -1,11 +1,15 @@
 <div id="help">
     {ts 1=$GName}The existing option choices for %1 group are listed below. You can add, edit or delete them from this screen.{/ts}
 </div>
-
+{if $action ne 1 and $action ne 2}
+    <div class="action-link">
+	<a href="{$newReport}"  id="new"|cat:$GName class="button"><span>&raquo; {ts 1=$GName}Register New %1{/ts}</span></a>
+    </div>
+    <div class="spacer"></div>
+{/if}
 {if $rows}
     <div id={$gName}>
-	
-        {strip}
+	{strip}
             <table class="selector">
 		<tr class="columnheader">      
 		    <th>{ts}Label{/ts}</th>
@@ -38,16 +42,12 @@
 	    </table>
 	{/strip}
 
-
         {if $action ne 1 and $action ne 2}
             <div class="action-link">
-		
-                <a href="{$newReport}"  id="new"|cat:$GName class="button"><span>&raquo; {ts 1=$GName}Register New %1{/ts}</span></a>
+		<a href="{$newReport}"  id="new"|cat:$GName class="button"><span>&raquo; {ts 1=$GName}Register New %1{/ts}</span></a>
             </div>
-
         {/if}
     </div>
-
 {else}
     <div class="messages status">
 	<dl>

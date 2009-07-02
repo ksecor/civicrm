@@ -317,9 +317,9 @@ SELECT data_type
 
             case 'Country':
                 if( !empty($fields["value"]) ) {
-                    $fieldCountry = addslashes( $fields['value'] );
-                    $query = "SELECT count(*) FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query,$temp ) <= 0 ) {
+                    $params = array( 1 => array( $fields['value'], 'String' ) );
+                    $query = "SELECT count(*) FROM civicrm_country WHERE name = %1 OR iso_code = %1";
+                    if ( CRM_Core_DAO::singleValueQuery( $query, $params ) <= 0 ) {
                         $errors['value'] = ts( 'Invalid default value for country.' );
                     }
                 }
@@ -327,10 +327,13 @@ SELECT data_type
 
             case 'StateProvince':
                 if( !empty($fields["value"]) ) {
-                    $fieldStateProvince = addslashes( $fields['value'] );
-                    $query = "SELECT count(*) FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
-            
-                    if ( CRM_Core_DAO::singleValueQuery( $query ,$temp) <= 0 ) {
+                    $params = array( 1 => array( $fields['value'], 'String' ) );
+                    $query = "
+SELECT count(*) 
+  FROM civicrm_state_province
+ WHERE name = %1
+    OR abbreviation = %1";
+                    if ( CRM_Core_DAO::singleValueQuery( $query , $params ) <= 0 ) {
                         $errors['value'] = ts( 'The invalid value for State/Province data type' );
                     }
                 }

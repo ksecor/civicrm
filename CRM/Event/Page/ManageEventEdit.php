@@ -166,6 +166,11 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
             return $controller->run(); 
         }
 
+        if ( $this->_id ) {
+            $session =& CRM_Core_Session::singleton(); 
+            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
+                                                              "action=update&reset=1&id={$this->_id}" ) );
+        }
         return parent::run();
     }
 

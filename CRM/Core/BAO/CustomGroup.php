@@ -158,7 +158,15 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         // reset the cache
         require_once 'CRM/Core/BAO/Cache.php';
         CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
-    
+
+
+        require_once 'CRM/Utils/Hook.php';
+        if ( $tableName ) {
+            CRM_Utils_Hook::post( 'create', 'CustomGroup', $group->id, $group );
+        } else {
+            CRM_Utils_Hook::post( 'edit'  , 'CustomGroup', $group->id, $group );
+        }
+
         return $group;
     }
     
@@ -845,6 +853,10 @@ SELECT $select
 
         //delete  custom group
         $group->delete();
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::post( 'delete', 'CustomGroup', $group->id, $group );
+
         return true;
     }
 
@@ -948,6 +960,7 @@ SELECT $select
                 case 'Contact Reference':
                     require_once 'CRM/Contact/BAO/Contact.php';
                     if ( is_numeric( $value ) ) {
+                        $defaults[$elementName.'_id'] = $value; 
                         $defaults[$elementName] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'sort_name' );
                     }
                     break;
@@ -958,6 +971,13 @@ SELECT $select
                     } elseif ($field['data_type'] == 'Money') {
                         require_once 'CRM/Utils/Money.php';
                         $defaults[$elementName] = CRM_Utils_Money::format($value, null, '%a');
+                    } elseif ( $field['data_type'] == 'Auto-complete' && $field['html_type'] == 'Select' ) {
+                        //setdefault for Auto-complete Select
+                        require_once 'CRM/Contact/BAO/Contact.php';
+                        if ( is_numeric( $value ) ) {
+                            $defaults[$elementName.'_id'] = $value;
+                            $defaults[$elementName] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $value, 'label' );
+                        }
                     } else { 
                         $defaults[$elementName] = $value;
                     }
@@ -1479,8 +1499,13 @@ SELECT $select
             break;
 
         case 'Auto-complete':
-            if ( $htmlType == 'Contact Reference' && CRM_Utils_Array::value( 'data', $values) ) {
-                $retValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $values['data'], 'sort_name' );
+            if ( CRM_Utils_Array::value( 'data', $values ) ){
+                if ( $htmlType == 'Contact Reference' ) {
+                    $retValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $values['data'], 'sort_name' );
+                } elseif ( $htmlType == 'Select' ) {
+                    //setting value for Auto-complete Select
+                    $retValue = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values['data'], 'label' );
+                }    
             }
             break;
             

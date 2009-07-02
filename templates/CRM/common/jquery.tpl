@@ -12,11 +12,9 @@
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/css.js"></script>
 <style type="text/css">@import url({$config->resourceBase}packages/jquery/css/tree_component.css);</style>
 
-<!--script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.clickmenu.pack.js"></script-->
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.menu.pack.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.dimensions.js"></script>
 <style type="text/css">@import url({$config->resourceBase}packages/jquery/css/menu.css);</style>
-<!--style type="text/css">@import url({$config->resourceBase}packages/jquery/css/clickmenu.css);</style-->
 
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.chainedSelects.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.treeview.min.js"></script>
@@ -39,5 +37,13 @@
 
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tokeninput.js"></script>
 <style type="text/css">@import url({$config->resourceBase}packages/jquery/css/token-input-facebook.css);></style>
+
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.toolTip.js"></script>
+
+{* temporarily including calendar *}
+<style type="text/css">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>
+<script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script>
+<script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}"></script>
+<script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script>
 
 <script type="text/javascript">var cj = jQuery.noConflict(); $ = cj;</script>

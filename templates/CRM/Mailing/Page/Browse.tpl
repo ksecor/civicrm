@@ -15,7 +15,7 @@
 
     {strip}
     <table>
-      <tr class="columnheader">
+      <thead class="sticky">
       {foreach from=$columnHeaders item=header}
         <th>
           {if $header.sort}
@@ -26,7 +26,7 @@
           {/if}
         </th>
       {/foreach}
-      </tr>
+      </thead>
 
       {counter start=0 skip=1 print=false}
       {foreach from=$rows item=row}

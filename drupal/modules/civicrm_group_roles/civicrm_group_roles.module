@@ -52,9 +52,11 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
             //find the contact record
             $params = array('email' => $user->mail);
             $contact =& civicrm_contact_get($params);
+            $contact = array_pop($contact);
+            
             $contact_id = $contact['contact_id'];
             
-            if ($contact && isset($contact['contact_id'])) {
+            if ( !empty( $contact ) && isset($contact['contact_id'])) {
                 
                 //loop over user's roles
                 foreach ($roles as $rid => $role) {
@@ -87,7 +89,7 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
                 
             } else {
                 $msg = 'CiviCRM contact not found for @mail';
-                $variables = array( '@mail', $user->mail );
+                $variables = array( '@mail' => $user->mail );
                 watchdog('civicrm',  $msg, $variables);
                 if ($debug_mode) drupal_set_message(t($msg, $variables));
             } //end if $contact

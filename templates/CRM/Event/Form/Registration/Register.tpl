@@ -131,11 +131,12 @@
     <div class="form-item">
     <table class="form-layout">
         <tr>
-	    <td><a href="#" onclick="hide('noOfparticipants'); show('noOfparticipants_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a></a>
+            <td><a href="#" onclick="hide('noOfparticipants'); show('noOfparticipants_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a></a>
                 <label>{$form.additional_participants.label}</label></td>
-                <td>{$form.additional_participants.html|crmReplace:class:two}<br />
-                    <span class="description">{ts}You will be able to enter registration information for each additional person after you complete this page and click Continue.{/ts}</span>
-                </td>
+            <td class="description">
+                {$form.additional_participants.html|crmReplace:class:two}<br />
+                {ts}You will be able to enter registration information for each additional person after you complete this page and click Continue.{/ts}
+            </td>
        	</tr>
     </table>
     </div>

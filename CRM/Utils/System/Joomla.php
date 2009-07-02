@@ -152,7 +152,11 @@ class CRM_Utils_System_Joomla {
             $fragment = '#'. $fragment;
         }
 
-        $base = ($absolute ? $config->userFrameworkBaseURL : '');
+        if ( ! isset( $config->useFrameworkRelativeBase ) ) {
+            $base = parse_url( $config->userFrameworkBaseURL );
+            $config->useFrameworkRelativeBase = $base['path'];
+        }
+        $base = $absolute ? $config->userFrameworkBaseURL : $config->useFrameworkRelativeBase;
         $separator = $htmlize ? '&amp;' : '&';
 
         if ( isset( $query ) ) {
@@ -177,8 +181,8 @@ class CRM_Utils_System_Joomla {
      * @static  
      */  
     static function mapConfigToSSL( ) {
-        global $mosConfig_live_site;
-        $mosConfig_live_site = str_replace( 'http://', 'https://', $mosConfig_live_site );
+        // dont need to do anything, let CMS handle their own switch to SSL
+        return;
     }
 
     /**

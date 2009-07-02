@@ -195,6 +195,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page
      */
     function profile( ) 
     {
+        $config =& CRM_Core_Config::singleton( );
+        
+        // reassign resource base to be the full url, CRM-4660
+        $config->resourceBase = $config->userFrameworkResourceURL;
+        $config->useFrameworkRelativeBase = $config->userFrameworkBaseURL;
+
         $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this, false, 0, 'GET');
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD,
@@ -213,7 +219,6 @@ class CRM_UF_Page_Group extends CRM_Core_Page
 
         // FIXME: (CRM-3587) hack to make standalone profile in joomla work
         // without administrator login 
-        $config =& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Joomla' ) {
             $profile = str_replace( '/administrator/index2.php', '/index.php', $profile );
         }

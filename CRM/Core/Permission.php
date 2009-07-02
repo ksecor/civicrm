@@ -291,7 +291,7 @@ class CRM_Core_Permission {
         }
     }
 
-    static function &basicPermissions( ) {
+    static function &basicPermissions( $all = false ) {
         static $permissions = null;
 
         if ( ! $permissions ) {
@@ -316,7 +316,13 @@ class CRM_Core_Permission {
 
             $config = CRM_Core_Config::singleton( );
             require_once 'CRM/Core/Component.php';
-            $components = CRM_Core_Component::getEnabledComponents();
+            
+            if ( !$all ) {
+                $components = CRM_Core_Component::getEnabledComponents( );
+            } else {
+                $components = CRM_Core_Component::getComponents( ); 
+            }
+                
             foreach ( $components as $comp ) {
                 $perm = $comp->getPermissions( );
                 if ( $perm ) {

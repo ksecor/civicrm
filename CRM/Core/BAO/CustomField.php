@@ -532,9 +532,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                                 $search = false,
                                                 $label = null ) 
     {
-        if( isset( $qf->_submitValues['_qf_Relationship_refresh'] ) && 
-            ( $qf->_submitValues['_qf_Relationship_refresh'] == 'Search' || 
-              $qf->_submitValues['_qf_Relationship_refresh'] == 'Search Again') ) {
+        // we use $_POST directly, since we dont want to use session memory, CRM-4677
+        if( isset( $_POST['_qf_Relationship_refresh'] ) && 
+            ( $_POST['_qf_Relationship_refresh'] == 'Search' || 
+              $_POST['_qf_Relationship_refresh'] == 'Search Again') ) {
             $useRequired = 0;
         }
         
@@ -635,10 +636,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             
         case 'Select':
             if ( $field->data_type == 'Auto-complete' ) {
-                $dataUrl = CRM_Utils_System::url( "civicrm/ajax/auto",
-                                                  "reset=1&id={$field->option_group_id}",
-                                                  false, null, false );
-                $qf->assign('dataUrl',$dataUrl );                                          
+                static $customUrls = array( );
+                $customUrls[$elementName] = CRM_Utils_System::url( "civicrm/ajax/auto",
+                                                                   "reset=1&ogid={$field->option_group_id}&cfid={$field->id}",
+                                                                   false, null, false );
+                                                        
+                $qf->assign( "customUrls", $customUrls );                                          
                 $qf->addElement( 'text', $elementName, $label );
                 $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
             } else {
@@ -746,10 +749,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
                     
         case 'Contact Reference':
-            $dataUrl = CRM_Utils_System::url( "civicrm/ajax/contactlist",
-                                              "reset=1",
-                                              false, null, false );
-            $qf->assign('dataUrl',$dataUrl );                                          
+            static $customUrls = array( );
+            $customUrls[$elementName] = CRM_Utils_System::url( "civicrm/ajax/contactlist",
+                                                               "reset=1",
+                                                               false, null, false );
+            $qf->assign('customUrls', $customUrls );                                          
             $qf->addElement( 'text', $elementName, $label );
             $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
             break;
@@ -1599,7 +1603,7 @@ ORDER BY html_type";
         foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
                 //handle the transfer of hidden id value
-                if ( substr($key,0,7) == 'custom_'  && isset($value) && isset ( $params[$key. '_id'] ) ) {
+                if ( substr($key,0,7) == 'custom_'  && !empty($value) && isset ( $params[$key. '_id'] ) ) {
                     $value = $params[$key. '_id'];
                 }
                 
