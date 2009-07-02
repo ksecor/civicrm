@@ -159,6 +159,19 @@
     <unique>true</unique>
     <add>2.1</add>
   </index>
+  <field>
+    <name>created_id</name>
+    <type>int unsigned</type>
+    <comment>FK to civicrm_contact, who created this custom group</comment>
+    <add>2.3</add>
+  </field>
+  <foreignKey>
+    <name>created_id</name>
+    <table>civicrm_contact</table>
+    <key>id</key>
+    <add>2.3</add>
+    <onDelete>SET NULL</onDelete>
+  </foreignKey>
 </table>
 
 
