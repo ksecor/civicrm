@@ -2192,6 +2192,7 @@ WHERE  id IN ( $groupIDs )
         $config =& CRM_Core_Config::singleton( );
 
         $sub  = array( ); 
+
 		//By default, $sub elements should be joined together with OR statements (don't change this variable).
         $subGlue = ' OR ';
         
@@ -2234,10 +2235,6 @@ WHERE  id IN ( $groupIDs )
         } else {
             //Else, the string should be treated as a series of keywords to be matched with match ANY/ match ALL depending on Civi config settings (see CiviAdmin)
             
-        	// Change this variable to affect default search behaviour
-        	// TODO: replace with a Civi configuration setting lookup
-        	$subGlue=' AND ';
-        	
             // The Civi configuration setting can be overridden if the string *starts* with the case insenstive strings 'AND:' or 'OR:'  
             // TO THINK ABOUT: what happens when someone searches for the following "AND: 'a string in quotes'"? - probably nothing - it would make the AND OR variable reduntant because there is only one search string?
 
@@ -2300,6 +2297,7 @@ WHERE  id IN ( $groupIDs )
         } 
 
         $sub = ' ( ' . implode( $subGlue, $sub ) . ' ) '; 
+
         $this->_where[$grouping][] = $sub;
         if ( $config->includeEmailInName ) {
             $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
