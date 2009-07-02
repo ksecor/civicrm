@@ -256,8 +256,41 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+        
+        $this->addFormRule( array( 'CRM_Group_Form_Edit', 'formRule' ), $parentGroups );
     }
     
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields, $fileParams, $parentGroups ) 
+    {
+        $errors = array( );
+
+        $grpRemove = 0;
+        foreach ( $fields as $key => $val ) {
+            if ( substr( $key, 0, 20 ) == 'remove_parent_group_' ) {
+                $grpRemove++;
+            }
+        }
+
+        $grpAdd = 0;
+        if ( CRM_Utils_Array::value( 'parents', $fields ) ) {
+            $grpAdd++;
+        }
+
+        if ( ($grpRemove - $grpAdd) >=  count($parentGroups) ) {
+            $errors['parents'] = ts( 'Make sure at least one parent group is set.' );
+        }
+        return empty($errors) ? true : $errors;
+    }    
+
     /**
      * Process the form when submitted
      *
