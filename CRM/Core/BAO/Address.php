@@ -347,6 +347,9 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 return $addresses;
             }
         } 
+        //get primary address as a first block.
+        $address->orderBy( 'is_primary desc' );
+        
         $address->find( );
         
         $count = 1;
@@ -377,6 +380,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             $addresses[$count] = $values;
             $count++;
         }
+        
         return $addresses;
     }
     
