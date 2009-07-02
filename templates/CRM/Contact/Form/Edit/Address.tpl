@@ -1,4 +1,3 @@
-{assign var="index" value=$blockCount}
 {if $title}
 <h3 class="head"> 
     <span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{ts}{$title}{/ts}</a>
@@ -7,14 +6,14 @@
 <div id="addressBlock">
 {/if}
 <!-Add->
- <div id="Address_Block_{$index}">
+ <div id="Address_Block_{$blockId}">
   <table class="form-layout-compressed">
      <tr>
         <td colspan="2">
-           {$form.address.$index.location_type_id.label}
-           {$form.address.$index.location_type_id.html}
-           {$form.address.$index.is_primary.html}
-           {$form.address.$index.is_billing.html}
+           {$form.address.$blockId.location_type_id.label}
+           {$form.address.$blockId.location_type_id.html}
+           {$form.address.$blockId.is_primary.html}
+           {$form.address.$blockId.is_billing.html}
         </td>
      </tr>
      {if $form.use_household_address} 
@@ -31,53 +30,53 @@
      {/if}
     <tr><td>
     <table id="address" style="display:block" class="form-layout-compressed">
-      {if $form.address.$index.street_address}
+      {if $form.address.$blockId.street_address}
      <tr>
         <td colspan="2">
-           {$form.address.$index.street_address.label}<br />
-           {$form.address.$index.street_address.html}<br />
+           {$form.address.$blockId.street_address.label}<br />
+           {$form.address.$blockId.street_address.html}<br />
            <span class="description font-italic">Street number, street name, apartment/unit/suite - OR P.O. box</span>
         </td>
      </tr>
      {/if}
-     {if $form.address.$index.supplemental_address_1}
+     {if $form.address.$blockId.supplemental_address_1}
      <tr>
         <td colspan="2">
-           {$form.address.$index.supplemental_address_1.label}<br />
-           {$form.address.$index.supplemental_address_1.html} <br >
+           {$form.address.$blockId.supplemental_address_1.label}<br />
+           {$form.address.$blockId.supplemental_address_1.html} <br >
             <span class="description font-italic">Supplemental address info, e.g. c/o, department name, building name, etc.</span>
         </td>
      </tr>
      {/if}
 
      <tr>
-        {if $form.address.$index.city}
+        {if $form.address.$blockId.city}
         <td>
-           {$form.address.$index.city.label}<br />
-           {$form.address.$index.city.html}
+           {$form.address.$blockId.city.label}<br />
+           {$form.address.$blockId.city.html}
         </td>
         {/if}
-        {if $form.address.$index.postal_code}
+        {if $form.address.$blockId.postal_code}
         <td>
-           {$form.address.$index.postal_code.label}<br />
-           {$form.address.$index.postal_code.html}
-           {$form.address.$index.postal_code_suffix.html}<br />
+           {$form.address.$blockId.postal_code.label}<br />
+           {$form.address.$blockId.postal_code.html}
+           {$form.address.$blockId.postal_code_suffix.html}<br />
            <span class="description font-italic">Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).</span>
         </td>
         {/if}
      </tr>
      
      <tr>
-        {if $form.address.$index.country_id}
+        {if $form.address.$blockId.country_id}
         <td>
-           {$form.address.$index.country_id.label}<br />
-           {$form.address.$index.country_id.html}
+           {$form.address.$blockId.country_id.label}<br />
+           {$form.address.$blockId.country_id.html}
         </td>
         {/if}
-        {if $form.address.$index.state_province_id} 
+        {if $form.address.$blockId.state_province_id} 
         <td>
-           {$form.address.$index.state_province_id.label}<br />
-           {$form.address.$index.state_province_id.html}
+           {$form.address.$blockId.state_province_id.label}<br />
+           {$form.address.$blockId.state_province_id.html}
         </td>
       </tr>
     </table>

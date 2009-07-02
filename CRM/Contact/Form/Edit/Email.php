@@ -54,34 +54,29 @@ class CRM_Contact_Form_Edit_Email
     {
         //FIXME &$location, $locationId, $count
         
-        $showBulkMailing = true;
-        $form->assign( 'addBlock', $form->_addBlockName );
-        $locationId = ( $form->get( 'Email_Block_Count' ) ) ? $form->get( 'Email_Block_Count' ) : 1;
+        $blockId = ( $form->get( 'Email_Block_Count' ) ) ? $form->get( 'Email_Block_Count' ) : 1;
         
-        //suppress Bulk Mailings (CRM-2881)
-        if ( is_object( $form ) && ($form instanceof CRM_Event_Form_ManageEvent_Location ) ) {
-            $showBulkMailing = false;
-        }
-        //Location Index
-        $form->addElement( 'hidden', 'hidden_Email_Count', $locationId ,array( 'id' => 'hidden_Email_Count') );
+        //max block index.
+        $form->addElement( 'hidden', 'hidden_Email_Count', $blockId, array( 'id' => 'hidden_Email_Count') );
         
         //Email box
-        $form->addElement('text',"email[$locationId][email]", ts('Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email', 'email'));
+        $form->addElement('text',"email[$blockId][email]", ts('Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email', 'email'));
         
         //Block type
-        $form->addElement('select',"email[$locationId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+        $form->addElement('select',"email[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
         
         //On-hold checkbox
-        $form->addElement('advcheckbox', "email[$locationId][on_hold]",null);
-            
-        if ( $showBulkMailing ) {
+        $form->addElement('advcheckbox', "email[$blockId][on_hold]",null);
+        
+        //suppress Bulk Mailings (CRM-2881)
+        if ( is_object( $form ) && !( $form instanceof CRM_Event_Form_ManageEvent_Location ) ) {     
             //Bulkmail checkbox
-            $form->addElement('advcheckbox', "email[$locationId][is_bulkmail]", null);
+            $form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null);
         }
         
         //Primary radio
         $options = array( HTML_QuickForm::createElement('radio', null, '') );
-        $form->addGroup($options, "email[$locationId][is_primary]", '');            
+        $form->addGroup($options, "email[$blockId][is_primary]", '');            
     }
 }
 

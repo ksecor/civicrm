@@ -53,31 +53,32 @@ class CRM_Contact_Form_Edit_Phone
     static function buildQuickForm( &$form ) {
         
         //FIXME : &$location, $locationId, $count, $phoneType = null
-        $form->assign( 'addBlock', $form->_addBlockName );
-        $locationId = ( $form->get( 'Phone_Block_Count' ) ) ? $form->get( 'Phone_Block_Count' ) : 1;
-        $form->assign( 'locationId', $locationId );
-
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        if ( ! $phoneType ) {
+        
+        $blockId = ( $form->get( 'Phone_Block_Count' ) ) ? $form->get( 'Phone_Block_Count' ) : 1;
+        
+        //FIXME :
+        $phoneType = null;
+        if ( !$phoneType ) {
             $phoneType = CRM_Core_PseudoConstant::phoneType( );
         }
+        
         //Location Index
-        $form->addElement( 'hidden', 'hidden_Phone_Count', $locationId ,array( 'id' => 'hidden_Phone_Count') );
+        $form->addElement( 'hidden', 'hidden_Phone_Count', $blockId, array( 'id' => 'hidden_Phone_Count') );
         
         //phone type select
-        $form->addElement('select', "phone[$locationId][phone_type_id]", ts('Phone'), $phoneType, null );
+        $form->addElement('select', "phone[$blockId][phone_type_id]", ts('Phone'), $phoneType, null );
         
         //Block type select
-        $form->addElement('select',"phone[$locationId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+        $form->addElement('select',"phone[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
         
         //phone box
-        $form->addElement('text', "phone[$locationId][phone]", ts('Phone'), 
+        $form->addElement('text', "phone[$blockId][phone]", ts('Phone'), 
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone', 'phone'));
         
         
         //Primary radio
         $options = array( HTML_QuickForm::createElement('radio', null, '') );
-        $form->addGroup($options, "phone[$locationId][is_primary]", ''); 
+        $form->addGroup($options, "phone[$blockId][is_primary]", ''); 
         
         
         // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number

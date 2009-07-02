@@ -1,5 +1,4 @@
 {* tpl for building IM related fields *}
-{assign var="locationId" value=$blockCount}
 {if !$addBlock}
 <tr>
     <td><strong>{ts}Open ID{/ts}</strong>
@@ -10,12 +9,12 @@
 </tr>
 {/if}
 <!-Add->
-<tr id="OpenID_Block_{$locationId}">
-     <td>{$form.openid.$locationId.openid.html|crmReplace:class:twenty}&nbsp;{$form.openid.$locationId.location_type_id.html}</td>
+<tr id="OpenID_Block_{$blockId}">
+     <td>{$form.openid.$blockId.openid.html|crmReplace:class:twenty}&nbsp;{$form.openid.$blockId.location_type_id.html}</td>
      <td colspan="2"></td>
-     <td align="center">{$form.openid.$locationId.is_primary.html}</td>
-   {if $locationId gt 1}
-    <td><a href="#" title={ts}Remove{/ts} onClick='cj("tr#OpenID_Block_{$locationId}").remove();return false;'>{ts}remove{/ts}</a></td>
+     <td align="center">{$form.openid.$blockId.is_primary.html}</td>
+   {if $blockId gt 1}
+    <td><a href="#" title={ts}Remove{/ts} onClick='cj("tr#OpenID_Block_{$blockId}").remove();return false;'>{ts}remove{/ts}</a></td>
    {/if}
 </tr>
 <!-Add->

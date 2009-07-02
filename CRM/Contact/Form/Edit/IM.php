@@ -62,30 +62,29 @@ class CRM_Contact_Form_Edit_IM
         
         //FIXME : &$location, $locationId, $count 
         
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $form->assign( 'addBlock', $form->_addBlockName );
-        $locationId = ( $form->get( 'IM_Block_Count' ) ) ? $form->get( 'IM_Block_Count' ) : 1;
+        $blockId = ( $form->get( 'IM_Block_Count' ) ) ? $form->get( 'IM_Block_Count' ) : 1;
         
+        require_once 'CRM/Core/BAO/Preferences.php';
         if ( CRM_Utils_Array::value( 'im', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
             $form->assign('showIM', true);
 
             //Location Index
-            $form->addElement( 'hidden', 'hidden_IM_Count', $locationId ,array( 'id' => 'hidden_IM_Count') );
-
+            $form->addElement( 'hidden', 'hidden_IM_Count', $blockId, array( 'id' => 'hidden_IM_Count') );
+            
             //IM provider select
-            $form->addElement('select', "im[$locationId][provider_id]", '',
+            $form->addElement('select', "im[$blockId][provider_id]", '',
                               array('' => ts('- select service -')) + CRM_Core_PseudoConstant::IMProvider() );
             
             //Block type select
-            $form->addElement('select',"im[$locationId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+            $form->addElement('select',"im[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
             
             //IM box
-            $form->addElement('text', "im[$locationId][name]", ts('Instant Messenger'),
+            $form->addElement('text', "im[$blockId][name]", ts('Instant Messenger'),
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM', 'name') );
             
             //Primary radio
             $options = array( HTML_QuickForm::createElement('radio', null, '') );
-            $form->addGroup($options, "im[$locationId][is_primary]", ''); 
+            $form->addGroup($options, "im[$blockId][is_primary]", ''); 
         }
     }    
 }

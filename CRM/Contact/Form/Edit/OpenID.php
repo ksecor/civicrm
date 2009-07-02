@@ -53,30 +53,30 @@ class CRM_Contact_Form_Edit_OpenID
     static function buildQuickForm( &$form ) {
         
         //FIXME : &$location, $locationId, $count
-      
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $form->assign( 'addBlock', $form->_addBlockName );
-        $locationId = ( $form->get( 'OpenID_Block_Count' ) ) ? $form->get( 'OpenID_Block_Count' ) : 1;
         
+        $blockId = ( $form->get( 'OpenID_Block_Count' ) ) ? $form->get( 'OpenID_Block_Count' ) : 1;
+        
+        require_once 'CRM/Core/BAO/Preferences.php';
         if ( CRM_Utils_Array::value( 'openid', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
             $form->assign('showOpenID', true);
-            $form->addElement('text', "openid[$locationId][openid]", ts('OpenID'),
+            $form->addElement('text', "openid[$blockId][openid]", ts('OpenID'),
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_OpenID', 'openid'));
-          
+            
             //Location Index
-            $form->addElement( 'hidden', 'hidden_OpenID_Count', $locationId ,array( 'id' => 'hidden_OpenID_Count') );  
+            $form->addElement( 'hidden', 'hidden_OpenID_Count', $blockId, array( 'id' => 'hidden_OpenID_Count') );  
             
             //Block type
-            $form->addElement('select',"openid[$locationId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+            $form->addElement('select',"openid[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
             
             $config=& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Standalone' ) { 
-                $location[$locationId]['openid'][$locationId]['allowed_to_login'] = 
-                        $form->addElement('advcheckbox', "openid[$locationId][allowed_to_login]", null, ts('Allowed to Login'));
+                $location[$locationId]['openid'][$blockId]['allowed_to_login'] = 
+                    $form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, ts('Allowed to Login'));
             }
+            
             //Primary radio
             $options = array( HTML_QuickForm::createElement('radio', null, '') );
-            $form->addGroup($options, "openid[$locationId][is_primary]", ''); 
+            $form->addGroup($options, "openid[$blockId][is_primary]", ''); 
         }
     }
 }

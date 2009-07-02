@@ -153,7 +153,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         if ( $this->_addBlockName && $additionalblockCount ) {
             $this->assign( "addBlock", true );
             $this->assign( "blockName", $this->_addBlockName );
-            $this->assign( "blockCount",  $additionalblockCount );
+            $this->assign( "blockId",  $additionalblockCount );
             $this->set( $this->_addBlockName."_Block_Count", $additionalblockCount );
         }
         
@@ -392,7 +392,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                         $this->assign( "addBlock", true );
                         $this->assign( 'blockName', $blockName );
                     }
-                    $this->assign( "blockCount", $instance  );
+                    $this->assign( "blockId", $instance  );
                     $this->set( $blockName."_Block_Count", $instance );
                     eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' ); 
                 }

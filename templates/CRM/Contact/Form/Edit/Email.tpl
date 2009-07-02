@@ -1,5 +1,4 @@
 {* tpl file for building email block*}
-{assign var="locationId" value=$blockCount}
 {if !$addBlock}
 <tr>
     <td><strong>{ts}Email{/ts}</strong>
@@ -11,13 +10,13 @@
 </tr>
 {/if}
 <!-Add->
-<tr id="Email_Block_{$locationId}">
-    <td>{$form.email.$locationId.email.html|crmReplace:class:twenty}&nbsp;{$form.email.$locationId.location_type_id.html}</td>
-    <td align="center">{$form.email.$locationId.on_hold.html}</td>
-    <td align="center">{$form.email.$locationId.is_bulkmail.html}</td>
-    <td align="center">{$form.email.$locationId.is_primary.html}</td>
-  {if $locationId gt 1}
-    <td><a href="#" title={ts}Remove{/ts} onClick='cj("tr#Email_Block_{$locationId}").remove();return false;'>{ts}remove{/ts}</a></td>
+<tr id="Email_Block_{$blockId}">
+    <td>{$form.email.$blockId.email.html|crmReplace:class:twenty}&nbsp;{$form.email.$blockId.location_type_id.html}</td>
+    <td align="center">{$form.email.$blockId.on_hold.html}</td>
+    <td align="center">{$form.email.$blockId.is_bulkmail.html}</td>
+    <td align="center">{$form.email.$blockId.is_primary.html}</td>
+  {if $blockId gt 1}
+    <td><a href="#" title={ts}Remove{/ts} onClick='cj("tr#Email_Block_{$blockId}").remove();return false;'>{ts}remove{/ts}</a></td>
   {/if}
 </tr>
 <!-Add->
