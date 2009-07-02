@@ -127,13 +127,13 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           array( 'receive_date'           => 
                                  array( 'operatorType' => CRM_Report_Form::OP_DATE ),
                                  'contribution_status_id' => 
-                                 array( 'title'        => ts( 'Donation Status' ), 
+                                 array( 'title'        => ts( 'Contribution Status' ), 
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ),
                                         'default'      => array( 1 ),
                                         ),
                                  'total_amount'           => 
-                                 array( 'title'        => ts( 'Amount Between' ) ),
+                                 array( 'title'        => ts( 'Contribution Amount' ) ),
                                  ),
                           'grouping'=> 'contri-fields',
                           ),

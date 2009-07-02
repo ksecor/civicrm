@@ -219,6 +219,7 @@ WHERE  inst.report_id = %1";
             }
 
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contact_ids, $groupID );
+            CRM_Core_Session::setStatus( ts("Listed contact(s) have been added to the selected group."));
         } 
     }
     static function getInstanceID() {

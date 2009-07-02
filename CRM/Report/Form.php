@@ -1249,9 +1249,9 @@ class CRM_Report_Form extends CRM_Core_Form {
                     if ( $cronJob ) {
                         exit();
                     }
-                    CRM_Core_Session::setStatus("Report mail delivered.");
+                    CRM_Core_Session::setStatus( ts("Report mail has been sent.") );
                 } else {
-                    CRM_Core_Session::setStatus("Report mail count not be delivered.");
+                    CRM_Core_Session::setStatus( ts("Report mail could not be sent.") );
                 }
                 return;
             } else if ( $this->_outputMode == 'print' ) {
