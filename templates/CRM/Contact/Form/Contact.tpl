@@ -61,6 +61,8 @@ cj( function( ) {
 {/literal}
 {if $loadDefaultBlocks} 
     {foreach from=$defaultBlocksCount key="blockName" item="count"}
+      //reset count to 1 since each time counter get increamented.
+      cj( "#hidden_" + "{$blockName}" + "_Count" ).val( 1 );
       {section name=blockCount loop=$count-1}
       buildAdditionalBlocks( '{$blockName}', '{$contactType}' );
       {/section}

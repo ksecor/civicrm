@@ -153,9 +153,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         if ( $this->_addBlockName && $additionalblockCount ) {
             $this->assign( "addBlock", true );
             $this->assign( "blockName", $this->_addBlockName );
+            $this->assign( "blockCount",  $additionalblockCount );
             $this->set( $this->_addBlockName."_Block_Count", $additionalblockCount );
         }
-        $this->assign( "blockCount", ( $additionalblockCount ) ? $additionalblockCount : 1 );
         
         $session = & CRM_Core_Session::singleton( );
         if ( $this->_action == CRM_Core_Action::ADD ) {
@@ -227,8 +227,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 // need this for custom data in edit mode
                 $this->assign('entityID', $this->_contactId );
                 
-                //get the no of locations for the contact
-                $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
                 $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid='. $this->_contactId ));
                 
                 // get values from contact table
@@ -371,29 +369,30 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_Edit_' . $this->_contactType . '::buildQuickForm( $this, $this->_action );' );
         
-        //build blocks ( email, phone, im, openid )
-        foreach ( $this->_blocks as $name => $active ) {
-            if ( $active ) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name ) . ".php");
-                eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
-            }
-        }
-        
         // build edit blocks ( custom data, address, communication preference, notes, tags and groups )
         foreach( $this->_editOptions as $name => $label ) {                
-            if ( $name != 'CustomData' ) {
+            if ( !in_array( $name, array( 'CustomData', 'Address' ) ) ) {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name ) . ".php");
                 eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
             }
         }
         
-        foreach ( array_merge( array( 'Address' => 1 ), $this->_blocks ) as $blockName => $active ) {
-            $hiddenCount = CRM_Utils_Array::value( "hidden_".$blockName ."_Count", $_POST );
-            if (  $hiddenCount > 1 ) {
+        //build ajax blocks.
+        $buildAJAXBlocks = $this->_blocks;
+        if ( array_key_exists( 'Address', $this->_editOptions ) ) {
+            $buildAJAXBlocks = array_merge( $buildAJAXBlocks, array( 'Address' => 1 ) ); 
+        }
+        
+        foreach ( $buildAJAXBlocks as $blockName => $isActive ) {
+            if ( $isActive ) {
+                $hiddenCount = CRM_Utils_Array::value( "hidden_".$blockName ."_Count", $_POST, 1 );
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
-                for ( $instance = 2; $instance <= $hiddenCount; $instance++ ) {
-                    $this->assign( "addBlock", true );
-                    $this->assign( 'blockName', $blockName );
+                for ( $instance = 1; $instance <= $hiddenCount; $instance++ ) {
+                    if ( $instance > 1 ) {
+                        $this->assign( "addBlock", true );
+                        $this->assign( 'blockName', $blockName );
+                    }
+                    $this->assign( "blockCount", $instance  );
                     $this->set( $blockName."_Block_Count", $instance );
                     eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' ); 
                 }
