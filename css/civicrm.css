@@ -1279,6 +1279,11 @@ div.crm-pager a {
   display         : block;
 }
 
+#crm-container .panel li:hover { 
+ background-color: #3399FF;
+ color: #FFFFFF;
+}
+
 /*Styles for Context menu */
 
 #crm-container .contextMenu {
