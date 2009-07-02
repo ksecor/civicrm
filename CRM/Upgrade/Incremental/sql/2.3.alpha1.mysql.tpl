@@ -509,3 +509,9 @@ ALTER TABLE `civicrm_event` CHANGE `default_discount_id` `default_discount_fee_i
 ALTER TABLE `civicrm_event`
   ADD COLUMN `is_template` tinyint(4) default NULL COMMENT 'whether the event has template',
   ADD COLUMN `template_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Event Template Title';
+
+-- CRM-4138
+ALTER TABLE `civicrm_payment_processor_type`
+  ADD COLUMN `payment_type` int unsigned   DEFAULT 1 COMMENT 'Payment Type: Credit or Debit';
+ALTER TABLE `civicrm_payment_processor`
+  ADD COLUMN `payment_type` int unsigned   DEFAULT 1 COMMENT 'Payment Type: Credit or Debit';

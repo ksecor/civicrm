@@ -170,6 +170,15 @@ function clearAmountOther() {
 
     {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
 
+    {if $is_monetary and $form.bank_account_number}
+    <div id="payment_notice">
+      <fieldset>
+          <legend>{ts}Agreement{/ts}</legend>
+          {ts}Your account data will be used to charge your bank account via direct debit. While submitting this form you agree to the charging of your bank account via direct debit.{/ts}
+      </fieldset>
+    </div>
+    {/if}
+
     {if $isCaptcha} 
 	{include file='CRM/common/ReCAPTCHA.tpl'} 
     {/if} 

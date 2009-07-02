@@ -135,12 +135,23 @@
     
     {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) }
     <div class="header-dark">
+    {if $paymentProcessor.payment_type & 2}
+         {ts}Direct Debit Information{/ts}
+    {else}
         {ts}Credit Card Information{/ts}
+    {/if}
     </div>
     <div class="display-block">
+    {if $paymentProcessor.payment_type & 2}
+        {ts}Account Holder{/ts}: {$account_holder}<br />
+        {ts}Bank Account Number{/ts}: {$bank_account_number}<br />
+        {ts}Bank Identification Number{/ts}: {$bank_identification_number}<br />
+        {ts}Bank Name{/ts}: {$bank_name}<br />
+    {else}
         {$credit_card_type}<br />
         {$credit_card_number}<br />
         {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}<br />
+    {/if}
     </div>
     {/if}
     
@@ -158,6 +169,15 @@
         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
   
+    {if $contributeMode eq 'direct' and $paymentProcessor.payment_type & 2}
+        <div class="header-dark">
+            {ts}Agreement{/ts}
+        </div>
+        <div class="display-block">
+        {ts}Your account data will be used to charge your bank account via direct debit. While submitting this form you agree to the charging of your bank account via direct debit.{/ts}
+        </div>
+    {/if}
+
     {if $contributeMode NEQ 'notify' and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) } {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
