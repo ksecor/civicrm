@@ -76,34 +76,30 @@
       <div id="contact_panel">
         <div id="contactCardLeft">
           <table>
-            {foreach from=$location item=loc key=locationIndex}
-              {foreach from=$loc.phone item=phone}
-		{if $phone.phone}
-		  <tr>
-                    <td class="label">{$phone.phone_type}</td>
-                    <td><span {if $privacy.do_not_phone} class="do-not-phone" title="Privacy flag: Do Not Phone" {/if}>{$phone.phone}</span></td>
+            {foreach from=$phone item=item}
+                {if $item.phone}
+                  <tr>
+                    <td class="label">{$item.phone_type}</td>
+                    <td><span {if $privacy.do_not_phone} class="do-not-phone" title="Privacy flag: Do Not Phone" {/if}>{$item.phone}</span></td>
                   </tr>
                 {/if}
-              {/foreach}
             {/foreach}
-            {foreach from=$loc.im item=im key=imKey}
-              {if $im.name or $im.provider}
-                {if $im.name}<tr><td class="label">{$im.provider}</td><td>{$im.name}</td></tr>{/if}
+            {foreach from=$im item=item}
+              {if $item.name or $item.provider}
+                {if $item.name}<tr><td class="label">{$item.provider}</td><td>{$item.name}</td></tr>{/if}
               {/if}
             {/foreach}
           </table>
         </div>
         <div id="contactCardRight">
           <table>
-            {foreach from=$location item=loc key=locationIndex}
-              {foreach from=$loc.email item=email}
-                {if $email.email}
+            {foreach from=$email item=item }
+                {if $item.email}
                   <tr>
                     <td class="label">{ts}Email{/ts}</td>
-                    <td><span class={if $email.is_primary eq 1}"primary" {else if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email"{/if}><a href="mailto:{$email.email}">{$email.email}</a>{if $email.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
+                    <td><span class={if $item.is_primary eq 1}"primary" {else if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email"{/if}><a href="mailto:{$email.email}">{$item.email}</a>{if $item.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
                   </tr>
                 {/if}
-              {/foreach}
             {/foreach}
             {if $home_URL}
               <tr>
@@ -115,17 +111,24 @@
         </div>
       </div>       
       <div id="contact_panel">
-        {foreach from=$location item=add key=locationIndex}
+      <div class="spacer"> </div>
+        {foreach from=$address item=add key=locationIndex}
             <div id="{cycle name=location values="contactCardLeft,contactCardRight"}">
             <table>
               <tr>
                 <td class="label">{$add.location_type}&nbsp;{ts}Address{/ts}</td>
-                <td>{$add.address.display|nl2br}</td>
+                 <td>
+                    {if $HouseholdName and $locationIndex eq 1}
+                        <strong>Household Address:</strong><br />
+                        <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$mail_to_household_id`"}">{$HouseholdName}</a><br />
+                    {/if}
+                    {$add.display|nl2br}
+                </td>
               </tr>
             </table>
           </div>
         {/foreach}
-      <div class="separator">&nbsp;</div>
+     <div class="separator">&nbsp;</div>
       </div>
       <div class="spacer">&nbsp;</div>
       <div id="contact_panel">

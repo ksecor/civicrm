@@ -124,8 +124,20 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
 
         $params['id'] = $params['contact_id'] = $this->_contactId;
         $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids, true );
-
-        CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
+        
+        $communicationType = array( 
+                                    'phone' => array( 'type' => 'phoneType', 'id' => 'phone_type' ), 
+                                    'im'    => array( 'type' => 'IMProvider', 'id' => 'provider') 
+                                ); 
+        
+        foreach( $communicationType as $key => $value ) {
+            foreach( $defaults[$key] as &$val ) {
+                eval( '$pseudoConst = CRM_Core_PseudoConstant::'.$value['type'].'( );' );
+                CRM_Utils_Array::lookupValue( $val, $value['id'], $pseudoConst, false );
+            }
+        }
+   
+        //CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
         
         // unset locations if empty
         if ( ( count( $defaults['location'] ) == 1 ) &&
