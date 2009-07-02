@@ -265,11 +265,11 @@ SET    {$dao->columnName} = REPLACE( {$dao->columnName}, %1, %2 )";
 
     static function &valuesByID( $customFieldID, $optionGroupID = null ) {
         if ( ! $optionGroupID ) {
-            $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+            $optionGroupID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
                                                           $customFieldID,
                                                           'option_group_id' );
         }
-
+        
         require_once 'CRM/Core/OptionGroup.php';
         $options =& CRM_Core_OptionGroup::valuesByID( $optionGroupID );
 

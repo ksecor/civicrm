@@ -91,7 +91,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
               array( 'Text' => 'Text', 'Select' => 'Select', 
                      'Radio' => 'Radio', 'CheckBox' => 'CheckBox', 
                      'Multi-Select' => 'Multi-Select', 
-                     'AdvMulti-Select' => 'AdvMulti-Select' ),
+                     'AdvMulti-Select' => 'AdvMulti-Select',
+                     'Autocomplete-Select' => 'Autocomplete-Select' ),
               array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
               array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
               array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
@@ -102,8 +103,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
               array('Country' => 'Select Country', 'Multi-Select' => 'Multi-Select Country'),
               array('File' => 'File'),
               array('Link' => 'Link'),
-              array('ContactReference' => 'Contact Reference',
-                    'Select'           => 'Select' )
+              array('ContactReference' => 'Autocomplete-Select' )
               );
     
     private static $_dataToLabels = null;
@@ -143,7 +143,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 = array(
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
                               'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select'),
-                              'AdvMulti-Select' => ts('Advanced Multi-Select')),
+                              'AdvMulti-Select' => ts('Advanced Multi-Select'),
+                              'Autocomplete-Select' => ts('Autocomplete Select') ),
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
                               'Radio' => ts('Radio')),
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
@@ -157,8 +158,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                         array('Country' => ts('Select Country'),'Multi-Select' => ts('Multi-Select Country ')),
                         array('File' => ts('Select File')),
                         array('Link' => ts('Link')),
-                        array('ContactReference' => ts('Contact Reference'),
-                              'Select'           => ts('Select') )
+                        array('ContactReference' => ts('Autocomplete Select') )
                         );
         }
     }
