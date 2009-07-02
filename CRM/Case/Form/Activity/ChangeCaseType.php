@@ -147,12 +147,13 @@ class CRM_Case_Form_Activity_ChangeCaseType
 
         // 1. initiate xml processor
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-        $xmlProcessorParams = array( 'clientID'         => $form->_currentlyViewedContactId,
-                                     'creatorID'        => $form->_currentUserId,
-                                     'standardTimeline' => 1,
-                                     'activityTypeName' => 'Change Case Type',
-                                     'dueDateTime'      => $params['reset_date_time'],
-                                     'caseID'           => $form->_caseId,
+        $xmlProcessorParams = array( 'clientID'           => $form->_currentlyViewedContactId,
+                                     'creatorID'          => $form->_currentUserId,
+                                     'standardTimeline'   => 1,
+                                     'activityTypeName'   => 'Change Case Type',
+                                     'activity_date_time' => CRM_Utils_Array::value( 'reset_date_time', $params ), 
+                                     'caseID'             => $form->_caseId,
+                                     'resetTimeline'      => CRM_Utils_Array::value( 'is_reset_timeline', $params ),
                                      );
         
         $xmlProcessor->run( $caseType, $xmlProcessorParams );

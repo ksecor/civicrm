@@ -250,7 +250,7 @@ class CRM_Contribute_BAO_Query
             $newName = str_replace(',' , " " ,$name );
             $pieces  =  explode( ' ', $newName ); 
             foreach ( $pieces as $piece ) { 
-                $value = strtolower(addslashes(trim($piece)));
+                $value = strtolower(CRM_Core_DAO::escapeString(trim($piece)));
                 $value = "'%$value%'";
                 $sub[] = " ( contact_b.sort_name LIKE $value )";
             }
@@ -297,7 +297,7 @@ class CRM_Contribute_BAO_Query
             return;
 
         case 'contribution_source':
-            $value = strtolower( addslashes( $value ) );
+            $value = strtolower( CRM_Core_DAO::escapeString( $value ) );
             if ( $wildcard ) {
                 $value = "%$value%";
                 $op    = 'LIKE';
@@ -359,7 +359,7 @@ class CRM_Contribute_BAO_Query
             return;
 
         case 'contribution_note':
-            $value = strtolower( addslashes( $value ) );
+            $value = strtolower( CRM_Core_DAO::escapeString( $value ) );
             if ( $wildcard ) {
                 $value = "%$value%"; 
                 $op    = 'LIKE';

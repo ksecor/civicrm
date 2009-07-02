@@ -270,9 +270,12 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
             $this->_params['eid_value'] = $default;
         }
         
-        $sql = $this->buildQuery( false );
+        $sql = $this->buildQuery( true );
         
         $dao = CRM_Core_DAO::executeQuery( $sql );
+
+        //set pager before exicution of query in function participantInfo() 
+        $this->setPager( );
 
         require_once 'CRM/Utils/PChart.php';
         $rows  = $graphRows = array();
@@ -298,7 +301,8 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                 }
             }
         }
-        $this->formatDisplay( $rows );
+        // do not call pager here
+        $this->formatDisplay( $rows, false );
         unset($this->_columnHeaders['civicrm_event_id']);
         
         $this->doTemplateAssignment( $rows );

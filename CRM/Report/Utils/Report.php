@@ -87,8 +87,8 @@ WHERE  report_id = %1";
             $instanceID = self::getInstanceIDForValue( $urlValue );
                 
             if ( $instanceID ) {
-                return CRM_Utils_System::url( "civicrm/report/instance", 
-                                              "id={$instanceID}&{$query}", $absolute );
+                return CRM_Utils_System::url( "civicrm/report/instance/{$instanceID}", 
+                                              "{$query}", $absolute );
             } else {
                 return false;
             }
@@ -159,22 +159,22 @@ WHERE  inst.report_id = %1";
                   
         //Load rows
         $sql = " {$form->_select}  {$form->_from}  {$form->_where}  {$form->_groupBy}  {$form->_having} {$form->_orderBy} ";
-        $dao = CRM_Core_DAO::executeQuery( $sql );
+        
+        $rows = array();
+        $form->buildRows( $sql, $rows );
+        $form->formatDisplay( $rows );
         
         //Output rows
         $first_row = true;
-        while ( $dao->fetch( ) ) {
-            $rows = array((array) $dao);
-            $form->alterDisplay( $rows );
-            $row = $rows[0];
-            
-            //Clean up fields.
-            unset( $row['N'] );
+        foreach ( $rows as $row ) {
             foreach ( $row as $key => $value ) {
                 // Remove HTML, unencode entities, and escape quotation marks.
                 $row[$key] = '"' . str_replace('"', '""', html_entity_decode(strip_tags($value))) . '"';
                 
                 // Remove non-CiviCRM fields.
+                if ( strstr($key, 'link') || strstr($key, 'hover') ) {
+                    unset($row[$key]);
+                }
                 if ( substr($key, 0, 1) == '_' ) {
                     unset($row[$key]);
                 }
@@ -185,13 +185,11 @@ WHERE  inst.report_id = %1";
                 $headers = array_keys($row);
                 
                 // Replace internal header names with friendly ones, where available.
-                /*
                 foreach ( $headers as $i => $header ) {
-                    if ( isset( $this->_columnHeaders[$header] ) ) {
-                        $headers[$i] = $this->_columnHeaders[$header]['title'];
+                    if ( isset( $form->_columnHeaders[$header] ) ) {
+                        $headers[$i] = html_entity_decode(strip_tags($form->_columnHeaders[$header]['title']));
                     }
                 }
-                */
                 
                 //Output the headers.
                 echo implode(',', $headers) . "\n";
@@ -220,5 +218,38 @@ WHERE  inst.report_id = %1";
 
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contact_ids, $groupID );
         } 
+    }
+    static function getInstanceID() {
+
+        $config    =& CRM_Core_Config::singleton( );
+        $arg       = explode( '/', $_GET[$config->userFrameworkURLVar] );
+        $secondArg = CRM_Utils_Array::value( 2, $arg );
+        require_once 'CRM/Utils/Rule.php';
+        if ( $arg[1]    == 'report' &&
+             $secondArg == 'instance' ) {
+            if ( CRM_Utils_Rule::positiveInteger( $arg[3] ) ) {
+                return $arg[3];
+            }
+        }
+    }
+    static function isInstancePermission( $instanceId ) {
+        if ( !( $instanceId ) ) {
+            return true;
+        }
+        $params = array( 'id' => $instanceId );
+        $instanceValues = array( );
+        CRM_Core_DAO::commonRetrieve( 'CRM_Report_DAO_Instance',
+                                      $params,
+                                      $instanceValues );
+        $instanceValues['permission'] = unserialize( $instanceValues['permission'] );
+        if ( $instanceValues['permission'][0][0] && 
+             ( !(CRM_Core_Permission::checkMenu( $instanceValues['permission'][0], 
+                                                 $instanceValues['permission'][1] ) ||
+                 CRM_Core_Permission::access( 'CiviReport' ) )
+               ) ) {
+            return false;
+        }
+        
+        return true;
     }
 }

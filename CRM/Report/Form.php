@@ -145,6 +145,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_csvButtonName      = null;
     protected $_groupButtonName    = null;
     protected $_chartButtonName    = null;
+    protected $_csvSupported       = true;
 
     protected $_rollup         = null;
     
@@ -170,8 +171,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                                                      'Boolean',
                                                      CRM_Core_DAO::$_nullObject );
 
-        $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
 
+        $this->_id  = CRM_Report_Utils_Report::getInstanceID( );
         if ( $this->_id ) {
             $params = array( 'id' => $this->_id );
             $this->_instanceValues = array( );
@@ -185,8 +186,10 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_instanceValues['permission'] = 
                 unserialize( $this->_instanceValues['permission'] );
             if ( $this->_instanceValues['permission'][0][0] && 
-                 (!CRM_Core_Permission::checkMenu( $this->_instanceValues['permission'][0], 
-                                                   $this->_instanceValues['permission'][1] )) ) {
+                 (!(CRM_Core_Permission::checkMenu( $this->_instanceValues['permission'][0], 
+                                                    $this->_instanceValues['permission'][1] ) ||
+                    CRM_Core_Permission::access( 'CiviReport' ) )
+                  ) ) {
                 CRM_Utils_System::permissionDenied( );
                 exit();
             }
@@ -194,8 +197,8 @@ class CRM_Report_Form extends CRM_Core_Form {
 
             $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
 
-            // lets always do a force if a valid id is found in the url.
-            if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
+            // lets always do a force if reset is found in the url.
+            if ( CRM_Utils_Array::value( 'reset', $_GET ) ) {
                 $this->_force = 1;
             }
 
@@ -435,10 +438,8 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_defaults = array_merge( $this->_defaults, $this->_instanceValues );
         }
 
-        if ( $this->_instanceForm ) {
-            require_once 'CRM/Report/Form/Instance.php';
-            CRM_Report_Form_Instance::setDefaultValues( $this, $this->_defaults );
-        }
+        require_once 'CRM/Report/Form/Instance.php';
+        CRM_Report_Form_Instance::setDefaultValues( $this, $this->_defaults );
         
         return $this->_defaults;
     }
@@ -483,49 +484,47 @@ class CRM_Report_Form extends CRM_Core_Form {
         $count = 1;
         foreach ( $this->_filters as $table => $attributes ) {
             foreach ( $attributes as $fieldName => $field ) {
-                if ( !array_key_exists('no_display', $field ) ) {
-                    // get ready with option value pair
-                    $operations = self::getOperationPair( CRM_Utils_Array::value( 'operatorType', $field ) );
-                    
-                    $filters[$table][$fieldName] = $field;
-                    
-                    switch ( CRM_Utils_Array::value( 'operatorType', $field )) {
-                    case CRM_Report_FORM::OP_MULTISELECT :
-                        // assume a multi-select field
-                        if ( !empty( $field['options'] ) ) {
-                            $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
-                            $select = $this->addElement('select', "{$fieldName}_value", null, 
-                                                        $field['options'], array( 'size' => 4, 
-                                                                                  'style' => 'width:200px'));
-                            $select->setMultiple( true );
-                        }
-                        break;
-
-                    case CRM_Report_FORM::OP_SELECT :
-                        // assume a select field
+                // get ready with option value pair
+                $operations = self::getOperationPair( CRM_Utils_Array::value( 'operatorType', $field ) );
+                
+                $filters[$table][$fieldName] = $field;
+                
+                switch ( CRM_Utils_Array::value( 'operatorType', $field )) {
+                case CRM_Report_FORM::OP_MULTISELECT :
+                    // assume a multi-select field
+                    if ( !empty( $field['options'] ) ) {
                         $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
-                        $this->addElement('select', "{$fieldName}_value", null, $field['options']);
-                        break;
-
-                    case CRM_Report_FORM::OP_DATE :
-                        // build datetime fields
-                        CRM_Core_Form_Date::buildDateRange( $this, $fieldName, $count );
-                        $count++;
-                        break;
-
-                    case CRM_Report_FORM::OP_INT:
-                        // and a min value input box
-                        $this->add( 'text', "{$fieldName}_min", ts('Min') );
-                        // and a max value input box
-                        $this->add( 'text', "{$fieldName}_max", ts('Max') );
-                    default:
-                        // default type is string
-                        $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations,
-                                          array('onchange' =>"return showHideMaxMinVal( '$fieldName', this.value );"));
-                        // we need text box for value input
-                        $this->add( 'text', "{$fieldName}_value", null );
-                        break;
+                        $select = $this->addElement('select', "{$fieldName}_value", null, 
+                                                    $field['options'], array( 'size' => 4, 
+                                                                              'style' => 'width:200px'));
+                        $select->setMultiple( true );
                     }
+                    break;
+                    
+                case CRM_Report_FORM::OP_SELECT :
+                    // assume a select field
+                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
+                    $this->addElement('select', "{$fieldName}_value", null, $field['options']);
+                    break;
+                    
+                case CRM_Report_FORM::OP_DATE :
+                    // build datetime fields
+                    CRM_Core_Form_Date::buildDateRange( $this, $fieldName, $count );
+                    $count++;
+                    break;
+                    
+                case CRM_Report_FORM::OP_INT:
+                    // and a min value input box
+                    $this->add( 'text', "{$fieldName}_min", ts('Min') );
+                    // and a max value input box
+                    $this->add( 'text', "{$fieldName}_max", ts('Max') );
+                default:
+                    // default type is string
+                    $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations,
+                                      array('onchange' =>"return showHideMaxMinVal( '$fieldName', this.value );"));
+                    // we need text box for value input
+                    $this->add( 'text', "{$fieldName}_value", null );
+                    break;
                 }
             }
         }
@@ -586,16 +585,15 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function buildInstanceAndButtons( ) {
-        if ( $this->_instanceForm ) {
-            require_once 'CRM/Report/Form/Instance.php';
-            CRM_Report_Form_Instance::buildForm( $this );
-            
-            $label = $this->_id ? ts( 'Update Report' ) : ts( 'Create Report' );
-
-            $this->addElement( 'submit', $this->_instanceButtonName, $label );
-            $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
-            $this->addElement('submit', $this->_pdfButtonName, ts( 'PDF' ) );
-
+        require_once 'CRM/Report/Form/Instance.php';
+        CRM_Report_Form_Instance::buildForm( $this );
+        
+        $label = $this->_id ? ts( 'Update Report' ) : ts( 'Create Report' );
+        
+        $this->addElement( 'submit', $this->_instanceButtonName, $label );
+        $this->addElement('submit', $this->_printButtonName, ts( 'Print Report' ) );
+        $this->addElement('submit', $this->_pdfButtonName, ts( 'PDF' ) );
+        if ( $this->_instanceForm ){
             $this->assign( 'instanceForm', true );
         }
 
@@ -606,7 +604,10 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->addElement('submit', $this->_pdfButtonName, $label );
 
         $label = $this->_id ? ts( 'Export to CSV' ) : ts( 'Preview CSV' );
-        $this->addElement('submit', $this->_csvButtonName, $label );
+
+        if ( $this->_csvSupported ) {
+            $this->addElement('submit', $this->_csvButtonName, $label );
+        }
 
         if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
             $this->addElement( 'select', 'groups', ts( 'Group' ), 
@@ -615,7 +616,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
         
         //$this->addElement('select', 'select_add_to_group_id', ts('Group'), $groupList);
-        $label = ts( 'Add Results' );
+        $label = ts( 'Add these Contacts to Group' );
         $this->addElement('submit', $this->_groupButtonName, $label );
 
         $this->addChartOptions( );
@@ -894,13 +895,13 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
 
     function fixSubTotalDisplay( &$row, $fields, $subtotal = true ) {
+        require_once 'CRM/Utils/Money.php';
         foreach ( $row as $colName => $colVal ) {
             if ( in_array($colName, $fields) ) {
-                $row[$colName] = 
-                    "<strong>{$row[$colName]}</strong>";
+                $row[$colName] = $row[$colName];
             } else if ( isset($this->_columnHeaders[$colName]) ) {
                 if ( $subtotal ) {
-                    $row[$colName] = "Sub Total";
+                    $row[$colName] = "Subtotal";
                     $subtotal = false;
                 } else {
                     unset($row[$colName]);
@@ -1028,19 +1029,23 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->_sendmail = CRM_Utils_Request::retrieve( 'sendmail', 
                                                         'Boolean', CRM_Core_DAO::$_nullObject );
         $this->_absoluteUrl = false;
+        $printOnly = false;
         $this->assign( 'printOnly', false );
 
         if ( $this->_printButtonName == $buttonName || $output == 'print' ) {
             $this->assign( 'printOnly', true );
+            $printOnly = true;
             $this->assign( 'outputMode', 'print' );
             $this->_outputMode = 'print';
         } else if ( $this->_pdfButtonName   == $buttonName || $output == 'pdf' ) {
             $this->assign( 'printOnly', true );
+            $printOnly = true;
             $this->assign( 'outputMode', 'pdf' );
             $this->_outputMode  = 'pdf';
             $this->_absoluteUrl = true;
         } else if ( $this->_csvButtonName   == $buttonName || $output == 'csv' ) {
             $this->assign( 'printOnly', true );
+            $printOnly = true;
             $this->assign( 'outputMode', 'csv' );
             $this->_outputMode  = 'csv';
             $this->_absoluteUrl = true;
@@ -1054,6 +1059,14 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         if ( $this->_sendmail ) {
             $this->assign( 'printOnly', true );
+            $printOnly = true;
+        }
+        
+        // Get today's date to include in printed reports
+        if ( $printOnly ) {
+            require_once 'CRM/Utils/Date.php';
+            $reportDate = CRM_Utils_Date::customFormat( date('Y-m-d H:i') );
+            $this->assign( 'reportDate', $reportDate );
         }
     }
 
@@ -1064,7 +1077,9 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_params = $this->_formValues;
         }
         $this->_formValues = $this->_params ;
-
+        if ( isset($this->_id) && $this->_instanceButtonName == $this->controller->getButtonName( ).'_save' ) {
+            $this->assign( 'updateReportButton', true );
+        }
         $this->processReportMode( );
     }
 

@@ -1,26 +1,30 @@
 {if $action eq 1024}
 {include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
 {/if}
-{if $event.confirm_email_text}
+{* Don't use "normal" thank-you message for Waitlist and Approval Required registrations - since it will probably not make sense for those situations. dgg *}
+{if $event.confirm_email_text AND (not $isOnWaitlist AND not $isRequireApproval)}
 {$event.confirm_email_text}
 {/if}
 
 {if $isOnWaitlist}
-
 ===========================================================
-Your registration is on waiting list.  
+{ts}You have been added to the WAIT LIST for this event.{/ts}
+
 {if $isPrimary}
-If event get enough free spaces, will send you a mail to confirm your registration.
-You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.
+{ts}If space becomes available you will receive an email with
+a link to a web page where you can complete your registration.{/ts}
+
 {/if}
 ===========================================================
 {elseif $isRequireApproval}
-
 ===========================================================
-Your registration require approval. 
+{ts}Your registration has been submitted.{/ts}
+
 {if $isPrimary}
-If registration get approved, will send you a mail to confirm your registration.
-You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.
+{ts}Once your registration has been reviewed, you will receive
+an email with a link to a web page where you can complete the
+registration process.{/ts}
+
 {/if}
 ===========================================================
 {elseif $is_pay_later}

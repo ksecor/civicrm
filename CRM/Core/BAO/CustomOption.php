@@ -231,10 +231,15 @@ WHERE  f.custom_group_id = g.id
 UPDATE {$dao->tableName}
 SET    {$dao->columnName} = %1
 WHERE  {$dao->columnName} = %2";
+                if ( $dao->dataType == 'Auto-complete' ) {
+                    $dataType = "String";
+                } else {
+                    $dataType = $dao->dataType;
+                }
                 $queryParams = array( 1 => array( $params['value'],
-                                                  $dao->dataType ),
+                                                  $dataType ),
                                       2 => array( $oldValue,
-                                                  $dao->dataType ) );
+                                                  $dataType ) );
                 break;
 
             case 'AdvMulti-Select':

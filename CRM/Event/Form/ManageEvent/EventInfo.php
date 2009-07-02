@@ -325,6 +325,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
                                                                "action=update&reset=1&subPage=Location&id={$event->id}" ) );
         }
+        parent::endPostProcess( );
     }//end of function
     
     /**

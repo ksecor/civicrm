@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Report/Form.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
     protected $_addressField = false;
@@ -135,6 +136,13 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           'filters'               =>             
                           array( 'receive_date'   => 
                                  array( 'operatorType' => CRM_Report_Form::OP_DATE ),
+
+                                 'contribution_status_id' => 
+                                 array( 'title'        => ts( 'Donation Status' ), 
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ),
+                                        'default'      => array( 1 ),
+                                        ), 
                                  'total_amount'   => 
                                  array( 'title'   => ts( 'Donation Amount' ), ), 
 
@@ -145,7 +153,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                         'having'  => true ), 
 
                                  'total_count'    => 
-                                 array( 'title'   => ts( 'Donations' ),
+                                 array( 'title'   => ts( 'Donation Count' ),
                                         'type'    => CRM_Report_Form::OP_INT,
                                         'dbAlias' => 'civicrm_contribution_total_amount_count',
                                         'having'  => true ), 
@@ -195,11 +203,6 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
           );
         }
 
-
-        $this->_options = array( 'include_grand_total' => array( 'title'  => ts( 'Include Grand Totals' ),
-                                                                 'type'   => 'checkbox',
-                                                                 'default'=> true ),
-                                 );
         parent::__construct( );
     }
 
@@ -221,7 +224,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                         $this->_addressField = true;
                     }
                     if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                        switch ( $this->_params['group_bys_freq'][$fieldName] ) {
+                        switch ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys_freq'] ) ) {
                         case 'YEARWEEK' :
                             $select[] = "DATE_SUB({$field['dbAlias']}, INTERVAL WEEKDAY({$field['dbAlias']}) DAY) AS {$tableName}_{$fieldName}_start";
                             $select[] = "YEARWEEK({$field['dbAlias']}) AS {$tableName}_{$fieldName}_subtotal";
@@ -396,6 +399,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
     function groupBy( ) {
         $this->_groupBy = "";
+        $append = false;
         if ( is_array($this->_params['group_bys']) && 
              !empty($this->_params['group_bys']) ) {
             foreach ( $this->_columns as $tableName => $table ) {
@@ -425,7 +429,6 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             }
             
             if ( !empty($this->_statFields) && 
-                 CRM_Utils_Array::value( 'include_grand_total', $this->_params['options'] ) && 
                  (( $append && count($this->_groupBy) <= 1 ) || (!$append)) && !$this->_having ) {
                 $this->_rollup = " WITH ROLLUP";
             }

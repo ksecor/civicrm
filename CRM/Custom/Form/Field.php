@@ -156,9 +156,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                         array('StateProvince' => ts('Select State/Province'),'Multi-Select' => ts('Multi-Select State/Province')),
                         array('Country' => ts('Select Country'),'Multi-Select' => ts('Multi-Select Country ')),
                         array('File' => ts('Select File')),
-                        array('Link' => ts ('Link')),
-                        array('ContactReference' => ts ('Contact Reference'),
-                              'Select'           => ts ('Select'))
+                        array('Link' => ts('Link')),
+                        array('ContactReference' => ts('Contact Reference'),
+                              'Select'           => ts('Select') )
                         );
         }
     }
@@ -553,9 +553,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 
             case 'Country':
                 if( !empty($default) ) {
-                    $fieldCountry = addslashes( $fields['default_value'] );
-                    $query = "SELECT count(*) FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) <= 0 ) {
+                    $query = "SELECT count(*) FROM civicrm_country WHERE name = %1 OR iso_code = %1";
+                    $params = array( 1 => array( $fields['default_value'], 'String' ) );
+                    if ( CRM_Core_DAO::singleValueQuery( $query, $params ) <= 0 ) {
                         $errors['default_value'] = ts( 'Invalid default value for country.' );
                     }
                 }
@@ -563,13 +563,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
 
             case 'StateProvince':
                 if( !empty($default) ) {
-                    $fieldStateProvince = addslashes( $fields['default_value'] );
                     $query = "
 SELECT count(*) 
   FROM civicrm_state_province
- WHERE name = '$fieldStateProvince'
-    OR abbreviation = '$fieldStateProvince'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) <= 0 ) {
+ WHERE name = %1
+    OR abbreviation = %1";
+                    $params = array( 1 => array( $fields['default_value'], 'String' ) );
+                    if ( CRM_Core_DAO::singleValueQuery( $query, $params ) <= 0 ) {
                         $errors['default_value'] = ts( 'The invalid default value for State/Province data type' );
                     }
                 }

@@ -303,7 +303,7 @@ SELECT label, value
                 $qillValue = CRM_Core_BAO_CustomField::getDisplayValue( $value, $id, $this->_options );
 
                 if ( ! is_array( $value ) ) {
-                    $value = addslashes(trim($value));
+                    $value = CRM_Core_DAO::escapeString(trim($value));
                 }
 
                 $fieldName = "{$field['table_name']}.{$field['column_name']}";
@@ -365,7 +365,7 @@ SELECT label, value
                         } else {
                             $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
                             if ( $wildcard ) {
-                                $val = strtolower( addslashes( $val ) );
+                                $val = strtolower( CRM_Core_DAO::escapeString( $val ) );
                                 $val = "%$val%";
                                 $op  = 'LIKE';
                             }

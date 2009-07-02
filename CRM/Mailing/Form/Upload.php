@@ -161,12 +161,13 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $defaults['html_message'] = $defaults['body_html'];
         }
         
-
-        $componentFields = array(
-                                 'header_id' => 'Header',
-                                 'footer_id' => 'Footer');
-        foreach ($componentFields as $componentVar => $componentType) {
-            $defaults[$componentVar] = CRM_Mailing_PseudoConstant::defaultComponent($componentType, '');
+        //CRM-4678 setdefault to default component when composing new mailing.
+        if ( !$reuseMailing ) {
+            $componentFields = array( 'header_id' => 'Header',
+                                      'footer_id' => 'Footer');
+            foreach ($componentFields as $componentVar => $componentType) {
+                $defaults[$componentVar] = CRM_Mailing_PseudoConstant::defaultComponent($componentType, '');
+            }
         }
         
         return $defaults;
@@ -283,7 +284,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $formValues    = $this->controller->exportValues( $this->_name );
 
         foreach ( $uploadParams as $key ) {
-            if ( CRM_Utils_Array::value( $key, $formValues ) ) {
+            if ( CRM_Utils_Array::value( $key, $formValues ) ||
+                 in_array( $key, array( 'header_id', 'footer_id' ) ) ) {
                 $params[$key] = $formValues[$key];
                 $this->set($key, $formValues[$key]);
             }

@@ -139,6 +139,7 @@ class CRM_Report_Form_Instance {
 
     static function postProcess( &$form ) {
         $params = $form->getVar( '_params' );
+        $config =& CRM_Core_Config::singleton(); 
 
         $params['header']    = $params['report_header'];
         $params['footer']    = $params['report_footer'];
@@ -152,8 +153,11 @@ class CRM_Report_Form_Instance {
         if ( ! is_array( $dao->permission ) ) {
             $dao->permission = array($dao->permission);
         }
-
-        $dao->permission = serialize( array($dao->permission, 'and') );
+        if ( $config->userFramework == 'Joomla' ) {
+            $dao->permission = NULL;
+        } else {
+            $dao->permission = serialize( array($dao->permission, 'and') );
+        }
         
         // unset all the params that we use
         $fields = array( 'title', 'to_emails', 'cc_emails', 'header', 'footer',
@@ -174,9 +178,34 @@ class CRM_Report_Form_Instance {
         $dao->save( );
 
         $form->set( 'id', $dao->id );
-    }
+        if ( $dao->id ) {
+            $instanceParams   = array( 'value' => $dao->report_id );
+            $instanceDefaults = array();
+            $cmpName   = "Contact";
+            $statusMsg = "null";
+            CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue',
+                                          $instanceParams,
+                                          $instanceDefaults );
 
-}
+            if ( $cmpID = $instanceDefaults['component_id'] ) {
+                $cmpName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component', $cmpID,
+                                                        'name', 'id');
+                $cmpName = substr( $cmpName, 4 );
+            }
+            
+            // Url to view this report and others created FROM this template
+            $instanceUrl = CRM_Utils_System::url( 'civicrm/report/list',
+                                                  "reset=1&ovid={$instanceDefaults['id']}" );
+            $statusMsg = ts('Report "%1" has been created and is now available in the <a href="%3">report listings under "%2" Reports</a>.', array( 1 => $dao->title, 2 => $cmpName, 3 => $instanceUrl ));
+            if ( $instanceID ) {
+                $statusMsg = ts('Report "%1" has been updated.', array( 1 => $dao->title ));
+            }
+            CRM_Core_Session::setStatus( $statusMsg );
+        }
+    }
+    
+  }
+
 
 
 

@@ -376,7 +376,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Fee Amount'),
+                                                'name'      => ts('Amount'),
                                                 'sort'      => 'fee_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -386,7 +386,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DESCENDING, 
                                                 ),
                                           array(
-                                                'name'      => ts('Register Date(s)'),
+                                                'name'      => ts('Registered'),
                                                 'sort'      => 'participant_register_date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING, 
                                                 ),

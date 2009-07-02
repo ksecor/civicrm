@@ -219,6 +219,10 @@ div.spacer, .spacer {
   padding: 5px;
 }
 
+#crm-container .dijitDropDownButton {
+  margin: 0em !important;
+}
+
 #crm-container .control-panel td {
   padding: 3px;
   width: 25%;
@@ -526,7 +530,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   border: 1px solid #5A8FDB;
 }
 #crm-container th {
-  padding: 8px 4px 4px 4px;
+  padding: 4px;
   border-top: 1px solid #5A8FDB;	
   border-bottom: 1px solid #5A8FDB;
   text-align: left;
@@ -646,7 +650,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 #crm-container .float-right {
   float: right;
   width: auto;
-  padding: 0px 5px 10px 0px;
+  padding: 0px 5px 5px 0px;
   clear: none;
 }
 
@@ -1126,9 +1130,9 @@ div.crm-pager a {
 
 #crm-container table.caseSelector tr.columnheader th, #crm-container table.caseSelector tr.columnheader th a {
     color: #FFFFFF;
-    background-color: #666666;
-    border-top-color: #333333;
-    border-bottom-color: #333333;
+    background-color: #999999;
+    border-top-color: #666666;
+    border-bottom-color: #666666;
 }
 
 #crm-container table.caseSelector tr {
@@ -1145,11 +1149,12 @@ div.crm-pager a {
 #crm-container table.caseSelector td.status-urgent {   
     color: #FF0000;
     font-weight: bold;
+	text-transform: uppercase;
 }
 
 #crm-container table.caseSelector td {
     border-right: 0px;
-    padding: 2px;
+    padding: 4px;
 }
  
 #crm-container table.nestedActivitySelector {
@@ -1161,11 +1166,11 @@ div.crm-pager a {
 
 #crm-container table.nestedActivitySelector tr.columnheader th {
     color: #000000;
-    background-color: #999999;
-    border-top-color: #666666;
+    background-color: #CCCCCC;
+    border-top-color: #999999;
     border-left-color: #FFFFFF;
     border-right-color: #FFFFFF;
-    border-bottom-color: #666666;
+    border-bottom-color: #999999;
 }
 
 #crm-container table#activities-selector.nestedActivitySelector, #crm-container table#activities-selector.nestedActivitySelector td {
@@ -1178,15 +1183,15 @@ div.crm-pager a {
 }
 
 #crm-container table#activities-selector.nestedActivitySelector tr.status-overdue {
-    font-size: 11px;  
+ 
 }
     	               
 #crm-container table.nestedActivitySelector tr.priority-urgent {         
-    background-color: #FFCCCC;
+    background-color: #FFDDDD;
 }
 
 #crm-container table.nestedActivitySelector tr.priority-low {
-    background-color: #CCFFCC;
+    background-color: #DDFFDD;
 }
 
 #crm-container table.nestedActivitySelector tr.status-scheduled {
@@ -1194,18 +1199,24 @@ div.crm-pager a {
 }
 
 #crm-container table.nestedActivitySelector tr.status-completed {
-   color: #000080; 
+   color: #333333; 
 }
 
 #crm-container table.nestedActivitySelector tr.status-overdue {
    color: #FF0000;
-   font-weight: bold;
-   font-size: 10px;
 }
 
 #crm-container table.nestedActivitySelector tr a {
    color:  #0066CC;
 }
+
+#crm-container #activities-selector tr:hover td, 
+#crm-container #activities-selector tr:hover td.sorted,
+#crm-container #activities-selector tr.trOver td.sorted, 
+#crm-container #activities-selector tr.trOver td
+			{
+			background: transparent;
+			}
 
 #crm-container span.success-status {
     margin-left: 6px;
@@ -1427,8 +1438,11 @@ div.grippie {
 #crm-container .report-layout {
    background-color : #F5F5F5; 
    border           : none;
-   margin           : 0em 0em 1em 0.1em;
-   //width            : 100%;
+   margin           : 0em 0em 0em 0.1em;
+}
+
+#crm-container table.criteria-group {
+   border-bottom: 3px solid #DCDCDC;
 }
 
 #crm-container .reports-header {
@@ -1467,6 +1481,15 @@ div.grippie {
    font-size        : 0.95em; 
 }
 
+#crm-container table.report-layout tr.group-row {
+  font-size        : 1.1em;
+}
+
+#crm-container table.report-layout tr.total-row {
+  font-size        : 1em;
+  border-top       : 2px groove #DCDCDC;
+}
+
 #crm-container .report-label {
   text-align        : right;
   font-weight       : bold;
@@ -1492,9 +1515,13 @@ div.grippie {
 .report-pager .crm-pager {
     background-color: #DCDCDC;
     border          : thin solid #999999;
-    margin-left	    : 0.1em;
+    margin    	    : 1em 0 0 0.1em;
     width           : 99%;
 }
 .report-pager .crm-pager-nav a {
     color           : #000000;
+}
+#crm-container .report-layout .sticky-header {
+  background-color  : #DCDCDC;
+  border            : 1px solid #DCDCDC;
 }

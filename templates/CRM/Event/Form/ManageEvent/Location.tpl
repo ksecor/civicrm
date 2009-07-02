@@ -1,6 +1,8 @@
 {* this template used to build location block *}
+<div class="crm-submit-buttons">
+    {$form.buttons.html}
+</div>
 <fieldset>
-    <legend>{ts}Event Location and Contact Information{/ts}</legend>
     <div id="help">
         {ts}Use this form to configure the location and optional contact information for the event. This information will be displayed on the Event Information page. It will also be included in online registration pages and confirmation emails if these features are enabled.{/ts}
     </div>
@@ -48,9 +50,9 @@
        </span>
     </div>
 </fieldset>
-<dl>
-    <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
-</dl>
+<div class="crm-submit-buttons">
+    {$form.buttons.html}
+</div>
     
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *} 
 {include file="CRM/common/showHide.tpl"}

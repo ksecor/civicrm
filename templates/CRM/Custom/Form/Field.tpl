@@ -1,128 +1,126 @@
 {*Javascript function controls showing and hiding of form elements based on html type.*}
 {literal}
 <script type="text/Javascript">
-    function custom_option_html_type( ) {
-        var html_type_name = document.getElementsByName("data_type[1]")[0].value;
-        var data_type_id   = document.getElementsByName("data_type[0]")[0].value;
+function custom_option_html_type( ) {
+    var html_type_name = document.getElementsByName("data_type[1]")[0].value;
+    var data_type_id   = document.getElementsByName("data_type[0]")[0].value;
 
-        if ( !html_type_name && !data_type_id ) {
-            return;
-        }
-        if ( data_type_id < 4 || data_type_id == 11 ) {
-            if ( html_type_name != "Text" && html_type_name != "ContactReference" ) {
-	    	document.getElementById("showoption").style.display="block";		
-                document.getElementById("hideDefaultValTxt").style.display="none";
-                document.getElementById("hideDefaultValDef").style.display="none";
-                document.getElementById("hideDescTxt").style.display="none";
-                document.getElementById("hideDescDef").style.display="none";
-                document.getElementsByName("is_search_range")[1].checked = true;
-         	document.getElementById("searchByRange").style.display = "none";
- 	        document.getElementById("is_searchable").style.display = "block";
-
-            } else {
-    	        document.getElementById("showoption").style.display="none";
-    	        document.getElementById("showoption").style.display="none";
-                document.getElementById("hideDefaultValTxt").style.display="block";
-                document.getElementById("hideDefaultValDef").style.display="block";
-                document.getElementById("hideDescTxt").style.display="block";
-                document.getElementById("hideDescDef").style.display="block";
- 	        document.getElementById("is_searchable").style.display = "block";
-            }
-        } else {
-
-	    if ( data_type_id == 9 ) { 
-	        /*file type*/
-		document.getElementById("default_value").value = '';
-		document.getElementById("hideDefaultValTxt").style.display="none";
-                document.getElementById("hideDefaultValDef").style.display="none";		
-	        document.getElementById("is_searchable").style.display = "none";
-		document.getElementById("hideDescTxt").style.display="none";
-	        document.getElementById("hideDescDef").style.display="none";
-            } else {
-		document.getElementById("hideDefaultValTxt").style.display="block";
-		document.getElementById("hideDefaultValDef").style.display="block";
- 	        document.getElementById("is_searchable").style.display = "block";
-		document.getElementById("hideDescTxt").style.display="block";
-	        document.getElementById("hideDescDef").style.display="block";
-	    }
-
-    	    document.getElementById("showoption").style.display="none";           
-          
-        }
-	
-	var radioOption, checkBoxOption;
-
-	for ( var i=1; i<=11; i++) {
-	    radioOption = 'radio'+i;
-	    checkBoxOption = 'checkbox'+i	
-		if ( data_type_id < 4 ) {
-		    if ( html_type_name != "Text") {
-			if ( html_type_name == "CheckBox" || html_type_name == "Multi-Select") {
-			    document.getElementById(checkBoxOption).style.display="block";
-			    document.getElementById(radioOption).style.display="none";
-			} else {
-			    document.getElementById(radioOption).style.display="block";	
-			    document.getElementById(checkBoxOption).style.display="none";
-			}
-		    }
-		}
-	}
-
-    	if ( data_type_id < 4 ) {	
-	    if (html_type_name == "CheckBox" || html_type_name == "Radio") {
-		document.getElementById("optionsPerLine").style.display="block";
-		document.getElementById("optionsPerLineDef").style.display="block";
-	    } else {
-		document.getElementById("optionsPerLine").style.display="none";
-		document.getElementById("optionsPerLineDef").style.display="none";
-	    }
-    	}
-	
-    	if ( data_type_id == 5) {
-    	     document.getElementById("startDateRange").style.display="block";
-    	     document.getElementById("startDateRangeDef").style.display="block";
-	     document.getElementById("endDateRange").style.display="block";
-    	     document.getElementById("endDateRangeDef").style.display="block";
-    	     document.getElementById("incudedDatePart").style.display="block";
-    	     document.getElementById("incudedDatePartDef").style.display="block";	
-         } else {
-    	     document.getElementById("startDateRange").style.display="none";
-   	     document.getElementById("startDateRangeDef").style.display="none";
-    	     document.getElementById("endDateRange").style.display="none";
-    	     document.getElementById("endDateRangeDef").style.display="none";
-	     document.getElementById("incudedDatePart").style.display="none";
-    	     document.getElementById("incudedDatePartDef").style.display="none";	 	
-    	}
-
-    	if ( data_type_id == 0 ) {
-    	     document.getElementById("textLength").style.display="block";
-    	     document.getElementById("textLengthDef").style.display="block";
-        } else {
-    	     document.getElementById("textLength").style.display="none";
-   	     document.getElementById("textLengthDef").style.display="none";
-    	}
-
-    	if ( data_type_id == 4 ) {
-    	     document.getElementById("noteColumns").style.display="block";
-    	     document.getElementById("noteColumnsDef").style.display="block";
-    	     document.getElementById("noteRows").style.display="block";
-    	     document.getElementById("noteRowsDef").style.display="block";
-        } else {
-    	     document.getElementById("noteColumns").style.display="none";
-   	     document.getElementById("noteColumnsDef").style.display="none";
-	     document.getElementById("noteRows").style.display="none";
-	     document.getElementById("noteRowsDef").style.display="none";
-    	}
-			 
-        if ( data_type_id > 3) {
-             document.getElementById("optionsPerLine").style.display="none";
-             document.getElementById("optionsPerLineDef").style.display="none";
-        }
-
-	{/literal}{if $action eq 1}{literal}
-        clearSearchBoxes( );
-	{/literal}{/if}{literal}
+    if ( !html_type_name && !data_type_id ) {
+        return;
     }
+    if ( data_type_id < 4 || data_type_id == 11 ) {
+        if ( html_type_name != "Text" && html_type_name != "ContactReference" ) {
+            document.getElementById("showoption").style.display="block";		
+            document.getElementById("hideDefaultValTxt").style.display="none";
+            document.getElementById("hideDefaultValDef").style.display="none";
+            document.getElementById("hideDescTxt").style.display="none";
+            document.getElementById("hideDescDef").style.display="none";
+            document.getElementsByName("is_search_range")[1].checked = true;
+            document.getElementById("searchByRange").style.display = "none";
+            document.getElementById("is_searchable").style.display = "block";
+
+        } else {
+            document.getElementById("showoption").style.display="none";
+            document.getElementById("showoption").style.display="none";
+            document.getElementById("hideDefaultValTxt").style.display="block";
+            document.getElementById("hideDefaultValDef").style.display="block";
+            document.getElementById("hideDescTxt").style.display="block";
+            document.getElementById("hideDescDef").style.display="block";
+            document.getElementById("is_searchable").style.display = "block";
+        }
+    } else {
+        if ( data_type_id == 9 ) { 
+            document.getElementById("default_value").value = '';
+            document.getElementById("hideDefaultValTxt").style.display="none";
+            document.getElementById("hideDefaultValDef").style.display="none";		
+            document.getElementById("is_searchable").style.display = "none";
+            document.getElementById("hideDescTxt").style.display="none";
+            document.getElementById("hideDescDef").style.display="none";
+        } else {
+            document.getElementById("hideDefaultValTxt").style.display="block";
+            document.getElementById("hideDefaultValDef").style.display="block";
+            document.getElementById("is_searchable").style.display = "block";
+            document.getElementById("hideDescTxt").style.display="block";
+            document.getElementById("hideDescDef").style.display="block";
+        }
+
+        document.getElementById("showoption").style.display="none";           
+
+    }
+
+    var radioOption, checkBoxOption;
+
+    for ( var i=1; i<=11; i++) {
+        radioOption = 'radio'+i;
+        checkBoxOption = 'checkbox'+i	
+        if ( data_type_id < 4 ) {
+            if ( html_type_name != "Text") {
+                if ( html_type_name == "CheckBox" || html_type_name == "Multi-Select") {
+                    document.getElementById(checkBoxOption).style.display="block";
+                    document.getElementById(radioOption).style.display="none";
+                } else {
+                    document.getElementById(radioOption).style.display="block";	
+                    document.getElementById(checkBoxOption).style.display="none";
+                }
+            }
+        }
+    }
+
+    if ( data_type_id < 4 ) {	
+        if (html_type_name == "CheckBox" || html_type_name == "Radio") {
+            document.getElementById("optionsPerLine").style.display="block";
+            document.getElementById("optionsPerLineDef").style.display="block";
+        } else {
+            document.getElementById("optionsPerLine").style.display="none";
+            document.getElementById("optionsPerLineDef").style.display="none";
+        }
+    }
+
+    if ( data_type_id == 5) {
+        document.getElementById("startDateRange").style.display="block";
+        document.getElementById("startDateRangeDef").style.display="block";
+        document.getElementById("endDateRange").style.display="block";
+        document.getElementById("endDateRangeDef").style.display="block";
+        document.getElementById("incudedDatePart").style.display="block";
+        document.getElementById("incudedDatePartDef").style.display="block";	
+    } else {
+        document.getElementById("startDateRange").style.display="none";
+        document.getElementById("startDateRangeDef").style.display="none";
+        document.getElementById("endDateRange").style.display="none";
+        document.getElementById("endDateRangeDef").style.display="none";
+        document.getElementById("incudedDatePart").style.display="none";
+        document.getElementById("incudedDatePartDef").style.display="none";	 	
+    }
+
+    if ( data_type_id == 0 || ( data_type_id == 11 && html_type_name == "Select" ) ) {
+        document.getElementById("textLength").style.display="block";
+        document.getElementById("textLengthDef").style.display="block";
+    } else {
+        document.getElementById("textLength").style.display="none";
+        document.getElementById("textLengthDef").style.display="none";
+    }
+
+    if ( data_type_id == 4 ) {
+        document.getElementById("noteColumns").style.display="block";
+        document.getElementById("noteColumnsDef").style.display="block";
+        document.getElementById("noteRows").style.display="block";
+        document.getElementById("noteRowsDef").style.display="block";
+    } else {
+        document.getElementById("noteColumns").style.display="none";
+        document.getElementById("noteColumnsDef").style.display="none";
+        document.getElementById("noteRows").style.display="none";
+        document.getElementById("noteRowsDef").style.display="none";
+    }
+
+    if ( data_type_id > 3) {
+        document.getElementById("optionsPerLine").style.display="none";
+        document.getElementById("optionsPerLineDef").style.display="none";
+    }
+
+    {/literal}{if $action eq 1}{literal}
+    clearSearchBoxes( );
+    {/literal}{/if}{literal}
+}
 </script>
 {/literal}
 <fieldset><legend>{ts}Custom Data Field{/ts}</legend>
@@ -248,12 +246,12 @@
 
     function showSearchRange(chkbox) {
         var html_type = document.getElementsByName("data_type[1]")[0].value;
-	var data_type = document.getElementsByName("data_type[0]")[0].value;
+	    var data_type = document.getElementsByName("data_type[0]")[0].value;
 
         if ( ((data_type == 1 || data_type == 2 || data_type == 3) && (html_type == "Text")) || data_type == 5) {
             if (chkbox.checked) {
-		document.getElementsByName("is_search_range")[0].checked = true;
-        	document.getElementById("searchByRange").style.display = "block";
+		        document.getElementsByName("is_search_range")[0].checked = true;
+        	    document.getElementById("searchByRange").style.display = "block";
             } else {
                 clearSearchBoxes( );
             }

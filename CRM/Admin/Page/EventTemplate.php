@@ -72,7 +72,7 @@ class CRM_Admin_Page_EventTemplate extends CRM_Core_Page_Basic
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/event/manage',
-                                                                    'qs'    => 'action=update&id=%%id%%&reset=1',
+                                                                    'qs'    => 'action=update&id=%%id%%&reset=1&subPage=EventInfo',
                                                                     'title' => ts('Edit Event Template') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
@@ -135,6 +135,10 @@ class CRM_Admin_Page_EventTemplate extends CRM_Core_Page_Basic
                                                                                           array('id' => $eventTemplate->id ) );
         }
         $this->assign('rows', $allEventTemplates );
+
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
+                                                          'reset=1&action=browse' ) );
     }
     
     /**

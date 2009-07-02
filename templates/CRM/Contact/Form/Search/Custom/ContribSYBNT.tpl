@@ -82,7 +82,7 @@
 
 {strip}
 <table summary="{ts}Search results listings.{/ts}">
-  <tr class="columnheader">
+ <thead class="sticky">
   <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
   {foreach from=$columnHeaders item=header}
     <th scope="col">
@@ -95,8 +95,7 @@
     </th>
   {/foreach}
   <th>&nbsp;</th>
-  </tr>
-
+ </thead>
   {counter start=0 skip=1 print=false}
       {foreach from=$rows item=row}
         <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">

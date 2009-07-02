@@ -1,6 +1,7 @@
 {if $top}
     {if $printOnly}
         <h1>{$reportTitle}</h1>
+        <div id="report-date">{$reportDate}</div>
     {/if}
     <br/>
     {if $statistics and $outputMode}
@@ -31,7 +32,7 @@
                    {if $row.type eq 1024}
                        {$row.value|crmMoney}
                    {else}
-                       {$row.value}
+                       {$row.value|crmNumberFormat}
                    {/if}
 
                 </td>

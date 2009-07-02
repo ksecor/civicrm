@@ -64,7 +64,7 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
 
         $this->add('text', 'url', ts('Url'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Navigation', 'url' ) );
         require_once 'CRM/Core/Permission.php';
-        $permissions = CRM_Core_Permission::basicPermissions();
+        $permissions = CRM_Core_Permission::basicPermissions( true );
         $include =& $this->addElement('advmultiselect', 'permission', 
                                       ts('Permission') . ' ', $permissions,
                                       array('size' => 5, 

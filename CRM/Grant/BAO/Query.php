@@ -144,7 +144,7 @@ class CRM_Grant_BAO_Query
 
         case 'grant_type_id':
             
-            $value = strtolower(addslashes(trim($value)));
+            $value = strtolower(CRM_Core_DAO::escapeString(trim($value)));
 
             $query->_where[$grouping][] = "civicrm_grant.grant_type_id $op '{$value}'";
             
@@ -158,7 +158,7 @@ class CRM_Grant_BAO_Query
 
         case 'grant_status_id':
             
-            $value = strtolower(addslashes(trim($value)));
+            $value = strtolower(CRM_Core_DAO::escapeString(trim($value)));
 
             $query->_where[$grouping][] = "civicrm_grant.status_id $op '{$value}'";
             

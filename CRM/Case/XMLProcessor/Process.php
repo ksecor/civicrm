@@ -322,21 +322,18 @@ AND        ca.case_id = %3
         if ( $activityTypeName == 'Open Case' ) {
             // we don't set activity_date_time for auto generated
             // activities, but we want it to be set for open case.
-            if ( array_key_exists('activity_date_time', $params) ) {
-                $activityParams['activity_date_time'] = $params['activity_date_time'];
-                $activityParams['due_date_time']      = $params['activity_date_time'];
-            }
+            $activityParams['activity_date_time'] = $params['activity_date_time'];
             if ( array_key_exists('custom', $params) && is_array($params['custom']) ) {
                 $activityParams['custom'] = $params['custom'];
             }
         } else {
-            $dueDateTime = null;
-            //get due date of reference activity if set.
+            $activityDate = null;
+            //get date of reference activity if set.
             if ( $referenceActivityName = (string) $activityTypeXML->reference_activity  ) {
 
                 //we skip open case as reference activity.CRM-4374.
-                if ( CRM_Utils_Array::value('is_StartdateChanged', $params) && $referenceActivityName == 'Open Case' ) {
-                    $dueDateTime = $params['dueDateTime']; 
+                if ( CRM_Utils_Array::value('resetTimeline', $params) && $referenceActivityName == 'Open Case' ) {
+                    $activityDate = $params['activity_date_time']; 
                 } else {
                     $referenceActivityInfo = CRM_Utils_Array::value( $referenceActivityName, $activityTypes );
                     if ( $referenceActivityInfo['id'] ) {
@@ -349,31 +346,31 @@ AND        ca.case_id = %3
                         
                         require_once 'CRM/Case/BAO/Case.php';
                         $referenceActivity = 
-                            CRM_Case_BAO_Case::getCaseActivityDueDates( $params['caseID'], $caseActivityParams, true );
+                            CRM_Case_BAO_Case::getCaseActivityDates( $params['caseID'], $caseActivityParams, true );
                         
                         if ( is_array($referenceActivity) ) {
                             foreach( $referenceActivity as $aId => $details ) {
-                                $dueDateTime = CRM_Utils_Array::value('due_date', $details );
+                                $activityDate = CRM_Utils_Array::value('activity_date', $details );
                                 break;
                             }
                         }
                     }
                 }
             }
-            if ( ! $dueDateTime ) {
-                $dueDateTime = $params['dueDateTime'];
+            if ( !$activityDate ) {
+                $activityDate = $params['activity_date_time'];
             }
 
-            $datetime        = new DateTime( $dueDateTime );
-            $activityDueTime = CRM_Utils_Date::unformat( $datetime->format('Y:m:d:H:i:s'), ':' );
+            $datetime     = new DateTime( $activityDate );
+            $activityDateTime = CRM_Utils_Date::unformat( $datetime->format('Y:m:d:H:i:s'), ':' );
 
             //add reference offset to date.
             if ( (int) $activityTypeXML->reference_offset ) {
-                $activityDueTime = CRM_Utils_Date::intervalAdd( 'day', (int) $activityTypeXML->reference_offset, 
-                                                                $activityDueTime );
+                $activityDateTime = CRM_Utils_Date::intervalAdd( 'day', (int) $activityTypeXML->reference_offset, 
+                                                                 $activityDateTime );
             }
             
-            $activityParams['due_date_time'] = CRM_Utils_Date::format( $activityDueTime );
+            $activityParams['activity_date_time'] = CRM_Utils_Date::format( $activityDateTime );
         }
 
         // if same activity is already there, skip and dont touch

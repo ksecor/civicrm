@@ -1407,11 +1407,10 @@ AND cl.modified_id  = c.id
      *
      * @activityId int activity id of parent activity 
      * @param array  $activity details
-     * @caseId int Case id
      * 
      * @access public
      */
-    static function createFollowupActivity( $activityId, $params, $isCaseActivity = false )
+    static function createFollowupActivity( $activityId, $params )
     { 
         if ( !$activityId ) {
             return;
@@ -1438,12 +1437,8 @@ AND cl.modified_id  = c.id
         $followupDate = CRM_Utils_Date::intervalAdd( $params['interval_unit'], $params['interval'], $currentDate );
         $followupDate = CRM_Utils_Date::format( $followupDate );
         
-        if ( $isCaseActivity ) {
-            $followupParams['due_date_time']      = $followupDate;
-        } else {
-            $followupParams['activity_date_time'] = $followupDate;
-        }
-        
+        $followupParams['activity_date_time'] = $followupDate;
+               
         $followupActivity = self::create( $followupParams );
         
         return $followupActivity;
@@ -1520,7 +1515,7 @@ AND cl.modified_id  = c.id
                            'case_subject'                 => array( 'title' => ts('Activity Subject'),        'type' => CRM_Utils_Type::T_STRING ),
                            'case_source_contact_id'       => array( 'title' => ts('Activity Reporter'),       'type' => CRM_Utils_Type::T_STRING ),
                            'case_recent_activity_date'    => array( 'title' => ts('Activity Actual Date'),    'type' => CRM_Utils_Type::T_DATE ),
-                           'case_scheduled_activity_date' => array( 'title' => ts('Activity Due Date'),       'type' => CRM_Utils_Type::T_DATE ),
+                           'case_scheduled_activity_date' => array( 'title' => ts('Activity Scheduled Date'),       'type' => CRM_Utils_Type::T_DATE ),
                            'case_recent_activity_type'    => array( 'title' => ts('Activity Type'),           'type' => CRM_Utils_Type::T_INT ),
                            'case_activity_status_id'      => array( 'title' => ts('Activity Status'),         'type' => CRM_Utils_Type::T_INT ),
                            'case_activity_duration'       => array( 'title' => ts('Activity Duration'),       'type' => CRM_Utils_Type::T_INT ),

@@ -92,6 +92,8 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
     static function add( &$params ) {
         require_once "CRM/Core/DAO/Navigation.php";
         $navigation  =& new CRM_Core_DAO_Navigation( );
+        
+        $params['is_active'] = CRM_Utils_Array::value( 'is_active', $params, false );
         if ( !isset( $params['id'] ) ) {
             $params['name']   = $params['label'];
             $params['weight'] = self::calculateWeight( $params['parent_id'] );
@@ -172,7 +174,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
      * @return array $navigations returns associated array
      * @static
      */
-    static function getNavigationList( &$navigations, $flatList = true, $parentID = null, $separtor = '&nbsp;&nbsp;' ) {
+    static function getNavigationList( &$navigations, $parentID = null, $separtor = '&nbsp;&nbsp;' ) {
         $whereClause = " parent_id IS NULL";
         if (  $parentID ) {
             $whereClause = " parent_id = {$parentID}"; 
@@ -192,15 +194,8 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
                 $label = "{$separtor}{$navigation->label}";
             }
 
-            if ( $flatList ) {
-                $navigations[$navigation->id] = $label;
-            } else {
-                $navigations[$navigation->id] = array( 'label'     => $label,
-                                                       'is_active' => $navigation->is_active,
-                                                       'parent_id' => $navigation->parent_id );
-            }
-
-            self::getNavigationList( $navigations, $flatList, $navigation->id, $separtor );
+            $navigations[$navigation->id] = $label;
+            self::getNavigationList( $navigations, $navigation->id, $separtor );
         }
 
         return $navigations;           
@@ -226,10 +221,9 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
 
         // get the list of menus
         $query = "
-SELECT id, label, url, permission, permission_operator, has_separator, parent_id 
+SELECT id, label, url, permission, permission_operator, has_separator, parent_id, is_active 
 FROM civicrm_navigation 
-WHERE {$whereClause} 
-AND is_active = 1
+WHERE {$whereClause}
 AND domain_id = $domainID
 ORDER BY parent_id, weight";
 
@@ -242,7 +236,8 @@ ORDER BY parent_id, weight";
                                                                              'operator'   => $navigation->permission_operator,
                                                                              'separator'  => $navigation->has_separator,
                                                                              'parentID'   => $navigation->parent_id,
-                                                                             'navID'      => $navigation->id) );
+                                                                             'navID'      => $navigation->id,
+                                                                             'active'     => $navigation->is_active ));
             self::buildNavigationTree( $navigationTree[$navigation->id]['child'], $navigation->id );
         }
 
@@ -269,7 +264,11 @@ ORDER BY parent_id, weight";
                 if ( $navigationString ) {
                     $navigationString .= '},';
                 }
-                $navigationString .= ' { attributes: { id : "node_'.$key.'" }, data: "'. $value['attributes']['label']. '"';
+                $data = $value['attributes']['label'];
+                if ( !$value['attributes']['active'] ) {
+                    $data = "<font class='font-red'>{$value['attributes']['label']}</font>";
+                }
+                $navigationString .= ' { attributes: { id : "node_'.$key.'" }, data: "'. $data. '"';
             } else {
                 $name = self::getMenuName( $value, $skipMenuItems );
                 if ( $name ) { 
@@ -305,8 +304,12 @@ ORDER BY parent_id, weight";
             if ( !empty( $value['child'] ) ) {
                 $appendComma = false;
                 foreach($value['child'] as $k => $val ) {
-                    $appendComma = true;                        
-                    $navigationString .= ' { attributes: { id : "node_'.$k.'" }, data: "'. $val['attributes']['label'] .'"';
+                    $appendComma = true; 
+                    $data = $val['attributes']['label'];
+                    if ( !$val['attributes']['active'] ) {
+                        $data = "<font class='font-red'>{$val['attributes']['label']}</font>";
+                    }                       
+                    $navigationString .= ' { attributes: { id : "node_'.$k.'" }, data: "'. $data .'"';
                     self::recurseNavigation($val, $navigationString, $json, $skipMenuItems );
                     if ( $appendComma ) {
                         $navigationString .= ' },';
@@ -354,11 +357,13 @@ ORDER BY parent_id, weight";
         $operator   = $value['attributes']['operator'];
         $parentID   = $value['attributes']['parentID'];
         $navID      = $value['attributes']['navID'];
+        $active     = $value['attributes']['active'];
         
-        if ( in_array( $parentID, $skipMenuItems ) ) {
+        if ( in_array( $parentID, $skipMenuItems ) || !$active ) {
+            $skipMenuItems[] = $navID;
             return false;
         }
-              
+        
         $makeLink = false;
         if ( isset( $url ) && $url) {
             if ( substr( $url, 0, 4 ) === 'http' ) {

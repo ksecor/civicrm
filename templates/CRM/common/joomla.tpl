@@ -4,7 +4,7 @@
 
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
     
-{* Only include joomla.css in administrator (backend). Page layout style id's and classes conflict with typical front-end css and break the page layout. *}
+{* Only include joomla.css in administrator (backend). Page layout style ids and classes conflict with typical front-end css and break the page layout. *}
 
 {if ! $config->userFrameworkFrontend}
     <link rel="stylesheet" href="{$config->resourceBase}css/joomla.css" type="text/css" />
@@ -27,10 +27,6 @@
         <link rel="stylesheet" href="{$config->resourceBase}css/civicrm-new.css" type="text/css" />
     {/if}
 {/if}
-<link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script> 
 
 {include file="CRM/common/jquery.tpl"}
 {include file="CRM/common/action.tpl"}

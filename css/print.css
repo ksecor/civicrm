@@ -16,13 +16,18 @@ table.form-layout td, table.form-layout th {
  }
 #crm-container {   
     overflow: visible !important;
+    font-family      : serif;	
 }
+
 /* CSS for Print and PDF of Reports */
 #crm-container .report-layout {
     border           : 1px groove #DDDDDD;
     width            : 100%;
-    font-family      : sans-serif;	
     border-collapse  : collapse;
+}
+
+#crm-container .criterial-group {
+    border-bottom: 2px solid #DCDCDC;
 }
 
 #crm-container .reports-header-right {
@@ -51,7 +56,16 @@ table.form-layout td, table.form-layout th {
 }
 
 #crm-container table.report-layout tr {
-    font-size        : 0.95em; 
+    font-size        : 0.9em; 
+}
+
+#crm-container table.report-layout tr.group-row {
+    font-size        : 1em;
+}
+
+#crm-container table.report-layout tr.total-row {
+   font-size        : 1em;
+   border-top       : 2px groove #DCDCDC;
 }
 
 #crm-container .report-label {
@@ -62,6 +76,8 @@ table.form-layout td, table.form-layout th {
 #crm-container table.report-layout th {
     padding          : 4px;
     background-color : #DCDCDC;
+//    text-align       : left;
+    vertical-align   : top;
 }
 
 #crm-container table.report-layout th.report-contents {
@@ -74,9 +90,14 @@ table.form-layout td, table.form-layout th {
 }
 
 #crm-container h1 {
-    text-align       : left;
-    font-family      : sans-serif;
-    font-size        : 20pt;
+    text-align       : center;
+    font-size        : 1.5em;
     font-style       : italic;
     margin           : 0;
+}
+
+#crm-container div#report-date {
+    font-size        : .8em;
+    font-style       : italic;
+    float            : right;
 }

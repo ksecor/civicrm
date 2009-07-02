@@ -231,7 +231,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         if ( $params ) {
             foreach ( $params as $k => $v ) {
                 if ( $k == 'name' || $k == 'title' ) {
-                    $dao->whereAdd( $k . ' LIKE "' . addslashes( $v ) . '"' );
+                    $dao->whereAdd( $k . ' LIKE "' . CRM_Core_DAO::escapeString( $v ) . '"' );
                 } else if ( is_array( $v ) ) {
                     $dao->whereAdd( $k . ' IN (' . implode(',', $v ) . ')' );
                 } else {

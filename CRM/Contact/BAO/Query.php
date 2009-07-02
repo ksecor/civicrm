@@ -1284,7 +1284,7 @@ class CRM_Contact_BAO_Query
         
         //add phone type if exists
         if ( isset( $locType[2] ) && $locType[2] ) {
-            $locType[2] = addslashes( $locType[2] );
+            $locType[2] = CRM_Core_DAO::escapeString( $locType[2] );
         }
         $field = CRM_Utils_Array::value( $name, $this->_fields );
         
@@ -1431,7 +1431,7 @@ class CRM_Contact_BAO_Query
                 $this->_qill[$grouping][]  = "$field[title] $op $value";
             }
         } else if ( $name === 'name' ) {
-            $value = strtolower( addslashes( $value ) );
+            $value = strtolower( CRM_Core_DAO::escapeString( $value ) );
             if ( $wildcard ) {
                 $value = "%$value%"; 
                 $op    = 'LIKE';
@@ -1440,7 +1440,7 @@ class CRM_Contact_BAO_Query
             $this->_where[$grouping][] = self::buildClause( $wc, $op, "'$value'" );
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else if ( $name === 'current_employer' ) {
-            $value = strtolower( addslashes( $value ) );
+            $value = strtolower( CRM_Core_DAO::escapeString( $value ) );
             if ( $wildcard ) {
                 $value = "%$value%"; 
                 $op    = 'LIKE';
@@ -1481,7 +1481,7 @@ class CRM_Contact_BAO_Query
 
             if ( ! empty( $field['where'] ) ) {
                 if ( $op != 'IN' ) {
-                    $value = strtolower( addslashes( $value ) );
+                    $value = strtolower( CRM_Core_DAO::escapeString( $value ) );
                 }
                 if ( $wildcard ) {
                     $value = "%$value%"; 
@@ -2159,7 +2159,7 @@ WHERE  id IN ( $groupIDs )
                                           contact_a.id = civicrm_note.entity_id ) ";
 
         $n = trim( $value );
-        $value = strtolower(addslashes($n));
+        $value = strtolower(CRM_Core_DAO::escapeString($n));
         if ( $wildcard || $op == 'LIKE' ) {
             if ( strpos( $value, '%' ) !== false ) {
                 // only add wild card if not there
@@ -2195,7 +2195,7 @@ WHERE  id IN ( $groupIDs )
         if ( substr( $name, 0 , 1 ) == '"' &&
              substr( $name, -1, 1 ) == '"' ) {
             $value = substr( $name, 1, -1 );
-            $value = strtolower(addslashes($value));
+            $value = strtolower(CRM_Core_DAO::escapeString($value));
             $wc = ( $newName == 'sort_name') ? 'LOWER(contact_a.sort_name)' : 'LOWER(contact_a.display_name)';
             $sub[] = " ( $wc = '$value' ) ";
             if ( $config->includeEmailInName ) {
@@ -2203,7 +2203,7 @@ WHERE  id IN ( $groupIDs )
             }
         } else if ( strpos( $name, ',' ) !== false ) {
             // if we have a comma in the string, search for the entire string 
-            $value = strtolower(addslashes($name));
+            $value = strtolower(CRM_Core_DAO::escapeString($name));
             if ( $wildcard ) {
                 if ( $config->includeWildCardInName ) {
                     $value = "'%$value%'";
@@ -2242,7 +2242,7 @@ WHERE  id IN ( $groupIDs )
                 $pieces =  explode( ' ', $name );
             }
             foreach ( $pieces as $piece ) { 
-                $value = strtolower( addslashes( trim( $piece ) ) );
+                $value = strtolower( CRM_Core_DAO::escapeString( trim( $piece ) ) );
                 if ( $wildcard ) {
                     if ( $config->includeWildCardInName ) {
                         $value = "'%$value%'";
@@ -2297,11 +2297,11 @@ WHERE  id IN ( $groupIDs )
         if ( substr( $n, 0 , 1 ) == '"' &&
              substr( $n, -1, 1 ) == '"' ) {
             $n     = substr( $n, 1, -1 );
-            $value = strtolower(addslashes($n));
+            $value = strtolower(CRM_Core_DAO::escapeString($n));
             $value = "'$value'";
             $op    = '=';
         } else {
-            $value = strtolower(addslashes($n));
+            $value = strtolower(CRM_Core_DAO::escapeString($n));
             if ( $wildcard ) {
                 if ( strpos( $value, '%' ) !== false ) {
                     $value = "'$value'";
@@ -2331,7 +2331,7 @@ WHERE  id IN ( $groupIDs )
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         $name = trim( $value );
-        $cond = " contact_a.sort_name LIKE '" . strtolower(addslashes($name)) . "%'"; 
+        $cond = " contact_a.sort_name LIKE '" . strtolower(CRM_Core_DAO::escapeString($name)) . "%'"; 
         $this->_where[$grouping][] = $cond;
         $this->_qill[$grouping][]  = ts( 'Restricted to Contacts starting with: \'%1\'', array( 1 => $name ) );
     }
@@ -2477,7 +2477,7 @@ WHERE  id IN ( $groupIDs )
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         $name = trim( $value );
 
-        $v = strtolower(addslashes(trim($name)));
+        $v = strtolower(CRM_Core_DAO::escapeString(trim($name)));
         $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_activity_history.activity_type)" : "civicrm_activity_history.activity_type";
         $this->_where[$grouping][] = " $wc $op '$v'";
         $this->_tables['civicrm_activity_history'] = $this->_whereTables['civicrm_activity_history'] = 1; 
@@ -2509,7 +2509,7 @@ WHERE  id IN ( $groupIDs )
         }
 
         $name = trim( $targetName[2] );
-        $name = strtolower( addslashes( $name ) );
+        $name = strtolower( CRM_Core_DAO::escapeString( $name ) );
         $name = $targetName[4] ? "%$name%" : $name;
         $this->_where[$grouping][] = "contact_b.sort_name LIKE '%$name%'";
         $this->_tables['civicrm_log'] = $this->_whereTables['civicrm_log'] = 1; 
@@ -2552,7 +2552,7 @@ WHERE  id IN ( $groupIDs )
                 $name = null;
             } else {
                 $name = trim( $activityTargetName[2] );
-                $name = strtolower( addslashes( $name ) );
+                $name = strtolower( CRM_Core_DAO::escapeString( $name ) );
             }
             $this->_where[$grouping][] = " contact_a.sort_name LIKE '%{$name}%'";
            
@@ -2592,7 +2592,7 @@ WHERE  id IN ( $groupIDs )
             break;   
         case 'activity_subject':
             $n = trim( $value );
-            $value = strtolower(addslashes($n));
+            $value = strtolower(CRM_Core_DAO::escapeString($n));
             if ( $wildcard ) {
                 if ( strpos( $value, '%' ) !== false ) {
                     // only add wild card if not there
@@ -2752,10 +2752,10 @@ WHERE  id IN ( $groupIDs )
             if ( substr( $name, 0 , 1 ) == '"' &&
                  substr( $name, -1, 1 ) == '"' ) {
                 $name = substr( $name, 1, -1 );
-                $name = strtolower( addslashes( $name ) );
+                $name = strtolower( CRM_Core_DAO::escapeString( $name ) );
                 $nameClause = "= '$name'";
             } else {
-                $name = strtolower( addslashes( $name ) );
+                $name = strtolower( CRM_Core_DAO::escapeString( $name ) );
                 $nameClause = "LIKE '%{$name}%'";
             }
         }

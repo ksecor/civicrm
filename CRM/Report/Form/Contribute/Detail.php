@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Report/Form.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
     protected $_addressField = false;
@@ -123,10 +124,16 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                  'receipt_date'  => null,
                                  ),
                           'filters' =>             
-                          array( 'receive_date' => 
+                          array( 'receive_date'           => 
                                  array( 'operatorType' => CRM_Report_Form::OP_DATE ),
-                                 'total_amount' => 
-                                 array( 'title'      => ts( 'Amount Between' ) ),
+                                 'contribution_status_id' => 
+                                 array( 'title'        => ts( 'Donation Status' ), 
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ),
+                                        'default'      => array( 1 ),
+                                        ),
+                                 'total_amount'           => 
+                                 array( 'title'        => ts( 'Amount Between' ) ),
                                  ),
                           'grouping'=> 'contri-fields',
                           ),
@@ -285,7 +292,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
     }
 
     function orderBy( ) {
-        $this->_orderBy = " ORDER BY contact.display_name ";
+        $this->_orderBy = " ORDER BY contact.id ";
     }
 
     function statistics( &$rows ) {
@@ -320,23 +327,37 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
         // custom code to alter rows
         $checkList  = array();
         $entryFound = false;
+        $display_flag = $prev_cid = $cid =  0;
         
         foreach ( $rows as $rowNum => $row ) {
             if ( !empty($this->_noRepeats) ) {
-                // don't repeat contact display names if it matches with the one 
-                // in previous row
-
-                foreach ( $row as $colName => $colVal ) {
-                    if ( CRM_Utils_Array::value($colName, $checkList ) && is_array($checkList[$colName]) && 
-                         in_array($colVal, $checkList[$colName]) ) {
-                        $rows[$rowNum][$colName] = "";
-                    }
-                    if ( in_array($colName, $this->_noRepeats) ) {
-                        $checkList[$colName][] = $colVal;
+                // don't repeat contact details if its same as the previous row
+                if ( array_key_exists('civicrm_contact_id', $row ) ) {
+                    if ( $cid =  $row['civicrm_contact_id'] ) {
+                        if ( $rowNum == 0 ) {
+                            $prev_cid = $cid;
+                        } else {
+                            if( $prev_cid == $cid ) {
+                                $display_flag = 1;
+                                $prev_cid = $cid;
+                            } else {
+                                $display_flag = 0;
+                                $prev_cid = $cid;
+                            }
+                        }
+                        
+                        if ( $display_flag ) {
+                            foreach ( $row as $colName => $colVal ) {
+                                if ( in_array($colName, $this->_noRepeats) ) {
+                                    unset($rows[$rowNum][$colName]);          
+                                }
+                            }
+                        }
+                        $entryFound = true;
                     }
                 }
             }
-
+            
             // handle state province
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
@@ -374,14 +395,13 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
-                 $rows[$rowNum]['civicrm_contact_display_name'] && 
+                 CRM_Utils_Array::value( 'civicrm_contact_display_name', $rows[$rowNum] ) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
-                $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'],
-                                              $this->_absoluteUrl, $this->_id );
+                $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
+                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
                 $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
                 $rows[$rowNum]['civicrm_contact_display_name_hover'] =  
-                    ts("View Detailed Contribution(s) for this Contact.");
+                    ts("View Contact Summary for this Contact.");
             }
 
             // skip looking further in rows, if first row itself doesn't 

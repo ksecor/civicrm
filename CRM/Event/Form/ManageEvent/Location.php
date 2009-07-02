@@ -318,6 +318,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add( $params );
 
+        parent::endPostProcess( );
     }//end of function
 
     /**
