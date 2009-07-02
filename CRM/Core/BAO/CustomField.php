@@ -738,21 +738,26 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
                     
         case 'Autocomplete-Select':
+            $qf->add( 'text', $elementName, $label, $field->attributes, 
+                    (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
+            $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
+
             static $customUrls = array( );            
             if ( $field->data_type == 'ContactReference' )  {
                 $customUrls[$elementName] = CRM_Utils_System::url( "civicrm/ajax/contactlist",
                                                                    "reset=1",
                                                                    false, null, false );                
+                $qf->addRule($elementName, ts('Select a valid contact for %1.', array(1 => $label)), 'validContact' );
             } else {
                 $customUrls[$elementName] = CRM_Utils_System::url( "civicrm/ajax/auto",
                                                                    "reset=1&ogid={$field->option_group_id}&cfid={$field->id}",
                                                                    false, null, false );                
+                $qf->addRule($elementName, ts('Select a valid value for %1.', array(1 => $label)) , 
+                                          'autocomplete', array( 'fieldID'       => $field->id,
+                                                                 'optionGroupID' => $field->option_group_id ) );
             }
                                                 
             $qf->assign( "customUrls", $customUrls );                                          
-            $qf->add( 'text', $elementName, $label, $field->attributes, 
-                    (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
-            $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
             break;
         }
         
