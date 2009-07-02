@@ -871,7 +871,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $index      =  $attributes['label'];
 
         $display = $value;
-
+        
         switch ( $html_type ) {
 
         case "Radio":
@@ -882,6 +882,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             break;
 
+        case "Autocomplete-Select":
+            if ( $data_type == 'ContactReference' ) {
+                if ( $value ) {
+                    $display = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'display_name' );
+                }
+                break;
+            }
         case "Select":
             $display = CRM_Utils_Array::value( $value, $option );
             break;
@@ -1603,8 +1610,8 @@ ORDER BY html_type";
 
         foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
-                //handle the transfer of hidden id value
-                if ( substr($key,0,7) == 'custom_'  && !empty($value) && isset ( $params[$key. '_id'] ) ) {
+                // for autocomplete transfer hidden value instead of label
+                if ( isset ( $params[$key. '_id'] ) ) {
                     $value = $params[$key. '_id'];
                 }
                 

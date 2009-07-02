@@ -1501,7 +1501,7 @@ SELECT $select
 
         case 'ContactReference':
             if ( CRM_Utils_Array::value( 'data', $values ) ){
-                $retValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $values['data'], 'sort_name' );
+                $retValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $values['data'], 'display_name' );
             }
             break;
             

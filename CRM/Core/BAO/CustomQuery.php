@@ -184,11 +184,8 @@ SELECT f.id, f.label, f.data_type,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
             $optionGroupID = null;
-            if ( ( $dao->html_type == 'CheckBox'     ||
-                   $dao->html_type == 'Radio'        ||
-                   $dao->html_type == 'Select'       ||
-                   $dao->html_type == 'Multi-Select' ||
-                   $dao->html_type == 'AdvMulti-Select') ) { 
+            $htmlTypes = array( 'CheckBox','Radio','Select','Multi-Select', 'AdvMulti-Select', 'Autocomplete-Select' );                            
+            if ( in_array( $dao->html_type, $htmlTypes ) && $dao->data_type != 'ContactReference' ) { 
                 if ( $dao->option_group_id ) {
                     $optionGroupID = $dao->option_group_id;
                 } else if ( $dao->data_type != 'Boolean' ) {

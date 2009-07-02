@@ -877,25 +877,25 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 
                 $url= null;
                 if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
-		    $htmlType = $field['html_type'];
-		    if ( $htmlType == 'Link' ) {
+                    $htmlType = $field['html_type'];
+                    if ( $htmlType == 'Link' ) {
                         $url =  $params[$index] ;
                     } else if ( in_array( $htmlType, array( 'CheckBox', 'Multi-Select', 'AdvMulti-Select', 
-							    'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {   
-			$valSeperator    = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ;
-			$selectedOptions = explode( $valSeperator, $params[$index] );
-			
-			foreach ( $selectedOptions as $key => $multiOption ) {
-			    if ( $multiOption ) {
-				$eachOption = $valSeperator.$multiOption.$valSeperator;
-				$url[] =  CRM_Utils_System::url( 'civicrm/profile',
-								 'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-								 urlencode( $fieldName ) .
-								 '=' .
-								 urlencode( $eachOption ) );
-			    }
-			}
-		    } else {
+                                                            'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {   
+                        $valSeperator    = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ;
+                        $selectedOptions = explode( $valSeperator, $params[$index] );
+                        
+                        foreach ( $selectedOptions as $key => $multiOption ) {
+                            if ( $multiOption ) {
+                                $eachOption = $valSeperator.$multiOption.$valSeperator;
+                                $url[] =  CRM_Utils_System::url( 'civicrm/profile',
+                                                                 'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                                 urlencode( $fieldName ) .
+                                                                 '=' .
+                                                                 urlencode( $eachOption ) );
+                            }
+                        }
+                    } else {
                         $url = CRM_Utils_System::url( 'civicrm/profile',
                                                       'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                                       urlencode( $fieldName ) .
