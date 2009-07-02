@@ -34,7 +34,6 @@
  */
 
 require_once 'CRM/Report/Form.php';
-require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Contribute_Repeat extends CRM_Report_Form {
 
@@ -134,46 +133,41 @@ contribution1_total_amount_count, contribution1_total_amount_sum',
                                               ), 
                                         'clause'       => '
 contribution2_total_amount_count, contribution2_total_amount_sum',
-                                        ),                                 
+                                        ), 
                                  ),
                           'grouping'      => 'contri-fields',
                           'filters'       =>             
                           array( 
                                 'receive_date1'  => 
-                                array( 'title'        => ts( 'Date Range One' ),
-                                       'default'      => 'previous.year',
-                                       'type'         => CRM_Utils_Type::T_DATE,
+                                array( 'title'   => ts( 'Date Range One' ),
+                                       'default' => 'previous.year',
+                                       'type'    => CRM_Utils_Type::T_DATE,
                                        'operatorType' => CRM_Report_Form::OP_DATE,
-                                       'name'         => 'receive_date',
-                                       'alias'        => 'contribution1' ),
+                                       'name'    => 'receive_date',
+                                       'alias'   => 'contribution1' ),
                                 'receive_date2'  => 
-                                array( 'title'        => ts( 'Date Range Two' ),
-                                       'default'      => 'this.year',
-                                       'type'         => CRM_Utils_Type::T_DATE,
+                                array( 'title'   => ts( 'Date Range Two' ),
+                                       'default' => 'this.year',
+                                       'type'    => CRM_Utils_Type::T_DATE,
                                        'operatorType' => CRM_Report_Form::OP_DATE,
-                                       'name'         => 'receive_date',
-                                       'alias'        => 'contribution2' ), 
+                                       'name'    => 'receive_date',
+                                       'alias'   => 'contribution2' ), 
                                 'total_amount1'  => 
-                                array( 'title'        => ts( 'Range One Amount' ),
-                                       'type'         => CRM_Utils_Type::T_INT,
+                                array( 'title'   => ts( 'Range One Amount' ),
+                                       'type'    => CRM_Utils_Type::T_INT,
                                        'operatorType' => CRM_Report_Form::OP_INT,
-                                       'name'         => 'receive_date',
-                                       'dbAlias     ' => 'contribution1_total_amount_sum' ),
+                                       'name'    => 'receive_date',
+                                       'dbAlias' => 'contribution1_total_amount_sum' ),
                                 'total_amount2'  => 
-                                array( 'title'        => ts( 'Range Two Amount' ),
-                                       'type'         => CRM_Utils_Type::T_INT,
+                                array( 'title'   => ts( 'Range Two Amount' ),
+                                       'type'    => CRM_Utils_Type::T_INT,
                                        'operatorType' => CRM_Report_Form::OP_INT,
-                                       'name'         => 'receive_date',
-                                       'dbAlias'      => 'contribution2_total_amount_sum' ),
-                                'contribution_status_id'  => 
-                                array( 'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                       'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ) ,
-                                       'default'      => array('1'),
-                                       ),
-                                ),                                  
+                                       'name'    => 'receive_date',
+                                       'dbAlias' => 'contribution2_total_amount_sum' ),
+                                 ),
                           'group_bys'           =>
                           array( 'contribution_source' => null ), ),
-                   
+
                    'civicrm_group' => 
                    array( 'dao'    => 'CRM_Contact_DAO_Group',
                           'alias'  => 'cgroup',
@@ -322,11 +316,7 @@ INNER JOIN civicrm_contact contact ON address.contact_id = contact.id";
             $fromCol   = "id";
             $contriCol = "contact_id";
         }
-      
-        $IN =  implode("," , $this->_params['contribution_status_id_value']);
-       
-        $contriStatus1 = ( $IN != NULL ) ?" AND {$this->_aliases['civicrm_contribution']}1.contribution_status_id IN ( {$IN} ) " : " ";
-        $contriStatus2 = ( $IN != NULL ) ?" AND {$this->_aliases['civicrm_contribution']}2.contribution_status_id IN ( {$IN} ) " : " ";
+
         $this->_from = "
 FROM $from
 
@@ -335,7 +325,7 @@ LEFT  JOIN (
           sum( contribution1.total_amount ) AS contribution1_total_amount_sum, 
           count( * ) AS contribution1_total_amount_count
    FROM   civicrm_contribution {$this->_aliases['civicrm_contribution']}1
-   WHERE  ( $receive_date1  ) $contriStatus1
+   WHERE  ( $receive_date1 )
    GROUP BY contribution1.$contriCol
 ) contribution1 ON $fromAlias.$fromCol = contribution1.$contriCol
 
@@ -344,7 +334,7 @@ LEFT  JOIN (
           sum( contribution2.total_amount ) AS contribution2_total_amount_sum, 
           count( * ) AS contribution2_total_amount_count
    FROM   civicrm_contribution {$this->_aliases['civicrm_contribution']}2
-   WHERE  ( $receive_date2  ) $contriStatus2
+   WHERE  ( $receive_date2 )
    GROUP BY contribution2.$contriCol
 ) contribution2 ON $fromAlias.$fromCol = contribution2.$contriCol
 ";
@@ -369,14 +359,14 @@ LEFT  JOIN (
                         }
                     }
                     
-                    if ( ! empty( $clause ) && $fieldName != 'contribution_status_id' ) {
-                    $clauses[] = $clause;
-                }          
+                    if ( ! empty( $clause ) ) {
+                        $clauses[] = $clause;
+                    }
+                }
             }
         }
-    }
-    
-    if ( empty( $clauses ) ) {
+
+        if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
@@ -520,7 +510,7 @@ LEFT  JOIN (
         $this->groupBy ( );
         $this->limit   ( );
 
-        $sql  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}"; 
+        $sql  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";
         $dao  = CRM_Core_DAO::executeQuery( $sql );
         $rows = array( );
 
@@ -544,11 +534,11 @@ LEFT  JOIN (
             }
             if ( $row['contribution1_total_amount_count'] ) {
                 $rows[$uid]['contribution1_total_amount_sum'] =
-                    $row['contribution1_total_amount_sum'] . " ({$row['contribution1_total_amount_count']}) ";
+                    $row['contribution1_total_amount_sum'] . " ({$row['contribution1_total_amount_count']})";
             }
             if ( $row['contribution2_total_amount_count'] ) {
                 $rows[$uid]['contribution2_total_amount_sum'] =
-                    $row['contribution2_total_amount_sum'] . " ({$row['contribution2_total_amount_count']}) ";
+                    $row['contribution2_total_amount_sum'] . " ({$row['contribution2_total_amount_count']})";
             }
         }
         $this->_columnHeaders['change'] = array( 'title' => '% Change',
