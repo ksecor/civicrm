@@ -46,6 +46,8 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                                  'pieGraph' => 'Pie Graph'
                                  );
 
+    protected $_add2groupSupported = false;
+
     function __construct( ) {
         
         $this->_columns = 

@@ -146,6 +146,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_groupButtonName    = null;
     protected $_chartButtonName    = null;
     protected $_csvSupported       = true;
+    protected $_add2groupSupported = true;
 
     protected $_rollup         = null;
     
@@ -609,7 +610,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->addElement('submit', $this->_csvButtonName, $label );
         }
 
-        if ( CRM_Core_Permission::check( 'administer Reports' ) ) {
+        if ( CRM_Core_Permission::check( 'administer Reports' ) && $this->_add2groupSupported ) {
             $this->addElement( 'select', 'groups', ts( 'Group' ), 
                                array( '' => ts( '- select group -' )) + CRM_Core_PseudoConstant::staticGroup( ) );
             $this->assign( 'group', $this->_groups );

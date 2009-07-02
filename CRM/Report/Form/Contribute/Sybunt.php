@@ -42,7 +42,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                                 'barGraph' => 'Bar Graph',
                                 'pieGraph' => 'Pie Graph'
                                 );
-    
+       protected $_add2groupSupported = false;
 
     function __construct( ) {
         $yearsInPast      = 8;

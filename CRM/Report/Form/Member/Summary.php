@@ -47,6 +47,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                                  'barGraph' => 'Bar Graph',
                                  'pieGraph' => 'Pie Graph'
                                  );
+    protected $_add2groupSupported = false;
     
     function __construct( ) {
         // UI for selecting columns to appear in the report list
