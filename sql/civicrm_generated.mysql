@@ -126,7 +126,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `civicrm_component` WRITE;
 /*!40000 ALTER TABLE `civicrm_component` DISABLE KEYS */;
-INSERT INTO `civicrm_component` (`id`, `name`, `namespace`) VALUES (1,'CiviEvent','CRM_Event'),(2,'CiviContribute','CRM_Contribute'),(3,'CiviMember','CRM_Member'),(4,'CiviMail','CRM_Mailing'),(5,'CiviGrant','CRM_Grant'),(6,'CiviPledge','CRM_Pledge'),(7,'CiviCase','CRM_Case'),(8,'CiviAuction','CRM_Auction'),(9,'CiviReport','CRM_Report');
+INSERT INTO `civicrm_component` (`id`, `name`, `namespace`) VALUES (1,'CiviEvent','CRM_Event'),(2,'CiviContribute','CRM_Contribute'),(3,'CiviMember','CRM_Member'),(4,'CiviMail','CRM_Mailing'),(5,'CiviGrant','CRM_Grant'),(6,'CiviPledge','CRM_Pledge'),(7,'CiviCase','CRM_Case'),(8,'CiviReport','CRM_Report');
 /*!40000 ALTER TABLE `civicrm_component` ENABLE KEYS */;
 UNLOCK TABLES;
 
