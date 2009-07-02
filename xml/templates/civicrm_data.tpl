@@ -144,7 +144,6 @@ VALUES
    ('custom_data_type'              , '{ts escape="sql"}Custom Data Type{/ts}'                   , 0, 1),  
    ('visibility'                    , '{ts escape="sql"}Visibility{/ts}'                         , 0, 1),
    ('mail_protocol'                 , '{ts escape="sql"}Mail Protocol{/ts}'                      , 0, 1),
-   ('auction_item_type'             , '{ts escape="sql"}Auction Item Type{/ts}'                  , 0, 1),
    ('priority'                      , '{ts escape="sql"}Priority{/ts}'                           , 0, 1),
    ('redaction_rule'                , '{ts escape="sql"}Redaction Rule{/ts}'                     , 0, 1),	
    ('report_template'               , '{ts escape="sql"}Report Template{/ts}'                    , 0, 1),
@@ -189,7 +188,6 @@ SELECT @option_group_id_fma            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_cdt            := max(id) from civicrm_option_group where name = 'custom_data_type';
 SELECT @option_group_id_vis            := max(id) from civicrm_option_group where name = 'visibility';
 SELECT @option_group_id_mp             := max(id) from civicrm_option_group where name = 'mail_protocol';
-SELECT @option_group_id_aitype         := max(id) from civicrm_option_group where name = 'auction_item_type';
 SELECT @option_group_id_priority       := max(id) from civicrm_option_group where name = 'priority';
 SELECT @option_group_id_rr             := max(id) from civicrm_option_group where name = 'redaction_rule';
 SELECT @option_group_id_emailGreeting  := max(id) from civicrm_option_group where name = 'email_greeting';
@@ -490,11 +488,6 @@ VALUES
   (@option_group_id_mp, 'Maildir', 2, 'Maildir', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL ),	
   (@option_group_id_mp, 'POP3',    3, 'POP3',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL ),
   (@option_group_id_mp, 'Localdir', 4, 'Localdir', NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL, NULL ),
-
--- auction types
-  (@option_group_id_aitype, '{ts escape="sql"}Live{/ts}'  , 1, 'Live'  ,  NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_aitype, '{ts escape="sql"}Silent{/ts}', 2, 'Silent',  NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_aitype, '{ts escape="sql"}Raffle{/ts}', 3, 'Raffle',  NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
 
 -- priority
   (@option_group_id_priority, '{ts escape="sql"}Urgent{/ts}', 1, 'Urgent', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
