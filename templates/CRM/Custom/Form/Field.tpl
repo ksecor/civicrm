@@ -92,7 +92,7 @@ function custom_option_html_type( ) {
         document.getElementById("incudedDatePartDef").style.display="none";	 	
     }
 
-    if ( data_type_id == 0 || ( data_type_id == 11 && html_type_name == "Select" ) ) {
+    if ( data_type_id == 0 ) {
         document.getElementById("textLength").style.display="block";
         document.getElementById("textLengthDef").style.display="block";
     } else {

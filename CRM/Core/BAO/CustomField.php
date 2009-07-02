@@ -750,7 +750,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
                                                 
             $qf->assign( "customUrls", $customUrls );                                          
-            $qf->addElement( 'text', $elementName, $label );
+            $qf->add( 'text', $elementName, $label, $field->attributes, 
+                    (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
             $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
             break;
         }
