@@ -8,16 +8,22 @@ function custom_option_html_type( ) {
     if ( !html_type_name && !data_type_id ) {
         return;
     }
-    if ( data_type_id < 4 || data_type_id == 11 ) {
-        if ( html_type_name != "Text" && html_type_name != "ContactReference" ) {
+
+    if ( data_type_id < 4 ) {
+        if ( html_type_name != "Text" ) {
             document.getElementById("showoption").style.display="block";		
             document.getElementById("hideDefaultValTxt").style.display="none";
             document.getElementById("hideDefaultValDef").style.display="none";
             document.getElementById("hideDescTxt").style.display="none";
             document.getElementById("hideDescDef").style.display="none";
-            document.getElementsByName("is_search_range")[1].checked = true;
             document.getElementById("searchByRange").style.display = "none";
-            document.getElementById("is_searchable").style.display = "block";
+            document.getElementsByName("is_search_range")[1].checked = true;
+                
+            if ( html_type_name != 'Autocomplete-Select' ) {
+                document.getElementById("is_searchable").style.display = "block";
+            } else {
+                document.getElementById("is_searchable").style.display = "none";
+            }
 
         } else {
             document.getElementById("showoption").style.display="none";
@@ -36,6 +42,10 @@ function custom_option_html_type( ) {
             document.getElementById("is_searchable").style.display = "none";
             document.getElementById("hideDescTxt").style.display="none";
             document.getElementById("hideDescDef").style.display="none";
+        } else if ( data_type_id == 11 ) {
+            document.getElementById("is_searchable").style.display = "none";
+            document.getElementById("hideDefaultValTxt").style.display="none";
+            document.getElementById("hideDefaultValDef").style.display="none";            
         } else {
             document.getElementById("hideDefaultValTxt").style.display="block";
             document.getElementById("hideDefaultValDef").style.display="block";
