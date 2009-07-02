@@ -579,10 +579,9 @@ class CRM_Core_Menu
         $args = explode( '/', $path );
 
         $elements = array( );
-        $dao =& new CRM_Core_DAO( );
         while ( ! empty( $args ) ) {
             $string = implode( '/', $args );
-            $string = $dao->escape( $string );
+            $string = CRM_Core_DAO::escapeString( $string );
             $elements[] = "'{$string}'";
             array_pop( $args );
         }

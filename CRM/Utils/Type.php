@@ -144,7 +144,7 @@ class CRM_Utils_Type
             break;
             
         case 'String':
-            return addslashes($data);
+            return CRM_Core_DAO::escapeString($data);
             break;
             
         case 'Date':

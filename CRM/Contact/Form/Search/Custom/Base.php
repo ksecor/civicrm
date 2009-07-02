@@ -59,10 +59,9 @@ class CRM_Contact_Form_Search_Custom_Base {
                               $offset, $rowcount, $sort );
         $this->validateUserSQL( $sql );
 
-        $dao = new CRM_Core_DAO( );
         return CRM_Core_DAO::composeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray,
-                                           true, $dao );
+                                           true );
     }
 
     function sql( $selectClause,
@@ -151,10 +150,7 @@ class CRM_Contact_Form_Search_Custom_Base {
     }
 
     function whereClause( &$where, &$params ) {
-        $dao = new CRM_Core_DAO( );
-        $where = CRM_Core_DAO::composeQuery( $where, $params, true, $dao );
-
-        return $where;
+        return CRM_Core_DAO::composeQuery( $where, $params, true );
     }
 
 }

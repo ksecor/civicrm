@@ -110,12 +110,9 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
         }
         $query = "UPDATE $table SET " . implode(', ', $cols) . " WHERE id = %0";
 
-        $dao =& new CRM_Core_DAO();
-        $query = CRM_Core_DAO::composeQuery($query, $params, true, $dao);
+        $query = CRM_Core_DAO::composeQuery($query, $params, true);
         $dao->query($query, false);
 
         exit;
-#       $session =& CRM_Core_Session::singleton();
-#       $session->replaceUserContext(CRM_Utils_System::refererPath());
     }
 }

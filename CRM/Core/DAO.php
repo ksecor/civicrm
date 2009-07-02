@@ -847,17 +847,22 @@ FROM   civicrm_domain
      * @static
      * @access public
      */
-    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false, $i18nRewrite = true )
+    static function &executeQuery( $query,
+                                   $params = array( ),
+                                   $abort = true,
+                                   $daoName = null,
+                                   $freeDAO = false,
+                                   $i18nRewrite = true )
     {
+        $queryStr = self::composeQuery( $query, $params, $abort );
+        //CRM_Core_Error::debug( 'q', $queryStr );
+
         if ( ! $daoName ) {
             $dao =& new CRM_Core_DAO( );
         } else {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
             eval( '$dao   =& new ' . $daoName . '( );' );
         }
-        $queryStr = self::composeQuery( $query, $params, $abort, $dao );
-        //CRM_Core_Error::debug( 'q', $queryStr );
-
         $dao->query( $queryStr, $i18nRewrite );
 
         if ( $freeDAO ) {
@@ -876,14 +881,22 @@ FROM   civicrm_domain
      * @static 
      * @access public 
      */ 
-    static function &singleValueQuery( $query, $params = array( ), $abort = true, $i18nRewrite = true ) 
+    static function &singleValueQuery( $query,
+                                       $params = array( ),
+                                       $abort = true,
+                                       $i18nRewrite = true ) 
     {
-        $dao =& new CRM_Core_DAO( ); 
-        $queryStr = self::composeQuery( $query, $params, $abort, $dao );
+        $queryStr = self::composeQuery( $query, $params, $abort );
 
-        $dao->query( $queryStr, $i18nRewrite ); 
+        static $_dao = null;
+
+        if ( ! $_dao ) {
+            $_dao = new CRM_Core_DAO( );
+        }
+
+        $_dao->query( $queryStr, $i18nRewrite ); 
         
-        $result = $dao->getDatabaseResult();
+        $result = $_dao->getDatabaseResult();
         $ret    = null;
         if ( $result ) {
             $row = $result->fetchRow();
@@ -891,11 +904,11 @@ FROM   civicrm_domain
                 $ret = $row[0];
             }
         }
-        $dao->free( );
+        $_dao->free( );
         return $ret;
     }
 
-    static function composeQuery( $query, &$params, $abort, &$dao ) 
+    static function composeQuery( $query, &$params, $abort ) 
     {
         require_once 'CRM/Utils/Type.php';
 
@@ -903,7 +916,7 @@ FROM   civicrm_domain
         foreach ( $params as $key => $item ) {
             if ( is_numeric( $key ) ) {
                 if ( CRM_Utils_Type::validate( $item[0], $item[1] ) !== null ) {
-                    $item[0] = $dao->escape( $item[0] );
+                    $item[0] = self::escapeString( $item[0] );
                     if ( $item[1] == 'String' ||
                          $item[1] == 'Memo' ||
                          $item[1] == 'Link'   ) {
@@ -1117,6 +1130,15 @@ SELECT contact_id
                                        '..'                . DIRECTORY_SEPARATOR .
                                        'sql'               . DIRECTORY_SEPARATOR .
                                        'civicrm_drop.mysql' );
+    }
+
+    static function escapeString( $string ) {
+        static $_dao = null;
+
+        if ( ! $_dao ) {
+            $_dao = new CRM_Core_DAO( );
+        }
+        return $_dao->escape( $string );
     }
 
 }
