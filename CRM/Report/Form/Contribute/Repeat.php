@@ -108,6 +108,7 @@ class CRM_Report_Form_Contribute_Repeat extends CRM_Report_Form {
                                  array( 'name'         => 'total_amount',
                                         'alias'        => 'contribution1',
                                         'title'        => ts( 'Range One Stat' ),
+                                        'type'         => CRM_Utils_Type::T_MONEY,
                                         'default'      => true,
                                         'required'     => true,
                                         'statistics'   => 
@@ -122,6 +123,7 @@ contribution1_total_amount_count, contribution1_total_amount_sum',
                                  array( 'name'         => 'total_amount',
                                         'alias'        => 'contribution2',
                                         'title'        => ts( 'Range Two Stat' ),
+                                        'type'         => CRM_Utils_Type::T_MONEY,
                                         'default'      => true,
                                         'required'     => true,
                                         'statistics'   => 
@@ -539,7 +541,8 @@ LEFT  JOIN (
                     $row['contribution2_total_amount_sum'] . " ({$row['contribution2_total_amount_count']})";
             }
         }
-        $this->_columnHeaders['change'] = array('title' => 'Change');
+        $this->_columnHeaders['change'] = array( 'title' => '% Change',
+                                                 'type'  => CRM_Utils_Type::T_INT );
 
         // hack to fix title
         list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ),
