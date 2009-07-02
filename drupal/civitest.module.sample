@@ -688,3 +688,14 @@ AND    v.weight > 0
 
     CRM_Core_DAO::executeQuery( $query, $params );
 }
+
+/**
+ * Sample hook to add more shortcuts
+ */
+function civitest_civicrm_shortcuts( &$options ) {
+    // add link to create new profile
+    $options[] = array( 'url'   => '/civicrm/admin/uf/group?action=add&reset=1',
+                        'title' => ts('New Profile'),
+                        'ref'   => 'new-profile');
+    
+}
