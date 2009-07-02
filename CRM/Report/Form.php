@@ -1231,7 +1231,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
     }
 
-    function endPostProcess( &$rows ) {
+    function endPostProcess( &$rows = null ) {
         if ( $this->_outputMode == 'print' || 
              $this->_outputMode == 'pdf'   ||
              $this->_sendmail              ) {
@@ -1293,7 +1293,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->endPostProcess( $rows );
     }
 
-    function limit( ) {
+    function limit( $rowCount = self::ROW_COUNT_LIMIT ) {
         require_once 'CRM/Utils/Pager.php';
         // lets do the pager if in html mode
         $this->_limit = null;
@@ -1312,19 +1312,19 @@ class CRM_Report_Form extends CRM_Core_Form {
             
             $pageId = $pageId ? $pageId : 1;
             $this->set( CRM_Utils_Pager::PAGE_ID, $pageId );
-            $offset = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
+            $offset = ( $pageId - 1 ) * $rowCount;
 
-            $this->_limit  = " LIMIT $offset, " . self::ROW_COUNT_LIMIT;
+            $this->_limit  = " LIMIT $offset, " . $rowCount;
         }
     }
 
-    function setPager( ) {
+    function setPager( $rowCount = self::ROW_COUNT_LIMIT ) {
         if ( $this->_limit && ($this->_limit != '') ) {
             require_once 'CRM/Utils/Pager.php';
             $sql    = "SELECT FOUND_ROWS();";
             $this->_rowsFound = CRM_Core_DAO::singleValueQuery( $sql );
             $params = array( 'total'        => $this->_rowsFound,
-                             'rowCount'     => self::ROW_COUNT_LIMIT,
+                             'rowCount'     => $rowCount,
                              'status'       => ts( 'Records %%StatusMessage%%' ),
                              'buttonBottom' => 'PagerBottomButton',
                              'pageID'       => $this->get( CRM_Utils_Pager::PAGE_ID ) );

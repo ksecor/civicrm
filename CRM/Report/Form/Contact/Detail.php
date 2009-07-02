@@ -389,32 +389,13 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     }
 
     //Override to set limit is 10
-    function limit( ) {
-        // lets do the pager if in html mode
-        $this->_limit = null;
-        if ( $this->_outputMode == 'html' ) {
-            $this->_select = str_ireplace( 'SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $this->_select );
-            
-            $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );
-            $pageId = $pageId ? $pageId : 1;
-            $offset = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
-            
-            $this->_limit  = " LIMIT $offset, " . self::ROW_COUNT_LIMIT;
-        }
+    function limit( $rowCount = self::ROW_COUNT_LIMIT ) {
+        parent::limit( $rowCount );
     }
     
     //Override to set pager with limit is 10
-    function setPager( ) {
-        if ( $this->_limit && ($this->_limit != '') ) {
-            require_once 'CRM/Utils/Pager.php';
-            $sql    = "SELECT FOUND_ROWS();";
-            $this->_rowsFound = CRM_Core_DAO::singleValueQuery( $sql );
-            $params = array( 'total'    => $this->_rowsFound,
-                             'rowCount' => self::ROW_COUNT_LIMIT,
-                             'status'   => ts( 'Records %%StatusMessage%%' ) );
-            $pager = new CRM_Utils_Pager( $params );
-            $this->assign_by_ref( 'pager', $pager );
-        }
+    function setPager( $rowCount = self::ROW_COUNT_LIMIT ) {
+        parent::setPager( $rowCount );
     }
     
     function postProcess( ) {
