@@ -567,7 +567,7 @@ LEFT  JOIN (
         // assign variables to templates
         $this->doTemplateAssignment( $rows );
 
-        $this->endPostProcess( );
+        $this->endPostProcess( $rows );
     }
 
     function alterDisplay( &$rows ) {

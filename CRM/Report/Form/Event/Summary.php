@@ -297,7 +297,7 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
         
         $this->doTemplateAssignment( $rows );
         
-        $this->endPostProcess( );
+        $this->endPostProcess( $rows );
     }
 
     function buildChart( &$rows ) {

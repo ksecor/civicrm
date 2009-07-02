@@ -263,7 +263,7 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
         
         $this->formatDisplay( $rows );        
         $this->doTemplateAssignment( $rows );
-        $this->endPostProcess( );
+        $this->endPostProcess( $rows);
         
     }
     

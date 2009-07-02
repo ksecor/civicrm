@@ -150,59 +150,56 @@ WHERE  inst.report_id = %1";
                                      $attachments );
     }
 
-    static function export2csv( &$form ) {
+    static function export2csv( &$form, &$rows ) {
         //Mark as a CSV file.
         header('Content-Type: text/csv');
-          
+
         //Force a download and name the file using the current timestamp.
         header('Content-Disposition: attachment; filename=Report_' . $_SERVER['REQUEST_TIME'] . '.csv');
                   
-        //Load rows
-        $sql = " {$form->_select}  {$form->_from}  {$form->_where}  {$form->_groupBy}  {$form->_having} {$form->_orderBy} ";
-        
-        $rows = array();
-        $form->buildRows( $sql, $rows );
-        $form->formatDisplay( $rows );
         require_once 'CRM/Utils/Money.php';
-        $config    =& CRM_Core_Config::singleton( );        
+        $config    =& CRM_Core_Config::singleton( );
+          
         //Output headers if this is the first row.
         $columnHeaders = array_keys( $form->_columnHeaders );
 
         // Replace internal header names with friendly ones, where available.
         foreach ( $columnHeaders as $header ) {
             if ( isset( $form->_columnHeaders[$header] ) ) {
-                $headers[] = html_entity_decode(strip_tags($form->_columnHeaders[$header]['title']));
+                $headers[] = '"'. html_entity_decode(strip_tags($form->_columnHeaders[$header]['title'])) . '"';
             }
         }
         //Output the headers.
         echo implode(',', $headers) . "\n";
 
+        $displayRows = array();
+        $value       = null;
         foreach ( $rows as $row ) {
-            foreach ( $row as $key => $value ) {
-                // Remove HTML, unencode entities, and escape quotation marks.
-                $row[$key] = '"' . str_replace('"', '""', html_entity_decode(strip_tags($value))) . '"';
-                if ( strstr($key, 'link') || strstr($key, 'hover') ) {
-                    unset($row[$key]);
-                }
-                if ( substr($key, 0, 1) == '_' ) {
-                    unset($row[$key]);
-                }
-
-                if ( CRM_Utils_Array::value( 'type', $form->_columnHeaders[$key] ) & 4 ) {
-                    if ( $form->_columnHeaders[$key]['group_by'] == 'MONTH' ||
-                         $form->_columnHeaders[$key]['group_by'] ==  'QUARTER' ) {
-                        $row[$key] =  CRM_Utils_Date::customFormat( $value, $config->dateformatPartial );
-                    } elseif ( $form->_columnHeaders[$key]['group_by'] == 'YEAR' ) {
-                        $row[$key] =  CRM_Utils_Date::customFormat( $value, $config->dateformatYear );
-                    } else {
-                        $row[$key] =  CRM_Utils_Date::customFormat( $value );
+            foreach ( $columnHeaders as $k => $v ){
+                if ( $value = CRM_Utils_Array::value( $v, $row ) ) {
+                    // Remove HTML, unencode entities, and escape quotation marks.
+                    $value = 
+                        str_replace('"', '""', html_entity_decode(strip_tags($value)));
+                    
+                    if ( CRM_Utils_Array::value( 'type', $form->_columnHeaders[$v] ) & 4 ) {
+                        if ( $form->_columnHeaders[$v]['group_by'] == 'MONTH' ||
+                             $form->_columnHeaders[$v]['group_by'] ==  'QUARTER' ) {
+                            $value =  CRM_Utils_Date::customFormat( $value, $config->dateformatPartial );
+                        } elseif ( $form->_columnHeaders[$v]['group_by'] == 'YEAR' ) {
+                            $value =  CRM_Utils_Date::customFormat( $value, $config->dateformatYear );
+                        } else {
+                            $value =  CRM_Utils_Date::customFormat( $value,'%Y%m%d' );
+                        }
+                    } else if ( CRM_Utils_Array::value( 'type', $form->_columnHeaders[$v] ) == 1024 ) {
+                        $value =  CRM_Utils_Money::format( $value );
                     }
-                } else if ( CRM_Utils_Array::value( 'type', $form->_columnHeaders[$key] ) == 1024 ) {
-                    $row[$key] =  CRM_Utils_Money::format( $value );
-                }
+                    $displayRows[$v] = '"'. $value .'"'; 
+                } else {
+                    $displayRows[$v] = " "; 
+                }  
             }
             //Output the data row.
-            echo implode(',', $row) . "\n";
+            echo implode(',', $displayRows) . "\n";
         }
         exit( );
     }

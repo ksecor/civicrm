@@ -1230,7 +1230,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
     }
 
-    function endPostProcess( ) {
+    function endPostProcess( &$rows ) {
         if ( $this->_outputMode == 'print' || 
              $this->_outputMode == 'pdf'   ||
              $this->_sendmail              ) {
@@ -1261,7 +1261,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
             exit( );
         } else if ( $this->_outputMode == 'csv' ) {
-            CRM_Report_Utils_Report::export2csv( $this );
+            CRM_Report_Utils_Report::export2csv( $this, $rows );
         } else if ( $this->_outputMode == 'group' ) {
             $group = $this->_params['groups'];
             CRM_Report_Utils_Report::add2group( $this, $group );
@@ -1289,7 +1289,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->doTemplateAssignment( $rows );
 
         // do print / pdf / instance stuff if needed
-        $this->endPostProcess( );
+        $this->endPostProcess( $rows );
     }
 
     function limit( ) {

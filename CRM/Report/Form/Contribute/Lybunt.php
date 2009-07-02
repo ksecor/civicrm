@@ -394,7 +394,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $this->doTemplateAssignment( $rows );
         
         // do print / pdf / instance stuff if needed
-        $this->endPostProcess( );   
+        $this->endPostProcess( $rows );   
         
         
     }   
