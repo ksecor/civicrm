@@ -1002,7 +1002,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                     }
                     
                     if ( ! empty( $clause ) ) {
-                        if ( $field['having'] ) {
+                        if ( CRM_Utils_Array::value( 'having', $field ) ) {
                             $havingClauses[] = $clause;
                         } else {
                             $whereClauses[] = $clause;

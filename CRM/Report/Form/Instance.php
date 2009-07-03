@@ -99,6 +99,7 @@ class CRM_Report_Form_Instance {
         if ( $selfButtonName == $buttonName ) {
             if ( empty( $fields['title'] ) ) {
                 $errors['title'] = ts( 'Title is a required field' );
+                $self->assign('instanceFormError', true);
             }
         }
 

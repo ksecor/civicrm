@@ -323,7 +323,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
         $errors = $grouping = array( );
         //check for searching combination of dispaly columns and
         //grouping criteria
-        if ( $fields['group_bys']['receive_date'] ) {
+        if ( CRM_Utils_Array::value( 'receive_date', $fields['group_bys'] ) ) {
             foreach ( $self->_columns as $tableName => $table ) {
                 if ( array_key_exists('fields', $table) ) {
                     foreach ( $table['fields'] as $fieldName => $field ) {
@@ -341,7 +341,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             }
         }
          
-        if ( !$fields['group_bys']['receive_date'] ) {
+        if ( !CRM_Utils_Array::value( 'receive_date', $fields['group_bys'] ) ) {
             if ( CRM_Utils_Date::isDate( $fields['receive_date_relative'] ) || 
                  CRM_Utils_Date::isDate( $fields['receive_date_from'] ) || 
                  CRM_Utils_Date::isDate( $fields['receive_date_to'] ) ) {
