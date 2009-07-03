@@ -180,7 +180,7 @@ class CRM_Report_Form_Instance {
                                           $instanceParams,
                                           $instanceDefaults );
 
-            if ( $cmpID = $instanceDefaults['component_id'] ) {
+            if ( $cmpID = CRM_Utils_Array::value('component_id', $instanceDefaults) ) {
                 $cmpName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component', $cmpID,
                                                         'name', 'id');
                 $cmpName = substr( $cmpName, 4 );

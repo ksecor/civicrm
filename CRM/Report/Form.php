@@ -147,6 +147,8 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_chartButtonName    = null;
     protected $_csvSupported       = true;
     protected $_add2groupSupported = true;
+    protected $_groups             = null;
+    protected $_having             = null;
 
     protected $_rollup         = null;
     
