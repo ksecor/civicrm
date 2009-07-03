@@ -194,6 +194,13 @@
     <table>civicrm_contact</table>
     <key>id</key>
     <add>2.3</add>
-    <onDelete>SET NULL</onDelete>
+    <onDelete>CASCADE</onDelete>
   </foreignKey>
+  <field>
+    <name>created_date</name>
+    <type>datetime</type>
+    <title>UF Group Created Date</title>
+    <comment>Date and time this UF group was created.</comment>
+    <add>2.3</add>
+  </field>
 </table>

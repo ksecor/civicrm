@@ -309,10 +309,17 @@
       <add>2.3</add>
   </field>
   <foreignKey>
-       <name>created_id</name>
-       <table>civicrm_contact</table>
-       <key>id</key>
-       <add>2.3</add>
-       <onDelete>SET NULL</onDelete>
+      <name>created_id</name>
+      <table>civicrm_contact</table>
+      <key>id</key>
+      <add>2.3</add>
+      <onDelete>CASCADE</onDelete>
   </foreignKey>
+  <field>
+      <name>created_date</name>
+      <type>datetime</type>
+      <title>Contribution Page Created Date</title>
+      <comment>Date and time that contribution page was created.</comment>
+      <add>2.3</add>
+  </field>
 </table>
