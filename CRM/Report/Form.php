@@ -1123,9 +1123,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         while ( $dao->fetch( ) ) {
             $row = array( );
             foreach ( $this->_columnHeaders as $key => $value ) {
-                if( isset($dao->$key ) ) {
-                    $row[$key] = $dao->$key;
-                }
+                $row[$key] = $dao->$key;
             }
             $rows[] = $row;
         }
