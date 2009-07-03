@@ -1264,7 +1264,8 @@ However, you can still override this limit and register additional participants 
         if ( $hasWaiting ) {
             $waitingStatusId = array_search( 'On waitlist', 
                                              CRM_Event_PseudoConstant::participantStatus(null, "class = 'Waiting'"));
-            $viewWaitListUrl = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&status={$waitingStatusId}",
+            $viewWaitListUrl = CRM_Utils_System::url( 'civicrm/event/search',
+						      "reset=1&force=1&event={$eventId}&status={$waitingStatusId}",
                                                       false, null, false, true );
             $eventfullMsg .= ts( "There are %2 people currently on the waiting list for this event. You can <a href='%1'>view waitlisted registrations here</a>, or you can continue and register additional participants using this form.", 
                                  array( 1 => $viewWaitListUrl,
