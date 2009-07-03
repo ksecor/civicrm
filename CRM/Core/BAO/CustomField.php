@@ -885,7 +885,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         case "Autocomplete-Select":
             if ( $data_type == 'ContactReference' ) {
                 if ( $value ) {
-                    $display = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'display_name' );
+                    $display = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'sort_name' );
                 }
                 break;
             }
