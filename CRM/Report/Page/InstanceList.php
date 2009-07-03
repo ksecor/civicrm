@@ -78,7 +78,7 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
         while ( $dao->fetch( ) ) {
             
             //filter report listings by permissions
-            if ( !CRM_Report_Utils_Report::isInstancePermission( $dao->id ) ) {
+            if ( !CRM_Report_Utils_Report::isInstancePermissioned( $dao->id ) ) {
                 continue;
             }
                 

@@ -184,18 +184,12 @@ class CRM_Report_Form extends CRM_Core_Form {
                 CRM_Core_Error::fatal("Report could not be loaded.");
             }
 
-            $this->_instanceValues['permission'] = 
-                unserialize( $this->_instanceValues['permission'] );
-            if ( $this->_instanceValues['permission'][0][0] && 
-                 (!(CRM_Core_Permission::checkMenu( $this->_instanceValues['permission'][0], 
-                                                    $this->_instanceValues['permission'][1] ) ||
-                    CRM_Core_Permission::check( 'administer Reports' ) )
-                  ) ) {
+            if ( !empty($this->_instanceValues['permission']) && 
+                 (!(CRM_Core_Permission::check( $this->_instanceValues['permission'] ) ||
+                    CRM_Core_Permission::check( 'administer Reports' ))) ) {
                 CRM_Utils_System::permissionDenied( );
                 exit();
             }
-            $this->_instanceValues['permission'] = $this->_instanceValues['permission'][0][0];
-
             $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
 
             // lets always do a force if reset is found in the url.
