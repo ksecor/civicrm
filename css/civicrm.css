@@ -1266,7 +1266,7 @@ div.crm-pager a {
   border-bottom: 1px solid #CCCCCC;
 }
 
-.btn-slide {
+#crm-container .btn-slide {
   text-align      : left;
   text-decoration : none;
   border          : none;
