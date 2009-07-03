@@ -51,4 +51,3 @@ class CRM_Event_Payment_Elavon extends CRM_Core_Payment_Elavon
     } 
     
 } // end class CRM_Event_Payment_Elavon
-?>

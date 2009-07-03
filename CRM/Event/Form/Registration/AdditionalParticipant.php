@@ -350,4 +350,3 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     } 
 
 }
-?>

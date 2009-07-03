@@ -499,6 +499,3 @@ The CiviCRM eWAY Payment Processor Module
 
    
 } // end class CRM_Core_Payment_eWAY
-
-
-?>

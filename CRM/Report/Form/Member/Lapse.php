@@ -354,4 +354,3 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
         }
     }
 }
-?>

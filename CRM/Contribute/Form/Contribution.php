@@ -1222,4 +1222,3 @@ WHERE     c.id = $contributionID";
     
 }
 
-?>
