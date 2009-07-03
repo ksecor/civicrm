@@ -1252,11 +1252,11 @@ However, you can still override this limit and register additional participants 
         }
         
         $hasWaiting = false;
-        $waitingListCount = CRM_Event_BAO_Participant::eventFull( $eventId, false, true, true );
-        if ( is_numeric( $waitingListCount ) ) {
+        $waitListedCount = CRM_Event_BAO_Participant::eventFull( $eventId, false, true, true );
+        if ( is_numeric( $waitListedCount ) ) {
             $hasWaiting = true;
             //only current processing participant is on waitlist.
-            if ( $waitingListCount == 1 && CRM_Event_PseudoConstant::participantStatus( $dbStatusId ) == 'On waitlist' ) {
+            if ( $waitListedCount == 1 && CRM_Event_PseudoConstant::participantStatus( $dbStatusId ) == 'On waitlist' ) {
                 $hasWaiting = false;
             }
         }
