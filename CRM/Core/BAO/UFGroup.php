@@ -796,6 +796,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                     $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal,
                                                                                                  $cfID,
                                                                                                  $options );
+                                    if ( $htmlType == 'Autocomplete-Select' ) {
+                                        $params[$index] = $values[$index];
+                                    }
                                     if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
                                                                       $cfID, 'is_search_range' ) ) {
                                         $customFieldName = "{$name}_from";
