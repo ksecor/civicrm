@@ -225,6 +225,7 @@ WHERE  f.custom_group_id = g.id
                 $params['value'] = CRM_Utils_Rule::cleanMoney( $params['value'] );
             }
             switch ( $dao->htmlType ) {
+            case 'Autocomplete-Select':    
             case 'Select':
             case 'Radio':
                 $query = "
