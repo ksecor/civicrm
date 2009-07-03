@@ -122,7 +122,7 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
             if ( array_key_exists('filters', $table) ) { 
                 foreach ( $table['filters'] as $fieldName => $field ) {
                     $clause = null;
-                    if ( $field['type'] & CRM_Utils_Type::T_DATE ) {
+                    if ( CRM_Utils_Array::value( 'type',  $field ) & CRM_Utils_Type::T_DATE ) {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
@@ -232,8 +232,8 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                     if ( CRM_Utils_Array::value( 'required', $field ) ||
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
                         
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type' ] = $field['type'];
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type' ] = CRM_Utils_Array::value( 'type',  $field );
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = CRM_Utils_Array::value( 'title', $field );
                     }
                 }
             }
@@ -278,8 +278,10 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                 if ( ( $key == 'civicrm_event_start_date') || ($key == 'civicrm_event_end_date') ) {
                     //get event start date and end date in custom datetime format
                     $row[$key] = CRM_Utils_Date::customFormat($dao->$key);
-                } else {	   
-                    $row[$key] = $dao->$key;
+                } else {
+                    if ( isset($dao->$key ) ) {
+                        $row[$key] = $dao->$key;
+                    }
                 }
             } 
             $rows[] = $row;	  

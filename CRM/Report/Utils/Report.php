@@ -182,10 +182,10 @@ WHERE  inst.report_id = %1";
                         str_replace('"', '""', html_entity_decode(strip_tags($value)));
                     
                     if ( CRM_Utils_Array::value( 'type', $form->_columnHeaders[$v] ) & 4 ) {
-                        if ( $form->_columnHeaders[$v]['group_by'] == 'MONTH' ||
-                             $form->_columnHeaders[$v]['group_by'] ==  'QUARTER' ) {
+                        if ( CRM_Utils_Array::value( 'group_by', $form->_columnHeaders[$v] ) == 'MONTH' ||
+                             CRM_Utils_Array::value( 'group_by', $form->_columnHeaders[$v] ) ==  'QUARTER' ) {
                             $value =  CRM_Utils_Date::customFormat( $value, $config->dateformatPartial );
-                        } elseif ( $form->_columnHeaders[$v]['group_by'] == 'YEAR' ) {
+                        } elseif ( CRM_Utils_Array::value( 'group_by', $form->_columnHeaders[$v] ) == 'YEAR' ) {
                             $value =  CRM_Utils_Date::customFormat( $value, $config->dateformatYear );
                         } else {
                             $value =  CRM_Utils_Date::customFormat( $value,'%Y%m%d' );

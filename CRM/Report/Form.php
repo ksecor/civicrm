@@ -948,7 +948,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         // allow building charts if any
-        if ( ! empty($this->_params['charts']) ) {
+        if ( ! empty($this->_params['charts']) && !empty($rows) ) {
             require_once 'CRM/Utils/PChart.php';
             $this->buildChart( $rows );
             $this->assign( 'chartEnabled', true );
@@ -1123,7 +1123,9 @@ class CRM_Report_Form extends CRM_Core_Form {
         while ( $dao->fetch( ) ) {
             $row = array( );
             foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
+                if( isset($dao->$key ) ) {
+                    $row[$key] = $dao->$key;
+                }
             }
             $rows[] = $row;
         }

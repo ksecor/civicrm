@@ -38,7 +38,8 @@ require_once 'CRM/Core/BAO/OptionGroup.php';
 require_once 'CRM/Core/BAO/OptionValue.php';
 
 class CRM_Report_Form_Register extends CRM_Core_Form {
-    public $_id;
+    public    $_id;
+    protected $_values = null;
     
     public function preProcess()  
     {  

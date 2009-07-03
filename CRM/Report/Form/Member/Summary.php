@@ -42,7 +42,7 @@ require_once 'CRM/Contribute/PseudoConstant.php';
 class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
     
     protected $_summary = null;
-    
+    protected $_interval= null;
     protected $_charts  = array( ''         => 'Tabular',
                                  'barGraph' => 'Bar Graph',
                                  'pieGraph' => 'Pie Graph'
@@ -367,10 +367,12 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
             foreach ( $rows as $key => $row ) {                                              
                 if ( $isMembershipType ) { 
-                    $join_date            = $row['civicrm_membership_join_date_start'];
-                    $displayInterval      = $row['civicrm_membership_join_date_interval'];
-                    list( $year, $month ) = explode( '-', $join_date );
-                    if ( $row ['civicrm_membership_join_date_subtotal'] ) {
+                    $join_date            = CRM_Utils_Array::value( 'civicrm_membership_join_date_start',    $row );
+                    $displayInterval      = CRM_Utils_Array::value( 'civicrm_membership_join_date_interval', $row );
+                    if ( $join_date ) {
+                        list( $year, $month ) = explode( '-', $join_date );
+                    }
+                    if ( CRM_Utils_Array::value( 'civicrm_membership_join_date_subtotal', $row ) ) {
                         
                         switch ($this->_interval ) {
                         case 'Month' :                           
@@ -400,8 +402,8 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
                     $display [ $membershipType ] = $row [ 'civicrm_contribution_total_amount_sum' ]; 
                     
                 } else  {
-                    $graphRows['receive_date'] [ ]   = $row['civicrm_membership_join_date_start'];
-                    $graphRows[$this->_interval] [ ] = $row['civicrm_membership_join_date_interval'];
+                    $graphRows['receive_date'] [ ]   = CRM_Utils_Array::value( 'civicrm_membership_join_date_start',    $row );
+                    $graphRows[$this->_interval] [ ] = CRM_Utils_Array::value( 'civicrm_membership_join_date_interval', $row );
                     $graphRows['value'] [ ]          = $row['civicrm_contribution_total_amount_sum'];
                     $count++ ;                    
                 } 
