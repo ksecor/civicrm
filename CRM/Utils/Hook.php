@@ -501,4 +501,17 @@ class CRM_Utils_Hook {
                   '::invoke( 1, $options, $null, $null, $null, $null, \'civicrm_shortcuts\' );' );
                                     
     }
+
+    static function membershipTypeValues( &$form, &$membershipTypes ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 2, $form, $membershipTypes, $null, $null, $null, \'civicrm_membershipTypeValues\' );' );
+                                    
+    }
+
 }

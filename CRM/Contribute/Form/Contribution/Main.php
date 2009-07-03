@@ -844,7 +844,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $params['amount'] = self::computeAmount( $params, $this );
         $memFee = null;
         if ( CRM_Utils_Array::value( 'selectMembership', $params ) ) {
-            $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
+            $membershipTypeValues = CRM_Member_BAO_Membership::buildMembershipTypeValues( $this,
+                                                                                          $params['selectMembership'] );
+            $memFee = $membershipTypeValues['minimum_fee'];
             if ( !$params['amount'] && !$this->_separateMembershipPayment ) {
                 $params['amount'] = $memFee ? $memFee : 0;
             }
