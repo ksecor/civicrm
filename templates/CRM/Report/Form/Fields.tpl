@@ -43,7 +43,7 @@
     {/if} {* settings section ends *}
     
     {if $updateReportButton}
-        <div class="section-hidden-border" style="margin:-18px 0 5px 5px;">        
+        <div class="section-hidden-border" style="margin:-5px 0 5px 5px;">        
             &nbsp;&nbsp;{$form.$save.html}            
         </div>
     {/if}
