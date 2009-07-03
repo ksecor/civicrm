@@ -30,15 +30,15 @@
  */
 class CiviReportMail { 
     function processReport( ) {
-        $sendmail     = CRM_Utils_Request::retrieve( 'sendmail', 'Boolean', CRM_Core_DAO::$_nullObject );
-        $instanceId   = CRM_Report_Utils_Report::getInstanceID( );
-        $optionVal    = CRM_Report_Utils_Report::getValueFromUrl( $instanceId );
-        $resetVal     = CRM_Utils_Request::retrieve( 'reset', 'Positive', CRM_Core_DAO::$_nullObject );
+        $sendmail     = CRM_Utils_Request::retrieve( 'sendmail', 'Boolean', 
+                                                     CRM_Core_DAO::$_nullObject, true );
+        $instanceId   = CRM_Utils_Request::retrieve( 'instanceId', 'Positive', 
+                                                     CRM_Core_DAO::$_nullObject, true );
+        $resetVal     = CRM_Utils_Request::retrieve( 'reset', 'Positive',
+                                                     CRM_Core_DAO::$_nullObject, true );
               
-        if ( !$sendmail || !$instanceId || !$resetVal ) {
-            echo "Required Parameters are missing";
-            exit;
-        }
+        $optionVal    = CRM_Report_Utils_Report::getValueFromUrl( $instanceId );
+        
         echo "Report Mail Triggered...<br />";
         require_once 'CRM/Core/OptionGroup.php';
         $templateInfo = CRM_Core_OptionGroup::getRowValues( 'report_template', $optionVal, 'value' );
@@ -54,7 +54,11 @@ class CiviReportMail {
             }
             
             $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( $templateInfo['name'], null, null );
+            $arguments['urlToSession'] = array( array( 'urlVar'     => 'instanceId',
+                                                       'type'       => 'Positive',
+                                                       'sessionVar' => 'instanceId',
+                                                       'default'    => 'null' ) );
+            return $wrapper->run( $templateInfo['name'], null, $arguments );
         }
     }
   }

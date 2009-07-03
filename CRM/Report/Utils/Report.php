@@ -226,16 +226,10 @@ WHERE  inst.report_id = %1";
 
         $config    =& CRM_Core_Config::singleton( );
         $arg       = explode( '/', $_GET[$config->userFrameworkURLVar] );
-        $cronJob   = CRM_Utils_Request::retrieve( 'cron', 'Boolean', CRM_Core_DAO::$_nullObject );
-
-        if ( $cronJob ) {
-            $arg   = array('3' => CRM_Utils_Request::retrieve( 'id', 'Positive',
-                                                               CRM_Core_DAO::$_nullObject, true ));
-        }
-
+        
         require_once 'CRM/Utils/Rule.php';
-        if ( ( $arg[1] == 'report' &&
-               CRM_Utils_Array::value( 2, $arg ) == 'instance' ) || $cronJob ) {
+        if ( $arg[1] == 'report' &&
+             CRM_Utils_Array::value( 2, $arg ) == 'instance' ) {
             if ( CRM_Utils_Rule::positiveInteger( $arg[3] ) ) {
                 return $arg[3];
             }

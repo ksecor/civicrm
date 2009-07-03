@@ -176,7 +176,11 @@ class CRM_Report_Form extends CRM_Core_Form {
                                                      CRM_Core_DAO::$_nullObject );
 
 
-        $this->_id  = CRM_Report_Utils_Report::getInstanceID( );
+        $this->_id = $this->get( 'instanceId' );
+        if ( !$this->_id ) {
+            $this->_id  = CRM_Report_Utils_Report::getInstanceID( );
+        }
+
         if ( $this->_id ) {
             $params = array( 'id' => $this->_id );
             $this->_instanceValues = array( );
@@ -1247,16 +1251,17 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( $this->_sendmail ) {
                 if ( CRM_Report_Utils_Report::mailReport( $content, $this->_id,
                                                           $this->_outputMode  ) ) {
-                    $cronJob = CRM_Utils_Request::retrieve( 'cron', 'Boolean',
-                                                            CRM_Core_DAO::$_nullObject );
-                    if ( $cronJob ) {
-                        exit();
-                    }
                     CRM_Core_Session::setStatus( ts("Report mail has been sent.") );
                 } else {
                     CRM_Core_Session::setStatus( ts("Report mail could not be sent.") );
                 }
-                return;
+                if ( $this->get( 'instanceId' ) ) {
+                    exit();
+                } 
+
+                CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath(), 
+                                                                   'reset=1' ) );
+         
             } else if ( $this->_outputMode == 'print' ) {
                 echo $content;
             } else {
