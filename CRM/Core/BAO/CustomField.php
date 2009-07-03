@@ -1611,7 +1611,7 @@ ORDER BY html_type";
         foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
                 // for autocomplete transfer hidden value instead of label
-                if ( isset ( $params[$key. '_id'] ) ) {
+                if ( $params[$key] && isset ( $params[$key. '_id'] ) ) {
                     $value = $params[$key. '_id'];
                 }
                 
