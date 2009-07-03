@@ -176,7 +176,12 @@
         <div class="spacer">&nbsp;</div>
         <div id="customFields">
             <div id="contact_panel">
-                {include file="CRM/Contact/Page/View/CustomDataView.tpl"}
+                <div id="contactCardLeft">
+                    {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='left'}
+                </div>            
+                <div id="contactCardRight">
+                    {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='right'}
+                </div>
                 <div class="separator">&nbsp;</div>
             </div>
             <div class="spacer">&nbsp;</div>
