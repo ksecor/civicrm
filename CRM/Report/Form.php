@@ -414,6 +414,11 @@ class CRM_Report_Form extends CRM_Core_Form {
                             $this->_defaults["{$fieldName}_value"]    = $field['default'];
                         }
                     }
+                    //assign default value as "in" for multiselect
+                    //operator, To freeze the select element
+                    if ( CRM_Utils_Array::value('operatorType', $field ) == CRM_Report_FORM::OP_MULTISELECT ) {
+                        $this->_defaults["{$fieldName}_op"] = 'in';
+                    }
                 }
             }
 
@@ -494,7 +499,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                 case CRM_Report_FORM::OP_MULTISELECT :
                     // assume a multi-select field
                     if ( !empty( $field['options'] ) ) {
-                        $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
+                        $element = $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
+                        $element->freeze();
                         $select = $this->addElement('select', "{$fieldName}_value", null, 
                                                     $field['options'], array( 'size' => 4, 
                                                                               'style' => 'width:200px'));

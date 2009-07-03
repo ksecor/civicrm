@@ -32,6 +32,13 @@
      <weight>1241</weight>
   </item>
   <item>
+     <path>civicrm/admin/report/register</path>
+     <title>Register Report</title>
+     <page_callback>CRM_Report_Form_Register</page_callback>
+     <desc>Register the Report templates.</desc>
+     <access_arguments>administer Reports</access_arguments>
+  </item>
+  <item>
      <path>civicrm/report/instance</path>
      <title>Report</title>
      <page_callback>CRM_Report_Page_Instance</page_callback>
