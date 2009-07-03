@@ -383,6 +383,28 @@ class CRM_Event_Form_EventFees
             if ( $form->_isPaidEvent ) {
                 $form->addElement( 'hidden', 'hidden_feeblock', 1 );
             }
+            
+            //make sure this is for backoffice registration
+            if ( $name = $form->getName( ) == 'Participant' ) {
+                require_once "CRM/Event/BAO/Participant.php";
+                $eventfullMsg = null;
+                //check event is full w/ waiting, and get waiting counter.
+                $waitListedCount = CRM_Event_BAO_Participant::eventFull( $form->_eventId, false, true, true );
+                if ( is_numeric( $waitListedCount ) ) {
+                    $waitingStatusId = array_search( 'On waitlist', 
+                                                     CRM_Event_PseudoConstant::participantStatus(null, "class = 'Waiting'"));
+                    $viewWaitListUrl = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&status={$waitingStatusId}",
+                                                              false, null, false, true );
+                    $eventfullMsg = ts( "There are %2 people currently on the waiting list for this event. You can <a href='%1'>view waitlisted registrations here</a>, or you can continue and register additional participants using this form.", 
+                                        array( 1 => $viewWaitListUrl,
+                                               2 => $waitListedCount ) );
+                } else if ( CRM_Event_BAO_Participant::eventFull( $form->_eventId ) )  {
+                    $maxParticipants = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $form->_eventId, 'max_participants' ) ;
+                    $eventfullMsg = ts( "This event currently has the maximum number of participants registered ( %1 ). 
+However, you can still override this limit and register additional participants using this form.", array( 1 =>  $maxParticipants ) );  
+                }
+                $form->addElement( 'hidden', 'hidden_eventFullMsg', $eventfullMsg, array( 'id' => 'hidden_eventFullMsg' ) );
+            }
         }
         
         if ( $form->_pId ) { 

@@ -288,7 +288,9 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $events[$dao->id] = $dao->title . ' - '.CRM_Utils_Date::customFormat($dao->start_date);
+            if ( $dao->title ) { 
+                $events[$dao->id] = $dao->title . ' - '.CRM_Utils_Date::customFormat($dao->start_date);
+            }
         }
         
         return $events;
