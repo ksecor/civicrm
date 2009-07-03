@@ -145,7 +145,7 @@ Participant {$priceset+1}
 {if $checkNumber}
 {ts}Check Number{/ts}: {$checkNumber} 
 {/if}
-{if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
+{if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later and !$isOnWaitlist and !$isRequireApproval}
 
 ===========================================================
 {ts}Billing Name and Address{/ts}
@@ -155,7 +155,7 @@ Participant {$priceset+1}
 {$address}
 {/if}
 
-{if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later}
+{if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later and !$isOnWaitlist and !$isRequireApproval}
 ===========================================================
 {ts}Credit Card Information{/ts}
 
