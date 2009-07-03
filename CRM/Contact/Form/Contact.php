@@ -155,6 +155,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->assign( "blockName", $this->_addBlockName );
             $this->assign( "blockId",  $additionalblockCount );
             $this->set( $this->_addBlockName."_Block_Count", $additionalblockCount );
+            return;
         }
         
         $session = & CRM_Core_Session::singleton( );
@@ -238,7 +239,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
             }
         }
-        
+                    
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, 'name', true );
         if ( $this->_contactType != 'Individual' &&
@@ -257,7 +258,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-
         $defaults = $this->_values;
         $params   = array( );
         if ( $this->_action & CRM_Core_Action::ADD ) {
@@ -377,7 +377,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             }
         }
         
-        //build ajax blocks.
+        //build 1 instance of all blocks, without using ajax ...
         $buildAJAXBlocks = $this->_blocks;
         if ( array_key_exists( 'Address', $this->_editOptions ) ) {
             $buildAJAXBlocks = array_merge( $buildAJAXBlocks, array( 'Address' => 1 ) ); 
@@ -530,16 +530,15 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
 //             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
 //         }
 
-//         if ( $this->_showTagsAndGroups ) {
-//             //add contact to group
-//             require_once 'CRM/Contact/BAO/GroupContact.php';
-//             CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+        if ( array_key_exists( 'TagsAndGroups', $this->_editOptions ) ) {
+            //add contact to group
+            require_once 'CRM/Contact/BAO/GroupContact.php';
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
             
-//             //add contact to tags
-//             require_once 'CRM/Core/BAO/EntityTag.php';
-//             CRM_Core_BAO_EntityTag::create( $params['tag'], $params['contact_id'] );
-//         }
-        
+            //add contact to tags
+            require_once 'CRM/Core/BAO/EntityTag.php';
+            CRM_Core_BAO_EntityTag::create( $params['tag'], $params['contact_id'] );
+        }
         
         // here we replace the user context with the url to view this contact
         $session =& CRM_Core_Session::singleton( );
