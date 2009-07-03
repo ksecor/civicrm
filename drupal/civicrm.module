@@ -792,11 +792,3 @@ function  civicrm_form_alter( $form, $formValues, $formID ) {
         CRM_Core_BAO_Navigation::resetNavigation( );
     }
 }
-
-function civicrm_civicrm_membershipTypeValues( &$form, &$membershipTypeValues ) {
-    $membershipTypeValues[1]['name']        = 'General (50% discount)';
-    $membershipTypeValues[1]['minimum_fee'] = '50.00';
-
-    $membershipTypeValues[2]['name']        = 'Student (50% discount)';
-    $membershipTypeValues[2]['minimum_fee'] = '25.00';
-}
