@@ -182,8 +182,8 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
                 }
             }
             
-            $config =& CRM_Core_Config::singleton( );
-            CRM_Core_Error::statusBounce( $statusMessage, $config->userFrameworkBaseURL );
+            CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/event/info',"reset=1&id={$this->_eventId}",
+                                                                                 false, null, false, true ) );
         }
     }
 }

@@ -678,17 +678,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $params ['is_primary'] = 1;         
         
         //hack to allow group to register w/ waiting
-        if ( CRM_Utils_Array::value( 'bypass_payment', $params ) &&
+        if ( !$this->_allowConfirmation && 
+             CRM_Utils_Array::value( 'bypass_payment', $params ) &&
              is_numeric( $this->_availableRegistrations ) &&
              CRM_Utils_Array::value( 'additional_participants', $params ) >= $this->_availableRegistrations ) {
             $this->_allowWaitlist = true;
             $this->set( 'allowWaitlist', true );
-        }
-        
-        //make as paylater since we are not taking payment at this time.
-        if ( CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] ) && 
-             ( $this->_requireApproval || $this->_allowWaitlist ) && !$this->_allowConfirmation ) { 
-            $params['is_pay_later'] = true;
         }
         
         //carry participant id if pre-registered.
@@ -951,15 +946,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $additionalIDs = CRM_Event_BAO_Event::buildCustomProfile( $registerByID, null, $primaryContactId, $isTest, true );  
 
             //lets send  mails to all with meanigful text, CRM-4320.
-            $isOnWaitlist = $isRequireApproval = false; 
-            if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
-                $isOnWaitlist = true;
-            }
-            if ( $this->_requireApproval && !$this->_allowConfirmation ) {
-                $isRequireApproval = true;
-            }
-            $this->assign( 'isOnWaitlist', $isOnWaitlist );
-            $this->assign( 'isRequireApproval', $isRequireApproval );
+            $this->assign( 'isOnWaitlist', $this->_allowWaitlist );
+            $this->assign( 'isRequireApproval', $this->_requireApproval );
             
             foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {
