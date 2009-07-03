@@ -429,6 +429,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         
         $entryFound = false;
         $dispname_flag = $phone_flag = $email_flag = 0;
+        $prev_email = $prev_dispname = $prev_phone = null;
+
         foreach ( $rows as $rowNum => $row ) {
             
             // Handling Creditor's display_name no Repeat

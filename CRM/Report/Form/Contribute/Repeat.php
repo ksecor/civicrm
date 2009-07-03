@@ -198,7 +198,8 @@ contribution2_total_amount_count, contribution2_total_amount_sum',
 
     function select( ) {
         $select = $uni = array( );
-
+        $append = null;
+        
         // since contact fields not related to contribution type
         if ( array_key_exists('contribution_type', $this->_params['group_bys']) ||
              array_key_exists('contribution_source', $this->_params['group_bys']) ) {
@@ -244,8 +245,8 @@ SUM(contribution2_total_amount_sum)   as contribution2_total_amount_sum';
 
                         // only include statistics columns if set
                         $select[] = "{$field['dbAlias']} as {$field['alias']}_{$field['name']}";
-                        $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['type'] = $field['type'];
-                        $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['title'] = $field['title'];
+                        $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['type'] = CRM_Utils_Array::value('type', $field);
+                        $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['title'] = CRM_Utils_Array::value('title', $field);
                         if ( CRM_Utils_Array::value( 'no_display', $field ) ) {
                             $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['no_display'] = true;
                         }

@@ -501,10 +501,10 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
         foreach ( $rows as $rowNum => $row ) {
             // make count columns point to detail report
-            if ( CRM_Utils_Array::value('receive_date', $this->_params['group_bys']) && 
-                 CRM_Utils_Array::value('civicrm_contribution_receive_date_start', $row) &&
-                 $row['civicrm_contribution_receive_date_start'] && 
-                 $row['civicrm_contribution_receive_date_subtotal'] ) {
+            if ( CRM_Utils_Array::value('receive_date', $this->_params['group_bys'])        && 
+                 CRM_Utils_Array::value('civicrm_contribution_receive_date_start',    $row) &&
+                 CRM_Utils_Array::value('civicrm_contribution_receive_date_start',    $row) && 
+                 CRM_Utils_Array::value('civicrm_contribution_receive_date_subtotal', $row) ) {
 
                 $dateStart = CRM_Utils_Date::customFormat($row['civicrm_contribution_receive_date_start'], 
                                                           '%Y%m%d');

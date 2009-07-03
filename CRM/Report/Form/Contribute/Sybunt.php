@@ -427,10 +427,10 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
    
         foreach ( $rows as $key => $row ) {
             $display["upto_{$upto}"] =  
-                         $display["upto_{$upto}"] + $row[ "civicrm_upto_{$upto}" ];
-            $display[ $previous_year ]              =  $display[ $previous_year ] + $row [ $previous_year ];
-            $display[ $previous_two_year ]          =  $display[ $previous_two_year ] + $row [ $previous_two_year ];
-            $display[ $previous_three_year ]        =  $display[ $previous_three_year ] + $row [ $previous_three_year ];           
+                CRM_Utils_Array::value("upto_{$upto}", $display) + CRM_Utils_Array::value("civicrm_upto_{$upto}", $row);
+            $display[ $previous_year ]              = CRM_Utils_Array::value($previous_year, $display)  + CRM_Utils_Array::value($previous_year, $row);
+            $display[ $previous_two_year ]          = CRM_Utils_Array::value($previous_two_year, $display) + CRM_Utils_Array::value($previous_two_year, $row);
+            $display[ $previous_three_year ]        = CRM_Utils_Array::value($previous_three_year, $display)  + CRM_Utils_Array::value($previous_three_year, $row);           
         }
         
         $graphRows['value'] = $display;
