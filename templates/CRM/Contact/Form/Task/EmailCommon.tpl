@@ -9,7 +9,7 @@
               <div id='tokenHtml' style="display:none">{$form.token2.html}</div>
         </span>
         <h3 class="head"> 
-            <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{$form.html_message.label}</a>
+            <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{ts}HTML Format{/ts}</a>
         </h3>
         <div class='html'>
             {if $editor EQ 'textarea'}
@@ -22,7 +22,7 @@
             {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
             <div id='tokenText' style="display:none">{$form.token1.html}</div>
         </span>
-        <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='text'></span><a href="#">{$form.text_message.label}</a></h3>
+        <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='text'></span><a href="#">{ts}Plain-Text Format{/ts}</a></h3>
         <div class='text'>
             {$form.text_message.html}<br />
         </div>
@@ -220,10 +220,10 @@ function selectValue( val ) {
         {
             oEditor = FCKeditorAPI.GetInstance('html_message');
             oEditor.SetHTML( {/literal}'{$message_html}'{literal});
-            FCKConfig.BaseHref = '' ;
-            FCKConfig.UserFilesPath = '' ; 
+            oEditor.BaseHref = '' ;
+            oEditor.UserFilesPath = '' ; 
             loadEditor();	
-            editorInstance.Events.AttachEvent( 'OnFocus',verify ) ;
+            oEditor.Events.AttachEvent( 'OnFocus',verify ) ;
         }
         {/literal}
     {else if $editor eq "tinymce"}
