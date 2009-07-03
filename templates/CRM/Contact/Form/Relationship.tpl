@@ -91,7 +91,7 @@
                     }       
 				  </script>
                 {/literal}
-                <dd  class="tundra">{$form.name.html}</dd></div>
+                <dd  class="tundra">{$form.name.html}</dd>
                 <dt> </dt>
                   <dd>
                     {$form._qf_Relationship_refresh.html}
