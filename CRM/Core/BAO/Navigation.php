@@ -268,7 +268,7 @@ ORDER BY weight, parent_id";
         } else {
             // clean up - Need to remove empty <ul>'s, this happens when user don't have 
             // permission to access parent
-            $navigationString = str_replace( '<ul></ul>', '', $navigationString );
+            $navigationString = str_replace( '<ul></ul></li>', '', $navigationString );
         }
 
         return $navigationString;
