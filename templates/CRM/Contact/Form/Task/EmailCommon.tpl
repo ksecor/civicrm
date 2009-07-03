@@ -42,7 +42,7 @@
 </div>
 
 <div id="saveDetails">
-    {$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}
+    {$form.saveTemplateName.label}&nbsp;{$form.saveTemplateName.html}
 </div>
 
 {literal}
