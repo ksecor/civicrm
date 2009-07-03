@@ -851,9 +851,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         $fields["email-{$this->_bltID}"] = 1;
         $fields["email-Primary"] = 1;
-        //if its pay later or additional participant set email address as primary.
-        if( (CRM_Utils_Array::value( 'is_pay_later', $params ) || !CRM_Utils_Array::value('is_primary', $params))
-            && CRM_Utils_Array::value("email-{$this->_bltID}", $params) ) {
+        
+        //get email at primary.
+        if ( CRM_Utils_Array::value("email-{$this->_bltID}", $params ) &&
+             ( !CRM_Utils_Array::value('is_primary', $params ) || 
+               CRM_Utils_Array::value( 'is_pay_later', $params ) ||
+               $this->_allowWaitlist || $this->_requireApproval ) ) {
             $params["email-Primary"] = $params["email-{$this->_bltID}"];
         }
     }
