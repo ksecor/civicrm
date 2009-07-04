@@ -72,14 +72,14 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      *
      * @var int
      */
-    protected $_gid;
+    public $_gid;
 
     /**
      * the default tag id passed in via the url
      *
      * @var int
      */
-    protected $_tid;
+    public $_tid;
     
     /**
      * the group tree data
@@ -113,11 +113,13 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     
     protected $_maxLocationBlocks = 0;
     
-    protected $_editOptions = array( );
+    public $_editOptions = array( );
 
     protected $_blocks;
 
     protected $_values = array( );
+    
+    public $_action;
 
     /**
      * build all the data structures needed to build the form
@@ -248,14 +250,16 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         
         // in update mode don't show notes
-        if ( $this->_contactId ) {
+        if ( $this->_contactId && array_key_exists( 'Notes', $this->_editOptions ) ) {
             unset( $this->_editOptions['Notes'] );
         }
         
         $this->assign( 'editOptions', $this->_editOptions );
         
-        //build custom data
-        CRM_Custom_Form_Customdata::preProcess( $this, null, null, 1, $this->_contactType, $this->_contactId );
+        if ( array_key_exists( 'CustomData', $this->_editOptions ) ) {
+            //only custom data has preprocess hence directly call it
+            CRM_Custom_Form_Customdata::preProcess( $this, null, null, 1, $this->_contactType, $this->_contactId );
+        }
     }
     
     /**
@@ -269,8 +273,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     {
         $defaults = $this->_values;
         $params   = array( );
+        
         if ( $this->_action & CRM_Core_Action::ADD ) {
-       
         } else {
             //need to set default blocks.
             $loadDefaultBlocks = false;
@@ -296,11 +300,17 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             }
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
-            $this->assign( 'currentEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
+            $this->assign( 'currentEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );            
         }
         
-        // custom data set defaults
-		$defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
+        // set defaults for blocks ( custom data, address, communication preference, notes, tags and groups )
+        foreach( $this->_editOptions as $name => $label ) {                
+            if ( !in_array( $name, array( 'Address', 'Notes' ) ) ) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name ) . ".php");
+                eval( 'CRM_Contact_Form_Edit_' . $name . '::setDefaultValues( $this, $defaults );' );
+            }
+        }
+        
         return $defaults;
     }
 
@@ -381,9 +391,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_Edit_' . $this->_contactType . '::buildQuickForm( $this, $this->_action );' );
         
-        // build edit blocks ( custom data, address, communication preference, notes, tags and groups )
+        // build edit blocks ( custom data, demographics, communication preference, notes, tags and groups )
         foreach( $this->_editOptions as $name => $label ) {                
-            if ( !in_array( $name, array( 'CustomData', 'Address' ) ) ) {
+            if ( !in_array( $name, array( 'Address' ) ) ) {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name ) . ".php");
                 eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
             }
@@ -410,10 +420,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 }
             }
         }
-        
-        //build custom data
-        CRM_Custom_Form_Customdata::buildQuickForm( $this );
-        
+
         // add the dedupe button
         $this->addElement('submit', 
                           $this->_dedupeButtonName,

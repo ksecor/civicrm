@@ -158,7 +158,7 @@ class CRM_Contact_Form_Edit_TagsandGroups
     static function setDefaults( $id, &$defaults, $type = CRM_Contact_Form_GroupTag::ALL, $fieldName = null ) 
     {
         $type = (int ) $type; 
-        if ( $type & CRM_Contact_Form_GroupTag::GROUP ) { 
+        if ( $type & self::GROUP ) { 
             $fName = 'group';
             if ($fieldName) {
                 $fName = $fieldName; 
@@ -173,7 +173,7 @@ class CRM_Contact_Form_Edit_TagsandGroups
             }
         }
 
-        if ( $type & CRM_Contact_Form_GroupTag::TAG ) {
+        if ( $type & self::TAG ) {
             $fName = 'tag';
             if ($fieldName) {
                 $fName = $fieldName; 
@@ -188,6 +188,33 @@ class CRM_Contact_Form_Edit_TagsandGroups
             }  
         }
 
+    }
+    
+    /**
+     * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( &$form, &$defaults ) 
+    {
+        if ( $form->_action & CRM_Core_Action::ADD ) {
+            if ( array_key_exists( 'TagsAndGroups', $form->_editOptions ) ) {
+                // set group and tag defaults if any
+                if ( $form->_gid ) {
+                    $defaults['group'][$form->_gid] = 1;
+                }
+                if ( $form->_tid ) {
+                    $defaults['tag'][$form->_tid] = 1;
+                }
+            }
+        } else {
+            if ( array_key_exists( 'TagsAndGroups', $form->_editOptions ) ) {
+                // set the group and tag ids
+                self::setDefaults( $form->_contactId, $defaults, self::ALL );
+            }
+        }
     }
 
 }

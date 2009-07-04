@@ -76,6 +76,16 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
         $form->add('select', 'preferred_mail_format', ts('Email Format'), CRM_Core_SelectValues::pmf());
         $form->add('checkbox', 'is_opt_out', ts( 'NO BULK EMAILS (User Opt Out)' ) );
     }
+    
+    /**
+     * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( &$form, &$defaults ) {
+    }
 }
 
 

@@ -36,10 +36,10 @@
 /**
  * form helper class for an Demographics object
  */
-class CRM_Contact_Form_Edit_Demographics 
+class CRM_Contact_Form_Edit_CustomData 
 {
     /**
-     * build the form elements for Demographics object
+     * build the form elements for CustomData object
      *
      * @param CRM_Core_Form $form       reference to the form object
      *
@@ -48,21 +48,7 @@ class CRM_Contact_Form_Edit_Demographics
      * @static
      */
     static function buildQuickForm( &$form ) {
-        // radio button for gender
-        $genderOptions = array( );
-        $gender =CRM_Core_PseudoConstant::gender();
-        foreach ($gender as $key => $var) {
-            $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
-        }
-        $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
-        
-        $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
-        
-        $form->addElement('date', 'deceased_date', ts('Deceased date'), CRM_Core_SelectValues::date('birth'));
-        $form->addRule('deceased_date', ts('Select a valid date.'), 'qfDate');
-        
-        $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
-        $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
+        CRM_Custom_Form_Customdata::buildQuickForm( $form );
     }
     
     /**
@@ -73,6 +59,7 @@ class CRM_Contact_Form_Edit_Demographics
      * @return None
      */
     function setDefaultValues( &$form, &$defaults ) {
+        $defaults += CRM_Custom_Form_Customdata::setDefaultValues( $form );
     }
 }
 
