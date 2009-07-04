@@ -111,6 +111,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
             $defaults['start_date'] = $defaultDate;
         }
+
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+        if ( !$defaults['has_waitlist'] ) {
+            $this->_showHide->addHide( 'id-waitlist-text' );
+        }
         $this->assign('description', CRM_Utils_Array::value('description', $defaults ) ); 
         
         return $defaults;
@@ -197,7 +203,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->addRule('max_participants', ts('Max participants should be a positive number') , 'positiveInteger');
 
         $this->add('textarea', 'event_full_text', ts('Message if Event Is Full'),          $attributes['event_full_text']);
-        $this->add('textarea', 'waitlist_text',   ts('Waitlist Message if Event Is Full'), $attributes['waitlist_text']);
+
+        $this->addElement('checkbox', 'has_waitlist', ts('Offer a Waitlist?'), null, array( 'onclick' => "return showHideByValue('has_waitlist','0','id-waitlist-text','table-row','radio',false);" ));
+        $this->add('textarea', 'waitlist_text',   ts('Waitlist Message'), $attributes['waitlist_text']);
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         
@@ -252,7 +260,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         //format params
         $params['start_date']      = CRM_Utils_Date::format($params['start_date']);
         $params['end_date'  ]      = CRM_Utils_Date::format($params['end_date']);
-
+        $params['has_waitlist']    = CRM_Utils_Array::value('has_waitlist', $params, false);
         $params['is_map'    ]      = CRM_Utils_Array::value('is_map', $params, false);
         $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);
         $params['is_public' ]      = CRM_Utils_Array::value('is_public', $params, false);

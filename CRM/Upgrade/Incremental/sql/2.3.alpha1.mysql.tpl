@@ -508,7 +508,13 @@ ALTER TABLE `civicrm_event` CHANGE `default_discount_id` `default_discount_fee_i
 
 ALTER TABLE `civicrm_event`
   ADD COLUMN `is_template` tinyint(4) default NULL COMMENT 'whether the event has template',
-  ADD COLUMN `template_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Event Template Title';
+  ADD COLUMN `template_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Event Template Title',
+-- CRM-4319, CRM-4326
+  ADD COLUMN `has_waitlist` tinyint(4) default NULL COMMENT 'Whether the event has waitlist support',
+  ADD COLUMN `requires_approval` tinyint(4) default NULL COMMENT 'Whether participants require approval before they can finish registering.',
+  ADD COLUMN `expiration_time` int unsigned   DEFAULT NULL COMMENT 'Expire pending but unconfirmed registrations after this many hours.',
+  ADD COLUMN `waitlist_text` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the event is full, but participants can signup for a waitlist.',
+  ADD COLUMN `approval_req_text` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the approval is required to complete registration for an event.';
 
 -- CRM-4138
 ALTER TABLE `civicrm_payment_processor_type`
