@@ -69,7 +69,7 @@ class CRM_Contact_Form_Edit_IM
             $form->assign('showIM', true);
 
             //Location Index
-            $form->addElement( 'hidden', 'hidden_IM_Count', $blockId, array( 'id' => 'hidden_IM_Count') );
+            $form->addElement( 'hidden', 'hidden_IM_Instances', $blockId, array( 'id' => 'hidden_IM_Instances') );
             
             //IM provider select
             $form->addElement('select', "im[$blockId][provider_id]", '',

@@ -14,7 +14,7 @@
      <td colspan="2"></td>
      <td align="center">{$form.openid.$blockId.is_primary.$blockId.html}</td>
    {if $blockId gt 1}
-    <td><a href="#" title={ts}Remove{/ts} onClick='cj("tr#OpenID_Block_{$blockId}").remove();return false;'>{ts}remove{/ts}</a></td>
+    <td><a href="#" title={ts}Remove{/ts} onClick="removeBlock('OpenID','{$blockId}'); return false;">{ts}remove{/ts}</a></td>
    {/if}
 </tr>
 <!-Add->

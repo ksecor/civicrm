@@ -63,7 +63,7 @@ class CRM_Contact_Form_Edit_Phone
         }
         
         //Location Index
-        $form->addElement( 'hidden', 'hidden_Phone_Count', $blockId, array( 'id' => 'hidden_Phone_Count') );
+        $form->addElement( 'hidden', 'hidden_Phone_Instances', $blockId, array( 'id' => 'hidden_Phone_Instances') );
         
         //phone type select
         $form->addElement('select', "phone[$blockId][phone_type_id]", ts('Phone'), $phoneType, null );

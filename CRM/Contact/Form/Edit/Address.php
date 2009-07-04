@@ -61,7 +61,7 @@ class CRM_Contact_Form_Edit_Address
         }
         $form->assign( 'addMoreAddress', $addMoreAddress ); 
         
-        $form->addElement( 'hidden', 'hidden_Address_Count', $blockId, array( 'id' => 'hidden_Address_Count' ) );
+        $form->addElement( 'hidden', 'hidden_Address_Instances', $blockId, array( 'id' => 'hidden_Address_Instances' ) );
         $form->addElement('select',
                           "address[$blockId][location_type_id]",
                           ts( 'Location Type' ),

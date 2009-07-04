@@ -57,7 +57,7 @@ class CRM_Contact_Form_Edit_Email
         $blockId = ( $form->get( 'Email_Block_Count' ) ) ? $form->get( 'Email_Block_Count' ) : 1;
         
         //max block index.
-        $form->addElement( 'hidden', 'hidden_Email_Count', $blockId, array( 'id' => 'hidden_Email_Count') );
+        $form->addElement( 'hidden', 'hidden_Email_Instances', $blockId, array( 'id' => 'hidden_Email_Instances') );
         
         //Email box
         $form->addElement('text',"email[$blockId][email]", ts('Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email', 'email'));

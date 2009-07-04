@@ -62,7 +62,7 @@ cj( function( ) {
 {if $loadDefaultBlocks} 
     {foreach from=$defaultBlocksCount key="blockName" item="count"}
       //reset count to 1 since each time counter get increamented.
-      cj( "#hidden_" + "{$blockName}" + "_Count" ).val( 1 );
+      cj( "#hidden_" + "{$blockName}" + "_Instances" ).val( 1 );
       {section name=blockCount loop=$count-1}
       buildAdditionalBlocks( '{$blockName}', '{$contactType}' );
       {/section}
@@ -73,9 +73,8 @@ cj( function( ) {
 
 function buildAdditionalBlocks( blockName, contactType ) {
 
-
-var previousBlockCount = cj( "#hidden_" + blockName + "_Count" ).val( );
-var currentBlockCount  = parseInt( previousBlockCount ) + 1; 
+  var previousBlockCount = cj( "#hidden_" + blockName + "_Instances" ).val( ).substr(-1);
+  var currentBlockCount  = parseInt( previousBlockCount ) + 1; 
 
   var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + currentBlockCount;
 	
@@ -96,8 +95,14 @@ var currentBlockCount  = parseInt( previousBlockCount ) + 1;
                       }
          });
   cj( "#hidden_" + blockName + "_Count" ).val( currentBlockCount );
+
+  //build the hidden block instance string used in post.
+  var prevousBlockCntStr = cj( "#hidden_" + blockName + "_Instances" ).val( );
+  var currentBlockCntStr = prevousBlockCntStr + ',' + currentBlockCount;
+  cj( "#hidden_" + blockName + "_Instances" ).val( currentBlockCntStr );
+
   if ( blockName == 'Address' ) cj("#addressBlock").show( );
- 
+
 }
 
 cj('a#expand').click( function( ){
@@ -143,6 +148,16 @@ cj('input#'+element).each(function() {
     }
 });
 }
+
+function removeBlock( blockName, blockId ) {
+ //update string for removing block instance from qf during post.
+ var updateStr = cj( "#hidden_" + blockName + "_Instances" ).val( ).replace( ',' + blockId, '' );
+ cj( "#hidden_" + blockName + "_Instances" ).val(  updateStr );
+ 
+ //unset block from html
+ cj( "tr#"+ blockName + "_Block_" + blockId ).remove();
+}
+
 </script>
 {/literal}
 {/if}

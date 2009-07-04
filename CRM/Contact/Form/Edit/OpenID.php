@@ -63,7 +63,7 @@ class CRM_Contact_Form_Edit_OpenID
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_OpenID', 'openid'));
             
             //Location Index
-            $form->addElement( 'hidden', 'hidden_OpenID_Count', $blockId, array( 'id' => 'hidden_OpenID_Count') );  
+            $form->addElement( 'hidden', 'hidden_OpenID_Instances', $blockId, array( 'id' => 'hidden_OpenID_Instances') );  
             
             //Block type
             $form->addElement('select',"openid[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());

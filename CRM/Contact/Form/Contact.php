@@ -155,7 +155,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->assign( "blockName", $this->_addBlockName );
             $this->assign( "blockId",  $additionalblockCount );
             $this->set( $this->_addBlockName."_Block_Count", $additionalblockCount );
-            return;
         }
         
         $session = & CRM_Core_Session::singleton( );
@@ -385,9 +384,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         foreach ( $buildAJAXBlocks as $blockName => $isActive ) {
             if ( $isActive ) {
-                $hiddenCount = CRM_Utils_Array::value( "hidden_".$blockName ."_Count", $_POST, 1 );
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
-                for ( $instance = 1; $instance <= $hiddenCount; $instance++ ) {
+                $instances  = explode( ',', CRM_Utils_Array::value( "hidden_".$blockName ."_Instances", $_POST, 1 ) );
+                foreach ( $instances as $instance ) {
                     if ( $instance > 1 ) {
                         $this->assign( "addBlock", true );
                         $this->assign( 'blockName', $blockName );
