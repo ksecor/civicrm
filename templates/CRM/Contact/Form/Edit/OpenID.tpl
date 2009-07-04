@@ -1,7 +1,7 @@
 {* tpl for building IM related fields *}
 {if !$addBlock}
 <tr>
-    <td><strong>{ts}Open ID{/ts}</strong>
+    <td>{ts}Open ID{/ts}
          &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'OpenID', '{$contactType}');return false;">add</a>
     </td>
     <td colspan="2"></td>

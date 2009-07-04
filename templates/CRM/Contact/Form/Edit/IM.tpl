@@ -1,7 +1,7 @@
 {* tpl for building IM related fields*}
 {if !$addBlock}
 <tr>
-    <td><strong>{ts}Instant Messenger{/ts}</strong>
+    <td>{ts}Instant Messenger{/ts}
          &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'IM', '{$contactType}');return false;">add</a>
     </td>
     <td colspan="2"></td>

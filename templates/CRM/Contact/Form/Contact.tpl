@@ -28,7 +28,6 @@
     {/foreach}
     
 </div>
-<br/>
 <div class="crm-submit-buttons">
    {$form.buttons.html}
 </div>

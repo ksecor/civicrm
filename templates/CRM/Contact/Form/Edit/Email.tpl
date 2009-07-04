@@ -1,7 +1,7 @@
 {* tpl file for building email block*}
 {if !$addBlock}
 <tr>
-    <td><strong>{ts}Email{/ts}</strong>
+    <td>{ts}Email{/ts}
       &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Email', '{$contactType}');return false;">{ts}add{/ts}</a>
      </td> 
     <td>{ts}On Hold?{/ts} {help id="id-hold"}</td>

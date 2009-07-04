@@ -1,11 +1,11 @@
 {* tpl for building phone related fields*}
 {if !$addBlock}
 <tr>
-        <td><strong>{ts}Phone{/ts}</strong>
-             &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Phone', '{$contactType}');return false;">add</a>
-        </td>
-        <td colspan="2"></td>
-        <td>{ts}Primary?{/ts}</td>
+    <td>{ts}Phone{/ts}
+         &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Phone', '{$contactType}');return false;">add</a>
+    </td>
+    <td colspan="2"></td>
+    <td>{ts}Primary?{/ts}</td>
 </tr>
 {/if}
 <!-Add->

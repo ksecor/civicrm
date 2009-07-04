@@ -57,7 +57,7 @@ class CRM_Contact_Form_Edit_Individual {
         //prefix
         $prefix = CRM_Core_PseudoConstant::individualPrefix( );
         if ( !empty( $prefix ) ) {
-            $form->addElement('select', 'prefix_id', ts('Prefix'), array('' => ts('- prefix -')) + $prefix );
+            $form->addElement('select', 'prefix_id', ts('Prefix'), array('' => '') + $prefix );
         }
         
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
@@ -74,7 +74,7 @@ class CRM_Contact_Form_Edit_Individual {
         // suffix
         $siffix = CRM_Core_PseudoConstant::individualSuffix( );
         if ( $siffix ) {
-            $form->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('- suffix -')) + $siffix );
+            $form->addElement('select', 'suffix_id', ts('Suffix'), array('' => '') + $siffix );
         }
         
         // nick_name

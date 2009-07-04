@@ -69,13 +69,28 @@ div.spacer, .spacer {
   height: 5px;
   }
 
-#crm-container input.form-submit, #crm-container select {
+#crm-container select {
   vertical-align: middle;
+  border: 1px solid #494949;
+  font-weight:bold;
 }
 
 #crm-container td.compressed select, #crm-container td.compressed input {
   font-size: 0.90em;
   font-weight: bold;
+}
+
+#crm-container input {
+  border: 1px solid #494949;
+  font-size:12px;
+  font-size-adjust:none;
+  font-stretch:normal;
+  font-style:normal;
+  font-variant:normal;
+  font-weight:bold;
+  line-height:100%;
+  padding:2px;
+  vertical-align:middle;
 }
   
 #crm-container fieldset {
