@@ -3,7 +3,7 @@
     <span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{ts}{$title}{/ts}</a>
 </h3>
 
-<div id="addressBlock">
+<div id="addressBlock" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 {/if}
 <!-Add->
  <div id="Address_Block_{$blockId}">

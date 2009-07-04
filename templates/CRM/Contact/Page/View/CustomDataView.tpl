@@ -9,8 +9,8 @@
                     <td colspan="2" class="grouplabel">{$cd_edit.title}</td>
                   </tr>
                   {foreach from=$cd_edit.fields item=element key=field_id}
-                  {if $element.options_per_line != 0}
                   <tr>
+                  {if $element.options_per_line != 0}
                         <td class="label">{$element.field_title}</td>
                         <td>
                             {* sort by fails for option per line. Added a variable to iterate through the element array*}
@@ -29,8 +29,8 @@
                         {else}
                             <td class="html-adjust">{$element.field_value}</td>
                         {/if}
-                  </tr>
                   {/if}
+                  </tr>
                 {/foreach}
                 </table>
             </div>

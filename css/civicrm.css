@@ -71,15 +71,15 @@ div.spacer, .spacer {
 
 #crm-container input.form-submit, #crm-container select {
   vertical-align: middle;
-  margin: 0.5em 0.5em 0.5em 0;
 }
 
 #crm-container td.compressed select, #crm-container td.compressed input {
   font-size: 0.90em;
+  font-weight: bold;
 }
   
 #crm-container fieldset {
-  margin: .25em 0em .5em 0em;
+  margin: .5em 0em .5em 0em;
 }
 
 #crm-container fieldset.form-layout {
@@ -415,7 +415,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
 #crm-container label {
-  font-weight: bold;
+  font-weight: normal;
   display: inline;
 }
 

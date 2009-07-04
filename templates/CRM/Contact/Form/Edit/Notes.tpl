@@ -1,7 +1,7 @@
 <h3 class="head"> 
     <span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{ts}{$title}{/ts}</a>
 </h3>
-<div id="notesBlock">
+<div id="notesBlock" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
    <table class="form-layout-compressed">
      <tr class="last-row">
        <td>{$form.contact_source.label}<br />

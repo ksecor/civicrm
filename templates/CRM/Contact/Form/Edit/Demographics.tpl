@@ -2,7 +2,7 @@
     <span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{ts}{$title}{/ts}</a>
 </h3>
 
-<div id="demographics">
+<div id="demographics" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
   <div class="form-item">
         <span class="labels">{$form.gender_id.label}</span>
         

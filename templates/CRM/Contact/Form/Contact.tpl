@@ -11,7 +11,7 @@
     <h3 class="head"> 
         <span class="ui-icon ui-icon-triangle-1-e" id='contact'></span><a href="#">{ts}Contact Details{/ts}</a>
     </h3>
-    <div id="contact-details">
+    <div id="contact-details" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
         {include file="CRM/Contact/Form/Edit/$contactType.tpl"}
         <br/>
         <table class="form-layout-compressed">
@@ -24,7 +24,7 @@
     </div>
     
     {foreach from = $editOptions item = "title" key="name"}
-            {include file="CRM/Contact/Form/Edit/$name.tpl"}
+        {include file="CRM/Contact/Form/Edit/$name.tpl"}
     {/foreach}
     
 </div>
