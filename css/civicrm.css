@@ -1591,7 +1591,7 @@ DIV.buttons #icons {
 	PADDING-BOTTOM: 5px !important; PADDING-LEFT: 5px !important; PADDING-RIGHT: 5px !important; PADDING-TOP: 5px !important
 }
 
-.separator {
+#crm-container .separator {
 	border-bottom: solid 2px #ccc;
 }
 
