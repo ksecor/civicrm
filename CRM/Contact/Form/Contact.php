@@ -241,11 +241,21 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, 'name', true );
+        // build demographics only for Individual contact type
         if ( $this->_contactType != 'Individual' &&
              array_key_exists( 'Demographics', $this->_editOptions ) ) {
             unset( $this->_editOptions['Demographics'] );
         }
+        
+        // in update mode don't show notes
+        if ( $this->_contactId ) {
+            unset( $this->_editOptions['Notes'] );
+        }
+        
         $this->assign( 'editOptions', $this->_editOptions );
+        
+        //build custom data
+        CRM_Custom_Form_Customdata::preProcess( $this, null, null, 1, $this->_contactType, $this->_contactId );
     }
     
     /**
@@ -288,6 +298,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
             $this->assign( 'currentEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
         }
+        
+        // custom data set defaults
+		$defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
         return $defaults;
     }
 
@@ -397,6 +410,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 }
             }
         }
+        
+        //build custom data
+        CRM_Custom_Form_Customdata::buildQuickForm( $this );
         
         // add the dedupe button
         $this->addElement('submit', 

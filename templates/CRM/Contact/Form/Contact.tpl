@@ -19,7 +19,17 @@
                 {if $status }
                     {include file="CRM/Contact/Form/Edit/$block.tpl"}
                 {/if}
-            {/foreach}            
+            {/foreach}
+            <tr class="last-row">
+              <td>{$form.contact_source.label}<br />
+                  {$form.contact_source.html}
+              </td>
+              <td>{$form.external_identifier.label}<br />
+                  {$form.external_identifier.html}
+              </td>
+              <td><label for="internal_identifier">Internal Id</label><br />
+               {$entityID}</td>
+            </tr>            
         </table>
     </div>
     
