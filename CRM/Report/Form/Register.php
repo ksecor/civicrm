@@ -145,7 +145,7 @@ class CRM_Report_Form_Register extends CRM_Core_Form {
             }
 
             if ( $dupeClass ) {
-                $errors['name'] = ts('Claas already exists in Database.');
+                $errors['name'] = ts('Class already exists in Database.');
             }
             return $errors;
         } 
