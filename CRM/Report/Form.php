@@ -150,6 +150,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_groups             = null;
     protected $_having             = null;
     protected $_rowsFound          = null;
+    protected $_select             = null;
         
     protected $_rollup         = null;
     
@@ -1123,7 +1124,9 @@ class CRM_Report_Form extends CRM_Core_Form {
         while ( $dao->fetch( ) ) {
             $row = array( );
             foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
+                if ( property_exists( $dao, $key ) ) {
+                    $row[$key] = $dao->$key;
+                }
             }
             $rows[] = $row;
         }
