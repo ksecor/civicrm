@@ -187,7 +187,7 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                  civicrm_participant.status_id";
         
         $info = CRM_Core_DAO::executeQuery( $sql );
-      	$participant_data = array();
+      	$participant_data = $participant_info = array();
         
         while( $info->fetch() ) {
             $participant_data[$info->event_id][$info->statusId]['participant']= $info->participant;
@@ -288,10 +288,11 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
         }
         if ( !empty($rows) ) {
             $participant_info= $this->participantInfo();
-            foreach ( $rows as $key => $value ) {
-                foreach ($participant_info[$value['civicrm_event_id']] as $k => $v ) {
-                    $rows[$key][$k]=$v;
-                    
+            foreach ( $rows as $key => $value ) { 
+                if ( array_key_exists( $value['civicrm_event_id'], $participant_info ) ) {
+                    foreach ($participant_info[$value['civicrm_event_id']] as $k => $v ) {
+                        $rows[$key][$k]=$v;
+                    }
                 }
             }
         }
