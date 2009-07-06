@@ -21,6 +21,9 @@
                 {/if}
             {/foreach}
             <tr class="last-row">
+              <td>{$form.home_URL.label}<br />
+                  {$form.home_URL.html}
+              </td>
               <td>{$form.contact_source.label}<br />
                   {$form.contact_source.html}
               </td>
