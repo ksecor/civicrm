@@ -610,7 +610,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                     }
                 }
             }
-            
+
             $form->assign( 'showRadio',$formItems );
             if ( $formItems ) {
                 if ( ! $membershipBlock['is_required'] ) {

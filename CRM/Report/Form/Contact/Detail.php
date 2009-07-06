@@ -121,49 +121,49 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                    'civicrm_membership'   =>
                    array( 'dao'       => 'CRM_Member_DAO_Membership',
                           'fields'    =>
-                          array( 'contact_id'             => 
+                          array( 'contact_id'            => 
                                  array( 'no_display' => true,
                                         'required'   => true, ),
                                  
-                                 'membership_id'      => 
+                                 'membership_id'         => 
                                  array( 'title'      => ts( 'Membership' ),
                                         'no_repeat'  => true,
                                         'default'    => true 
                                         ),
                                  
-                                 'membership_type_id' => array( 'default' => true ),
-                                 'join_date'          => null,
-                                 'start_date'         => array( 'title'   => ts('Start Date'),
-                                                                'default' => true ),
-                                 'end_date'           => array( 'title'   => ts('End Date'),
-                                                                'default' => true ),
-                                 'status_id'          => null,
-                                 'source'             => array( 'title'   => 'Membership Source'),
-                                 ), 
+                                 'membership_type_id'    => array( 'default' => true ),
+                                 'join_date'             => null,
+                                 'membership_start_date' => array( 'title'   => ts('Start Date'),
+                                                                   'default' => true ),
+                                 'membership_end_date'   => array( 'title'   => ts('End Date'),
+                                                                   'default' => true ),
+                                 'status_id'             => null,
+                                 'source'                => array( 'title'   => 'Membership Source'),
+                                 ),
                           ),
                    'civicrm_participant'   =>
                    array( 'dao'       => 'CRM_Event_DAO_Participant',
                           'fields'    =>
-                          array( 'contact_id'             => 
+                          array( 'contact_id'                => 
                                  array( 'no_display' => true,
                                         'required'   => true, ),
                                  
-                                 'participant_id' => 
+                                 'participant_id'            => 
                                  array( 'title'      => ts( 'Participant' ),
                                         'no_repeat'  => true,
                                         'default'    => true 
                                         ),
-                                 'event_id'              => array( 'default' => true),
-                                 'participant_status_id' => array( 'title'   => ts('Status'),
-                                                                   'default' => true ),
-                                 'role_id'               => array( 'title'   => ts('Role'),
-                                                                   'default' => true ),
-                                 'register_date'         => array( 'title'   => ts('Register Date'),
-                                                                   'default' => true ),
-                                 'fee_level'             => array( 'title'   => ts('Fee Level'),
-                                                                   'default' => true ),
-                                 'fee_amount'            => array( 'title'   => ts('Fee Amount'),
-                                                                   'default' => true ),
+                                 'event_id'                  => array( 'default' => true),
+                                 'participant_status_id'     => array( 'title'   => ts('Status'),
+                                                                       'default' => true ),
+                                 'role_id'                   => array( 'title'   => ts('Role'),
+                                                                       'default' => true ),
+                                 'participant_register_date' => array( 'title'   => ts('Register Date'),
+                                                                       'default' => true ),
+                                 'fee_level'                 => array( 'title'   => ts('Fee Level'),
+                                                                       'default' => true ),
+                                 'fee_amount'                => array( 'title'   => ts('Fee Amount'),
+                                                                       'default' => true ),
                                  ), 
                           ),
 
@@ -389,32 +389,13 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     }
 
     //Override to set limit is 10
-    function limit( ) {
-        // lets do the pager if in html mode
-        $this->_limit = null;
-        if ( $this->_outputMode == 'html' ) {
-            $this->_select = str_ireplace( 'SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $this->_select );
-            
-            $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );
-            $pageId = $pageId ? $pageId : 1;
-            $offset = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
-            
-            $this->_limit  = " LIMIT $offset, " . self::ROW_COUNT_LIMIT;
-        }
+    function limit( $rowCount = self::ROW_COUNT_LIMIT ) {
+        parent::limit( $rowCount );
     }
     
     //Override to set pager with limit is 10
-    function setPager( ) {
-        if ( $this->_limit && ($this->_limit != '') ) {
-            require_once 'CRM/Utils/Pager.php';
-            $sql    = "SELECT FOUND_ROWS();";
-            $this->_rowsFound = CRM_Core_DAO::singleValueQuery( $sql );
-            $params = array( 'total'    => $this->_rowsFound,
-                             'rowCount' => self::ROW_COUNT_LIMIT,
-                             'status'   => ts( 'Contributions %%StatusMessage%%' ) );
-            $pager = new CRM_Utils_Pager( $params );
-            $this->assign_by_ref( 'pager', $pager );
-        }
+    function setPager( $rowCount = self::ROW_COUNT_LIMIT ) {
+        parent::setPager( $rowCount );
     }
     
     function postProcess( ) {
@@ -461,9 +442,8 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 
-                $url = CRM_Report_Utils_Report::getNextUrl( 'contact/summary', 
-                                              'reset=1&force=1&id_value=' . $row['civicrm_contact_id'],
-                                                            $this->_absoluteUrl ,$this->_id  );
+                $url = CRM_Utils_System::url( "civicrm/contact/view",  
+                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
                 $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
                 $rows[$rowNum]['civicrm_contact_display_name_hover'] = 
                     ts("View Contact Summary for this Contact");

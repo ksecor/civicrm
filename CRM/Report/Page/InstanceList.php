@@ -72,16 +72,19 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
          ORDER BY v.weight
         ";
         $dao  = CRM_Core_DAO::executeQuery( $sql );
-
+        $config =& CRM_Core_Config::singleton( );
         $rows = array();
         $url  = 'civicrm/report/instance';
         while ( $dao->fetch( ) ) {
-            
+            $enabled = in_array( "Civi{$dao->compName}", $config->enableComponents );
+            if ( $dao->compName == 'Contact') {
+                $enabled = true;
+            } 
             //filter report listings by permissions
-            if ( !CRM_Report_Utils_Report::isInstancePermission( $dao->id ) ) {
+            if ( !( $enabled && CRM_Report_Utils_Report::isInstancePermissioned( $dao->id ) ) ) {
                 continue;
-            }
-                
+            }  
+
             if ( trim( $dao->title ) ) {
                 if ( $ovID ) {
                     $title = ts("Report(s) created from the template: %1", array( 1 => $dao->label ) );
@@ -90,7 +93,7 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
                 $rows[$dao->compName][$dao->id]['label']       = $dao->label;
                 $rows[$dao->compName][$dao->id]['description'] = $dao->description;               
                 $rows[$dao->compName][$dao->id]['url']         = CRM_Utils_System::url( "{$url}/{$dao->id}", "reset=1");
-                if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
+                if ( CRM_Core_Permission::check( 'administer Reports' ) ) {
                     $rows[$dao->compName][$dao->id]['deleteUrl'] = 
                         CRM_Utils_System::url( "{$url}/{$dao->id}", 'action=delete&reset=1');
                 }
@@ -117,11 +120,10 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
             $this->assign( 'title', $title);
         }
         // assign link to template list for users with appropriate permissions
-        if ( CRM_Core_Permission::check ( 'access CiviReport' ) ) {
+        if ( CRM_Core_Permission::check ( 'administer Reports' ) ) {
             $templateUrl  = CRM_Utils_System::url('civicrm/report/template/list', "reset=1");
             $this->assign( 'templateUrl', $templateUrl );
         }
         return parent::run();
     }
 }
-?>

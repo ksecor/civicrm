@@ -2351,7 +2351,7 @@ class  Cpdf {
 
       $this->fonts[$font] = $data;
 
-      file_put_contents($dir . 'php_' . $name . '.afm',  '$this->fonts[$font]=' . var_export($data,  true)  . ';');
+      @file_put_contents($dir . 'php_' . $name . '.afm',  '$this->fonts[$font]=' . var_export($data,  true)  . ';');
     } else  if  (!isset($this->fonts[$font])) {
 
       $this->addMessage('openFont: no font file found');

@@ -1298,4 +1298,3 @@ WHERE     c.id = $contributionID";
     
 }
 
-?>
