@@ -150,9 +150,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_groups             = null;
     protected $_having             = null;
     protected $_rowsFound          = null;
-    protected $lifeTime_from       = null;
-    protected $lifeTime_where      = null;
-    
+        
     protected $_rollup         = null;
     
     /**

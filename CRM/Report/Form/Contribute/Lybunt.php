@@ -43,6 +43,9 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                                 'barGraph' => 'Bar Graph',
                                 'pieGraph' => 'Pie Graph'
                                 );
+
+    protected $lifeTime_from  = null;
+    protected $lifeTime_where = null;
     
     function __construct( ) {
         $yearsInPast      = 8;
