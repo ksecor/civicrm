@@ -76,8 +76,9 @@ class CRM_Contact_Form_Edit_Phone
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone', 'phone'));
         
         //is_Primary radio
-        $js = array( 'id' => 'primary_phone', 'onClick' => 'singleSelect(this, this.id);');
-        $form->addElement('radio', "phone[$blockId][is_primary]", null,'', $blockId, $js );
+        $js = array( 'id' => "Phone_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Phone",'. $blockId . ', "IsPrimary" );');
+        $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+        $form->addGroup( $choice, "phone[$blockId][is_primary]" );
               
         // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number
         // $form->addRule( "location[$locationId][phone][$locationId][phone]", ts('Phone number is not valid.'), 'phone' );

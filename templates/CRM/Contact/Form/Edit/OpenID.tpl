@@ -12,7 +12,7 @@
 <tr id="OpenID_Block_{$blockId}">
      <td>{$form.openid.$blockId.openid.html|crmReplace:class:twenty}&nbsp;{$form.openid.$blockId.location_type_id.html}</td>
      <td colspan="2"></td>
-     <td align="center">{$form.openid.$blockId.is_primary.$blockId.html}</td>
+     <td align="center">{$form.openid.$blockId.is_primary.html}</td>
    {if $blockId gt 1}
     <td><a href="#" title={ts}Remove{/ts} onClick="removeBlock('OpenID','{$blockId}'); return false;">{ts}remove{/ts}</a></td>
    {/if}

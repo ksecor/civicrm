@@ -71,7 +71,7 @@ class CRM_Contact_Form_Edit_Email
         //suppress Bulk Mailings (CRM-2881)
         if ( is_object( $form ) && !( $form instanceof CRM_Event_Form_ManageEvent_Location ) ) {     
             //Bulkmail checkbox
-            $js = array( 'id' => "Email_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsPrimary" );');
+            $js = array( 'id' => "Email_".$blockId."_IsBulkmail", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsBulkmail" );');
             $form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null, '', $js);
         }
         

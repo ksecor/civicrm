@@ -82,11 +82,12 @@ class CRM_Contact_Form_Edit_IM
             $form->addElement('text', "im[$blockId][name]", ts('Instant Messenger'),
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM', 'name') );
             
-             //is_Primary radio
-            $js = array( 'id' => 'primary_im', 'onClick' => 'singleSelect(this, this.id);');
-            $form->addElement('radio', "im[$blockId][is_primary]", null,'', $blockId, $js );
+            //is_Primary radio
+            $js = array( 'id' => "IM_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "IM",'. $blockId . ', "IsPrimary" );');
+            $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+            $form->addGroup( $choice, "im[$blockId][is_primary]" );
         }
-    }    
+    }
 }
 
 
