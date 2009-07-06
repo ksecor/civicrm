@@ -102,7 +102,7 @@ class CRM_Core_BAO_Block
     static function retrieveBlock( &$block, $blockName ) 
     {
         // we first get the primary location due to the order by clause
-        $block->orderBy( 'is_primary desc' );
+        $block->orderBy( 'is_primary desc, id' );
         $block->find( );
         
         $count  = 1;

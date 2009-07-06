@@ -150,12 +150,16 @@ if( employerId ) {
 }
 
 //select single is_bulk & is_primary
-function singleSelect( object, element ){
-cj('input#'+element).each(function() { 
-    if( cj(object).attr('name') != cj(this).attr('name') ) {
-        cj(this).attr( 'checked', false );
+function singleSelect( blockName, blockId, flagName ) {
+  var instances = cj( "#hidden_" + blockName + "_Instances" ).val( ).split(',');
+  var instance  = 1;
+  cj(instances).each( function( ) { 
+    if ( instance != blockId ) {
+       if ( flagName == 'IsPrimary'  ) cj( '#'+blockName+'_'+instance+'_IsPrimary').attr( 'checked', false );
+       if ( flagName == 'IsBulkmail' ) cj( '#'+blockName+'_'+instance+'_IsBulkmail').attr( 'checked', false );		     
     }
-});
+    instance++;	
+  });
 }
 
 function removeBlock( blockName, blockId ) {
