@@ -132,9 +132,10 @@ WHERE  inst.report_id = %1";
 
         $from          = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
         $toDisplayName = "";//$domainEmailName;
-        $toEmail       = $instanceInfo['email_to'];
-        $ccEmail       = $instanceInfo['email_cc'];
-        $subject       = $instanceInfo['email_subject'];
+        $toEmail       = CRM_Utils_Array::value( 'email_to', $instanceInfo );
+        $ccEmail       = CRM_Utils_Array::value( 'email_cc', $instanceInfo );
+        $subject       = CRM_Utils_Array::value( 'email_subject', $instanceInfo );
+        $attachments   = CRM_Utils_Array::value( 'attachments', $instanceInfo );
 
         require_once 'Mail/mime.php';
         require_once "CRM/Utils/Mail.php";
