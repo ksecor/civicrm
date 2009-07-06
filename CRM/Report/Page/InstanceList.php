@@ -72,16 +72,19 @@ class CRM_Report_Page_InstanceList extends CRM_Core_Page
          ORDER BY v.weight
         ";
         $dao  = CRM_Core_DAO::executeQuery( $sql );
-
+        $config =& CRM_Core_Config::singleton( );
         $rows = array();
         $url  = 'civicrm/report/instance';
         while ( $dao->fetch( ) ) {
-            
+            $enabled = in_array( "Civi{$dao->compName}", $config->enableComponents );
+            if ( $dao->compName == 'Contact') {
+                $enabled = true;
+            } 
             //filter report listings by permissions
-            if ( !CRM_Report_Utils_Report::isInstancePermissioned( $dao->id ) ) {
+            if ( !( $enabled && CRM_Report_Utils_Report::isInstancePermissioned( $dao->id ) ) ) {
                 continue;
-            }
-                
+            }  
+
             if ( trim( $dao->title ) ) {
                 if ( $ovID ) {
                     $title = ts("Report(s) created from the template: %1", array( 1 => $dao->label ) );
