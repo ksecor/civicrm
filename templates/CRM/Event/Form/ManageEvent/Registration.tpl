@@ -83,16 +83,16 @@
             <td>{$form.custom_post_id.html}<br />
             <span class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the bottom of the page.{/ts}</td>
         </tr>
-        <tr>
+        <tr id="additional_profile_pre">
             <th scope="row" class="label" width="20%">{$form.additional_custom_pre_id.label}</th>
             <td>{$form.additional_custom_pre_id.html}<br />
-              <span class="description">{ts}Change this if you want to have a different profile for additional participants.{/ts}</td>
+              <span class="description">{ts}Change this if you want to use a different profile for additional participants.{/ts}</td>
             </td>
         </tr>
-        <tr>
+        <tr id="additional_profile_post">
              <th scope="row" class="label" width="20%">{$form.additional_custom_post_id.label}</td>
              <td>{$form.additional_custom_post_id.html}<br />
-                <span class="description">{ts}Change this if you want to have a different profile for additional participants.{/ts}
+                <span class="description">{ts}Change this if you want to use a different profile for additional participants.{/ts}
              </td>
         </tr>
         </table>
