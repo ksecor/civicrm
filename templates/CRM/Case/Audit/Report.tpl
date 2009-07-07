@@ -1,5 +1,6 @@
 {literal}<link rel="stylesheet" type="text/css" href="{/literal}{$config->userFrameworkResourceURL}{literal}css/civicrm.css" />{/literal}
 <div id="crm-container">
+<h2>{ts}Case Summary{/ts}</h2>
 <table class ="chart">
     <tr>
     	<th>{ts}Client{/ts}</th>
@@ -16,6 +17,7 @@
         <td>{$caseId}</td> 
     </tr>
 </table>
+<h2>{ts}Case Roles{/ts}</h2>
 <table class ="chart" >
     <tr>
     	<th>{ts}Case Role{/ts}</th>
@@ -87,9 +89,7 @@
     </table>
 {/if}
 
-<dl><dt><label>{ts}Activities{/ts}</label></dt>
-    <dd></dd>
-</dl>
+<h2>{ts}Case Activities{/ts}</h2>
 {foreach from=$activities item=activity key=key}
   <table  class ="chart">
        {foreach from=$activity item=field name=fieldloop}
