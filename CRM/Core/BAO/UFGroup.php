@@ -796,6 +796,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                     $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal,
                                                                                                  $cfID,
                                                                                                  $options );
+                                    if ( $htmlType == 'Autocomplete-Select' ) {
+                                        $params[$index] = $values[$index];
+                                    }
                                     if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
                                                                       $cfID, 'is_search_range' ) ) {
                                         $customFieldName = "{$name}_from";
@@ -877,25 +880,25 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 
                 $url= null;
                 if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
-		    $htmlType = $field['html_type'];
-		    if ( $htmlType == 'Link' ) {
+                    $htmlType = $field['html_type'];
+                    if ( $htmlType == 'Link' ) {
                         $url =  $params[$index] ;
                     } else if ( in_array( $htmlType, array( 'CheckBox', 'Multi-Select', 'AdvMulti-Select', 
-							    'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {   
-			$valSeperator    = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ;
-			$selectedOptions = explode( $valSeperator, $params[$index] );
-			
-			foreach ( $selectedOptions as $key => $multiOption ) {
-			    if ( $multiOption ) {
-				$eachOption = $valSeperator.$multiOption.$valSeperator;
-				$url[] =  CRM_Utils_System::url( 'civicrm/profile',
-								 'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-								 urlencode( $fieldName ) .
-								 '=' .
-								 urlencode( $eachOption ) );
-			    }
-			}
-		    } else {
+                                                            'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {   
+                        $valSeperator    = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ;
+                        $selectedOptions = explode( $valSeperator, $params[$index] );
+                        
+                        foreach ( $selectedOptions as $key => $multiOption ) {
+                            if ( $multiOption ) {
+                                $eachOption = $valSeperator.$multiOption.$valSeperator;
+                                $url[] =  CRM_Utils_System::url( 'civicrm/profile',
+                                                                 'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                                 urlencode( $fieldName ) .
+                                                                 '=' .
+                                                                 urlencode( $eachOption ) );
+                            }
+                        }
+                    } else {
                         $url = CRM_Utils_System::url( 'civicrm/profile',
                                                       'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                                       urlencode( $fieldName ) .
@@ -1661,7 +1664,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                         } 
                     } else if ($name == 'world_region') {
                         $defaults[$fldName] = $details['worldregion_id'];
-                    } else if ( substr( $name, 0, 7 ) == 'custom_') {
+                    } else if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
                         //fix for custom fields
                         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'Individual', $values ) );
 
@@ -1672,7 +1675,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                                                                             CRM_Core_BAO_CustomField::getFieldsForImport($value));
                         }
                         
-                        switch( $customFields[substr($name,7,9)]['html_type'] ) {
+                        switch( $customFields[$customFieldId]['html_type'] ) {
                         case 'Multi-Select State/Province':
                         case 'Multi-Select Country':
                         case 'AdvMulti-Select':
@@ -1697,6 +1700,20 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                             }
                             break;
                             
+                        case 'Autocomplete-Select':                            
+                            if ( $customFields[$customFieldId]['data_type'] == "ContactReference" ) {
+                                require_once 'CRM/Contact/BAO/Contact.php';
+                                if ( is_numeric( $details[$name] ) ) {
+                                    $defaults[$fldName.'_id'] = $details[$name]; 
+                                    $defaults[$fldName] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $details[$name], 'sort_name' );
+                                }
+                            } else {
+                                $label = CRM_Core_BAO_CustomOption::getOptionLabel( $customFieldId, $details[$name] );
+                                $defaults[$fldName.'_id'] = $details[$name];
+                                $defaults[$fldName] = $label;
+                            }
+                            break;
+                                
                         default:
                             $defaults[$fldName] = $details[$name];
                             break;

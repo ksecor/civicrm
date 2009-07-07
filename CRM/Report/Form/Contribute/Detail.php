@@ -127,13 +127,13 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                           array( 'receive_date'           => 
                                  array( 'operatorType' => CRM_Report_Form::OP_DATE ),
                                  'contribution_status_id' => 
-                                 array( 'title'        => ts( 'Donation Status' ), 
+                                 array( 'title'        => ts( 'Contribution Status' ), 
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ),
                                         'default'      => array( 1 ),
                                         ),
                                  'total_amount'           => 
-                                 array( 'title'        => ts( 'Amount Between' ) ),
+                                 array( 'title'        => ts( 'Contribution Amount' ) ),
                                  ),
                           'grouping'=> 'contri-fields',
                           ),
@@ -148,7 +148,7 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
 
-                   'civicrm_contribution_ordinality' => 
+                   'civicrm_contribution_ordinality' =>                    
                    array( 'dao'    => 'CRM_Contribute_DAO_Contribution',
                           'alias'  => 'cordinality',
                           'filters' =>             
@@ -159,26 +159,28 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                                                                  1 => 'Second or Later by Contributor') ), ), ),
                    );
         
-        // Add contribution custom fields
-        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
-        $dao = CRM_Core_DAO::executeQuery( $query );
-        while ( $dao->fetch( ) ) {
-        
-          // Assemble the fields for this custom data group
-          $fields = array();
-          $query = 'SELECT column_name, label FROM civicrm_custom_field WHERE is_active = 1 AND custom_group_id = ' . $dao->id;
-          $dao_column = CRM_Core_DAO::executeQuery( $query );
-          while ( $dao_column->fetch( ) ) {
-            $fields[$dao_column->column_name] = array(
-              'title' => $dao_column->label,
-            );
-          }
-          
-          // Add the custom data table and fields to the report column options
-          $this->_columns[$dao->table_name] = array(
-            'dao' => 'CRM_Contribute_DAO_Contribution',
-            'fields' => $fields,
-          );
+        if ( defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) ) {
+            // Add contribution custom fields
+            $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
+            $dao = CRM_Core_DAO::executeQuery( $query );
+            while ( $dao->fetch( ) ) {
+                
+                // Assemble the fields for this custom data group
+                $fields = array();
+                $query = 'SELECT column_name, label FROM civicrm_custom_field WHERE is_active = 1 AND custom_group_id = ' . $dao->id;
+                $dao_column = CRM_Core_DAO::executeQuery( $query );
+                while ( $dao_column->fetch( ) ) {
+                    $fields[$dao_column->column_name] = array(
+                                                              'title' => $dao_column->label,
+                                                              );
+                }
+                
+                // Add the custom data table and fields to the report column options
+                $this->_columns[$dao->table_name] = array(
+                                                          'dao' => 'CRM_Contribute_DAO_Contribution',
+                                                          'fields' => $fields,
+                                                          );
+            }
         }
         
         parent::__construct( );
@@ -261,13 +263,15 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                       ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
         ";
         
-        // LEFT JOIN on contribution custom data fields
-        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
-        $dao = CRM_Core_DAO::executeQuery( $query );
-        while ( $dao->fetch( ) ) {
-          $alias = $this->_aliases[$dao->table_name];
-          $this->_from .= "\n" . 'LEFT JOIN ' . $dao->table_name . ' ' . $alias;
-          $this->_from .= "\n" . '        ON ' . $alias . '.entity_id = ' . $this->_aliases['civicrm_contribution'] . '.id';
+        if ( defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) ) {
+            // LEFT JOIN on contribution custom data fields
+            $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
+            $dao = CRM_Core_DAO::executeQuery( $query );
+            while ( $dao->fetch( ) ) {
+                $alias = $this->_aliases[$dao->table_name];
+                $this->_from .= "\n" . 'LEFT JOIN ' . $dao->table_name . ' ' . $alias;
+                $this->_from .= "\n" . '        ON ' . $alias . '.entity_id = ' . $this->_aliases['civicrm_contribution'] . '.id';
+            }
         }
         
         if ( $this->_addressField ) {

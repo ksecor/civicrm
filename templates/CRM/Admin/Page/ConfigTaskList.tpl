@@ -1,5 +1,10 @@
 {capture assign="linkTitle"}{ts}Edit settings{/ts}{/capture}
 {capture assign="adminMenu"}{crmURL p="civicrm/admin" q="reset=1"}{/capture}
+{if $fromEmailId}
+    {assign var='fromAction''value="&action=update&id=`$fromEmailId`"} 
+{else} 
+    {assign var='fromAction' value="&action=add"}
+{/if}
 <div id="help" class="description">
 {ts 1=$adminMenu}Use this checklist to review and complete configuration tasks for your site. You will be redirected back to this checklist after saving each setting. Settings which you have not yet
 reviewed will be <span class="status-overdue">displayed in red</span>. After you've visited a page, the links will <span class="status-pending">display in green</span>  (although you may still need to revisit the page to complete or update the settings).
@@ -47,7 +52,7 @@ You can access this page again from the <a href="%1">Administer CiviCRM</a> menu
     <td>{ts}Settings for outbound email - either SMTP server, port and authentication or Sendmail path and argument.{/ts}</td>
 </tr>
 <tr class="even">
-    <td class="tasklist nowrap"><a href="{crmURL p="civicrm/admin/options/from_email_address" q="group=from_email_address&action=update&id=213&reset=1&destination=`$destination`"}" title="{$linkTitle}">{ts}From Email Addresses{/ts}</a></td>
+    <td class="tasklist nowrap"><a href="{crmURL p="civicrm/admin/options/from_email_address" q="group=from_email_address`$fromAction`&reset=1&destination=`$destination`"}" title="{$linkTitle}">{ts}From Email Addresses{/ts}</a></td>
     <td>{ts}Define general email address(es) that can be used as the FROM address when sending email to contacts from within CiviCRM (e.g. info@example.org){/ts}</li>
 </tr>
 

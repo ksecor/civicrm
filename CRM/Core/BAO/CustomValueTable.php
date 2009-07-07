@@ -162,7 +162,7 @@ class CRM_Core_BAO_CustomValueTable
                         $value = CRM_Utils_Date::isoToMysql($value);
                         break;
                         
-                    case 'Auto-complete':
+                    case 'ContactReference':
                         if ( $value == null ) {
                             $type  = 'Timestamp'; 
                         } else {
@@ -251,7 +251,7 @@ class CRM_Core_BAO_CustomValueTable
         case 'Int':
             return 'int';
             // the below three are FK's, and have constraints added to them
-        case 'Auto-complete':
+        case 'ContactReference':
         case 'StateProvince':
         case 'Country':
         case 'File':

@@ -132,9 +132,11 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
         // status class other than Negative should be able to cancel registration.
         if ( array_key_exists( $this->_participantStatusId,
                                CRM_Event_PseudoConstant::participantStatus( null, "class != 'Negative'" ) ) ) {
+            $cancelConfirm = ts('Are you sure you want to cancel your registration for this event?');
             $buttons = array_merge( $buttons, array(array( 'type'    => 'submit',
                                                            'name'    => ts('Cancel Registration'),
-                                                           'spacing' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')));
+                                                           'spacing' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                                           'js'      => array('onclick' => 'return confirm(\'' . $cancelConfirm . '\');'))));
             if ( !$statusMsg ) {
                 $statusMsg = ts( 'You can cancel your registration for %1 by clicking "Cancel Registration".' , array(1 => $values['title']) );
             }
@@ -175,15 +177,19 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
             $participantIds = array_merge( array( $participantId ), $additionalParticipantIds );
             $results = CRM_Event_BAO_Participant::transitionParticipants( $participantIds, $cancelledId, null, true );
             
-            $statusMessage = ts( "%1 Event registration(s) has been cancelled.", array( 1 => count( $participantIds ) ) );
+            if ( count( $participantIds ) > 1 ) {
+                $statusMessage = ts( "%1 Event registration(s) have been cancelled.", array( 1 => count( $participantIds ) ) );
+            } else {
+                $statusMessage = ts( "Your event registration has been cancelled." );
+            }
             if ( CRM_Utils_Array::value( 'mailedParticipants', $results ) ) {
                 foreach ( $results['mailedParticipants'] as $key => $displayName ) {
-                    $statusMessage .=  ts( "<br>Mail has been sent to : %1", array( 1 => $displayName ) );
+                    $statusMessage .=  "<br />" . ts( "Email has been sent to : %1", array( 1 => $displayName ) );
                 }
             }
             
-            $config =& CRM_Core_Config::singleton( );
-            CRM_Core_Error::statusBounce( $statusMessage, $config->userFrameworkBaseURL );
+            CRM_Core_Error::statusBounce( $statusMessage, CRM_Utils_System::url( 'civicrm/event/info',"reset=1&id={$this->_eventId}",
+                                                                                 false, null, false, true ) );
         }
     }
 }

@@ -756,7 +756,8 @@ WHERE  id = %1";
         if ( ( $id && !CRM_Utils_Array::value( $id, self::$country ) ) || !self::$country || !$id  ) {
 
             $config =& CRM_Core_Config::singleton();
-
+            $limitCodes = array( );
+            
             if ( $applyLimit ) {
                 // limit the country list to the countries specified in CIVICRM_COUNTRY_LIMIT
                 // (ensuring it's a subset of the legal values)

@@ -43,6 +43,9 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                                 'barGraph' => 'Bar Graph',
                                 'pieGraph' => 'Pie Graph'
                                 );
+
+    protected $lifeTime_from  = null;
+    protected $lifeTime_where = null;
     
     function __construct( ) {
         $yearsInPast      = 8;
@@ -394,7 +397,7 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $this->doTemplateAssignment( $rows );
         
         // do print / pdf / instance stuff if needed
-        $this->endPostProcess( );   
+        $this->endPostProcess( $rows );   
         
         
     }   
@@ -403,15 +406,16 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         
         $graphRows                = array();
         $count                    = 0;
-        
+        $display                  = array( );
+
         $current_year             = $this->_params['yid_value'];
-        $previous_year            =  $current_year - 1 ;
+        $previous_year            = $current_year - 1 ;
         $interval[$previous_year] = $previous_year ;
         $interval['life_time']    = 'life_time' ; 
         
         foreach ( $rows as $key => $row ) {
-            $display['life_time']                   =  $display[ 'life_time' ] + $row[ 'civicrm_life_time_total' ];           
-            $display[ $previous_year ]              =  $display[ $previous_year ] + $row [ $previous_year ];                    
+            $display['life_time']                   =  CRM_Utils_Array::value('life_time', $display) + $row[ 'civicrm_life_time_total' ];           
+            $display[ $previous_year ]              =  CRM_Utils_Array::value($previous_year, $display) + $row [ $previous_year ];                    
         }
         
         $graphRows['value'] = $display;

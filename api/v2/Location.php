@@ -209,12 +209,14 @@ function _civicrm_location_add( &$params ,$locationTypeId) {
         $loc['location_type_id'] = $locationTypeId;
     }
     
-    $loc['is_primary']       = CRM_Utils_Array::value('is_primary', $params,
-                                                      CRM_Utils_Array::value( 'is_primary',
-                                                                              $loc ) );
-    $loc['name']             = CRM_Utils_Array::value('name', $params,
-                                                      CRM_Utils_Array::value( 'name',
-                                                                              $loc ) );
+    $loc['is_primary'] = CRM_Utils_Array::value( 'is_primary', $params,
+                                                 CRM_Utils_Array::value( 'is_primary', $loc ) );
+    
+    $loc['is_billing'] = CRM_Utils_Array::value( 'is_billing', $params,
+                                                 CRM_Utils_Array::value( 'is_billing', $loc ) );
+    
+    $loc['name']       = CRM_Utils_Array::value( 'name', $params,
+                                                 CRM_Utils_Array::value( 'name', $loc ) );
     
     require_once 'CRM/Core/DAO/Address.php';
     $fields =& CRM_Core_DAO_Address::fields( );
@@ -319,6 +321,7 @@ function _civicrm_location_update( $params,$locationArray ) {
     // setup required location values using the current ones. they may or may not be overridden by $params later.
     $loc['address']          = CRM_Utils_Array::value( 'address', $locationArray );
     $loc['is_primary']       = CRM_Utils_Array::value( 'is_primary', $locationArray );
+    $loc['is_billing']       = CRM_Utils_Array::value( 'is_billing', $locationArray );
     $loc['location_type_id'] = CRM_Utils_Array::value( 'location_type_id', $locationArray );
     $loc['location_type']    = CRM_Utils_Array::value( 'location_type', $locationArray );
     $loc['name']             = CRM_Utils_Array::value( 'name', $locationArray );
@@ -363,6 +366,10 @@ function _civicrm_location_update( $params,$locationArray ) {
     
     if (array_key_exists('is_primary', $params)) {
         $loc['is_primary'] = (int) $params['is_primary'];
+    }
+    
+    if (array_key_exists('is_billing', $params)) {
+        $loc['is_billing'] = (int) $params['is_billing'];
     }
     
     $blocks = array( 'Email', 'Phone', 'IM' );

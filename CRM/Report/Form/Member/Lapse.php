@@ -38,9 +38,10 @@ require_once 'CRM/Member/PseudoConstant.php';
 
 class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
 
-    protected $_summary = null;
-
-    protected $_charts  = array( '' => 'Tabular' );
+    protected $_summary      = null;
+    protected $_addressField = false;
+    protected $_emailField   = false;
+    protected $_charts       = array( '' => 'Tabular' );
     
     function __construct( ) {
         // UI for selecting columns to appear in the report list
@@ -279,7 +280,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
         // assign variables to templates
         $this->doTemplateAssignment( $rows );
 
-        $this->endPostProcess( );
+        $this->endPostProcess( $rows );
     }
     
     function alterDisplay( &$rows ) {
@@ -353,4 +354,3 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
         }
     }
 }
-?>
