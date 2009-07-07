@@ -24,7 +24,7 @@
      {if $form.use_household_address} 
      <tr>
         <td>
-            {$form.use_household_address.html}{$form.use_household_address.label}<br /><br />
+            {$form.use_household_address.html}{$form.use_household_address.label}{help id="id-usehousehold"}<br /><br />
             <div id="share_household" style="display:none">
                 {$form.shared_household.label}<br />
                 {$form.shared_household.html|crmReplace:class:huge}&nbsp;&nbsp;<span id="show_address"></span>

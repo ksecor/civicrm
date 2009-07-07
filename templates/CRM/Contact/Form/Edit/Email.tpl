@@ -4,8 +4,8 @@
     <td>{ts}Email{/ts}
       &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Email', '{$contactType}');return false;">{ts}add{/ts}</a>
      </td> 
-    <td>{ts}On Hold?{/ts} {help id="id-hold"}</td>
-    <td>{ts}Bulk Mailings?{/ts} {help id="id-bulk"}</td>
+    <td>{ts}On Hold?{/ts} {help id="id-onhold"}</td>
+    <td>{ts}Bulk Mailings?{/ts} {help id="id-bulkmail"}</td>
     <td>{ts}Primary?{/ts}</td>
 </tr>
 {/if}
@@ -20,4 +20,3 @@
   {/if}
 </tr>
 <!-Add->
-
