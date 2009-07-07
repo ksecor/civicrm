@@ -544,6 +544,32 @@ WHERE  otherRecord.value = 5 AND demographics.name = 'Demographics' AND demograp
 -- make sure Demoghraphics has val and wt = 5 
 Update civicrm_option_value SET value = 5, weight = 5 WHERE name = 'Demographics' and option_group_id = @option_group_id_ceOpt;
 
+-- move location blocks to contact_edit_options.
+SELECT @max_wt  := max(weight) from civicrm_option_value where option_group_id=@option_group_id_ceOpt;
+SELECT @max_val := max(weight) from civicrm_option_value where option_group_id=@option_group_id_ceOpt;
+INSERT INTO  
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES
+(@option_group_id_ceOpt, '{ts escape="sql"}Email{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Email',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+(@option_group_id_ceOpt, '{ts escape="sql"}Phone{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Phone',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+(@option_group_id_ceOpt, '{ts escape="sql"}Instant Messenger{/ts}' ,   (SELECT @max_val := @max_val+1), 'IM',      NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+(@option_group_id_ceOpt, '{ts escape="sql"}Open ID{/ts}'           ,   (SELECT @max_val := @max_val+1), 'OpenID', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL);
+
+-- remove location blocks from address_options.
+SELECT @option_group_id_adOpt := max(id) from civicrm_option_group where name = 'address_options';
+DELETE FROM civicrm_option_value where option_group_id =@option_group_id_adOpt AND name IN ( 'im', 'openid' );  
+
+-- update civicrm_preferences.contact_edit_options.
+-- ideally we should append value, but we did changed wt and values so lets reset it to default.
+UPDATE  civicrm_preferences 
+   SET  contact_edit_options = (   SELECT  CONCAT( GROUP_CONCAT('',value SEPARATOR ''), '' ) 
+                                     FROM  civicrm_option_value 
+                                    WHERE  option_group_id = @option_group_id_ceOpt 
+                                 Group by  option_group_id
+                               )
+ WHERE  is_domain = 1
+   AND  contact_id IS NULL;
+
 -- End of CRM-4605
 
 -- CRM-4687
