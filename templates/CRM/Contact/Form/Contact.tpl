@@ -128,9 +128,9 @@ cj('a#expand').click( function( ){
           cj(this).attr('href', '#expand');
      }
           cj(this).html(message);
-          cj('div.accordion div').each(function() {
+          cj('div.accordion div.ui-accordion-content').each(function() {
              cj(this).parent().find('h3 span').removeClass( ).addClass(class);
-                 eval( " var me = cj(this)." + event + "();" ); 
+                 eval( " var showHide = cj(this)." + event + "();" );
           }); 
 });
 
