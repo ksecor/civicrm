@@ -166,71 +166,68 @@ class CRM_Contact_Form_Edit_Individual {
      * @access public
      * @static
      */
-    static function formRule( &$fields, &$files, $options = null ) 
+    static function formRule( &$fields, &$files, $contactId = null ) 
     {
         $errors = array( );
-       
         //FIXME 
-        if ( CRM_Utils_Array::value( 'state_province_id', $fields['location'][1]['address'] )  == 'undefined' ) {
-            $fields['location'][1]['address']['state_province_id'] ='';
+        if ( CRM_Utils_Array::value( 'state_province_id', $fields['address'][1] )  == 'undefined' ) {
+            $fields['address'][1]['state_province_id'] ='';
         }
-                
+        $primaryID = CRM_Contact_Form_Contact::formRule( $fields, $errors, $contactId );
+        
+        // check for state/country mapping
+        CRM_Contact_Form_Edit_Address::formRule( $fields, $errors );
+        
         // make sure that firstName and lastName or a primary OpenID is set
-        if (!(CRM_Utils_Array::value( 'first_name', $fields ) && 
-              CRM_Utils_Array::value( 'last_name' , $fields ) ) ) {
-	 
-            $errors['missingRequired'] = true;
-        }
-
-        // if this is a forced save, ignore find duplicate rule
-        if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields ) ) {
-            require_once 'CRM/Dedupe/Finder.php';
-            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
-            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy', array($options));
-            if ( $ids ) {
-                $viewUrls = array( );
-                $urls     = array( );
-                foreach ($ids as $id) {
-                    $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
-                    $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
-                    '" target="_blank">' . $displayName . '</a>';
-                    $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
-                    '">' . $displayName . '</a>';
-                }
-                $viewUrl = implode( ', ',  $viewUrls );
-                $url     = implode( ', ',  $urls );
-                $errors['_qf_default']  = ts('One matching contact was found.', array('count' => count($urls), 'plural' => '%count matching contacts were found.'));
-                $errors['_qf_default'] .= '<br />';
-                $errors['_qf_default'] .= ts('If you need to verify if this is the same contact, click here - %1 - to VIEW the existing contact in a new tab.', array(1 => $viewUrl, 'count' => count($urls), 'plural' => 'If you need to verify whether one of these is the same household, click here - %1 - to VIEW the existing contact in a new tab.'));
-                $errors['_qf_default'] .= '<br />';
-                $errors['_qf_default'] .= ts('If you know the record you are creating is a duplicate, click here - %1 - to EDIT the original record instead.', array(1 => $url));
-                $errors['_qf_default'] .= '<br />';
-                $errors['_qf_default'] .= ts('If you are sure this is not a duplicate, click the Save Matching Contact button below.');
-
-                // let smarty know that there are duplicates
-                $template =& CRM_Core_Smarty::singleton( );
-                $template->assign( 'isDuplicate', 1 );
-            } else if ( CRM_Utils_Array::value( '_qf_Edit_refresh_dedupe', $fields ) ) {
-                // add a session message for no matching contacts
-                CRM_Core_Session::setStatus( 'No matching contact found.' );
-            }
+        if ( !$primaryID && ( !CRM_Utils_Array::value( 'first_name', $fields ) ||  
+                              !CRM_Utils_Array::value( 'last_name' , $fields ) ) ) {
+            $errors['_qf_default'] = ts('First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.'); 
         }
         
+//FIXME :        
+//         // if this is a forced save, ignore find duplicate rule
+//         if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields ) ) {
+//             require_once 'CRM/Dedupe/Finder.php';
+//             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
+//             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy', array($options));
+//             if ( $ids ) {
+//                 $viewUrls = array( );
+//                 $urls     = array( );
+//                 foreach ($ids as $id) {
+//                     $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+//                     $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
+//                     '" target="_blank">' . $displayName . '</a>';
+//                     $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
+//                     '">' . $displayName . '</a>';
+//                 }
+//                 $viewUrl = implode( ', ',  $viewUrls );
+//                 $url     = implode( ', ',  $urls );
+//                 $errors['_qf_default']  = ts('One matching contact was found.', array('count' => count($urls), 'plural' => '%count matching contacts were found.'));
+//                 $errors['_qf_default'] .= '<br />';
+//                 $errors['_qf_default'] .= ts('If you need to verify if this is the same contact, click here - %1 - to VIEW the existing contact in a new tab.', array(1 => $viewUrl, 'count' => count($urls), 'plural' => 'If you need to verify whether one of these is the same household, click here - %1 - to VIEW the existing contact in a new tab.'));
+//                 $errors['_qf_default'] .= '<br />';
+//                 $errors['_qf_default'] .= ts('If you know the record you are creating is a duplicate, click here - %1 - to EDIT the original record instead.', array(1 => $url));
+//                 $errors['_qf_default'] .= '<br />';
+//                 $errors['_qf_default'] .= ts('If you are sure this is not a duplicate, click the Save Matching Contact button below.');
+
+//                 // let smarty know that there are duplicates
+//                 $template =& CRM_Core_Smarty::singleton( );
+//                 $template->assign( 'isDuplicate', 1 );
+//             } else if ( CRM_Utils_Array::value( '_qf_Edit_refresh_dedupe', $fields ) ) {
+//                 // add a session message for no matching contacts
+//                 CRM_Core_Session::setStatus( 'No matching contact found.' );
+//             }
+//         }
+        
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
-        if ( CRM_Utils_Array::value('use_household_address',$fields) ) {
-            if ( !CRM_Utils_Array::value( 'shared_household', $fields ) && !CRM_Utils_Array::value( 'shared_household_id', $fields ) ) {
-                $errors["shared_household"] = ts("Please select a household from the 'Select Household' list");
-            }
-     
-            $template =& CRM_Core_Smarty::singleton( );
-            $template->assign( 'isshareHouseholdNew', true );
-            if ( is_numeric( $fields['shared_household'] ) ) {
-                $template->assign( 'isshareHouseholdNew', false );
-            } 
+        if ( CRM_Utils_Array::value('use_household_address',$fields ) && 
+             !CRM_Utils_Array::value( 'shared_household_id', $fields ) ) {
+            $errors["shared_household"] = ts("Please select a household from the 'Select Household' list");
         }
+        
         //if email/postal greeting type is 'Customized' 
         //then Custom greeting field must have a value. CRM-4575
-        if( CRM_Utils_Array::value('email_greeting_id',$fields) == 4 && 
+        if( CRM_Utils_Array::value('email_greeting_id', $fields ) == 4 && 
             !CRM_Utils_Array::value('email_greeting_custom',$fields) ) {
             $errors['email_greeting_custom'] = ts('Custom  Email Greeting is a required field if Email Greeting is of type Customized.');
         }
@@ -239,7 +236,7 @@ class CRM_Contact_Form_Edit_Individual {
             $errors['postal_greeting_custom'] = ts('Custom  Postal Greeting is a required field if Postal Greeting is of type Customized.');
         }
         
-        return $errors;
+        return empty($errors) ? true : $errors; 
     }
 
     /**

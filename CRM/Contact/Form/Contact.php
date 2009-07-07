@@ -325,53 +325,109 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     function addRules( )
     {
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
-           return true;
-        }
+        // skip adding formRules when custom data is build
+        if ( $this->_addBlockName || $this->_cdType || ( $this->_action & CRM_Core_Action::DELETE ) ) {
+			return;
+		}
         
-        $this->addFormRule( array( 'CRM_Contact_Form_Contact', 'formRule'), $this );
+        $this->addFormRule( array( 'CRM_Contact_Form_Edit_'. $this->_contactType, 'formRule' ), $this->_contactId );
     }
-
+    
     /**
      * global validation rules for the form
      *
-     * @param array $fields posted values of the form
-     * @param array $errors list of errors to be posted back to the form
+     * @param array $fields     posted values of the form
+     * @param array $errors     list of errors to be posted back to the form
+     * @param int   $contactId  contact id if doing update.
      *
-     * @return void
+     * @return $primaryID emal/openId
      * @static
      * @access public
      */
-    static function formRule( &$fields, $files, &$form )
+    static function formRule( &$fields, &$errors, $contactId = null )
     {
-        return $errors = array( );
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->civiHRD && ! isset( $fields['tag'] ) ) {
+            $errors["tag"] = ts('Please select at least one tag.');
+        }
         
-        eval("\$formErrors = CRM_Contact_Form_Edit_".$form->_contactType."::formRule( \$fields, \$files );");
-        $errors = array_merge($errors, $formErrors);
+        // validations.
+        //1. for each block only single value can be marked as is_primary = true.
+        //2. location type id should be present if block data present.
+        //3. check open id across db and other each block for duplicate.
+        //4. at least one location should be primary.
+        //5. also get primaryID from email or open id block.
         
+        // take the location blocks.
+        $blocks = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, 
+                                                          false, 'name', true, 'AND v.filter = 1' );
+        //FIXME : currently address having filter = 0 
+        $blocks = array_merge( $blocks, array( 'Address' => 'Address' ) );
+        
+        $openIds = array( );
         $primaryID = false;
-        foreach ( $form->_blocks as $name => $active ) {
-            if ( $active ) {
-                $name = strlower($name);
-                foreach ( $fields[$name] as $count => $values ) {
-                    if ( in_array($name, array('email', 'openid')) && !empty($values[$name]) ) {
-                        $primaryID = true;
+        foreach ( $blocks as $name => $label ) {
+            $dataExists = $isPrimary = false;
+            $name = strtolower( $name );
+            if ( is_array( $fields[$name] ) ) {
+                foreach ( $fields[$name] as $instance => $blockValues ) {
+                    $dataExists = self::blockDataExists( $blockValues );
+                    if ( !$dataExists && $name == 'address' &&  $instance == 1 ) {
+                        $dataExists = CRM_Utils_Array::value( 'use_household_address', $fields );
                     }
                     
-                    if ( CRM_Utils_Array::value('is_primary', $values) && empty($values[$name]) ) {
-                        $errors[$name][$count][$name] = ts('Primary %1 should not be empty.', array( 1 => $name) );
-                    } 
+                    if ( CRM_Utils_Array::value( 'is_primary', $blockValues ) ) {
+                        if ( $isPrimary ) {
+                            $errors["{$name}[$instance][is_primary]"] = ts('Only one %1 can be marked as primary.', 
+                                                                         array( 1 => ucfirst( $name ) ) );
+                        }
+                        $isPrimary = true;
+                    }
+                    
+                    if ( $dataExists && !CRM_Utils_Array::value( 'location_type_id', $blockValues ) ) {
+                        $errors["{$name}[$instance][location_type_id]"] = 
+                            ts('The Location Type should be set if there is  %1 information.', array( 1=> ucfirst( $name ) ) );
+                    }
+                    
+                    if ( $isPrimary && !$primaryID 
+                         && in_array( $name, array( 'email', 'openid' ) ) && CRM_Utils_Array::value( $name, $blockValues ) ) {
+                        $primaryID = $blockValues[$name];
+                    }
+                    
+                    if ( $name == 'openid' && CRM_Utils_Array::value( $name, $blockValues ) ) {
+                        require_once 'CRM/Core/DAO/OpenID.php';
+                        $oid =& new CRM_Core_DAO_OpenID( );
+                        $oid->openid = $openIds[$instance] = CRM_Utils_Array::value( $name, $blockValues );
+                        $cid = isset($contactId) ? $contactId : 0;
+                        if ( $oid->find(true) && ($oid->contact_id != $cid) ) {
+                            $errors["{$name}[$instance][openid]"] = ts('openid already exist.');
+                        }
+                    }
+                }
+                
+                if ( $dataExists && !$isPrimary ) {
+                    $errors["{$name}[1][is_primary]"] = ts('One %1 should be marked as primary.', array( 1 => ucfirst( $name ) ) );
                 }
             }
         }
         
-        if ( $form->_contactType == 'Individual' ) {   
-            if ( !$primaryID && CRM_Utils_Array::value('missingRequired', $errors ) ) {
-                $errors['_qf_default'] = ts('First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.'); 
-            }  
+        //do validations for all opend ids they should be distinct.
+        if ( !empty( $openIds ) && ( count( array_unique($openIds) ) != count($openIds) ) ) {
+            foreach ( $openIds as $instance => $value ) {
+                if ( !array_key_exists( $instance, array_unique($openIds) ) ) {
+                    $errors["openid[$instance][openid]"] = ts('openid already used.');
+                }
+            }
         }
         
-        return empty($errors) ? true : $errors;
+        //FIXME :
+        //CRM-4575
+        if( CRM_Utils_Array::value('addressee_id',$fields) == 4 && !CRM_Utils_Array::value('addressee_custom',$fields) ) {
+            $errors['addressee_custom'] = ts('Custom Addressee is a required field if Addressee is of type Customized.');
+        } 
+        
+        return $primaryID;
+        
     }
     
     /**
@@ -694,6 +750,42 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                          );
 
         return $params; 
+    }
+
+    /**
+     * is there any real significant data in the hierarchical location array
+     *
+     * @param array $fields the hierarchical value representation of this location
+     *
+     * @return boolean true if data exists, false otherwise
+     * @static
+     * @access public
+     */
+    static function blockDataExists( &$fields ) {
+        static $skipFields = array( 'location_type_id', 'is_primary', 'phone_type', 'provider_id', 'country_id' );
+        foreach ( $fields as $name => $value ) {
+            $skipField = false;
+            foreach ( $skipFields as $skip ) {
+                if ( strpos( "[$skip]", $name ) !== false ) {
+                    $skipField = true;
+                    break;
+                }
+            }
+            if ( $skipField ) {
+                continue;
+            }
+            if ( is_array( $value ) ) {
+                if ( self::blockDataExists( $value ) ) {
+                    return true;
+                }
+            } else {
+                if ( ! empty( $value ) ) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
     
 }
