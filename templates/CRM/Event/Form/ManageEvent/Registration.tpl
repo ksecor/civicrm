@@ -108,7 +108,7 @@
         <fieldset><legend><a href="#" onclick="hide('confirm'); show('confirm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Confirmation Screen{/ts}</legend>
          <table class= "form-layout-compressed">
            <tr>
-              <th scope="row" class="label" width="20%">{$form.confirm_title.label}<span class="marker">*</span></th>
+              <th scope="row" class="label" width="20%">{$form.confirm_title.label} <span class="marker">*</span></th>
               <td>{$form.confirm_title.html}<br />
                   <span class="description">{ts}Page title for screen where user reviews and confirms their registration information.{/ts}</span>
               </td>
@@ -138,7 +138,7 @@
         <fieldset><legend><a href="#" onclick="hide('thankyou'); show('thankyou_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Thank-you Screen{/ts}</legend>
          <table class= "form-layout-compressed">
            <tr>           
-              <th scope="row" class="label" width="20%">{$form.thankyou_title.label}<span class="marker">*</span></th>
+              <th scope="row" class="label" width="20%">{$form.thankyou_title.label} <span class="marker">*</span></th>
               <td>{$form.thankyou_title.html}<br />
                 <span class="description">{ts}Page title for registration Thank-you screen.{/ts}</span>
             </td>
