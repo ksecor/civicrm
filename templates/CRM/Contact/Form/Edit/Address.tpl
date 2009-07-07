@@ -35,7 +35,16 @@
      {/if}
     <tr><td>
     <table id="address" style="display:block" class="form-layout-compressed">
-      {if $form.address.$blockId.street_address}
+     {if $form.address.$blockId.name}
+     <tr>
+        <td colspan="2">
+           {$form.address.$blockId.name.label}<br />
+           {$form.address.$blockId.name.html}<br />
+           <span class="description font-italic">{ts}Name of this address block like "My House, Work Place,.." which can be used in address book {/ts}</span>
+        </td>
+     </tr>
+     {/if}
+     {if $form.address.$blockId.street_address}
      <tr>
         <td colspan="2">
            {$form.address.$blockId.street_address.label}<br />
@@ -70,7 +79,14 @@
         </td>
         {/if}
      </tr>
-     
+     {if $form.address.$blockId.county_id}
+     <tr>
+        <td colspan="2">
+           {$form.address.$blockId.county_id.label}<br />
+           {$form.address.$blockId.county_id.html}<br />
+        </td>
+     </tr>
+     {/if}
      <tr>
         {if $form.address.$blockId.country_id}
         <td>
