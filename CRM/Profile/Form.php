@@ -310,7 +310,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->assign( 'id'          , $this->_id       );
         $this->assign( 'mode'        , $this->_mode     );
         $this->assign( 'action'      , $this->_action   );
-        $this->assign( 'fields'      , $this->_fields   );
+        $this->assign_by_ref( 'fields'      , $this->_fields   );
         $this->assign( 'fieldset'    , (isset($this->_fieldset)) ? $this->_fieldset : "" ); 
         
         // do we need inactive options ?

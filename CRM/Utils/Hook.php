@@ -357,7 +357,7 @@ class CRM_Utils_Hook {
      * @return null
      * @access public 
      */
-    static function tokenValues( &$details, &$contactIDs ) {
+    static function tokenValues( &$details, &$contactIDs, $jobID = null ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         $null =& CRM_Core_DAO::$_nullObject;
@@ -365,7 +365,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 2, $details, $contactIDs, $null, $null, $null, \'civicrm_tokenValues\' );' );
+                  '::invoke( 3, $details, $contactIDs, $jobID, $null, $null, \'civicrm_tokenValues\' );' );
     }
 
     /** 
