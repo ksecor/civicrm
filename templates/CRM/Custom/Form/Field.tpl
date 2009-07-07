@@ -8,17 +8,17 @@ function custom_option_html_type( ) {
     if ( !html_type_name && !data_type_id ) {
         return;
     }
-
-    if ( data_type_id < 4 ) {
-        if ( html_type_name != "Text" ) {
+    if ( data_type_id < 4 || data_type_id == 11 ) {
+        if ( html_type_name != "Text" && html_type_name != "ContactReference" ) {
             document.getElementById("showoption").style.display="block";		
             document.getElementById("hideDefaultValTxt").style.display="none";
             document.getElementById("hideDefaultValDef").style.display="none";
             document.getElementById("hideDescTxt").style.display="none";
             document.getElementById("hideDescDef").style.display="none";
-            document.getElementById("searchByRange").style.display = "none";
             document.getElementsByName("is_search_range")[1].checked = true;
+            document.getElementById("searchByRange").style.display = "none";
             document.getElementById("is_searchable").style.display = "block";
+
         } else {
             document.getElementById("showoption").style.display="none";
             document.getElementById("showoption").style.display="none";
@@ -36,9 +36,6 @@ function custom_option_html_type( ) {
             document.getElementById("is_searchable").style.display = "none";
             document.getElementById("hideDescTxt").style.display="none";
             document.getElementById("hideDescDef").style.display="none";
-        } else if ( data_type_id == 11 ) {
-            document.getElementById("hideDefaultValTxt").style.display="none";
-            document.getElementById("hideDefaultValDef").style.display="none";            
         } else {
             document.getElementById("hideDefaultValTxt").style.display="block";
             document.getElementById("hideDefaultValDef").style.display="block";
@@ -95,7 +92,7 @@ function custom_option_html_type( ) {
         document.getElementById("incudedDatePartDef").style.display="none";	 	
     }
 
-    if ( data_type_id == 0 ) {
+    if ( data_type_id == 0 || ( data_type_id == 11 && html_type_name == "Select" ) ) {
         document.getElementById("textLength").style.display="block";
         document.getElementById("textLengthDef").style.display="block";
     } else {

@@ -145,7 +145,7 @@ Participant {$priceset+1}
 {if $checkNumber}
 {ts}Check Number{/ts}: {$checkNumber} 
 {/if}
-{if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later and !$isOnWaitlist and !$isRequireApproval}
+{if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
 
 ===========================================================
 {ts}Billing Name and Address{/ts}
@@ -155,7 +155,7 @@ Participant {$priceset+1}
 {$address}
 {/if}
 
-{if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later and !$isOnWaitlist and !$isRequireApproval}
+{if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later}
 ===========================================================
 {ts}Credit Card Information{/ts}
 
@@ -166,6 +166,16 @@ Participant {$priceset+1}
 {/if}
 {/if}
 {/if} {* End of conditional section for Paid events *}
+
+{if $isPrimary and $participantId}
+===========================================================
+{ts}Confirm Your Paticipatation{/ts}
+
+===========================================================
+{capture assign=confirmUrl}{crmURL p='civicrm/event/confirm' q="reset=1&participantId=`$participantId`&cs=`$checksumValue`" a=true h=0}{/capture}
+Click this link to go to a web page where you can confirm your registration online:
+{$confirmUrl} 
+{/if}
 
 {if $customPre}
 ===========================================================

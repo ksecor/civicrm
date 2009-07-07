@@ -7,8 +7,8 @@
     {/if}
     <br />
     <table class="report-layout">
-        <thead>
-        <tr> 
+        <tr>
+            <thead class="sticky">
             {foreach from=$columnHeaders item=header key=field}
                 {assign var=class value=""}
                 {if $header.type eq 1024 OR $header.type eq 1}
@@ -31,9 +31,9 @@
                    {if $skipMade >= $skipCount}{assign var=skip value=false}{/if}
                 {/if}
             {/foreach}
-        </tr>          
-        </thead>
-       
+            </thead>
+        </tr>
+        
         {foreach from=$rows item=row}
             <tr>
                 {foreach from=$columnHeaders item=header key=field}

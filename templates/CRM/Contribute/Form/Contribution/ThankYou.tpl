@@ -68,9 +68,7 @@
         {else}
             {ts}Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}
-        {if $receive_date}
         {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
-        {/if}
         {if $contributeMode ne 'notify' and $is_monetary and ! $is_pay_later and $trxn_id}
 	    {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
@@ -170,23 +168,12 @@
 
     {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 )}
     <div class="header-dark">
-     {if $paymentProcessor.payment_type & 2}
-        {ts}Direct Debit Information{/ts}
-     {else}
         {ts}Credit Card Information{/ts}
-     {/if}
     </div>
     <div class="display-block">
-     {if $paymentProcessor.payment_type & 2}
-        {ts}Account Holder{/ts}: {$account_holder}<br />
-        {ts}Bank Identification Number{/ts}: {$bank_identification_number}<br />
-        {ts}Bank Name{/ts}: {$bank_name}<br />
-        {ts}Bank Account Number{/ts}: {$bank_account_number}<br />
-     {else}
         {$credit_card_type}<br />
         {$credit_card_number}<br />
         {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
-     {/if}
     </div>
     {/if}
 

@@ -194,7 +194,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $params['id'] = $this->_pageId;
         
         require_once 'CRM/Contribute/BAO/PCP.php';
-        $pcp = CRM_Contribute_BAO_PCP::add( $params, false );
+        $pcp = CRM_Contribute_BAO_PCP::add( $params );
 
         // add attachments as needed
         CRM_Core_BAO_File::formatAttachment( $params,
@@ -305,3 +305,5 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         } 
     }
 }
+
+?>

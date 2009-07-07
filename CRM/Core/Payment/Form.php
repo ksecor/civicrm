@@ -35,12 +35,12 @@
 
 class CRM_Core_Payment_Form {
     /** 
-     * create all common fields needed for a credit card or direct debit transaction
+     * create all fields needed for a credit card transaction
      *                                                           
      * @return void 
-     * @access protected
+     * @access public 
      */ 
-    protected function _setPaymentFields( &$form) {
+    function setCreditCardFields( &$form ) {
         $bltID = $form->_bltID;
 
         $form->_fields['billing_first_name'] = array( 'htmlType'   => 'text', 
@@ -100,18 +100,7 @@ class CRM_Core_Payment_Form {
                                                        'attributes' => array( '' => ts( '- select -' ) ) + 
                                                        CRM_Core_PseudoConstant::country( ),
                                                        'is_required'=> true );
-    }
-    
-    
-    /** 
-     * create all fields needed for a credit card transaction
-     *                                                           
-     * @return void 
-     * @access public 
-     */ 
-    function setCreditCardFields( &$form ) {
-        CRM_Core_Payment_Form::_setPaymentFields( $form );
-                             
+                                         
         $form->_fields['credit_card_number'] = array( 'htmlType'   => 'text', 
                                                       'name'       => 'credit_card_number', 
                                                       'title'      => ts('Card Number'), 
@@ -142,45 +131,6 @@ class CRM_Core_Payment_Form {
                                                     'attributes' => $creditCardType,
                                                     'is_required'=> true );
     }
-
-    /** create all fields needed for direct debit transaction
-     *                                                           
-     * @return void 
-     * @access public 
-     */ 
-    function setDirectDebitFields( &$form ) {
-        CRM_Core_Payment_Form::_setPaymentFields( $form );
-
-        $form->_fields['account_holder'] = array( 'htmlType'   => 'text', 
-                                                       'name'       => 'account_holder', 
-                                                       'title'      => ts('Account Holder'), 
-                                                       'cc_field'   => true,
-                                                       'attributes' => array( 'size' => 20, 'maxlength' => 34, 'autocomplete' => 'on' ), 
-                                                       'is_required'=> true );
-       
-        //e.g. IBAN can have maxlength of 34 digits
-        $form->_fields['bank_account_number'] = array( 'htmlType'   => 'text', 
-                                                       'name'       => 'bank_account_number', 
-                                                       'title'      => ts('Bank Account Number'), 
-                                                       'cc_field'   => true,
-                                                       'attributes' => array( 'size' => 20, 'maxlength' => 34, 'autocomplete' => 'off' ), 
-                                                       'is_required'=> true );
-         
-        //e.g. SWIFT-BIC can have maxlength of 11 digits
-        $form->_fields['bank_identification_number'] = array( 'htmlType'   => 'text', 
-                                                              'name'       => 'bank_identification_number', 
-                                                              'title'      => ts('Bank Identification Number'), 
-                                                              'cc_field'   => true,
-                                                              'attributes' => array( 'size' => 20, 'maxlength' => 11, 'autocomplete' => 'off' ), 
-                                                              'is_required'=> true );
-                        
-         $form->_fields['bank_name'] = array( 'htmlType'   => 'text', 
-                                              'name'       => 'bank_name', 
-                                              'title'      => ts('Bank Name'), 
-                                              'cc_field'   => true,
-                                              'attributes' => array( 'size' => 20, 'maxlength' => 64, 'autocomplete' => 'off' ), 
-                                              'is_required'=> true );
-     }
 
     /** 
      * Function to add all the credit card fields
@@ -221,45 +171,6 @@ class CRM_Core_Payment_Form {
         if ( $form->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
             $form->_expressButtonName = $form->getButtonName( 'upload', 'express' );
             $form->assign( 'expressButtonName', $form->_expressButtonName );
-            $form->add('image',
-                       $form->_expressButtonName,
-                       $form->_paymentProcessor['url_button'],
-                       array( 'class' => 'form-submit' ) );
-        }
-    }
-
-    /** 
-     * Function to add all the direct debit fields
-     * 
-     * @return None 
-     * @access public 
-     */
-    function buildDirectDebit( &$form, $useRequired = false ) {
-        require_once 'CRM/Core/Payment.php';
-
-        if ( $form->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM) {
-            foreach ( $form->_fields as $name => $field ) {
-                if ( isset( $field['cc_field'] ) &&
-                     $field['cc_field'] ) {
-                    $form->add( $field['htmlType'],
-                                $field['name'],
-                                $field['title'],
-                                $field['attributes'],
-                                $useRequired ? $field['is_required'] : false );
-                }
-            }
-
-            $form->addRule( 'bank_identification_number',
-                            ts( 'Please enter a valid Bank Identification Number (value must not contain punctuation characters).' ),
-                            'nopunctuation' );
-
-            $form->addRule( 'bank_account_number',
-                            ts('Please enter a valid Bank Account Number (value must not contain punctuation characters).'),
-                            'nopunctuation' );
-        }            
-            
-        if ( $form->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-            $form->_expressButtonName = $form->getButtonName( $form->buttonType( ), 'express' );
             $form->add('image',
                        $form->_expressButtonName,
                        $form->_paymentProcessor['url_button'],

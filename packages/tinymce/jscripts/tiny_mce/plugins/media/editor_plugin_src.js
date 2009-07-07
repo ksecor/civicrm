@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 1037 2009-03-02 16:41:15Z spocke $
+ * $Id: editor_plugin_src.js 952 2008-11-03 17:56:04Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -165,14 +165,14 @@
 				o.content = o.content.replace(/_mce_value=/g, 'value=');
 			});
 
-			function getAttr(s, n) {
-				n = new RegExp(n + '=\"([^\"]+)\"', 'g').exec(s);
+			if (ed.getParam('media_use_script')) {
+				function getAttr(s, n) {
+					n = new RegExp(n + '=\"([^\"]+)\"', 'g').exec(s);
 
-				return n ? ed.dom.decode(n[1]) : '';
-			};
+					return n ? ed.dom.decode(n[1]) : '';
+				};
 
-			ed.onPostProcess.add(function(ed, o) {
-				if (ed.getParam('media_use_script')) {
+				ed.onPostProcess.add(function(ed, o) {
 					o.content = o.content.replace(/<img[^>]+>/g, function(im) {
 						var cl = getAttr(im, 'class');
 
@@ -185,8 +185,8 @@
 
 						return im;
 					});
-				}
-			});
+				});
+			}
 		},
 
 		getInfo : function() {
@@ -233,20 +233,16 @@
 
 			if (stc) {
 				ob = dom.create('span', {
-					id : p.id,
 					mce_name : 'object',
 					type : 'application/x-shockwave-flash',
 					data : p.src,
-					style : dom.getAttrib(n, 'style'),
 					width : o.width,
 					height : o.height
 				});
 			} else {
 				ob = dom.create('span', {
-					id : p.id,
 					mce_name : 'object',
 					classid : "clsid:" + o.classid,
-					style : dom.getAttrib(n, 'style'),
 					codebase : o.codebase,
 					width : o.width,
 					height : o.height
@@ -254,9 +250,9 @@
 			}
 
 			each (p, function(v, k) {
-				if (!/^(width|height|codebase|classid|id|_cx|_cy)$/.test(k)) {
+				if (!/^(width|height|codebase|classid|_cx|_cy)$/.test(k)) {
 					// Use url instead of src in IE for Windows media
-					if (o.type == 'application/x-mplayer2' && k == 'src' && !p.url)
+					if (o.type == 'application/x-mplayer2' && k == 'src')
 						k = 'url';
 
 					if (v)
@@ -265,7 +261,7 @@
 			});
 
 			if (!stc)
-				dom.add(ob, 'span', tinymce.extend({mce_name : 'embed', type : o.type, style : dom.getAttrib(n, 'style')}, p));
+				dom.add(ob, 'span', tinymce.extend({mce_name : 'embed', type : o.type}, p));
 
 			return ob;
 		},
@@ -348,7 +344,6 @@
 				src : this.url + '/img/trans.gif',
 				width : dom.getAttrib(n, 'width') || 100,
 				height : dom.getAttrib(n, 'height') || 100,
-				style : dom.getAttrib(n, 'style'),
 				'class' : cl
 			});
 

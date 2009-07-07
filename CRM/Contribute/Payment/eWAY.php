@@ -60,3 +60,5 @@ class CRM_Contribute_Payment_eWAY extends CRM_Core_Payment_eWAY
    } 
 
 } // end class CRM_Contribute_Payment_eWAY
+
+?>

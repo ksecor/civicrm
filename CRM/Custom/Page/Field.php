@@ -157,12 +157,13 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
             case "Int":
             case "Float":
             case "Money":
+            case "Auto-complete":
                 // if Multi Select field is selected in custom field
-                if ( $customFieldBAO->html_type == 'Text') {
+                if( $customFieldBAO->html_type == 'Text' || $customFieldBAO->html_type == 'Contact Reference' ) {
                     $action -= CRM_Core_Action::BROWSE;
                 } 
                 break;
-            case "ContactReference":    
+                
             case "Memo":
             case "Date":
             case "Boolean":

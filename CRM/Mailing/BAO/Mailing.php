@@ -2037,55 +2037,7 @@ SELECT $selectClause
                            ts('HTML format'),
                            array('cols' => '80', 'rows' => '8',
                                  'onkeyup' =>"return verify(this)" ) );
- 
-    }
-
-    /**
-     * Function to build the  compose PDF letter form
-     * @param   $form 
-     * @return None
-     * @access public
-     */
-    
-    public function commonLetterCompose ( &$form )
-    {
-        //get the tokens.
-        $tokens = CRM_Core_SelectValues::contactTokens( );
-        if ( CRM_Utils_System::getClassName( $form )  == 'CRM_Mailing_Form_Upload' ) {
-            $tokens = array_merge( CRM_Core_SelectValues::mailingTokens( ), $tokens );
-        }
-
-        //sorted in ascending order tokens by ignoring word case
-        natcasesort($tokens);
-
-        $form->add( 'select', 'token1',  ts( 'Insert Tokens' ), 
-                    $tokens , false, 
-                    array(
-                          'size'     => "5",
-                          'multiple' => true,
-                          'onchange' => "return tokenReplHtml(this);"
-                          )
-                    );
         
-        require_once 'CRM/Core/BAO/MessageTemplates.php';
-        $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-        if ( !empty( $form->_templates ) ) {
-            $form->assign('templates', true);
-            $form->add('select', 'template', ts('Select Template'),
-                       array( '' => ts( '- select -' ) ) + $form->_templates, false,
-                       array('onChange' => "selectValue( this.value );") );
-            $form->add('checkbox','updateTemplate',ts('Update Template'), null);
-        } 
-        
-        $form->add('checkbox','saveTemplate',ts('Save As New Template'), null,false,
-                          array( 'onclick' => "showSaveDetails(this);" ));
-        $form->add('text','saveTemplateName',ts('Template Title'));
-      
-       
-        $form->addWysiwyg( 'html_message',
-                           ts('HTML Message'),
-                           array('cols' => '80', 'rows' => '8',
-                                 'onkeyup' =>"return verify(this)" ) );
     }
     
     /**

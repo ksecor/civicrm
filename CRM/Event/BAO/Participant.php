@@ -320,7 +320,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
      * @static
      * @access public
      */
-    static function eventFull( $eventId, $returnEmptySeats = false, $includeWaitingList = true, $returnWaitingCount = false )
+    static function eventFull( $eventId, $returnEmptySeats = false, $includeWaitingList = true )
     {
         // consider event is full when. 
         // 1. (count(is_counted) >= event_size) or 
@@ -345,27 +345,23 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         //if waiting straight forward consider event as full.
         if ( $includeWaitingList ) {
             $waitingQuery = "
-  SELECT  count( waiting.id ) waiting_participant_count,
+  SELECT  waiting.id as waiting_participant,
           civicrm_event.event_full_text as event_full_text
     FROM  civicrm_participant waiting, civicrm_event 
    WHERE  waiting.event_id = civicrm_event.id
      AND  waiting.status_id = {$onWaitlistStatusId}
      AND  waiting.is_test = 0
      AND  waiting.event_id = {$eventId}
-Group By  waiting.event_id
 ";
             $waiting =& CRM_Core_DAO::executeQuery( $waitingQuery, CRM_Core_DAO::$_nullArray );
-            while ( $waiting->fetch( ) && $waiting->waiting_participant_count ) {
-                if ( $returnWaitingCount ) {
-                    return $waiting->waiting_participant_count;
-                } else {
-                    //get the event full message.
-                    $eventFullmsg = ts( "This event is full !!!" );
-                    if ( $waiting->event_full_text ) {
-                        $eventFullmsg = $waiting->event_full_text;
-                    }
-                    return $eventFullmsg;
+            if ( $waiting->fetch( ) ) { 
+                //get the event full message.
+                $eventFullmsg = ts( "This event is full !!!" );
+                if ( $waiting->event_full_text ) {
+                    $eventFullmsg = $waiting->event_full_text;
                 }
+                
+                return $eventFullmsg;
             }
         }
         

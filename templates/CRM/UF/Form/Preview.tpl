@@ -113,13 +113,11 @@
 	       {if ( $field.html_type eq 'Radio' or  $n eq 'gender') and $form.formName eq 'Preview'}
                	   &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
 	       {elseif $field.data_type eq 'Date' AND $element.skip_calendar NEQ true } 
-            <span>
-			    {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
+                   <span>
+			{include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
 		    	{include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
 		   </span>
-	       {elseif $field.html_type eq 'Autocomplete-Select'}
-                {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
-		   {/if}
+	       {/if}
 	   {/if}
 	{/if}
         </td>

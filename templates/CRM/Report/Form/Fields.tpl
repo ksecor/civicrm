@@ -16,7 +16,7 @@
         </div> {* search div section ends *}
     </div> {* criteria section ends *}
 
-    {if ($instanceForm and $rows) OR $instanceFormError} {* settings section starts *}
+    {if $instanceForm and $rows} {* settings section starts *}
         <div id="id_{$instanceForm}_show" class="section-hidden section-hidden-border">
             <a href="#" onclick="hide('id_{$instanceForm}_show'); show('id_{$instanceForm}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
             <label>{if $mode eq 'template'}{ts}Create Report{/ts}{else}{ts}Report Settings{/ts}{/if}</label>
@@ -43,7 +43,7 @@
     {/if} {* settings section ends *}
     
     {if $updateReportButton}
-        <div class="section-hidden-border" style="margin:-5px 0 5px 5px;">        
+        <div class="section-hidden-border" style="margin:-18px 0 5px 5px;">        
             &nbsp;&nbsp;{$form.$save.html}            
         </div>
     {/if}
@@ -110,12 +110,6 @@
 
         {* hide and display the appropriate blocks as directed by the php code *}
         on_load_init_blocks( showBlocks, hideBlocks );
-        {if $instanceFormError}
-	   showBlocks[0] = "id_{$instanceForm}";
-           hideBlocks[0] = "id_{$instanceForm}_show";
- 	   on_load_init_blocks( showBlocks, hideBlocks );
-        {/if}
-	
     </script>
 
 {/if} {* NO print section ends *}

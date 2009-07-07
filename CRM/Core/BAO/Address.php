@@ -281,7 +281,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
         $config =& CRM_Core_Config::singleton( );
         foreach ($params as $name => $value) {
-            if ( in_array ($name, array ('is_primary', 'location_type_id', 'id', 'contact_id', 'is_billing', 'display' ) ) ) {
+            if ( in_array ($name, array ('is_primary', 'location_type_id', 'id' ) ) ) {
                 continue;
             } else if ( !empty($value) ) {
                 if ( substr( $name, 0, 14 ) == 'state_province' ) {

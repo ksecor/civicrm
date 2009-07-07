@@ -104,12 +104,11 @@ class CRM_Contact_Form_Task_Batch extends CRM_Contact_Form_Task
         $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
 
         // remove file type field and then limit fields
-        $suppressFields = false;
-        $removehtmlTypes = array( 'File', 'Autocomplete-Select' );
+        $fileFieldExists = false;
         foreach ($this->_fields as $name => $field ) {
             if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name) && 
-                 in_array( $this->_fields[$name]['html_type'], $removehtmlTypes ) ) {                        
-                $suppressFields = true;
+                 $this->_fields[$name]['data_type'] == 'File' ) {                        
+                $fileFieldExists = true;
                 unset($this->_fields[$name]);
             }
         }
@@ -140,8 +139,8 @@ class CRM_Contact_Form_Task_Batch extends CRM_Contact_Form_Task
         // don't set the status message when form is submitted.
         $buttonName = $this->controller->getButtonName('submit');
 
-        if ( $suppressFields && $buttonName != '_qf_BatchUpdateProfile_next' ) {
-            CRM_Core_Session::setStatus( "FILE or Autocomplete Select type field(s) in the selected profile are not supported for Batch Update and have been excluded." );
+        if ( $fileFieldExists && $buttonName != '_qf_BatchUpdateProfile_next' ) {
+            CRM_Core_Session::setStatus( "FILE type field(s) in the selected profile are not supported for Batch Update and have been excluded." );
         }
 
         $this->addDefaultButtons( ts( 'Update Contacts' ) );

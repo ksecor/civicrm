@@ -66,3 +66,4 @@ class CRM_Report_BAO_Instance extends CRM_Report_DAO_Instance
         return null;
     }
 }
+?>

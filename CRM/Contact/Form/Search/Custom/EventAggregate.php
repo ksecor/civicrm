@@ -312,3 +312,4 @@ implements CRM_Contact_Form_Search_Interface {
     
 }
 
+?>

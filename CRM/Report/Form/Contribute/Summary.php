@@ -180,29 +180,27 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                         'options'       => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
 
-        if ( defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) ) {
-            // Add contribution custom fields
-            $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
-            $dao = CRM_Core_DAO::executeQuery( $query );
-            while ( $dao->fetch( ) ) {
-                
-                // Assemble the fields for this custom data group
-                $fields = array();
-                $query = 'SELECT column_name, label FROM civicrm_custom_field WHERE is_active = 1 AND custom_group_id = ' . $dao->id;
-                $dao_column = CRM_Core_DAO::executeQuery( $query );
-                while ( $dao_column->fetch( ) ) {
-                    $fields[$dao_column->column_name] = array(
-                                                              'title' => $dao_column->label,
-                                                              );
-                }
-                
-                // Add the custom data table and fields to the report column options
-                $this->_columns[$dao->table_name] = array(
-                                                          'dao' => 'CRM_Contribute_DAO_Contribution',
-                                                          'fields' => $fields,
-                                                          'group_bys' => $fields,
-                                                          );
-            }
+        // Add contribution custom fields
+        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+        
+          // Assemble the fields for this custom data group
+          $fields = array();
+          $query = 'SELECT column_name, label FROM civicrm_custom_field WHERE is_active = 1 AND custom_group_id = ' . $dao->id;
+          $dao_column = CRM_Core_DAO::executeQuery( $query );
+          while ( $dao_column->fetch( ) ) {
+            $fields[$dao_column->column_name] = array(
+              'title' => $dao_column->label,
+            );
+          }
+          
+          // Add the custom data table and fields to the report column options
+          $this->_columns[$dao->table_name] = array(
+            'dao' => 'CRM_Contribute_DAO_Contribution',
+            'fields' => $fields,
+            'group_bys' => $fields,
+          );
         }
 
         parent::__construct( );
@@ -310,8 +308,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                             
                         } else {
                             $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
-                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type']  = CRM_Utils_Array::value( 'type', $field );
-                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = CRM_Utils_Array::value( 'title', $field );
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
+                            $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
                         }
                     }
                 }
@@ -325,7 +323,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
         $errors = $grouping = array( );
         //check for searching combination of dispaly columns and
         //grouping criteria
-        if ( CRM_Utils_Array::value( 'receive_date', $fields['group_bys'] ) ) {
+        if ( $fields['group_bys']['receive_date'] ) {
             foreach ( $self->_columns as $tableName => $table ) {
                 if ( array_key_exists('fields', $table) ) {
                     foreach ( $table['fields'] as $fieldName => $field ) {
@@ -343,7 +341,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             }
         }
          
-        if ( !CRM_Utils_Array::value( 'receive_date', $fields['group_bys'] ) ) {
+        if ( !$fields['group_bys']['receive_date'] ) {
             if ( CRM_Utils_Date::isDate( $fields['receive_date_relative'] ) || 
                  CRM_Utils_Date::isDate( $fields['receive_date_from'] ) || 
                  CRM_Utils_Date::isDate( $fields['receive_date_to'] ) ) {
@@ -382,15 +380,13 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                      ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
             ";
 
-        if ( defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) ) {
-            // LEFT JOIN on contribution custom data fields
-            $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
-            $dao = CRM_Core_DAO::executeQuery( $query );
-            while ( $dao->fetch( ) ) {
-                $alias = $this->_aliases[$dao->table_name];
-                $this->_from .= "\n" . 'LEFT JOIN ' . $dao->table_name . ' ' . $alias;
-                $this->_from .= "\n" . '        ON ' . $alias . '.entity_id = ' . $this->_aliases['civicrm_contribution'] . '.id';
-            }
+        // LEFT JOIN on contribution custom data fields
+        $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+          $alias = $this->_aliases[$dao->table_name];
+          $this->_from .= "\n" . 'LEFT JOIN ' . $dao->table_name . ' ' . $alias;
+          $this->_from .= "\n" . '        ON ' . $alias . '.entity_id = ' . $this->_aliases['civicrm_contribution'] . '.id';
         }
 
         if ( $this->_addressField ) {
@@ -505,10 +501,10 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
         foreach ( $rows as $rowNum => $row ) {
             // make count columns point to detail report
-            if ( CRM_Utils_Array::value('receive_date', $this->_params['group_bys'])        && 
-                 CRM_Utils_Array::value('civicrm_contribution_receive_date_start',    $row) &&
-                 CRM_Utils_Array::value('civicrm_contribution_receive_date_start',    $row) && 
-                 CRM_Utils_Array::value('civicrm_contribution_receive_date_subtotal', $row) ) {
+            if ( CRM_Utils_Array::value('receive_date', $this->_params['group_bys']) && 
+                 CRM_Utils_Array::value('civicrm_contribution_receive_date_start', $row) &&
+                 $row['civicrm_contribution_receive_date_start'] && 
+                 $row['civicrm_contribution_receive_date_subtotal'] ) {
 
                 $dateStart = CRM_Utils_Date::customFormat($row['civicrm_contribution_receive_date_start'], 
                                                           '%Y%m%d');

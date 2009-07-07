@@ -55,14 +55,14 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                           array( 'display_name_creditor'      => 
                                  array( 'title'      => ts( 'Soft Credit Name' ),
                                         'name'       => 'display_name',
-                                        'alias'      => 'contact',
+                                        'alias'      => 'creditorname',
                                         'required'   => true,
                                         'no_repeat'  => true,
                                         ), 
                                  'id_creditor'       =>
                                  array( 'title'      => ts('Soft Credit Id'),
                                         'name'       => 'id',
-                                        'alias'      => 'contact',
+                                        'alias'      => 'creditorname',
                                         'no_display' => true,
                                         'required'   => true,
                                         ),
@@ -260,7 +260,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
     
     function from( ) {
         $alias_constituent = 'constituentname';
-        $alias_creditor    = 'contact';
+        $alias_creditor    = 'creditorname';
         $this->_from = "
         FROM  civicrm_contribution {$this->_aliases['civicrm_contribution']}
               INNER JOIN civicrm_contribution_soft {$this->_aliases['civicrm_contribution_soft']} 
@@ -284,6 +284,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         
         // include Constituent email field if email column is to be included
         if ( $this->_emailField ) { 
+            $alias_constituent = 'constituentname';
+            $alias_creditor    = 'creditorname';
             $alias = 'emailconst';
             $this->_from .= "
             LEFT JOIN civicrm_email {$alias} 
@@ -294,6 +296,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         
         // include  Creditors email field if email column is to be included
         if ( $this->_emailFieldCredit ) { 
+            $alias_constituent = 'constituentname';
+            $alias_creditor    = 'creditorname';
             $alias = 'emailcredit';
             $this->_from .= "
             LEFT JOIN civicrm_email {$alias} 
@@ -304,6 +308,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         
         // include  Constituents phone field if email column is to be included
         if ( $this->_phoneField ) { 
+            $alias_constituent = 'constituentname';
+            $alias_creditor    = 'creditorname';
             $alias = 'pconst';
             $this->_from .= "
             LEFT JOIN civicrm_phone {$alias} 
@@ -314,6 +320,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         
         // include  Creditors phone field if email column is to be included
         if ( $this->_phoneFieldCredit ) {
+            $alias_constituent = 'constituentname';
+            $alias_creditor    = 'creditorname';
             $alias             = 'pcredit';
             $this->_from .= "
             LEFT JOIN civicrm_phone pcredit
@@ -365,7 +373,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
     
     function groupBy( ) {
         $alias_constituent = 'constituentname';
-        $alias_creditor    = 'contact';
+        $alias_creditor    = 'creditorname';
         $this->_groupBy    = "GROUP BY contribution_soft.contact_id,
                                        {$alias_constituent}.id, 
                                        {$alias_creditor}.display_name";
@@ -421,7 +429,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         
         // assign variables to templates
         $this->doTemplateAssignment( $rows );
-        $this->endPostProcess( $rows );
+        $this->endPostProcess( );
     }
     
     function alterDisplay( &$rows ) {
@@ -429,8 +437,6 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         
         $entryFound = false;
         $dispname_flag = $phone_flag = $email_flag = 0;
-        $prev_email = $prev_dispname = $prev_phone = null;
-
         foreach ( $rows as $rowNum => $row ) {
             
             // Handling Creditor's display_name no Repeat

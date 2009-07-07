@@ -183,23 +183,15 @@ class CRM_Contribute_BAO_Contribution_Utils {
                 $form->assign('is_deductible',  true );
                 $form->set('is_deductible',  true);
             }
-
-            if ( isset( $paymentParams['contribution_source'] ) ) {
+            if( isset( $paymentParams['contribution_source'] ) ) {
                 $form->_params['source'] = $paymentParams['contribution_source'];
-            }
-            
-            // check if pending was set to true by payment processor
-            $pending = false;
-            if ( CRM_Utils_Array::value( 'contribution_status_pending',
-                                         $form->_params ) ) {
-                $pending = true;
             }
             
             $contribution =
                 CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
                                                                                $form->_params, $result,
                                                                                $contactID, $contributionType,
-                                                                               true, $pending, true );
+                                                                               true, false, true );
             
             $form->postProcessPremium( $premiumParams, $contribution );
             

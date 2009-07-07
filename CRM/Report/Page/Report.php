@@ -48,10 +48,6 @@ class CRM_Report_Page_Report extends CRM_Core_Page
      * @return void
      */
     function run() {
-        if ( !CRM_Core_Permission::check ( 'administer Reports' ) ) {
-            return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/report/list', "reset=1") );
-        }
-        
         $optionVal    = CRM_Report_Utils_Report::getValueFromUrl( );
 
         require_once 'CRM/Core/OptionGroup.php';

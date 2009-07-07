@@ -15,20 +15,3 @@
         {ts 1=$id}Then create front-end links to the Participant Listing page using the Menu Manager. Select <strong>Participant Listing Page</strong> and enter <strong>%1</strong> for the Event ID.{/ts}
     {/if}
 {/htxt}
-
-{htxt id="id-max_participants"}
-{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached. Only participants with status types marked as 'counted' are included when checking if the event is full.{/ts}
-{/htxt}
-
-{htxt id="id-event_full_text"}
-{ts}Text displayed on the Event Information page when the maximum number of registrations is reached. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}
-{/htxt}
-
-{htxt id="id-has_waitlist"}
-{ts}Check this box to allow users to join a waitlist if the event is full. If a space becomes available, the first participant from the waitlist will move to 'Pending from waitlist' status, and will be sent an email with a link to complete their registration (including paying event fees - if any).{/ts}
-{/htxt}
-
-{htxt id="id-is_map"}
-{capture assign=mapURL}{crmURL p='civicrm/admin/setting/mapping' q="reset=1"}{/capture} 
-{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href='%1'>Global Settings &raquo; Mapping</a>){/ts}
-{/htxt}

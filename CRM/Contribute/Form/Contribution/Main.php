@@ -181,18 +181,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->_defaults['is_pay_later'] = 1;
         }
 
-//         // hack to simplify credit card entry for testing
+//         //hack to simplify credit card entry for testing
 //         $this->_defaults['credit_card_type']     = 'Visa';
 //         $this->_defaults['amount']               = 168;
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
-//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2012', 'M' => '05' );
-
-//         // hack to simplify direct debit entry for testing
-//         $this->_defaults['account_holder'] = 'Max Müller';
-//         $this->_defaults['bank_account_number'] = '12345678';
-//         $this->_defaults['bank_identification_number'] = '12030000';
-//         $this->_defaults['bank_name'] = 'Bankname';
+//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2010', 'M' => '05' );
 
         //build set default for pledge overdue payment.
         if ( CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
@@ -312,11 +306,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // doing this later since the express button type depends if there is an upload or not
         if ( $this->_values['is_monetary'] ) {
             require_once 'CRM/Core/Payment/Form.php';
-            if (  $this->_paymentProcessor['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_DIRECT_DEBIT ) {
-                CRM_Core_Payment_Form::buildDirectDebit( $this );
-            } else {
-                CRM_Core_Payment_Form::buildCreditCard( $this );
-            }
+            CRM_Core_Payment_Form::buildCreditCard( $this );
         }
 
         //to create an cms user 
@@ -844,9 +834,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $params['amount'] = self::computeAmount( $params, $this );
         $memFee = null;
         if ( CRM_Utils_Array::value( 'selectMembership', $params ) ) {
-            $membershipTypeValues = CRM_Member_BAO_Membership::buildMembershipTypeValues( $this,
-                                                                                          $params['selectMembership'] );
-            $memFee = $membershipTypeValues['minimum_fee'];
+            $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
             if ( !$params['amount'] && !$this->_separateMembershipPayment ) {
                 $params['amount'] = $memFee ? $memFee : 0;
             }

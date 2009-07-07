@@ -45,18 +45,6 @@ abstract class CRM_Core_Payment {
         BILLING_MODE_NOTIFY = 4;
 
     /**
-     * which payment type(s) are we using?
-     * 
-     * credit card
-     * direct debit
-     * or both
-     * 
-     */
-    const    
-        PAYMENT_TYPE_CREDIT_CARD = 1,
-        PAYMENT_TYPE_DIRECT_DEBIT = 2;
-
-    /**
      * We only need one instance of this object. So we use the singleton
      * pattern and cache the instance in this variable
      *

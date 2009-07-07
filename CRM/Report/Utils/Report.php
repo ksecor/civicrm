@@ -115,8 +115,8 @@ WHERE  inst.report_id = %1";
             return false;
         }
 
-        $url = CRM_Utils_System::url("civicrm/report/instance/{$instanceID}", 
-                                     "reset=1", true);
+        $url = CRM_Utils_System::url("civicrm/report/instance", 
+                                     "reset=1&id={$instanceID}", true);
         $url = "Report Url: {$url} ";
         $fileContent = $url . $fileContent;
 
@@ -132,10 +132,9 @@ WHERE  inst.report_id = %1";
 
         $from          = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
         $toDisplayName = "";//$domainEmailName;
-        $toEmail       = CRM_Utils_Array::value( 'email_to', $instanceInfo );
-        $ccEmail       = CRM_Utils_Array::value( 'email_cc', $instanceInfo );
-        $subject       = CRM_Utils_Array::value( 'email_subject', $instanceInfo );
-        $attachments   = CRM_Utils_Array::value( 'attachments', $instanceInfo );
+        $toEmail       = $instanceInfo['email_to'];
+        $ccEmail       = $instanceInfo['email_cc'];
+        $subject       = $instanceInfo['email_subject'];
 
         require_once 'Mail/mime.php';
         require_once "CRM/Utils/Mail.php";
@@ -151,56 +150,54 @@ WHERE  inst.report_id = %1";
                                      $attachments );
     }
 
-    static function export2csv( &$form, &$rows ) {
+    static function export2csv( &$form ) {
         //Mark as a CSV file.
         header('Content-Type: text/csv');
-
-        //Force a download and name the file using the current timestamp.
-        header('Content-Disposition: attachment; filename=Report_' . $_SERVER['REQUEST_TIME'] . '.csv');
-                  
-        require_once 'CRM/Utils/Money.php';
-        $config    =& CRM_Core_Config::singleton( );
           
-        //Output headers if this is the first row.
-        $columnHeaders = array_keys( $form->_columnHeaders );
-
-        // Replace internal header names with friendly ones, where available.
-        foreach ( $columnHeaders as $header ) {
-            if ( isset( $form->_columnHeaders[$header] ) ) {
-                $headers[] = '"'. html_entity_decode(strip_tags($form->_columnHeaders[$header]['title'])) . '"';
-            }
-        }
-        //Output the headers.
-        echo implode(',', $headers) . "\n";
-
-        $displayRows = array();
-        $value       = null;
+        //Force a download and name the file using the current timestamp.
+        header('Content-Disposition: attachment; filename=report_' . $_SERVER['REQUEST_TIME'] . '.csv');
+                  
+        //Load rows
+        $sql = " {$form->_select}  {$form->_from}  {$form->_where}  {$form->_groupBy}  {$form->_having} {$form->_orderBy} ";
+        
+        $rows = array();
+        $form->buildRows( $sql, $rows );
+        $form->formatDisplay( $rows );
+        
+        //Output rows
+        $first_row = true;
         foreach ( $rows as $row ) {
-            foreach ( $columnHeaders as $k => $v ){
-                if ( $value = CRM_Utils_Array::value( $v, $row ) ) {
-                    // Remove HTML, unencode entities, and escape quotation marks.
-                    $value = 
-                        str_replace('"', '""', html_entity_decode(strip_tags($value)));
-                    
-                    if ( CRM_Utils_Array::value( 'type', $form->_columnHeaders[$v] ) & 4 ) {
-                        if ( CRM_Utils_Array::value( 'group_by', $form->_columnHeaders[$v] ) == 'MONTH' ||
-                             CRM_Utils_Array::value( 'group_by', $form->_columnHeaders[$v] ) ==  'QUARTER' ) {
-                            $value =  CRM_Utils_Date::customFormat( $value, $config->dateformatPartial );
-                        } elseif ( CRM_Utils_Array::value( 'group_by', $form->_columnHeaders[$v] ) == 'YEAR' ) {
-                            $value =  CRM_Utils_Date::customFormat( $value, $config->dateformatYear );
-                        } else {
-                            $value =  CRM_Utils_Date::customFormat( $value,'%Y%m%d' );
-                        }
-                    } else if ( CRM_Utils_Array::value( 'type', $form->_columnHeaders[$v] ) == 1024 ) {
-                        $value =  CRM_Utils_Money::format( $value );
-                    }
-                    $displayRows[$v] = '"'. $value .'"'; 
-                } else {
-                    $displayRows[$v] = " "; 
-                }  
+            foreach ( $row as $key => $value ) {
+                // Remove HTML, unencode entities, and escape quotation marks.
+                $row[$key] = '"' . str_replace('"', '""', html_entity_decode(strip_tags($value))) . '"';
+                
+                // Remove non-CiviCRM fields.
+                if ( strstr($key, 'link') || strstr($key, 'hover') ) {
+                    unset($row[$key]);
+                }
+                if ( substr($key, 0, 1) == '_' ) {
+                    unset($row[$key]);
+                }
             }
+            
+            //Output headers if this is the first row.
+            if ( $first_row ) {
+                $headers = array_keys($row);
+                
+                // Replace internal header names with friendly ones, where available.
+                foreach ( $headers as $i => $header ) {
+                    if ( isset( $form->_columnHeaders[$header] ) ) {
+                        $headers[$i] = html_entity_decode(strip_tags($form->_columnHeaders[$header]['title']));
+                    }
+                }
+                
+                //Output the headers.
+                echo implode(',', $headers) . "\n";
+                $first_row = false;
+            }
+            
             //Output the data row.
-            echo implode(',', $displayRows) . "\n";
+            echo implode(',', $row) . "\n";
         }
         exit( );
     }
@@ -220,36 +217,36 @@ WHERE  inst.report_id = %1";
             }
 
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contact_ids, $groupID );
-            CRM_Core_Session::setStatus( ts("Listed contact(s) have been added to the selected group."));
         } 
     }
     static function getInstanceID() {
 
         $config    =& CRM_Core_Config::singleton( );
         $arg       = explode( '/', $_GET[$config->userFrameworkURLVar] );
-        
+        $secondArg = CRM_Utils_Array::value( 2, $arg );
         require_once 'CRM/Utils/Rule.php';
-        if ( $arg[1] == 'report' &&
-             CRM_Utils_Array::value( 2, $arg ) == 'instance' ) {
+        if ( $arg[1]    == 'report' &&
+             $secondArg == 'instance' ) {
             if ( CRM_Utils_Rule::positiveInteger( $arg[3] ) ) {
                 return $arg[3];
             }
         }
     }
-    static function isInstancePermissioned( $instanceId ) {
-        if ( ! $instanceId ) {
+    static function isInstancePermission( $instanceId ) {
+        if ( !( $instanceId ) ) {
             return true;
         }
-
+        $params = array( 'id' => $instanceId );
         $instanceValues = array( );
-        $params         = array( 'id' => $instanceId );
         CRM_Core_DAO::commonRetrieve( 'CRM_Report_DAO_Instance',
                                       $params,
                                       $instanceValues );
-
-        if ( !empty($instanceValues['permission']) && 
-             ( !(CRM_Core_Permission::check( $instanceValues['permission'] ) ||
-                 CRM_Core_Permission::check( 'administer Reports' )) ) ) {
+        $instanceValues['permission'] = unserialize( $instanceValues['permission'] );
+        if ( $instanceValues['permission'][0][0] && 
+             ( !(CRM_Core_Permission::checkMenu( $instanceValues['permission'][0], 
+                                                 $instanceValues['permission'][1] ) ||
+                 CRM_Core_Permission::access( 'CiviReport' ) )
+               ) ) {
             return false;
         }
         

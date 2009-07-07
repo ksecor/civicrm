@@ -1,13 +1,6 @@
-{if $form.credit_card_number or $form.bank_account_number}
+{if $form.credit_card_number}
     <div id="payment_information">
-        <fieldset>
-            <legend>
-               {if $paymentProcessor.payment_type & 2}
-                    {ts}Direct Debit Information{/ts}
-               {else}
-                   {ts}Credit Card Information{/ts}
-               {/if}
-            </legend> 
+        <fieldset><legend>{ts}Credit Card Information{/ts}</legend> 
             {if $paymentProcessor.billing_mode & 2 and !$hidePayPalExpress }
                 <table class="form-layout-compressed">
                 	<tr>
@@ -21,20 +14,6 @@
 
             {if $paymentProcessor.billing_mode & 1}
                 <table class="form-layout-compressed">
-                   {if $paymentProcessor.payment_type & 2}
-                        <tr>
-                            <td class="label">{$form.account_holder.label}</td><td>{$form.account_holder.html}</td>
-                        </tr>
-                        <tr>
-                            <td class="label">{$form.bank_account_number.label}</td><td>{$form.bank_account_number.html}</td>
-                        </tr>
-                        <tr>
-                            <td class="label">{$form.bank_identification_number.label}</td><td>{$form.bank_identification_number.html}</td>
-                        </tr>
-                        <tr>
-                            <td class="label">{$form.bank_name.label}</td><td>{$form.bank_name.html}</td>
-                        </tr>
-                   {else}
                 	<tr>
                 		<td class="label">{$form.credit_card_type.label}</td>
                 		<td colspan="2">{$form.credit_card_type.html}</td>
@@ -54,20 +33,13 @@
                 		<td class="label">{$form.credit_card_exp_date.label}</td>
                 		<td colspan="2">{$form.credit_card_exp_date.html}</td>
                 	</tr>
-                    {/if}
                 </table>
                 </fieldset>
 
                 <fieldset><legend>{ts}Billing Name and Address{/ts}</legend>
                     <table class="form-layout-compressed">
                         <tr>
-                          <td colspan="2"><span class="description">
-                          {if $paymentProcessor.payment_type & 2}
-                             {ts}Enter the name of the account holder, and the corresponding billing address.{/ts}
-                          {else}
-                             {ts}Enter the name as shown on your credit or debit card, and the billing address for this card.{/ts}
-                          {/if}
-                          </span></td>
+                            <td colspan="2"><span class="description">{ts}Enter the name as shown on your credit or debit card, and the billing address for this card.{/ts}</span></td>
                         </tr>
                         <tr>
                             <td class="label">{$form.billing_first_name.label}</td>

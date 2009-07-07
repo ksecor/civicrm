@@ -365,15 +365,6 @@ function addRole() {
 				cj(this).dialog("close"); 
 				cj(this).dialog("destroy");
 				
-// Temporary workaround for problems with SSL connections being too
-// slow. The relationship doesn't get created because the page reload
-// happens before the ajax call.
-// In general this reload needs improvement, which is already on the list for phase 2.
-var sdate = (new Date()).getTime();
-var curDate = sdate;
-while(curDate-sdate < 2000) {
-curDate = (new Date()).getTime();
-}
 				window.location.reload(); 
 			},
 
@@ -474,7 +465,7 @@ cj(document).ready(function(){
             ],
             usepager: true,
             useRp: true,
-            rp: 40,
+            rp: 10,
             showToggleBtn: false,
             width: 680,
             height: 'auto',

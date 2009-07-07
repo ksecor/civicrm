@@ -62,6 +62,7 @@
                         </table>
 
                         {if $columnHeadersComponent}
+                            {*include file="CRM/Report/Form/Layout/Component.tpl"  contactID=$row.contactID*}
                             {assign var=contribMode value=$row.contactID}
                             {foreach from=$columnHeadersComponent item=pheader key=component}
                                 {if $componentRows.$contribMode.$component}
@@ -89,7 +90,7 @@
                         
                         			    {if $row.$field eq 'Sub Total'}
                         				{$row.$field}
-                        			    {elseif $header.type & 4}
+                        			    {elseif $header.type eq 12}
                         			        {if $header.group_by eq 'MONTH' or $header.group_by eq 'QUARTER'}
                         				    {$row.$field|crmDate:$config->dateformatPartial}
                         				{elseif $header.group_by eq 'YEAR'}	

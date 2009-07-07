@@ -383,13 +383,6 @@ class CRM_Event_Form_EventFees
             if ( $form->_isPaidEvent ) {
                 $form->addElement( 'hidden', 'hidden_feeblock', 1 );
             }
-            
-            // make sure this is for backoffice registration.
-            if ( $form->getName( ) == 'Participant' ) {
-                require_once "CRM/Event/Form/Participant.php";
-                $eventfullMsg = CRM_Event_Form_participant::eventFullMessage( $form->_eventId, $form->_pId );
-                $form->addElement( 'hidden', 'hidden_eventFullMsg', $eventfullMsg, array( 'id' => 'hidden_eventFullMsg' ) );
-            }
         }
         
         if ( $form->_pId ) { 

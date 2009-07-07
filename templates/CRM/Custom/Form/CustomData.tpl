@@ -77,7 +77,7 @@
                             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name}
                             {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name ampm=1}
                         {/if} 
-                    {elseif $element.html_type eq 'Autocomplete-Select'}
+                    {elseif $element.data_type eq 'Auto-complete'}
                         {include file="CRM/Custom/Form/AutoComplete.tpl"}
     				{/if}
     			</dd>                

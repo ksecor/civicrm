@@ -136,7 +136,7 @@
         {/foreach}
     {/if}
 
-    {if $contributeMode ne 'notify' and !$is_pay_later and $paidEvent and !$isAmountzero and !$isOnWaitlist and !$isRequireApproval}
+    {if $contributeMode ne 'notify' and ! $is_pay_later and $paidEvent and ! $isAmountzero }
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -146,7 +146,7 @@
     </div>
     {/if}
     
-    {if $contributeMode eq 'direct' and ! $is_pay_later and !$isAmountzero and !$isOnWaitlist and !$isRequireApproval}
+    {if $contributeMode eq 'direct' and ! $is_pay_later and !$isAmountzero}
     <div class="header-dark">
         {ts}Credit Card Information{/ts}
     </div>
@@ -165,7 +165,7 @@
     </div>
     {/if}    
    
-    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent and !$is_pay_later and ! $isAmountzero and !$isOnWaitlist and !$isRequireApproval}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent and !$is_pay_later and ! $isAmountzero}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
         <table class="form-layout-compressed">
 	    <tr>

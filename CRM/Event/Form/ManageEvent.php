@@ -200,7 +200,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             if ( $subPage ) {
                 $title = CRM_Event_Form_ManageEvent_TabHeader::getSubPageInfo( $this, $subPage );
             }
-            CRM_Core_Session::setStatus( ts("'%1' information has been saved.", array(1 => $title)) );
+            CRM_Core_Session::setStatus( ts("'%1' tab infomation saved.", array(1 => $title)) );
             CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
                                                                "action=update&reset=1&id={$this->_id}&subPage={$subPage}" ) );
         }

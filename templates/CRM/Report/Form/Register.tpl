@@ -15,12 +15,12 @@
         <dt>{$form.label.label}</dt>
         <dd>{$form.label.html}</dd>
 	<dt></dt>	   
-        <dd class="description">{ts}Report title appear in the display screen.{/ts}</dd>
+        <dd class="description">{ts}Report titile appear in the dispaly screen.{/ts}</dd>
               
         <dt class="label">{$form.description.label}</dt>
         <dd>{$form.description.html}</dd>
         <dt></dt>
-	<dd class="description">{ts}Report description appear in the display screen.{/ts}</dd>
+	<dd class="description">{ts}Report titile appear in the dispaly screen.{/ts}</dd>
       
         <dt class="label">{$form.value.label}</dt>
         <dd>{$form.value.html}</dd>

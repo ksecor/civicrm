@@ -45,7 +45,6 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
 
     protected $_summary = null;
     
-    protected $_add2groupSupported = false;
     
     function __construct( ) {
 
@@ -236,9 +235,7 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
         $rows['Payment Method'] = $instrumentRows;
         
         $this->assign_by_ref( 'rows', $rows );
-        if ( !$this->_setVariable ) {
-            $this->_params['id_value'] = null;
-        }
+
         $this->assign( 'statistics',  $this->statistics( $eventIDs ) );
     }
 
@@ -246,50 +243,35 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
         $statistics = array();
         $count      = count($eventIDs);
         $this->countStat( $statistics, $count );
-        if ( $this->_setVariable ) {
-            $this->filterStat( $statistics );
-        }
+        $this->filterStat( $statistics );
         
         return $statistics;
     }
 
-    function limit( $rowCount = self::ROW_COUNT_LIMIT ) {
-        parent::limit( $rowCount );
-        
-        //modify limit
-        $pageId = $this->get( CRM_Utils_Pager::PAGE_ID );
-        
-        //if pageId is greator than last page then display last page.
-        if ( (( $pageId * self::ROW_COUNT_LIMIT )- 1) > $this->_rowsFound ) {
-            $pageId = ceil( (float)$this->_rowsFound / (float)self::ROW_COUNT_LIMIT );
-            $this->set( CRM_Utils_Pager::PAGE_ID, $pageId );
-        }
-        $this->_limit  = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
+    function limit( ) {
+        $this->_limit = 0; 
+        $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );
+        $pageId = $pageId ? $pageId : 1;
+        $offset = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
+        $this->_limit  = $offset ;
     }
 
     function setPager( ) {
         require_once 'CRM/Utils/Pager.php';
-        $params = array( 'total'        => $this->_rowsFound,
-                         'rowCount'     => self::ROW_COUNT_LIMIT,
-                         'status'       => ts( 'Records %%StatusMessage%%' ),
-                         'buttonBottom' => 'PagerBottomButton',
-                         'pageID'       => $this->get( CRM_Utils_Pager::PAGE_ID ) );
-        
+        $params = array( 'total'    => $this->_rowsFound,
+                         'rowCount' => self::ROW_COUNT_LIMIT,
+                         'status'   => ts( 'Events %%StatusMessage%%' ) );
         $pager = new CRM_Utils_Pager( $params );
         $this->assign_by_ref( 'pager', $pager );
     }
-    
+
 
     function postProcess( ) {
         $this->beginPostProcess( );
-        $this->_setVariable = true;
+
         if ( empty( $this->_params['id_value'][0] ) ) {
             $this->_params['id_value'] = array();
-            $this->_setVariable = false;
             $events = CRM_Event_PseudoConstant::event();
-            if ( empty($events) ) {
-                return false;
-            }
             foreach ( $events as $key => $dnt) {
                 $this->_params['id_value'][] = $key;
             }

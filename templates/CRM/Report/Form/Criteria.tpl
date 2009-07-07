@@ -89,7 +89,7 @@
                             <th class="report-contents">{$field.title}</td>
                             {include file="CRM/Core/DateRange.tpl" fieldName=$fieldName}
                         </tr>
-                    {elseif $form.$fieldOp.html}
+                    {else}
                         <tr {if $field.no_display} style="display: none;"{/if}>
                             <th class="report-contents">{$field.title}</th>
                             <td class="report-contents">{$form.$fieldOp.html}</td>

@@ -15,8 +15,6 @@
 	{ts 1=$displayName 2=$registerMode}Use this form to submit an event registration on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
 </div>
 {/if}
-<div id="eventFullMsg" class="messages status" style="display:none;"></div>
-
 <div class="html-adjust">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend>
 	{if $action eq 1 AND $paid}
@@ -142,7 +140,6 @@
 		if ( eventId) {
 			dataUrl = dataUrl + '&eventId=' + eventId;	
 		} else {
-                        cj('#eventFullMsg').hide( );
 			cj('#feeBlock').html('');
 			return;
 		}
@@ -173,13 +170,6 @@
         cj("#feeBlock").ajaxStop(function(){
             cj("#overlay").hide();
         });
-
-        //show event real full as well as waiting list message. 
-        if ( cj("#hidden_eventFullMsg").val( ) ) {
-          cj( "#eventFullMsg" ).show( ).html( cj("#hidden_eventFullMsg" ).val( ) );
-        } else {
-          cj( "#eventFullMsg" ).hide( );
-        }
 	}
 </script>
 {/literal}

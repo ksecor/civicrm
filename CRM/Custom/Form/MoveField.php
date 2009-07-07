@@ -217,3 +217,5 @@ ON DUPLICATE KEY UPDATE $dstColumn = $srcColumn";
     }
 
 }
+
+?>

@@ -318,34 +318,5 @@ SELECT  civicrm_contribution.currency
         }
     }
     
-    function upgrade_2_2_7( $rev ) {
-        $upgrade =& new CRM_Upgrade_Form( );
-        $upgrade->processSQL( $rev );
-        $sql = "UPDATE civicrm_report_instance 
-                       SET form_values = REPLACE(form_values,'#',';') ";
-        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-
-        // make report component enabled by default
-        require_once "CRM/Core/DAO/Domain.php";
-        $domain =& new CRM_Core_DAO_Domain();
-        $domain->selectAdd( );
-        $domain->selectAdd( 'config_backend' );
-        $domain->find(true);
-        if ($domain->config_backend) {
-            $defaults = unserialize($domain->config_backend);
-
-            if ( is_array($defaults['enableComponents']) ) {
-                $compId   = 
-                    CRM_Core_DAO::singleValueQuery( "SELECT id FROM civicrm_component WHERE name = 'CiviReport'" );
-                if ( $compId ) {
-                    $defaults['enableComponents'][]   = 'CiviReport';
-                    $defaults['enableComponentIDs'][] = $compId;
-
-                    require_once "CRM/Core/BAO/Setting.php";
-                    CRM_Core_BAO_Setting::add($defaults);            
-                }
-            }
-        }
-    }
 }
 

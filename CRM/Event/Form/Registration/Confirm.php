@@ -349,8 +349,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->freeze();
         
         //lets give meaningful status message, CRM-4320.
-        $this->assign( 'isOnWaitlist', $this->_allowWaitlist );
-        $this->assign( 'isRequireApproval', $this->_requireApproval );
+        $isOnWaitlist = $isRequireApproval = false; 
+        if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
+            $isOnWaitlist = true;
+        }
+        if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+            $isRequireApproval = true;
+        }
+        $this->assign( 'isOnWaitlist', $isOnWaitlist );
+        $this->assign( 'isRequireApproval', $isRequireApproval );
     }
     
     /**
@@ -414,14 +421,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
         }
         
-        $payment = $registerByID = $primaryCurrencyID = $contribution = null;
+        $payment = $registerByID = $primaryCurrencyID = null;
         foreach ( $params as $key => $value ) {
             $this->_values['params'] = array( );
             $this->fixLocationFields( $value, $fields );
             //unset the billing parameters if it is pay later mode
             //to avoid creation of billing location
-            if ( $this->_allowWaitlist || $this->_requireApproval || 
-                 CRM_Utils_Array::value( 'is_pay_later', $value ) || !CRM_Utils_Array::value( 'is_primary', $value ) ) {
+            if ( CRM_Utils_Array::value( 'is_pay_later', $value ) || !CRM_Utils_Array::value( 'is_primary', $value ) ) {
                 $billingFields = array( "email-{$this->_bltID}",
                                         "billing_first_name",
                                         "billing_middle_name",
@@ -438,9 +444,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 foreach( $billingFields as $field ) {
                     unset( $value[$field] );
                 }
-                if ( CRM_Utils_Array::value( 'is_pay_later', $value ) ) {
-                    $this->_values['params']['is_pay_later'] = true;                 
-                }
+                $this->_values['params']['is_pay_later'] = true;                 
             }
             
             //Unset ContactID for additional participants and set RegisterBy Id.
@@ -478,30 +482,23 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 }
                 $pending = false;
                 $result  = null;
-                
-                require_once 'CRM/Event/PseudoConstant.php';
-                if ( $this->_allowWaitlist || $this->_requireApproval ) {
-                    //get the participant statuses.
-                    $waitingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Waiting'" );
-                    if ( $this->_allowWaitlist ) {
-                        $value['participant_status_id'] = array_search( 'On waitlist', $waitingStatuses );
-                    } else {
-                        $value['participant_status_id'] = array_search( 'Awaiting approval', $waitingStatuses );  
-                    }
-                    
-                    //there might be case user seleted pay later and
-                    //now becomes part of run time waiting list.
-                    $value['is_pay_later'] = false;
-                } else if ( CRM_Utils_Array::value( 'is_pay_later', $value ) ||
-                            $value['amount']         == 0                    ||
-                            $this->_contributeMode   == 'checkout'           ||
-                            $this->_contributeMode   == 'notify' ) {
+                if ( CRM_Utils_Array::value( 'is_pay_later', $value ) ||
+                     $value['amount']         == 0                    ||
+                     $this->_contributeMode   == 'checkout'           ||
+                     $this->_contributeMode   == 'notify' ) {
                     if ( $value['amount'] != 0 ) {
                         $pending = true;
                         //get the participant statuses.
                         require_once 'CRM/Event/PseudoConstant.php';
                         $pendingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" );
-                        $value['participant_status_id'] = array_search( 'Pending from pay later', $pendingStatuses );
+                        $waitingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Waiting'" );
+                        if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
+                            $value['participant_status_id'] = array_search( 'On waitlist', $waitingStatuses );
+                        } else if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+                            $value['participant_status_id'] = array_search( 'Awaiting approval', $waitingStatuses );
+                        } else {
+                            $value['participant_status_id'] = array_search( 'Pending from pay later', $pendingStatuses );  
+                        }
                     }
                 } else if ( $this->_contributeMode == 'express' && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                     $result =& $payment->doExpressCheckout( $value );
@@ -559,8 +556,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $value['currencyID'] = $primaryCurrencyID;
             }
             
-            if ( !$pending && CRM_Utils_Array::value( 'is_primary', $value ) &&
-                 !$this->_allowWaitlist && !$this->_requireApproval ) {
+            if ( !$pending && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                 // transactionID & receive date required while building email template
                 $this->assign( 'trxn_id', $value['trxn_id'] );
                 $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
@@ -607,8 +603,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         require_once "CRM/Event/BAO/Event.php";
         if ( ( $this->_contributeMode == 'checkout' ||
                $this->_contributeMode == 'notify'   ) && 
-             ! CRM_Utils_Array::value( 'is_pay_later', $params[0] ) && 
-             ! $this->_allowWaitlist && !$this->_requireApproval &&
+             ! CRM_Utils_Array::value( 'is_pay_later', $params[0] ) &&
              $this->_params['amount'] > 0 ) {
 
             $primaryParticipant = $this->get ( 'primaryParticipant' );
@@ -640,8 +635,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                                                                       null, $primaryContactId, $isTest,
                                                                       true );
             //lets send  mails to all with meaningful text, CRM-4320.
-            $this->assign( 'isOnWaitlist', $this->_allowWaitlist );
-            $this->assign( 'isRequireApproval', $this->_requireApproval );
+            $isOnWaitlist = $isRequireApproval = false; 
+            if ( $this->_allowWaitlist && !$this->_allowConfirmation ) {
+                $isOnWaitlist = true;
+            }
+            if ( $this->_requireApproval && !$this->_allowConfirmation ) {
+                $isRequireApproval = true;
+            }
+            $this->assign( 'isOnWaitlist', $isOnWaitlist );
+            $this->assign( 'isRequireApproval', $isRequireApproval );
             
             foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {
@@ -851,12 +853,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         $fields["email-{$this->_bltID}"] = 1;
         $fields["email-Primary"] = 1;
-        
-        //get email at primary.
-        if ( CRM_Utils_Array::value("email-{$this->_bltID}", $params ) &&
-             ( !CRM_Utils_Array::value('is_primary', $params ) || 
-               CRM_Utils_Array::value( 'is_pay_later', $params ) ||
-               $this->_allowWaitlist || $this->_requireApproval ) ) {
+        //if its pay later or additional participant set email address as primary.
+        if( (CRM_Utils_Array::value( 'is_pay_later', $params ) || !CRM_Utils_Array::value('is_primary', $params))
+            && CRM_Utils_Array::value("email-{$this->_bltID}", $params) ) {
             $params["email-Primary"] = $params["email-{$this->_bltID}"];
         }
     }

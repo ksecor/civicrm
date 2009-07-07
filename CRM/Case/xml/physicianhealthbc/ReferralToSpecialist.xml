@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<CaseType>
+  <name>Referral to specialist</name>
+  <ActivityTypes>
+    <ActivityType>
+      <name>Open Case</name>
+      <max_instances>1</max_instances>
+     </ActivityType>
+    <ActivityType>
+      <name>Determine needs and preferences Referral to specialist</name>
+      </ActivityType>
+    <ActivityType>
+      <name>Prescreen referral target</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Facilitate first appointment</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Survey client satisfaction Referral to specialist</name>
+    </ActivityType>
+	<ActivityType>
+      <name>Change Case Type</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Change Case Status</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Change Case Start Date</name>
+    </ActivityType>
+	<ActivityType>
+      <name>Follow up</name>
+    </ActivityType>
+  </ActivityTypes>
+  <ActivitySets>
+    <ActivitySet>
+      <name>standard_timeline</name>
+      <label>Standard Timeline</label>
+      <timeline>true</timeline>
+      <ActivityTypes>
+        <ActivityType>
+          <name>Open Case</name>
+          <status>Completed</status>
+        </ActivityType>
+        <ActivityType>
+          <name>Survey client satisfaction Referral to specialist</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>30</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+      </ActivityTypes>
+    </ActivitySet>
+  </ActivitySets>
+  <CaseRoles>
+    <RelationshipType>
+        <name>Intake Physician</name>
+        <creator>1</creator>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Family Doctor</name>
+    </RelationshipType>	  
+  </CaseRoles>
+</CaseType>

@@ -255,3 +255,4 @@ class CRM_Core_Payment_PayJunction extends CRM_Core_Payment
    }
    
 } // end class CRM_Core_Payment_PayJunction
+?>

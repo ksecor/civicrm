@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<CaseType>
+  <name>Return to work</name>
+  <ActivityTypes>
+    <ActivityType>
+      <name>Open Case</name>
+      <max_instances>1</max_instances>
+     </ActivityType>
+    <ActivityType>
+      <name>Record beginning of earliest total absence</name>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Record earliest return to work activity</name>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Record beginning of period of attempted full duties</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Record beginning of period of restricted duties</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Record beginning of period total absence</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Sign case coordination agreement</name>
+    </ActivityType>
+	<ActivityType>
+      <name>Change Case Type</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Change Case Status</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Change Case Start Date</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Follow up</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign classification - Presenting Problem</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign classification - Specialty Certification</name>
+    </ActivityType>
+  </ActivityTypes>
+  <ActivitySets>
+    <ActivitySet>
+      <name>standard_timeline</name>
+      <label>Standard Timeline</label>
+      <timeline>true</timeline>
+      <ActivityTypes>
+        <ActivityType>
+          <name>Open Case</name>
+          <status>Completed</status>
+        </ActivityType>
+      </ActivityTypes>
+    </ActivitySet>
+  </ActivitySets>
+  <CaseRoles>
+    <RelationshipType>
+        <name>Intake Physician</name>
+        <creator>1</creator>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Case Coordinator</name>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Family Doctor</name>
+    </RelationshipType>	  
+  </CaseRoles>
+</CaseType>

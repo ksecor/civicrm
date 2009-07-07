@@ -5,11 +5,11 @@
 	    <table class="report-layout">
 		<tr>
 		    <th>{if $title}{$title}{elseif $report EQ 'Contribute'}{ts}Contribution Reports{/ts}{else}{$report} {ts}Reports{/ts}{/if}</th>
-		    <th>
-			<div style=" float:right; width:10px;"> 
-			    <img id="report_{$report}" src="{$config->resourceBase}i/menu-expanded.png" />
-			</div>
-		    </th>
+            <th>
+                <div style=" float:right; width:10px;"> 
+                    <img id="report_{$report}" src="{$config->resourceBase}i/menu-expanded.png" />
+                </div>
+            </th>
 		</tr>
 	    </table>
 	</div>
@@ -29,7 +29,7 @@
 	<br />
     {/foreach}
     {if $reportUrl}
-	<a href="{$reportUrl}" class="button"><span>&raquo; {ts}View All Reports{/ts}</span></a>
+	<a href="{$reportUrl}" class="button"><span>&raquo; {ts}View All Reports{/ts}</span></a></td>
     {/if}
 {else}
     <div class="messages status">

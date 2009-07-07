@@ -146,12 +146,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_groupButtonName    = null;
     protected $_chartButtonName    = null;
     protected $_csvSupported       = true;
-    protected $_add2groupSupported = true;
-    protected $_groups             = null;
-    protected $_having             = null;
-    protected $_rowsFound          = null;
-    protected $_select             = null;
-        
+
     protected $_rollup         = null;
     
     /**
@@ -177,11 +172,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                                                      CRM_Core_DAO::$_nullObject );
 
 
-        $this->_id = $this->get( 'instanceId' );
-        if ( !$this->_id ) {
-            $this->_id  = CRM_Report_Utils_Report::getInstanceID( );
-        }
-
+        $this->_id  = CRM_Report_Utils_Report::getInstanceID( );
         if ( $this->_id ) {
             $params = array( 'id' => $this->_id );
             $this->_instanceValues = array( );
@@ -192,12 +183,18 @@ class CRM_Report_Form extends CRM_Core_Form {
                 CRM_Core_Error::fatal("Report could not be loaded.");
             }
 
-            if ( !empty($this->_instanceValues['permission']) && 
-                 (!(CRM_Core_Permission::check( $this->_instanceValues['permission'] ) ||
-                    CRM_Core_Permission::check( 'administer Reports' ))) ) {
+            $this->_instanceValues['permission'] = 
+                unserialize( $this->_instanceValues['permission'] );
+            if ( $this->_instanceValues['permission'][0][0] && 
+                 (!(CRM_Core_Permission::checkMenu( $this->_instanceValues['permission'][0], 
+                                                    $this->_instanceValues['permission'][1] ) ||
+                    CRM_Core_Permission::access( 'CiviReport' ) )
+                  ) ) {
                 CRM_Utils_System::permissionDenied( );
                 exit();
             }
+            $this->_instanceValues['permission'] = $this->_instanceValues['permission'][0][0];
+
             $this->_formValues = unserialize( $this->_instanceValues['form_values'] );
 
             // lets always do a force if reset is found in the url.
@@ -228,13 +225,13 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->_instanceForm       = $this->_force || $this->_id || ( ! empty( $_POST ) );
 
         // do not display instance form if CiviReport permission is absent
-        if ( ! CRM_Core_Permission::check( 'administer Reports' ) ) {
+        if ( !CRM_Core_Permission::access( 'CiviReport' ) ) {
             $this->_instanceForm   = false;
         }
 
         $this->assign( 'criteriaForm', false );
-        if ( CRM_Core_Permission::check( 'administer Reports' ) ||
-             CRM_Core_Permission::check( 'access Report Criteria' ) ) {
+        if ( CRM_Core_Permission::access( 'CiviReport' ) ||
+             CRM_Core_Permission::check ( 'access Report Criteria' ) ) {
             $this->assign( 'criteriaForm', true );
         }
 
@@ -416,11 +413,6 @@ class CRM_Report_Form extends CRM_Core_Form {
                             $this->_defaults["{$fieldName}_value"]    = $field['default'];
                         }
                     }
-                    //assign default value as "in" for multiselect
-                    //operator, To freeze the select element
-                    if ( CRM_Utils_Array::value('operatorType', $field ) == CRM_Report_FORM::OP_MULTISELECT ) {
-                        $this->_defaults["{$fieldName}_op"] = 'in';
-                    }
                 }
             }
 
@@ -501,8 +493,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                 case CRM_Report_FORM::OP_MULTISELECT :
                     // assume a multi-select field
                     if ( !empty( $field['options'] ) ) {
-                        $element = $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
-                        $element->freeze();
+                        $this->addElement('select', "{$fieldName}_op", ts( 'Operator:' ), $operations);
                         $select = $this->addElement('select', "{$fieldName}_value", null, 
                                                     $field['options'], array( 'size' => 4, 
                                                                               'style' => 'width:200px'));
@@ -618,7 +609,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->addElement('submit', $this->_csvButtonName, $label );
         }
 
-        if ( CRM_Core_Permission::check( 'administer Reports' ) && $this->_add2groupSupported ) {
+        if ( CRM_Core_Permission::check( 'access CiviReport' ) ) {
             $this->addElement( 'select', 'groups', ts( 'Group' ), 
                                array( '' => ts( '- select group -' )) + CRM_Core_PseudoConstant::staticGroup( ) );
             $this->assign( 'group', $this->_groups );
@@ -949,7 +940,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
 
         // allow building charts if any
-        if ( ! empty($this->_params['charts']) && !empty($rows) ) {
+        if ( ! empty($this->_params['charts']) ) {
             require_once 'CRM/Utils/PChart.php';
             $this->buildChart( $rows );
             $this->assign( 'chartEnabled', true );
@@ -1007,7 +998,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                     }
                     
                     if ( ! empty( $clause ) ) {
-                        if ( CRM_Utils_Array::value( 'having', $field ) ) {
+                        if ( $field['having'] ) {
                             $havingClauses[] = $clause;
                         } else {
                             $whereClauses[] = $clause;
@@ -1041,7 +1032,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $printOnly = false;
         $this->assign( 'printOnly', false );
 
-        if ( $this->_printButtonName == $buttonName || $output == 'print' || $this->_sendmail ) {
+        if ( $this->_printButtonName == $buttonName || $output == 'print' ) {
             $this->assign( 'printOnly', true );
             $printOnly = true;
             $this->assign( 'outputMode', 'print' );
@@ -1066,6 +1057,11 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_outputMode = 'html';
         }
 
+        if ( $this->_sendmail ) {
+            $this->assign( 'printOnly', true );
+            $printOnly = true;
+        }
+        
         // Get today's date to include in printed reports
         if ( $printOnly ) {
             require_once 'CRM/Utils/Date.php';
@@ -1081,9 +1077,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             $this->_params = $this->_formValues;
         }
         $this->_formValues = $this->_params ;
-        if ( CRM_Core_Permission::check( 'administer Reports' ) &&
-             isset( $this->_id ) && 
-             $this->_instanceButtonName == $this->controller->getButtonName( ).'_save' ) {
+        if ( isset($this->_id) && $this->_instanceButtonName == $this->controller->getButtonName( ).'_save' ) {
             $this->assign( 'updateReportButton', true );
         }
         $this->processReportMode( );
@@ -1124,9 +1118,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         while ( $dao->fetch( ) ) {
             $row = array( );
             foreach ( $this->_columnHeaders as $key => $value ) {
-                if ( property_exists( $dao, $key ) ) {
-                    $row[$key] = $dao->$key;
-                }
+                $row[$key] = $dao->$key;
             }
             $rows[] = $row;
         }
@@ -1241,7 +1233,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
     }
 
-    function endPostProcess( &$rows = null ) {
+    function endPostProcess( ) {
         if ( $this->_outputMode == 'print' || 
              $this->_outputMode == 'pdf'   ||
              $this->_sendmail              ) {
@@ -1254,17 +1246,11 @@ class CRM_Report_Form extends CRM_Core_Form {
             if ( $this->_sendmail ) {
                 if ( CRM_Report_Utils_Report::mailReport( $content, $this->_id,
                                                           $this->_outputMode  ) ) {
-                    CRM_Core_Session::setStatus( ts("Report mail has been sent.") );
+                    CRM_Core_Session::setStatus("Report mail delivered.");
                 } else {
-                    CRM_Core_Session::setStatus( ts("Report mail could not be sent.") );
+                    CRM_Core_Session::setStatus("Report mail count not be delivered.");
                 }
-                if ( $this->get( 'instanceId' ) ) {
-                    exit();
-                } 
-
-                CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath(), 
-                                                                   'reset=1' ) );
-         
+                return;
             } else if ( $this->_outputMode == 'print' ) {
                 echo $content;
             } else {
@@ -1273,7 +1259,7 @@ class CRM_Report_Form extends CRM_Core_Form {
             }
             exit( );
         } else if ( $this->_outputMode == 'csv' ) {
-            CRM_Report_Utils_Report::export2csv( $this, $rows );
+            CRM_Report_Utils_Report::export2csv( $this );
         } else if ( $this->_outputMode == 'group' ) {
             $group = $this->_params['groups'];
             CRM_Report_Utils_Report::add2group( $this, $group );
@@ -1301,45 +1287,31 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->doTemplateAssignment( $rows );
 
         // do print / pdf / instance stuff if needed
-        $this->endPostProcess( $rows );
+        $this->endPostProcess( );
     }
 
-    function limit( $rowCount = self::ROW_COUNT_LIMIT ) {
-        require_once 'CRM/Utils/Pager.php';
+    function limit( ) {
         // lets do the pager if in html mode
         $this->_limit = null;
         if ( $this->_outputMode == 'html' ) {
             $this->_select = str_ireplace( 'SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $this->_select );
 
             $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );
-           
-            if ( !$pageId && !empty($_POST) && isset($_POST['crmPID_B']) ) {
-                if ( !isset($_POST['PagerBottomButton']) ) {
-                    unset( $_POST['crmPID_B'] );
-                } else {
-                    $pageId = max( (int) @$_POST['crmPID_B'], 1 );
-                }
-            } 
-            
             $pageId = $pageId ? $pageId : 1;
-            $this->set( CRM_Utils_Pager::PAGE_ID, $pageId );
-            $offset = ( $pageId - 1 ) * $rowCount;
+            $offset = ( $pageId - 1 ) * self::ROW_COUNT_LIMIT;
 
-            $this->_limit  = " LIMIT $offset, " . $rowCount;
+            $this->_limit  = " LIMIT $offset, " . self::ROW_COUNT_LIMIT;
         }
     }
 
-    function setPager( $rowCount = self::ROW_COUNT_LIMIT ) {
+    function setPager( ) {
         if ( $this->_limit && ($this->_limit != '') ) {
             require_once 'CRM/Utils/Pager.php';
             $sql    = "SELECT FOUND_ROWS();";
             $this->_rowsFound = CRM_Core_DAO::singleValueQuery( $sql );
-            $params = array( 'total'        => $this->_rowsFound,
-                             'rowCount'     => $rowCount,
-                             'status'       => ts( 'Records %%StatusMessage%%' ),
-                             'buttonBottom' => 'PagerBottomButton',
-                             'pageID'       => $this->get( CRM_Utils_Pager::PAGE_ID ) );
-
+            $params = array( 'total'    => $this->_rowsFound,
+                             'rowCount' => self::ROW_COUNT_LIMIT,
+                             'status'   => ts( 'Records %%StatusMessage%%' ) );
             $pager = new CRM_Utils_Pager( $params );
             $this->assign_by_ref( 'pager', $pager );
         }
