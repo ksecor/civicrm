@@ -573,10 +573,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         //max records that will be listed
         $searchValues = array();
-        if ( is_numeric( $params['name'] ) ) {
-            $searchValues[] = array( 'contact_id', '=', $params['name'], 0, 1 );
-        } else {
-            $searchValues[] = array( 'sort_name', 'LIKE', $params['name'], 0, 1 );
+        if ( CRM_Utils_Array::value( 'name', $params ) ) {
+            if ( is_numeric( $params['name'] ) ) {
+                $searchValues[] = array( 'contact_id', '=', $params['name'], 0, 1 );
+            } else {
+                $searchValues[] = array( 'sort_name', 'LIKE', $params['name'], 0, 1 );
+            }
         }
         $contactTypeAdded = false;
         
