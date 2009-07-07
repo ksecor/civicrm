@@ -295,10 +295,13 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     $defaults['use_household_address'] = true;
                     $this->assign('defaultSharedHousehold', $defaults['mail_to_household_id'] );
                 }
+                $defaults['shared_household_id'] = $defaults['mail_to_household_id'];
+                $this->assign( 'sharedHouseholdAddress', $defaults['address'][1]['display'] );
             }
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
-            $this->assign( 'currentEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );            
+            $defaults['current_employer_id'] = CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] );
+            $this->assign( 'currentEmployer', $defaults['current_employer_id'] );            
         }
         
         // set defaults for blocks ( custom data, address, communication preference, notes, tags and groups )

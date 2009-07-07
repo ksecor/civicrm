@@ -40,6 +40,7 @@
         <td colspan="2">
             {$form.current_employer.label}<br />
             {$form.current_employer.html|crmReplace:class:twenty}
+            <div id="employer_address" style="font-size:10px"></div>
         </td>
                 
         <td>
@@ -54,9 +55,28 @@
 </table>
 {literal}
 <script type="text/javascript">
+cj(document).ready( function() { 
+    //current employer default setting
+	var currentEmployer = "{/literal}{$currentEmployer}{literal}";
+	var dataUrl = "{/literal}{crmURL p='civicrm/ajax/search' h=0 q="org=1&id=" }{literal}" + currentEmployer ;
+		cj.ajax({ 
+            url     : dataUrl,   
+            async   : false,
+            success : function(html){ 
+                        //fixme for showing address in div
+                        htmlText = html.split( '|' , 2);
+                        htmlDiv = htmlText[0].replace( /::/gi, ' ');
+                        cj('div#employer_address').html(htmlDiv);
+                      }
+        });
+});
+
 var dataUrl = "{/literal}{$employerDataURL}{literal}";
 cj('#current_employer').autocomplete( dataUrl, { width : 250, selectFirst : false 
-                                              }).result( function(event, data, formatted) { cj( "#current_employer_id" ).val( data[1] );
+                                              }).result( function(event, data, formatted) { 
+                                                    cj( "#current_employer_id" ).val( data[1] );
+                                                    htmlDiv = data[0].replace( /::/gi, ' ');
+                                                    cj('div#employer_address').html(htmlDiv);
                                               });
 </script>
 {/literal}

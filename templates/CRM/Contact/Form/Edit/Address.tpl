@@ -28,7 +28,7 @@
             <div id="share_household" style="display:none">
                 {$form.shared_household.label}<br />
                 {$form.shared_household.html|crmReplace:class:huge}&nbsp;&nbsp;<span id="show_address"></span>
-				{if $mailToHouseholdID}<div id="shared_address"></div>{/if}
+				{if $mailToHouseholdID}<div id="shared_address">{$sharedHouseholdAddress}</div>{/if}
             </div>
         </td>
      </tr>
@@ -129,10 +129,7 @@ cj(document).ready( function() {
                         //fixme for showing address in div
                         htmlText = html.split( '|' , 2);
                         cj('input#shared_household').val(htmlText[0]);
-                        cj('input#shared_household_id').val(htmlText[1]);
-                        htmlDiv = htmlText[0].replace( /::/gi, '<br />');
-                        cj('div#shared_address').html('<br />'+htmlDiv);
-                      }
+                    }
                 });
 		cj('table#address').hide(); 
         cj('#share_household').show(); 
