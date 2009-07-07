@@ -56,29 +56,25 @@ class CRM_Contact_Form_Edit_OpenID
         
         $blockId = ( $form->get( 'OpenID_Block_Count' ) ) ? $form->get( 'OpenID_Block_Count' ) : 1;
         
-        require_once 'CRM/Core/BAO/Preferences.php';
-        if ( CRM_Utils_Array::value( 'openid', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
-            $form->assign('showOpenID', true);
-            $form->addElement('text', "openid[$blockId][openid]", ts('OpenID'),
-                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_OpenID', 'openid'));
-            
-            //Location Index
-            $form->addElement( 'hidden', 'hidden_OpenID_Instances', $blockId, array( 'id' => 'hidden_OpenID_Instances') );  
-            
-            //Block type
-            $form->addElement('select',"openid[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
-            
-            $config=& CRM_Core_Config::singleton( );
-            if ( $config->userFramework == 'Standalone' ) { 
-                $location[$locationId]['openid'][$blockId]['allowed_to_login'] = 
-                    $form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, ts('Allowed to Login'));
-            }
-            
-            //is_Primary radio
-            $js = array( 'id' => "OpenID_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "OpenID",'. $blockId . ', "IsPrimary" );');
-            $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
-            $form->addGroup( $choice, "openid[$blockId][is_primary]" );
+        $form->addElement('text', "openid[$blockId][openid]", ts('OpenID'),
+                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_OpenID', 'openid'));
+        
+        //Location Index
+        $form->addElement( 'hidden', 'hidden_OpenID_Instances', $blockId, array( 'id' => 'hidden_OpenID_Instances') );  
+        
+        //Block type
+        $form->addElement('select',"openid[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+        
+        $config=& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Standalone' ) { 
+            $location[$locationId]['openid'][$blockId]['allowed_to_login'] = 
+                $form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, ts('Allowed to Login'));
         }
+        
+        //is_Primary radio
+        $js = array( 'id' => "OpenID_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "OpenID",'. $blockId . ', "IsPrimary" );');
+        $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+        $form->addGroup( $choice, "openid[$blockId][is_primary]" );
     }
 }
 

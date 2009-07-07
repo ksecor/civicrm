@@ -15,10 +15,8 @@
         {include file="CRM/Contact/Form/Edit/$contactType.tpl"}
         <br/>
         <table class="form-layout-compressed">
-            {foreach from=$blocks item="status" key="block"}
-                {if $status }
-                    {include file="CRM/Contact/Form/Edit/$block.tpl"}
-                {/if}
+            {foreach from=$blocks item="label" key="block"}
+               {include file="CRM/Contact/Form/Edit/$block.tpl"}
             {/foreach}
             <tr class="last-row">
               <td>{$form.home_URL.label}<br />

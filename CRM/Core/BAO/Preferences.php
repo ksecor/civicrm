@@ -129,7 +129,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
     }
 
     static function valueOptions( $name, $system = true, $userID = null, $localize = false,
-                                  $returnField = 'name', $returnNameANDLabels = false ) {
+                                  $returnField = 'name', $returnNameANDLabels = false, $condition = null ) {
         if ( $system ) {
             $object = self::systemObject( );
         } else {
@@ -138,17 +138,17 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
         $optionValue = $object->$name;
         require_once 'CRM/Core/OptionGroup.php';
-        $groupValues = CRM_Core_OptionGroup::values( $name, false, false, $localize, null, $returnField );
-
+        $groupValues = CRM_Core_OptionGroup::values( $name, false, false, $localize, $condition, $returnField );
+        
         //enabled name => label require for new contact edit form, CRM-4605
         if ( $returnNameANDLabels ) {
             $names = $labels = $nameAndLabels = array( );
             if ( $returnField == 'name' ) {
                 $names  = $groupValues;
-                $labels = CRM_Core_OptionGroup::values( $name, false, false, $localize, null, 'label' );
+                $labels = CRM_Core_OptionGroup::values( $name, false, false, $localize, $condition, 'label' );
             } else {
                 $labels = $groupValues;
-                $names  = CRM_Core_OptionGroup::values( $name, false, false, $localize, null, 'name' );
+                $names  = CRM_Core_OptionGroup::values( $name, false, false, $localize, $condition, 'name' );
             }
         }
         

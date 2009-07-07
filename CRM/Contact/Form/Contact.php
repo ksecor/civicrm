@@ -141,13 +141,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->set( 'maxLocationBlocks',  $this->_maxLocationBlocks );
         }
         
-        // make blocks semi-configurable
-        $this->_blocks = array( 'Email'  => 1,
-                                'Phone'  => 1,
-                                'IM'     => 1,
-                                'OpenID' => 1);
-        
-        $this->assign( 'blocks', $this->_blocks );
         
         $this->_addBlockName  = CRM_Utils_Array::value( 'block', $_GET );
         $additionalblockCount = CRM_Utils_Array::value( 'count', $_GET );
@@ -242,7 +235,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
                     
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, false, 'name', true );
+        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, 
+                                                                       false, 'name', true, 'AND v.filter = 0' );
         // build demographics only for Individual contact type
         if ( $this->_contactType != 'Individual' &&
              array_key_exists( 'Demographics', $this->_editOptions ) ) {
@@ -253,8 +247,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         if ( $this->_contactId && array_key_exists( 'Notes', $this->_editOptions ) ) {
             unset( $this->_editOptions['Notes'] );
         }
-        
         $this->assign( 'editOptions', $this->_editOptions );
+        
+        // make blocks semi-configurable
+        $this->_blocks = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, 
+                                                                 false, 'name', true, 'AND v.filter = 1' );
+        $this->assign( 'blocks', $this->_blocks );
         
         if ( array_key_exists( 'CustomData', $this->_editOptions ) ) {
             //only custom data has preprocess hence directly call it
@@ -402,25 +400,23 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         //build 1 instance of all blocks, without using ajax ...
         $buildAJAXBlocks = $this->_blocks;
         if ( array_key_exists( 'Address', $this->_editOptions ) ) {
-            $buildAJAXBlocks = array_merge( $buildAJAXBlocks, array( 'Address' => 1 ) ); 
+            $buildAJAXBlocks['Address'] = $this->_editOptions['Address'];
+            
         }
-        
-        foreach ( $buildAJAXBlocks as $blockName => $isActive ) {
-            if ( $isActive ) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
-                $instances  = explode( ',', CRM_Utils_Array::value( "hidden_".$blockName ."_Instances", $_POST, 1 ) );
-                foreach ( $instances as $instance ) {
-                    if ( $instance > 1 ) {
-                        $this->assign( "addBlock", true );
-                        $this->assign( 'blockName', $blockName );
-                    }
-                    $this->assign( "blockId", $instance  );
-                    $this->set( $blockName."_Block_Count", $instance );
-                    eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' ); 
+        foreach ( $buildAJAXBlocks as $blockName => $label ) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
+            $instances  = explode( ',', CRM_Utils_Array::value( "hidden_".$blockName ."_Instances", $_POST, 1 ) );
+            foreach ( $instances as $instance ) {
+                if ( $instance > 1 ) {
+                    $this->assign( "addBlock", true );
+                    $this->assign( 'blockName', $blockName );
                 }
+                $this->assign( "blockId", $instance  );
+                $this->set( $blockName."_Block_Count", $instance );
+                eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' ); 
             }
         }
-
+        
         // add the dedupe button
         $this->addElement('submit', 
                           $this->_dedupeButtonName,
