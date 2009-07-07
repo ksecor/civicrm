@@ -65,7 +65,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                    array( 'dao'        => 'CRM_Member_DAO_MembershipType',
                           'grouping'   => 'member-fields',
                           'filters'    =>
-                          array( 'gid' => 
+                          array( 'tid' => 
                                  array( 'name'          =>  'id',
                                         'title'         =>  ts( 'Membership Types' ),
                                         'operatorType'  =>  CRM_Report_Form::OP_MULTISELECT,
@@ -131,7 +131,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                    array( 'dao'    => 'CRM_Contact_DAO_Group',
                           'alias'  => 'cgroup',
                           'filters'=>             
-                          array( 'grpid' => 
+                          array( 'gid' => 
                                  array( 'name'         => 'id',
                                         'title'        => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
@@ -192,7 +192,10 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                             {$this->_aliases['civicrm_membership']}.status_id
               LEFT  JOIN civicrm_membership_type {$this->_aliases['civicrm_membership_type']} 
                          ON {$this->_aliases['civicrm_membership']}.membership_type_id =
-                            {$this->_aliases['civicrm_membership_type']}.id
+                            {$this->_aliases['civicrm_membership_type']}.id";
+
+        if ( !empty( $this->_params['gid_value'] ) ) {
+            $this->_from .= "
               LEFT  JOIN civicrm_group_contact group_contact 
                          ON {$this->_aliases['civicrm_contact']}.id = 
                               group_contact.contact_id  AND 
@@ -200,6 +203,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
               LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
                          ON  group_contact.group_id = 
                              {$this->_aliases['civicrm_group']}.id ";        
+        }
 
         //  include address field if address column is to be included
         if ( $this->_addressField ) {  

@@ -306,12 +306,17 @@ LEFT JOIN civicrm_address address ON contact.id = address.contact_id
 LEFT JOIN civicrm_email   email    
        ON contact.id = email.contact_id AND email.is_primary = 1
 LEFT JOIN civicrm_phone   phone    
-       ON contact.id = phone.contact_id AND phone.is_primary = 1
+       ON contact.id = phone.contact_id AND phone.is_primary = 1";
+            
+            if ( !empty( $this->_params['gid_value'] ) ) { 
+                $from .= "
 LEFT JOIN civicrm_group_contact  group_contact 
        ON contact.id = group_contact.contact_id  AND group_contact.status='Added'
 LEFT JOIN civicrm_group  cgroup 
        ON group_contact.group_id = cgroup.id
 ";
+            }
+
         } else if ( $fromTable == 'civicrm_contribution_type' ) {
             $contriCol  = "contribution_type_id";
         } else if ( $fromTable == 'civicrm_contribution' ) {

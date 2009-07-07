@@ -255,13 +255,16 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                       ON {$this->_aliases['civicrm_contribution_ordinality']}.id = {$this->_aliases['civicrm_contribution']}.id
                LEFT JOIN  civicrm_phone {$this->_aliases['civicrm_phone']} 
                       ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND 
-                         {$this->_aliases['civicrm_phone']}.is_primary = 1)
+                         {$this->_aliases['civicrm_phone']}.is_primary = 1)";
+
+        if ( !empty( $this->_params['gid_value'] ) ) { 
+            $this->_from .= "
               LEFT  JOIN civicrm_group_contact group_contact 
                       ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND 
                          group_contact.status='Added'
               LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
-                      ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id
-        ";
+                      ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id";
+        }
         
         if ( defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) ) {
             // LEFT JOIN on contribution custom data fields
