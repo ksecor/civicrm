@@ -81,7 +81,7 @@
                             {foreach from=$phone item=item}
                                 {if $item.phone}
                                 <tr>
-                                    <td class="label">{$item.phone_type}</td>
+                                    <td class="label">{$item.location_type}&nbsp;{$item.phone_type}</td>
                                     <td><span {if $privacy.do_not_phone} class="do-not-phone" title={ts}"Privacy flag: Do Not Phone"{/ts} {/if}>{$item.phone}</span></td>
                                 </tr>
                                 {/if}
