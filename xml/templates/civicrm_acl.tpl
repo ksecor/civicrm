@@ -35,6 +35,7 @@ VALUES
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'edit pledges', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviReport', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access Report Criteria', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'administer Reports', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'import contacts', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'make online contributions', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'make online pledges', NULL, NULL, NULL, 1),

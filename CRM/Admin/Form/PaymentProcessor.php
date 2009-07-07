@@ -330,6 +330,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         $dao->is_recur     = $this->_ppDAO->is_recur;
         $dao->billing_mode = $this->_ppDAO->billing_mode;
         $dao->class_name   = $this->_ppDAO->class_name;
+        $dao->payment_type = $this->_ppDAO->payment_type;
 
         $dao->save( );
     }

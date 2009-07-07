@@ -605,6 +605,28 @@ class CRM_Utils_Rule
         return file_exists( $path );
     }
 
+    static function autocomplete( $value, $options ) {
+        if ( $value ) {            
+            require_once 'CRM/Core/BAO/CustomOption.php';
+            $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $options['fieldID'], $options['optionGroupID'] );
+            
+            if ( !in_array( $value, $selectOption ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    static function validContact( $value ) {
+        if ( $value ) {
+            $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', str_replace( '\\', '', $value), 'id', 'sort_name' );
+            if ( !$contactID ) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
 }
 
 

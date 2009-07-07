@@ -100,6 +100,7 @@ require_once '$configFile';
         
         civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm.mysql'     );
         civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
+        civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_sample_report.mysql', true );
 
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton( );
@@ -110,7 +111,7 @@ require_once '$configFile';
     }
 }
 
-function civicrm_source( $fileName ) {
+function civicrm_source( $fileName, $lineMode = false ) {
 
     $dsn = CIVICRM_DSN;
 
@@ -121,19 +122,34 @@ function civicrm_source( $fileName ) {
         die( "Cannot open $dsn: " . $db->getMessage( ) );
     }
 
-    $string = JFile::read( $fileName );
+    if ( ! $lineMode ) {
+        $string = JFile::read( $fileName );
 
-    //get rid of comments starting with # and --
-    $string = preg_replace("/^#[^\n]*$/m", "\n", $string );
-    $string = preg_replace("/^\-\-[^\n]*$/m", "\n", $string );
+        //get rid of comments starting with # and --
+        $string = preg_replace("/^#[^\n]*$/m", "\n", $string );
+        $string = preg_replace("/^\-\-[^\n]*$/m", "\n", $string );
     
-    $queries  = explode( ';', $string );
-    foreach ( $queries as $query ) {
-        $query = trim( $query );
-        if ( ! empty( $query ) ) {
-            $res =& $db->query( $query );
-            if ( PEAR::isError( $res ) ) {
-                die( "Cannot execute $query: " . $res->getMessage( ) );
+        $queries  = explode( ';', $string );
+        foreach ( $queries as $query ) {
+            $query = trim( $query );
+            if ( ! empty( $query ) ) {
+                $res =& $db->query( $query );
+                if ( PEAR::isError( $res ) ) {
+                    die( "Cannot execute $query: " . $res->getMessage( ) );
+                }
+            }
+        }
+    } else {
+        $fd = fopen( $fileName, "r" );
+        while ( $string = fgets( $fd ) ) {
+            $string = ereg_replace("\n#[^\n]*\n", "\n", $string );
+            $string = ereg_replace("\n\-\-[^\n]*\n", "\n", $string );
+            $string = trim( $string );
+            if ( ! empty( $string ) ) {
+                $res =& $db->query( $string );
+                if ( PEAR::isError( $res ) ) {
+                    die( "Cannot execute $string: " . $res->getMessage( ) );
+                }
             }
         }
     }

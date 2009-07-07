@@ -195,7 +195,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                           null,
                           array('onclick' => "return showHideByValue('is_multiple_registrations', '', 'additional_profiles', 'block', 'radio', false);"));
         $this->addElement('checkbox', 'allow_same_participant_emails', ts('Allow multiple registrations from the same email address?'));
-        $this->addElement('checkbox', 'has_waitlist', ts('Offer a waitlist when the event is full?'));
         $this->addElement('checkbox', 'requires_approval', ts('Require participant approval?'));
 
         $this->add('text', 'expiration_time', ts('Pending participant expiration (hours)'));
@@ -341,7 +340,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $params['is_online_registration']        = CRM_Utils_Array::value('is_online_registration', $params, false);
         $params['is_multiple_registrations']     = CRM_Utils_Array::value('is_multiple_registrations', $params, false);
         $params['allow_same_participant_emails'] = CRM_Utils_Array::value('allow_same_participant_emails', $params, false);
-        $params['has_waitlist']                  = CRM_Utils_Array::value('has_waitlist', $params, false);
         $params['requires_approval']             = CRM_Utils_Array::value('requires_approval', $params, false);
         
         // reset is_email confirm if not online reg

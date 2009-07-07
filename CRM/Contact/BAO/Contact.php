@@ -1320,6 +1320,10 @@ AND    civicrm_contact.id = %1";
                 } else if ($key === 'addressee') { 
                     $data['addressee_id'] = $value;  
                 } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                    // for autocomplete transfer hidden value instead of label
+                    if ( isset ( $params[$key. '_id'] ) ) {
+                        $value = $params[$key. '_id'];
+                    }
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
                                                                  $data['custom'], 
                                                                  $value,

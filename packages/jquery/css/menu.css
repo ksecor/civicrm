@@ -81,6 +81,7 @@ li.active {
 	text-decoration: none;
 	color: white;
 	cursor: default;
+	display: block;
 }
 
 * html div.menu-item {

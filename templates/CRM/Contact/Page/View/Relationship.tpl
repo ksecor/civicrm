@@ -133,7 +133,7 @@
         {/strip}
         </div>    
 {/if}
-</div>
+
 {* end of code to show inactive relationships *}
 
 

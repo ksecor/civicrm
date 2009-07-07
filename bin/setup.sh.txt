@@ -116,4 +116,6 @@ echo; echo "DONE!"
 # echo "drop table zipcodes ; update civicrm_domain set config_backend = null" | mysql -u $DBUSER $PASSWDSECTION $DBNAME
 # mysqldump -c -e -t -n -u $DBUSER $PASSWDSECTION $DBNAME  > civicrm_generated.mysql
 # add sample custom data 
+# cat civicrm_sample_report.mysql >> civicrm_generated.mysql
 # cat civicrm_sample_custom_data.mysql >> civicrm_generated.mysql
+
