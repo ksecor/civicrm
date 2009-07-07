@@ -62,9 +62,9 @@ class CRM_Contribute_BAO_PCP extends CRM_Contribute_DAO_PCP
      * @static 
      * @return object
      */
-    static function add(&$params) 
+    static function add( &$params, $pcpBlock = true ) 
     {
-        if (! isset($params['MAX_FILE_SIZE']) ) {
+        if ( $pcpBlock ) {
             // action is taken depending upon the mode
             require_once 'CRM/Contribute/DAO/PCPBlock.php';
             $dao =& new CRM_Contribute_DAO_PCPBlock( );
