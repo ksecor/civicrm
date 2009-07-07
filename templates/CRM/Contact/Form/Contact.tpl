@@ -156,8 +156,7 @@ function singleSelect( blockName, blockId, flagName ) {
   var instance  = 1;
   cj(instances).each( function( ) { 
     if ( instance != blockId ) {
-       if ( flagName == 'IsPrimary'  ) cj( '#'+blockName+'_'+instance+'_IsPrimary').attr( 'checked', false );
-       if ( flagName == 'IsBulkmail' ) cj( '#'+blockName+'_'+instance+'_IsBulkmail').attr( 'checked', false );		     
+        cj( '#'+blockName+'_'+instance+'_'+flagName).attr( 'checked', false );
     }
     instance++;	
   });
@@ -169,7 +168,7 @@ function removeBlock( blockName, blockId ) {
  cj( "#hidden_" + blockName + "_Instances" ).val(  updateStr );
  
  //unset block from html
- cj( "tr#"+ blockName + "_Block_" + blockId ).remove();
+ cj( "#"+ blockName + "_Block_" + blockId ).remove();
 }
 
 </script>

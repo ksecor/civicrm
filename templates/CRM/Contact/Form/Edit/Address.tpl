@@ -15,6 +15,11 @@
            {$form.address.$blockId.is_primary.html}
            {$form.address.$blockId.is_billing.html}
         </td>
+        {if $blockId gt 1}
+            <td>
+                <a href="#" title={ts}Remove{/ts} onClick="removeBlock( 'Address', '{$blockId}' ); return false;">{ts}remove{/ts}</a>
+            </td>
+        {/if}
      </tr>
      {if $form.use_household_address} 
      <tr>
@@ -113,7 +118,8 @@ cj(document).ready( function() {
                         cj('div#shared_address').html('<br />'+htmlDiv);
                       }
                 });
-		cj('#share_household, table#address').toggle(); 
+		cj('table#address').hide(); 
+        cj('#share_household').show(); 
 	}
 	//event handler for use_household_address check box
 	cj('#use_household_address').click( function() { 

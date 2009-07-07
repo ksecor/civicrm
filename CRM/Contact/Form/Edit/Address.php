@@ -67,19 +67,21 @@ class CRM_Contact_Form_Edit_Address
                           ts( 'Location Type' ),
                           array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
         
+        $js = array( 'id' => "Address_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Address",'. $blockId . ', "IsPrimary" );');
         $form->addElement(
                           'checkbox', 
                           "address[$blockId][is_primary]", 
                           ts('Primary location for this contact'),  
                           ts('Primary location for this contact'), 
-                          array('onchange' => "location_onclick('" . $form->getName( ) . "', $blockId, $maxBlocks, 'is_primary');" ) );
+                          $js );
         
+        $js = array( 'id' => "Address_".$blockId."_IsBilling", 'onClick' => 'singleSelect( "Address",'. $blockId . ', "IsBilling" );');
         $form->addElement(
                           'checkbox', 
                           "address[$blockId][is_billing]", 
                           ts('Billing location for this contact'),  
                           ts('Billing location for this contact'), 
-                          array('onchange' => "location_onclick('" . $form->getName( ) . "', $blockId, $maxBlocks, 'is_billing');" ) );
+                          $js );
         
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
