@@ -202,7 +202,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                                    ),
                                   ); 
 
-            echo "editLink: $editLink<p>";
             if ( $editLink ) {
                 self::$_links[CRM_Core_Action::UPDATE] = array(
                                                                'name'  => ts('Edit'),
