@@ -453,7 +453,11 @@ class Smarty_Compiler extends Smarty {
         if (preg_match('~^' . $this->_num_const_regexp . '|' . $this->_obj_call_regexp . '|' . $this->_var_regexp . '$~', $tag_command)) {
             /* tag name is a variable or object */
             $_return = $this->_parse_var_props($tag_command . $tag_modifier);
-            return "<?php echo $_return; ?>" . $this->_additional_newline;
+
+            /* variable gets escaped, when $Smarty->escape_output is enabled */
+            $_return_escaped = $this->_escape_var($_return, $tag_modifier);
+
+            return "<?php echo $_return_escaped; ?>" . $this->_additional_newline;
         }
 
         /* If the tag name is a registered object, we process it. */
@@ -2296,6 +2300,23 @@ class Smarty_Compiler extends Smarty {
         }
         $this->_syntax_error("mismatched tag {/$close_tag}.$message",
                              E_USER_ERROR, __FILE__, __LINE__);
+    }
+
+    /**
+     * add output-escaping around variable
+     * (called after modifiers)
+     *
+     * @param string $var_name
+     * @param string $modifier_string
+     */
+    function _escape_var( $var_name, $modifier_string ) {
+        // Only escape if "noescape" modifier is not used.
+        if ( strpos( $modifier_string, 'noescape' ) === FALSE ) {
+            return "CRM_Utils_String::filterXSS( $var_name )";
+        }
+        else {
+            return $var_name;
+        }
     }
 
 }

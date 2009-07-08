@@ -85,7 +85,7 @@ class CRM_SMS_Form_Task_SMS extends CRM_Contact_Form_Task {
                 if ( $item['is_primary'] ) {
                     $this->_smsNumbers[$number] .= ' ' . ts('(preferred)');
                 }
-                $this->_smsNumbers[$number] = htmlspecialchars( $this->_emails[$email] );
+                $this->_smsNumbers[$number] = CRM_Utils_String::checkPlain( $this->_emails[$email] );
             }
         } else {
             parent::preProcess( );
