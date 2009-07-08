@@ -15,6 +15,10 @@
                 <td>{$form.addressee_id.label} &nbsp; </td>
                 <td id="addressee_id_label" style="display:none;">{$form.addressee_custom.label}</td>
             {/if}
+            {if $form.email_greeting_id}
+                <td>{$form.email_greeting_id.label} &nbsp; </td>
+                <td id="email_greeting_id_label" style="display:none;">{$form.email_greeting_custom.label}</td>
+            {/if}
        </tr>
        <tr>
              {if $form.postal_greeting_id}
@@ -24,6 +28,10 @@
             {if $form.addressee_id}
                 <td>{$form.addressee_id.html|crmReplace:class:big}</td>
                 <td id="addressee_id_html" style="display:none;">{$form.addressee_custom.html|crmReplace:class:big}</td>
+            {/if}
+            {if $form.email_greeting_id}
+                <td>{$form.email_greeting_id.html|crmReplace:class:big}</td>
+                <td id="email_greeting_id_html" style="display:none;">{$form.email_greeting_custom.html|crmReplace:class:big}</td>
             {/if}
         </tr>
         <tr><td colspan="5" id="greeting_display" style="font-size:10px;"></td></tr>
