@@ -34,7 +34,6 @@ require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Utils/Tree.php';
-require_once 'CRM/Utils/String.php';
 
 function createDir( $dir, $perm = 0755 ) {
     if ( ! is_dir( $dir ) ) {
@@ -101,6 +100,7 @@ $tmpArray = array_reverse( $tmpArray );
 $smarty->assign_by_ref( 'dropOrder', $tmpArray );
 $smarty->assign( 'mysql', 'modern' );
 
+echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
 
 createDir( $sqlCodePath );

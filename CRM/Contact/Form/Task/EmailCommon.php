@@ -97,7 +97,7 @@ class CRM_Contact_Form_Task_EmailCommon
                 if ( $item['is_primary'] ) {
                 $form->_emails[$email] .= ' ' . ts('(preferred)');
                 }
-                $form->_emails[$email] = CRM_Utils_String::checkPlain( $form->_emails[$email] );
+                $form->_emails[$email] = htmlspecialchars( $form->_emails[$email] );
                 $toContact[$cid] = $email;
             }
             $form->assign( 'toContact', $toContact );
@@ -181,7 +181,7 @@ class CRM_Contact_Form_Task_EmailCommon
         $form->add('text', 'subject', ts('Subject'), 'size=50 maxlength=254', true);
         $selectEmails = $form->_fromEmails;
         foreach ( array_keys( $selectEmails ) as $k ) {
-            $selectEmails[$k] = CRM_Utils_String::checkPlain( $selectEmails[$k] );
+            $selectEmails[$k] = htmlspecialchars( $selectEmails[$k] );
         }
         $form->add( 'select', 'fromEmailAddress', ts('From'), $selectEmails, true );
         $form->add( 'text', 'cc_id', ts('CC') );
