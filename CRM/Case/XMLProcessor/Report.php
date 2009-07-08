@@ -554,7 +554,12 @@ LIMIT  1
         }
 		
         $xml = $form->retrieve( $case['caseType'] );
-        
+
+        require_once ('CRM/Case/XMLProcessor/Process.php');
+        $activitySetNames = CRM_Case_XMLProcessor_Process::activitySets( $xml->ActivitySets );
+        $pageTitle = CRM_Utils_Array::value($activitySetName, $activitySetNames);
+        $template->assign( 'pageTitle', $pageTitle );
+
         $activityTypes = $form->getActivityTypes( $xml, $activitySetName );
         if ( ! $activityTypes ) {
             return false;

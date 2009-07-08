@@ -1,13 +1,21 @@
-{literal}<link rel="stylesheet" type="text/css" href="{/literal}{$config->userFrameworkResourceURL}{literal}css/civicrm.css" />{/literal}
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
+<head>
+  <title>{$pageTitle}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <base href="{crmURL p="" a=true}" /><!--[if IE]></base><![endif]-->
+  <style type="text/css" media="screen, print">@import url({$config->userFrameworkResourceURL}css/print.css);</style>
+</head>
+
+<body>
 <div id="crm-container">
 <h2>{ts}Case Summary{/ts}</h2>
-<table class ="chart">
+<table class ="report-layout">
     <tr>
-    	<th>{ts}Client{/ts}</th>
-    	<th>{ts}Case Type{/ts}</th>
-       	<th>{ts}Status{/ts}</th>
-        <th>{ts}Start Date{/ts}</th>
-    	<th>{ts}Case ID{/ts}</th>
+    	<th class="reports-header">{ts}Client{/ts}</th>
+    	<th class="reports-header">{ts}Case Type{/ts}</th>
+       	<th class="reports-header">{ts}Status{/ts}</th>
+        <th class="reports-header">{ts}Start Date{/ts}</th>
+    	<th class="reports-header">{ts}Case ID{/ts}</th>
     </tr>
     <tr>
         <td>{$case.clientName}</td>
@@ -18,12 +26,12 @@
     </tr>
 </table>
 <h2>{ts}Case Roles{/ts}</h2>
-<table class ="chart" >
+<table class ="report-layout">
     <tr>
-    	<th>{ts}Case Role{/ts}</th>
-    	<th>{ts}Name{/ts}</th>
-       	<th>{ts}Phone{/ts}</th>
-        <th>{ts}Email{/ts}</th>
+    	<th class="reports-header">{ts}Case Role{/ts}</th>
+    	<th class="reports-header">{ts}Name{/ts}</th>
+       	<th class="reports-header">{ts}Phone{/ts}</th>
+        <th class="reports-header">{ts}Email{/ts}</th>
     </tr>
 
     {foreach from=$caseRelationships item=row key=relId}
@@ -38,7 +46,7 @@
          {if $relTypeID neq 'client'} 
            <tr>
                <td>{$relName}</td>
-               <td>(not assigned)</td>
+               <td>{ts}(not assigned){/ts}</td>
                <td></td>
                <td></td>
            </tr>
@@ -54,12 +62,12 @@
 </table>
 
 {if $otherRelationships}
-    <table  class ="chart">
-       	<trx>
-    		<th>{ts}Client Relationship{/ts}</th>
-    		<th>{ts}Name{/ts}</th>
-    		<th>{ts}Phone{/ts}</th>
-    		<th>{ts}Email{/ts}</th>
+    <table  class ="report-layout">
+       	<tr>
+    		<th class="reports-header">{ts}Client Relationship{/ts}</th>
+    		<th class="reports-header">{ts}Name{/ts}</th>
+    		<th class="reports-header">{ts}Phone{/ts}</th>
+    		<th class="reports-header">{ts}Email{/ts}</th>
     	</tr>
         {foreach from=$otherRelationships item=row key=relId}
         <tr>
@@ -73,11 +81,11 @@
 {/if}
 
 {if $globalRelationships}
-    <table class ="chart">
+    <table class ="report-layout">
        	<tr>
-    	 	<th>{$globalGroupInfo.title}</th>
-     	 	<th>{ts}Phone{/ts}</th>
-    	 	<th>{ts}Email{/ts}</th>
+    	 	<th class="reports-header">{$globalGroupInfo.title}</th>
+     	 	<th class="reports-header">{ts}Phone{/ts}</th>
+    	 	<th class="reports-header">{ts}Email{/ts}</th>
     	</tr>
         {foreach from=$globalRelationships item=row key=relId}
         <tr>
@@ -91,22 +99,26 @@
 
 <h2>{ts}Case Activities{/ts}</h2>
 {foreach from=$activities item=activity key=key}
-  <table  class ="chart">
+  <table  class ="report-layout">
        {foreach from=$activity item=field name=fieldloop}
          {if $field.label eq 'Activity Type' or $field.label eq 'Status'}
-           <tr class="even-row">
+           <tr>
+             <th class="reports-header">{$field.label|escape}</th>
+             <th class="reports-header">{$field.value|escape}</th> 
+           </tr>
          {else}
-            <tr>
-         {/if}
-             <td class ="label">{$field.label|escape}</td>
+           <tr>
+             <td>{$field.label|escape}</td>
              <td>{$field.value|escape}</td> 
          </tr>
+         {/if}
        {/foreach}
   </table>
   <br />
 {/foreach}
 </div>
-
+</body>
+</html>
 
 
 
