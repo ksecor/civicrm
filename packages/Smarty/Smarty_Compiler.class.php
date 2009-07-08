@@ -445,7 +445,7 @@ class Smarty_Compiler extends Smarty {
                     ~xs', $template_tag, $match)) {
             $this->_syntax_error("unrecognized tag: $template_tag", E_USER_ERROR, __FILE__, __LINE__);
         }
-        
+
         $tag_command = $match[1];
         $tag_modifier = isset($match[2]) ? $match[2] : null;
         $tag_args = isset($match[3]) ? $match[3] : null;

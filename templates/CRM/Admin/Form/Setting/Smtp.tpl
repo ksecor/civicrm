@@ -7,7 +7,7 @@
 <fieldset>
 <legend>{ts}Settings - Outbound Email{/ts}</legend>
 <dl>
-        <dt>{$form.outBound_option.label}</dt><dd>{$form.outBound_option.html}</dd>
+        <dt>{$form.outBound_option.label}</dt><dd>{$form.outBound_option.html|noescape}</dd>
 </dl>
 <div id="bySMTP">
 <fieldset><legend>{ts}SMTP Configuration{/ts}</legend>
