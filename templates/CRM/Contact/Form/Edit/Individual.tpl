@@ -55,10 +55,12 @@
 </table>
 {literal}
 <script type="text/javascript">
+{/literal}
+{if $currentEmployer}
+{literal}
 cj(document).ready( function() { 
     //current employer default setting
-	var currentEmployer = "{/literal}{$currentEmployer}{literal}";
-	var dataUrl = "{/literal}{crmURL p='civicrm/ajax/search' h=0 q="org=1&id=" }{literal}" + currentEmployer ;
+    var dataUrl = "{/literal}{crmURL p='civicrm/ajax/search' h=0 q="org=1&id=$currentEmployer"}{literal}";
 		cj.ajax({ 
             url     : dataUrl,   
             async   : false,
@@ -70,7 +72,9 @@ cj(document).ready( function() {
                       }
         });
 });
-
+{/literal}
+{/if}
+{literal}
 var dataUrl = "{/literal}{$employerDataURL}{literal}";
 cj('#current_employer').autocomplete( dataUrl, { width : 250, selectFirst : false 
                                               }).result( function(event, data, formatted) { 

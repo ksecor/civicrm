@@ -91,6 +91,18 @@
                                 {if $item.name}<tr><td class="label">{$item.provider}</td><td>{$item.name}</td></tr>{/if}
                                 {/if}
                             {/foreach}
+                            {foreach from=$openid item=item}
+                                {if $item.openid}
+                                    <tr>
+                                        <td class="label">{ts}OpenID{/ts}</td>
+                                        <td><a href="{$item.openid}">{$item.openid|mb_truncate:40}</a>
+                                            {if $config->userFramework eq "Standalone" AND $item.allowed_to_login eq 1}
+                                                <br/> <span style="font-size:9px;">{ts}(Allowed to login){/ts}</span>
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                {/if}
+                            {/foreach}
                         </table>
                     </div><!-- #contactCardLeft -->
 
@@ -110,6 +122,12 @@
                                 <td><a href="{$home_URL}" target="_blank">{$home_URL}</a></td>
                             </tr>
                             {/if}
+                            {if $user_unique_id}
+                                <tr>
+                                    <td class="label">{ts}Unique Id{/ts}</td>
+                                    <td>{$user_unique_id}</td>
+                                </tr>
+                            {/if}
                         </table>
                     </div><!-- #contactCardRight -->
 
@@ -123,7 +141,10 @@
                     <div id="{cycle name=location values="contactCardLeft,contactCardRight"}">
                         <table>
                             <tr>
-                                <td class="label">{$add.location_type}&nbsp;{ts}Address{/ts}</td>
+                                <td class="label">{$add.location_type}&nbsp;{ts}Address{/ts}
+                                    {if $config->mapAPIKey AND $add.geo_code_1 AND $add.geo_code_2}
+                                        <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$add.location_type_id`"}" title="{ts}Map {$add.location_type} Address{/ts}"><br/<span style="font-size:8px;">{ts}Map Address{/ts}</span></a>
+                                    {/if}</td>
                                 <td>
                                     {if $HouseholdName and $locationIndex eq 1}
                                     <strong>{ts}Household Address:{/ts}</strong><br />
@@ -201,37 +222,6 @@
         </div>
 
     </div>
-
-        {* Fix Me: Need to add this field to summary
-            {foreach from=$loc.user_unique_id item=user_unique_id}
-            {if $user_unique_id.user_unique_id}
-            {if $user_unique_id.is_primary eq 1}<strong>{/if}
-                {ts}User_Unique_Id:{/ts} {if $user_unique_id.user_unique_id}{$user_unique_id.user_unique_id}{/if}
-                {if $user_unique_id.is_primary eq 1}</strong>{/if}
-            </br>
-            {/if}
-            {/foreach}
-            {foreach from=$loc.openid item=openid}
-            {if $openid.openid}
-            {ts}OpenID:{/ts} <a href="{$openid.openid}">{$openid.openid|mb_truncate:40}</a>
-
-            {/if}
-            {if $config->userFramework eq "Standalone" }
-            {if $openid.allowed_to_login eq 1}		
-            {ts}(Allowed to login){/ts}
-            {/if}
-            {/if} 	
-            <br />
-            {/foreach}
-        </div>
-        <div class="col2">
-            {if $config->mapAPIKey AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
-                <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$loc.location_type_id`"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
-            {/if}
-
-        </div>
-    </div>
-    *}
 
     <script type="text/javascript"> 
     {if !$contactTag}cj("#tagLink").hide( );{/if}
