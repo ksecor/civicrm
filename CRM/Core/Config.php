@@ -41,6 +41,7 @@ require_once 'Mail.php';
 
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Utils/System.php';
+require_once 'CRM/Utils/String.php';
 require_once 'CRM/Utils/File.php';
 require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/Config/Variables.php';

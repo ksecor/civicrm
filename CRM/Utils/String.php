@@ -35,8 +35,6 @@
 
 
 
-require_once 'HTML/QuickForm/Rule/Email.php';
-
 /**
  * This class contains string functions
  *
