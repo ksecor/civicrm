@@ -4,7 +4,7 @@
 {else}
     <div id="mainTabContainer" >
         <ul>
-            <li id="tab_summary"><a href="#summary" title="{ts}Summary{/ts}" >{ts}Summary{/ts}</a></li>
+            <li id="tab_summary"><a href="#contact-summary" title="{ts}Summary{/ts}" >{ts}Summary{/ts}</a></li>
             {foreach from=$allTabs key=tabName item=tabValue}
             <li id="tab_{$tabValue.id}"><a href="{$tabValue.url}" title="{$tabValue.title}">{$tabValue.title}&nbsp;({$tabValue.count})</a></li>
             {/foreach}
