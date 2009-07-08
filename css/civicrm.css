@@ -1266,7 +1266,7 @@ div.crm-pager a {
   border-bottom: 1px solid #CCCCCC;
 }
 
-.btn-slide {
+#crm-container .btn-slide {
   text-align      : left;
   text-decoration : none;
   border          : none;
@@ -1277,6 +1277,11 @@ div.crm-pager a {
   text-decoration : none;
   color           : #333333;
   display         : block;
+}
+
+#crm-container .panel li:hover { 
+ background-color: #3399FF;
+ color: #FFFFFF;
 }
 
 /*Styles for Context menu */

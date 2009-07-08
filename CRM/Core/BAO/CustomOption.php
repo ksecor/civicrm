@@ -225,6 +225,7 @@ WHERE  f.custom_group_id = g.id
                 $params['value'] = CRM_Utils_Rule::cleanMoney( $params['value'] );
             }
             switch ( $dao->htmlType ) {
+            case 'Autocomplete-Select':    
             case 'Select':
             case 'Radio':
                 $query = "
@@ -265,11 +266,11 @@ SET    {$dao->columnName} = REPLACE( {$dao->columnName}, %1, %2 )";
 
     static function &valuesByID( $customFieldID, $optionGroupID = null ) {
         if ( ! $optionGroupID ) {
-            $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+            $optionGroupID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
                                                           $customFieldID,
                                                           'option_group_id' );
         }
-
+        
         require_once 'CRM/Core/OptionGroup.php';
         $options =& CRM_Core_OptionGroup::valuesByID( $optionGroupID );
 

@@ -39,11 +39,10 @@ function copyValues(fieldName, source)
                     }
                 }
             }
-        } else if ( document.getElementById(source).getAttribute("class") == "form-TinyMCE" ) {
+        } else if ( document.getElementById(source).getAttribute("class") == "tinymce" ) {
             if ( editor == "tinymce" ) {
-                tinyEditor = tinyMCE.get(source);
                 for ( k=0; k<cId.length; k++ ) {
-                    tinyMCE.get( "field_"+cId[k]+"_"+fieldName ).setContent( tinyEditor.getContent() );
+                    cj( '#field_' + cId[k] + '_' + fieldName ).html( cj('#'+ source).html( ) );
                 }
             }
         } else {

@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Report/Form.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Contribute_Repeat extends CRM_Report_Form {
 
@@ -108,6 +109,7 @@ class CRM_Report_Form_Contribute_Repeat extends CRM_Report_Form {
                                  array( 'name'         => 'total_amount',
                                         'alias'        => 'contribution1',
                                         'title'        => ts( 'Range One Stat' ),
+                                        'type'         => CRM_Utils_Type::T_MONEY,
                                         'default'      => true,
                                         'required'     => true,
                                         'statistics'   => 
@@ -122,6 +124,7 @@ contribution1_total_amount_count, contribution1_total_amount_sum',
                                  array( 'name'         => 'total_amount',
                                         'alias'        => 'contribution2',
                                         'title'        => ts( 'Range Two Stat' ),
+                                        'type'         => CRM_Utils_Type::T_MONEY,
                                         'default'      => true,
                                         'required'     => true,
                                         'statistics'   => 
@@ -162,6 +165,11 @@ contribution2_total_amount_count, contribution2_total_amount_sum',
                                        'operatorType' => CRM_Report_Form::OP_INT,
                                        'name'    => 'receive_date',
                                        'dbAlias' => 'contribution2_total_amount_sum' ),
+                                'contribution_status_id'  => 
+                                array( 'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                       'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ) ,
+                                       'default'      => array('1'),
+                                       ),
                                  ),
                           'group_bys'           =>
                           array( 'contribution_source' => null ), ),
@@ -190,7 +198,8 @@ contribution2_total_amount_count, contribution2_total_amount_sum',
 
     function select( ) {
         $select = $uni = array( );
-
+        $append = null;
+        
         // since contact fields not related to contribution type
         if ( array_key_exists('contribution_type', $this->_params['group_bys']) ||
              array_key_exists('contribution_source', $this->_params['group_bys']) ) {
@@ -236,8 +245,8 @@ SUM(contribution2_total_amount_sum)   as contribution2_total_amount_sum';
 
                         // only include statistics columns if set
                         $select[] = "{$field['dbAlias']} as {$field['alias']}_{$field['name']}";
-                        $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['type'] = $field['type'];
-                        $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['title'] = $field['title'];
+                        $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['type'] = CRM_Utils_Array::value('type', $field);
+                        $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['title'] = CRM_Utils_Array::value('title', $field);
                         if ( CRM_Utils_Array::value( 'no_display', $field ) ) {
                             $this->_columnHeaders["{$field['alias']}_{$field['name']}"]['no_display'] = true;
                         }
@@ -315,6 +324,10 @@ INNER JOIN civicrm_contact contact ON address.contact_id = contact.id";
             $contriCol = "contact_id";
         }
 
+        $IN =  implode("," , $this->_params['contribution_status_id_value']);
+       
+        $contriStatus1 = ( $IN != NULL ) ?" AND {$this->_aliases['civicrm_contribution']}1.contribution_status_id IN ( {$IN} ) " : " ";
+        $contriStatus2 = ( $IN != NULL ) ?" AND {$this->_aliases['civicrm_contribution']}2.contribution_status_id IN ( {$IN} ) " : " ";
         $this->_from = "
 FROM $from
 
@@ -323,7 +336,7 @@ LEFT  JOIN (
           sum( contribution1.total_amount ) AS contribution1_total_amount_sum, 
           count( * ) AS contribution1_total_amount_count
    FROM   civicrm_contribution {$this->_aliases['civicrm_contribution']}1
-   WHERE  ( $receive_date1 )
+   WHERE  ( $receive_date1 ) $contriStatus1
    GROUP BY contribution1.$contriCol
 ) contribution1 ON $fromAlias.$fromCol = contribution1.$contriCol
 
@@ -332,7 +345,7 @@ LEFT  JOIN (
           sum( contribution2.total_amount ) AS contribution2_total_amount_sum, 
           count( * ) AS contribution2_total_amount_count
    FROM   civicrm_contribution {$this->_aliases['civicrm_contribution']}2
-   WHERE  ( $receive_date2 )
+   WHERE  ( $receive_date2 ) $contriStatus2
    GROUP BY contribution2.$contriCol
 ) contribution2 ON $fromAlias.$fromCol = contribution2.$contriCol
 ";
@@ -357,7 +370,7 @@ LEFT  JOIN (
                         }
                     }
                     
-                    if ( ! empty( $clause ) ) {
+                    if ( ! empty( $clause ) && $fieldName != 'contribution_status_id' ) {
                         $clauses[] = $clause;
                     }
                 }
@@ -539,7 +552,8 @@ LEFT  JOIN (
                     $row['contribution2_total_amount_sum'] . " ({$row['contribution2_total_amount_count']})";
             }
         }
-        $this->_columnHeaders['change'] = array('title' => 'Change');
+        $this->_columnHeaders['change'] = array( 'title' => '% Change',
+                                                 'type'  => CRM_Utils_Type::T_INT );
 
         // hack to fix title
         list($from1, $to1) = $this->getFromTo( CRM_Utils_Array::value( "receive_date1_relative", $this->_params ),
@@ -564,7 +578,7 @@ LEFT  JOIN (
         // assign variables to templates
         $this->doTemplateAssignment( $rows );
 
-        $this->endPostProcess( );
+        $this->endPostProcess( $rows );
     }
 
     function alterDisplay( &$rows ) {

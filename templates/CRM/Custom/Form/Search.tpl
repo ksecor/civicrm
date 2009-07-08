@@ -25,7 +25,7 @@
                 {* sort by fails for option per line. Added a variable to iterate through the element array*}
                 {assign var="index" value="1"}
                 {foreach name=outer key=key item=item from=$form.$element_name}
-                {if $index < 10} {* Hack to skip QF field properties that aren't checkbox elements. *}
+                {if $index < 10} {* Hack to skip QF field properties that are not checkbox elements. *}
                     {assign var="index" value=`$index+1`}
                 {else}
                     {if $element.html_type EQ 'CheckBox' AND  $smarty.foreach.outer.last EQ 1} {* Put 'match ANY / match ALL' checkbox in separate row. *}
@@ -67,6 +67,8 @@
             {/if}
             {if $element.html_type eq 'Radio'}
                 &nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>
+            {elseif $element.html_type eq 'Autocomplete-Select'}
+                {include file="CRM/Custom/Form/AutoComplete.tpl"}
             {/if}
             </dd>
 	    {/if}

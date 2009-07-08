@@ -1,5 +1,6 @@
 {literal}<link rel="stylesheet" type="text/css" href="{/literal}{$config->userFrameworkResourceURL}{literal}css/civicrm.css" />{/literal}
 <div id="crm-container">
+<h2>{ts}Case Summary{/ts}</h2>
 <table class ="chart">
     <tr>
     	<th>{ts}Client{/ts}</th>
@@ -16,6 +17,7 @@
         <td>{$caseId}</td> 
     </tr>
 </table>
+<h2>{ts}Case Roles{/ts}</h2>
 <table class ="chart" >
     <tr>
     	<th>{ts}Case Role{/ts}</th>
@@ -51,11 +53,8 @@
 	{/foreach}
 </table>
 
- <dl><dt><label>{ts}Other Relationships{/ts}</label></dt>
-     <dd></dd>
- </dl>
-    {if $otherRelationships}
-     <table  class ="chart">
+{if $otherRelationships}
+    <table  class ="chart">
        	<trx>
     		<th>{ts}Client Relationship{/ts}</th>
     		<th>{ts}Name{/ts}</th>
@@ -70,20 +69,11 @@
             <td>{$row.email}</td>
         </tr>
         {/foreach}
-     </table>
-    {else}
-      <dl>
-      <dt></dt>
-        <dd>{ts}There are no Relationships entered for this client.{/ts}
-        </dd>
-      </dl>
-    {/if}
+    </table>
+{/if}
 
- <dl><dt><label>{ts}Global Case Contacts{/ts}</label></dt>
-     <dd></dd>
- </dl>
-    {if $globalRelationships}
-       <table  class ="chart">
+{if $globalRelationships}
+    <table class ="chart">
        	<tr>
     	 	<th>{$globalGroupInfo.title}</th>
      	 	<th>{ts}Phone{/ts}</th>
@@ -96,24 +86,10 @@
             <td>{$row.email}</td>
         </tr>
 	    {/foreach}
-       </table>
-    {elseif $globalGroupInfo.id}
-      <dl>
-      <dt></dt>
-        <dd>          
-          {ts}The group {$globalGroupInfo.title} has no members.{/ts}
-        </dd>
-      </dl>
-    {else}
-      <dl>
-      <dt></dt>
-        <dd>{ts}There are no Global Case Contacts exists for this client.{/ts}
-        </dd>
-      </dl>
-    {/if}
-<dl><dt><label>{ts}Activities{/ts}</label></dt>
-    <dd></dd>
-</dl>
+    </table>
+{/if}
+
+<h2>{ts}Case Activities{/ts}</h2>
 {foreach from=$activities item=activity key=key}
   <table  class ="chart">
        {foreach from=$activity item=field name=fieldloop}

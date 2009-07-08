@@ -14,51 +14,88 @@
      </dl>
     </div>
     <div id="registration_blocks">
-     <div id="register_show">
-        <dl>
-            <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html} {help id="id-link_text"}</dd>
-            {if !$isTemplate}
-              <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html} 
+	<table class="form-layout-compressed">
+         
+        <tr>
+            <th scope="row" class="label" width="20%">{$form.registration_link_text.label}</th>
+            <td>{$form.registration_link_text.html} {help id="id-link_text"}</td>
+        </tr>
+       {if !$isTemplate}
+        <tr>  
+           <th scope="row" class="label" width="20%">{$form.registration_start_date.label}</th>
+           <td>{$form.registration_start_date.html} 
               {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1}
               {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}
-              </dd>
-              <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}
+           </td>
+        </tr>
+        <tr>
+           <th scope="row" class="label" width="20%">{$form.registration_end_date.label}</th>
+           <td>{$form.registration_end_date.html}
               {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1}
               {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
-              </dd>
-            {/if}
-            <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html} {help id="id-allow_multiple"}</dd>
-            <dt>{$form.allow_same_participant_emails.label}</dt><dd>{$form.allow_same_participant_emails.html} {help id="id-allow_same_email"}</dd> 
-            <dt>{$form.has_waitlist.label}</dt><dd>{$form.has_waitlist.html} {help id="id-has_waitlist"}</dd> 
-            <dt>{$form.requires_approval.label}</dt><dd>{$form.requires_approval.html} {help id="id-requires_approval"}</dd> 
-            <dt>{$form.expiration_time.label}</dt><dd>{$form.expiration_time.html} {help id="id-expiration_time"}</dd>
-        </dl>
-     </div>
+           </td>
+        </tr>
+       {/if}
+        <tr>
+            <th scope="row" class="label" width="20%">{$form.is_multiple_registrations.label}</th>
+            <td>{$form.is_multiple_registrations.html} {help id="id-allow_multiple"}</td>
+        </tr>
+        <tr>
+            <th scope="row" class="label" width="20%">{$form.allow_same_participant_emails.label}</th>
+            <td>{$form.allow_same_participant_emails.html} {help id="id-allow_same_email"}</td>
+        </tr>
+        <tr>  
+            <th scope="row" class="label" width="20%">{$form.requires_approval.label}</th>
+            <td>{$form.requires_approval.html} {help id="id-requires_approval"}</td> 
+        </tr>
+        <tr>
+            <th scope="row" class="label" width="20%">{$form.expiration_time.label}</th>
+            <td>{$form.expiration_time.html} {help id="id-expiration_time"}</td>
+        </tr>
+    </table>
     <div class="spacer"></div>
     <div id="registration">
         {*Registration Block*}
         <div id="registration_screen_show" class="section-hidden section-hidden-border">
             <a href="#" onclick="hide('registration_screen_show'); show('registration_screen'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Registration Screen{/ts}</label><br />
         </div>	
-
         <div id="registration_screen">
         <fieldset><legend><a href="#" onclick= "hide('registration_screen'); show('registration_screen_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Registration Screen{/ts}</legend>
-        <dl class="html-adjust">
-            <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Introductory message / instructions for online event registration page (may include HTML formatting tags).{/ts}</dd>
-            <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Optional footer text for registration screen.{/ts}</dd>
-            <dt>{$form.custom_pre_id.label}</dt><dd>{$form.custom_pre_id.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the top of the page (immediately after the introductory message).{/ts}{help id="event-profile"}</dd>
-            <dt>{$form.custom_post_id.label}</dt><dd>{$form.custom_post_id.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the bottom of the page.{/ts}</dd>
-            <div id="additional_profiles">
-              <dt>{$form.additional_custom_pre_id.label}</dt><dd>{$form.additional_custom_pre_id.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts}Change this if you want to have a different profile for additional participants.{/ts}</dd>
-              <dt>{$form.additional_custom_post_id.label}</dt><dd>{$form.additional_custom_post_id.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts}Change this if you want to have a different profile for additional participants.{/ts}</dd>
-            </div>
-        </dl>
+        <table class= "form-layout-compressed">
+         <tr>
+            <th scope="row" class="label" width="20%">{$form.intro_text.label}</th>
+            <td>{$form.intro_text.html}<br />
+            <span class="description">{ts}Introductory message / instructions for online event registration page (may include HTML formatting tags).{/ts}
+            </td>
+         </tr>
+         <tr>
+            <th scope="row" class="label" width="20%">{$form.footer_text.label}</th>
+            <td>{$form.footer_text.html}<br />
+            <span class="description">{ts}Optional footer text for registration screen.{/ts}</td>
+         </tr>
+         <tr>
+            <th scope="row" class="label" width="20%">{$form.custom_pre_id.label}</th>
+            <td>{$form.custom_pre_id.html}<br />
+            <span class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the top of the page (immediately after the introductory message).{/ts}{help id="event-profile"}</td>
+         <tr>
+         </tr>
+            <th scope="row" class="label" width="20%">{$form.custom_post_id.label}</th>
+            <td>{$form.custom_post_id.html}<br />
+            <span class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the bottom of the page.{/ts}</td>
+        </tr>
+        <tr id="additional_profile_pre">
+            <th scope="row" class="label" width="20%">{$form.additional_custom_pre_id.label}</th>
+            <td>{$form.additional_custom_pre_id.html}<br />
+              <span class="description">{ts}Change this if you want to use a different profile for additional participants.{/ts}</td>
+            </td>
+        </tr>
+        <tr id="additional_profile_post">
+             <th scope="row" class="label" width="20%">{$form.additional_custom_post_id.label}</td>
+             <td>{$form.additional_custom_post_id.html}<br />
+                <span class="description">{ts}Change this if you want to use a different profile for additional participants.{/ts}
+             </td>
+        </tr>
+        </table>
         </fieldset>
         </div>
 
@@ -69,14 +106,26 @@
 
         <div id="confirm">
         <fieldset><legend><a href="#" onclick="hide('confirm'); show('confirm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Confirmation Screen{/ts}</legend>
-        <dl class="html-adjust" >
-            <dt>{$form.confirm_title.label} <span class="marker">*</span></dt><dd>{$form.confirm_title.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Page title for screen where user reviews and confirms their registration information.{/ts}</dd>
-            <dt>{$form.confirm_text.label}</dt><dd>{$form.confirm_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Optional instructions / message for Confirmation screen.{/ts}</dd>
-            <dt>{$form.confirm_footer_text.label}</dt><dd>{$form.confirm_footer_text.html}</dd>       
-            <dt>&nbsp;</dt><dd class="description">{ts}Optional page footer text for Confirmation screen.{/ts}</dd>
-        </dl>
+         <table class= "form-layout-compressed">
+           <tr>
+              <th scope="row" class="label" width="20%">{$form.confirm_title.label} <span class="marker">*</span></th>
+              <td>{$form.confirm_title.html}<br />
+                  <span class="description">{ts}Page title for screen where user reviews and confirms their registration information.{/ts}</span>
+              </td>
+           </tr>
+           <tr>
+              <th scope="row" class="label" width="20%">{$form.confirm_text.label}</th>
+              <td>{$form.confirm_text.html}<br />
+                  <span class="description">{ts}Optional instructions / message for Confirmation screen.{/ts}</span> 
+              </td>
+           </tr>
+           <tr>
+              <th scope="row" class="label" width="20%">{$form.confirm_footer_text.label}</th>
+              <td>{$form.confirm_footer_text.html}<br />       
+                 <span class="description">{ts}Optional page footer text for Confirmation screen.{/ts}</span>
+              </td>
+           </tr>
+         </table>
         </fieldset>
         </div>
 
@@ -87,14 +136,26 @@
 
         <div id="thankyou">
         <fieldset><legend><a href="#" onclick="hide('thankyou'); show('thankyou_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Thank-you Screen{/ts}</legend>
-        <dl class="html-adjust">
-            <dt>{$form.thankyou_title.label} <span class="marker">*</span></dt><dd>{$form.thankyou_title.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Page title for registration Thank-you screen.{/ts}</dd>
-            <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Optional message for Thank-you screen (may include HTML formatting).{/ts}</dd>
-            <dt>{$form.thankyou_footer_text.label}</dt><dd>{$form.thankyou_footer_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Optional footer text for Thank-you screen (often used to include links to other pages/activities on your site).{/ts}</dd>
-        </dl>
+         <table class= "form-layout-compressed">
+           <tr>           
+              <th scope="row" class="label" width="20%">{$form.thankyou_title.label} <span class="marker">*</span></th>
+              <td>{$form.thankyou_title.html}<br />
+                <span class="description">{ts}Page title for registration Thank-you screen.{/ts}</span>
+            </td>
+            </tr>
+            <tr>
+              <th scope="row" class="label" width="20%">{$form.thankyou_text.label}</th>
+              <td>{$form.thankyou_text.html}<br />
+                 <span class="description">{ts}Optional message for Thank-you screen (may include HTML formatting).{/ts}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" class="label" width="20%">{$form.thankyou_footer_text.label}</th>
+              <td>{$form.thankyou_footer_text.html}<br />
+                  <span class="description">{ts}Optional footer text for Thank-you screen (often used to include links to other pages/activities on your site).{/ts}
+              </td>
+            </tr>
+         </table>
         </fieldset>
         </div>
 
@@ -105,35 +166,55 @@
 
         <div id="mail">
         <fieldset><legend><a href="#" onclick="hide('mail'); show('mail_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Confirmation Email{/ts}</legend>
-        {strip}
-        <dl>
-            <dt>{$form.is_email_confirm.label}</dt><dd>{$form.is_email_confirm.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Do you want a registration confirmation email sent automatically to the user? This email includes event date(s), location and contact information. For paid events, this email is also a receipt for their payment.{/ts}</dd>
-        </dl>
-        <div id="confirmEmail">
-        <dl class="html-adjust">
-            <dt>{$form.confirm_email_text.label} </dt><dd>{$form.confirm_email_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Additional message or instructions to include in confirmation email.{/ts}</dd>
-            <dt>{$form.confirm_from_name.label} <span class="marker">*</span></dt><dd>{$form.confirm_from_name.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}FROM name for email.{/ts}</dd>
-            <dt>{$form.confirm_from_email.label} <span class="marker">*</span></dt><dd>{$form.confirm_from_email.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}FROM email address (this must be a valid email account wiht your SMTP email service provider).{/ts}</dd>
-            <dt>{$form.cc_confirm.label}</dt><dd>{$form.cc_confirm.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}You can notify event organizers of each online registration by specifying one or more email addresses to receive a carbon copy (cc). Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
-            <dt>{$form.bcc_confirm.label}</dt><dd>{$form.bcc_confirm.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}You may specify one or more email addresses to receive a blind carbon copy (bcc) of the confirmation email. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
-        </dl>
-        </div>
-        {/strip}
+          <table class= "form-layout-compressed">
+            <tr> 
+              <th scope="row" class="label" width="20%">{$form.is_email_confirm.label}</th>
+              <td>{$form.is_email_confirm.html}<br />
+                  <span class="description">{ts}Do you want a registration confirmation email sent automatically to the user? This email includes event date(s), location and contact information. For paid events, this email is also a receipt for their payment.{/ts}
+              </td>
+            </tr>
+          </table>
+          <div id="confirmEmail">
+           <table class= "form-layout-compressed">
+             <tr>
+               <th scope="row" class="label" width="20%">{$form.confirm_email_text.label} </td>
+               <td>{$form.confirm_email_text.html}<br />
+                   <span class="description">{ts}Additional message or instructions to include in confirmation email.{/ts}
+               </td>
+             </tr>
+             <tr>
+               <th scope="row" class="label" width="20%">{$form.confirm_from_name.label} <span class="marker">*</span></th>
+               <td>{$form.confirm_from_name.html}<br />
+                   <span class="description">{ts}FROM name for email.{/ts}
+               </td>
+             </tr>
+             <tr>
+               <th scope="row" class="label" width="20%">{$form.confirm_from_email.label} <span class="marker">*</span></th>
+               <td>{$form.confirm_from_email.html}<br />
+                   <span class="description">{ts}FROM email address (this must be a valid email account wiht your SMTP email service provider).{/ts}
+               </td>
+             </tr>
+             <tr>
+               <th scope="row" class="label" width="20%">{$form.cc_confirm.label}</th>
+               <td>{$form.cc_confirm.html}<br />
+                    <span class="description">{ts}You can notify event organizers of each online registration by specifying one or more email addresses to receive a carbon copy (cc). Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}
+               </td>
+             </tr>
+               <th scope="row" class="label" width="20%">{$form.bcc_confirm.label}</th>
+               <td>{$form.bcc_confirm.html}<br />
+                  <span class="description">{ts}You may specify one or more email addresses to receive a blind carbon copy (bcc) of the confirmation email. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}
+               </td>
+             </tr>
+           </table>
         </fieldset>
         </div>
     </div>
     </div> {*end of div registration_blocks*}
-    <div class="crm-submit-buttons">
-        {$form.buttons.html}
-    </div>
+ </fieldset>
+ <div class="crm-submit-buttons">
+       {$form.buttons.html}
+ </div>
 </div> {* End of form-item div *}
-</fieldset>
 
 {include file="CRM/common/showHide.tpl"}
 {include file="CRM/common/showHideByFieldValue.tpl" 
@@ -148,14 +229,6 @@ invert              = 0
 trigger_field_id    ="is_email_confirm"
 trigger_value       =""
 target_element_id   ="confirmEmail" 
-target_element_type ="block"
-field_type          ="radio"
-invert              = 0
-}
-{include file="CRM/common/showHideByFieldValue.tpl"
-trigger_field_id    ="is_multiple_registrations"
-trigger_value       =""
-target_element_id   ="additional_profiles"
 target_element_type ="block"
 field_type          ="radio"
 invert              = 0

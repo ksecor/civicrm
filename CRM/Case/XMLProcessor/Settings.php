@@ -59,4 +59,4 @@ class CRM_Case_XMLProcessor_Settings extends CRM_Case_XMLProcessor {
         return $this->_settings;
 	}
 }
-?>
+

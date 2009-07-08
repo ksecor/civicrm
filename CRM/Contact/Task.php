@@ -57,7 +57,9 @@ class CRM_Contact_Task {
         PRINT_CONTACTS        =    15,
         LABEL_CONTACTS        =    16,
         BATCH_UPDATE          =    17,
-        ADD_EVENT             =    18;
+        ADD_EVENT             =    18,
+        PRINT_FOR_CONTACTS    =    19;
+
 
 
     /**
@@ -128,6 +130,9 @@ class CRM_Contact_Task {
                                   17    => array( 'title'  => ts( 'Batch Update via Profile'       ),
                                                   'class'  => array( 'CRM_Contact_Form_Task_PickProfile',
                                                                      'CRM_Contact_Form_Task_Batch' ),
+                                                  'result' => true ),
+                                  19     => array( 'title'  => ts( 'Print PDF Letter for Contacts'        ),
+                                                  'class'  => 'CRM_Contact_Form_Task_PDF',
                                                   'result' => true ),
                                   );
            

@@ -291,7 +291,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
         $this->doTemplateAssignment( $rows );
 
         // do print / pdf / instance stuff if needed
-        $this->endPostProcess( );
+        $this->endPostProcess( $rows );
 
       
     }

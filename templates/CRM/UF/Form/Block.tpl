@@ -94,6 +94,15 @@
                  <span style="line-height: .75em; margin-top: 1px;">
                   &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
                  </span>
+             {elseif $field.html_type eq 'Autocomplete-Select'}
+                 {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
+             {elseif $field.data_type eq 'Date'}
+                {if $element.skip_calendar NEQ true } 
+                    <span>
+                        {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
+    	                {include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
+    	            </span>
+    	        {/if}
              {/if}  
              {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
              {if $field.help_post && $action neq 4 && $action neq 1028}

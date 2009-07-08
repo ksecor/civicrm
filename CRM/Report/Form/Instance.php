@@ -99,6 +99,7 @@ class CRM_Report_Form_Instance {
         if ( $selfButtonName == $buttonName ) {
             if ( empty( $fields['title'] ) ) {
                 $errors['title'] = ts( 'Title is a required field' );
+                $self->assign('instanceFormError', true);
             }
         }
 
@@ -148,17 +149,10 @@ class CRM_Report_Form_Instance {
         $dao = new CRM_Report_DAO_Instance( );
         $dao->copyValues( $params );
 
-        // remove following IF() block when permission form element is 
-        // decided to be a multi-select 
-        if ( ! is_array( $dao->permission ) ) {
-            $dao->permission = array($dao->permission);
-        }
         if ( $config->userFramework == 'Joomla' ) {
             $dao->permission = NULL;
-        } else {
-            $dao->permission = serialize( array($dao->permission, 'and') );
         }
-        
+
         // unset all the params that we use
         $fields = array( 'title', 'to_emails', 'cc_emails', 'header', 'footer',
                          'qfKey', '_qf_default', 'report_header', 'report_footer' );
@@ -187,7 +181,7 @@ class CRM_Report_Form_Instance {
                                           $instanceParams,
                                           $instanceDefaults );
 
-            if ( $cmpID = $instanceDefaults['component_id'] ) {
+            if ( $cmpID = CRM_Utils_Array::value('component_id', $instanceDefaults) ) {
                 $cmpName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component', $cmpID,
                                                         'name', 'id');
                 $cmpName = substr( $cmpName, 4 );

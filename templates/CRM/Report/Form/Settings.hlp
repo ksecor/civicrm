@@ -3,9 +3,10 @@
 Use the settings in this section to control Subject of the email containing the report, as well as the
 recipient list (To and Cc fields). Multiple email addresses should be separated by commas.{/ts}</p>
 
-<p>{ts}Your site administrator will need to setup a server "cron job" (automatically scheduled task) to trigger creation and delivery
-of each report. The cron job should use invoke the URL for this report with the addition of the following parameter: <em>&amp;sendmail=1</em>.
-The cron job will also need to include authentication parameters.{/ts} {docURL page="Command-line Script Configuration"}
+{capture assign=siteRoot}&lt;{ts}site root{/ts}&gt;{/capture}
+<p>{ts 1=$siteRoot 2='sites/all/modules/civicrm/bin/CiviReportMail.php?' 3='instanceId=3&amp;reset=1&amp;sendmail=1'}Your site administrator will need to setup a server "cron job" (automatically scheduled task) to trigger creation and delivery
+of each report. The cron job should use invoke the URL:<strong><em> %1/%2 %3</em></strong>. (This example url is specific to report ID = 3, once run this url shall deliver email to specified recipient associated with this report.).
+The cron job will also need to include authentication parameters which can be set by providing name, password and the unique key for More Information Click on this link .{/ts} {docURL page="Command-line Script Configuration"}
 {/htxt}
 
 {htxt id="id-report_title"}

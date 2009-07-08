@@ -248,8 +248,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->_fields = array( );
         
+        require_once 'CRM/Core/Payment.php';
         require_once 'CRM/Core/Payment/Form.php';
-        CRM_Core_Payment_Form::setCreditCardFields( $this );
+        // payment fields are depending on payment type
+        if ( $this->_processors['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_DIRECT_DEBIT ) {
+            CRM_Core_Payment_Form::setDirectDebitFields( $this );
+        } else {
+            CRM_Core_Payment_Form::setCreditCardFields( $this );
+        }
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
@@ -540,10 +546,14 @@ WHERE  contribution_id = {$this->_id}
         if ( $dao->find( true ) ) {
             $paneNames['Premium Information'] = 'Premium';
         }
+
         $ccPane = null;
-        
         if ( $this->_mode ) { 
-            $ccPane = array( 'Credit Card Information' => 'CreditCard' );
+            if (  $this->_processors['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_DIRECT_DEBIT){
+                $ccPane = array( ts('Direct Debit Information') => 'DirectDebit' );
+            } else {         
+                $ccPane = array( 'Credit Card Information' => 'CreditCard' );
+            }
         }
         if ( is_array( $ccPane ) ) {
             $paneNames = array_merge( $ccPane, $paneNames );
@@ -556,7 +566,8 @@ WHERE  contribution_id = {$this->_id}
             }
             
             $open = 'false';
-            if ( $type == 'CreditCard' ) {
+            if ( $type == 'CreditCard' ||
+                 $type == 'DirectDebit' ) {
                 $open = 'true';
             }
 
@@ -576,6 +587,9 @@ WHERE  contribution_id = {$this->_id}
             if ( $type == 'CreditCard' ) {
                 $this->add('hidden', 'hidden_CreditCard', 1 );
                 CRM_Core_Payment_Form::buildCreditCard( $this, true );
+            } else if ( $type == 'DirectDebit' ) {
+                $this->add('hidden', 'hidden_DirectDebit', 1 );
+                CRM_Core_Payment_Form::buildDirectDebit( $this, true );
             } else {
                 eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );
             }
@@ -867,8 +881,10 @@ WHERE  contribution_id = {$this->_id}
             $this->_params["country-{$this->_bltID}"] =
                 CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
             
-            $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
-            $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
+            if ( $this->_processors['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_CREDIT_CARD ) {
+                $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
+                $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
+            }
             $this->_params['ip_address']     = CRM_Utils_System::ipAddress( );
             $this->_params['amount'        ] = $this->_params['total_amount'];
             $this->_params['amount_level'  ] = 0;
@@ -1020,10 +1036,15 @@ WHERE  contribution_id = {$this->_id}
             //submit credit card contribution ends.
         } else {
             //Offline Contribution.
-            $unsetParams = array( "payment_processor_id", "email-{$this->_bltID}", "hidden_buildCreditCard",
-                                  "billing_first_name","billing_middle_name","billing_last_name", "street_address-5",
-                                  "city-{$this->_bltID}","state_province_id-{$this->_bltID}","postal_code-{$this->_bltID}",
-                                  "country_id-{$this->_bltID}","credit_card_number", "cvv2","credit_card_exp_date","credit_card_type",);
+            $unsetParams = array( "payment_processor_id", "email-{$this->_bltID}",
+                                  "hidden_buildCreditCard", "hidden_buildDirectDebit",
+                                  "billing_first_name", "billing_middle_name",
+                                  "billing_last_name", "street_address-5",
+                                  "city-{$this->_bltID}", "state_province_id-{$this->_bltID}",
+                                  "postal_code-{$this->_bltID}",
+                                  "country_id-{$this->_bltID}",
+                                  "credit_card_number", "cvv2",
+                                  "credit_card_exp_date", "credit_card_type",);
             foreach ( $unsetParams as $key ) {
                 if ( isset( $submittedValues[$key] ) ) {
                     unset( $submittedValues[$key] );
@@ -1277,4 +1298,3 @@ WHERE     c.id = $contributionID";
     
 }
 
-?>
