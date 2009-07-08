@@ -92,7 +92,7 @@ class CRM_Contact_Form_Edit_Individual {
         if ( !empty( $emailGreeting ) ) {
             $this->addElement('select', 'email_greeting_id', ts('Email Greeting'), 
                               array('' => ts('- select -')) + $emailGreeting, 
-                              array( 'onchange' => " showEmailGreeting();" ));
+                              array( 'onchange' => " showCustomized(this.id);" ));
             //email greeting custom
             $this->addElement('text', 'email_greeting_custom', ts('Custom Email Greeting'), 
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'email_greeting_custom' ),
@@ -105,7 +105,7 @@ class CRM_Contact_Form_Edit_Individual {
         if ( !empty( $postalGreeting ) ) {
             $this->addElement('select', 'postal_greeting_id', ts('Postal Greeting'), 
                               array('' => ts('- select -')) + $postalGreeting, 
-                              array( 'onchange' => " showPostalGreeting();") );
+                              array( 'onchange' => " showCustomized(this.id);") );
             //postal greeting custom
             $this->addElement('text', 'postal_greeting_custom', ts('Custom Postal Greeting'), 
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'postal_greeting_custom' ), 

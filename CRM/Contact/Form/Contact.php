@@ -481,6 +481,30 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 }
             }
         }
+        //check contact type and build filter clause accordingly for addressee, CRM-4575
+        $filterVal = 'v.filter =';
+        switch( $this->_contactType ) {
+        case 'Individual': 
+            $filterVal .= "1";
+            break;
+        case 'Household':
+            $filterVal .= "2";
+            break;
+        case 'Organization':
+            $filterVal .= "3";
+            break;
+        }
+        $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+
+        //add addressee in Contact form
+        $addressee = CRM_Core_PseudoConstant::addressee( $filterCondition );
+        if ( !empty( $addressee ) ) {
+            $this->addElement('select', 'addressee_id', ts('Addressee'), 
+                              array('' => ts('- select -')) + $addressee, array( 'onchange' => " showCustomized(this.id);") );
+            //custom addressee
+            $this->addElement('text', 'addressee_custom', ts('Custom Addressee'), 
+                              CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'addressee_custom' ));
+        }
         
         //assign to generate AJAX request for building extra blocks.
         $this->assign( 'generateAjaxRequest', $generateAjaxRequest );

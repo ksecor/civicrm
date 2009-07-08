@@ -7,17 +7,26 @@
 <div id="commPrefs" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
     <table class="form-layout-compressed" >
         <tr>
-            <td><label for="greeting_type_id">Greeting</label><br />
-            <select onchange=" showGreeting();" name="greeting_type_id" id="greeting_type_id" class="form-select">
-            <option value="">- select -</option>
-            <option value="1" selected="selected">Dear [first]</option>
-            <option value="2">Dear [prefix] [first] [last]</option>
-            <option value="3">Dear [prefix] [last]</option>
-            <option value="4">Customized</option>
-            </select>
-            </td>
-            <td></td>
+           {if $form.postal_greeting_id}
+                <td>{$form.postal_greeting_id.label} &nbsp; </td>
+                <td id="postal_greeting_id_label" style="display:none;">{$form.postal_greeting_custom.label}</td>
+            {/if}
+            {if $form.addressee_id}
+                <td>{$form.addressee_id.label} &nbsp; </td>
+                <td id="addressee_id_label" style="display:none;">{$form.addressee_custom.label}</td>
+            {/if}
+       </tr>
+       <tr>
+             {if $form.postal_greeting_id}
+                <td>{$form.postal_greeting_id.html|crmReplace:class:big}</td>
+                <td id="postal_greeting_id_html" style="display:none;">{$form.postal_greeting_custom.html|crmReplace:class:big}</td>
+            {/if}
+            {if $form.addressee_id}
+                <td>{$form.addressee_id.html|crmReplace:class:big}</td>
+                <td id="addressee_id_html" style="display:none;">{$form.addressee_custom.html|crmReplace:class:big}</td>
+            {/if}
         </tr>
+        <tr><td colspan="5" id="greeting_display" style="font-size:10px;"></td></tr>
         <tr>
             {foreach key=key item=item from=$commPreference}
               <td>  
@@ -37,3 +46,21 @@
         </tr>
     </table>
 </div>
+{literal}
+<script type="text/javascript">
+function showCustomized(element){
+    var eleHtml  = 'td#'+element+'_html';
+    var eleLabel = 'td#'+element+'_label';
+    var selText  = cj('#'+element+' :selected').text();
+    if (  selText == 'Customized' ) { 
+        cj( eleHtml+","+eleLabel).toggle( );
+    } else {
+        cj( eleHtml+","+eleLabel).hide( );
+        if ( selText != '- select -' ) {
+            //fixme for showing token to compiled string
+            cj('#greeting_display').html('<strong>Display :: </strong>'+cj('#'+element+' :selected').text()).show().fadeOut(5000);
+        }
+    }
+}
+</script>
+{/literal}
