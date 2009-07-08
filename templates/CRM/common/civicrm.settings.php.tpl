@@ -141,7 +141,7 @@ define( 'CIVICRM_SITE_KEY', null );
  * Multi-org / Multi-site settings:
  *
  */
-define( 'CIVICRM_DOMAIN_ID'      , null );
+//define( 'CIVICRM_DOMAIN_ID'      , null );
 define( 'CIVICRM_DOMAIN_GROUP_ID', null );
 define( 'CIVICRM_DOMAIN_ORG_ID'  , null );
 
