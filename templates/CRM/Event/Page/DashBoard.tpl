@@ -11,8 +11,8 @@
     <div class="float-right">
     <table class="form-layout-compressed">
     <tr>
-        <td><a href="{$configPagesURL}" class="button"><span>&raquo; Manage Events</span></a></td>
-        <td><a href="{$newEventURL}" class="button"><span>&raquo; New Event</span></a></td>
+        <td><a href="{$configPagesURL}" class="button"><span>&raquo; {ts}Manage Events{/ts}</span></a></td>
+        <td><a href="{$newEventURL}" class="button"><span>&raquo; {ts}New Event{/ts}</span></a></td>
     </tr>
     </table>
     </div>
