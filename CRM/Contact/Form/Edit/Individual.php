@@ -176,6 +176,7 @@ class CRM_Contact_Form_Edit_Individual {
         $primaryID = CRM_Contact_Form_Contact::formRule( $fields, $errors, $contactId );
         
         // check for state/country mapping
+        require_once 'CRM/Contact/Form/Edit/Address.php';
         CRM_Contact_Form_Edit_Address::formRule( $fields, $errors );
         
         // make sure that firstName and lastName or a primary OpenID is set

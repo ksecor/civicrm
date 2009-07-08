@@ -130,7 +130,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     function preProcess( )
     {
         $this->_action  = CRM_Utils_Request::retrieve('action', 'String',$this, false, 'add' );
-                                                       
+        
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
         
@@ -274,19 +274,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         if ( $this->_action & CRM_Core_Action::ADD ) {
         } else {
-            //need to set default blocks.
-            $loadDefaultBlocks = false;
-            $defaultBlocksCount = array( );
-            foreach ( array_merge( array( 'Address' => 1 ), $this->_blocks ) as $blockName => $active ) {
-                $name = strtolower($blockName);
-                if ( is_array( $defaults[$name] ) ) {
-                    $loadDefaultBlocks = true;
-                    $defaultBlocksCount[$blockName] = count( $defaults[$name] );
-                }
-            }
-            $this->assign( 'loadDefaultBlocks',  $loadDefaultBlocks  );
-            $this->assign( 'defaultBlocksCount', $defaultBlocksCount );
-            
             if ( isset( $this->_elementIndex[ "shared_household" ] ) ) {
                 $sharedHousehold = $this->getElementValue( "shared_household" );
                 if ( $sharedHousehold ) {
@@ -457,24 +444,47 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         
         //build 1 instance of all blocks, without using ajax ...
-        $buildAJAXBlocks = $this->_blocks;
+        $allBlocks = $this->_blocks;
         if ( array_key_exists( 'Address', $this->_editOptions ) ) {
-            $buildAJAXBlocks['Address'] = $this->_editOptions['Address'];
-            
+            $allBlocks['Address'] = $this->_editOptions['Address'];
         }
-        foreach ( $buildAJAXBlocks as $blockName => $label ) {
+        
+        $ajaxRequestBlocks = array( );
+        $generateAjaxRequest = 0;
+        
+        foreach ( $allBlocks as $blockName => $label ) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
-            $instances  = explode( ',', CRM_Utils_Array::value( "hidden_".$blockName ."_Instances", $_POST, 1 ) );
-            foreach ( $instances as $instance ) {
-                if ( $instance > 1 ) {
-                    $this->assign( "addBlock", true );
-                    $this->assign( 'blockName', $blockName );
+            $instanceStr = CRM_Utils_Array::value( "hidden_".$blockName ."_Instances", $_POST, 1 );
+            
+            //hack for setdefault building.
+            if ( CRM_Utils_System::isNull( $_POST ) ) {
+                $name = strtolower($blockName);
+                if ( is_array( $this->_values[$name] ) ) { 
+                    foreach ( $this->_values[$name] as $instance => $blockValues ) {
+                        if ( $instance == 1 ) continue; 
+                        $instanceStr .= ",{$instance}";
+                    }
                 }
-                $this->assign( "blockId", $instance  );
-                $this->set( $blockName."_Block_Count", $instance );
-                eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' ); 
+            }
+            
+            $instances = explode( ',', $instanceStr );
+            foreach ( $instances as $instance ) {
+                if ( $instance == 1 ) {
+                    $this->assign( "addBlock", false );
+                    $this->assign( "blockId", $instance );
+                    $this->set( $blockName."_Block_Count", $instance );
+                    eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' );
+                } else {
+                    //we are going to build other block instances w/ AJAX
+                    $generateAjaxRequest++;
+                    $ajaxRequestBlocks[$blockName][$instance] = true;
+                }
             }
         }
+        
+        //assign to generate AJAX request for building extra blocks.
+        $this->assign( 'generateAjaxRequest', $generateAjaxRequest );
+        $this->assign( 'ajaxRequestBlocks',   $ajaxRequestBlocks   );
         
         // add the dedupe button
         $this->addElement('submit', 

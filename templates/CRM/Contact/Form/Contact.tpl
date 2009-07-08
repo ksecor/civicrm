@@ -69,13 +69,13 @@ cj(function( ) {
 
 cj( function( ) {
 {/literal}
-{if $loadDefaultBlocks} 
-    {foreach from=$defaultBlocksCount key="blockName" item="count"}
+{if $generateAjaxRequest}
+    {foreach from=$ajaxRequestBlocks key="blockName" item="instances"}
       //reset count to 1 since each time counter get increamented.
       cj( "#hidden_" + "{$blockName}" + "_Instances" ).val( 1 );
-      {section name=blockCount loop=$count-1}
-      buildAdditionalBlocks( '{$blockName}', '{$contactType}' );
-      {/section}
+        {foreach from=$instances key="instance" item="active"}
+             buildAdditionalBlocks( '{$blockName}', '{$contactType}' );
+        {/foreach}  	
     {/foreach}
 {/if}
 {literal}
