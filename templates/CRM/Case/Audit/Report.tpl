@@ -8,8 +8,10 @@
 
 <body>
 <div id="crm-container">
+<h1>{$pageTitle}</h1>
+<div id="report-date">{$reportDate}</div>
 <h2>{ts}Case Summary{/ts}</h2>
-<table class ="report-layout">
+<table class="report-layout">
     <tr>
     	<th class="reports-header">{ts}Client{/ts}</th>
     	<th class="reports-header">{ts}Case Type{/ts}</th>
@@ -60,6 +62,7 @@
          {/if}
 	{/foreach}
 </table>
+<br />
 
 {if $otherRelationships}
     <table  class ="report-layout">
@@ -78,6 +81,7 @@
         </tr>
         {/foreach}
     </table>
+    <br />
 {/if}
 
 {if $globalRelationships}
@@ -101,17 +105,14 @@
 {foreach from=$activities item=activity key=key}
   <table  class ="report-layout">
        {foreach from=$activity item=field name=fieldloop}
-         {if $field.label eq 'Activity Type' or $field.label eq 'Status'}
            <tr>
-             <th class="reports-header">{$field.label|escape}</th>
-             <th class="reports-header">{$field.value|escape}</th> 
+             <th scope="row" class="label">{$field.label|escape}</th>
+             {if $field.label eq 'Activity Type' or $field.label eq 'Status'}
+                <td class="bold">{$field.value|escape}</th> 
+             {else}
+                <td>{$field.value|escape}</th> 
+             {/if}
            </tr>
-         {else}
-           <tr>
-             <td>{$field.label|escape}</td>
-             <td>{$field.value|escape}</td> 
-         </tr>
-         {/if}
        {/foreach}
   </table>
   <br />
