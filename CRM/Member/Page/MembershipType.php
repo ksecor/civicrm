@@ -78,15 +78,18 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/member/membershipType',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Member_BAO_MembershipType' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    
+                                                                    'ref'   => 'disable-action',
+                                                                    
                                                                     'title' => ts('Disable Membership Type') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/member/membershipType',
-                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Member_BAO_MembershipType' . '\',\'' . 'disable-enable' . '\' );"',
+
+                                                                    'ref'   => 'enable-action',
+                                                                    
                                                                     'title' => ts('Enable Membership Type') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(

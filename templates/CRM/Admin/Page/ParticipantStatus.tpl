@@ -4,6 +4,8 @@
 
 <div class="form-item">
   {strip}
+    {* handle enable/disable actions*}
+    {include file="CRM/common/enableDisable.tpl"}
     <table cellpadding="0" cellspacing="0" border="0">
       <thead class="sticky">
         <th>{ts}Name{/ts}</th>
@@ -17,7 +19,7 @@
         <th></th>
       </thead>
       {foreach from=$rows item=row}
-        <tr id="rowid{$row.id}" class="{cycle values="odd-row,even-row"}">
+       <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
           <td>{$row.name}</td>
           <td>{$row.label}</td>
           <td>{$row.class}</td>

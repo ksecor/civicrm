@@ -42,19 +42,20 @@ function modifySelectorRow( recordID, op ) {
 	//we are disabling record.
 	cj( elementID ).addClass("disabled");
     }
+     
 }
 
 function hideEnableDisableStatusMsg( ) {
   cj( '#enableDisableStatusMsg' ).hide( );
 }
 
-function enableDisable( recordID, recordDAO, op ) {
+function enableDisable( recordID, recordBAO, op ) {
  var statusMsg = '{/literal}{ts}Are you sure you want to enable this record?{/ts}{literal}';
  if ( op == 'enable-disable' ) {
     statusMsg = '{/literal}{ts}Are you sure you want to disable this record?{/ts}{literal}';
  }
 
- var confirmMsg =  statusMsg + '&nbsp;<a href="javascript:saveEnableDisable( ' + recordID + ',\'' + recordDAO + '\'' + ', \'' + op + '\'' + ' );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
+ var confirmMsg =  statusMsg + '&nbsp;<a href="javascript:saveEnableDisable( ' + recordID + ',\'' + recordBAO + '\'' + ', \'' + op + '\'' + ' );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
 
      cj( '#enableDisableStatusMsg' ).show( ).html( confirmMsg );
 }
@@ -69,7 +70,7 @@ function noServerResponse( ) {
  }
 }
 
-function saveEnableDisable( recordID, recordDAO, op ) {
+function saveEnableDisable( recordID, recordBAO, op ) {
     cj( '#enableDisableStatusMsg' ).hide( );
 
     var postUrl     = {/literal}"{crmURL p='civicrm/ajax/ed' h=0 }"{literal};
@@ -80,7 +81,7 @@ function saveEnableDisable( recordID, recordDAO, op ) {
     } 
    
     //post request and get response
-    cj.post( postUrl, { recordID: recordID, recordDAO: recordDAO, op:op  }, function( html ){
+    cj.post( postUrl, { recordID: recordID, recordBAO: recordBAO, op:op  }, function( html ){
     responseFromServer = true;      
     var resourceBase   = {/literal}"{$config->resourceBase}"{literal}; 
 

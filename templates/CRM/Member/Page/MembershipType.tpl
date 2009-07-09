@@ -9,7 +9,9 @@
 {if $rows}
 <div id="membership_type">
     {strip}
-	<table class="selector">
+	{* handle enable/disable actions*}
+ 	{include file="CRM/common/enableDisable.tpl"}
+ 	<table class="selector">
         <thead class="sticky">
             <th>{ts}Membership{/ts}</th>
             <th>{ts}Period{/ts}</th>
@@ -23,7 +25,7 @@
             <th></th>
         </thead>
         {foreach from=$rows item=row}
-           <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+           <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.period_type}</td>
 	        <td>{$row.fixed_period_start_day}</td>

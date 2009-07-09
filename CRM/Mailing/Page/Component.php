@@ -80,17 +80,17 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => CRM_Utils_System::currentPath( ),
-                                                                    'qs'    => 'action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Mailing_BAO_Component' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
+                                                                    
                                                                     'title' => ts('Disable Mailing Component') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => CRM_Utils_System::currentPath( ),
-                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Mailing_BAO_Component' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
                                                                     'title' => ts('Enable Mailing Component') 
-                                                                   )
+                                                                    )
                                  );
         }
         return self::$_links;
