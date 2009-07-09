@@ -430,7 +430,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             require_once( str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_addBlockName ) . ".php");
             return eval( 'CRM_Contact_Form_Edit_' . $this->_addBlockName . '::buildQuickForm( $this );' );
         }
-        
+
         //build contact type specific fields
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_Edit_' . $this->_contactType . '::buildQuickForm( $this, $this->_action );' );
@@ -469,15 +469,18 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             
             $instances = explode( ',', $instanceStr );
             foreach ( $instances as $instance ) {
+                $addBlock = true;
                 if ( $instance == 1 ) {
-                    $this->assign( "addBlock", false );
+                    $addBlock = false;
                 } else {
                     //we are going to build other block instances w/ AJAX
                     $generateAjaxRequest++;
                     $ajaxRequestBlocks[$blockName][$instance] = true;
                 }
                 
-                $this->assign( "blockId", $instance );
+                $this->assign( "addBlock",  $addBlock  );
+                $this->assign( "blockId",   $instance  );
+                $this->assign( "blockName", $blockName );
                 $this->set( $blockName."_Block_Count", $instance );
                 eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' );
             }
