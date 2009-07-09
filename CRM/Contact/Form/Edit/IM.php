@@ -64,8 +64,11 @@ class CRM_Contact_Form_Edit_IM
         
         $blockId = ( $form->get( 'IM_Block_Count' ) ) ? $form->get( 'IM_Block_Count' ) : 1;
         
-        //Location Index
-        $form->addElement( 'hidden', 'hidden_IM_Instances', $blockId, array( 'id' => 'hidden_IM_Instances') );
+        // only add hidden element when processing first block 
+        // for remaining blocks we'll calculate at run time w/ jQuery. 
+        if ( $blockId == 1 ) {
+            $form->addElement( 'hidden', 'hidden_IM_Instances', $blockId, array( 'id' => 'hidden_IM_Instances') );
+        }
         
         //IM provider select
         $form->addElement('select', "im[$blockId][provider_id]", '',

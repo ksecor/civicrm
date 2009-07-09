@@ -62,8 +62,11 @@ class CRM_Contact_Form_Edit_Phone
             $phoneType = CRM_Core_PseudoConstant::phoneType( );
         }
         
-        //Location Index
-        $form->addElement( 'hidden', 'hidden_Phone_Instances', $blockId, array( 'id' => 'hidden_Phone_Instances') );
+        // only add hidden element when processing first block 
+        // for remaining blocks we'll calculate at run time w/ jQuery. 
+        if ( $blockId == 1 ) {
+            $form->addElement( 'hidden', 'hidden_Phone_Instances', $blockId, array( 'id' => 'hidden_Phone_Instances') );
+        }
         
         //phone type select
         $form->addElement('select', "phone[$blockId][phone_type_id]", ts('Phone'), $phoneType, null );
