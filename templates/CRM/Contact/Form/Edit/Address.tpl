@@ -8,6 +8,7 @@
 <!-Add->
  <div id="Address_Block_{$blockId}">
   <table class="form-layout-compressed">
+	{if !$defaultLocation}
      <tr>
         <td colspan="2">
            {$form.address.$blockId.location_type_id.label}
@@ -21,6 +22,7 @@
             </td>
         {/if}
      </tr>
+	 {/if}
      {if $form.use_household_address} 
      <tr>
         <td>

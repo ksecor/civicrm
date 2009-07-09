@@ -207,7 +207,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
     {
         $errors = array( );
         // check for state/country mapping
-        CRM_Contact_Form_Address::formRule($fields, $errors);
+        CRM_Contact_Form_Edit_Address::formRule($fields, $errors);
         
         //fix for CRM-3552, 
         //as we use "fromName"<emailaddresss> format for domain email.
@@ -240,7 +240,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
         
         $location = array();
-        $params['location'][1]['location_type_id'] = $defaultLocationType->id;
+        $params['address'][1]['location_type_id'] = $defaultLocationType->id;
         $location = CRM_Core_BAO_Location::create($params, true, 'domain');
         
         $params['loc_block_id'] = $location['id'];

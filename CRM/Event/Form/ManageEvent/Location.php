@@ -182,7 +182,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     {
         $errors = array( );
         // check for state/country mapping
-        CRM_Contact_Form_Address::formRule($fields, $errors);
+        CRM_Contact_Form_Edit_Address::formRule($fields, $errors);
 
         return empty($errors) ? true : $errors;
     }    
@@ -305,8 +305,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             
         require_once 'CRM/Core/BAO/LocationType.php';
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-        $params['location'][1]['location_type_id'] = $defaultLocationType->id;
-        $params['location'][1]['is_primary']       = 1;
+        $params['address'][1]['location_type_id'] = $defaultLocationType->id;
+        $params['address'][1]['is_primary']       = 1;
         
         // create/update event location
         require_once 'CRM/Core/BAO/Location.php';
