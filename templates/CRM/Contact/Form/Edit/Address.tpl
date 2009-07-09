@@ -62,6 +62,15 @@
         </td>
      </tr>
      {/if}
+    {if $form.address.$blockId.supplemental_address_2}
+    <tr>
+        <td colspan="2">
+           {$form.address.$blockId.supplemental_address_2.label}<br />
+           {$form.address.$blockId.supplemental_address_2.html} <br >
+            <span class="description font-italic">Supplemental address info, e.g. c/o, department name, building name, etc.</span>
+        </td>
+     </tr>
+     {/if}
 
      <tr>
         {if $form.address.$blockId.city}
@@ -98,6 +107,15 @@
         <td>
            {$form.address.$blockId.state_province_id.label}<br />
            {$form.address.$blockId.state_province_id.html}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+            {$form.address.$blockId.geo_code_1.label},&nbsp;{$form.address.$blockId.geo_code_2.label}<br />
+            {$form.address.$blockId.geo_code_1.html},&nbsp;{$form.address.$blockId.geo_code_2.html}<br />
+            <span class="description font-italic">
+                Latitude and longitude may be automatically populated by enabling a Mapping Provider. (<a href='http://wiki.civicrm.org/confluence/display/CRMDOC/Mapping+and+Geocoding' target='_blank'>learn more...</a>)
+            </span>
         </td>
       </tr>
     </table>
