@@ -469,18 +469,15 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             
             $instances = explode( ',', $instanceStr );
             foreach ( $instances as $instance ) {
-                $addBlock = true;
                 if ( $instance == 1 ) {
-                    $addBlock = false;
+                    $this->assign( "addBlock", false );
+                    $this->assign( "blockId",  $instance );
                 } else {
                     //we are going to build other block instances w/ AJAX
                     $generateAjaxRequest++;
                     $ajaxRequestBlocks[$blockName][$instance] = true;
                 }
                 
-                $this->assign( "addBlock",  $addBlock  );
-                $this->assign( "blockId",   $instance  );
-                $this->assign( "blockName", $blockName );
                 $this->set( $blockName."_Block_Count", $instance );
                 eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' );
             }
