@@ -110,7 +110,9 @@
            {$form.address.$blockId.state_province_id.label}<br />
            {$form.address.$blockId.state_province_id.html}
         </td>
+		{/if}
       </tr>
+	  {if $form.address.$blockId.geo_code_1 && $form.address.$blockId.geo_code_2}
       <tr>
         <td colspan="2">
             {$form.address.$blockId.geo_code_1.label},&nbsp;{$form.address.$blockId.geo_code_2.label}<br />
@@ -120,10 +122,9 @@
             </span>
         </td>
       </tr>
+	  {/if}
     </table>
 </td></tr>
-  {/if}
-  </tr>
      {if $addMoreAddress}
       <tr id="addMoreAddress" >
           <td><a href="#" onclick="buildAdditionalBlocks( 'Address', '{$contactType}' );return false;">add address</a></td>
