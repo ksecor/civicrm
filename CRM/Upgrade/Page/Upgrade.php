@@ -83,7 +83,12 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $template->assign( 'cancelURL', 
                           CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
 
-        if ( version_compare($currentVer, $latestVer) >= 0 ) {
+        if ( version_compare($currentVer, $latestVer) > 0 ) {
+            // DB version number is higher than codebase being upgraded to. This is unexpected condition-fatal error.
+            $error = ts( 'Your database is marked with an unexpected version number: %1. The automated upgrade to version %2 can not be run - and the %2 codebase may not be compatible with your database state. You will need to determine the correct version corresponding to your current database state. The database tools utility at %3 may be helpful. You may want to revert to the codebase you were using prior to beginning this upgrade until you resolve this problem.',
+                           array( 1 => $currentVer, 2 => $latestVer, 3 => 'http://wiki.civicrm.org/confluence/display/CRMDOC/Database+Troubleshooting+Tools' ) );
+            CRM_Core_Error::fatal( $error );
+        } else if ( version_compare($currentVer, $latestVer) == 0 ) {
             $message = ts( 'Your database has already been upgraded to CiviCRM %1',
                            array( 1 => $latestVer ) );
             $template->assign( 'upgraded', true );
