@@ -128,13 +128,14 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                           'grouping'=> 'contact-fields',
                           ),
                    'civicrm_group' => 
-                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                   array( 'dao'    => 'CRM_Contact_DAO_GroupContact',
                           'alias'  => 'cgroup',
                           'filters'=>             
                           array( 'gid' => 
-                                 array( 'name'         => 'id',
+                                 array( 'name'         => 'group_id',
                                         'title'        => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'group'        => true,
                                         'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    
                    
@@ -194,17 +195,6 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                          ON {$this->_aliases['civicrm_membership']}.membership_type_id =
                             {$this->_aliases['civicrm_membership_type']}.id";
 
-        if ( !empty( $this->_params['gid_value'] ) ) {
-            $this->_from .= "
-              LEFT  JOIN civicrm_group_contact group_contact 
-                         ON {$this->_aliases['civicrm_contact']}.id = 
-                              group_contact.contact_id  AND 
-                              group_contact.status = 'Added'
-              LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
-                         ON  group_contact.group_id = 
-                             {$this->_aliases['civicrm_group']}.id ";        
-        }
-
         //  include address field if address column is to be included
         if ( $this->_addressField ) {  
             $this->_from .= "
@@ -247,7 +237,11 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                         }
                     }
                     if ( ! empty( $clause ) ) {
-                        $clauses[$fieldName] = $clause;
+                        if ( CRM_Utils_Array::value( 'group', $field ) ) {
+                            $clauses[$fieldName] = $this->whereGroupClause( $clause );
+                        } else {
+                            $clauses[$fieldName] = $clause;
+                        }
                     }
                 }
             }

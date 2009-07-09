@@ -170,13 +170,14 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                  'contribution_source'     => null, ), ),
 
                    'civicrm_group' => 
-                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                   array( 'dao'    => 'CRM_Contact_DAO_GroupContact',
                           'alias'  => 'cgroup',
                           'filters' =>             
                           array( 'gid' => 
-                                 array( 'name'          => 'id',
+                                 array( 'name'          => 'group_id',
                                         'title'         => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'group'         => true,
                                         'options'       => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
 
@@ -376,33 +377,24 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                      ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND 
                         {$this->_aliases['civicrm_phone']}.is_primary = 1)";
 
-             if ( !empty( $this->_params['gid_value'] ) ) { 
-                 $this->_from .= "
-                  LEFT  JOIN civicrm_group_contact  group_contact 
-                          ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND 
-                              group_contact.status='Added'
-                  LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
-                          ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id";
-             }
-
-             if ( defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) ) {
+        if ( defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) ) {
             // LEFT JOIN on contribution custom data fields
-                 $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
-                 $dao = CRM_Core_DAO::executeQuery( $query );
-                 while ( $dao->fetch( ) ) {
-                     $alias = $this->_aliases[$dao->table_name];
-                     $this->_from .= "\n" . 'LEFT JOIN ' . $dao->table_name . ' ' . $alias;
-                     $this->_from .= "\n" . '        ON ' . $alias . '.entity_id = ' . $this->_aliases['civicrm_contribution'] . '.id';
-                 }
-             }
-
-             if ( $this->_addressField ) {
-                 $this->_from .= "
+            $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
+            $dao = CRM_Core_DAO::executeQuery( $query );
+            while ( $dao->fetch( ) ) {
+                $alias = $this->_aliases[$dao->table_name];
+                $this->_from .= "\n" . 'LEFT JOIN ' . $dao->table_name . ' ' . $alias;
+                $this->_from .= "\n" . '        ON ' . $alias . '.entity_id = ' . $this->_aliases['civicrm_contribution'] . '.id';
+            }
+        }
+        
+        if ( $this->_addressField ) {
+            $this->_from .= "
                   LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
                          ON {$this->_aliases['civicrm_contact']}.id = 
                             {$this->_aliases['civicrm_address']}.contact_id AND 
                             {$this->_aliases['civicrm_address']}.is_primary = 1\n";
-             }
+        }
     }
 
     function groupBy( ) {

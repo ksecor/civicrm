@@ -173,14 +173,18 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                           ),
                    
                    'civicrm_group'     => 
-                   array( 'dao'        => 'CRM_Contact_DAO_Group',
+                   array( 'dao'        => 'CRM_Contact_DAO_GroupContact',
                           'alias'      => 'cgroup',
                           'filters'    =>             
                           array( 'gid' => 
-                                 array( 'name'    => 'id',
-                                        'title'   => ts( 'Soft Credit Group' ),
+                                 array( 'name'         => 'group_id',
+                                        'title'        => ts( 'Soft Credit Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                        'group'        => true,
+                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) 
+                                        ), 
+                                 ), 
+                          ),
                    );
         
         parent::__construct( );
@@ -276,16 +280,6 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                          ON {$this->_aliases['civicrm_contribution_soft']}.contact_id = 
                             {$alias_creditor}.id ";
 
-        if ( !empty( $this->_params['gid_value'] ) ) {
-            $this->_from .= "
-              LEFT  JOIN civicrm_group_contact group_contact 
-                         ON {$alias_creditor}.id = 
-                             group_contact.contact_id  AND 
-                             group_contact.status='Added'
-              LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
-                         ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id ";
-        }
-        
         // include Constituent email field if email column is to be included
         if ( $this->_emailField ) { 
             $alias = 'emailconst';
@@ -324,46 +318,6 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                       ON {$alias_creditor}.id = 
                          {$alias}.contact_id  AND 
                          {$alias}.is_primary = 1\n";     
-        }
-    }
-    
-    function where( ) {
-        $clauses = array( );
-        foreach ( $this->_columns as $tableName => $table ) {
-            if ( array_key_exists('filters', $table) ) {
-                foreach ( $table['filters'] as $fieldName => $field ) {
-                    $clause = null;
-                    if ( CRM_Utils_Array::value( 'type', $field ) & CRM_Utils_Type::T_DATE ) {
-                        $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
-                        $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
-                        $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
-                        
-                        if ( $relative || $from || $to ) {
-                            $clause = $this->dateClause( $field['name'], $relative, $from, $to );
-                        }
-                    } else {
-                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
-                        if ( $op ) {
-                            $clause = 
-                                $this->whereClause( $field,
-                                                    $op,
-                                                    CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
-                        }
-                    }
-                    
-                    if ( ! empty( $clause ) ) {
-                        $clauses[] = $clause;
-                    }
-                }
-            }
-        }
-        
-        if ( empty( $clauses ) ) {
-            $this->_where = "WHERE ( 1 ) ";
-        } else {
-            $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
     }
     

@@ -142,13 +142,14 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                            ) ,
                                     
                    'civicrm_group' => 
-                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                   array( 'dao'    => 'CRM_Contact_DAO_GroupContact',
                           'alias'  => 'cgroup',
                           'filters' =>             
                           array( 'gid' => 
-                                 array( 'name'         => 'id',
+                                 array( 'name'         => 'group_id',
                                         'title'        => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'group'        => true,
                                         'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
         
@@ -236,16 +237,6 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
               LEFT  JOIN civicrm_phone  {$this->_aliases['civicrm_phone']} 
                       ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND
                          {$this->_aliases['civicrm_phone']}.is_primary = 1 ";
-        
-        if ( !empty( $this->_params['gid_value'] ) ) {
-            $this->_from .= "
-              LEFT  JOIN civicrm_group_contact  group_contact 
-                      ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND group_contact.status='Added'
-
-              LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
-                      ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id " ;
-        }
-                
     }
     
     function where( $IN = NULL ) {
@@ -277,7 +268,11 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                     }
                     
                     if ( ! empty( $clause ) ) {
-                        $clauses[ ] = $clause;
+                        if ( CRM_Utils_Array::value( 'group', $field ) ) {
+                            $clauses[ ] = $this->whereGroupClause( $clause );
+                        } else {
+                            $clauses[ ] = $clause;
+                        }
                     }
                 }
             }
