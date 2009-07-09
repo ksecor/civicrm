@@ -115,44 +115,44 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->_fields = 
             array(
                   'subject'                  =>  array( 'type'        => 'text',
-                                                        'label'       => 'Subject',
+                                                        'label'       => ts('Subject'),
                                                         'attributes'  => CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
                                                                                                     'subject' ),
                                                         ),
                   'activity_date_time'      =>  array( 'type'        => 'date',
-                                                       'label'       => 'Date and Time',
+                                                       'label'       => ts('Date and Time'),
                                                        'attributes'  => 
                                                        CRM_Core_SelectValues::date('activityDatetime'),
                                                        'required'    => true,
                                                        ),
                   'duration'                 =>  array( 'type'        => 'text',
-                                                        'label'       => 'Duration',
+                                                        'label'       => ts('Duration'),
                                                         'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
                                                         'required'    => false,
                                                         ),
                   
                   'location'                 =>  array( 'type'       => 'text',
-                                                        'label'      => 'Location',
+                                                        'label'      => ts('Location'),
                                                         'attributes' => 
                                                         CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
                                                                                    'location' ),
                                                         'required'   => false,
                                                         ),
                   'details'                  => array(  'type'       => 'textarea',
-                                                        'label'      => 'Details',
+                                                        'label'      => ts('Details'),
                                                         'attributes' => 
                                                         CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
                                                                                    'details' ),
                                                         'required'   => false, 
                                                         ),
                   'status_id'                 =>  array( 'type'       => 'select',
-                                                         'label'      => 'Status',
+                                                         'label'      => ts('Status'),
                                                          'attributes' => 
                                                          CRM_Core_PseudoConstant::activityStatus( ),
                                                          'required'   => true, 
                                                          ),
                   'source_contact_id'         =>  array( 'type'       => 'text',
-                                                         'label'      => 'Added By',
+                                                         'label'      => ts('Added By'),
                                                          'attributes' => 
                                                          array('dojoType'=> 'civicrm.FilteringSelect',
                                                                'mode'    => 'remote',
@@ -161,8 +161,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                          'required'   => false,
                                                          ),
                   'followup_activity_type_id' =>  array( 'type'       => 'select',
-                                                         'label'      => 'Followup Activity',
-                                                         'attributes' => array('' => '- select activity -') +
+                                                         'label'      => ts('Followup Activity'),
+                                                         'attributes' => array( '' => ts('- select activity -') ) +
                                                          CRM_Core_PseudoConstant::ActivityType( false ),
                                                          ),
                   'interval'                  =>  array( 'type'       => 'text',
@@ -179,7 +179,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                          ),
                   // Add optional 'Subject' field for the Follow-up Activiity, CRM-4491
                   'followup_activity_subject' =>  array( 'type'       => 'text',
-                                                         'label'      => 'Subject',
+                                                         'label'      => ts('Subject'),
                                                          'attributes' => CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
                                                                                                     'subject' ),
                                                          ),
@@ -549,7 +549,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
         
-        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
+        $this->addRule('interval', ts('Please enter the follow-up interval as a number (integers only).'), 
                        'positiveInteger');  
         
         // add a dojo facility for searching contacts
@@ -692,12 +692,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         if ( CRM_Utils_Array::value( 'followup_activity_type_id', $fields ) && !CRM_Utils_Array::value( 'interval', $fields ) ) {
-            $errors['interval'] = ts('Interval is required field.');
+            $errors['interval'] = ts('Interval is a required field.');
         }
         //Activity type is mandatory if subject is specified for an Follow-up activity, CRM-4515
         if ( CRM_Utils_Array::value( 'followup_activity_subject',$fields ) && 
              ! CRM_Utils_Array::value( 'followup_activity_type_id', $fields ) ) {
-            $errors['followup_activity_subject'] = ts('Follow-up Activity type is required field.');
+            $errors['followup_activity_subject'] = ts('Follow-up Activity type is a required field.');
         } 
         return $errors;
     }
@@ -791,7 +791,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         // set status message
-        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved. %2.', 
+        CRM_Core_Session::setStatus( ts('Activity %1 has been saved. %2.', 
                                         array( 1 => $params['subject'],
                                                2 => $followupStatus ) ) );
 
