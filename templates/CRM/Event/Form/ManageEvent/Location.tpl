@@ -95,7 +95,7 @@ cj(document).ready(function() {
               displayMessage( false );
             }
           } else {
-            document.getElementById( i ).value = data[i];
+            cj('#'+i).val(data[i]);
           }
         }
       }

@@ -74,13 +74,11 @@ class CRM_Core_BAO_Block
             if ( empty($blockIds)) {
                 return $blocks;
             }
-            $count = 1;
-            foreach( $blockIds[1] as $blockId ) {
+            foreach( $blockIds as $blockId ) {
                 eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
                 $block->id = $blockId['id'];
                 $getBlocks = self::retrieveBlock( $block, $blockName );
-                $blocks[$block->location_type_id][$count] =  $getBlocks[$block->location_type_id][1];
-                $count++;
+                $blocks[$block->location_type_id]=  $getBlocks[$block->location_type_id];
             }
         }
         
