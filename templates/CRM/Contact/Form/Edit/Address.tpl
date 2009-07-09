@@ -119,9 +119,14 @@
 <script type="text/javascript">
 cj(document).ready( function() { 
     //shared household default setting
-	var householdId = "{/literal}{$mailToHouseholdID}{literal}";
-	if ( cj('#use_household_address').is(':checked') || householdId) {
-		var dataUrl = "{/literal}{crmURL p='civicrm/ajax/search' h=0 q="hh=1&id=" }{literal}" + householdId ;
+	if ( cj('#use_household_address').is(':checked') ) {
+    	cj('table#address').hide(); 
+        cj('#share_household').show(); 
+    }
+{/literal}
+{if $mailToHouseholdID}
+{literal}
+		var dataUrl = "{/literal}{crmURL p='civicrm/ajax/search' h=0 q="hh=1&id=$mailToHouseholdID"}{literal}";
 		cj.ajax({ 
             url     : dataUrl,   
             async   : false,
@@ -131,9 +136,9 @@ cj(document).ready( function() {
                         cj('input#shared_household').val(htmlText[0]);
                     }
                 });
-		cj('table#address').hide(); 
-        cj('#share_household').show(); 
-	}
+{/literal}
+{/if}
+{literal}
 	//event handler for use_household_address check box
 	cj('#use_household_address').click( function() { 
 		cj('#share_household').toggle( );
@@ -150,7 +155,7 @@ cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : fals
                                               }).result( function(event, data, formatted) { 
                                                     if( isNaN( data[1] ) ){
                                                         cj( "span#show_address" ).html( 'New Household Record'); 
-                                                        cj( "#shared_household_id" ).val( '' );
+                                                        cj( "#shared_household_id" ).val( data[0] );
                                                         cj( 'table#address' ).toggle( ); 
                                                     } else {
                                                         cj( 'table#address' ).hide( ); 

@@ -112,7 +112,7 @@
                                 {if $item.email}
                                 <tr>
                                     <td class="label">{ts}Email{/ts}</td>
-                                    <td><span class={if $item.is_primary eq 1}"primary" {else if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email"{/if}><a href="mailto:{$item.email}">{$item.email}</a>{if $item.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
+                                    <td><span class={if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email" {else if $item.is_primary eq 1}"primary"{/if}><a href="mailto:{$item.email}">{$item.email}</a>{if $item.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
                                 </tr>
                                 {/if}
                             {/foreach}

@@ -19,9 +19,11 @@
                {include file="CRM/Contact/Form/Edit/$block.tpl"}
             {/foreach}
             <tr class="last-row">
+            {if $form.home_URL}
               <td>{$form.home_URL.label}<br />
                   {$form.home_URL.html}
               </td>
+            {/if}
               <td>{$form.contact_source.label}<br />
                   {$form.contact_source.html}
               </td>

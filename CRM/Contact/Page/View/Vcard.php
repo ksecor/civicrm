@@ -85,26 +85,26 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
         if ( CRM_Utils_Array::value( 'birth_date', $defaults )) $vcard->setBirthday( $defaults['birth_date'] );
         if ( CRM_Utils_Array::value( 'home_URL'  , $defaults )) $vcard->setURL($defaults['home_URL'] );
         // TODO: $vcard->setGeo($lat, $lon);
-        
-        foreach ( $defaults['address'] as $location ) {
-            // we don't keep PO boxes in separate fields
-            $pob = '';
-            $extend = CRM_Utils_Array::value( 'supplemental_address_1', $location );
-            if ( CRM_Utils_Array::value( 'supplemental_address_2', $location ) ) 
-                $extend .= ', ' . $location['supplemental_address_2'];
-            $street   = CRM_Utils_Array::value( 'street_address' , $location );
-            $locality = CRM_Utils_Array::value( 'city'           , $location );
-            $region   = CRM_Utils_Array::value( 'state_province' , $location );
-            $postcode = CRM_Utils_Array::value( 'postal_code'    , $location );
-            if ( CRM_Utils_Array::value( 'postal_code_suffix', $location )) 
-                $postcode .= '-' . $location['postal_code_suffix'];
-        
-            $vcard->addAddress($pob, $extend, $street, $locality, $region, $postcode, $country);
-            $vcardName = $vcardNames[$location['location_type_id']];
-            if( $vcardName ) $vcard->addParam('TYPE', $vcardName );  
-            if ( CRM_Utils_Array::value( 'is_primary', $location ) ) $vcard->addParam('TYPE', 'PREF');
-        }
-        
+        if ( CRM_Utils_Array::value( 'address', $defaults ) ) {
+            foreach ( $defaults['address'] as $location ) {
+                // we don't keep PO boxes in separate fields
+                $pob = '';
+                $extend = CRM_Utils_Array::value( 'supplemental_address_1', $location );
+                if ( CRM_Utils_Array::value( 'supplemental_address_2', $location ) ) 
+                    $extend .= ', ' . $location['supplemental_address_2'];
+                $street   = CRM_Utils_Array::value( 'street_address' , $location );
+                $locality = CRM_Utils_Array::value( 'city'           , $location );
+                $region   = CRM_Utils_Array::value( 'state_province' , $location );
+                $postcode = CRM_Utils_Array::value( 'postal_code'    , $location );
+                if ( CRM_Utils_Array::value( 'postal_code_suffix', $location )) 
+                    $postcode .= '-' . $location['postal_code_suffix'];
+            
+                $vcard->addAddress($pob, $extend, $street, $locality, $region, $postcode, $country);
+                $vcardName = $vcardNames[$location['location_type_id']];
+                if( $vcardName ) $vcard->addParam('TYPE', $vcardName );  
+                if ( CRM_Utils_Array::value( 'is_primary', $location ) ) $vcard->addParam('TYPE', 'PREF');
+            }
+        }        
         if ( CRM_Utils_Array::value( 'phone', $defaults ) ) {
             foreach ($defaults['phone'] as $phone) {
                 $vcard->addTelephone($phone['phone']);

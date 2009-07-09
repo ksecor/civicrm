@@ -136,11 +136,13 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
                             ); 
         
         foreach( $communicationType as $key => $value ) {
-            foreach( $defaults[$key] as &$val ) {
-                CRM_Utils_Array::lookupValue( $val, 'location_type', CRM_Core_PseudoConstant::locationType(), false );
-                if ( !CRM_Utils_Array::value( 'skip', $value ) ) {
-                    eval( '$pseudoConst = CRM_Core_PseudoConstant::'.$value['type'].'( );' );
-                    CRM_Utils_Array::lookupValue( $val, $value['id'], $pseudoConst, false );
+            if ( CRM_Utils_Array::value( $key, $defaults ) ) {
+                foreach( $defaults[$key] as &$val ) {
+                    CRM_Utils_Array::lookupValue( $val, 'location_type', CRM_Core_PseudoConstant::locationType(), false );
+                    if ( !CRM_Utils_Array::value( 'skip', $value ) ) {
+                        eval( '$pseudoConst = CRM_Core_PseudoConstant::'.$value['type'].'( );' );
+                        CRM_Utils_Array::lookupValue( $val, $value['id'], $pseudoConst, false );
+                    }
                 }
             }
         }
