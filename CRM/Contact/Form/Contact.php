@@ -471,16 +471,22 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             foreach ( $instances as $instance ) {
                 if ( $instance == 1 ) {
                     $this->assign( "addBlock", false );
-                    $this->assign( "blockId", $instance );
-                    $this->set( $blockName."_Block_Count", $instance );
-                    eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' );
                 } else {
                     //we are going to build other block instances w/ AJAX
                     $generateAjaxRequest++;
                     $ajaxRequestBlocks[$blockName][$instance] = true;
                 }
+                
+                $this->assign( "blockId", $instance );
+                $this->set( $blockName."_Block_Count", $instance );
+                eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' );
             }
         }
+        
+        //assign to generate AJAX request for building extra blocks.
+        $this->assign( 'generateAjaxRequest', $generateAjaxRequest );
+        $this->assign( 'ajaxRequestBlocks',   $ajaxRequestBlocks   );
+        
         //check contact type and build filter clause accordingly for addressee, CRM-4575
         $filterVal = 'v.filter =';
         switch( $this->_contactType ) {
@@ -505,10 +511,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->addElement('text', 'addressee_custom', ts('Custom Addressee'), 
                               CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'addressee_custom' ));
         }
-        
-        //assign to generate AJAX request for building extra blocks.
-        $this->assign( 'generateAjaxRequest', $generateAjaxRequest );
-        $this->assign( 'ajaxRequestBlocks',   $ajaxRequestBlocks   );
         
         // add the dedupe button
         $this->addElement('submit', 

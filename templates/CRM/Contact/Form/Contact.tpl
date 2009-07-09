@@ -90,9 +90,12 @@ function buildAdditionalBlocks( blockName, contactType ) {
 
   var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + currentBlockCount;
 	
-  {/literal}{if $action eq 2}
+  {/literal}
+  {if $action eq 2}
   dataUrl += "&action=update&cid={$entityID}";
-  {/if}{literal}
+  {/if}
+  dataUrl += "&qfKey={$qfKey}";
+  {literal}
    
   blockId = (cj('#' + blockName + '_Block_'+ previousBlockCount ).html()) ? previousBlockCount : 1;  
   var fname = '#' + blockName + '_Block_'+ blockId;
