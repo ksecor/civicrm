@@ -84,9 +84,11 @@ class CRM_Contact_Form_Edit_Organization
 			array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
     }
 
-    static function formRule( &$fields ,&$files, $options = null ) {
+    static function formRule( &$fields ,&$files, $contactId = null ) {
        
         $errors = array( );
+        
+        $primaryID = CRM_Contact_Form_Contact::formRule( $fields, $errors, $contactId );
         
         // make sure that organization name is set
         if (! CRM_Utils_Array::value( 'organization_name', $fields ) ) {

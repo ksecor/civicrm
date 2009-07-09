@@ -96,9 +96,11 @@ class CRM_Contact_Form_Edit_Household
      * @static
      * @public
      */
-    static function formRule( &$fields ,&$files, $options) 
+    static function formRule( &$fields ,&$files, $contactId = null ) 
     {
         $errors = array( );
+        
+        $primaryID = CRM_Contact_Form_Contact::formRule( $fields, $errors, $contactId );
         
         // make sure that household name is set
         if (! CRM_Utils_Array::value( 'household_name', $fields ) ) {

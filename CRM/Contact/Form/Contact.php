@@ -354,26 +354,26 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $openIds = array( );
         $primaryID = false;
         foreach ( $blocks as $name => $label ) {
-            $dataExists = $isPrimary = false;
+            $dataExists = $isPrimary = 0;
             $name = strtolower( $name );
             if ( is_array( $fields[$name] ) ) {
                 foreach ( $fields[$name] as $instance => $blockValues ) {
-                    $dataExists = self::blockDataExists( $blockValues );
+                    $dataExists += self::blockDataExists( $blockValues );
                     if ( !$dataExists && $name == 'address' &&  $instance == 1 ) {
                         $dataExists = CRM_Utils_Array::value( 'use_household_address', $fields );
                     }
                     
                     if ( CRM_Utils_Array::value( 'is_primary', $blockValues ) ) {
-                        if ( $isPrimary ) {
+                        $isPrimary++;
+                        if ( $isPrimary > 1 ) {
                             $errors["{$name}[$instance][is_primary]"] = ts('Only one %1 can be marked as primary.', 
-                                                                         array( 1 => ucfirst( $name ) ) );
+                                                                           array( 1 => $label ) );
                         }
-                        $isPrimary = true;
                     }
                     
                     if ( $dataExists && !CRM_Utils_Array::value( 'location_type_id', $blockValues ) ) {
                         $errors["{$name}[$instance][location_type_id]"] = 
-                            ts('The Location Type should be set if there is  %1 information.', array( 1=> ucfirst( $name ) ) );
+                            ts('The Location Type should be set if there is  %1 information.', array( 1=> $label ) );
                     }
                     
                     if ( $isPrimary && !$primaryID 
@@ -387,13 +387,13 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                         $oid->openid = $openIds[$instance] = CRM_Utils_Array::value( $name, $blockValues );
                         $cid = isset($contactId) ? $contactId : 0;
                         if ( $oid->find(true) && ($oid->contact_id != $cid) ) {
-                            $errors["{$name}[$instance][openid]"] = ts('openid already exist.');
+                            $errors["{$name}[$instance][openid]"] = ts('%1 already exist.', array( 1 => $blocks['OpenID'] ) );
                         }
                     }
                 }
                 
                 if ( $dataExists && !$isPrimary ) {
-                    $errors["{$name}[1][is_primary]"] = ts('One %1 should be marked as primary.', array( 1 => ucfirst( $name ) ) );
+                    $errors["{$name}[1][is_primary]"] = ts('One %1 should be marked as primary.', array( 1 => $label ) );
                 }
             }
         }
@@ -402,7 +402,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         if ( !empty( $openIds ) && ( count( array_unique($openIds) ) != count($openIds) ) ) {
             foreach ( $openIds as $instance => $value ) {
                 if ( !array_key_exists( $instance, array_unique($openIds) ) ) {
-                    $errors["openid[$instance][openid]"] = ts('openid already used.');
+                    $errors["openid[$instance][openid]"] = ts('%1 already used.', array( 1 => $blocks['OpenID'] ) );
                 }
             }
         }
@@ -806,6 +806,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $skipField = false;
             foreach ( $skipFields as $skip ) {
                 if ( strpos( "[$skip]", $name ) !== false ) {
+                    if($name == 'phone') continue;
                     $skipField = true;
                     break;
                 }
