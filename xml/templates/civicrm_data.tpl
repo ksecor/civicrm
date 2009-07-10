@@ -1013,7 +1013,7 @@ INSERT INTO civicrm_navigation
 
 ( 97, 'civicrm/admin/mapping?reset=1', '{ts escape="sql"}Import/Export Mappings{/ts}', 'Import/Export Mappings', NULL, '', '80', '1', NULL, 3 ), 
 ( 98, 'civicrm/admin/messageTemplates?reset=1', '{ts escape="sql"}Message Templates{/ts}', 'Message Templates', NULL, '', '80', '1', NULL, 4 ), 
-( 99, 'civicrm/contact/domain?action=update&reset=1', '{ts escape="sql"}Domain Information{/ts}', 'Domain Information', NULL, '', '80', '1', NULL, 5 ), 
+( 99, 'civicrm/admin/domain?action=update&reset=1', '{ts escape="sql"}Domain Information{/ts}', 'Domain Information', NULL, '', '80', '1', NULL, 5 ), 
 ( 100, 'civicrm/admin/options/from_email_address?group=from_email_address&reset=1', '{ts escape="sql"}FROM Email Addresses{/ts}', 'FROM Email Addresses', NULL, '', '80', '1', NULL, 6 ), 
 ( 101, 'civicrm/admin/setting/updateConfigBackend?reset=1', '{ts escape="sql"}Update Directory Path and URL{/ts}', 'Update Directory Path and URL', NULL, '', '80', '1', NULL, 7 ), 
 

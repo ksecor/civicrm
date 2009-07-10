@@ -176,7 +176,7 @@
      <weight>260</weight>
   </item>
   <item>
-     <path>civicrm/contact/domain</path>
+     <path>civicrm/admin/domain</path>
      <title>Domain Information</title>
      <desc>Configure primary contact name, email, return-path and address information. This information is used by CiviMail to identify the sending organization.</desc>
      <path_arguments>action=update</path_arguments>
