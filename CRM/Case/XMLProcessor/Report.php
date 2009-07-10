@@ -74,13 +74,15 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
     
     function &caseInfo( $clientID,
                         $caseID ) {
+        
+        require_once "CRM/Case/PseudoConstant.php";
         $case = $this->_redactionRegexRules = array();
+        
         if ( empty($this->_redactionStringRules)){
             $this->_redactionStringRules = array();
         }
 
         if ( $this->_isRedact == 1 ) {
-            require_once "CRM/Case/PseudoConstant.php";
             foreach ( array('redactionStringRules', 'redactionRegexRules' ) as $key => $rule ) {
                 $$rule = CRM_Case_PseudoConstant::redactionRule($key);
                  
@@ -132,6 +134,9 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
                                     $dao->case_type_id );
             $case['caseType'] = CRM_Core_OptionGroup::getLabel( 'case_type',
                                                                 $caseTypeID );
+
+            $caseTypeName = CRM_Case_PseudoConstant::caseTypeName( $caseID );
+            $case['caseTypeName'] = $caseTypeName['name'];
             $case['status'] = CRM_Core_OptionGroup::getLabel( 'case_status',
                                                               $dao->status_id );
         }
@@ -585,7 +590,7 @@ LIMIT  1
             $template->assign( 'includeActivities', 'Missing activities only' );
         }
 		
-        $xml = $form->retrieve( $case['caseType'] );
+        $xml = $form->retrieve( $case['caseTypeName'] );
 
         require_once ('CRM/Case/XMLProcessor/Process.php');
         $activitySetNames = CRM_Case_XMLProcessor_Process::activitySets( $xml->ActivitySets );

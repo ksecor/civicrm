@@ -212,9 +212,10 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
         if ( !$caseId ) {
             return false;
         }
-        
+
+        require_once('CRM/Case/BAO/Case.php');
         if ( ! array_key_exists($caseId, self::$caseTypePair) ) {
-            $caseTypes    = self::caseType();
+            $caseTypes    = self::caseType( 'name' );
             $caseTypeIds  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
                                                          $caseId,
                                                          'case_type_id' );

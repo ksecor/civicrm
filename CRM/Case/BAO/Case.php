@@ -438,6 +438,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   civicrm_contact.contact_type as contact_type,
                   civicrm_activity.activity_type_id,
                   cov_type.label as case_type,
+                  cov_type.name as case_type_name,
                   cov_status.label as case_status,
                   cov_status.label as case_status_name,
                   civicrm_activity.status_id,
@@ -573,6 +574,7 @@ AND civicrm_case.is_deleted     = 0";
                                'sort_name',
                                'case_id',
                                'case_type',
+                               'case_type_name',
                                'status_id',
                                'case_status',
                                'case_status_name',
@@ -626,7 +628,7 @@ AND civicrm_case.is_deleted     = 0";
                 }
             }
             //CRM-4510.
-            $caseManagerContact = self::getCaseManagerContact( $result->case_type, $result->case_id );
+            $caseManagerContact = self::getCaseManagerContact( $result->case_type_name, $result->case_id );
             if ( !empty($caseManagerContact) ) {
                 $casesList[$result->case_id]['casemanager_id'] = CRM_Utils_Array::value('casemanager_id', $caseManagerContact );
                 $casesList[$result->case_id]['casemanager'   ] = CRM_Utils_Array::value('casemanager'   , $caseManagerContact );              
