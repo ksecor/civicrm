@@ -67,55 +67,39 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
             return null;
         }
         
-        if ( $entity ) {
-            //format the params accord to new format. ie. we create all
-            //email at one time, then move to another block element.
-            
-            //$formattedBlocks = array( );
-			//self::formatParams( $params, $formattedBlocks, $entity );
-              
-            //create location block elements
-            foreach ( self::$blocks as $block ) {
-                $name = ucfirst( $block );
-                if ( $block != 'address' ) {
-                //fixme
-				//eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $formattedBlocks, $entity );');
-                eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $params, $entity );');
-                } else {
-                //$location[$block] = CRM_Core_BAO_Address::create( $formattedBlocks, $fixAddress, $entity );
-                $location[$block] = CRM_Core_BAO_Address::create( $params, $fixAddress, $entity );
+        //FIXME : createProfileContact( );
+        //this might be case when call from create profile contact.
+        //get primary location type id
+        $primaryLocTypeId = null;
+        foreach ( self::$blocks as $block ) {
+            if ( !is_array( $params[$block] ) ) continue;
+            foreach ( $params[$block] as $blockCount => &$values ) {
+                if ( $values['location_type_id'] == 'primary' ) {
+                    if ( !$primaryLocTypeId ) {
+                        $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
+                        $primaryLocTypeId = $defaultLocation->id;
+                    }
+                    $values['location_type_id'] = $primaryLocTypeId;
                 }
             }
+        }
+        
+        //create location block elements
+        foreach ( self::$blocks as $block ) {
+            $name = ucfirst( $block );
+            if ( $block != 'address' ) {
+                eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $params, $entity );');
+            } else {
+                $location[$block] = CRM_Core_BAO_Address::create( $params, $fixAddress, $entity );
+            }
+        }
+        
+        if ( $entity ) {
             // this is a special case for adding values in location block table
             $entityElements = array( 'entity_table' => $params['entity_table'],
                                      'entity_id'    => $params['entity_id']);
             
             $location['id'] = self::createLocBlock ( $location, $entityElements );
-        } else {
-            //get primary location type id
-            $primaryLocTypeId = null;
-            foreach ( self::$blocks as $block ) {
-                if ( !is_array( $params[$block] ) ) continue;
-                foreach ( $params[$block] as $blockCount => &$values ) {
-                    if ( $values['location_type_id'] == 'primary' ) {
-                        if ( !$primaryLocTypeId ) {
-                            $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
-                            $primaryLocTypeId = $defaultLocation->id;
-                        }
-                        $values['location_type_id'] = $primaryLocTypeId;
-                    }
-                }
-            }
-            
-            //create location block elements
-            foreach ( self::$blocks as $block ) {
-                $name = ucfirst( $block );
-                if ( $block != 'address' ) {
-                    eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $params, $entity );');
-                } else {
-                    $location[$block] = CRM_Core_BAO_Address::create( $params, $fixAddress, $entity );
-                }
-            }
         }
         
         return $location;
@@ -271,47 +255,47 @@ WHERE e.id = %1";
         return $dataExists;
     }
 
-    /**
-     * Function formats the submitted array in new format so that we
-     * can create all same block element in one go
-     *
-     * @param array  $params           (reference ) an assoc array of name/value pairs
-     * @param array  $formattedBlocks  (reference ) formatted array of blocks 
-     *
-     * @access public
-     * @static
-     */
-    static function formatParams( &$params, &$formattedBlocks, $entity = null ) 
-    {
-        foreach ( $params['location'] as $key => $value ) {
-            // fix location type id if set to Primary
-            // this enables us to skip resolving this during block rendering time
-            if ( isset( $params['location'][$key]['location_type_id'] ) &&
-                 strtolower( $params['location'][$key]['location_type_id'] ) == 'primary' ) {
-                $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
-                $params['location'][$key]['location_type_id'] = $defaultLocation->id;
-            }
+//     /**
+//      * Function formats the submitted array in new format so that we
+//      * can create all same block element in one go
+//      *
+//      * @param array  $params           (reference ) an assoc array of name/value pairs
+//      * @param array  $formattedBlocks  (reference ) formatted array of blocks 
+//      *
+//      * @access public
+//      * @static
+//      */
+//     static function formatParams( &$params, &$formattedBlocks, $entity = null ) 
+//     {
+//         foreach ( $params['location'] as $key => $value ) {
+//             // fix location type id if set to Primary
+//             // this enables us to skip resolving this during block rendering time
+//             if ( isset( $params['location'][$key]['location_type_id'] ) &&
+//                  strtolower( $params['location'][$key]['location_type_id'] ) == 'primary' ) {
+//                 $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
+//                 $params['location'][$key]['location_type_id'] = $defaultLocation->id;
+//             }
             
-            foreach ( self::$blocks as $block ) {
-                if ( CRM_Utils_Array::value( $block, $value ) ) {
-                    $formattedBlocks[$block][$key]                     = CRM_Utils_Array::value( $block,
-                                                                                                 $value );
-                    $formattedBlocks[$block][$key]['location_type_id'] = CRM_Utils_Array::value( 'location_type_id',
-                                                                                                 $value );
-                    $formattedBlocks[$block][$key]['is_primary'      ] = CRM_Utils_Array::value( 'is_primary',
-                                                                                                 $value );
-                    $formattedBlocks[$block][$key]['is_billing'      ] = CRM_Utils_Array::value( 'is_billing',
-                                                                                                 $value );
-                    if ( !$entity ) {
-                        $formattedBlocks[$block]['contact_id'        ] = $params['contact_id'     ];
-                    } else {
-                        $formattedBlocks['entity_table']       = $params['entity_table'   ];
-                        $formattedBlocks['entity_id']          = $params['entity_id'   ];
-                    }
-                }
-            }
-        }
-    }
+//             foreach ( self::$blocks as $block ) {
+//                 if ( CRM_Utils_Array::value( $block, $value ) ) {
+//                     $formattedBlocks[$block][$key]                     = CRM_Utils_Array::value( $block,
+//                                                                                                  $value );
+//                     $formattedBlocks[$block][$key]['location_type_id'] = CRM_Utils_Array::value( 'location_type_id',
+//                                                                                                  $value );
+//                     $formattedBlocks[$block][$key]['is_primary'      ] = CRM_Utils_Array::value( 'is_primary',
+//                                                                                                  $value );
+//                     $formattedBlocks[$block][$key]['is_billing'      ] = CRM_Utils_Array::value( 'is_billing',
+//                                                                                                  $value );
+//                     if ( !$entity ) {
+//                         $formattedBlocks[$block]['contact_id'        ] = $params['contact_id'     ];
+//                     } else {
+//                         $formattedBlocks['entity_table']       = $params['entity_table'   ];
+//                         $formattedBlocks['entity_id']          = $params['entity_id'   ];
+//                     }
+//                 }
+//             }
+//         }
+//     }
     
     /**
      * Given the list of params in the params array, fetch the object
@@ -324,15 +308,13 @@ WHERE e.id = %1";
      * @access public
      * @static
      */
-    static function &getValues( $entityBlock, &$values, $microformat = false ) 
+    static function &getValues( $entityBlock, $microformat = false ) 
     {  
-       $values = array();
         //get all the blocks for this contact
         foreach ( self::$blocks as $block ) {
             $name = ucfirst( $block );
-            eval( '$blocks[$block] = CRM_Core_BAO_' . $name . '::getValues( $entityBlock, $values );');
+            eval( '$blocks[$block] = CRM_Core_BAO_' . $name . '::getValues( $entityBlock, $microformat );');
         }
-        $values = array_merge( $values, $blocks ); 
         return $blocks;
         
 
@@ -444,9 +426,8 @@ WHERE e.id = %1";
         $contactId = CRM_Utils_Array::value( 'contact_id', $params );
         
         // get existing locations
-        $deleteBlocks  = $defaults = array( );
-        $entityBlock   = array( 'contact_id' => $contactId );
-        $dbBlockValues = self::getValues( $entityBlock, $defaults );
+        $deleteBlocks  = array( );
+        $dbBlockValues = self::getValues( array( 'contact_id' => $contactId ) );
         
         foreach ( self::$blocks as $block ) {
             if ( !is_array( $dbBlockValues[$block] ) ) continue;

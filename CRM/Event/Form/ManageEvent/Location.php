@@ -93,7 +93,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         if ( isset( $eventId ) ) {
             $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $defaults);
+            $defaults = CRM_Core_BAO_Location::getValues( $params );
             
             $params = array( 'id' => $eventId );
             CRM_Event_BAO_Event::retrieve( $params, $defaults );
