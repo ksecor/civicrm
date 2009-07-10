@@ -92,7 +92,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         
         if ( isset( $this->_id ) ) {
             $params['id'] = $this->_id ;
-            CRM_Core_BAO_Domain::retrieve( $params, $defaults );
+            CRM_Core_BAO_Domain::retrieve( $params, $domainDefaults );
             
             //get the default domain from email address. fix CRM-3552
             require_once 'CRM/Utils/Mail.php';
@@ -103,8 +103,8 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
             foreach ( $optionValues as $Id => $value ) {
                 if ( $value['is_default'] && $value['is_active'] ) {
                     $this->_fromEmailId        = $Id;
-                    $defaults['email_name']    = CRM_Utils_Array::value( 1, explode('"', $value['label'] ) );
-                    $defaults['email_address'] = CRM_Utils_Mail::pluckEmailFromHeader( $value['label'] );
+                    $domainDefaults['email_name']    = CRM_Utils_Array::value( 1, explode('"', $value['label'] ) );
+                    $domainDefaults['email_address'] = CRM_Utils_Mail::pluckEmailFromHeader( $value['label'] );
                     break;
                 }
             }
@@ -128,6 +128,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
                 }
             }
         }
+		$defaults = array_merge ( $defaults, $domainDefaults );
         return $defaults;
     }
     
@@ -241,6 +242,9 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         
         $location = array();
         $params['address'][1]['location_type_id'] = $defaultLocationType->id;
+        $params['phone'][1]['location_type_id'] = $defaultLocationType->id;
+        $params['email'][1]['location_type_id'] = $defaultLocationType->id;
+		
         $location = CRM_Core_BAO_Location::create($params, true, 'domain');
         
         $params['loc_block_id'] = $location['id'];

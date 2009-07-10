@@ -71,16 +71,19 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
             //format the params accord to new format. ie. we create all
             //email at one time, then move to another block element.
             
-            $formattedBlocks = array( );
-            self::formatParams( $params, $formattedBlocks, $entity );
+            //$formattedBlocks = array( );
+			//self::formatParams( $params, $formattedBlocks, $entity );
               
             //create location block elements
             foreach ( self::$blocks as $block ) {
                 $name = ucfirst( $block );
                 if ( $block != 'address' ) {
-                    eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $formattedBlocks, $entity );');
+                //fixme
+				//eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $formattedBlocks, $entity );');
+                eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $params, $entity );');
                 } else {
-                $location[$block] = CRM_Core_BAO_Address::create( $formattedBlocks, $fixAddress, $entity );
+                //$location[$block] = CRM_Core_BAO_Address::create( $formattedBlocks, $fixAddress, $entity );
+                $location[$block] = CRM_Core_BAO_Address::create( $params, $fixAddress, $entity );
                 }
             }
             // this is a special case for adding values in location block table
@@ -323,6 +326,7 @@ WHERE e.id = %1";
      */
     static function &getValues( $entityBlock, &$values, $microformat = false ) 
     {  
+       $values = array();
         //get all the blocks for this contact
         foreach ( self::$blocks as $block ) {
             $name = ucfirst( $block );
