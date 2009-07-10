@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Report/Form.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
 
@@ -45,6 +46,8 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
     
     function __construct( ) {
         
+        self::validRelationships();
+        
         $this->_columns = 
             array(
                   'civicrm_contact_organization' =>
@@ -53,16 +56,17 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                          array( 
                                'organization_name'=> 
                                array ('title'    => ts( 'Organization Name' ),
-                                      'required' =>true ),
+                                      'required' => true ),
                                'id'=>
                                array( 'no_display' => true,
                                       'required'   => true, )
-                               ),
+                                ),
                          'filters' =>   
                          array(
                                'organization_name' => 
                                array ('title'      => ts( 'Organization Name' )),
-                               )
+                               ),
+                         'grouping' => 'organization-fields',
                          ),
                   
                   'civicrm_relationship' =>
@@ -72,7 +76,18 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                                'relationship_type_id' => 
                                array ('title'    => ts( 'Relationship Type' ),
                                       'required' => true ),
-                               ),
+                                ),
+                         'filters'        =>
+                         array( 'relationship_type_id' => 
+                                array( 
+                                      'title'        => ts( 'Relationship Type' ),
+                                      'type'         => CRM_Utils_Type::T_INT,
+                                      'operatorType' => CRM_Report_Form::OP_SELECT,
+                                      'options'      => $this->relationTypes,
+                                      'default'      => array( 1 ),
+                                       ), 
+                                ), 
+                         'grouping' => 'organization-fields',
                          ),
                   
                   'civicrm_contact'      =>
@@ -85,13 +100,6 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                                 'id'           => 
                                 array( 'no_display' => true,
                                        'required'   => true, ), ),
-                         'filters' =>             
-                         array('sort_name'    => 
-                               array( 'title'      => ts( 'Contact Name' ),
-                                      'operator'   => 'like' ),
-                               'id'    => 
-                               array( 'title'      => ts( 'Contact ID' ),
-                                      'no_display' => true ), ),
                          'grouping'=> 'contact-fields',
                          ),
                   
@@ -99,9 +107,9 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                   array( 'dao'     => 'CRM_Contribute_DAO_Contribution',
                          'fields'  =>
                          array( 'total_amount'  => array( 'title'      => ts( 'Amount' ),
-                                                          'required'   => true,
-                                                          'statistics' => 
-                                                          array('sum'  => ts( 'Amount' )), ),
+                                                          'required'   => true, ),
+                                'contribution_status_id' =>  array( 'title'   => 'Contribution Status', 
+                                                                    'default' => true, ),
                                 'trxn_id'       => null,
                                 'receive_date'  => array( 'default' => true ),
                                 'receipt_date'  => null,
@@ -111,6 +119,12 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                                 array('operatorType' =>   CRM_Report_Form::OP_DATE ), 
                                 'total_amount' => 
                                 array( 'title'      => ts( 'Amount Between' ) ),
+                                'contribution_status_id' => 
+                                array( 'title'        => ts( 'Contribution Status' ), 
+                                       'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                       'options'      => CRM_Contribute_PseudoConstant::contributionStatus( ),
+                                       'default'      => array( 1 ),
+                                       ),
                                 ),
                          'grouping'=> 'contri-fields',
                          ),
@@ -135,19 +149,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                          array( 'email' => null),
                          'grouping' => 'contact-fields',
                          ),
-	      
-                  'civicrm_group' => 
-                  array( 'dao'     => 'CRM_Contact_DAO_Group',
-                         'alias'   => 'cgroup',
-                         'filters' =>             
-                         array( 'gid' => 
-                                 array( 'name'    => 'id',
-                                        'title'   => ts( 'Group' ),
-                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) 
-                                        ), ), ),
                   );
-        
         
         parent::__construct( );
     }
@@ -156,74 +158,8 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    // Create temperaory table which store organization relatioship
-    // data with contribution
-    function tempTable ( ) {
-
-        //define table name
-        $randomNum = md5( uniqid( ) );
-        $this->_tableName = "temp_report_{$randomNum}";
-        
-        $sql =  " 
-        CREATE  TEMPORARY TABLE report_{$this->_tableName} ( id int PRIMARY KEY AUTO_INCREMENT, rel_id int, 
-                                                             org_contact_id int, rel_contact_id int, 
-                                                             rel_type VARCHAR(255), contribution_id int ) ENGINE=HEAP ";
-        
-        CRM_Core_DAO::executeQuery($sql, CRM_Core_DAO::$_nullArray);
-        
-        //get contacts and relationship when contact_b is organization
-        $query_a=" 
-        SELECT relationship.id as rel_id, relationship.contact_id_b, relationship.contact_id_a, 
-               relation_types.name_b_a,   contribution.id as contribution_id 
-        FROM   civicrm_relationship relationship, civicrm_contact contact,
-               civicrm_contribution contribution, civicrm_relationship_type relation_types 
-        WHERE  contribution.contact_id    = relationship.contact_id_a 
-               AND contact.id             = relationship.contact_id_b
-               AND contact.contact_type   = 'Organization' 
-               AND relationship.is_active = 1
-               AND relation_types.id      = relationship.relationship_type_id
-       ORDER BY relationship.contact_id_b, relationship.contact_id_a, contribution.id ";
-        
-        $result_a = CRM_Core_DAO::executeQuery( $query_a, CRM_Core_DAO::$_nullArray );
-        $count    = 0;
-        while ( $result_a->fetch() ) {
-            $count++;
-            $distanceQuery = "
-            INSERT INTO report_{$this->_tableName} values( $count,
-                                                  $result_a->rel_id,$result_a->contact_id_b,$result_a->contact_id_a,
-                                                  '$result_a->name_b_a',$result_a->contribution_id)";
-            
-            CRM_Core_DAO::executeQuery( $distanceQuery, CRM_Core_DAO::$_nullArray );
-        }
-        
-        //get contacts and relationship when contact_a is organization
-        $query_b=" 
-        SELECT relationship.id as rel_id, relationship.contact_id_a,
-               relationship.contact_id_b, relation_types.name_a_b, contribution.id as contribution_id
-        FROM  civicrm_relationship relationship, civicrm_contact contact,
-              civicrm_contribution contribution, civicrm_relationship_type relation_types 
-        WHERE contribution.contact_id  = relationship.contact_id_b 
-            AND contact.id             = relationship.contact_id_a
-            AND contact.contact_type   = 'Organization' 
-            AND relationship.is_active = 1 
-            AND relation_types.id      = relationship.relationship_type_id
-        ORDER BY relationship.contact_id_a, relationship.contact_id_b, contribution.id ";
-        
-        $result_b = CRM_Core_DAO::executeQuery( $query_b, CRM_Core_DAO::$_nullArray );
-        while ( $result_b->fetch() ) {
-            $count++;
-            $query_insert="
-            INSERT INTO report_{$this->_tableName} values( $count, $result_b->rel_id, 
-                                                           $result_b->contact_id_a, $result_b->contact_id_b,
-                                                           '$result_b->name_a_b', $result_b->contribution_id ) ";
-            CRM_Core_DAO::executeQuery( $query_insert, CRM_Core_DAO::$_nullArray );	
-        }
-    }
-
     function select( ) {
-        $this->_columnHeaders = $select = array( );   
-        $select[] ="report.rel_type";
-        
+        $this->_columnHeaders = $select = array( );
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('fields', $table) ) {
                 foreach ( $table['fields'] as $fieldName => $field ) {
@@ -252,41 +188,33 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                 }
             }
         }
-        
         $this->_select = "SELECT " . implode( ', ', $select ) . " ";
+        
     }
     
     function from( ) {
+        
         $this->_from = null;
-      
         $this->_from = "
-        FROM  report_{$this->_tableName} report  
-            LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact_organization']} ON 
-                      ({$this->_aliases['civicrm_contact_organization']}.id = report.org_contact_id)
+        FROM  civicrm_relationship relationship 
+            LEFT  JOIN civicrm_contact {$this->_aliases['civicrm_contact_organization']} ON 
+                      ({$this->_aliases['civicrm_contact_organization']}.id = relationship.$this->orgContact AND {$this->_aliases['civicrm_contact_organization']}.contact_type='Organization')
             LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} ON 
-                      ({$this->_aliases['civicrm_contact']}.id = report.rel_contact_id )
-            LEFT JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON
-                      ({$this->_aliases['civicrm_contribution']}.id = report.contribution_id )
-            LEFT JOIN civicrm_relationship {$this->_aliases['civicrm_relationship']} ON
-                      ({$this->_aliases['civicrm_relationship']}.id = report.rel_id)  
-            LEFT JOIN civicrm_group_contact group_contact  ON 
-                      report.rel_contact_id = group_contact.contact_id  AND group_contact.status='Added'
-            LEFT JOIN civicrm_group {$this->_aliases['civicrm_group']} ON   
-                      group_contact.group_id = {$this->_aliases['civicrm_group']}.id ";
-
-        if ( $this->_addressField ) {
+                      ({$this->_aliases['civicrm_contact']}.id = relationship.$this->otherContact )           INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON
+                      ({$this->_aliases['civicrm_contribution']}.contact_id = relationship.$this->otherContact )";
+        
+        if( $this->_addressField ) {
             $this->_from .= " 
-            LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} ON 
+            LEFT JOIN civicrm_address  {$this->_aliases['civicrm_address']} ON 
                       {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
-                      {$this->_aliases['civicrm_address']}.is_primary = 1\n ";
+                      {$this->_aliases['civicrm_address']}.is_primary = 1\n ";  
         }
-       
         if ( $this->_emailField ) {
             $this->_from .= "
             LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} ON 
                       {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id AND 
                       {$this->_aliases['civicrm_email']}.is_primary = 1\n ";
-	    }
+        }
     }
     
     function where( ) {
@@ -304,12 +232,16 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                     } else {
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         if ( $op ) {
-                            $clause = 
-                                $this->whereClause( $field,
-                                                    $op,
-                                                    CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                            if( $fieldName == 'relationship_type_id' ) {
+                                $clause =  "relationship.relationship_type_id=".$this->relationshipId;
+                            } else {
+                                $clause = 
+                                    $this->whereClause( $field,
+                                                        $op,
+                                                        CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
+                                                        CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                        CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                            }
                         }
                     }
                     
@@ -319,7 +251,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                 }
             }
         }
-
+        
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 )";
         } else {
@@ -329,65 +261,101 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
     
     
     function groupBy( ) {
-        $this->_groupBy = " GROUP BY report.org_contact_id, report.rel_contact_id, contribution.id, report.rel_type ";
+        $this->_groupBy = " GROUP BY relationship.$this->orgContact, relationship.$this->otherContact , contribution.id, relationship.relationship_type_id ";
     }
-
-    function postProcess( ) {
-
-        $this->tempTable( );
-	
-        $this->beginPostProcess( );
-        $sql  = $this->buildQuery( true );
-	
-        $dao  = CRM_Core_DAO::executeQuery( $sql );
-        $rows = array( );
-	
-        $this->_columnHeaders['rel_type'] = null;
-        while ( $dao->fetch( ) ) {
-            $row = array( );
-            //assign null value to rel_type : refere it in alterDispaly function
-            foreach ( $this->_columnHeaders as $key => $value ) {
-                $row[$key] = $dao->$key;
-            }
-            $rows[] = $row;
-        }
-	
-        $this->formatDisplay( $rows );
-        unset($this->_columnHeaders['rel_type']);
+    
+    function statistics( &$rows ) {
+        $statistics = parent::statistics( $rows );
         
+        //hack filter display for relationship type
+        $type  = substr ( $this->_params['relationship_type_id_value'], -3 );
+        foreach( $statistics['filters'] as $id => $value ) {
+            if( $value['title'] == 'Relationship Type') {
+                $statistics['filters'][$id]['value'] = 'Is equal to '.$this->relationTypes[$this->relationshipId . '_' . $type];  
+            }
+        }
+        return $statistics;
+    }
+    
+    function postProcess( ) {
+        
+        $this->beginPostProcess( );
+        $getRelationship = $this->_params['relationship_type_id_value'];
+        $type  = substr( $getRelationship , -3 );
+        $this->relationshipId = intval( ( substr($getRelationship, 0, strpos($getRelationship, '_' ) ) ) );
+        if( $type == 'b_a') {
+            $this->orgContact   = 'contact_id_b';  
+            $this->otherContact = 'contact_id_a';
+        } else {
+            $this->orgContact   = 'contact_id_a';
+            $this->otherContact = 'contact_id_b';
+        }
+        
+        $sql  = $this->buildQuery( true );
+        $rows = array( );
+        
+        $this->buildRows( $sql, $rows ); 
+        $this->formatDisplay( $rows );
         $this->doTemplateAssignment( $rows );
-        $this->endPostProcess( );
+        $this->endPostProcess( $rows );
     }
 
+    function validRelationships( ) {
+        require_once("api/v2/Relationship.php");
+        $this->relationTypes = $relationTypes = array( );
+        
+        $params = array( 'contact_type_b' => 'Organization' );
+        $typesA =& civicrm_relationship_types_get( $params );
+        foreach( $typesA as $rel) {
+            $relationTypes[ $rel['id'] ][ $rel['id'].'_b_a' ] = $rel['label_b_a'];
+            //$this->relationTypes[$rel['id'].'_b_a'] = $rel['label_b_a'];
+        }
+        
+        $params = array( 'contact_type_a' => 'Organization' );
+        $typesB =& civicrm_relationship_types_get( $params );
+        foreach( $typesB as $rel) {
+            $relationTypes[ $rel['id'] ][ $rel['id'].'_a_b' ] = $rel['label_a_b'];
+            //$this->relationTypes[$rel['id'].'_a_b'] = $rel['label_a_b'];
+        }
+        
+        ksort( $relationTypes );
+        foreach( $relationTypes as $relationship ) {
+            foreach( $relationship as $index => $label ){
+                $this->relationTypes[$index] = $label;  
+            }
+        }
+    }
+    
     function alterDisplay( &$rows ) {
         // custom code to alter rows
+        $type = substr ( $this->_params['relationship_type_id_value'], -3) ;
+        
         $entryFound = false;
-      	$flag_org   = $flag_contact = 0;
+      	$flagOrganization = $flagContact = 0;
         
         foreach ( $rows as $rowNum => $row ) {
             
             //replace retionship id by relationship name 
-            if ( array_key_exists('rel_type', $row ) ) {
-                if ( $value = $row['rel_type'] ) {
-                    $rows[$rowNum]['civicrm_relationship_relationship_type_id'] = $value;
-                    unset($rows[$rowNum]['rel_type']);
+            if ( array_key_exists('civicrm_relationship_relationship_type_id', $row ) ) {
+                if ( $value = $row['civicrm_relationship_relationship_type_id'] ) {
+                    $rows[$rowNum]['civicrm_relationship_relationship_type_id'] = $this->relationTypes[$value.'_'.$type];
                     $entryFound = true;
                 }
             }
-	  
+            
             //remove duplicate Organization names
             if ( array_key_exists('civicrm_contact_organization_organization_name', $row) ) {
                 if ( $value = $row['civicrm_contact_organization_organization_name'] ) {
                     if( $rowNum == 0 ) {
-                        $privious_org = $value;
+                        $priviousOrganization = $value;
                     } else {
-                        if(  $privious_org == $value) {
-                            $flag_org     = 1;
-                            $privious_org = $value;
-                        } else { $flag_org=0;$privious_org=$value; }
+                        if(  $priviousOrganization == $value) {
+                            $flagOrganization     = 1;
+                            $priviousOrganization = $value;
+                        } else { $flagOrganization = 0; $priviousOrganization = $value; }
                     }
                     
-                    if(  $flag_org == 1 ) {
+                    if(  $flagOrganization == 1 ) {
                         $rows[$rowNum]['civicrm_contact_organization_organization_name'] = "";          
                     } else {
                         $url = CRM_Utils_System::url( 'civicrm/contact/view', 
@@ -403,23 +371,30 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_id', $row) ) {
                 if ( $value = $row['civicrm_contact_id'] ) {
                     if ( $rowNum == 0 ) {
-                        $privious_contact= $value;
+                        $priviousContact= $value;
                     } else {
-                        if( $privious_contact == $value ) {
-                            $flag_contact     = 1;
-                            $privious_contact = $value;
+                        if( $priviousContact == $value ) {
+                            $flagContact     = 1;
+                            $priviousContact = $value;
                         } else { 
-                            $flag_contact     = 0;
-                            $privious_contact = $value;
+                            $flagContact     = 0;
+                            $priviousContact = $value;
                         }
                     }
                     
-                    if( $flag_contact == 1 && $flag_org == 1 ) {
+                    if( $flagContact == 1 && $flagOrganization == 1 ) {
                         $rows[$rowNum]['civicrm_contact_display_name']              = "";   
                         $rows[$rowNum]['civicrm_relationship_relationship_type_id'] = "";        
                     }
                     
                     $entryFound = true;
+                }
+            }
+            
+            if ( array_key_exists('civicrm_contribution_contribution_status_id', $row) ) {
+                if ( $value = $row['civicrm_contribution_contribution_status_id'] ) { 
+                    $rows[$rowNum]['civicrm_contribution_contribution_status_id'] =
+                        CRM_Contribute_PseudoConstant::contributionStatus( $value );
                 }
             }
             
@@ -446,8 +421,8 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
-                                                          'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'], 
-                                              $this->_absoluteUrl, $this->_id );
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'], 
+                                                            $this->_absoluteUrl, $this->_id );
                 $rows[$rowNum]['civicrm_contact_display_name_link'] = $url;
                 
                 $entryFound = true;
