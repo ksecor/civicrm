@@ -112,15 +112,14 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
             unset($params['id']);
             $locParams = $params + array('entity_id' => $this->_id, 'entity_table' => 'civicrm_domain');
             require_once 'CRM/Core/BAO/Location.php';
-            CRM_Core_BAO_Location::getValues( $locParams, $defaults);
+            $defaults = CRM_Core_BAO_Location::getValues( $locParams );
 
-
-            if ( ! empty ( $defaults['location'] ) ) {
+            if ( ! empty ( $defaults['address'] ) ) {
                 $config = CRM_Core_Config::singleton( );
-                foreach ( $defaults['location'] as $key => $value ) {
-                    CRM_Contact_Form_Address::fixStateSelect( $this,
-                                                              "location[$key][address][country_id]",
-                                                              "location[$key][address][state_province_id]",
+                foreach ( $defaults['address'] as $key => $value ) {
+                    CRM_Contact_Form_Edit_Address::fixStateSelect( $this,
+                                                              "address[$key][country_id]",
+                                                              "address[$key][state_province_id]",
                                                               CRM_Utils_Array::value( 'country_id',
                                                                                       CRM_Utils_Array::value( 'address',
                                                                                                               $value ),

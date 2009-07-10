@@ -10,12 +10,14 @@
   <table class="form-layout-compressed">
 	{if !$defaultLocation}
      <tr>
+	 {if $contactType}
         <td colspan="2">
            {$form.address.$blockId.location_type_id.label}
            {$form.address.$blockId.location_type_id.html}
            {$form.address.$blockId.is_primary.html}
            {$form.address.$blockId.is_billing.html}
         </td>
+	 {/if}
         {if $blockId gt 1}
             <td>
                 <a href="#" title={ts}Remove{/ts} onClick="removeBlock( 'Address', '{$blockId}' ); return false;">{ts}remove{/ts}</a>
