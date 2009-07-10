@@ -312,13 +312,18 @@ class CRM_Contact_Form_Individual {
         }
         //if email/postal greeting type is 'Customized' 
         //then Custom greeting field must have a value. CRM-4575
-        if( CRM_Utils_Array::value('email_greeting_id',$fields) == 4 && 
-            !CRM_Utils_Array::value('email_greeting_custom',$fields) ) {
-            $errors['email_greeting_custom'] = ts('Custom  Email Greeting is a required field if Email Greeting is of type Customized.');
-        }
-        if( CRM_Utils_Array::value('postal_greeting_id',$fields) == 4 && 
-            !CRM_Utils_Array::value('postal_greeting_custom',$fields) ) {
-            $errors['postal_greeting_custom'] = ts('Custom  Postal Greeting is a required field if Postal Greeting is of type Customized.');
+        $fieldId = null;
+        $fieldValue = null;
+        $elements = array( 'email_greeting'  => 'email_greeting_custom', 
+                           'postal_greeting' => 'postal_greeting_custom' ); 
+        foreach ( $elements as $field => $customField ) {
+            $fieldId = $field."_id";
+            $fieldValue = CRM_Core_OptionGroup::getValue( $field, 'Customized', 'name' ); 
+            if( CRM_Utils_Array::value( $fieldId, $fields ) == $fieldValue && 
+                ! CRM_Utils_Array::value( $customField, $fields ) ) {
+                $errors[$customField] = ts( 'Custom  %1 is a required field if %1 is of type Customized.', 
+                                            array( 1 => ucwords(str_replace('_'," ", $field) ) ) );
+            }
         }
         return empty($errors) ? true : $errors;
     }
