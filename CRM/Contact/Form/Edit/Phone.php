@@ -36,7 +36,7 @@
 /**
  * form helper class for a phone object 
  */
-class CRM_Contact_Form_Phone 
+class CRM_Contact_Form_Edit_Phone 
 {
     /**
      * build the form elements for a phone object
@@ -50,35 +50,42 @@ class CRM_Contact_Form_Phone
      * @access public
      * @static
      */
-    static function buildPhoneBlock( &$form, &$location, $locationId, $count, $phoneType = null ) {
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        for ($i = 1; $i <= $count; $i++) {
-            $label = ($i == 1) ? ts('Phone (preferred)') : ts('Phone');
-
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", ts('another phone'), ts('hide this phone'));
-            
-            if ( ! $phoneType ) {
-                $phoneType = CRM_Core_PseudoConstant::phoneType( );
-            }
-            
-            $location[$locationId]['phone'][$i]['phone_type_id'] = $form->addElement('select',
-                                                                                  "location[$locationId][phone][$i][phone_type_id]",
-                                                                                  $label,
-                                                                                  array('' =>  ts('- select -'))+$phoneType,
-                                                                                  null
-                                                                                  );
-
-            $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text',
-                                                                                  "location[$locationId][phone][$i][phone]", 
-                                                                                  $label,
-                                                                                  CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
-                                                                                                        'phone'));
-
-            // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number
-//             $form->addRule( "location[$locationId][phone][$i][phone]", ts('Phone number is not valid.'), 'phone' );
+    static function buildQuickForm( &$form ) {
+        
+        //FIXME : &$location, $locationId, $count, $phoneType = null
+        
+        $blockId = ( $form->get( 'Phone_Block_Count' ) ) ? $form->get( 'Phone_Block_Count' ) : 1;
+        
+        //FIXME :
+        $phoneType = null;
+        if ( !$phoneType ) {
+            $phoneType = CRM_Core_PseudoConstant::phoneType( );
         }
+        
+        // only add hidden element when processing first block 
+        // for remaining blocks we'll calculate at run time w/ jQuery. 
+        if ( $blockId == 1 ) {
+            $form->addElement( 'hidden', 'hidden_Phone_Instances', $blockId, array( 'id' => 'hidden_Phone_Instances') );
+        }
+        
+        //phone type select
+        $form->addElement('select', "phone[$blockId][phone_type_id]", ts('Phone'), $phoneType, null );
+        
+		//phone box
+		$form->addElement('text', "phone[$blockId][phone]", ts('Phone'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone', 'phone'));
+		
+		if( isset( $form->_contactType ) ) {
+			//Block type select
+			$form->addElement('select',"phone[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+			
+			//is_Primary radio
+			$js = array( 'id' => "Phone_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Phone",'. $blockId . ', "IsPrimary" );');
+			$choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+			$form->addGroup( $choice, "phone[$blockId][is_primary]" );
+		}              
+        // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number
+        // $form->addRule( "location[$locationId][phone][$locationId][phone]", ts('Phone number is not valid.'), 'phone' );
     }
-
 }
 
 

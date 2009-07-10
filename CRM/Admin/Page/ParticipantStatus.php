@@ -62,14 +62,18 @@ class CRM_Admin_Page_ParticipantStatus extends CRM_Core_Page_Basic
                 ),
                 CRM_Core_Action::DISABLE => array(
                     'name'  => ts('Disable'),
-                    'url'   => 'civicrm/admin/participant_status',
-                    'qs'    => 'action=disable&id=%%id%%',
+                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 
+                               'CRM_Event_BAO_ParticipantStatusType' . '\',\'' . 
+                               'enable-disable' . '\' );"',
+                    'ref'   => 'disable-action',
                     'title' => ts('Disable Status'),
                 ),
                 CRM_Core_Action::ENABLE => array(
                     'name'  => ts('Enable'),
-                    'url'   => 'civicrm/admin/participant_status',
-                    'qs'    => 'action=enable&id=%%id%%',
+                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 
+                               'CRM_Event_BAO_ParticipantStatusType'  . '\',\'' . 
+                               'disable-enable' . '\' );"',
+                    'ref'   => 'enable-action',
                     'title' => ts('Enable Status'),
                 ),
             );

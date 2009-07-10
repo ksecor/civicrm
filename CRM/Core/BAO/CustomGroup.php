@@ -195,6 +195,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
      * @access public
      */
     static function setIsActive($id, $is_active) {
+         require_once 'CRM/Core/BAO/UFField.php';
+        if($is_active){
+            //CRM_Core_BAO_UFField::setUFFieldStatus($id, $is_active);
+        } else {
+            CRM_Core_BAO_UFField::setUFFieldStatus($id, $is_active);
+        }
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomGroup', $id, 'is_active', $is_active );
     }
 

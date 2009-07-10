@@ -35,11 +35,11 @@
 
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/SelectValues.php';
-require_once 'CRM/Contact/Form/Phone.php';
-require_once 'CRM/Contact/Form/Email.php';
-require_once 'CRM/Contact/Form/IM.php';
-require_once 'CRM/Contact/Form/OpenID.php';
-require_once 'CRM/Contact/Form/Address.php';
+require_once 'CRM/Contact/Form/Edit/Phone.php';
+require_once 'CRM/Contact/Form/Edit/Email.php';
+require_once 'CRM/Contact/Form/Edit/IM.php';
+require_once 'CRM/Contact/Form/Edit/OpenID.php';
+require_once 'CRM/Contact/Form/Edit/Address.php';
 
 class CRM_Contact_Form_Location extends CRM_Core_Form
 {
@@ -74,26 +74,26 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
             if ( $locationType ) {
                 $location[$locationId]['location_type_id'] =& $form->addElement('select',
-                                                                                "location[$locationId][location_type_id]",
+                                                                                "address[$locationId][location_type_id]",
                                                                                 null,
                                                                                 array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
                 
                 $location[$locationId]['is_primary']       =& $form->addElement(
                                                                                 'checkbox', 
-                                                                                "location[$locationId][is_primary]", 
+                                                                                "address[$locationId][is_primary]", 
                                                                                 ts('Primary location for this contact'),  
                                                                                 ts('Primary location for this contact'), 
                                                                                 array('onchange' => "location_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks, 'is_primary');" ) );
 
                 $location[$locationId]['is_billing']       =& $form->addElement(
                                                                                 'checkbox', 
-                                                                                "location[$locationId][is_billing]", 
+                                                                                "address[$locationId][is_billing]", 
                                                                                 ts('Billing location for this contact'),  
                                                                                 ts('Billing location for this contact'), 
                                                                                 array('onchange' => "location_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks, 'is_billing');" ) );
             }
             
-            CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId );
+            CRM_Contact_Form_Edit_Address::buildQuickForm( $form );
             
             require_once 'CRM/Core/ShowHideBlocks.php';
             CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '' );
@@ -103,14 +103,14 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             }
             
             if ( ! $locationCompoments ) {
-                CRM_Contact_Form_Phone::buildPhoneBlock   ($form, $location, $locationId, self::BLOCKS); 
-                CRM_Contact_Form_Email::buildEmailBlock   ($form, $location, $locationId, self::BLOCKS); 
-                CRM_Contact_Form_IM::buildIMBlock         ($form, $location, $locationId, self::BLOCKS); 
-                CRM_Contact_Form_OpenID::buildOpenIDBlock ($form, $location, $locationId, self::BLOCKS);
+                CRM_Contact_Form_Edit_Phone::buildQuickForm( $form ); 
+                CRM_Contact_Form_Edit_Email::buildQuickForm( $form ); 
+                CRM_Contact_Form_Edit_IM::buildQuickForm( $form ); 
+                CRM_Contact_Form_Edit_OpenID::buildQuickForm( $form );
             } else {
                 $blockCount = $maxLocationBlocks;
                 foreach ( $locationCompoments as $key) {
-                    eval('CRM_Contact_Form_' . $key . '::build' . $key . 'Block( $form ,$location , $locationId , $blockCount );');
+                    eval('CRM_Contact_Form_Edit_' . $key . '::buildQuickForm( $form );');
                 }
             }
             

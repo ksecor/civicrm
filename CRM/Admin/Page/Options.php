@@ -155,15 +155,16 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
                                                                     ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/options/' . self::$_gName,
-                                                                    'qs'    => 'group=' . self::$_gName . '&action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
+
                                                                     'title' => ts('Disable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/options/' . self::$_gName,
-                                                                    'qs'    => 'group=' . self::$_gName . '&action=enable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
+
                                                                     'title' => ts('Enable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(

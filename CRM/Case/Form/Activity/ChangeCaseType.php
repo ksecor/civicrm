@@ -132,8 +132,9 @@ class CRM_Case_Form_Activity_ChangeCaseType
             return;
         }
 
-        $caseTypes = CRM_Case_PseudoConstant::caseType( );
-        if ( isset($caseTypes[$params['case_type_id']]) ) {
+        $caseTypes = CRM_Case_PseudoConstant::caseType( 'name' );
+        
+        if ( CRM_Utils_Array::value($params['case_type_id'], $caseTypes) ) {
             $caseType  = $caseTypes[$params['case_type_id']];
         }
         

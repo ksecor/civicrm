@@ -74,15 +74,14 @@ class CRM_Core_BAO_Block
             if ( empty($blockIds)) {
                 return $blocks;
             }
-            $count = 1;
-            foreach( $blockIds[1] as $blockId ) {
+            foreach( $blockIds as $blockId ) {
                 eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
                 $block->id = $blockId['id'];
                 $getBlocks = self::retrieveBlock( $block, $blockName );
-                $blocks[$block->location_type_id][$count] =  $getBlocks[$block->location_type_id][1];
-                $count++;
+                $blocks[$block->location_type_id]=  $getBlocks[$block->location_type_id];
             }
         }
+        
         return $blocks;
     }
     
@@ -101,36 +100,16 @@ class CRM_Core_BAO_Block
     static function retrieveBlock( &$block, $blockName ) 
     {
         // we first get the primary location due to the order by clause
-        $block->orderBy( 'is_primary desc, location_type_id desc, id asc' );
+        $block->orderBy( 'is_primary desc, id' );
         $block->find( );
         
-        $locationTypes = array( );
-        $blocks =array( );
-        $count = 1;
+        $count  = 1;
+        $blocks = array( );
         while ( $block->fetch( ) ) {
-            $values = array( );
-            CRM_Core_DAO::storeValues( $block, $values );
-            //logic to check when we should increment counter
-            if ( !empty( $locationTypes ) ) {
-                if ( array_key_exists ( $block->location_type_id, $locationTypes ) ) {
-                    $count = $locationTypes[$block->location_type_id];
-                    $count++;
-                    $locationTypes[$block->location_type_id] = $count;
-                } else {
-                    $locationTypes[$block->location_type_id]  = 1;
-                    $count = 1;
-                }
-            } else {
-                $locationTypes[$block->location_type_id]  = 1;
-                $count = 1;
-            }
-            
-            $blocks[$block->location_type_id][$count] = $values;
-            if ( $block->is_primary ) {
-                $blocks[$block->location_type_id]['is_primary'] = 1;    
-            }
+            CRM_Core_DAO::storeValues( $block, $blocks[$count] );
+            $count++; 
         }
-
+        
         return $blocks ;
     }
     
@@ -148,7 +127,7 @@ class CRM_Core_BAO_Block
     static function dataExists( $blockFields, &$params ) 
     {
         foreach ( $blockFields as $field ) {
-            if ( empty( $params[$field] ) ) {
+            if ( CRM_Utils_System::isNull( $params[$field] ) ) {
                 return false;
             }
         }
@@ -188,7 +167,7 @@ class CRM_Core_BAO_Block
      */
     static function getBlockIds ( $blockName, $contactId = null, $entityElements = null )
     {
-        $contactBlockIds = $allBlocks = array( );
+        $allBlocks = array( );
         $name = ucfirst( $blockName );
         if ( $contactId ) {
             eval ( '$allBlocks = CRM_Core_BAO_' . $name . '::all' . $name . 's( $contactId );');
@@ -196,35 +175,7 @@ class CRM_Core_BAO_Block
             eval ( '$allBlocks = CRM_Core_BAO_' . $name . '::allEntity' . $name . 's( $entityElements );');
         }
         
-        $locationCount  = 1;
-        $blockCount     = 1;
-        $locationTypes  = array( );
-        $locationBlocks = array( );
-        
-        foreach ( $allBlocks as $blocks ) {
-            //logic to check when we should increment counter
-            $locationTypeId = $blocks['locationTypeId'];
-            if ( !empty( $locationTypes ) ) {
-                if ( in_array ( $locationTypeId, $locationTypes ) ) {
-                    $locationCount = array_search( $locationTypeId, $locationTypes );
-                    $blockCount = CRM_Utils_Array::value( $locationTypeId, $locationBlocks, 1 );
-                    $blockCount++;
-                    $locationBlocks[$locationTypeId] = $blockCount;
-                } else {
-                    $locationCount++;
-                    $locationTypes[ $locationCount ] = $locationTypeId;
-                    $locationBlocks[$locationTypeId] = $blockCount = 1;
-                }
-            } else {
-                $locationTypes[$locationCount]   = $locationTypeId;
-                $locationBlocks[$locationTypeId] = $blockCount;
-            }
-            
-            $contactBlockIds[ $locationCount ][ $blockCount ] = array( 'id'               => $blocks['id'],
-                                                                       'location_type_id' => $blocks['locationTypeId'] );
-        }
-        
-        return $contactBlockIds;
+        return $allBlocks;
     }
 
     /**
@@ -244,83 +195,69 @@ class CRM_Core_BAO_Block
             return null;
         }
         
-        $name = ucfirst( $blockName );
-
-        $entityElements = array( );
-        $contactId      = null;
-        //get existing block ids if exist for this contact
-        if ( !$entity ) {
-            $contactId = $params[$blockName]['contact_id'];
-        } else {
+        $name      = ucfirst( $blockName );
+        $contactId = null;
+        $isPrimary = $isBilling   = true;
+        $entityElements = $blocks = array( );
+        
+        if ( $entity ) {
             $entityElements = array( 'entity_table' => $params['entity_table'],
-                                     'entity_id'    => $params['entity_id']);
+                                     'entity_id'    => $params['entity_id']);  
+        } else {
+            $contactId = $params['contact_id'];
         }
         
-        $blockIds      = array( );
-        $blockIds      = self::getBlockIds( $blockName, $contactId, $entityElements );
-        $isPrimary     = true;
-        $isBilling     = true;
-        $blocks        = array( );
+        //get existsing block ids.
+        $blockIds  = self::getBlockIds( $blockName, $contactId, $entityElements );
         
-        foreach ( $params[$blockName] as $value ) {
-            if ( !is_array( $value ) ) {
+        foreach ( $params[$blockName] as  $count => $value ) {
+            if ( !is_array( $value ) ) continue;
+            $contactFields = array( 'contact_id'       => $contactId,
+                                    'location_type_id' => $value['location_type_id'] );
+            
+            //check for update 
+            if ( is_array( $blockIds ) && !empty( $blockIds ) ) {
+                foreach ( $blockIds as $blockId => $blockValue ) {
+                    if ( $blockValue['locationTypeId'] == $value['location_type_id'] ) {
+                        //assigned id as first come first serve basis 
+                        $value['id'] = $blockValue['id'];
+                        unset( $blockIds[$blockId] );
+                        break;
+                    }
+                }
+            }
+            
+            $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $value );
+            
+            if ( CRM_Utils_Array::value( 'id', $value ) && !$dataExits ) {
+                //delete the existing record
+                self::blockDelete( $name, array( 'id' => $value['id'] ) ); 
+                continue;
+            } else if ( !$dataExits ) {
                 continue;
             }
             
-            $contactFields = array( );
-            $locBlockCount = 1;
-            $contactFields['contact_id'      ] = $contactId;
-            $contactFields['location_type_id'] = $value['location_type_id'];
-
-            foreach ( $value as $k => $val ) {
-                if ( !is_array( $val ) ) {
-                    continue;
-                }
-                
-                if ( !empty( $blockIds ) ) {
-                    foreach( $blockIds as $locCount => $locIds ) {
-                        foreach ( $locIds as $locKey => $locVal ) {
-                            if ( $locKey == $locBlockCount && 
-                                 $locVal['location_type_id'] == $value['location_type_id'] ) {
-                                $val['id'] = $locVal['id'];
-                            }
-                        }
-                    }
-                }
-                
-                $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
-
-                $locBlockCount++;
-                if ( isset( $val['id'] ) && !$dataExits ) {
-                    //delete the existing record
-                    self::blockDelete( $name, array( 'id' => $val['id'] ) );
-                    continue;
-                } else if ( !$dataExits ) {
-                    continue;
-                }
-                
-                if ( $isPrimary && $value['is_primary'] ) {
-                    $contactFields['is_primary'] = $value['is_primary'];
-                    $isPrimary = false;
-                } else {
-                    $contactFields['is_primary'] = false;
-                }
-                
-                if ( $isBilling && $value['is_billing'] ) {
-                    $contactFields['is_billing'] = $value['is_billing'];
-                    $isBilling = false;
-                } else {
-                    $contactFields['is_billing'] = false;
-                }
-
-                $blockFields = array_merge( $val, $contactFields );
-                eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
+            if ( $isPrimary && $value['is_primary'] ) {
+                $contactFields['is_primary'] = $value['is_primary'];
+                $isPrimary = false;
+            } else {
+                $contactFields['is_primary'] = false;
             }
+            
+            if ( $isBilling && $value['is_billing'] ) {
+                $contactFields['is_billing'] = $value['is_billing'];
+                $isBilling = false;
+            } else {
+                $contactFields['is_billing'] = false;
+            }
+            
+            $blockFields = array_merge( $value, $contactFields );
+            eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
         }
         
         return $blocks;
     }
-
+    
     /**
      * Function to delete block
      *

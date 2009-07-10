@@ -229,6 +229,7 @@ ORDER BY sort_name ";
             }
             
             if ( isset($_GET['org']) || isset($_GET['hh']) ) {
+                $json = false;
                 if ( $splitName = explode( ' :: ', $name ) ) {
                     $contactName = trim( CRM_Utils_Array::value( '0', $splitName ) );
                     $street      = trim( CRM_Utils_Array::value( '1', $splitName ) );
@@ -324,6 +325,10 @@ ORDER BY sort_name ";
                      echo $elements = "$dao->sort_name|$dao->id\n";
                     }
                 }
+                //for adding new household address
+                if( empty( $elements ) && !$json && $hh){
+                    echo CRM_Utils_Array::value( 's', $_GET )."|$";
+                }
             }
         }
 
@@ -386,19 +391,21 @@ WHERE sort_name LIKE '%$name%'";
     function enableDisable( &$config ) {
         $op        = CRM_Utils_Type::escape( $_POST['op'       ],  'String'   );
         $recordID  = CRM_Utils_Type::escape( $_POST['recordID' ],  'Positive' );
-        $recordDAO = CRM_Utils_Type::escape( $_POST['recordDAO'],  'String'   );
- 
+        $recordBAO = CRM_Utils_Type::escape( $_POST['recordBAO'],  'String'   );
+
         $isActive = null;
         if ( $op == 'disable-enable' ) {
            $isActive = true;
         } else if ( $op == 'enable-disable' ) {
            $isActive = false;
         }
-        
         $status = array( 'status' => 'record-updated-fail' );
         if ( isset( $isActive ) ) { 
-           $updated = CRM_Core_DAO::setFieldValue( $recordDAO, $recordID, 'is_active', $isActive );
-           if ( $updated ) {
+             require_once(str_replace('_', DIRECTORY_SEPARATOR, $recordBAO) . ".php");
+             $method  = 'setIsActive'; 
+             $result  = array($recordBAO,$method);
+             $updated = call_user_func_array(($result), array($recordID,$isActive));
+               if ( $updated ) {
               $status = array( 'status' => 'record-updated-success' );
            }
         }

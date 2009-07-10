@@ -780,7 +780,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $buttonName = $this->controller->getButtonName( );  
                 if ( in_array( $buttonName, 
                                array( $this->_expressButtonName, $this->_expressButtonName. '_x', $this->_expressButtonName. '_y' ) ) && 
-                     ! isset( $params['is_pay_later'] ) ) { 
+                     ! isset( $params['is_pay_later'] ) &&
+                     !$this->_allowWaitlist && !$this->_requireApproval ) { 
                     $this->set( 'contributeMode', 'express' ); 
                     
                                       

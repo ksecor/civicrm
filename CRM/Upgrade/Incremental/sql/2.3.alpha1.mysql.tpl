@@ -521,3 +521,162 @@ ALTER TABLE `civicrm_payment_processor_type`
   ADD COLUMN `payment_type` int unsigned   DEFAULT 1 COMMENT 'Payment Type: Credit or Debit';
 ALTER TABLE `civicrm_payment_processor`
   ADD COLUMN `payment_type` int unsigned   DEFAULT 1 COMMENT 'Payment Type: Credit or Debit';
+
+-- CRM-4605
+-- A. upgrade wt and val by 2
+-- B. Insert Custom data and Address as group for first two empty location 
+-- C. Update Communication Pref name  
+-- D. Swap wt and value for Comm Pref, Notes, Demographics and make sure these record has to have wt and val 3, 4, 5 in sequence.
+
+-- get option group id for contact_edit_options
+SELECT @option_group_id_ceOpt := max(id) from civicrm_option_group where name = 'contact_edit_options';
+
+-- increment all wt and val by 2 and make first two location empty.
+UPDATE civicrm_option_value SET value = value + 2, weight = weight + 2 WHERE option_group_id = @option_group_id_ceOpt;
+
+-- insert value for Custom Data and Address at first two locations.
+INSERT INTO  
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES
+   (@option_group_id_ceOpt, '{ts escape="sql"}Custom Data{/ts}',  1, 'CustomData', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
+   (@option_group_id_ceOpt, '{ts escape="sql"}Address{/ts}'   ,   2, 'Address', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL);
+
+-- update Comm pref group name.
+UPDATE civicrm_option_value SET name = 'CommunicationPreferences' WHERE option_group_id=@option_group_id_ceOpt AND name = 'CommBlock';
+
+-- 1. Communication pref.
+-- swap wt and val and make commumication pref wt and val = 3
+Update civicrm_option_value otherRecord, civicrm_option_value commPref
+SET otherRecord.value = commPref.value, otherRecord.weight = commPref.weight, commPref.value = 3,  commPref.weight=3
+WHERE  otherRecord.value = 3 AND commPref.name = 'CommunicationPreferences' AND commPref.option_group_id = @option_group_id_ceOpt AND otherRecord.option_group_id = @option_group_id_ceOpt;
+
+-- make sure comm has val and wt = 3 
+Update civicrm_option_value SET value = 3, weight = 3 WHERE name = 'CommunicationPreferences' and option_group_id = @option_group_id_ceOpt;
+
+-- 2.  Notes.
+-- swap wt and val and make notes wt and val = 4
+Update civicrm_option_value otherRecord, civicrm_option_value notes
+SET otherRecord.value = notes.value, otherRecord.weight = notes.weight, notes.value = 4,  notes.weight=4
+WHERE  otherRecord.value = 4 AND notes.name = 'Notes' AND notes.option_group_id = @option_group_id_ceOpt AND otherRecord.option_group_id = @option_group_id_ceOpt;
+
+-- make sure Notes has val and wt = 4
+Update civicrm_option_value SET value = 4, weight = 4 WHERE name = 'Notes' and option_group_id = @option_group_id_ceOpt;
+
+-- 3.  Demographics.
+-- swap wt and val and make demographics wt and val = 5
+Update civicrm_option_value otherRecord, civicrm_option_value demographics
+SET otherRecord.value = demographics.value, otherRecord.weight = demographics.weight, demographics.value = 5,  demographics.weight=5
+WHERE  otherRecord.value = 5 AND demographics.name = 'Demographics' AND demographics.option_group_id = @option_group_id_ceOpt AND otherRecord.option_group_id = @option_group_id_ceOpt;
+
+-- make sure Demoghraphics has val and wt = 5 
+Update civicrm_option_value SET value = 5, weight = 5 WHERE name = 'Demographics' and option_group_id = @option_group_id_ceOpt;
+
+-- move location blocks to contact_edit_options.
+SELECT @max_wt  := max(weight) from civicrm_option_value where option_group_id=@option_group_id_ceOpt;
+SELECT @max_val := max(weight) from civicrm_option_value where option_group_id=@option_group_id_ceOpt;
+INSERT INTO  
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES
+(@option_group_id_ceOpt, '{ts escape="sql"}Email{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Email',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+(@option_group_id_ceOpt, '{ts escape="sql"}Phone{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Phone',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+(@option_group_id_ceOpt, '{ts escape="sql"}Instant Messenger{/ts}' ,   (SELECT @max_val := @max_val+1), 'IM',      NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+(@option_group_id_ceOpt, '{ts escape="sql"}Open ID{/ts}'           ,   (SELECT @max_val := @max_val+1), 'OpenID', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL);
+
+-- remove location blocks from address_options.
+SELECT @option_group_id_adOpt := max(id) from civicrm_option_group where name = 'address_options';
+DELETE FROM civicrm_option_value where option_group_id =@option_group_id_adOpt AND name IN ( 'im', 'openid' );  
+
+-- update civicrm_preferences.contact_edit_options.
+-- ideally we should append value, but we did changed wt and values so lets reset it to default.
+UPDATE  civicrm_preferences 
+   SET  contact_edit_options = (   SELECT  CONCAT( GROUP_CONCAT('',value SEPARATOR ''), '' ) 
+                                     FROM  civicrm_option_value 
+                                    WHERE  option_group_id = @option_group_id_ceOpt 
+                                 Group by  option_group_id
+                               )
+ WHERE  is_domain = 1
+   AND  contact_id IS NULL;
+
+-- End of CRM-4605
+
+-- CRM-4575
+-- add email greeting, postal greeting and addressee fields
+ALTER TABLE `civicrm_contact` 
+ADD `email_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Email Greeting.' AFTER `suffix_id`, 
+ADD `email_greeting_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Email Greeting.' AFTER `email_greeting_id`, 
+ADD `postal_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Postal Greeting.' AFTER `email_greeting_custom`, 
+ADD `postal_greeting_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Postal greeting.' AFTER `postal_greeting_id`, 
+ADD `addressee_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Addressee.' AFTER `postal_greeting_custom`, 
+ADD `addressee_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Addressee.' 
+    AFTER `addressee_id`;
+
+
+-- add option groups email_greeting, postal_greeting, addressee
+INSERT INTO `civicrm_option_group` (`name` , `description` , `is_reserved` , `is_active`)
+VALUES 
+( 'email_greeting',  'Email Greeting Type',  0, 1),
+( 'postal_greeting', 'Postal Greeting Type', 0, 1),
+( 'addressee',       'Addressee Type',       0, 1);
+
+SELECT @og_id_emailGreeting   := max(id) FROM civicrm_option_group WHERE name = 'email_greeting';
+SELECT @og_id_postalGreeting  := max(id) FROM civicrm_option_group WHERE name = 'postal_greeting';
+SELECT @og_id_addressee       := max(id) FROM civicrm_option_group WHERE name = 'addressee';
+
+
+-- add option values for email greeting, postal greeting and addressee
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES
+{literal}
+-- email greetings.
+( @og_id_emailGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_emailGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
+( @og_id_emailGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
+
+-- postal greeting.
+( @og_id_postalGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_postalGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
+( @og_id_postalGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
+
+-- addressee.
+( @og_id_addressee, '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',          '1', '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',          NULL ,   '1', '1', '1', NULL , '0', '0', '1', NULL , NULL),
+( @og_id_addressee, '{contact.household_name}',    '2', '{contact.household_name}',    NULL ,   '2', '1', '2', NULL , '0', '0', '1', NULL , NULL),
+( @og_id_addressee, '{contact.organization_name}', '3', '{contact.organization_name}', NULL ,   '3', '1', '3', NULL , '0', '0', '1', NULL , NULL),
+( @og_id_addressee, 'Customized',                  '4', 'Customized',                  NULL , NULL , '0', '4', NULL , '0', '1', '1', NULL , NULL);
+{/literal}
+
+-- Set civicrm_contact.addressee_id to default value for the given contact type. 
+SELECT @value := value FROM civicrm_option_value 
+  INNER JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
+  WHERE civicrm_option_group.name = 'addressee' AND 
+        civicrm_option_value.filter = 1 AND 
+        civicrm_option_value.is_default = 1;
+UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Individual';
+
+SELECT @value := value FROM civicrm_option_value 
+  INNER JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
+  WHERE civicrm_option_group.name = 'addressee' AND 
+        civicrm_option_value.filter = 2 AND
+        civicrm_option_value.is_default = 1;
+UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Household';
+
+SELECT @value := value FROM civicrm_option_value 
+  INNER JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
+  WHERE civicrm_option_group.name = 'addressee' AND 
+        civicrm_option_value.filter = 3 AND
+        civicrm_option_value.is_default = 1;
+UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Organization';
+
+
+--  replace {contact.contact_name} with {contact.addressee}. in civicrm_preference.mailing_format
+{literal}
+ UPDATE civicrm_preferences 
+  SET `mailing_format` = replace(`mailing_format`, '{contact.contact_name}','{contact.addressee}');
+{/literal}
+
+-- drop column individual_name_format
+ ALTER TABLE `civicrm_preferences` DROP `individual_name_format`;

@@ -43,7 +43,7 @@ require_once 'CRM/Core/BAO/UFGroup.php';
  * a small set of static methods
  *
  */
-class CRM_Contact_Form_Individual {
+class CRM_Contact_Form_Edit_Individual {
     /**
      * This function provides the HTML form elements that are specific to the Individual Contact Type
      * 
@@ -57,7 +57,7 @@ class CRM_Contact_Form_Individual {
         //prefix
         $prefix = CRM_Core_PseudoConstant::individualPrefix( );
         if ( !empty( $prefix ) ) {
-            $form->addElement('select', 'prefix_id', ts('Prefix'), array('' => ts('- prefix -')) + $prefix );
+            $form->addElement('select', 'prefix_id', ts('Prefix'), array('' => '') + $prefix );
         }
         
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
@@ -74,7 +74,7 @@ class CRM_Contact_Form_Individual {
         // suffix
         $siffix = CRM_Core_PseudoConstant::individualSuffix( );
         if ( $siffix ) {
-            $form->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('- suffix -')) + $siffix );
+            $form->addElement('select', 'suffix_id', ts('Suffix'), array('' => '') + $siffix );
         }
         
         // nick_name
@@ -92,7 +92,7 @@ class CRM_Contact_Form_Individual {
         if ( !empty( $emailGreeting ) ) {
             $this->addElement('select', 'email_greeting_id', ts('Email Greeting'), 
                               array('' => ts('- select -')) + $emailGreeting, 
-                              array( 'onchange' => " showEmailGreeting();" ));
+                              array( 'onchange' => " showCustomized(this.id);" ));
             //email greeting custom
             $this->addElement('text', 'email_greeting_custom', ts('Custom Email Greeting'), 
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'email_greeting_custom' ),
@@ -105,125 +105,47 @@ class CRM_Contact_Form_Individual {
         if ( !empty( $postalGreeting ) ) {
             $this->addElement('select', 'postal_greeting_id', ts('Postal Greeting'), 
                               array('' => ts('- select -')) + $postalGreeting, 
-                              array( 'onchange' => " showPostalGreeting();") );
+                              array( 'onchange' => " showCustomized(this.id);") );
             //postal greeting custom
             $this->addElement('text', 'postal_greeting_custom', ts('Custom Postal Greeting'), 
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'postal_greeting_custom' ), 
                                            array( 'onfocus' => "if (!this.value) this.value='Dear'; else return false",
                                                   'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
         }
-
-        if ( $form->_showDemographics ) {
-            // radio button for gender
-            $genderOptions = array( );
-            $gender =CRM_Core_PseudoConstant::gender();
-            foreach ($gender as $key => $var) {
-                $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
-            }
-            $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
-            
-            $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
-            
-            $form->addElement('date', 'deceased_date', ts('Deceased date'), CRM_Core_SelectValues::date('birth'));
-            $form->addRule('deceased_date', ts('Select a valid date.'), 'qfBirthDate' );
-            
-            $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
-            $form->addRule('birth_date', ts('Select a valid date.'), 'qfBirthDate' );
-
-            $showCalender = true;
-            if ( CRM_Utils_Date::checkBrithDateFormat( ) ) {
-                $showCalender = false;
-            }
-            $this->assign( 'showCalender', $showCalender );
-        }
-        
-        // Declare javascript methods to be used, for use-household-address checkbox.
-        // Also set label to be used for 'select-household' combo-box.
-        $extraOnAddFlds = '';
-        $addressFlds = array('location_1_address_street_address',
-                             'location_1_address_supplemental_address_1',
-                             'location_1_address_supplemental_address_2',
-                             'location_1_address_city',
-                             'location_1_address_postal_code',
-                             'location_1_address_postal_code_suffix',
-                             'location_1_address_county_id',
-                             'location_1_address_state_province_id',
-                             'location_1_address_country_id',
-                             'location_1_address_geo_code_1',
-                             'location_1_address_geo_code_2');
-
-        foreach ( $addressFlds as $addFld ) {
-            $extraOnAddFlds = $extraOnAddFlds ? ($extraOnAddFlds . "|" . $addFld) : $addFld;
-        }
-        $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
-
-        //   $sharedOptionsExtra = array( 'onclick' => "setAddressFields();" );   
         if ( $action & CRM_Core_Action::UPDATE ) {
             $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                                $form->_contactId, 
                                                                'mail_to_household_id', 
                                                                'id' );
-            if ( isset($mailToHouseholdID) ) {
-                $sharedOptionsExtra = array( 'onclick' => "resetByValue('use_household_address','', $extraOnAddFlds, 'text', 'radio', true );" );
-            }
+            $form->assign('mailToHouseholdID',$mailToHouseholdID );  
         }
+       
+        //Shared Address Element
+        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address') );
+        $housholdDataURL = CRM_Utils_System::url( 'civicrm/ajax/search', "hh=1", false, null, false );
+        $form->assign('housholdDataURL',$housholdDataURL );
+        $form->add( 'text', 'shared_household', ts( 'Select Household' ) );
+        $form->add( 'hidden', 'shared_household_id', '', array( 'id' => 'shared_household_id' ));
         
-        if ( isset( $mailToHouseholdID ) ) {
-            $useHouseholdExtra = array( 'onclick' => "showHideHouseAddress();showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);resetByValue('use_household_address','', $extraOnAddFlds,'text', 'radio', false);setDefaultAddress();" );
-        } else {
-            $useHouseholdExtra = array( 'onclick' => "showHideAddress();showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);setDefaultAddress();" );
-        }
-              
-        // shared address element block
-        $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
-        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
-        
-        $attributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
-                                'mode'         => 'remote',
-                                'store'        => 'addressStore',
-                                'style'        => 'width:450px; border: 1px solid #cfcfcf;',
-                                'class'        => 'tundra',
-                                'pageSize'     => 10,
-                                'onchange'     => 'showSelectedAddress( "shared_household" )'
-                                );
-
-        $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "hh=1",
-                                           false, null, false );
-
-        $form->assign('dataURL',$dataURL );
-        $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
-     
-        $form->add( 'text', 'shared_household', ts( 'Select Household' ), $attributes );
-        
-        // shared address element-block Ends.
+        //Home Url Element
         $form->addElement('text', 'home_URL', ts('Website'),
                           array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
                                        array('onfocus' => "if (!this.value) this.value='http://'; else return false",
                                              'onblur'=> "if ( this.value == 'http://') this.value=''; else return false")
                                        ));
         $form->addRule('home_URL', ts('Enter a valid web location beginning with \'http://\' or \'https://\'. EXAMPLE: http://www.mysite.org/'), 'url');
-
-        $employerAttributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
-                                        'mode'         => 'remote',
-                                        'store'        => 'organizationStore',
-                                        'style'        => 'width:400px; border: 1px solid #cfcfcf;',
-                                        'class'        => 'tundra',
-                                        'pageSize'     => 10,
-                                        'onchange'     => 'showSelectedAddress("current_employer")',
-                                        
-                                        );
         
-        $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                   "org=1",
-                                                   false, null, false );
-        
+        //Current Employer Element
+        $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search', 'org=1', false, null, false );
         $form->assign('employerDataURL',$employerDataURL );
         
-        $form->addElement('text', 'current_employer', ts('Current Employer'), $employerAttributes );
-
+        $form->addElement('text', 'current_employer', ts('Current Employer'), '' );
+        $form->addElement('hidden', 'current_employer_id', '', array( 'id' => 'current_employer_id') );
         $form->addElement('text', 'contact_source', ts('Source'));
-        $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
+
+        //External Identifier Element
+        $form->add('text', 'external_identifier', ts('External Id'), 
+                   CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
 
         $form->addRule( 'external_identifier',
                         ts('External ID already exists in Database.'), 
@@ -244,40 +166,39 @@ class CRM_Contact_Form_Individual {
      * @access public
      * @static
      */
-    static function formRule( &$fields, &$files, $options ) 
+    static function formRule( &$fields, &$files, $contactId = null ) 
     {
         $errors = array( );
         //FIXME 
-        if ( CRM_Utils_Array::value( 'state_province_id', $fields['location'][1]['address'] )  == 'undefined' ) {
-            $fields['location'][1]['address']['state_province_id'] ='';
+        if ( CRM_Utils_Array::value( 'state_province_id', $fields['address'][1] )  == 'undefined' ) {
+            $fields['address'][1]['state_province_id'] ='';
         }
-        $primaryID = CRM_Contact_Form_Edit::formRule( $fields, $errors, $options );
+        $primaryID = CRM_Contact_Form_Contact::formRule( $fields, $errors, $contactId );
         
         // check for state/country mapping
-        CRM_Contact_Form_Address::formRule($fields, $errors);
-
+        require_once 'CRM/Contact/Form/Edit/Address.php';
+        CRM_Contact_Form_Edit_Address::formRule( $fields, $errors );
+        
         // make sure that firstName and lastName or a primary OpenID is set
-        if (! ( (CRM_Utils_Array::value( 'first_name', $fields ) && 
-                 CRM_Utils_Array::value( 'last_name' , $fields )    ) ||
-                ! empty( $primaryID ) ) ) {
-	 
-            $errors['_qf_default'] = ts('First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.');
+        if ( !$primaryID && ( !CRM_Utils_Array::value( 'first_name', $fields ) ||  
+                              !CRM_Utils_Array::value( 'last_name' , $fields ) ) ) {
+            $errors['_qf_default'] = ts('First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.'); 
         }
-
+        
         // if this is a forced save, ignore find duplicate rule
-        if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields ) ) {
+        if ( ! CRM_Utils_Array::value( '_qf_Contact_next_duplicate', $fields ) ) {
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
-            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy', array($options));
+            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy', array( $contactId ) );
             if ( $ids ) {
                 $viewUrls = array( );
                 $urls     = array( );
                 foreach ($ids as $id) {
                     $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                     $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
-                    '" target="_blank">' . $displayName . '</a>';
+                        '" target="_blank">' . $displayName . '</a>';
                     $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
-                    '">' . $displayName . '</a>';
+                        '">' . $displayName . '</a>';
                 }
                 $viewUrl = implode( ', ',  $viewUrls );
                 $url     = implode( ', ',  $urls );
@@ -288,7 +209,7 @@ class CRM_Contact_Form_Individual {
                 $errors['_qf_default'] .= ts('If you know the record you are creating is a duplicate, click here - %1 - to EDIT the original record instead.', array(1 => $url));
                 $errors['_qf_default'] .= '<br />';
                 $errors['_qf_default'] .= ts('If you are sure this is not a duplicate, click the Save Matching Contact button below.');
-
+                
                 // let smarty know that there are duplicates
                 $template =& CRM_Core_Smarty::singleton( );
                 $template->assign( 'isDuplicate', 1 );
@@ -299,20 +220,14 @@ class CRM_Contact_Form_Individual {
         }
         
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
-        if ( CRM_Utils_Array::value('use_household_address',$fields) ) {
-            if ( ! CRM_Utils_Array::value( 'shared_household', $fields ) ) {
-                $errors["shared_household"] = ts("Please select a household from the 'Select Household' list");
-            }
-     
-            $template =& CRM_Core_Smarty::singleton( );
-            $template->assign( 'isshareHouseholdNew', true );
-            if ( is_numeric( $fields['shared_household'] ) ) {
-                $template->assign( 'isshareHouseholdNew', false );
-            } 
+        if ( CRM_Utils_Array::value('use_household_address',$fields ) && 
+             !CRM_Utils_Array::value( 'shared_household_id', $fields ) ) {
+            $errors["shared_household"] = ts("Please select a household from the 'Select Household' list");
         }
+        
         //if email/postal greeting type is 'Customized' 
         //then Custom greeting field must have a value. CRM-4575
-        if( CRM_Utils_Array::value('email_greeting_id',$fields) == 4 && 
+        if( CRM_Utils_Array::value('email_greeting_id', $fields ) == 4 && 
             !CRM_Utils_Array::value('email_greeting_custom',$fields) ) {
             $errors['email_greeting_custom'] = ts('Custom  Email Greeting is a required field if Email Greeting is of type Customized.');
         }
@@ -320,9 +235,10 @@ class CRM_Contact_Form_Individual {
             !CRM_Utils_Array::value('postal_greeting_custom',$fields) ) {
             $errors['postal_greeting_custom'] = ts('Custom  Postal Greeting is a required field if Postal Greeting is of type Customized.');
         }
-        return empty($errors) ? true : $errors;
+        
+        return empty($errors) ? true : $errors; 
     }
-
+    
     /**
      * Function to Copy household address, if use_household_address option is checked.
      *
@@ -349,10 +265,11 @@ class CRM_Contact_Form_Individual {
  
         $addressFields = CRM_Core_DAO_Address::fields();
         foreach($addressFields as  $key =>$val ){
-            if( !CRM_Utils_Array::value( $key, $values[1]['address'] ) ){
+		   if( !CRM_Utils_Array::value( $key, $values[1]['address'] ) ){
                 $values[1]['address'][$key]="";
             }
         }
+		
         if( $values[1]['address']['country_id']=="null"){
             $values[1]['address']['country_id']=0;
         }
@@ -360,12 +277,12 @@ class CRM_Contact_Form_Individual {
             $values[1]['address']['state_province_id']=0;
         }
       
-        $params['location'][1]['address'] = $values[1]['address'];
-          
+        $params['address'][1] = $values['address'][1];
+
         // unset all the ids and unwanted fields
         $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
         foreach ( $unsetFields as $fld ) {
-            unset( $params['location'][1]['address'][$fld] );
+            unset( $params['address'][1][$fld] );
         } 
     }
     
@@ -388,14 +305,8 @@ class CRM_Contact_Form_Individual {
         } else {
             $householdParams = array();
 
-            $householdParams['location'] = $params['location'];
+            $householdParams['address']['1'] = $params['address']['1'];
           
-            unset( $householdParams['location']['2'], 
-                   $householdParams['location']['1']['phone'], 
-                   $householdParams['location']['1']['email'], 
-                   $householdParams['location']['1']['im'] ,
-                   $householdParams['location']['1']['openid']);
-
             $householdParams['household_name'] = $params['shared_household'];
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($householdParams, 'Household');
@@ -406,7 +317,7 @@ class CRM_Contact_Form_Individual {
                 //create new Household
                 $newHousehold = array ( 'contact_type'   => 'Household',
                                         'household_name' => $params['shared_household'], 
-                                        'location'       => $householdParams['location'] );
+                                        'address'        => $householdParams['address'] );
                 $houseHold   = CRM_Contact_BAO_Contact::create( $newHousehold );
                 $houseHoldId = $houseHold->id;
             } else {

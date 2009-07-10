@@ -36,7 +36,7 @@
 /**
  * This class is used to build address block
  */
-class CRM_Contact_Form_Address
+class CRM_Contact_Form_Edit_Address
 {
     /**
      * build form for address input fields 
@@ -49,17 +49,54 @@ class CRM_Contact_Form_Address
      * @access public
      * @static
      */
-    static function buildAddressBlock(&$form, &$location, $locationId, $countryDefault = null)
+    static function buildQuickForm( &$form ) 
     {
+        //, &$location, $locationId, $countryDefault = null
+        
+        $blockId    = ( $form->get( 'Address_Block_Count' ) ) ? $form->get( 'Address_Block_Count' ) : 1;
+        $maxBlocks  = ( $form->get( 'maxLocationBlocks'   ) ) ? $form->get( 'maxLocationBlocks'   ) : 1;
+        $addMoreAddress = false;
+        if ( $maxBlocks >=  $blockId + 1 ) {
+            $addMoreAddress = true;
+        }
+        $form->assign( 'addMoreAddress', $addMoreAddress ); 
+        
+        // only add hidden element when processing first block 
+        // for remaining blocks we'll calculate at run time w/ jQuery. 
+        if ( $blockId == 1 ) {
+            $form->addElement( 'hidden', 'hidden_Address_Instances', $blockId, array( 'id' => 'hidden_Address_Instances' ) );
+        }
+        
+        $form->addElement('select',
+                          "address[$blockId][location_type_id]",
+                          ts( 'Location Type' ),
+                          array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+        
+        $js = array( 'id' => "Address_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Address",'. $blockId . ', "IsPrimary" );');
+        $form->addElement(
+                          'checkbox', 
+                          "address[$blockId][is_primary]", 
+                          ts('Primary location for this contact'),  
+                          ts('Primary location for this contact'), 
+                          $js );
+        
+        $js = array( 'id' => "Address_".$blockId."_IsBilling", 'onClick' => 'singleSelect( "Address",'. $blockId . ', "IsBilling" );');
+        $form->addElement(
+                          'checkbox', 
+                          "address[$blockId][is_billing]", 
+                          ts('Billing location for this contact'),  
+                          ts('Billing location for this contact'), 
+                          $js );
+        
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
-
+        
         $config =& CRM_Core_Config::singleton( );
         if ( $countryDefault == null ) {
             $countryDefault = $config->defaultContactCountry;
         }
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
-              
+        
         $elements = array( 
                           'address_name'           => array( ts('Address Name')      ,  $attributes['address_name'], null ),
                           'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
@@ -96,11 +133,11 @@ class CRM_Contact_Form_Address
             if ( ! $select ) {
                 if ( $name == 'country_id' || $name == 'state_province_id' ) {
                     if ( $name == 'country_id' ) {
-                        $stateCountryMap[$locationId]['country'] = "location_{$locationId}_address_{$name}";
+                        $stateCountryMap[$locationId]['country'] = "address_{$blockId}_{$name}";
                         $selectOptions = array('' => ts('- select -')) + 
                             CRM_Core_PseudoConstant::country( );
                     } else {
-                        $stateCountryMap[$locationId]['state_province'] = "location_{$locationId}_address_{$name}";
+                        $stateCountryMap[$locationId]['state_province'] = "address_{$blockId}_{$name}";
                         if ( $countryDefault ) {
                             $selectOptions = array('' => ts('- select -')) +
                                 CRM_Core_PseudoConstant::stateProvinceForCountry( $countryDefault );
@@ -108,34 +145,30 @@ class CRM_Contact_Form_Address
                             $selectOptions = array( '' => ts( '- select a country -' ) );
                         }
                     }
-                    $location[$locationId]['address'][$name] =
-                        $form->addElement( 'select',
-                                           "location[$locationId][address][$name]",
-                                           $title,
-                                           $selectOptions );
+                    $form->addElement( 'select',
+                                       "address[$blockId][$name]",
+                                       $title,
+                                       $selectOptions );
                 } else {
                     if ( $name == 'address_name' ) {
                         $name = "name";
                     }
                     
-                    $location[$locationId]['address'][$name] =
-                        $form->addElement( 'text',
-                                           "location[$locationId][address][$name]",
-                                           $title,
-                                           $attributes );
+                    $form->addElement( 'text',
+                                       "address[$blockId][$name]",
+                                       $title,
+                                       $attributes );
                 }
             } else {
-                $location[$locationId]['address'][$name] =
-                    $form->addElement( 'select',
-                                       "location[$locationId][address][$name]",
-                                       $title,
-                                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
+                $form->addElement( 'select',
+                                   "address[$blockId][$name]",
+                                   $title,
+                                   array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
             }
         }
-
+        
         require_once 'CRM/Core/BAO/Address.php';
         CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
-
     }
     
     /**
@@ -149,76 +182,61 @@ class CRM_Contact_Form_Address
      * @access public
      * @static
      */
-    static function formRule(&$fields, &$errors)
+    static function formRule( &$fields, &$errors )
     {
         // check for state/county match if not report error to user.
-        for ($i=1; $i<=CRM_Contact_Form_Location::BLOCKS; $i++) {
-            if ( ! CRM_Utils_Array::value( $i, $fields['location'] ) &&
-                 ! CRM_Utils_Array::value( 'address', $fields['location'][$i] ) ) {
-                continue;
-            }
-
-            //state country validation
-            $countryId = $stateProvinceId = null;
-            if ( CRM_Utils_Array::value( 'country_id', $fields['location'][$i]['address'] ) ) {
-                $countries = CRM_Core_PseudoConstant::country( );
-                
-                $countryExists = null;
-                $countryExists = array_key_exists( CRM_Utils_Array::value( 'country_id',
-                                                                           $fields['location'][$i]['address'] ), $countries );
-                if ( $countryExists ) {
-                    $countryId =  CRM_Utils_Array::value( 'country_id', $fields['location'][$i]['address'] );
-                } else {
-                    $errors["location[$i][address][country_id]"] = ts('Enter a valid country name.');
+        if ( is_array( $fields['address'] ) ) {
+            foreach ( $fields['address'] as $instance => $addressValues ) {
+                if ( CRM_Utils_System::isNull( $addressValues ) ) {
+                    continue;
                 }
-            }
-
-            if ( CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] ) ) {
-                $stateProvinceValue = CRM_Utils_Array::value( 'state_province_id',
-                                                              $fields['location'][$i]['address'] );
+                
+                if ( $countryId = CRM_Utils_Array::value( 'country_id', $addressValues ) ) {
+                    if ( !array_key_exists( $countryId, CRM_Core_PseudoConstant::country( ) ) ) { 
+                        $countryId = null;
+                        $errors["address[$instance][country_id]"] = ts('Enter a valid country name.');
+                    }
+                } 
+                
+                if ( $stateProvinceId = CRM_Utils_Array::value( 'state_province_id', $addressValues  ) ) {
+                    // hack to skip  - type first letter(s) - for state_province
+                    // CRM-2649
+                    if ( $stateProvinceId != ts('- type first letter(s) -') ) {
+                        if ( !array_key_exists( $stateProvinceId, CRM_Core_PseudoConstant::stateProvince( false, false ) ) ) {
+                            $stateProvinceId = null;
+                            $errors["address[$instance][state_province_id]"] = "Please select a valid State/Province name.";
+                        }
+                    }
+                }
+                
+                //do check for mismatch countries 
+                if ( $stateProvinceId && $countryId ) {
+                    $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
+                    $stateProvinceDAO->id = $stateProvinceId;
+                    $stateProvinceDAO->find(true);
+                    if ( $stateProvinceDAO->country_id != $countryId ) {
+                        // countries mismatch hence display error
+                        $stateProvinces = CRM_Core_PseudoConstant::stateProvince( );
+                        $countries =& CRM_Core_PseudoConstant::country( );
+                        $errors["address[$instance][state_province_id]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+                    }
+                }
+                
+                $countyId = CRM_Utils_Array::value( 'county_id', $addressValues ); 
+                
+                //state county validation
+                if ( $stateProvinceId && $countyId ) {
+                    $countyDAO =& new CRM_Core_DAO_County();
+                    $countyDAO->id = $countyId;
+                    $countyDAO->find(true);
                     
-                // hack to skip  - type first letter(s) - for state_province
-                // CRM-2649
-                $selectOption = ts('- type first letter(s) -');
-                if ( $stateProvinceValue != $selectOption ) {
-                    $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
-                    
-                    $stateProvinceExists = null;
-                    $stateProvinceExists = array_key_exists( $stateProvinceValue, $stateProvinces );
-                    if ( $stateProvinceExists ) {
-                        $stateProvinceId = CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] );
-                    } else {
-                        $errors["location[$i][address][state_province_id]"] = "Please select a valid State/Province name.";
+                    if ( $countyDAO->state_province_id != $stateProvinceId ) {
+                        $counties =& CRM_Core_PseudoConstant::county();
+                        $errors["address[$instance][county_id]"] = "County " . $counties[$countyId] . " is not part of ". $stateProvinces[$stateProvinceId] . ". It belongs to " . $stateProvinces[$countyDAO->state_province_id] . "." ;
                     }
                 }
             }
-
-            $countyId = CRM_Utils_Array::value( 'county_id', $fields['location'][$i]['address'] );
-            
-            if ( $stateProvinceId && $countryId ) {
-                $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
-                $stateProvinceDAO->id = $stateProvinceId;
-                $stateProvinceDAO->find(true);
-                if ($stateProvinceDAO->country_id != $countryId) {
-                    // countries mismatch hence display error
-                    $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-                    $countries =& CRM_Core_PseudoConstant::country();
-                    $errors["location[$i][address][state_province_id]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
-                }
-            }
-
-            //state county validation
-            if ( $stateProvinceId && $countyId ) {
-                $countyDAO =& new CRM_Core_DAO_County();
-                $countyDAO->id = $countyId;
-                $countyDAO->find(true);
-                
-                if ($countyDAO->state_province_id != $stateProvinceId) {
-                    $counties =& CRM_Core_PseudoConstant::county();
-                    $errors["location[$i][address][county_id]"] = "County " . $counties[$countyId] . " is not part of ". $stateProvinces[$stateProvinceId] . ". It belongs to " . $stateProvinces[$countyDAO->state_province_id] . "." ;
-                }
-            }
-        }             
+        }
     }
 
     static function fixStateSelect( &$form,

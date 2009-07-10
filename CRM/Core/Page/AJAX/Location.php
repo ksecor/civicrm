@@ -127,7 +127,6 @@ class CRM_Core_Page_AJAX_Location
             $params  = array('1' => array($_POST['lbid'], 'Integer')); 
             $eventId = CRM_Core_DAO::singleValueQuery('SELECT id FROM civicrm_event WHERE loc_block_id=%1 LIMIT 1', $params);
         }
-
         // now lets use the event-id obtained above, to retrieve loc block information.  
         if ( $eventId ) {
             $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
@@ -137,8 +136,8 @@ class CRM_Core_Page_AJAX_Location
         }
 
         $result = array( );
+		require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions  = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
-        
         // lets output only required fields.
         foreach ( $addressOptions as $element => $isSet ) {
             if ( $isSet && (! in_array($element, array('im', 'openid'))) ) {
@@ -147,8 +146,8 @@ class CRM_Core_Page_AJAX_Location
                 } else if ( $element == 'address_name' ) {
                     $element = 'name' ;
                 }
-                $fld = "location[1][address][{$element}]";
-                $value = CRM_Utils_Array::value( $element, $location[1]['address'] );
+                $fld = "address[1][{$element}]";
+                $value = CRM_Utils_Array::value( $element, $location['address'][1] );
                 $value = $value ? $value : "";
                 $result[str_replace( array('][', '[', "]"), array('_', '_', ''), $fld)] = $value;
             }
@@ -157,8 +156,8 @@ class CRM_Core_Page_AJAX_Location
         foreach (array('email', 'phone_type_id', 'phone') as $element) {
             $block = ($element == 'phone_type_id') ? 'phone' : $element;
             for ( $i = 1; $i < 3; $i++ ) {
-                $fld   = "location[1][{$block}][{$i}][{$element}]";
-                $value = CRM_Utils_Array::value( $element, $location[1][$block][$i] );
+                $fld   = "{$block}[{$i}][{$element}]";
+                $value = CRM_Utils_Array::value( $element, $location[$block][$i] );
                 $value = $value ? $value : "";
                 $result[str_replace( array('][', '[', "]"), array('_', '_', ''), $fld)] = $value;
             }

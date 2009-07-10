@@ -44,7 +44,7 @@
 /**
  * form helper class for an IM object 
  */
-class CRM_Contact_Form_IM
+class CRM_Contact_Form_Edit_IM
 {
     /**
      * build the form elements for an IM object
@@ -58,33 +58,34 @@ class CRM_Contact_Form_IM
      * @access public
      * @static
      */
-    static function buildIMBlock(&$form, &$location, $locationId, $count) {
-        require_once 'CRM/Core/BAO/Preferences.php';
+    static function buildQuickForm( &$form ) {
         
-        if ( CRM_Utils_Array::value( 'im', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
-            $form->assign('showIM', true);
-            for ($i = 1; $i <= $count; $i++) {
-                
-                $label = ($i == 1) ? ts('Instant Messenger (preferred)') : ts('Instant Messenger');
-                
-                CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][im]", 
-                                                        ts('another IM'), ts('hide this IM'));
-                
-                $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select',
-                                                                                   "location[$locationId][im][$i][provider_id]",
-                                                                                   $label,
-                                                                                   array('' => ts('- select service -')) +
-                                                                                   CRM_Core_PseudoConstant::IMProvider()
-                                                                                   );
-                $location[$locationId]['im'][$i]['name'] = $form->addElement('text',
-                                                                             "location[$locationId][im][$i][name]",
-                                                                             null,
-                                                                             CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM',
-                                                                                                        'name'));
-            }
+        //FIXME : &$location, $locationId, $count 
+        
+        $blockId = ( $form->get( 'IM_Block_Count' ) ) ? $form->get( 'IM_Block_Count' ) : 1;
+        
+        // only add hidden element when processing first block 
+        // for remaining blocks we'll calculate at run time w/ jQuery. 
+        if ( $blockId == 1 ) {
+            $form->addElement( 'hidden', 'hidden_IM_Instances', $blockId, array( 'id' => 'hidden_IM_Instances') );
         }
         
-    }    
+        //IM provider select
+        $form->addElement('select', "im[$blockId][provider_id]", '',
+                          array('' => ts('- select service -')) + CRM_Core_PseudoConstant::IMProvider() );
+        
+        //Block type select
+        $form->addElement('select',"im[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+        
+        //IM box
+        $form->addElement('text', "im[$blockId][name]", ts('Instant Messenger'),
+                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM', 'name') );
+        
+        //is_Primary radio
+        $js = array( 'id' => "IM_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "IM",'. $blockId . ', "IsPrimary" );');
+        $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+        $form->addGroup( $choice, "im[$blockId][is_primary]" );
+    }
 }
 
 

@@ -69,15 +69,16 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $values['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, 
                                            CRM_Utils_Array::value( 'case_type_id' , $values ) );
 
-        $statuses  = CRM_Case_PseudoConstant::caseStatus( );
-        $caseType  = CRM_Case_PseudoConstant::caseTypeName( $this->_caseID );
+        $statuses      = CRM_Case_PseudoConstant::caseStatus( );
+        $caseTypeName  = CRM_Case_PseudoConstant::caseTypeName( $this->_caseID );
+        $caseType      = CRM_Core_OptionGroup::getLabel( 'case_type', $caseTypeName['id'] );
 
-        $this->_caseDetails = array( 'case_type'       => $caseType['name'],
+        $this->_caseDetails = array( 'case_type'       => $caseType,
                                      'case_status'     => $statuses[$values['case_status_id']],
                                      'case_subject'    => CRM_Utils_Array::value( 'subject', $values ),
                                      'case_start_date' => $values['case_start_date']
                                    );
-        $this->_caseType = $caseType['name'];
+        $this->_caseType = $caseTypeName['name'];
         $this->assign ( 'caseDetails', $this->_caseDetails );
         
         $newActivityUrl = 
@@ -99,7 +100,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $url = CRM_Utils_System::url( 'civicrm/contact/view/case', 
                "action=view&reset=1&id={$this->_caseID}&cid={$this->_contactID}" );
 
-        $title = CRM_Contact_BAO_Contact::displayName( $this->_contactID ) . ' - ' . $caseType['name'];
+        $title = CRM_Contact_BAO_Contact::displayName( $this->_contactID ) . ' - ' . $caseType;
         
         // add the recently created case
         CRM_Utils_Recent::add( $title,

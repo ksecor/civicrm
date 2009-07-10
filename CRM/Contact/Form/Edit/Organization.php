@@ -42,7 +42,7 @@ require_once 'CRM/Core/ShowHideBlocks.php';
  * a small set of static methods
  *
  */
-class CRM_Contact_Form_Organization extends CRM_Core_Form 
+class CRM_Contact_Form_Edit_Organization  
 {
     /**
      * This function provides the HTML form elements that are specific to this Contact Type
@@ -84,11 +84,11 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
 			array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
     }
 
-    static function formRule( &$fields ,&$files, $options) {
+    static function formRule( &$fields ,&$files, $contactId = null ) {
        
         $errors = array( );
         
-        $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
+        $primaryID = CRM_Contact_Form_Contact::formRule( $fields, $errors, $contactId );
         
         // make sure that organization name is set
         if (! CRM_Utils_Array::value( 'organization_name', $fields ) ) {
@@ -96,16 +96,16 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         }
         
         //code for dupe match
-        if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields )) {
+        if ( ! CRM_Utils_Array::value( '_qf_Contact_next_duplicate', $fields )) {
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Organization');
-            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Fuzzy', array($options));
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Fuzzy', array($contactId));
             $viewUrls = array( );
             $urls     = array( );
             foreach( $dupeIDs as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                 $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
-                '" target="_blank">' . $displayName . '</a>';
+                    '" target="_blank">' . $displayName . '</a>';
                 $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
                     '">' . $displayName . '</a>';
             }
@@ -125,9 +125,10 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
                 // add a session message for no matching contacts
                 CRM_Core_Session::setStatus( 'No matching contact found.' );
             }
-        } 
+        }
+        
         // add code to make sure that the uniqueness criteria is satisfied
-        return empty( $errors ) ? true : $errors;
+        return $errors;
     }
 }
 

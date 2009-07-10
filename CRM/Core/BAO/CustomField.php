@@ -286,6 +286,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      */
     static function setIsActive( $id, $is_active )
     {
+        require_once 'CRM/Core/BAO/UFField.php';
+        //enable-disable UFField 
+        CRM_Core_BAO_UFField::setUFField($id, $is_active);
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomField', $id, 'is_active', $is_active );
     }
     

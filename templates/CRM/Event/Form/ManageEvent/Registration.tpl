@@ -233,3 +233,14 @@ target_element_type ="block"
 field_type          ="radio"
 invert              = 0
 }
+
+<script type="text/javascript">
+    {literal}
+    cj("#is_multiple_registrations").change( function( ) {
+        if ( !cj(this).attr( 'checked') ) {
+            cj("#additional_custom_pre_id").val('');
+            cj("#additional_custom_post_id").val('');
+        }
+    });
+    {/literal}
+</script>

@@ -42,7 +42,7 @@ require_once 'CRM/Core/ShowHideBlocks.php';
  * a small set of static methods
  *
  */
-class CRM_Contact_Form_Household 
+class CRM_Contact_Form_Edit_Household 
 {
     /**
      * This function provides the HTML form elements that are specific to the Individual Contact Type
@@ -50,7 +50,7 @@ class CRM_Contact_Form_Household
      * @access public
      * @return None
      */
-    public function buildQuickForm( &$form ) 
+    public function buildQuickForm( &$form, $action = null ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
         
@@ -77,7 +77,7 @@ class CRM_Contact_Form_Household
         if ( !empty( $emailGreeting ) ) {
             $this->addElement('select', 'email_greeting_id', ts('Email Greeting'), 
                               array('' => ts('- select -')) + $emailGreeting, 
-                              array( 'onchange' => " showEmailGreeting();" ));
+                              array( 'onchange' => " showCustomized(this.id);" ));
             //email greeting custom
             $this->addElement('text', 'email_greeting_custom', ts('Custom Email Greeting'), 
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'email_greeting_custom' ),
@@ -96,28 +96,28 @@ class CRM_Contact_Form_Household
      * @static
      * @public
      */
-    static function formRule( &$fields ,&$files, $options) 
+    static function formRule( &$fields ,&$files, $contactId = null ) 
     {
         $errors = array( );
-
-        $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
-
+        
+        $primaryID = CRM_Contact_Form_Contact::formRule( $fields, $errors, $contactId );
+        
         // make sure that household name is set
         if (! CRM_Utils_Array::value( 'household_name', $fields ) ) {
             $errors['household_name'] = 'Household Name should be set.';
         }
         
         //code for dupe match
-        if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields )) {
+        if ( ! CRM_Utils_Array::value( '_qf_Contact_next_duplicate', $fields )) {
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Household');
-            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Household', 'Fuzzy', array($options));
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Household', 'Fuzzy', array($contactId));
             $viewUrls = array( );
             $urls     = array( );
             foreach ( $dupeIDs as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                 $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
-                '" target="_blank">' . $displayName . '</a>';
+                    '" target="_blank">' . $displayName . '</a>';
                 $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
                     '">' . $displayName . '</a>';
             }
@@ -138,13 +138,14 @@ class CRM_Contact_Form_Household
                 CRM_Core_Session::setStatus( 'No matching contact found.' );
             }
         }
+        
         //if email greeting type is 'Customized' 
         //then Custom greeting field must have a value. CRM-4575
         if ( CRM_Utils_Array::value('email_greeting_id',$fields) == 4 && 
             !CRM_Utils_Array::value('email_greeting_custom',$fields) ) {
             $errors['email_greeting_custom'] = ts('Custom  Email Greeting is a required field if Email Greeting is of type Customized.');
         }
-        return empty( $errors ) ? true : $errors;
+        return $errors;
     }
 
     /**

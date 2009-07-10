@@ -291,7 +291,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
 
         if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' && 
-             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) && ! ( $this->_params[0]['amount'] == 0 )  ) {
+             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) && ! ( $this->_params[0]['amount'] == 0 ) &&
+             !$this->_allowWaitlist && !$this->_requireApproval ) {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
@@ -675,9 +676,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                         $lineItem = array();
                         $lineItem[] = CRM_Utils_Array::value( $paticipantNum, $lineItems );
                         $this->assign( 'lineItem',$lineItem );
-                    } 
+                    }
                     $this->_values['params']['additionalParticipant'] = true;
                 }
+                
+                //pass these variables since these are run time calculated.
+                $this->_values['params']['isOnWaitlist']  = $this->_allowWaitlist;
+                $this->_values['params']['isRequireApproval'] = $this->_requireApproval;
                 
                 //send mail to primary as well as additional participants.
                 CRM_Event_BAO_Event::sendMail( $contactId, $this->_values, $participantID, $isTest );

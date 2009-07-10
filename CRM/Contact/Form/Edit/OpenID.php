@@ -34,12 +34,12 @@
  */
 
 /**
- * form helper class for an Email object
+ * form helper class for an OpenID object
  */
-class CRM_Contact_Form_Email 
+class CRM_Contact_Form_Edit_OpenID
 {
     /**
-     * build the form elements for an email object
+     * build the form elements for an open id object
      *
      * @param CRM_Core_Form $form       reference to the form object
      * @param array         $location   the location object to store all the form elements in
@@ -50,37 +50,34 @@ class CRM_Contact_Form_Email
      * @access public
      * @static
      */
-    static function buildEmailBlock(&$form, &$location, $locationId, $count) 
-    {
-        require_once 'CRM/Core/ShowHideBlocks.php';
-
-        $showBulkMailing = true;
-        //suppress Bulk Mailings (CRM-2881)
-        if ( is_object( $form ) && ($form instanceof CRM_Event_Form_ManageEvent_Location ) ) {
-            $showBulkMailing = false;
+    static function buildQuickForm( &$form ) {
+        
+        //FIXME : &$location, $locationId, $count
+        
+        $blockId = ( $form->get( 'OpenID_Block_Count' ) ) ? $form->get( 'OpenID_Block_Count' ) : 1;
+        
+        $form->addElement('text', "openid[$blockId][openid]", ts('OpenID'),
+                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_OpenID', 'openid'));
+        
+        // only add hidden element when processing first block 
+        // for remaining blocks we'll calculate at run time w/ jQuery. 
+        if ( $blockId == 1 ) {
+            $form->addElement( 'hidden', 'hidden_OpenID_Instances', $blockId, array( 'id' => 'hidden_OpenID_Instances') );  
         }
-   
-        for ($i = 1; $i <= $count; $i++) {
-            $label = ($i == 1) ? ts('Email (preferred)') : ts('Email');
-
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][email]", ts('another email'), ts('hide this email'));
-            
-            $location[$locationId]['email'][$i]['email'] = $form->addElement('text', 
-                                                                             "location[$locationId][email][$i][email]",
-                                                                             $label,
-                                                                             CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
-                                                                                                   'email'));
-            $form->addRule( "location[$locationId][email][$i][email]", ts('Email is not valid.'), 'email' );
-            
-            $location[$locationId]['email'][$i]['on_hold'] = $form->addElement('advcheckbox',
-                                                                             "location[$locationId][email][$i][on_hold]",null, ts('On Hold'));
-            if ( $showBulkMailing ) {
-                $location[$locationId]['email'][$i]['is_bulkmail'] = $form->addElement('advcheckbox',
-                                                                                       "location[$locationId][email][$i][is_bulkmail]",ts('Use for Bulk Mailings'), ts('Use for Bulk Mailings'), array('onchange' => "email_is_bulkmail_onclick('" . $form->getName() . "', $i, $count, $locationId);" ));
-            }
+        
+        //Block type
+        $form->addElement('select',"openid[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+        
+        $config=& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Standalone' ) { 
+            $location[$locationId]['openid'][$blockId]['allowed_to_login'] = 
+                $form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, ts('Allowed to Login'));
         }
+        
+        //is_Primary radio
+        $js = array( 'id' => "OpenID_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "OpenID",'. $blockId . ', "IsPrimary" );');
+        $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+        $form->addGroup( $choice, "openid[$blockId][is_primary]" );
     }
 }
-
-
 

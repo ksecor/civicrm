@@ -34,12 +34,12 @@
  */
 
 /**
- * form helper class for an OpenID object
+ * form helper class for an Email object
  */
-class CRM_Contact_Form_OpenID
+class CRM_Contact_Form_Edit_Email 
 {
     /**
-     * build the form elements for an open id object
+     * build the form elements for an email object
      *
      * @param CRM_Core_Form $form       reference to the form object
      * @param array         $location   the location object to store all the form elements in
@@ -50,33 +50,39 @@ class CRM_Contact_Form_OpenID
      * @access public
      * @static
      */
-    static function buildOpenIDBlock(&$form, &$location, $locationId, $count) {
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        require_once 'CRM/Core/BAO/Preferences.php';
+    static function buildQuickForm( &$form ) 
+    {
+        //FIXME &$location, $locationId, $count
         
-        if ( CRM_Utils_Array::value( 'openid', CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true ) ) ) {
-            $form->assign('showOpenID', true);
-            for ($i = 1; $i <= $count; $i++) {
-                $label = ($i == 1) ? ts('OpenID (preferred)') : ts('OpenID');
-                
-                CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][openid]", 
-                                                        ts('another OpenID'), ts('hide this OpenID'));
-                
-                $location[$locationId]['openid'][$i]['openid'] = $form->addElement('text', 
-                                                                                   "location[$locationId][openid][$i][openid]",
-                                                                                   $label,
-                                                                                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_OpenID',
-                                                                                                              'openid'));
-                $form->addRule( "location[$locationId][openid][$i][openid]", ts('OpenID is not a valid URL.'), 'url' );
-                
-                $config=& CRM_Core_Config::singleton( );
-                if ( $config->userFramework == 'Standalone' ) { 
-                    $location[$locationId]['openid'][$i]['allowed_to_login'] = 
-                        $form->addElement('advcheckbox', "location[$locationId][openid][$i][allowed_to_login]",
-                                          null, ts('Allowed to Login'));
-                }
-            }
+        $blockId = ( $form->get( 'Email_Block_Count' ) ) ? $form->get( 'Email_Block_Count' ) : 1;
+        
+        //only add hidden element when processing first block 
+        //for remaining blocks we'll calculate at run time w/ jQuery. 
+        if ( $blockId == 1 ) {
+            $form->addElement( 'hidden', 'hidden_Email_Instances', $blockId, array( 'id' => 'hidden_Email_Instances') );
         }
+        
+        //Email box
+        $form->addElement('text',"email[$blockId][email]", ts('Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email', 'email'));
+        
+		if( isset( $form->_contactType ) ) {
+			//Block type
+			$form->addElement('select',"email[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+			
+			//On-hold checkbox
+			$form->addElement('advcheckbox', "email[$blockId][on_hold]",null);
+			
+			//Bulkmail checkbox
+			$js = array( 'id' => "Email_".$blockId."_IsBulkmail", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsBulkmail" );');
+			$form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null, '', $js);
+
+			//is_Primary radio
+			$js = array( 'id' => "Email_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsPrimary" );');
+			$choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+			$form->addGroup( $choice, "email[$blockId][is_primary]" );
+		}
     }
 }
+
+
 

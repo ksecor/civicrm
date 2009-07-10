@@ -42,8 +42,9 @@ class CRM_Case_XMLProcessor {
         require_once 'CRM/Utils/Array.php';
 
         // trim all spaces from $caseType
+        $caseType = str_replace('_', ' ', $caseType );
         $caseType = CRM_Utils_String::munge( ucwords($caseType), '', 0 );
-
+       
         if ( ! CRM_Utils_Array::value( $caseType, self::$_xml ) ) {
             if ( ! self::$_xml ) {
                 self::$_xml = array( );
@@ -78,7 +79,7 @@ class CRM_Case_XMLProcessor {
     }
 
     function &allRelationshipTypes( ) {
-        static $relationshipTypes = null;
+        static $relationshipTypes = array( );
 
         if ( ! $relationshipTypes ) {
             require_once 'CRM/Core/PseudoConstant.php';

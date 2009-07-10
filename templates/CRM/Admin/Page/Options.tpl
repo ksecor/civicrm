@@ -43,6 +43,8 @@
 {if $rows}
 <div id={$gName}>
         {strip}
+	{* handle enable/disable actions*} 
+	{include file="CRM/common/enableDisable.tpl"}
         <table class="selector">
 	       <thead class="sticky">
             {if $showComponent}
@@ -72,7 +74,7 @@
             <th></th>
             </thead>
         {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"}{$row.class}{if NOT $row.is_active} disabled{/if}">
+        <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"}{$row.class}{if NOT $row.is_active} disabled{/if}">
             {if $showComponent}
                 <td>{$row.component_name}</td>
             {/if}
