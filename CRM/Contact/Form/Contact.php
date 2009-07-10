@@ -187,7 +187,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 }
                 CRM_Utils_System::setTitle( $title );
             }
-            $this->assign( 'contactType', $this->_contactType );
+            
             $session->pushUserContext(CRM_Utils_System::url());
             $this->_contactId = null;
         } else {
@@ -205,8 +205,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 }
                 $this->_contactType = $contact->contact_type;
                 $this->_contactSubType = $contact->contact_sub_type;
-                
-                $this->assign( 'contactType', $this->_contactType );
                 
                 // check for permissions
                 require_once 'CRM/Contact/BAO/Contact/Permission.php';
@@ -247,8 +245,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             unset( $this->_editOptions['Notes'] );
         }
         $this->assign( 'editOptions', $this->_editOptions );
+        $this->assign( 'contactType', $this->_contactType );
         
-        // make blocks semi-configurable
+        // get the location blocks.
         $this->_blocks = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, 
                                                                  false, 'name', true, 'AND v.filter = 1' );
         $this->assign( 'blocks', $this->_blocks );
@@ -272,6 +271,18 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $params   = array( );
         
         if ( $this->_action & CRM_Core_Action::ADD ) {
+            if ( array_key_exists( 'TagsAndGroups', $this->_editOptions ) ) {
+                // set group and tag defaults if any
+                if ( $this->_gid ) {
+                    $defaults['group'][$this->_gid] = 1;
+                }
+                if ( $this->_tid ) {
+                    $defaults['tag'][$this->_tid] = 1;
+                }
+            }
+            require_once 'CRM/Core/OptionGroup.php';
+            $defaults['greeting_type_id'] = CRM_Core_OptionGroup::values( 'greeting_type', true, null, 
+                                                                          null, ' AND v.is_default = 1' );
         } else {
             if ( isset( $this->_elementIndex[ "shared_household" ] ) ) {
                 $sharedHousehold = $this->getElementValue( "shared_household" );
