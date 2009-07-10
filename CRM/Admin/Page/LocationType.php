@@ -79,15 +79,16 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/locationType',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_LocationType' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
+
                                                                     'title' => ts('Disable Location Type') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/locationType',
-                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_LocationType' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
+
                                                                     'title' => ts('Enable Location Type') 
                                                                     ),
                                    CRM_Core_Action::DELETE  => array(

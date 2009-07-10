@@ -40,7 +40,7 @@ class CRM_Event_Form_ManageEvent_TabHeader {
 
     static function build( &$form ) {
         $tabs = $form->get( 'tabHeader' );
-        if ( ! $tabs ) {
+        if ( !$tabs || !CRM_Utils_Array::value('reset', $_GET) ) {
             $tabs =& self::process( $form );
             $form->set( 'tabHeader', $tabs );
         }
@@ -101,9 +101,10 @@ class CRM_Event_Form_ManageEvent_TabHeader {
         }
 
         if ( $eventID ) {
+            $reset = CRM_Utils_Array::value('reset', $_GET) ? 'reset=1&' : '';
             foreach ( $tabs as $key => $value ) {
                 $tabs[$key]['link'] = CRM_Utils_System::url( 'civicrm/admin/event',
-                                                             "reset=1&action=update&snippet=4&subPage={$key}&id={$eventID}" );
+                                                             "{$reset}action=update&snippet=4&subPage={$key}&id={$eventID}" );
                 $tabs[$key]['active'] = $tabs[$key]['valid'] = true;
             }
             

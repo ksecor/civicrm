@@ -399,20 +399,24 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
         
         //lookup value of email/postal greeting, addressee, CRM-4575
-        $filterVal = null;
         $filterCondition = null;
+
         switch( $defaults['contact_type'] ) {
+        
         case 'Individual': 
-            $filterVal = "v.filter = 1";
+            $filterCondition = "AND (v.filter IS NULL OR v.filter = 1) ";
             break;
         case 'Household':
-            $filterVal = "v.filter = 2";
+            $filterCondition = "AND (v.filter IS NULL OR v.filter = 2) ";
             break;
         case 'Organization':
-            $filterVal = "v.filter = 3";
+            $filterCondition = "AND (v.filter IS NULL OR v.filter = 3) ";            
+            break;
+        default:
+            $filterCondition = "AND v.filter IS NULL ";
             break;
         }
-        $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+        
         CRM_Utils_Array::lookupValue( $defaults, 'email_greeting', 
                                       CRM_Core_PseudoConstant::emailGreeting($filterCondition),  $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'postal_greeting', 

@@ -16,22 +16,29 @@
       </dl>
     {else}
       <table class="form-layout-compressed">
-        <tr><td class="label">{$form.name.label}</td><td>{$form.name.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Name of this status type, for use in the code.{/ts}</td></tr>
+        <tr><td class="label">{$form.name.label}</td><td>{$form.name.html}<br />
+            <span class="description">{ts}Name of this status type, for use in the code.{/ts}</span></td>
+        </tr>
 
-        <tr><td class="label">{$form.label.label}</td><td>{$form.label.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Human-visible label of this status type.{/ts}</td></tr>
+        <tr><td class="label">{$form.label.label}</td><td>{$form.label.html}<br />
+            <span class="description">{ts}Display label for this status.{/ts}</span></td>
+        </tr>
 
-        <tr><td class="label">{$form.class.label}</td><td>{$form.class.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}The general class of this status.{/ts}</td></tr>
+        <tr><td class="label">{$form.class.label}</td><td>{$form.class.html}<br />
+            <span class="description">{ts}The general class of this status. Participant counts are grouped by class on the CiviEvent Dashboard. Participants with a 'Pending' class status will be moved to 'Expired' status if Pending Participant Hours has elapsed (when the ParticipantProcessor.php background processing script is run).{/ts}</span></td>
+        </tr>
 
         <tr><td class="label">{$form.is_reserved.label}</td><td>{$form.is_reserved.html}</td></tr>
         <tr><td class="label">{$form.is_active.label}  </td><td>{$form.is_active.html}  </td></tr>
-        <tr><td class="label">{$form.is_counted.label} </td><td>{$form.is_counted.html} </td></tr>
+        <tr><td class="label">{$form.is_counted.label} </td><td>{$form.is_counted.html}<br />
+            <span class="description">{ts}Should a person with this status be counted as a participant for the purpose of controlling the Maximum Number of Participants?{/ts}</td>
+        </tr>
 
         <tr><td class="label">{$form.weight.label}</td><td>{$form.weight.html}</td></tr>
 
-        <tr><td class="label">{$form.visibility_id.label}</td><td>{$form.visibility_id.html}</td></tr>
+        <tr><td class="label">{$form.visibility_id.label}</td><td>{$form.visibility_id.html}<br />
+            <span class="description">{ts}If you allow users to select a Participant Status by including that field on a profile - only statuses with 'Public' visibility are listed.{/ts}</td>
+        </tr>
 
         <tr><td class="label">&nbsp;</td><td>{$form.buttons.html}</td></tr>
       </table>

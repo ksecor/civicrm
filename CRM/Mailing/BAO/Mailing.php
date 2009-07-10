@@ -959,7 +959,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             
             // also call the hook to get contact details
             require_once 'CRM/Utils/Hook.php';
-            CRM_Utils_Hook::tokenValues( $contact, $contactId );
+            CRM_Utils_Hook::tokenValues( $contact, $contactId, $job_id );
         }
 
         $pTemplates = $this->getPreparedTemplates();

@@ -78,15 +78,16 @@ class CRM_Contribute_Page_ContributionType extends CRM_Core_Page_Basic
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/contribute/contributionType',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contribute_BAO_ContributionType' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
+                                                                    
                                                                     'title' => ts('Disable Contribution Type') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/contribute/contributionType',
-                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contribute_BAO_ContributionType' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
+                                                                    
                                                                     'title' => ts('Enable Contribution Type') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(

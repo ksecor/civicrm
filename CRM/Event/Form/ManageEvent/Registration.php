@@ -88,7 +88,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                 CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
 
             if ($defaults['is_multiple_registrations']) {
-                // CRM-4377: set additional participants’ profiles – set to ‘none’ if explicitely unset (non-active)
+                // CRM-4377: set additional participants’ profiles – set to ‘none’ if explicitly unset (non-active)
                 $ufJoin = new CRM_Core_DAO_UFJoin;
                 $ufJoin->module       = 'CiviEvent_Additional';
                 $ufJoin->entity_table = 'civicrm_event';
@@ -138,6 +138,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $this->_showHide->addHide( 'confirm' );
             $this->_showHide->addHide( 'mail' );
             $this->_showHide->addHide( 'thankyou' );
+            $this->_showHide->addHide( 'additional_profile_pre' );
+            $this->_showHide->addHide( 'additional_profile_post' );
         } else {
             $this->_showHide->addShow( 'confirm' );
             $this->_showHide->addShow( 'mail' );
@@ -146,6 +148,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $this->_showHide->addHide( 'confirm_show' );            
             $this->_showHide->addHide( 'mail_show' );
             $this->_showHide->addHide( 'thankyou_show' );
+            if ( ! $defaults['is_multiple_registrations']) {
+                $this->_showHide->addHide( 'additional_profile_pre' );
+                $this->_showHide->addHide( 'additional_profile_post' );
+            }
         }
         $this->_showHide->addToTemplate( );
     }
@@ -193,12 +199,12 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                           'is_multiple_registrations',
                           ts('Register multiple participants?'),
                           null,
-                          array('onclick' => "return showHideByValue('is_multiple_registrations', '', 'additional_profiles', 'block', 'radio', false);"));
+                          array('onclick' => "return showHideByValue('is_multiple_registrations', '', 'additional_profile_pre|additional_profile_post', 'table-row', 'radio', false);"));
         $this->addElement('checkbox', 'allow_same_participant_emails', ts('Allow multiple registrations from the same email address?'));
         $this->addElement('checkbox', 'requires_approval', ts('Require participant approval?'));
 
         $this->add('text', 'expiration_time', ts('Pending participant expiration (hours)'));
-        $this->addRule('expiration_time', ts('Please enter the number of minutes.'), 'integer');
+        $this->addRule('expiration_time', ts('Please enter the number of hours.'), 'integer');
 
         self::buildRegistrationBlock( $this );
         self::buildConfirmationBlock( $this );

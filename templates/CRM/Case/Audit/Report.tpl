@@ -1,12 +1,23 @@
-{literal}<link rel="stylesheet" type="text/css" href="{/literal}{$config->userFrameworkResourceURL}{literal}css/civicrm.css" />{/literal}
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
+<head>
+  <title>{$pageTitle}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <base href="{crmURL p="" a=true}" /><!--[if IE]></base><![endif]-->
+  <style type="text/css" media="screen, print">@import url({$config->userFrameworkResourceURL}css/print.css);</style>
+</head>
+
+<body>
 <div id="crm-container">
-<table class ="chart">
+<h1>{$pageTitle}</h1>
+<div id="report-date">{$reportDate}</div>
+<h2>{ts}Case Summary{/ts}</h2>
+<table class="report-layout">
     <tr>
-    	<th>{ts}Client{/ts}</th>
-    	<th>{ts}Case Type{/ts}</th>
-       	<th>{ts}Status{/ts}</th>
-        <th>{ts}Start Date{/ts}</th>
-    	<th>{ts}Case ID{/ts}</th>
+    	<th class="reports-header">{ts}Client{/ts}</th>
+    	<th class="reports-header">{ts}Case Type{/ts}</th>
+       	<th class="reports-header">{ts}Status{/ts}</th>
+        <th class="reports-header">{ts}Start Date{/ts}</th>
+    	<th class="reports-header">{ts}Case ID{/ts}</th>
     </tr>
     <tr>
         <td>{$case.clientName}</td>
@@ -16,12 +27,13 @@
         <td>{$caseId}</td> 
     </tr>
 </table>
-<table class ="chart" >
+<h2>{ts}Case Roles{/ts}</h2>
+<table class ="report-layout">
     <tr>
-    	<th>{ts}Case Role{/ts}</th>
-    	<th>{ts}Name{/ts}</th>
-       	<th>{ts}Phone{/ts}</th>
-        <th>{ts}Email{/ts}</th>
+    	<th class="reports-header">{ts}Case Role{/ts}</th>
+    	<th class="reports-header">{ts}Name{/ts}</th>
+       	<th class="reports-header">{ts}Phone{/ts}</th>
+        <th class="reports-header">{ts}Email{/ts}</th>
     </tr>
 
     {foreach from=$caseRelationships item=row key=relId}
@@ -36,7 +48,7 @@
          {if $relTypeID neq 'client'} 
            <tr>
                <td>{$relName}</td>
-               <td>(not assigned)</td>
+               <td>{ts}(not assigned){/ts}</td>
                <td></td>
                <td></td>
            </tr>
@@ -50,17 +62,15 @@
          {/if}
 	{/foreach}
 </table>
+<br />
 
- <dl><dt><label>{ts}Other Relationships{/ts}</label></dt>
-     <dd></dd>
- </dl>
-    {if $otherRelationships}
-     <table  class ="chart">
-       	<trx>
-    		<th>{ts}Client Relationship{/ts}</th>
-    		<th>{ts}Name{/ts}</th>
-    		<th>{ts}Phone{/ts}</th>
-    		<th>{ts}Email{/ts}</th>
+{if $otherRelationships}
+    <table  class ="report-layout">
+       	<tr>
+    		<th class="reports-header">{ts}Client Relationship{/ts}</th>
+    		<th class="reports-header">{ts}Name{/ts}</th>
+    		<th class="reports-header">{ts}Phone{/ts}</th>
+    		<th class="reports-header">{ts}Email{/ts}</th>
     	</tr>
         {foreach from=$otherRelationships item=row key=relId}
         <tr>
@@ -70,24 +80,16 @@
             <td>{$row.email}</td>
         </tr>
         {/foreach}
-     </table>
-    {else}
-      <dl>
-      <dt></dt>
-        <dd>{ts}There are no Relationships entered for this client.{/ts}
-        </dd>
-      </dl>
-    {/if}
+    </table>
+    <br />
+{/if}
 
- <dl><dt><label>{ts}Global Case Contacts{/ts}</label></dt>
-     <dd></dd>
- </dl>
-    {if $globalRelationships}
-       <table  class ="chart">
+{if $globalRelationships}
+    <table class ="report-layout">
        	<tr>
-    	 	<th>{$globalGroupInfo.title}</th>
-     	 	<th>{ts}Phone{/ts}</th>
-    	 	<th>{ts}Email{/ts}</th>
+    	 	<th class="reports-header">{$globalGroupInfo.title}</th>
+     	 	<th class="reports-header">{ts}Phone{/ts}</th>
+    	 	<th class="reports-header">{ts}Email{/ts}</th>
     	</tr>
         {foreach from=$globalRelationships item=row key=relId}
         <tr>
@@ -96,41 +98,28 @@
             <td>{$row.email}</td>
         </tr>
 	    {/foreach}
-       </table>
-    {elseif $globalGroupInfo.id}
-      <dl>
-      <dt></dt>
-        <dd>          
-          {ts}The group {$globalGroupInfo.title} has no members.{/ts}
-        </dd>
-      </dl>
-    {else}
-      <dl>
-      <dt></dt>
-        <dd>{ts}There are no Global Case Contacts exists for this client.{/ts}
-        </dd>
-      </dl>
-    {/if}
-<dl><dt><label>{ts}Activities{/ts}</label></dt>
-    <dd></dd>
-</dl>
+    </table>
+{/if}
+
+<h2>{ts}Case Activities{/ts}</h2>
 {foreach from=$activities item=activity key=key}
-  <table  class ="chart">
+  <table  class ="report-layout">
        {foreach from=$activity item=field name=fieldloop}
-         {if $field.label eq 'Activity Type' or $field.label eq 'Status'}
-           <tr class="even-row">
-         {else}
-            <tr>
-         {/if}
-             <td class ="label">{$field.label|escape}</td>
-             <td>{$field.value|escape}</td> 
-         </tr>
+           <tr>
+             <th scope="row" class="label">{$field.label|escape}</th>
+             {if $field.label eq 'Activity Type' or $field.label eq 'Status'}
+                <td class="bold">{$field.value|escape}</th> 
+             {else}
+                <td>{$field.value|escape}</th> 
+             {/if}
+           </tr>
        {/foreach}
   </table>
   <br />
 {/foreach}
 </div>
-
+</body>
+</html>
 
 
 

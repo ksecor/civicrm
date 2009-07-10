@@ -686,7 +686,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             $mail = 'email-5';
             //in case of Pay later option we skipped 'email-5' so we should use 'email-Primary'
-            if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ) {
+            if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
+                 $this->_allowWaitlist || $this->_requireApproval ) {
                 $mail = 'email-Primary';
             }
             require_once "CRM/Core/BAO/CMSUser.php";

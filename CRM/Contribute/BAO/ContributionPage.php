@@ -57,6 +57,20 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         return $dao;
     }
 
+   /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+   static function setIsActive( $id, $is_active ) 
+   {
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_ContributionPage', $id, 'is_active', $is_active );
+   }
+    
     static function setValues( $id, &$values ) 
     {
         $params = array('id' => $id);

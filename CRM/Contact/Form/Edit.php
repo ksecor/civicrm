@@ -157,7 +157,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->$varName = $this->_editOptions[$c];
             $this->assign( substr( $varName, 1 ), $this->$varName );
         }
-
+        
         if ( $this->_action == CRM_Core_Action::ADD ) {
             // check for add contacts permissions
             require_once 'CRM/Core/Permission.php';
@@ -306,9 +306,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     }
                 }
             }
-            require_once 'CRM/Core/OptionGroup.php';
-            $defaults['greeting_type_id'] = CRM_Core_OptionGroup::values( 'greeting_type', true, null, 
-                                                                       null, ' AND v.is_default = 1' );
         } else {
             // this is update mode
             // get values from contact table
@@ -619,14 +616,19 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         //if email/postal greeting or addressee is not of the type customized, 
         //unset previously set custom value,CRM-4575
-        $elements = array( 'email_greeting_id'  => 'email_greeting_custom', 
-                           'postal_greeting_id' => 'postal_greeting_custom', 
-                           'addressee_id'       => 'addressee_custom' );
-        foreach( $elements as $field => $customField ) {
-            if ( CRM_Utils_Array::value( $field, $params ) != 4) {
+        $fieldId = null;
+        $fieldValue = null;
+        $elements = array( 'email_greeting'  => 'email_greeting_custom', 
+                           'postal_greeting' => 'postal_greeting_custom', 
+                           'addressee'       => 'addressee_custom' );
+        foreach ( $elements as $field => $customField ) {
+            $fieldId = $field."_id"; 
+            require_once 'CRM/Core/OptionGroup.php';
+            $fieldValue = CRM_Core_OptionGroup::getValue( $field, 'Customized', 'name' );                    
+            if ( CRM_Utils_Array::value( $fieldId, $params ) != $fieldValue ) {
                 $params[$customField] = "";
             }
-        }    
+        }
         
         $params['contact_type'] = $this->_contactType;
         
@@ -896,7 +898,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
         }
         //CRM-4575
-        if( CRM_Utils_Array::value('addressee_id',$fields) == 4 && !CRM_Utils_Array::value('addressee_custom',$fields) ) {
+        require_once 'CRM/Core/OptionGroup.php';
+        $addresseeValue = CRM_Core_OptionGroup::getValue( 'addressee', 'Customized', 'name');
+        if( CRM_Utils_Array::value( 'addressee_id', $fields ) == $addresseeValue  && 
+            ! CRM_Utils_Array::value( 'addressee_custom', $fields ) ) {
             $errors['addressee_custom'] = ts('Custom Addressee is a required field if Addressee is of type Customized.');
         }
        

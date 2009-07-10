@@ -69,13 +69,15 @@ function civicrm_relationship_create( &$params ) {
         
         return civicrm_create_error( ts('Missing required parameters'));
     }
+   
+    $values = array( );
+    require_once 'CRM/Contact/BAO/Relationship.php';
+    $error = _civicrm_relationship_format_params( $params, $values );
     
-    require_once 'CRM/Utils/Rule.php';
-    if ( ! CRM_Utils_Rule::integer( CRM_Utils_Array::value( 'relationship_type_id',
-                                                            $params ) ) ) {
-        return civicrm_create_error( 'Invalid value for relationship type ID' );
+    if ( civicrm_error( $error ) ) {
+        return $error;
     }
-
+    
     $ids = array( );
     require_once 'CRM/Utils/Array.php';
     
@@ -85,11 +87,11 @@ function civicrm_relationship_create( &$params ) {
         $ids['contactTarget'] = $params['contact_id_b'];
     }
        
-    $params['relationship_type_id'] = $params['relationship_type_id'].'_a_b';
-    $params['contact_check']        = array ( $params['contact_id_b'] => $params['contact_id_b'] );
+    $values['relationship_type_id'] = $params['relationship_type_id'].'_a_b';
+    $values['contact_check']        = array ( $params['contact_id_b'] => $params['contact_id_b'] );
     $ids   ['contact'      ]        = $params['contact_id_a'];
     
-    $relationshipBAO = CRM_Contact_BAO_Relationship::create( $params, $ids );
+    $relationshipBAO = CRM_Contact_BAO_Relationship::create( $values, $ids );
 
     if ( is_a( $relationshipBAO, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Relationship can not be created" );
@@ -331,5 +333,79 @@ function civicrm_relationship_types_get( $params = null )
         $relationshipTypes[] = $relationshipType; 
     }
     return $relationshipTypes;
+}
+
+
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *                            '
+ * @return array|CRM_Error
+ * @access public
+ */
+function _civicrm_relationship_format_params( &$params, &$values ) {
+    // copy all the relationship fields as is
+   
+    $fields =& CRM_Contact_DAO_Relationship::fields( );
+    _civicrm_store_values( $fields, $params, $values );
+    
+    foreach ($params as $key => $value) {
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
+        
+        switch ($key) {
+        case 'contact_id_a':
+        case 'contact_id_b':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return civicrm_create_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE id = $value",
+                                          $qParams);
+            if (!$svq) {
+                return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
+            }
+            break;
+            
+        case 'start_date':
+        case 'end_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return civicrm_create_error("$key not a valid date: $value");
+            }
+            break;
+            
+        case 'relationship_type_id':            
+            $relationTypes = CRM_Core_PseudoConstant::relationshipType( );
+            if (!array_key_exists($value, $relationTypes)) {
+                return civicrm_create_error("$key not a valid: $value");
+            } 
+            $relation = $relationTypes[$params['relationship_type_id']];
+            require_once 'CRM/Contact/BAO/Contact.php';
+            if ($relation['contact_type_a'] != CRM_Contact_BAO_Contact::getContactType($params['contact_id_a'])) {
+                return civicrm_create_error("Contact ID :{$params['contact_id_a']} is not of contact type {$relation['contact_type_a']}");
+            }
+            if ($relation['contact_type_b'] != CRM_Contact_BAO_Contact::getContactType($params['contact_id_b'])) {
+                return civicrm_create_error("Contact ID :{$params['contact_id_b']} is not of contact type {$relation['contact_type_b']}");
+            }
+            break;
+              
+        default:
+            break;
+        }
+    }
+    
+    if ( array_key_exists( 'note', $params ) ) {
+        $values['note'] = $params['note'];
+    }
+    _civicrm_custom_format_params( $params, $values, 'Relationship' );
+    
+    return array();
 }
 
