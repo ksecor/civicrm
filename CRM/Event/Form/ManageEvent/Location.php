@@ -93,7 +93,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         if ( isset( $eventId ) ) {
             $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $defaults);
+            $defaults = CRM_Core_BAO_Location::getValues( $params );
             
             $params = array( 'id' => $eventId );
             CRM_Event_BAO_Event::retrieve( $params, $defaults );
@@ -116,15 +116,15 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             }
         }
         
-        if ( ! empty ( $defaults['location'] ) ) {
+        if ( ! empty ( $defaults['address'] ) ) {
             $config = CRM_Core_Config::singleton( );
-            foreach ( $defaults['location'] as $key => $value ) {
-                CRM_Contact_Form_Address::fixStateSelect( $this,
-                                                          "location[$key][address][country_id]",
-                                                          "location[$key][address][state_province_id]",
+            foreach ( $defaults['address'] as $key => $value ) {
+                CRM_Contact_Form_Edit_Address::fixStateSelect( $this,
+                                                          "address[$key][country_id]",
+                                                          "address[$key][state_province_id]",
                                                           CRM_Utils_Array::value( 'country_id',
                                                                                   CRM_Utils_Array::value( 'address',
-                                                                                                          $value ),
+                                                                                                          $defaults ),
                                                                                   $config->defaultContactCountry ) );
             }
         }
@@ -149,7 +149,10 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $prefix =  array( 'phone','email' );
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS, $prefix, false);
         if ( $force ) {
-            $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
+			$locationDefaults = array ( 
+								'address' => $defaults['address'], 
+								'phone'   => $defaults['phone'  ], 
+								'email'   => $defaults['email'  ] );
             $config =& CRM_Core_Config::singleton( );
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        $locationDefaults,
@@ -182,7 +185,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     {
         $errors = array( );
         // check for state/country mapping
-        CRM_Contact_Form_Address::formRule($fields, $errors);
+        CRM_Contact_Form_Edit_Address::formRule($fields, $errors);
 
         return empty($errors) ? true : $errors;
     }    
@@ -217,8 +220,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $locationCompoments = array('Phone', 'Email');
         CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS + 1, true, $locationCompoments);
         $this->addElement('advcheckbox', 'is_show_location', ts('Show Location?') );
-        $this->assign( 'index' , 1 );
-        $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1);
+        $this->assign( 'index'  , 1 );
+        $this->assign( 'blockId', 1 );
         
         //fix for CRM-1971
         $this->assign( 'action', $this->_action );
@@ -305,9 +308,13 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             
         require_once 'CRM/Core/BAO/LocationType.php';
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-        $params['location'][1]['location_type_id'] = $defaultLocationType->id;
-        $params['location'][1]['is_primary']       = 1;
-        
+		
+		$blockType = array( 'address', 'phone', 'email');
+		foreach( $blockType as $block ) {
+			$params[$block][1]['location_type_id'] = $defaultLocationType->id;
+			$params[$block][1]['is_primary']       = 1;
+		}
+                
         // create/update event location
         require_once 'CRM/Core/BAO/Location.php';
         $location = CRM_Core_BAO_Location::create($params, true, 'event');

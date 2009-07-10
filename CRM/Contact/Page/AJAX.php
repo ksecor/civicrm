@@ -229,6 +229,7 @@ ORDER BY sort_name ";
             }
             
             if ( isset($_GET['org']) || isset($_GET['hh']) ) {
+                $json = false;
                 if ( $splitName = explode( ' :: ', $name ) ) {
                     $contactName = trim( CRM_Utils_Array::value( '0', $splitName ) );
                     $street      = trim( CRM_Utils_Array::value( '1', $splitName ) );
@@ -323,6 +324,10 @@ ORDER BY sort_name ";
                     } else {
                      echo $elements = "$dao->sort_name|$dao->id\n";
                     }
+                }
+                //for adding new household address
+                if( empty( $elements ) && !$json && $hh){
+                    echo CRM_Utils_Array::value( 's', $_GET )."|$";
                 }
             }
         }

@@ -67,7 +67,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         $addresses = array( );
         $contactId = null;
         if ( ! $entity ) {
-            $contactId = $params['address']['contact_id'];
+            $contactId = $params['contact_id'];
             //get all the addresses for this contact
             $addresses = self::allAddress( $contactId );
         } else {
@@ -347,8 +347,12 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 return $addresses;
             }
         } 
+        //get primary address as a first block.
+        $address->orderBy( 'is_primary desc, id' );
+        
         $address->find( );
-
+        
+        $count = 1;
         while ( $address->fetch( ) ) {
             $stree = $address->street_address;
             $values = array( );
@@ -373,8 +377,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
             $values['display'] = $address->display;
 
-            $addresses[$address->location_type_id] = $values;
+            $addresses[$count] = $values;
+            $count++;
         }
+        
         return $addresses;
     }
     

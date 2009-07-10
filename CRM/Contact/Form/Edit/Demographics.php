@@ -33,40 +33,48 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/BAO/Preferences.php';
-
 /**
- * This class generates form components for Activity Links
- * 
+ * form helper class for an Demographics object
  */
-class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
+class CRM_Contact_Form_Edit_Demographics 
 {
-
-    public function buildQuickForm( ) 
-    {
-        $this->applyFilter('__ALL__', 'trim');                                                                       
-        $contactId = CRM_Utils_Request::retrieve( 'cid' , 'Positive', $this );
-        
-        $urlParams = "action=add&reset=1&cid={$contactId}&selectedChild=activity&atype=";
-        
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
-                                      $urlParams, false, null, false );
- 
-        $activityType = CRM_Core_PseudoConstant::activityType( false );
-        
-        $this->assign( 'emailSetting', false );
-        require_once 'CRM/Utils/Mail.php';
-        if ( CRM_Utils_Mail::validOutBoundMail() ) { 
-            $this->assign( 'emailSetting', true );
+    /**
+     * build the form elements for Demographics object
+     *
+     * @param CRM_Core_Form $form       reference to the form object
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function buildQuickForm( &$form ) {
+        // radio button for gender
+        $genderOptions = array( );
+        $gender =CRM_Core_PseudoConstant::gender();
+        foreach ($gender as $key => $var) {
+            $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
         }
-        $this->applyFilter('__ALL__', 'trim');
-        $this->add('select', 'other_activity', ts('Other Activities'),
-                   array('' => ts('Register Activity')) + $activityType,
-                   false, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
-
-        $this->assign( 'suppressForm', true );
+        $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
+        
+        $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
+        
+        $form->addElement('date', 'deceased_date', ts('Deceased date'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('deceased_date', ts('Select a valid date.'), 'qfDate');
+        
+        $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
+    }
+    
+    /**
+     * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( &$form, &$defaults ) {
     }
 }
+
 
 

@@ -33,40 +33,35 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/BAO/Preferences.php';
-
 /**
- * This class generates form components for Activity Links
- * 
+ * form helper class for an Demographics object
  */
-class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
+class CRM_Contact_Form_Edit_CustomData 
 {
-
-    public function buildQuickForm( ) 
-    {
-        $this->applyFilter('__ALL__', 'trim');                                                                       
-        $contactId = CRM_Utils_Request::retrieve( 'cid' , 'Positive', $this );
-        
-        $urlParams = "action=add&reset=1&cid={$contactId}&selectedChild=activity&atype=";
-        
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
-                                      $urlParams, false, null, false );
- 
-        $activityType = CRM_Core_PseudoConstant::activityType( false );
-        
-        $this->assign( 'emailSetting', false );
-        require_once 'CRM/Utils/Mail.php';
-        if ( CRM_Utils_Mail::validOutBoundMail() ) { 
-            $this->assign( 'emailSetting', true );
-        }
-        $this->applyFilter('__ALL__', 'trim');
-        $this->add('select', 'other_activity', ts('Other Activities'),
-                   array('' => ts('Register Activity')) + $activityType,
-                   false, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
-
-        $this->assign( 'suppressForm', true );
+    /**
+     * build the form elements for CustomData object
+     *
+     * @param CRM_Core_Form $form       reference to the form object
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function buildQuickForm( &$form ) {
+        CRM_Custom_Form_Customdata::buildQuickForm( $form );
+    }
+    
+    /**
+     * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( &$form, &$defaults ) {
+        $defaults += CRM_Custom_Form_Customdata::setDefaultValues( $form );
     }
 }
+
 
 

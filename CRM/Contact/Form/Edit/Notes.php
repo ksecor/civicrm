@@ -33,40 +33,22 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/BAO/Preferences.php';
-
-/**
- * This class generates form components for Activity Links
- * 
- */
-class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
+Class CRM_Contact_Form_Edit_Notes
 {
-
-    public function buildQuickForm( ) 
-    {
-        $this->applyFilter('__ALL__', 'trim');                                                                       
-        $contactId = CRM_Utils_Request::retrieve( 'cid' , 'Positive', $this );
-        
-        $urlParams = "action=add&reset=1&cid={$contactId}&selectedChild=activity&atype=";
-        
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
-                                      $urlParams, false, null, false );
- 
-        $activityType = CRM_Core_PseudoConstant::activityType( false );
-        
-        $this->assign( 'emailSetting', false );
-        require_once 'CRM/Utils/Mail.php';
-        if ( CRM_Utils_Mail::validOutBoundMail() ) { 
-            $this->assign( 'emailSetting', true );
-        }
-        $this->applyFilter('__ALL__', 'trim');
-        $this->add('select', 'other_activity', ts('Other Activities'),
-                   array('' => ts('Register Activity')) + $activityType,
-                   false, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
-
-        $this->assign( 'suppressForm', true );
+    /**
+     * This function is to build form elements
+     * params object $form object of the form
+     *
+     * @static
+     * @access public
+     */
+    
+    static function buildQuickForm(&$form) {
+        $form->add('text', 'subject', ts('Subject'), array('size' => 60, 'maxlength' => 254)); 
+        $form->add('textarea', 'note', ts('Notes') , array('cols' => '60', 'rows' => '3'));    
     }
+
 }
+
 
 

@@ -69,17 +69,31 @@ div.spacer, .spacer {
   height: 5px;
   }
 
-#crm-container input.form-submit, #crm-container select {
+#crm-container select {
   vertical-align: middle;
-  margin: 0.5em 0.5em 0.5em 0;
+  border: 1px solid #494949;
+  font-weight:bold;
 }
 
 #crm-container td.compressed select, #crm-container td.compressed input {
   font-size: 0.90em;
+  font-weight: bold;
+}
+
+#crm-container input {
+  border: 1px solid #494949;
+  font-size:12px;
+  font-size-adjust:none;
+  font-stretch:normal;
+  font-style:normal;
+  font-variant:normal;
+  font-weight:bold;
+  line-height:100%;
+  vertical-align:middle;
 }
   
 #crm-container fieldset {
-  margin: .25em 0em .5em 0em;
+  margin: .5em 0em .5em 0em;
 }
 
 #crm-container fieldset.form-layout {
@@ -217,10 +231,6 @@ div.spacer, .spacer {
 #crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
   vertical-align: text-top;
   padding: 5px;
-}
-
-#crm-container .dijitDropDownButton {
-  margin: 0em !important;
 }
 
 #crm-container .control-panel td {
@@ -419,7 +429,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
 #crm-container label {
-  font-weight: bold;
+  font-weight: normal;
   display: inline;
 }
 
@@ -530,7 +540,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   border: 1px solid #5A8FDB;
 }
 #crm-container th {
-  padding: 4px;
+  padding: 8px 4px 4px 4px;
   border-top: 1px solid #5A8FDB;	
   border-bottom: 1px solid #5A8FDB;
   text-align: left;
@@ -650,7 +660,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 #crm-container .float-right {
   float: right;
   width: auto;
-  padding: 0px 5px 5px 0px;
+  padding: 0px 5px 10px 0px;
   clear: none;
 }
 
@@ -1130,9 +1140,9 @@ div.crm-pager a {
 
 #crm-container table.caseSelector tr.columnheader th, #crm-container table.caseSelector tr.columnheader th a {
     color: #FFFFFF;
-    background-color: #999999;
-    border-top-color: #666666;
-    border-bottom-color: #666666;
+    background-color: #666666;
+    border-top-color: #333333;
+    border-bottom-color: #333333;
 }
 
 #crm-container table.caseSelector tr {
@@ -1149,12 +1159,11 @@ div.crm-pager a {
 #crm-container table.caseSelector td.status-urgent {   
     color: #FF0000;
     font-weight: bold;
-	text-transform: uppercase;
 }
 
 #crm-container table.caseSelector td {
     border-right: 0px;
-    padding: 4px;
+    padding: 2px;
 }
  
 #crm-container table.nestedActivitySelector {
@@ -1166,11 +1175,11 @@ div.crm-pager a {
 
 #crm-container table.nestedActivitySelector tr.columnheader th {
     color: #000000;
-    background-color: #CCCCCC;
-    border-top-color: #999999;
+    background-color: #999999;
+    border-top-color: #666666;
     border-left-color: #FFFFFF;
     border-right-color: #FFFFFF;
-    border-bottom-color: #999999;
+    border-bottom-color: #666666;
 }
 
 #crm-container table#activities-selector.nestedActivitySelector, #crm-container table#activities-selector.nestedActivitySelector td {
@@ -1183,15 +1192,15 @@ div.crm-pager a {
 }
 
 #crm-container table#activities-selector.nestedActivitySelector tr.status-overdue {
- 
+    font-size: 11px;  
 }
     	               
 #crm-container table.nestedActivitySelector tr.priority-urgent {         
-    background-color: #FFDDDD;
+    background-color: #FFCCCC;
 }
 
 #crm-container table.nestedActivitySelector tr.priority-low {
-    background-color: #DDFFDD;
+    background-color: #CCFFCC;
 }
 
 #crm-container table.nestedActivitySelector tr.status-scheduled {
@@ -1199,24 +1208,18 @@ div.crm-pager a {
 }
 
 #crm-container table.nestedActivitySelector tr.status-completed {
-   color: #333333; 
+   color: #000080; 
 }
 
 #crm-container table.nestedActivitySelector tr.status-overdue {
    color: #FF0000;
+   font-weight: bold;
+   font-size: 10px;
 }
 
 #crm-container table.nestedActivitySelector tr a {
    color:  #0066CC;
 }
-
-#crm-container #activities-selector tr:hover td, 
-#crm-container #activities-selector tr:hover td.sorted,
-#crm-container #activities-selector tr.trOver td.sorted, 
-#crm-container #activities-selector tr.trOver td
-			{
-			background: transparent;
-			}
 
 #crm-container span.success-status {
     margin-left: 6px;
@@ -1266,7 +1269,7 @@ div.crm-pager a {
   border-bottom: 1px solid #CCCCCC;
 }
 
-#crm-container .btn-slide {
+.btn-slide {
   text-align      : left;
   text-decoration : none;
   border          : none;
@@ -1277,11 +1280,6 @@ div.crm-pager a {
   text-decoration : none;
   color           : #333333;
   display         : block;
-}
-
-#crm-container .panel li:hover { 
- background-color: #3399FF;
- color: #FFFFFF;
 }
 
 /*Styles for Context menu */
@@ -1440,14 +1438,173 @@ div.grippie {
    padding: 5px !important;
 }
 
+/* Styles for Contact Summary mockup start here. dgg */
+#crm-container span.email-hold, #crm-container span.do-not-email, #crm-container span.do-not-phone {
+    background-position:3px; background-repeat:no-repeat; background-image:url("../i/stop-icon.png");
+    padding-left: 24px;
+	color: #ff6655 !important
+ }
+
+#crm-container span.email-hold a:link, #crm-container span.email-hold a:visited, #crm-container span.do-not-email a:link, #crm-container span.email-hold a:visited {
+	color: #ff6655 !important
+}
+
+.primary {
+	FONT-WEIGHT: bold
+}
+
+#crm-container .ui-tabs-panel {
+    padding:0em 1.4em 1em 1em;
+}
+
+DIV#contactTopBar {
+	PADDING: 4px;
+	LINE-HEIGHT: 1.4em;
+	MARGIN: 8px 0pt 0px;
+	/*FONT-SIZE: 1.1em;*/
+	background-color: #eee;
+	border: 1px solid #CCCCCC;
+	width: 100%;
+}
+DIV#contact_details, DIV#contactTopBar {
+	PADDING: 4px;
+	LINE-HEIGHT: 1.4em;
+	MARGIN: 8px 0pt 0px;
+	/*FONT-SIZE: 1.1em;*/
+	background-color: #F7F7F7;
+	border: 1px solid #CCCCCC;
+	width: 100%;
+}
+
+DIV#contact_panel, DIV#contactTopBar {
+	WIDTH: 100%; DISPLAY: block
+}
+
+DIV#contact_panel *,
+DIV#contactTopBar * {
+	BORDER: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-RIGHT: 0px;
+	PADDING-TOP: 0px;
+}
+
+DIV#contactCardLeft, DIV#Top {
+	WIDTH: 49%; DISPLAY: block; FLOAT: left
+}
+DIV#contactCardRight {
+	WIDTH: 49%; DISPLAY: block; FLOAT: right
+}
+DIV#contactTopBar .label, DIV#contactCardLeft .label, DIV#contactCardRight .label {
+	color: DimGray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
+}
+
+DIV#contactCardLeft .grouplabel, 
+DIV#contactCardRight .grouplabel {
+	BORDER-BOTTOM: grey 1px solid; 
+	WIDTH: 100%; 
+	FONT-SIZE: 0.9em; 
+	FONT-WEIGHT: bold;
+	background-color: #ddd;
+}
+DIV#contact_panel .spacer {
+	PADDING-BOTTOM: 8px; PADDING-LEFT: 8px; PADDING-RIGHT: 8px; PADDING-TOP: 8px
+}
+DIV#contact_panel TD, DIV#contactTopBar TD  {
+	PADDING-BOTTOM: 4px;
+	PADDING-LEFT: 4px;
+	PADDING-RIGHT: 4px;
+	VERTICAL-ALIGN: top;
+	PADDING-TOP: 4px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #E2E2E2;
+}
+DIV#contact_panel TD.label, DIV#contactTopBar TD.label {
+	background-color: #EEEEEE;
+}
+
+DIV#contactTopBar TD.label {
+    width: 14%;
+}
+
+DIV#contact_panel TD.label {
+    width: 28%;
+}
+
+DIV#contact_panel TD.last {
+	BORDER-BOTTOM: 0px
+}
+
+DIV#customFields {
+	width: 100%;
+}
+
+DIV#customFields DIV#contact_panel TD {
+	BORDER-BOTTOM: lightgray 1px solid; PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; VERTICAL-ALIGN: top; PADDING-TOP: 4px
+}
+DIV#customFields DIV#contact_panel TD.talabel {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0pt; PADDING-LEFT: 4px; PADDING-RIGHT: 0pt; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 4px
+}
+
+#customFields #contact_panel .customFieldGroup {
+	background-color:#F7F7F7;
+	border:1px solid #CCCCCC;
+	line-height:1.4em;
+	margin:8px 0 0;
+	padding:4px;
+	width:100%;
+}
+
+
+DIV.buttons {
+	TEXT-ALIGN: right;
+    margin:8px 0 0;
+	PADDING: 4px 4px 2px;
+	WIDTH: 100%;
+	background-color: #fff;
+	border: none;
+}
+DIV.buttons INPUT {
+	FONT-SIZE: 0.9em; VERTICAL-ALIGN: top !important
+}
+DIV.buttons SELECT {
+	FONT-SIZE: 0.9em; VERTICAL-ALIGN: top !important
+}
+DIV.buttons #actions {
+	TEXT-ALIGN: left; 
+	/*WIDTH: 89%;*/ 
+	FLOAT: left
+}
+DIV.buttons #icons {
+	/*WIDTH: 10%*/
+}
+.ui-tabs .ui-tabs-nav LI A {
+	FONT-SIZE: 0.9em
+}
+.ui-tabs-collapsible.ui-tabs .ui-tabs-nav LI.ui-tabs-selected A {
+	FONT-SIZE: 0.9em
+}
+.ui-tabs .ui-tabs-nav LI A {
+	PADDING-BOTTOM: 5px !important; PADDING-LEFT: 5px !important; PADDING-RIGHT: 5px !important; PADDING-TOP: 5px !important
+}
+
+#crm-container .separator {
+	border-bottom: solid 2px #ccc;
+}
+
+.individual h2 {background:url("../i/contact_ind.gif") no-repeat 0 50%;padding-left:20px;}
+
+.button {}
+.edit {background:url("../i/edit.png") transparent no-repeat; padding-left:18px;}
+.delete {background:url("../i/delete.png") transparent no-repeat; padding-left:18px;}
+
 #crm-container .report-layout {
    background-color : #F5F5F5; 
    border           : none;
-   margin           : 0em 0em 0em 0.1em;
-}
-
-#crm-container table.criteria-group {
-   border-bottom: 3px solid #DCDCDC;
+   margin           : 0em 0em 1em 0.1em;
+   //width            : 100%;
 }
 
 #crm-container .reports-header {
@@ -1486,15 +1643,6 @@ div.grippie {
    font-size        : 0.95em; 
 }
 
-#crm-container table.report-layout tr.group-row {
-  font-size        : 1.1em;
-}
-
-#crm-container table.report-layout tr.total-row {
-  font-size        : 1em;
-  border-top       : 2px groove #DCDCDC;
-}
-
 #crm-container .report-label {
   text-align        : right;
   font-weight       : bold;
@@ -1509,6 +1657,7 @@ div.grippie {
 
 #crm-container table.report-layout th.report-contents {
    background-color : #F5F5F5;	       
+
 }
 
 #crm-container table.report-layout th.statistics {
@@ -1520,13 +1669,15 @@ div.grippie {
 .report-pager .crm-pager {
     background-color: #DCDCDC;
     border          : thin solid #999999;
-    margin    	    : 1em 0 0 0.1em;
+    margin-left	    : 0.1em;
     width           : 99%;
 }
 .report-pager .crm-pager-nav a {
     color           : #000000;
 }
+
 #crm-container .report-layout .sticky-header {
   background-color  : #DCDCDC;
   border            : 1px solid #DCDCDC;
 }
+

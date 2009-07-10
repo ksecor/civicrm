@@ -521,3 +521,80 @@ ALTER TABLE `civicrm_payment_processor_type`
   ADD COLUMN `payment_type` int unsigned   DEFAULT 1 COMMENT 'Payment Type: Credit or Debit';
 ALTER TABLE `civicrm_payment_processor`
   ADD COLUMN `payment_type` int unsigned   DEFAULT 1 COMMENT 'Payment Type: Credit or Debit';
+
+-- CRM-4605
+-- A. upgrade wt and val by 2
+-- B. Insert Custom data and Address as group for first two empty location 
+-- C. Update Communication Pref name  
+-- D. Swap wt and value for Comm Pref, Notes, Demographics and make sure these record has to have wt and val 3, 4, 5 in sequence.
+
+-- get option group id for contact_edit_options
+SELECT @option_group_id_ceOpt := max(id) from civicrm_option_group where name = 'contact_edit_options';
+
+-- increment all wt and val by 2 and make first two location empty.
+UPDATE civicrm_option_value SET value = value + 2, weight = weight + 2 WHERE option_group_id = @option_group_id_ceOpt;
+
+-- insert value for Custom Data and Address at first two locations.
+INSERT INTO  
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES
+   (@option_group_id_ceOpt, '{ts escape="sql"}Custom Data{/ts}',  1, 'CustomData', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
+   (@option_group_id_ceOpt, '{ts escape="sql"}Address{/ts}'   ,   2, 'Address', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL);
+
+-- update Comm pref group name.
+UPDATE civicrm_option_value SET name = 'CommunicationPreferences' WHERE option_group_id=@option_group_id_ceOpt AND name = 'CommBlock';
+
+-- 1. Communication pref.
+-- swap wt and val and make commumication pref wt and val = 3
+Update civicrm_option_value otherRecord, civicrm_option_value commPref
+SET otherRecord.value = commPref.value, otherRecord.weight = commPref.weight, commPref.value = 3,  commPref.weight=3
+WHERE  otherRecord.value = 3 AND commPref.name = 'CommunicationPreferences' AND commPref.option_group_id = @option_group_id_ceOpt AND otherRecord.option_group_id = @option_group_id_ceOpt;
+
+-- make sure comm has val and wt = 3 
+Update civicrm_option_value SET value = 3, weight = 3 WHERE name = 'CommunicationPreferences' and option_group_id = @option_group_id_ceOpt;
+
+-- 2.  Notes.
+-- swap wt and val and make notes wt and val = 4
+Update civicrm_option_value otherRecord, civicrm_option_value notes
+SET otherRecord.value = notes.value, otherRecord.weight = notes.weight, notes.value = 4,  notes.weight=4
+WHERE  otherRecord.value = 4 AND notes.name = 'Notes' AND notes.option_group_id = @option_group_id_ceOpt AND otherRecord.option_group_id = @option_group_id_ceOpt;
+
+-- make sure Notes has val and wt = 4
+Update civicrm_option_value SET value = 4, weight = 4 WHERE name = 'Notes' and option_group_id = @option_group_id_ceOpt;
+
+-- 3.  Demographics.
+-- swap wt and val and make demographics wt and val = 5
+Update civicrm_option_value otherRecord, civicrm_option_value demographics
+SET otherRecord.value = demographics.value, otherRecord.weight = demographics.weight, demographics.value = 5,  demographics.weight=5
+WHERE  otherRecord.value = 5 AND demographics.name = 'Demographics' AND demographics.option_group_id = @option_group_id_ceOpt AND otherRecord.option_group_id = @option_group_id_ceOpt;
+
+-- make sure Demoghraphics has val and wt = 5 
+Update civicrm_option_value SET value = 5, weight = 5 WHERE name = 'Demographics' and option_group_id = @option_group_id_ceOpt;
+
+-- move location blocks to contact_edit_options.
+SELECT @max_wt  := max(weight) from civicrm_option_value where option_group_id=@option_group_id_ceOpt;
+SELECT @max_val := max(weight) from civicrm_option_value where option_group_id=@option_group_id_ceOpt;
+INSERT INTO  
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES
+(@option_group_id_ceOpt, '{ts escape="sql"}Email{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Email',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+(@option_group_id_ceOpt, '{ts escape="sql"}Phone{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Phone',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+(@option_group_id_ceOpt, '{ts escape="sql"}Instant Messenger{/ts}' ,   (SELECT @max_val := @max_val+1), 'IM',      NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+(@option_group_id_ceOpt, '{ts escape="sql"}Open ID{/ts}'           ,   (SELECT @max_val := @max_val+1), 'OpenID', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL);
+
+-- remove location blocks from address_options.
+SELECT @option_group_id_adOpt := max(id) from civicrm_option_group where name = 'address_options';
+DELETE FROM civicrm_option_value where option_group_id =@option_group_id_adOpt AND name IN ( 'im', 'openid' );  
+
+-- update civicrm_preferences.contact_edit_options.
+-- ideally we should append value, but we did changed wt and values so lets reset it to default.
+UPDATE  civicrm_preferences 
+   SET  contact_edit_options = (   SELECT  CONCAT( GROUP_CONCAT('',value SEPARATOR ''), '' ) 
+                                     FROM  civicrm_option_value 
+                                    WHERE  option_group_id = @option_group_id_ceOpt 
+                                 Group by  option_group_id
+                               )
+ WHERE  is_domain = 1
+   AND  contact_id IS NULL;
+
+-- End of CRM-4605
