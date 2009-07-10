@@ -280,9 +280,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     $defaults['tag'][$this->_tid] = 1;
                 }
             }
-            require_once 'CRM/Core/OptionGroup.php';
-            $defaults['greeting_type_id'] = CRM_Core_OptionGroup::values( 'greeting_type', true, null, 
-                                                                          null, ' AND v.is_default = 1' );
         } else {
             if ( isset( $this->_elementIndex[ "shared_household" ] ) ) {
                 $sharedHousehold = $this->getElementValue( "shared_household" );
@@ -417,9 +414,13 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             }
         }
         
-        //FIXME :
         //CRM-4575
-        if( CRM_Utils_Array::value('addressee_id',$fields) == 4 && !CRM_Utils_Array::value('addressee_custom',$fields) ) {
+        require_once 'CRM/Core/OptionGroup.php';
+        $filterCondition = null;
+        $addresseeValues = CRM_Core_PseudoConstant::addressee( $filterCondition, $columnName = 'name' );
+         $addresseeValue = array_search( 'Customized', $addresseeValues );
+        if( CRM_Utils_Array::value( 'addressee_id', $fields ) == $addresseeValue && 
+            ! CRM_Utils_Array::value( 'addressee_custom', $fields ) ) {
             $errors['addressee_custom'] = ts('Custom Addressee is a required field if Addressee is of type Customized.');
         } 
         
@@ -573,12 +574,20 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         //if email/postal greeting or addressee is not of the type customized, 
         //unset previously set custom value,CRM-4575
-        $elements = array( 'email_greeting_id'  => 'email_greeting_custom', 
-                           'postal_greeting_id' => 'postal_greeting_custom', 
-                           'addressee_id'       => 'addressee_custom' );
-        foreach( $elements as $field => $customField ) {
-            if ( CRM_Utils_Array::value( $field, $params ) != 4) {
-                $params[$customField] = "";
+        $fieldId    = null;
+        $fieldValue = null;
+        $elements = array( 'email_greeting'  => 'emailGreeting', 
+                           'postal_greeting' => 'postalGreeting', 
+                           'addressee'       => 'addressee' );
+        foreach( $elements as $key => $value ) {
+            $fieldId = $field."_id"; 
+            require_once 'CRM/Core/OptionGroup.php';
+            $filterCondition = null;
+            $optionValues = CRM_Core_PseudoConstant::$value( $filterCondition, $columnName = 'name' );
+            $fieldValue = array_search( 'Customized', $optionValues );
+            if ( CRM_Utils_Array::value( $field, $params ) != $fieldValue ) {
+                $customizedField = $key."_custom";
+                $params[$customizedField] = "";
             }
         } 
         
