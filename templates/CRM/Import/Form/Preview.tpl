@@ -19,23 +19,6 @@ cj(document).ready(function() {
   {literal}
     var finished = 0;
 
-    setFinished = function(data, ioArgs) {
-        var finished = 1;
-        {/literal}
-        if ( data.match( 'unexpected error' ) ) {ldelim}
-            var prog = document.getElementById('error_status');
-            prog.innerHTML = "<p>We encountered an unknown error in setFinished: " + data + "</p>";
-            var ok = confirm( 'Would you like to reload this page and try again?' );
-            if (ok) {ldelim}
-                location.href = "{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}";
-            {rdelim}
-        {rdelim} else {ldelim}
-            location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
-        {rdelim}
-        return data;
-        {literal}
-    }
-
     setError = function(data, ioArgs){
         var prog = document.getElementById('error_status');
         prog.innerHTML = "<p>We encountered an unknown error in setError: " + data + "</p>";
@@ -57,41 +40,40 @@ cj(document).ready(function() {
     }
 
     submitForm = function( e ) {
-        dojo.stopEvent( e );
-
+        cj(document).die(e);
         // Disable Import button
-        if (document.getElementById) {
-            obj = document.getElementsByName('_qf_Preview_next')[0];
-            if (obj.value != null) {
-                obj.value = "Processing...";
-                obj.disabled = true;
-            }
-            obj = document.getElementsByName('_qf_Preview_cancel')[0];
-            if (obj.value != null) {
-                obj.disabled = true;
 
-            }
-            obj = document.getElementsByName('_qf_Preview_back')[0];
-            if (obj.value != null) {
-                obj.disabled = true;
-            }
-        }
-
+        cj('input[type=submit][name="_qf_Preview_next"]').val("Processing...").attr("disabled", "true");
+        cj('input[type=submit][name="_qf_Preview_cancel"]').attr("disabled", "true");
+        cj('input[type=submit][name="_qf_Preview_back"]').attr("disabled", "true");
+    
         hide('help');
         hide('preview-info');
         show('id-processing');
 
-        var kw = {
-            {/literal}
-            url: "{crmURL p='civicrm/import/contact' h=0}",
-            {literal}
-            form: dojo.byId("Preview"),
-            handleAs: "text",
-            load: setFinished,
-            error: setError,
-        };
-        
-        dojo.xhrPost( kw );
+	cj.ajax({
+	     type        : "POST",
+	     url         : "{/literal}{crmURL p='civicrm/import/contact' h=0}{literal}",
+         data        : "{cj('#Preview')}",
+         contentType : "application/text; charset=utf-8",
+         dataType    : "text",
+         success     : function( data ) { 
+                            var finished = 1;
+                            location.href =  "{/literal}{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}{literal}"; 
+                            return data; 
+                       },
+	     error       : function( data, ioArgs ) {
+	                        var finished = 1;
+                    		if ( data.match ==  'unexpected error' ) {
+                			   var prog       = document.getElementById('error_status');
+                			   prog.innerHTML = "<p>We encountered an unknown error in setFinished: " + data + "</p>";
+     	                    if ( confirm( 'Would you like to reload this page and try again?' ) ) { 
+                              location.href = "{/literal}{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}{literal}";
+                            }
+     		           } 
+                       return data;
+	                  }	   
+      });
         pollLoop( );
     }
 
@@ -102,10 +84,6 @@ cj(document).ready(function() {
         }
     }
 
-     dojo.addOnLoad( function( ) {
-       dojo.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
-     } );
-
     {/literal}
 </script>
 {/if}
@@ -114,11 +92,10 @@ cj(document).ready(function() {
 <script type="text/javascript">
 function verify( )
 {
-    var ok = confirm('Are you sure you want to Import now?');
-    if (!ok) {
+    if (! confirm('Are you sure you want to Import now?') ) {
         return false;
     }
-    return ok;
+    submitForm( );
 }
 </script>
 {/literal}
