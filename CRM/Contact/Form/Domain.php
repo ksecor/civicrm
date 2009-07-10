@@ -155,8 +155,8 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         require_once 'CRM/Contact/Form/Location.php';
         $locationCompoments = array('Phone', 'Email');
         CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS ,$locationCompoments);
-        $this->assign( 'index' , 1 );
-        $this->assign( 'blockCount'   , 1 );
+        $this->assign( 'index'  , 1 );
+        $this->assign( 'blockId', 1 );
 
         //hack the address sequence so that state province always comes after country
         $config =& CRM_Core_Config::singleton( );

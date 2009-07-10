@@ -37,19 +37,18 @@
 	</fieldset>
     {* Display the domain address and domain contact blocks if CiviMail is enabled.  *}
     {if array_search('CiviMail', $config->enableComponents)}
-        {capture assign=addressLegend}{ts}CiviMail Domain Address{/ts}{/capture}
-        {capture assign=introText}{ts}CiviMail mailings must include the sending organization's address. This is done by putting the {ldelim}domain.address{rdelim} token in either the body or footer of the mailing. The token is replaced by the address entered below when the mailing is sent.{/ts}{/capture}
         <fieldset><legend>{ts}CiviMail Domain Address{/ts}</legend>
-			{include file="CRM/Contact/Form/Edit/Address.tpl" legend=$addressLegend introText=$introText blockId=1 defaultLocation=1} 
+			<div class="description">{ts}CiviMail mailings must include the sending organization's address. This is done by putting the {ldelim}domain.address{rdelim} token in either the body or footer of the mailing. The token is replaced by the address entered below when the mailing is sent.{/ts}</div>
+			{include file="CRM/Contact/Form/Edit/Address.tpl"} 
 		</fieldset>
         <fieldset><legend>{ts}Additional Domain Contact Information{/ts}</legend>
             <div class="description">{ts}You can also include general email and/or phone contact information in mailings.{/ts} {help id="additional-contact"}</div>
             <table class="form-layout-compressed">
 				{* Display the email block *}  
-				{include file="CRM/Contact/Form/Edit/Email.tpl" hold=1 blockId=1 defaultLocation=1}
+				{include file="CRM/Contact/Form/Edit/Email.tpl" hold=1}
 
 				{* Display the phone block *}
-				{include file="CRM/Contact/Form/Edit/Phone.tpl" blockId=1 defaultLocation=1} 
+				{include file="CRM/Contact/Form/Edit/Phone.tpl"} 
 			</table>
         </fieldset>
     {/if}

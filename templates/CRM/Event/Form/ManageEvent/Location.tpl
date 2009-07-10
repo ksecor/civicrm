@@ -41,14 +41,14 @@
     <div id="newLocation">
 	<fieldset><legend>Address</legend>
 		{* Display the address block *}
-		{include file="CRM/Contact/Form/Edit/Address.tpl" blockId=1 title='' defaultLocation=1} 
+		{include file="CRM/Contact/Form/Edit/Address.tpl" title=''} 
 	</fieldset>
 	<table class="form-layout-compressed">
     {* Display the email block(s) *}  
-    {include file="CRM/Contact/Form/Edit/Email.tpl"  blockId=1 hold=1 defaultLocation=1}
+    {include file="CRM/Contact/Form/Edit/Email.tpl" hold=1}
 
     {* Display the phone block(s) *}
-    {include file="CRM/Contact/Form/Edit/Phone.tpl" blockId=1 defaultLocation=1} 
+    {include file="CRM/Contact/Form/Edit/Phone.tpl"} 
     </table>
 	 <table class="form-layout-compressed">
 	 <tr>

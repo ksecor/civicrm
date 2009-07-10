@@ -220,8 +220,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $locationCompoments = array('Phone', 'Email');
         CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS + 1, true, $locationCompoments);
         $this->addElement('advcheckbox', 'is_show_location', ts('Show Location?') );
-        $this->assign( 'index' , 1 );
-        $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1);
+        $this->assign( 'index'  , 1 );
+        $this->assign( 'blockId', 1 );
         
         //fix for CRM-1971
         $this->assign( 'action', $this->_action );

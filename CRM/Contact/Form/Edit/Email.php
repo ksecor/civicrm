@@ -65,23 +65,22 @@ class CRM_Contact_Form_Edit_Email
         //Email box
         $form->addElement('text',"email[$blockId][email]", ts('Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email', 'email'));
         
-        //Block type
-        $form->addElement('select',"email[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
-        
-        //On-hold checkbox
-        $form->addElement('advcheckbox', "email[$blockId][on_hold]",null);
-        
-        //suppress Bulk Mailings (CRM-2881)
-        if ( is_object( $form ) && !( $form instanceof CRM_Event_Form_ManageEvent_Location ) ) {     
-            //Bulkmail checkbox
-            $js = array( 'id' => "Email_".$blockId."_IsBulkmail", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsBulkmail" );');
-            $form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null, '', $js);
-        }
-        
-        //is_Primary radio
-        $js = array( 'id' => "Email_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsPrimary" );');
-        $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
-        $form->addGroup( $choice, "email[$blockId][is_primary]" );
+		if( isset( $form->_contactType ) ) {
+			//Block type
+			$form->addElement('select',"email[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+			
+			//On-hold checkbox
+			$form->addElement('advcheckbox', "email[$blockId][on_hold]",null);
+			
+			//Bulkmail checkbox
+			$js = array( 'id' => "Email_".$blockId."_IsBulkmail", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsBulkmail" );');
+			$form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null, '', $js);
+
+			//is_Primary radio
+			$js = array( 'id' => "Email_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsPrimary" );');
+			$choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+			$form->addGroup( $choice, "email[$blockId][is_primary]" );
+		}
     }
 }
 

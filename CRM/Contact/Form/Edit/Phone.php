@@ -71,18 +71,18 @@ class CRM_Contact_Form_Edit_Phone
         //phone type select
         $form->addElement('select', "phone[$blockId][phone_type_id]", ts('Phone'), $phoneType, null );
         
-        //Block type select
-        $form->addElement('select',"phone[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
-        
-        //phone box
-        $form->addElement('text', "phone[$blockId][phone]", ts('Phone'), 
-                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone', 'phone'));
-        
-        //is_Primary radio
-        $js = array( 'id' => "Phone_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Phone",'. $blockId . ', "IsPrimary" );');
-        $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
-        $form->addGroup( $choice, "phone[$blockId][is_primary]" );
-              
+		//phone box
+		$form->addElement('text', "phone[$blockId][phone]", ts('Phone'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone', 'phone'));
+		
+		if( isset( $form->_contactType ) ) {
+			//Block type select
+			$form->addElement('select',"phone[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+			
+			//is_Primary radio
+			$js = array( 'id' => "Phone_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Phone",'. $blockId . ', "IsPrimary" );');
+			$choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+			$form->addGroup( $choice, "phone[$blockId][is_primary]" );
+		}              
         // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number
         // $form->addRule( "location[$locationId][phone][$locationId][phone]", ts('Phone number is not valid.'), 'phone' );
     }
