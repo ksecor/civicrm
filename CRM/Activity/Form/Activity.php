@@ -162,7 +162,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                          ),
                   'followup_activity_type_id' =>  array( 'type'       => 'select',
                                                          'label'      => ts('Followup Activity'),
-                                                         'attributes' => array( '' => ts('- select activity -') ) +
+                                                         'attributes' => array( '' => '- '.ts('select activity').' -' ) +
                                                          CRM_Core_PseudoConstant::ActivityType( false ),
                                                          ),
                   'interval'                  =>  array( 'type'       => 'text',
