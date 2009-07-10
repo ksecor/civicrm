@@ -598,3 +598,85 @@ UPDATE  civicrm_preferences
    AND  contact_id IS NULL;
 
 -- End of CRM-4605
+
+-- CRM-4575
+-- add email greeting, postal greeting and addressee fields
+ALTER TABLE `civicrm_contact` 
+ADD `email_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Email Greeting.' AFTER `suffix_id`, 
+ADD `email_greeting_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Email Greeting.' AFTER `email_greeting_id`, 
+ADD `postal_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Postal Greeting.' AFTER `email_greeting_custom`, 
+ADD `postal_greeting_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Postal greeting.' AFTER `postal_greeting_id`, 
+ADD `addressee_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Addressee.' AFTER `postal_greeting_custom`, 
+ADD `addressee_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Addressee.' 
+    AFTER `addressee_id`;
+
+
+-- add option groups email_greeting, postal_greeting, addressee
+INSERT INTO `civicrm_option_group` (`name` , `description` , `is_reserved` , `is_active`)
+VALUES 
+( 'email_greeting',  'Email Greeting Type',  0, 1),
+( 'postal_greeting', 'Postal Greeting Type', 0, 1),
+( 'addressee',       'Addressee Type',       0, 1);
+
+SELECT @og_id_emailGreeting   := max(id) FROM civicrm_option_group WHERE name = 'email_greeting';
+SELECT @og_id_postalGreeting  := max(id) FROM civicrm_option_group WHERE name = 'postal_greeting';
+SELECT @og_id_addressee       := max(id) FROM civicrm_option_group WHERE name = 'addressee';
+
+
+-- add option values for email greeting, postal greeting and addressee
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES
+{literal}
+-- email greetings.
+( @og_id_emailGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_emailGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
+( @og_id_emailGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
+
+-- postal greeting.
+( @og_id_postalGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
+( @og_id_postalGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
+( @og_id_postalGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
+
+-- addressee.
+( @og_id_addressee, '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',          '1', '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',          NULL ,   '1', '1', '1', NULL , '0', '0', '1', NULL , NULL),
+( @og_id_addressee, '{contact.household_name}',    '2', '{contact.household_name}',    NULL ,   '2', '1', '2', NULL , '0', '0', '1', NULL , NULL),
+( @og_id_addressee, '{contact.organization_name}', '3', '{contact.organization_name}', NULL ,   '3', '1', '3', NULL , '0', '0', '1', NULL , NULL),
+( @og_id_addressee, 'Customized',                  '4', 'Customized',                  NULL , NULL , '0', '4', NULL , '0', '1', '1', NULL , NULL);
+{/literal}
+
+-- Set civicrm_contact.addressee_id to default value for the given contact type. 
+SELECT @value := value FROM civicrm_option_value 
+  INNER JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
+  WHERE civicrm_option_group.name = 'addressee' AND 
+        civicrm_option_value.filter = 1 AND 
+        civicrm_option_value.is_default = 1;
+UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Individual';
+
+SELECT @value := value FROM civicrm_option_value 
+  INNER JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
+  WHERE civicrm_option_group.name = 'addressee' AND 
+        civicrm_option_value.filter = 2 AND
+        civicrm_option_value.is_default = 1;
+UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Household';
+
+SELECT @value := value FROM civicrm_option_value 
+  INNER JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
+  WHERE civicrm_option_group.name = 'addressee' AND 
+        civicrm_option_value.filter = 3 AND
+        civicrm_option_value.is_default = 1;
+UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Organization';
+
+
+--  replace {contact.contact_name} with {contact.addressee}. in civicrm_preference.mailing_format
+{literal}
+ UPDATE civicrm_preferences 
+  SET `mailing_format` = replace(`mailing_format`, '{contact.contact_name}','{contact.addressee}');
+{/literal}
+
+-- drop column individual_name_format
+ ALTER TABLE `civicrm_preferences` DROP `individual_name_format`;
