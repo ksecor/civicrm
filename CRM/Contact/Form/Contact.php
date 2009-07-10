@@ -141,7 +141,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->set( 'maxLocationBlocks',  $this->_maxLocationBlocks );
         }
         
-        
         $this->_addBlockName  = CRM_Utils_Array::value( 'block', $_GET );
         $additionalblockCount = CRM_Utils_Array::value( 'count', $_GET );
         $this->assign( "addBlock", false );
@@ -560,7 +559,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $params['shared_household'] = $params['shared_household_id'];
         }
         $params['current_employer'] = $params['current_employer_id'];
-                
+        
         //if email/postal greeting or addressee is not of the type customized, 
         //unset previously set custom value,CRM-4575
         $elements = array( 'email_greeting_id'  => 'email_greeting_custom', 
@@ -570,7 +569,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             if ( CRM_Utils_Array::value( $field, $params ) != 4) {
                 $params[$customField] = "";
             }
-        }    
+        } 
         
         $params['contact_type'] = $this->_contactType;
         if ( $this->_contactId ) {
@@ -607,22 +606,22 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             // this is a chekbox, so mark false if we dont get a POST value
             $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
         }
-    //    crm_core_error::debug( 'debug', $params);
-         // copy household address, if use_household_address option (for individual form) is checked
-         if ( $this->_contactType == 'Individual' ) {
-             if ( CRM_Utils_Array::value( 'use_household_address', $params ) && 
-                  CRM_Utils_Array::value( 'shared_household',$params ) ) {
-                 if ( is_numeric( $params['shared_household'] ) ) {
-                     CRM_Contact_Form_Edit_Individual::copyHouseholdAddress( $params );
-                 }
-                 CRM_Contact_Form_Edit_Individual::createSharedHousehold( $params );
-             } else { 
-                 $params['mail_to_household_id'] = 'null';
-             }
-         } else {
-             $params['mail_to_household_id'] = 'null';
-         }
-
+        
+        // copy household address, if use_household_address option (for individual form) is checked
+        if ( $this->_contactType == 'Individual' ) {
+            if ( CRM_Utils_Array::value( 'use_household_address', $params ) && 
+                 CRM_Utils_Array::value( 'shared_household',$params ) ) {
+                if ( is_numeric( $params['shared_household'] ) ) {
+                    CRM_Contact_Form_Edit_Individual::copyHouseholdAddress( $params );
+                }
+                CRM_Contact_Form_Edit_Individual::createSharedHousehold( $params );
+            } else { 
+                $params['mail_to_household_id'] = 'null';
+            }
+        } else {
+            $params['mail_to_household_id'] = 'null';
+        }
+        
         // cleanup unwanted location blocks
         if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             require_once 'CRM/Core/BAO/Location.php';
@@ -632,17 +631,17 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create( $params, true,false );
         
-         if ( $this->_contactType == 'Individual' && ( CRM_Utils_Array::value( 'use_household_address', $params )) &&
-              CRM_Utils_Array::value( 'mail_to_household_id',$params ) ) {
-             // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
-             CRM_Contact_Form_Edit_Individual::handleSharedRelation($contact->id , $params );
-         }
+        if ( $this->_contactType == 'Individual' && ( CRM_Utils_Array::value( 'use_household_address', $params )) &&
+             CRM_Utils_Array::value( 'mail_to_household_id',$params ) ) {
+            // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
+            CRM_Contact_Form_Edit_Individual::handleSharedRelation($contact->id , $params );
+        }
         
 //         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
 //             //TO DO: commented because of schema changes
 //             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
 //         }
-
+        
         if ( array_key_exists( 'TagsAndGroups', $this->_editOptions ) ) {
             //add contact to group
             require_once 'CRM/Contact/BAO/GroupContact.php';
@@ -661,7 +660,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         if ( ($buttonName == $this->getButtonName( 'next', 'new' ) ) ||
              ($buttonName == $this->getButtonName( 'upload', 'new' ) ) ) {
             require_once 'CRM/Utils/Recent.php';
-
+            
             // add the recently viewed contact
             $displayName = CRM_Contact_BAO_Contact::displayName( $contact->id );
             CRM_Utils_Recent::add( $displayName,
@@ -674,7 +673,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
         }
-
+        
         // now invoke the post hook
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
@@ -682,112 +681,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
         }
     }
-
-
-    function sampleParams( ) {
-        //sample params array
-        $params = array( 'contact_id'          => 102,
-                         'prefix_id'           => 3,
-                         'first_name'          => 'firstName',
-                         'middle_name'         => '',
-                         'last_name'           => 'lastName',
-                         'suffix_id'           => 2,
-                         'nick_name'           => '',
-                         'job_title'           => '',
-                         'current_employer'    => '',
-                         'contact_source'      => '',
-                         'external_identifier' => '', 
-                         'hidden_Email_Count'  => 2,
-                         'hidden_Phone_Count'  => 2,
-                         'hidden_IM_Count'     => 2,
-                         'hidden_OpenID_Count' => 2,
-                         'hidden_Address_Count'=> 2,
-                         'email' => array ( 1 => array (
-                                                        'email'            => 'email_one@y.com',
-                                                        'location_type_id' => 1,
-                                                        'on_hold'          => false,
-                                                        'is_bulkmail'      => 1,
-                                                        'is_primary'       => 1,
-                                                        ),
-                                            2 => array (
-                                                        'email'            => 'email_two@y.com',
-                                                        'location_type_id' => 5,
-                                                        'on_hold'          => 1,
-                                                        'is_bulkmail'      => false,
-                                                        'is_primary'       => false,
-                                                        ) 
-                                            ),
-                         'phone' => array ( 1 => array ( 
-                                                        'phone'            => 1111111,
-                                                        'phone_type_id'    => 1,
-                                                        'location_type_id' => 1,
-                                                        'is_primary'       => true
-                                                        ),
-                                            2 => array ( 
-                                                        'phone'            => 2222222,
-                                                        'phone_type_id'    => 2,
-                                                        'location_type_id' => 5,
-                                                        'is_primary'       => false
-                                                        ),
-                                            ),
-                         'im' => array ( 1 => array ( 'name'               => 'im_one',
-                                                      'provider_id'        => 3,
-                                                      'location_type_id'   => 1,
-                                                      'is_primary'         => true
-                                                      ),
-                                         2 => array ( 'name'               => 'im_two',
-                                                      'provider_id'        => 4,
-                                                      'location_type_id'   => 5,
-                                                      'is_primary'         => false
-                                                      ),
-                                         ),
-                         'openid' => array ( 1 => array ( 'openid'           => 'http://civicrm.org/', 
-                                                          'is_primary'       => 1, 
-                                                          'location_type_id' => 1,
-                                                          ),
-                                             2 => array ( 'openid'           => 'http://civicrm.org/blog', 
-                                                          'is_primary'       => false, 
-                                                          'location_type_id' => 5,
-                                                          ),
-                                             ),
-                         'address' => array ( 1 => array ( 'location_type_id'       => 1,
-                                                           'is_primary'             => 1,
-                                                           'street_address'         => 'Street Address 1',
-                                                           'supplemental_address_1' => "Addt'l Address 1 1",
-                                                           'city'                   => 'City 1',
-                                                           'postal_code'            => '12345',
-                                                           'postal_code_suffix'     => '123',
-                                                           'state_province_id'      => '1004',
-                                                           'country_id'             => '1228',
-                                                           ),
-                                              2 => array ( 'location_type_id'       => 5,
-                                                           'is_billing'             => 1,
-                                                           'street_address'         => 'Street Address 2',
-                                                           'supplemental_address_1' => "Addt'l Address 1 2",
-                                                           'city'                   => 'City 2',
-                                                           'postal_code'            => 12345,
-                                                           'postal_code_suffix'     => 123,
-                                                           'state_province_id'      => 1000,
-                                                           'country_id'             => 1228,
-                                                           ),
-                                              ),
-                         'privacy' => array ( 'do_not_phone' => false,
-                                              'do_not_email' => false,
-                                              'do_not_mail' => false,
-                                              'do_not_sms' => false,
-                                              'do_not_trade' => false, 
-                                              ),
-                         'preferred_communication_method' => array ( 1 => true,
-                                                                     2 => true,
-                                                                     3 => true,
-                                                                     4 => true,
-                                                                     5 => true,
-                                                                     ),
-                         );
-
-        return $params; 
-    }
-
+    
     /**
      * is there any real significant data in the hierarchical location array
      *

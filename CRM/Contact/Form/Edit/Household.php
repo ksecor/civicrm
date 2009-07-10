@@ -108,16 +108,16 @@ class CRM_Contact_Form_Edit_Household
         }
         
         //code for dupe match
-        if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields )) {
+        if ( ! CRM_Utils_Array::value( '_qf_Contact_next_duplicate', $fields )) {
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Household');
-            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Household', 'Fuzzy', array($options));
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Household', 'Fuzzy', array($contactId));
             $viewUrls = array( );
             $urls     = array( );
             foreach ( $dupeIDs as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                 $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
-                '" target="_blank">' . $displayName . '</a>';
+                    '" target="_blank">' . $displayName . '</a>';
                 $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
                     '">' . $displayName . '</a>';
             }
@@ -138,6 +138,7 @@ class CRM_Contact_Form_Edit_Household
                 CRM_Core_Session::setStatus( 'No matching contact found.' );
             }
         }
+        
         //if email greeting type is 'Customized' 
         //then Custom greeting field must have a value. CRM-4575
         if ( CRM_Utils_Array::value('email_greeting_id',$fields) == 4 && 

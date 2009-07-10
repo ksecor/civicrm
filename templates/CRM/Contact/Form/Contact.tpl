@@ -34,6 +34,12 @@
                {$entityID}</td>
             </tr>            
         </table>
+
+        {*  add dupe buttons *}
+        {$form._qf_Contact_refresh_dedupe.html}
+        {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Contact_next_duplicate.html}{/if}
+        <div class="spacer"></div>
+
     </div>
     
     {foreach from = $editOptions item = "title" key="name"}
