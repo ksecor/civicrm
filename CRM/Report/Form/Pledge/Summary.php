@@ -59,8 +59,31 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                          'grouping'  => 'contact-fields',
                          ),
 			    
+                  'civicrm_address' =>
+                  array( 'dao'      => 'CRM_Core_DAO_Address',
+                         'fields'   =>
+                         array( 'street_address'    => null,
+                                'city'              => null,
+                                'postal_code'       => null,
+                                'state_province_id' => 
+                                array( 'title'      => ts( 'State/Province' ), ),
+                                'country_id'        => 
+                                array( 'title'      => ts( 'Country' ),  
+                                       'default'    => true ), 
+                                ),
+                         'grouping'=> 'contact-fields',
+                         ),
+                  
+                  'civicrm_email' => 
+                  array( 'dao'    => 'CRM_Core_DAO_Email',
+                         'fields' =>
+                         array( 'email' =>
+                                array( 'no_repeat' => true), ),
+                         'grouping'=> 'contact-fields',
+                         ),
+                  
                   'civicrm_pledge'  =>
-                  array('dao'       => 'CRM_Contact_DAO_Contact',
+                  array('dao'       => 'CRM_Pledge_DAO_Pledge',
                         'fields'    =>
                         array('id'         =>
                               array( 'no_display'=> true,
@@ -73,7 +96,7 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                               'amount'     =>
                               array( 'title'     => ts('Pledge Amount'),
                                      'required'  => true,
-                                     'type'      => 1024              ),
+                                     'type'      => CRM_Utils_Type::T_MONEY ),
                               
                               'frequency_unit'=>
                               array( 'title'=> ts('Frequency Unit'),),
@@ -83,16 +106,14 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                               
                               'start_date'  =>
                               array( 'title'=> ts('Start Date'),
-                                     'type' => 12             ),
+                                     'type' => CRM_Utils_Type::T_DATE ),
                               
-                              'create_date' =>
-                              array( 'title'=> ts('Create Date'),
-                                     'type' => 12              ),
-                                          
+                              'pledge_create_date' =>
+                              array( 'title'=> ts('Create Date'), ),                                        
 
                               'end_date'    =>   
                               array( 'title'=> ts('End Date'),
-                                     'type' => 12           ),
+                                     'type' => CRM_Utils_Type::T_DATE ),
                               
                               'status_id'   =>
                               array( 'title'   => ts('Pledge Status'),
@@ -101,8 +122,8 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                               ),
                         'filters'   => 
                         array(
-                              'create_date' => array( 'title'        => 'Event Create Date',
-                                                      'operatorType' => CRM_Report_Form::OP_DATE ),
+                              'pledge_create_date' => array( 'title'        => 'Event Create Date',
+                                                             'operatorType' => CRM_Report_Form::OP_DATE ),
                               'sid'         => array( 'name'    => 'status_id',
                                                       'title'   => ts( 'Status Type' ),
                                                       'operatorType' => CRM_Report_Form::OP_MULTISELECT ,
@@ -117,8 +138,9 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                                        'title'   => ts( 'Creditor\'s Group' ),
                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ) ), ),
+                  
+                  
                   );
-        
         parent::__construct( );
     }
     
@@ -134,6 +156,14 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                 foreach ( $table['fields'] as $fieldName => $field ) {
                     if ( CRM_Utils_Array::value( 'required', $field ) ||
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
+
+                        // to include optional columns address and email, only if checked
+                        if ( $tableName == 'civicrm_address' ) {
+                            $this->_addressField = true;
+                            $this->_emailField = true; 
+                        } else if ( $tableName == 'civicrm_email' ) { 
+                            $this->_emailField = true;  
+                        }
                         
                         $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
@@ -143,24 +173,41 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
             }
         }
         
-        $this->_select = "SELECT " . implode( ', ', $select ) . " , payment.id as payment_id, payment.scheduled_amount, payment.scheduled_date, payment.status_id ";
+        $this->_select = "SELECT DISTINCT " . implode( ', ', $select );
     }
     
     function from( ) {
         $this->_from = "
             FROM civicrm_pledge {$this->_aliases['civicrm_pledge']}
                  LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
-                      ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_pledge']}.contact_id )
-
-                 LEFT JOIN  civicrm_pledge_payment payment 
-                      ON ( payment.pledge_id ={$this->_aliases['civicrm_pledge']}.id )
+                      ON ({$this->_aliases['civicrm_contact']}.id = 
+                          {$this->_aliases['civicrm_pledge']}.contact_id )
  
-                 LEFT  JOIN civicrm_group_contact group_contact 
-                      ON {$this->_aliases['civicrm_pledge']}.contact_id = group_contact.contact_id  AND group_contact.status='Added'
+                 LEFT JOIN civicrm_group_contact group_contact 
+                      ON {$this->_aliases['civicrm_pledge']}.contact_id =
+                           group_contact.contact_id  AND
+                           group_contact.status='Added'
 
-                 LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
+                 LEFT JOIN civicrm_group {$this->_aliases['civicrm_group']} 
                       ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id ";
 
+        // include address field if address column is to be included
+        if ( $this->_addressField ) {  
+            $this->_from .= "
+                 LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
+                           ON ({$this->_aliases['civicrm_contact']}.id = 
+                               {$this->_aliases['civicrm_address']}.contact_id) AND
+                               {$this->_aliases['civicrm_address']}.is_primary = 1\n";
+        }
+        
+        // include email field if email column is to be included
+        if ( $this->_emailField ) { 
+            $this->_from .= "
+                 LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']} 
+                           ON ({$this->_aliases['civicrm_contact']}.id = 
+                               {$this->_aliases['civicrm_email']}.contact_id) AND 
+                               {$this->_aliases['civicrm_email']}.is_primary = 1\n";     
+        }
     }
 
     function where( ) {
@@ -183,9 +230,12 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                             $clause = 
                                 $this->whereClause( $field,
                                                     $op,
-                                                    CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                                                    CRM_Utils_Array::value( "{$fieldName}_value", 
+                                                                            $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_min",
+                                                                            $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_max",
+                                                                            $this->_params ) );
                         }
                     }
                     
@@ -198,121 +248,187 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ({$this->_aliases['civicrm_pledge']}.is_test=0 ) ";
         } else {
-            $this->_where = "WHERE  ({$this->_aliases['civicrm_pledge']}.is_test=0 )  AND " . implode( ' AND ', $clauses );
+            $this->_where = "WHERE  ({$this->_aliases['civicrm_pledge']}.is_test=0 )  AND 
+                                      " . implode( ' AND ', $clauses );
         }
     }
- 
-    function groupBy( ) {
+     
+    function postProcess( ) {
         
-        $this->_groupBy = "GROUP BY {$this->_aliases['civicrm_pledge']}.contact_id ,{$this->_aliases['civicrm_pledge']}.id, payment.id ";
+        $this->beginPostProcess( );        
+        $this->select ( );
+        $this->from   ( null, true );
+        $this->where  ( ); 
+        $this->limit( );  
         
-    }
-    
-    function buildRows( $sql, &$rows ) {
+        $sql   = "{$this->_select} {$this->_from} {$this->_where} {$this->_limit}"; 
         
-        $tableHeader = array( 'scheduled_date'  => array ( 'type'  => 12 , 
+        $rows  = $payment = array();
+        $count = $due = $paid = 0;
+        
+        $dao   = CRM_Core_DAO::executeQuery( $sql );
+
+        // Set pager for the Main Query only which displays basic information
+        $this->setPager( );
+        $this->assign ( 'columnHeaders', $this->_columnHeaders );
+       
+        while( $dao->fetch() ){ 
+            $pledgeID  = $dao->civicrm_pledge_id;
+            foreach ( $this->_columnHeaders as $columnHeadersKey => $columnHeadersValue ) {
+                $row = array();
+                if ( property_exists( $dao, $columnHeadersKey ) ) {
+                    $display[$pledgeID][$columnHeadersKey] = $dao->$columnHeadersKey;
+                }
+            }
+            $pledgeIDArray[] = $pledgeID;
+        }
+        $dao->free( );
+        
+        // Pledge- Payment Detail Headers 
+        $tableHeader = array( 'scheduled_date'  => array ( 'type'  => CRM_Utils_Type::T_DATE , 
                                                            'title' => 'Next Payment Date'),
-                              'scheduled_amount'=> array ( 'type'  => 1024 , 
+                              'scheduled_amount'=> array ( 'type'  => CRM_Utils_Type::T_MONEY , 
                                                            'title' => 'Next Payment Amount'),  
-                              'total_paid'      => array ( 'type'  => 1024 , 
+                              'total_paid'      => array ( 'type'  => CRM_Utils_Type::T_MONEY , 
                                                            'title' => 'Total Paid'),
-                              'balance_due'     => array ( 'type'  => 1024 , 
+                              'balance_due'     => array ( 'type'  => CRM_Utils_Type::T_MONEY , 
                                                            'title' => 'Balance Due') , 
                               'status_id'       => null,
                               );
-        
-        $pledge_data = $payment = array();
-        
-        $dao         = CRM_Core_DAO::executeQuery( $sql );
-        
-        $check_id    = 0;
-        while ( $dao->fetch( )  ) {
-            
-            $row = array();
-            foreach ( $this->_columnHeaders as $key => $value ){
-                
-                $row[$key] = $dao->$key;
-                $pledge_data[$dao->civicrm_pledge_id][$dao->payment_id][$key] = $dao->$key;	  
-            }
-            
-            foreach ( $tableHeader as $key => $value ) {
-                
-                $pledge_data[$dao->civicrm_pledge_id][$dao->payment_id][$key] = $dao->$key;
-            }
-            if( !($check_id == $dao->civicrm_pledge_id) ) {
-                
-                $check_id        = $dao->civicrm_pledge_id;
-                $rows[$check_id] = $row;
-            } 
-            
-        }
-        
         foreach ( $tableHeader as $k => $val ) {
             $this->_columnHeaders[$k] = $val;
-        } 
+        }
         
-        foreach ( $pledge_data as $pledge_id => $data ) {
-            $count = $due = $paid = 0;	
-            foreach ( $data as $payment_id => $payment_info ) {
-                
-                if ( $payment_info['status_id'] == 2 ) {
-                    $due = $due + $payment_info['scheduled_amount'];
-                    if ( $count == 0 ){
-                        $first_date = $payment_info['scheduled_date'];
-                        $payment[$pledge_id]['scheduled_date'  ] = $first_date;
-                        $payment[$pledge_id]['scheduled_amount'] = $payment_info['scheduled_amount'];
-                    } else {
-                        if ( $first_date > $payment_info['scheduled_date'] ) {
-                            $first_date = $payment_info['scheduled_date'];
-                            $payment[$pledge_id]['scheduled_date'  ] = $first_date; 
-                            $payment[$pledge_id]['scheduled_amount'] = $payment_info['scheduled_amount'];
-                        }
+        // To Display Payment Details of pledged amount
+        // for pledge payments In Progress
+        if ( !empty( $display ) ){
+            $sqlPayment = "
+                 SELECT min(payment.scheduled_date) as scheduled_date,
+                        payment.pledge_id, 
+                        payment.scheduled_amount, 
+                        pledge.contact_id
+              
+                  FROM civicrm_pledge_payment payment 
+                       LEFT JOIN civicrm_pledge pledge 
+                                 ON pledge.id = payment.pledge_id
+                     
+                  WHERE payment.status_id = 2  
+
+                  GROUP BY payment.pledge_id";
+            
+            $daoPayment = CRM_Core_DAO::executeQuery( $sqlPayment );
+            
+            while ( $daoPayment->fetch() ) {
+                foreach ( $pledgeIDArray as $key => $val ) {
+                    if ( $val == $daoPayment->pledge_id ) {
+
+                        $display[$daoPayment->pledge_id]['scheduled_date']   = 
+                            $daoPayment->scheduled_date;
+
+                        $display[$daoPayment->pledge_id]['scheduled_amount'] = 
+                            $daoPayment->scheduled_amount;
                     }
-                    $count++;
-                } else if ( $payment_info['status_id'] == 1 ) {
-                    $paid = $paid + $payment_info['scheduled_amount'];
+                }
+            }
+            
+            // Do calculations for Total amount paid AND
+            // Balance Due, based on Pledge Status either 
+            // In Progress, Pending or Completed
+            foreach ( $display as $pledgeID => $data ) {
+                $count = $due = $paid = 0;
+
+                // Get Sum of all the payments made
+                $payDetailsSQL = "
+                    SELECT SUM( payment.scheduled_amount ) as total_amount 
+                       FROM civicrm_pledge_payment payment 
+                       WHERE payment.pledge_id = {$pledgeID} AND
+                             payment.status_id = 1";
+                
+                $totalPaidAmt = CRM_Core_DAO::singleValueQuery( $payDetailsSQL );
+                
+                if ( CRM_Utils_Array::value( 'civicrm_pledge_status_id', $data ) == 5 ) {
+                    $due  = $data['civicrm_pledge_amount'] - $totalPaidAmt;
+                    $paid = $totalPaidAmt;
+                    $count++; 
+                } else if ( CRM_Utils_Array::value( 'civicrm_pledge_status_id', $data ) == 2 ) {
+                    $due  = $data['civicrm_pledge_amount']; 
+                    $paid = 0;
+                } else if ( CRM_Utils_Array::value( 'civicrm_pledge_status_id', $data ) == 1 ) {
+                    $due  = 0;
+                    $paid = $paid + $data['civicrm_pledge_amount'];
                 }
                 
-                $payment[$pledge_id]['total_paid' ] = $paid;
-                $payment[$pledge_id]['balance_due'] = $due;
+                $display[$pledgeID]['total_paid' ] = $paid;
+                $display[$pledgeID]['balance_due'] = $due;
             }
+        }
+        $daoPayment->free( );
+        
+        // Displaying entire data on the form
+        if( ! empty( $display ) ) {
+            foreach( $display as $key => $value ) {                
+                $row = array( );  
+                foreach ( $this->_columnHeaders as $columnKey => $columnValue ) {
+                    if ( CRM_Utils_Array::value( $columnKey, $value ) ) {
+                        $row[ $columnKey ] = $value [ $columnKey ];
+                    }
+                } 
+                $rows[ ] = $row;
+            }     
         }
         
-        foreach ( $payment as $pledge_id => $pay_data){
-            foreach ($pay_data as $k => $val) {
-                $rows[$pledge_id][$k] = $val;
-            }
-        }
         unset($this->_columnHeaders['status_id']);
+        unset($this->_columnHeaders['civicrm_pledge_id']);
         unset($this->_columnHeaders['civicrm_pledge_contact_id']);
-    }
-    
-    function postProcess( ) {
-        
-        $this->beginPostProcess( );
-        $sql  = $this->buildQuery( false );
-        
-        $rows = $graphRows = array();
-        $this->buildRows ( $sql, $rows );
-        
-        $this->formatDisplay( $rows );
+               
+        $this->formatDisplay( $rows, false);
         $this->doTemplateAssignment( $rows );
-        $this->endPostProcess( );	
+        $this->endPostProcess( $rows );
     }
     
     function alterDisplay( &$rows ) {
         // custom code to alter rows
         $entryFound = false;
-        $checkList  =  array();  
+        $checkList  =  array();
+        $display_flag = $prev_cid = $cid =  0;
+
         foreach ( $rows as $rowNum => $row ) {
+            if ( !empty($this->_noRepeats) ) {
+                // don't repeat contact details if its same as the previous row
+                if ( array_key_exists('civicrm_pledge_contact_id', $row ) ) {
+                    if ( $cid =  $row['civicrm_pledge_contact_id'] ) {
+                        if ( $rowNum == 0 ) {
+                            $prev_cid = $cid;
+                        } else {
+                            if( $prev_cid == $cid ) {
+                                $display_flag = 1;
+                                $prev_cid = $cid;
+                            } else {
+                                $display_flag = 0;
+                                $prev_cid = $cid;
+                            }
+                        }
+                        
+                        if ( $display_flag ) {
+                            foreach ( $row as $colName => $colVal ) {
+                                if ( in_array($colName, $this->_noRepeats) ) {
+                                    unset($rows[$rowNum][$colName]);          
+                                }
+                            }
+                        }
+                        $entryFound = true;
+                    }
+                }
+            }
+            
             // convert display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_pledge_contact_id', $row) ) {
-                $url = CRM_Report_Utils_Report::getNextUrl( 'contact/detail', 
-                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_pledge_contact_id'], 
-                                                            $this->_absoluteUrl, $this->_id);
-                $rows[$rowNum]['civicrm_contact_display_name'] = $row['civicrm_contact_display_name'];
-                $rows[$rowNum]['civicrm_contact_display_name_link'] = $url; 
+                $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
+                                              'reset=1&cid=' . $row['civicrm_pledge_contact_id'] );
+                $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
+                $rows[$rowNum]['civicrm_contact_display_name_hover'] =  
+                    ts("View Contact Summary for this Contact.");
                 $entryFound = true;
             }
             
@@ -325,23 +441,24 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                 $entryFound = true;
             } 
             
-            if ( !empty($this->_noRepeats) ) {
-                // not repeat contact display names if it matches with the one 
-                // in previous row
-                
-                $repeatFound = false;
-                foreach ( $row as $colName => $colVal ) {
-                    if ( is_array($checkList[$colName]) && 
-                         in_array($colVal, $checkList[$colName]) ) {
-                        $rows[$rowNum][$colName] = "";
-                        $repeatFound = true; 
-                    }
-                    if ( in_array($colName, $this->_noRepeats) ) {
-                        $checkList[$colName][] = $colVal;
-                    }
+            // handle state province
+            if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
+                if ( $value = $row['civicrm_address_state_province_id'] ) {
+                    $rows[$rowNum]['civicrm_address_state_province_id'] = 
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value, false );
                 }
+                $entryFound = true;
             }
             
+            // handle country
+            if ( array_key_exists('civicrm_address_country_id', $row) ) {
+                if ( $value = $row['civicrm_address_country_id'] ) {
+                    $rows[$rowNum]['civicrm_address_country_id'] = 
+                        CRM_Core_PseudoConstant::country( $value, false );
+                }
+                $entryFound = true;
+            }
+
             // skip looking further in rows, if first row itself doesn't 
             // have the column we need
             if ( !$entryFound ) {
