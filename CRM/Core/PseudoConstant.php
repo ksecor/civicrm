@@ -1402,12 +1402,12 @@ ORDER BY name";
      * @return array - array reference of all email greetings.
      *
      */
-    public static function &emailGreeting( $filterCondition )
+    public static function &emailGreeting( $filterCondition, $columnName = 'label' )
     {
         if ( ! self::$emailGreeting ) {
             require_once 'CRM/Core/OptionGroup.php';
             self::$emailGreeting = CRM_Core_OptionGroup::values('email_greeting', null, null, null, 
-                                                                $filterCondition);
+                                                                $filterCondition, $columnName );
         }
         return self::$emailGreeting;
     }
@@ -1425,12 +1425,12 @@ ORDER BY name";
      * @return array - array reference of all postal greetings.
      *
      */
-    public static function &postalGreeting( $filterCondition )
+    public static function &postalGreeting( $filterCondition, $columnName = 'label' )
     {
         if ( ! self::$postalGreeting ) {
             require_once 'CRM/Core/OptionGroup.php';
             self::$postalGreeting = CRM_Core_OptionGroup::values('postal_greeting', null, null, null, 
-                                                                 $filterCondition);
+                                                                 $filterCondition, $columnName );
         }
         return self::$postalGreeting;
     }
@@ -1448,11 +1448,12 @@ ORDER BY name";
      * @return array - array reference of all addressee.
      *
      */
-    public static function &addressee( $filterCondition )
+    public static function &addressee( $filterCondition, $columnName = 'label' )
     {
         if ( ! self::$addressee ) {
             require_once 'CRM/Core/OptionGroup.php';
-            self::$addressee = CRM_Core_OptionGroup::values('addressee', null, null, null, $filterCondition);
+            self::$addressee = CRM_Core_OptionGroup::values('addressee', null, null, null, 
+                                                            $filterCondition, $columnName );
         }
         return self::$addressee;
     }
