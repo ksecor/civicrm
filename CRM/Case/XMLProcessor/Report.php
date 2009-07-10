@@ -290,7 +290,7 @@ WHERE      a.id = %1
             }
             
             $activity['fields'][] = array( 'label' => 'Client',
-                                           'value' => $this->redact( $clientName ),
+                                           'value' => $this->redact( $client ),
                                            'type'  => 'String' );
         }
         
