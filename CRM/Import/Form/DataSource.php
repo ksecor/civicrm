@@ -61,7 +61,7 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         $daoTestPrivilege = new CRM_Core_DAO;
         $daoTestPrivilege->query( "CREATE TEMPORARY TABLE import_job_permission_one(test int) ENGINE=InnoDB" );
         $daoTestPrivilege->query( "CREATE TEMPORARY TABLE import_job_permission_two(test int) ENGINE=InnoDB" );
-        $daoTestPrivilege->query( "DROP TABLE IF EXISTS import_job_permission_one, import_job_permission_one" );
+        $daoTestPrivilege->query( "DROP TABLE IF EXISTS import_job_permission_one, import_job_permission_two" );
         CRM_Core_Error::setCallback();
         
         if ( $daoTestPrivilege->_lastError ) {
