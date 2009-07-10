@@ -40,6 +40,10 @@ class CRM_Utils_Hook {
     const DASHBOARD_ABOVE = 2;		// Place content above activity list
     const DASHBOARD_REPLACE = 3;	// Don't display activity list at all
     
+    const SUMMARY_BELOW = 1;         // by default - place content below existing content
+    const SUMMARY_ABOVE = 2;         // pace hook content above
+    const SUMMARY_REPLACE = 3;       // create your own summarys
+    
     /** 
      * This hook is called before a db write on some core objects.
      * This hook does not allow the abort of the operation 
@@ -512,6 +516,25 @@ class CRM_Utils_Hook {
                   $config->userHookClass .
                   '::invoke( 2, $form, $membershipTypes, $null, $null, $null, \'civicrm_membershipTypeValues\' );' );
                                     
+    }
+    
+    /** 
+     * This hook is called when rendering the contact summary
+     * 
+     * @param int $contactID - the contactID for whom the summary is being rendered
+     * @param int $contentPlacement - (output parameter) where should the hook content be displayed relative to the existing content
+     *  
+     * @return string the html snippet to include in the contact summary
+     * @access public 
+     */
+    static function summary( $contactID, &$content, &$contentPlacement = self::SUMMARY_BELOW ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 3, $contactID, $content, $contentPlacement, $null, $null, \'civicrm_summary\' );' );
     }
 
 }
