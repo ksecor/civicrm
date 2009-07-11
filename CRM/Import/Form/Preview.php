@@ -114,7 +114,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $statusID = md5(uniqid(rand(), true));
             $this->set( 'statusID', $statusID );
         }
-        $this->assign('statusID', $statusID );
+        $statusUrl = CRM_Utils_System::url('civicrm/ajax/status', "id={$statusID}");
+		$this->assign( 'statusUrl', $statusUrl );
         
         $showColNames = true;
         if ( 'CRM_Import_DataSource_CSV' == $this->get( 'dataSource' ) && 
