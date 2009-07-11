@@ -362,6 +362,7 @@ ORDER BY weight, parent_id";
             $permissions = explode(',', $permission ); 
             $config  =& CRM_Core_Config::singleton( );
             
+            $hasPermission = false;    
             foreach ( $permissions as $key ) {
                 $showItem = true;
                 //hack to determine if it's a component related permission
@@ -374,6 +375,8 @@ ORDER BY weight, parent_id";
                             $skipMenuItems[] = $navID;
                             return $showItem;
                         }
+                    } else {
+                        $hasPermission = true;
                     }
                } else if ( !CRM_Core_Permission::check( $key ) ) {
                      $showItem = false;
@@ -381,10 +384,12 @@ ORDER BY weight, parent_id";
                          $skipMenuItems[] = $navID;
                          return $showItem;
                      }
+                } else {
+                    $hasPermission = true;
                 }
             }
             
-            if ( !$showItem ) {
+            if ( !$showItem && !$hasPermission ) {
                 $skipMenuItems[] = $navID;
                 return false;
             }   
