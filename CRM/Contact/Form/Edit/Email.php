@@ -64,7 +64,7 @@ class CRM_Contact_Form_Edit_Email
         
         //Email box
         $form->addElement('text',"email[$blockId][email]", ts('Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email', 'email'));
-        
+        $form->addRule( "email[$blockId][email]", ts('Email is not valid.'), 'email' );
 		if( isset( $form->_contactType ) ) {
 			//Block type
 			$form->addElement('select',"email[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
