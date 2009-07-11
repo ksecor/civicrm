@@ -921,12 +921,21 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
             $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject     , $contact, false, $subjectToken);
             $tokenSubject = CRM_Utils_Token::replaceHookTokens   ( $tokenSubject, $contact, $categories, false );
+            
+            //CRM-4539
+            if ( $contact['preferred_mail_format'] == 'Text' || $contact['preferred_mail_format'] == 'Both' ) {
+                $tokenText    = CRM_Utils_Token::replaceContactTokens( $text     , $contact, false, $messageToken);
+                $tokenText    = CRM_Utils_Token::replaceHookTokens   ( $tokenText, $contact, $categories, false );
+            } else {
+                $tokenText = null;
+            } 
 
-            $tokenText    = CRM_Utils_Token::replaceContactTokens( $text     , $contact, false, $messageToken);
-            $tokenText    = CRM_Utils_Token::replaceHookTokens   ( $tokenText, $contact, $categories, false );
-
-            $tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html     , $contact, true , $messageToken);
-            $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
+            if ( $contact['preferred_mail_format'] == 'HTML' || $contact['preferred_mail_format'] == 'Both' ) {
+                $tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html     , $contact, true , $messageToken);
+                $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
+            } else {
+                $tokenHtml = null;
+            }
 
             if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
                 // also add the contact tokens to the template
