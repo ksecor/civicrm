@@ -974,11 +974,11 @@ INSERT INTO civicrm_navigation
 
 ( 64, NULL, '{ts escape="sql"}Other{/ts}', 'Other', 'access CiviGrant,access CiviCase', 'OR', NULL, '1', NULL, 8 ), 
 ( 65, NULL, '{ts escape="sql"}Cases{/ts}', 'Cases', 'access CiviCase', '', '64', '1', NULL, 1 ), 
-( 66, 'civicrm/case?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '64', '1', NULL, 1 ), 
-( 67, 'civicrm/contact/view/case?reset=1&action=add&atype=13&context=standalone', '{ts escape="sql"}New Case{/ts}', 'New Case', NULL, '', '64', '1', NULL, 2 ), 
-( 68, 'civicrm/case/search?reset=1', '{ts escape="sql"}Find Cases{/ts}', 'Find Cases', NULL, '', '64', '1', 1, 3 ), 
+( 66, 'civicrm/case?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '65', '1', NULL, 1 ), 
+( 67, 'civicrm/contact/view/case?reset=1&action=add&atype=13&context=standalone', '{ts escape="sql"}New Case{/ts}', 'New Case', NULL, '', '65', '1', NULL, 2 ), 
+( 68, 'civicrm/case/search?reset=1', '{ts escape="sql"}Find Cases{/ts}', 'Find Cases', NULL, '', '65', '1', 1, 3 ), 
 
-( 69, NULL, '{ts escape="sql"}Grants{/ts}', 'Grants', 'access CiviGrant', '', '63', '1', NULL, 2 ),
+( 69, NULL, '{ts escape="sql"}Grants{/ts}', 'Grants', 'access CiviGrant', '', '64', '1', NULL, 2 ),
 ( 70, 'civicrm/grant?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '69', '1', NULL, 1 ), 
 ( 71, 'civicrm/contact/view/grant?reset=1&action=add&context=standalone', '{ts escape="sql"}New Grant{/ts}', 'New Grant', NULL, '', '69', '1', NULL, 2 ), 
 ( 72, 'civicrm/grant/search?reset=1', '{ts escape="sql"}Find Grants{/ts}', 'Find Grants', NULL, '', '69', '1', 1, 3 ), 
@@ -1075,7 +1075,7 @@ INSERT INTO civicrm_navigation
 ( 150, 'civicrm/admin/member/membershipType?reset=1', '{ts escape="sql"}Membership Types{/ts}', 'Membership Types', 'access CiviMember,administer CiviCRM', '', '149', '1', NULL, 1 ), 
 ( 151, 'civicrm/admin/member/membershipStatus?reset=1', '{ts escape="sql"}Membership Status Rules{/ts}', 'Membership Status Rules', 'access CiviMember,administer CiviCRM', '', '149', '1', NULL, 2 ), 
 
-( 152, NULL, '{ts escape="sql"}CiviReport{/ts}', 'CiviReport', 'administer CiviCRM', '', '73', '1', NULL, 12 ), 
+( 152, NULL, '{ts escape="sql"}CiviReport{/ts}', 'CiviReport', 'access CiviReport,administer CiviCRM', 'AND', '73', '1', NULL, 12 ), 
 ( 153, 'civicrm/report/list?reset=1', '{ts escape="sql"}Manage Reports{/ts}', 'Manage Reports', NULL, '', '152', '1', NULL, 1 ), 
 ( 154, 'civicrm/admin/report/template/list?reset=1', '{ts escape="sql"}Create Reports from Templates{/ts}', 'Create Reports from Templates', NULL, '', '152', '1', NULL, 2 ), 
 ( 155, 'civicrm/admin/report/options/report_template?reset=1', '{ts escape="sql"}Manage Templates{/ts}', 'Manage Templates', NULL, '', '152', '1', NULL, 3 ), 
