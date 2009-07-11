@@ -84,7 +84,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
              CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) { 
             $this->_allowWaitlist = true;
             $this->_statusMsg = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
-                                                        'This event is currently full. However you can register now and get added to a waiting list. You will be notified if spaces become available.' );
+                                                        ts('This event is currently full. However you can register now and get added to a waiting list. You will be notified if spaces become available.') );
         }
         $this->set( 'allowWaitlist', $this->_allowWaitlist );
         

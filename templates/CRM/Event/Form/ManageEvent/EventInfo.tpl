@@ -73,16 +73,16 @@
 			<td class="label">{$form.max_participants.label}</td>
 			<td>{$form.max_participants.html|crmReplace:class:four} {help id="id-max_participants"}</td>
 		</tr>
-		<tr>
+		<tr id="id-event_full">
 			<td class="label">{$form.event_full_text.label}<br />{help id="id-event_full_text"}</td>
 			<td>{$form.event_full_text.html}</td>
 		</tr>
-        <tr>
+        <tr id="id-waitlist">
             <td class="label">{$form.has_waitlist.label}</td>
             <td>{$form.has_waitlist.html} {help id="id-has_waitlist"}</td>
         </tr>
-		<tr id='id-waitlist-text'>
-			<td class="label">{$form.waitlist_text.label}<br />{help id="id-event_full_text"}</td>
+		<tr id="id-waitlist-text">
+			<td class="label">{$form.waitlist_text.label}<br />{help id="id-help-waitlist_text"}</td>
 			<td>{$form.waitlist_text.html}</td>
 		</tr>
 		<tr>
@@ -144,6 +144,15 @@
     trigger_field_id    ="has_waitlist"
     trigger_value       =""
     target_element_id   ="id-waitlist-text" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="max_participants"
+    trigger_value       =""
+    target_element_id   ="id-event_full|id-waitlist|id-waitlist-text" 
     target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0

@@ -17,15 +17,19 @@
 {/htxt}
 
 {htxt id="id-max_participants"}
-{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached. Only participants with status types marked as 'counted' are included when checking if the event is full.{/ts}
+{ts}Optionally set a maximum number of participants for this event. You may allow users to join a waitlist when the event is full (by checking the box below). Otherwise, the registration link is hidden and the &quot;Event Full Message&quot' is displayed when the maximum number of registrations is reached. Only participants with status types marked as 'counted' are included when checking if the event is full.{/ts}
 {/htxt}
 
 {htxt id="id-event_full_text"}
-{ts}Text displayed on the Event Information page when the maximum number of registrations is reached. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}
+{ts}Text displayed on the Event Information page when the maximum number of registrations is reached (unless you are offering a waitlist). If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}
 {/htxt}
 
 {htxt id="id-has_waitlist"}
 {ts}Check this box to allow users to join a waitlist if the event is full. If a space becomes available, the first participant from the waitlist will move to 'Pending from waitlist' status, and will be sent an email with a link to complete their registration (including paying event fees - if any).{/ts}
+{/htxt}
+
+{htxt id="id-help-waitlist_text"}
+{ts}This message is displayed on the event information and event registration pages when the event is full AND the waitlist feature is enabled.{/ts} 
 {/htxt}
 
 {htxt id="id-is_map"}

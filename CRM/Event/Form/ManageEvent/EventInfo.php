@@ -114,11 +114,21 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 
         require_once 'CRM/Core/ShowHideBlocks.php';
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-        if ( !$defaults['has_waitlist'] ) {
+        if ( ! CRM_Utils_Array::value('max_participants', $defaults) ) {
+            $this->_showHide->addHide( 'id-event_full' );
+            $this->_showHide->addHide( 'id-waitlist' );
+            $this->_showHide->addHide( 'id-waitlist-text' );
+        } else if ( !$defaults['has_waitlist'] ) {
             $this->_showHide->addHide( 'id-waitlist-text' );
         }
+
+        $this->_showHide->addToTemplate( );
+
         $this->assign('description', CRM_Utils_Array::value('description', $defaults ) ); 
-        
+
+        // Provide suggested text for waitlist message if it's empty
+        $defaults['waitlist_text'] = CRM_Utils_Array::value('waitlist_text', $defaults, ts('This event is currently full. However you can register now and get added to a waiting list. You will be notified if spaces become available.') );
+
         return $defaults;
     }
     
@@ -199,7 +209,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                    );
         $this->addRule('end_date', ts('Please select a valid end date.'), 'qfDate');
      
-        $this->add('text','max_participants', ts('Max Number of Participants'));
+        $this->add('text','max_participants', ts('Max Number of Participants'),
+                    array('onchange' => "if (this.value != '') { show('id-event_full','table-row'); show('id-waitlist','table-row'); showHideByValue('has_waitlist','0','id-waitlist-text','table-row','radio',false); return;} else {hide('id-event_full','table-row'); hide('id-waitlist','table-row'); hide('id-waitlist-text','table-row'); return;}"));
         $this->addRule('max_participants', ts('Max participants should be a positive number') , 'positiveInteger');
 
         $this->add('textarea', 'event_full_text', ts('Message if Event Is Full'),          $attributes['event_full_text']);
