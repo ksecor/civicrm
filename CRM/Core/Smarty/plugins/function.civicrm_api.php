@@ -69,8 +69,6 @@ function smarty_function_civicrm_API( $params, &$smarty ) {
      $smarty->trigger_error("Unkown error");
      return;
   }
-print_r($params);
-print_r($result);
   if (empty($params['var'])) {
      $smarty->trigger_error("assign: missing 'var' parameter");
      return;
