@@ -224,7 +224,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 // get values from contact table
                 $params = array( 'id'         => $this->_contactId,
                                  'contact_id' => $this->_contactId ) ;
-                $contact = CRM_Contact_BAO_Contact::retrieve( $params, $this->_values );
+                $contact = CRM_Contact_BAO_Contact::retrieve( $params, $this->_values, true );
                 $this->set( 'values', $this->_values );
             } else {
                 CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
