@@ -214,11 +214,11 @@
                 <div id="customFields">
                     <div id="contact_panel">
                         <div id="contactCardLeft">
-                            {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='left'}
+                            {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='1'}
                         </div><!--contactCardLeft-->
 
                         <div id="contactCardRight">
-                            {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='right'}
+                            {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='0'}
                         </div>
 
                         <div style="CLEAR: both"></div>
