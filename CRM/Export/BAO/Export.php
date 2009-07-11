@@ -211,15 +211,16 @@ class CRM_Export_BAO_Export
                                   'postal_greeting' => 'postal_greeting_custom', 
                                   'addressee'       => 'addressee_custom'
                                   ); 
-                foreach( $elements as $field => $customField ) {
+                foreach( $elements as $field => $customizedField ) {
                     if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
                         $fieldId = $field."_id";
                         $fieldValue =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                                     $values, 
                                                                     $fieldId
                                                                     ); 
-                        if ( $fieldValue == 4 ) {
-                            $returnProperties[$customField] = 1;
+                        $customizedValue = CRM_Core_OptionGroup::getValue( $field, 'Customized', 'name' );  
+                        if ( $fieldValue == $customizedValue ) {
+                            $returnProperties[$customizedField] = 1;
                         }
                     }
                 }
@@ -341,7 +342,7 @@ class CRM_Export_BAO_Export
                     
                 //build row values (data)
                 if ( property_exists( $dao, $field ) ) {
-                    $fieldValue = $dao->$field;                         
+                    $fieldValue = $dao->$field;                 
                     // to get phone type from phone type id
                     if ( $field == 'phone_type_id' ) {
                         $fieldValue = $phoneTypes[$fieldValue];
