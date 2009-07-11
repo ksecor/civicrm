@@ -6,7 +6,6 @@ require_once 'api/v2/Relationship.php';
  * Class contains api test cases for "civicrm_relationship"
  *
  */
-
 class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase 
 {
     protected $_cId_a;
@@ -29,7 +28,6 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
     {
         $this->_cId_a  = $this->individualCreate( );
         $this->_cId_b  = $this->organizationCreate( );
-        
     }
     
     function testRelationshipTypeCreate( )
@@ -52,7 +50,6 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
      */
     function testRelationshipCreateEmpty( )
     {
-        
         $params = array( );
         $result =& civicrm_relationship_create( $params );
         $this->assertEqual( $result['is_error'], 1 );
@@ -104,29 +101,25 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
     /**
      * check relationship creation
      */
-    function atestRelationshipCreate( )
+    function testRelationshipCreate( )
     {
         $params = array( 'contact_id_a'         => $this->_cId_a,
                          'contact_id_b'         => $this->_cId_b,
                          'relationship_type_id' => $this->_relTypeID,
-                         'start_date'           => array('d'=>'10','M'=>'1','Y'=>'2005'),
-                         'end_date'             => array('d'=>'10','M'=>'1','Y'=>'2006'),
+                         'start_date'           => date('Ymd'),
                          'is_active'            => 1
                          );
         
         $result = & civicrm_relationship_create( $params );
         $this->assertNotNull( $result['result']['id'] );   
         $relationParams = array(
-                                'id'     => CRM_Utils_Array::value('id', $result['result'])
+                                'id' => CRM_Utils_Array::value('id', $result['result'])
                            );
         // assertDBState compares expected values in $result to actual values in the DB          
         $this->assertDBState( 'CRM_Contact_DAO_Relationship', $result['result']['id'], $relationParams ); 
         
-        $params['id']=   $result['result']['id'] ; 
+        $params['id'] = $result['result']['id'] ; 
         $result = & civicrm_relationship_delete( $params );
-        
-        $this->relationshipTypeDelete( $this->_relTypeID ); 
-        
     }
     
     /**
@@ -134,11 +127,15 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
      */
     function testRelationshipCreateWithCustomData( )
     {         
-        $customGroup  = $this->createCustomGroup( );
+        $customGroup = $this->createCustomGroup( );
         $this->_customGroupId = $customGroup['id'];
-        $this->_ids   = $this->createCustomField( );     
+        $this->_ids  = $this->createCustomField( );     
         //few custom Values for comparing
-        $custom_params = array("custom_{$this->_ids[0]}" => 'Hello! this is custom data for relationship');
+        $custom_params = array("custom_{$this->_ids[0]}" => 'Hello! this is custom data for relationship',
+                               "custom_{$this->_ids[1]}" => 'Y',
+                               "custom_{$this->_ids[2]}" => '2009-07-11 00:00:00',
+                               "custom_{$this->_ids[3]}" => 'http://example.com',
+                               );
         
         $params = array( 'contact_id_a'         => $this->_cId_a,
                          'contact_id_b'         => $this->_cId_b,
@@ -146,7 +143,7 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
                          'start_date'           => date('Ymd'),
                          'is_active'            => 1
                          );
-        $params  = array_merge( $params, $custom_params );
+        $params = array_merge( $params, $custom_params );
         $result = & civicrm_relationship_create( $params );
         
         $this->assertNotNull( $result['result']['id'] );   
@@ -156,7 +153,7 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
         // assertDBState compares expected values in $result to actual values in the DB          
         $this->assertDBState( 'CRM_Contact_DAO_Relationship', $result['result']['id'], $relationParams ); 
         
-        $params['id']=   $result['result']['id'] ; 
+        $params['id'] = $result['result']['id'] ; 
         $result = & civicrm_relationship_delete( $params );
         $this->relationshipTypeDelete( $this->_relTypeID ); 
         if ( $this->_customFieldId ) {
@@ -203,7 +200,73 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
         
         $customField =& civicrm_custom_field_create( $params );
         $ids[] = $customField['result']['customFieldId'];
-                
+        
+        $optionValue[] = array (
+                                'label'     => 'Red',
+                                'value'     => 'R',
+                                'weight'    => 1,
+                                'is_active' => 1
+                                );
+        $optionValue[] = array (
+                                'label'     => 'Yellow',
+                                'value'     => 'Y',
+                                'weight'    => 2,
+                                'is_active' => 1
+                                );
+        $optionValue[] = array (
+                                'label'     => 'Green',
+                                'value'     => 'G',
+                                'weight'    => 3,
+                                'is_active' => 1
+                                );
+        
+        $params = array(
+                        'label'           => 'Pick Color',
+                        'html_type'       => 'Select',
+                        'data_type'       => 'String',
+                        'weight'          => 2,
+                        'is_required'     => 1,
+                        'is_searchable'   => 0,
+                        'is_active'       => 1,
+                        'option_values'   => $optionValue,
+                        'custom_group_id' => $this->_customGroupId,
+                        );
+        
+        $customField  =& civicrm_custom_field_create( $params );
+        
+        $ids[] = $customField['result']['customFieldId'];
+        
+        $params = array(
+                        'custom_group_id' => $this->_customGroupId,
+                        'name'            => 'test_date',
+                        'label'           => 'test_date',
+                        'html_type'       => 'Select Date',
+                        'data_type'       => 'Date',
+                        'default_value'   => '20090711',
+                        'weight'          => 3,
+                        'is_required'     => 1,
+                        'is_searchable'   => 0,
+                        'is_active'       => 1
+                        );
+        
+        $customField  =& civicrm_custom_field_create( $params );			
+
+        $ids[] = $customField['result']['customFieldId'];
+        $params = array(
+                        'custom_group_id' => $this->_customGroupId,
+                        'name'            => 'test_link',
+                        'label'           => 'test_link',
+                        'html_type'       => 'Link',
+                        'data_type'       => 'Link',
+                        'default_value'   => 'http://civicrm.org',
+                        'weight'          => 4,
+                        'is_required'     => 1,
+                        'is_searchable'   => 0,
+                        'is_active'       => 1
+                        );
+        
+        $customField  =& civicrm_custom_field_create( $params );
+        $ids[] = $customField['result']['customFieldId'];
         return $ids;
     }
      
