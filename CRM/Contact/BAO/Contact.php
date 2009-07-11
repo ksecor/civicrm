@@ -1754,7 +1754,6 @@ UNION
             
         case 'log' :
         case 'note':
-            require_once 'CRM/Core/DAO.php';
             eval( '$object =& new CRM_Core_DAO_'.$component.'( );');
             $object->entity_table = 'civicrm_contact';
             $object->entity_id    = $contactId;
@@ -1762,7 +1761,6 @@ UNION
             break;
             
         case 'contribution' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Contribute/DAO/Contribution.php';
             eval( '$object =& new CRM_Contribute_DAO_Contribution( );');
             $object->contact_id = $contactId;
@@ -1770,7 +1768,6 @@ UNION
             break;
             
         case 'membership' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Member/DAO/Membership.php';
             eval( '$object =& new CRM_Member_DAO_Membership( );');
             $object->contact_id = $contactId;
@@ -1778,7 +1775,6 @@ UNION
             break;
             
         case 'participant' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Event/DAO/Participant.php';
             eval( '$object =& new CRM_Event_DAO_Participant( );');
             $object->contact_id = $contactId;
@@ -1786,15 +1782,25 @@ UNION
             break;
             
         case 'pledge' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Pledge/DAO/Pledge.php';
             eval( '$object =& new CRM_Pledge_DAO_Pledge( );');
             $object->contact_id = $contactId;
             $object->is_test    = 0;
             break;
+
+        case 'case' :
+            require_once 'CRM/Case/DAO/CaseContact.php';
+            eval( '$object =& new CRM_Case_DAO_CaseContact( );');
+            $object->contact_id = $contactId;
+            break;
+            
+        case 'grant' :
+            require_once 'CRM/Grant/DAO/Grant.php';
+            eval( '$object =& new CRM_Grant_DAO_Grant( );');
+            $object->contact_id = $contactId;
+            break;
             
         case 'activity' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Activity/DAO/Activity.php';
             eval( '$object =& new CRM_Activity_DAO_Activity( );');
             $object->source_contact_id = $contactId;
