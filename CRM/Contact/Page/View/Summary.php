@@ -123,7 +123,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
         $ids      = array( );
 
         $params['id'] = $params['contact_id'] = $this->_contactId;
-        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids, true );
+        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, true );
         
         $communicationType = array( 
                                     'phone'   => array( 
