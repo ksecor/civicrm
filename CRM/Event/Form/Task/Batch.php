@@ -276,6 +276,10 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 //need to trigger mails when we change status
                 if ( $statusChange ) {
                     CRM_Event_BAO_Participant::transitionParticipants( array( $key ), $value['status_id'], $fromStatusId ); 
+                    
+                    //change related contribution status.
+                    require_once 'CRM/Core/Payment/BaseIPN.php';
+                    CRM_Core_Payment_BaseIPN::updateContributionStatus( $key, $value['status_id'], 'Event' );
                 }
             }
             CRM_Core_Session::setStatus(ts('The updates have been saved.'));

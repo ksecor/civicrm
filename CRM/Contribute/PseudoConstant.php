@@ -232,11 +232,11 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @return array - array reference of all contribution statuses
      * @static
      */
-    public static function &contributionStatus( $id = null )
+    public static function &contributionStatus( $id = null, $columnName = 'label' )
     {
         if ( ! isset( self::$contributionStatus ) ) {
             require_once "CRM/Core/OptionGroup.php";
-            self::$contributionStatus = CRM_Core_OptionGroup::values("contribution_status");
+            self::$contributionStatus = CRM_Core_OptionGroup::values("contribution_status", false, false, false, null, $columnName );
         }
         if ($id) {
             $result = CRM_Utils_Array::value( $id, self::$contributionStatus );

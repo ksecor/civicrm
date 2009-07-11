@@ -18,6 +18,17 @@
   </dl>
 </div>
 {/if}
+
+{if $isOnlineMembership}
+<div class="messages status">
+  <dl>
+     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
+     <dd>{ts}It seems like there is pending Contribution record is associated with this membership signup. <br />If you want to update status, please select Update Pending Contribution Status check box.{/ts}
+     </dd>
+  </dl>
+</div> 
+{/if}
+
 {if $membershipMode}
     <div id="help">
         {ts 1=$displayName 2=$registerMode}Use this form to submit Membership Record on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
@@ -114,6 +125,14 @@
     {else}
         <div class="spacer"></div>
 	{/if}
+ 
+   {if $isOnlineMembership}
+        <tr>
+            <td class="label">{$form.update_contribution_status.label}</td><td>{$form.update_contribution_status.html}<br />
+            <span class="description">{ts}Automatically update related Pending Contribution Status?{/ts}</span></td>
+        </tr>
+   {/if}
+
     {if $emailExists and $outBound_option != 2 }
         <tr>
             <td class="label">{$form.send_receipt.label}</td><td>{$form.send_receipt.html}<br />

@@ -764,8 +764,165 @@ class CRM_Core_Payment_BaseIPN {
             return CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values, $isTest, $returnMessageText );
         }
     }
-
-
+    
+    function updateContributionStatus( $componentId, $statusId, $componentName ) 
+    {
+        if ( !$componentId || !$statusId || !$componentName ) {
+            return;
+        }
+        
+        require_once 'CRM/Core/Payment/BaseIPN.php';
+        $baseIPN = new CRM_Core_Payment_BaseIPN( );
+        
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        $template =& CRM_Core_Smarty::singleton( );
+        
+        //get componentdetails.
+        $componentDetails = self::getComponentDetails( $componentId, $componentName );
+        
+        if ( !CRM_Utils_Array::value( 'contribution', $componentDetails ) ) {
+            return;
+        }
+        
+        $input = $ids = $objects = array( );
+        
+        $input['component']       = $componentDetails['component'];
+        $ids['contact'     ]      = $componentDetails['contact'];
+        $ids['contribution']      = $componentDetails['contribution'];
+        $ids['membership']        = $componentDetails['membership'];
+        $ids['participant']       = $componentDetails['participant'];
+        $ids['event']             = $componentDetails['event'];
+        $ids['contributionRecur'] = null;
+        $ids['contributionPage']  = null;
+        
+        if ( !$baseIPN->validateData( $input, $ids, $objects, false ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        
+        $contribution =& $objects['contribution'];
+        
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $contributionStatuses = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
+        
+        //do check across component status.
+        $processContribution = false;
+        if ( $componentName == 'Event' ) {
+            require_once 'CRM/Event/PseudoConstant.php';
+            $negativeStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" );
+            $positiveStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Positive'" );
+            
+            //check for cancel participant status.
+            if ( array_key_exists( $statusId, $negativeStatuses ) ) {
+                $baseIPN->cancelled( $objects, $transaction );
+                $transaction->commit( );
+                return; 
+            }
+            
+            // do not process if contribution is not pending or participant status is not positive.
+            if ( !array_key_exists( $statusId, $positiveStatuses ) || 
+                 $contribution->contribution_status_id != array_search( 'Pending', $contributionStatuses ) ) {
+                $transaction->commit( );
+                return;
+            }
+            
+            $processContribution = true;
+        }
+        
+        if ( $componentName == 'Membership' ) {
+            require_once 'CRM/Member/PseudoConstant.php';
+            $membershipStatuses = CRM_Member_PseudoConstant::membershipStatus(  );
+            
+            //check for cancel membership status.
+            if ( $membershipStatuses[$statusId] == 'Cancelled' ) {
+                $baseIPN->cancelled( $objects, $transaction );
+                $transaction->commit( );
+                return; 
+            }
+            
+            $currentMemberStatuses = CRM_Member_PseudoConstant::membershipStatus( null, 'is_current_member = 1' );
+            // if contribution is not pending or membership status is not is current.
+            if ( !array_key_exists( $statusId,  $currentMemberStatuses ) ||
+                 $contribution->contribution_status_id != array_search( 'Pending', $contributionStatuses ) ) {
+                $transaction->commit( );
+                return;
+            }
+            
+            $processContribution = true;
+        }
+        
+        if ( $processContribution ) {
+            // set some fake input values so we can reuse IPN code
+            $input['amount']                = $contribution->total_amount;
+            $input['is_test']               = $contribution->is_test;
+            
+            //FIXME we might take this values from user.
+            $input['fee_amount']            = $contribution->fee_amount;
+            $input['check_number']          = $contribution->check_number;
+            $input['payment_instrument_id'] = $contribution->payment_instrument_id;
+            $input['net_amount']            = $contribution->fee_amount;
+            $input['trxn_id']               = $contribution->invoice_id;
+            $input['trxn_date']             = date( 'Y-m-d' );
+            
+            $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
+            
+            // reset template values before processing next transactions
+            $template->clearTemplateVars( ); 
+        }
+        
+        return $processContribution;
+    }
+    
+    static function getComponentDetails( $componentId, $componentName ) 
+    {
+        $details = array( );
+        if ( !$componentId || 
+             !in_array( $componentName, array( 'Event', 'Membership' ) ) ) {
+            return $details;
+        }
+        
+        $eventClause = null;
+        if ( $componentName == 'Event' ) {
+            $name           = 'event';
+            $idName         = 'participant_id';
+            $eventClause    = ', component.event_id as event_id';
+            $componentTable = 'civicrm_participant';
+            $paymentTable   = 'civicrm_participant_payment';      
+        }
+        
+        if ( $componentName == 'Membership' ) {
+            $name           = 'contribute';
+            $idName         = 'membership_id';
+            $componentTable = 'civicrm_membership';
+            $paymentTable   = 'civicrm_membership_payment';
+        }
+        
+        $query = "
+   SELECT  component.id as {$idName},
+           component.contact_id as contact_id,
+           componentPayment.contribution_id as contribution_id
+           {$eventClause}
+     FROM  $componentTable component
+LEFT JOIN  $paymentTable componentPayment    ON ( componentPayment.{$idName} = component.id )
+LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_id = contribution.id )
+    WHERE  component.id = {$componentId}";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while( $dao->fetch( ) ) {
+            $details = array( 'contact'      => $dao->contact_id,
+                              'contribution' => $dao->contribution_id,
+                              'event'        => ($dao->event_id) ? $dao->event_id : null,
+                              'component'    => $name,
+                              'membership'   => $dao->membership_id,
+                              'participant'  => $dao->participant_id,
+                              );
+            $dao->free( );
+        }
+        
+        return $details;
+    }
+    
 }
 
 
