@@ -36,7 +36,7 @@
 require_once 'CRM/Core/Config.php';
 
 /**
- * This class contains all the function that are called using AJAX (dojo)
+ * This class contains all the function that are called using AJAX
  */
 class CRM_Core_Page_AJAX_Location
 {

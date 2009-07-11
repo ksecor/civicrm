@@ -307,8 +307,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                                                                     null, false, 'label', false )
                           );
 
-        // add a dojo facility for searching contacts
-
+        // add a ajax facility for searching contacts
 		$dataUrl = CRM_Utils_System::url( "civicrm/ajax/search", "reset=1", true, null, false );
 		$this->assign('dataUrl',$dataUrl );
         $this->addElement('text', 'name'      , ts('Find Target Contact') );

@@ -53,8 +53,6 @@ function civicrm_html_head()
     $includeCommon = false;
     if ( arg(0) == 'civicrm' ) {
         $includeCommon = true;
-    } else {
-        $config->includeDojo = 0;
     }
 
     if ( $includeCommon ) {

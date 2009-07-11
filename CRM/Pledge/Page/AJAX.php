@@ -34,7 +34,7 @@
  */
 
 /**
- * This class contains all the function that are called using AJAX (dojo)
+ * This class contains all the function that are called using AJAX
  */
 class CRM_Pledge_Page_AJAX
 {

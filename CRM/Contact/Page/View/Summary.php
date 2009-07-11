@@ -234,7 +234,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
                 $u = $elem['url'];
                
                 //appending isTest to url for test soft credit CRM-3891. 
-                //FIXME: hack dojo url.
+                //FIXME: hack ajax url.
                 $q = "reset=1&snippet=1&force=1&cid={$this->_contactId}"; 
                 if ( CRM_Utils_Request::retrieve('isTest', 'Positive', $this) ) {
                     $q = $q."&isTest=1";
