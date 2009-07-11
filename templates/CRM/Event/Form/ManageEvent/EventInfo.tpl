@@ -73,14 +73,14 @@
 			<td class="label">{$form.max_participants.label}</td>
 			<td>{$form.max_participants.html|crmReplace:class:four} {help id="id-max_participants"}</td>
 		</tr>
-		<tr id="id-event_full">
-			<td class="label">{$form.event_full_text.label}<br />{help id="id-event_full_text"}</td>
-			<td>{$form.event_full_text.html}</td>
-		</tr>
         <tr id="id-waitlist">
             <td class="label">{$form.has_waitlist.label}</td>
             <td>{$form.has_waitlist.html} {help id="id-has_waitlist"}</td>
         </tr>
+		<tr id="id-event_full">
+			<td class="label">{$form.event_full_text.label}<br />{help id="id-event_full_text"}</td>
+			<td>{$form.event_full_text.html}</td>
+		</tr>
 		<tr id="id-waitlist-text">
 			<td class="label">{$form.waitlist_text.label}<br />{help id="id-help-waitlist_text"}</td>
 			<td>{$form.waitlist_text.html}</td>
