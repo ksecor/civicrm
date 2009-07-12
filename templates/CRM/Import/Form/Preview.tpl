@@ -29,7 +29,6 @@ function verify( ) {
     }
 	
 	cj("#id-processing").show( ).dialog({
-		title         : 'Import Contacts',
 		modal         : true,
 		width         : 250,
 		height        : 200,
@@ -38,7 +37,10 @@ function verify( ) {
 		position      : 'center',
 		draggable     : true,
 		closeOnEscape : false,
-		overlay       : { opacity: 0.5, background: "black" }
+		overlay       : { opacity: 0.5, background: "black" },
+		open          : function ( ) {
+		    cj("#id-processing").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+		}
 	});
 	
 	var imageBase = "{/literal}{$config->resourceBase}{literal}packages/jquery/plugins/images/";
