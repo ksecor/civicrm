@@ -37,44 +37,45 @@
  */
 function smarty_function_crmAPI( $params, &$smarty ) {
 
-//  $mandatorypVars = array( 'entity', 'method','assign');
-  $fnGroup = ucfirst($params['entity']);
-  if ( strpos( $fnGroup, '_' ) ) {
-     $fnGroup    = explode( '_', $fnGroup );
-     $fnGroup[1] = ucfirst( $fnGroup[1] );
-     $fnGroup    = implode( '', $fnGroup );
-  }
-  $apiFile = "api/v2/{$fnGroup}.php";
-  require_once $apiFile;
-  $fnName = "civicrm_{$params['entity']}_{$params['action']}";
-  if ( ! function_exists( $fnName ) ) {
-     $smarty->trigger_error("Unknown function called: $fnName");
-     return;
-  }
-  // trap all fatal errors
-  CRM_Core_Error::setCallback( array( 'CRM_Utils_REST', 'fatal' ) );
-  unset ($params ['entity']);
-  unset ($params ['method']);
-  unset ($params ['assign']);
-  if (!empty($params['return'])) {
-    $return= explode(",", $params['return']);
-    foreach ($return as $r) {
-      $params ["return.".$r] = 1;
+    //  $mandatorypVars = array( 'entity', 'method','assign');
+    $fnGroup = ucfirst($params['entity']);
+    if ( strpos( $fnGroup, '_' ) ) {
+        $fnGroup    = explode( '_', $fnGroup );
+        $fnGroup[1] = ucfirst( $fnGroup[1] );
+        $fnGroup    = implode( '', $fnGroup );
     }
-    unset ($params ['return']);
-  }
-  $result = $fnName( $params );
-  CRM_Core_Error::setCallback( );
-  if ( $result === false ) {
-     $smarty->trigger_error("Unkown error");
-     return;
-  }
-  if (empty($params['var'])) {
-     $smarty->trigger_error("assign: missing 'var' parameter");
-     return;
-  }
+    $apiFile = "api/v2/{$fnGroup}.php";
+    require_once $apiFile;
+    $fnName = "civicrm_{$params['entity']}_{$params['action']}";
+    if ( ! function_exists( $fnName ) ) {
+        $smarty->trigger_error("Unknown function called: $fnName");
+        return;
+    }
+    // trap all fatal errors
+    CRM_Core_Error::setCallback( array( 'CRM_Utils_REST', 'fatal' ) );
+    unset ($params ['entity']);
+    unset ($params ['method']);
+    unset ($params ['assign']);
+    if (!empty($params['return'])) {
+        $return= explode(",", $params['return']);
+        foreach ($return as $r) {
+            $params ["return.".$r] = 1;
+        }
+        unset ($params ['return']);
+    }
+    $result = $fnName( $params );
+    CRM_Core_Error::setCallback( );
+    if ( $result === false ) {
+        $smarty->trigger_error("Unkown error");
+        return;
+    }
+    if (empty($params['var'])) {
+        $smarty->trigger_error("assign: missing 'var' parameter");
+        return;
+    }
 
-  $smarty->assign($params["var"],$result);
+    $smarty->assign($params["var"],$result);
 }
+
 
 ?>
