@@ -136,7 +136,7 @@ class CRM_Core_Block {
                                                                         'region'     => 'left' ),
                                        self::DASHBOARD   => array( 'template'   => 'Dashboard.tpl',
                                                                    'info'       => ts('CiviCRM Dashboard'),
-                                                                   //'subject'    => ts('CiviCRM Dashboard'),
+                                                                   'subject'    => '',
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
