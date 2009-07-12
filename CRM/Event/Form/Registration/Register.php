@@ -531,7 +531,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( CRM_Utils_Array::value( 'bypass_payment', $fields ) ) {
             if ( !is_numeric( $self->_availableRegistrations ) || 
                  CRM_Utils_Array::value( 'additional_participants', $fields ) < $self->_availableRegistrations ) {
-                $errors['bypass_payment'] = ts( "Oops it looks like there are enough space in event and your are trying to become a part of waiting list.");
+                $errors['bypass_payment'] = ts( "Oops it looks like there are enough space in event and you are trying to become a part of waiting list.");
             }
         }
         

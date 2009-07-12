@@ -211,7 +211,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         if ( $this->isLastParticipant( true ) && !CRM_Utils_Array::value('is_monetary', $this->_values['event']) ) {
             $js = array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" );  
         }
-        
+
         //handle case where user might sart with waiting by group
         //registration and skip some people and now group fit to
         //become registered so need to take payment from user.
@@ -247,7 +247,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             $realPayLater = false;
             if ( CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] ) &&
                  CRM_Utils_Array::value( 'is_pay_later', $this->_values['event'] ) ) {
-                $realPayLater = CRM_Utils_Array::value( 'is_pay_later', $this->controller->exportValues( 'Register' ) );
+                $realPayLater = CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] );
             }
             
             //truly spaces are greater than required.
@@ -256,12 +256,12 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                     $this->_allowWaitlist = false;
                     $this->set( 'allowWaitlist', $this->_allowWaitlist );
                     if ( $this->_requireApproval ) {
-                        $statusMessage = ts( "Oops it looks like your are trying to register a group of %1 participants and event having %2 spaces, since event registration require approval, will send you a mail to confirm your registration when registration get approved.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
+                        $statusMessage = ts( "Oops it looks like you are trying to register a group of %1 participants and event having %2 spaces, since event registration require approval, Once your registration has been reviewed, you will receive an email with a link to a web page where you can complete the registration process.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
                     } else {
-                        $statusMessage = ts( "Oops it looks like your are trying to register a group of %1 participants and event having %2 spaces, hence your group become as registered though you selected on wait list.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
+                        $statusMessage = ts( "Oops it looks like you are trying to register a group of %1 participants and event having %2 spaces, hence your group become as registered though you selected on wait list.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
                     }
                 } else {
-                    $statusMessage = ts( "Oops it looks like your are trying to register a group of %1 participants and event having %2 spaces, hence your group can not become as a part of waiting list and you need to go back to main registration page, there you can fill all payment information and become as registered participants.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
+                    $statusMessage = ts( "Oops it looks like you are trying to register a group of %1 participants and event having %2 spaces, hence your group can not become as a part of waiting list and you need to go back to main registration page, there you can fill all payment information and become as registered participants.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
                     $allowToProceed = false;
                 }
                 CRM_Core_Session::setstatus( $status );
@@ -395,7 +395,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 $this->_allowWaitlist = false;
                 $this->set( 'allowWaitlist', false );
                 if ( $this->_requireApproval ) {
-                    $status = ts( "You have skipped last participant and which result into event having enough spaces, but your registration require approval, will send you a mail to confirm your registration when registration get approved." );  
+                    $status = ts( "You have skipped last participant and which result into event having enough spaces, but your registration require approval, Once your registration has been reviewed, you will receive an email with a link to a web page where you can complete the registration process." );  
                 } else {
                     $status = ts( "You have skipped last participant and which result into event having enough spaces, hence your group become as register participants though you selected on wait list." );
                 }
