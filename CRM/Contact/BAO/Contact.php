@@ -1264,7 +1264,7 @@ AND    civicrm_contact.id = %1";
                     if ( isset( $params[$key . '-provider_id'] ) ) {
                        $data['im'][$loc]['provider_id'] = $params[$key . '-provider_id'];
                     }
-                    $data['im'][$loc]['im']  = $value;  
+                    $data['im'][$loc]['name']  = $value;  
                 } else if ($fieldName == 'openid') {
                     $data['openid'][$loc]['openid']     = $value;
                 } else {
