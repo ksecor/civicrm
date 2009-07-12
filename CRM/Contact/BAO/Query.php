@@ -684,7 +684,7 @@ class CRM_Contact_BAO_Query
                 $index++;
                 $elementName = $elementCmpName = $elementFullName;
                 
-                if(substr($elementCmpName, 0, 5) == 'phone'){
+                if (substr($elementCmpName, 0, 5) == 'phone') {
                     $elementCmpName = 'phone';
                 }
                 
@@ -803,6 +803,7 @@ class CRM_Contact_BAO_Query
                             case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
+                            case 'civicrm_openid':
 
                                 $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$lCond";
                                 // this special case to add phone type
