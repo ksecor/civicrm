@@ -30,11 +30,10 @@ function verify( ) {
 	
 	cj("#id-processing").show( ).dialog({
 		modal         : true,
-		width         : 250,
-		height        : 200,
+		width         : 350,
+		height        : 160,
 		resizable     : false,
 		bgiframe      : true,
-		position      : 'center',
 		draggable     : true,
 		closeOnEscape : false,
 		overlay       : { opacity: 0.5, background: "black" },
