@@ -35,7 +35,7 @@
 
 /**
  */
-function smarty_function_civicrm_API( $params, &$smarty ) {
+function smarty_function_crmAPI( $params, &$smarty ) {
 
 //  $mandatorypVars = array( 'entity', 'method','assign');
   $fnGroup = ucfirst($params['entity']);
