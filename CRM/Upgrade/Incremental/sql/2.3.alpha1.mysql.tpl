@@ -1,3 +1,4 @@
+{if $skipGrretingTypePart} 
 -- CRM-4048
 --modify visibility of civicrm_group
 
@@ -679,3 +680,31 @@ UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Organizat
 
 -- drop column individual_name_format
  ALTER TABLE `civicrm_preferences` DROP `individual_name_format`;
+{else}
+
+-- CRM-4575 
+-- replace email greeting and postal greeting as per greeting type
+
+ {foreach from=$mapperArray  key=greetingId item=replaceId}
+    UPDATE civicrm_contact SET email_greeting_id = {$replaceId}, postal_greeting_id = {$replaceId} WHERE  greeting_type_id = {$greetingId};
+ {/foreach} 
+
+SELECT @og_id_greeting            := max(id) FROM civicrm_option_group WHERE name = 'greeting_type';
+SELECT @op_id_customGreeting      := op.value FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_greeting AND op.name = 'Customized';
+SELECT @og_id_emailGreeting       := max(id) FROM civicrm_option_group WHERE name = 'email_greeting';
+SELECT @op_id_customEmailGreeting := op.value FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_emailGreeting AND op.name = 'Customized';
+
+ UPDATE civicrm_contact cc INNER JOIN civicrm_contact cca ON cc.id = cca.id 
+       SET cc.email_greeting_custom = cc.custom_greeting, 
+           cc.postal_greeting_custom = cc.custom_greeting, 
+           cc.email_greeting_id  = @op_id_customEmailGreeting,  
+           cc.postal_greeting_id = @op_id_customEmailGreeting
+       WHERE cc.greeting_type_id = @op_id_customGreeting;
+
+-- drop column greeting type and custom greeting from civicrm_contact
+ ALTER TABLE `civicrm_contact` DROP `greeting_type_id`;
+ ALTER TABLE `civicrm_contact` DROP `custom_greeting`;
+-- delete greeting type option group
+DELETE FROM civicrm_option_value WHERE option_group_id = @og_id_greeting;
+DELETE FROM civicrm_option_group WHERE              id = @og_id_greeting;
+{/if}

@@ -248,7 +248,11 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
     function upgrade_2_3_alpha1( $rev ) {
         
         $template = & CRM_Core_Smarty::singleton( );
-
+        //we want to execute some part of php after sql and then again sql
+        //so using conditions for skipping some part of sql
+        //CRM-4575
+        $template->assign('skipGrretingTypePart', 1);
+        
         $upgrade =& new CRM_Upgrade_Form( );
         $upgrade->processSQL( $rev );
         
@@ -321,6 +325,84 @@ SELECT  civicrm_contribution.currency
             //finally update participant record.
             CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participant->id, 'fee_currency', $currencyID );
         }
+        
+        //CRM-4575
+        // replacements for greeting type tokens with email and postal greeting
+        //to make mapper array
+        $replacements = array(
+                              'display'  => '{contact.display_name}',    
+                              'prefix'   => '{contact.individual_prefix}',
+                              'first'    => '{contact.first_name}',        
+                              'middle'   => '{contact.middle_name}',      
+                              'last'     => '{contact.last_name}',          
+                              'suffix'   => '{contact.individual_suffix}',
+                              'nick'     => '{contact.nick_name}',           
+                              'email'    => '{contact.email}',
+                              'household'=> '{contact.household_name}',              
+                              );
+        
+        require_once 'CRM/Core/OptionGroup.php';
+        $greetingTypes      = CRM_Core_OptionGroup::values( 'greeting_type' );
+
+        //default data of email greeting and postal greeting are same
+        //hence can pick email greeting only
+        $emailGreetingTypes = CRM_Core_OptionGroup::values( 'email_greeting' );
+        $mapperArray = array( );
+        
+        foreach( $greetingTypes as $id => $label ) {
+            $greetingToken =  strstr( $label, '[');
+            if( isset($greetingToken) ) {
+                $matches = array();
+                preg_match_all( '/(?<!\[|\\\\)\[(\w+\w+)\](?!\])/',
+                                $greetingToken,
+                                $matches,
+                                PREG_PATTERN_ORDER);
+                
+                if ( $matches[1] ) {
+                    $newToken = array( ); 
+                    foreach ( $matches[1] as $token ) {
+                        $newToken[] = CRM_utils_Array::value($token, $replacements);
+                    }
+                    
+                    $newToken = implode(' ', $newToken);
+                    $emailToken = str_replace( $greetingToken, $newToken, $label );
+                    $emailGreetingId = CRM_Utils_Array::key($emailToken, $emailGreetingTypes);
+                    
+                    //if replaced token is already exist in default email/postal greeting
+                    //then add its value to mapper array.
+                    if ( $emailGreetingId ) {
+                        $mapperArray[$id] = $emailGreetingId; 
+                    }  else {
+                        //otherwise insert new token in email and postal greeting.
+                        $optionValueParams = array( 'label'          => $emailToken,
+                                                    'is_active'      => 1, 
+                                                    'contactOptions' => 1,
+                                                    'filter'         => 1
+                                                    );
+
+                        $action = CRM_Core_Action::ADD;
+                        require_once 'CRM/Core//OptionValue.php';
+                        foreach( array('email_greeting', 'postal_greeting') as $optionGroupName ) {
+                            $groupParams = array( 'name' => $optionGroupName );
+                            
+                            $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
+                                                                          'email_greeting',
+                                                                          'id',
+                                                                          $optionGroupName );
+                            $fieldValues = array('option_group_id' => $optionGroupId);
+                            $weight = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
+                            $optionValueParams['weight'] = $weight;
+                            $optionValue = CRM_Core_OptionValue::addOptionValue( $optionValueParams, $groupParams, $action, $optionId=null );
+                            $mapperArray[$id] = $optionValue->value;
+                        }
+                    }
+                }
+            }
+        }
+        //call to sql file
+        $template->assign('mapperArray', $mapperArray);
+        $template->assign('skipGrretingTypePart', 0);
+        $upgrade->processSQL( $rev );
     }
     
     function upgrade_2_2_7( $rev ) {
