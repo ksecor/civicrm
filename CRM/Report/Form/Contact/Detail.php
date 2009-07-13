@@ -244,12 +244,14 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
 
     function from( ) {
 
-        $group= "
-        LEFT  JOIN civicrm_group_contact  group_contact 
-                ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND 
-                   group_contact.status = 'Added'
-        LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
-                ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id ";
+        if ( !empty( $this->_params['gid_value'] ) ) {
+            $group= "
+            LEFT  JOIN civicrm_group_contact  group_contact 
+                    ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND 
+                        group_contact.status = 'Added'
+            LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
+                    ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id ";
+        }
 
         
         $this->_from = "

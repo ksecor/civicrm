@@ -175,14 +175,15 @@ contribution2_total_amount_count, contribution2_total_amount_sum',
                           array( 'contribution_source' => null ), ),
 
                    'civicrm_group' => 
-                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                   array( 'dao'    => 'CRM_Contact_DAO_GroupContact',
                           'alias'  => 'cgroup',
                           'filters' =>             
                           array( 'gid' => 
-                                 array( 'name'    => 'id',
-                                        'title'   => ts( 'Group' ),
+                                 array( 'name'         => 'group_id',
+                                        'title'        => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                        'group'        => true,
+                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
 
         parent::__construct( );
@@ -306,12 +307,8 @@ LEFT JOIN civicrm_address address ON contact.id = address.contact_id
 LEFT JOIN civicrm_email   email    
        ON contact.id = email.contact_id AND email.is_primary = 1
 LEFT JOIN civicrm_phone   phone    
-       ON contact.id = phone.contact_id AND phone.is_primary = 1
-LEFT JOIN civicrm_group_contact  group_contact 
-       ON contact.id = group_contact.contact_id  AND group_contact.status='Added'
-LEFT JOIN civicrm_group  cgroup 
-       ON group_contact.group_id = cgroup.id
-";
+       ON contact.id = phone.contact_id AND phone.is_primary = 1";
+            
         } else if ( $fromTable == 'civicrm_contribution_type' ) {
             $contriCol  = "contribution_type_id";
         } else if ( $fromTable == 'civicrm_contribution' ) {
@@ -369,14 +366,17 @@ LEFT  JOIN (
                                                     CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
                         }
                     }
-                    
-                    if ( ! empty( $clause ) && $fieldName != 'contribution_status_id' ) {
-                        $clauses[] = $clause;
+                    if ( ! empty( $clause ) ) {
+                        if ( CRM_Utils_Array::value( 'group', $field ) ) {
+                            $clauses[] = $this->whereGroupClause( $clause );
+                        } else if ( ! empty( $clause ) && $fieldName != 'contribution_status_id' ) {
+                            $clauses[] = $clause;
+                        }
                     }
                 }
             }
         }
-
+        
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
         } else {

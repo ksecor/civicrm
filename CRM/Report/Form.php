@@ -1007,7 +1007,9 @@ class CRM_Report_Form extends CRM_Core_Form {
                     }
                     
                     if ( ! empty( $clause ) ) {
-                        if ( CRM_Utils_Array::value( 'having', $field ) ) {
+                        if ( CRM_Utils_Array::value( 'group', $field ) ) {
+                            $whereClauses[] = $this->whereGroupClause( $clause );
+                        } else if ( CRM_Utils_Array::value( 'having', $field ) ) {
                             $havingClauses[] = $clause;
                         } else {
                             $whereClauses[] = $clause;
@@ -1343,6 +1345,13 @@ class CRM_Report_Form extends CRM_Core_Form {
             $pager = new CRM_Utils_Pager( $params );
             $this->assign_by_ref( 'pager', $pager );
         }
+    }
+    
+    function whereGroupClause( $clause ) {
+        return  " {$this->_aliases['civicrm_contact']}.id IN ( 
+                          SELECT DISTINCT {$this->_aliases['civicrm_group']}.contact_id 
+                          FROM civicrm_group_contact {$this->_aliases['civicrm_group']} 
+                          WHERE {$clause} AND {$this->_aliases['civicrm_group']}.status = 'Added' )";
     }
 
 }

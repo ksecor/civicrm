@@ -185,7 +185,10 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                              {$this->_aliases['civicrm_membership']}.contact_id
                LEFT  JOIN civicrm_membership_status {$this->_aliases['civicrm_membership_status']}
                           ON {$this->_aliases['civicrm_membership_status']}.id = 
-                             {$this->_aliases['civicrm_membership']}.status_id
+                             {$this->_aliases['civicrm_membership']}.status_id ";
+
+        if ( !empty( $this->_params['gid_value'] ) ) {
+            $this->_from .= "
                LEFT  JOIN civicrm_group_contact group_contact 
                           ON {$this->_aliases['civicrm_contact']}.id = 
                               group_contact.contact_id  AND 
@@ -193,6 +196,8 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']}
                           ON  group_contact.group_id = 
                              {$this->_aliases['civicrm_group']}.id ";
+        }
+        
         //used when address field is selected
         if ( $this->_addressField ) {
             $this->_from .= "
