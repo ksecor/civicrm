@@ -105,17 +105,21 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         require_once 'CRM/Event/Form/ManageEvent/TabHeader.php';
         CRM_Event_Form_ManageEvent_TabHeader::build( $this );
 
+        // Set Done button URL and breadcrumb. Templates go back to Manage Templates, otherwise go to ManageEventEdit for this event.
         if ( !$this->_isTemplate && $this->_id ) {
+            $doneUrl = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
+                                             "action=update&reset=1&id={$this->_id}" );
             $breadCrumb = 
                 array( array('title' => ts('Configure Event'),
-                             'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
-                                                               "action=update&reset=1&id={$this->_id}" )) );
-            CRM_Utils_System::appendBreadCrumb($breadCrumb);
+                             'url'   => $doneUrl) );
+        } else {
+            $doneUrl = CRM_Utils_System::url( 'civicrm/admin/eventTemplate', 'reset=1' );
+            $breadCrumb = 
+            array( array('title' => ts('Manage Event Templates'),
+                         'url'   => $doneUrl) );
         }
-
-        $session =& CRM_Core_Session::singleton(); 
-        $doneUrl = $session->readUserContext( );
         $this->assign( 'doneUrl', $doneUrl );
+        CRM_Utils_System::appendBreadCrumb($breadCrumb);
     }
     
     /**

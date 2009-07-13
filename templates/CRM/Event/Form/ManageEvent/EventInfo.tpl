@@ -137,24 +137,7 @@
             {$form.buttons.html}
         </div>
 	</div>
-{include file="CRM/common/showHide.tpl"}
+    {include file="CRM/common/showHide.tpl" elemType="table-row"}
 {/if}
 
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="has_waitlist"
-    trigger_value       =""
-    target_element_id   ="id-waitlist-text" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 0
-}
-
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="max_participants"
-    trigger_value       =""
-    target_element_id   ="id-event_full|id-waitlist|id-waitlist-text" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 0
-}
 
