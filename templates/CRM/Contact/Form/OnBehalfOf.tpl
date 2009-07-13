@@ -218,7 +218,9 @@
         // The LOAD function will be called on a successful response.
         load: function(response, ioArgs) {
             for (var i in response) {
+              if( response[i] != null ) {
                 document.getElementById( i ).value = response[i];
+              }
             }
         },
 
