@@ -78,6 +78,7 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
                                         'operatorType' => CRM_Report_Form::OP_DATE ),
                                  'total_range'   => 
                                  array( 'title'        => ts( 'Show no. of Top Donors' ),
+                                        'operatorType' => CRM_Report_Form::OP_STRING,
                                         'type'         => CRM_Utils_Type::T_INT
                                         ),
                                  'contribution_type_id' =>
@@ -95,19 +96,19 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
                                  ),
                           ),
 
-                   /*
                    'civicrm_group' => 
-                   array( 'dao'    => 'CRM_Contact_DAO_Group',
+                   array( 'dao'    => 'CRM_Contact_DAO_GroupContact',
                           'alias'  => 'cgroup',
                           'filters' =>             
                           array( 'gid' => 
-                                 array( 'name'         => 'id',
+                                 array( 'name'         => 'group_id',
                                         'title'        => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'group'        => true,
                                         'options'      => CRM_Core_PseudoConstant::staticGroup( ) 
-                                        ), ), ),
-                   */
-
+                                        ), 
+                                 ),
+                          ),
                    );
         
         parent::__construct( );
@@ -222,6 +223,8 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
                         if ( $fieldName == 'total_range' ) {
                             $value = CRM_Utils_Array::value( "total_range_value", $this->_params );
                             $this->_outerCluase = " WHERE (( @rows := @rows + 1) <= {$value}) ";
+                        } else if ( CRM_Utils_Array::value( 'group', $field ) ) {
+                            $clauses[] = $this->whereGroupClause( $clause );
                         } else {
                             $clauses[] = $clause;
                         }
