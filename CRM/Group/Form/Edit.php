@@ -147,6 +147,11 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             }
         }
 
+        if ( !CRM_Utils_Array::value('parents',$defaults) ) {
+            require_once 'CRM/Core/BAO/Domain.php';
+            $defaults['parents'] = CRM_Core_BAO_Domain::getGroupId( );
+        }
+
 		// custom data set defaults
 		$defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
         return $defaults;
@@ -234,7 +239,8 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         }
         
         if ( count( $parentGroupSelectValues ) > 1 ) {
-            $this->add( 'select', 'add_parent_group', ts('Add Parent'), $parentGroupSelectValues );
+            $required = empty($parentGroups) ? true : false;
+            $this->add( 'select', 'parents', ts('Add Parent'), $parentGroupSelectValues, $required );
         }
 
 		//build custom data
@@ -250,8 +256,41 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+        
+        $this->addFormRule( array( 'CRM_Group_Form_Edit', 'formRule' ), $parentGroups );
     }
     
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields, $fileParams, $parentGroups ) 
+    {
+        $errors = array( );
+
+        $grpRemove = 0;
+        foreach ( $fields as $key => $val ) {
+            if ( substr( $key, 0, 20 ) == 'remove_parent_group_' ) {
+                $grpRemove++;
+            }
+        }
+
+        $grpAdd = 0;
+        if ( CRM_Utils_Array::value( 'parents', $fields ) ) {
+            $grpAdd++;
+        }
+
+        if ( ($grpRemove - $grpAdd) >=  count($parentGroups) ) {
+            $errors['parents'] = ts( 'Make sure at least one parent group is set.' );
+        }
+        return empty($errors) ? true : $errors;
+    }    
+
     /**
      * Process the form when submitted
      *
@@ -298,14 +337,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 }
             }
             
-            /*
-             * Add parent group, if that was requested
-             */
-            if ( ! empty( $params['add_parent_group'] ) ) {
-                CRM_Contact_BAO_GroupNesting::add( $params['add_parent_group'], $group->id );
-                $updateNestingCache = true;
-            }
-
             CRM_Core_Session::setStatus( ts('The Group \'%1\' has been saved.', array(1 => $group->title)) );        
             
             /*

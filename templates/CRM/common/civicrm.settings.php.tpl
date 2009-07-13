@@ -127,7 +127,6 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
  * CIVICRM_UF_BASEURL - home URL for your site:
  *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/civicrm/standalone/' );
  */
- 
 define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 
 /*
@@ -137,6 +136,14 @@ define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
  * More info at http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration
  */
 define( 'CIVICRM_SITE_KEY', null );
+
+/**
+ * Multi-org / Multi-site settings:
+ *
+ */
+//define( 'CIVICRM_DOMAIN_ID'      , null );
+define( 'CIVICRM_DOMAIN_GROUP_ID', null );
+define( 'CIVICRM_DOMAIN_ORG_ID'  , null );
 
 /**
  * 

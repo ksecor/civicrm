@@ -250,6 +250,20 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         
         $params['contact_id'] = $contact->id;
 
+        // in order to make sure that every contact must be added to a group (CRM-4613) - 
+        require_once 'CRM/Core/BAO/Domain.php';
+        $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
+        if ( is_array($params['group']) ) {
+            $grpFlp = array_flip($params['group']);
+            if ( !array_key_exists( 1, $grpFlp ) ) {
+                $params['group'][$domainGroupID] = 1;
+            }
+        } else {
+            $params['group'] = array( $domainGroupID = 1 );
+        }
+        require_once 'CRM/Contact/BAO/GroupContact.php';
+        CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+
         //add location Block data
         $blocks = CRM_Core_BAO_Location::create( $params, $fixAddress );
         foreach ( $blocks as $name => $value )  $contact->$name = $value;  

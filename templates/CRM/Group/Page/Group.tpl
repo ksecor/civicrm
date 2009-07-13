@@ -25,6 +25,9 @@
       <th>{ts}Description{/ts}</th>
       <th>{ts}Group Type{/ts}</th>
       <th>{ts}Visibility{/ts}</th>
+      {if $groupOrg}
+          <th>{ts}Organizaton{/ts}</th>	
+      {/if}
       <th></th>
      </tr>
    {foreach from=$rows item=row}
@@ -35,7 +38,10 @@
             {$row.description|mb_truncate:80:"...":true}
         </td>
         <td>{$row.group_type}</td>	
-        <td>{$row.visibility}</td>	
+        <td>{$row.visibility}</td>
+        {if $groupOrg}
+	    <td>{$row.org_name}</td>
+        {/if}
         <td>{$row.action|replace:'xx':$row.id}</td>
      </tr>
    {/foreach}

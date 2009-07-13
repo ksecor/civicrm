@@ -701,10 +701,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $this->_showTagsAndGroups ) {
-            //add contact to group
-            require_once 'CRM/Contact/BAO/GroupContact.php';
-            CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
-            
+            // add contact to group
+            // note: group creation is now handled in contact::create() itself, to make sure 
+            // that all contacts must be added to at least one group 
+
             //add contact to tags
             require_once 'CRM/Core/BAO/EntityTag.php';
             CRM_Core_BAO_EntityTag::create( $params['tag'], $params['contact_id'] );

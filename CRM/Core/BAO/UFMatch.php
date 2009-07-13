@@ -180,7 +180,8 @@ WHERE     openid = %1";
 
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
-        $ufmatch->uf_id = $userKey;
+        $ufmatch->domain_id = CRM_Core_Config::domainID( );
+        $ufmatch->uf_id     = $userKey;
         if ( ! $ufmatch->find( true ) ) {
             require_once 'CRM/Core/Transaction.php';
             $transaction = new CRM_Core_Transaction( );
@@ -279,6 +280,7 @@ WHERE     openid = %1";
 
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->contact_id = $contactId;
+        $ufmatch->domain_id  = CRM_Core_Config::domainID( );
         if ( ! $ufmatch->find( true ) ||
              $ufmatch->uf_name == $ufName ) {
             // if object does not exist or the OpenID has not changed
@@ -310,6 +312,7 @@ WHERE     openid = %1";
 
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->contact_id = $contactId;
+        $ufmatch->domain_id  = CRM_Core_Config::domainID( );
         if ( $ufmatch->find( true ) ) {
             // Save the email in UF Match table
             $ufmatch->uf_name = $emailAddress;
@@ -359,7 +362,8 @@ WHERE     openid = %1";
     static function deleteUser( $ufID ) {
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
 
-        $ufmatch->uf_id = $ufID;
+        $ufmatch->uf_id      = $ufID;
+        $ufmatch->domain_id  = CRM_Core_Config::domainID( );
         $ufmatch->delete( );
     }
 
@@ -379,7 +383,8 @@ WHERE     openid = %1";
 
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
 
-        $ufmatch->uf_id = $ufID;
+        $ufmatch->uf_id     = $ufID;
+        $ufmatch->domain_id = CRM_Core_Config::domainID( );
         if ( $ufmatch->find( true ) ) {
             return $ufmatch->contact_id;
         }

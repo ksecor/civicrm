@@ -31,6 +31,7 @@ ORIGPWD=`pwd`
 # Set no actions by default 
 D5PACK=0
 J5PACK=0
+S5PACK=0
 
 # Display usage
 display_usage()
@@ -43,6 +44,7 @@ display_usage()
 	echo "  all - generate all available tarballs"
 	echo "  d5  - generate Drupal PHP5 module"
 	echo "  j5  - generate Joomla PHP5 module"
+	echo "  s5  - generate Standalone PHP5 tarball"
 	echo
 	echo "You also need to have distmaker.conf file in place."
 	echo "See distmaker.conf.dist for example contents."
@@ -96,11 +98,18 @@ case $1 in
 	J5PACK=1
 	;;
 
+	# STANDALONE PHP5
+	s5)
+	echo; echo "Generating Standalone PHP5 tarball"; echo;
+	S5PACK=1
+	;;
+
 	# ALL
 	all)
 	echo; echo "Generating all we've got."; echo;
 	D5PACK=1
 	J5PACK=1
+	S5PACK=1
 	;;
 
 	# USAGE
@@ -127,6 +136,11 @@ fi
 if [ $J5PACK = 1 ]; then
 	echo; echo "Packaging for Joomla, PHP5 version"; echo;
 	sh $P/dists/joomla_php5.sh
+fi
+
+if [ $S5PACK = 1 ]; then
+	echo; echo "Packaging for Standalone, PHP5 version"; echo;
+	sh $P/dists/standalone_php5.sh
 fi
 
 

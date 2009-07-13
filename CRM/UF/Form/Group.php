@@ -300,12 +300,16 @@ class CRM_UF_Form_Group extends CRM_Core_Form
 
             if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
                 $ids['ufgroup'] = $this->_id;
-            
+                
                 $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFJoin', $this->_id, 'weight', 'uf_group_id' );
                 $params['weight'] = 
                     CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFJoin', $oldWeight, $params['weight']);
+            } elseif ( $this->_action & CRM_Core_Action::ADD ) {
+                $session =& CRM_Core_Session::singleton( );
+                $params['created_id']   = $session->get( 'userID' );
+                $params['created_date'] = date('YmdHis');
             }
-
+            
             // create uf group
             $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);
 

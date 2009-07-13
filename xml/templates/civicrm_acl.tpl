@@ -20,6 +20,7 @@ VALUES
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviCase', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviGrant', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access Contact Dashboard', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'administer Multiple Organizations', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'translate CiviCRM', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'edit grants', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access all custom data', NULL, NULL, NULL, 1),

@@ -129,7 +129,6 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
      * $access public
      */
     function del( $groupContactId, $status, $contactID ) {
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupId = CRM_Contact_BAO_GroupContact::getGroupId($groupContactId);
        
         switch ($status) {
@@ -144,6 +143,14 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
             $groupStatus = 'Removed';
             break;
         }
+
+        $groupNum = CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added', 
+                                                                   null, true, true );
+        if ( $groupNum == 1 && $groupStatus == 'Removed' ) {
+            CRM_Core_Session::setStatus( 'make sure at least one contact group association is maintained.' );
+            return false;
+        }
+
         $ids = array($contactID);
         $method = 'Admin';
 
@@ -155,7 +162,6 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
         }
 
         CRM_Contact_BAO_GroupContact::removeContactsFromGroup($ids, $groupId, $method  ,$groupStatus);
-
     }
 }
 

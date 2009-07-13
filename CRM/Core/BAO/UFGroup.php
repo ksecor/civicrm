@@ -1055,21 +1055,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function add(&$params, &$ids) 
     {
-        $params['is_active'              ] = CRM_Utils_Array::value( 'is_active'           , $params, false );
-        $params['add_captcha'            ] = CRM_Utils_Array::value( 'add_captcha'         , $params, false );
-        $params['is_map'                 ] = CRM_Utils_Array::value( 'is_map'              , $params, false );
-        $params['is_update_dupe'         ] = CRM_Utils_Array::value( 'is_update_dupe'      , $params, false );
-        $params['limit_listings_group_id'] = CRM_Utils_Array::value( 'group'               , $params        );
-        $params['add_to_group_id'        ] = CRM_Utils_Array::value( 'add_contact_to_group', $params        );
-        $params['is_edit_link'           ] = CRM_Utils_Array::value( 'is_edit_link'        , $params, false );
-        $params['is_uf_link'             ] = CRM_Utils_Array::value( 'is_uf_link'          , $params, false );
-        $params['is_cms_user'            ] = CRM_Utils_Array::value( 'is_cms_user'         , $params, false );
+        $fields = array( 'is_active', 'add_captcha', 'is_map', 'is_update_dupe', 'is_edit_link', 'is_uf_link', 'is_cms_user' );
+        foreach( $fields as $field ) {
+            $params[$field] = CRM_Utils_Array::value( $field, $params, false );    
+        }
+        
+        $params['limit_listings_group_id'] = CRM_Utils_Array::value( 'group', $params );
+        $params['add_to_group_id'        ] = CRM_Utils_Array::value( 'add_contact_to_group', $params );
 
-        $ufGroup             =& new CRM_Core_DAO_UFGroup();
-        $ufGroup->copyValues($params); 
-                
-        $ufGroup->id = CRM_Utils_Array::value( 'ufgroup', $ids );;
+        $ufGroup =& new CRM_Core_DAO_UFGroup();
+        $ufGroup->copyValues( $params ); 
+        $ufGroup->id = CRM_Utils_Array::value( 'ufgroup', $ids );
         $ufGroup->save();
+        
         return $ufGroup;
     }    
 
@@ -1201,7 +1199,6 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
     static function addUFJoin( &$params ) 
     {
         require_once 'CRM/Core/DAO/UFJoin.php';
-        
         $ufJoin =& new CRM_Core_DAO_UFJoin( );
         $ufJoin->copyValues( $params );
         $ufJoin->save( );

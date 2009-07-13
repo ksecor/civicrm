@@ -39,8 +39,8 @@
         {/if}
         <table class="form-layout-compressed">
         <tr>
-            <td class="label">{$form.add_parent_group.label}</td>
-            <td>{$form.add_parent_group.html}</td>
+            <td class="label">{$form.parents.label}</td>
+            <td>{$form.parents.html}</td>
         </tr>
         </table>
     </fieldset>

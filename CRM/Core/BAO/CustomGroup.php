@@ -64,19 +64,19 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
      */
     static function create( &$params )
     {
-        $fieldLength =  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'name');
+        $fieldLength = CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'name');
               
         // create custom group dao, populate fields and then save.           
         $group =& new CRM_Core_DAO_CustomGroup();
-        $group->title            = $params['title'];
-        $group->name             = CRM_Utils_String::titleToVar($params['title'], $fieldLength['maxlength'] );
+        $group->title = $params['title'];
+        $group->name  = CRM_Utils_String::titleToVar($params['title'], $fieldLength['maxlength'] );
         if ( in_array( $params['extends'][0],
                        array( 'ParticipantRole',
                               'ParticipantEventName',
                               'ParticipantEventType' ) ) ) {
-            $group->extends          = 'Participant';
+            $group->extends = 'Participant';
         } else {
-            $group->extends          = $params['extends'][0];
+            $group->extends = $params['extends'][0];
         }
 
         $group->extends_entity_column_id = null;
@@ -92,10 +92,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                 $group->extends_entity_column_id  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $params['extends'][0], 'value', 'name' );
             } 
         }
-
-        $group->style                = CRM_Utils_Array::value('style', $params, false);
-        $group->collapse_display     = CRM_Utils_Array::value('collapse_display', $params, false);
-        $group->collapse_adv_display = CRM_Utils_Array::value('collapse_adv_display', $params, false);
         
         if ( isset( $params['id'] ) ) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'weight', 'id' );
@@ -105,15 +101,13 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         require_once 'CRM/Utils/Weight.php';
         $group->weight =
             CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_CustomGroup', $oldWeight, CRM_Utils_Array::value('weight', $params, false) );
-        
-        $group->help_pre         = CRM_Utils_Array::value('help_pre', $params, false);
-        $group->help_post        = CRM_Utils_Array::value('help_post', $params, false);
-        $group->is_active        = CRM_Utils_Array::value('is_active', $params, false);
-
-        $group->is_multiple      = CRM_Utils_Array::value('is_multiple'    , $params, false );
-        $group->max_multiple     = ( isset( $params['max_multiple'] ) &&
+        $fields = array('style', 'collapse_display', 'collapse_adv_display', 'help_pre', 'help_post', 'is_active', 'is_multiple');
+        foreach ($fields as $field) {
+            $group->$field = CRM_Utils_Array::value($field, $params, false);           
+        }
+        $group->max_multiple = ( isset( $params['max_multiple'] ) &&
                                      $params['max_multiple'] >= '0' ) ? $params['max_multiple'] : 'null';
-
+        
         $tableName = null;
         if ( isset( $params['id'] ) ) {
             $group->id = $params['id'] ;
@@ -127,6 +121,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                                                              'table_name' );
             }
         } else {
+            $group->created_id   = CRM_Utils_Array::value('created_id', $params);
+            $group->created_date = CRM_Utils_Array::value('created_date', $params);
             // lets create the table associated with the group and save it
             $tableName = $group->table_name = "civicrm_value_" .
                 strtolower( CRM_Utils_String::munge( $group->title, '_', 32 ) );
@@ -158,7 +154,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         // reset the cache
         require_once 'CRM/Core/BAO/Cache.php';
         CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
-
 
         require_once 'CRM/Utils/Hook.php';
         if ( $tableName ) {
