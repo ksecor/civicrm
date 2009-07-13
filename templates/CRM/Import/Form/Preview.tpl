@@ -1,7 +1,5 @@
-{if $config->userFramework ne 'Joomla'}
 {literal}
 <script type="text/javascript">
-
 function setIntermediate( ) {
 	var dataUrl = "{/literal}{$statusUrl}{literal}";
 	cj.getJSON( dataUrl, function( response ) {
@@ -16,13 +14,7 @@ function pollLoop( ){
 	setIntermediate( );
 	window.setTimeout( pollLoop, 10*1000 ); // 10 sec
 }
-	
-</script>
-{/literal}
-{/if}
 
-{literal}
-<script type="text/javascript">
 function verify( ) {
     if (! confirm('Are you sure you want to Import now?') ) {
         return false;
@@ -83,7 +75,6 @@ function verify( ) {
     <p>{ts}Click 'Import Now' if you are ready to proceed.{/ts}</p>
  </div>
 
-{if $config->userFramework ne 'Joomla'}
 {* Import Progress Bar and Info *}
 <div id="id-processing">
 	<h3>Importing records...</h3><br />
@@ -91,7 +82,6 @@ function verify( ) {
 	<div id="intermediate"></div>
 	<div id="error_status"></div>
 </div>
-{/if}
 
 <div id="preview-info">
  {* Summary Preview (record counts) *}
@@ -123,16 +113,15 @@ function verify( ) {
     </tr>
     {/if}
 
-    <tr><td class="label">{ts}Valid Rows{/ts}</td>
+    <tr>
+		<td class="label">{ts}Valid Rows{/ts}</td>
         <td class="data">{$validRowCount}</td>
         <td class="explanation">{ts}Total rows to be imported.{/ts}</td>
     </tr>
  </table>
-  
 
  {* Table for mapping preview *}
- {include file="CRM/Import/Form/MapTable.tpl}
- 
+ {include file="CRM/Import/Form/MapTable.tpl"}
  
  {* Group options *}
  {* New Group *}
@@ -173,9 +162,9 @@ function verify( ) {
     <div id="newTag" class="section-hidden section-hidden-border">
         <a href="#" onclick="hide('newTag'); show('newTag_show'); return false;">&raquo; <label>{ts}Create a new tag and assign it to imported records{/ts}</label></a>
             <div class="form-item">
-            <dl>
-            <dt class="description">{$form.newTagName.label}</dt><dd>{$form.newTagName.html}</dd>
-            <dt class="description">{$form.newTagDesc.label}</dt><dd>{$form.newTagDesc.html}</dd>
+				<dl>
+				<dt class="description">{$form.newTagName.label}</dt><dd>{$form.newTagName.html}</dd>
+				<dt class="description">{$form.newTagDesc.label}</dt><dd>{$form.newTagDesc.html}</dd>
             </dl>
         </div>
     </div>
@@ -188,10 +177,11 @@ function verify( ) {
     <div id="tag" class="section-hidden section-hidden-border">
         <a href="#" onclick="hide('tag'); show('tag_show'); return false;">&raquo; <label>{ts}Tag imported records{/ts}</label></a>
         <dl>
-            <dt></dt><dd class="listing-box" style="margin-bottom: 0em; width: 15em;">
-           {foreach from=$form.tag item="tag_val"} 
-            <div>{$tag_val.html}</div>
-            {/foreach}
+            <dt></dt>
+			<dd class="listing-box" style="margin-bottom: 0em; width: 15em;">
+				{foreach from=$form.tag item="tag_val"} 
+					<div>{$tag_val.html}</div>
+				{/foreach}
             </dd>
         </dl>
     </div>
@@ -200,11 +190,7 @@ function verify( ) {
 <div id="crm-submit-buttons">
    {$form.buttons.html}
 </div>
-
 <script type="text/javascript">
-{if $config->userFramework ne 'Joomla'}
-hide('id-processing');
-{/if}
 hide('newGroup');
 hide('existingGroup');
 hide('newTag');
