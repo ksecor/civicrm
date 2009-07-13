@@ -1086,11 +1086,23 @@ WHERE civicrm_event.is_active = 1
                 }
                 
                 if ( 'state_province' == substr( $name, 0, 14 ) ) {
-                    $values[$index] = CRM_Core_PseudoConstant::stateProvince( $params[$name] );
+                    if ( $params[$name] ) {
+                        $values[$index] = CRM_Core_PseudoConstant::stateProvince( $params[$name] );
+                    } else {
+                        $values[$index] = '';
+                    }
                 } else if ( 'country' == substr( $name, 0, 7 ) ) {
-                    $values[$index] = CRM_Core_PseudoConstant::country( $params[$name] );
+                    if ( $params[$name] ) {
+                        $values[$index] = CRM_Core_PseudoConstant::country( $params[$name] );
+                    } else {
+                        $values[$index] = '';
+                    }
                 } else if ( 'county' == substr( $name, 0, 6 ) ) {
-                    $values[$index] = $params[$name];
+                    if ( $params[$name] ) {
+                        $values[$index] = CRM_Core_PseudoConstant::county( $params[$name] );
+                    } else {
+                        $values[$index] = '';
+                    }
                 } else if ( 'gender' == substr( $name, 0, 6 ) ) {
                     $gender =  CRM_Core_PseudoConstant::gender( );
                     $values[$index] = $gender[$params[$name]];
