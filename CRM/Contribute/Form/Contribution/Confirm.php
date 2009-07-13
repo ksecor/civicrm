@@ -125,13 +125,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $this->_params['organization_name'] = 
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
                 }
-                if ( !empty( $this->_params['location'][1]['address']['country_id'] ) ) {
-                    $this->_params['location'][1]['address']['country'] = 
-                        CRM_Core_PseudoConstant::countryIsoCode( $this->_params['location'][1]['address']['country_id'] ); 
+                if ( !empty( $this->_params['address'][1]['country_id'] ) ) {
+                    $this->_params['address'][1]['country'] = 
+                        CRM_Core_PseudoConstant::countryIsoCode( $this->_params['address'][1]['country_id'] ); 
                 }
-                if ( !empty( $this->_params['location'][1]['address']['state_province_id'] ) ) {
-                    $this->_params['location'][1]['address']['state_province'] = 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['location'][1]['address']['state_province_id'] );
+                if ( !empty( $this->_params['address'][1]['state_province_id'] ) ) {
+                    $this->_params['address'][1]['state_province'] = 
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['address'][1]['state_province_id'] );
                 }
             }
 

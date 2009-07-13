@@ -52,15 +52,7 @@ class CRM_Contact_Form_Edit_Phone
      */
     static function buildQuickForm( &$form ) {
         
-        //FIXME : &$location, $locationId, $count, $phoneType = null
-        
         $blockId = ( $form->get( 'Phone_Block_Count' ) ) ? $form->get( 'Phone_Block_Count' ) : 1;
-        
-        //FIXME :
-        $phoneType = null;
-        if ( !$phoneType ) {
-            $phoneType = CRM_Core_PseudoConstant::phoneType( );
-        }
         
         // only add hidden element when processing first block 
         // for remaining blocks we'll calculate at run time w/ jQuery. 
@@ -68,8 +60,10 @@ class CRM_Contact_Form_Edit_Phone
             $form->addElement( 'hidden', 'hidden_Phone_Instances', $blockId, array( 'id' => 'hidden_Phone_Instances') );
         }
         
+        $form->applyFilter('__ALL__','trim');
+        
         //phone type select
-        $form->addElement('select', "phone[$blockId][phone_type_id]", ts('Phone'), $phoneType, null );
+        $form->addElement('select', "phone[$blockId][phone_type_id]", ts('Phone'), CRM_Core_PseudoConstant::phoneType( ) );
         
 		//phone box
 		$form->addElement('text', "phone[$blockId][phone]", ts('Phone'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone', 'phone'));

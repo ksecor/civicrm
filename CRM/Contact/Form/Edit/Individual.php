@@ -33,10 +33,8 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/ShowHideBlocks.php';
-require_once 'CRM/Core/BAO/UFGroup.php';
+require_once 'CRM/Core/PseudoConstant.php';
 
 /**
  * Auxilary class to provide support to the Contact Form class. Does this by implementing

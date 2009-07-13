@@ -652,8 +652,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             if ( ! $fields['org_option'] && ! $fields['organization_name'] ) {
                 $errors['organization_name'] = ts('Please enter the organization name.'); 
             }
-            if ( ! $fields['location'][1]['email'][1]['email']) {
-                $errors["location[1][email][1][email]"] = ts('Organization email is required.'); 
+            if ( ! $fields['email'][1]['email'] ) {
+                $errors["email[1][email]"] = ts('Organization email is required.'); 
             }
         }
 

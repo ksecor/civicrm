@@ -51,13 +51,7 @@ class CRM_Contact_Form_Edit_OpenID
      * @static
      */
     static function buildQuickForm( &$form ) {
-        
-        //FIXME : &$location, $locationId, $count
-        
         $blockId = ( $form->get( 'OpenID_Block_Count' ) ) ? $form->get( 'OpenID_Block_Count' ) : 1;
-        
-        $form->addElement('text', "openid[$blockId][openid]", ts('OpenID'),
-                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_OpenID', 'openid'));
         
         // only add hidden element when processing first block 
         // for remaining blocks we'll calculate at run time w/ jQuery. 
@@ -65,13 +59,18 @@ class CRM_Contact_Form_Edit_OpenID
             $form->addElement( 'hidden', 'hidden_OpenID_Instances', $blockId, array( 'id' => 'hidden_OpenID_Instances') );  
         }
         
+        $form->applyFilter('__ALL__','trim');
+        
+        $form->addElement('text', "openid[$blockId][openid]", ts('OpenID'),
+                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_OpenID', 'openid'));
+        $form->addRule( "openid[$blockId][openid]", ts('OpenID is not a valid URL.'), 'url' );
+        
         //Block type
         $form->addElement('select',"openid[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
         
         $config=& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Standalone' ) { 
-            $location[$locationId]['openid'][$blockId]['allowed_to_login'] = 
-                $form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, ts('Allowed to Login'));
+            $form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, ts('Allowed to Login'));
         }
         
         //is_Primary radio

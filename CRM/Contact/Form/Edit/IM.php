@@ -60,8 +60,6 @@ class CRM_Contact_Form_Edit_IM
      */
     static function buildQuickForm( &$form ) {
         
-        //FIXME : &$location, $locationId, $count 
-        
         $blockId = ( $form->get( 'IM_Block_Count' ) ) ? $form->get( 'IM_Block_Count' ) : 1;
         
         // only add hidden element when processing first block 
@@ -69,6 +67,8 @@ class CRM_Contact_Form_Edit_IM
         if ( $blockId == 1 ) {
             $form->addElement( 'hidden', 'hidden_IM_Instances', $blockId, array( 'id' => 'hidden_IM_Instances') );
         }
+        
+        $form->applyFilter('__ALL__','trim');
         
         //IM provider select
         $form->addElement('select', "im[$blockId][provider_id]", '', CRM_Core_PseudoConstant::IMProvider() );

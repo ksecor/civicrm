@@ -51,22 +51,26 @@ class CRM_Contact_Form_Edit_Address
      */
     static function buildQuickForm( &$form ) 
     {
-        //, &$location, $locationId, $countryDefault = null
-        
         $blockId    = ( $form->get( 'Address_Block_Count' ) ) ? $form->get( 'Address_Block_Count' ) : 1;
         $maxBlocks  = ( $form->get( 'maxLocationBlocks'   ) ) ? $form->get( 'maxLocationBlocks'   ) : 1;
+        
+        $config =& CRM_Core_Config::singleton( );
+        $countryDefault = $config->defaultContactCountry;
+        
         $addMoreAddress = false;
         if ( $maxBlocks >=  $blockId + 1 ) {
             $addMoreAddress = true;
         }
         $form->assign( 'addMoreAddress', $addMoreAddress ); 
         
+        $form->applyFilter('__ALL__','trim');
+        
         // only add hidden element when processing first block 
         // for remaining blocks we'll calculate at run time w/ jQuery. 
         if ( $blockId == 1 ) {
             $form->addElement( 'hidden', 'hidden_Address_Instances', $blockId, array( 'id' => 'hidden_Address_Instances' ) );
         }
-        
+                
         $form->addElement('select',
                           "address[$blockId][location_type_id]",
                           ts( 'Location Type' ),
@@ -90,11 +94,6 @@ class CRM_Contact_Form_Edit_Address
         
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
-        
-        $config =& CRM_Core_Config::singleton( );
-        if ( $countryDefault == null ) {
-            $countryDefault = $config->defaultContactCountry;
-        }
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
         
         $elements = array( 

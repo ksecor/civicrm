@@ -33,10 +33,6 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/SelectValues.php';
-require_once 'CRM/Core/ShowHideBlocks.php';
-
 /**
  * Auxilary class to provide support to the Contact Form class. Does this by implementing
  * a small set of static methods
@@ -128,7 +124,7 @@ class CRM_Contact_Form_Edit_Organization
         }
         
         // add code to make sure that the uniqueness criteria is satisfied
-        return $errors;
+        return empty( $errors ) ? true : $errors;
     }
 }
 

@@ -65,12 +65,12 @@
   <fieldset><legend>{ts}Phone and Email{/ts}</legend>
     <table class="form-layout-compressed">
 		<tr>
-            <td width="25%">{$form.location.$index.phone.1.phone.label}</td>
-            <td>{$form.location.$index.phone.1.phone.html}</td>
+            <td width="25%">{$form.phone.$index.phone.label}</td>
+            <td>{$form.phone.$index.phone.html}</td>
         </tr>
 		<tr>
-            <td>{$form.location.$index.email.1.email.label}</td>
-            <td>{$form.location.$index.email.1.email.html}</td>
+            <td>{$form.email.$index.email.label}</td>
+            <td>{$form.email.$index.email.html}</td>
         </tr>
     </table>
   </fieldset>
@@ -83,18 +83,18 @@
     <table class="form-layout-compressed">
         {if !$contactEditMode}
 		<tr>
-            <td>{$form.location.$index.phone.1.phone.label}</td>
-            <td>{$form.location.$index.phone.1.phone.html}</td>
+            <td>{$form.phone.$index.phone.label}</td>
+            <td>{$form.phone.$index.phone.html}</td>
         </tr>
 		<tr>
-            <td>{$form.location.$index.email.1.email.label}</td>
-            <td>{$form.location.$index.email.1.email.html}</td>
+            <td>{$form.email.$index.email.label}</td>
+            <td>{$form.email.$index.email.html}</td>
         </tr>
         {/if}
         {if $addressSequence.street_address}
         <tr>
-            <td width="15%">{$form.location.$index.address.street_address.label}</td>
-            <td>{$form.location.$index.address.street_address.html}    
+            <td width="15%">{$form.address.$index.street_address.label}</td>
+            <td>{$form.address.$index.street_address.html}    
                 <br class="spacer"/>
                 <span class="description font-italic">{ts}Street number, street name, apartment/unit/suite - OR P.O. box{/ts}</span>
             </td>
@@ -102,8 +102,8 @@
         {/if}
         {if $addressSequence.supplemental_address_1}
         <tr>
-            <td>{$form.location.$index.address.supplemental_address_1.label}</td>
-            <td>{$form.location.$index.address.supplemental_address_1.html}    
+            <td>{$form.address.$index.supplemental_address_1.label}</td>
+            <td>{$form.address.$index.supplemental_address_1.html}    
                 <br class="spacer"/>
                 <span class="description font-italic">{ts} Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</span>
             </td>
@@ -111,23 +111,23 @@
         {/if}
         {if $addressSequence.supplemental_address_2}
         <tr>
-            <td>{$form.location.$index.address.supplemental_address_2.label}</td>
-            <td>{$form.location.$index.address.supplemental_address_2.html}    
+            <td>{$form.address.$index.supplemental_address_2.label}</td>
+            <td>{$form.address.$index.supplemental_address_2.html}    
             </td>
         </tr>
         {/if}
         {if $addressSequence.city}
         <tr>
-            <td>{$form.location.$index.address.city.label}</td>
-            <td>{$form.location.$index.address.city.html}</td>
+            <td>{$form.address.$index.city.label}</td>
+            <td>{$form.address.$index.city.html}</td>
         </tr>
         {/if}
         {if $addressSequence.postal_code}
         <tr>
-            <td>{$form.location.$index.address.postal_code.label}</td>
-            <td>{$form.location.$index.address.postal_code.html}
-                {if $form.location.$index.address.postal_code_suffix.html}
-                     - {$form.location.$index.address.postal_code_suffix.html}    
+            <td>{$form.address.$index.postal_code.label}</td>
+            <td>{$form.address.$index.postal_code.html}
+                {if $form.address.$index.postal_code_suffix.html}
+                     - {$form.address.$index.postal_code_suffix.html}    
                     <br class="spacer"/>
                     <span class="description font-italic">{ts}Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).{/ts}</span>
                 {/if}
@@ -136,20 +136,20 @@
         {/if}
         {if $addressSequence.country}
         <tr>
-            <td>{$form.location.$index.address.country_id.label}</td>
-            <td>{$form.location.$index.address.country_id.html}</td>
+            <td>{$form.address.$index.country_id.label}</td>
+            <td>{$form.address.$index.country_id.html}</td>
         </tr>
         {/if}
         {if $addressSequence.state_province}
         <tr>
-            <td>{$form.location.$index.address.state_province_id.label}</td>
-            <td>{$form.location.$index.address.state_province_id.html}</td>
+            <td>{$form.address.$index.state_province_id.label}</td>
+            <td>{$form.address.$index.state_province_id.html}</td>
         </tr>
         {/if}
         {if $contactEditMode and $form.location.$index.address.geo_code_1.label}
         <tr>
-            <td>{$form.location.$index.address.geo_code_1.label}, {$form.location.$index.address.geo_code_2.label}</td>
-            <td>{$form.location.$index.address.geo_code_1.html}, {$form.location.$index.address.geo_code_2.html}    
+            <td>{$form.address.$index.geo_code_1.label}, {$form.address.$index.geo_code_2.label}</td>
+            <td>{$form.address.$index.geo_code_1.html}, {$form.address.$index..geo_code_2.html}    
                 <br class="spacer"/>
                 <span class="description font-italic">
                     {ts}Latitude and longitude may be automatically populated by enabling a Mapping Provider.{/ts} {docURL page="Mapping and Geocoding"}</span>

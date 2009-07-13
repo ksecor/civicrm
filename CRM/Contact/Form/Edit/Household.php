@@ -32,10 +32,6 @@
  * $Id$
  *
  */
- 
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/SelectValues.php';
-require_once 'CRM/Core/ShowHideBlocks.php';
 
 /**
  * Auxilary class to provide support to the Contact Form class. Does this by implementing
@@ -145,7 +141,7 @@ class CRM_Contact_Form_Edit_Household
             !CRM_Utils_Array::value('email_greeting_custom',$fields) ) {
             $errors['email_greeting_custom'] = ts('Custom  Email Greeting is a required field if Email Greeting is of type Customized.');
         }
-        return $errors;
+        return empty( $errors ) ? true : $errors;
     }
 
     /**
