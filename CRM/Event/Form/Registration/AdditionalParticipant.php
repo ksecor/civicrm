@@ -64,26 +64,6 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {
         parent::preProcess( );
 
-        // CRM-4377: additional participants *may* have separate profiles
-        // backward compatibility hack, or ‘why we can’t use CRM_Core_BAO_UFJoin::getUFGroupIds()’:
-        // — no entries means we should stick to the main participant’s profile
-        // — inactive entries mean we should unset the profile altogether
-        require_once 'CRM/Core/DAO/UFJoin.php';
-        $ufJoin = new CRM_Core_DAO_UFJoin;
-        $ufJoin->module       = 'CiviEvent_Additional';
-        $ufJoin->entity_table = 'civicrm_event';
-        $ufJoin->entity_id    = $this->_eventId;
-        $ufJoin->orderBy('weight');
-        $ufJoin->find();
-        if ($ufJoin->fetch()) {
-            if ($ufJoin->is_active) $this->_values['custom_pre_id'] = $ufJoin->uf_group_id;
-            else                    unset($this->_values['custom_pre_id']);
-        }
-        if ($ufJoin->fetch()) {
-            if ($ufJoin->is_active) $this->_values['custom_post_id'] = $ufJoin->uf_group_id;
-            else                    unset($this->_values['custom_post_id']);
-        }
-
         $this->_lineItem = $this->get( 'lineItem' );
         $participantNo = substr( $this->_name, 12 );
         
@@ -185,9 +165,9 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         }
         $first_name = $last_name = null;
         foreach ( array( 'pre', 'post' ) as $keys ) {
-            $this->buildCustom( $this->_values['custom_'.$keys.'_id'] , 'custom'.ucfirst($keys) , true );
-            if ( isset ( $this->_values['custom_'.$keys.'_id'] ) ) {
-                $$keys = CRM_Core_BAO_UFGroup::getFields($this->_values['custom_'.$keys.'_id']);
+            if ( isset ( $this->_values['additional_custom_'.$keys.'_id'] ) ) {
+                $this->buildCustom( $this->_values['additional_custom_'.$keys.'_id'] , 'additionalCustom'.ucfirst($keys) , true );
+                $$keys = CRM_Core_BAO_UFGroup::getFields($this->_values['additional_custom_'.$keys.'_id']);
             }
             foreach ( array( 'first_name', 'last_name' ) as $name ) {
                 if( CRM_Utils_Array::value( $name, $$keys ) &&

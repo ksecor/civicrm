@@ -165,7 +165,7 @@
             </div>
             {foreach from=$value item=val key=field}
                 {if $field}
-                    {if $field eq 'customPre' }
+                    {if $field eq 'additionalCustomPre' }
                         <fieldset><legend>{$groupTitlePre}</legend>
                     {else}
                         <fieldset><legend>{$groupTitlePost}</legend>

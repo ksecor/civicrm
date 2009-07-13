@@ -394,6 +394,36 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                   $this->_values['custom_post_id'] ) =
                 CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
     
+            // set profiles for additional participants
+            if ( $this->_values['event']['is_multiple_registrations'] ) {
+                require_once 'CRM/Core/BAO/UFJoin.php'; 
+                $ufJoinParams = array( 'entity_table' => 'civicrm_event',   
+                                       'module'       => 'CiviEvent_Additional',       // CRM-4377: CiviEvent for the main participant, CiviEvent_Additional for additional participants
+                                       'entity_id'    => $this->_eventId );
+                list( $this->_values['additional_custom_pre_id'],
+                      $this->_values['additional_custom_post_id'], $preActive, $postActive ) =
+                    CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
+                
+                // CRM-4377: we need to maintain backward compatibility, hence if there is profile for main contact
+                // set same profile for additional contacts.
+                if ( $this->_values['custom_pre_id'] && !$this->_values['additional_custom_pre_id'] ) {
+                    $this->_values['additional_custom_pre_id'] = $this->_values['custom_pre_id'];
+                }
+
+                if ( $this->_values['custom_post_id'] && !$this->_values['additional_custom_post_id'] ) {
+                    $this->_values['additional_custom_post_id'] = $this->_values['custom_post_id'];
+                }
+                
+                // now check for no profile condition, in that case is_active = 0
+                if ( isset( $preActive ) && !$preActive ) {
+                    unset( $this->_values['additional_custom_pre_id'] );
+                }
+
+                if ( isset( $postActive ) && !$postActive ) {
+                    unset( $this->_values['additional_custom_post_id'] );
+                }
+            }
+                
             $params = array( 'id' => $this->_eventId );
             
             // get the billing location type

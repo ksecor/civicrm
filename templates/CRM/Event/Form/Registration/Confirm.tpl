@@ -109,10 +109,10 @@
             <div class="header-dark">
                 {ts 1=$participantNo+1}Participant Information - Participant %1{/ts}	
             </div>
-            {if $participant.customPre}
-                <fieldset><legend>{$participant.customPreGroupTitle}</legend>
+            {if $participant.additionalCustomPre}
+                <fieldset><legend>{$participant.additionalCustomPreGroupTitle}</legend>
                     <table class="form-layout-compressed">
-                        {foreach from=$participant.customPre item=value key=field}
+                        {foreach from=$participant.additionalCustomPre item=value key=field}
                         <tr>
 			    <td class="label">{$field}</td><td class="view-value">{$value}</td>
                         </tr>
@@ -121,10 +121,10 @@
                 </fieldset>
             {/if}
 
-            {if $participant.customPost}
-                <fieldset><legend>{$participant.customPostGroupTitle}</legend>
+            {if $participant.additionalCustomPost}
+                <fieldset><legend>{$participant.additionalCustomPostGroupTitle}</legend>
                     <table class="form-layout-compressed">
-                        {foreach from=$participant.customPost item=value key=field}
+                        {foreach from=$participant.additionalCustomPost item=value key=field}
                         <tr>
 			    <td class="label">{$field}</td><td class="view-value">{$value}</td>
                         </tr>

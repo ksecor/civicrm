@@ -253,30 +253,30 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         foreach ( $participantParams as $participantNum => $participantValue ) {
             if ( $participantNum && $participantValue != 'skip') {
                 //get the customPre profile info
-                if ( CRM_Utils_Array::value( 'custom_pre_id', $this->_values ) ) {
+                if ( CRM_Utils_Array::value( 'additional_custom_pre_id', $this->_values ) ) {
                     $values = array( );
                     $groupName = array( );
                     CRM_Event_BAO_Event::displayProfile( $participantValue, 
-                                                         $this->_values['custom_pre_id'], 
+                                                         $this->_values['additional_custom_pre_id'], 
                                                          $groupName, 
                                                          $values );
                     if ( count( $values ) ) {
-                        $formattedValues[$count]['customPre'] = $values;
+                        $formattedValues[$count]['additionalCustomPre'] = $values;
                     }
-                    $formattedValues[$count]['customPreGroupTitle'] = CRM_Utils_Array::value( 'groupTitle', $groupName );
+                    $formattedValues[$count]['additionalCustomPreGroupTitle'] = CRM_Utils_Array::value( 'groupTitle', $groupName );
                 }
                 //get the customPost profile info
-                if ( CRM_Utils_Array::value( 'custom_post_id', $this->_values ) ) {
+                if ( CRM_Utils_Array::value( 'additional_custom_post_id', $this->_values ) ) {
                     $values = array( );
                     $groupName = array( );
                     CRM_Event_BAO_Event::displayProfile( $participantValue, 
-                                                         $this->_values['custom_post_id'], 
+                                                         $this->_values['additional_custom_post_id'], 
                                                          $groupName, 
                                                          $values );
                     if ( count( $values ) ) {
-                        $formattedValues[$count]['customPost'] = $values;
+                        $formattedValues[$count]['additionalCustomPost'] = $values;
                     }
-                    $formattedValues[$count]['customPostGroupTitle'] = CRM_Utils_Array::value( 'groupTitle', $groupName );
+                    $formattedValues[$count]['additionalCustomPostGroupTitle'] = CRM_Utils_Array::value( 'groupTitle', $groupName );
                 }
                 $count++; 
             }
