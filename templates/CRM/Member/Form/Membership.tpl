@@ -19,11 +19,11 @@
 </div>
 {/if}
 
-{if $isOnlineMembership}
+{if $hasOnlineContribution}
 <div class="messages status">
   <dl>
      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
-     <dd>{ts}It seems like there is pending Contribution record is associated with this membership signup. <br />If you want to update status, please select Update Pending Contribution Status check box.{/ts}
+     <dd>{ts}It looks like there is Online Contribution record associated with this membership signup. <br />You can update contribution status by selecting Update Contribution Status check box.{/ts}
      </dd>
   </dl>
 </div> 
@@ -126,10 +126,10 @@
         <div class="spacer"></div>
 	{/if}
  
-   {if $isOnlineMembership}
+   {if $hasOnlineContribution}
         <tr>
             <td class="label">{$form.update_contribution_status.label}</td><td>{$form.update_contribution_status.html}<br />
-            <span class="description">{ts}Automatically update related Pending Contribution Status?{/ts}</span></td>
+            <span class="description">{ts}Automatically update Online  Contribution Status?{/ts}</span></td>
         </tr>
    {/if}
 

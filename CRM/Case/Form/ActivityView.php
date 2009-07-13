@@ -114,8 +114,8 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
             $recentContactId = $contactID; 
         }
         require_once 'CRM/Utils/Recent.php';
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
-                                      "action=view&reset=1&id={$activityID}&atype={$activityTypeID}&cid={$recentContactId}&selectedChild=case" );
+        $url = CRM_Utils_System::url( 'civicrm/case/activity/view', 
+                                      "reset=1&aid={$activityID}&cid={$recentContactId}&caseID={$caseID}" );
 
         require_once 'CRM/Contact/BAO/Contact.php';
         $recentContactDisplay = CRM_Contact_BAO_Contact::displayName( $recentContactId );

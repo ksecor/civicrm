@@ -392,14 +392,18 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 //get user feedback about update related contribution record, CRM-4395.
                 require_once 'CRM/Core/Payment/BaseIPN.php';
                 $membershipDetails = CRM_Core_Payment_BaseIPN::getComponentDetails( $this->_id, 'Membership' );
-                $isOnlineMembership = false;
-                if ( CRM_Utils_Array::value( 'contribution', $membershipDetails )  ) {
+                $hasOnlineContribution = false;
+                if ( CRM_Utils_Array::value( 'contribution', $membershipDetails ) && 
+                     (strpos(CRM_Core_DAO::getFieldValue('CRM_Contribute_DAO_Contribution',$membershipDetails['contribution'],'source'), 
+                             ts( 'Online Contribution' ) ) !== false || 
+                      CRM_Core_DAO::getFieldValue('CRM_Contribute_DAO_FinancialTrxn', 
+                                                  $membershipDetails['contribution'], 'id', 'contribution_id') ) ) {
                     $this->addElement('checkbox', 
                                       'update_contribution_status', 
-                                      ts('Update Pending Contribution Status') );
-                    $isOnlineMembership = true;
+                                      ts('Update Contribution Status') );
+                    $hasOnlineContribution = true;
                 }
-                $this->assign( 'isOnlineMembership', $isOnlineMembership );
+                $this->assign( 'hasOnlineContribution', $hasOnlineContribution );
             }
         }
         $this->addElement('checkbox', 
@@ -797,12 +801,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         //CRM-4395
+        $updateOnlineContribution = false;
         if ( CRM_Utils_Array::value( 'update_contribution_status', $formValues ) ) {
             require_once 'CRM/Core/Payment/BaseIPN.php';
-            $updated = CRM_Core_Payment_BaseIPN::updateContributionStatus( $this->_id, $formValues['status_id'], 'Membership' );
-            if (  $updated ) {
-                CRM_Core_Session::setStatus( ts('Related Contribution status has been updated. <br />') );
-            }
+            $updateOnlineContribution = CRM_Core_Payment_BaseIPN::updateContributionStatus( $this->_id, 
+                                                                                             $formValues['status_id'], 'Membership' );
         }
         
         if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
@@ -910,6 +913,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
             if ( $receiptSend ) {
                 $statusMsg .= ' '.ts('A confirmation for membership updation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
+            }
+            if ( $updateOnlineContribution ) {
+                $statusMsg .= ts('<br />Also related Online Contribution status has been updated.' );
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             require_once 'CRM/Core/DAO.php';

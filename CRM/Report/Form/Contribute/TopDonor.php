@@ -276,7 +276,7 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
 
         $this->doTemplateAssignment( $rows );
         
-        $this->endPostProcess( );
+        $this->endPostProcess( $rows );
     }
     
     function limit( $rowCount = CRM_Report_Form::ROW_COUNT_LIMIT ) {

@@ -760,7 +760,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         return $this->_query->searchQuery( null, null, null, false, false, true );
     }
 
-    function &contactIDQuery( $params, $action, $sortID ) {
+    function contactIDQuery( $params, $action, $sortID ) {
         $sortOrder =& $this->getSortOrder( $this->_action );
         $sort      =& new CRM_Utils_Sort( $sortOrder, $sortID );
 

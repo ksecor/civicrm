@@ -64,14 +64,7 @@ class CRM_Contact_Form_Edit_Demographics
         $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
         $form->addRule('birth_date', ts('Select a valid date.'), 'qfBirthDate');
 		
-		$showCalender = true;
-		/*FIXME:CRM-3090, commits missing in trunk
-		if ( array_key_exists( CRM_Core_Dao::getFieldValue( 'CRM_Core_DAO_PreferencesDate', 'birth', 'format', 'name' ),
-							   CRM_Core_SelectValues::birthDateFormats( ) ) ) {
-			$showCalender = false;
-		}
-		*/
-		$form->assign( 'showCalender', $showCalender );
+        $form->assign( 'showCalender', CRM_Utils_Date::checkBrithDateFormat( )?false:true );
     }
     
     /**

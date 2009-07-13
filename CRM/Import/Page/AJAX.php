@@ -60,6 +60,7 @@ class CRM_Import_Page_AJAX
             $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
             echo $json->encode( array( 0, $status ) );
         }
+		exit;
     }
 
 }

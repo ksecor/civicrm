@@ -149,14 +149,6 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
    
         //CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
         
-        // unset locations if empty
-        if ( ( count( $defaults['location'] ) == 1 ) &&
-             ( count( $defaults['location'][1] ) == 1 ) ) {
-            // this means this is only one element in the first location
-            // which is is_primary, so we ignore it in view mode
-            unset( $defaults['location'] );
-        }
-
         if ( CRM_Utils_Array::value( 'gender_id',  $defaults ) ) {
             $gender =CRM_Core_PseudoConstant::gender();
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
@@ -199,8 +191,11 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
             $defaults['current_employer'] = $currentEmployer[ $this->_contactId ]['org_name'];
             $defaults['current_employer_id'] = $currentEmployer[ $this->_contactId ]['org_id'];
+            
+            //for birthdate format with respect to birth format set 
+            $this->assign( 'birthDateViewFormat',  CRM_Utils_Array::value( 'qfMapping', CRM_Utils_Date::checkBrithDateFormat( ) ) );
         }
-
+        
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        
         
