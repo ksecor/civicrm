@@ -150,9 +150,8 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_groups             = null;
     protected $_having             = null;
     protected $_rowsFound          = null;
-    protected $_select             = null;
-        
-    protected $_rollup         = null;
+    protected $_select             = null;        
+    protected $_rollup             = null;
     
     /**
      * To what frequency group-by a date column
@@ -227,11 +226,11 @@ class CRM_Report_Form extends CRM_Core_Form {
         // lets display the 
         $this->_instanceForm       = $this->_force || $this->_id || ( ! empty( $_POST ) );
 
-        // do not display instance form if CiviReport permission is absent
+        // do not display instance form if administer Reports permission is absent
         if ( ! CRM_Core_Permission::check( 'administer Reports' ) ) {
             $this->_instanceForm   = false;
         }
-
+    
         $this->assign( 'criteriaForm', false );
         if ( CRM_Core_Permission::check( 'administer Reports' ) ||
              CRM_Core_Permission::check( 'access Report Criteria' ) ) {
@@ -621,7 +620,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         if ( CRM_Core_Permission::check( 'administer Reports' ) && $this->_add2groupSupported ) {
             $this->addElement( 'select', 'groups', ts( 'Group' ), 
                                array( '' => ts( '- select group -' )) + CRM_Core_PseudoConstant::staticGroup( ) );
-            $this->assign( 'group', $this->_groups );
+            $this->assign( 'group', true );
         }
         
         //$this->addElement('select', 'select_add_to_group_id', ts('Group'), $groupList);
@@ -660,30 +659,30 @@ class CRM_Report_Form extends CRM_Core_Form {
 
         switch ( $type ) {
         case CRM_Report_FORM::OP_INT :
-            return array( 'lte' => 'Is less than or equal to', 
-                          'gte' => 'Is greater than or equal to',
-                          'bw'  => 'Is between',
-                          'eq'  => 'Is equal to', 
-                          'lt'  => 'Is less than', 
-                          'gt'  => 'Is greater than',
-                          'neq' => 'Is not equal to', 
-                          'nbw' => 'Is not between',
+            return array( 'lte' => ts('Is less than or equal to'), 
+                          'gte' => ts('Is greater than or equal to'),
+                          'bw'  => ts('Is between'),
+                          'eq'  => ts('Is equal to'), 
+                          'lt'  => ts('Is less than'), 
+                          'gt'  => ts('Is greater than'),
+                          'neq' => ts('Is not equal to'), 
+                          'nbw' => ts('Is not between'),
                           );
             break;
         case CRM_Report_FORM::OP_SELECT :
-            return array( 'eq'  => 'Is equal to' );
+            return array( 'eq'  => ts('Is equal to') );
             break;
         case CRM_Report_FORM::OP_MULTISELECT :
-            return array( 'in'  => 'Is one of' );
+            return array( 'in'  => ts('Is one of') );
             break;
         default:
             // type is string
-            return array('has'  => 'Contains', 
-                         'sw'   => 'Starts with', 
-                         'ew'   => 'Ends with',
-                         'nhas' => 'Does not contain', 
-                         'eq'   => 'Is equal to', 
-                         'neq'  => 'Is not equal to', 
+            return array('has'  => ts('Contains'), 
+                         'sw'   => ts('Starts with'), 
+                         'ew'   => ts('Ends with'),
+                         'nhas' => ts('Does not contain'), 
+                         'eq'   => ts('Is equal to'), 
+                         'neq'  => ts('Is not equal to'), 
                          );
         }
     }
