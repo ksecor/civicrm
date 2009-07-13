@@ -379,7 +379,7 @@ AND        ca.case_id = %3
         if ( $this->isActivityPresent( $params ) ) {
             return true;
         }
-
+        $activityParams['case_id'] = $params['caseID'];
         if ( CRM_Utils_Array::value('is_auto', $activityParams) ) {
             $activityParams['skipRecentView'] = true;
         }

@@ -417,7 +417,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
             // call begin post process, before the activity is created/updated.
             $this->beginPostProcess( $newActParams );
-
+            $newActParams['case_id'] = $this->_caseId;
             $activity = CRM_Activity_BAO_Activity::create( $newActParams );
             
             // call end post process, after the activity has been created/updated.

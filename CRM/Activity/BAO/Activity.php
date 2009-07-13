@@ -466,12 +466,16 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $transaction->commit( );  
         if ( ! CRM_Utils_Array::value( 'skipRecentView', $params ) ) {
             require_once 'CRM/Utils/Recent.php';
-            
-            $q = "action=view&reset=1&id={$activity->id}&atype={$activity->activity_type_id}&cid={$activity->source_contact_id}";
-            if ( $activity->activity_type_id != CRM_Core_OptionGroup::getValue( 'activity_type', 'Email', 'name' ) ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', $q );
+            if ( CRM_Utils_Array::value( 'case_id', $params ) ) {
+                $url = CRM_Utils_System::url( 'civicrm/case/activity/view', 
+                                              "reset=1&aid={$activity->id}&cid={$activity->source_contact_id}&caseID={$params['case_id']}" );
             } else {
-                $url = CRM_Utils_System::url( 'civicrm/activity', $q );
+                $q = "action=view&reset=1&id={$activity->id}&atype={$activity->activity_type_id}&cid={$activity->source_contact_id}";
+                if ( $activity->activity_type_id != CRM_Core_OptionGroup::getValue( 'activity_type', 'Email', 'name' ) ) {
+                    $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', $q );
+                } else {
+                    $url = CRM_Utils_System::url( 'civicrm/activity', $q );
+                }
             }
             
             require_once 'CRM/Contact/BAO/Contact.php';
