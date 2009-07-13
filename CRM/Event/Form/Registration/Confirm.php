@@ -904,10 +904,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             require_once 'CRM/Dedupe/Finder.php';
             //Dedupe couldn't recognize "email-Primary".So modify params temporary.
             if ( CRM_Utils_Array::value('email-Primary', $params) ) {
-                $params ['email'] = $params['email-Primary'];
+                $params['email'] = $params['email-Primary'];
             }
             $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
+            
+            unset($params['email']);
            
             // if we find more than one contact, use the first one
             $contact_id  = $ids[0];
