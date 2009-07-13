@@ -17,11 +17,11 @@
 {/if}
 <div id="eventFullMsg" class="messages status" style="display:none;"></div>
 
-{if $isOnlineRegistration}
+{if $hasOnlineContribution}
 <div class="messages status">
   <dl>
      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
-     <dd> {ts}It seems like there is pending Contribution record is associated with this event registration. <br /> If you want to update status, please select Update Pending Contribution Status check box.{/ts}
+     <dd> {ts}It looks like there is Online Contribution record is associated with this event registration. <br />You can update contribution status by selecting Update Contribution Status check box.{/ts}
      </dd>
   </dl>
 </div> 
@@ -89,10 +89,10 @@
 		<tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}</td></tr>
 
 		<tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
-                {if $isOnlineRegistration}
+                {if $hasOnlineContribution}
                 <tr>
                    <td class="label">{$form.update_contribution_status.label}</td><td>{$form.update_contribution_status.html}<br />
-                   <span class="description">{ts}Automatically update related Pending Contribution Status?{/ts}</span></td>
+                   <span class="description">{ts}Automatically update Online Contribution Status?{/ts}</span></td>
                 </tr>
                 {/if}
         </table>

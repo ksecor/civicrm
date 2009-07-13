@@ -428,6 +428,7 @@ class CRM_Core_Payment_BaseIPN {
         $contribution->net_amount   = $input['net_amount'];
         $contribution->trxn_id      = $input['trxn_id'];
         $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date);
+        $contribution->cancel_date  = 'null';
         
         if ( CRM_Utils_Array::value('check_number', $input) ) {
             $contribution->check_number = $input['check_number'];
@@ -438,7 +439,7 @@ class CRM_Core_Payment_BaseIPN {
         }
         
         $contribution->save( );
-
+        
         // next create the transaction record
         if ( isset( $objects['paymentProcessor'] ) ) {
             $paymentProcessor = $objects['paymentProcessor']['payment_processor_type'];
@@ -817,12 +818,11 @@ class CRM_Core_Payment_BaseIPN {
             if ( array_key_exists( $statusId, $negativeStatuses ) ) {
                 $baseIPN->cancelled( $objects, $transaction );
                 $transaction->commit( );
-                return; 
+                return true; 
             }
             
-            // do not process if contribution is not pending or participant status is not positive.
-            if ( !array_key_exists( $statusId, $positiveStatuses ) || 
-                 $contribution->contribution_status_id != array_search( 'Pending', $contributionStatuses ) ) {
+            // do not process if participant status is not positive.
+            if ( !array_key_exists( $statusId, $positiveStatuses ) ) {
                 $transaction->commit( );
                 return;
             }
@@ -838,13 +838,12 @@ class CRM_Core_Payment_BaseIPN {
             if ( $membershipStatuses[$statusId] == 'Cancelled' ) {
                 $baseIPN->cancelled( $objects, $transaction );
                 $transaction->commit( );
-                return; 
+                return true; 
             }
             
             $currentMemberStatuses = CRM_Member_PseudoConstant::membershipStatus( null, 'is_current_member = 1' );
-            // if contribution is not pending or membership status is not is current.
-            if ( !array_key_exists( $statusId,  $currentMemberStatuses ) ||
-                 $contribution->contribution_status_id != array_search( 'Pending', $contributionStatuses ) ) {
+            // do not process if  membership status is not is current.
+            if ( !array_key_exists( $statusId,  $currentMemberStatuses ) ) {
                 $transaction->commit( );
                 return;
             }
@@ -863,7 +862,7 @@ class CRM_Core_Payment_BaseIPN {
             $input['payment_instrument_id'] = $contribution->payment_instrument_id;
             $input['net_amount']            = $contribution->fee_amount;
             $input['trxn_id']               = $contribution->invoice_id;
-            $input['trxn_date']             = date( 'Y-m-d' );
+            $input['trxn_date']             = self::$_now;
             
             $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
             
