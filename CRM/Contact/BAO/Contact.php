@@ -1195,10 +1195,15 @@ AND    civicrm_contact.id = %1";
         $locationTypes =& CRM_Core_PseudoConstant::locationType( );
         $billingLocationTypeId = array_search( 'Billing',  $locationTypes );
 
-        $phoneLoc   = 0;
-        $phoneReset = array( );
-        $imLoc      = 0; 
-        $imReset    = array( );
+        $blocks = array( 'email', 'phone', 'im', 'openid' );
+        
+        // reset all block params, to prevent overwritten of formatted array
+        foreach( $blocks as $blk ) {
+            if ( isset( $params[$blk] ) ) {
+                unset( $params[$blk] );
+            }
+        }
+            
         $primaryPhoneLoc = null;
         foreach ($params as $key => $value) {
             $fieldName = $locTypeId = $typeId = null;
@@ -1227,9 +1232,7 @@ AND    civicrm_contact.id = %1";
                 
                 require_once 'CRM/Utils/Array.php';
                 $loc = CRM_Utils_Array::key($index, $locationType);
-                
-                
-                $blocks = array( 'email', 'phone', 'im', 'openid' );
+                                
                 $blockName = 'address';
                 if ( in_array( $fieldName, $blocks ) ) {
                     $blockName = $fieldName;
@@ -1350,23 +1353,24 @@ AND    civicrm_contact.id = %1";
             }
         }
        
-        //make sure primary location is at first position in location array
-        if ( isset( $data['location'] ) && count( $data['location'] ) > 1 ) {
-            // if first location is primary skip manipulation
-            if ( !isset($data['location'][1]['is_primary']) ) {
-                //find the key for primary location
-                foreach ( $data['location'] as $primaryLocationKey => $value ) {
-                    if ( isset( $value['is_primary'] ) ) {
-                        break;
-                    }
-                }
-                
-                // swap first location with primary location
-                $tempLocation        = $data['location'][1];
-                $data['location'][1] = $data['location'][$primaryLocationKey];
-                $data['location'][$primaryLocationKey] = $tempLocation;
-            }
-        }
+        // FIX ME: need to check if we need this code
+        // //make sure primary location is at first position in location array
+        // if ( isset( $data['location'] ) && count( $data['location'] ) > 1 ) {
+        //     // if first location is primary skip manipulation
+        //     if ( !isset($data['location'][1]['is_primary']) ) {
+        //         //find the key for primary location
+        //         foreach ( $data['location'] as $primaryLocationKey => $value ) {
+        //             if ( isset( $value['is_primary'] ) ) {
+        //                 break;
+        //             }
+        //         }
+        //         
+        //         // swap first location with primary location
+        //         $tempLocation        = $data['location'][1];
+        //         $data['location'][1] = $data['location'][$primaryLocationKey];
+        //         $data['location'][$primaryLocationKey] = $tempLocation;
+        //     }
+        // }
 
         if ( ! isset( $data['contact_type'] ) ) {
             $data['contact_type'] = 'Individual';
@@ -1410,7 +1414,7 @@ AND    civicrm_contact.id = %1";
                 CRM_Contact_BAO_SubscriptionHistory::create($shParams);
             }
         }
-                    
+
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $data['contact_type'] != 'Student' ) {
             $contact =& self::create( $data );

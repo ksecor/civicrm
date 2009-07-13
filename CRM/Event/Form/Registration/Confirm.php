@@ -909,8 +909,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
             
-            unset($params['email']);
-           
             // if we find more than one contact, use the first one
             $contact_id  = $ids[0];
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
