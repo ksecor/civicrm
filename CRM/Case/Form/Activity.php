@@ -329,20 +329,27 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                     $match = array( );
                     if ( preg_match('/^(custom_\d+_)(\d+)$/', $key, $match) ) {
                         $params[$match[1] . '-1'] = $params[$key];
+
+                        // for autocomplete transfer hidden value instead of label
+                        if ( $params[$key] && isset ( $params[$key. '_id'] ) ) {
+                            $params[$match[1] . '-1_id'] = $params[$key. '_id'];
+                            unset($params[$key. '_id']);
+                        }
                         unset($params[$key]);
                     }
                 }
             }
-			// build custom data getFields array
-			$customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $this->_activityTypeId );
-			$customFields = 
+
+            // build custom data getFields array
+            $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $this->_activityTypeId );
+            $customFields = 
                 CRM_Utils_Array::crmArrayMerge( $customFields, 
                                                 CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, 
                                                                                      null, null, true ) );
-	        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
-	                                                                   $customFields,
-	                                                                   $this->_activityId,
-	                                                                   'Activity' );
+            $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                       $customFields,
+                                                                       $this->_activityId,
+                                                                       'Activity' );
         }
 
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {

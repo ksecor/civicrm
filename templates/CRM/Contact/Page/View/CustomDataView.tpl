@@ -1,7 +1,8 @@
 {* Custom Data view mode*}
+{assign var="customGroupCount" value = 1}
 {foreach from=$viewCustomData item=customValues key=customGroupId}
-    {cycle values="left,right" assign=buildBlock}
-    {if $buildBlock eq $side }
+    {assign var="count" value=$customGroupCount%2}
+    {if $count eq $side }
         {foreach from=$customValues item=cd_edit key=cvID}
             <div class="customFieldGroup ui-corner-all">
                 <table>
@@ -36,4 +37,5 @@
             </div>
         {/foreach}
     {/if}
+    {assign var="customGroupCount" value = $customGroupCount+1}
 {/foreach}

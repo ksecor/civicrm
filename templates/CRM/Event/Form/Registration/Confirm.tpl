@@ -11,7 +11,7 @@
         </div>
     {elseif $isRequireApproval}
         <div class="help">
-            {ts}This event requires approval prior to completing registration. Please verify the information below. Then click 'Continue' to submit your registration. <span class="bold">Once your registration has been reviewed, you will receive an email with a link to a web page where you can complete the registration process.</span>{/ts}
+            {ts}Please verify the information below. Then click 'Continue' to submit your registration. <span class="bold">Once approved, you will receive an email with a link to a web page where you can complete the registration process.</span>{/ts}
         </div>
     {else}
         <div id="help">

@@ -708,3 +708,16 @@ function civitest_civicrm_membershipTypeValues( &$form, &$membershipTypeValues )
     $membershipTypeValues[2]['name']        = 'Student (50% discount)';
     $membershipTypeValues[2]['minimum_fee'] = '25.00';
 }
+
+function civitest_civicrm_summary( $contactID, &$content, &$contentPlacement ) {
+    // REPLACE default Contact Summary with your customized content
+    $contentPlacement = 3;
+    $content = "
+<table>
+<tr><th>Hook Data</th></tr>
+<tr><td>Data 1</td></tr>
+<tr><td>Data 2</td></tr>
+</table>
+";
+
+}

@@ -84,7 +84,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
              CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) { 
             $this->_allowWaitlist = true;
             $this->_statusMsg = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
-                                                        'This event is currently full. However you can register now and get added to a waiting list. You will be notified if spaces become available.' );
+                                                        ts('This event is currently full. However you can register now and get added to a waiting list. You will be notified if spaces become available.') );
         }
         $this->set( 'allowWaitlist', $this->_allowWaitlist );
         
@@ -531,7 +531,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( CRM_Utils_Array::value( 'bypass_payment', $fields ) ) {
             if ( !is_numeric( $self->_availableRegistrations ) || 
                  CRM_Utils_Array::value( 'additional_participants', $fields ) < $self->_availableRegistrations ) {
-                $errors['bypass_payment'] = ts( "Oops it looks like there are enough space in event and your are trying to become a part of waiting list.");
+                $errors['bypass_payment'] = ts( "Oops it looks like there are enough space in event and you are trying to become a part of waiting list.");
             }
         }
         

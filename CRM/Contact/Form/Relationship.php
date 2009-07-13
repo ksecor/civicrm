@@ -35,7 +35,7 @@
 
 require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Contact/Form/Note.php';
+require_once 'CRM/Contact/Form/Edit/Notes.php';
 require_once 'CRM/Custom/Form/CustomData.php';
 
 /**
@@ -307,8 +307,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                                                                     null, false, 'label', false )
                           );
 
-        // add a dojo facility for searching contacts
-
+        // add a ajax facility for searching contacts
 		$dataUrl = CRM_Utils_System::url( "civicrm/ajax/search", "reset=1", true, null, false );
 		$this->assign('dataUrl',$dataUrl );
         $this->addElement('text', 'name'      , ts('Find Target Contact') );
@@ -321,7 +320,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Relationship', 'description' ) );
         
-        CRM_Contact_Form_Note::buildNoteBlock($this);
+        CRM_Contact_Form_Edit_Notes::buildQuickForm($this);
         
         $searchCount           = $this->get( 'searchCount'   );
         $duplicateRelationship = $this->get( 'duplicateRelationship' );

@@ -115,11 +115,31 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 
         require_once 'CRM/Core/ShowHideBlocks.php';
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-        if ( !$defaults['has_waitlist'] ) {
+        // Show waitlist features or event_full_text if max participants set
+        if ( CRM_Utils_Array::value('max_participants', $defaults) ) {
+            $this->_showHide->addShow( 'id-waitlist' );
+            if ( $defaults['has_waitlist'] ) {
+                $this->_showHide->addShow( 'id-waitlist-text' );
+                $this->_showHide->addHide( 'id-event_full' );
+            } else {
+                $this->_showHide->addHide( 'id-waitlist-text' );
+                $this->_showHide->addShow( 'id-event_full' );
+            }
+        } else {
+            $this->_showHide->addHide( 'id-event_full' );
+            $this->_showHide->addHide( 'id-waitlist' );
             $this->_showHide->addHide( 'id-waitlist-text' );
         }
+
+        $this->_showHide->addToTemplate( );
+        $this->assign('elemType', 'table-row');
+
         $this->assign('description', CRM_Utils_Array::value('description', $defaults ) ); 
-        
+
+        // Provide suggested text for event full and waitlist messages if they're empty
+        $defaults['event_full_text'] = CRM_Utils_Array::value('event_full_text', $defaults, ts('This event is currently full.') );
+        $defaults['waitlist_text'] = CRM_Utils_Array::value('waitlist_text', $defaults, ts('This event is currently full. However you can register now and get added to a waiting list. You will be notified if spaces become available.') );
+
         return $defaults;
     }
     
@@ -200,12 +220,13 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                    );
         $this->addRule('end_date', ts('Please select a valid end date.'), 'qfDate');
      
-        $this->add('text','max_participants', ts('Max Number of Participants'));
+        $this->add('text','max_participants', ts('Max Number of Participants'),
+                    array('onchange' => "if (this.value != '') { show('id-event_full','table-row'); show('id-waitlist','table-row'); showHideByValue('has_waitlist','0','id-waitlist-text','table-row','radio',false); return;} else {hide('id-event_full','table-row'); hide('id-waitlist','table-row'); hide('id-waitlist-text','table-row'); return;}"));
         $this->addRule('max_participants', ts('Max participants should be a positive number') , 'positiveInteger');
 
-        $this->add('textarea', 'event_full_text', ts('Message if Event Is Full'),          $attributes['event_full_text']);
+        $this->addElement('checkbox', 'has_waitlist', ts('Offer a Waitlist?'), null, array( 'onclick' => "showHideByValue('has_waitlist','0','id-event_full','table-row','radio',true); showHideByValue('has_waitlist','0','id-waitlist-text','table-row','radio',false);" ));
 
-        $this->addElement('checkbox', 'has_waitlist', ts('Offer a Waitlist?'), null, array( 'onclick' => "return showHideByValue('has_waitlist','0','id-waitlist-text','table-row','radio',false);" ));
+        $this->add('textarea', 'event_full_text', ts('Message if Event Is Full'),          $attributes['event_full_text']);
         $this->add('textarea', 'waitlist_text',   ts('Waitlist Message'), $attributes['waitlist_text']);
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );

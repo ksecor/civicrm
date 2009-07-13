@@ -671,9 +671,8 @@ SELECT @value := value FROM civicrm_option_value
         civicrm_option_value.is_default = 1;
 UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Organization';
 
-
---  replace {contact.contact_name} with {contact.addressee}. in civicrm_preference.mailing_format
 {literal}
+--  replace {contact.contact_name} with {contact.addressee}. in civicrm_preference.mailing_format
  UPDATE civicrm_preferences 
   SET `mailing_format` = replace(`mailing_format`, '{contact.contact_name}','{contact.addressee}');
 {/literal}

@@ -3,16 +3,16 @@
 </div>
 <fieldset>
 <div id="help">
-{capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
-{ts 1=$ppUrl}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href="%1">payment processor</a> for your site.{/ts}
+{ts}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form.{/ts} {help id="id-event-reg"}
 </div>
 <div class="form-item">
     <div id="register">
      <dl>
-       <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}<br />
+       <dt>{$form.is_online_registration.label}</dt><dd>{$form.is_online_registration.html}
             <span class="description">{ts}Enable or disable online registration for this event.{/ts}</span></dd>
      </dl>
     </div>
+    <div class="spacer"></div>
     <div id="registration_blocks">
 	<table class="form-layout-compressed">
          
@@ -48,9 +48,13 @@
             <th scope="row" class="label" width="20%">{$form.requires_approval.label}</th>
             <td>{$form.requires_approval.html} {help id="id-requires_approval"}</td> 
         </tr>
+		<tr id="id-approval-text">
+			<th scope="row" class="label" width="20%">{$form.approval_req_text.label}</th>
+			<td>{$form.approval_req_text.html}</td>
+		</tr>
         <tr>
             <th scope="row" class="label" width="20%">{$form.expiration_time.label}</th>
-            <td>{$form.expiration_time.html} {help id="id-expiration_time"}</td>
+            <td>{$form.expiration_time.html|crmReplace:class:four} {help id="id-expiration_time"}</td>
         </tr>
     </table>
     <div class="spacer"></div>
@@ -232,6 +236,15 @@ target_element_id   ="confirmEmail"
 target_element_type ="block"
 field_type          ="radio"
 invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="requires_approval"
+    trigger_value       =""
+    target_element_id   ="id-approval-text" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
 }
 
 <script type="text/javascript">

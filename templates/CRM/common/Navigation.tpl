@@ -1,4 +1,3 @@
-{include file="CRM/common/jquery.tpl"}
 <div id="menu-container" style="display:none;">
     <ul id="civicrm-menu">
         <li id="crm-qsearch" class="menumain">

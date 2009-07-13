@@ -524,8 +524,8 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
             foreach ( $config->stateCountryMap as $index => $match ) {
                 if ( array_key_exists( 'state_province', $match ) &&
                      array_key_exists( 'country', $match ) ) {
-                    require_once 'CRM/Contact/Form/Address.php';
-                    CRM_Contact_Form_Address::fixStateSelect( $form,
+                    require_once 'CRM/Contact/Form/Edit/Address.php';
+                    CRM_Contact_Form_Edit_Address::fixStateSelect( $form,
                                                               $match['country'],
                                                               $match['state_province'],
                                                               CRM_Utils_Array::value( $match['country'],

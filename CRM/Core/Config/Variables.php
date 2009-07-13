@@ -399,11 +399,6 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $oldInputStyle            = 1;
 
     /**
-     * Should we include dojo?
-     */
-    public $includeDojo              = 1;
-
-    /**
      * should we disbable key generation for forms
      *
      * @var boolean

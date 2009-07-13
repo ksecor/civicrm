@@ -1042,7 +1042,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * Function to get Current Employer for Contact
      * 
      * @param $contactIds       Contact Ids
-     * @param $dojoreturn      boolean
      * @return $currentEmployer array of the current employer
      *
      * @static

@@ -355,6 +355,7 @@ function _civicrm_relationship_format_params( &$params, &$values ) {
     
     foreach ($params as $key => $value) {
         // ignore empty values or empty arrays etc
+        require_once 'CRM/Utils/System.php';
         if ( CRM_Utils_System::isNull( $value ) ) {
             continue;
         }
@@ -362,6 +363,7 @@ function _civicrm_relationship_format_params( &$params, &$values ) {
         switch ($key) {
         case 'contact_id_a':
         case 'contact_id_b':
+            require_once 'CRM/Utils/Rule.php';
             if (!CRM_Utils_Rule::integer($value)) {
                 return civicrm_create_error("contact_id not valid: $value");
             }

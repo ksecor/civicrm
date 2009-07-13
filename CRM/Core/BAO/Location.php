@@ -63,8 +63,9 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
      */
     static function create( &$params, $fixAddress = true, $entity = null ) 
     {
+        $location = array( );
         if ( ! self::dataExists( $params ) ) {
-            return null;
+            return $location;
         }
         
         //FIXME : createProfileContact( );

@@ -28,37 +28,54 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2009
+ * @copyright TTTP
  * $Id$
  *
  */
 
 /**
- * This class contains all the function that are called using AJAX
  */
-class CRM_Mailing_Page_AJAX
-{
-    /**
-     * Function to fetch the template text/html messages
-     */
-    function template( &$config ) 
-    {
-        require_once 'CRM/Utils/Type.php';
-        $templateId = CRM_Utils_Type::escape( $_POST['tid'], 'Integer' );
+function smarty_function_crmAPI( $params, &$smarty ) {
 
-        require_once "CRM/Core/DAO/MessageTemplates.php";
-        $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
-        $messageTemplate->id = $templateId;
-        $messageTemplate->selectAdd( );
-        $messageTemplate->selectAdd( 'msg_text, msg_html, msg_subject' );
-        $messageTemplate->find( true );
-        $messages = array( 'subject'  => $messageTemplate->msg_subject,
-                           'msg_text' =>  $messageTemplate->msg_text,
-                           'msg_html' =>  $messageTemplate->msg_html
-                           );
-                            
-        echo json_encode( $messages );
-        exit();
+    //  $mandatorypVars = array( 'entity', 'method','assign');
+    $fnGroup = ucfirst($params['entity']);
+    if ( strpos( $fnGroup, '_' ) ) {
+        $fnGroup    = explode( '_', $fnGroup );
+        $fnGroup[1] = ucfirst( $fnGroup[1] );
+        $fnGroup    = implode( '', $fnGroup );
+    }
+    $apiFile = "api/v2/{$fnGroup}.php";
+    require_once $apiFile;
+    $fnName = "civicrm_{$params['entity']}_{$params['action']}";
+    if ( ! function_exists( $fnName ) ) {
+        $smarty->trigger_error("Unknown function called: $fnName");
+        return;
+    }
+    // trap all fatal errors
+    CRM_Core_Error::setCallback( array( 'CRM_Utils_REST', 'fatal' ) );
+    unset ($params ['entity']);
+    unset ($params ['method']);
+    unset ($params ['assign']);
+    if (!empty($params['return'])) {
+        $return= explode(",", $params['return']);
+        foreach ($return as $r) {
+            $params ["return.".$r] = 1;
+        }
+        unset ($params ['return']);
+    }
+    $result = $fnName( $params );
+    CRM_Core_Error::setCallback( );
+    if ( $result === false ) {
+        $smarty->trigger_error("Unkown error");
+        return;
+    }
+    if (empty($params['var'])) {
+        $smarty->trigger_error("assign: missing 'var' parameter");
+        return;
     }
 
+    $smarty->assign($params["var"],$result);
 }
+
+
+?>

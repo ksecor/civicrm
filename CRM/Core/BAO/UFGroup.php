@@ -906,8 +906,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                       urlencode( $params[$index] ) );
                     }
                 } else {
-                    if ( $fieldName == 'email_greeting_custom' ) {   
-                        if ( CRM_Utils_Array::value('Email Greeting', $params) != 4 ) { 
+                    require_once 'CRM/Core/OptionGroup.php';
+                    if ( $fieldName == 'email_greeting_custom' ) {  
+                        $customizedValue = CRM_Core_OptionGroup::getValue( 'email_greeting', 'Customized', 'name' );
+                        if ( CRM_Utils_Array::value('Email Greeting', $params) != $customizedValue ) { 
                             array_pop($values); 
                         } else {    
                             $url = CRM_Utils_System::url( 'civicrm/profile',
@@ -921,7 +923,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                           );
                         }
                     } else if ( $fieldName == 'postal_greeting_custom' ) {
-                        if ( CRM_Utils_Array::value('Email Greeting', $params) != 4 ) { 
+                        $customizedValue = CRM_Core_OptionGroup::getValue( 'postal_greeting', 'Customized', 'name' );
+                        if ( CRM_Utils_Array::value('Postal Greeting', $params) != $customizedValue ) { 
                             array_pop($values); 
                         } else {    
                             $url = CRM_Utils_System::url( 'civicrm/profile',
@@ -935,7 +938,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                           );
                         }
                     } else if ( $fieldName == 'addressee_custom' ) {
-                        if ( CRM_Utils_Array::value('Addressee', $params) != 4 ) { 
+                        $customizedValue = CRM_Core_OptionGroup::getValue( 'addressee', 'Customized', 'name' );
+                        if ( CRM_Utils_Array::value('Addressee', $params) != $customizedValue ) { 
                             array_pop($values); 
                         } else {    
                             $url = CRM_Utils_System::url( 'civicrm/profile',
@@ -1445,16 +1449,15 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             $profileType = CRM_Core_BAO_UFField::getProfileType( $gId);
             switch( $profileType ) {
             case 'Individual': 
-                $filterVal = "v.filter = 1";
+                $filterCondition = "AND (v.filter IS NULL OR v.filter = 1)";
                 break;
             case 'Household':
-                $filterVal = "v.filter = 2";
+                $filterCondition = "AND (v.filter IS NULL OR v.filter = 2)";
                 break;
             case 'Organization':
-                $filterVal = "v.filter = 3";
+                $filterCondition = "AND (v.filter IS NULL OR v.filter = 3)";
                 break;
             }
-            $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
             if( $fieldName == 'email_greeting') {
                 $form->add('select', $name, $title, 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::emailGreeting($filterCondition), $required, array( 'onchange' => "showEmailGreeting();"));

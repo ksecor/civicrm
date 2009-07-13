@@ -265,8 +265,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
         //add location Block data
-        $location = array( );
-        $location = CRM_Core_BAO_Location::create( $params, $fixAddress );
+        $blocks = CRM_Core_BAO_Location::create( $params, $fixAddress );
+        foreach ( $blocks as $name => $value )  $contact->$name = $value;  
         
         $contact->location = $location;
         //get userID from session
@@ -1138,7 +1138,7 @@ AND    civicrm_contact.id = %1";
         if ( $ufGroupId ) {
             $params['uf_group_id'] = $ufGroupId;
         }
-
+        
         require_once 'CRM/Utils/Hook.php';
         if ( $contactID ) {
             $editHook = true;
@@ -1199,7 +1199,7 @@ AND    civicrm_contact.id = %1";
         $phoneReset = array( );
         $imLoc      = 0; 
         $imReset    = array( );
-        
+        $primaryPhoneLoc = null;
         foreach ($params as $key => $value) {
             $fieldName = $locTypeId = $typeId = null;
             list($fieldName, $locTypeId, $typeId) = CRM_Utils_System::explode('-', $key, 3);
@@ -1214,100 +1214,97 @@ AND    civicrm_contact.id = %1";
                     $locTypeId = $defaultLocationId;
                 }
             }
-            if ( is_numeric($locTypeId) ) { 
-                if ( ! in_array($locTypeId, $locationType) ) { 
-                    $locationType[$count] = $locTypeId;
+            if ( is_numeric($locTypeId) ) {
+                $index =  $locTypeId;
+                
+                if ( is_numeric( $typeId ) ) {
+                    $index .=  '-' . $typeId;
+                }
+                if ( ! in_array($index, $locationType) ) { 
+                    $locationType[$count] = $index;
                     $count++; 
                 }
                 
                 require_once 'CRM/Utils/Array.php';
-                $loc = CRM_Utils_Array::key($locTypeId, $locationType);
+                $loc = CRM_Utils_Array::key($index, $locationType);
                 
-                if ( isset($data['location']) && is_array($data['location']) && !array_key_exists($loc, $data['location']) ) {
-                    $phoneLoc = 0;
-                    $imLoc    = 0;
+                
+                $blocks = array( 'email', 'phone', 'im', 'openid' );
+                $blockName = 'address';
+                if ( in_array( $fieldName, $blocks ) ) {
+                    $blockName = $fieldName;
                 }
-                                
-                $data['location'][$loc]['location_type_id'] = $locTypeId;
+                
+                $data[$blockName][$loc]['location_type_id'] = $locTypeId;
                 
                 //set is_billing true, for location type "Billing" 
                 if ( $locTypeId == $billingLocationTypeId ) {
-                    $data['location'][$loc]['is_billing'] = 1;
+                    $data[$blockName][$loc]['is_billing'] = 1;
                 }
-
+                
                 if ( $contactID ) {
                     //get the primary location type
                     if ($locTypeId == $primaryLocationType) {
-                        $data['location'][$loc]['is_primary'] = 1;
+                        $data[$blockName][$loc]['is_primary'] = 1;
                     } 
                 } else {
                     if  ( $locTypeId == $defaultLocationId ) {
-                        $data['location'][$loc]['is_primary'] = 1;
+                        $data[$blockName][$loc]['is_primary'] = 1;
                     } elseif ( $locTypeId == $billingLocationTypeId ) {
-                        $data['location'][$loc]['is_primary'] = 1;
+                        $data[$blockName][$loc]['is_primary'] = 1;
                     }
                 }
                                     
                 if ($fieldName == 'phone') {
-                    if ( !in_array($loc, $phoneReset) ) {
-                        $phoneReset[] = $loc;
-                        $phoneLoc = 1;
-                    } else {
-                        $phoneLoc++;
-                    }
                     if ( $typeId ) {
-                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type_id'] = $typeId;
+                        $data['phone'][$loc]['phone_type_id'] = $typeId;
                     } else {
-                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type_id'] = '';
-                        $data['location'][$loc]['phone'][$phoneLoc]['is_primary'] = 1;
+                        $data['phone'][$loc]['phone_type_id'] = '';
                     }
-                    $data['location'][$loc]['phone'][$phoneLoc]['phone'] = $value;
+                    $data['phone'][$loc]['phone'] = $value;
+                    
+                    //special case to handle primary phone with different phone types
+                    // in this case we make first phone type as primary
+                    if ( isset( $data['phone'][$loc]['is_primary'] ) && !$primaryPhoneLoc ) {
+                        $primaryPhoneLoc = $loc;
+                    }
+                    
+                    if ( $loc != $primaryPhoneLoc ) {
+                        unset( $data['phone'][$loc]['is_primary'] );
+                    }
                 } else if ($fieldName == 'email') {
-                    $data['location'][$loc]['email'][1]['email'] = $value;
-                    $data['location'][$loc]['email'][1]['is_primary'] = 1;
+                    $data['email'][$loc]['email'] = $value;
                 } else if ($fieldName == 'im') {
-                    if ( !in_array($loc, $imReset) ) {
-                        $imReset[] = $loc;
-                        $imLoc = 1;
-                    } else {
-                        $imLoc++;
+                    if ( isset( $params[$key . '-provider_id'] ) ) {
+                       $data['im'][$loc]['provider_id'] = $params[$key . '-provider_id'];
                     }
-
-                    if ( $typeId ) {
-                       // get IM service provider type id, CRM-3140 
-                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = $typeId;
-                    } else {
-                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = '';
-                        $data['location'][$loc]['im'][$imLoc]['is_primary'] = 1;
-                    }
-                    $data['location'][$loc]['im'][$imLoc]['im']  = $value;  
+                    $data['im'][$loc]['name']  = $value;  
                 } else if ($fieldName == 'openid') {
-                    $data['location'][$loc]['openid'][1]['openid']     = $value;
-                    $data['location'][$loc]['openid'][1]['is_primary'] = 1;
+                    $data['openid'][$loc]['openid']     = $value;
                 } else {
                     if ($fieldName === 'state_province') {
                         // CRM-3393
                         if ( is_numeric( $value ) &&
                              ( (int ) $value ) >= 1000 ) {
-                            $data['location'][$loc]['address']['state_province_id'] = $value;
+                            $data['address'][$loc]['state_province_id'] = $value;
                         } else {
-                            $data['location'][$loc]['address']['state_province'] = $value;
+                            $data['address'][$loc]['state_province'] = $value;
                         }
                     } else if ($fieldName === 'country') {
                         // CRM-3393
                         if ( is_numeric( $value ) &&
                              ( (int ) $value ) >= 1000 ) {
-                            $data['location'][$loc]['address']['country_id'] = $value;
+                            $data['address'][$loc]['country_id'] = $value;
                         } else {
-                          $data['location'][$loc]['address']['country'] = $value;
+                          $data['address'][$loc]['country'] = $value;
                         }
                     } else if ($fieldName === 'county') {
-                        $data['location'][$loc]['address']['county_id'] = $value;
+                        $data['address'][$loc]['address']['county_id'] = $value;
                     } else {
                         if ($fieldName == 'address_name') {
-                            $data['location'][$loc]['address']['name'] = $value;
+                            $data['address'][$loc]['name'] = $value;
                         } else {
-                            $data['location'][$loc]['address'][$fieldName] = $value;
+                            $data['address'][$loc][$fieldName] = $value;
                         }
                     }
                 }
@@ -1413,7 +1410,7 @@ AND    civicrm_contact.id = %1";
                 CRM_Contact_BAO_SubscriptionHistory::create($shParams);
             }
         }
-                
+                    
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $data['contact_type'] != 'Student' ) {
             $contact =& self::create( $data );
@@ -1768,7 +1765,6 @@ UNION
             
         case 'log' :
         case 'note':
-            require_once 'CRM/Core/DAO.php';
             eval( '$object =& new CRM_Core_DAO_'.$component.'( );');
             $object->entity_table = 'civicrm_contact';
             $object->entity_id    = $contactId;
@@ -1776,7 +1772,6 @@ UNION
             break;
             
         case 'contribution' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Contribute/DAO/Contribution.php';
             eval( '$object =& new CRM_Contribute_DAO_Contribution( );');
             $object->contact_id = $contactId;
@@ -1784,7 +1779,6 @@ UNION
             break;
             
         case 'membership' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Member/DAO/Membership.php';
             eval( '$object =& new CRM_Member_DAO_Membership( );');
             $object->contact_id = $contactId;
@@ -1792,7 +1786,6 @@ UNION
             break;
             
         case 'participant' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Event/DAO/Participant.php';
             eval( '$object =& new CRM_Event_DAO_Participant( );');
             $object->contact_id = $contactId;
@@ -1800,15 +1793,25 @@ UNION
             break;
             
         case 'pledge' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Pledge/DAO/Pledge.php';
             eval( '$object =& new CRM_Pledge_DAO_Pledge( );');
             $object->contact_id = $contactId;
             $object->is_test    = 0;
             break;
+
+        case 'case' :
+            require_once 'CRM/Case/DAO/CaseContact.php';
+            eval( '$object =& new CRM_Case_DAO_CaseContact( );');
+            $object->contact_id = $contactId;
+            break;
+            
+        case 'grant' :
+            require_once 'CRM/Grant/DAO/Grant.php';
+            eval( '$object =& new CRM_Grant_DAO_Grant( );');
+            $object->contact_id = $contactId;
+            break;
             
         case 'activity' :
-            require_once 'CRM/Core/DAO.php';
             require_once 'CRM/Activity/DAO/Activity.php';
             eval( '$object =& new CRM_Activity_DAO_Activity( );');
             $object->source_contact_id = $contactId;

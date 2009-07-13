@@ -161,13 +161,13 @@ class CRM_UF_Form_Group extends CRM_Core_Form
         
         foreach ( $paneNames as $name => $type ) {
             if ( $this->_id ) {
-                $dojoUrlParams = "&reset=1&action=update&id={$this->_id}&snippet=4&formType={$type}";  
+                $dataURL = "&reset=1&action=update&id={$this->_id}&snippet=4&formType={$type}";  
             } else {
-                $dojoUrlParams = "&reset=1&action=add&snippet=4&formType={$type}";
+                $dataURL = "&reset=1&action=add&snippet=4&formType={$type}";
             }
             
             $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/admin/uf/group/setting',
-                                                                       $dojoUrlParams ),
+                                                                       $dataURL ),
                                       'open' => 'false',
                                       'id'   => $type,
                                       );

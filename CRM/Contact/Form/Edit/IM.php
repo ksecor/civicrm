@@ -71,8 +71,7 @@ class CRM_Contact_Form_Edit_IM
         }
         
         //IM provider select
-        $form->addElement('select', "im[$blockId][provider_id]", '',
-                          array('' => ts('- select service -')) + CRM_Core_PseudoConstant::IMProvider() );
+        $form->addElement('select', "im[$blockId][provider_id]", '', CRM_Core_PseudoConstant::IMProvider() );
         
         //Block type select
         $form->addElement('select',"im[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());

@@ -224,7 +224,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 // get values from contact table
                 $params = array( 'id'         => $this->_contactId,
                                  'contact_id' => $this->_contactId ) ;
-                $contact = CRM_Contact_BAO_Contact::retrieve( $params, $this->_values );
+                $contact = CRM_Contact_BAO_Contact::retrieve( $params, $this->_values, true );
                 $this->set( 'values', $this->_values );
             } else {
                 CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
@@ -280,9 +280,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     $defaults['tag'][$this->_tid] = 1;
                 }
             }
-            require_once 'CRM/Core/OptionGroup.php';
-            $defaults['greeting_type_id'] = CRM_Core_OptionGroup::values( 'greeting_type', true, null, 
-                                                                          null, ' AND v.is_default = 1' );
         } else {
             if ( isset( $this->_elementIndex[ "shared_household" ] ) ) {
                 $sharedHousehold = $this->getElementValue( "shared_household" );
@@ -417,9 +414,13 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             }
         }
         
-        //FIXME :
         //CRM-4575
-        if( CRM_Utils_Array::value('addressee_id',$fields) == 4 && !CRM_Utils_Array::value('addressee_custom',$fields) ) {
+        require_once 'CRM/Core/OptionGroup.php';
+        $filterCondition = null;
+        $addresseeValues = CRM_Core_PseudoConstant::addressee( $filterCondition, $columnName = 'name' );
+         $addresseeValue = array_search( 'Customized', $addresseeValues );
+        if( CRM_Utils_Array::value( 'addressee_id', $fields ) == $addresseeValue && 
+            ! CRM_Utils_Array::value( 'addressee_custom', $fields ) ) {
             $errors['addressee_custom'] = ts('Custom Addressee is a required field if Addressee is of type Customized.');
         } 
         
@@ -497,30 +498,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $this->assign( 'generateAjaxRequest', $generateAjaxRequest );
         $this->assign( 'ajaxRequestBlocks',   $ajaxRequestBlocks   );
         
-        //check contact type and build filter clause accordingly for addressee, CRM-4575
-        $filterVal = 'v.filter =';
-        switch( $this->_contactType ) {
-        case 'Individual': 
-            $filterVal .= "1";
-            break;
-        case 'Household':
-            $filterVal .= "2";
-            break;
-        case 'Organization':
-            $filterVal .= "3";
-            break;
-        }
-        $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
-
-        //add addressee in Contact form
-        $addressee = CRM_Core_PseudoConstant::addressee( $filterCondition );
-        if ( !empty( $addressee ) ) {
-            $this->addElement('select', 'addressee_id', ts('Addressee'), 
-                              array('' => ts('- select -')) + $addressee, array( 'onchange' => " showCustomized(this.id);") );
-            //custom addressee
-            $this->addElement('text', 'addressee_custom', ts('Custom Addressee'), 
-                              CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'addressee_custom' ));
-        }
+        $this->buildAddressee( );
         
         // add the dedupe button
         $this->addElement('submit', 
@@ -573,12 +551,20 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         //if email/postal greeting or addressee is not of the type customized, 
         //unset previously set custom value,CRM-4575
-        $elements = array( 'email_greeting_id'  => 'email_greeting_custom', 
-                           'postal_greeting_id' => 'postal_greeting_custom', 
-                           'addressee_id'       => 'addressee_custom' );
-        foreach( $elements as $field => $customField ) {
-            if ( CRM_Utils_Array::value( $field, $params ) != 4) {
-                $params[$customField] = "";
+        $fieldId    = null;
+        $fieldValue = null;
+        $elements = array( 'email_greeting'  => 'emailGreeting', 
+                           'postal_greeting' => 'postalGreeting', 
+                           'addressee'       => 'addressee' );
+        foreach( $elements as $key => $value ) {
+            $fieldId = $field."_id"; 
+            require_once 'CRM/Core/OptionGroup.php';
+            $filterCondition = null;
+            $optionValues = CRM_Core_PseudoConstant::$value( $filterCondition, $columnName = 'name' );
+            $fieldValue = array_search( 'Customized', $optionValues );
+            if ( CRM_Utils_Array::value( $field, $params ) != $fieldValue ) {
+                $customizedField = $key."_custom";
+                $params[$customizedField] = "";
             }
         } 
         
@@ -729,7 +715,40 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         return false;
     }
-    
+
+    /**
+     * build elements to set addressee formats
+     *
+     * @return None
+     * @access public
+     */
+    function buildAddressee( ) 
+    {
+        //check contact type and build filter clause accordingly for addressee, CRM-4575
+        $filterVal = 'v.filter =';
+        switch( $this->_contactType ) {
+        case 'Individual': 
+            $filterVal .= "1";
+            break;
+        case 'Household':
+            $filterVal .= "2";
+            break;
+        case 'Organization':
+            $filterVal .= "3";
+            break;
+        }
+        $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
+        
+        //add addressee in Contact form
+        $addressee = CRM_Core_PseudoConstant::addressee( $filterCondition );
+        if ( !empty( $addressee ) ) {
+            $this->addElement('select', 'addressee_id', ts('Addressee'), 
+                              array('' => ts('- select -')) + $addressee, array( 'onchange' => " showCustomized(this.id);") );
+            //custom addressee
+            $this->addElement('text', 'addressee_custom', ts('Custom Addressee'), 
+                              CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'addressee_custom' ));
+        }
+    } 
 }
 
 

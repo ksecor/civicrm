@@ -106,12 +106,11 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $defaults['is_email_confirm'] = 0;
         }
 
-        // Provide defaults for Confirm and Thank you titles if we're in New Event Wizard
-        if ( ! $this->_single ) {
-            $defaults['confirm_title'] = 'Confirm Your Registration Information';
-            $defaults['thankyou_title'] = 'Thank You for Registering';
-        }
-        
+        // provide defaults for required fields if empty (and as a 'hint' for approval message field)
+        $defaults['registration_link_text'] = CRM_Utils_Array::value('registration_link_text', $defaults, ts('Register Now') );
+        $defaults['confirm_title']          = CRM_Utils_Array::value('confirm_title', $defaults, ts('Confirm Your Registration Information') );
+        $defaults['thankyou_title']         = CRM_Utils_Array::value('thankyou_title', $defaults, ts('Thank You for Registering') );
+        $defaults['approval_req_text']      = CRM_Utils_Array::value('approval_req_text', $defaults, ts( 'Participation in this event requires approval. Submit your registration request here. Once approved, you will receive an email with a link to a web page where you can complete the registration process.' ) ); 
         return $defaults;
     }   
     
@@ -140,6 +139,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $this->_showHide->addHide( 'thankyou' );
             $this->_showHide->addHide( 'additional_profile_pre' );
             $this->_showHide->addHide( 'additional_profile_post' );
+            $this->_showHide->addHide( 'id-approval-text' );
         } else {
             $this->_showHide->addShow( 'confirm' );
             $this->_showHide->addShow( 'mail' );
@@ -151,6 +151,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             if ( ! $defaults['is_multiple_registrations']) {
                 $this->_showHide->addHide( 'additional_profile_pre' );
                 $this->_showHide->addHide( 'additional_profile_post' );
+            }
+            if ( ! $defaults['requires_approval']) {
+                $this->_showHide->addHide( 'id-approval-text' );
             }
         }
         $this->_showHide->addToTemplate( );
@@ -165,6 +168,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     public function buildQuickForm( )  
     { 
         $this->applyFilter('__ALL__', 'trim');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
 
         $this->addElement( 'checkbox', 
                            'is_online_registration', 
@@ -201,10 +205,15 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                           null,
                           array('onclick' => "return showHideByValue('is_multiple_registrations', '', 'additional_profile_pre|additional_profile_post', 'table-row', 'radio', false);"));
         $this->addElement('checkbox', 'allow_same_participant_emails', ts('Allow multiple registrations from the same email address?'));
-        $this->addElement('checkbox', 'requires_approval', ts('Require participant approval?'));
+        $this->addElement('checkbox',
+                          'requires_approval',
+                          ts('Require participant approval?'),
+                          null,
+                          array('onclick' => "return showHideByValue('requires_approval', '', 'id-approval-text', 'table-row', 'radio', false);"));
+        $this->add('textarea', 'approval_req_text',   ts('Approval message'), $attributes['approval_req_text']);
 
         $this->add('text', 'expiration_time', ts('Pending participant expiration (hours)'));
-        $this->addRule('expiration_time', ts('Please enter the number of hours.'), 'integer');
+        $this->addRule('expiration_time', ts('Please enter the number of hours (as an integer).'), 'integer');
 
         self::buildRegistrationBlock( $this );
         self::buildConfirmationBlock( $this );

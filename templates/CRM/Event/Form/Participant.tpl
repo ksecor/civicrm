@@ -17,6 +17,16 @@
 {/if}
 <div id="eventFullMsg" class="messages status" style="display:none;"></div>
 
+{if $isOnlineRegistration}
+<div class="messages status">
+  <dl>
+     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
+     <dd> {ts}It seems like there is pending Contribution record is associated with this event registration. <br /> If you want to update status, please select Update Pending Contribution Status check box.{/ts}
+     </dd>
+  </dl>
+</div> 
+{/if}
+
 <div class="html-adjust">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend>
 	{if $action eq 1 AND $paid}
@@ -79,6 +89,12 @@
 		<tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}</td></tr>
 
 		<tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
+                {if $isOnlineRegistration}
+                <tr>
+                   <td class="label">{$form.update_contribution_status.label}</td><td>{$form.update_contribution_status.html}<br />
+                   <span class="description">{ts}Automatically update related Pending Contribution Status?{/ts}</span></td>
+                </tr>
+                {/if}
         </table>
 
         {* Fee block (EventFees.tpl) is injected here when an event is selected. *}

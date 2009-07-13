@@ -20,7 +20,7 @@ You can access this page again from the <a href="%1">Administer CiviCRM</a> menu
     <td>{ts}Localization settings include user language, default currency and available countries for address input.{/ts}</td>
 </tr>
 <tr class="even">
-    <td class="tasklist nowrap"><a href="{crmURL p="civicrm/contact/domain" q="action=update&reset=1&destination=`$destination`"}" title="{$linkTitle}">{ts}Domain Information{/ts}</a></td>
+    <td class="tasklist nowrap"><a href="{crmURL p="civicrm/admin/domain" q="action=update&reset=1&destination=`$destination`"}" title="{$linkTitle}">{ts}Domain Information{/ts}</a></td>
     <td>{ts}Organization name, email address for system-generated emails, organization address{/ts}</li>
 </tr>
 

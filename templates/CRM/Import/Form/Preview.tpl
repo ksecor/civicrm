@@ -1,101 +1,50 @@
-{if $config->userFramework ne 'Joomla'}
-<script type="text/javascript">
 {literal}
-cj(document).ready(function() {
-    var imageBase = "{/literal}{$config->resourceBase}{literal}packages/jquery/plugins/images/";
+<script type="text/javascript">
+function setIntermediate( ) {
+	var dataUrl = "{/literal}{$statusUrl}{literal}";
+	cj.getJSON( dataUrl, function( response ) {
+	   var dataStr = response.toString();
+	   var result  = dataStr.split(",");
+	   cj("#intermediate").html( result[1] );
+	   cj("#importProgressBar").progressBar( result[0] );
+	});
+}
+
+function pollLoop( ){
+	setIntermediate( );
+	window.setTimeout( pollLoop, 10*1000 ); // 10 sec
+}
+
+function verify( ) {
+    if (! confirm('Are you sure you want to Import now?') ) {
+        return false;
+    }
+	
+	cj("#id-processing").show( ).dialog({
+		modal         : true,
+		width         : 350,
+		height        : 160,
+		resizable     : false,
+		bgiframe      : true,
+		draggable     : true,
+		closeOnEscape : false,
+		overlay       : { opacity: 0.5, background: "black" },
+		open          : function ( ) {
+		    cj("#id-processing").dialog().parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+		}
+	});
+	
+	var imageBase = "{/literal}{$config->resourceBase}{literal}packages/jquery/plugins/images/";
     cj("#importProgressBar").progressBar({
         boxImage:       imageBase + 'progressbar.gif',
         barImage: { 0 : imageBase + 'progressbg_red.gif',
                     20: imageBase + 'progressbg_orange.gif',
                     50: imageBase + 'progressbg_yellow.gif',
                     70: imageBase + 'progressbg_green.gif'
-                  },
-	  });
-});
-{/literal}
-</script>
-
-<script type="text/javascript">
-  {literal}
-    var finished = 0;
-
-    setError = function(data, ioArgs){
-        var prog = document.getElementById('error_status');
-        prog.innerHTML = "<p>We encountered an unknown error in setError: " + data + "</p>";
-        finished = 1;
-        return data;
-    }
-
-    setIntermediate = function( ) {
-        var dataUrl = {/literal}"{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 }"{literal}
-       
-        cj.getJSON( dataUrl, function( response ) {
-           var inter = document.getElementById("intermediate");
-           var dataStr = response.toString();
-           var result  = dataStr.split(",");
-           inter.innerHTML = result[1];
-	   cj("#importProgressBar").css( 'display', 'block' );
-	   cj("#importProgressBar").progressBar( result[0] );
-        });
-    }
-
-    submitForm = function( e ) {
-        cj(document).die(e);
-        // Disable Import button
-
-        cj('input[type=submit][name="_qf_Preview_next"]').val("Processing...").attr("disabled", "true");
-        cj('input[type=submit][name="_qf_Preview_cancel"]').attr("disabled", "true");
-        cj('input[type=submit][name="_qf_Preview_back"]').attr("disabled", "true");
-    
-        hide('help');
-        hide('preview-info');
-        show('id-processing');
-
-	cj.ajax({
-	     type        : "POST",
-	     url         : "{/literal}{crmURL p='civicrm/import/contact' h=0}{literal}",
-         data        : "{cj('#Preview')}",
-         contentType : "application/text; charset=utf-8",
-         dataType    : "text",
-         success     : function( data ) { 
-                            var finished = 1;
-                            location.href =  "{/literal}{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}{literal}"; 
-                            return data; 
-                       },
-	     error       : function( data, ioArgs ) {
-	                        var finished = 1;
-                    		if ( data.match ==  'unexpected error' ) {
-                			   var prog       = document.getElementById('error_status');
-                			   prog.innerHTML = "<p>We encountered an unknown error in setFinished: " + data + "</p>";
-     	                    if ( confirm( 'Would you like to reload this page and try again?' ) ) { 
-                              location.href = "{/literal}{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}{literal}";
-                            }
-     		           } 
-                       return data;
-	                  }	   
-      });
-        pollLoop( );
-    }
-
-    pollLoop = function(){
-        setIntermediate();
-        if ( ! finished ) {
-            window.setTimeout( pollLoop,10*1000); // 10 sec
-        }
-    }
-
-    {/literal}
-</script>
-{/if}
-
-{literal}
-<script type="text/javascript">
-function verify( )
-{
-    if (! confirm('Are you sure you want to Import now?') ) {
-        return false;
-    }
-    submitForm( );
+                  }
+	}); 
+	cj("#importProgressBar").show( );
+	pollLoop( );
 }
 </script>
 {/literal}
@@ -126,19 +75,13 @@ function verify( )
     <p>{ts}Click 'Import Now' if you are ready to proceed.{/ts}</p>
  </div>
 
-{if $config->userFramework ne 'Joomla'}
 {* Import Progress Bar and Info *}
 <div id="id-processing">
-<h3>Importing records...</h3>
-<br />
+	<h3>Importing records...</h3><br />
+	<div class="progressBar" id="importProgressBar" style="margin-left:45px;display:none;"></div>
+	<div id="intermediate"></div>
+	<div id="error_status"></div>
 </div>
-
-<div class="progressBar" id="importProgressBar" style="margin-left:45px;display:none;"></div>
-
-<div id="intermediate"></div>
-
-<div id="error_status"></div>
-{/if}
 
 <div id="preview-info">
  {* Summary Preview (record counts) *}
@@ -170,16 +113,15 @@ function verify( )
     </tr>
     {/if}
 
-    <tr><td class="label">{ts}Valid Rows{/ts}</td>
+    <tr>
+		<td class="label">{ts}Valid Rows{/ts}</td>
         <td class="data">{$validRowCount}</td>
         <td class="explanation">{ts}Total rows to be imported.{/ts}</td>
     </tr>
  </table>
-  
 
  {* Table for mapping preview *}
- {include file="CRM/Import/Form/MapTable.tpl}
- 
+ {include file="CRM/Import/Form/MapTable.tpl"}
  
  {* Group options *}
  {* New Group *}
@@ -220,9 +162,9 @@ function verify( )
     <div id="newTag" class="section-hidden section-hidden-border">
         <a href="#" onclick="hide('newTag'); show('newTag_show'); return false;">&raquo; <label>{ts}Create a new tag and assign it to imported records{/ts}</label></a>
             <div class="form-item">
-            <dl>
-            <dt class="description">{$form.newTagName.label}</dt><dd>{$form.newTagName.html}</dd>
-            <dt class="description">{$form.newTagDesc.label}</dt><dd>{$form.newTagDesc.html}</dd>
+				<dl>
+				<dt class="description">{$form.newTagName.label}</dt><dd>{$form.newTagName.html}</dd>
+				<dt class="description">{$form.newTagDesc.label}</dt><dd>{$form.newTagDesc.html}</dd>
             </dl>
         </div>
     </div>
@@ -235,10 +177,11 @@ function verify( )
     <div id="tag" class="section-hidden section-hidden-border">
         <a href="#" onclick="hide('tag'); show('tag_show'); return false;">&raquo; <label>{ts}Tag imported records{/ts}</label></a>
         <dl>
-            <dt></dt><dd class="listing-box" style="margin-bottom: 0em; width: 15em;">
-           {foreach from=$form.tag item="tag_val"} 
-            <div>{$tag_val.html}</div>
-            {/foreach}
+            <dt></dt>
+			<dd class="listing-box" style="margin-bottom: 0em; width: 15em;">
+				{foreach from=$form.tag item="tag_val"} 
+					<div>{$tag_val.html}</div>
+				{/foreach}
             </dd>
         </dl>
     </div>
@@ -247,11 +190,7 @@ function verify( )
 <div id="crm-submit-buttons">
    {$form.buttons.html}
 </div>
-
 <script type="text/javascript">
-{if $config->userFramework ne 'Joomla'}
-hide('id-processing');
-{/if}
 hide('newGroup');
 hide('existingGroup');
 hide('newTag');

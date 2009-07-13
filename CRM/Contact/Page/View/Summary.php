@@ -123,7 +123,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
         $ids      = array( );
 
         $params['id'] = $params['contact_id'] = $this->_contactId;
-        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids, true );
+        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, true );
         
         $communicationType = array( 
                                     'phone'   => array( 
@@ -234,7 +234,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
                 $u = $elem['url'];
                
                 //appending isTest to url for test soft credit CRM-3891. 
-                //FIXME: hack dojo url.
+                //FIXME: hack ajax url.
                 $q = "reset=1&snippet=1&force=1&cid={$this->_contactId}"; 
                 if ( CRM_Utils_Request::retrieve('isTest', 'Positive', $this) ) {
                     $q = $q."&isTest=1";
@@ -329,6 +329,15 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
      
         $selectedChild = CRM_Utils_Request::retrieve( 'selectedChild', 'String', $this, false, 'summary' );
         $this->assign( 'selectedChild', $selectedChild );
+        
+        // hook for contact summary
+        require_once 'CRM/Utils/Hook.php';
+        $contentPlacement = CRM_Utils_Hook::SUMMARY_BELOW;  // ignored but needed to prevent warnings
+        CRM_Utils_Hook::summary( $uid, $content, $contentPlacement );
+        if ( $content ) {
+            $this->assign_by_ref( 'hookContent', $content );
+            $this->assign( 'hookContentPlacement', $contentPlacement );
+        }
     }
 
 
