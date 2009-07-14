@@ -51,28 +51,28 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      * @var string
      */
     public $_contactType;
-
+    
     /**
      * The contact type of the form
      *
      * @var string
      */
     protected $_contactSubType;
-
+    
     /**
      * The contact id, used when editing the form
      *
      * @var int
      */
     public $_contactId;
-
+    
     /**
      * the default group id passed in via the url
      *
      * @var int
      */
     public $_gid;
-
+    
     /**
      * the default tag id passed in via the url
      *
@@ -81,27 +81,13 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     public $_tid;
     
     /**
-     * the group tree data
-     *
-     * @var array
-     */
-    public $_groupTree;    
-
-    /**
-     * what blocks should we show and hide.
-     *
-     * @var CRM_Core_ShowHideBlocks
-     */
-    protected $_showHide;
-
-    /**
      * name of de-dupe button
      *
      * @var string
      * @access protected
      */
     protected $_dedupeButtonName;
-
+    
     /**
      * name of optional save duplicate button
      *
@@ -110,16 +96,14 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      */
     protected $_duplicateButtonName;
     
-    protected $_maxLocationBlocks = 0;
+    protected $_editOptions = array( );
     
-    public $_editOptions = array( );
-
     protected $_blocks;
-
+    
     protected $_values = array( );
     
     public $_action;
-
+    
     /**
      * build all the data structures needed to build the form
      *
@@ -225,9 +209,14 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             }
         }
         
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, 
-                                                                       false, 'name', true, 'AND v.filter = 0' );
+        $this->_editOptions = $this->get( 'contactEditOptions' ); 
+        if ( CRM_Utils_System::isNull( $this->_editOptions ) ) {
+            require_once 'CRM/Core/BAO/Preferences.php';
+            $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, 
+                                                                           false, 'name', true, 'AND v.filter = 0' );
+            $this->set( 'contactEditOptions', $this->_editOptions );
+        }
+        
         // build demographics only for Individual contact type
         if ( $this->_contactType != 'Individual' &&
              array_key_exists( 'Demographics', $this->_editOptions ) ) {
@@ -238,12 +227,18 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         if ( $this->_contactId && array_key_exists( 'Notes', $this->_editOptions ) ) {
             unset( $this->_editOptions['Notes'] );
         }
+        
+        
         $this->assign( 'editOptions', $this->_editOptions );
         $this->assign( 'contactType', $this->_contactType );
         
         // get the location blocks.
-        $this->_blocks = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, 
-                                                                 false, 'name', true, 'AND v.filter = 1' );
+        $this->_blocks = $this->get( 'blocks' );
+        if ( CRM_Utils_System::isNull( $this->_blocks ) ) {
+            $this->_blocks = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options', true, null, 
+                                                                     false, 'name', true, 'AND v.filter = 1' );
+            $this->set( 'blocks', $this->_blocks );
+        }
         $this->assign( 'blocks', $this->_blocks );
         
         if ( array_key_exists( 'CustomData', $this->_editOptions ) ) {
@@ -274,48 +269,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     $defaults['tag'][$this->_tid] = 1;
                 }
             }
-            
-            //set location type and country to default.
-            if ( CRM_Utils_System::isNull( $_POST ) && CRM_Utils_System::isNull( $this->_values ) ) {
-                $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), 'is_int' );
-                sort( $locationTypeKeys );
-                
-                // get the default location type
-                require_once 'CRM/Core/BAO/LocationType.php';
-                $locationType = CRM_Core_BAO_LocationType::getDefault();
-                
-                // unset primary location type
-                $primaryLocationTypeIdKey = CRM_Utils_Array::key( $locationType->id, $locationTypeKeys );
-                unset( $locationTypeKeys[ $primaryLocationTypeIdKey ] );
-                
-                // reset the array sequence
-                $locationTypeKeys = array_values( $locationTypeKeys );
-                
-                $allBlocks = $this->_blocks;
-                if ( array_key_exists( 'Address', $this->_editOptions ) ) {
-                    $allBlocks['Address'] = $this->_editOptions['Address'];
-                }
-                
-                $config =& CRM_Core_Config::singleton( );
-                foreach ( $allBlocks as $blockName => $label ) {
-                    $name = strtolower( $blockName );
-                    for( $instance = 1; $instance<= $this->get( $blockName ."_Block_Count" ); $instance++ ) {
-                        //set location to primary for first one.
-                        if ( $instance == 1 ) {
-                            $defaults[$name][$instance]['is_primary']       = true;
-                            $defaults[$name][$instance]['location_type_id'] = $locationType->id;
-                        } else {
-                            $locTypeId = isset( $locationTypeKeys[$instance-1] )?$locationTypeKeys[$instance-1]:$locationType->id;
-                            $defaults[$name][$instance]['location_type_id'] = $locTypeId; 
-                        }
-                        
-                        //set default country
-                        if ( $name == 'address' && $config->defaultContactCountry ) {
-                            $defaults[$name][$instance]['country_id'] = $config->defaultContactCountry;
-                        }
-                    }
-                }
-            }
         } else {
             if ( isset( $this->_elementIndex[ "shared_household" ] ) ) {
                 $sharedHousehold = $this->getElementValue( "shared_household" );
@@ -341,10 +294,61 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 eval( 'CRM_Contact_Form_Edit_' . $name . '::setDefaultValues( $this, $defaults );' );
             }
         }
+
+
+        //set location type and country to default for each block
+        $this->blockSetDefaults( $defaults );
         
         return $defaults;
     }
-
+    
+    /*
+     * do the set default related to location type id, 
+     * primary location,  default country
+     *
+     */
+    function blockSetDefaults( &$defaults ) {
+        $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), 'is_int' );
+        sort( $locationTypeKeys );
+        
+        // get the default location type
+        require_once 'CRM/Core/BAO/LocationType.php';
+        $locationType = CRM_Core_BAO_LocationType::getDefault();
+        
+        // unset primary location type
+        $primaryLocationTypeIdKey = CRM_Utils_Array::key( $locationType->id, $locationTypeKeys );
+        unset( $locationTypeKeys[ $primaryLocationTypeIdKey ] );
+        
+        // reset the array sequence
+        $locationTypeKeys = array_values( $locationTypeKeys );
+        
+        $allBlocks = $this->_blocks;
+        if ( array_key_exists( 'Address', $this->_editOptions ) ) {
+            $allBlocks['Address'] = $this->_editOptions['Address'];
+        }
+        
+        $config =& CRM_Core_Config::singleton( );
+        foreach ( $allBlocks as $blockName => $label ) {
+            $name = strtolower( $blockName );
+            if ( !CRM_Utils_System::isNull( $defaults[$name] ) ) continue;
+            for( $instance = 1; $instance<= $this->get( $blockName ."_Block_Count" ); $instance++ ) {
+                //set location to primary for first one.
+                if ( $instance == 1 ) {
+                    $defaults[$name][$instance]['is_primary']       = true;
+                    $defaults[$name][$instance]['location_type_id'] = $locationType->id;
+                } else {
+                    $locTypeId = isset( $locationTypeKeys[$instance-1] )?$locationTypeKeys[$instance-1]:$locationType->id;
+                    $defaults[$name][$instance]['location_type_id'] = $locTypeId; 
+                }
+                
+                //set default country
+                if ( $name == 'address' && $config->defaultContactCountry ) {
+                    $defaults[$name][$instance]['country_id'] = $config->defaultContactCountry;
+                }
+            }
+        }
+    }
+    
     /**
      * This function is used to add the rules (mainly global rules) for form.
      * All local rules are added near the element
