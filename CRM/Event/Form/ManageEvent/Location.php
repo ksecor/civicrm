@@ -105,17 +105,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
                 }
             }
         }
-       
-        if ( ! empty( $_POST ) ) {
-            $this->setShowHide( $_POST, true );
-        } else {
-            if ( ! empty( $defaults ) ) {
-                $this->setShowHide( $defaults, true );
-            } else {
-                $this->setShowHide( $defaults, false );
-            }
-        }
-        
+               
         if ( ! empty ( $defaults['address'] ) ) {
             $config = CRM_Core_Config::singleton( );
             foreach ( $defaults['address'] as $key => $value ) {
@@ -131,34 +121,6 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $defaults['location_option'] = $this->_oldLocBlockId ? 2 : 1;
 
         return $defaults;
-    }
-
-
-    /**
-     * Fix what blocks to show/hide based on the default values set
-     *
-     * @param array   $defaults the array of default values
-     * @param boolean $force    should we set show hide based on input defaults
-     *
-     * @return void
-     */
-    function setShowHide( &$defaults, $force ) 
-    {
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( array(),'') ;
-        
-        $prefix =  array( 'phone','email' );
-        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS, $prefix, false);
-        if ( $force ) {
-			$locationDefaults = array ( 
-								'address' => $defaults['address'], 
-								'phone'   => $defaults['phone'  ], 
-								'email'   => $defaults['email'  ] );
-            $config =& CRM_Core_Config::singleton( );
-            CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
-                                                       $locationDefaults,
-                                                       self::LOCATION_BLOCKS, $prefix, false );
-        }
-        $this->_showHide->addToTemplate( );
     }
 
     /**

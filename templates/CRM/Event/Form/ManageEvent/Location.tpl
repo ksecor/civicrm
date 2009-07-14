@@ -17,13 +17,12 @@
 						<td class="fields"><strong>{$item.html}</strong></td>
 				    {/if}
                 {/foreach} 
-				</td>
 			 </tr>
 			<tr id="existingLoc">
 				<td class="labels">
 					{$form.loc_event_id.label}
 				</td>
-				<td class="fields" colspan=2>
+				<td class="fields" colspan="2">
 					{$form.loc_event_id.html|crmReplace:class:huge}
 				</td>
 			</tr>
@@ -118,10 +117,10 @@ function showLocFields( ) {
    var createNew = document.getElementsByName("location_option")[0].checked;
    var useExisting = document.getElementsByName("location_option")[1].checked;
    if ( createNew ) {
-     hide('existingLoc');
+     cj('#existingLoc').hide();
      displayMessage(false);
    } else if ( useExisting ) {
-     show('existingLoc');
+     cj('#existingLoc').show();
    }
 }
 
