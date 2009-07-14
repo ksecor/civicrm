@@ -125,11 +125,11 @@ class CRM_Contact_Form_Edit_Address
             if ( ! $select ) {
                 if ( $name == 'country_id' || $name == 'state_province_id' ) {
                     if ( $name == 'country_id' ) {
-                        $stateCountryMap[$locationId]['country'] = "address_{$blockId}_{$name}";
+                        $stateCountryMap[$blockId]['country'] = "address_{$blockId}_{$name}";
                         $selectOptions = array('' => ts('- select -')) + 
                             CRM_Core_PseudoConstant::country( );
                     } else {
-                        $stateCountryMap[$locationId]['state_province'] = "address_{$blockId}_{$name}";
+                        $stateCountryMap[$blockId]['state_province'] = "address_{$blockId}_{$name}";
                         if ( $countryDefault ) {
                             $selectOptions = array('' => ts('- select -')) +
                                 CRM_Core_PseudoConstant::stateProvinceForCountry( $countryDefault );

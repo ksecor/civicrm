@@ -331,7 +331,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $config =& CRM_Core_Config::singleton( );
         foreach ( $allBlocks as $blockName => $label ) {
             $name = strtolower( $blockName );
-            if ( !CRM_Utils_System::isNull( $defaults[$name] ) ) continue;
+            if ( CRM_Utils_Array::value( $name, $defaults ) && !CRM_Utils_System::isNull( $defaults[$name] ) ) continue;
             for( $instance = 1; $instance<= $this->get( $blockName ."_Block_Count" ); $instance++ ) {
                 //set location to primary for first one.
                 if ( $instance == 1 ) {
@@ -516,7 +516,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             //hack for setdefault building.
             if ( CRM_Utils_System::isNull( $_POST ) ) {
                 $name = strtolower($blockName);
-                if ( is_array( $this->_values[$name] ) ) { 
+                if ( CRM_Utils_Array::value( $name, $this->_values ) && is_array( $this->_values[$name] ) ) { 
                     foreach ( $this->_values[$name] as $instance => $blockValues ) {
                         if ( $instance == 1 ) continue; 
                         $instanceStr .= ",{$instance}";
