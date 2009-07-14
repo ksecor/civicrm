@@ -203,6 +203,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         // we do not want to display recently viewed items, so turn off
         $this->assign('displayRecent' , false );
         
+        // set page title = event title
+        CRM_Utils_System::setTitle($values['event']['title']);  
+        
         $this->assign('event',   $values['event']);
         if ( isset( $values['feeBlock'] ) ) {
             $this->assign( 'feeBlock', $values['feeBlock'] );

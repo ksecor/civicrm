@@ -1,7 +1,6 @@
 {* this template is used for displaying event information *}
 
 <div class="vevent">
-    <h2><span class="summary">{$event.title}</span></h2>	
     <div class="display-block">
         <table class="form-layout">
             {if $event.summary}
