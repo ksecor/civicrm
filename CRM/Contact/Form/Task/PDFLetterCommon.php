@@ -212,11 +212,8 @@ class CRM_Contact_Form_Task_PDFLetterCommon
         
         $html .= '</body></html>';
         
-        $dompdf = new DOMPDF();
-        $dompdf->load_html($html);
-        $dompdf->render();
-        $dompdf->stream("CiviLetter.pdf");
-       
+        require_once 'CRM/Utils/PDF/Utils.php';
+        CRM_Utils_PDF_Utils::html2pdf( $html, "CiviLetter.pdf" ); 
         exit(1);
     }//end of function
 }

@@ -1974,7 +1974,7 @@ SELECT $selectClause
                 //then output the corresponding custom value instead. CRM-4575
                 foreach( $element as $field => $customField ) {
                     $fieldId = $field."_id";
-                    if($contactDetails[$contactID][$fieldId] == 4 ) {
+                    if ( isset( $contactDetails[$contactID][$fieldId] ) && $contactDetails[$contactID][$fieldId] == 4 ) {
                         $contactDetails[$contactID][$field] = $contactDetails[$contactID][$customField];
                     } 
                 }
