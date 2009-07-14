@@ -435,6 +435,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   civicrm_case.id as case_id,
                   civicrm_contact.id as contact_id,
                   civicrm_contact.sort_name as sort_name,
+                  civicrm_phone.phone as phone,
                   civicrm_contact.contact_type as contact_type,
                   civicrm_activity.activity_type_id,
                   cov_type.label as case_type,
@@ -459,7 +460,8 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                         ON civicrm_case_activity.case_id = civicrm_case.id  
             
                   LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
-                  LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id ";
+                  LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id
+                  LEFT JOIN civicrm_phone ON (civicrm_phone.contact_id = civicrm_contact.id AND civicrm_phone.is_primary=1) ";
 
         if ( $type == 'upcoming' ) {
             $query .= " LEFT JOIN civicrm_activity
@@ -572,6 +574,7 @@ AND civicrm_case.is_deleted     = 0";
         $resultFields = array( 'contact_id',
                                'contact_type',
                                'sort_name',
+                               'phone',
                                'case_id',
                                'case_type',
                                'case_type_name',

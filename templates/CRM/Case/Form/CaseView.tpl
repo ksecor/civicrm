@@ -39,7 +39,7 @@
  <fieldset>
   <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Roles{/ts}</legend>
 
-    <div><a href="Javascript:addRole()">Add new role</a></div>
+    <div><input type="button" class="form-submit default" onClick="Javascript:addRole()" value="{ts}Add new role{/ts}" /></div>
 
     <table class="report">
     	<tr class="columnheader">
@@ -216,7 +216,7 @@ cj(document).ready(function(){
   <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Other Relationships{/ts}</legend>
   
   {if $clientRelationships}
-    <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`&caseID=`$caseID`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
+    <div><input type="button" class="form-submit default" onClick="window.location='{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`&caseID=`$caseID`"}'" value="{ts}Add client relationship{/ts}" /></div>
 	
     <table class="report">
     	<tr class="columnheader">
@@ -249,7 +249,7 @@ cj(document).ready(function(){
   <br />
   
   {if $globalRelationships}
-    <div><a href="{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupInfo.id`"}" title="{ts}Add members to {$globalGroupInfo.title}{/ts}">{ts}Add members to {$globalGroupInfo.title}{/ts}</a></div>
+    <div><input type="button" class="form-submit default" onClick="window.location='{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupInfo.id`"}'" value="{ts}Add members to {$globalGroupInfo.title}{/ts}" /></div>
 	
     <table class="report">
     	<tr class="columnheader">
