@@ -75,7 +75,8 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                 'case_id',   
                                 'case_status_id', 
                                 'case_type_id',
-                                'case_role'
+                                'case_role',
+                                'phone',
                                 );
 
     /** 

@@ -62,7 +62,7 @@
     {/if}	
   
     {if !$single}
-    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a><br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
+    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a>{if $row.phone}<br /><span class="description">{$row.phone}</span>{/if}<br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
     {/if}
     
     <td class="{$row.class}">{$row.case_status_id}</td>

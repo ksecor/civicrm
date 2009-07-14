@@ -508,7 +508,8 @@ case_relation_type.id = case_relationship.relationship_type_id )";
                                 'case_deleted'                =>      1, 
                                 'case_recent_activity_date'   =>      1,
                                 'case_recent_activity_type'   =>      1, 
-                                'case_scheduled_activity_date'=>      1
+                                'case_scheduled_activity_date'=>      1,
+                                'phone'                       =>      1,
                                 // 'case_scheduled_activity_type'=>      1
                                 );
         }
