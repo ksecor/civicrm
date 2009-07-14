@@ -17,17 +17,21 @@ cj( function( ) {
 function buildAdditionalBlocks( blockName, className ) {
 
   var previousBlockCount = cj( "#hidden_" + blockName + "_Instances" ).val( ).substr(-1);
-  var currentBlockCount  = parseInt( previousBlockCount ) + 1; 
-
-  var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentBlockCount;
-	
-  {/literal}
-  {if $action eq 2}
-  dataUrl += "&action=update";
-  {/if}
-  dataUrl += "&qfKey={$qfKey}";
-  {literal}
-   
+  var currentBlockCount  = parseInt( previousBlockCount ) + 1;
+  var dataUrl = null;
+  if ( className == 'CRM_Contact_Form_Contact' ) {
+     dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentBlockCount;{/literal}
+ 
+     {if $qfKey}    
+     dataUrl += "&qfKey={$qfKey}";
+     {/if}
+     {literal}
+  } 
+  
+  if ( !dataUrl ) {
+     return;
+  }
+    
   blockId = (cj('#' + blockName + '_Block_'+ previousBlockCount ).html()) ? previousBlockCount : 1;  
   var fname = '#' + blockName + '_Block_'+ blockId;
 
