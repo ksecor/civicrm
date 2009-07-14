@@ -152,10 +152,16 @@ class CRM_Contact_Form_Task_PDFLetterCommon
         $tokens = array( );
         CRM_Utils_Hook::tokens( $tokens );
         $categories = array_keys( $tokens );        
+		
+		require_once 'CRM/Core/SelectValues.php';
+        $contactTokens = CRM_Core_SelectValues::ContactTokens();
+        $tokenKeys     = array_keys( $contactTokens );
+		
+		$html_message = str_replace( $contactTokens, $tokenKeys, $formValues['html_message'] );
 
         $matches = array();
         preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
-                        $formValues['html_message'],
+                        $html_message,
                         $matches,
                         PREG_PATTERN_ORDER);
 
@@ -170,27 +176,31 @@ class CRM_Contact_Form_Task_PDFLetterCommon
                 }
             }
         }
-
+		
+		$returnProperties = array();
+        if( isset( $messageToken['contact'] ) ) { 
+            foreach ( $messageToken['contact'] as $key => $value ) {
+                $returnProperties[$value] = 1; 
+            }
+        }
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing = & new CRM_Mailing_BAO_Mailing();
+		
         $first = TRUE;
 
         foreach ($form->_contactIds as $item => $contactId) {
             $params  = array( 'contact_id'  => $contactId,
                               'is_deceased' => 0 );
 
-            $contact = civicrm_contact_get( $params );
+			list( $contact ) = $mailing->getDetails($params, $returnProperties );
 
             if ( civicrm_error( $contact ) ) {
                 $notSent[] = $contactId;
                 continue;
             }
-
-            if( is_array( $details[0]["{$contactId}"] ) ) {
-                $contact = array_merge( $contact, $details[0]["{$contactId}"] );
-            }
-
-            $tokenHtml    = CRM_Utils_Token::replaceContactTokens( $formValues['html_message'], $contact, true , $messageToken);
-            $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ($tokenHtml, $contact, $categories, true );
-
+	
+			$tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html_message, $contact[$contactId], true , $messageToken);
+            $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
             if($first == TRUE) {
               $first = FALSE;
               $html .= $tokenHtml;

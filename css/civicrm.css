@@ -1282,6 +1282,11 @@ div.crm-pager a {
   display         : block;
 }
 
+#crm-container .panel li:hover { 
+ background-color: #3399FF;
+ color: #FFFFFF;
+}
+
 /*Styles for Context menu */
 
 #crm-container .contextMenu {
@@ -1343,20 +1348,6 @@ div.crm-pager a {
   color            : #000;
   text-decoration  : none;
   vertical-align   : top;
-}
-
-/* Table drag and drop. */
-
-#drag-handle .handle {
-  cursor     : move;
-  float      : left; /* LTR */
-  background : url('../i/draggable.png') no-repeat 0 0;
-  padding    : 15px 15px 0px 5px;
-}
-
-#drag-handle td.dragable {
- padding        : 5px 4px 0px 5px;
- vertical-align : middle;
 }
 
 /* loader autocomplete */
