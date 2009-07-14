@@ -126,7 +126,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $this->assign( "blockId",  $additionalblockCount );
             $this->set( $this->_addBlockName."_Block_Count", $additionalblockCount );
         }
-        
+        $this->assign( 'className', 'CRM_Contact_Form_Contact' );
+
         $session = & CRM_Core_Session::singleton( );
         if ( $this->_action == CRM_Core_Action::ADD ) {
             // check for add contacts permissions

@@ -2,9 +2,9 @@
 {if !$addBlock}
 <tr>
     <td>{ts}Phone{/ts}
-         &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Phone', '{$contactType}');return false;">add</a>
+         &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'Phone', '{$className}');return false;">add</a>
     </td>
-    {if $contactType}
+    {if $className eq 'CRM_Contact_Form_Contact'}
 		<td colspan="2"></td>
 		<td>{ts}Is Billing?{/ts}</td>
 		<td>{ts}Primary?{/ts}</td>

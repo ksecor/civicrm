@@ -84,23 +84,23 @@ cj( function( ) {
       //reset count to 1 since each time counter get increamented.
       cj( "#hidden_" + "{$blockName}" + "_Instances" ).val( 1 );
         {foreach from=$instances key="instance" item="active"}
-             buildAdditionalBlocks( '{$blockName}', '{$contactType}' );
+             buildAdditionalBlocks( '{$blockName}', '{$className}' );
         {/foreach}  	
     {/foreach}
 {/if}
 {literal}
 });
 
-function buildAdditionalBlocks( blockName, contactType ) {
+function buildAdditionalBlocks( blockName, className ) {
 
   var previousBlockCount = cj( "#hidden_" + blockName + "_Instances" ).val( ).substr(-1);
   var currentBlockCount  = parseInt( previousBlockCount ) + 1; 
 
-  var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4&ct='}"{literal} + contactType + '&block=' + blockName + '&count=' + currentBlockCount;
+  var dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentBlockCount;
 	
   {/literal}
   {if $action eq 2}
-  dataUrl += "&action=update&cid={$entityID}";
+  dataUrl += "&action=update";
   {/if}
   dataUrl += "&qfKey={$qfKey}";
   {literal}

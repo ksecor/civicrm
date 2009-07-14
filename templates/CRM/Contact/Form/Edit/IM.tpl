@@ -2,7 +2,7 @@
 {if !$addBlock}
 <tr>
     <td>{ts}Instant Messenger{/ts}
-         &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'IM', '{$contactType}');return false;">add</a>
+         &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'IM', '{$className}');return false;">add</a>
     </td>
     <td colspan="3"></td>
     <td>{ts}Primary?{/ts}</td>

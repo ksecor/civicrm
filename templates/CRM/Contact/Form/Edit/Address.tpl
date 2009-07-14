@@ -10,7 +10,7 @@
   <table class="form-layout-compressed">
 	{if !$defaultLocation}
      <tr>
-	 {if $contactType}
+	 {if $className eq 'CRM_Contact_Form_Contact'}
         <td colspan="2">
            {$form.address.$blockId.location_type_id.label}
            {$form.address.$blockId.location_type_id.html}
@@ -127,9 +127,11 @@
 	  {/if}
     </table>
 </td></tr>
+      {if $className eq 'CRM_Contact_Form_Contact'}
       <tr id="addMoreAddress" >
-          <td><a href="#" onclick="buildAdditionalBlocks( 'Address', '{$contactType}' );return false;">add address</a></td>
+          <td><a href="#" onclick="buildAdditionalBlocks( 'Address', '{$className}' );return false;">add address</a></td>
       </tr>
+      {/if}
   </table>
  </div>
 <!-Add->

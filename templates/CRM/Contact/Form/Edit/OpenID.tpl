@@ -2,7 +2,7 @@
 {if !$addBlock}
 <tr>
     <td>{ts}Open ID{/ts}
-         &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'OpenID', '{$contactType}');return false;">add</a>
+         &nbsp;&nbsp;<a href="#" title={ts}Add{/ts} onClick="buildAdditionalBlocks( 'OpenID', '{$className}');return false;">add</a>
     </td>
     <td colspan="3"></td>
     <td>{ts}Primary?{/ts}</td>
