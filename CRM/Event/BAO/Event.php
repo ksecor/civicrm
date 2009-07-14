@@ -901,8 +901,16 @@ WHERE civicrm_event.is_active = 1
             
             //send email only when email is present
             if ( isset( $email ) ) {
-                self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
-                self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId, $isTest );
+                $preProfileID  = $values['custom_pre_id'];
+                $postProfileID = $values['custom_post_id'];
+                
+                if ( CRM_Utils_Array::value( 'additionalParticipant', $values['params'] ) ) {
+                    $preProfileID  = $values['additional_custom_pre_id'];
+                    $postProfileID = $values['additional_custom_post_id'];
+                }
+                
+                self::buildCustomDisplay( $preProfileID, 'customPre' , $contactID, $template, $participantId, $isTest );
+                self::buildCustomDisplay( $postProfileID, 'customPost', $contactID, $template, $participantId, $isTest );
                 
                 // set confirm_text and contact email address for display in the template here
                 $template->assign( 'email', $email );

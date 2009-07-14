@@ -244,7 +244,7 @@ class CRM_Core_BAO_Block
                 $contactFields['is_primary'] = false;
             }
             
-            if ( $isBilling && $value['is_billing'] ) {
+            if ( $isBilling && CRM_Utils_Array::value( 'is_billing', $value ) ) {
                 $contactFields['is_billing'] = $value['is_billing'];
                 $isBilling = false;
             } else {
