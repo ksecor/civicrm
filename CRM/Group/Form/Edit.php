@@ -78,6 +78,13 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
     protected $_showHide;
 
     /**
+     * the civicrm_group_organization table id
+     *
+     * @var int
+     */
+    protected $_groupOrganizationID;
+
+    /**
      * set up variables to build the form
      *
      * @return void
@@ -144,6 +151,18 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 foreach ( $types as $type ) {
                     $defaults['group_type'][$type] = 1;
                 }
+            }
+            
+            if ( CRM_Core_Permission::check( 'administer Multiple Organizations' ) ) {
+                require_once 'CRM/Contact/BAO/GroupOrganization.php';
+                CRM_Contact_BAO_GroupOrganization::retrieve( $this->_id, $defaults );
+                
+                if ( CRM_Utils_Array::value( 'group_organization', $defaults ) ) {
+                    //used in edit mode
+                    $this->_groupOrganizationID = $defaults['group_organization'];
+                }
+
+                $this->assign( 'organizationID', $defaults['organization_id'] );  
             }
         }
 
@@ -242,7 +261,14 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $required = empty($parentGroups) ? true : false;
             $this->add( 'select', 'parents', ts('Add Parent'), $parentGroupSelectValues, $required );
         }
-
+        if ( CRM_Core_Permission::check( 'administer Multiple Organizations' ) ) {
+            //group organization Element
+            $groupOrgDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search', 'org=1', false, null, false );
+            $this->assign('groupOrgDataURL',$groupOrgDataURL );
+            
+            $this->addElement('text', 'organization', ts('Organization'), '' );
+            $this->addElement('hidden', 'organization_id', '', array( 'id' => 'organization_id') );
+        }
 		//build custom data
 		CRM_Custom_Form_Customdata::buildQuickForm( $this );
 
@@ -313,6 +339,10 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $params['id'] = $this->_id;
+            }
+
+            if ( $this->_action & CRM_Core_Action::UPDATE && isset($this->_groupOrganizationID ) ) {
+                $params['group_organization'] = $this->_groupOrganizationID;
             }
 
             $customFields = CRM_Core_BAO_CustomField::getFields( 'Group' );

@@ -261,20 +261,26 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         $this->pager( $whereClause, $params );
         
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
-        $select = $from = "";
+        $select = $from = $where = "";
         if ( CRM_Core_Permission::check( 'administer Multiple Organizations' ) ) {
             $select = ", contact.display_name as orgName";
             $from   = " LEFT JOIN civicrm_group_organization gOrg
                                ON gOrg.group_id = groups.id 
                         LEFT JOIN civicrm_contact contact
                                ON contact.id = gOrg.organization_id ";
+
+            //get the Organization ID
+            $orgID = CRM_Utils_Request::retrieve( 'oid', 'Positive', CRM_Core_DAO::$_nullObject );
+            if ( $orgID ) { 
+                $where = " AND gOrg.organization_id = {$orgID}";
+            }
             $this->assign( 'groupOrg',true );    
         }
         $query = "
         SELECT groups.* {$select}
         FROM  civicrm_group groups 
               {$from}
-        WHERE $whereClause
+        WHERE $whereClause {$where}
         ORDER BY groups.title asc
         LIMIT $offset, $rowCount";
         

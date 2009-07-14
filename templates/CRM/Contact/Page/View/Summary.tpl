@@ -34,6 +34,9 @@
                         {if $url }
                         <input type="button" onclick="window.location='{$url}'" value="{ts}User Record{/ts}"/>
                         {/if}
+                        {if $groupOrganizationUrl}
+                            <input type="button" onclick="window.location='{$groupOrganizationUrl}'" value="{ts}Organization Group{/ts}"/>   
+                        {/if}
                     </span> 
                     <span id="icons">
                         <a title="vCard record for this contact." href='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}' title="{ts}vCard{/ts}"> <img src="{$config->resourceBase}i/vcard-icon.png" alt="vCard record for this contact." /></a>

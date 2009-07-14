@@ -187,6 +187,17 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                                                    "reset=1&id={$this->_contactId}" );
             $this->assign( 'dashboardURL', $dashboardURL );
         }
+        
+        if ( $contactType == 'Organization' && CRM_Core_Permission::check( 'administer Multiple Organizations' ) ) {
+            require_once 'CRM/Contact/BAO/GroupOrganization.php';
+            //check is any relationship between the organization and groups
+            $groupOrg = CRM_Contact_BAO_GroupOrganization::getRelationshipStatus( $this->_contactId );
+            if ( $groupOrg ) {
+                $groupOrganizationUrl = CRM_Utils_System::url( 'civicrm/group',
+                                                               "reset=1&oid={$this->_contactId}" ); 
+                $this->assign( 'groupOrganizationUrl', $groupOrganizationUrl );
+            }
+        }
     }
 
 
