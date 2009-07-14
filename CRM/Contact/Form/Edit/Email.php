@@ -76,10 +76,6 @@ class CRM_Contact_Form_Edit_Email
 			$js = array( 'id' => "Email_".$blockId."_IsBulkmail", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsBulkmail" );');
 			$form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null, '', $js);
 			
-			//is_billing checkbox
-			$js = array( 'id' => "Email_".$blockId."_IsBilling", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsBilling" );');
-			$form->addElement( 'checkbox', "email[$blockId][is_billing]", '', '', $js );
-
 			//is_Primary radio
 			$js = array( 'id' => "Email_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsPrimary" );');
 			$choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
@@ -87,6 +83,3 @@ class CRM_Contact_Form_Edit_Email
 		}
     }
 }
-
-
-
