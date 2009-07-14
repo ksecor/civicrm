@@ -199,14 +199,14 @@ Participant {$priceset+1}
 ===========================================================
 {foreach from=$value item=val key=field}
 {if $field}
-{if $field eq 'customPre' }
+{if $field eq 'additionalCustomPre' }
 ----------------------------------------------------------
-{ts}{$customPre_grouptitle}{/ts}
+{ts}{$additionalCustomPre_grouptitle}{/ts}
 
 ----------------------------------------------------------
 {else}
 ----------------------------------------------------------
-{ts}{$customPost_grouptitle}{/ts}
+{ts}{$additionalCustomPost_grouptitle}{/ts}
 
 ----------------------------------------------------------
 {/if}
