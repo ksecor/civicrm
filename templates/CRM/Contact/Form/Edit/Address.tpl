@@ -127,11 +127,9 @@
 	  {/if}
     </table>
 </td></tr>
-     {if $addMoreAddress}
       <tr id="addMoreAddress" >
           <td><a href="#" onclick="buildAdditionalBlocks( 'Address', '{$contactType}' );return false;">add address</a></td>
       </tr>
-    {/if}
   </table>
  </div>
 <!-Add->

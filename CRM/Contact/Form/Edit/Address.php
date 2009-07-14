@@ -52,16 +52,9 @@ class CRM_Contact_Form_Edit_Address
     static function buildQuickForm( &$form ) 
     {
         $blockId    = ( $form->get( 'Address_Block_Count' ) ) ? $form->get( 'Address_Block_Count' ) : 1;
-        $maxBlocks  = ( $form->get( 'maxLocationBlocks'   ) ) ? $form->get( 'maxLocationBlocks'   ) : 1;
         
         $config =& CRM_Core_Config::singleton( );
         $countryDefault = $config->defaultContactCountry;
-        
-        $addMoreAddress = false;
-        if ( $maxBlocks >=  $blockId + 1 ) {
-            $addMoreAddress = true;
-        }
-        $form->assign( 'addMoreAddress', $addMoreAddress ); 
         
         $form->applyFilter('__ALL__','trim');
         
