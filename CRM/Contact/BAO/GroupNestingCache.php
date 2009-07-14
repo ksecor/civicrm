@@ -47,8 +47,7 @@ WHERE  n.child_group_id  = gc.id
   AND  n.parent_group_id = gp.id
 ";
 
-        $dao =& CRM_Core_DAO::executeQuery( $sql,
-                                            CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
 
         $tree = array( );
         while ( $dao->fetch( ) ) {
@@ -76,8 +75,7 @@ UPDATE civicrm_group
 SET    parents  = null,
        children = null
 ";
-        CRM_Core_DAO::executeQuery( $sql,
-                                    CRM_Core_DAO::$_nullArray );
+        CRM_Core_DAO::executeQuery( $sql );
         
         $values = array( );
         foreach ( array_keys( $tree ) as $id ) {
@@ -91,8 +89,7 @@ SET    parents  = $parents ,
        children = $children
 WHERE  id = $id
 ";
-            CRM_Core_DAO::executeQuery( $sql,
-                                        CRM_Core_DAO::$_nullArray );
+            CRM_Core_DAO::executeQuery( $sql );
         }
 
         // this tree stuff is quite useful, so lets store it in the cache
