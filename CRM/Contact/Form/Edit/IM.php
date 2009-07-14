@@ -80,6 +80,10 @@ class CRM_Contact_Form_Edit_IM
         $form->addElement('text', "im[$blockId][name]", ts('Instant Messenger'),
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM', 'name') );
         
+		//is_billing checkbox
+		$js = array( 'id' => "IM_".$blockId."_IsBilling", 'onClick' => 'singleSelect( "IM",'. $blockId . ', "IsBilling" );');
+		$form->addElement( 'checkbox', "im[$blockId][is_billing]", '', '', $js );
+			
         //is_Primary radio
         $js = array( 'id' => "IM_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "IM",'. $blockId . ', "IsPrimary" );');
         $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );

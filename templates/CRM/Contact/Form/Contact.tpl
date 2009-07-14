@@ -18,6 +18,8 @@
             {foreach from=$blocks item="label" key="block"}
                {include file="CRM/Contact/Form/Edit/$block.tpl"}
             {/foreach}
+		</table>
+		<table class="form-layout-compressed">
             <tr class="last-row">
             {if $form.home_URL}
               <td>{$form.home_URL.label}<br />

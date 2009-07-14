@@ -72,6 +72,10 @@ class CRM_Contact_Form_Edit_Phone
 			//Block type select
 			$form->addElement('select',"phone[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
 			
+			//is_billing checkbox
+			$js = array( 'id' => "Phone_".$blockId."_IsBilling", 'onClick' => 'singleSelect( "Phone",'. $blockId . ', "IsBilling" );');
+			$form->addElement( 'checkbox', "phone[$blockId][is_billing]", '', '', $js );
+			
 			//is_Primary radio
 			$js = array( 'id' => "Phone_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Phone",'. $blockId . ', "IsPrimary" );');
 			$choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );

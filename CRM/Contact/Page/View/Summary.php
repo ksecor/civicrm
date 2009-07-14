@@ -132,7 +132,9 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
                                     'im'      => array( 
                                                         'type' => 'IMProvider', 
                                                         'id'   => 'provider'  ),
-                                    'address' => array( 'skip' => true )
+                                    'address' => array( 'skip' => true ),
+									'email'   => array( 'skip' => true ),
+									'openid'  => array( 'skip' => true )
                             ); 
         
         foreach( $communicationType as $key => $value ) {
@@ -181,7 +183,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
 
         foreach ( $configItems as $c => $t ) {
             $varName = '_show' . $c;
-            $this->$varName = $this->_editOptions[$c];
+            $this->$varName = CRM_Utils_Array::value( $c, $this->_editOptions );
             $this->assign( substr( $varName, 1 ), $this->$varName );
         }
 

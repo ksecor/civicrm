@@ -93,13 +93,13 @@
                                 {/foreach}
                                 {foreach from=$im item=item}
                                     {if $item.name or $item.provider}
-                                    {if $item.name}<tr><td class="label">{$item.provider}</td><td>{$item.name}</td></tr>{/if}
+                                    {if $item.name}<tr><td class="label">{$item.provider}&nbsp;({$item.location_type})</td><td>{$item.name}</td></tr>{/if}
                                     {/if}
                                 {/foreach}
                                 {foreach from=$openid item=item}
                                     {if $item.openid}
                                         <tr>
-                                            <td class="label">{ts}OpenID{/ts}</td>
+                                            <td class="label">{$item.location_type}&nbsp;{ts}OpenID{/ts}</td>
                                             <td><a href="{$item.openid}">{$item.openid|mb_truncate:40}</a>
                                                 {if $config->userFramework eq "Standalone" AND $item.allowed_to_login eq 1}
                                                     <br/> <span style="font-size:9px;">{ts}(Allowed to login){/ts}</span>
@@ -116,7 +116,7 @@
                                 {foreach from=$email item=item }
                                     {if $item.email}
                                     <tr>
-                                        <td class="label">{ts}Email{/ts}</td>
+                                        <td class="label">{$item.location_type}&nbsp;{ts}Email{/ts}</td>
                                         <td><span class={if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email" {else if $item.is_primary eq 1}"primary"{/if}><a href="mailto:{$item.email}">{$item.email}</a>{if $item.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
                                     </tr>
                                     {/if}

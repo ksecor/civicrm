@@ -73,6 +73,10 @@ class CRM_Contact_Form_Edit_OpenID
             $form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, ts('Allowed to Login'));
         }
         
+		//is_billing checkbox
+		$js = array( 'id' => "OpenID_".$blockId."_IsBilling", 'onClick' => 'singleSelect( "OpenID",'. $blockId . ', "IsBilling" );');
+		$form->addElement( 'checkbox', "openid[$blockId][is_billing]", '', '', $js );
+
         //is_Primary radio
         $js = array( 'id' => "OpenID_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "OpenID",'. $blockId . ', "IsPrimary" );');
         $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
