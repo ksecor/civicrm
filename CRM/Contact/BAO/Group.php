@@ -376,7 +376,10 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
         if ( CRM_Utils_Array::value( 'organization_id', $params ) ) {
             require_once 'CRM/Contact/BAO/GroupOrganization.php';
-            CRM_Contact_BAO_GroupOrganization::add( $params );
+            $groupOrg = array();
+            $groupOrg = $params;
+            $groupOrg['group_id'] = $group->id;
+            CRM_Contact_BAO_GroupOrganization::add( $groupOrg );
         }
 
         require_once 'CRM/Contact/BAO/GroupContactCache.php';

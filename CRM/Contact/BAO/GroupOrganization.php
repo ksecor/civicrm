@@ -80,8 +80,8 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
             $formatedValues['id'] = $params['group_organization'];
         }
 
-        if ( CRM_Utils_Array::value( 'id', $params ) ) {
-            $formatedValues['group_id'] = $params['id'];
+        if ( CRM_Utils_Array::value( 'group_id', $params ) ) {
+            $formatedValues['group_id'] = $params['group_id'];
         }
         
         if ( CRM_Utils_Array::value( 'organization_id', $params ) ) {
