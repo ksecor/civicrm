@@ -4,11 +4,15 @@
         <td class="label-left">{$form.template.label}</td><td>{$form.template.html}</td>
     </tr>
     <tr>
-        <td class="label-left">{$form.token1.label} {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}</td>
-        <td>{$form.token1.html}</td>
-    </tr>
-    <tr>
-        <td colspan="2">{$form.html_message.label}<br />
+        <td colspan="2" class="ui-accordion ui-widget">
+			<span class="helpIcon" id="helphtml">
+             <a href="#" onClick="return showToken('Html');">{$form.token1.label}</a> 
+              {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}
+              <div id='tokenHtml' style="display:none">{$form.token1.html}</div>
+			</span>
+			<h3 class="head ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" style="width: 95%;"> 
+				<a style="text-decoration:none;">{$form.html_message.label}</a>
+			</h3>
             {if $editor EQ 'textarea'}
                 <span class="description">{ts}If you are composing HTML-formatted messages, you may want to enable a WYSIWYG editor (Administer CiviCRM &raquo; Global Settings &raquo; Site Preferences).{/ts}</span><br />
             {/if}
@@ -179,8 +183,7 @@ function tokenReplHtml ( )
         tinyMCE.get('html_message').setContent(content);
     } else if ( editor == "fckeditor" ) {
         oEditor = FCKeditorAPI.GetInstance('html_message');
-        var msg=oEditor.GetHTML() + token1;	
-        oEditor.SetHTML( msg );	
+		oEditor.InsertHtml( token1 );
     } else {
         document.getElementById("html_message").value =  document.getElementById("html_message").value + token1;
     }
@@ -214,5 +217,34 @@ tinyMCE.init({
 {/literal}
 {/if}
 {literal}
+	function showToken(element) {
+        cj("#token"+element ).show( ).dialog({
+            title       : 'Insert '+element+' Token',
+            modal       : true,
+            width       : 425,
+            height      : 200,
+            resizable   : true,
+            bgiframe    : true,
+            overlay     : { opacity: 0.5, background: "black" },
+            beforeclose : function(event, ui) { cj(this).dialog("destroy"); },
+            buttons     : { 
+                "Done": function() { 
+                    cj(this).dialog("close");
+
+                        //focus on editor/textarea after token selection     
+                        if (element == 'Text') {
+                            cj('#text_message').focus();
+                        } else if (element == 'Html' ) {
+                            switch ({/literal}"{$editor}"{literal}) {
+                                case 'fckeditor': { FCKeditorAPI.GetInstance('html_message').Focus(); break;}
+                                case 'tinymce'  : { tinyMCE.get('html_message').focus(); break; } 
+                                default         : { cj("#html_message").focus(); break; } 
+                        }
+                    }
+                }
+            }
+        });
+        return false;
+    }
 </script>
 {/literal}

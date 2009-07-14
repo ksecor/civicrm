@@ -50,7 +50,8 @@ class CRM_Contact_Form_Task_PDF extends CRM_Contact_Form_Task {
      * @var array
      */
     public $_templates = null;
-
+	
+	public $_single    = null;
     /**
      * build all the data structures needed to build the form
      *
