@@ -819,59 +819,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $fromDisplayName = $fromEmail;
         }
         
-        $matches = array();
-        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
-                        $text,
-                        $matches,
-                        PREG_PATTERN_ORDER);
-        $messageToken = $subjectToken = null;
-        if ( $matches[1] ) {
-            foreach ( $matches[1] as $token ) {
-                list($type,$name) = split( '\.', $token, 2 );
-                if ( $name ) {
-                    if ( ! isset( $messageToken['contact'] ) ) {
-                        $messageToken['contact'] = array( );
-                    }
-                    $messageToken['contact'][] = $name;
-                }
-            }
-        }
-        
-        $matches = array();
-        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
-                        $subject,
-                        $matches,
-                        PREG_PATTERN_ORDER);
-        
-        if ( $matches[1] ) {
-            foreach ( $matches[1] as $token ) {
-                list($type,$name) = split( '\.', $token, 2 );
-                if ( $name ) {
-                    if ( ! isset( $subjectToken['contact'] ) ) {
-                        $subjectToken['contact'] = array( );
-                    }
-                    $subjectToken['contact'][] = $name;
-                }
-            }
-        }
-        
-        $matches = array();
-        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
-                        $html,
-                        $matches,
-                        PREG_PATTERN_ORDER);
-        
-        if ( $matches[1] ) {
-            foreach ( $matches[1] as $token ) {
-                list($type,$name) = split( '\.', $token, 2 );
-                if ( $name ) {
-                    if ( ! isset( $messageToken['contact'] ) ) {
-                        $messageToken['contact'] = array( );
-                    }
-                    $messageToken['contact'][] = $name;
-                }
-            }
-        }
+        //CRM-4575
+        //token replacement of addressee/email/postal greetings
+        $messageToken = self::getTokens( $text );  
+        $subjectToken = self::getTokens( $subject );
+        $messageToken = array_merge($messageToken, self::getTokens( $html) );
+      
         require_once 'CRM/Utils/Mail.php';
         if (!$from ) {
             $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
@@ -958,11 +911,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
             $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject     , $contact, false, $subjectToken);
             $tokenSubject = CRM_Utils_Token::replaceHookTokens   ( $tokenSubject, $contact, $categories, false );
+            //CRM-4575
+            self::replaceGreetingTokens($tokenSubject, $contactId);
             
             //CRM-4539
             if ( $contact['preferred_mail_format'] == 'Text' || $contact['preferred_mail_format'] == 'Both' ) {
                 $tokenText    = CRM_Utils_Token::replaceContactTokens( $text     , $contact, false, $messageToken);
                 $tokenText    = CRM_Utils_Token::replaceHookTokens   ( $tokenText, $contact, $categories, false );
+                self::replaceGreetingTokens($tokenText, $contactId);
             } else {
                 $tokenText = null;
             } 
@@ -970,6 +926,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             if ( $contact['preferred_mail_format'] == 'HTML' || $contact['preferred_mail_format'] == 'Both' ) {
                 $tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html     , $contact, true , $messageToken);
                 $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
+                self::replaceGreetingTokens($tokenHtml, $contactId);
             } else {
                 $tokenHtml = null;
             }
@@ -1577,5 +1534,56 @@ AND cl.modified_id  = c.id
         }
         return self::$_exportableFields;
     }
+  
+    /**
+     * Get array of message/subject tokens
+     *     
+     * @return $tokens array of tokens mentioned in field
+     * @access public
+     */
+    function getTokens( $property ) 
+    {
+        $matches = array( );
+        $tokens  = array( );
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $property,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list($type,$name) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    if ( ! isset( $tokens['contact'] ) ) {
+                        $tokens['contact'] = array( );
+                    }
+                    $tokens['contact'][] = $name;
+                }
+            }
+        }  
+        return $tokens;
+    }
     
+    /**
+     * replace greeting tokens exists in message/subject
+     *     
+     * @access public
+     */
+    function replaceGreetingTokens( &$tokenString, $contactId ) 
+    {
+        if ( !$contactId ) {
+            return;    
+        }
+        
+        $greetingTokens = self::getTokens($tokenString);
+        
+        if ( !empty($greetingTokens) ) {
+            $greetingsReturnProperties = array_flip(CRM_Utils_Array::value('contact', $greetingTokens));
+            $greetingsReturnProperties = array_fill_keys(array_keys($greetingsReturnProperties), 1);
+            $contactParams             = array( 'contact_id' => $contactId );
+            require_once 'CRM/Mailing/BAO/Mailing.php';
+            $greetingDetails           = CRM_Mailing_BAO_Mailing::getDetails($contactParams, $greetingsReturnProperties);
+            $tokenString               = CRM_Utils_Token::replaceContactTokens( $tokenString, $greetingDetails, true , $greetingTokens);
+        }
+    }
 }
