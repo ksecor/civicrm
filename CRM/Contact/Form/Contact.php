@@ -331,7 +331,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $config =& CRM_Core_Config::singleton( );
         foreach ( $allBlocks as $blockName => $label ) {
             $name = strtolower( $blockName );
-            if ( CRM_Utils_Array::value( $name, $defaults ) && !CRM_Utils_System::isNull( $defaults[$name] ) ) continue;
+            if ( !CRM_Utils_Array::value( $name, $defaults ) || !CRM_Utils_System::isNull( $defaults[$name] ) ) continue;
             for( $instance = 1; $instance<= $this->get( $blockName ."_Block_Count" ); $instance++ ) {
                 //set location to primary for first one.
                 if ( $instance == 1 ) {
@@ -670,10 +670,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
 //         }
         
         if ( array_key_exists( 'TagsAndGroups', $this->_editOptions ) ) {
-            //add contact to group
-            require_once 'CRM/Contact/BAO/GroupContact.php';
-            CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
-            
             //add contact to tags
             require_once 'CRM/Core/BAO/EntityTag.php';
             CRM_Core_BAO_EntityTag::create( $params['tag'], $params['contact_id'] );

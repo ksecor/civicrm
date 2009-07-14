@@ -471,14 +471,17 @@ WHERE  contribution_id = {$this->_id}
             $defaults['fulfilled_date'] = $this->_productDAO->fulfilled_date;
         }
         
-        $this->assign( 'email', $this->userEmail );
+        if ( isset($this->userEmail) ) {
+            $this->assign( 'email', $this->userEmail );
+        }
+        
         if ( CRM_Utils_Array::value( 'is_pay_later',$defaults ) ) {
             $this->assign( 'is_pay_later', true ); 
         }
         $this->assign( 'contribution_status_id', CRM_Utils_Array::value( 'contribution_status_id',$defaults ) );
         $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
         
-        $this->assign( 'currency', $defaults['currency'] );
+        $this->assign( 'currency', CRM_Utils_Array::value( 'currency', $defaults ) );
         
         return $defaults;
     }

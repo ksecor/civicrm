@@ -13,6 +13,7 @@
  * UnChecked     UnChecked 	     Check the all checkboxes between the two
  */
 
+(function($){
 
 var lastChecked = null;
 
@@ -70,3 +71,5 @@ $(document).ready(function() {
 	lastChecked = this;
     });
 });
+
+})(jQuery);

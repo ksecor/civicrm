@@ -147,7 +147,7 @@ class CRM_Core_BAO_Block
     static function blockExists( $blockName, &$params ) 
     {
         // return if no data present
-        if ( !is_array( $params[$blockName] ) ) {
+        if ( !CRM_Utils_Array::value( $blockName, $params ) || !is_array( $params[$blockName] ) ) {
 	        return false;
         }
 

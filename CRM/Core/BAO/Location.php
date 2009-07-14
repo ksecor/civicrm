@@ -73,7 +73,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         //get primary location type id
         $primaryLocTypeId = null;
         foreach ( self::$blocks as $block ) {
-            if ( !is_array( $params[$block] ) ) continue;
+            if ( !CRM_Utils_Array::value( $block, $params ) || !is_array( $params[$block] ) ) continue;
             foreach ( $params[$block] as $blockCount => &$values ) {
                 if ( $values['location_type_id'] == 'primary' ) {
                     if ( !$primaryLocTypeId ) {
