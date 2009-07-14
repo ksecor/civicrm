@@ -417,7 +417,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         //CRM-4575
         require_once 'CRM/Core/OptionGroup.php';
         $filterCondition = null;
-        $addresseeValues = CRM_Core_PseudoConstant::addressee( $filterCondition, $columnName = 'name' );
+        $addresseeValues = CRM_Core_PseudoConstant::addressee( $filterCondition, 'name' );
          $addresseeValue = array_search( 'Customized', $addresseeValues );
         if( CRM_Utils_Array::value( 'addressee_id', $fields ) == $addresseeValue && 
             ! CRM_Utils_Array::value( 'addressee_custom', $fields ) ) {
@@ -557,12 +557,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                            'postal_greeting' => 'postalGreeting', 
                            'addressee'       => 'addressee' );
         foreach( $elements as $key => $value ) {
-            $fieldId = $field."_id"; 
+            $fieldId = $key."_id"; 
             require_once 'CRM/Core/OptionGroup.php';
             $filterCondition = null;
-            $optionValues = CRM_Core_PseudoConstant::$value( $filterCondition, $columnName = 'name' );
+            $optionValues = CRM_Core_PseudoConstant::$value( $filterCondition, 'name' );
             $fieldValue = array_search( 'Customized', $optionValues );
-            if ( CRM_Utils_Array::value( $field, $params ) != $fieldValue ) {
+            if ( CRM_Utils_Array::value( $fieldId, $params ) != $fieldValue ) {
                 $customizedField = $key."_custom";
                 $params[$customizedField] = "";
             }
