@@ -1816,11 +1816,9 @@ UNION
             break;
             
         case 'activity' :
-            require_once 'CRM/Activity/DAO/Activity.php';
-            eval( '$object =& new CRM_Activity_DAO_Activity( );');
-            $object->source_contact_id = $contactId;
-            $object->is_test    = 0;
-            break;            
+            require_once 'CRM/Activity/BAO/Activity.php';
+            $data = array( 'contact_id' => $contactId );
+            return CRM_Activity_BAO_Activity::getActivities( $data, null, null, null, 'Activity', false, null, null, true );
         }
         
         $object->find( );

@@ -544,18 +544,25 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @static
      */
     static function &getActivities( &$data, $offset = null, $rowCount = null, $sort = null,
-                                    $type ='Activity', $admin = false, $caseId = null, $context = null ) 
+                                    $type ='Activity', $admin = false, $caseId = null, $context = null, $onlyCount = null ) 
     {
         $dao =& new CRM_Core_DAO();
-
         $params = array( );
         $clause = 1 ;
-
         $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                           'Bulk Email',
                                                           'name' );
         if ( !$admin ) {
-            $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case_contact.contact_id = %1 ) ";
+            if ($onlyCount){
+                $clause = " ( source_contact_id = %1 or 
+                              target_contact_id = %1 or 
+                              assignee_contact_id = %1 ) ";
+            } else {
+                $clause = " ( source_contact_id = %1 or 
+                              target_contact_id = %1 or 
+                              assignee_contact_id = %1 or 
+                              civicrm_case_contact.contact_id = %1 ) ";
+            }
             $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
         }
         
@@ -563,13 +570,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( $context == 'home' ) {
             $statusClause = " civicrm_activity.status_id = 1 "; 
         }
-
+        
         // Exclude Contribution-related activity records if user doesn't have 'access CiviContribute' permission
         $contributionFilter = 1;
         if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
             $contributionFilter = " civicrm_activity.activity_type_id != 6 ";
         }
-
+        
         // Filter on case ID if looking at activities for a specific case
         $case = 1;
         if ( $caseId ) {
@@ -589,8 +596,27 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( $componentsIn ) {
             $componentClause = "($componentClause OR civicrm_option_value.component_id IN ($componentsIn))";
         }
-
-        $query = "select DISTINCT(civicrm_activity.id), civicrm_activity.activity_date_time,
+        
+        if ( $onlyCount ) {
+            $select = "select COUNT(DISTINCT(civicrm_activity.id)) as count";
+            $join   = " 
+                  left join civicrm_activity_target on 
+                            civicrm_activity.id = civicrm_activity_target.activity_id 
+                  left join civicrm_activity_assignment on 
+                            civicrm_activity.id = civicrm_activity_assignment.activity_id 
+                  left join civicrm_contact sourceContact on 
+                            source_contact_id = sourceContact.id 
+		          left join civicrm_contact targetContact on 
+                            target_contact_id = targetContact.id 
+                  left join civicrm_contact assigneeContact on 
+                            assignee_contact_id = assigneeContact.id
+                  left join civicrm_option_value on
+                            ( civicrm_activity.activity_type_id = civicrm_option_value.value )
+                  left join civicrm_option_group on  
+                            civicrm_option_group.id = civicrm_option_value.option_group_id ";
+        } else {
+            $select ="select DISTINCT(civicrm_activity.id), 
+                         civicrm_activity.activity_date_time,
                          civicrm_activity.status_id, civicrm_activity.subject,
                          civicrm_activity.source_contact_id,civicrm_activity.source_record_id,
                          sourceContact.sort_name as source_contact_name,
@@ -601,8 +627,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
                          civicrm_case_activity.case_id as case_id,
-                         civicrm_case.subject as case_subject
-                  from civicrm_activity 
+                         civicrm_case.subject as case_subject ";
+            $join   = "\n 
                   left join civicrm_activity_target on 
                             civicrm_activity.id = civicrm_activity_target.activity_id 
                   left join civicrm_activity_assignment on 
@@ -622,37 +648,40 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                   left join civicrm_case on
                             civicrm_case_activity.case_id = civicrm_case.id
                   left join civicrm_case_contact on
-                            civicrm_case_contact.case_id = civicrm_case.id
-                  where {$clause}
-                        and civicrm_option_group.name = 'activity_type'
-                        and {$componentClause}
-                        and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause} 
-                        GROUP BY id";
+                            civicrm_case_contact.case_id = civicrm_case.id ";
+        }
+        $from  = " from civicrm_activity ";
+        $where = " where {$clause}
+                   and civicrm_option_group.name = 'activity_type'
+                   and {$componentClause}
+                   and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause}";
 
-        $order = '';
-
-        if ($sort) {
-            $orderBy = $sort->orderBy();
-            if ( ! empty( $orderBy ) ) {
-                $order = " ORDER BY $orderBy";
+        $order = $limit = $groupBy = '';
+        if ( $onlyCount == null ) {
+            $groupBy = " GROUP BY id";
+            if ($sort) {
+                $orderBy = $sort->orderBy();
+                if ( ! empty( $orderBy ) ) {
+                    $order = " ORDER BY $orderBy";
+                }
+            }
+            
+            if ( empty( $order ) ) {
+                if ( $context == 'activity' ) {
+                    $order = " ORDER BY activity_date_time desc ";
+                } else {
+                    $order = " ORDER BY status_id asc, activity_date_time asc ";
+                }
+            }
+            
+            if ( $rowCount > 0 ) {
+                $limit = " LIMIT $offset, $rowCount ";
             }
         }
-
-        if ( empty( $order ) ) {
-            if ( $context == 'activity' ) {
-                $order = " ORDER BY activity_date_time desc ";
-            } else {
-                $order = " ORDER BY status_id asc, activity_date_time asc ";
-            }
-        }
-
-        if ( $rowCount > 0 ) {
-            $limit = " LIMIT $offset, $rowCount ";
-        }
-
-        $queryString = $query . $order . $limit;
-        $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
         
+        $queryString = $select. $from.  $join. $where. $groupBy. $order. $limit;
+        $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
+
         $selectorFields = array( 'activity_type_id',
                                  'activity_type',
                                  'id',
@@ -669,7 +698,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'case_id',
                                  'case_subject' );
 
-        $values =array();
+        $values = array();
         $rowCnt = 0;
 
         //CRM-3553, need to check user has access to target groups.
@@ -678,6 +707,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $accessCiviMail = CRM_Core_Permission::check('access CiviMail');
         
         while($dao->fetch()) {
+            if ( $onlyCount == true ) {
+                return $dao->count;
+            }
             foreach( $selectorFields as $dc => $field ) {
                 if ( isset($dao->$field ) ) {
                     if ( $activityTypeID == $dao->activity_type_id && $field == 'target_contact_name' ) {
