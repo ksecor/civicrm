@@ -749,3 +749,26 @@ ALTER TABLE `civicrm_uf_match`
     ADD CONSTRAINT `FK_civicrm_uf_match_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE,
     ADD UNIQUE `UI_uf_name_domain_id` (`uf_name`,`domain_id`),
     ADD UNIQUE `UI_contact_domain_id` (`contact_id`,`domain_id`);
+
+ALTER TABLE `civicrm_mailing`
+    ADD `created_date` datetime default NULL COMMENT 'Date and time this mailing was created.' AFTER `created_id`;
+
+ALTER TABLE `civicrm_contribution_page`
+    ADD `created_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_contact, who created this contribution page',
+    ADD `created_date` datetime default NULL COMMENT 'Date and time that contribution page was created.',
+    ADD CONSTRAINT `FK_civicrm_contribution_page_created_id` FOREIGN KEY (`created_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `civicrm_event`
+    ADD `created_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_contact, who created this event',
+    ADD `created_date` datetime default NULL COMMENT 'Date and time that event was created.',
+    ADD CONSTRAINT `FK_civicrm_event_created_id` FOREIGN KEY (`created_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `civicrm_custom_group`
+    ADD `created_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_contact, who created this custom group',
+    ADD `created_date` datetime default NULL COMMENT 'Date and time this custom group was created.',
+    ADD CONSTRAINT `FK_civicrm_custom_group_created_id` FOREIGN KEY (`created_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `civicrm_uf_group`
+    ADD `created_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_contact, who created this UF group',
+    ADD `created_date` datetime default NULL COMMENT 'Date and time this UF group was created.',
+    ADD CONSTRAINT `FK_civicrm_uf_group_created_id` FOREIGN KEY (`created_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
