@@ -6,7 +6,6 @@
     </td>
     {if $className eq 'CRM_Contact_Form_Contact'}
 		<td colspan="2"></td>
-		<td>{ts}Is Billing?{/ts}</td>
 		<td>{ts}Primary?{/ts}</td>
 	{/if}
 </tr>
