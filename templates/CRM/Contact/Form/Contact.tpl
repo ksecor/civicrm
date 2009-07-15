@@ -75,6 +75,15 @@ cj(function( ) {
     
     cj('span#contact').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
     cj("#contact-details").show( );
+
+	//open tab if form rule throws error.
+	if( cj('span.error').text()	) {
+		cj('div.accordion div.ui-accordion-content').each( function() {
+			if ( cj(this).children().find('span.error').text() ) {
+				cj(this).show().prev().children('span:first').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
+			}
+		});
+	}
 });
 
 cj('a#expand').click( function( ){
