@@ -29,7 +29,7 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
 require_once 'Smarty/Smarty.class.php';
 require_once 'PHP/Beautifier.php';
 
-require_once '../civicrm.config.php';
+require_once '../civicrm.config.php.drupal';
 
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/I18n.php';

@@ -57,7 +57,7 @@
  *******************************************************/
 
 
-require_once '../civicrm.config.php';
+require_once '../civicrm.config.php.drupal';
 
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
