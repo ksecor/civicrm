@@ -66,7 +66,7 @@
     </fieldset>
     {if $form.organization}
 	<fieldset>
-	    <legend>{ts}Related Organization{/ts} {help id="id-group-organization" file="CRM/Group/Page/Group.hlp"}</legend>
+	    <legend>{ts}Associated Organization{/ts} {help id="id-group-organization" file="CRM/Group/Page/Group.hlp"}</legend>
 	        <table class="form-layout-compressed">
 		    <tr>
 		        <td>{$form.organization.label}</td>

@@ -127,7 +127,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      * @access public
      * @static
      */
-    static function getRelationshipStatus( $contactID ) 
+    static function hasGroupAssociated( $contactID ) 
     {
         $orgID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_GroupOrganization', 
                                               $contactID, 'group_id', 'organization_id' );

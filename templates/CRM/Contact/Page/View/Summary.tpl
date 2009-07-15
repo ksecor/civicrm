@@ -35,7 +35,7 @@
                         <input type="button" onclick="window.location='{$url}'" value="{ts}User Record{/ts}"/>
                         {/if}
                         {if $groupOrganizationUrl}
-                            <input type="button" onclick="window.location='{$groupOrganizationUrl}'" value="{ts}Organization Group{/ts}"/>   
+                            <input type="button" onclick="window.location='{$groupOrganizationUrl}'" value="{ts}Associated Multi-Org Group{/ts}"/>   
                         {/if}
                     </span> 
                     <span id="icons">

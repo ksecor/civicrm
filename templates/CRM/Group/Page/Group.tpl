@@ -40,7 +40,7 @@
         <td>{$row.group_type}</td>	
         <td>{$row.visibility}</td>
         {if $groupOrg}
-	    <td>{$row.org_name}</td>
+	    <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.org_id`"}">{$row.org_name}</a></td>
         {/if}
         <td>{$row.action|replace:'xx':$row.id}</td>
      </tr>

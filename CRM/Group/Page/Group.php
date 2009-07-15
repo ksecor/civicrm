@@ -263,7 +263,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
         $select = $from = $where = "";
         if ( CRM_Core_Permission::check( 'administer Multiple Organizations' ) ) {
-            $select = ", contact.display_name as orgName";
+            $select = ", contact.display_name as orgName, contact.id as orgID";
             $from   = " LEFT JOIN civicrm_group_organization gOrg
                                ON gOrg.group_id = groups.id 
                         LEFT JOIN civicrm_contact contact
@@ -350,6 +350,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
                 if ( array_key_exists( 'orgName', $object ) ) {
                     if ( $object->orgName ) {
                         $values[$object->id]['org_name'] = $object->orgName;
+                        $values[$object->id]['org_id']   = $object->orgID;
                     }   
                 }
             }
