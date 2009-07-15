@@ -158,25 +158,10 @@ class CRM_Contact_Form_Task_PDFLetterCommon
         $tokenKeys     = array_keys( $contactTokens );
 		
 		$html_message = str_replace( $contactTokens, $tokenKeys, $formValues['html_message'] );
+        
+        require_once 'CRM/Activity/BAO/Activity.php';
+		$messageToken = CRM_Activity_BAO_Activity::getTokens( $html_message );  
 
-        $matches = array();
-        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
-                        $html_message,
-                        $matches,
-                        PREG_PATTERN_ORDER);
-
-        if ( $matches[1] ) {
-            foreach ( $matches[1] as $token ) {
-                list($type,$name) = split( '\.', $token, 2 );
-                if ( $name ) {
-                    if ( ! isset( $messageToken['contact'] ) ) {
-                        $messageToken['contact'] = array( );
-                    }
-                    $messageToken['contact'][] = $name;
-                }
-            }
-        }
-		
 		$returnProperties = array();
         if( isset( $messageToken['contact'] ) ) { 
             foreach ( $messageToken['contact'] as $key => $value ) {
@@ -201,6 +186,11 @@ class CRM_Contact_Form_Task_PDFLetterCommon
 	
 			$tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html_message, $contact[$contactId], true , $messageToken);
             $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
+
+            //CRM-4575
+            //token replacement of addressee/email/postal greetings
+            CRM_Activity_BAO_Activity::replaceGreetingTokens($tokenHtml, $contactId);
+            
             if($first == TRUE) {
               $first = FALSE;
               $html .= $tokenHtml;
