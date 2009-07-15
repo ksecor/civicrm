@@ -169,8 +169,7 @@ Participant {$priceset+1}
 
 {if $customPre}
 ===========================================================
-{ts}{$customPre_grouptitle} {/ts}
-
+{$customPre_grouptitle}
 ===========================================================
 {foreach from=$customPre item=value key=customName}
 {if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
@@ -181,8 +180,7 @@ Participant {$priceset+1}
 
 {if $customPost}
 ===========================================================
-{ts}{$customPost_grouptitle}{/ts}
-
+{$customPost_grouptitle}
 ===========================================================
 {foreach from=$customPost item=value key=customName}
 {if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
@@ -198,16 +196,14 @@ Participant {$priceset+1}
 
 ===========================================================
 {foreach from=$value item=val key=field}
-{if $field}
+{if $field eq 'additionalCustomPre' or $field eq 'additionalCustomPost' }
 {if $field eq 'additionalCustomPre' }
 ----------------------------------------------------------
-{ts}{$additionalCustomPre_grouptitle}{/ts}
-
+{$additionalCustomPre_grouptitle}
 ----------------------------------------------------------
 {else}
 ----------------------------------------------------------
-{ts}{$additionalCustomPost_grouptitle}{/ts}
-
+{$additionalCustomPost_grouptitle}
 ----------------------------------------------------------
 {/if}
 {foreach from=$val item=v key=f}

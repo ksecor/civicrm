@@ -868,7 +868,7 @@ WHERE civicrm_event.is_active = 1
                     $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
                     if ( $email ) {
                         //get values of corresponding profile fields for notification
-                        $profileValues = self::buildCustomDisplay( $gId, null, $contactID, $template, $participantId, $isTest, true );  
+                        list( $profileValues ) = self::buildCustomDisplay( $gId, null, $contactID, $template, $participantId, $isTest, true );  
                         $val = array(
                                      'id'     => $gId,
                                      'values' => $profileValues,
@@ -971,6 +971,7 @@ WHERE civicrm_event.is_active = 1
                     $params[] = array( 'participant_test', '=', 1, 0, 0 );
                 }
                 
+                $groupTitles = array( );
                 $groupTitle = null;
                 foreach( $fields as $k => $v  ) {
                     if ( ! $groupTitle ) {
@@ -984,6 +985,7 @@ WHERE civicrm_event.is_active = 1
 
                 if ( $groupTitle ) {
                     $template->assign( $name."_grouptitle", $groupTitle );
+                    $groupTitles[ $name."_grouptitle" ] = $groupTitle;
                 }
 
 
@@ -1025,7 +1027,7 @@ WHERE civicrm_event.is_active = 1
                 //return if we only require array of participant's info.
                 if ( $isCustomProfile ) {
                     if ( count($values) ) {
-                        return $values;
+                        return array( $values, $groupTitles );
                     } else {
                         return null;
                     }
@@ -1316,22 +1318,24 @@ WHERE  id = $cfID
                 $isCustomProfile = true;
                 $i = 1;
                 foreach ( $additionalIDs as $pId => $cId ) {
-                    $profilePre =  self::buildCustomDisplay( $values['additional_custom_pre_id'], 'additionalCustomPre',
+                    list( $profilePre, $groupTitles ) =  self::buildCustomDisplay( $values['additional_custom_pre_id'], 'additionalCustomPre',
                                                              $cId, $template, $pId, $isTest, $isCustomProfile );
                     if ( $profilePre ) {
                         $customProfile[$i]['additionalCustomPre'] =  $profilePre;
+                        $customProfile[$i] = array_merge( $groupTitles, $customProfile[$i] );
                     }
 
-                    $profilePost =  self::buildCustomDisplay( $values['additional_custom_post_id'], 'additionalCustomPost',
+                    list( $profilePost, $groupTitles ) =  self::buildCustomDisplay( $values['additional_custom_post_id'], 'additionalCustomPost',
                                                               $cId, $template, $pId, $isTest, $isCustomProfile );
                     if ( $profilePost ) {
                         $customProfile[$i]['additionalCustomPost'] =  $profilePost;
+                        $customProfile[$i] = array_merge( $groupTitles, $customProfile[$i] );
                     }
                     $i++;
                 }
             }
         }
-
+        
         return $customProfile;
     }
     
