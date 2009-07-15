@@ -317,10 +317,12 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                                   'cxt' => $this->_context ) );
              
              require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
-             $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
-             
+             $row['contact_type'] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+                          
              //adding case manager to case selector.CRM-4510.
-             $caseManagerContact = CRM_Case_BAO_Case::getCaseManagerContact( $result->case_type_id, $result->case_id );
+             $caseType = CRM_Core_OptionGroup::getValue( 'case_type', $result->case_type_id, 'label', 'String', 'name' );
+             $caseManagerContact = CRM_Case_BAO_Case::getCaseManagerContact( $caseType, $result->case_id );
+
              if ( !empty($caseManagerContact) ) {
                  $row['casemanager_id'] = CRM_Utils_Array::value('casemanager_id', $caseManagerContact );
                  $row['casemanager'   ] = CRM_Utils_Array::value('casemanager'   , $caseManagerContact );              
