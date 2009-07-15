@@ -64,6 +64,8 @@ function showCustomized(element){
         cj( eleHtml+","+eleLabel).toggle( );
     } else {
         cj( eleHtml+","+eleLabel).hide( );
+		var inputElement = 'input#' + element.substring( 0, element.length - 2 ) + 'custom';
+		cj( inputElement ).val('');
         if ( selText != '- select -' ) {
             //fixme for showing token to compiled string
             cj('#greeting_display').html('<strong>Display :: </strong>'+cj('#'+element+' :selected').text()).show().fadeOut(5000);
