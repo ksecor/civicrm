@@ -69,7 +69,6 @@
 {* phone_2 a email_2 only included in form if CiviMail enabled. *}
 {if array_search('CiviMail', $config->enableComponents)}
     <script type="text/javascript">
-    //hide('id_location_1_phone_2_show');
-    //hide('id_location_1_email_2_show');
+    cj('a#addEmail,a#addPhone').hide();
     </script>
 {/if}

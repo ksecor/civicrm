@@ -109,7 +109,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
                 }
             }
         }
-               
+        require_once 'CRM/Contact/Form/Edit/Address.php';
         if ( ! empty ( $defaults['address'] ) ) {
             $config = CRM_Core_Config::singleton( );
             foreach ( $defaults['address'] as $key => $value ) {
