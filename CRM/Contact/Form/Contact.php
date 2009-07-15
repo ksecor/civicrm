@@ -460,9 +460,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         
         //CRM-4575
+        $filter = array( 'greeting_type' => 'addressee'  );
         require_once 'CRM/Core/OptionGroup.php';
-        $filterCondition = null;
-        $addresseeValues = CRM_Core_PseudoConstant::addressee( $filterCondition, 'name' );
+        $addresseeValues = CRM_Core_PseudoConstant::greeting( $filter, 'name' );
          $addresseeValue = array_search( 'Customized', $addresseeValues );
         if( CRM_Utils_Array::value( 'addressee_id', $fields ) == $addresseeValue && 
             ! CRM_Utils_Array::value( 'addressee_custom', $fields ) ) {
@@ -754,22 +754,11 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     function buildAddresseeBlock( ) 
     {
         //check contact type and build filter clause accordingly for addressee, CRM-4575
-        $filterVal = 'v.filter =';
-        switch( $this->_contactType ) {
-        case 'Individual': 
-            $filterVal .= "1";
-            break;
-        case 'Household':
-            $filterVal .= "2";
-            break;
-        case 'Organization':
-            $filterVal .= "3";
-            break;
-        }
-        $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
-        
+        $greeting = array(
+							'contact_type'  => $this->_contactType, 
+                            'greeting_type' => 'addressee'  );
         //add addressee in Contact form
-        $addressee = CRM_Core_PseudoConstant::addressee( $filterCondition );
+        $addressee = CRM_Core_PseudoConstant::greeting( $greeting );
         if ( !empty( $addressee ) ) {
             $this->addElement('select', 'addressee_id', ts('Addressee'), 
                               array('' => ts('- select -')) + $addressee, array( 'onchange' => " showCustomized(this.id);") );
@@ -791,22 +780,25 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         //unset previously set custom value,CRM-4575
         $fieldId    = null;
         $fieldValue = null;
-        $elements = array( 'email_greeting'  => 'emailGreeting', 
-                           'postal_greeting' => 'postalGreeting', 
-                           'addressee'       => 'addressee' );
-        foreach( $elements as $key => $value ) {
-            $fieldId = $key."_id"; 
-            require_once 'CRM/Core/OptionGroup.php';
-            $filterCondition = null;
-            $optionValues = CRM_Core_PseudoConstant::$value( $filterCondition, 'name' );
-            $fieldValue = array_search( 'Customized', $optionValues );
+        $greeting = array( 
+							'email_greeting'  => array( 
+                                                        'greeting_type' => 'email_greeting'  ),
+							'postal_greeting' => array( 
+                                                        'greeting_type' => 'postal_greeting'  ),
+							'addressee'       => array( 
+                                                        'greeting_type' => 'addressee'  )
+						);
+		require_once 'CRM/Core/OptionGroup.php';
+		$filterCondition = null;		
+		foreach( $greeting as $key => $value ) {
+			$optionValues = CRM_Core_PseudoConstant::greeting( $value, 'name' ); 
+			$fieldValue = array_search( 'Customized', $optionValues );
             if ( CRM_Utils_Array::value( $fieldId, $params ) != $fieldValue ) {
                 $customizedField = $key."_custom";
                 $params[$customizedField] = "";
             }
-        } 
+		 }
     }
-    
 }
 
 

@@ -84,9 +84,11 @@ class CRM_Contact_Form_Edit_Individual {
         
         // add email and postal greeting on contact form, CRM-4575
         // the filter value for Individual contact type is set to 1
-        $filterCondition = "AND (v.filter IS NULL OR v.filter = 1)";
+		$filter =  array( 
+							'contact_type'  => 'Individual', 
+							'greeting_type' => 'email_greeting'  );
         //email greeting
-        $emailGreeting = CRM_Core_PseudoConstant::emailGreeting( $filterCondition );
+        $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
         if ( !empty( $emailGreeting ) ) {
             $this->addElement('select', 'email_greeting_id', ts('Email Greeting'), 
                               array('' => ts('- select -')) + $emailGreeting, 
@@ -98,8 +100,9 @@ class CRM_Contact_Form_Edit_Individual {
                                                   'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
         }
         
-        //postal greeting
-        $postalGreeting = CRM_Core_PseudoConstant::postalGreeting( $filterCondition );
+        //postal greeting$
+		$filter['greeting_type'] = 'postal_greeting';
+        $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);
         if ( !empty( $postalGreeting ) ) {
             $this->addElement('select', 'postal_greeting_id', ts('Postal Greeting'), 
                               array('' => ts('- select -')) + $postalGreeting, 
@@ -227,12 +230,14 @@ class CRM_Contact_Form_Edit_Individual {
         //then Custom greeting field must have a value. CRM-4575
         $fieldId    = null;
         $fieldValue = null;
-        $elements = array( 'email_greeting'  => 'emailGreeting', 
-                           'postal_greeting' => 'postalGreeting' ); 
+        $elements = array( 'email_greeting'  => array( 
+                                                        'greeting_type' => 'email_greeting'  ),
+							'postal_greeting' => array( 
+                                                        'greeting_type' => 'postal_greeting'  ) ); 
         foreach ( $elements as $key => $value ) {
             $fieldId = $key."_id";
             $filterCondition = null;
-            $optionValues = CRM_Core_PseudoConstant::$value( $filterCondition, $columnName = 'name' );
+            $optionValues = CRM_Core_PseudoConstant::greeting( $value,  'name' );
             $fieldValue = array_search( 'Customized', $optionValues );
             $customizedField = $key."_custom";
             if( CRM_Utils_Array::value( $fieldId, $fields ) == $fieldValue && 

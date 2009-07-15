@@ -151,7 +151,7 @@
                                 <tr>
                                     <td class="label">{$add.location_type}&nbsp;{ts}Address{/ts}
                                         {if $config->mapAPIKey AND $add.geo_code_1 AND $add.geo_code_2}
-                                            <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$add.location_type_id`"}" title="{ts}Map {$add.location_type} Address{/ts}"><br/<span style="font-size:8px;">{ts}Map Address{/ts}</span></a>
+                                            <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$add.location_type_id`"}" title="{ts}Map {$add.location_type} Address{/ts}"><br/><span style="font-size:8px;">{ts}Map Address{/ts}</span></a>
                                         {/if}</td>
                                     <td>
                                         {if $HouseholdName and $locationIndex eq 1}
@@ -200,18 +200,18 @@
                                     {if $birthDateViewFormat}	 
                                         {$birth_date|crmDate:$birthDateViewFormat}
                                     {else}
-				        {$birth_date|crmDate}</td>
+										{$birth_date|crmDate}</td>
                                     {/if} 
                                 </tr>
                                 <tr>
                                     {if $is_deceased eq 1}
                                         {if $deceased_date}<td class="label">{ts}Date Deceased{/ts}</td>
                                            <td>
-				             {if $birthDateViewFormat}          
-	                                     {$deceased_date|crmDate:$birthDateViewFormat}
- 	                                     {else}
-	                                     {$deceased_date|crmDate}
- 	                                     {/if}
+											{if $birthDateViewFormat}          
+												{$deceased_date|crmDate:$birthDateViewFormat}
+											{else}
+												{$deceased_date|crmDate}
+											{/if}
                                            </td>
                                         {else}<td class="label" colspan=2><span class="font-red upper">{ts}Contact is Deceased{/ts}</span></td>
                                         {/if}
@@ -223,7 +223,26 @@
                             </table>
                             {/if}
                         </div><!-- #contactCardRight -->
-
+						
+						<div style="CLEAR: both"></div>
+						
+						<div id="contactCardLeft">
+						 <table>
+							<tr>
+								<td class="label">{ts}Addressee{/ts}{if $addressee eq 'Customized'}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
+								<td>{if $addressee eq 'Customized'}{$addressee_custom}{else}{$addressee}{/if}</td>
+							</tr>
+							<tr>
+								<td class="label">{ts}Email Greeting{/ts}{if $email_greeting eq 'Customized'}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
+								<td>{if $email_greeting eq 'Customized'}{$email_greeting_custom}{else}{$email_greeting}{/if}</td>
+							</tr>
+							<tr>
+								<td class="label">{ts}Postal Greeting{/ts}{if $postal_greeting eq 'Customized'}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
+								<td>{if $postal_greeting eq 'Customized'}{$postal_greeting_custom}{else}{$postal_greeting}{/if}</td>
+							</tr>
+						 </table>
+						</div>
+						
                         <div style="CLEAR: both"></div>
                     </div>
                 </div><!--contact_details-->

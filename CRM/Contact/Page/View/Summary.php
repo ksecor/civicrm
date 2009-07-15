@@ -148,7 +148,8 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
                 }
             }
         }
-   
+		
+		$this->showGreeting( $defaults );
         //CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
         
         if ( CRM_Utils_Array::value( 'gender_id',  $defaults ) ) {
@@ -199,7 +200,6 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
         }
         
         $this->assign( $defaults );
-        $this->setShowHide( $defaults );        
         
         // also assign the last modifed details
         require_once 'CRM/Core/BAO/Log.php';
@@ -339,61 +339,28 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
 
 
     /**
-     * Show hide blocks based on default values.
+     * Show greeting blocks based on default values.
      *
      * @param array (reference) $defaults
      * @return void
      * @access public
      */
-    function setShowHide( &$defaults ) {
-        
-        $config =& CRM_Core_Config::singleton( );
-        
-        if ( isset($defaults['mail_to_household_id']) ) {
-            $HouseholdName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                          $defaults['mail_to_household_id'], 
-                                                          'display_name', 
-                                                          'id' );
-            $this->assign( 'HouseholdName',$HouseholdName );
-        }
-        
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        $showHide =& new CRM_Core_ShowHideBlocks();
-        
-        if ( $this->_showCommBlock ) {
-            $showHide->addShow( 'commPrefs' );
-            $showHide->addHide( 'commPrefs_show' );
-        }
-        
-        if ( $this->_showDemographics && $defaults['contact_type'] == 'Individual' ) {
-            // is there any demographics data?
-            if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
-                 CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
-                 CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
-                $showHide->addShow( 'demographics' );
-                $showHide->addHide( 'demographics_show' );
-            } else {
-                $showHide->addShow( 'demographics_show' );
-                $showHide->addHide( 'demographics' );
-            }
-        }
-
-        if ( array_key_exists( 'location', $defaults ) ) {
-            $numLocations = count( $defaults['location'] );
-            if ( $numLocations > 0 ) {
-                $showHide->addShow( 'location_1' );
-                $showHide->addHide( 'location_1_show' );
-            }
-            for ( $i = 1; $i < $numLocations; $i++ ) {
-                $locationIndex = $i + 1;
-                $showHide->addShow( "location_{$locationIndex}_show" );
-                $showHide->addHide( "location_{$locationIndex}" );
-            }
-        }
-        
-        $showHide->addToTemplate( );
-    }
-
+    function showGreeting( &$defaults ) 
+	{
+		$greeting = array( 
+							'email_greeting'  => array( 
+                                                        'contact_type'  => $defaults['contact_type'], 
+                                                        'greeting_type' => 'email_greeting'  ),
+							'postal_greeting' => array( 
+                                                        'contact_type'  => $defaults['contact_type'], 
+                                                        'greeting_type' => 'postal_greeting'  ),
+							'addressee'       => array( 
+                                                        'contact_type'  => $defaults['contact_type'], 
+                                                        'greeting_type' => 'addressee'  )
+						);
+		foreach( $greeting as $key => $value ) {
+			$pseudoConst = CRM_Core_PseudoConstant::greeting( $value ); 
+			CRM_Utils_Array::lookupValue( $defaults, $key, $pseudoConst, false );
+		}
+	}
 }
-
-
