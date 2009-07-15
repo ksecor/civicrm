@@ -929,6 +929,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         
         require_once 'api/v2/Contact.php';
         require_once 'CRM/Utils/Token.php';
+        require_once 'CRM/Activity/BAO/Activity.php';
         $config =& CRM_Core_Config::singleton( );
         $knownTokens = $this->getTokens();
         
@@ -979,19 +980,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
                     //CRM-4575
                     //token replacement of addressee/email/postal tokens
                     if ( in_array( $token['token'], array('addressee', 'email_greeting', 'postal_greeting')) ) {
-                        $tokenData = array( );
-                        $greetingsProperties = $this->getGreetingsReturnProperties($token_data);
-                        
-                        if ( !empty($greetingsProperties) ) {
-                            $greetingsReturnProperties = CRM_Utils_Array::value('returnProperties', $greetingsProperties);
-                            $params  = array( 'contact_id' => $contactId );
-                            $greetingTokenDetails = $this->getDetails( $params, $greetingsReturnProperties );
-                            foreach ( $greetingsProperties['tokens'] as $id => $greetingToken ) {
-                                $tokenData[] = $this->getTokenData( $greetingToken, $html, 
-                                                                    $greetingTokenDetails, $verp, $urls, $event_queue_id);
-                            }
-                            $token_data = implode(' ', $tokenData );
-                        }
+                        CRM_Activity_BAO_Activity::replaceGreetingTokens($token_data, $contactId);
                     }
 
                     array_push($pEmail, $template[$idx]);
@@ -2190,41 +2179,6 @@ SELECT  $mailing.id as mailing_id
         $report['mailing']['attachment'] = CRM_Core_BAO_File::attachmentInfo( 'civicrm_mailing',
                                                                               $form->_mailing_id );
         return $report;
-    }
-
-    /**
-     * gives returnProperties for greeting type tokens 
-     *
-     * @param  string  $greetingTokens   token string
-     *   
-     * @return array   $returnProperties array of tokens with their return properties
-     * @access public
-     */
-    function getGreetingsReturnProperties( $greetingTokens ) 
-    {
-        if ( empty($greetingTokens) ) {
-            return;
-        }
-        
-        $matches = array();
-        $returnProperties = array( );
-        
-        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
-                        $greetingTokens,
-                        $matches,
-                        PREG_PATTERN_ORDER);
-        
-        if ( $matches[1] ) {
-            foreach ( $matches[1] as $token ) {
-                list($type,$name) = split( '\.', $token, 2 );
-                if ( $name ) {
-                    $returnProperties['tokens'][]= array( 'type'  => $type,
-                                                          'token' => $name );
-                    $returnProperties['returnProperties'][$name] = 1;
-                }
-            }
-        }
-        return $returnProperties;
     }
 
 }
