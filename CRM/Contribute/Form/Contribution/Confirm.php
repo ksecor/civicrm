@@ -426,7 +426,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // process on-behalf-of functionality.
         if ( CRM_Utils_Array::value( 'is_for_organization', $this->_values ) ) {
             $behalfOrganization = array();
-            foreach ( array('organization_name', 'organization_id', 'location', 'org_option') as $fld ) {
+            foreach ( array('organization_name', 'organization_id', 'phone', 
+                            'email',             'address',    'org_option') as $fld ) {
                 $behalfOrganization[$fld] = $params[$fld];
                 unset($params[$fld]);
             }
@@ -1012,10 +1013,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // formalities for creating / editing organization.
-        $behalfOrganization['contact_type']                    = 'Organization';
-        $behalfOrganization['location'][1]['is_primary']       = 1;
-        $behalfOrganization['location'][1]['location_type_id'] = 
-            CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 'Main', 'id', 'name' );
+        require_once "CRM/Core/BAO/LocationType.php";
+        $locType = CRM_Core_BAO_LocationType::getDefault();
+        $behalfOrganization['contact_type'] = 'Organization';
+        foreach ( array('phone', 'email', 'address') as $locFld ) {
+            $behalfOrganization[$locFld][1]['is_primary'] = 1;
+            $behalfOrganization[$locFld][1]['location_type_id'] = $locType->id;
+        }
         
         // get the relationship type id
         require_once "CRM/Contact/DAO/RelationshipType.php";
