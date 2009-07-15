@@ -419,6 +419,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                     //operator, To freeze the select element
                     if ( CRM_Utils_Array::value('operatorType', $field ) == CRM_Report_FORM::OP_MULTISELECT ) {
                         $this->_defaults["{$fieldName}_op"] = 'in';
+                    } else if ( $op = CRM_Utils_Array::value( 'default_op', $field ) ) {
+                        $this->_defaults["{$fieldName}_op"] = $op;
                     }
                 }
             }

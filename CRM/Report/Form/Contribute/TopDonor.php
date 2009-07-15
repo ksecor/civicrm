@@ -78,8 +78,8 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
                                         'operatorType' => CRM_Report_Form::OP_DATE ),
                                  'total_range'   => 
                                  array( 'title'        => ts( 'Show no. of Top Donors' ),
-                                        'operatorType' => CRM_Report_Form::OP_STRING,
-                                        'type'         => CRM_Utils_Type::T_INT
+                                        'type'         => CRM_Utils_Type::T_INT,
+                                        'default_op'   => 'eq'
                                         ),
                                  'contribution_type_id' =>
                                  array( 'name'         => 'contribution_type_id',
