@@ -126,6 +126,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
     protected $_roleId = null;
 
     /**
+     * participant status Id
+     */
+    protected $_statusId = null;
+
+    /**
      * participant mode
      */
     public  $_mode = null;
@@ -354,8 +359,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $params = array( 'id' => $this->_participantId );
             
             require_once "CRM/Event/BAO/Participant.php";
-            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );            
+            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
             $this->_contactID = $defaults[$this->_participantId]['contact_id'];
+            $this->_statusId = $defaults[$this->_participantId]['participant_status_id'];
             
             //set defaults for note
             $noteDetails = CRM_Core_BAO_Note::getNote( $this->_participantId, 'civicrm_participant' );
@@ -1054,6 +1060,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                                             $params['status_id'], 'Event' );
         }
         
+        $updateStatusMsg = null;
+        //send mail when participant status changed, CRM-4326
+        if ( $this->_participantId && $this->_statusId && 
+             $this->_statusId != CRM_Utils_Array::value( 'status_id', $params ) ) {
+            $updateStatusMsg = $this->updateStatusMessage( $this->_participantId, $params['status_id'], $this->_statusId );
+        }
+        
         if ( CRM_Utils_Array::value( 'send_receipt', $params ) ) {
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             $this->assign( 'module', 'Event Registration' );          
@@ -1216,6 +1229,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( $updateOnlineContribution ) {
                 $statusMsg .= ts('<br />Also related Online Contribution status has been updated.' );
             }
+            
+            if ( $updateStatusMsg ) {
+                $statusMsg = "{$statusMsg} {$updateStatusMsg}";
+            }
+            
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             if ( $this->_single ) {
                 $statusMsg = ts('Event registration for %1 has been added.', array(1 => $this->_contributorDisplayName));
@@ -1301,6 +1319,36 @@ However, you can still override this limit and register additional participants 
         }
         
         return $eventfullMsg;
+    }
+    
+    /** 
+     * get participant status change message.
+     * 
+     * @return string
+     * @access public 
+     */ 
+    function updateStatusMessage( $participantId, $statusChangeTo, $fromStatusId )  
+    {
+        $statusMsg = null;
+        $results = CRM_Event_BAO_Participant::transitionParticipants( array( $participantId ), 
+                                                                      $statusChangeTo, $fromStatusId, true );
+        
+        $allStatuses = CRM_Event_PseudoConstant::participantStatus( );
+        //give user message only when mail has sent.
+        if ( is_array( $results ) && !empty( $results ) ) {
+            if ( is_array( $results['updatedParticipantIds'] ) && !empty( $results['updatedParticipantIds'] ) ) {
+                foreach ( $results['updatedParticipantIds'] as $processedId ) {
+                    if ( is_array( $results['mailedParticipants'] ) && 
+                         array_key_exists( $processedId,  $results['mailedParticipants']) ) {
+                        $statusMsg .= ts( "<br /> Participant Status Update to %1 also email has been sent to %2.",
+                                          array( 1 => $allStatuses[$statusChangeTo],
+                                                 2 => $results['mailedParticipants'][$processedId] ) );
+                    }
+                }
+            }
+        }
+        
+        return $statusMsg;
     }
     
 }
