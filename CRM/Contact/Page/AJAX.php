@@ -325,8 +325,8 @@ ORDER BY sort_name ";
                      echo $elements = "$dao->sort_name|$dao->id\n";
                     }
                 }
-                //for adding new household address
-                if( empty( $elements ) && !$json && $hh){
+                //for adding new household address / organization
+                if( empty( $elements ) && !$json && ( $hh || $organization )){
                     echo CRM_Utils_Array::value( 's', $_GET )."|$";
                 }
             }

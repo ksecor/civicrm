@@ -78,9 +78,9 @@ cj(document).ready( function() {
 var dataUrl = "{/literal}{$employerDataURL}{literal}";
 cj('#current_employer').autocomplete( dataUrl, { width : 250, selectFirst : false 
                                               }).result( function(event, data, formatted) { 
-                                                    cj( "#current_employer_id" ).val( data[1] );
-                                                    htmlDiv = data[0].replace( /::/gi, ' ');
-                                                    cj('div#employer_address').html(htmlDiv);
+													cj( "#current_employer_id" ).val( data[1] );
+													htmlDiv = ( !parseInt (data[1]) ) ? 'New Organization' : data[0].replace( /::/gi, ' ');
+													cj('div#employer_address').html(htmlDiv);
                                               });
 </script>
 {/literal}
