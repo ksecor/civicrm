@@ -207,6 +207,7 @@ MODIFY `html_type` enum ('Text', 'TextArea', 'Select', 'Multi-Select', 'AdvMulti
 
 CREATE TABLE civicrm_navigation (
      id int unsigned NOT NULL AUTO_INCREMENT  ,
+     domain_id int unsigned NOT NULL   COMMENT 'Which Domain is this navigation item for',
      label varchar(255)    COMMENT 'Navigation Title',
      name varchar(255)    COMMENT 'Internal Name',
      url varchar(255)    COMMENT 'url in case of custom navigation link',
@@ -219,6 +220,7 @@ CREATE TABLE civicrm_navigation (
 ,
     PRIMARY KEY ( id )
 ,      
+     CONSTRAINT FK_civicrm_navigation_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id) ,      
      CONSTRAINT FK_civicrm_navigation_parent_id FOREIGN KEY (parent_id) REFERENCES civicrm_navigation(id) ON DELETE CASCADE  
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -718,3 +720,32 @@ ALTER TABLE `civicrm_group_organization`
     ADD CONSTRAINT `FK_civicrm_group_organization_group_id` FOREIGN KEY (`group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE,
     ADD CONSTRAINT `FK_civicrm_group_organization_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE,
     ADD UNIQUE `UI_group_organization` ( `group_id` , `organization_id` );
+
+--  CRM-4697
+ALTER TABLE `civicrm_payment_processor`
+    ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`,
+    ADD CONSTRAINT `FK_civicrm_payment_processor_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`);
+
+ALTER TABLE `civicrm_membership_type`
+    ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`,
+    ADD CONSTRAINT `FK_civicrm_membership_type_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`);
+
+ALTER TABLE `civicrm_menu`
+    ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`,
+    ADD CONSTRAINT `FK_civicrm_menu_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`);
+
+ALTER TABLE `civicrm_preferences`
+    ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`,
+    ADD CONSTRAINT `FK_civicrm_preferences_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`);
+
+ALTER TABLE `civicrm_uf_match`
+    DROP FOREIGN KEY `FK_civicrm_uf_match_contact_id`,
+    DROP INDEX `UI_uf_name` ,
+    DROP INDEX `UI_contact` ;
+
+ALTER TABLE `civicrm_uf_match`
+    ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`,
+    ADD CONSTRAINT `FK_civicrm_uf_match_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`),
+    ADD CONSTRAINT `FK_civicrm_uf_match_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE,
+    ADD UNIQUE `UI_uf_name_domain_id` (`uf_name`,`domain_id`),
+    ADD UNIQUE `UI_contact_domain_id` (`contact_id`,`domain_id`);
