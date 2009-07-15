@@ -86,26 +86,29 @@ class CRM_Utils_Address
             }
         }
 
-        $contactName = CRM_Utils_Array::value( 'display_name', $fields );
+        //replace addressee tokens, CRM-4575
         if ( ! $individualFormat ) {  
-            require_once "CRM/Contact/BAO/Contact.php"; 
-            if ( isset( $fields['id'] ) ) {
-                $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
-            } else {
-                $type = 'Individual';
-            }
-
-            if ( $type == 'Individual' ) {
-                $format = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
-                $format = str_replace('contact.',"",$format);
-                $contactName = self::format($fields, $format, null, null, true);
-            }
-        }
+            $format = CRM_Utils_Array::value( 'addressee', $fields );
+            if( ! empty( $format ) ) {
+                $customAddresseeValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                                     CRM_Utils_Array::value('id',$fields), 
+                                                                     'addressee_custom'
+                                                                     );
+                if( ! empty( $customAddresseeValue ) ) {
+                    $contactAddressee = CRM_Utils_Array::value( 'addressee_custom', $fields );
+                } else {
+                    $format = str_replace( 'contact.', "", $format );
+                    $contactAddressee = self::format( $fields, $format, null, null, true );
+                }           
+            } 
+        } else {
+            $contactAddressee = CRM_Utils_Array::value( 'display_name', $fields ); 
+        }     
 
         if (! $microformat) {
             $replacements =
                 array( // replacements in case of Individual Name Format
-                      'addressee'              => CRM_Utils_Array::value( 'addressee', $fields ),
+                      'addressee'              => $contactAddressee,
                       'display_name'           => CRM_Utils_Array::value( 'display_name', $fields ),
                       'individual_prefix'      => CRM_Utils_Array::value( 'individual_prefix', $fields ),
                       'first_name'             => CRM_Utils_Array::value( 'first_name', $fields ),
@@ -145,9 +148,10 @@ class CRM_Utils_Address
                       'contact_source'         => CRM_Utils_Array::value( 'contact_source', $fields ),
                       'external_identifier'    => CRM_Utils_Array::value( 'external_identifier', $fields ),
                       'contact_id'             => CRM_Utils_Array::value( 'id', $fields ),
-                      'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields ),
-                      'email_greeting'         => CRM_Utils_Array::value( 'email_greeting', $fields ),
-                      'postal_greeting'        => CRM_Utils_Array::value( 'postal_greeting', $fields )
+                      'household_name'         => CRM_Utils_Array::value( 'display_name', $fields ),
+                      'organization_name'      => CRM_Utils_Array::value( 'display_name', $fields ),
+                      'legal_name'             => CRM_Utils_Array::value( 'legal_name', $fields ),
+                      'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields )
                        );
         } else {
             $replacements =
