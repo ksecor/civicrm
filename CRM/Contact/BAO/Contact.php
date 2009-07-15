@@ -431,11 +431,11 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         }
         
         CRM_Utils_Array::lookupValue( $defaults, 'email_greeting', 
-                                      CRM_Core_PseudoConstant::emailGreeting($filterCondition),  $reverse );
+                                      CRM_Core_PseudoConstant::greeting($filterCondition),  $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'postal_greeting', 
-                                      CRM_Core_PseudoConstant::postalGreeting($filterCondition), $reverse );
+                                      CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'addressee', 
-                                      CRM_Core_PseudoConstant::addressee($filterCondition),      $reverse );
+                                      CRM_Core_PseudoConstant::greeting($filterCondition),      $reverse );
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
 

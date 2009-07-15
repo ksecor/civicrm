@@ -680,6 +680,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         
         $queryString = $select. $from.  $join. $where. $groupBy. $order. $limit;
+        if ( $onlyCount == true ) {
+            return CRM_Core_DAO::singleValueQuery( $queryString, $params );
+        }
         $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
         $selectorFields = array( 'activity_type_id',
@@ -707,9 +710,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $accessCiviMail = CRM_Core_Permission::check('access CiviMail');
         
         while($dao->fetch()) {
-            if ( $onlyCount == true ) {
-                return $dao->count;
-            }
             foreach( $selectorFields as $dc => $field ) {
                 if ( isset($dao->$field ) ) {
                     if ( $activityTypeID == $dao->activity_type_id && $field == 'target_contact_name' ) {

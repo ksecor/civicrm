@@ -264,7 +264,10 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      */
     function getTotalCount($action, $case = null )
     { 
-        return CRM_Activity_BAO_Activity::getNumOpenActivity($this->_contactId, $this->_admin, $this->_context, $case );
+
+        require_once 'CRM/Activity/BAO/Activity.php';
+        $data = array( 'contact_id' => $this->_contactId );
+        return CRM_Activity_BAO_Activity::getActivities( $data, null, null, null, 'Activity', false, null, null, true );
     }
 
 

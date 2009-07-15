@@ -125,7 +125,17 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $config =& CRM_Core_Config::singleton( );
         if ( ! $config->civiHRD ) { 
             require_once "CRM/Activity/BAO/Activity.php";
-            $this->_totalCountOpenActivity = CRM_Activity_BAO_Activity::getNumOpenActivity( $id );
+            require_once 'CRM/Activity/BAO/Activity.php';
+            $data = array( 'contact_id' => $id );
+            $this->_totalCountOpenActivity = CRM_Activity_BAO_Activity::getActivities( $data, 
+                                                                                       null, 
+                                                                                       null, 
+                                                                                       null, 
+                                                                                       'Activity', 
+                                                                                       false, 
+                                                                                       null, 
+                                                                                       'home', 
+                                                                                       true );
             $this->_contactIds             = $id;
 
             require_once 'CRM/Core/Selector/Controller.php';
