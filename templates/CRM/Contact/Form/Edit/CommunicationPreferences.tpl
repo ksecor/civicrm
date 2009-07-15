@@ -20,7 +20,7 @@
                 <td id="email_greeting_id_label" style="display:none;">{$form.email_greeting_custom.label}</td>
             {/if}
        </tr>
-       <tr>
+       <tr id="greetings">
              {if $form.postal_greeting_id}
                 <td>{$form.postal_greeting_id.html|crmReplace:class:big}</td>
                 <td id="postal_greeting_id_html" style="display:none;">{$form.postal_greeting_custom.html|crmReplace:class:big}</td>
@@ -70,5 +70,11 @@ function showCustomized(element){
         }
     }
 }
+cj('tr#greetings td').each(function() { 
+	element = cj(this).children().attr('id');
+	if ( cj( '#'+element +' :selected' ).text() == 'Customized' ){
+		showCustomized( element );
+	}
+});
 </script>
 {/literal}
