@@ -1,4 +1,7 @@
 {* this template used to build location block *}
+{if $addBlock}
+{include file="CRM/Contact/Form/Edit/$blockName.tpl"}
+{else}
 <div class="crm-submit-buttons">
     {$form.buttons.html}
 </div>
@@ -40,11 +43,11 @@
     <div id="newLocation">
 	<fieldset><legend>Address</legend>
 		{* Display the address block *}
-		{include file="CRM/Contact/Form/Edit/Address.tpl" title=''} 
+		{include file="CRM/Contact/Form/Edit/Address.tpl"} 
 	</fieldset>
 	<table class="form-layout-compressed">
     {* Display the email block(s) *}  
-    {include file="CRM/Contact/Form/Edit/Email.tpl" hold=1}
+    {include file="CRM/Contact/Form/Edit/Email.tpl"}
 
     {* Display the phone block(s) *}
     {include file="CRM/Contact/Form/Edit/Phone.tpl"} 
@@ -128,3 +131,8 @@ showLocFields( );
 {/literal}
 </script>
 {/if}
+
+{* include common additional blocks tpl *}
+{include file="CRM/common/additionalBlocks.tpl"}
+
+{/if} {* add block if end*}

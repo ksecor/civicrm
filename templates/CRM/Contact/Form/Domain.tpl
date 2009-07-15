@@ -45,7 +45,7 @@
             <div class="description">{ts}You can also include general email and/or phone contact information in mailings.{/ts} {help id="additional-contact"}</div>
             <table class="form-layout-compressed">
 				{* Display the email block *}  
-				{include file="CRM/Contact/Form/Edit/Email.tpl" hold=1}
+				{include file="CRM/Contact/Form/Edit/Email.tpl"}
 
 				{* Display the phone block *}
 				{include file="CRM/Contact/Form/Edit/Phone.tpl"} 

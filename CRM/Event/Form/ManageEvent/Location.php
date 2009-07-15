@@ -36,6 +36,7 @@
 
 require_once 'CRM/Event/Form/ManageEvent.php';
 require_once 'CRM/Event/BAO/Event.php';
+require_once 'CRM/Contact/Form/Location.php';
 require_once 'CRM/Core/SelectValues.php';
 
 /**
@@ -75,6 +76,9 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */ 
     function preProcess( ) 
     {
+        //location blocks.
+        CRM_Contact_Form_Location::preProcess( $this );
+        
         parent::preProcess( );
     }
 
@@ -178,12 +182,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
 
         require_once 'CRM/Contact/Form/Location.php';
 
-        //blocks to be displayed
-        $locationCompoments = array('Phone', 'Email');
-        CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS + 1, true, $locationCompoments);
-        $this->addElement('advcheckbox', 'is_show_location', ts('Show Location?') );
-        $this->assign( 'index'  , 1 );
-        $this->assign( 'blockId', 1 );
+        //build location blocks.
+        CRM_Contact_Form_Location::buildQuickForm( $this );
         
         //fix for CRM-1971
         $this->assign( 'action', $this->_action );

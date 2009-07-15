@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contact/Form/Location.php';
 
 /**
  * This class is to build the form for adding Group
@@ -71,7 +72,8 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->_id = 1;
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                       $this, false, 'view' );
-        
+        //location blocks.
+        CRM_Contact_Form_Location::preProcess( $this );
     }
     
     /*
@@ -148,15 +150,9 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->add('text', 'email_address', ts('FROM Email Address'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
         $this->addRule( "email_address", ts('Domain Email Address must use a valid email address format (e.g. \'info@example.org\').'), 'email' );
 
-        //blocks to be displayed
-        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);    
-   
-        require_once 'CRM/Contact/Form/Location.php';
-        $locationCompoments = array('Phone', 'Email');
-        CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS ,$locationCompoments);
-        $this->assign( 'index'  , 1 );
-        $this->assign( 'blockId', 1 );
-
+        //build location blocks.
+        CRM_Contact_Form_Location::buildQuickForm( $this );
+        
         //hack the address sequence so that state province always comes after country
         $config =& CRM_Core_Config::singleton( );
         $addressSequence = $config->addressSequence();
