@@ -202,30 +202,27 @@ class CRM_Export_BAO_Export
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );       
         }
-
-        foreach( $ids as $keys => $values ) {
-            if ( ! $primary ) {
-                //If the contact have 'Customized' value for email/postal greeting or addessee 
-                //then output corresponding "custom" column value instead.  CRM-4575
-                $elements = array('email_greeting'  => 'email_greeting_custom', 
-                                  'postal_greeting' => 'postal_greeting_custom', 
-                                  'addressee'       => 'addressee_custom'
-                                  ); 
-                foreach( $elements as $field => $customizedField ) {
-                    if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
-                        $fieldId = $field."_id";
-                        $fieldValue =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                                    $values, 
-                                                                    $fieldId
-                                                                    ); 
-                        $customizedValue = CRM_Core_OptionGroup::getValue( $field, 'Customized', 'name' );  
-                        if ( $fieldValue == $customizedValue ) {
-                            $returnProperties[$customizedField] = 1;
-                        }
-                    }
-                }
-            }
-        }
+        $elements = array('email_greeting'  => 'email_greeting_custom', 
+                          'postal_greeting' => 'postal_greeting_custom', 
+                          'addressee'       => 'addressee_custom'
+                          );
+        foreach( $elements as $greeting => $customizedGreeting ) {
+            if ( CRM_Utils_Array::value( $greeting, $returnProperties ) ) {
+                foreach( $ids as $keys => $values ) {
+                    //If the contact have 'Customized' value for email/postal greeting or addessee 
+                    //then output corresponding "custom" column value instead.  CRM-4575
+                    $fieldValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                               $values, 
+                                                               $customizedGreeting
+                                                               );
+                    if( ! empty( $fieldValue ) ) {
+                        $returnProperties[$customizedGreeting] = 1;
+                        break;
+                     }
+                 }
+             }
+         }
+                
         //crm_core_error::debug('$returnProperties', $returnProperties ); exit();
         $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode );
         
