@@ -397,60 +397,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                                null,
                                null );
     }
-    
-    /**
-     * Fix what blocks to show/hide based on the default values set
-     *
-     * @param array   $defaults the array of default values
-     * @param boolean $force    should we set show hide based on input defaults
-     *
-     * @return void
-     */
-    function setShowHide( &$groupsWithParentren, $force ) 
-    {
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
- 
-        $this->_showHide->addShow( 'id_parent_groups_show' );
-        $this->_showHide->addHide( 'id_parent_groups' );
-
-        if ( $this->_showTagsAndGroups ) {
-            //add group and tags
-            $contactGroup = $contactTag = array( );
-            if ($this->_contactId) {
-                $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added' );
-                $contactTag   =& CRM_Core_BAO_EntityTag::getTag($this->_contactId);
-            }
-            
-            if ( empty($contactGroup) || empty($contactTag) ) {
-                $this->_showHide->addShow( 'group_show' );
-                $this->_showHide->addHide( 'group' );
-            } else {
-                $this->_showHide->addShow( 'group' );
-                $this->_showHide->addHide( 'group_show' );
-            }
-        }
-
-        // is there any demographic data?
-        if ( $this->_showDemographics ) {
-            if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
-                 CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
-                 CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
-                 $this->_showHide->addShow( 'id_demographics' );
-                 $this->_showHide->addHide( 'id_demographics_show' );
-            }
-        }
-
-        if ( $force ) {
-            $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
-            $config =& CRM_Core_Config::singleton( );
-            CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
-                                                       $locationDefaults,
-                                                       $this->_maxLocationBlocks );
-        }
-        
-        $this->_showHide->addToTemplate( );
-    }
-
 }
 
 
