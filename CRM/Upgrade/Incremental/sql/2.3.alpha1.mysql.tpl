@@ -708,3 +708,13 @@ SELECT @op_id_customEmailGreeting := op.value FROM civicrm_option_value op WHERE
 DELETE FROM civicrm_option_value WHERE option_group_id = @og_id_greeting;
 DELETE FROM civicrm_option_group WHERE              id = @og_id_greeting;
 {/if}
+
+-- CRM-4610
+ALTER TABLE `civicrm_group_organization`
+    DROP FOREIGN KEY `FK_civicrm_group_organization_group_id`,
+    DROP FOREIGN KEY `FK_civicrm_group_organization_organization_id`;
+
+ALTER TABLE `civicrm_group_organization`
+    ADD CONSTRAINT `FK_civicrm_group_organization_group_id` FOREIGN KEY (`group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE,
+    ADD CONSTRAINT `FK_civicrm_group_organization_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE,
+    ADD UNIQUE `UI_group_organization` ( `group_id` , `organization_id` );
