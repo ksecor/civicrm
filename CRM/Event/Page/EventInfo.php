@@ -68,6 +68,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $context = CRM_Utils_Request::retrieve( 'context', 'String'  , $this, false, 'register' );
         $this->assign( 'context', $context );
 
+        // Sometimes we want to suppress the Event Full msg
+        $noFullMsg = CRM_Utils_Request::retrieve( 'noFullMsg', 'Integer'  , $this, false, 0 );
+
         // set breadcrumb to append to 2nd layer pages
         $breadCrumbPath       = CRM_Utils_System::url( "civicrm/event/info", "id={$this->_id}&reset=1" );
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Events') . '</a>';
@@ -146,7 +149,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         }
         require_once 'CRM/Event/BAO/Participant.php';
         $eventFullMessage = CRM_Event_BAO_Participant::eventFull( $this->_id );
-        if ( $eventFullMessage ) {
+        if ( $eventFullMessage AND ! $noFullMsg ) {
             if ( CRM_Utils_Array::value( 'has_waitlist', $values['event'] ) ) {
                 $eventFullMessage = null;
                 $statusMessage = CRM_Utils_Array::value( 'waitlist_text', $values['event'], 

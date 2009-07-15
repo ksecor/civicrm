@@ -1340,7 +1340,7 @@ However, you can still override this limit and register additional participants 
                 foreach ( $results['updatedParticipantIds'] as $processedId ) {
                     if ( is_array( $results['mailedParticipants'] ) && 
                          array_key_exists( $processedId,  $results['mailedParticipants']) ) {
-                        $statusMsg .= ts( "<br /> Participant Status Update to %1 also email has been sent to %2.",
+                        $statusMsg .= ts( "<br /> Participant status has been updated to %1. An email has been sent to %2.",
                                           array( 1 => $allStatuses[$statusChangeTo],
                                                  2 => $results['mailedParticipants'][$processedId] ) );
                     }
