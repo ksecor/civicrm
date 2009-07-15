@@ -67,15 +67,14 @@
                                 {if $componentRows.$contribMode.$component}
                                     <u><strong>{$component|upper}</strong></u>
                                 {/if}
+                            {if $componentRows.$contribMode.$component}
                         	<table class="report-layout">
                         	    {*add space before headers*}
-                        	    {if $componentRows.$contribMode.$component}
                         		<tr>
                         		    {foreach from=$pheader item=header}
                         			<th>{$header.title}</th>
                         		    {/foreach}
                         		</tr>
-                        	    {/if}
                              
                         	    {foreach from=$componentRows.$contribMode.$component item=row}
                         		<tr>
@@ -108,7 +107,8 @@
                         		    {/foreach}
                         		</tr>
                         	    {/foreach}
-                        	</table>	
+                        	</table>
+                            {/if}	
                             {/foreach}
                         {/if}
                     </td>
