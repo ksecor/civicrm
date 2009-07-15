@@ -323,7 +323,8 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
-                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
+                                              'reset=1&cid=' . $row['civicrm_contact_id'],
+                                              $this->_absoluteUrl );
                 $rows[$rowNum]['civicrm_contact_display_name_link'] = $url;
                 $rows[$rowNum]['civicrm_contact_display_name_hover'] =
                     ts("View Contact Summary for this Contact.");

@@ -82,6 +82,11 @@ class CRM_Report_Form_Pledge_Pbnp extends CRM_Report_Form {
                           array( 'pledge_create_date' =>
                                  array('title'    =>  'Pledged Date', 
                                        'operatorType' => CRM_Report_Form::OP_DATE ),
+                                 'contribution_type_id' =>
+                                 array( 'title'        =>  ts('Contribution Type'),
+                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                        'options'      => CRM_Contribute_PseudoConstant::contributionType(),
+                                        ),
                                  ),
                           'grouping' => 'pledge-fields',
                           ),
@@ -124,8 +129,9 @@ class CRM_Report_Form_Pledge_Pbnp extends CRM_Report_Form {
                           'alias'  => 'cgroup',
                           'filters' =>             
                           array( 'gid' => 
-                                 array( 'name'    => 'id',
+                                 array( 'name'    => 'group_id',
                                         'title'   => ts( 'Group' ),
+                                        'group'   => true,
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
                    );
@@ -173,14 +179,7 @@ class CRM_Report_Form_Pledge_Pbnp extends CRM_Report_Form {
                             {$this->_aliases['civicrm_pledge']}.status_id = 2
              LEFT  JOIN civicrm_pledge_payment {$this->_aliases['civicrm_pledge_payment']}
                         ON ({$this->_aliases['civicrm_pledge']}.id =
-                            {$this->_aliases['civicrm_pledge_payment']}.pledge_id)
-            
-             LEFT  JOIN civicrm_group_contact group_contact 
-                        ON ({$this->_aliases['civicrm_pledge']}.contact_id = 
-                            group_contact.contact_id)  AND 
-                            group_contact.status='Added'
-             LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
-                        ON (group_contact.group_id = {$this->_aliases['civicrm_group']}.id) ";
+                            {$this->_aliases['civicrm_pledge_payment']}.pledge_id) ";
         
         // include address field if address column is to be included
         if ( $this->_addressField ) {  

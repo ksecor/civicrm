@@ -134,9 +134,10 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                          'alias'  => 'cgroup',
                          'filters' =>             
                          array( 'gid' => 
-                                array( 'name'    => 'id',
+                                array( 'name'    => 'group_id',
                                        'title'   => ts( 'Creditor\'s Group' ),
                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                       'group'   => true,
                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ) ), ),
                   
                   
@@ -181,15 +182,7 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
             FROM civicrm_pledge {$this->_aliases['civicrm_pledge']}
                  LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
                       ON ({$this->_aliases['civicrm_contact']}.id = 
-                          {$this->_aliases['civicrm_pledge']}.contact_id )
- 
-                 LEFT JOIN civicrm_group_contact group_contact 
-                      ON {$this->_aliases['civicrm_pledge']}.contact_id =
-                           group_contact.contact_id  AND
-                           group_contact.status='Added'
-
-                 LEFT JOIN civicrm_group {$this->_aliases['civicrm_group']} 
-                      ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id ";
+                          {$this->_aliases['civicrm_pledge']}.contact_id )";
 
         // include address field if address column is to be included
         if ( $this->_addressField ) {  
@@ -240,7 +233,11 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                     }
                     
                     if ( ! empty( $clause ) ) {
-                        $clauses[] = $clause;
+                        if ( CRM_Utils_Array::value( 'group', $field ) ) {
+                            $clauses[] = $this->whereGroupClause( $clause );
+                        } else {
+                            $clauses[] = $clause;
+                        }
                     }
                 }
             }
@@ -282,7 +279,6 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
             }
             $pledgeIDArray[] = $pledgeID;
         }
-        $dao->free( );
         
         // Pledge- Payment Detail Headers 
         $tableHeader = array( 'scheduled_date'  => array ( 'type'  => CRM_Utils_Type::T_DATE , 
@@ -330,7 +326,7 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                     }
                 }
             }
-            
+         
             // Do calculations for Total amount paid AND
             // Balance Due, based on Pledge Status either 
             // In Progress, Pending or Completed
@@ -362,8 +358,7 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                 $display[$pledgeID]['balance_due'] = $due;
             }
         }
-        $daoPayment->free( );
-        
+                
         // Displaying entire data on the form
         if( ! empty( $display ) ) {
             foreach( $display as $key => $value ) {                
@@ -425,7 +420,8 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  array_key_exists('civicrm_pledge_contact_id', $row) ) {
                 $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
-                                              'reset=1&cid=' . $row['civicrm_pledge_contact_id'] );
+                                              'reset=1&cid=' . $row['civicrm_pledge_contact_id'], 
+                                              $this->_absoluteUrl );
                 $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
                 $rows[$rowNum]['civicrm_contact_display_name_hover'] =  
                     ts("View Contact Summary for this Contact.");
