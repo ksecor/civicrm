@@ -87,6 +87,7 @@ class CRM_Utils_Address
         }
 
         //replace addressee tokens, CRM-4575
+        $contactAddressee = '';
         if ( ! $individualFormat ) {  
             $format = CRM_Utils_Array::value( 'addressee', $fields );
             if( ! empty( $format ) ) {
