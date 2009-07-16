@@ -591,7 +591,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                             $membership->membership_type_id = $memType['id'];
 
                             //show current membership, skip pending membership record,
-                            //because we take first memebrship record id for renewal 
+                            //because we take first membership record id for renewal 
                             $membership->whereAdd( 'status_id != 5' );
                                 
                             if ( ! is_null( $isTest ) ) {
@@ -605,8 +605,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                 $form->assign("renewal_mode", true );
                                 $memType['current_membership'] =  $membership->end_date;
                             }
-                            $membershipTypes[] = $memType;
                         }
+                        $membershipTypes[] = $memType;
                     }
                 }
             }
