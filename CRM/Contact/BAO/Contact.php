@@ -259,7 +259,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $params['group'][$domainGroupID] = 1;
             }
         } else {
-            $params['group'] = array( $domainGroupID = 1 );
+            $params['group'] = array( $domainGroupID => 1 );
         }
         require_once 'CRM/Contact/BAO/GroupContact.php';
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );

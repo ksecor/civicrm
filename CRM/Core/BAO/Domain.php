@@ -190,7 +190,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
             return $groupID;
         }
 
-        if ( defined('CIVICRM_DOMAIN_GROUP_ID') ) {
+        if ( defined('CIVICRM_DOMAIN_GROUP_ID') && CIVICRM_DOMAIN_GROUP_ID ) {
             $groupID = CIVICRM_DOMAIN_GROUP_ID;
         } else {
             // create a group /w that of domain name
@@ -208,15 +208,6 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
             }
         }
         return $groupID ? $groupID : false;
-    }
-
-    static function getGroupContacts( ) {
-        $groupID = self::getGroupId( );
-
-        if ( $groupID ) {
-            return CRM_Contact_BAO_GroupContact::getGroupContacts( $groupID );
-        }
-        return array( );
     }
 
 }
