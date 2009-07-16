@@ -64,7 +64,11 @@ if( framework != 'Joomla') {
 	});
 } else {
 	   cj('div#submenu-box div.m').html(cj("#menu-container").html());
-	   cj('#civicrm-menu').ready( function(){ cj('.outerbox').css({ 'margin-top': '6px' });	});
+	   cj('#civicrm-menu').ready( function(){ 
+			cj('.outerbox').css({ 'margin-top': '6px'});
+			cj('#root-menu-div .menu-ul li').css({ 'padding-bottom' : '2px', 'margin-top' : '2px' });
+			cj('img.menu-item-arrow').css({ 'top' : '4px' }); 
+		});
 }
 	var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
 	cj('#civicrm-menu').menu( {arrowSrc: resourceBase + 'packages/jquery/css/images/arrow.png'} );
