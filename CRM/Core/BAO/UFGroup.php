@@ -1495,19 +1495,9 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                             ts('External ID already exists in Database.'), 
                             'objectExists', 
                             array( 'CRM_Contact_DAO_Contact', $contID, 'external_identifier' ) );
-        } else if ( $fieldName === 'group' ) {
-            require_once 'CRM/Contact/Form/GroupTag.php';
-            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $contactId,
-                                                          CRM_Contact_Form_GroupTag::GROUP,
-                                                          true, $required,
-                                                          $title, null, $name );
-        } else if ( $fieldName === 'tag' ) {
-            require_once 'CRM/Contact/Form/GroupTag.php';
-            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $contactId,
-                                                          CRM_Contact_Form_GroupTag::TAG,
-                                                          false, $required,
-                                                          null, $title, $name );
-            
+        } else if ( $fieldName === 'group' || $fieldName === 'tag' ) {
+            require_once 'CRM/Contact/Form/Edit/TagsAndGroups.php';
+            CRM_Contact_Form_Edit_TagsAndGroups::buildQuickForm( $form );
         } else if ( $fieldName === 'home_URL' ) {
             $form->addElement('text', $name, $title,
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),

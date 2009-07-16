@@ -123,10 +123,8 @@
                      {$form.addressee_custom.label}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.addressee_custom.html|crmReplace:class:eight}</td>
                   </tr>
                </table>
-            {elseif $n eq 'group' && $form.group}
-                <table id="selector" class="selector" style="width:auto;">
-                    <tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
-                </table>
+            {elseif ( $n eq 'group' && $form.group ) || ( $n eq 'tag' && $form.tag )}
+				{include file="CRM/Contact/Form/Edit/TagsAndGroups.tpl" type=$n}
            {else}        
                {$form.$n.html}
                {if ($n eq 'gender') or ($field.html_type eq 'Radio' and $form.formName eq 'Edit')}
