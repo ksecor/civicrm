@@ -2,7 +2,7 @@
 -- 1: IF   block executed
 -- 2: ELSE block executed (for greeting)
 
-SELECT @domain_id := id FROM civicrm_domain;
+SELECT @domain_id := min(id) FROM civicrm_domain;
 {if $skipGreetingTypePart}
     -- CRM-4048
     -- modify visibility of civicrm_group
@@ -429,15 +429,15 @@ SELECT @domain_id := id FROM civicrm_domain;
         ( 1,           'Profile', NULL,           NULL,        5,       @uf_group_id_household    );
 
     INSERT INTO `civicrm_uf_field`
-        ( `id`, `uf_group_id`, `field_name`, `is_required`, `is_reserved`, `weight`, `visibility`, `in_selector`, `is_searchable`, `location_type_id`, `label`, `field_type`, `help_post` )
+        ( `uf_group_id`, `field_name`, `is_required`, `is_reserved`, `weight`, `visibility`, `in_selector`, `is_searchable`, `location_type_id`, `label`, `field_type`, `help_post` )
     VALUES
-        ( 12, @uf_group_id_individual,  'first_name',           1, 0, 1, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}FirstName{/ts}',         'Individual',   NULL ), 
-        ( 13, @uf_group_id_individual,  'last_name',            1, 0, 2, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}LastName{/ts}',          'Individual',   NULL ), 
-        ( 14, @uf_group_id_individual,  'email',                1, 0, 3, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}',      'Contact',      NULL ), 
-        ( 15, @uf_group_id_organization,'organization_name',    1, 0, 2, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}OrganizationName{/ts}',  'Organization', NULL ), 
-        ( 16, @uf_group_id_organization,'email',                1, 0, 3, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}',      'Contact',      NULL ), 
-        ( 17, @uf_group_id_household,   'household_name',       1, 0, 2, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}HouseholdName{/ts}',     'Household',    NULL ), 
-        ( 18, @uf_group_id_household,   'email',                1, 0, 3, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}',      'Contact',      NULL );
+        ( @uf_group_id_individual,  'first_name',           1, 0, 1, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}FirstName{/ts}',         'Individual',   NULL ), 
+        ( @uf_group_id_individual,  'last_name',            1, 0, 2, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}LastName{/ts}',          'Individual',   NULL ), 
+        ( @uf_group_id_individual,  'email',                1, 0, 3, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}',      'Contact',      NULL ), 
+        ( @uf_group_id_organization,'organization_name',    1, 0, 2, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}OrganizationName{/ts}',  'Organization', NULL ), 
+        ( @uf_group_id_organization,'email',                1, 0, 3, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}',      'Contact',      NULL ), 
+        ( @uf_group_id_household,   'household_name',       1, 0, 2, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}HouseholdName{/ts}',     'Household',    NULL ), 
+        ( @uf_group_id_household,   'email',                1, 0, 3, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}',      'Contact',      NULL );
 
     -- State / province
     -- CRM-4534 CRM-4686
@@ -701,7 +701,7 @@ SELECT @domain_id := id FROM civicrm_domain;
     ALTER TABLE `civicrm_menu`
         ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`;
     UPDATE `civicrm_menu` SET domain_id = @domain_id;
-    ALTER TABLE `civicrm_membership_type`
+    ALTER TABLE `civicrm_menu`
         ADD CONSTRAINT `FK_civicrm_menu_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`);
     
     ALTER TABLE `civicrm_preferences`
