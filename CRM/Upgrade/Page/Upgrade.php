@@ -245,164 +245,20 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $upgrade->processSQL( $rev );
     }
     
-    function upgrade_2_3_alpha1( $rev ) {
-        
-        $template = & CRM_Core_Smarty::singleton( );
-        //we want to execute some part of php after sql and then again sql
-        //so using conditions for skipping some part of sql
-        //CRM-4575
-        $template->assign('skipGrretingTypePart', 1);
-        
-        $upgrade =& new CRM_Upgrade_Form( );
-        $upgrade->processSQL( $rev );
-        
-        //delete unnecessary activities 
-        require_once 'CRM/Core/OptionGroup.php';
-        $bulkEmailID = CRM_Core_OptionGroup::getValue('activity_type', 'Bulk Email', 'name' );
- 
-        if ( $bulkEmailID ) {
+    function upgrade_3_0_alpha1( $rev ) {
 
-            $mailingActivityIds = array( );
-            $query = " 
-SELECT max( ca.id ) as aid , ca.source_record_id sid
-FROM civicrm_activity ca
-WHERE ca.activity_type_id = %1 
-GROUP BY ca.source_record_id";
-            
-            $params = array( 1 => array(  $bulkEmailID, 'Integer' ) );
-            $dao = CRM_Core_DAO::executeQuery( $query, $params );
-
-            while ( $dao->fetch( ) ) { 
-                
-                $updateQuery = "
-UPDATE civicrm_activity_target cat, civicrm_activity ca 
-SET cat.activity_id = {$dao->aid}  
-WHERE ca.source_record_id IS NOT NULL 
-AND ca.activity_type_id = %1 AND ca.id <> {$dao->aid} 
-AND ca.source_record_id = {$dao->sid} AND ca.id = cat.activity_id";
-                
-                $updateParams = array( 1 => array(  $bulkEmailID, 'Integer' ) );    
-                CRM_Core_DAO::executeQuery( $updateQuery,  $updateParams );
-                
-                $deleteQuery = " 
-DELETE ca.* FROM civicrm_activity ca 
-WHERE ca.source_record_id IS NOT NULL 
-AND ca.activity_type_id = %1
-AND ca.id <> {$dao->aid} AND ca.source_record_id = {$dao->sid}";
-                
-                $deleteParams = array( 1 => array(  $bulkEmailID, 'Integer' ) );    
-                CRM_Core_DAO::executeQuery( $deleteQuery,  $deleteParams );
+        require_once 'CRM/Upgrade/ThreeZero/ThreeZero.php';
+        $threeZero = new CRM_Upgrade_ThreeZero_ThreeZero( );
+        
+        $error = null;
+        if ( ! $threeZero->verifyPreDBState( $error ) ) {
+            if ( ! isset( $error ) ) {
+                $error = 'pre-condition failed for current upgrade for 3.0.alpha1';
             }
+            CRM_Core_Error::fatal( $error );
         }
         
-        //CRM-4453
-        //lets insert column in civicrm_aprticipant table
-        $query  = "
-ALTER TABLE `civicrm_participant` ADD `fee_currency` VARCHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '3 character string, value derived from config setting.' AFTER `discount_id`";
-        CRM_Core_DAO::executeQuery( $query );
-        
-        //get currency from contribution table if exists/default
-        //insert currency when fee_amount != NULL or event is paid.
-        $query = "
-   SELECT  civicrm_participant.id 
-     FROM  civicrm_participant
-LEFT JOIN  civicrm_event ON ( civicrm_participant.event_id = civicrm_event.id )
-    WHERE  civicrm_participant.fee_amount IS NOT NULL OR civicrm_event.is_monetary = 1";
-        
-        $participant = CRM_Core_DAO::executeQuery( $query );
-        while ( $participant->fetch( ) ) {
-            $query = "
-SELECT  civicrm_contribution.currency 
-  FROM  civicrm_contribution, civicrm_participant_payment
- WHERE  civicrm_contribution.id = civicrm_participant_payment.contribution_id
-   AND  civicrm_participant_payment.participant_id = {$participant->id}";
-            $currencyID = CRM_Core_DAO::singleValueQuery( $query );
-            if ( !$currencyID ) {
-                $config =& CRM_Core_Config::singleton( ); 
-                $currencyID = $config->defaultCurrency;
-            }
-            
-            //finally update participant record.
-            CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participant->id, 'fee_currency', $currencyID );
-        }
-        
-        //CRM-4575
-        // replacements for greeting type tokens with email and postal greeting
-        //to make mapper array
-        $replacements = array(
-                              'display'  => '{contact.display_name}',    
-                              'prefix'   => '{contact.individual_prefix}',
-                              'first'    => '{contact.first_name}',        
-                              'middle'   => '{contact.middle_name}',      
-                              'last'     => '{contact.last_name}',          
-                              'suffix'   => '{contact.individual_suffix}',
-                              'nick'     => '{contact.nick_name}',           
-                              'email'    => '{contact.email}',
-                              'household'=> '{contact.household_name}',              
-                              );
-        
-        require_once 'CRM/Core/OptionGroup.php';
-        $greetingTypes      = CRM_Core_OptionGroup::values( 'greeting_type' );
-
-        //default data of email greeting and postal greeting are same
-        //hence can pick email greeting only
-        $emailGreetingTypes = CRM_Core_OptionGroup::values( 'email_greeting' );
-        $mapperArray = array( );
-        
-        foreach( $greetingTypes as $id => $label ) {
-            $greetingToken =  strstr( $label, '[');
-            if( isset($greetingToken) ) {
-                $matches = array();
-                preg_match_all( '/(?<!\[|\\\\)\[(\w+\w+)\](?!\])/',
-                                $greetingToken,
-                                $matches,
-                                PREG_PATTERN_ORDER);
-                
-                if ( $matches[1] ) {
-                    $newToken = array( ); 
-                    foreach ( $matches[1] as $token ) {
-                        $newToken[] = CRM_utils_Array::value($token, $replacements);
-                    }
-                    
-                    $newToken = implode(' ', $newToken);
-                    $emailToken = str_replace( $greetingToken, $newToken, $label );
-                    $emailGreetingId = CRM_Utils_Array::key($emailToken, $emailGreetingTypes);
-                    
-                    //if replaced token is already exist in default email/postal greeting
-                    //then add its value to mapper array.
-                    if ( $emailGreetingId ) {
-                        $mapperArray[$id] = $emailGreetingId; 
-                    }  else {
-                        //otherwise insert new token in email and postal greeting.
-                        $optionValueParams = array( 'label'          => $emailToken,
-                                                    'is_active'      => 1, 
-                                                    'contactOptions' => 1,
-                                                    'filter'         => 1
-                                                    );
-
-                        $action = CRM_Core_Action::ADD;
-                        require_once 'CRM/Core//OptionValue.php';
-                        foreach( array('email_greeting', 'postal_greeting') as $optionGroupName ) {
-                            $groupParams = array( 'name' => $optionGroupName );
-                            
-                            $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
-                                                                          'email_greeting',
-                                                                          'id',
-                                                                          $optionGroupName );
-                            $fieldValues = array('option_group_id' => $optionGroupId);
-                            $weight = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
-                            $optionValueParams['weight'] = $weight;
-                            $optionValue = CRM_Core_OptionValue::addOptionValue( $optionValueParams, $groupParams, $action, $optionId=null );
-                            $mapperArray[$id] = $optionValue->value;
-                        }
-                    }
-                }
-            }
-        }
-        //call to sql file
-        $template->assign('mapperArray', $mapperArray);
-        $template->assign('skipGrretingTypePart', 0);
-        $upgrade->processSQL( $rev );
+        $threeZero->upgrade( $rev );
     }
     
     function upgrade_2_2_7( $rev ) {
