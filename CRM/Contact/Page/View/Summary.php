@@ -330,7 +330,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
         // hook for contact summary
         require_once 'CRM/Utils/Hook.php';
         $contentPlacement = CRM_Utils_Hook::SUMMARY_BELOW;  // ignored but needed to prevent warnings
-        CRM_Utils_Hook::summary( $uid, $content, $contentPlacement );
+        CRM_Utils_Hook::summary( $this->_contactId, $content, $contentPlacement );
         if ( $content ) {
             $this->assign_by_ref( 'hookContent', $content );
             $this->assign( 'hookContentPlacement', $contentPlacement );

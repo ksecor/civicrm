@@ -279,7 +279,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     $defaults['use_household_address'] = true;
                     $this->assign('defaultSharedHousehold', $defaults['mail_to_household_id'] );
                 }
-                $defaults['shared_household_id'] = $defaults['mail_to_household_id'];
+                $defaults['shared_household_id'] = CRM_Utils_Array::value( 'mail_to_household_id', $defaults );
                 $this->assign( 'sharedHouseholdAddress', $defaults['address'][1]['display'] );
             }
             require_once 'CRM/Contact/BAO/Relationship.php';

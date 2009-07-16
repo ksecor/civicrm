@@ -1392,7 +1392,7 @@ ORDER BY name";
     { 
 		$index = $filter['greeting_type'] .'_'.$columnName;
 		$filterCondition = null;
-	    if ( ! self::$greeting[$index] ) {
+	    if ( ! CRM_Utils_Array::value( $index, self::$greeting ) ) {
 			if( CRM_Utils_Array::value( 'contact_type', $filter ) ) {
 				$filterVal = 'v.filter =';
 				switch( $filter['contact_type'] ) {
