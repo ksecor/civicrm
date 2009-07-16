@@ -553,16 +553,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                                           'Bulk Email',
                                                           'name' );
         if ( !$admin ) {
-            if ($onlyCount){
-                $clause = " ( source_contact_id = %1 or 
-                              target_contact_id = %1 or 
-                              assignee_contact_id = %1 ) ";
-            } else {
-                $clause = " ( source_contact_id = %1 or 
+            $clause = " ( source_contact_id = %1 or 
                               target_contact_id = %1 or 
                               assignee_contact_id = %1 or 
                               civicrm_case_contact.contact_id = %1 ) ";
-            }
+            
             $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
         }
         
@@ -599,21 +594,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         if ( $onlyCount ) {
             $select = "select COUNT(DISTINCT(civicrm_activity.id)) as count";
-            $join   = " 
-                  left join civicrm_activity_target on 
-                            civicrm_activity.id = civicrm_activity_target.activity_id 
-                  left join civicrm_activity_assignment on 
-                            civicrm_activity.id = civicrm_activity_assignment.activity_id 
-                  left join civicrm_contact sourceContact on 
-                            source_contact_id = sourceContact.id 
-		          left join civicrm_contact targetContact on 
-                            target_contact_id = targetContact.id 
-                  left join civicrm_contact assigneeContact on 
-                            assignee_contact_id = assigneeContact.id
-                  left join civicrm_option_value on
-                            ( civicrm_activity.activity_type_id = civicrm_option_value.value )
-                  left join civicrm_option_group on  
-                            civicrm_option_group.id = civicrm_option_value.option_group_id ";
         } else {
             $select ="select DISTINCT(civicrm_activity.id), 
                          civicrm_activity.activity_date_time,
@@ -628,7 +608,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                          civicrm_option_value.label as activity_type,
                          civicrm_case_activity.case_id as case_id,
                          civicrm_case.subject as case_subject ";
-            $join   = "\n 
+        }
+        $join   = "\n 
                   left join civicrm_activity_target on 
                             civicrm_activity.id = civicrm_activity_target.activity_id 
                   left join civicrm_activity_assignment on 
@@ -649,7 +630,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_case_activity.case_id = civicrm_case.id
                   left join civicrm_case_contact on
                             civicrm_case_contact.case_id = civicrm_case.id ";
-        }
+       
         $from  = " from civicrm_activity ";
         $where = " where {$clause}
                    and civicrm_option_group.name = 'activity_type'
