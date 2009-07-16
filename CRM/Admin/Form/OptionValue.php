@@ -42,7 +42,15 @@ require_once 'CRM/Admin/Form.php';
 class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
 {
     static $_gid = null;
-    
+
+    /**
+     * The option group name
+     *
+     * @var string
+     * @static
+     */
+    static $_gName = null;
+
     /**
      * Function to for pre-processing
      *
@@ -55,6 +63,10 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
         require_once 'CRM/Utils/Request.php';
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this, false, 0);
+        //get optionGroup name in case of email/postal greeting or addressee, CRM-4575
+        if( !empty( $this->_gid ) ) {
+            $this->_gName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $this->_gid, 'name');
+        }
         $session =& CRM_Core_Session::singleton();
         $url = CRM_Utils_System::url('civicrm/admin/optionValue', 'reset=1&action=browse&gid='.$this->_gid); 
         $session->pushUserContext( $url );
@@ -76,7 +88,11 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
             $dao =& new CRM_Core_DAO( );
             $dao->query( $query );
             $dao->fetch();
-            $defaults['weight'] = ($dao->weight + 1);
+            $defaults['weight'] = ($dao->weight + 1);   
+        }
+        //setDefault of contact types for email greeting, postal greeting, addressee, CRM-4575
+        if ( in_array( $this->_gName, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+            $defaults['contactOptions'] = CRM_Utils_Array::value( 'filter', $defaults );
         }
         return $defaults;
     }
@@ -89,6 +105,11 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
      */
     public function buildQuickForm( ) 
     {
+        //CRM-4575
+        $isReserved = false;
+        if ( $this->_id ) {
+            $isReserved = (bool) CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' );     
+        } 
         parent::buildQuickForm( );
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
@@ -102,13 +123,23 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
         $this->add('text', 'grouping' ,  ts('Option Grouping Name'),CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'grouping' ) );
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'weight' ),true );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-        $this->add('checkbox', 'is_default', ts('Default Option?'));
+        //do not allow to set default option for email/postal greeting and addressee, CRM-4575
+        if ( ! in_array($this->_gName, array('email_greeting', 'postal_greeting', 'addressee') ) ) {
+            $this->add('checkbox', 'is_default', ts('Default Option?') );
+        }
         $this->add('checkbox', 'is_optgroup',ts('Option Group?'));
         
-        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' )) { 
+        if ($this->_action & CRM_Core_Action::UPDATE && $isReserved ) { 
             $this->freeze(array('name', 'description', 'is_active' ));
         }
-        
+        //get contact type for which user want to create a new greeting/addressee type, CRM-4575
+        if ( in_array( $this->_gName, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) && ! $isReserved ) {
+            $values = array( 1 => ts('Individual'), 2 => ts('Household') );
+            if ( $this->_gName == 'addressee' ) {
+                $values[] =  ts('Organization'); 
+            }
+            $this->add( 'select', 'contactOptions', ts('Contact Type'),array('' => '-select-' ) + $values, true );
+        }  
     }
 
        
@@ -135,6 +166,8 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $ids['optionValue'] = $this->_id;
             }
+            //save contact type for email greeting, postal greeting, addressee, CRM-4575
+            $params['filter'] = CRM_Utils_Array::value( 'contactOptions', $params );
             
             $optionValue = CRM_Core_BAO_OptionValue::add($params, $ids);
             CRM_Core_Session::setStatus( ts('The Option Value \'%1\' has been saved.', array( 1 => $optionValue->label )) );

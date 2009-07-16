@@ -412,30 +412,18 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
         
         //lookup value of email/postal greeting, addressee, CRM-4575
-        $filterCondition = null;
-
-        switch( $defaults['contact_type'] ) {
-        
-        case 'Individual': 
-            $filterCondition = "AND (v.filter IS NULL OR v.filter = 1) ";
-            break;
-        case 'Household':
-            $filterCondition = "AND (v.filter IS NULL OR v.filter = 2) ";
-            break;
-        case 'Organization':
-            $filterCondition = "AND (v.filter IS NULL OR v.filter = 3) ";            
-            break;
-        default:
-            $filterCondition = "AND v.filter IS NULL ";
-            break;
-        }
-        
+        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+                                  'greeting_type' => 'email_greeting' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'email_greeting', 
-                                      CRM_Core_PseudoConstant::greeting($filterCondition),  $reverse );
+                                      CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
+        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+                                  'greeting_type' => 'postal_greeting' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'postal_greeting', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
+        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+                                  'greeting_type' => 'addressee' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'addressee', 
-                                      CRM_Core_PseudoConstant::greeting($filterCondition),      $reverse );
+                                      CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
 

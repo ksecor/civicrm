@@ -230,22 +230,17 @@ class CRM_Contact_Form_Edit_Individual {
         //then Custom greeting field must have a value. CRM-4575
         $fieldId    = null;
         $fieldValue = null;
-        $elements = array( 'email_greeting'  => array( 
-                                                        'greeting_type' => 'email_greeting'  ),
-							'postal_greeting' => array( 
-                                                        'greeting_type' => 'postal_greeting'  ) ); 
-        foreach ( $elements as $key => $value ) {
-            $fieldId = $key."_id";
-            $filterCondition = null;
-            $optionValues = CRM_Core_PseudoConstant::greeting( $value,  'name' );
-            $fieldValue = array_search( 'Customized', $optionValues );
-            $customizedField = $key."_custom";
-            if( CRM_Utils_Array::value( $fieldId, $fields ) == $fieldValue && 
-                ! CRM_Utils_Array::value( $customizedField, $fields ) ) {
-                $errors[$customizedField] = ts( 'Custom  %1 is a required field if %1 is of type Customized.', 
-                                            array( 1 => ucwords(str_replace('_'," ", $key) ) ) );
+        $elements = array( 'email_greeting'  => 'email_greeting_custom', 
+                           'postal_greeting' => 'postal_greeting_custom' ); 
+        foreach ( $elements as $greeting => $customizedGreeting ) {
+            $fieldId = $greeting."_id";
+            $customizedValue = CRM_Core_OptionGroup::getValue( $greeting, 'Customized', 'name' ); 
+            if( CRM_Utils_Array::value( $fieldId, $fields ) == $customizedValue && 
+                ! CRM_Utils_Array::value( $customizedGreeting, $fields ) ) {
+                $errors[$customizedGreeting] = ts( 'Custom  %1 is a required field if %1 is of type Customized.', 
+                                            array( 1 => ucwords(str_replace('_'," ", $greeting) ) ) );
             }
-        }    
+        }
         return empty($errors) ? true : $errors; 
     }
     

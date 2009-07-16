@@ -87,25 +87,19 @@ class CRM_Utils_Address
         }
 
         //replace addressee tokens, CRM-4575
-        $contactAddressee = '';
+        $contactAddressee = CRM_Utils_Array::value( 'display_name', $fields ); 
         if ( ! $individualFormat ) {  
             $format = CRM_Utils_Array::value( 'addressee', $fields );
             if( ! empty( $format ) ) {
-                $customAddresseeValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                                     CRM_Utils_Array::value('id',$fields), 
-                                                                     'addressee_custom'
-                                                                     );
-                if( ! empty( $customAddresseeValue ) ) {
+                if( isset( $fields['addressee_custom'] ) ) {
                     $contactAddressee = CRM_Utils_Array::value( 'addressee_custom', $fields );
                 } else {
                     $format = str_replace( 'contact.', "", $format );
                     $contactAddressee = self::format( $fields, $format, null, null, true );
                 }           
             } 
-        } else {
-            $contactAddressee = CRM_Utils_Array::value( 'display_name', $fields ); 
-        }     
-
+        }      
+        
         if (! $microformat) {
             $replacements =
                 array( // replacements in case of Individual Name Format

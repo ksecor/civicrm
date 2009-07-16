@@ -18,7 +18,9 @@
             <th>{ts}Value{/ts}</th>
             <th>{ts}Description{/ts}</th>
             <th>{ts}Weight{/ts}</th>
+           {if $showIsDefault} 
             <th>{ts}Default{/ts}</th>
+           {/if}
             <th>{ts}Reserved?{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
@@ -29,7 +31,9 @@
 	        <td>{$row.value}</td>	
 	        <td>{$row.description}</td>
             <td class="nowrap">{$row.weight}</td>
-            <td>{$row.default_value}</td>
+           {if $showIsDefault} 
+            <td>{$row.default_value}</td> 
+           {/if}
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{$row.action}</td>

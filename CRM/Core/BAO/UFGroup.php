@@ -1447,30 +1447,25 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             $gId =$form->get('gid');
             require_once 'CRM/Core/BAO/UFField.php';
             $profileType = CRM_Core_BAO_UFField::getProfileType( $gId);
-            switch( $profileType ) {
-            case 'Individual': 
-                $filterCondition = "AND (v.filter IS NULL OR v.filter = 1)";
-                break;
-            case 'Household':
-                $filterCondition = "AND (v.filter IS NULL OR v.filter = 2)";
-                break;
-            case 'Organization':
-                $filterCondition = "AND (v.filter IS NULL OR v.filter = 3)";
-                break;
-            }
             if( $fieldName == 'email_greeting') {
+                $emailGreeting = array( 'contact_type'  => $profileType, 
+                                        'greeting_type' => 'email_greeting');
                 $form->add('select', $name, $title, 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::emailGreeting($filterCondition), $required, array( 'onchange' => "showEmailGreeting();"));
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting($emailGreeting), $required, array( 'onchange' => "showEmailGreeting();" ) );
                 // adding custom email greeting element alongwith email greeting        
                 $form->add('text', 'email_greeting_custom', ts('Custom Email Greeting'), null, false);   
             } else if ( $fieldName === 'postal_greeting' ) { 
+                $postalGreeting = array( 'contact_type'  => $profileType, 
+                                         'greeting_type' => 'postal_greeting');
                 $form->add('select', $name, $title, 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::postalGreeting($filterCondition), $required, array( 'onchange' => "showPostalGreeting();"));
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting($postalGreeting), $required, array( 'onchange' => "showPostalGreeting();" ) );
                 // adding custom postal greeting element alongwith postal greeting         
                 $form->add('text', 'postal_greeting_custom', ts('Custom Postal Greeting'), null, false);   
             } else if ( $fieldName === 'addressee' ) { 
+                 $addressee = array( 'contact_type'  => $profileType, 
+                                     'greeting_type' => 'addressee');
                 $form->add('select', $name, $title, 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::addressee($filterCondition), $required, array( 'onchange' => "showAddressee();"));
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting($addressee), $required, array( 'onchange' => "showAddressee();" ) );
                 // adding custom addressee  element alongwith addressee type         
                 $form->add('text', 'addressee_custom', ts('Custom Addressee'), null, false);   
             }

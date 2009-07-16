@@ -229,14 +229,9 @@ function _civicrm_add_formatted_param(&$values, &$params)
     if ( isset( $values['email_greeting'] ) ) {
         if ( $params['email_greeting_id'] ) {
             $emailGreetings = array( );
-            $filterCondition = null;
-            if( $params['contact_type'] == 'Individual' ) {
-                $filterVal = "v.filter = 1";
-            } else if ( $params['contact_type'] == 'Household' ) {
-                $filterVal = "v.filter = 2"; 
-            }
-            $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
-            $emailGreetings = CRM_Core_PseudoConstant::emailGreeting( $filterCondition );
+            $emailGreetingFilter = array( 'contact_type'  => CRM_Utils_Array::value('contact_type', $params),
+                                          'greeting_type' => 'email_greeting' );
+            $emailGreetings = CRM_Core_PseudoConstant::greeting( $emailGreetingFilter );
             $params['email_greeting'] = $emailGreetings[$params['email_greeting_id']];
         } else {
             $params['email_greeting'] = $values['email_greeting'];
@@ -248,14 +243,9 @@ function _civicrm_add_formatted_param(&$values, &$params)
     if ( isset($values['postal_greeting'] ) ) {
         if ( $params['postal_greeting_id'] ) {
             $postalGreetings = array( );
-            $filterCondition = null;
-            if( $params['contact_type'] == 'Individual' ) {
-                $filterVal = "v.filter = 1";
-            } else if ( $params['contact_type'] == 'Household' ) {
-                $filterVal = "v.filter = 2";
-            }
-            $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
-            $postalGreetings = CRM_Core_PseudoConstant::postalGreeting( $filterCondition );
+            $postalGreetingFilter = array( 'contact_type'  => CRM_Utils_Array::value('contact_type', $params),
+                                           'greeting_type' => 'postal_greeting' );
+            $postalGreetings = CRM_Core_PseudoConstant::greeting( $postalGreetingFilter );
             $params['postal_greeting'] = $postalGreetings[$params['postal_greeting_id']];
         } else {
             $params['postal_greeting'] = $values['postal_greeting'];
@@ -266,16 +256,9 @@ function _civicrm_add_formatted_param(&$values, &$params)
     if ( isset($values['addressee'] ) ) {
         if ( $params['addressee_id'] ) {
             $addressee = array( );
-            $filterCondition = null;
-            if( $params['contact_type'] == 'Individual' ) {
-                $filterVal = "v.filter = 1";
-            } else if ( $params['contact_type'] == 'Household' ) {
-                $filterVal = "v.filter = 2";
-            } else if ( $params['contact_type'] == 'organization' ) {
-                $filterVal = "v.filter = 3";
-            } 
-            $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
-            $addressee = CRM_Core_PseudoConstant::addressee( $filterCondition );
+            $addresseeFilter = array( 'contact_type'  => CRM_Utils_Array::value('contact_type', $params),
+                                      'greeting_type' => 'addressee' );
+            $addressee = CRM_Core_PseudoConstant::addressee( $addresseeFilter );
             $params['addressee'] = $addressee[$params['addressee_id']];
         } else {
             $params['addressee'] = $values['addressee'];

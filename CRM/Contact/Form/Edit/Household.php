@@ -64,12 +64,11 @@ class CRM_Contact_Form_Edit_Household
                         'objectExists', 
                         array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
         
-        // add email and postal greeting on contact form, CRM-4575
-        // the filter value for Household contact type is set to 2
-        $filterCondition = "AND (v.filter IS NULL OR v.filter = 2)"; 
-        
+        // add email greeting on household contact form, CRM-4575
         //email greeting
-        $emailGreeting = CRM_Core_PseudoConstant::emailGreeting( $filterCondition );
+        $filter = array( 'contact_type'  => $this->_contactType, 
+                         'greeting_type' => 'email_greeting'  );
+        $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
         if ( !empty( $emailGreeting ) ) {
             $this->addElement('select', 'email_greeting_id', ts('Email Greeting'), 
                               array('' => ts('- select -')) + $emailGreeting, 
@@ -80,7 +79,6 @@ class CRM_Contact_Form_Edit_Household
                                            array( 'onfocus' => "if (!this.value) this.value='Dear'; else return false",
                                                   'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
         }
-        
     }
     
     /**
@@ -137,8 +135,11 @@ class CRM_Contact_Form_Edit_Household
         
         //if email greeting type is 'Customized' 
         //then Custom greeting field must have a value. CRM-4575
-        if ( CRM_Utils_Array::value('email_greeting_id',$fields) == 4 && 
-            !CRM_Utils_Array::value('email_greeting_custom',$fields) ) {
+        $filter = array( 'greeting_type' => 'email_greeting' );
+        $emailGreetingValues = CRM_Core_PseudoConstant::greeting( $filter, 'name' );
+        $emailGreetingValue  = CRM_Utils_Array::key( 'Customized', $emailGreetingValues );
+        if ( CRM_Utils_Array::value( 'email_greeting_id', $fields ) == $emailGreetingValue && 
+             ! CRM_Utils_Array::value( 'email_greeting_custom', $fields) ) {
             $errors['email_greeting_custom'] = ts('Custom  Email Greeting is a required field if Email Greeting is of type Customized.');
         }
         return empty( $errors ) ? true : $errors;

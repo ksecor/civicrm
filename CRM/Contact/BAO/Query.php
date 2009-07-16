@@ -244,7 +244,7 @@ class CRM_Contact_BAO_Query
      * the relationship type direction
      *
      * @var array
-     * @static
+     * @static$addresseeFilter
      */
     static $_relType;
     
@@ -1451,7 +1451,8 @@ class CRM_Contact_BAO_Query
                                                             "'$value' AND contact_a.contact_type ='Individual'" );
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else if ( $name === 'email_greeting' ) {
-            $emailGreetings =& CRM_Core_PseudoConstant::emailGreeting( $filterCondition ); 
+            $filterCondition =  array( 'greeting_type' => 'email_greeting' );
+            $emailGreetings =& CRM_Core_PseudoConstant::greeting( $filterCondition );
             if ( is_numeric( $value ) ) { 
                 $value     =  $emailGreetings[(int ) $value];  
             }
@@ -1459,7 +1460,8 @@ class CRM_Contact_BAO_Query
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             $this->_qill[$grouping][] = ts('Email Greeting') . " $op '$value'";
         } else if ( $name === 'postal_greeting' ) {
-            $postalGreetings =& CRM_Core_PseudoConstant::postalGreeting( $filterCondition ); 
+            $filterCondition =  array( 'greeting_type' => 'postal_greeting' );
+            $postalGreetings =& CRM_Core_PseudoConstant::greeting( $filterCondition ); 
             if ( is_numeric( $value ) ) { 
                 $value     =  $postalGreetings[(int ) $value];  
             }
@@ -1467,7 +1469,8 @@ class CRM_Contact_BAO_Query
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             $this->_qill[$grouping][] = ts('Postal Greeting') . " $op '$value'";
         } else if ( $name === 'addressee' ) {
-            $addressee =& CRM_Core_PseudoConstant::addressee( $filterCondition ); 
+            $filterCondition =  array( 'greeting_type' => 'addressee' );
+            $addressee =& CRM_Core_PseudoConstant::greeting( $filterCondition ); 
             if ( is_numeric( $value ) ) { 
                 $value     =  $addressee[(int ) $value];  
             }
