@@ -884,6 +884,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 'currency'          => $params['currencyID'],
                                 'payment_processor' => $form->_paymentProcessor['payment_processor_type'],
                                 'trxn_id'           => $result['trxn_id'],
+                                'trxn_result_code'  => $result['trxn_result_code'],
                                 );
             
             require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
