@@ -67,7 +67,7 @@ fi
 cp $SRC/agpl-3.0.txt $TRG
 cp $SRC/gpl.txt $TRG 
 cp $SRC/README.txt $TRG
-cp $SRC/civicrm.config.php.drupal $TRG/civicrm.config.php
+cp $SRC/drupal/civicrm.config.php.drupal $TRG/civicrm.config.php
 
 # final touch
 echo "$DM_VERSION Drupal PHP5 $DM_REVISION" > $TRG/civicrm-version.txt

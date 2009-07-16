@@ -26,13 +26,13 @@ Alternatively you can get a version of CiviCRM that matches your PHP version
     exit( );
 }
 
-// if cms not specified default is 'drupal'
-$cms = isset($argv[3]) ? $argv[3] : 'drupal';
-if ( !in_array($cms, array('drupal', 'standalone')) ) {
+// default cms is 'drupal', if not specified 
+$cms = isset($argv[3]) ? strtolower($argv[3]) : 'drupal';
+if ( !in_array($cms, array('drupal', 'standalone', 'joomla')) ) {
     echo "Config file for '{$cms}' not known.";
     exit();
-} else {
-    copy("../civicrm.config.php.{$cms}", '../civicrm.config.php');
+} else if ( $cms !== 'joomla' ) {
+    copy("../{$cms}/civicrm.config.php.{$cms}", '../civicrm.config.php');
 }
 
 require_once 'Smarty/Smarty.class.php';

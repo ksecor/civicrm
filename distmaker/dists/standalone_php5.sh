@@ -67,7 +67,7 @@ fi
 cp $SRC/agpl-3.0.txt $TRG
 cp $SRC/gpl.txt $TRG 
 cp $SRC/README.txt $TRG
-cp $SRC/civicrm.config.php.standalone $TRG/civicrm.config.php
+cp $SRC/standalone/civicrm.config.php.standalone $TRG/civicrm.config.php
 
 # final touch
 echo "$DM_VERSION Standalone PHP5 $DM_REVISION" > $TRG/civicrm-version.txt
