@@ -946,6 +946,8 @@ UPDATE  civicrm_participant
             foreach( $tokens['domain'] as $token ){ 
                 $domainValues[$token] = CRM_Utils_Token::getDomainTokenReplacement( $token, $domain );
             }
+            // CRM_Core_Error::debug('domainVal',$domainValues);
+            // above does not return phone, address and email values. dgg
         }
         
         //get all required contacts detail.
