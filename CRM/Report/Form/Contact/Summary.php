@@ -43,7 +43,6 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
     
     protected $_phoneField   = false;
     
-    protected $_addressField = false;
     
     function __construct( ) {
         $this->_columns = 
@@ -143,9 +142,7 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
                 foreach ( $table['fields'] as $fieldName => $field ) {
                     if ( CRM_Utils_Array::value( 'required', $field ) ||
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
-                        if ( $tableName == 'civicrm_address' ) {
-                            $this->_addressField = true;
-                        } else if ( $tableName == 'civicrm_email' ) {
+                        if ( $tableName == 'civicrm_email' ) {
                             $this->_emailField = true;
                         } else if ( $tableName == 'civicrm_phone' ) {
                             $this->_phoneField = true;
@@ -169,14 +166,11 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
 
     function from( ) {
         $this->_from = "
-        FROM civicrm_contact {$this->_aliases['civicrm_contact']} ";
-
-        if ( $this->_addressField ) {
-            $this->_from .= "
+        FROM civicrm_contact {$this->_aliases['civicrm_contact']}
             LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
                    ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
                       {$this->_aliases['civicrm_address']}.is_primary = 1 ) ";
-        }
+        
         if ( $this->_emailField ) {
             $this->_from .= "
             LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']} 

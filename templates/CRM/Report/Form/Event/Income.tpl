@@ -28,6 +28,7 @@
                             {/foreach}
                         </table>
                         {foreach from=$rows item=row key=keys}
+                            {if $row.$eventID}
                             <table class="report-layout">
                         	{if $row}
                         	    <tr>
@@ -46,6 +47,7 @@
                                     {/foreach}
                                 {/if}
                             </table>
+                            {/if}
                         {/foreach} 
                     </td>
                 </tr>

@@ -115,10 +115,11 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
             LEFT JOIN  civicrm_option_value 
                    ON  ( civicrm_event.event_type_id = civicrm_option_value.value AND
                          civicrm_option_value.option_group_id = {$optionGroupId} )
-            LEFT JOIN  civicrm_participant ON ( civicrm_event.id = civicrm_participant.event_id )
+            LEFT JOIN  civicrm_participant ON ( civicrm_event.id = civicrm_participant.event_id 
+                       {$activeParticipantClause} AND civicrm_participant.is_test  = 0 )
 
             WHERE      civicrm_event.id IN( {$eventID}) 
-                       {$activeParticipantClause}
+                      
             GROUP BY   civicrm_event.id
             ";
         $eventDAO  = CRM_Core_DAO::executeQuery( $sql );
