@@ -120,6 +120,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         
         $contribution->id        = CRM_Utils_Array::value( 'contribution', $ids );
 
+        // also add financial_trxn details as part of fix for CRM-4724
+        $contribution->trxn_result_code = $params['trxn_result_code'];
+        $contribution->payment_processor = $params['payment_processor'];
+                                    
         require_once 'CRM/Utils/Rule.php';
         if (!CRM_Utils_Rule::currencyCode($contribution->currency)) {
             require_once 'CRM/Core/Config.php';
