@@ -38,18 +38,23 @@ require_once 'CRM/Report/Form.php';
 class CRM_Report_Form_Activity extends CRM_Report_Form {
 
     protected $_emailField         = false;
-    
-    protected $_add2groupSupported = false;
 
     function __construct( ) {
         $this->_columns = array(  
                                 'civicrm_contact'      =>
                                 array( 'dao'     => 'CRM_Contact_DAO_Contact',
                                        'fields'  =>
-                                       array( 'contact_source'   =>
+                                       array(
+                                             'source_contact_id' =>
+                                             array( 'name'       => 'id',
+                                                    'alias'      => 'contact',
+                                                    'no_display' => true, 
+                                                    'required'   => true, 
+                                                    ),
+                                             'contact_source'    =>
                                               array( 'name'      => 'display_name' ,
                                                      'title'     => ts( 'Source Contact Name' ),
-                                                     'alias'     => 'civicrm_contact_source',
+                                                     'alias'     => 'contact',
                                                      'required'  => true,
                                                      'no_repeat' => true ),
                                               'contact_assignee' =>
@@ -67,7 +72,7 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                        'filters' =>             
                                        array( 'contact_source'   =>
                                               array('name'       => 'sort_name' ,
-                                                    'alias'      => 'civicrm_contact_source',
+                                                    'alias'      => 'contact',
                                                     'title'      => ts( 'Source Contact Name' ),
                                                     'operator'   => 'like',
                                                     'type'       => CRM_Report_Form::OP_STRING ),
@@ -217,8 +222,8 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                     ON {$this->_aliases['civicrm_activity']}.id = {$this->_aliases['civicrm_activity_target']}.activity_id 
              LEFT JOIN civicrm_activity_assignment {$this->_aliases['civicrm_activity_assignment']}
                     ON {$this->_aliases['civicrm_activity']}.id = {$this->_aliases['civicrm_activity_assignment']}.activity_id 
-             LEFT JOIN civicrm_contact civicrm_contact_source 
-                    ON {$this->_aliases['civicrm_activity']}.source_contact_id = civicrm_contact_source.id 
+             LEFT JOIN civicrm_contact contact
+                    ON {$this->_aliases['civicrm_activity']}.source_contact_id = contact.id 
              LEFT JOIN civicrm_contact civicrm_contact_target 
                     ON {$this->_aliases['civicrm_activity_target']}.target_contact_id = civicrm_contact_target.id
              LEFT JOIN civicrm_contact civicrm_contact_assignee 
