@@ -14,8 +14,8 @@
 //
 // For details, visit http://creativecommons.org/licenses/by/3.0/us/
 //
-if(jQuery)( function() {
-	$.extend($.fn, {
+;(function($) {
+	$.fn.extend({
 		
 		contextMenu: function(o, callback) {
 			// Defaults
