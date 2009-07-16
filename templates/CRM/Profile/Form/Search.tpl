@@ -11,7 +11,7 @@
         <div>
     {/if}
 
-    <table class="form-layout-compressed">
+    <table class="form-layout-compressed" id="profile">
     {foreach from=$fields item=field key=fieldName}
         {assign var=n value=$field.name}
 	{if $field.is_search_range}
@@ -62,21 +62,13 @@
         </td>
     </tr>
 	{else}
-	        <tr>
-        	    <td class="label">{$form.$n.label}</td>
-                {if $n eq 'greeting_type'}             
-                    <td> 
-                       <table class="form-layout-compressed">
-                         <tr>     
-                           <td class="description">{$form.$n.html}</td>
-                           <td id="customGreeting">
-                             {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;
-                             {$form.custom_greeting.html|crmReplace:class:big}
-                           </td>
-                         </tr>
-                       </table> 
-                    </td>
-		{elseif $n eq 'group'} 
+	    <tr>
+            <td class="label">{$form.$n.label}</td>
+            {if $n eq 'addressee' or $n eq 'email_greeting' or $n eq 'postal_greeting'}  
+             <td class="description"> 
+                 {include file="CRM/Profile/Form/GreetingType.tpl"}
+             </td> 
+            {elseif $n eq 'group'} 
 	 	    <td>
 	 	        <table id="selector" class="selector" style="width:auto;">
 			        <tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
@@ -128,26 +120,8 @@
       </dl>
     </div>
 {/if}
-{if $form.greeting_type}
-  {literal}
-    <script type="text/javascript">
-      window.onload = function() {
-        showGreeting();
-      }
-    </script>
-  {/literal}
-{/if}
-
 {literal}
 <script type="text/javascript">
-   
-    function showGreeting() {
-        if( document.getElementById("greeting_type").value == 4 ) {
-            show('customGreeting');           
-        } else {
-            hide('customGreeting');  
-        }        
-    }
 
 cj(document).ready(function(){ 
 	cj('#selector tr:even').addClass('odd-row ');

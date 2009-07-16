@@ -99,31 +99,9 @@
              {assign var="provider" value=$n|cat:"-provider_id"}
              {$form.$provider.html}&nbsp;
            {/if}
-           {if $n eq 'email_greeting'}
-               <table class="form-layout-compressed">
-                  <tr>
-                     <td>{$form.$n.html|crmReplace:class:medium} </td>
-                     <td id="emailCustomGreeting">
-                     {$form.email_greeting_custom.label}&nbsp;&nbsp;&nbsp;{$form.email_greeting_custom.html|crmReplace:class:eight}</td>
-                  </tr>
-               </table> 
-           {elseif $n eq 'postal_greeting'}
-               <table class="form-layout-compressed">
-                  <tr>
-                     <td>{$form.$n.html|crmReplace:class:medium} </td>
-                     <td id="postalCustomGreeting">
-                     {$form.postal_greeting_custom.label}&nbsp;&nbsp;&nbsp;{$form.postal_greeting_custom.html|crmReplace:class:eight}</td>
-                  </tr>
-               </table> 
-           {elseif $n eq 'addressee'} 
-               <table class="form-layout-compressed">
-                  <tr>
-                     <td>{$form.$n.html|crmReplace:class:medium} </td>
-                     <td id="addresseeCustom">
-                     {$form.addressee_custom.label}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.addressee_custom.html|crmReplace:class:eight}</td>
-                  </tr>
-               </table>
-            {elseif ( $n eq 'group' && $form.group ) || ( $n eq 'tag' && $form.tag )}
+           {if $n eq 'email_greeting' or  $n eq 'postal_greeting' or $n eq 'addressee'}
+                {include file="CRM/Profile/Form/GreetingType.tpl"}  
+           {elseif ( $n eq 'group' && $form.group ) || ( $n eq 'tag' && $form.tag )}
 				{include file="CRM/Contact/Form/Edit/TagsAndGroups.tpl" type=$n}
            {else}        
                {$form.$n.html}
@@ -213,42 +191,10 @@ invert              = 0
 }
 {/if}
 {*if $form.email_greeting*}
-{if $form.email_greeting or $form.postal_greeting or $form.addressee}
-  {literal}
-    <script type="text/javascript">
-      window.onload = function() {
-        showEmailGreeting();
-        showPostalGreeting();
-        showAddressee();
-      }
-  {/literal}
-    </script>
-{/if}
 
 {literal}
 <script type="text/javascript">
- function showAddressee() {
-    if( document.getElementById("addressee").value == 4 ) {
-        show('addresseeCustom');                   
-    } else {
-           hide ('addresseeCustom');      
-    }     
- }
- function showEmailGreeting() {
-    if( document.getElementById("email_greeting").value == 4 ) {
-        show('emailCustomGreeting');                   
-    } else {
-        hide('emailCustomGreeting');      
-    }     
- }
- function showPostalGreeting() {
-    if( document.getElementById("postal_greeting").value == 4 ) {
-        show('postalCustomGreeting');                   
-    } else {
-        hide('postalCustomGreeting');      
-    }     
- }
-   
+    
 cj(document).ready(function(){ 
 	cj('#selector tr:even').addClass('odd-row ');
 	cj('#selector tr:odd ').addClass('even-row');
