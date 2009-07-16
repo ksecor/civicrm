@@ -1,10 +1,6 @@
 {if $context EQ 'Search'}
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
-{if $context != 'case'}
-{capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
-{ts 1=$expandIconURL}Click %1 to view case activities.{/ts}
-{/if}
 {strip}
 <table class="caseSelector">
   <tr class="columnheader">

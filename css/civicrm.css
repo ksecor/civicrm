@@ -429,7 +429,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
 #crm-container label {
-  font-weight: normal;
+  font-weight: bold;
   display: inline;
 }
 
@@ -540,7 +540,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   border: 1px solid #5A8FDB;
 }
 #crm-container th {
-  padding: 8px 4px 4px 4px;
+  padding: 4px;
   border-top: 1px solid #5A8FDB;	
   border-bottom: 1px solid #5A8FDB;
   text-align: left;
@@ -1140,9 +1140,9 @@ div.crm-pager a {
 
 #crm-container table.caseSelector tr.columnheader th, #crm-container table.caseSelector tr.columnheader th a {
     color: #FFFFFF;
-    background-color: #666666;
-    border-top-color: #333333;
-    border-bottom-color: #333333;
+    background-color: #999999;
+    border-top-color: #666666;
+    border-bottom-color: #666666;
 }
 
 #crm-container table.caseSelector tr {
@@ -1159,11 +1159,12 @@ div.crm-pager a {
 #crm-container table.caseSelector td.status-urgent {   
     color: #FF0000;
     font-weight: bold;
+	text-transform: uppercase;
 }
 
 #crm-container table.caseSelector td {
     border-right: 0px;
-    padding: 2px;
+    padding: 4px;
 }
  
 #crm-container table.nestedActivitySelector {
@@ -1175,11 +1176,11 @@ div.crm-pager a {
 
 #crm-container table.nestedActivitySelector tr.columnheader th {
     color: #000000;
-    background-color: #999999;
-    border-top-color: #666666;
+    background-color: #CCCCCC;
+    border-top-color: #999999;
     border-left-color: #FFFFFF;
     border-right-color: #FFFFFF;
-    border-bottom-color: #666666;
+    border-bottom-color: #999999;
 }
 
 #crm-container table#activities-selector.nestedActivitySelector, #crm-container table#activities-selector.nestedActivitySelector td {
@@ -1192,15 +1193,15 @@ div.crm-pager a {
 }
 
 #crm-container table#activities-selector.nestedActivitySelector tr.status-overdue {
-    font-size: 11px;  
+ 
 }
     	               
 #crm-container table.nestedActivitySelector tr.priority-urgent {         
-    background-color: #FFCCCC;
+    background-color: #FFDDDD;
 }
 
 #crm-container table.nestedActivitySelector tr.priority-low {
-    background-color: #CCFFCC;
+    background-color: #DDFFDD;
 }
 
 #crm-container table.nestedActivitySelector tr.status-scheduled {
@@ -1208,18 +1209,24 @@ div.crm-pager a {
 }
 
 #crm-container table.nestedActivitySelector tr.status-completed {
-   color: #000080; 
+   color: #333333; 
 }
 
 #crm-container table.nestedActivitySelector tr.status-overdue {
    color: #FF0000;
-   font-weight: bold;
-   font-size: 10px;
 }
 
 #crm-container table.nestedActivitySelector tr a {
    color:  #0066CC;
 }
+
+#crm-container #activities-selector tr:hover td, 
+#crm-container #activities-selector tr:hover td.sorted,
+#crm-container #activities-selector tr.trOver td.sorted, 
+#crm-container #activities-selector tr.trOver td
+			{
+			background: transparent;
+			}
 
 #crm-container span.success-status {
     margin-left: 6px;
@@ -1381,7 +1388,7 @@ body .ac_loading {background:url('../i/loading.gif') no-repeat right center;}
 div.helpicon {
 	background  : transparent url(../i/quiz.png) no-repeat;
 	padding-left: 12px;
-	display     : inline;
+	display     : inline-block;
 	cursor      : pointer;
 }
 
