@@ -56,40 +56,68 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     CREATE TABLE civicrm_participant_status_type (
         id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'unique participant status type id',
         name varchar(64)    COMMENT 'non-localized name of the status type',
-        label varchar(255)    COMMENT 'localized label for display of this status type',
+        {if !$multilingual}
+            label varchar(255)    COMMENT 'localized label for display of this status type',
+        {/if}
         class enum('Positive', 'Pending', 'Waiting', 'Negative')    COMMENT 'the general group of status type this one belongs to',
         is_reserved tinyint    COMMENT 'whether this is a status type required by the system',
         is_active tinyint   DEFAULT 1 COMMENT 'whether this status type is active',
         is_counted tinyint    COMMENT 'whether this status type is counted against event size limit',
         weight int unsigned NOT NULL   COMMENT 'controls sort order',
-        visibility_id int unsigned    COMMENT 'whether the status type is visible to the public, an implicit foreign key to option_value.value related to the `visibility` option_group' 
+        visibility_id int unsigned    COMMENT 'whether the status type is visible to the public, an implicit foreign key to option_value.value related to the `visibility` option_group'
+        {if $multilingual}
+            {foreach from=$locales item=locale},
+                label_{$locale} varchar(255)    COMMENT 'localized label for display of this status type'
+            {/foreach}
+        {/if}
         ,
         PRIMARY KEY ( id )
     )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
     SELECT @ps_ogid := id FROM civicrm_option_group WHERE name = 'participant_status';
-
-    INSERT INTO civicrm_participant_status_type
-        (id, name, label, is_reserved, is_active, is_counted, weight, visibility_id)
-    SELECT value, name, label, is_reserved, is_active, filter, weight, visibility_id
-    FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
+    {if $multilingual}
+        INSERT INTO civicrm_participant_status_type
+            (id, name, is_reserved, is_active, is_counted, weight, visibility_id  {foreach from=$locales item=locale}, label_{$locale}{/foreach} )
+        SELECT value, name, is_reserved, is_active, filter, weight, visibility_id {foreach from=$locales item=locale}, label_{$locale}{/foreach} 
+        FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
+    {else}
+        INSERT INTO civicrm_participant_status_type
+            (id, name, label, is_reserved, is_active, is_counted, weight, visibility_id)
+        SELECT value, name, label, is_reserved, is_active, filter, weight, visibility_id
+        FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
+    {/if}
 
     UPDATE civicrm_participant_status_type SET class = 'Positive' WHERE name IN ('Registered', 'Attended');
     UPDATE civicrm_participant_status_type SET class = 'Negative' WHERE name IN ('No-show', 'Cancelled');
     UPDATE civicrm_participant_status_type SET class = 'Pending'  WHERE name IN ('Pending');
 
-    UPDATE civicrm_participant_status_type SET name = 'Pending from pay later', label = 'Pending from pay later' WHERE name = 'Pending';
+    {if $multilingual}
+        UPDATE civicrm_participant_status_type SET name = 'Pending from pay later' {foreach from=$locales item=locale}, label_{$locale} = 'Pending from pay later' {/foreach} WHERE name = 'Pending';
 
-    INSERT INTO civicrm_participant_status_type
-        (name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id)
-    VALUES
-        ('On waitlist',           '{ts escape="sql"}On waitlist{/ts}',           'Waiting',  1,           1,         0,          6,      2            ),
-        ('Awaiting approval',     '{ts escape="sql"}Awaiting approval{/ts}',     'Waiting',  1,           1,         1,          7,      2            ),
-        ('Pending from waitlist', '{ts escape="sql"}Pending from waitlist{/ts}', 'Pending',  1,           1,         1,          8,      2            ),
-        ('Pending from approval', '{ts escape="sql"}Pending from approval{/ts}', 'Pending',  1,           1,         1,          9,      2            ),
-        ('Rejected',              '{ts escape="sql"}Rejected{/ts}',              'Negative', 1,           1,         0,          10,     2            ),
-        ('Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,          11,     2            );
+        INSERT INTO civicrm_participant_status_type
+            (name,                    {foreach from=$locales item=locale}label_{$locale}, {/foreach}         class,      is_reserved, is_active, is_counted, weight, visibility_id)
+        VALUES
+            ('On waitlist',           {foreach from=$locales item=locale}'On waitlist',           {/foreach} 'Waiting',  1,           1,         0,          6,      2            ),
+            ('Awaiting approval',     {foreach from=$locales item=locale}'Awaiting approval',     {/foreach} 'Waiting',  1,           1,         1,          7,      2            ),
+            ('Pending from waitlist', {foreach from=$locales item=locale}'Pending from waitlist', {/foreach} 'Pending',  1,           1,         1,          8,      2            ),
+            ('Pending from approval', {foreach from=$locales item=locale}'Pending from approval', {/foreach} 'Pending',  1,           1,         1,          9,      2            ),
+            ('Rejected',              {foreach from=$locales item=locale}'Rejected',              {/foreach} 'Negative', 1,           1,         0,          10,     2            ),
+            ('Expired',               {foreach from=$locales item=locale}'Expired',               {/foreach} 'Negative', 1,           1,         0,          11,     2            );
 
+
+    {else}
+        UPDATE civicrm_participant_status_type SET name = 'Pending from pay later', label = 'Pending from pay later' WHERE name = 'Pending';
+   
+        INSERT INTO civicrm_participant_status_type
+            (name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id)
+        VALUES
+            ('On waitlist',           '{ts escape="sql"}On waitlist{/ts}',           'Waiting',  1,           1,         0,          6,      2            ),
+            ('Awaiting approval',     '{ts escape="sql"}Awaiting approval{/ts}',     'Waiting',  1,           1,         1,          7,      2            ),
+            ('Pending from waitlist', '{ts escape="sql"}Pending from waitlist{/ts}', 'Pending',  1,           1,         1,          8,      2            ),
+            ('Pending from approval', '{ts escape="sql"}Pending from approval{/ts}', 'Pending',  1,           1,         1,          9,      2            ),
+            ('Rejected',              '{ts escape="sql"}Rejected{/ts}',              'Negative', 1,           1,         0,          10,     2            ),
+            ('Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,          11,     2            );
+    {/if}
     DELETE FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
     DELETE FROM civicrm_option_group WHERE              id = @ps_ogid;
  
@@ -111,17 +139,29 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     -- add a profile for CRM-4323
     -- FIXME for multilingual
     BEGIN;
-        INSERT INTO civicrm_uf_group
-            (name,                 group_type,    title,                             is_reserved)
-        VALUES
-            ('participant_status', 'Participant', '{ts escape="sql"}Participant Status{/ts}', 1);
-
+        {if $multilingual}
+            INSERT INTO civicrm_uf_group
+                ( name,                  group_type,   {foreach from=$locales item=locale}title_{$locale},      {/foreach} is_reserved)
+            VALUES
+                ( 'participant_status', 'Participant', {foreach from=$locales item=locale}'Participant Status', {/foreach} 1);
+        {else}
+            INSERT INTO civicrm_uf_group
+                (name,                 group_type,    title,                             is_reserved)
+            VALUES
+                ('participant_status', 'Participant', '{ts escape="sql"}Participant Status{/ts}', 1);
+        {/if}
         SELECT @ufgid := id FROM civicrm_uf_group WHERE name = 'participant_status';
-
-        INSERT INTO civicrm_uf_field
-            (uf_group_id, field_name,              is_required, is_reserved,   label,                                       field_type)
-        VALUES
-            (@ufgid,      'participant_status_id', 1,           1,           '{ts escape="sql"}Participant Status{/ts}', 'Participant');
+        {if $multilingual}
+            INSERT INTO civicrm_uf_field
+                ( uf_group_id, field_name,    is_required, is_reserved, {foreach from=$locales item=locale}label_{$locale},     {/foreach} field_type )
+            VALUES
+                ( @ufgid,     'participant_status_id', 1,    1,         {foreach from=$locales item=locale}'Participant Status',{/foreach} 'Participant');
+        {else}
+            INSERT INTO civicrm_uf_field
+                (uf_group_id, field_name,              is_required, is_reserved,   label,                                       field_type)
+            VALUES
+                (@ufgid,      'participant_status_id', 1,           1,           '{ts escape="sql"}Participant Status{/ts}', 'Participant');
+        {/if}
     COMMIT;
 
     -- CRM-4407
@@ -140,7 +180,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
 
     {if $multilingual}
         INSERT INTO civicrm_option_value
-            (option_group_id,                {foreach from=$locales item=locale}label_{$locale}, description_{$locale},{/foreach}      value,                               name,                  weight,                      filter,         component_id)
+            (option_group_id,                {foreach from=$locales item=locale}label_{$locale}, description_{$locale}, {/foreach}      value,                               name,                  weight,                      filter,         component_id)
         VALUES
             (@option_group_id_activity_type, {foreach from=$locales item=locale}'Bulk Email',   'Bulk Email Sent.',     {/foreach}     (SELECT @max_val := @max_val+1),     'Bulk Email',          (SELECT @max_wt := @max_wt+1),  1,            NULL ),
             (@option_group_id_activity_type, {foreach from=$locales item=locale}'Assign Case Role',   '',               {/foreach}     (SELECT @max_val := @max_val+2),     'Assign Case Role',    (SELECT @max_wt := @max_wt+2),  0,            @caseCompId ),
@@ -164,12 +204,27 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             AND ca.source_record_id IS NOT NULL
             AND ca.id NOT IN ( SELECT cca.activity_id FROM civicrm_case_activity cca );
 
-    -- CRM-4478
-    INSERT INTO `civicrm_option_group`
-        (`name`, `description`, `is_reserved`, `is_active`)
-    VALUES 
-        ('priority', 'Priority', 0, 1);
-
+    -- CRM-4478  CRM-4569
+    {if $multilingual}
+        INSERT INTO civicrm_option_group
+            ( name,       {foreach from=$locales item=locale}description_{$locale},{/foreach} is_reserved, is_active)
+        VALUES
+            ( 'priority',        {foreach from=$locales item=locale}'Priority',             {/foreach} 0, 1 ),
+            ( 'redaction_rule',  {foreach from=$locales item=locale}'Redaction Rule',       {/foreach} 0, 1 ),
+            ( 'email_greeting',  {foreach from=$locales item=locale}'Email Greeting Type',  {/foreach} 0, 1 ),
+            ( 'postal_greeting', {foreach from=$locales item=locale}'Postal Greeting Type', {/foreach} 0, 1 ),
+            ( 'addressee',       {foreach from=$locales item=locale}'Addressee Type',       {/foreach} 0, 1 );                      
+    {else}
+        INSERT INTO `civicrm_option_group`
+            (`name`, `description`, `is_reserved`, `is_active`)
+        VALUES 
+            ('priority',         'Priority',             0, 1),
+            ('redaction_rule',   'Redaction Rule',       0, 1),
+            ( 'email_greeting',  'Email Greeting Type',  0, 1),
+            ( 'postal_greeting', 'Postal Greeting Type', 0, 1),
+            ( 'addressee',       'Addressee Type',       0, 1);
+    {/if}
+    
     SELECT @og_id_pr  := id FROM civicrm_option_group WHERE name = 'priority';
     {if $multilingual}
         INSERT INTO civicrm_option_value
@@ -400,7 +455,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ( 154, @domain_id, 'civicrm/admin/report/template/list&reset=1',            '{ts escape="sql"}Create Reports from Templates{/ts}', 'Create Reports from Templates', NULL, '', '152', '1', NULL, 2 ), 
         ( 155, @domain_id, 'civicrm/admin/report/options/report_template&reset=1',  '{ts escape="sql"}Manage Templates{/ts}', 'Manage Templates', NULL, '', '152', '1', NULL, 3 ), 
         
-        ( 156, @domain_id, NULL,                    '{ts escape="sql"}Help{/ts}',               'Help',             NULL, '',     NULL, '1', NULL, 10), 
+        ( 156, @domain_id, NULL,                                '{ts escape="sql"}Help{/ts}',               'Help',             NULL, '',     NULL, '1', NULL, 10), 
         ( 157, @domain_id, 'http://documentation.civicrm.org',  '{ts escape="sql"}Documentation{/ts}',      'Documentation',    NULL, 'AND', '156', '1', NULL, 1 ), 
         ( 158, @domain_id, 'http://forum.civicrm.org',          '{ts escape="sql"}Community Forums{/ts}',   'Community Forums', NULL, 'AND', '156', '1', NULL, 2 ), 
         ( 159, @domain_id, 'http://civicrm.org/participate',    '{ts escape="sql"}Participate{/ts}',        'Participate',      NULL, 'AND', '156', '1', NULL, 3 ), 
@@ -410,13 +465,22 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
 
     -- CRM-4414
     -- Add individual, organization and household default profile
-    INSERT INTO `civicrm_uf_group`
-        ( `name`,               `group_type`,          `title`, `is_cms_user`,`is_reserved`,`help_post` )
-    VALUES
-        ( 'new_individual',     'Individual,Contact',  '{ts escape="sql"}New Individual{/ts}'   , 0, 1, NULL),
-        ( 'new_organization',   'Organization,Contact','{ts escape="sql"}New Organization{/ts}' , 0, 1, NULL),
-        ( 'new_household',      'Household,Contact',   '{ts escape="sql"}New Household{/ts}'    , 0, 1, NULL);
+    {if $multilingual}
+        INSERT INTO civicrm_uf_group
+            ( name,                  group_type,            {foreach from=$locales item=locale}title_{$locale},    {/foreach}  is_reserved )
+        VALUES
+            ( 'new_individual',     'Individual,Contact',   {foreach from=$locales item=locale}'New Individual'   ,{/foreach} 1),
+            ( 'new_organization',   'Organization,Contact', {foreach from=$locales item=locale}'New Organization' ,{/foreach} 1),
+            ( 'new_household',      'Household,Contact',    {foreach from=$locales item=locale}'New Household'    ,{/foreach} 1);
 
+    {else}
+        INSERT INTO `civicrm_uf_group`
+            ( `name`,               `group_type`,          `title`, `is_reserved` )
+        VALUES
+            ( 'new_individual',     'Individual,Contact',  '{ts escape="sql"}New Individual{/ts}'   , 1 ),
+            ( 'new_organization',   'Organization,Contact','{ts escape="sql"}New Organization{/ts}' , 1 ),
+            ( 'new_household',      'Household,Contact',   '{ts escape="sql"}New Household{/ts}'    , 1 );
+    {/if}
     SELECT @uf_group_id_individual   := max(id) from civicrm_uf_group where name = 'new_individual';
     SELECT @uf_group_id_organization := max(id) from civicrm_uf_group where name = 'new_organization';
     SELECT @uf_group_id_household    := max(id) from civicrm_uf_group where name = 'new_household';
@@ -427,18 +491,32 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ( 1,           'Profile', NULL,           NULL,        3,       @uf_group_id_individual   ),
         ( 1,           'Profile', NULL,           NULL,        4,       @uf_group_id_organization ),
         ( 1,           'Profile', NULL,           NULL,        5,       @uf_group_id_household    );
-
-    INSERT INTO `civicrm_uf_field`
-        ( `uf_group_id`, `field_name`, `is_required`, `is_reserved`, `weight`, `visibility`, `in_selector`, `is_searchable`, `location_type_id`, `label`, `field_type`, `help_post` )
-    VALUES
-        ( @uf_group_id_individual,  'first_name',           1, 0, 1, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}FirstName{/ts}',         'Individual',   NULL ), 
-        ( @uf_group_id_individual,  'last_name',            1, 0, 2, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}LastName{/ts}',          'Individual',   NULL ), 
-        ( @uf_group_id_individual,  'email',                1, 0, 3, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}',      'Contact',      NULL ), 
-        ( @uf_group_id_organization,'organization_name',    1, 0, 2, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}OrganizationName{/ts}',  'Organization', NULL ), 
-        ( @uf_group_id_organization,'email',                1, 0, 3, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}',      'Contact',      NULL ), 
-        ( @uf_group_id_household,   'household_name',       1, 0, 2, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}HouseholdName{/ts}',     'Household',    NULL ), 
-        ( @uf_group_id_household,   'email',                1, 0, 3, 'User and User Admin Only', 0, 0, NULL, '{ts escape="sql"}EmailAddress{/ts}',      'Contact',      NULL );
-
+    
+    {if $multilingual} 
+        INSERT INTO civicrm_uf_field
+            ( uf_group_id,            field_name,      is_required, is_reserved, weight, {foreach from=$locales item=locale}label_{$locale},{/foreach} field_type )
+        VALUES
+            ( @uf_group_id_individual,  'first_name',           1, 0, 1,  {foreach from=$locales item=locale}'FirstName',       {/foreach}  'Individual'   ), 
+            ( @uf_group_id_individual,  'last_name',            1, 0, 2,  {foreach from=$locales item=locale}'LastName',        {/foreach}  'Individual'   ), 
+            ( @uf_group_id_individual,  'email',                1, 0, 3,  {foreach from=$locales item=locale}'EmailAddress',    {/foreach}  'Contact'      ), 
+            ( @uf_group_id_organization,'organization_name',    1, 0, 2,  {foreach from=$locales item=locale}'OrganizationName',{/foreach}  'Organization' ), 
+            ( @uf_group_id_organization,'email',                1, 0, 3,  {foreach from=$locales item=locale}'EmailAddress',    {/foreach}  'Contact'      ), 
+            ( @uf_group_id_household,   'household_name',       1, 0, 2,  {foreach from=$locales item=locale}'HouseholdName',   {/foreach}  'Household'    ), 
+            ( @uf_group_id_household,   'email',                1, 0, 3,  {foreach from=$locales item=locale}'EmailAddress',    {/foreach}  'Contact'      );
+    
+    {else}
+        INSERT INTO `civicrm_uf_field`
+            ( `uf_group_id`, `field_name`, `is_required`, `is_reserved`, `weight`, `label`, `field_type` )
+        VALUES
+            ( @uf_group_id_individual,  'first_name',           1, 0, 1,  '{ts escape="sql"}FirstName{/ts}',         'Individual'   ), 
+            ( @uf_group_id_individual,  'last_name',            1, 0, 2,  '{ts escape="sql"}LastName{/ts}',          'Individual'   ), 
+            ( @uf_group_id_individual,  'email',                1, 0, 3,  '{ts escape="sql"}EmailAddress{/ts}',      'Contact'      ), 
+            ( @uf_group_id_organization,'organization_name',    1, 0, 2,  '{ts escape="sql"}OrganizationName{/ts}',  'Organization' ), 
+            ( @uf_group_id_organization,'email',                1, 0, 3,  '{ts escape="sql"}EmailAddress{/ts}',      'Contact'      ), 
+            ( @uf_group_id_household,   'household_name',       1, 0, 2,  '{ts escape="sql"}HouseholdName{/ts}',     'Household'    ), 
+            ( @uf_group_id_household,   'email',                1, 0, 3,  '{ts escape="sql"}EmailAddress{/ts}',      'Contact'      );
+    {/if}
+    
     -- State / province
     -- CRM-4534 CRM-4686
         INSERT INTO civicrm_state_province
@@ -466,13 +544,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
        
     -- CRM-4394
         UPDATE civicrm_state_province SET country_id = 1008 WHERE id = 1637;
-
-    -- CRM-4569
-    INSERT INTO 
-        `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) 
-    VALUES 
-        ('redaction_rule', 'Redaction Rule', 0, 1);
-
+    
     -- CRM-4633
     ALTER TABLE `civicrm_contact`
         ADD `do_not_sms` tinyint(4) default '0' AFTER `do_not_mail`;
@@ -489,16 +561,33 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     ALTER TABLE civicrm_activity DROP COLUMN due_date_time;
 
     -- CRM-4120,CRM-4319, CRM-4326
-    ALTER TABLE `civicrm_event`
-        CHANGE `default_discount_id` `default_discount_fee_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.',
-        ADD COLUMN `is_template` tinyint(4) default NULL COMMENT 'whether the event has template',
-        ADD COLUMN `template_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Event Template Title',
-        ADD COLUMN `has_waitlist` tinyint(4) default NULL COMMENT 'Whether the event has waitlist support',
-        ADD COLUMN `requires_approval` tinyint(4) default NULL COMMENT 'Whether participants require approval before they can finish registering.',
-        ADD COLUMN `expiration_time` int unsigned   DEFAULT NULL COMMENT 'Expire pending but unconfirmed registrations after this many hours.',
-        ADD COLUMN `waitlist_text` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the event is full, but participants can signup for a waitlist.',
-        ADD COLUMN `approval_req_text` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the approval is required to complete registration for an event.';
-
+    {if $multilingual} 
+        ALTER TABLE `civicrm_event`
+            CHANGE `default_discount_id` `default_discount_fee_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.',
+            ADD COLUMN `is_template` tinyint(4) default NULL COMMENT 'whether the event has template',
+            {foreach from=$locales item=locale}
+                ADD `template_title_{$locale}` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Event Template Title',
+            {/foreach}            
+            {foreach from=$locales item=locale}
+                ADD `waitlist_text_{$locale}` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the event is full, but participants can signup for a waitlist.',
+            {/foreach}
+            {foreach from=$locales item=locale}
+                ADD `approval_req_text_{$locale}` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the approval is required to complete registration for an event.',
+            {/foreach}
+            ADD `has_waitlist` tinyint(4) default NULL COMMENT 'Whether the event has waitlist support',
+            ADD `requires_approval` tinyint(4) default NULL COMMENT 'Whether participants require approval before they can finish registering.',
+            ADD `expiration_time` int unsigned   DEFAULT NULL COMMENT 'Expire pending but unconfirmed registrations after this many hours.';
+    {else}
+        ALTER TABLE `civicrm_event`
+            CHANGE `default_discount_id` `default_discount_fee_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.',
+            ADD COLUMN `is_template` tinyint(4) default NULL COMMENT 'whether the event has template',
+            ADD COLUMN `template_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Event Template Title',
+            ADD COLUMN `has_waitlist` tinyint(4) default NULL COMMENT 'Whether the event has waitlist support',
+            ADD COLUMN `requires_approval` tinyint(4) default NULL COMMENT 'Whether participants require approval before they can finish registering.',
+            ADD COLUMN `expiration_time` int unsigned   DEFAULT NULL COMMENT 'Expire pending but unconfirmed registrations after this many hours.',
+            ADD COLUMN `waitlist_text` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the event is full, but participants can signup for a waitlist.',
+            ADD COLUMN `approval_req_text` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the approval is required to complete registration for an event.';
+    {/if}
     -- CRM-4138
     ALTER TABLE `civicrm_payment_processor_type`
         ADD COLUMN `payment_type` int unsigned   DEFAULT 1 COMMENT 'Payment Type: Credit or Debit';
@@ -520,12 +609,20 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     WHERE option_group_id = @option_group_id_ceOpt;
 
     -- insert value for Custom Data and Address at first two locations.
-    INSERT INTO  
-        `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
-    VALUES
-    (@option_group_id_ceOpt, '{ts escape="sql"}Custom Data{/ts}',  1, 'CustomData', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
-    (@option_group_id_ceOpt, '{ts escape="sql"}Address{/ts}'   ,   2, 'Address',    NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL);
-
+    {if $multilingual}
+        INSERT INTO civicrm_option_value
+            ( option_group_id,        {foreach from=$locales item=locale}label_{$locale}, {/foreach} value, name, filter,  weight, is_reserved, is_active)
+        VALUES
+            ( @option_group_id_ceOpt, {foreach from=$locales item=locale}'Custom Data',   {/foreach} 1,  'CustomData',  0,  1, 0, 1 ),
+            ( @option_group_id_ceOpt, {foreach from=$locales item=locale}'Address',       {/foreach} 2,  'Address',     0,  2, 0, 1 );
+    {else}
+        INSERT INTO `civicrm_option_value`
+            (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+        VALUES
+            (@option_group_id_ceOpt, '{ts escape="sql"}Custom Data{/ts}',  1, 'CustomData', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+            (@option_group_id_ceOpt, '{ts escape="sql"}Address{/ts}'   ,   2, 'Address',    NULL, 0, NULL, 2, NULL, 0, 0, 1);
+    {/if}
+    
     -- update Comm pref group name.
     UPDATE civicrm_option_value
         SET name = 'CommunicationPreferences'
@@ -567,14 +664,24 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     -- move location blocks to contact_edit_options.
     SELECT @max_wt  := max(weight) from civicrm_option_value where option_group_id=@option_group_id_ceOpt;
     SELECT @max_val := max(weight) from civicrm_option_value where option_group_id=@option_group_id_ceOpt;
-    INSERT INTO  
-        `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
-    VALUES
-        (@option_group_id_ceOpt, '{ts escape="sql"}Email{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Email',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
-        (@option_group_id_ceOpt, '{ts escape="sql"}Phone{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Phone',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
-        (@option_group_id_ceOpt, '{ts escape="sql"}Instant Messenger{/ts}' ,   (SELECT @max_val := @max_val+1), 'IM',      NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
-        (@option_group_id_ceOpt, '{ts escape="sql"}Open ID{/ts}'           ,   (SELECT @max_val := @max_val+1), 'OpenID',  NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL);
-
+    {if $multilingual}
+        INSERT INTO civicrm_option_value
+            ( option_group_id, {foreach from=$locales item=locale}label_{$locale},          {/foreach}   value, name, filter,  weight,  is_reserved, is_active ) 
+        VALUES
+            (@option_group_id_ceOpt, {foreach from=$locales item=locale}'Email'             ,{/foreach}  (SELECT @max_val := @max_val+1), 'Email',   1,    (SELECT @max_wt := @max_wt+1), 0, 1),
+            (@option_group_id_ceOpt, {foreach from=$locales item=locale}'Phone'             ,{/foreach}  (SELECT @max_val := @max_val+1), 'Phone',   1,    (SELECT @max_wt := @max_wt+1), 0, 1),
+            (@option_group_id_ceOpt, {foreach from=$locales item=locale}'Instant Messenger' ,{/foreach}  (SELECT @max_val := @max_val+1), 'IM',      1,    (SELECT @max_wt := @max_wt+1), 0, 1),
+            (@option_group_id_ceOpt, {foreach from=$locales item=locale}'Open ID'           ,{/foreach}  (SELECT @max_val := @max_val+1), 'OpenID',  1,    (SELECT @max_wt := @max_wt+1), 0, 1);
+    {else}
+        INSERT INTO `civicrm_option_value`
+            (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+        VALUES
+            (@option_group_id_ceOpt, '{ts escape="sql"}Email{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Email',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+            (@option_group_id_ceOpt, '{ts escape="sql"}Phone{/ts}'             ,   (SELECT @max_val := @max_val+1), 'Phone',   NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+            (@option_group_id_ceOpt, '{ts escape="sql"}Instant Messenger{/ts}' ,   (SELECT @max_val := @max_val+1), 'IM',      NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL),
+            (@option_group_id_ceOpt, '{ts escape="sql"}Open ID{/ts}'           ,   (SELECT @max_val := @max_val+1), 'OpenID',  NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL, NULL);
+    {/if}
+    
     -- remove location blocks from address_options.
     SELECT @option_group_id_adOpt := max(id) from civicrm_option_group where name = 'address_options';
     DELETE FROM civicrm_option_value where option_group_id = @option_group_id_adOpt AND name IN ( 'im', 'openid' );  
@@ -601,44 +708,60 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ADD `addressee_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Addressee.' AFTER `postal_greeting_custom`,
         ADD `addressee_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Addressee.' AFTER `addressee_id`;
 
-    -- add option groups email_greeting, postal_greeting, addressee
-    INSERT INTO `civicrm_option_group`
-        ( `name` , `description` , `is_reserved` , `is_active`)
-    VALUES 
-        ( 'email_greeting',  'Email Greeting Type',  0, 1),
-        ( 'postal_greeting', 'Postal Greeting Type', 0, 1),
-        ( 'addressee',       'Addressee Type',       0, 1);
-
     SELECT @og_id_emailGreeting   := max(id) FROM civicrm_option_group WHERE name = 'email_greeting';
     SELECT @og_id_postalGreeting  := max(id) FROM civicrm_option_group WHERE name = 'postal_greeting';
     SELECT @og_id_addressee       := max(id) FROM civicrm_option_group WHERE name = 'addressee';
 
     -- add option values for email greeting, postal greeting and addressee
-    INSERT INTO 
-        `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
-    VALUES
-    {literal}
-    -- email greetings.
-        ( @og_id_emailGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
-        ( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
-        ( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
-        ( @og_id_emailGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
-        ( @og_id_emailGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
-
-    -- postal greeting.
-        ( @og_id_postalGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
-        ( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
-        ( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
-        ( @og_id_postalGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
-        ( @og_id_postalGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
-
-    -- addressee.
-        ( @og_id_addressee, '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}', '1', '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}', NULL , '1', '1', '1', NULL , '0', '0', '1', NULL , NULL),
-        ( @og_id_addressee, '{contact.household_name}',    '2', '{contact.household_name}',    NULL ,   '2', '1', '2', NULL , '0', '0', '1', NULL , NULL),
-        ( @og_id_addressee, '{contact.organization_name}', '3', '{contact.organization_name}', NULL ,   '3', '1', '3', NULL , '0', '0', '1', NULL , NULL),
-        ( @og_id_addressee, 'Customized',                  '4', 'Customized',                  NULL , NULL , '0', '4', NULL , '0', '1', '1', NULL , NULL);
-    {/literal}
-
+    {if $multilingual}
+        INSERT INTO civicrm_option_value
+            ( option_group_id, {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name, filter, is_default, weight, is_reserved, is_active )
+        VALUES       
+        -- email greetings.
+            ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.first_name}{/literal}',                                                 {/foreach} 1, '{literal}Dear {contact.first_name}{/literal}',                                                 1,     1, 1,  0, 1),
+            ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', {/foreach} 2, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', 1,     0, 2,  0, 1),
+            ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      {/foreach} 3, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      1,     0, 3,  0, 1),
+            ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Customized{/literal}',                                                                {/foreach} 4, '{literal}Customized{/literal}',                                                                NULL,  0, 4,  1, 1),
+            ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.household_name}{/literal}',                                             {/foreach} 5, '{literal}Dear {contact.househols_name}{/literal}',                                             2,     1, 5,  0, 1),
+    
+        -- postal greeting.
+            ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.first_name}{/literal}',                                                {/foreach} 1, '{literal}Dear {contact.first_name}{/literal}',                                                 1,    1, 1,  0, 1),
+            ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}',{/foreach} 2, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', 1,    0, 2,  0, 1),
+            ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                     {/foreach} 3, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      1,    0, 3,  0, 1),
+            ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Customized{/literal}',                                                               {/foreach} 4, '{literal}Customized{/literal}',                                                                NULL, 0, 4,  1, 1),
+            ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.household_name}{/literal}',                                            {/foreach} 5, '{literal}Dear {contact.househols_name}{/literal}',                                             2,    1, 5,  0, 1),
+    
+        -- addressee.
+            ( @og_id_addressee, {foreach from=$locales item=locale}'{literal}{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}{/literal}', {/foreach} '1', '{literal}{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}{/literal}', '1', '1', '1', '0', '1'),
+            ( @og_id_addressee, {foreach from=$locales item=locale}'{literal}{contact.household_name}{/literal}',    {/foreach} '2', '{literal}{contact.household_name}{/literal}',    '2',     '1', '2',  '0', '1'),
+            ( @og_id_addressee, {foreach from=$locales item=locale}'{literal}{contact.organization_name}{/literal}', {/foreach} '3', '{literal}{contact.organization_name}{/literal}', '3',     '1', '3',  '0', '1'),
+            ( @og_id_addressee, {foreach from=$locales item=locale}'{literal}Customized{/literal}',                  {/foreach} '4', '{literal}Customized{/literal}',                  NULL,    '0', '4',  '1', '1');      
+    {else}
+        INSERT INTO `civicrm_option_value`
+            (`option_group_id`, `label`, `value`, `name`, `filter`, `is_default`, `weight`, `is_reserved`, `is_active`)
+        VALUES
+        {literal}
+        -- email greetings.
+            ( @og_id_emailGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 1,     1, 1,  0, 1),
+            ( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 1,     0, 2,  0, 1),
+            ( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      1,     0, 3,  0, 1),
+            ( @og_id_emailGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL,  0, 4,  1, 1),
+            ( @og_id_emailGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             2,     1, 5,  0, 1),
+    
+        -- postal greeting.
+            ( @og_id_postalGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 1,    1, 1,  0, 1),
+            ( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 1,    0, 2,  0, 1),
+            ( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      1,    0, 3,  0, 1),
+            ( @og_id_postalGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL, 0, 4,  1, 1),
+            ( @og_id_postalGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             2,    1, 5,  0, 1),
+    
+        -- addressee.
+            ( @og_id_addressee, '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}', '1', '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}', '1', '1', '1', '0', '1'),
+            ( @og_id_addressee, '{contact.household_name}',    '2', '{contact.household_name}',    '2',     '1', '2',  '0', '1'),
+            ( @og_id_addressee, '{contact.organization_name}', '3', '{contact.organization_name}', '3',     '1', '3',  '0', '1'),
+            ( @og_id_addressee, 'Customized',                  '4', 'Customized',                  NULL,    '0', '4',  '1', '1');
+        {/literal}
+    {/if}
     -- Set civicrm_contact.addressee_id to default value for the given contact type. 
     SELECT @value := value
     FROM civicrm_option_value 
