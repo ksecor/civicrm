@@ -51,7 +51,7 @@ var scroll = function() {
     var scroll = document.documentElement.scrollTop || document.body.scrollTop;
     var offset = scroll - this.stickyPosition - 4;
     if (offset > 0 && offset < this.stickyMax - 100) {
-      $(this).css({display:'block',top:'25px'});
+      $(this).css({display:'block'});
     }
     else {
       $(this).css('display', 'none');

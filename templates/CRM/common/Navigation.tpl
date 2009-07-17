@@ -61,6 +61,7 @@ if( framework != 'Joomla') {
 	cj(window).scroll( function () { 
 	   var scroll = document.documentElement.scrollTop || document.body.scrollTop;
 	   cj('#civicrm-menu').css({top: "scroll", position: "fixed", top: "0px"}); 
+	   cj('div.sticky-header').css({ 'top' : "23px", position: "fixed" });
 	});
 } else {
 	   cj('div#submenu-box div.m').html(cj("#menu-container").html());
