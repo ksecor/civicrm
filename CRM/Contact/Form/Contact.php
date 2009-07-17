@@ -314,7 +314,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         // get the default location type
         require_once 'CRM/Core/BAO/LocationType.php';
-        $locationType = CRM_Core_BAO_LocationType::getDefault();
+        
+        $locationType = CRM_Core_BAO_LocationType::getDefault( );
         
         // unset primary location type
         $primaryLocationTypeIdKey = CRM_Utils_Array::key( $locationType->id, $locationTypeKeys );
@@ -322,6 +323,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         // reset the array sequence
         $locationTypeKeys = array_values( $locationTypeKeys );
+        
+        // get default phone and im provider id.
+        require_once 'CRM/Core/OptionGroup.php';
+        $defPhoneTypeId  = key( CRM_Core_OptionGroup::values( 'phone_type', false, false, false, ' AND is_default = 1' ) );
+        $defIMProviderId = key( CRM_Core_OptionGroup::values( 'instant_messenger_service', 
+                                                              false, false, false, ' AND is_default = 1' ) );
         
         $allBlocks = $this->_blocks;
         if ( array_key_exists( 'Address', $this->_editOptions ) ) {
@@ -331,7 +338,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $config =& CRM_Core_Config::singleton( );
         foreach ( $allBlocks as $blockName => $label ) {
             $name = strtolower( $blockName );
-            if ( !CRM_Utils_Array::value( $name, $defaults ) || !CRM_Utils_System::isNull( $defaults[$name] ) ) continue;
+            if ( array_key_exists( $name, $defaults ) && !CRM_Utils_System::isNull( $defaults[$name] ) ) continue;
             for( $instance = 1; $instance<= $this->get( $blockName ."_Block_Count" ); $instance++ ) {
                 //set location to primary for first one.
                 if ( $instance == 1 ) {
@@ -345,6 +352,16 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 //set default country
                 if ( $name == 'address' && $config->defaultContactCountry ) {
                     $defaults[$name][$instance]['country_id'] = $config->defaultContactCountry;
+                }
+                
+                //set default phone type.
+                if ( $name == 'phone' ) {
+                    $defaults[$name][$instance]['phone_type_id'] = $defPhoneTypeId;
+                }
+                
+                //set default im provider.
+                if ( $name == 'im' ) {
+                    $defaults[$name][$instance]['provider_id'] = $defIMProviderId;
                 }
             }
         }
