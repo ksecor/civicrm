@@ -323,7 +323,41 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
         $entryFound     = false;
         $activityType   = CRM_Core_PseudoConstant::activityType();
         $activityStatus = CRM_Core_PseudoConstant::activityStatus();
+        $onHover        = ts('View Contact Summary for this Contact');
         foreach ( $rows as $rowNum => $row ) {
+            
+            if ( array_key_exists('civicrm_contact_contact_source', $row ) ) {
+                if ( $value = $row['civicrm_contact_source_contact_id'] ) {
+                    $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
+                                                  'reset=1&cid=' . $value ,
+                                                  $this->_absoluteUrl );
+                    $rows[$rowNum]['civicrm_contact_contact_source_link' ] = $url;
+                    $rows[$rowNum]['civicrm_contact_contact_source_hover'] = $onHover;
+                    $entryFound = true; 
+                }
+            }
+            
+            if ( array_key_exists('civicrm_contact_contact_assignee', $row ) ) {
+                if ( $value = $row['civicrm_activity_assignment_assignee_contact_id'] ) {
+                    $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
+                                                  'reset=1&cid=' . $value ,
+                                                  $this->_absoluteUrl );
+                    $rows[$rowNum]['civicrm_contact_contact_assignee_link' ] = $url; 
+                    $rows[$rowNum]['civicrm_contact_contact_assignee_hover'] = $onHover;
+                    $entryFound = true; 
+                }
+            }
+            
+            if ( array_key_exists('civicrm_contact_contact_target', $row ) ) {
+                if ( $value = $row['civicrm_activity_target_target_contact_id'] ) {
+                    $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
+                                                  'reset=1&cid=' . $value ,
+                                                  $this->_absoluteUrl );
+                    $rows[$rowNum]['civicrm_contact_contact_target_link' ] = $url; 
+                    $rows[$rowNum]['civicrm_contact_contact_target_hover'] = $onHover;
+                    $entryFound = true; 
+                }
+            }
             
             if ( array_key_exists('civicrm_activity_activity_type_id', $row ) ) {
                 if ( $value = $row['civicrm_activity_activity_type_id'] ) {
@@ -331,7 +365,7 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                     $entryFound = true;
                 }
             }
-
+            
             if ( array_key_exists('civicrm_activity_status_id', $row ) ) {
                 if ( $value = $row['civicrm_activity_status_id'] ) {
                     $rows[$rowNum]['civicrm_activity_status_id'] = $activityStatus[$value];
