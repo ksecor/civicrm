@@ -232,21 +232,28 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             ( 'addressee',       'Addressee Type',       0, 1);
     {/if}
     
-    SELECT @og_id_pr  := id FROM civicrm_option_group WHERE name = 'priority';
+    SELECT @og_id_pr := id FROM civicrm_option_group WHERE name = 'priority';
+    SELECT @og_id_rr := id FROM civicrm_option_group WHERE name = 'redaction_rule';
     {if $multilingual}
         INSERT INTO civicrm_option_value
         (option_group_id, {foreach from=$locales item=locale}label_{$locale},{/foreach}  value, name, filter, weight, is_active) 
         VALUES
             (@og_id_pr, {foreach from=$locales item=locale}'Urgent',{/foreach} 1, 'Urgent', 0, 1, 1),
             (@og_id_pr, {foreach from=$locales item=locale}'Normal',{/foreach} 2, 'Normal', 0, 2, 1),
-            (@og_id_pr, {foreach from=$locales item=locale}'Low',   {/foreach} 3, 'Low',    0, 3, 1);
+            (@og_id_pr, {foreach from=$locales item=locale}'Low',   {/foreach} 3, 'Low',    0, 3, 1),
+            
+            (@og_id_rr, {foreach from=$locales item=locale}'Vancouver',                                                  {/foreach}  'city_', NULL, 0, 1, 1 ),
+            (@og_id_rr, {foreach from=$locales item=locale}'{literal}/(19|20)(\\d{2})-(\\d{1,2})-(\\d{1,2})/{/literal}', {/foreach}  'date_', NULL, 1, 2, 1 );            
     {else}
         INSERT INTO `civicrm_option_value`  
             (`option_group_id`, `label`, `value`, `name`, `filter`, `weight`, `is_active`) 
         VALUES    
             (@og_id_pr, 'Urgent', 1, 'Urgent', 0, 1, 1),
             (@og_id_pr, 'Normal', 2, 'Normal', 0, 2, 1),
-            (@og_id_pr, 'Low',    3, 'Low',    0, 3, 1);
+            (@og_id_pr, 'Low',    3, 'Low',    0, 3, 1),
+
+            (@og_id_rr, 'Vancouver',                                                    'city_', NULL, 0, 1, 1 ),
+            (@og_id_rr, '{literal}/(19|20)(\\d{2})-(\\d{1,2})-(\\d{1,2})/{/literal}',   'date_', NULL, 1, 2, 1 );
     {/if}
 
 
