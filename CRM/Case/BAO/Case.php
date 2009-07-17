@@ -836,6 +836,15 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $restoreUrl  = "{$url}&action=renew";
         $viewTitle = ts('View this activity.');
         
+		require_once 'CRM/Core/OptionGroup.php'; 
+        $emailActivityTypeIDs = array('Email' => CRM_Core_OptionGroup::getValue( 'activity_type', 
+                                                               'Email', 
+                                                               'name' ),
+                                      'Inbound Email' => CRM_Core_OptionGroup::getValue( 'activity_type', 
+                                                               'Inbound Email', 
+                                                               'name' ),
+                                     );
+                                     
         require_once 'CRM/Case/BAO/Case.php';
         $caseDeleted = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $caseID, 'is_deleted' );
         
@@ -848,10 +857,14 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['status']            = $activityStatus[$dao->status];
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
             
+            $url = "";
             $additionalUrl = "&id={$dao->id}";
             if ( !$dao->deleted ) {
-                $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
-                $url .= " | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+            	//hide edit link of activity type email.CRM-4754. 
+                if ( ! in_array($dao->type, $emailActivityTypeIDs) ) { 
+                    $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> |";
+                }
+                $url .= "  <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
             } else if ( !$caseDeleted ) {
                 $url  = "<a href='" .$restoreUrl.$additionalUrl."'>". ts('Restore') . "</a>";
                 $values[$dao->id]['status']  = $values[$dao->id]['status'].'<br /> (deleted)'; 
