@@ -1122,9 +1122,10 @@ WHERE civicrm_event.is_active = 1
                 } else if ( 'individual_suffix' == substr( $name, 0, 17 ) ) {
                     $suffix = CRM_Core_PseudoConstant::individualSuffix( );
                     $values[$index] = $suffix[$params[$name]];
-                } else if ( 'greeting_type' == substr( $name, 0, 13 ) ) {
-                    $greeting = CRM_Core_PseudoConstant::greeting( );
-                    $values[$index] = $greeting[$params[$name]];
+                } else if ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting') ) ) {
+                            $filterCondition = array( 'greeting_type' => $name ); 
+                            $greeting =& CRM_Core_PseudoConstant::greeting( $filterCondition );
+                            $values[$index] = $greeting[$params[$name]];
                 } else if ( $name === 'preferred_communication_method' ) {
                     $communicationFields = CRM_Core_PseudoConstant::pcm();
                     $pref = array();

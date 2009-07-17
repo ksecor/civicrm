@@ -330,18 +330,17 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         $fields["state_province-{$this->_bltID}"] =
             $fields["country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
-
+      
         foreach ($fields as $name => $dontCare ) {
             if ( isset($this->_params[0][$name]) ) {
-                    $defaults[$name] = $this->_params[0][$name];
-                    if ( $name == 'greeting_type' ) { 
-                        if ( $defaults['greeting_type'] == $this->_greetingTypeValue ) {
-                            $defaults['custom_greeting'] = $this->_params[0]['custom_greeting'];
-                        }
-                    }
+                $defaults[$name] = $this->_params[0][$name];
+                if ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting'))
+                     && CRM_Utils_Array::value($name.'_custom', $this->_params[0]) ) { 
+                    $defaults[$name.'_custom'] = $this->_params[0][$name.'_custom'];
+                }
             }
         }
-
+       
         // now fix all state country selectors
         require_once 'CRM/Core/BAO/Address.php';
         CRM_Core_BAO_Address::fixAllStateSelects( $this, $defaults );

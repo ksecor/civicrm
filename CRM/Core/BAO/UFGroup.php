@@ -2112,8 +2112,6 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                         $data['prefix_id'] = $value;
                     } else if ($key === 'gender') { 
                         $data['gender_id'] = $value;
-                    } else if ($key === 'greeting_type') { 
-                        $data['greeting_type_id'] = $value;
                     } else if (substr($key, 0, 6) === 'custom') {
                         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                             //fix checkbox

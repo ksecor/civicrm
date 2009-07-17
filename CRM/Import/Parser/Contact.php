@@ -557,7 +557,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( $createNewContact ) {
             
             //CRM-4430, don't carry if not submitted.
-            foreach ( array( 'prefix', 'suffix',  'gender', 'greeting_type' ) as $name ) {
+            foreach ( array( 'prefix', 'suffix',  'gender' ) as $name ) {
                 if ( array_key_exists( $name,  $formatted ) ) {
                     if ( in_array( $name, array( 'prefix', 'suffix' ) ) ) {
                         $formattedName = "individual_{$name}";

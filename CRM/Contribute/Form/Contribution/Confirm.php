@@ -292,10 +292,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                                                                   $options );
                 } else {
                     $defaults[$name] = $contact[$name];
-                    if ( $name == 'greeting_type' ) {   
-                        if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
-                            $defaults['custom_greeting'] = $contact['custom_greeting'];
-                        }
+                    if ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting'))
+                         && CRM_Utils_Array::value($name.'_custom', $contact) ) { 
+                         $defaults[$name.'_custom'] = $contact[$name.'_custom'];
                     }
                 } 
             }

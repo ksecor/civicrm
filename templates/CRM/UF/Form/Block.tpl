@@ -70,15 +70,8 @@
                {assign var="provider" value=$n|cat:"-provider_id"}
                {$form.$provider.html}&nbsp;
              {/if}
-             {if $n eq 'greeting_type'}
-               <table class="form-layout-compressed">
-                  <tr>
-                     <td>{$form.$n.html}</td>
-                     <td id='customGreeting'>
-                     {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}
-                     </td>
-                  </tr>
-               </table> 
+             {if $n eq 'email_greeting' or  $n eq 'postal_greeting' or $n eq 'addressee'}
+                {include file="CRM/Profile/Form/GreetingType.tpl"}  
              {elseif $n eq 'group'} 
 		<table id="selector" class="selector" style="width:auto;">
 			<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
@@ -133,25 +126,9 @@
  
 {/if} {* fields array is not empty *} 
 
-{if $form.greeting_type}
-  {literal}
-    <script type="text/javascript">
-      window.onload = function() {
-        showGreeting();
-      }
-    </script>
-  {/literal}
-{/if}
 {literal}
   <script type="text/javascript">
-    function showGreeting() {
-       if( document.getElementById("greeting_type") && document.getElementById("greeting_type").value == 4 ) {
-           show('customGreeting');                   
-       } else {
-           hide('customGreeting');      
-       }     
-    }
-
+   
 cj(document).ready(function(){ 
 	cj('#selector tr:even').addClass('odd-row ');
 	cj('#selector tr:odd ').addClass('even-row');

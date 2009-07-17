@@ -524,7 +524,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                 } else {
                     $row[] = '';
                 }
-            
+
+                if ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting')) ) {
+                    $customGreeting = $name.'_custom';
+                    if ( $result->$customGreeting ) { 
+                        $row[] =  $result->$customGreeting.' ('.array_pop($row).')';
+                    }
+                } 
+
                 if ( ! empty( $result->$name ) ) {
                     $empty = false;
                 }

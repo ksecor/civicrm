@@ -244,7 +244,7 @@ class CRM_Contact_BAO_Query
      * the relationship type direction
      *
      * @var array
-     * @static$addresseeFilter
+     * @static
      */
     static $_relType;
     
