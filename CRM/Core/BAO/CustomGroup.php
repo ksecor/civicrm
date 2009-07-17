@@ -1549,8 +1549,12 @@ SELECT $select
             }
 
             $options = array( );
-            while ( $coDAO->fetch( ) ) {
-                $options[$coDAO->value] = $coDAO->label;
+            if ( is_object( $coDAO ) ) {
+                while ( $coDAO->fetch( ) ) {
+                    $options[$coDAO->value] = $coDAO->label;
+                }
+            } else {
+                CRM_Core_Error::fatal( ts( 'You have hit issue CRM-4716. Please post a report with as much detail as possible on the CiviCRM forums. You can truncate civicr_cache to get around this problem' ) );
             }
             
             require_once 'CRM/Utils/Hook.php';

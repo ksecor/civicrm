@@ -2533,7 +2533,7 @@ class DB_DataObject extends DB_DataObject_Overload
                 $this->whereAdd(" $kSql = $value");
                 continue;
             }
-            
+
             if (!isset($options['disable_null_strings']) &&  (strtolower($this->$k) === 'null') && !($v & DB_DATAOBJECT_NOTNULL)) {
                 $this->whereAdd(" $kSql  IS NULL");
                 continue;
