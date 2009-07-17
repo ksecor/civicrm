@@ -438,7 +438,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
       
             $defaults['source_contact_id'] = self::_getDisplayNameById( $this->_sourceContactId );
             $defaults['source_contact_qid'] = $this->_sourceContactId;
-            if ( $this->_context != 'standalone' ) {
+            if ( $this->_context != 'standalone' && isset( $this->_targetContactId ) ) {
                 $target_contact[$this->_targetContactId] = self::_getDisplayNameById( $this->_targetContactId );
             }
             $this->assign( 'target_contact', $target_contact ); 
