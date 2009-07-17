@@ -9,7 +9,7 @@
 
 {* moved to tpl since need to show only for primary participant page *}
 {if $statusMsg}
-  <div class="messages status">
+  <div id="waitlist-approve-status-msg" class="messages status">
     <dl>
 	<dd>{$statusMsg}</dd>
     </dl>
@@ -73,16 +73,20 @@
     {/if}
     </dl>
     </fieldset>
-    <dl>
     {if $form.is_pay_later}
+    <dl>
 	<dt>&nbsp;</dt>
         <dd>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</dd>
+    </dl>
     {/if}
+
     {if $bypassPayment}
+    <dl id="bypass-payment">
 	<dt>&nbsp;</dt>
         <dd>{$form.bypass_payment.html}&nbsp;{$form.bypass_payment.label}</dd>
+    </dl> 
     {/if}
-    </dl>
+
 {else}
     {if $paidEvent}
 	<table class="form-layout-compressed">
@@ -99,7 +103,7 @@
 	    </tr>
 	    {/if}
             {if $bypassPayment}
-	    <tr>
+	    <tr id="bypass-payment">
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>{$form.bypass_payment.html}&nbsp;{$form.bypass_payment.label}</td>
@@ -115,7 +119,7 @@
 	<td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td>
     </tr>
     {if $bypassPayment and !$paidEvent}
-    <tr>
+    <tr id="bypass-payment">
         <td>&nbsp;</td>
         <td>{$form.bypass_payment.html}&nbsp;{$form.bypass_payment.label}</td>
     </tr>
@@ -198,6 +202,10 @@
 		document.getElementById('additional_participants').value = validNumber;
 	    }
 	}
+        {/literal}
+        {if $allowGroupOnWaitlist}
+        {literal}allowGroupOnWaitlist( validNumber );{/literal}{/if}
+        {literal}
     }
     {/literal}{if ($form.is_pay_later or $bypassPayment) and $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}{literal} 
 	showHidePayPalExpressOption( );
@@ -242,6 +250,31 @@
              hide( 'noOfparticipants' );
 	     show( 'noOfparticipants_show' );
 	}
+    }
+    {/literal}
+    {if $allowGroupOnWaitlist}
+    {literal}allowGroupOnWaitlist( 0 );{/literal}{/if}
+    {literal}
+    
+    function allowGroupOnWaitlist( additionalParticipants )
+    {	
+      if ( !additionalParticipants ) {
+	 additionalParticipants = document.getElementById('additional_participants').value;
+      }
+
+      var availableRegistrations = {/literal}{$availableRegistrations}{literal};
+      var totalParticipants = parseInt( additionalParticipants ) + 1;
+
+      if ( totalParticipants > availableRegistrations ) {
+         cj( "#bypass-payment" ).show( );
+         cj( "#waitlist-approve-status-msg" ).show( );
+      }	else {
+         cj( "#bypass-payment" ).hide( );
+         cj( "#waitlist-approve-status-msg" ).hide( );
+
+         //reset value since user don't want or not eligible for waitlist 
+         document.getElementsByName("bypass_payment")[0].checked = false;
+      }
     }
 </script>
 {/literal} 

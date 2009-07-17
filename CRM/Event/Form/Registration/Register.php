@@ -270,6 +270,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     array( 'size' => 30, 'maxlength' => 60 ), true );
         
         $bypassPayment = false;
+        $allowGroupOnWaitlist = false;
         if ( $this->_values['event']['is_multiple_registrations'] ) {
             // don't allow to add additional during confirmation if not preregistered.
             if ( !$this->_allowConfirmation || $this->_additionalParticipantIds ) {
@@ -284,13 +285,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 //case might be group become as a part of waitlist.
                 //If not waitlist then they require admin approve.
-                
+                $allowGroupOnWaitlist = true;
                 $this->_statusMsg = ts("This event has only %1 spaces left. If you register as a group and register more than %1, the whole group will be put on the waitlist.", array( 1 => $this->_availableRegistrations ) );
                 if ( $this->_requireApproval ) {
+                    $allowGroupOnWaitlist = false;
                     $this->_statusMsg .= '<br /><br />' . CRM_Utils_Array::value( 'approval_req_text', $this->_values['event'], 
                                                                                   ts( 'Registration for this event requires approval. Once your registration(s) have been reviewed, you will receive an email with a link to a web page where you can complete the registration process.' ) ); 
                 }
-                CRM_Core_Session::setStatus( $statusMessage );
             }
         }
         
@@ -303,6 +304,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         
         //lets display status to primary page only.
         $this->assign( 'statusMsg', $this->_statusMsg );
+        $this->assign( 'allowGroupOnWaitlist', $allowGroupOnWaitlist );
+        $this->assign( 'availableRegistrations', $this->_availableRegistrations );
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
