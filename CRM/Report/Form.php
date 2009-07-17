@@ -770,10 +770,15 @@ class CRM_Report_Form extends CRM_Core_Form {
         case 'in':
             if ( $value !== null && count( $value ) > 0 ) {
                 $sqlOP  = self::getSQLOperator( $op );
-                $clause = "( {$field['dbAlias']} $sqlOP (" . implode( ', ', $value ) . ") )";
+                if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
+                    $clause = "( {$field['dbAlias']} $sqlOP ( '" . implode( "' , '", $value ) . "') )" ;
+                } else {
+                    
+                    $clause = "( {$field['dbAlias']} $sqlOP (" . implode( ', ', $value ) . ") )";
+                }                
             }
             break;
-
+            
         case 'sw':
         case 'ew':
             if ( $value !== null && strlen( $value ) > 0 ) {
