@@ -60,7 +60,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * The status message that user view.
      *
      */
-    protected $_statusMsg;
+    protected $_waitlistMsg = null;
+    protected $_requireApprovalMsg = null;
     
     /** 
      * Function to set variables up before form is built 
@@ -83,8 +84,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $eventFull && !$this->_allowConfirmation &&
              CRM_Utils_Array::value( 'has_waitlist', $this->_values['event'] ) ) { 
             $this->_allowWaitlist = true;
-            $this->_statusMsg = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
-                                                        ts('This event is currently full. However you can register now and get added to a waiting list. You will be notified if spaces become available.') );
+            $this->_waitlistMsg = CRM_Utils_Array::value( 'waitlist_text', $this->_values['event'], 
+                                                          ts('This event is currently full. However you can register now and get added to a waiting list. You will be notified if spaces become available.') );
         }
         $this->set( 'allowWaitlist', $this->_allowWaitlist );
         
@@ -286,11 +287,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 //case might be group become as a part of waitlist.
                 //If not waitlist then they require admin approve.
                 $allowGroupOnWaitlist = true;
-                $this->_statusMsg = ts("This event has only %1 spaces left. If you register as a group and register more than %1, the whole group will be put on the waitlist.", array( 1 => $this->_availableRegistrations ) );
+                $this->_waitlistMsg = ts("This event has only %1 spaces left. If you register as a group and register more than %1, the whole group will be put on the waitlist.", array( 1 => $this->_availableRegistrations ) );
+                
                 if ( $this->_requireApproval ) {
-                    $allowGroupOnWaitlist = false;
-                    $this->_statusMsg .= '<br /><br />' . CRM_Utils_Array::value( 'approval_req_text', $this->_values['event'], 
-                                                                                  ts( 'Registration for this event requires approval. Once your registration(s) have been reviewed, you will receive an email with a link to a web page where you can complete the registration process.' ) ); 
+                    $this->_requireApprovalMsg = CRM_Utils_Array::value( 'approval_req_text', $this->_values['event'], 
+                                                                         ts( 'Registration for this event requires approval. Once your registration(s) have been reviewed, you will receive an email with a link to a web page where you can complete the registration process.' ) ); 
                 }
             }
         }
@@ -298,14 +299,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         //case where only approval needed - no waitlist.
         if ( $this->_requireApproval && 
              !$this->_allowWaitlist && !$bypassPayment ) {
-            $this->_statusMsg = CRM_Utils_Array::value( 'approval_req_text', $this->_values['event'], 
-                                                        ts( 'Registration for this event requires approval. Once your registration has been reviewed, you will receive an email with a link to a web page where you can complete the registration process.' ) ); 
+            $this->_requireApprovalMsg = CRM_Utils_Array::value( 'approval_req_text', $this->_values['event'], 
+                                                                 ts( 'Registration for this event requires approval. Once your registration has been reviewed, you will receive an email with a link to a web page where you can complete the registration process.' ) ); 
         }
         
         //lets display status to primary page only.
-        $this->assign( 'statusMsg', $this->_statusMsg );
+        $this->assign( 'waitlistMsg', $this->_waitlistMsg );
+        $this->assign( 'requireApprovalMsg', $this->_requireApprovalMsg );
         $this->assign( 'allowGroupOnWaitlist', $allowGroupOnWaitlist );
-        $this->assign( 'availableRegistrations', $this->_availableRegistrations );
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );

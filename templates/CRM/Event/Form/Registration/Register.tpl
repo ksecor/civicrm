@@ -8,10 +8,11 @@
 <div class="form-item">
 
 {* moved to tpl since need to show only for primary participant page *}
-{if $statusMsg}
-  <div id="waitlist-approve-status-msg" class="messages status">
+{if $requireApprovalMsg || $waitlistMsg}
+  <div id = "id-waitlist-approval-msg" class="messages status">
     <dl>
-	<dd>{$statusMsg}</dd>
+	{if $requireApprovalMsg}<dd id="id-req-approval-msg">{$requireApprovalMsg}</dd>{/if}
+        {if $waitlistMsg}<dd id="id-waitlist-msg">{$waitlistMsg}</dd>{/if} 
     </dl>
   </div>
 {/if}
@@ -262,16 +263,22 @@
 	 additionalParticipants = document.getElementById('additional_participants').value;
       }
 
-      var availableRegistrations = {/literal}{$availableRegistrations}{literal};
+      var availableRegistrations = {/literal}'{$availableRegistrations}'{literal};
       var totalParticipants = parseInt( additionalParticipants ) + 1;
-
+      var isrequireApproval = {/literal}'{$requireApprovalMsg}'{literal};
+ 
       if ( totalParticipants > availableRegistrations ) {
          cj( "#bypass-payment" ).show( );
-         cj( "#waitlist-approve-status-msg" ).show( );
+         cj( "#id-waitlist-msg" ).show( );
+         cj( "#id-waitlist-approval-msg" ).show( );
       }	else {
          cj( "#bypass-payment" ).hide( );
-         cj( "#waitlist-approve-status-msg" ).hide( );
-
+         if ( isrequireApproval ) {
+            cj( "#id-waitlist-approval-msg" ).show( );
+            cj( "#id-waitlist-msg" ).hide( );
+         } else {
+            cj( "#id-waitlist-approval-msg" ).hide( );
+         }
          //reset value since user don't want or not eligible for waitlist 
          document.getElementsByName("bypass_payment")[0].checked = false;
       }
