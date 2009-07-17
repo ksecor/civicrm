@@ -382,6 +382,10 @@ WHERE sort_name LIKE '%$name%'";
         
         require_once "CRM/Core/BAO/CustomValue.php";
         CRM_Core_BAO_CustomValue::deleteCustomValue( $customValueID, $customGroupID );
+		if( $contactId = CRM_Utils_Array::value( 'contactId', $_POST ) ) {
+			require_once 'CRM/Contact/BAO/Contact.php';
+			echo CRM_Contact_BAO_Contact::getCountComponent( 'custom_'.$_POST['groupID'], $contactId  );		
+		}
     }
 
     /**

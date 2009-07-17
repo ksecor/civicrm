@@ -1806,6 +1806,15 @@ UNION
             require_once 'CRM/Activity/BAO/Activity.php';
             $data = array( 'contact_id' => $contactId );
             return CRM_Activity_BAO_Activity::getActivities( $data, null, null, null, 'Activity', false, null, null, true );
+        
+		default :
+			$custom = explode( '_', $component );
+			if( $custom['0'] = 'custom' ) {
+				require_once 'CRM/Core/DAO/CustomGroup.php';
+				$tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $custom['1'], 'table_name' );
+				$queryString = "SELECT count(id) FROM {$tableName} WHERE entity_id = {$contactId}";
+				return CRM_Core_DAO::singleValueQuery( $queryString );
+			}
         }
         
         $object->find( );

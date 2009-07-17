@@ -289,7 +289,8 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
             $allTabs[] = array( 'id'     => $id,
                                 'url'    => CRM_Utils_System::url( $group['path'], $group['query'] . "&snippet=1&selectedChild=$id"),
                                 'title'  => $group['title'],
-                                'weight' => $weight );
+                                'weight' => $weight,
+								'count'  => CRM_Contact_BAO_Contact::getCountComponent( $id, $this->_contactId )  );
             $weight += 10;
         }
 
