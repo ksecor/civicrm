@@ -87,12 +87,20 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
     {/if}
 
-    UPDATE civicrm_participant_status_type SET class = 'Positive' WHERE name IN ('Registered', 'Attended');
-    UPDATE civicrm_participant_status_type SET class = 'Negative' WHERE name IN ('No-show', 'Cancelled');
-    UPDATE civicrm_participant_status_type SET class = 'Pending'  WHERE name IN ('Pending');
-
+    UPDATE civicrm_participant_status_type
+	SET class = CASE name
+                        WHEN 'Registered' THEN 'Positive'
+                        WHEN 'Attended'   THEN 'Positive'
+                        WHEN 'No-show'    THEN 'Negative'
+                        WHEN 'Cancelled'  THEN 'Negative'
+                        WHEN 'Pending'    THEN 'Pending'
+                        ELSE name
+                    END;
+                    
     {if $multilingual}
-        UPDATE civicrm_participant_status_type SET name = 'Pending from pay later' {foreach from=$locales item=locale}, label_{$locale} = 'Pending from pay later' {/foreach} WHERE name = 'Pending';
+        UPDATE civicrm_participant_status_type
+            SET name = 'Pending from pay later' {foreach from=$locales item=locale}, label_{$locale} = 'Pending from pay later' {/foreach}
+        WHERE name = 'Pending';
 
         INSERT INTO civicrm_participant_status_type
             (name,                    {foreach from=$locales item=locale}label_{$locale}, {/foreach}         class,      is_reserved, is_active, is_counted, weight, visibility_id)
@@ -103,10 +111,10 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             ('Pending from approval', {foreach from=$locales item=locale}'Pending from approval', {/foreach} 'Pending',  1,           1,         1,          9,      2            ),
             ('Rejected',              {foreach from=$locales item=locale}'Rejected',              {/foreach} 'Negative', 1,           1,         0,          10,     2            ),
             ('Expired',               {foreach from=$locales item=locale}'Expired',               {/foreach} 'Negative', 1,           1,         0,          11,     2            );
-
-
     {else}
-        UPDATE civicrm_participant_status_type SET name = 'Pending from pay later', label = 'Pending from pay later' WHERE name = 'Pending';
+        UPDATE civicrm_participant_status_type
+            SET name = 'Pending from pay later', label = 'Pending from pay later'
+        WHERE name = 'Pending';
    
         INSERT INTO civicrm_participant_status_type
             (name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id)
@@ -185,7 +193,6 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             (@option_group_id_activity_type, {foreach from=$locales item=locale}'Bulk Email',   'Bulk Email Sent.',     {/foreach}     (SELECT @max_val := @max_val+1),     'Bulk Email',          (SELECT @max_wt := @max_wt+1),  1,            NULL ),
             (@option_group_id_activity_type, {foreach from=$locales item=locale}'Assign Case Role',   '',               {/foreach}     (SELECT @max_val := @max_val+2),     'Assign Case Role',    (SELECT @max_wt := @max_wt+2),  0,            @caseCompId ),
             (@option_group_id_activity_type, {foreach from=$locales item=locale}'Remove Case Role',   '',               {/foreach}     (SELECT @max_val := @max_val+3),     'Remove Case Role',    (SELECT @max_wt := @max_wt+3),  0,            @caseCompId );
-
     {else}
         INSERT INTO civicrm_option_value
             (option_group_id,                label,              description,          value,                           name,                   weight,                       filter, component_id)
@@ -496,25 +503,24 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         INSERT INTO civicrm_uf_field
             ( uf_group_id,            field_name,      is_required, is_reserved, weight, {foreach from=$locales item=locale}label_{$locale},{/foreach} field_type )
         VALUES
-            ( @uf_group_id_individual,  'first_name',           1, 0, 1,  {foreach from=$locales item=locale}'FirstName',       {/foreach}  'Individual'   ), 
-            ( @uf_group_id_individual,  'last_name',            1, 0, 2,  {foreach from=$locales item=locale}'LastName',        {/foreach}  'Individual'   ), 
-            ( @uf_group_id_individual,  'email',                1, 0, 3,  {foreach from=$locales item=locale}'EmailAddress',    {/foreach}  'Contact'      ), 
-            ( @uf_group_id_organization,'organization_name',    1, 0, 2,  {foreach from=$locales item=locale}'OrganizationName',{/foreach}  'Organization' ), 
-            ( @uf_group_id_organization,'email',                1, 0, 3,  {foreach from=$locales item=locale}'EmailAddress',    {/foreach}  'Contact'      ), 
-            ( @uf_group_id_household,   'household_name',       1, 0, 2,  {foreach from=$locales item=locale}'HouseholdName',   {/foreach}  'Household'    ), 
-            ( @uf_group_id_household,   'email',                1, 0, 3,  {foreach from=$locales item=locale}'EmailAddress',    {/foreach}  'Contact'      );
-    
+            ( @uf_group_id_individual,  'first_name',           1, 0, 1,  {foreach from=$locales item=locale}'First Name',       {/foreach}  'Individual'   ), 
+            ( @uf_group_id_individual,  'last_name',            1, 0, 2,  {foreach from=$locales item=locale}'Last Name',        {/foreach}  'Individual'   ), 
+            ( @uf_group_id_individual,  'email',                1, 0, 3,  {foreach from=$locales item=locale}'Email Address',    {/foreach}  'Contact'      ), 
+            ( @uf_group_id_organization,'organization_name',    1, 0, 1,  {foreach from=$locales item=locale}'Organization Name',{/foreach}  'Organization' ), 
+            ( @uf_group_id_organization,'email',                1, 0, 2,  {foreach from=$locales item=locale}'Email Address',    {/foreach}  'Contact'      ), 
+            ( @uf_group_id_household,   'household_name',       1, 0, 1,  {foreach from=$locales item=locale}'Household Name',   {/foreach}  'Household'    ), 
+            ( @uf_group_id_household,   'email',                1, 0, 2,  {foreach from=$locales item=locale}'Email Address',    {/foreach}  'Contact'      );   
     {else}
         INSERT INTO `civicrm_uf_field`
             ( `uf_group_id`, `field_name`, `is_required`, `is_reserved`, `weight`, `label`, `field_type` )
         VALUES
-            ( @uf_group_id_individual,  'first_name',           1, 0, 1,  '{ts escape="sql"}FirstName{/ts}',         'Individual'   ), 
-            ( @uf_group_id_individual,  'last_name',            1, 0, 2,  '{ts escape="sql"}LastName{/ts}',          'Individual'   ), 
-            ( @uf_group_id_individual,  'email',                1, 0, 3,  '{ts escape="sql"}EmailAddress{/ts}',      'Contact'      ), 
-            ( @uf_group_id_organization,'organization_name',    1, 0, 2,  '{ts escape="sql"}OrganizationName{/ts}',  'Organization' ), 
-            ( @uf_group_id_organization,'email',                1, 0, 3,  '{ts escape="sql"}EmailAddress{/ts}',      'Contact'      ), 
-            ( @uf_group_id_household,   'household_name',       1, 0, 2,  '{ts escape="sql"}HouseholdName{/ts}',     'Household'    ), 
-            ( @uf_group_id_household,   'email',                1, 0, 3,  '{ts escape="sql"}EmailAddress{/ts}',      'Contact'      );
+            ( @uf_group_id_individual,  'first_name',           1, 0, 1,  '{ts escape="sql"}First Name{/ts}',         'Individual'   ), 
+            ( @uf_group_id_individual,  'last_name',            1, 0, 2,  '{ts escape="sql"}Last Name{/ts}',          'Individual'   ), 
+            ( @uf_group_id_individual,  'email',                1, 0, 3,  '{ts escape="sql"}Email Address{/ts}',      'Contact'      ), 
+            ( @uf_group_id_organization,'organization_name',    1, 0, 1,  '{ts escape="sql"}Organization Name{/ts}',  'Organization' ), 
+            ( @uf_group_id_organization,'email',                1, 0, 2,  '{ts escape="sql"}Email Address{/ts}',      'Contact'      ), 
+            ( @uf_group_id_household,   'household_name',       1, 0, 1,  '{ts escape="sql"}Household Name{/ts}',     'Household'    ), 
+            ( @uf_group_id_household,   'email',                1, 0, 2,  '{ts escape="sql"}Email Address{/ts}',      'Contact'      );
     {/if}
     
     -- State / province
