@@ -877,9 +877,13 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $viewTitle  = ts('View this activity.');
 
         require_once 'CRM/Core/OptionGroup.php';
-        $emailActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                               'Email',
-                                                               'name' );
+        $emailActivityTypeIDs = array('Email' => CRM_Core_OptionGroup::getValue( 'activity_type', 
+                                                               'Email', 
+                                                               'name' ),
+                                      'Inbound Email' => CRM_Core_OptionGroup::getValue( 'activity_type', 
+                                                               'Inbound Email', 
+                                                               'name' ),
+                                     );
        
         $activityCondition = " AND v.name IN ('Open Case', 'Change Case Type', 'Change Case Status', 'Change Case Start Date')";
         $caseAttributeActivities = CRM_Core_OptionGroup::values( 'activity_type', false, false, false, $activityCondition );
@@ -913,7 +917,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $additionalUrl = "&id={$dao->id}";
             if ( !$dao->deleted ) {
                 //hide edit link of activity type email.CRM-4530.
-                if ( $dao->type != $emailActivityTypeID ) {
+                if ( ! in_array($dao->type, $emailActivityTypeIDs) ) {
                     $url = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
                 }
                               
