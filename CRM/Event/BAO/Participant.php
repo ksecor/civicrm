@@ -946,8 +946,6 @@ UPDATE  civicrm_participant
             foreach( $tokens['domain'] as $token ){ 
                 $domainValues[$token] = CRM_Utils_Token::getDomainTokenReplacement( $token, $domain );
             }
-            // CRM_Core_Error::debug('domainVal',$domainValues);
-            // above does not return phone, address and email values. dgg
         }
         
         //get all required contacts detail.
@@ -971,7 +969,7 @@ UPDATE  civicrm_participant
                 //get the location info
                 $locParams = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
                 require_once 'CRM/Core/BAO/Location.php';
-                CRM_Core_BAO_Location::getValues( $locParams, $eventDetails[$eventId], true );
+                $eventDetails[$eventId]['location'] = CRM_Core_BAO_Location::getValues( $locParams, true );
             }
         }
         

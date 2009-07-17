@@ -50,30 +50,30 @@ registration process.{/ts}
 {/if}
 
 {if $isShowLocation}
-{if $location.1.address.name}
+{if $location.address.1.name}
 
-{$location.1.address.name}
+{$location.address.1.name}
 {/if}
-{if $location.1.address.street_address}{$location.1.address.street_address}
+{if $location.address.1.street_address}{$location.address.1.street_address}
 {/if}
-{if $location.1.address.supplemental_address_1}{$location.1.address.supplemental_address_1}
+{if $location.address.1.supplemental_address_1}{$location.address.1.supplemental_address_1}
 {/if}
-{if $location.1.address.supplemental_address_2}{$location.1.address.supplemental_address_2}
+{if $location.address.1.supplemental_address_2}{$location.address.1.supplemental_address_2}
 {/if}
-{if $location.1.address.city}{$location.1.address.city} {$location.1.address.postal_code}{if $location.1.address.postal_code_suffix} - {$location.1.address.postal_code_suffix}{/if}
+{if $location.address.1.city}{$location.address.1.city} {$location.address.1.postal_code}{if $location.address.1.postal_code_suffix} - {$location.address.1.postal_code_suffix}{/if}
 {/if}
 
 {/if}{*End of isShowLocation condition*}
 
-{if $location.1.phone.1.phone || $location.1.email.1.email}
+{if $location.phone.1.phone || $location.email.1.email}
 
 {ts}Event Contacts:{/ts}
-{foreach from=$location.1.phone item=phone}
+{foreach from=$location.phone item=phone}
 {if $phone.phone}
 
 {if $phone.phone_type}{$phone.phone_type_display}{else}{ts}Phone{/ts}{/if}: {$phone.phone}{/if}
 {/foreach}
-{foreach from=$location.1.email item=eventEmail}
+{foreach from=$location.email item=eventEmail}
 {if $eventEmail.email}
 
 {ts}Email{/ts}: {$eventEmail.email}{/if}{/foreach}

@@ -265,12 +265,12 @@ ORDER BY start_date desc
 
             $params = array( 'entity_id' => $dao->id, 'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $defaults );
-            if ( isset ( $defaults['location'][1]['address']['city'] ) ) {
-                $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
+            $defaults['location'] = CRM_Core_BAO_Location::getValues( $params, true );
+            if ( isset ( $defaults['location']['address'][1]['city'] ) ) {
+                $manageEvent[$dao->id]['city'] = $defaults['location']['address'][1]['city'];
             }
-            if ( isset( $defaults['location'][1]['address']['state_province_id'] )) {
-                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
+            if ( isset( $defaults['location']['address'][1]['state_province_id'] )) {
+                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location']['address'][1]['state_province_id']);
             }
         }
         $this->assign('rows', $manageEvent);

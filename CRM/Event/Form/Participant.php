@@ -1095,9 +1095,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( CRM_Utils_Array::value( 'is_show_location', $event ) == 1 ) {
                 $locationParams = array( 'entity_id'    => $params['event_id'] ,
                                          'entity_table' => 'civicrm_event');
-                $values = array();
                 require_once 'CRM/Core/BAO/Location.php';
-                $location = CRM_Core_BAO_Location::getValues( $locationParams, $values , true );
+                $location = CRM_Core_BAO_Location::getValues( $locationParams, true );
                 $this->assign( 'location', $location );
             }             
             

@@ -442,7 +442,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             $params = array( 'entity_id' => $this->_eventId ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $this->_values, true );
+            $this->_values['location'] = CRM_Core_BAO_Location::getValues( $params, true );
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );

@@ -408,12 +408,12 @@ LIMIT      0, 10
                         $params = array( 'entity_id' => $dao->id ,'entity_table' => 'civicrm_event');
 
                         require_once 'CRM/Core/BAO/Location.php';
-                        CRM_Core_BAO_Location::getValues($params, $values, true );
+                        $values['location'] = CRM_Core_BAO_Location::getValues( $params, true );
                         
-                        if ( is_numeric( CRM_Utils_Array::value('geo_code_1',$values['location'][1]['address']) ) ||
+                        if ( is_numeric( CRM_Utils_Array::value('geo_code_1',$values['location']['address'][1]) ) ||
                              ( $config->mapGeoCoding &&
-                               $values['location'][1]['address']['city'] && 
-                               $values['location'][1]['address']['state_province_id']
+                               $values['location']['address'][1]['city'] && 
+                               $values['location']['address'][1]['state_province_id']
                              ) ) {
                             $set = CRM_Utils_System::url( 'civicrm/contact/map',"reset=1&eid={$dao->id}" );
                         }
