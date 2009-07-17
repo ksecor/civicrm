@@ -33,6 +33,12 @@
  *
  */
 
+/*
+ * variable to assign value to tpl
+ *
+ */
+$_tagGroup = null;
+
 class CRM_Contact_Form_Edit_TagsandGroups
 {
     /**
@@ -106,7 +112,7 @@ class CRM_Contact_Form_Edit_TagsandGroups
                          $dao->visibility == 'User and User Admin Only' ) {
                         continue;
                     }
-                    $tagGroup[$fName][$dao->id]['description'] = $dao->description;
+                    $form->_tagGroup[$fName][$dao->id]['description'] = $dao->description;
                     $elements[] =& $form->addElement('advcheckbox', $dao->id, null, $dao->title, $attributes );
                 }
             
@@ -125,7 +131,7 @@ class CRM_Contact_Form_Edit_TagsandGroups
             if ($fieldName) {
                 $fName = $fieldName; 
             }
-            $tagGroup[$fName] = 1;
+            $form->_tagGroup[$fName] = 1;
             $elements = array( );
             $tag =& CRM_Core_PseudoConstant::tag  ( );
             foreach ($tag as $id => $name) {
@@ -140,7 +146,7 @@ class CRM_Contact_Form_Edit_TagsandGroups
                 $form->addRule( $fName , ts('%1 is a required field.', array(1 => $tagName)) , 'required');   
             }
         }
-        $form->assign('tagGroup', $tagGroup); 
+        $form->assign('tagGroup', $form->_tagGroup); 
     }
 
     /**

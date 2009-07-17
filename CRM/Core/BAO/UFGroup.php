@@ -1490,9 +1490,18 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                             ts('External ID already exists in Database.'), 
                             'objectExists', 
                             array( 'CRM_Contact_DAO_Contact', $contID, 'external_identifier' ) );
-        } else if ( $fieldName === 'group' || $fieldName === 'tag' ) {
+        } else if ( $fieldName === 'group' ) {
             require_once 'CRM/Contact/Form/Edit/TagsAndGroups.php';
-            CRM_Contact_Form_Edit_TagsAndGroups::buildQuickForm( $form );
+            CRM_Contact_Form_Edit_TagsAndGroups::buildQuickForm( $form, $contactId,
+																  CRM_Contact_Form_Edit_TagsAndGroups::GROUP,
+																  true, $required,
+																  $title, null, $name );
+        } else if ( $fieldName === 'tag'  ) {
+            require_once 'CRM/Contact/Form/Edit/TagsAndGroups.php';
+            CRM_Contact_Form_Edit_TagsAndGroups::buildQuickForm( $form, $contactId,
+																  CRM_Contact_Form_Edit_TagsAndGroups::TAG,
+																  false, $required,
+																  null, $title, $name );
         } else if ( $fieldName === 'home_URL' ) {
             $form->addElement('text', $name, $title,
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
@@ -1604,7 +1613,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             require_once 'CRM/Contact/BAO/Contact.php';
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
             $details = $contactDetails[$contactId];
-            
+            require_once 'CRM/Contact/Form/Edit/TagsAndGroups.php';
             //start of code to set the default values
             foreach ($fields as $name => $field ) {
                 //set the field name depending upon the profile mode(single/batch)
@@ -1614,12 +1623,11 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                     $fldName = "field[$contactId][$name]";
                 }
                 
-                require_once 'CRM/Contact/Form/GroupTag.php';
                 if ( $name == 'group' ) {                   
-                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::GROUP, $fldName ); 
+                    CRM_Contact_Form_Edit_TagsAndGroups::setDefaults( $contactId, $defaults, CRM_Contact_Form_Edit_TagsAndGroups::GROUP, $fldName ); 
                 }
                 if( $name == 'tag' ) {
-                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG, $fldName ); 
+                    CRM_Contact_Form_Edit_TagsAndGroups::setDefaults( $contactId, $defaults, CRM_Contact_Form_Edit_TagsAndGroups::TAG, $fldName ); 
                 }
                 
                 if (CRM_Utils_Array::value($name, $details ) || isset( $details[$name] ) ) {
