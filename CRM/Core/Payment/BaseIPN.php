@@ -398,7 +398,7 @@ class CRM_Core_Payment_BaseIPN {
             $locationParams = array( 'entity_id' => $objects['event']->id, 'entity_table' => 'civicrm_event' );
             require_once 'CRM/Core/BAO/Location.php';
             require_once 'CRM/Event/Form/ManageEvent/Location.php';
-            CRM_Core_BAO_Location::getValues($locationParams, $values );
+            $values['location'] = CRM_Core_BAO_Location::getValues($locationParams);
 
             require_once 'CRM/Core/BAO/UFJoin.php';
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',
@@ -550,7 +550,7 @@ class CRM_Core_Payment_BaseIPN {
                 $locationParams = array( 'entity_id' => $objects['event']->id, 'entity_table' => 'civicrm_event' );
                 require_once 'CRM/Core/BAO/Location.php';
                 require_once 'CRM/Event/Form/ManageEvent/Location.php';
-                CRM_Core_BAO_Location::getValues($locationParams, $values );
+                $values['location'] = CRM_Core_BAO_Location::getValues($locationParams);
                 
                 require_once 'CRM/Core/BAO/UFJoin.php';
                 $ufJoinParams = array( 'entity_table' => 'civicrm_event',
@@ -587,7 +587,7 @@ class CRM_Core_Payment_BaseIPN {
             $template->assign( 'honor_prefix',     $prefix[$honorDefault["prefix_id"]] );
             $template->assign( 'honor_first_name', CRM_Utils_Array::value( "first_name", $honorDefault ) );
             $template->assign( 'honor_last_name',  CRM_Utils_Array::value( "last_name", $honorDefault ) );
-            $template->assign( 'honor_email',      CRM_Utils_Array::value( "email", $honorDefault["location"][1]["email"][1] ) );
+            $template->assign( 'honor_email',      CRM_Utils_Array::value( "email", $honorDefault["email"][1] ) );
             $template->assign( 'honor_type',       $honorType[$contribution->honor_type_id] );
         }
 

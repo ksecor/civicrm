@@ -332,8 +332,8 @@ function civicrm_cck_event_field_values($field, $index = null) {
         foreach ( $eventInfo as $info ) {
             $params = array( 'entity_id' => $info['id'],'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            CRM_Core_BAO_Location::getValues( $params, $values, true );
-            $str = $values['location'][1]['address']['display'];
+            $values['location'] = CRM_Core_BAO_Location::getValues( $params, true );
+            $str = $values['location']['address'][1]['display'];
             $retArray[] = $isAppend ? ("{$info['title']}:: " . $str) : $str;
         }
         break;
