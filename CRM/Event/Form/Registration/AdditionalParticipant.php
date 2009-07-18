@@ -236,12 +236,12 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                     $this->_allowWaitlist = false;
                     $this->set( 'allowWaitlist', $this->_allowWaitlist );
                     if ( $this->_requireApproval ) {
-                        $statusMessage = ts( "Oops it looks like you are trying to register a group of %1 participants and event having %2 spaces, since event registration require approval, Once your registration has been reviewed, you will receive an email with a link to a web page where you can complete the registration process.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
+                        $statusMessage = ts( "It looks like you are now registering a group of %1 participants. The event has %2 available spaces (you will not be wait listed). Registration for this event requires approval. You will receive an email once your registration has been reviewed.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
                     } else {
-                        $statusMessage = ts( "Oops it looks like you are trying to register a group of %1 participants and event having %2 spaces, hence your group become as registered though you selected on wait list.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
+                        $statusMessage = ts( "It looks like you are now registering a group of %1 participants. The event has %2 available spaces (you will not be wait listed).", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
                     }
                 } else {
-                    $statusMessage = ts( "Oops it looks like you are trying to register a group of %1 participants and event having %2 spaces, hence your group can not become as a part of waiting list and you need to go back to main registration page, there you can fill all payment information and become as registered participants.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
+                    $statusMessage = ts( "It looks like you are now registering a group of %1 participants. The event has %2 available spaces (you will not be wait listed). Please go back to the main registration page and reduce the number of additional people. You will also need to complete payment information.", array( 1 => ++$processedCnt, 2 =>  $spaces ) );
                     $allowToProceed = false;
                 }
                 CRM_Core_Session::setstatus( $status );
@@ -250,13 +250,13 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                      || $realPayLater || $this->_requireApproval ) {
                     $this->_resetAllowWaitlist = true;
                     if ( $this->_requireApproval ) {
-                        $statusMessage = ts( "If you skip this participant then there would be enough spaces in event so your group will become as a part of event but your registration require approval, will send you a mail to confirm your registration when registration get approved." );
+                        $statusMessage = ts( "If you skip this participant there will be enough spaces in the event for your group (you will not be wait listed). Registration for this event requires approval. You will receive an email once your registration has been reviewed." );
                     } else {
-                        $statusMessage = ts( "If you skip this participant then there would be enough space in event so your group will become as registered participants though you selected on wait list." );
+                        $statusMessage = ts( "If you skip this participant there will be enough spaces in the event for your group (you will not be wait listed)." );
                     }                    
                 } else {
                     //hey there is enough space and we require payment.
-                    $statusMessage = ts( "You can't skip this participant, If you want to skip then there will be enough space, hence your group can't become as a part of waiting list and you need to go back to main registration page, there you can fill all payment information and become as registered participants." );
+                    $statusMessage = ts( "If you skip this participant there will be enough spaces in the event for your group (you will not be wait listed). Please go back to the main registration page and reduce the number of additional people. You will also need to complete payment information." );
                     $includeSkipButton = false;
                 }
             }

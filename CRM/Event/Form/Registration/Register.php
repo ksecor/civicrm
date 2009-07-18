@@ -287,7 +287,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 //case might be group become as a part of waitlist.
                 //If not waitlist then they require admin approve.
                 $allowGroupOnWaitlist = true;
-                $this->_waitlistMsg = ts("This event has only %1 spaces left. If you register as a group and register more than %1, the whole group will be put on the waitlist.", array( 1 => $this->_availableRegistrations ) );
+                $additionalParticipantSpaces = $this->_availableRegistrations - 1;
+                $this->_waitlistMsg = ts("This event has only %1 space(s) left. If you register yourself and %1 additional people, the whole group will be wait listed. You can reduce the number of additional people to %2 to avoid being put on the waiting list.", array( 1 => $this->_availableRegistrations,  2 => $additionalParticipantSpaces ) );
                 
                 if ( $this->_requireApproval ) {
                     $this->_requireApprovalMsg = CRM_Utils_Array::value( 'approval_req_text', $this->_values['event'], 
@@ -515,7 +516,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
              !CRM_Utils_Array::value( 'bypass_payment', $fields ) &&
              is_numeric( $self->_availableRegistrations ) &&
              CRM_Utils_Array::value( 'additional_participants', $fields ) >= $self->_availableRegistrations ) {
-            $errors['additional_participants'] = ts( "You can register only %1 participant(s)", array( 1=>$self->_availableRegistrations ));
+            $errors['additional_participants'] = ts( "You can only register %1 participant(s).", array( 1=>$self->_availableRegistrations ));
         }
         
         // during confirmation don't allow to increase additional participants, CRM-4320
@@ -523,14 +524,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
              CRM_Utils_Array::value( 'additional_participants', $fields ) && 
              is_array( $self->_additionalParticipantIds ) &&
              $fields['additional_participants'] > count( $self->_additionalParticipantIds ) ) {
-            $errors['additional_participants'] = ts( "Oops it looks like you are trying to increase additional participant(s), <br>You can confirm registration for maximum %1 additional participant(s).", array( 1=>count( $self->_additionalParticipantIds ) ) );
+            $errors['additional_participants'] = ts( "Oops. It looks like you are trying to increase the number additional people you are registering for. You can confirm registration for a maximum of %1 additional people.", array( 1=>count( $self->_additionalParticipantIds ) ) );
         }
         
         //don't allow to register w/ waiting if enough spaces available.
         if ( CRM_Utils_Array::value( 'bypass_payment', $fields ) ) {
             if ( !is_numeric( $self->_availableRegistrations ) || 
                  CRM_Utils_Array::value( 'additional_participants', $fields ) < $self->_availableRegistrations ) {
-                $errors['bypass_payment'] = ts( "Oops it looks like there are enough space in event and you are trying to become a part of waiting list.");
+                $errors['bypass_payment'] = ts( "Oops. There are enough available spaces in this event. You can not add yourself to the waiting list.");
             }
         }
         
@@ -542,7 +543,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         if ( CRM_Utils_Array::value( 'additional_participants', $fields ) &&
 	     ! CRM_Utils_Rule::positiveInteger( $fields['additional_participants'] ) ) {
-            $errors['additional_participants'] =  ts('Please enter a valid No Of People (whole number).'); 
+            $errors['additional_participants'] =  ts('Please enter a whole number for Number of additional people.'); 
         } 
         //check for atleast one pricefields should be selected
         if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) {
@@ -559,7 +560,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             
             if ( empty( $check ) ) {
-                $errors['_qf_default'] = ts( "Select atleast one option from Event Fee(s)" );
+                $errors['_qf_default'] = ts( "Select at least one option from Event Fee(s)." );
             }
         }
                 
