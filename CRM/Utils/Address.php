@@ -202,12 +202,11 @@ class CRM_Utils_Address
                 $formatted = preg_replace("/{[^{}]*\b{$token}\b[^{}]*}/u", '', $formatted);
             }
         }
-
         // drop any {...} constructs from lines' ends
         if (! $microformat) {
             $formatted = "\n$formatted\n";
         } else {
-            if( $microformat === 1) {
+            if( $microformat == 1) {
                 $formatted = "\n<div class=\"location vcard\"><span class=\"adr\">$formatted</span></div>\n";
             } else {
                 $formatted = "\n<div class=\"vcard\"><span class=\"adr\">$formatted</span></div>\n";
