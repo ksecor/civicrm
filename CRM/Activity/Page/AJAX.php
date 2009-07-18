@@ -56,4 +56,19 @@ class CRM_Activity_Page_AJAX
         echo CRM_Utils_JSON::encodeSelector( $activities, $page, $total, $selectorElements );
         exit();
     }
+    
+    static function convertToCaseActivity()
+    {
+        $caseID     = CRM_Utils_Array::value( 'caseID', $_POST );
+        $activityID = CRM_Utils_Array::value( 'activityID', $_POST );
+
+        require_once "CRM/Case/DAO/CaseActivity.php";
+        $caseActivity =& new CRM_Case_DAO_CaseActivity();
+        $caseActivity->case_id = $caseID;
+        $caseActivity->activity_id = $activityID;
+        $caseActivity->find(true);
+        $caseActivity->save();
+
+        echo json_encode(array('error_msg' => $caseActivity->_lastError));
+    }
 }
