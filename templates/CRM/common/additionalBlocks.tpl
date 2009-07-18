@@ -20,6 +20,12 @@ function buildAdditionalBlocks( blockName, className ) {
   var previousInstance = allInstances.slice( allInstances.lastIndexOf(',') + 1 );
   var currentInstance  = parseInt( previousInstance ) + 1;
 
+  //show primary option if block count = 2
+  if ( currentInstance == 2) {
+      cj("#" + blockName + '-Primary').show( );
+      cj("#" + blockName + '-Primary-html').show( );
+  }
+      
   var dataUrl = null;
   if ( className == 'CRM_Contact_Form_Contact' ) {
      dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentInstance;{/literal}

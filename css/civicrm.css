@@ -1679,3 +1679,6 @@ DIV.buttons #icons {
   border            : 1px solid #DCDCDC;
 }
 
+#crm-container .hiddenElement {
+    display : none;
+}
