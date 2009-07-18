@@ -367,8 +367,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( $showHidePayfieldName ==  'PayPalExpress' ) {
                 $attributes = array('onclick' => "showHidePayPalExpressOption();" );
             }
-            $this->addElement( 'checkbox', 'bypass_payment', ts( 'Be a part of waiting list.' ), 
-                               null, $attributes );
+	    $this->addElement( 'hidden', 'bypass_payment', null, array( 'id' => 'bypass_payment') );
         }
         $this->assign( 'bypassPayment', $bypassPayment );
         $this->assign( 'buildExpressPayBlock', $buildExpressPayBlock );
@@ -689,7 +688,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
-        
+
         //set as Primary participant
         $params ['is_primary'] = 1;         
         
