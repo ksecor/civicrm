@@ -5,31 +5,31 @@
 function modifyLinkAttributes( recordID, op ) {
     //we changed record from enable to disable
     if ( op == 'enable-disable' ) {
-	var fieldID     = "#row_"+ recordID + " a." + "disable-action";
-	var operation   = "disable-enable";
-	var htmlContent = 'Enable';
-	var newClass    = 'enable-action';
-	var newTitle    = 'Enable';
+        var fieldID     = "#row_"+ recordID + " a." + "disable-action";
+        var operation   = "disable-enable";
+        var htmlContent = {/literal}'{ts}Enable{/ts}'{literal};
+        var newClass    = 'enable-action';
+        var newTitle    = {/literal}'{ts}Enable{/ts}'{literal};
     } else if ( op == 'disable-enable' ) {
-	var fieldID     = "#row_"+ recordID + " a." + "enable-action";
-	var operation   = "enable-disable";
-	var htmlContent = 'Disable';
-	var newClass    = 'disable-action';
-	var newTitle    = 'Disable';
+        var fieldID     = "#row_"+ recordID + " a." + "enable-action";
+        var operation   = "enable-disable";
+        var htmlContent = {/literal}'{ts}Disable{/ts}'{literal};
+        var newClass    = 'disable-action';
+        var newTitle    = {/literal}'{ts}Disable{/ts}'{literal};
     }
 
     //change html
     cj( fieldID ).html( htmlContent ); 	
-   
+
     //change title
     cj( fieldID ).attr({title:newTitle});
 
     //need to update js - change op from js to new allow operation. 
     var updatedJavaScript = cj( fieldID ).attr("onClick").replace( op, operation );
-    
+
     //set updated js
     cj( fieldID ).attr({ onClick : updatedJavaScript });  
-    
+
     //finally change class to enable-action.
     cj( fieldID ).attr({class: newClass });
 }
@@ -37,37 +37,37 @@ function modifyLinkAttributes( recordID, op ) {
 function modifySelectorRow( recordID, op ) {
     var elementID = "#row_" + recordID;
     if ( op == "disable-enable" ) {
-	cj( elementID ).removeClass("disabled");
+        cj( elementID ).removeClass("disabled");
     } else if ( op == "enable-disable" )  {
-	//we are disabling record.
-	cj( elementID ).addClass("disabled");
+        //we are disabling record.
+        cj( elementID ).addClass("disabled");
     }
-     
+
 }
 
 function hideEnableDisableStatusMsg( ) {
-  cj( '#enableDisableStatusMsg' ).hide( );
+    cj( '#enableDisableStatusMsg' ).hide( );
 }
 
 function enableDisable( recordID, recordBAO, op ) {
- var statusMsg = '{/literal}{ts}Are you sure you want to enable this record?{/ts}{literal}';
- if ( op == 'enable-disable' ) {
-    statusMsg = '{/literal}{ts}Are you sure you want to disable this record?{/ts}{literal}';
- }
+    var statusMsg = '{/literal}{ts}Are you sure you want to enable this record?{/ts}{literal}';
+    if ( op == 'enable-disable' ) {
+        statusMsg = '{/literal}{ts}Are you sure you want to disable this record?{/ts}{literal}';
+    }
 
- var confirmMsg =  statusMsg + '&nbsp;<a href="javascript:saveEnableDisable( ' + recordID + ',\'' + recordBAO + '\'' + ', \'' + op + '\'' + ' );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
+    var confirmMsg =  statusMsg + '&nbsp;<a href="javascript:saveEnableDisable( ' + recordID + ',\'' + recordBAO + '\'' + ', \'' + op + '\'' + ' );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
 
-     cj( '#enableDisableStatusMsg' ).show( ).html( confirmMsg );
+    cj( '#enableDisableStatusMsg' ).show( ).html( confirmMsg );
 }
 
 //check is server properly processed post.
 var responseFromServer = false; 
 
 function noServerResponse( ) {
- if ( !responseFromServer ) { 
-    var serverError =  '{/literal}{ts}There is no response from server therefore selected record is not updated.{/ts}{literal}'  + '&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();"><img title="{/literal}{ts}close{/ts}{literal}" src="' +resourceBase+'i/close.png"/></a>';
-    cj( '#enableDisableStatusMsg' ).show( ).html( serverError ); 
- }
+    if ( !responseFromServer ) { 
+        var serverError =  '{/literal}{ts}There is no response from server therefore selected record is not updated.{/ts}{literal}'  + '&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();"><img title="{/literal}{ts}close{/ts}{literal}" src="' +resourceBase+'i/close.png"/></a>';
+        cj( '#enableDisableStatusMsg' ).show( ).html( serverError ); 
+    }
 }
 
 function saveEnableDisable( recordID, recordBAO, op ) {
@@ -77,33 +77,33 @@ function saveEnableDisable( recordID, recordBAO, op ) {
     var statusMsg   = '{/literal}{ts}The selected record has been disabled.{/ts}{literal}';
 
     if ( op == 'disable-enable' ) {
-	statusMsg = '{/literal}{ts}The selected record has been enabled.{/ts}{literal}';
+        statusMsg = '{/literal}{ts}The selected record has been enabled.{/ts}{literal}';
     } 
-   
+
     //post request and get response
     cj.post( postUrl, { recordID: recordID, recordBAO: recordBAO, op:op  }, function( html ){
-    responseFromServer = true;      
-    var resourceBase   = {/literal}"{$config->resourceBase}"{literal}; 
+        responseFromServer = true;      
+        var resourceBase   = {/literal}"{$config->resourceBase}"{literal}; 
 
-    var successMsg =  '{/literal}{ts}There is some error occurred in AJAX post therefore selected record is not updated.{/ts}{literal}' + '&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();"><img title="{/literal}{ts}close{/ts}{literal}" src="' +resourceBase+'i/close.png"/></a>';
+        var successMsg =  '{/literal}{ts}There is some error occurred in AJAX post therefore selected record is not updated.{/ts}{literal}' + '&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();"><img title="{/literal}{ts}close{/ts}{literal}" src="' +resourceBase+'i/close.png"/></a>';
 
 
-    //this is custom status set when record update success.
-    if ( html.status == 'record-updated-success' ) {
-       var successMsg =  statusMsg + '&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();"><img title="{/literal}{ts}close{/ts}{literal}" src="' +resourceBase+'i/close.png"/></a>';
-	       
-       //change row class and show/hide action links.
-       modifySelectorRow( recordID, op );
-    
-       //modify action link html        
-       modifyLinkAttributes( recordID, op ); 
-     } 
-	
-     cj( '#enableDisableStatusMsg' ).show( ).html( successMsg );
-     }, 'json' );
-    
-     //if no response from server give message to user.
-     setTimeout( "noServerResponse( )", 1500 ); 
- }
-</script>
-{/literal}
+        //this is custom status set when record update success.
+        if ( html.status == 'record-updated-success' ) {
+            var successMsg =  statusMsg + '&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();"><img title="{/literal}{ts}close{/ts}{literal}" src="' +resourceBase+'i/close.png"/></a>';
+
+            //change row class and show/hide action links.
+            modifySelectorRow( recordID, op );
+
+            //modify action link html        
+            modifyLinkAttributes( recordID, op ); 
+        } 
+
+        cj( '#enableDisableStatusMsg' ).show( ).html( successMsg );
+        }, 'json' );
+
+        //if no response from server give message to user.
+        setTimeout( "noServerResponse( )", 1500 ); 
+    }
+    </script>
+    {/literal}
