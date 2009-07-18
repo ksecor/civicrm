@@ -16,25 +16,27 @@ cj( function( ) {
 
 function buildAdditionalBlocks( blockName, className ) {
 
-  var previousBlockCount = cj( "#hidden_" + blockName + "_Instances" ).val( ).substr(-1);
-  var currentBlockCount  = parseInt( previousBlockCount ) + 1;
+  var allInstances     = cj( "#hidden_" + blockName + "_Instances" ).val( );
+  var previousInstance = allInstances.slice( allInstances.lastIndexOf(',') + 1 );
+  var currentInstance  = parseInt( previousInstance ) + 1;
+
   var dataUrl = null;
   if ( className == 'CRM_Contact_Form_Contact' ) {
-     dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentBlockCount;{/literal}
+     dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentInstance;{/literal}
  
      {if $qfKey}    
      dataUrl += "&qfKey={$qfKey}";
      {/if}
      {literal}
   } else if ( className == 'CRM_Event_Form_ManageEvent_Location' && currentBlockCount <= 2 ) {
-     dataUrl = {/literal}"{crmURL p='civicrm/event/manage' h=0 q='snippet=4'}"{literal} + '&subPage=Location&block=' + blockName + '&count=' + currentBlockCount;
+     dataUrl = {/literal}"{crmURL p='civicrm/event/manage' h=0 q='snippet=4'}"{literal} + '&subPage=Location&block=' + blockName + '&count=' + currentInstance;
   }
   
   if ( !dataUrl ) {
      return;
   }
     
-  blockId = (cj('#' + blockName + '_Block_'+ previousBlockCount ).html()) ? previousBlockCount : 1;  
+  blockId = (cj('#' + blockName + '_Block_'+ previousInstance ).html()) ? previousInstance : 1;  
   var fname = '#' + blockName + '_Block_'+ blockId;
 
   cj('#addMore' + blockName ).hide();
@@ -46,11 +48,11 @@ function buildAdditionalBlocks( blockName, className ) {
                          cj(fname).after(html[1]);
                       }
          });
-  cj( "#hidden_" + blockName + "_Count" ).val( currentBlockCount );
+  cj( "#hidden_" + blockName + "_Count" ).val( currentInstance );
 
   //build the hidden block instance string used in post.
   var prevousBlockCntStr = cj( "#hidden_" + blockName + "_Instances" ).val( );
-  var currentBlockCntStr = prevousBlockCntStr + ',' + currentBlockCount;
+  var currentBlockCntStr = prevousBlockCntStr + ',' + currentInstance;
   cj( "#hidden_" + blockName + "_Instances" ).val( currentBlockCntStr );
 
   if ( blockName == 'Address' ) cj("#addressBlock").show( );
