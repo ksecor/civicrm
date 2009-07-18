@@ -207,7 +207,7 @@ class CRM_Export_BAO_Export
                           'addressee'       => 'addressee_custom'
                           );
         foreach( $elements as $greeeting => $customGreeting ) {
-            if ( in_array($greeeting, $returnProperties) ) {
+            if ( in_array($greeeting, array_keys($returnProperties)) ) {
                 $returnProperties[$customGreeting] = 1;
             }
         }
@@ -339,7 +339,7 @@ class CRM_Export_BAO_Export
                         //then output the corresponding "custom" column value instead, CRM-4575
                         require_once 'CRM/Activity/BAO/Activity.php';
                         if( empty( $dao->$customGreeting ) ) {
-                            $tokenString = strstr($dao->$field,'{');
+                            $tokenString = $dao->$field;
                             CRM_Activity_BAO_Activity::replaceGreetingTokens($tokenString, $dao->contact_id);
                             $fieldValue = $tokenString;
                         } else {

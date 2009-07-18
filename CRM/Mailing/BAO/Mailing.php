@@ -1922,8 +1922,8 @@ SELECT $selectClause
         
         //get custom values of email/postal greeting or addressee, CRM-4575
         $element = array( 'email_greeting'   => 'email_greeting_custom', 
-                           'postal_greeting' => 'postal_greeting_custom', 
-                           'addressee'       => 'addressee_custom' );
+                          'postal_greeting'  => 'postal_greeting_custom', 
+                          'addressee'        => 'addressee_custom' );
         foreach( $element as $field => $customField ) {
             if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
                 $returnProperties[$customField] = 1;
@@ -1961,10 +1961,11 @@ SELECT $selectClause
                 }
                 //If the contact has a "Customized" value for email/postal greeting or addressee
                 //then output the corresponding custom value instead. CRM-4575
-                foreach( $element as $field => $customField ) {
-                    $fieldId = $field."_id";
-                    if ( isset( $contactDetails[$contactID][$fieldId] ) && $contactDetails[$contactID][$fieldId] == 4 ) {
-                        $contactDetails[$contactID][$field] = $contactDetails[$contactID][$customField];
+                
+                foreach( $element as $greeting => $customizedGreeting ) {
+                    $fieldId = $greeting."_id";
+                    if ( !empty ( $contactDetails[$contactID][$customizedGreeting] ) ) {
+                        $contactDetails[$contactID][$greeting] = $contactDetails[$contactID][$customizedGreeting];
                     } 
                 }
                 

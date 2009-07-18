@@ -190,7 +190,6 @@ field_type          ="radio"
 invert              = 0
 }
 {/if}
-{*if $form.email_greeting*}
 
 {literal}
 <script type="text/javascript">
