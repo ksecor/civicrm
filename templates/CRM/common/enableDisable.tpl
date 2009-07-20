@@ -10,12 +10,14 @@ function modifyLinkAttributes( recordID, op ) {
         var htmlContent = {/literal}'{ts}Enable{/ts}'{literal};
         var newClass    = 'enable-action';
         var newTitle    = {/literal}'{ts}Enable{/ts}'{literal};
+	var newText     = {/literal}'{ts}Inactive{/ts}'{literal};
     } else if ( op == 'disable-enable' ) {
         var fieldID     = "#row_"+ recordID + " a." + "enable-action";
         var operation   = "enable-disable";
         var htmlContent = {/literal}'{ts}Disable{/ts}'{literal};
         var newClass    = 'disable-action';
         var newTitle    = {/literal}'{ts}Disable{/ts}'{literal};
+	var newText     = {/literal}'{ts}Active{/ts}'{literal};
     }
 
     //change html
@@ -29,6 +31,10 @@ function modifyLinkAttributes( recordID, op ) {
 
     //set updated js
     cj( fieldID ).attr({ onClick : updatedJavaScript });  
+
+    //set the updated status
+    var fieldStatus = "#row_"+ recordID + "_status";
+    cj( fieldStatus ).text( newText );
 
     //finally change class to enable-action.
     cj( fieldID ).attr({class: newClass });

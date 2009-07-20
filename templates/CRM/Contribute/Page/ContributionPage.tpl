@@ -35,7 +35,7 @@
                <strong>{$row.title}</strong>
             </td>
             <td>{$row.id}</td>
-            <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
