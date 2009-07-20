@@ -12,6 +12,8 @@
         <div id="field_page">
          <p></p>
         {strip}
+        {* handle enable/disable actions*}
+ 	{include file="CRM/common/enableDisable.tpl"}
         <table id="drag-handle" class="selector">
             <thead class="sticky">
                 <th>{ts}CiviCRM Field Name{/ts}</th>
@@ -25,8 +27,7 @@
                 <th>&nbsp;</th>
             </thead>
             {foreach from=$ufField item=row}
-            <tr class="{cycle values="odd-row,even-row"} {$row.class}
-                {if NOT $row.is_active}disabled{/if}">
+            <tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
                 <td>{$row.label}<br/>({$row.field_type})</td>
                 <td>{$row.visibility_display}</td>
                 <td>{if $row.is_searchable   eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>

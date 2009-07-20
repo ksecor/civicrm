@@ -57,8 +57,7 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
     {
         return 'CRM_Contact_BAO_RelationshipType';
     }
-
-
+    
     /**
      * Get action Links
      *
@@ -67,9 +66,6 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
     function &links()
     {
         if (!( self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this relationship type?') . '\n\n' . ts('Users will no longer be able to select this value when adding or editing relationships between contacts.');
-
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),

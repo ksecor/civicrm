@@ -72,14 +72,16 @@ class CRM_Admin_Page_AJAX
             switch ($recordBAO) {
                 
             case 'CRM_Core_BAO_UFGroup':
-                require_once "CRM/Core/BAO/UFGroup.php";
-                $ufJoin = implode (', ' ,CRM_Core_BAO_UFGroup::getUFJoinRecord($recordID, true) );
-                $status = ts('This profile is currently used for '). $ufJoin . ts('. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?');
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $recordBAO) . ".php");
+                $method = 'getUFJoinRecord'; 
+                $result = array($recordBAO,$method);
+                $ufJoin = call_user_func_array(($result), array($recordID,true));
+                $status = ts('This profile is currently used for ') . implode (', ' , $ufJoin) . ts('. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?');
                 break;
-
+                
             default:
-            $status = ts('Are you sure you want to disable this record?');
-            break;
+                $status = ts('Are you sure you want to disable this record?');
+                break;
             }
         }
         $statusMessage['status'] = $status;
