@@ -484,14 +484,13 @@ function _civicrm_required_formatted_contact(&$params)
             if (isset($params['first_name']) && isset($params['last_name'])) {
                 return civicrm_create_success(true);
             }
-            if (is_array($params['location'])) {
-                foreach ($params['location'] as $location) {
-                    if (is_array($location['email']) 
-                        && count($location['email']) >= 1) {
-                        return civicrm_create_success(true);
-                    }
-                }
+            
+            if ( array_key_exists( 'email', $params ) &&
+                 is_array( $params['email'] ) && 
+                 !CRM_Utils_System::isNull( $params['email'] ) ) { 
+                return civicrm_create_success(true);
             }
+            
             break;
         case 'Household':
             if (isset($params['household_name'])) {
@@ -563,24 +562,23 @@ function _civicrm_duplicate_formatted_contact(&$params)
 function _civicrm_validate_formatted_contact(&$params) 
 {
     /* Look for offending email addresses */
-    if (is_array($params['location'])) {
-        $badEmail = true;
-        $emails = 0;
-        foreach ($params['location'] as $loc) {
-            if (is_array($loc['email'])) {
-                $emails++;
-                foreach ($loc['email'] as $email) {
-                    if (CRM_Utils_Rule::email( $email['email']) ) {
-                        $badEmail = false;
-                    }
+    if ( array_key_exists( 'email', $params ) ) {
+        foreach ( $params['email']  as $count => $values ) {
+            if( !is_array( $values ) ) continue;
+            if ( $email = CRM_Utils_Array::value( 'email', $values ) ) {
+                //validate each email 
+                if ( !CRM_Utils_Rule::email( $email ) ) {
+                    return civicrm_create_error( 'No valid email address');
+                }
+                
+                //check for loc type id.
+                if ( !CRM_Utils_Array::value( 'location_type_id', $values ) ) {
+                    return civicrm_create_error( 'Location Type Id missing.');
                 }
             }
         }
-        if ($emails && $badEmail) {
-            return civicrm_create_error( 'No valid email address');
-        }
     }
-
+    
     /* Validate custom data fields */
     if (is_array($params['custom'])) {
         foreach ($params['custom'] as $key => $custom) {
