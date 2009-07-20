@@ -17,6 +17,7 @@
 {else}
 <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
 {/if}
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
 <link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
 <script type="text/javascript" src="{$config->userFrameworkResourceURL}packages/dojo/dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true, usePlainJson: true"></script>
 <script type="text/javascript" src="{$config->userFrameworkResourceURL}packages/dojo/dojo/commonWidgets.js"></script>

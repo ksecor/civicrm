@@ -58,6 +58,7 @@ function civicrm_html_head()
     }
 
     if ( $includeCommon ) {
+        $head .= "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=7\" />";
         $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
         $head .= "<script type=\"text/javascript\" src=\"{$config->userFrameworkResourceURL}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->userFrameworkResourceURL}packages/dojo/dojo/commonWidgets.js\"></script>";
