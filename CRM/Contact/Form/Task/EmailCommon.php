@@ -98,11 +98,9 @@ class CRM_Contact_Form_Task_EmailCommon
                 $form->_emails[$email] .= ' ' . ts('(preferred)');
                 }
                 $form->_emails[$email] = htmlspecialchars( $form->_emails[$email] );
-                $toContact[$cid] = $email;
             }
-            $form->assign( 'toContact', $toContact );
+			
         }
-        $form->assign( 'single', $form->_single );
     }
     
     /**
@@ -113,48 +111,33 @@ class CRM_Contact_Form_Task_EmailCommon
      */
     static function buildQuickForm( &$form )
     {
-        if ( ! $form->_single ) {
-            $toArray          = array();
-            $suppressedEmails = 0;
-            //To avoid duplicated emails in recipient list of the
-            //contact appears more than once in resultset
-            //Fixed for CRM-4067
-            $form->_contactIds = array_unique( $form->_contactIds );
-            require_once 'CRM/Contact/BAO/Contact.php';
-            foreach ( $form->_contactIds as $contactId ) {
-                list($toDisplayName, $toEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
-                if ( ! trim( $toDisplayName ) ) {
-                    $toDisplayName = $toEmail;
-                }
+		$toArray          = array();
+		$suppressedEmails = 0;
+		//To avoid duplicated emails in recipient list of the
+		//contact appears more than once in resultset
+		//Fixed for CRM-4067
+		$form->_contactIds = array_unique( $form->_contactIds );
+		require_once 'CRM/Contact/BAO/Contact.php';
+		foreach ( $form->_contactIds as $contactId ) {
+			list($toDisplayName, $toEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
+			if ( ! trim( $toDisplayName ) ) {
+				$toDisplayName = $toEmail;
+			}
 
-                if ( $toDoNotEmail || empty( $toEmail ) ) {
-                    $suppressedEmails++;
-                } else {
-                    $toArray[$contactId] = $toEmail;
-                }
-            }
+			if ( $toDoNotEmail || empty( $toEmail ) ) {
+				$suppressedEmails++;
+			} else {
+				$toArray[$contactId] = $toEmail;
+			}
+		}
 
-            if ( empty( $toArray ) ) {
-                CRM_Core_Error::statusBounce( ts('Selected contact(s) do not have a valid email address, or communication preferences specify DO NOT EMAIL, or they are deceased).' ));
-            }
+		if ( empty( $toArray ) ) {
+			CRM_Core_Error::statusBounce( ts('Selected contact(s) do not have a valid email address, or communication preferences specify DO NOT EMAIL, or they are deceased).' ));
+		}
 
-            $form->assign('toContact', $toArray);
-            $form->assign('suppressedEmails', $suppressedEmails);
-        } else {
-            if ( $form->_noEmails ) {
-                $form->add('text', 'emailAddress', null, CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
-                $form->addRule('emailAddress', ts('%1 is a required field.', array(1 => 'To')) , 'required');
-                $form->addRule( "emailAddress", ts('Email is not valid.'), 'email' );
-            }
+		$form->assign('toContact', $toArray);
+		$form->assign('suppressedEmails', $suppressedEmails);
 
-            if ( count( $form->_emails ) <= 1 ) {
-                foreach ( $form->_emails as $email => $dontCare ) {
-                    $defaults = array( 'to' => $email );
-                    $form->setDefaults( $defaults );
-                }
-                
-            }
-        }
         $to = $form->add( 'text', 'to', ts('To') );
         $form->assign('noEmails', $form->_noEmails);
         
