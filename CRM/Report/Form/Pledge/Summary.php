@@ -38,6 +38,7 @@ require_once 'CRM/Report/Form.php';
 class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
 
     protected $_summary = null;
+    protected $_totalPaid = false;
     
     function __construct( ) {
         $this->_columns = 
@@ -119,6 +120,9 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                               array( 'title'   => ts('Pledge Status'),
                                      'required'=>true               ),
                               
+                              'total_paid'  =>
+                              array( 'title'   => ts('Total Paid'), ),
+                              
                               ),
                         'filters'   => 
                         array(
@@ -158,6 +162,11 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                     if ( CRM_Utils_Array::value( 'required', $field ) ||
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
 
+                        if ( CRM_Utils_Array::value( 'total_paid', $this->_params['fields'] ) ) {
+                            $this->_totalPaid = true;
+                            unset( $this->_params['fields']['total_paid'] );
+                        }
+                        
                         // to include optional columns address and email, only if checked
                         if ( $tableName == 'civicrm_address' ) {
                             $this->_addressField = true;
@@ -294,7 +303,11 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
         foreach ( $tableHeader as $k => $val ) {
             $this->_columnHeaders[$k] = $val;
         }
-        
+
+        if ( !$this->_totalPaid ){ 
+            unset( $this->_columnHeaders['total_paid'] );
+        }
+
         // To Display Payment Details of pledged amount
         // for pledge payments In Progress
         if ( !empty( $display ) ){
