@@ -91,12 +91,11 @@ class CRM_Contact_Form_Edit_Individual {
         $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
         if ( !empty( $emailGreeting ) ) {
             $this->addElement('select', 'email_greeting_id', ts('Email Greeting'), 
-                              array('' => ts('- select -')) + $emailGreeting, 
-                              array( 'onchange' => " showCustomized(this.id);" ));
+                              array('' => ts('- select -')) + $emailGreeting );
             //email greeting custom
             $this->addElement('text', 'email_greeting_custom', ts('Custom Email Greeting'), 
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'email_greeting_custom' ),
-                                           array( 'onfocus' => "if (!this.value) this.value='Dear'; else return false",
+                                           array( 'onfocus' => "if (!this.value) this.value='Dear '; else return false",
                                                   'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
         }
         
@@ -105,12 +104,11 @@ class CRM_Contact_Form_Edit_Individual {
         $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);
         if ( !empty( $postalGreeting ) ) {
             $this->addElement('select', 'postal_greeting_id', ts('Postal Greeting'), 
-                              array('' => ts('- select -')) + $postalGreeting, 
-                              array( 'onchange' => " showCustomized(this.id);") );
+                              array('' => ts('- select -')) + $postalGreeting );
             //postal greeting custom
             $this->addElement('text', 'postal_greeting_custom', ts('Custom Postal Greeting'), 
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'postal_greeting_custom' ), 
-                                           array( 'onfocus' => "if (!this.value) this.value='Dear'; else return false",
+                                           array( 'onfocus' => "if (!this.value) this.value='Dear '; else return false",
                                                   'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
         }
         if ( $action & CRM_Core_Action::UPDATE ) {

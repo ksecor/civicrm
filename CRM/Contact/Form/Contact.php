@@ -727,7 +727,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $addressee = CRM_Core_PseudoConstant::greeting( $greeting );
         if ( !empty( $addressee ) ) {
             $this->addElement('select', 'addressee_id', ts('Addressee'), 
-                              array('' => ts('- select -')) + $addressee, array( 'onchange' => " showCustomized(this.id);") );
+                              array('' => ts('- select -')) + $addressee );
             //custom addressee
             $this->addElement('text', 'addressee_custom', ts('Custom Addressee'), 
                               CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'addressee_custom' ));

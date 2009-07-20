@@ -8,33 +8,48 @@
     <table class="form-layout-compressed" >
         <tr>
            {if $form.postal_greeting_id}
-                <td>{$form.postal_greeting_id.label} &nbsp; </td>
-                <td id="postal_greeting_id_label" style="display:none;">{$form.postal_greeting_custom.label}</td>
+                <td>{$form.postal_greeting_id.label}</td>
             {/if}
             {if $form.addressee_id}
-                <td>{$form.addressee_id.label} &nbsp; </td>
-                <td id="addressee_id_label" style="display:none;">{$form.addressee_custom.label}</td>
+                <td>{$form.addressee_id.label}</td>
             {/if}
             {if $form.email_greeting_id}
-                <td>{$form.email_greeting_id.label} &nbsp; </td>
-                <td id="email_greeting_id_label" style="display:none;">{$form.email_greeting_custom.label}</td>
+                <td>{$form.email_greeting_id.label}</td>
             {/if}
        </tr>
-       <tr id="greetings">
-             {if $form.postal_greeting_id}
+       <tr>
+            {if $form.postal_greeting_id}
                 <td>{$form.postal_greeting_id.html|crmReplace:class:big}</td>
-                <td id="postal_greeting_id_html" style="display:none;">{$form.postal_greeting_custom.html|crmReplace:class:big}</td>
             {/if}
             {if $form.addressee_id}
                 <td>{$form.addressee_id.html|crmReplace:class:big}</td>
-                <td id="addressee_id_html" style="display:none;">{$form.addressee_custom.html|crmReplace:class:big}</td>
             {/if}
             {if $form.email_greeting_id}
                 <td>{$form.email_greeting_id.html|crmReplace:class:big}</td>
-                <td id="email_greeting_id_html" style="display:none;">{$form.email_greeting_custom.html|crmReplace:class:big}</td>
             {/if}
         </tr>
-        <tr><td colspan="5" id="greeting_display" style="font-size:10px;"></td></tr>
+         <tr>
+            {if $form.postal_greeting_custom}
+                 <td><span id="postal_greeting_id_label" class="hiddenElement">{$form.postal_greeting_custom.label}</span></td>
+             {/if}
+             {if $form.addressee_custom}
+                 <td><span id="addressee_id_label" class="hiddenElement">{$form.addressee_custom.label}</span></td>
+             {/if}
+             {if $form.email_greeting_custom}
+                 <td><span id="email_greeting_id_label" class="hiddenElement">{$form.email_greeting_custom.label}</span></td>
+             {/if}
+        </tr>
+        <tr id="greetings" class="hiddenElement">
+              {if $form.postal_greeting_custom}
+                 <td><span id="postal_greeting_id_html" class="hiddenElement">{$form.postal_greeting_custom.html|crmReplace:class:big}</span></td>
+             {/if}
+             {if $form.addressee_custom}
+                 <td><span id="addressee_id_html" class="hiddenElement">{$form.addressee_custom.html|crmReplace:class:big}</span></td>
+             {/if}
+             {if $form.email_greeting_custom}
+                 <td><span id="email_greeting_id_html" class="hiddenElement">{$form.email_greeting_custom.html|crmReplace:class:big}</span></td>
+             {/if}
+        </tr>
         <tr>
             {foreach key=key item=item from=$commPreference}
               <td>  
@@ -56,27 +71,21 @@
 </div>
 {literal}
 <script type="text/javascript">
-function showCustomized(element){
-    var eleHtml  = 'td#'+element+'_html';
-    var eleLabel = 'td#'+element+'_label';
-    var selText  = cj('#'+element+' :selected').text();
-    if (  selText == 'Customized' ) { 
-        cj( eleHtml+","+eleLabel).toggle( );
-    } else {
-        cj( eleHtml+","+eleLabel).hide( );
-		var inputElement = 'input#' + element.substring( 0, element.length - 2 ) + 'custom';
-		cj( inputElement ).val('');
-        if ( selText != '- select -' ) {
-            //fixme for showing token to compiled string
-            cj('#greeting_display').html('<strong>Display :: </strong>'+cj('#'+element+' :selected').text()).show().fadeOut(5000);
-        }
+cj( function( ) {
+    var fields = new Array( 'postal_greeting', 'addressee', 'email_greeting');
+    for ( var i = 0; i < 3; i++ ) {
+        cj( "#" + fields[i] + "_id").change( function( ) {
+            var fldName = cj(this).attr( 'id' );
+            if ( cj(this).val( ) == 4 ) {
+                cj("#greetings").show( );
+                cj( "#" + fldName + "_html").show( );
+                cj( "#" + fldName + "_label").show( );
+            } else {
+                cj( "#" + fldName + "_html").hide( );
+                cj( "#" + fldName + "_label").hide( );
+            }
+        });
     }
-}
-cj('tr#greetings td').each(function() { 
-	element = cj(this).children().attr('id');
-	if ( cj( '#'+element +' :selected' ).text() == 'Customized' ){
-		showCustomized( element );
-	}
 });
 </script>
 {/literal}
