@@ -259,9 +259,8 @@
          //set the value for hidden bypass payment. 
          cj( "#bypass_payment").val( 1 );
 
-         //pay later - first reset value(might be already set) and then hide it.
+         //hide pay later.
          {/literal}{if $form.is_pay_later}{literal} 
-            document.getElementsByName("is_pay_later")[0].checked = false;
 	    cj("#is-pay-later").hide( );
          {/literal} {/if}{literal}
  
