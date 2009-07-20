@@ -33,7 +33,7 @@
     
         <tr>
 	    <td class="label">{$form.visibility.label}</td>
-	    <td>{$form.visibility.html} {help id="id-group-visibility" file="CRM/Group/Page/Group.hlp"}</td>
+	    <td>{$form.visibility.html|crmReplace:class:huge} {help id="id-group-visibility" file="CRM/Group/Page/Group.hlp"}</td>
 	</tr>
 	
 	<tr>
@@ -59,8 +59,8 @@
         {/if}
         <table class="form-layout-compressed">
 	    <tr>
-	        <td class="label">{$form.parents.label}</td>
-	        <td>{$form.parents.html}</td>
+	        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.parents.label}</td>
+	        <td>{$form.parents.html|crmReplace:class:huge}</td>
 	    </tr>
 	</table>
     </fieldset>
@@ -69,8 +69,8 @@
 	    <legend>{ts}Associated Organization{/ts} {help id="id-group-organization" file="CRM/Group/Page/Group.hlp"}</legend>
 	        <table class="form-layout-compressed">
 		    <tr>
-		        <td>{$form.organization.label}</td>
-			<td>{$form.organization.html|crmReplace:class:twenty}
+		        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.organization.label}</td>
+			<td>{$form.organization.html|crmReplace:class:huge}
 			    <div id="organization_address" style="font-size:10px"></div>
 			</td>
 		    </tr>
