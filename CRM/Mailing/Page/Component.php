@@ -67,10 +67,6 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
     function &links()
     {
         if ( ! ( self::$_links ) ) {
-
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this component?');
-         
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),

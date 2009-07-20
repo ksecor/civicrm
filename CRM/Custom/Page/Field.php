@@ -74,8 +74,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
     function &actionLinks()
     {
         if (!isset(self::$_actionLinks)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this custom data field?');
             $deleteExtra = ts('Are you sure you want to delete this custom data field?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
@@ -116,7 +114,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
                                                                           'title' => ts('Delete Custom Field'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           ),
-                        
                                         );
         }
         return self::$_actionLinks;

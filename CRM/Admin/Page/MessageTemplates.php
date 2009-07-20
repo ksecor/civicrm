@@ -66,9 +66,6 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
     function &links()
     {
         if (!(self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this message tempate?');
-
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),

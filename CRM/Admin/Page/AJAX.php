@@ -79,6 +79,38 @@ class CRM_Admin_Page_AJAX
                 $status = ts('This profile is currently used for ') . implode (', ' , $ufJoin) . ts('. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?');
                 break;
                 
+            case 'CRM_Contribute_BAO_ManagePremiums':
+                $status = ts('Are you sure you want to disable this premium? This action will remove the premium from any contribution pages that currently offer it. However it will not delete the premium record - so you can re-enable it and add it back to your contribution page(s) at a later time.');
+                break;
+
+            case 'CRM_Contribute_BAO_ContributionType':
+                $status = ts('Are you sure you want to disable this contribution type?');
+                break;
+                
+            case 'CRM_Core_BAO_PaymentProcessor':
+                $status = ts('Are you sure you want to disable this payment processor? Users will no longer be able to select this value when adding or editing transaction pages.');
+                break;
+                
+            case 'CRM_Core_BAO_LocationType':
+                $status = ts('Are you sure you want to disable this location type? Users will no longer be able to select this value when adding or editing contact locations.');
+                break;
+                
+            case 'CRM_Mailing_BAO_Component':
+                $status = ts('Are you sure you want to disable this component?');
+                break;
+                
+            case 'CRM_Core_BAO_CustomField':
+                $status = ts('Are you sure you want to disable this custom data field?');
+                break;
+                
+            case 'CRM_Core_BAO_CustomGroup':
+                $status = ts('Are you sure you want to disable this custom data group? Any profile fields that are linked to custom fields of this group will be disabled.');
+                break;
+
+            case 'CRM_Core_BAO_MessageTemplates':
+                $status = ts('Are you sure you want to disable this message tempate?');
+                break;
+
             default:
                 $status = ts('Are you sure you want to disable this record?');
                 break;

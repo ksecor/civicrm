@@ -65,8 +65,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
     {
         // check if variable _actionsLinks is populated
         if (!isset(self::$_actionLinks)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this custom data group? Any profile fields that are linked to custom fields of this group will be disabled.');
             self::$_actionLinks = array(
                                         CRM_Core_Action::BROWSE  => array(
                                                                           'name'  => ts('View and Edit Custom Fields'),
