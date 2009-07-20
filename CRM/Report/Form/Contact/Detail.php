@@ -198,7 +198,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     function select( ) {
         $select               = array( );
         $this->_columnHeaders = array( );
-        $this->_component     = array( 'contribution', 'membership', 'participant' );
+        $this->_component     = array( 'contribution_civireport', 'membership_civireport', 'participant_civireport' );
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('fields', $table) ) {
                 foreach ( $table['fields'] as $fieldName => $field ) {
@@ -279,8 +279,8 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         $this->_from .= "{$group}";
 
         foreach( $this->_component as $val ) {
-            if ( CRM_Utils_Array::value( 'contribution', $this->_selectComponent ) ) {
-                $this->_formComponent['contribution'] = 
+            if ( CRM_Utils_Array::value( 'contribution_civireport', $this->_selectComponent ) ) {
+                $this->_formComponent['contribution_civireport'] = 
                     " FROM 
                             civicrm_contact  {$this->_aliases['civicrm_contact']}
                             INNER JOIN civicrm_contribution       {$this->_aliases['civicrm_contribution']} 
@@ -288,16 +288,16 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                             {$group}
                     ";
             } 
-            if ( CRM_Utils_Array::value( 'membership', $this->_selectComponent ) ) {
-                $this->_formComponent['membership'] = 
+            if ( CRM_Utils_Array::value( 'membership_civireport', $this->_selectComponent ) ) {
+                $this->_formComponent['membership_civireport'] = 
                     " FROM 
                             civicrm_contact  {$this->_aliases['civicrm_contact']}
                             INNER JOIN civicrm_membership       {$this->_aliases['civicrm_membership']} 
                                     ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_membership']}.contact_id 
                             {$group} ";
             }
-            if ( CRM_Utils_Array::value( 'participant', $this->_selectComponent ) ) {
-                $this->_formComponent['participant'] = 
+            if ( CRM_Utils_Array::value( 'participant_civireport', $this->_selectComponent ) ) {
+                $this->_formComponent['participant_civireport'] = 
                     " FROM 
                             civicrm_contact  {$this->_aliases['civicrm_contact']}
                             INNER JOIN civicrm_participant       {$this->_aliases['civicrm_participant']} 
@@ -335,7 +335,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
-        $this->_where .= " GROUP BY contact.id ";
+        $this->_where .= " GROUP BY {$this->_aliases['civicrm_contact']}.id ";
     }
     function clauseComponent( ) {
 
@@ -348,7 +348,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                 while ( $dao->fetch( ) ) {
                     $countRecord = 0;
                     $eligibleResult[$val] = $val;
-                    $CC  = "civicrm_{$val}_contact_id";
+                    $CC  = "civicrm_" . substr_replace($val, '', -11, 11) . "_contact_id";
                     $row = array( );
                     foreach ( $this->_columnHeadersComponent[$val] as $key => $value ) {
                         $countRecord++;
@@ -411,13 +411,13 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
 
         //unset Conmponent id and contact id from display
         foreach( $this->_columnHeadersComponent as $componentTitle => $headers ) {
-            $id_header      = "civicrm_" . $componentTitle . "_" . $componentTitle. "_id";
-            $contact_header = "civicrm_" . $componentTitle ."_contact_id";
+            $id_header      = "civicrm_" . substr_replace($componentTitle, '', -11, 11) . "_" . substr_replace($componentTitle, '', -11, 11) . "_id";
+            $contact_header = "civicrm_" . substr_replace($componentTitle, '', -11, 11) ."_contact_id";
             
             unset( $this->_columnHeadersComponent[$componentTitle][$id_header] );
             unset( $this->_columnHeadersComponent[$componentTitle][$contact_header] );
         }
-        
+
         $this->assign_by_ref( 'columnHeadersComponent', $this->_columnHeadersComponent );
         $this->assign_by_ref( 'componentRows', $componentRows );
 
@@ -482,7 +482,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
             foreach ( $components as $component => $rows) { 
                 foreach ( $rows as $rowNum => $row ) {
                     // handle contribution
-                    if ( $component == 'contribution' ) {
+                    if ( $component == 'contribution_civireport' ) {
                         require_once 'CRM/Contribute/PseudoConstant.php';
                         if ( $val = CRM_Utils_Array::value('civicrm_contribution_contribution_type_id', $row ) ) {
                             $componentRows[$contactID][$component][$rowNum]['civicrm_contribution_contribution_type_id'] = 
@@ -496,7 +496,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                         $entryFound = true;
                     }
                     
-                    if ( $component == 'membership' ) {
+                    if ( $component == 'membership_civireport' ) {
                         require_once 'CRM/Member/PseudoConstant.php';
                         if ( $val = CRM_Utils_Array::value('civicrm_membership_membership_type_id', $row ) ) {
                             $componentRows[$contactID][$component][$rowNum]['civicrm_membership_membership_type_id'] = 
@@ -510,7 +510,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                         $entryFound = true;
                     }
                     
-                    if ( $component == 'participant' ) {
+                    if ( $component == 'participant_civireport' ) {
                         require_once 'CRM/Event/PseudoConstant.php';
                         if ( $val = CRM_Utils_Array::value('civicrm_participant_event_id', $row ) ) {
                             $componentRows[$contactID][$component][$rowNum]['civicrm_participant_event_id'] = 

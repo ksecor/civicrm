@@ -287,20 +287,20 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
 
 
     function groupBy( ) {
-        $this->_groupBy = " GROUP BY contact.id, contribution.id ";
+        $this->_groupBy = " GROUP BY {$this->_aliases['civicrm_contact']}.id, {$this->_aliases['civicrm_contribution']}.id ";
     }
 
     function orderBy( ) {
-        $this->_orderBy = " ORDER BY contact.id ";
+        $this->_orderBy = " ORDER BY {$this->_aliases['civicrm_contact']}.id ";
     }
 
     function statistics( &$rows ) {
         $statistics = parent::statistics( $rows );
 
         $select = "
-        SELECT COUNT( contribution.total_amount ) as count,
-               SUM(   contribution.total_amount ) as amount,
-               ROUND(AVG(contribution.total_amount), 2) as avg
+        SELECT COUNT({$this->_aliases['civicrm_contribution']}.total_amount ) as count,
+               SUM( {$this->_aliases['civicrm_contribution']}.total_amount ) as amount,
+               ROUND(AVG({$this->_aliases['civicrm_contribution']}.total_amount), 2) as avg
         ";
 
         $sql = "{$select} {$this->_from} {$this->_where}";

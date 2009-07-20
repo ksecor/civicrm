@@ -262,8 +262,11 @@ class CRM_Report_Form extends CRM_Core_Form {
         foreach ( $this->_columns as $tableName => $table ) {
             // set alias
             if ( ! isset( $table['alias'] ) ) {
-                $this->_columns[$tableName]['alias'] = substr( $tableName, 8 );
+                $this->_columns[$tableName]['alias'] = substr( $tableName, 8 ) . '_civireport';
+            } else {
+                $this->_columns[$tableName]['alias'] = $table['alias'] . '_civireport';
             }
+
             $this->_aliases[$tableName] = $this->_columns[$tableName]['alias'];
 
             // higher preference to bao object

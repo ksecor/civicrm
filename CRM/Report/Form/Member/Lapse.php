@@ -248,7 +248,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
         }
         
         if ( empty( $clauses ) ) {
-            $this->_where = "WHERE end_date < '" .date('Y-m-d'). "' AND mem_status.name = 'Expired'";
+            $this->_where = "WHERE end_date < '" .date('Y-m-d'). "' AND {$this->_aliases['civicrm_membership_status']}.name = 'Expired'";
         } else {
             if ( !array_key_exists('end_date', $clauses) ) {
                 $this->_where = "WHERE end_date < '".date('Y-m-d')."' AND " . implode( ' AND ', $clauses );

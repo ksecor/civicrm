@@ -434,7 +434,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
             }
             $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " {$this->_rollup} ";
         } else {
-            $this->_groupBy = "GROUP BY contact.id";
+            $this->_groupBy = "GROUP BY {$this->_aliases['civicrm_contact']}.id";
         }
     }
 
@@ -443,9 +443,9 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
 
         if ( ! $this->_having ) {
             $select = "
-            SELECT COUNT( contribution.total_amount )       as count,
-                   SUM( contribution.total_amount )         as amount,
-                   ROUND(AVG(contribution.total_amount), 2) as avg
+            SELECT COUNT({$this->_aliases['civicrm_contribution']}.total_amount )       as count,
+                   SUM({$this->_aliases['civicrm_contribution']}.total_amount )         as amount,
+                   ROUND(AVG({$this->_aliases['civicrm_contribution']}.total_amount), 2) as avg
             ";
         
             $sql = "{$select} {$this->_from} {$this->_where}";

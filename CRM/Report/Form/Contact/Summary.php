@@ -234,26 +234,9 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
     }
 
     function groupBy( ) {
-        $this->_groupBy = "";
-        if ( CRM_Utils_Array::value( 'group_bys', $this->_params ) && 
-             is_array($this->_params['group_bys']) && 
-             !empty($this->_params['group_bys']) ) {
-            foreach ( $this->_columns as $tableName => $table ) {
-                if ( array_key_exists('group_bys', $table) ) {
-                    foreach ( $table['group_bys'] as $fieldName => $field ) {
-                        if ( CRM_Utils_Array::value( $fieldName, $this->_params['group_bys'] ) ) {
-                            $this->_groupBy[] = $field['dbAlias'];
-                        }
-                    }
-                }
-            }
-            //temparary fix
-            $this->_groupBy = "GROUP BY civicrm_contact_id";// . implode( ', ', $this->_groupBy );
-        } else {
-            $this->_groupBy = "GROUP BY contact.id";
-        }
+        $this->_groupBy = "GROUP BY {$this->_aliases['civicrm_contact']}.id";
     }
-
+    
     function postProcess( ) {
 
         $this->beginPostProcess( );
