@@ -68,6 +68,13 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */
     protected $_oldLocBlockId = 0;
 
+    
+    /**
+     * get the db values for this form
+     *
+     */
+    public $_values = array( );
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -76,10 +83,26 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */ 
     function preProcess( ) 
     {
+        parent::preProcess( );
+        
+        $this->_values = $this->get( 'values' ); 
+        if ( $this->_id && empty( $this->_values ) ) {
+            
+            //get location values.
+            $params = array( 'entity_id'    => $this->_id, 
+                             'entity_table' => 'civicrm_event');
+            require_once 'CRM/Core/BAO/Location.php';
+            $this->_values = CRM_Core_BAO_Location::getValues( $params );
+            
+            //get event values.
+            $params = array( 'id' => $eventId );
+            CRM_Event_BAO_Event::retrieve( $params, $this->_values );
+            
+            $this->set( 'values', $this->_values );
+        }
+        
         //location blocks.
         CRM_Contact_Form_Location::preProcess( $this );
-        
-        parent::preProcess( );
     }
 
     /**
@@ -91,24 +114,16 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */
     function setDefaultValues( ) 
     {
-        $eventId = $this->_id;
-
-        $defaults = array( );
-        if ( isset( $eventId ) ) {
-            $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
-            require_once 'CRM/Core/BAO/Location.php';
-            $defaults = CRM_Core_BAO_Location::getValues( $params );
-            
-            $params = array( 'id' => $eventId );
-            CRM_Event_BAO_Event::retrieve( $params, $defaults );
-            if ( CRM_Utils_Array::value( 'loc_block_id', $defaults ) ) {
-                $defaults['loc_event_id'] = $defaults['loc_block_id'];
-                $countLocUsed = CRM_Event_BAO_Event::countEventsUsingLocBlockId( $defaults['loc_block_id'] );
-                if ( $countLocUsed > 1 ) {
-                    $this->assign('locUsed', true);
-                }
+        $defaults = $this->_values;
+        
+        if ( CRM_Utils_Array::value( 'loc_block_id', $defaults ) ) {
+            $defaults['loc_event_id'] = $defaults['loc_block_id'];
+            $countLocUsed = CRM_Event_BAO_Event::countEventsUsingLocBlockId( $defaults['loc_block_id'] );
+            if ( $countLocUsed > 1 ) {
+                $this->assign('locUsed', true);
             }
         }
+        
         require_once 'CRM/Contact/Form/Edit/Address.php';
         if ( ! empty ( $defaults['address'] ) ) {
             $config = CRM_Core_Config::singleton( );
@@ -123,7 +138,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             }
         }
         $defaults['location_option'] = $this->_oldLocBlockId ? 2 : 1;
-
+        
         return $defaults;
     }
 

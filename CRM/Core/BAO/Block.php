@@ -62,6 +62,7 @@ class CRM_Core_BAO_Block
     static function &getValues( $blockName, $params )  
     {
         eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
+        
         $blocks = array( );
         if ( ! isset( $params['entity_table'] ) ) {
             $block->contact_id = $params['contact_id'];
@@ -71,14 +72,17 @@ class CRM_Core_BAO_Block
             $blocks = self::retrieveBlock( $block, $blockName );
         } else {
             $blockIds = self::getBlockIds( $blockName, null, $params );
+            
             if ( empty($blockIds)) {
                 return $blocks;
             }
+            
+            $count = 1;
             foreach( $blockIds as $blockId ) {
                 eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
                 $block->id = $blockId['id'];
                 $getBlocks = self::retrieveBlock( $block, $blockName );
-                $blocks[$block->location_type_id]=  $getBlocks[$block->location_type_id];
+                $blocks[$count++] = array_pop( $getBlocks );
             }
         }
         
@@ -210,7 +214,6 @@ class CRM_Core_BAO_Block
         //get existsing block ids.
         $blockIds  = self::getBlockIds( $blockName, $contactId, $entityElements );
         
-        $blockCount = 0;
         foreach ( $params[$blockName] as  $count => $value ) {
             if ( !is_array( $value ) ) continue;
             $contactFields = array( 'contact_id'       => $contactId,
@@ -253,7 +256,7 @@ class CRM_Core_BAO_Block
             }
             
             $blockFields = array_merge( $value, $contactFields );
-            eval( '$blocks[++$blockCount] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
+            eval( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
         }
         
         return $blocks;
