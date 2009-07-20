@@ -43,6 +43,9 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     
     function __construct( ) {
         
+        $contact_type = CRM_Core_SelectValues::contactType();
+        unset($contact_type[""]);
+        
         $this->_columns = 
             array('civicrm_contact' =>
                   array( 'dao'       => 'CRM_Contact_DAO_Contact',
@@ -83,6 +86,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                                        'default'    => true
                                        ),
                                 ),
+                         'grouping'  => 'contact-fields',
                          ),
                   
                   'civicrm_relationship_type' =>
@@ -90,31 +94,33 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                          'fields'    =>
                          array( 'label_a_b' => 
                                 array( 'title'      => ts( 'RelationShip ' ),
-                                       'default'    => true
+                                       'default'    => true,
+                                       'no_display' => true 
                                        ),
                                 'label_b_a' => 
                                 array( 'title'      => ts( 'RelationShip ' ),
-                                       'default'    => true
+                                       'default'    => true,
+                                       'no_display' => true 
                                        ),
                                 ),                         
                          'filters'   =>  
                          array( 'contact_type_a' => 
                                 array( 'title'        => ts( 'Contact Type  A' ),                                      
                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                       'options'      => CRM_Core_SelectValues::contactType(),
+                                       'options'      => $contact_type,
                                        'type'         => CRM_Utils_Type::T_STRING,
                                        ),
                                 'contact_type_b' => 
                                 array( 'title'        => ts( 'Contact Type  B' ),                                      
                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                       'options'      => CRM_Core_SelectValues::contactType(),
+                                       'options'      => $contact_type,
                                        'type'         => CRM_Utils_Type::T_STRING,
                                        ),
                                   'label' => 
                                   array( 'title'       => ts( 'Relationship' ),
                                         'operatorType' => CRM_Report_Form::OP_SELECT,
                                         'options'      => array(
-                                                                "" => "- any relationship type -") + 
+                                                                " " => "- any relationship type -") + 
                                          CRM_Contact_BAO_Relationship::getContactRelationshipType( null, 'null', null, null, true),
                                          'type'        => CRM_Utils_Type::T_STRING
                                          ),                                
@@ -123,7 +129,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                   
                   'civicrm_email'   =>
                   array( 'dao'       => 'CRM_Core_DAO_Email',
-                         'grouping'  => 'contact-fields',
+                         'grouping'  => 'general-fields',
                          'fields'    =>
                          array( 'email' => 
                                 array( 'title'   => ts( 'Email' ), 
@@ -134,7 +140,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                   
                   'civicrm_address' =>
                   array( 'dao'       => 'CRM_Core_DAO_Address',
-                         'grouping'  => 'contact-fields',
+                         'grouping'  => 'general-fields',
                          'fields'    =>
                          array( 'street_address'    => null,),
                          
@@ -213,6 +219,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
             $relationship_contact_two = "contact_id_a" ;
             $this->relationship_label = "label_b_a";
         }        
+
         $this->_from = "
      FROM civicrm_contact   {$alias_contact_one }
  
@@ -259,26 +266,37 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         
                         if ( $fieldName == 'label') {
+
                             $field['dbAlias']   = "relationship_type.". $this->relationship_label ;
-                            $field['name'   ]   = $this->relationship_label ;
+                            $field['name'   ]   = $this->relationship_label;
                             $fieldName          = $this->relationship_label;
-                            
+                                                                    
                             $this->_params[ "{$fieldName}_value" ] = $field['options'][$this->_params['label_value']]; 
                             foreach( $field['options'] as $optionKey => $optionValue ) {
-                                $option_value [ $optionValue ] =$optionValue;
+                                
+                                if( $optionKey != " " ) {
+
+                                    $option_value [ $optionValue ] =$optionValue;
+
+                                } else {
+                                
+                                    $option_value [ $optionKey ] =$optionValue;                                     
+
+                                }                               
                             }
                             $field['options'] = $option_value;
                         }
+
                         if ( $op ) {
                             $clause = 
                                 $this->whereClause( $field,
                                                     $op,
                                                     CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
-                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );  
+                                                    CRM_Utils_Array::value( "{$fieldName}_min"  , $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_max"  , $this->_params ) );        
                         }
                     }
-                    if ( ! empty( $clause ) ) {
+                    if ( ! empty( $clause ) ) { 
                         $clauses[] = $clause;
                     }
                 } 
@@ -286,7 +304,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
         }
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
-        } else {
+        } else { 
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }         
     }
@@ -294,11 +312,11 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     function postProcess( ) {
         
         $this->beginPostProcess( );
-        $sql = $this->buildQuery( );
+        $sql = $this->buildQuery( ); 
         require_once 'CRM/Utils/PChart.php';
-        $dao   = CRM_Core_DAO::executeQuery( $sql );
+        $dao   = CRM_Core_DAO::executeQuery( $sql );       
         $count = 0;
-        while ( $dao->fetch( ) ) {
+        while ( $dao->fetch( ) ) { 
             $row = array( );
             foreach ( $this->_columnHeaders as $key => $value ) {
                 $row[$key] = $dao->$key;
@@ -306,7 +324,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
             $rows[] = $row;
         }
         $this->formatDisplay( $rows );
-        
+       
         // assign variables to templates
         $this->doTemplateAssignment( $rows );
         $this->endPostProcess( $rows );
