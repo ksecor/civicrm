@@ -4,7 +4,7 @@
       <table class="form-layout">
         <tr><td class="label">{$form.contact_view_options.label}</td><td>{$form.contact_view_options.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description">{ts}Select the <strong>tabs</strong> that should be displayed when viewing a contact record. EXAMPLE: If your organization does not keep track of 'Relationships', then un-check this option to simplify the screen display. Tabs for Contributions, Pledges, Memberships, Events, Grants and Cases are also hidden if the corresponding component is not enabled.{/ts} {docURL page="Enable Components"}</td></tr>
-        <tr><td class="label">{$form.contact_edit_options.label}</td><td>{$form.contact_edit_options.html}</td></tr>{debug}
+        <tr><td class="label">{$form.contact_edit_options.label}</td><td>{$form.contact_edit_options.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description">{ts}Select the sections that should be included when adding or editing a contact record. EXAMPLE: If your organization does not record Gender and Birth Date for individuals, then simplify the form by un-checking this option.{/ts}</td></tr>
         <tr><td class="label">{$form.advanced_search_options.label}</td><td>{$form.advanced_search_options.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description">{ts}Select the sections that should be included in the Basic and Advanced Search forms. EXAMPLE: If you don't track Relationships - then you do not need this section included in the advanced search form. Simplify the form by un-checking this option.{/ts}</td></tr>

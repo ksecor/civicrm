@@ -237,10 +237,6 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     {
         $params = $this->exportValues( );
         
-        
-            crm_core_error::debug( '$params', $params );
-            exit();
-            
         $delteOldBlock = false;
 
         // if 'use existing location' option is selected -
