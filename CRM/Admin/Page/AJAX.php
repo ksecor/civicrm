@@ -110,7 +110,15 @@ class CRM_Admin_Page_AJAX
             case 'CRM_Core_BAO_MessageTemplates':
                 $status = ts('Are you sure you want to disable this message tempate?');
                 break;
-
+                
+            case 'CRM_ACL_BAO_ACL':
+                $status = ts('Are you sure you want to disable this ACL?');
+                break;
+                
+            case 'CRM_Member_BAO_MembershipStatus':
+                $status = ts('Are you sure you want to disable this membership status rule?');
+                break;
+                
             default:
                 $status = ts('Are you sure you want to disable this record?');
                 break;
