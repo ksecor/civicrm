@@ -26,17 +26,17 @@ function buildAdditionalBlocks( blockName, className ) {
         cj("#" + blockName + '-Primary-html').show( );
     }
 
-    var dataUrl = null;
-    if ( className == 'CRM_Contact_Form_Contact' ) {
-        dataUrl = {/literal}"{crmURL p='civicrm/contact/add' h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentInstance;{/literal}
-
-        {if $qfKey}    
-        dataUrl += "&qfKey={$qfKey}";
-        {/if}
-        {literal}
-    } else if ( className == 'CRM_Event_Form_ManageEvent_Location' && currentInstance <= 2 ) {
-        dataUrl = {/literal}"{crmURL p='civicrm/event/manage' h=0 q='snippet=4'}"{literal} + '&subPage=Location&block=' + blockName + '&count=' + currentInstance;
+    var dataUrl = {/literal}"{crmURL h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentInstance;;
+    
+    if ( className == 'CRM_Event_Form_ManageEvent_Location' ) {
+        dataUrl += '&subPage=Location';
     }
+
+    {/literal}
+    {if $qfKey}    
+        dataUrl += "&qfKey={$qfKey}";
+    {/if}
+    {literal}
 
     if ( !dataUrl ) {
         return;
