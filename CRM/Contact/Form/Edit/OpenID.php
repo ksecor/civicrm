@@ -52,13 +52,7 @@ class CRM_Contact_Form_Edit_OpenID
      */
     static function buildQuickForm( &$form ) {
         $blockId = ( $form->get( 'OpenID_Block_Count' ) ) ? $form->get( 'OpenID_Block_Count' ) : 1;
-        
-        // only add hidden element when processing first block 
-        // for remaining blocks we'll calculate at run time w/ jQuery. 
-        if ( $blockId == 1 ) {
-            $form->addElement( 'hidden', 'hidden_OpenID_Instances', $blockId, array( 'id' => 'hidden_OpenID_Instances') );  
-        }
-        
+                
         $form->applyFilter('__ALL__','trim');
         
         $form->addElement('text', "openid[$blockId][openid]", ts('OpenID'),

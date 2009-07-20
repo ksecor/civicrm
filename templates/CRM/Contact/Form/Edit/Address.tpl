@@ -129,7 +129,7 @@
     </table>
 </td></tr>
       {if $className eq 'CRM_Contact_Form_Contact'}
-      <tr id="addMoreAddress" >
+      <tr id="addMoreAddress{$blockId}" >
           <td><a href="#" onclick="buildAdditionalBlocks( 'Address', '{$className}' );return false;">add address</a></td>
       </tr>
       {/if}

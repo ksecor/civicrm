@@ -527,32 +527,31 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         //build 1 instance of all blocks, without using ajax ...
         foreach ( $allBlocks as $blockName => $label ) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
-            $instanceStr = CRM_Utils_Array::value( "hidden_".$blockName ."_Instances", $_POST, 1 );
             
-            //hack for setdefault building.
-            if ( CRM_Utils_System::isNull( $_POST ) ) {
-                $name = strtolower($blockName);
-                if ( CRM_Utils_Array::value( $name, $this->_values ) && is_array( $this->_values[$name] ) ) { 
-                    foreach ( $this->_values[$name] as $instance => $blockValues ) {
-                        if ( $instance == 1 ) continue; 
-                        $instanceStr .= ",{$instance}";
-                    }
-                }
+            $name = strtolower($blockName);
+            if ( !empty( $_POST[$name] ) ) {
+                $tempBlocks = $_POST[$name];
+            } else if ( CRM_Utils_Array::value( $name, $this->_values ) && is_array( $this->_values[$name] ) ) { 
+                $tempBlocks = $this->_values[$name];
+            } else {     
+                // just build first instance
+                $tempBlocks = array( 1 => '' );
             }
             
-            $instances = explode( ',', $instanceStr );
-            foreach ( $instances as $instance ) {
-                if ( $instance == 1 ) {
-                    $this->assign( "addBlock", false );
-                    $this->assign( "blockId",  $instance );
-                } else {
-                    //we are going to build other block instances w/ AJAX
-                    $generateAjaxRequest++;
-                    $ajaxRequestBlocks[$blockName][$instance] = true;
-                }
+            if ( !empty( $tempBlocks ) ) {
+                foreach ( $tempBlocks as $instance => $value ) {
+                    if ( $instance == 1 ) {
+                        $this->assign( "addBlock", false );
+                        $this->assign( "blockId",  $instance );
+                    } else {
+                        //we are going to build other block instances w/ AJAX
+                        $generateAjaxRequest++;
+                        $ajaxRequestBlocks[$blockName][$instance] = true;
+                    }
                 
-                $this->set( $blockName."_Block_Count", $instance );
-                eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' );
+                    $this->set( $blockName."_Block_Count", $instance );
+                    eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' );
+                }
             }
         }
         
@@ -603,7 +602,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         
         //get the submitted values in an array
-        $params = $this->controller->exportValues( $this->_name );
+        $params = $this->controller->exportValues( $this->_name );            
         
         //get the related id for shared / current employer
         if ( CRM_Utils_Array::value( 'shared_household_id',$params ) ) {

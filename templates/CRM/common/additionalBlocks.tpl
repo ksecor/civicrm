@@ -15,9 +15,19 @@ cj( function( ) {
 });
 
 function buildAdditionalBlocks( blockName, className ) {
+    var elementName = "#contact-details tr";
+    if ( blockName == 'Address' ) {
+        elementName = "#addressBlock div";
+    }
+    
+    var previousInstance = 1;
+    cj( elementName ).each( function( ) {
+        bID = cj(this).attr('id').split( '_', 3);
+        if ( bID[0] == blockName ) {
+            previousInstance = bID[2];
+        } 
+    });
 
-    var allInstances     = cj( "#hidden_" + blockName + "_Instances" ).val( );
-    var previousInstance = allInstances.slice( allInstances.lastIndexOf(',') + 1 );
     var currentInstance  = parseInt( previousInstance ) + 1;
 
     //show primary option if block count = 2
@@ -42,10 +52,9 @@ function buildAdditionalBlocks( blockName, className ) {
         return;
     }
 
-    blockId = (cj('#' + blockName + '_Block_'+ previousInstance ).html()) ? previousInstance : 1;  
-    var fname = '#' + blockName + '_Block_'+ blockId;
+    var fname = '#' + blockName + '_Block_'+ previousInstance;
 
-    cj('#addMore' + blockName ).hide();
+    cj('#addMore' + blockName + previousInstance ).hide( );
     cj.ajax({ 
         url     : dataUrl,   
         async   : false,
@@ -54,15 +63,6 @@ function buildAdditionalBlocks( blockName, className ) {
             cj(fname).after(html[1]);
         }
     });
-    cj( "#hidden_" + blockName + "_Count" ).val( currentInstance );
-
-    //build the hidden block instance string used in post.
-    var prevousBlockCntStr = cj( "#hidden_" + blockName + "_Instances" ).val( );
-    var currentBlockCntStr = prevousBlockCntStr + ',' + currentInstance;
-    cj( "#hidden_" + blockName + "_Instances" ).val( currentBlockCntStr );
-
-    if ( blockName == 'Address' ) cj("#addressBlock").show( );
-
 }
 
 //select single is_bulk & is_primary
@@ -78,10 +78,6 @@ function singleSelect( blockName, blockId, flagName ) {
 }
 
 function removeBlock( blockName, blockId ) {
-    //update string for removing block instance from qf during post.
-    var updateStr = cj( "#hidden_" + blockName + "_Instances" ).val( ).replace( ',' + blockId, '' );
-    cj( "#hidden_" + blockName + "_Instances" ).val(  updateStr );
-
     // check if is_primary is checked, if yes set is primary to first block
     if ( cj( "#"+ blockName + "_" + blockId + "_IsPrimary").attr('checked') ) {
         cj( "#"+ blockName + "_1_IsPrimary").attr('checked', true);
@@ -89,9 +85,8 @@ function removeBlock( blockName, blockId ) {
 
     //unset block from html
     cj( "#"+ blockName + "_Block_" + blockId ).remove();
-	if ( cj( "#hidden_" + blockName + "_Instances" ).val( ).split(',').length == 1 ) {
-		cj('#addMore' + blockName ).show();
-	}
+	
+	//cj('#addMore' + blockName ).show();
 }
 </script>
 {/literal}

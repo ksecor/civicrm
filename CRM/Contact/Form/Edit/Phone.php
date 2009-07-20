@@ -54,12 +54,6 @@ class CRM_Contact_Form_Edit_Phone
         
         $blockId = ( $form->get( 'Phone_Block_Count' ) ) ? $form->get( 'Phone_Block_Count' ) : 1;
         
-        // only add hidden element when processing first block 
-        // for remaining blocks we'll calculate at run time w/ jQuery. 
-        if ( $blockId == 1 ) {
-            $form->addElement( 'hidden', 'hidden_Phone_Instances', $blockId, array( 'id' => 'hidden_Phone_Instances') );
-        }
-        
         $form->applyFilter('__ALL__','trim');
         
         //phone type select

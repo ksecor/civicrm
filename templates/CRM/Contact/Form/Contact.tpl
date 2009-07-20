@@ -88,38 +88,39 @@ cj(function( ) {
 });
 
 cj('a#expand').click( function( ){
-     if( cj(this).attr('href') == '#expand') {   
-          var message = {/literal}{ts}"Collapse all tabs"{/ts}{literal};
-          var class   = 'ui-icon ui-icon-triangle-1-s';
-          var event   = 'show';
-          cj(this).attr('href', '#collapse');
-     } else {
-          var message = {/literal}{ts}"Expand all tabs"{/ts}{literal};
-          var class   = 'ui-icon ui-icon-triangle-1-e';
-          var event   = 'hide';
-          cj(this).attr('href', '#expand');
-     }
-          cj(this).html(message);
-          cj('div.accordion div.ui-accordion-content').each(function() {
-             cj(this).parent().find('h3 span').removeClass( ).addClass(class);
-                 eval( " var showHide = cj(this)." + event + "();" );
-          }); 
+    if( cj(this).attr('href') == '#expand') {   
+        var message     = {/literal}"{ts}Collapse all tabs{/ts}"{literal};
+        var className   = 'ui-icon ui-icon-triangle-1-s';
+        var event       = 'show';
+        cj(this).attr('href', '#collapse');
+    } else {
+        var message     = {/literal}{ts}"Expand all tabs"{/ts}{literal};
+        var className   = 'ui-icon ui-icon-triangle-1-e';
+        var event       = 'hide';
+        cj(this).attr('href', '#expand');
+    }
+    
+    cj(this).html(message);
+    cj('div.accordion div.ui-accordion-content').each(function() {
+        cj(this).parent().find('h3 span').removeClass( ).addClass(className);
+        eval( " var showHide = cj(this)." + event + "();" );
+    }); 
 });
 
 //current employer default setting
 var employerId = "{/literal}{$currentEmployer}{literal}";
 if( employerId ) {
-   var dataUrl = "{/literal}{crmURL p='civicrm/ajax/search' h=0 q="org=1&id=" }{literal}" + employerId ;
+    var dataUrl = "{/literal}{crmURL p='civicrm/ajax/search' h=0 q="org=1&id=" }{literal}" + employerId ;
     cj.ajax({ 
         url     : dataUrl,   
         async   : false,
         success : function(html){
-                    //fixme for showing address in div
-                    htmlText = html.split( '|' , 2);
-                    cj('input#current_employer').val(htmlText[0]);
-                    cj('input#current_employer_id').val(htmlText[1]);
-                  }
-            }); 
+            //fixme for showing address in div
+            htmlText = html.split( '|' , 2);
+            cj('input#current_employer').val(htmlText[0]);
+            cj('input#current_employer_id').val(htmlText[1]);
+        }
+    }); 
 }
 
 </script>

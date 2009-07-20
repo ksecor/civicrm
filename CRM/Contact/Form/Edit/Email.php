@@ -53,33 +53,27 @@ class CRM_Contact_Form_Edit_Email
     static function buildQuickForm( &$form ) 
     {        
         $blockId = ( $form->get( 'Email_Block_Count' ) ) ? $form->get( 'Email_Block_Count' ) : 1;
-        
-        //only add hidden element when processing first block 
-        //for remaining blocks we'll calculate at run time w/ jQuery. 
-        if ( $blockId == 1 ) {
-            $form->addElement( 'hidden', 'hidden_Email_Instances', $blockId, array( 'id' => 'hidden_Email_Instances') );
-        }
-        
+
         $form->applyFilter('__ALL__','trim');
-        
+
         //Email box
         $form->addElement('text',"email[$blockId][email]", ts('Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email', 'email'));
         $form->addRule( "email[$blockId][email]", ts('Email is not valid.'), 'email' );
-		if( isset( $form->_contactType ) ) {
-			//Block type
-			$form->addElement('select',"email[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
-			
-			//On-hold checkbox
-			$form->addElement('advcheckbox', "email[$blockId][on_hold]",null);
-			
-			//Bulkmail checkbox
-			$js = array( 'id' => "Email_".$blockId."_IsBulkmail", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsBulkmail" );');
-			$form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null, '', $js);
-			
-			//is_Primary radio
-			$js = array( 'id' => "Email_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsPrimary" );');
-			$choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
-			$form->addGroup( $choice, "email[$blockId][is_primary]" );
-		}
+        if ( isset( $form->_contactType ) ) {
+            //Block type
+            $form->addElement('select',"email[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
+
+            //On-hold checkbox
+            $form->addElement('advcheckbox', "email[$blockId][on_hold]",null);
+
+            //Bulkmail checkbox
+            $js = array( 'id' => "Email_".$blockId."_IsBulkmail", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsBulkmail" );');
+            $form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null, '', $js);
+
+            //is_Primary radio
+            $js = array( 'id' => "Email_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsPrimary" );');
+            $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
+            $form->addGroup( $choice, "email[$blockId][is_primary]" );
+        }
     }
 }
