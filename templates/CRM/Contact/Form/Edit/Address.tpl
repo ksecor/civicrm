@@ -6,7 +6,8 @@
 <div id="addressBlock" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 {/if}
 <!-Add->
- <div id="Address_Block_{$blockId}">
+{if $blockId gt 1}<div class="spacer"></div>{/if}
+ <div id="Address_Block_{$blockId}" style="background-color: #F7F7F7;border:1px solid #CCCCCC;"	class="ui-corner-all">
   <table class="form-layout-compressed">
 	{if !$defaultLocation}
      <tr>
@@ -20,7 +21,7 @@
 	 {/if}
         {if $blockId gt 1}
             <td>
-                <a href="#" title={ts}Remove{/ts} onClick="removeBlock( 'Address', '{$blockId}' ); return false;">{ts}remove{/ts}</a>
+                <a href="#" title="{ts}Delete Address Block{/ts}" onClick="removeBlock( 'Address', '{$blockId}' ); return false;">{ts}delete{/ts}</a>
             </td>
         {/if}
      </tr>
@@ -28,7 +29,7 @@
      {if $form.use_household_address} 
      <tr>
         <td>
-            {$form.use_household_address.html}{$form.use_household_address.label}{help id="id-usehousehold"}<br /><br />
+            {$form.use_household_address.html}{$form.use_household_address.label}{help id="id-usehousehold"}<br />
             <div id="share_household" style="display:none">
                 {$form.shared_household.label}<br />
                 {$form.shared_household.html|crmReplace:class:huge}&nbsp;&nbsp;<span id="show_address"></span>

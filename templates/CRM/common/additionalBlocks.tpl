@@ -89,6 +89,9 @@ function removeBlock( blockName, blockId ) {
 
     //unset block from html
     cj( "#"+ blockName + "_Block_" + blockId ).remove();
+	if ( cj( "#hidden_" + blockName + "_Instances" ).val( ).split(',').length == 1 ) {
+		cj('#addMore' + blockName ).show();
+	}
 }
 </script>
 {/literal}

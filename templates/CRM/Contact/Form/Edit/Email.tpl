@@ -18,7 +18,7 @@
 	<td align="center">{$form.email.$blockId.is_bulkmail.html}</td>
 	<td align="center" id="Email-Primary-html" {if $blockId eq 1}class="hiddenElement"{/if}>{$form.email.$blockId.is_primary.html}</td>
   {if $blockId gt 1}
-    <td><a href="#" title={ts}Remove{/ts} onClick="removeBlock( 'Email', '{$blockId}' ); return false;">{ts}remove{/ts}</a></td>
+    <td><a href="#" title="{ts}Delete Email Block{/ts}" onClick="removeBlock( 'Email', '{$blockId}' ); return false;">{ts}delete{/ts}</a></td>
   {/if}
 </tr>
 <!-Add->

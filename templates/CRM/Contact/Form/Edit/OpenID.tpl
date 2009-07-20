@@ -14,7 +14,7 @@
      <td colspan="2"></td>
      <td align="center" id="OpenID-Primary-html" {if $blockId eq 1}class="hiddenElement"{/if}>{$form.openid.$blockId.is_primary.html}</td>
    {if $blockId gt 1}
-    <td><a href="#" title={ts}Remove{/ts} onClick="removeBlock('OpenID','{$blockId}'); return false;">{ts}remove{/ts}</a></td>
+    <td><a href="#" title="{ts}Delete OpenID Block{/ts}" onClick="removeBlock('OpenID','{$blockId}'); return false;">{ts}delete{/ts}</a></td>
    {/if}
 </tr>
 <!-Add->

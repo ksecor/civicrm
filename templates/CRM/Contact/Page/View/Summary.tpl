@@ -232,6 +232,10 @@
 								<td class="label">{ts}Addressee{/ts}{if $addressee eq 'Customized'}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
 								<td>{if $addressee eq 'Customized'}{$addressee_custom}{else}{$addressee}{/if}</td>
 							</tr>
+						 </table>
+						</div>
+						<div id="contactCardRight">
+						 <table>
 							<tr>
 								<td class="label">{ts}Email Greeting{/ts}{if $email_greeting eq 'Customized'}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
 								<td>{if $email_greeting eq 'Customized'}{$email_greeting_custom}{else}{$email_greeting}{/if}</td>

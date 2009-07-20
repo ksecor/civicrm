@@ -16,7 +16,7 @@
      <td colspan="2">{$form.phone.$blockId.phone_type_id.html}</td>
 	 <td align="center" id="Phone-Primary-html" {if $blockId eq 1}class="hiddenElement"{/if}>{$form.phone.$blockId.is_primary.html}</td>
   {if $blockId gt 1}
-   <td><a href="#" title={ts}Remove{/ts} onClick="removeBlock('Phone','{$blockId}'); return false;">{ts}remove{/ts}</a></td>
+   <td><a href="#" title="{ts}Delete Phone Block{/ts}" onClick="removeBlock('Phone','{$blockId}'); return false;">{ts}delete{/ts}</a></td>
   {/if}
 </tr>
 <!-Add->
