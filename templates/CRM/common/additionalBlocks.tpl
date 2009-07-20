@@ -34,7 +34,7 @@ function buildAdditionalBlocks( blockName, className ) {
         dataUrl += "&qfKey={$qfKey}";
         {/if}
         {literal}
-    } else if ( className == 'CRM_Event_Form_ManageEvent_Location' && currentBlockCount <= 2 ) {
+    } else if ( className == 'CRM_Event_Form_ManageEvent_Location' && currentInstance <= 2 ) {
         dataUrl = {/literal}"{crmURL p='civicrm/event/manage' h=0 q='snippet=4'}"{literal} + '&subPage=Location&block=' + blockName + '&count=' + currentInstance;
     }
 
