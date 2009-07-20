@@ -50,14 +50,14 @@ function hideEnableDisableStatusMsg( ) {
 }
 
 function enableDisable( recordID, recordBAO, op ) {
-    var statusMsg = '{/literal}{ts}Are you sure you want to enable this record?{/ts}{literal}';
-    if ( op == 'enable-disable' ) {
-        statusMsg = '{/literal}{ts}Are you sure you want to disable this record?{/ts}{literal}';
-    }
+    var postUrl = {/literal}"{crmURL p='civicrm/ajax/statusmsg' h=0 }"{literal};
+    cj.post( postUrl, { recordID: recordID, recordBAO: recordBAO, op: op  }, function( statusMessage ) {
+       if ( statusMessage.status ) {
+	  var confirmMsg = statusMessage.status + '&nbsp;<a href="javascript:saveEnableDisable( ' + recordID + ',\'' + recordBAO + '\'' + ', \'' + op + '\'' + ' );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
 
-    var confirmMsg =  statusMsg + '&nbsp;<a href="javascript:saveEnableDisable( ' + recordID + ',\'' + recordBAO + '\'' + ', \'' + op + '\'' + ' );" style="text-decoration: underline;">{/literal}{ts}Yes{/ts}{literal}</a>&nbsp;&nbsp;&nbsp;<a href="javascript:hideEnableDisableStatusMsg();" style="text-decoration: underline;">{/literal}{ts}No{/ts}{literal}</a>';
-
-    cj( '#enableDisableStatusMsg' ).show( ).html( confirmMsg );
+    	   cj( '#enableDisableStatusMsg' ).show( ).html( confirmMsg );
+       }
+   }, 'json' );
 }
 
 //check is server properly processed post.

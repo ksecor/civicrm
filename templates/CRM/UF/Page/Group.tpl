@@ -32,6 +32,8 @@
     <p></p>
         <div class="form-item">
         {strip}
+        {* handle enable/disable actions*}
+ 	{include file="CRM/common/enableDisable.tpl"}
       <table class="selector">
          <tr class="columnheader">
             <th>{ts}Profile Title{/ts}</th>
@@ -43,8 +45,7 @@
             <th></th>
          </tr>
         {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}
-        {if NOT $row.is_active}disabled{/if}">
+	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
             <td>{$row.group_type}</td>
             <td>{$row.id}</td>

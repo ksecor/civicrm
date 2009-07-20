@@ -55,4 +55,36 @@ class CRM_Admin_Page_AJAX
         echo CRM_Core_BAO_Navigation::processNavigation( $_GET );           
         exit();
     }
+
+    /**
+     * Function to build status message while 
+     * enabling/ disabling various objects
+     */
+    static function getStatusMsg( &$config ) 
+    {        
+        $recordID  = CRM_Utils_Type::escape( $_POST['recordID'], 'Integer' );
+        $recordBAO = CRM_Utils_Type::escape( $_POST['recordBAO'], 'String' );
+        $op        = CRM_Utils_Type::escape( $_POST['op'], 'String' );
+        
+        if ($op == 'disable-enable') {
+            $status = ts('Are you sure you want to enable this record?');
+        } else {
+            switch ($recordBAO) {
+                
+            case 'CRM_Core_BAO_UFGroup':
+                require_once "CRM/Core/BAO/UFGroup.php";
+                $ufJoin = implode (', ' ,CRM_Core_BAO_UFGroup::getUFJoinRecord($recordID, true) );
+                $status = ts('This profile is currently used for '). $ufJoin . ts('. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?');
+                break;
+
+            default:
+            $status = ts('Are you sure you want to disable this record?');
+            break;
+            }
+        }
+        $statusMessage['status'] = $status;
+        echo json_encode( $statusMessage );
+        
+        exit;
+    } 
 }

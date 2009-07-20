@@ -88,15 +88,17 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=disable&id=%%id%%',
-                                                                          'title' => ts('Disable CiviCRM Profile Group')
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_UFGroup' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
+                                                                          
+                                                                          'title' => ts('Disable CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable CiviCRM Profile Group'),
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_UFGroup' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
+                                                                          
+                                                                          'title' => ts('Enable CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),

@@ -1156,6 +1156,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
     {
         if ($displayName) { 
             $UFGroupType = array( );
+            require_once "CRM/Core/SelectValues.php";
             $UFGroupType = CRM_Core_SelectValues::ufGroupTypes( );
         }
         
