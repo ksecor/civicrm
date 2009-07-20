@@ -459,7 +459,7 @@ class CRM_Utils_Token
         if (self::$_tokens['contact'] == null) {
             /* This should come from UF */
             self::$_tokens['contact'] =
-                array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
+                array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( 'ALL' ) ),
                              array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region' ) );
         }
         
