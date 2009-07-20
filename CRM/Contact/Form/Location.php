@@ -42,20 +42,26 @@ class CRM_Contact_Form_Location
      */ 
     function preProcess( &$form ) 
     {  
-        $form->_addBlockName  = CRM_Utils_Array::value( 'block', $_GET );
-        $additionalblockCount = CRM_Utils_Array::value( 'count', $_GET );
+        $form->_addBlockName  = CRM_Utils_Request::retrieve('block', 'String',   CRM_Core_DAO::$_nullObject );
+        $additionalblockCount = CRM_Utils_Request::retrieve('count', 'Positive', CRM_Core_DAO::$_nullObject );
+        
         $form->assign( "addBlock", false );
         if ( $form->_addBlockName && $additionalblockCount ) {
             $form->assign( "addBlock", true );
             $form->assign( "blockName", $form->_addBlockName );
             $form->assign( "blockId",  $additionalblockCount );
-            $form->set( 'blockName', $form->_addBlockName );
             $form->set( $form->_addBlockName."_Block_Count", $additionalblockCount );
         }
-        $form->assign( 'className', CRM_Utils_System::getClassName( $form ) );
         
-        $form->_blocks = array( 'Address', 'Email', 'Phone' );
-        $form->assign( 'blocks', $form->_blocks );
+        $className = CRM_Utils_System::getClassName( $form );
+        if ( in_array( $className, array( 'CRM_Event_Form_ManageEvent_Location', 'CRM_Contact_Form_Domain' ) ) ) {
+            $form->_blocks = array( 'Address' => ts( 'Address' ), 
+                                    'Email'   => ts( 'Email'   ), 
+                                    'Phone'   => ts( 'Phone'   ) );
+        }
+        
+        $form->assign( 'blocks',    $form->_blocks );
+        $form->assign( 'className', $className );
     }
     
     /** 
@@ -66,30 +72,21 @@ class CRM_Contact_Form_Location
      */ 
     function buildQuickForm ( &$form ) 
     { 
-        //load form for child blocks
-        if ( $form->_addBlockName ) {
-            require_once( str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $form->_addBlockName ) . ".php");
-            return eval( 'CRM_Contact_Form_Edit_' . $form->_addBlockName . '::buildQuickForm( $form );' );
-        }
+        // required for subsequent AJAX requests.
+        $ajaxRequestBlocks   = array( );
+        $generateAjaxRequest = 0;
         
         //build 1 instance of all blocks, without using ajax ...
-        foreach ( $form->_blocks  as $blockName ) {
+        foreach ( $form->_blocks as $blockName => $label ) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
-            $instanceStr = CRM_Utils_Array::value( "hidden_".$blockName ."_Instances", $_POST, 1 );
+            $name = strtolower($blockName);
             
-//             //hack for setdefault building.
-//             if ( CRM_Utils_System::isNull( $_POST ) ) { 
-//                 $name = strtolower($blockName);
-//                 if ( CRM_Utils_Array::value( $name, $form->_values ) && 
-//                      is_array( $form->_values[$name] ) ) { 
-//                     foreach ( $form->_values[$name] as $instance => $blockValues ) {
-//                         if ( $instance == 1 ) continue; 
-//                         $instanceStr .= ",{$instance}";
-//                     }
-//                 }
-//             }
-            
-            $instances = explode( ',', $instanceStr );
+            $instances = array( 1 );
+            if ( CRM_Utils_Array::value( $name, $_POST ) && is_array( $_POST[$name] ) ) {
+                $instances = array_keys( $_POST[$name] );
+            } else if ( CRM_Utils_Array::value( $name, $form->_values ) && is_array( $form->_values[$name] ) ) {
+                $instances = array_keys( $form->_values[$name] );
+            }
             
             foreach ( $instances as $instance ) {
                 if ( $instance == 1 ) {
@@ -108,7 +105,7 @@ class CRM_Contact_Form_Location
         
         //assign to generate AJAX request for building extra blocks.
         $form->assign( 'generateAjaxRequest', $generateAjaxRequest );
-        $form->assign( 'ajaxRequestBlocks',   $ajaxRequestBlocks   );
+        $form->assign( 'ajaxRequestBlocks',   $ajaxRequestBlocks   ); 
     }
 }
 

@@ -33,6 +33,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contact/Form/Location.php';
 require_once 'CRM/Custom/Form/CustomData.php';
 
 /**
@@ -98,9 +99,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     
     protected $_editOptions = array( );
     
-    protected $_blocks;
+    public $_blocks;
     
-    protected $_values = array( );
+    public $_values = array( );
     
     public $_action;
     
@@ -117,17 +118,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
         
-        $this->_addBlockName  = CRM_Utils_Array::value( 'block', $_GET );
-        $additionalblockCount = CRM_Utils_Array::value( 'count', $_GET );
-        $this->assign( "addBlock", false );
-        if ( $this->_addBlockName && $additionalblockCount ) {
-            $this->assign( "addBlock", true );
-            $this->assign( "blockName", $this->_addBlockName );
-            $this->assign( "blockId",  $additionalblockCount );
-            $this->set( $this->_addBlockName."_Block_Count", $additionalblockCount );
-        }
-        $this->assign( 'className', 'CRM_Contact_Form_Contact' );
-
         $session = & CRM_Core_Session::singleton( );
         if ( $this->_action == CRM_Core_Action::ADD ) {
             // check for add contacts permissions
@@ -246,6 +236,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             //only custom data has preprocess hence directly call it
             CRM_Custom_Form_CustomData::preProcess( $this, null, null, 1, $this->_contactType, $this->_contactId );
         }
+        
+        // location blocks.
+        CRM_Contact_Form_Location::preProcess( $this );
     }
     
     /**
@@ -355,12 +348,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 }
                 
                 //set default phone type.
-                if ( $name == 'phone' ) {
+                if ( $name == 'phone' && $defPhoneTypeId ) {
                     $defaults[$name][$instance]['phone_type_id'] = $defPhoneTypeId;
                 }
                 
                 //set default im provider.
-                if ( $name == 'im' ) {
+                if ( $name == 'im' && $defIMProviderId ) {
                     $defaults[$name][$instance]['provider_id'] = $defIMProviderId;
                 }
             }
@@ -507,57 +500,18 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_Edit_' . $this->_contactType . '::buildQuickForm( $this, $this->_action );' );
         
-        //build the blocks array which support AJAX form builing.
-        $allBlocks = $this->_blocks;
-        
         // build edit blocks ( custom data, demographics, communication preference, notes, tags and groups )
         foreach( $this->_editOptions as $name => $label ) {                
             if ( $name == 'Address' ) {
-                $allBlocks['Address'] = $this->_editOptions['Address'];
+                $this->_blocks['Address'] = $this->_editOptions['Address'];
                 continue;
             }
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $name ) . ".php");
             eval( 'CRM_Contact_Form_Edit_' . $name . '::buildQuickForm( $this );' );
         }
         
-        // required for subsequent AJAX requests.
-        $ajaxRequestBlocks   = array( );
-        $generateAjaxRequest = 0;
-        
-        //build 1 instance of all blocks, without using ajax ...
-        foreach ( $allBlocks as $blockName => $label ) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $blockName ) . ".php");
-            
-            $name = strtolower($blockName);
-            if ( !empty( $_POST[$name] ) ) {
-                $tempBlocks = $_POST[$name];
-            } else if ( CRM_Utils_Array::value( $name, $this->_values ) && is_array( $this->_values[$name] ) ) { 
-                $tempBlocks = $this->_values[$name];
-            } else {     
-                // just build first instance
-                $tempBlocks = array( 1 => '' );
-            }
-            
-            if ( !empty( $tempBlocks ) ) {
-                foreach ( $tempBlocks as $instance => $value ) {
-                    if ( $instance == 1 ) {
-                        $this->assign( "addBlock", false );
-                        $this->assign( "blockId",  $instance );
-                    } else {
-                        //we are going to build other block instances w/ AJAX
-                        $generateAjaxRequest++;
-                        $ajaxRequestBlocks[$blockName][$instance] = true;
-                    }
-                
-                    $this->set( $blockName."_Block_Count", $instance );
-                    eval( 'CRM_Contact_Form_Edit_' . $blockName . '::buildQuickForm( $this );' );
-                }
-            }
-        }
-        
-        //assign to generate AJAX request for building extra blocks.
-        $this->assign( 'generateAjaxRequest', $generateAjaxRequest );
-        $this->assign( 'ajaxRequestBlocks',   $ajaxRequestBlocks   );
+        // build location blocks.
+        CRM_Contact_Form_Location::buildQuickForm( $this );
         
         //build the addressee block CRM-4575
         $this->buildAddresseeBlock( );

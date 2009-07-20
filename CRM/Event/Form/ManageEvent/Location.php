@@ -164,6 +164,12 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */ 
     public function buildQuickForm( )  
     { 
+        //load form for child blocks
+        if ( $this->_addBlockName ) {
+            require_once( str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_addBlockName ) . ".php");
+            return eval( 'CRM_Contact_Form_Edit_' . $this->_addBlockName . '::buildQuickForm( $this );' );
+        }
+        
         $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);
         
         $this->applyFilter('__ALL__', 'trim');
@@ -236,7 +242,6 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     public function postProcess( ) 
     {
         $params = $this->exportValues( );
-        
         $delteOldBlock = false;
 
         // if 'use existing location' option is selected -
@@ -268,16 +273,17 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         // get ready with location block params
         $params['entity_table'] = 'civicrm_event';
         $params['entity_id']    = $this->_id;
-            
+        
         require_once 'CRM/Core/BAO/LocationType.php';
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-		
-		$blockType = array( 'address', 'phone', 'email');
-		foreach( $blockType as $block ) {
-			$params[$block][1]['location_type_id'] = $defaultLocationType->id;
-			$params[$block][1]['is_primary']       = 1;
-		}
-                
+        foreach ( array( 'address', 'phone', 'email' ) as $block )  {
+            if ( !CRM_Utils_Array::value( $block, $params ) || !is_array( $params[$block] ) )  continue;
+            foreach ( $params[$block] as $count => &$values ) {
+                if ( $count == 1 ) $values['is_primary'] = 1; 
+                $values['location_type_id'] = $defaultLocationType->id;
+            }
+        }
+        
         // create/update event location
         require_once 'CRM/Core/BAO/Location.php';
         $location = CRM_Core_BAO_Location::create($params, true, 'event');
