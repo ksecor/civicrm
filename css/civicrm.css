@@ -429,7 +429,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
 #crm-container label {
-  font-weight: bold;
+  font-weight: normal;
   display: inline;
 }
 
