@@ -225,15 +225,16 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         INSERT INTO `civicrm_option_group`
             (`name`, `description`, `is_reserved`, `is_active`)
         VALUES 
-            ('priority',         'Priority',             0, 1),
-            ('redaction_rule',   'Redaction Rule',       0, 1),
+            ( 'priority',         'Priority',            0, 1),
+            ( 'redaction_rule',   'Redaction Rule',      0, 1),
             ( 'email_greeting',  'Email Greeting Type',  0, 1),
             ( 'postal_greeting', 'Postal Greeting Type', 0, 1),
             ( 'addressee',       'Addressee Type',       0, 1);
     {/if}
     
     SELECT @og_id_pr := id FROM civicrm_option_group WHERE name = 'priority';
-    SELECT @og_id_rr := id FROM civicrm_option_group WHERE name = 'redaction_rule';
+    SELECT @og_id_rr := id FROM civicrm_option_group WHERE name = 'redaction_rule';    
+    SELECT @og_id_rt := id FROM civicrm_option_group WHERE name = 'report_template';
     {if $multilingual}
         INSERT INTO civicrm_option_value
         (option_group_id, {foreach from=$locales item=locale}label_{$locale},{/foreach}  value, name, filter, weight, is_active) 
