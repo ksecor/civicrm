@@ -143,9 +143,6 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
     function &links()
     {
         if (!(self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this %1?', array(1 => self::$_GName)) . '\n\n' . ts('Users will no longer be able to select this value when adding or editing %1.', array(1 => self::$_GName));
-            
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),

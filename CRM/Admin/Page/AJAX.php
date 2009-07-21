@@ -127,12 +127,17 @@ class CRM_Admin_Page_AJAX
                 $status = ts('Are you sure you want to disable this price field?');
                 break;
                 
+            case 'CRM_Contact_BAO_Group':
+                $status = ts('Are you sure you want to disable this Group?');
+                break;
+                
             case 'CRM_Core_BAO_OptionGroup':
                 $status = ts('Are you sure you want to disable this Option?');
                 break;
                 
             case 'CRM_Core_BAO_OptionValue':
-                $status = ts('Are you sure you want to disable this Option Value?');
+                $label = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $recordID, 'label' );
+                $status = ts('Are you sure you want to disable this ') . $label . ts(' record ?');
                 break;
 
             default:

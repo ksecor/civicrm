@@ -68,8 +68,6 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     function &links()
     {
-        $disableExtra = ts('Are you sure you want to disable this Group?');
-        
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW => array(
@@ -84,18 +82,17 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
                                                                    'qs'    => 'reset=1&action=update&id=%%id%%',
                                                                    'title' => ts('Edit Group')
                                                                    ),
-                                  CRM_Core_Action::DISABLE => array( 
+                                  CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/group',
-                                                                    'qs'    => 'reset=1&action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\''. $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contact_BAO_Group' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
                                                                     'title' => ts('Disable Group') 
                                                                     ),
-                                  CRM_Core_Action::ENABLE  => array( 
+                                  CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/group',
-                                                                    'qs'    => 'reset=1&action=enable&id=%%id%%',
-                                                                    'title' => ts( 'Enable Group' ) 
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contact_BAO_Group' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
+                                                                    'title' => ts('Enable Group') 
                                                                     ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'  => ts('Delete'),
@@ -103,7 +100,6 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
                                                                    'qs'    => 'reset=1&action=delete&id=%%id%%',
                                                                    'title' => ts('Delete Group')
                                                                    )
-                                  
                                   );
         }
         return self::$_links;
