@@ -74,6 +74,13 @@
 cj( function( ) {
     var fields = new Array( 'postal_greeting', 'addressee', 'email_greeting');
     for ( var i = 0; i < 3; i++ ) {
+
+        if( cj( '#'+fields[i] + "_id" ).val() ==  4 ) {
+            cj("#greetings").show( );
+            cj( "#" + fields[i] + "_id_html").show( );
+            cj( "#" + fields[i] + "_id_label").show( );
+        }
+
         cj( "#" + fields[i] + "_id").change( function( ) {
             var fldName = cj(this).attr( 'id' );
             if ( cj(this).val( ) == 4 ) {
