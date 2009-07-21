@@ -206,6 +206,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
             CRM_Contact_BAO_Contact_Utils::updateCurrentEmployer( $contact->id );
         }
+        
+        // process greetings CRM-4575, cache greetings
+        self::processGreetings( $contact );
+
         return $contact;
     }
     
@@ -331,7 +335,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                                         'method' => 'Admin');
             CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
         }
-
+        
         $transaction->commit( );
         
         $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
@@ -1820,4 +1824,73 @@ UNION
         $object->find( );
         return $object->N;
     }
+    
+    /**
+     * Function to process greetings and cache
+     *
+     */
+     static function processGreetings( &$contact ) {
+         $emailGreetingString = $postalGreetingString = $addresseeString = null;
+         $updateQueryString = array( );
+         require_once 'CRM/Activity/BAO/Activity.php';
+         if ( $contact->contact_type == 'Individual' ) { 
+             // the filter value for Individual contact type is set to 1
+             $filter =  array( 'contact_type'  => 'Individual', 
+                               'greeting_type' => 'email_greeting' );
+             //email greeting
+             $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
+             
+             if ( $contact->email_greeting_custom == 'null' && $contact->email_greeting_id ) {
+                 $emailGreetingString = $emailGreeting[ $contact->email_greeting_id ];
+             } elseif ( $contact->email_greeting_custom ) {
+                 $emailGreetingString = $contact->email_greeting_custom;
+             }
+             
+             if ( $emailGreetingString ) {
+                 CRM_Activity_BAO_Activity::replaceGreetingTokens($emailGreetingString, $contact->id);
+                 $updateQueryString[] = " email_greeting_display = '{$emailGreetingString}'";
+             } 
+         }
+
+         //postal greeting$
+         $filter['greeting_type'] = 'postal_greeting';
+         $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);
+         
+         if ( $contact->postal_greeting_custom == 'null' && $contact->postal_greeting_id ) {
+             $postalGreetingString = $postalGreeting[ $contact->postal_greeting_id ];
+         } elseif ( $contact->postal_greeting_custom ) {
+             $postalGreetingString = $contact->postal_greeting_custom;
+         }
+         
+         if ( $postalGreetingString ) {
+             CRM_Activity_BAO_Activity::replaceGreetingTokens($postalGreetingString, $contact->id);
+             $updateQueryString[] = " postal_greeting_display = '{$postalGreetingString}'";
+         }
+         
+          
+         //check contact type and build filter clause accordingly for addressee, CRM-4575
+         $filter = array( 'contact_type'  => $contact->contact_type, 
+                          'greeting_type' => 'addressee'  );
+          
+         //add addressee in Contact form
+         $addressee = CRM_Core_PseudoConstant::greeting( $filter ); 
+
+         if ( $contact->addressee_custom == 'null' && $contact->addressee_id ) {
+             $addresseeString = $addressee[ $contact->addressee_id ];
+         } elseif ( $contact->addressee_custom ) {
+             $addresseeString = $contact->addressee_custom;
+         }
+         
+         if ( $addresseeString ) {
+             CRM_Activity_BAO_Activity::replaceGreetingTokens($addresseeString, $contact->id);
+             $updateQueryString[] = " addressee_display = '{$postalGreetingString}'";
+         }
+         
+         if ( !empty($updateQueryString) ) {
+             $updateQueryString = implode( ',', $updateQueryString );
+             $queryString = "UPDATE civicrm_contact SET {$updateQueryString} WHERE id = {$contact->id}";
+         }
+
+         CRM_Core_DAO::executeQuery( $queryString );
+     }
 }

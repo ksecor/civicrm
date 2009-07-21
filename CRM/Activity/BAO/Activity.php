@@ -1557,13 +1557,14 @@ AND cl.modified_id  = c.id
         }
         
         $greetingTokens = self::getTokens($tokenString);
-        
+                    
         if ( !empty($greetingTokens) ) {
-            $greetingsReturnProperties = array_flip(CRM_Utils_Array::value('contact', $greetingTokens));
+            $greetingsReturnProperties = array_flip(CRM_Utils_Array::value('contact', $greetingTokens));        
             $greetingsReturnProperties = array_fill_keys(array_keys($greetingsReturnProperties), 1);
             $contactParams             = array( 'contact_id' => $contactId );
             require_once 'CRM/Mailing/BAO/Mailing.php';
-            $greetingDetails           = CRM_Mailing_BAO_Mailing::getDetails($contactParams, $greetingsReturnProperties);
+            $greetingDetails           = CRM_Mailing_BAO_Mailing::getDetails($contactParams, $greetingsReturnProperties, false, false );
+                
             require_once 'CRM/Utils/Token.php';
             $tokenString               = CRM_Utils_Token::replaceContactTokens( $tokenString, $greetingDetails, true , $greetingTokens);
         }

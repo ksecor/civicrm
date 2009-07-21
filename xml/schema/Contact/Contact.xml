@@ -371,6 +371,7 @@
   </field>
   <field>
        <name>email_greeting_display</name>
+       <title>Email Greeting</title>
        <type>varchar</type>
        <length>225</length>
        <export>true</export>
@@ -393,6 +394,7 @@
   </field>
   <field>
        <name>postal_greeting_display</name>
+       <title>Postal Greeting</title>
        <type>varchar</type>
        <length>255</length>
        <export>true</export>
@@ -415,6 +417,7 @@
   </field>
   <field>
        <name>addressee_display</name>
+       <title>Addressee</title>
        <type>varchar</type>
        <length>255</length>
        <import>true</import>
