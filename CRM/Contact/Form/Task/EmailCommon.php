@@ -139,7 +139,7 @@ class CRM_Contact_Form_Task_EmailCommon
 		$form->assign('toContact', $toArray);
 		$form->assign('suppressedEmails', $suppressedEmails);
 
-        $to = $form->add( 'text', 'to', ts('To') );
+        $to = $form->add( 'text', 'to', ts('To'), '', true );
         $form->assign('noEmails', $form->_noEmails);
         
         $session =& CRM_Core_Session::singleton( );
