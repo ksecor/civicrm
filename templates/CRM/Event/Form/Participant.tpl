@@ -27,7 +27,7 @@
 </div> 
 {/if}
 
-<div class="html-adjust">{$form.buttons.html}</div>
+<div class="html-adjust disable-buttons">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend>
 	{if $action eq 1 AND $paid}
 	<div id="help">
@@ -124,7 +124,7 @@
     {/if}
 </fieldset> 
 
-<div class="html-adjust">{$form.buttons.html}</div>
+<div class="html-adjust disable-buttons">{$form.buttons.html}</div>
 
 {if $action eq 1 or $action eq 2}
 {literal}
@@ -183,11 +183,11 @@
     	});
     					
         cj("#feeBlock").ajaxStart(function(){
-            cj("#overlay").show();
+            cj(".disable-buttons input").attr('disabled', true);
         });
         
         cj("#feeBlock").ajaxStop(function(){
-            cj("#overlay").hide();
+            cj(".disable-buttons input").attr('disabled', false);
         });
 
         //show event real full as well as waiting list message. 
@@ -199,7 +199,6 @@
 	}
 </script>
 {/literal}
-<div id="overlay">Loading...</div>
 {*include custom data js file*}
 {include file="CRM/common/customData.tpl"}
 {literal}
