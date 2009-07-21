@@ -504,6 +504,11 @@ class CRM_Contact_BAO_Query
                              || $tableName == 'addressee' ) {
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
+                            if ( in_array( $tableName, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+                                $greetField = "{$name}_display";
+                                $this->_select [ $greetField ] = "contact_a.{$greetField} as {$greetField}";
+                                $this->_element[ $greetField ] = 1;
+                            }
                         } else {
                             $this->_tables[$tableName]         = 1;
                             

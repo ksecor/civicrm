@@ -665,7 +665,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contactType = 'Individual', $status = false, $showAll = false ) 
+    function &importableFields( $contactType = 'Individual', $status = false, $showAll = false, $skipTitle = false ) 
     {
         if ( empty( $contactType ) ) {
             $contactType = 'All';
@@ -742,16 +742,17 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             self::$_importableFields[$contactType] = $fields;
         }
 
-        if ( ! $status ) {
-            $fields =
-                array_merge( array( 'do_not_import' => array( 'title' => ts('- do not import -') ) ),
-                             self::$_importableFields[$contactType] );
-        } else {
-            $fields =
-                array_merge( array( '' => array( 'title' => ts('- Contact Fields -') ) ),
-                             self::$_importableFields[$contactType] );
+        if ( !$skipTitle ) {
+            if ( ! $status ) {
+                $fields =
+                    array_merge( array( 'do_not_import' => array( 'title' => ts('- do not import -') ) ),
+                                 self::$_importableFields[$contactType] );
+            } else {
+                $fields =
+                    array_merge( array( '' => array( 'title' => ts('- Contact Fields -') ) ),
+                                 self::$_importableFields[$contactType] );
+            }
         }
-        
         return $fields;
     }
     
