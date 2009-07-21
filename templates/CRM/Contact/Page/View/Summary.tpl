@@ -229,20 +229,20 @@
 						<div id="contactCardLeft">
 						 <table>
 							<tr>
-								<td class="label">{ts}Addressee{/ts}{if $addressee eq 'Customized'}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
-								<td>{if $addressee eq 'Customized'}{$addressee_custom}{else}{$addressee}{/if}</td>
+								<td class="label">{ts}Addressee{/ts}{if $addressee_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
+								<td>{$addressee_display}</td>
 							</tr>
 						 </table>
 						</div>
 						<div id="contactCardRight">
 						 <table>
 							<tr>
-								<td class="label">{ts}Email Greeting{/ts}{if $email_greeting eq 'Customized'}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
-								<td>{if $email_greeting eq 'Customized'}{$email_greeting_custom}{else}{$email_greeting}{/if}</td>
+								<td class="label">{ts}Email Greeting{/ts}{if $email_greeting_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
+								<td>{$email_greeting_display}</td>
 							</tr>
 							<tr>
-								<td class="label">{ts}Postal Greeting{/ts}{if $postal_greeting eq 'Customized'}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
-								<td>{if $postal_greeting eq 'Customized'}{$postal_greeting_custom}{else}{$postal_greeting}{/if}</td>
+								<td class="label">{ts}Postal Greeting{/ts}{if $postal_greeting_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
+								<td>{$postal_greeting_display}</td>
 							</tr>
 						 </table>
 						</div>

@@ -415,19 +415,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         CRM_Utils_Array::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
         
-        //lookup value of email/postal greeting, addressee, CRM-4575
-        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
-                                  'greeting_type' => 'email_greeting' ); 
-        CRM_Utils_Array::lookupValue( $defaults, 'email_greeting', 
-                                      CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
-        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
-                                  'greeting_type' => 'postal_greeting' ); 
-        CRM_Utils_Array::lookupValue( $defaults, 'postal_greeting', 
-                                      CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
-        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
-                                  'greeting_type' => 'addressee' ); 
-        CRM_Utils_Array::lookupValue( $defaults, 'addressee', 
-                                      CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
 
@@ -540,8 +527,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
     }
-
-
 
     /**
      * Delete a contact and all its associated records
