@@ -1245,6 +1245,11 @@ div.crm-pager a {
   font-weight: bold;
 }
 
+#crm-container table.selector td.tasklist {
+    border-right: 1px solid #DDDDDD;
+    width       : 20%;
+}
+
 #crm-container td.tasklist a:link  {
   color: #FF0105;
 }
