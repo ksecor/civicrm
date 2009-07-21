@@ -116,25 +116,26 @@ class CRM_Contact_Form_Task_EmailCommon
 		//To avoid duplicated emails in recipient list of the
 		//contact appears more than once in resultset
 		//Fixed for CRM-4067
-		$form->_contactIds = array_unique( $form->_contactIds );
-		require_once 'CRM/Contact/BAO/Contact.php';
-		foreach ( $form->_contactIds as $contactId ) {
-			list($toDisplayName, $toEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
-			if ( ! trim( $toDisplayName ) ) {
-				$toDisplayName = $toEmail;
+		if ( is_array ( $form->_contactIds ) ) {
+			$form->_contactIds = array_unique( $form->_contactIds );
+			require_once 'CRM/Contact/BAO/Contact.php';
+			foreach ( $form->_contactIds as $contactId ) {
+				list($toDisplayName, $toEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
+				if ( ! trim( $toDisplayName ) ) {
+					$toDisplayName = $toEmail;
+				}
+
+				if ( $toDoNotEmail || empty( $toEmail ) ) {
+					$suppressedEmails++;
+				} else {
+					$toArray[$contactId] = $toEmail;
+				}
 			}
 
-			if ( $toDoNotEmail || empty( $toEmail ) ) {
-				$suppressedEmails++;
-			} else {
-				$toArray[$contactId] = $toEmail;
+			if ( empty( $toArray ) ) {
+				CRM_Core_Error::statusBounce( ts('Selected contact(s) do not have a valid email address, or communication preferences specify DO NOT EMAIL, or they are deceased).' ));
 			}
 		}
-
-		if ( empty( $toArray ) ) {
-			CRM_Core_Error::statusBounce( ts('Selected contact(s) do not have a valid email address, or communication preferences specify DO NOT EMAIL, or they are deceased).' ));
-		}
-
 		$form->assign('toContact', $toArray);
 		$form->assign('suppressedEmails', $suppressedEmails);
 
