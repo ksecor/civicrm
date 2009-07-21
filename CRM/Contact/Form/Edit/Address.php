@@ -69,7 +69,7 @@ class CRM_Contact_Form_Edit_Address
                           ts( 'Location Type' ),
                           array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
         
-        $js = array( 'id' => "Address_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Address",'. $blockId . ', "IsPrimary" );');
+        $js = array( 'id' => "Address_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( this.id );');
         $form->addElement(
                           'checkbox', 
                           "address[$blockId][is_primary]", 
@@ -77,7 +77,7 @@ class CRM_Contact_Form_Edit_Address
                           ts('Primary location for this contact'), 
                           $js );
         
-        $js = array( 'id' => "Address_".$blockId."_IsBilling", 'onClick' => 'singleSelect( "Address",'. $blockId . ', "IsBilling" );');
+        $js = array( 'id' => "Address_".$blockId."_IsBilling", 'onClick' => 'singleSelect( this.id );');
         $form->addElement(
                           'checkbox', 
                           "address[$blockId][is_billing]", 

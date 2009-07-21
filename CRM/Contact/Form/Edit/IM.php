@@ -75,7 +75,7 @@ class CRM_Contact_Form_Edit_IM
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_IM', 'name') );
 			
         //is_Primary radio
-        $js = array( 'id' => "IM_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "IM",'. $blockId . ', "IsPrimary" );');
+        $js = array( 'id' => "IM_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( this.id );');
         $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
         $form->addGroup( $choice, "im[$blockId][is_primary]" );
     }

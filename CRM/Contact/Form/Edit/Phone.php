@@ -67,7 +67,7 @@ class CRM_Contact_Form_Edit_Phone
 			$form->addElement('select',"phone[$blockId][location_type_id]", '' , CRM_Core_PseudoConstant::locationType());
 			
 			//is_Primary radio
-			$js = array( 'id' => "Phone_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Phone",'. $blockId . ', "IsPrimary" );');
+			$js = array( 'id' => "Phone_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( this.id );');
 			$choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
 			$form->addGroup( $choice, "phone[$blockId][is_primary]" );
 		}              

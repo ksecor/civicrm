@@ -67,11 +67,11 @@ class CRM_Contact_Form_Edit_Email
             $form->addElement('advcheckbox', "email[$blockId][on_hold]",null);
 
             //Bulkmail checkbox
-            $js = array( 'id' => "Email_".$blockId."_IsBulkmail", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsBulkmail" );');
+            $js = array( 'id' => "Email_".$blockId."_IsBulkmail", 'onClick' => 'singleSelect( this.id );');
             $form->addElement('advcheckbox', "email[$blockId][is_bulkmail]", null, '', $js);
 
             //is_Primary radio
-            $js = array( 'id' => "Email_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( "Email",'. $blockId . ', "IsPrimary" );');
+            $js = array( 'id' => "Email_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( this.id );');
             $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
             $form->addGroup( $choice, "email[$blockId][is_primary]" );
         }

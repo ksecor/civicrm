@@ -12,7 +12,7 @@
 	{if !$defaultLocation}
      <tr>
 	 {if $className eq 'CRM_Contact_Form_Contact'}
-        <td colspan="2">
+        <td id='Address-Primary-html' colspan="2">
            {$form.address.$blockId.location_type_id.label}
            {$form.address.$blockId.location_type_id.html}
            {$form.address.$blockId.is_primary.html}
