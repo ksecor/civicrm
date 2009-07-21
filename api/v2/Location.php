@@ -66,7 +66,7 @@ function civicrm_location_add( &$params ) {
     if(! isset($locationTypeId) ) {
         return civicrm_create_error( ts( '$location_type is not valid one' ) );
     }
-    $location =& _civicrm_location_add( $params,$locationTypeId );
+    $location =& _civicrm_location_add( $params, $locationTypeId );
     return $location;
 }
 
@@ -177,124 +177,178 @@ function civicrm_location_get( $contact ) {
  * @param <type> $locationTypeId
  * @return <type>
  */
-function _civicrm_location_add( &$params ,$locationTypeId) {
+function _civicrm_location_add( &$params, $locationTypeId ) {
     
-    // Get all existing locations.
-    $p = array(
-               'contact_id' => $params['contact_id'],
-               'entity_id' => $params['contact_id'],
-               );
-    require_once 'CRM/Core/BAO/Location.php';    
-    $v = array();
-    $locations = CRM_Core_BAO_Location::getValues($p, $v);
-    $contact = array(
-                     'contact_id' => $params['contact_id'],
-                     'location' => $locations
-                     );
+    // 1. if block exists, increament counter and insert new block w/ given values.
+    // 2. is_primary, is_billing give preference to params block first.
     
-    // If the location already exists, merge in the new data
-    $found = false;
-    foreach ($contact['location'] as &$location) {
-        if ( CRM_Utils_Array::value('location_type_id',
-                                    $location ) == $locationTypeId) {
-            $loc =& $location;
-            $found = true;
-            break;
-        }
-    }
+    // Get all existing location blocks.
+    $blockParams = array( 'contact_id' => $params['contact_id'],
+                          'entity_id'  => $params['contact_id'] );
     
-    // Else create a new location
-    if (!$found) {
-        $loc =& $contact['location'][];
-        $loc['location_type_id'] = $locationTypeId;
-    }
+    require_once 'CRM/Core/BAO/Location.php';
+    $allBlocks = CRM_Core_BAO_Location::getValues( $blockParams );
     
-    $loc['is_primary'] = CRM_Utils_Array::value( 'is_primary', $params,
-                                                 CRM_Utils_Array::value( 'is_primary', $loc ) );
+    //get all ids if not present.
+    require_once 'CRM/Contact/BAO/Contact.php';
+    CRM_Contact_BAO_Contact::resolveDefaults( $params, true );
     
-    $loc['is_billing'] = CRM_Utils_Array::value( 'is_billing', $params,
-                                                 CRM_Utils_Array::value( 'is_billing', $loc ) );
+    // get all blocks in contact array.
+    $contact = array_merge( array( 'contact_id' => $params['contact_id'] ), $allBlocks );
     
-    $loc['name']       = CRM_Utils_Array::value( 'name', $params,
-                                                 CRM_Utils_Array::value( 'name', $loc ) );
-    
-    require_once 'CRM/Core/DAO/Address.php';
-    $fields =& CRM_Core_DAO_Address::fields( );
-    
-    if ( ! isset( $loc['address'] ) ||
-         ! is_array( $loc['address'] ) ) {
-        $loc['address'] = array();
-    }    
-      
-    $ids = array( 'county', 'country_id', 'country', 
-                  'state_province_id', 'state_province',
-                  'supplemental_address_1', 'supplemental_address_2',
-                  'StateProvince.name' );
-    
-    foreach ( $ids as $id ) {
-        if ( array_key_exists( $id, $params ) ) {
-            _civicrm_store_values($fields, $params, $loc['address']);
-            $loc['address'][$id] = $params[$id];
-        }
-    }
-    
-    if (isset($loc['address']['state_province']) &&
-        is_numeric($loc['address']['state_province'])) {
-        $loc['address']['state_province'] =
-            CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc['address']['state_province']);
-    }
-
-    if (isset($loc['address']['country']) &&
-        is_numeric($loc['address']['country'])) {
-        $loc['address']['country'] =
-            CRM_Core_PseudoConstant::countryIsoCode($loc['address']['country']);
-    }
+    $primary = $billing = array( );
     
     $blocks = array( 'Email', 'Phone', 'IM' );
     
+    // copy params value in contact array.
     foreach ( $blocks as $block ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
         eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );
         $name = strtolower($block);
         
-        if (! isset($loc[$name]) ||
-            !is_array($loc[$name])) {
-            $loc[$name]    = array( );
-        }
-        
-        if ( isset($params[$name]) &&
-             $params[$name] ){
+        if ( CRM_Utils_Array::value( $name, $params ) ) {
+            if ( !isset($contact[$name]) ||
+                 !is_array($contact[$name])) {
+                $contact[$name] = array( );
+            }
+            $blockCount = count( $contact[$name] );
+            
+            $firstBlockCount = null;
             if ( is_array( $params[$name] ) ) {
-                $count = 1;
-                foreach ( $params[$name] as $val) {
-                    _civicrm_store_values($fields, $val,$loc[$name][$count++]);
+                foreach ( $params[$name] as $val ) {
+                    _civicrm_store_values( $fields, $val, $contact[$name][++$blockCount]);
+                    
+                    // check for primary and billing.
+                    if ( CRM_Utils_Array::value( 'is_primary', $val ) ) {
+                        $primary[$name][$blockCount] = true; 
+                    }
+                    if ( CRM_Utils_Array::value( 'is_billing', $val ) ) {
+                        $primary[$name][$blockCount] = true;  
+                    }
+                    if ( !$firstBlockCount ) {
+                        $firstBlockCount = $blockCount;
+                    }
                 }
             } else {
                 $p = array( $name => $params[$name] );
-                _civicrm_store_values($fields,
-                                      $p,
-                                      $loc[$name][1]);
+                _civicrm_store_values( $fields, $p, $contact[$name][++$blockCount] );
+                
+                $firstBlockCount = $blockCount;
+            }
+            
+            // make first block as default primary when is_primary 
+            // is not set in sub array and set in main params array.
+            if ( !CRM_Utils_Array::value( $name, $primary ) ) {
+                $primary[$name][$firstBlockCount] = true;
+                $contact[$name][$firstBlockCount]['is_primary'] = true;
+            }
+            if ( !CRM_Utils_Array::value( $name, $billing ) ) {
+                $billing[$name][$firstBlockCount] = true;
+                $contact[$name][$firstBlockCount]['is_billing'] = true;
             }
         }
     }
+    
+    // get address fields in contact array.
+    $addressCount = 1;
+    if ( array_key_exists( 'address', $contact ) && is_array( $contact['address'] )  ) {
+        foreach ( $contact['address'] as $addCount => $values ) {
+            if ( in_array( $locationTypeId, $values ) ) {
+                $addressCount = $addCount;
+                break;
+            }
+            $addressCount++;
+        }
+    }
+    
+    //check for primary address.
+    if ( CRM_Utils_Array::value( 'is_primary', $params ) ) {
+        $primary['address'][$addressCount] = true;
+    }
+    if ( CRM_Utils_Array::value( 'is_billing', $params ) ) {
+        $billing['address'][$addressCount] = true;   
+    }
+    
+    $ids = array( 'county', 'country_id', 'country', 
+                  'state_province_id', 'state_province',
+                  'supplemental_address_1', 'supplemental_address_2',
+                  'StateProvince.name' );
+    foreach ( $ids as $id ) {
+        if ( array_key_exists( $id, $params ) ) {
+            require_once 'CRM/Core/DAO/Address.php';
+            $fields =& CRM_Core_DAO_Address::fields( );
+            _civicrm_store_values( $fields, $params, $contact['address'][$addressCount] );
+            $contact['address'][$addressCount][$id] = $params[$id];
+            break;
+        }
+    }
+    
+    // format state and country.
+    foreach ( array( 'state_province', 'country' ) as $field ) {
+        $fName = ( $field == 'state_province' ) ? 'stateProvinceAbbreviation' : 'countryIsoCode';
+        if ( CRM_Utils_Array::value( $field, $contact['address'][$addressCount] ) &&
+             is_numeric( $contact['address'][$addressCount][$field])) {
+            $fValue =& $contact['address'][$addressCount][$field];
+            eval( '$fValue = CRM_Core_PseudoConstant::' . $fName . '( $fValue );'  );
+            
+            //kill the reference.
+            unset( $fValue );
+        }
+    }
+    
+    //handle primary and billing reset.
+    foreach ( array( 'email', 'phone', 'im', 'address' ) as $name ) {
+        if ( !array_key_exists($name, $contact) || CRM_Utils_System::isNull($contact[$name]) ) continue; 
         
-    require_once 'CRM/Core/BAO/Location.php';
+        $errorMsg = null;
+        $primaryBlockIndex = $billingBlockIndex = 0;
+        if ( array_key_exists( $name, $primary ) ) {
+            if ( count( $primary[$name] ) > 1 ) {
+                $errorMsg .= ts ( "<br />Multiple Primary %1.", array( 1 => $block ) );
+            } else {
+                $primaryBlockIndex = key( $primary[$name] );
+            }
+        }
+        
+        if ( array_key_exists( $name, $billing ) ) {
+            if ( count( $billing[$name] ) > 1 ) {
+                $errorMsg .= ts ( "<br />Multiple Billing %1.", array( 1 => $block ) );
+            } else {
+                $billingBlockIndex = key( $billing[$name] ); 
+            }
+        }
+        
+        if ( $errorMsg ) {
+            return civicrm_create_error( $errorMsg  );  
+        }
+        
+        // reset other primary and billing block.
+        if ( $primaryBlockIndex || $billingBlockIndex ) {
+            foreach ( $contact[$name] as $count => &$values ) {
+                if ( $primaryBlockIndex && ($count != $primaryBlockIndex) ) $values['is_primary'] = false;
+                if ( $billingBlockIndex && ($count != $billingBlockIndex) ) $values['is_billing'] = false;
+                
+                // get location type if not present in sub array.
+                if (!CRM_Utils_Array::value('location_type_id', $values)) $values['location_type_id'] = $locationTypeId;
+                
+                //kill the rerefence.
+                unset( $values );
+            }
+        }
+    }
+    
+    // get all ids if not present.
     require_once 'CRM/Contact/BAO/Contact.php';
+    CRM_Contact_BAO_Contact::resolveDefaults( $contact, true );
     
-    CRM_Contact_BAO_Contact::resolveDefaults($contact, true);
-    
+    require_once 'CRM/Core/BAO/Location.php';
     $result = CRM_Core_BAO_Location::create( $contact );
     
     if ( empty( $result ) ) {
         return civicrm_create_error( ts ("Location not created" ) );
     }
-            
-    $locArray                     = array( );
-    
-    $locArray['location_type_id'] = $locationTypeId;
     
     $blocks = array( 'address', 'phone', 'email', 'im' );
-    
     foreach( $blocks as $block ) {
         for ( $i = 0; $i < count( $result[$block] ); $i++ ) {
             $locArray[$block][$i] = $result[$block][$i]->id;

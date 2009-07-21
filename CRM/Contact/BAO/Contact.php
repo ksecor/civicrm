@@ -405,74 +405,77 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         // hack for birth_date
         if ( CRM_Utils_Array::value( 'birth_date', $defaults ) ) {
             if (is_array($defaults['birth_date'])) {
-                $defaults['birth_date'] = CRM_Utils_Date::format( 
-                                                                 $defaults['birth_date'], '-' 
-                                                                );       
+                $defaults['birth_date'] = CRM_Utils_Date::format( $defaults['birth_date'], '-' );    
             }
-        } 
+        }
         
         CRM_Utils_Array::lookupValue( $defaults, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
         
-        if ( array_key_exists( 'location', $defaults ) ) {
-            $locations =& $defaults['location'];
-
-            foreach ($locations as $index => $location) {                
-                $location =& $locations[$index];
-                CRM_Utils_Array::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
-
-                // FIXME: lookupValue doesn't work for vcard_name
-                $vcardNames =& CRM_Core_PseudoConstant::locationVcardName();
-                if ( isset( $location['location_type_id'] ) ) {
-                    $location['vcard_name'] = $vcardNames[$location['location_type_id']];
-                }
-
-                if (array_key_exists( 'address', $location ) ) {
-                    if ( ! CRM_Utils_Array::lookupValue( $location['address'], 'state_province',
-                                                         CRM_Core_PseudoConstant::stateProvince(), $reverse ) &&
-                         $reverse ) {
-                         CRM_Utils_Array::lookupValue( $location['address'], 'state_province', 
-                                           CRM_Core_PseudoConstant::stateProvinceAbbreviation(), $reverse );
+        $blocks = array( 'address', 'im', 'phone' );
+        foreach ( $blocks as $name ) {
+            if ( !array_key_exists($name, $defaults) || !is_array($defaults[$name]) ) continue;
+            foreach ( $defaults[$name] as $count => &$values ) {
+                
+                //get location type id.
+                CRM_Utils_Array::lookupValue( $values, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
+                
+                if ( $name == 'address' ) {
+                    // FIXME: lookupValue doesn't work for vcard_name
+                    if ( CRM_Utils_Array::value( 'location_type_id', $values ) ) {
+                        $vcardNames =& CRM_Core_PseudoConstant::locationVcardName( );
+                        $values['vcard_name'] = $vcardNames[$values['location_type_id']];
                     }
                     
-                    if ( ! CRM_Utils_Array::lookupValue( $location['address'], 'country',
-                                                         CRM_Core_PseudoConstant::country(), $reverse ) &&
-                         $reverse ) {
-                         CRM_Utils_Array::lookupValue( $location['address'], 'country', 
-                                                       CRM_Core_PseudoConstant::countryIsoCode(), $reverse );
+                    if ( ! CRM_Utils_Array::lookupValue( $values, 
+                                                         'state_province',
+                                                         CRM_Core_PseudoConstant::stateProvince( ), 
+                                                         $reverse ) && $reverse ) {
+                        
+                        CRM_Utils_Array::lookupValue( $values, 
+                                                      'state_province', 
+                                                      CRM_Core_PseudoConstant::stateProvinceAbbreviation( ), 
+                                                      $reverse );
                     }
-                    CRM_Utils_Array::lookupValue( $location['address'], 'county', 
-                                                  CRM_Core_PseudoConstant::county(), $reverse );
-                }
-
-                if (array_key_exists('im', $location)) {
-                    $ims =& $location['im'];
-                    foreach ($ims as $innerIndex => $im) {
-                        $im =& $ims[$innerIndex];
-                        if ( !is_array( $im ) ) continue;
-                        CRM_Utils_Array::lookupValue( $im, 'provider', 
-                                                      CRM_Core_PseudoConstant::IMProvider(), $reverse );
-                        unset($im);
+                    
+                    if ( ! CRM_Utils_Array::lookupValue( $values, 
+                                                         'country',
+                                                         CRM_Core_PseudoConstant::country( ), 
+                                                         $reverse ) && $reverse ) {
+                        
+                        CRM_Utils_Array::lookupValue( $values, 
+                                                      'country', 
+                                                      CRM_Core_PseudoConstant::countryIsoCode( ), 
+                                                      $reverse );
                     }
+                    CRM_Utils_Array::lookupValue( $values, 
+                                                  'county', 
+                                                  CRM_Core_PseudoConstant::county( ), 
+                                                  $reverse );
                 }
-                if ( array_key_exists( 'phone', $location ) ) {
-                    $phones =& $location['phone'];
-                    foreach ( $phones as $innerIndex => $phone) {
-                        if ( is_array($phone) ) {
-                            $phone =& $phones[$innerIndex];
-                            CRM_Utils_Array::lookupValue( $phone, 'phone_type', 
-                                                          CRM_Core_PseudoConstant::phoneType( ), 
-                                                          $reverse );
-                            unset($phone);
-                        }
-                    }
+                
+                if ( $name == 'im' ) {
+                    CRM_Utils_Array::lookupValue( $values, 
+                                                  'provider', 
+                                                  CRM_Core_PseudoConstant::IMProvider( ), 
+                                                  $reverse );
                 }
-                unset($location);
+                
+                if ( $name == 'phone' ) {
+                    CRM_Utils_Array::lookupValue( $values, 
+                                                  'phone_type', 
+                                                  CRM_Core_PseudoConstant::phoneType( ), 
+                                                  $reverse );
+                }
+                
+                //kill the rerefence.
+                unset( $values );
             }
         }
+        
     }
-
+    
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
