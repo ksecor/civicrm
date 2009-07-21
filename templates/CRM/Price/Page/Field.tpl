@@ -56,7 +56,7 @@
             <th>{ts}Field Type{/ts}</th>
             <th>{ts}Order{/ts}</th>
             <th>{ts}Req?{/ts}</th>
-            <th>{ts}Status?{/ts}</th>
+            <th>{ts}Enabled?{/ts}</th>
 {*
             <th>{ts}Active On{/ts}</th>
             <th>{ts}Expire On{/ts}</th>
@@ -70,7 +70,7 @@
             <td>{$row.html_type}</td>
             <td class="nowrap">{$row.weight}</td>
             <td>{if $row.is_required eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-            <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 {*
             <td>{if $row.active_on}{$row.active_on|date_format:"%Y-%m-%d"}{/if}</td>
             <td>{if $row.expire_on}{$row.expire_on|date_format:"%Y-%m-%d"}{/if}</td>
