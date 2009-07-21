@@ -1406,7 +1406,7 @@ ORDER BY name";
 					$filterVal .= "3";
 					break;
 				}			
-				$filterCondition .= "AND (v.filter IS NULL OR {$filterVal}) "; 
+				$filterCondition .= "AND (v.filter = 0 OR {$filterVal}) "; 
 			}	 
 			   
             require_once 'CRM/Core/OptionGroup.php';

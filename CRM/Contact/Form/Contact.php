@@ -288,8 +288,26 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 eval( 'CRM_Contact_Form_Edit_' . $name . '::setDefaultValues( $this, $defaults );' );
             }
         }
-
-
+        
+        //set default from greeting types CRM-4575.
+        $greetingTypes = array('addressee'       => 'addressee_id', 
+                               'email_greeting'  => 'email_greeting_id', 
+                               'postal_greeting' => 'postal_greeting_id'
+                               );
+        $contactTypeFilters = array( 1 => 'Individual', 2 => 'Household', 3 => 'Organization' );
+        $filter = CRM_Utils_Array::key( $this->_contactType, $contactTypeFilters);
+        require_once 'CRM/Core/OptionGroup.php';
+        foreach( $greetingTypes as $greetingType => $greeting ) {
+            if ( !CRM_Utils_Array::value($greeting, $defaults) ) {
+                //get the default from email address.
+                $defaultGreetingTypeId = CRM_Core_OptionGroup::values( $greetingType, null, null, 
+                                                                       null, " AND is_default = 1 AND ( filter = {$filter} OR filter = 0 )", 'value');
+                if ( !empty($defaultGreetingTypeId) ) {
+                    $defaults[$greeting] = key($defaultGreetingTypeId);
+                }
+            }
+        }
+        
         //set location type and country to default for each block
         $this->blockSetDefaults( $defaults );
         

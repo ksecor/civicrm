@@ -123,10 +123,7 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
         $this->add('text', 'grouping' ,  ts('Option Grouping Name'),CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'grouping' ) );
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'weight' ),true );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-        //do not allow to set default option for email/postal greeting and addressee, CRM-4575
-        if ( ! in_array($this->_gName, array('email_greeting', 'postal_greeting', 'addressee') ) ) {
-            $this->add('checkbox', 'is_default', ts('Default Option?') );
-        }
+        $this->add('checkbox', 'is_default', ts('Default Option?') );
         $this->add('checkbox', 'is_optgroup',ts('Option Group?'));
         
         if ($this->_action & CRM_Core_Action::UPDATE && $isReserved ) { 
@@ -166,8 +163,12 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $ids['optionValue'] = $this->_id;
             }
-            //save contact type for email greeting, postal greeting, addressee, CRM-4575
-            $params['filter'] = CRM_Utils_Array::value( 'contactOptions', $params );
+            
+            //set defaultGreeting option in params to save default value as per contactOption-defaultValue mapping
+            if ( CRM_Utils_Array::value( 'contactOptions', $params ) ) {
+                $params['filter']          = CRM_Utils_Array::value( 'contactOptions', $params );
+                $params['defaultGreeting'] = 1;
+            }
             
             $optionValue = CRM_Core_BAO_OptionValue::add($params, $ids);
             CRM_Core_Session::setStatus( ts('The Option Value \'%1\' has been saved.', array( 1 => $optionValue->label )) );
