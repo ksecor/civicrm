@@ -115,6 +115,10 @@ class CRM_Admin_Page_AJAX
                 $status = ts('Are you sure you want to disable this ACL?');
                 break;
                 
+            case 'CRM_ACL_BAO_EntityRole':
+                $status = ts('Are you sure you want to disable this ACL Role Assignment?');
+                break;
+                
             case 'CRM_Member_BAO_MembershipStatus':
                 $status = ts('Are you sure you want to disable this membership status rule?');
                 break;
@@ -123,6 +127,14 @@ class CRM_Admin_Page_AJAX
                 $status = ts('Are you sure you want to disable this price field?');
                 break;
                 
+            case 'CRM_Core_BAO_OptionGroup':
+                $status = ts('Are you sure you want to disable this Option?');
+                break;
+                
+            case 'CRM_Core_BAO_OptionValue':
+                $status = ts('Are you sure you want to disable this Option Value?');
+                break;
+
             default:
                 $status = ts('Are you sure you want to disable this record?');
                 break;

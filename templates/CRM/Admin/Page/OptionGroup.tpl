@@ -12,6 +12,8 @@
 <div id="browseValues">
     <div class="form-item">
         {strip}
+	{* handle enable/disable actions*}
+ 	{include file="CRM/common/enableDisable.tpl"}
         <table cellpadding="0" cellspacing="0" border="0">
             <tr class="columnheader">
             <th>{ts}Name{/ts}</th>
@@ -21,7 +23,7 @@
             <th></th>
             </tr>
         {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.description}</td>
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>

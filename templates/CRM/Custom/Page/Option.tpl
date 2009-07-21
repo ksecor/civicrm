@@ -13,6 +13,8 @@
      <p></p>
         <div class="form-item">
         {strip}
+	{* handle enable/disable actions*}
+ 	{include file="CRM/common/enableDisable.tpl"}
         <table class="selector">
         <tr class="columnheader">
         <th>{ts}Label{/ts}</th>
@@ -23,7 +25,7 @@
         <th>&nbsp;</th>
         </tr>
         {foreach from=$customOption item=row key=id}
-        <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
+	<tr id="row_{$id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
             <td>{$row.value}</td>
             <td>{$row.default_value}</td>

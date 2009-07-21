@@ -76,27 +76,23 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
     function &links()
     {
         if (!(self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this Option Value?');
-
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/optionValue',
                                                                     'qs'    => 'action=update&id=%%id%%&gid=%%gid%%&reset=1',
                                                                     'title' => ts('Edit Option Value') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/optionValue',
-                                                                    'qs'    => 'action=disable&id=%%id%%&gid=%%gid%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
                                                                     'title' => ts('Disable Option Value') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/optionValue',
-                                                                    'qs'    => 'action=enable&id=%%id%%&gid=%%gid%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
                                                                     'title' => ts('Enable Option Value') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
@@ -104,8 +100,8 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/optionValue',
                                                                     'qs'    => 'action=delete&id=%%id%%&gid=%%gid%%',
                                                                     'title' => ts('Delete Option Value') 
-                                                                   )
-                                 );
+                                                                    )
+                                  );
         }
         return self::$_links;
     }

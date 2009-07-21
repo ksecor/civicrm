@@ -80,10 +80,8 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      */
     function &actionLinks()
     {
-       
+        
         if (!isset(self::$_actionLinks)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this custom data multiple choice option?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Option'),
@@ -97,26 +95,24 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
                                                                           'qs'    => 'action=view&id=%%id%%',
                                                                           'title' => ts('View Multiple Choice Option'),
                                                                           ),
+                                        CRM_Core_Action::DISABLE => array(
+                                                                          'name'  => ts('Disable'),
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
+                                                                          'title' => ts('Disable Mutliple Choice Option') 
+                                                                          ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
-                                                                          'qs'    => 'action=enable&id=%%id%%',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
                                                                           'title' => ts('Enable Mutliple Choice Option') 
                                                                           ),
-                                        CRM_Core_Action::DISABLE  => array(
-                                                                           'name'  => ts('Disable'),
-                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
-                                                                           'qs'    => 'action=disable&id=%%id%%',
-                                                                           'title' => ts('Disable Multiple Choice Option'),
-                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"'
-                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
-                                                                           'name'  => ts('Delete'),
-                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
-                                                                           'qs'    => 'action=delete&id=%%id%%',
-                                                                           'title' => ts('Disable Multiple Choice Option'),
-                                                                           
-                                                                           ),
+                                                                          'name'  => ts('Delete'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
+                                                                          'qs'    => 'action=delete&id=%%id%%',
+                                                                          'title' => ts('Disable Multiple Choice Option'),
+                                                                          ),
                                         );
         }
         return self::$_actionLinks;
