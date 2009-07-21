@@ -2,7 +2,7 @@
 {capture assign="adminMenu"}{crmURL p="civicrm/admin" q="reset=1"}{/capture}
 {if $fromEmailId}
     {assign var='fromAction' value="&action=update&id=`$fromEmailId`"} 
-{else} '
+{else}
     {assign var='fromAction' value="&action=add"}
 {/if}
 <div id="help" class="description">

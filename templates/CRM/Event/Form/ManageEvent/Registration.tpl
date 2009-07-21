@@ -195,7 +195,7 @@
              <tr>
                <th scope="row" class="label" width="20%">{$form.confirm_from_email.label} <span class="marker">*</span></th>
                <td>{$form.confirm_from_email.html}<br />
-                   <span class="description">{ts}FROM email address (this must be a valid email account wiht your SMTP email service provider).{/ts}
+                   <span class="description">{ts}FROM email address (this must be a valid email account with your SMTP email service provider).{/ts}
                </td>
              </tr>
              <tr>

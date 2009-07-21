@@ -58,7 +58,7 @@
 				<td>{$form.start_date.html}</br>
 				<span class="description">
 				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1} 
-				{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_event_1 ampm=1}</span><//td>
+				{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_event_1 ampm=1}</span></td>
 			</tr>
 			<tr>
 				<td class="label">{$form.end_date.label}</td>
