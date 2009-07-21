@@ -89,13 +89,6 @@
 cj( function( ) {
     var fields = new Array( 'postal_greeting', 'addressee', 'email_greeting');
     for ( var i = 0; i < 3; i++ ) {
-
-        if( cj( '#'+fields[i] + "_id" ).val() ==  4 ) {
-            cj("#greetings").show( );
-            cj( "#" + fields[i] + "_id_html").show( );
-            cj( "#" + fields[i] + "_id_label").show( );
-        }
-
         cj( "#" + fields[i] + "_id").change( function( ) {
             var fldName = cj(this).attr( 'id' );
             if ( cj(this).val( ) == 4 ) {
@@ -116,12 +109,12 @@ function showGreeting( element ) {
     cj("#" + element + '_display' ).hide( );
     
     // TO DO fix for custom greeting
-    var fldName = "#" + element + '_id';
+    var fldName = '#' + element + '_id';
     if ( cj( fldName ).val( ) == 4 ) {
         cj("#greetings1").show( );
         cj("#greetings2").show( );
-        cj( "#" + fldName + "_html").show( );
-        cj( "#" + fldName + "_label").show( );
+        cj( fldName + "_html").show( );
+        cj( fldName + "_label").show( );
     }
 }
 

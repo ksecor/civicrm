@@ -1870,7 +1870,7 @@ UNION
          
          if ( $addresseeString ) {
              CRM_Activity_BAO_Activity::replaceGreetingTokens($addresseeString, $contact->id);
-             $updateQueryString[] = " addressee_display = '{$postalGreetingString}'";
+             $updateQueryString[] = " addressee_display = '{$addresseeString}'";
          }
          
          if ( !empty($updateQueryString) ) {
