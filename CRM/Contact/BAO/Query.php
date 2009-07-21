@@ -1518,17 +1518,17 @@ class CRM_Contact_BAO_Query
                     if ( $tableName == 'civicrm_contact' ) {
                         $fieldName = "LOWER(contact_a.{$fieldName})";
                     } else {
-                        $fieldName = "LOWER({$field['where']})";
+                        if ( $op != 'IN' && !is_numeric( $value ) ) {
+                            $fieldName = "LOWER({$field['where']})";
+                            $value     = "'$value'";
+                        } else {
+                            $fieldName = "{$field['where']}";
+                        }
                     }
-                    if ( $op != 'IN' ) {
-                        $this->_where[$grouping][] = self::buildClause( $fieldName,
-                                                                        $op,
-                                                                        "'$value'" );
-                    } else {
-                        $this->_where[$grouping][] = self::buildClause( $fieldName,
-                                                                        $op,
-                                                                        $value );
-                    }
+                    
+                    $this->_where[$grouping][] = self::buildClause( $fieldName,
+                                                                    $op,
+                                                                    $value );
                     $this->_qill[$grouping][]  = "$field[title] $op $value";
                 }
                 
@@ -2982,7 +2982,7 @@ WHERE  id IN ( $groupIDs )
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
-
+        
         $dao =& CRM_Core_DAO::executeQuery( $sql );
         
         $values = array( );

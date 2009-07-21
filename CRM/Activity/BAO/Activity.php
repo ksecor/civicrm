@@ -892,14 +892,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
             $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject     , $contact, false, $subjectToken);
             $tokenSubject = CRM_Utils_Token::replaceHookTokens   ( $tokenSubject, $contact, $categories, false );
-            //CRM-4575
-            self::replaceGreetingTokens($tokenSubject, $contactId);
             
             //CRM-4539
             if ( $contact['preferred_mail_format'] == 'Text' || $contact['preferred_mail_format'] == 'Both' ) {
                 $tokenText    = CRM_Utils_Token::replaceContactTokens( $text     , $contact, false, $messageToken);
                 $tokenText    = CRM_Utils_Token::replaceHookTokens   ( $tokenText, $contact, $categories, false );
-                self::replaceGreetingTokens($tokenText, $contactId);
             } else {
                 $tokenText = null;
             } 
@@ -907,7 +904,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             if ( $contact['preferred_mail_format'] == 'HTML' || $contact['preferred_mail_format'] == 'Both' ) {
                 $tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html     , $contact, true , $messageToken);
                 $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
-                self::replaceGreetingTokens($tokenHtml, $contactId);
             } else {
                 $tokenHtml = null;
             }

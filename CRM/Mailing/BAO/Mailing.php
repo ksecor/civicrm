@@ -976,13 +976,6 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             if ( !empty( $tokens ) ) {
                 foreach ($tokens as $idx => $token) {
                     $token_data = $this->getTokenData($token, $html, $contact, $verp, $urls, $event_queue_id);
-                   
-                    //CRM-4575
-                    //token replacement of addressee/email/postal tokens
-                    if ( in_array( $token['token'], array('addressee', 'email_greeting', 'postal_greeting')) ) {
-                        CRM_Activity_BAO_Activity::replaceGreetingTokens($token_data, $contactId);
-                    }
-
                     array_push($pEmail, $template[$idx]);
                     array_push($pEmail, $token_data);
                 }
@@ -1899,7 +1892,7 @@ SELECT $selectClause
         
         //fix for CRM-3798
         if ( $skipOnHold ) {
-            $params[] = array( 'on_hold', '=', 0, 0, 1 );
+            $params[] = array( 'on_hold', '=', 0, 0, 0 );
         }
         
         // if return properties are not passed then get all return properties
@@ -1919,20 +1912,10 @@ SELECT $selectClause
                 $custom[] = $cfID;
             }
         }
-        
-        //get custom values of email/postal greeting or addressee, CRM-4575
-        $element = array( 'email_greeting'   => 'email_greeting_custom', 
-                          'postal_greeting'  => 'postal_greeting_custom', 
-                          'addressee'        => 'addressee_custom' );
-        foreach( $element as $field => $customField ) {
-            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
-                $returnProperties[$customField] = 1;
-            }
-        }    
-        
+                
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $contactIDs );
-        
+
         require_once 'CRM/Contact/BAO/Query.php';
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
@@ -1958,15 +1941,6 @@ SELECT $selectClause
                         } 
                     }
                     $contactDetails[$contactID]['preferred_communication_method'] = implode( ', ', $result );
-                }
-                //If the contact has a "Customized" value for email/postal greeting or addressee
-                //then output the corresponding custom value instead. CRM-4575
-                
-                foreach( $element as $greeting => $customizedGreeting ) {
-                    $fieldId = $greeting."_id";
-                    if ( !empty ( $contactDetails[$contactID][$customizedGreeting] ) ) {
-                        $contactDetails[$contactID][$greeting] = $contactDetails[$contactID][$customizedGreeting];
-                    } 
                 }
                 
                 foreach ( $custom as $cfID ) {
