@@ -735,21 +735,21 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.first_name}{/literal}',                                                 {/foreach} 1, '{literal}Dear {contact.first_name}{/literal}',                                                 1,     1, 1,  0, 1),
             ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', {/foreach} 2, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', 1,     0, 2,  0, 1),
             ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      {/foreach} 3, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      1,     0, 3,  0, 1),
-            ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Customized{/literal}',                                                                {/foreach} 4, '{literal}Customized{/literal}',                                                                NULL,  0, 4,  1, 1),
+            ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Customized{/literal}',                                                                {/foreach} 4, '{literal}Customized{/literal}',                                                                0,  0, 4,  1, 1),
             ( @og_id_emailGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.household_name}{/literal}',                                             {/foreach} 5, '{literal}Dear {contact.househols_name}{/literal}',                                             2,     1, 5,  0, 1),
     
         -- postal greeting.
             ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.first_name}{/literal}',                                                {/foreach} 1, '{literal}Dear {contact.first_name}{/literal}',                                                 1,    1, 1,  0, 1),
             ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}',{/foreach} 2, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', 1,    0, 2,  0, 1),
             ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                     {/foreach} 3, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      1,    0, 3,  0, 1),
-            ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Customized{/literal}',                                                               {/foreach} 4, '{literal}Customized{/literal}',                                                                NULL, 0, 4,  1, 1),
+            ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Customized{/literal}',                                                               {/foreach} 4, '{literal}Customized{/literal}',                                                                0, 0, 4,  1, 1),
             ( @og_id_postalGreeting, {foreach from=$locales item=locale}'{literal}Dear {contact.household_name}{/literal}',                                            {/foreach} 5, '{literal}Dear {contact.househols_name}{/literal}',                                             2,    1, 5,  0, 1),
     
         -- addressee.
             ( @og_id_addressee, {foreach from=$locales item=locale}'{literal}{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}{/literal}', {/foreach} '1', '{literal}{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}{/literal}', '1', '1', '1', '0', '1'),
             ( @og_id_addressee, {foreach from=$locales item=locale}'{literal}{contact.household_name}{/literal}',    {/foreach} '2', '{literal}{contact.household_name}{/literal}',    '2',     '1', '2',  '0', '1'),
             ( @og_id_addressee, {foreach from=$locales item=locale}'{literal}{contact.organization_name}{/literal}', {/foreach} '3', '{literal}{contact.organization_name}{/literal}', '3',     '1', '3',  '0', '1'),
-            ( @og_id_addressee, {foreach from=$locales item=locale}'{literal}Customized{/literal}',                  {/foreach} '4', '{literal}Customized{/literal}',                  NULL,    '0', '4',  '1', '1');      
+            ( @og_id_addressee, {foreach from=$locales item=locale}'{literal}Customized{/literal}',                  {/foreach} '4', '{literal}Customized{/literal}',                  0,    '0', '4',  '1', '1');      
     {else}
         INSERT INTO `civicrm_option_value`
             (`option_group_id`, `label`, `value`, `name`, `filter`, `is_default`, `weight`, `is_reserved`, `is_active`)
@@ -759,21 +759,21 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             ( @og_id_emailGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 1,     1, 1,  0, 1),
             ( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 1,     0, 2,  0, 1),
             ( @og_id_emailGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      1,     0, 3,  0, 1),
-            ( @og_id_emailGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL,  0, 4,  1, 1),
+            ( @og_id_emailGreeting, 'Customized',                                                                4, 'Customized',                                                                0,  0, 4,  1, 1),
             ( @og_id_emailGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             2,     1, 5,  0, 1),
     
         -- postal greeting.
             ( @og_id_postalGreeting, 'Dear {contact.first_name}',                                                 1, 'Dear {contact.first_name}',                                                 1,    1, 1,  0, 1),
             ( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 2, 'Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}', 1,    0, 2,  0, 1),
             ( @og_id_postalGreeting, 'Dear {contact.individual_prefix} {contact.last_name}',                      3, 'Dear {contact.individual_prefix} {contact.last_name}',                      1,    0, 3,  0, 1),
-            ( @og_id_postalGreeting, 'Customized',                                                                4, 'Customized',                                                                NULL, 0, 4,  1, 1),
+            ( @og_id_postalGreeting, 'Customized',                                                                4, 'Customized',                                                                0, 0, 4,  1, 1),
             ( @og_id_postalGreeting, 'Dear {contact.household_name}',                                             5, 'Dear {contact.househols_name}',                                             2,    1, 5,  0, 1),
     
         -- addressee.
             ( @og_id_addressee, '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}', '1', '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}', '1', '1', '1', '0', '1'),
             ( @og_id_addressee, '{contact.household_name}',    '2', '{contact.household_name}',    '2',     '1', '2',  '0', '1'),
             ( @og_id_addressee, '{contact.organization_name}', '3', '{contact.organization_name}', '3',     '1', '3',  '0', '1'),
-            ( @og_id_addressee, 'Customized',                  '4', 'Customized',                  NULL,    '0', '4',  '1', '1');
+            ( @og_id_addressee, 'Customized',                  '4', 'Customized',                   0 ,    '0', '4',  '1', '1');
         {/literal}
     {/if}
     -- Set civicrm_contact.addressee_id to default value for the given contact type. 
