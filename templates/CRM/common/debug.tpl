@@ -14,6 +14,10 @@
 {$config->cleanup($smarty.get.directoryCleanup)}
 {/if}
 
+{if $smarty.get.cacheCleanup} 
+{$config->clearDBCache()}
+{/if}
+
 {if $smarty.get.configReset} 
 {$config->reset()}
 {/if}
