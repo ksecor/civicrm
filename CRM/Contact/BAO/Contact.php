@@ -1826,13 +1826,15 @@ UNION
                                'greeting_type' => 'email_greeting' );
              //email greeting
              $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
-             
-             if ( $contact->email_greeting_custom == 'null' && $contact->email_greeting_id ) {
+
+             if ( $contact->email_greeting_id == 'null' ) {
+                  $emailGreetingString = '';
+             } else if ( $contact->email_greeting_custom == 'null' && $contact->email_greeting_id ) {
                  $emailGreetingString = $emailGreeting[ $contact->email_greeting_id ];
              } elseif ( $contact->email_greeting_custom ) {
                  $emailGreetingString = $contact->email_greeting_custom;
              }
-             
+
              if ( $emailGreetingString ) {
                  CRM_Activity_BAO_Activity::replaceGreetingTokens($emailGreetingString, $contact->id);
                  $updateQueryString[] = " email_greeting_display = '{$emailGreetingString}'";
@@ -1843,7 +1845,9 @@ UNION
          $filter['greeting_type'] = 'postal_greeting';
          $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);
          
-         if ( $contact->postal_greeting_custom == 'null' && $contact->postal_greeting_id ) {
+         if ( $contact->postal_greeting_id == 'null' ) {
+             $postalGreetingString = '';
+         } else if ( $contact->postal_greeting_custom == 'null' && $contact->postal_greeting_id ) {
              $postalGreetingString = $postalGreeting[ $contact->postal_greeting_id ];
          } elseif ( $contact->postal_greeting_custom ) {
              $postalGreetingString = $contact->postal_greeting_custom;
@@ -1852,8 +1856,7 @@ UNION
          if ( $postalGreetingString ) {
              CRM_Activity_BAO_Activity::replaceGreetingTokens($postalGreetingString, $contact->id);
              $updateQueryString[] = " postal_greeting_display = '{$postalGreetingString}'";
-         }
-         
+         }         
           
          //check contact type and build filter clause accordingly for addressee, CRM-4575
          $filter = array( 'contact_type'  => $contact->contact_type, 
@@ -1861,8 +1864,10 @@ UNION
           
          //add addressee in Contact form
          $addressee = CRM_Core_PseudoConstant::greeting( $filter ); 
-
-         if ( $contact->addressee_custom == 'null' && $contact->addressee_id ) {
+         
+         if ( $contact->addressee_id == 'null' ) {
+              $addresseeString = '';
+         } else if ( $contact->addressee_custom == 'null' && $contact->addressee_id ) {
              $addresseeString = $addressee[ $contact->addressee_id ];
          } elseif ( $contact->addressee_custom ) {
              $addresseeString = $contact->addressee_custom;

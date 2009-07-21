@@ -99,6 +99,7 @@ cj( function( ) {
             } else {
                 cj( "#" + fldName + "_html").hide( );
                 cj( "#" + fldName + "_label").hide( );
+                cj( "#" + fldName.slice(0, -3) + "_custom" ).val(' ');
             }
         });
     }          
