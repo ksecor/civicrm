@@ -119,6 +119,10 @@ class CRM_Admin_Page_AJAX
                 $status = ts('Are you sure you want to disable this membership status rule?');
                 break;
                 
+            case 'CRM_Core_BAO_PriceField':
+                $status = ts('Are you sure you want to disable this price field?');
+                break;
+                
             default:
                 $status = ts('Are you sure you want to disable this record?');
                 break;

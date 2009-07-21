@@ -72,10 +72,7 @@ class CRM_Price_Page_Option extends CRM_Core_Page
      */
     function &actionLinks()
     {
-       
         if (!isset(self::$_actionLinks)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this price option?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Option'),
@@ -89,26 +86,24 @@ class CRM_Price_Page_Option extends CRM_Core_Page
                                                                           'qs'    => 'action=view&oid=%%oid%%',
                                                                           'title' => ts('View Price Option'),
                                                                           ),
+                                        CRM_Core_Action::DISABLE => array(
+                                                                          'name'  => ts('Disable'),
+                                                                          'extra' => 'onclick = "enableDisable( %%oid%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
+                                                                          'title' => ts('Disable Price Option') 
+                                                                          ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/price/field/option',
-                                                                          'qs'    => 'action=enable&oid=%%oid%%',
+                                                                          'extra' => 'onclick = "enableDisable( %%oid%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
                                                                           'title' => ts('Enable Price Option') 
                                                                           ),
-                                        CRM_Core_Action::DISABLE  => array(
-                                                                           'name'  => ts('Disable'),
-                                                                           'url'   => 'civicrm/admin/price/field/option',
-                                                                           'qs'    => 'action=disable&oid=%%oid%%',
-                                                                           'title' => ts('Disable Price Option'),
-                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"'
-                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                            'name'  => ts('Delete'),
                                                                            'url'   => 'civicrm/admin/price/field/option',
                                                                            'qs'    => 'action=delete&oid=%%oid%%',
                                                                            'title' => ts('Disable Price Option'),
-                                                                           
-                                                                           ),
+                                                                          ),
                                         );
         }
         return self::$_actionLinks;

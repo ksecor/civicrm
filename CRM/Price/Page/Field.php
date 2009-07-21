@@ -74,7 +74,6 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
     {
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this price field?');
             $deleteExtra = ts('Are you sure you want to delete this price field?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
@@ -91,16 +90,15 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/price/field',
-                                                                          'qs'    => 'action=disable&reset=1&sid=%%sid%%&fid=%%fid%%',
-                                                                          'title' => ts('Disable Price'),
-                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                          'extra' => 'onclick = "enableDisable( %%fid%%,\''. 'CRM_Core_BAO_PriceField' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
+                                                                          'title' => ts('Disable Price') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/price/field',
-                                                                          'qs'    => 'action=enable&reset=1&sid=%%sid%%&fid=%%fid%%',
-                                                                          'title' => ts('Enable Price'),
+                                                                          'extra' => 'onclick = "enableDisable( %%fid%%,\''. 'CRM_Core_BAO_PriceField' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
+                                                                          'title' => ts('Enable Price') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),
