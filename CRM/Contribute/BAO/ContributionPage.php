@@ -161,8 +161,16 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $template =& CRM_Core_Smarty::singleton( );
 
             // get the billing location type
-            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-            $billingLocationTypeId = array_search( 'Billing',  $locationTypes );
+            if ( !array_key_exists('related_contact', $values) ) {
+                $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+                $billingLocationTypeId = array_search( 'Billing',  $locationTypes );
+            } else {
+                // presence of related contact implies onbehalf of org case, 
+                // where location type is set to default. 
+                require_once 'CRM/Core/BAO/LocationType.php';
+                $locType = CRM_Core_BAO_LocationType::getDefault();
+                $billingLocationTypeId = $locType->id;
+            }
 
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $billingLocationTypeId );

@@ -133,6 +133,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $this->_params['address'][1]['state_province'] = 
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['address'][1]['state_province_id'] );
                 }
+                // hardcode blocks for now. We might shift to generalized model in 3.1 which uses profiles
+                foreach ( array('phone', 'email', 'address') as $loc ) {
+                    $this->_params['onbehalf_location'][$loc] = $this->_params[$loc];
+                    unset($this->_params[$loc]);
+                }
             }
 
             if ( isset( $this->_params['credit_card_exp_date'] ) ) {
@@ -425,11 +430,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // process on-behalf-of functionality.
         if ( CRM_Utils_Array::value( 'is_for_organization', $this->_values ) ) {
             $behalfOrganization = array();
-            foreach ( array('organization_name', 'organization_id', 'phone', 
-                            'email',             'address',    'org_option') as $fld ) {
+            foreach ( array('organization_name', 'organization_id', 'org_option') as $fld ) {
                 $behalfOrganization[$fld] = $params[$fld];
                 unset($params[$fld]);
             }
+            foreach ( $params['onbehalf_location'] as $block => $vals ) {
+                $behalfOrganization[$block] = $vals;
+            }
+            unset($params['onbehalf_location']);
         }
         
         if ( ! isset( $contactID ) ) {
