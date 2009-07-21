@@ -85,6 +85,32 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
      * @return None
      */
     function setDefaultValues( &$form, &$defaults ) {
+        //set default from greeting types CRM-4575.
+        $greetingTypes = array('addressee'       => 'addressee_id', 
+                               'email_greeting'  => 'email_greeting_id', 
+                               'postal_greeting' => 'postal_greeting_id'
+                               );
+
+        if ( $form->_action & CRM_Core_Action::ADD ) {
+            $contactTypeFilters = array( 1 => 'Individual', 2 => 'Household', 3 => 'Organization' );
+            $filter = CRM_Utils_Array::key( $form->_contactType, $contactTypeFilters);
+            require_once 'CRM/Core/OptionGroup.php';
+            foreach ( $greetingTypes as $greetingType => $greeting ) {
+                if ( !CRM_Utils_Array::value($greeting, $defaults) ) {
+                    //get the default from email address.
+                    $defaultGreetingTypeId = CRM_Core_OptionGroup::values( $greetingType, null, null, 
+                                                                           null, " AND is_default = 1 AND ( filter = {$filter} OR filter = 0 )", 'value');
+                    if ( !empty($defaultGreetingTypeId) ) {
+                        $defaults[$greeting] = key($defaultGreetingTypeId);
+                    }
+                }
+            }
+        } else {
+            foreach ( $greetingTypes as $greetingType => $greeting ) {
+                $name = "{$greetingType}_display";
+                $form->assign( $name, $defaults[$name]);
+            }
+        }
     }
 }
 

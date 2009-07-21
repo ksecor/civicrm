@@ -19,17 +19,32 @@
        </tr>
        <tr>
             {if $form.postal_greeting_id}
-                <td>{$form.postal_greeting_id.html|crmReplace:class:big}</td>
+                <td>
+                    <span id="postal_greeting" {if $postal_greeting_display and $action eq 2} class="hiddenElement"{/if}>{$form.postal_greeting_id.html|crmReplace:class:big}</span>
+                    {if $postal_greeting_display and $action eq 2}
+                        <span id='postal_greeting_display'>{$postal_greeting_display}&nbsp;<a href="#" onclick="showGreeting('postal_greeting');return false;"><img src="{$config->resourceBase}i/edit.png" border="0" title="{ts}Edit{/ts}"></a></span>
+                    {/if}
+                </td>
             {/if}
             {if $form.addressee_id}
-                <td>{$form.addressee_id.html|crmReplace:class:big}</td>
+                <td>
+                    <span id="addressee" {if $addressee_display and $action eq 2} class="hiddenElement"{/if}>{$form.addressee_id.html|crmReplace:class:big}</span>
+                    {if $addressee_display and $action eq 2}
+                        <span id='addressee_display'>{$addressee_display}&nbsp;<a href="#" onclick="showGreeting('addressee');return false;"><img src="{$config->resourceBase}i/edit.png" border="0" title="{ts}Edit{/ts}"></a></span>
+                    {/if}
+                </td>
             {/if}
             {if $form.email_greeting_id}
-                <td>{$form.email_greeting_id.html|crmReplace:class:big}</td>
+                <td>
+                    <span id="email_greeting" {if $email_greeting_display and $action eq 2} class="hiddenElement"{/if}>{$form.email_greeting_id.html|crmReplace:class:big}</span>
+                    {if $email_greeting_display and $action eq 2}
+                        <span id='email_greeting_display'>{$email_greeting_display}&nbsp;<a href="#" onclick="showGreeting('email_greeting');return false;"><img src="{$config->resourceBase}i/edit.png" border="0" title="{ts}Edit{/ts}"></a></span>
+                    {/if}
+                </td>
             {/if}
         </tr>
-         <tr>
-            {if $form.postal_greeting_custom}
+        <tr id="greetings1" class="hiddenElement">
+             {if $form.postal_greeting_custom}
                  <td><span id="postal_greeting_id_label" class="hiddenElement">{$form.postal_greeting_custom.label}</span></td>
              {/if}
              {if $form.addressee_custom}
@@ -39,7 +54,7 @@
                  <td><span id="email_greeting_id_label" class="hiddenElement">{$form.email_greeting_custom.label}</span></td>
              {/if}
         </tr>
-        <tr id="greetings" class="hiddenElement">
+        <tr id="greetings2" class="hiddenElement">
               {if $form.postal_greeting_custom}
                  <td><span id="postal_greeting_id_html" class="hiddenElement">{$form.postal_greeting_custom.html|crmReplace:class:big}</span></td>
              {/if}
@@ -84,7 +99,8 @@ cj( function( ) {
         cj( "#" + fields[i] + "_id").change( function( ) {
             var fldName = cj(this).attr( 'id' );
             if ( cj(this).val( ) == 4 ) {
-                cj("#greetings").show( );
+                cj("#greetings1").show( );
+                cj("#greetings2").show( );
                 cj( "#" + fldName + "_html").show( );
                 cj( "#" + fldName + "_label").show( );
             } else {
@@ -92,7 +108,22 @@ cj( function( ) {
                 cj( "#" + fldName + "_label").hide( );
             }
         });
-    }
+    }          
 });
+
+function showGreeting( element ) {
+    cj("#" + element ).show( );
+    cj("#" + element + '_display' ).hide( );
+    
+    // TO DO fix for custom greeting
+    var fldName = "#" + element + '_id';
+    if ( cj( fldName ).val( ) == 4 ) {
+        cj("#greetings1").show( );
+        cj("#greetings2").show( );
+        cj( "#" + fldName + "_html").show( );
+        cj( "#" + fldName + "_label").show( );
+    }
+}
+
 </script>
 {/literal}
