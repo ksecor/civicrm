@@ -420,7 +420,7 @@
        <title>Addressee</title>
        <type>varchar</type>
        <length>255</length>
-       <import>true</import>
+       <export>true</export>
        <comment>Cache Addressee.</comment>
        <add>2.3</add>
   </field>

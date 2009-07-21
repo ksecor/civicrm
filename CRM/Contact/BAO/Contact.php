@@ -681,15 +681,14 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "importableFields $contactType" );
                                          
             if ( ! $fields ) {
-                $fields = array( );
-
-                $fields = array_merge($fields, CRM_Contact_DAO_Contact::import( ));
+                $fields = CRM_Contact_DAO_Contact::import( );
 
                 require_once "CRM/Core/OptionValue.php";
                 // get the fields thar are meant for contact types
                 if ( in_array($contactType, array('Individual', 'Household', 'Organization', 'All')) ) {
                     $fields = array_merge( $fields, CRM_Core_OptionValue::getFields('', $contactType ) );  
                 }  
+                                    
                 $locationFields = array_merge( CRM_Core_DAO_Address::import( ),
                                                CRM_Core_DAO_Phone::import( ),
                                                CRM_Core_DAO_Email::import( ),
@@ -794,7 +793,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 // the fields are meant for contact types
                 if ( in_array( $contactType, array('Individual', 'Household', 'Organization') ) ) {
                     require_once 'CRM/Core/OptionValue.php';
-                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( '', $contactType ) );  
+                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( '', $contactType, false ) );  
                 }
                 // add current employer for individuals
                 $fields = array_merge( $fields, array( 'current_employer' =>

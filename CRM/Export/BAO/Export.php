@@ -202,15 +202,6 @@ class CRM_Export_BAO_Export
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );       
         }
-        $elements = array('email_greeting'  => 'email_greeting_custom', 
-                          'postal_greeting' => 'postal_greeting_custom', 
-                          'addressee'       => 'addressee_custom'
-                          );
-        foreach( $elements as $greeeting => $customGreeting ) {
-            if ( in_array($greeeting, array_keys($returnProperties)) ) {
-                $returnProperties[$customGreeting] = 1;
-            }
-        }
                 
         //crm_core_error::debug('$returnProperties', $returnProperties ); exit();
         $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode );
@@ -334,17 +325,6 @@ class CRM_Export_BAO_Export
                         $fieldValue = $phoneTypes[$fieldValue];
                     } else if ( $field == 'provider_id' ) {
                         $fieldValue = CRM_Utils_Array::value( $fieldValue , $imProviders );  
-                    } else if ( $customGreeting = CRM_Utils_Array::value($field,$elements) ) {  
-                        //if email/postal greeting or addressee has a customized value 
-                        //then output the corresponding "custom" column value instead, CRM-4575
-                        require_once 'CRM/Activity/BAO/Activity.php';
-                        if( empty( $dao->$customGreeting ) ) {
-                            $tokenString = $dao->$field;
-                            CRM_Activity_BAO_Activity::replaceGreetingTokens($tokenString, $dao->contact_id);
-                            $fieldValue = $tokenString;
-                        } else {
-                            $fieldValue = $dao->$customGreeting;
-                        }
                     }
                 } else {
                     $fieldValue = '';

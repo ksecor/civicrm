@@ -447,11 +447,12 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $sel1 = array('' => ts('- select record type -')) + CRM_Core_SelectValues::contactType() + $compArray; 
         
         foreach($sel1 as $key=>$sel ) {
-            if($key) {
+            if ( $key ) {
+                asort( $mapperFields[$key] );
                 $sel2[$key] = $mapperFields[$key];
             }
         }
-        
+            
         $sel3[''] = null;
         $phoneTypes = CRM_Core_PseudoConstant::phoneType();
         $imProviders = CRM_Core_PseudoConstant::IMProvider();
