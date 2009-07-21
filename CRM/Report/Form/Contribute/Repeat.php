@@ -640,21 +640,6 @@ LEFT  JOIN (
                 }
                 $entryFound = true;
             }
-            
-            // link contribution type
-            if ( array_key_exists('contribution_type_civireport_name', $row) ) {
-                if ( $value = $row['contribution_type_civireport_name'] ) {
-                    $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/repeatDetail',
-                                                  "reset=1&force=1&" . 
-                                                  "contribution_type_op=has&contribution_type_value={$value}&" .
-                                                  "$dateUrl",
-                                                  $this->_absoluteUrl, $this->_id );
-                    $rows[$rowNum]['contribution_type_civireport_name_link' ] = $url;
-                    $rows[$rowNum]['contribution_type_civireport_name_hover'] = 
-                        ts("View repeatDetails for this Contribution type.");
-                }
-                $entryFound = true;
-            }
 
             // convert display name to links
             if ( array_key_exists('contact_civireport_display_name', $row) && 
