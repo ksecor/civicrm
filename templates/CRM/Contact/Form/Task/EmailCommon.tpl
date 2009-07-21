@@ -265,8 +265,7 @@ function selectValue( val ) {
         cj("#token"+element ).show( ).dialog({
             title       : 'Insert '+element+' Token',
             modal       : true,
-            width       : 400,
-            height      : 210,
+            width       : 'auto',
             resizable   : true,
             bgiframe    : true,
             overlay     : { opacity: 0.5, background: "black" },
