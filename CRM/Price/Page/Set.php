@@ -88,15 +88,17 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/price',
-                                                                          'qs'    => 'action=disable&reset=1&sid=%%sid%%',
-                                                                          'title' => ts('Disable Price Set'),
+                                                                          'extra' => 'onclick = "enableDisable( %%sid%%,\''. 'CRM_Core_BAO_PriceSet' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
+                                                                          
+                                                                          'title' => ts('Disable Price Set') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/price',
-                                                                          'qs'    => 'action=enable&reset=1&sid=%%sid%%',
-                                                                          'title' => ts('Enable Price Set'),
+                                                                          'extra' => 'onclick = "enableDisable( %%sid%%,\''. 'CRM_Core_BAO_PriceSet' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
+                                                                          
+                                                                          'title' => ts('Enable Price Set') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),

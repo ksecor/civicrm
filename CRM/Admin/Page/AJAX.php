@@ -65,7 +65,8 @@ class CRM_Admin_Page_AJAX
         $recordID  = CRM_Utils_Type::escape( $_POST['recordID'], 'Integer' );
         $recordBAO = CRM_Utils_Type::escape( $_POST['recordBAO'], 'String' );
         $op        = CRM_Utils_Type::escape( $_POST['op'], 'String' );
-        
+        $show      = null;
+
         if ($op == 'disable-enable') {
             $status = ts('Are you sure you want to enable this record?');
         } else {
@@ -79,6 +80,21 @@ class CRM_Admin_Page_AJAX
                 $status = ts('This profile is currently used for ') . implode (', ' , $ufJoin) . ts('. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?');
                 break;
             
+            case 'CRM_Core_BAO_PriceSet':
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $recordBAO) . ".php");
+                $priceSet = CRM_Core_BAO_PriceSet::getTitle($recordID);
+                $usedBy  =& CRM_Core_BAO_PriceSet::getUsedBy($recordID);
+                if (!empty($usedBy)) {
+                    $template =& CRM_Core_Smarty::singleton( );
+                    $template->assign( 'usedBy', $usedBy );
+                    $show   = "none";
+                    $table  = $template->fetch( 'CRM/Price/Page/table.tpl' );
+                    $status = ts('Unable to delete the  price set - it is currently in use by one or more active events. If you no longer want to use this price set, click the event title below, and modify the fees for that event.<br/> ') . $table;
+                } else {
+                    $status = ts('Are you sure you want to disable this Price Set?');
+                }
+                break;
+                
             case 'CRM_Core_BAO_UFField':
                 $status = ts('Are you sure you want to disable this CiviCRM Profile field?');
                 break;   
@@ -151,6 +167,7 @@ class CRM_Admin_Page_AJAX
                 break;
                 
             case 'CRM_Core_BAO_OptionValue':
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $recordBAO) . ".php");
                 $label = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $recordID, 'label' );
                 $status = ts('Are you sure you want to disable this ') . $label . ts(' record ?');
                 break;
@@ -161,6 +178,8 @@ class CRM_Admin_Page_AJAX
             }
         }
         $statusMessage['status'] = $status;
+        $statusMessage['show']   = $show;
+        
         echo json_encode( $statusMessage );
         
         exit;
