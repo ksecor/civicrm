@@ -1872,10 +1872,9 @@ UNION
          }
          
          if ( !empty($updateQueryString) ) {
-             $updateQueryString = implode( ',', $updateQueryString );
-             $queryString = "UPDATE civicrm_contact SET {$updateQueryString} WHERE id = {$contact->id}";
+            $updateQueryString = implode( ',', $updateQueryString );
+            $queryString = "UPDATE civicrm_contact SET {$updateQueryString} WHERE id = {$contact->id}";
+            CRM_Core_DAO::executeQuery( $queryString );
          }
-
-         CRM_Core_DAO::executeQuery( $queryString );
      }
 }
