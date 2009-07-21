@@ -95,6 +95,10 @@ class CRM_Admin_Page_AJAX
                 }
                 break;
                 
+            case 'CRM_Event_BAO_Event':
+                $status = ts('Are you sure you want to disable this Event?');
+                break;
+                
             case 'CRM_Core_BAO_UFField':
                 $status = ts('Are you sure you want to disable this CiviCRM Profile field?');
                 break;   
