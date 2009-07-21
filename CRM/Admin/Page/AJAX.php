@@ -78,11 +78,19 @@ class CRM_Admin_Page_AJAX
                 $ufJoin = call_user_func_array(($result), array($recordID,true));
                 $status = ts('This profile is currently used for ') . implode (', ' , $ufJoin) . ts('. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?');
                 break;
+            
+            case 'CRM_Core_BAO_UFField':
+                $status = ts('Are you sure you want to disable this CiviCRM Profile field?');
+                break;   
                 
             case 'CRM_Contribute_BAO_ManagePremiums':
                 $status = ts('Are you sure you want to disable this premium? This action will remove the premium from any contribution pages that currently offer it. However it will not delete the premium record - so you can re-enable it and add it back to your contribution page(s) at a later time.');
                 break;
-
+                
+            case 'CRM_Contact_BAO_RelationshipType':
+                $status = ts('Are you sure you want to disable this relationship type? Users will no longer be able to select this value when adding or editing relationships between contacts.');
+                break;
+                
             case 'CRM_Contribute_BAO_ContributionType':
                 $status = ts('Are you sure you want to disable this contribution type?');
                 break;
@@ -118,7 +126,10 @@ class CRM_Admin_Page_AJAX
             case 'CRM_ACL_BAO_EntityRole':
                 $status = ts('Are you sure you want to disable this ACL Role Assignment?');
                 break;
-                
+            case 'CRM_Member_BAO_MembershipType':
+                $status = ts('Are you sure you want to disable this membership type?');
+                break;
+        
             case 'CRM_Member_BAO_MembershipStatus':
                 $status = ts('Are you sure you want to disable this membership status rule?');
                 break;
