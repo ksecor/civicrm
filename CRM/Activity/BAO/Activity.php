@@ -477,9 +477,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         // Filter on case ID if looking at activities for a specific case
-        $case = 1;
+        // or else exclude Inbound Emails that have been filed on a case.
         if ( $caseId ) {
             $case = " civicrm_case_activity.case_id = $caseId ";
+        } else {
+        	$case = " ((civicrm_case_activity.case_id Is Null) OR (civicrm_option_value.name <> 'Inbound Email' AND civicrm_case_activity.case_id Is Not Null)) ";
         }
         
         // Filter on component IDs.
