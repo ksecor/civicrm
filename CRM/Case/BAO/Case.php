@@ -420,10 +420,12 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         if ( $type == 'upcoming' ) {
             $query .=  " civicrm_activity.due_date_time as case_scheduled_activity_date,
                          civicrm_activity.id as case_scheduled_activity_id,
+                         aov.name as case_scheduled_activity_type_name,
                          aov.label as case_scheduled_activity_type ";       
         } else if ( $type == 'recent' ) {
             $query .=  " civicrm_activity.activity_date_time as case_recent_activity_date,
                          civicrm_activity.id as case_recent_activity_id,
+                         aov.name as case_recent_activity_type_name,
                          aov.label as case_recent_activity_type ";
         } 
         
@@ -555,10 +557,12 @@ AND civicrm_case.is_deleted     = 0";
 
         if ( $type == 'upcoming' ) {
             $resultFields[] = 'case_scheduled_activity_date';
+            $resultFields[] = 'case_scheduled_activity_type_name';
             $resultFields[] = 'case_scheduled_activity_type';
             $resultFields[] = 'case_scheduled_activity_id';
         } else if ( $type == 'recent' ) {
             $resultFields[] = 'case_recent_activity_date';
+            $resultFields[] = 'case_recent_activity_type_name';
             $resultFields[] = 'case_recent_activity_type';
             $resultFields[] = 'case_recent_activity_id';
         }
@@ -1347,7 +1351,7 @@ FROM civicrm_case ca INNER JOIN civicrm_case_contact cc ON ca.id=cc.case_id
 INNER JOIN civicrm_contact c ON cc.contact_id=c.id
 INNER JOIN civicrm_option_group og ON og.name='case_type'
 INNER JOIN civicrm_option_value ov ON (ca.case_type_id=ov.value AND ov.option_group_id=og.id)
-WHERE ca.end_date is null
+WHERE ca.end_date is null ORDER BY c.display_name
 ");
         $values = array();
         while ( $dao->fetch() ) {
