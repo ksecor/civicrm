@@ -102,6 +102,10 @@ class CRM_Admin_Page_AJAX
             case 'CRM_Core_BAO_LocationType':
                 $status = ts('Are you sure you want to disable this location type? Users will no longer be able to select this value when adding or editing contact locations.');
                 break;
+
+            case 'CRM_Event_BAO_ParticipantStatusType':
+                $status = ts('Are you sure you want to disable this Participant Status? Users will no longer be able to select this value when adding or editing Participant Status.');
+                break;
                 
             case 'CRM_Mailing_BAO_Component':
                 $status = ts('Are you sure you want to disable this component?');

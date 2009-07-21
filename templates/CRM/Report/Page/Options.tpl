@@ -27,8 +27,8 @@
 		    <th></th>
 		</tr>
 		{foreach from=$rows item=row}
-		    <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"}{$row.class}{if NOT $row.is_active} disabled{/if}">          
-		        <td>{$row.label}</td>	
+		    <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"}{$row.class}{if NOT $row.is_active} disabled{/if}">
+ 		        <td>{$row.label}</td>	
 		        <td>{$row.value}</td>
 		        <td>{$row.description}</td>	
 		        <td class="nowrap">{$row.weight}</td>
@@ -36,7 +36,7 @@
 		            <td>{$row.default_value}</td>
 		        {/if}
 		        <td>{if $row.is_reserved eq 1}{ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-		        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+			<td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 			<td>{$row.component_name}</td>	
 		        <td>{$row.action}</td>
 		    </tr>

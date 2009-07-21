@@ -24,7 +24,7 @@
           <td>{$row.label}</td>
           <td>{$row.class}</td>
           <td class="yes-no">{if $row.is_reserved}<img src="{$config->resourceBase}/i/check.gif" alt="{ts}Reserved{/ts}" />{/if}</td>
-          <td class="yes-no">{if $row.is_active}  <img src="{$config->resourceBase}/i/check.gif" alt="{ts}Active{/ts}" />{/if}</td>
+	  <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
           <td class="yes-no">{if $row.is_counted} <img src="{$config->resourceBase}/i/check.gif" alt="{ts}Counted{/ts}" />{/if}</td>
           <td>{$row.weight}</td>
           <td>{$row.visibility}</td>
