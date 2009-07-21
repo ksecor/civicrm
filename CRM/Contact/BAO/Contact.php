@@ -469,7 +469,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                                   $reverse );
                 }
                 
-                //kill the rerefence.
+                //kill the reference.
                 unset( $values );
             }
         }
