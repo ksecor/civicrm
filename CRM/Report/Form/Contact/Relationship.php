@@ -93,14 +93,12 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                   array( 'dao'       => 'CRM_Contact_DAO_RelationshipType',
                          'fields'    =>
                          array( 'label_a_b' => 
-                                array( 'title'      => ts( 'RelationShip ' ),
-                                       'default'    => true,
-                                       'no_display' => true 
-                                       ),
+                                array( 'title'      => ts( 'RelationShip A-B ' ),
+                                       'required' => true,
+                                      ),
                                 'label_b_a' => 
-                                array( 'title'      => ts( 'RelationShip ' ),
-                                       'default'    => true,
-                                       'no_display' => true 
+                                array( 'title'      => ts( 'RelationShip B-A ' ),
+                                       'required' => true,
                                        ),
                                 ),                         
                          'filters'   =>  
@@ -182,16 +180,13 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
         return parent::setDefaultValues( );
     }
 
-    function select( ) {
-        
-        $select = $this->_columnHeaders = array( );
-        
+    function select( ) {        
+        $select = $this->_columnHeaders = array( );        
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('fields', $table) ) {  
                 foreach ( $table['fields'] as $fieldName => $field ) {
                     if ( CRM_Utils_Array::value( 'required', $field ) ||
-                         CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {
-                        
+                         CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {                        
                         $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
@@ -199,31 +194,27 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                 }
             }
         }
-      
+        
         $this->_select = "SELECT " . implode( ', ', $select ) . " ";
     }
-
-    function from( ) {
-        
-        $relationship = explode("_",$this->_params['name_a_b_value']);
-
+    
+    function from( ) {        
+        $relationship = explode("_",$this->_params['label_value']);
         $alias_contact_one = 'contact_one';
-        $alias_contact_two = 'contact_two';
-
+        $alias_contact_two = 'contact_two';        
         $relationship_contact_one = "contact_id_a" ;
         $relationship_contact_two = "contact_id_b" ;
         $this->relationship_label = "label_a_b";
-
         if( $relationship['1'] == 'b' ) {            
             $relationship_contact_one = "contact_id_b" ;
             $relationship_contact_two = "contact_id_a" ;
             $this->relationship_label = "label_b_a";
-        }        
-
+        }      
+       
         $this->_from = "
      FROM civicrm_contact   {$alias_contact_one }
  
-     LEFT JOIN civicrm_relationship {$this->_aliases['civicrm_relationship']}
+     INNER JOIN civicrm_relationship {$this->_aliases['civicrm_relationship']}
           ON ( {$this->_aliases['civicrm_relationship']}.{$relationship_contact_one}  ={$alias_contact_one }.id )
     
      LEFT JOIN civicrm_contact {$alias_contact_two }
@@ -245,12 +236,9 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
 
      LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
           ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id " ;
-
-      
     }
 
     function where( ) {
-        
         $clauses = array( );
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('filters', $table) ) { 
@@ -260,33 +248,25 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
-                        
                         $clause = $this->dateClause( $field['name'], $relative, $from, $to );
-                    } else {
-                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         
-                        if ( $fieldName == 'label') {
-
+                    } else if ( $this->_params["{$fieldName}_value"] !=  " " ) { 
+                        
+                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );                       
+                        if ( $fieldName == 'label' ) {                                                 
                             $field['dbAlias']   = "relationship_type.". $this->relationship_label ;
                             $field['name'   ]   = $this->relationship_label;
                             $fieldName          = $this->relationship_label;
-                                                                    
                             $this->_params[ "{$fieldName}_value" ] = $field['options'][$this->_params['label_value']]; 
-                            foreach( $field['options'] as $optionKey => $optionValue ) {
-                                
-                                if( $optionKey != " " ) {
-
-                                    $option_value [ $optionValue ] =$optionValue;
-
-                                } else {
-                                
-                                    $option_value [ $optionKey ] =$optionValue;                                     
-
+                            foreach( $field['options'] as $optionKey => $optionValue ) {                            
+                                if( $optionKey != " " ) {                                
+                                    $option_value [ $optionValue ] = $optionValue;                                
+                                } else {                                
+                                    $option_value [ $optionKey ] = $optionValue;                                     
                                 }                               
-                            }
+                            }   
                             $field['options'] = $option_value;
                         }
-
                         if ( $op ) {
                             $clause = 
                                 $this->whereClause( $field,
@@ -310,9 +290,8 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     }
     
     function postProcess( ) {
-        
         $this->beginPostProcess( );
-        $sql = $this->buildQuery( ); 
+        $sql = $this->buildQuery( );  
         require_once 'CRM/Utils/PChart.php';
         $dao   = CRM_Core_DAO::executeQuery( $sql );       
         $count = 0;
@@ -323,8 +302,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
             }
             $rows[] = $row;
         }
-        $this->formatDisplay( $rows );
-       
+        $this->formatDisplay( $rows );        
         // assign variables to templates
         $this->doTemplateAssignment( $rows );
         $this->endPostProcess( $rows );
@@ -334,10 +312,8 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     function alterDisplay( &$rows ) {
         // custom code to alter rows
         $checkList = array();
-        $entryFound = false;
-        
+        $entryFound = false;        
         foreach ( $rows as $rowNum => $row ) {
-            
             // handle country
             if ( array_key_exists('civicrm_address_country_id', $row) ) {
                 if ( $value = $row['civicrm_address_country_id'] ) {
@@ -345,14 +321,12 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                 }
                 $entryFound = true;
             }
-            
             if ( array_key_exists('civicrm_address_state_province_id', $row) ) {
                 if ( $value = $row['civicrm_address_state_province_id'] ) {
                     $rows[$rowNum]['civicrm_address_state_province_id'] = CRM_Core_PseudoConstant::stateProvince( $value, false );
                 }
                 $entryFound = true;
             }
-            
             // skip looking further in rows, if first row itself doesn't 
             // have the column we need
             if ( !$entryFound ) {
