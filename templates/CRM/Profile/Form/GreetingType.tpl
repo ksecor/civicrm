@@ -15,7 +15,7 @@ function showCustom( fldName, value ) {
         cj( "#" + fldName + "_custom_html").show( );
     } else {
         cj( "#" + fldName + "_custom_html").hide( );
-        cj( "#" + fldName + "_custom" ).val(' ');
+        cj( "#" + fldName + "_custom" ).val('');
     }
 }
 {/literal}

@@ -1807,73 +1807,67 @@ UNION
      *
      */
      static function processGreetings( &$contact ) {
+            //crm_core_error::debug( '$contact', $contact );
+            //exit();
+            
          $emailGreetingString = $postalGreetingString = $addresseeString = null;
          $updateQueryString = array( );
          require_once 'CRM/Activity/BAO/Activity.php';
+         
+         //email greeting
          if ( $contact->contact_type == 'Individual' ) { 
-             // the filter value for Individual contact type is set to 1
-             $filter =  array( 'contact_type'  => 'Individual', 
-                               'greeting_type' => 'email_greeting' );
-             //email greeting
-             $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
-
-             if ( $contact->email_greeting_id == 'null' ) {
-                 $emailGreetingString = 'null';
-             } else {
-                 if ( $contact->email_greeting_custom == 'null' && $contact->email_greeting_id ) {
-                     $emailGreetingString = $emailGreeting[ $contact->email_greeting_id ];
-                 } elseif ( $contact->email_greeting_custom ) {
-                     $emailGreetingString = $contact->email_greeting_custom;
-                 }
-                 $emailGreetingString = "'$emailGreetingString'";
-             }     
+             if ( $contact->email_greeting_custom != 'null' && $contact->email_greeting_custom  ) {
+                 $emailGreetingString = $contact->email_greeting_custom;
+             } else if ( $contact->email_greeting_id != 'null' && $contact->email_greeting_id ) {
+                 // the filter value for Individual contact type is set to 1
+                 $filter =  array( 'contact_type'  => 'Individual', 
+                                   'greeting_type' => 'email_greeting' );
+                 
+                 $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
+                 $emailGreetingString = $emailGreeting[ $contact->email_greeting_id ];
+             } else {     
+                 $updateQueryString[] = " email_greeting_display = NULL ";
+             }
+                  
              if ( $emailGreetingString ) {
                  CRM_Activity_BAO_Activity::replaceGreetingTokens($emailGreetingString, $contact->id);
-                 $updateQueryString[] = " email_greeting_display = {$emailGreetingString}";
+                 $updateQueryString[] = " email_greeting_display = '{$emailGreetingString}'";
              } 
          }
 
          //postal greeting$
-         $filter['greeting_type'] = 'postal_greeting';
-         $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);
-
-         if ( $contact->postal_greeting_id == 'null' ) {
-             $postalGreetingString = '';
-         } else {
-             if ( $contact->postal_greeting_custom == 'null' && $contact->postal_greeting_id ) {
-                 $postalGreetingString = $postalGreeting[ $contact->postal_greeting_id ];
-             } elseif ( $contact->postal_greeting_custom ) {
-                 $postalGreetingString = $contact->postal_greeting_custom;
-             }
-             $postalGreetingString = "'$postalGreetingString'";
+         if ( $contact->postal_greeting_custom != 'null' && $contact->postal_greeting_custom ) {
+            $postalGreetingString = $contact->postal_greeting_custom;
+         } else if ( $contact->postal_greeting_id != 'null' && $contact->postal_greeting_id ) {
+            $filter['greeting_type'] = 'postal_greeting';
+            $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);    
+            $postalGreetingString = $postalGreeting[ $contact->postal_greeting_id ];
+         } elseif ( $contact->postal_greeting_custom ) {
+            $updateQueryString[] = " postal_greeting_display = NULL ";
          }
 
          if ( $postalGreetingString ) {
              CRM_Activity_BAO_Activity::replaceGreetingTokens($postalGreetingString, $contact->id);
-             $updateQueryString[] = " postal_greeting_display = {$postalGreetingString}";
+             $updateQueryString[] = " postal_greeting_display = '{$postalGreetingString}'";
          }         
 
-         //check contact type and build filter clause accordingly for addressee, CRM-4575
-         $filter = array( 'contact_type'  => $contact->contact_type, 
-             'greeting_type' => 'addressee'  );
+         // addressee
+         if ( $contact->addressee_custom != 'null' && $contact->addressee_custom ) {
+            $addresseeString = $contact->addressee_custom;
+         } else if ( $contact->addressee_custom == 'null' && $contact->addressee_id ) {
+            $filter = array( 'contact_type'  => $contact->contact_type, 
+                             'greeting_type' => 'addressee' );
 
-         //add addressee in Contact form
-         $addressee = CRM_Core_PseudoConstant::greeting( $filter ); 
-
-         if ( $contact->addressee_id == 'null' ) {
-             $addresseeString = '';
+            $addressee = CRM_Core_PseudoConstant::greeting( $filter ); 
+             
+            $addresseeString = $addressee[ $contact->addressee_id ];
          } else {
-             if ( $contact->addressee_custom == 'null' && $contact->addressee_id ) {
-                 $addresseeString = $addressee[ $contact->addressee_id ];
-             } elseif ( $contact->addressee_custom ) {
-                 $addresseeString = $contact->addressee_custom;
-             }
-             $addresseeString = "'$addresseeString'";
+            $updateQueryString[] = " addressee_display = NULL ";
          }
 
          if ( $addresseeString ) {
              CRM_Activity_BAO_Activity::replaceGreetingTokens($addresseeString, $contact->id);
-             $updateQueryString[] = " addressee_display = {$addresseeString}";
+             $updateQueryString[] = " addressee_display = '{$addresseeString}'";
          }
 
          if ( !empty($updateQueryString) ) {

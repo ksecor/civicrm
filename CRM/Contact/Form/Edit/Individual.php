@@ -70,9 +70,9 @@ class CRM_Contact_Form_Edit_Individual {
         $form->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name'] );
         
         // suffix
-        $siffix = CRM_Core_PseudoConstant::individualSuffix( );
-        if ( $siffix ) {
-            $form->addElement('select', 'suffix_id', ts('Suffix'), array('' => '') + $siffix );
+        $suffix = CRM_Core_PseudoConstant::individualSuffix( );
+        if ( $suffix ) {
+            $form->addElement('select', 'suffix_id', ts('Suffix'), array('' => '') + $suffix );
         }
         
         // nick_name
