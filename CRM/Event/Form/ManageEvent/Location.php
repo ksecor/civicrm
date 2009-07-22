@@ -295,7 +295,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             if ( !CRM_Utils_Array::value( $block, $params ) || !is_array( $params[$block] ) )  continue;
             foreach ( $params[$block] as $count => &$values ) {
                 if ( $count == 1 ) $values['is_primary'] = 1; 
-                $values['location_type_id'] = $defaultLocationType->id;
+                $values['location_type_id'] = ($defaultLocationType->id)?$defaultLocationType->id:1;
             }
         }
         

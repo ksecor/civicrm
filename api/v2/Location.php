@@ -580,7 +580,7 @@ function _civicrm_location_delete( &$contact ) {
  * @param <type> $locationTypes = array( 'Home', 'Work' ) else empty.
  * @return <type>
  */
-function &_civicrm_location_get( $contact, $locationTypes ) {
+function &_civicrm_location_get( $contact, $locationTypes = array( ) ) {
     $params = array( 'contact_id' => $contact['contact_id'],
                      'entity_id'  => $contact['contact_id'] ); 
     

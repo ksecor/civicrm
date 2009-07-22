@@ -157,27 +157,19 @@ class CRM_Contact_Form_Edit_Household
     static function synchronizeIndividualAddresses( $householdContactID ) 
     {
         require_once 'api/v2/Location.php';
-        $locParams = array( 'contact_id' => $householdContactID );
-        $values    =& _civicrm_location_get( $locParams, $location_types );
-        $query     =  "SELECT id from civicrm_contact where mail_to_household_id=$householdContactID";
-        $dao       = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        while ( $dao->fetch( ) ) {    
-            $params = array();
-            $idParams = array( 'contact_id' => $dao->id );
-            $ids =& _civicrm_location_get( $idParams, $dnc );
-            $params['contact_id']                      = $dao->id;
-            $params['location'][1]['address']          = $values[1]['address'];
-            $params['location'][1]['location_type_id'] = $values[1]['location_type_id'];
-            $params['location'][1]['is_primary']       = 1;
+        require_once 'CRM/Core/BAO/Location.php';
+        $locValues =& _civicrm_location_get( array( 'contact_id' => $householdContactID ) );
+        $contact   = CRM_Core_DAO::executeQuery( "SELECT id from civicrm_contact where mail_to_household_id=$householdContactID" );
+        while ( $contact->fetch( ) ) {
+            $locParams = array( 'contact_id' => $contact->id,
+                                'address'    => $locValues['address'] ); 
             
             // removing unwanted ids from the params array
-            $unsetFields = array( 'id', 'timezone' );
-            foreach ( $unsetFields as $fld ) {
-                unset( $params['location'][1]['address'][$fld] );
+            foreach ( array( 'id', 'timezone', 'contact_id' ) as $fld ) {
+                if ( isset( $locParams['address'][1][$fld] ) ) unset( $locParams['address'][1][$fld] );
             }
             
-            CRM_Core_BAO_Location::create( $params );
-            unset($params, $ids);
+            CRM_Core_BAO_Location::create( $locParams );
         }
     }
 }
