@@ -55,44 +55,44 @@ class CRM_Core_Page_AJAX_Location
         
         require_once 'CRM/Core/BAO/Location.php';
         $entityBlock = array( 'contact_id' => $cid );
-        $loc =& CRM_Core_BAO_Location::getValues( $entityBlock, $location );
+        $location    =& CRM_Core_BAO_Location::getValues( $entityBlock );
 
         $config =& CRM_Core_Config::singleton();
         $addressSequence = array_flip($config->addressSequence());
         
-        $elements = array( "location_1_phone_1_phone" => 
-                           $location['location'][1]['phone'][1]['phone'],
-                           "location_1_email_1_email" => 
-                           $location['location'][1]['email'][1]['email']
+        $elements = array( "phone_1_phone" => 
+                           $location['phone'][1]['phone'],
+                           "email_1_email" => 
+                           $location['email'][1]['email']
                            );
         
         if ( array_key_exists( 'street_address', $addressSequence) ) {
-            $elements["location_1_address_street_address"] = $location['location'][1]['address']['street_address'];
+            $elements["address_1_street_address"] = $location['address'][1]['street_address'];
         }
         if ( array_key_exists( 'supplemental_address_1', $addressSequence) ) {
-            $elements['location_1_address_supplemental_address_1'] = 
-                $location['location'][1]['address']['supplemental_address_1'];
+            $elements['address_1_supplemental_address_1'] = 
+                $location['address'][1]['supplemental_address_1'];
         }
         if ( array_key_exists( 'supplemental_address_2', $addressSequence) ) {
-            $elements['location_1_address_supplemental_address_2'] = 
-                $location['location'][1]['address']['supplemental_address_2'];
+            $elements['address_1_supplemental_address_2'] = 
+                $location['address'][1]['supplemental_address_2'];
         }
         if ( array_key_exists( 'city', $addressSequence) ) {
-            $elements['location_1_address_city'] = $location['location'][1]['address']['city'];
+            $elements['address_1_city'] = $location['address'][1]['city'];
         }
         if ( array_key_exists( 'postal_code', $addressSequence) ) {
-            $elements['location_1_address_postal_code'] = 
-                $location['location'][1]['address']['postal_code'];
-            $elements['location_1_address_postal_code_suffix'] = 
-                $location['location'][1]['address']['postal_code_suffix'];
+            $elements['address_1_postal_code'] = 
+                $location['address'][1]['postal_code'];
+            $elements['address_1_postal_code_suffix'] = 
+                $location['address'][1]['postal_code_suffix'];
         }
         if ( array_key_exists( 'country', $addressSequence) ) {
-            $elements['location_1_address_country_id'] = 
-                $location['location'][1]['address']['country_id'];
+            $elements['address_1_country_id'] = 
+                $location['address'][1]['country_id'];
         }
         if ( array_key_exists( 'state_province', $addressSequence) ) {
-            $elements['location_1_address_state_province_id'] = 
-                $location['location'][1]['address']['state_province_id'];
+            $elements['address_1_state_province_id'] = 
+                $location['address'][1]['state_province_id'];
         }
 
         echo json_encode( $elements );
