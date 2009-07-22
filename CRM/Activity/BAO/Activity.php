@@ -1546,23 +1546,37 @@ AND cl.modified_id  = c.id
      *     
      * @access public
      */
-    function replaceGreetingTokens( &$tokenString, $contactId ) 
+    function replaceGreetingTokens( &$tokenString, $contactDetails = null, $contactId = null ) 
     {
-        if ( !$contactId ) {
+        if ( !$contactDetails && !$contactId ) {
             return;    
         }
         
-        $greetingTokens = self::getTokens($tokenString);
+        // check if there are any tokens
+        $greetingTokens = self::getTokens( $tokenString );
                     
         if ( !empty($greetingTokens) ) {
-            $greetingsReturnProperties = array_flip(CRM_Utils_Array::value('contact', $greetingTokens));        
-            $greetingsReturnProperties = array_fill_keys(array_keys($greetingsReturnProperties), 1);
-            $contactParams             = array( 'contact_id' => $contactId );
-            require_once 'CRM/Mailing/BAO/Mailing.php';
-            $greetingDetails           = CRM_Mailing_BAO_Mailing::getDetails($contactParams, $greetingsReturnProperties, false, false );
+            // first use the existing contact object for token replacement
+            if ( !empty( $contactDetails ) ) {
+                require_once 'CRM/Utils/Token.php';
+                $tokenString = CRM_Utils_Token::replaceContactTokens( $tokenString, $contactDetails, true , $greetingTokens);
+            }
+            
+            // check if there are any unevaluated tokens
+            $greetingTokens = self::getTokens( $tokenString );
+            
+            // $greetingTokens not empty, means there are few tokens which are not evaluated, like custom data etc
+            // so retrieve it from database 
+            if ( !empty( $greetingTokens ) ) {
+                $greetingsReturnProperties = array_flip( CRM_Utils_Array::value( 'contact', $greetingTokens ) );        
+                $greetingsReturnProperties = array_fill_keys( array_keys( $greetingsReturnProperties ), 1 );
+                $contactParams             = array( 'contact_id' => $contactId );
+                require_once 'CRM/Mailing/BAO/Mailing.php';
+                $greetingDetails           = CRM_Mailing_BAO_Mailing::getDetails($contactParams, $greetingsReturnProperties, false, false );
                 
-            require_once 'CRM/Utils/Token.php';
-            $tokenString               = CRM_Utils_Token::replaceContactTokens( $tokenString, $greetingDetails, true , $greetingTokens);
+                // again replace tokens
+                $tokenString               = CRM_Utils_Token::replaceContactTokens( $tokenString, $greetingDetails, true , $greetingTokens);
+            }
         }
     }
 }

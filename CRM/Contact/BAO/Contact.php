@@ -1807,9 +1807,11 @@ UNION
      *
      */
      static function processGreetings( &$contact ) {
-            //crm_core_error::debug( '$contact', $contact );
-            //exit();
-            
+         // store object values to an array
+         $contactDetails = array( );    
+         CRM_Core_DAO::storeValues( $contact, $contactDetails );
+         $contactDetails = array( array( $contact->id => $contactDetails ) );
+             
          $emailGreetingString = $postalGreetingString = $addresseeString = null;
          $updateQueryString = array( );
          require_once 'CRM/Activity/BAO/Activity.php';
@@ -1830,7 +1832,7 @@ UNION
              }
                   
              if ( $emailGreetingString ) {
-                 CRM_Activity_BAO_Activity::replaceGreetingTokens($emailGreetingString, $contact->id);
+                 CRM_Activity_BAO_Activity::replaceGreetingTokens($emailGreetingString, $contactDetails, $contact->id );
                  $updateQueryString[] = " email_greeting_display = '{$emailGreetingString}'";
              } 
          }
@@ -1847,7 +1849,7 @@ UNION
          }
 
          if ( $postalGreetingString ) {
-             CRM_Activity_BAO_Activity::replaceGreetingTokens($postalGreetingString, $contact->id);
+             CRM_Activity_BAO_Activity::replaceGreetingTokens($postalGreetingString, $contactDetails, $contact->id );
              $updateQueryString[] = " postal_greeting_display = '{$postalGreetingString}'";
          }         
 
@@ -1859,14 +1861,13 @@ UNION
                              'greeting_type' => 'addressee' );
 
             $addressee = CRM_Core_PseudoConstant::greeting( $filter ); 
-             
             $addresseeString = $addressee[ $contact->addressee_id ];
          } else {
             $updateQueryString[] = " addressee_display = NULL ";
          }
 
          if ( $addresseeString ) {
-             CRM_Activity_BAO_Activity::replaceGreetingTokens($addresseeString, $contact->id);
+             CRM_Activity_BAO_Activity::replaceGreetingTokens($addresseeString, $contactDetails, $contact->id );
              $updateQueryString[] = " addressee_display = '{$addresseeString}'";
          }
 
