@@ -481,7 +481,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( $caseId ) {
             $case = " civicrm_case_activity.case_id = $caseId ";
         } else {
-        	$case = " ((civicrm_case_activity.case_id Is Null) OR (civicrm_option_value.name <> 'Inbound Email' AND civicrm_case_activity.case_id Is Not Null)) ";
+        	$case = " ((civicrm_case_activity.case_id Is Null) OR (civicrm_option_value.name <> 'Inbound Email' AND civicrm_option_value.name <> 'Email' AND civicrm_case_activity.case_id Is Not Null)) ";
         }
         
         // Filter on component IDs.
