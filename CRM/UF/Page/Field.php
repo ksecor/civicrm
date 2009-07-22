@@ -88,14 +88,12 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
                                                                           'name'  => ts('Disable'),
                                                                           'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_UFField' . '\',\'' . 'enable-disable' . '\' );"',
                                                                           'ref'   => 'disable-action',
-                                                                          
                                                                           'title' => ts('Disable CiviCRM Profile Field') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_UFField' . '\',\'' . 'disable-enable' . '\' );"',
                                                                           'ref'   => 'enable-action',
-                                                                          
                                                                           'title' => ts('Enable CiviCRM Profile Field') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
@@ -256,11 +254,6 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
             $this->preview($id,$this->_gid) ;
         } else {
             require_once 'CRM/Core/BAO/UFField.php';
-            if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_UFField::setIsActive($id, 0);
-            } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_UFField::setIsActive($id, 1);
-            } 
             $this->browse();
         }
 

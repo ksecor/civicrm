@@ -69,7 +69,6 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      */
     private static $_actionLinks;
 
-
     /**
      * Get the action links for this page.
      * 
@@ -80,7 +79,6 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      */
     function &actionLinks()
     {
-        
         if (!isset(self::$_actionLinks)) {
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
@@ -301,12 +299,7 @@ ORDER BY weight, label
             $this->edit($action);   // no browse for edit/update/view
         } else {
             require_once 'CRM/Core/BAO/OptionValue.php';
-            if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_OptionValue::setIsActive($id, 0);
-            } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_OptionValue::setIsActive($id, 1);
-            }
-           $this->browse();
+            $this->browse();
         }
         // Call the parents run method
         parent::run();

@@ -154,14 +154,12 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
                                                                     'name'  => ts('Disable'),
                                                                     'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'enable-disable' . '\' );"',
                                                                     'ref'   => 'disable-action',
-
                                                                     'title' => ts('Disable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
                                                                     'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'disable-enable' . '\' );"',
                                                                     'ref'   => 'enable-action',
-
                                                                     'title' => ts('Enable %1', array(1 => self::$_gName))
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
@@ -171,7 +169,7 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
                                                                     'title' => ts('Delete %1 Type', array(1 => self::$_gName) ),
                                                                     ),
                                   );
-
+            
             if ( self::$_gName == 'custom_search' ) {
                 $runLink = array( CRM_Core_Action::FOLLOWUP => array(
                                                                      'name'  => ts('Run'),

@@ -76,17 +76,13 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
                                                                     'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'enable-disable' . '\' );"',
-                                                                    
                                                                     'ref'   => 'disable-action',
-                                                                    
                                                                     'title' => ts('Disable Message Templates') 
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
                                                                     'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'disable-enable' . '\' );"',
-                                                                    
                                                                     'ref'   => 'enable-action',
-                                                                    
                                                                     'title' => ts('Enable Message Templates') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
@@ -94,12 +90,12 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'title' => ts('Delete Message Templates') 
-                                                                   )
-                                 );
+                                                                    )
+                                  );
         }
         return self::$_links;
     }
-
+    
     /**
      * Get name of edit form
      *

@@ -127,7 +127,7 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
      *
      * @return string user context.
      */
-    function userContext(  $mode = null ) 
+    function userContext( $mode = null ) 
     {
         return 'civicrm/admin/reltype';
     }

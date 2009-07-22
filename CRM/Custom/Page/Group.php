@@ -101,7 +101,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                                                                           'name'  => ts('Delete'),
                                                                           'url'   => 'civicrm/admin/custom/group',
                                                                           'qs'    => 'action=delete&reset=1&id=%%id%%',
-                                                                          'title' => ts('Enable Custom Group'),
+                                                                          'title' => ts('Delete Custom Group'),
                                                                           ),
                                         );
         }
@@ -123,7 +123,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      */
     function run()
     {
-
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'

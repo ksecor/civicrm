@@ -78,7 +78,6 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
                                                                     'name'  => ts('Disable'),
                                                                     'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Mailing_BAO_Component' . '\',\'' . 'enable-disable' . '\' );"',
                                                                     'ref'   => 'disable-action',
-                                                                    
                                                                     'title' => ts('Disable Mailing Component') 
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(

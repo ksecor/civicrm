@@ -77,7 +77,7 @@ class CRM_Admin_Page_AJAX
                 $method = 'getUFJoinRecord'; 
                 $result = array($recordBAO,$method);
                 $ufJoin = call_user_func_array(($result), array($recordID,true));
-                $status = ts('This profile is currently used for ') . implode (', ' , $ufJoin) . ts('. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?');
+                $status = ts('This profile is currently used for ') . implode (', ' , $ufJoin) . '. <br/><br/>' .ts('If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?');
                 break;
             
             case 'CRM_Core_BAO_PriceSet':
@@ -108,7 +108,7 @@ class CRM_Admin_Page_AJAX
                 break;
                 
             case 'CRM_Contact_BAO_RelationshipType':
-                $status = ts('Are you sure you want to disable this relationship type? Users will no longer be able to select this value when adding or editing relationships between contacts.');
+                $status = ts('Are you sure you want to disable this relationship type?'). '<br/><br/>' . ts('Users will no longer be able to select this value when adding or editing relationships between contacts.');
                 break;
                 
             case 'CRM_Contribute_BAO_ContributionType':
@@ -116,15 +116,15 @@ class CRM_Admin_Page_AJAX
                 break;
                 
             case 'CRM_Core_BAO_PaymentProcessor':
-                $status = ts('Are you sure you want to disable this payment processor? Users will no longer be able to select this value when adding or editing transaction pages.');
+                $status = ts('Are you sure you want to disable this payment processor? '). '<br/><br/>' . ts('Users will no longer be able to select this value when adding or editing transaction pages.');
                 break;
                 
             case 'CRM_Core_BAO_LocationType':
-                $status = ts('Are you sure you want to disable this location type? Users will no longer be able to select this value when adding or editing contact locations.');
+                $status = ts('Are you sure you want to disable this location type? '). '<br/><br/>' . ts('Users will no longer be able to select this value when adding or editing contact locations.');
                 break;
 
             case 'CRM_Event_BAO_ParticipantStatusType':
-                $status = ts('Are you sure you want to disable this Participant Status? Users will no longer be able to select this value when adding or editing Participant Status.');
+                $status = ts('Are you sure you want to disable this Participant Status?'). '<br/><br/>' . ts(' Users will no longer be able to select this value when adding or editing Participant Status.');
                 break;
                 
             case 'CRM_Mailing_BAO_Component':

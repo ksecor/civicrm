@@ -48,35 +48,31 @@ class CRM_Admin_Page_ParticipantStatus extends CRM_Core_Page_Basic
         static $links = null;
         if ($links === null) {
             $links = array(
-                CRM_Core_Action::UPDATE => array(
-                    'name'  => ts('Edit'),
-                    'url'   => 'civicrm/admin/participant_status',
-                    'qs'    => 'action=update&id=%%id%%&reset=1',
-                    'title' => ts('Edit Status'),
-                ),
-                CRM_Core_Action::DELETE => array(
-                    'name'  => ts('Delete'),
-                    'url'   => 'civicrm/admin/participant_status',
-                    'qs'    => 'action=delete&id=%%id%%',
-                    'title' => ts('Delete Status'),
-                ),
-                CRM_Core_Action::DISABLE => array(
-                    'name'  => ts('Disable'),
-                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 
-                               'CRM_Event_BAO_ParticipantStatusType' . '\',\'' . 
-                               'enable-disable' . '\' );"',
-                    'ref'   => 'disable-action',
-                    'title' => ts('Disable Status'),
-                ),
-                CRM_Core_Action::ENABLE => array(
-                    'name'  => ts('Enable'),
-                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 
-                               'CRM_Event_BAO_ParticipantStatusType'  . '\',\'' . 
-                               'disable-enable' . '\' );"',
-                    'ref'   => 'enable-action',
-                    'title' => ts('Enable Status'),
-                ),
-            );
+                           CRM_Core_Action::UPDATE => array(
+                                                            'name'  => ts('Edit'),
+                                                            'url'   => 'civicrm/admin/participant_status',
+                                                            'qs'    => 'action=update&id=%%id%%&reset=1',
+                                                            'title' => ts('Edit Status'),
+                                                            ),
+                           CRM_Core_Action::DELETE => array(
+                                                            'name'  => ts('Delete'),
+                                                            'url'   => 'civicrm/admin/participant_status',
+                                                            'qs'    => 'action=delete&id=%%id%%',
+                                                            'title' => ts('Delete Status'),
+                                                            ),
+                           CRM_Core_Action::DISABLE => array(
+                                                             'name'  => ts('Disable'),
+                                                             'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_BAO_ParticipantStatusType' . '\',\'' . 'enable-disable' . '\' );"',
+                                                             'ref'   => 'disable-action',
+                                                             'title' => ts('Disable Status'),
+                                                             ),
+                           CRM_Core_Action::ENABLE => array(
+                                                            'name'  => ts('Enable'),
+                                                            'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_BAO_ParticipantStatusType' . '\',\'' . 'disable-enable' . '\' );"',
+                                                            'ref'   => 'enable-action',
+                                                            'title' => ts('Enable Status'),
+                                                            ),
+                           );
         }
         return $links;
     }

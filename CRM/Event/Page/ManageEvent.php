@@ -108,15 +108,16 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::COPY     => array(
                                                                            'name'  => ts('Copy Event'),
-                                                                           'url'   => CRM_Utils_System::currentPath( ),                                                                                                'qs'    => 'reset=1&action=copy&id=%%id%%',
+                                                                           'url'   => CRM_Utils_System::currentPath( ), 
+                                                                           'qs'    => 'reset=1&action=copy&id=%%id%%',
                                                                            'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
                                                                            'title' => ts('Copy Event') 
-                                                                          )
+                                                                           )
                                         );
         }
         return self::$_actionLinks;
     }
-
+    
     /**
      * Run the page.
      *
@@ -292,8 +293,7 @@ ORDER BY start_date desc
 
         return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage', 'reset=1' ) );
     }
-
-
+    
     function search( ) {
         if ( isset($this->_action) &
              ( CRM_Core_Action::ADD    |
@@ -333,13 +333,6 @@ ORDER BY start_date desc
                 } 
                 $type = implode (',' ,$val);
             }
-
-
-
-
-
-
-            
             $clauses[] = "event_type_id IN ({$type})";
         }
         

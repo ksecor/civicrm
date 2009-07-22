@@ -90,14 +90,12 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
                                                                           'name'  => ts('Disable'),
                                                                           'extra' => 'onclick = "enableDisable( %%sid%%,\''. 'CRM_Core_BAO_PriceSet' . '\',\'' . 'enable-disable' . '\' );"',
                                                                           'ref'   => 'disable-action',
-                                                                          
                                                                           'title' => ts('Disable Price Set') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'extra' => 'onclick = "enableDisable( %%sid%%,\''. 'CRM_Core_BAO_PriceSet' . '\',\'' . 'disable-enable' . '\' );"',
                                                                           'ref'   => 'enable-action',
-                                                                          
                                                                           'title' => ts('Enable Price Set') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
@@ -145,37 +143,28 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
             require_once 'CRM/Core/BAO/PriceSet.php';
             require_once 'CRM/Core/BAO/PriceField.php';
 
-            // if action is enable or disable to the needful.
-            if ($action & (CRM_Core_Action::DISABLE | CRM_Core_Action::DELETE)) {
+            // if action is delete do the needful.
+            if ($action & (CRM_Core_Action::DELETE)) {
                 $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $sid );
                 if ( empty( $usedBy ) ) {
-                    if ( $action & CRM_Core_Action::DISABLE) {
-                        // disable price set
-                        CRM_Core_BAO_PriceSet::setIsActive( $sid, 0 );
-                    } elseif ( $action & CRM_Core_Action::DELETE) {
-                        // prompt to delete
-                        $session = & CRM_Core_Session::singleton();
-                        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price', 'action=browse'));
-                        $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteSet','Delete Price Set', null );
-                        // $id = CRM_Utils_Request::retrieve('sid', 'Positive',
-//                                                           $this, false, 0);
-                        $controller->set('sid', $sid);
-                        $controller->setEmbedded( true );
-                        $controller->process( );
-                        $controller->run( );
-                    }
+                    // prompt to delete
+                    $session = & CRM_Core_Session::singleton();
+                    $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price', 'action=browse'));
+                    $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteSet','Delete Price Set', null );
+                    // $id = CRM_Utils_Request::retrieve('sid', 'Positive', $this, false, 0);
+                    $controller->set('sid', $sid);
+                    $controller->setEmbedded( true );
+                    $controller->process( );
+                    $controller->run( );
                 } else {
                     // add breadcrumb
                     $url = CRM_Utils_System::url( 'civicrm/admin/price', 'reset=1' );
-                    CRM_Utils_System::appendBreadCrumb( ts('Price Sets'),
-                                                        $url );
+                    CRM_Utils_System::appendBreadCrumb( ts('Price Sets'),    $url );
                     $this->assign( 'usedPriceSetTitle', CRM_Core_BAO_PriceSet::getTitle( $sid ) );
                     $this->assign( 'usedBy', $usedBy );
                 }
-            } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_PriceSet::setIsActive($sid, 1);
-            }
-
+            } 
+            
             // finally browse the price sets 
             $this->browse();
         }

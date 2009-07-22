@@ -89,14 +89,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                                                           'name'  => ts('Disable'),
                                                                           'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_UFGroup' . '\',\'' . 'enable-disable' . '\' );"',
                                                                           'ref'   => 'disable-action',
-                                                                          
                                                                           'title' => ts('Disable CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_UFGroup' . '\',\'' . 'disable-enable' . '\' );"',
                                                                           'ref'   => 'enable-action',
-                                                                          
                                                                           'title' => ts('Enable CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(

@@ -58,8 +58,7 @@ class CRM_Admin_Page_Mapping extends CRM_Core_Page_Basic
     {
         return 'CRM_Core_BAO_Mapping';
     }
-
-
+    
     /**
      * Get action Links
      *

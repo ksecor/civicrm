@@ -259,11 +259,6 @@ class CRM_Price_Page_Option extends CRM_Core_Page
             $this->edit( $action );   // no browse for edit/update/view
         } else {
             require_once 'CRM/Core/BAO/OptionValue.php';
-            if ( $action & CRM_Core_Action::DISABLE ) {
-                CRM_Core_BAO_OptionValue::setIsActive( $oid, 0 );
-            } else if ( $action & CRM_Core_Action::ENABLE ) {
-                CRM_Core_BAO_OptionValue::setIsActive( $oid, 1 );
-            }
             $this->browse();
         }
         // Call the parents run method
