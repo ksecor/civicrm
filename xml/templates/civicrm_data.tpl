@@ -564,7 +564,7 @@ INSERT INTO `civicrm_preferences_date`
 VALUES
   ( 'activityDate'    ,  20, 10,  0, null,        'Date for activities including contributions: receive, receipt, cancel. membership: join, start, renew. case: start, end.'         ),
   ( 'activityDatetime',  20, 10, 1, null,        'Date and time for activity: scheduled. participant: registered.'                                                                  ),
-  ( 'birth'           , 100,  0,  0, null,        'Birth and deceased dates.'                                                                                                        ),
+  ( 'birth'           , 100,  0,  0, null,        'Birth and deceased dates. Only year, month and day fields are supported.'                                                         ),
   ( 'creditCard'      ,   0, 10,  0, 'M Y',       'Month and year only for credit card expiration.'                                                                                  ),
   ( 'custom'          ,  20, 20, 15, 'Y M d h i A', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),
   ( 'datetime'        ,  10,  3, 15, null,        'General date and time.'                                                                                                           ),
