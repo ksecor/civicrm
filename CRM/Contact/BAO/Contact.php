@@ -846,16 +846,14 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 
                 } else {
                     foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
-                        $fields = array_merge($fields, 
-                                              CRM_Core_BAO_CustomField::getFieldsForImport($type));
-                        //fix for CRM-2394
-                        if ( $type == 'Individual' || $type == 'Household' || $type == 'Organization') { 
-                            require_once "CRM/Core/OptionValue.php";
-                            $fields = array_merge( $fields,
-                                                   CRM_Core_OptionValue::getFields( )
-                                                   );
-                        }
+                        $fields = array_merge( $fields, 
+                                               CRM_Core_BAO_CustomField::getFieldsForImport($type));                        
                     }
+                    
+                    require_once "CRM/Core/OptionValue.php";
+                    $fields = array_merge( $fields, 
+                                           CRM_Core_OptionValue::getFields( '', 'All', false ) );
+                    
                 }
             
                 //fix for CRM-791

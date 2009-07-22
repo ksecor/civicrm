@@ -248,7 +248,7 @@ class CRM_Core_OptionValue
      * @access public
      * @static
      */
-    static function getFields( $mode = '' ,$contactType = 'Individual', $import = true ) 
+    static function getFields( $mode = '' , $contactType = 'Individual', $import = true ) 
     {
         if ( !self::$_fields || ! CRM_Utils_Array::value( $mode, self::$_fields ) || $mode) {
             if ( !self::$_fields ) {

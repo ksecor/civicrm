@@ -133,16 +133,6 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         //build the returnproperties
         $returnProperties = array ('display_name' => 1 );
        
-        //build returnProperties for addressee, CRM-4575  
-        require_once 'CRM/Core/OptionGroup.php';
-        $addresseeValues = CRM_Core_OptionGroup::values( 'addressee', null, null, null, null, 'name' );
-        if( !empty( $addresseeValues ) ) {
-            $addresseeValues = implode(" ",$addresseeValues);
-            $addresseeFormat = str_replace("Customized", "{contact.addressee_custom}", $addresseeValues);
-            $addresseeFormatProperties = self::getReturnProperties( $addresseeFormat );
-            $returnProperties = array_merge( $returnProperties , $addresseeFormatProperties );  
-        }
-        
         $mailingFormat = CRM_Core_BAO_Preferences::value( 'mailing_format' );
         $mailingFormatProperties = array();
         if ( $mailingFormat ) {
@@ -171,7 +161,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             $locName = $locType[$fv['location_type_id']];
             $location = array ('location' => array("{$locName}"  => $address ) ) ;
             $returnProperties = array_merge( $returnProperties , $location );
-            $params[] = array( 'location_type', '=', array( $fv['location_type_id'] => 1 ), 0, 1 );
+            $params[] = array( 'location_type', '=', array( $fv['location_type_id'] => 1 ), 0, 0 );
             
         } else {
             $returnProperties = array_merge( $returnProperties , $address );
@@ -181,15 +171,15 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
  
         foreach ( $this->_contactIds  as $key => $contactID ) {
             $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
-                               '=', 1, 0, 1);
+                               '=', 1, 0, 0);
         }
         
         // fix for CRM-2651
         if ( CRM_Utils_Array::value( 'do_not_mail', $fv ) ) {
-            $params[] = array( 'do_not_mail', '=', 0, 0, 1 );
+            $params[] = array( 'do_not_mail', '=', 0, 0, 0 );
         }
         // fix for CRM-2613
-        $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+        $params[] = array( 'is_deceased', '=', 0, 0, 0 );
 
         $custom = array( );
         foreach ( $returnProperties as $name => $dontCare ) {
@@ -197,7 +187,8 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             if ( $cfID ) {
                 $custom[] = $cfID;
             }
-        }          
+        }
+                           
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $this->_contactIds );
         require_once 'CRM/Contact/BAO/Query.php';      

@@ -154,7 +154,7 @@ class CRM_Contact_Form_Task_PDFLetterCommon
         $categories = array_keys( $tokens );        
 		
 		require_once 'CRM/Core/SelectValues.php';
-        $contactTokens = CRM_Core_SelectValues::ContactTokens();
+        $contactTokens = CRM_Core_SelectValues::contactTokens();
         $tokenKeys     = array_keys( $contactTokens );
 		
 		$html_message = str_replace( $contactTokens, $tokenKeys, $formValues['html_message'] );
@@ -168,17 +168,17 @@ class CRM_Contact_Form_Task_PDFLetterCommon
                 $returnProperties[$value] = 1; 
             }
         }
+                    
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing = & new CRM_Mailing_BAO_Mailing();
 		
         $first = TRUE;
 
         foreach ($form->_contactIds as $item => $contactId) {
-            $params  = array( 'contact_id'  => $contactId,
-                              'is_deceased' => 0 );
+            $params  = array( 'contact_id'  => $contactId );
 
-			list( $contact ) = $mailing->getDetails($params, $returnProperties );
-
+			list( $contact ) = $mailing->getDetails($params, $returnProperties, false );
+            
             if ( civicrm_error( $contact ) ) {
                 $notSent[] = $contactId;
                 continue;
@@ -186,12 +186,8 @@ class CRM_Contact_Form_Task_PDFLetterCommon
 	
 			$tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html_message, $contact[$contactId], true , $messageToken);
             $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
-
-            //CRM-4575
-            //token replacement of addressee/email/postal greetings
-            CRM_Activity_BAO_Activity::replaceGreetingTokens($tokenHtml, $contactId);
             
-            if($first == TRUE) {
+            if ( $first == TRUE ) {
               $first = FALSE;
               $html .= $tokenHtml;
             } else {

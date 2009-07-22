@@ -1882,12 +1882,12 @@ SELECT $selectClause
         $params = array( );
         foreach ( $contactIDs  as $key => $contactID ) {
             $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
-                               '=', 1, 0, 1);
+                               '=', 1, 0, 0);
         }
         
         // fix for CRM-2613
         if ( $skipDeceased ) {
-            $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+            $params[] = array( 'is_deceased', '=', 0, 0, 0 );
         }
         
         //fix for CRM-3798

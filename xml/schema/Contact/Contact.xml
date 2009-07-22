@@ -366,6 +366,7 @@
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
+       <export>false</export>
        <comment>Custom Email Greeting.</comment>
        <add>2.3</add>
   </field>
@@ -389,6 +390,7 @@
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
+       <export>false</export>
        <comment>Custom Postal greeting.</comment>
        <add>2.3</add>
   </field>
@@ -412,6 +414,7 @@
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
+       <export>false</export>
        <comment>Custom Addressee.</comment>
        <add>2.3</add>
   </field>
