@@ -64,7 +64,8 @@ class CRM_Contact_Form_Edit_OpenID
         
         $config=& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Standalone' ) { 
-            $form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, ts('Allowed to Login'));
+            $js = array( 'id' => "OpenID_".$blockId."_IsLogin", 'onClick' => 'singleSelect( this.id );');
+			$form->addElement('advcheckbox', "openid[$blockId][allowed_to_login]", null, '', $js);
         }
 
         //is_Primary radio

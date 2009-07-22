@@ -87,9 +87,9 @@ function singleSelect( object ) {
 	}
 	
 	//check if non of elements is set Primary.
-	if( element['2'].slice('2') == 'Primary' ) {
+	if( element['2'].slice('2') == 'Primary' || element['2'].slice('2') == 'Login' ) {
 		primary = false;
-		cj( 'td#' + element['0'] + '-Primary-html Input').each( function( ) { 
+		cj( 'td#' + element['0'] + '-' + element['2'].slice('2') + '-html Input').each( function( ) { 
 			selectedElement = cj(this).attr('id').split( '_', 3); 
 			if ( cj(this).attr( 'checked' ) && selectedElement['2'] == element['2']) {
 				primary = true;				
@@ -97,7 +97,7 @@ function singleSelect( object ) {
 		});
 		
 		if( ! primary ) {
-			alert('At least one ' + element['0'] +' must be set Primary !!!');
+			alert('At least one ' + element['0'] +' must be set for '+ element['2'].slice('2') +'!');
 			cj('#' + object).attr( 'checked', true );
 		}
 	}
