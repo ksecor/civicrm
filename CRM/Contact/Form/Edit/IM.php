@@ -76,8 +76,7 @@ class CRM_Contact_Form_Edit_IM
 			
         //is_Primary radio
         $js = array( 'id' => "IM_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( this.id );');
-        $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
-        $form->addGroup( $choice, "im[$blockId][is_primary]" );
+        $form->addElement( 'radio', "im[$blockId][is_primary]", '', '', '1', $js );
     }
 }
 

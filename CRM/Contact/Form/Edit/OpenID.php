@@ -70,8 +70,7 @@ class CRM_Contact_Form_Edit_OpenID
 
         //is_Primary radio
         $js = array( 'id' => "OpenID_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( this.id );');
-        $choice[] =& $form->createElement( 'radio', null, '', null, '1', $js );
-        $form->addGroup( $choice, "openid[$blockId][is_primary]" );
+        $form->addElement( 'radio', "openid[$blockId][is_primary]", '', '', '1', $js );
     }
 }
 
