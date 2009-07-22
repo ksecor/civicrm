@@ -1675,5 +1675,10 @@ DIV.buttons #icons {
 }
 
 #crm-container .hiddenElement {
-    display : none;
+    display 		: none;
+}
+
+#crm-container .boxBlock {
+	background-color: #F7F7F7;
+	border			: 1px solid #CCCCCC;
 }

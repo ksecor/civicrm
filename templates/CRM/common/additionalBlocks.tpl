@@ -19,7 +19,9 @@ function buildAdditionalBlocks( blockName, className ) {
     if ( blockName == 'Address' ) {
         elementName = "#addressBlock div";
     }
-    
+    if ( className == 'CRM_Event_Form_ManageEvent_Location' ) {
+        elementName = "#newLocation tr";
+    }
     var previousInstance = 1;
     cj( elementName ).each( function( ) {
         bID = cj(this).attr('id').split( '_', 3);
@@ -39,7 +41,7 @@ function buildAdditionalBlocks( blockName, className ) {
     var dataUrl = {/literal}"{crmURL h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentInstance;;
     
     if ( className == 'CRM_Event_Form_ManageEvent_Location' ) {
-        dataUrl += '&subPage=Location';
+        dataUrl = ( currentInstance <= 2 ) ? dataUrl + '&subPage=Location' : '';
     }
 
     {/literal}

@@ -7,7 +7,7 @@
 {/if}
 <!-Add->
 {if $blockId gt 1}<div class="spacer"></div>{/if}
- <div id="Address_Block_{$blockId}" style="background-color: #F7F7F7;border:1px solid #CCCCCC;"	class="ui-corner-all">
+ <div id="Address_Block_{$blockId}" {if $className eq 'CRM_Contact_Form_Contact'} class="boxBlock ui-corner-all" {/if}>
   <table class="form-layout-compressed">
 	{if !$defaultLocation}
      <tr>
