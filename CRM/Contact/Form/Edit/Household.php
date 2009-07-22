@@ -144,7 +144,7 @@ class CRM_Contact_Form_Edit_Household
         }
         return empty( $errors ) ? true : $errors;
     }
-
+    
     /**
      * This function synchronizes (updates) the address of individuals,
      * sharing the address of the passed household-contact-ID.
@@ -160,16 +160,19 @@ class CRM_Contact_Form_Edit_Household
         require_once 'CRM/Core/BAO/Location.php';
         $locValues =& _civicrm_location_get( array( 'contact_id' => $householdContactID ) );
         $contact   = CRM_Core_DAO::executeQuery( "SELECT id from civicrm_contact where mail_to_household_id=$householdContactID" );
-        while ( $contact->fetch( ) ) {
-            $locParams = array( 'contact_id' => $contact->id,
-                                'address'    => $locValues['address'] ); 
-            
-            // removing unwanted ids from the params array
-            foreach ( array( 'id', 'timezone', 'contact_id' ) as $fld ) {
-                if ( isset( $locParams['address'][1][$fld] ) ) unset( $locParams['address'][1][$fld] );
+        
+        if ( CRM_Utils_Array::value( 'address', $locValues ) && count( $locValues['address'] ) ) {
+            while ( $contact->fetch( ) ) {
+                $locParams = array( 'contact_id' => $contact->id,
+                                    'address'    => array( 1 => $locValues['address'][1] ) ); 
+                
+                // removing unwanted ids from the params array
+                foreach ( array( 'id', 'timezone', 'contact_id' ) as $fld ) {
+                    if ( isset( $locParams['address'][1][$fld] ) ) unset( $locParams['address'][1][$fld] );
+                }
+                
+                CRM_Core_BAO_Location::create( $locParams );
             }
-            
-            CRM_Core_BAO_Location::create( $locParams );
         }
     }
 }
