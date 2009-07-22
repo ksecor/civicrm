@@ -328,13 +328,13 @@ class CRM_Contact_BAO_Query
         // CRM_Core_Error::debug( 'post', $_POST );
         // CRM_Core_Error::debug( 'r', $returnProperties );
         $this->_params =& $params;
-        
+                    
         if ( empty( $returnProperties ) ) {
             $this->_returnProperties =& self::defaultReturnProperties( $mode );
         } else {
             $this->_returnProperties =& $returnProperties;
         }
-
+        
         $this->_includeContactIds       = $includeContactIds;
         $this->_strict                  = $strict;
         $this->_mode                    = $mode;
@@ -505,7 +505,12 @@ class CRM_Contact_BAO_Query
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
                             if ( in_array( $tableName, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+                                //get display
                                 $greetField = "{$name}_display";
+                                $this->_select [ $greetField ] = "contact_a.{$greetField} as {$greetField}";
+                                $this->_element[ $greetField ] = 1;
+                                //get custom
+                                $greetField = "{$name}_custom";
                                 $this->_select [ $greetField ] = "contact_a.{$greetField} as {$greetField}";
                                 $this->_element[ $greetField ] = 1;
                             }
@@ -2962,14 +2967,14 @@ WHERE  id IN ( $groupIDs )
      */
     static function apiQuery( $params = null,
                               $returnProperties = null,
-                              $options = null,
+                              $fields = null,
                               $sort = null,
                               $offset = 0,
                               $row_count = 25,
                               $smartGroupCache = true )
     {
         $query =& new CRM_Contact_BAO_Query( $params, $returnProperties,
-                                             null, true, false, 1,
+                                             $fields, true, false, 1,
                                              false, true, $smartGroupCache );
  
         list( $select, $from, $where ) = $query->query( );

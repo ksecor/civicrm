@@ -928,19 +928,10 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
         $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
         
-        //set default values of custom email/postal greeting or addressee on profile, CRM-4575
-        $elements = array( 'email_greeting' => 'email_greeting_custom', 
-                           'postal_greeting' => 'postal_greeting_custom', 
-                           'addressee' => 'addressee_custom' );
-        foreach( $elements as $field => $customField ) {
-            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
-                $returnProperties[$customField] = 1;
-            }
-        }      
         // we dont know the contents of return properties, but we need the lower level ids of the contact
         // so add a few fields
         $returnProperties['first_name'] = $returnProperties['organization_name'] = $returnProperties['household_name'] = $returnProperties['contact_type'] = 1;
-        return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );        
+        return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $fields );        
     }
 
     /**
