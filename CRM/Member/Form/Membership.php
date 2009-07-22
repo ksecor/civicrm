@@ -355,7 +355,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_Membership', 'source' ) );
         
         if ( !$this->_mode ) {
-            $this->add('select', 'status_id', ts( 'Status' ), 
+            $this->add('select', 'status_id', ts( 'Membership Status' ), 
                        array(''=>ts( '- select -' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
             $this->addElement('checkbox', 'is_override', 
                               ts('Status Override?'), null, 

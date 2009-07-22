@@ -83,7 +83,7 @@
     {* Show read-only Status block - when action is UPDATE and is_override is FALSE *}
         <tr id="memberStatus_show">
         {if $action eq 2}
-        <td class="label">{$form.status_id.label}</td><td>{$membershipStatus}
+        <td class="label">{$form.status_id.label}</td><td class="view-value">{$membershipStatus}
              {if $membership_status_id eq 5}{if $is_pay_later}: {ts}Pay Later{/ts}{else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td>
         {/if}
         </tr>
