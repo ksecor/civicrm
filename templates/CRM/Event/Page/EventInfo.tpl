@@ -40,9 +40,6 @@
                         <td style="vertical-align:top;" height="auto"><label>{ts}Location{/ts}</label></td>
                         <td style="vertical-align:top;" height="auto">
                         {$location.address.1.display|nl2br}
-                            {if ( $event.is_map && $config->mapAPIKey && ( is_numeric($location.address.1.geo_code_1)  || ( $config->mapGeoCoding && $location.address.1.city AND $location.address.1.state_province ) ) ) && !$locations }
-                                <br/><a href="{$mapURL}" title="{ts}Map this Address{/ts}">{ts}Map this Location{/ts}</a>
-                            {/if}
                             </td>
                             {if ( $event.is_map && $config->mapAPIKey && ( is_numeric($location.address.1.geo_code_1)  || ( $config->mapGeoCoding && $location.address.1.city AND $location.address.1.state_province ) ) ) }
                                 <td style="vertical-align:top;" rowspan=3 align="left">
@@ -52,6 +49,7 @@
                                 {elseif $mapProvider eq 'Yahoo'}
                                     {include file="CRM/Contact/Form/Task/Map/Yahoo.tpl"  fields=$showDirectly}
                                 {/if}
+                                <br/><a href="{$mapURL}" title="{ts}Show large map{/ts}">{ts}Show large map{/ts}</a>
                                 </td>
                             {/if}
                     </tr> 

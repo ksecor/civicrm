@@ -34,5 +34,5 @@
 
 {htxt id="id-is_map"}
 {capture assign=mapURL}{crmURL p='civicrm/admin/setting/mapping' q="reset=1"}{/capture} 
-{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href='%1'>Global Settings &raquo; Mapping</a>){/ts}
+{ts 1=$mapURL}Include map presenting event location on event information page? (A map provider must be configured under <a href='%1'>Global Settings &raquo; Mapping</a>){/ts}
 {/htxt}
