@@ -180,8 +180,8 @@ function selectValue( val ) {
 
     function tokenReplText ( )
     {
-        var token = document.getElementById("token1").options[document.getElementById("token1").selectedIndex].text;
-        var msg       = document.getElementById("text_message").value;
+        var token     = cj("#token1").val( );
+        var msg       = cj("#text_message").val( );
         var cursorlen = document.getElementById("text_message").selectionStart;
         var textlen   = msg.length;
         document.getElementById("text_message").value = msg.substring(0, cursorlen) + token + msg.substring(cursorlen, textlen);
@@ -194,13 +194,13 @@ function selectValue( val ) {
 
     function tokenReplHtml ( )
     {
-        var token2 = document.getElementById("token2").options[document.getElementById("token2").selectedIndex].text;
+        var token2     = cj("#token2").val( );
         var editor = {/literal}"{$editor}"{literal};
         if ( editor == "tinymce" ) {
             cj('#html_message').tinymce().execCommand('mceInsertContent',false, token2);
         } else if ( editor == "fckeditor" ) {
             oEditor = FCKeditorAPI.GetInstance('html_message');
-            oEditor.InsertHtml( token2 );	
+            oEditor.InsertHtml( token2.toString() );
         } else {
             var msg       = document.getElementById("html_message").value;
             var cursorlen = document.getElementById("html_message").selectionStart;
