@@ -268,16 +268,16 @@ class CRM_Contact_Form_Edit_Individual {
  
         $addressFields = CRM_Core_DAO_Address::fields();
         foreach($addressFields as  $key =>$val ){
-		   if( !CRM_Utils_Array::value( $key, $values[1]['address'] ) ){
-                $values[1]['address'][$key]="";
+		   if( !CRM_Utils_Array::value( $key, $values['address'][1] ) ){
+                $values['address'][1][$key]="";
             }
         }
 		
-        if( $values[1]['address']['country_id']=="null"){
-            $values[1]['address']['country_id']=0;
+        if( $values['address'][1]['country_id']=="null"){
+            $values['address'][1]['country_id']=0;
         }
-        if( $values[1]['address']['state_province_id']=="null"){
-            $values[1]['address']['state_province_id']=0;
+        if( $values['address'][1]['state_province_id']=="null"){
+            $values['address'][1]['state_province_id']=0;
         }
       
         $params['address'][1] = $values['address'][1];
