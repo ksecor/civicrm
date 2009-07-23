@@ -184,6 +184,7 @@ AND    civicrm_membership.is_test = 0
             
             //send reminder for membership renewal
             if ( $dao->reminder_date &&
+                 $dao->reminder_date != '0000-00-00' &&
                  ( $reminder_date <= $today_date ) ) {
                 $memType =& new CRM_Member_BAO_MembershipType( );
                 
