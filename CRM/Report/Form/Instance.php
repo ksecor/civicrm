@@ -32,6 +32,8 @@
  * $Id$
  *
  */
+require_once 'CRM/Core/BAO/Navigation.php';
+require_once 'CRM/Core/Permission.php';
 
 class CRM_Report_Form_Instance {
 
@@ -73,12 +75,17 @@ class CRM_Report_Form_Instance {
                     ts( 'Report Footer' ),
                     $attributes['footer'] );
         
-        require_once 'CRM/Core/Permission.php';
         $msEle = $form->addElement( 'select',
                                     'permission',
                                     ts( 'Permission' ),
                                     array( '0' => '- Any One -') + CRM_Core_Permission::basicPermissions( ) );
 
+        //navigation field
+        $parentMenu = array( );
+        CRM_Core_BAO_Navigation::getNavigationList( $parentMenu );
+       
+        $form->add( 'select', 'parent_id', ts( 'Parent Menu' ), array( '' => ts('-- select --') ) + $parentMenu );
+        
         $form->addButtons( array(
                                  array ( 'type'      => 'submit',
                                          'name'      => ts('Save Report'),
@@ -108,7 +115,7 @@ class CRM_Report_Form_Instance {
 
     static function setDefaultValues( &$form, &$defaults ) {
         $instanceID = $form->getVar( '_id' );
-
+        $navigationDefaults = array();
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton(); 
         $defaults['report_header'] = $report_header = "<html>
@@ -132,18 +139,39 @@ class CRM_Report_Form_Instance {
             
             if ( CRM_Utils_Array::value( 'footer', $defaults ) ) {
                 $defaults['report_footer'] = $defaults['footer'];
-            } 
+            }
+            //get the default navigation parent id
+            $params = array( 'url' => "civicrm/report/instance/{$instanceID}&reset=1" );
+            CRM_Core_BAO_Navigation::retrieve( $params, $navigationDefaults );
+
+            $defaults['parent_id'] = CRM_Utils_Array::value( 'parent_id', $navigationDefaults );
+            if ( CRM_Utils_Array::value( 'id', $navigationDefaults ) ) {
+                $form->_navigation['id'] = $navigationDefaults['id'];
+            }
         } else {
-            $defaults['description']   = $form->_description;
+            $defaults['description'] = $form->_description;
         }
     }
 
     static function postProcess( &$form ) {
         $params = $form->getVar( '_params' );
         $config =& CRM_Core_Config::singleton(); 
-
         $params['header']    = $params['report_header'];
         $params['footer']    = $params['report_footer'];
+
+        //navigation parameters
+        if ( CRM_Utils_Array::value( 'parent_id', $params ) ) {
+            $form->_navigation['parent_id']  = $params['parent_id'];
+            $form->_navigation['label']      = $params['title'];
+            $form->_navigation['name']       = $params['title'];
+            $form->_navigation['permission'] = array( CRM_Utils_Array::value( 'permission', $params ) );
+            if ( CRM_Utils_Array::value( 'id', $form->_navigation ) ) {
+                $form->_navigation['weight'] =
+                    CRM_Core_BAO_Navigation::calculateWeight($params['parent_id']);
+            }
+            $form->_navigation['is_active']  = 1;
+            unset($params['parent_id']);
+        }
 
         require_once 'CRM/Report/DAO/Instance.php';
         $dao = new CRM_Report_DAO_Instance( );
@@ -173,6 +201,13 @@ class CRM_Report_Form_Instance {
 
         $form->set( 'id', $dao->id );
         if ( $dao->id ) {
+            if ( !empty($form->_navigation) ) {
+                $form->_navigation['url'] = "civicrm/report/instance/{$dao->id}&reset=1";
+                CRM_Core_BAO_Navigation::add( $form->_navigation );
+                //reset navigation
+                CRM_Core_BAO_Navigation::resetNavigation( );
+            }
+            
             $instanceParams   = array( 'value' => $dao->report_id );
             $instanceDefaults = array();
             $cmpName   = "Contact";
