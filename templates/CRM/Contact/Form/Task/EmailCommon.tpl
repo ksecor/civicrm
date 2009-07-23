@@ -194,7 +194,7 @@ function selectValue( val ) {
 
     function tokenReplHtml ( )
     {
-        var token2     = cj("#token2").val( );
+        var token2     = cj("#token2").val( )[0];
         var editor = {/literal}"{$editor}"{literal};
         if ( editor == "tinymce" ) {
             cj('#html_message').tinymce().execCommand('mceInsertContent',false, token2);
