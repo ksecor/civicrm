@@ -329,6 +329,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 			CRM_Custom_Form_Customdata::setDefaultValues( $this );
 
 		}
+        
+        // CRM-4395, get the online pending contribution id.
+        $this->_onlinePendingContributionId = null;
+        if ( !$this->_mode && $this->_participantId && ($this->_action & CRM_Core_Action::UPDATE) ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $this->_onlinePendingContributionId = 
+                CRM_Contribute_BAO_Contribution::checkOnlinePendingContribution( $this->_participantId, 
+                                                                                 'Event' );
+        }
+        $this->set( 'onlinePendingContributionId', $this->_onlinePendingContributionId );
     }
     
     /**
@@ -434,7 +444,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                $defaults[$this->_participantId]['id'], 
                                                                'contribution_id', 
                                                                'participant_id' );
-          
+            
             //contribution record exists for this participation
             if ( $recordContribution ) {
                 foreach( array('contribution_type_id', 'payment_instrument_id','contribution_status_id', 'receive_date' ) 
@@ -588,22 +598,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                               $this->_participantId, 'contribution_id', 'participant_id' ) ) {
                 $element->freeze();
             }
-            
-            // get user feedback about update related contribution record, CRM-4395.
-            require_once 'CRM/Core/Payment/BaseIPN.php';
-            $registrationDetails = CRM_Core_Payment_BaseIPN::getComponentDetails( $this->_participantId, 'Event' );
-            $hasOnlineContribution = false;
-            if ( CRM_Utils_Array::value( 'contribution', $registrationDetails ) && 
-                 (strpos( CRM_Core_DAO::getFieldValue('CRM_Contribute_DAO_Contribution',$registrationDetails['contribution'],'source'), 
-                          ts( 'Online Event Registration' ) ) !== false || 
-                  CRM_Core_DAO::getFieldValue('CRM_Contribute_DAO_FinancialTrxn', 
-                                              $registrationDetails['contribution'], 'id', 'contribution_id') ) ) {
-                $this->addElement('checkbox', 
-                                  'update_contribution_status', 
-                                  ts('Update Contribution Status') );
-                $hasOnlineContribution = true;
-            }
-            $this->assign( 'hasOnlineContribution', $hasOnlineContribution );
         }
        
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),
@@ -717,10 +711,36 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             CRM_Event_BAO_Participant::deleteParticipant( $this->_participantId );
             return;
         }
-
+        
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-
+        
+        // CRM-4395
+        if ( $this->_onlinePendingContributionId && 
+             CRM_Utils_Array::value( 'record_contribution', $params ) ) {
+            $ipnParams = array( 'event_id'        => $params['event_id'],
+                                'contact_id'      => $this->_contactID,
+                                'component_id'    => $this->_participantId,
+                                'componentName'   => 'Event',
+                                'contribution_id' => $this->_onlinePendingContributionId );
+            $fields = array( 'total_amount', 'fee_amount', 'check_number', 'trxn_id',
+                             'receive_date', 'payment_instrument_id', 'contribution_status_id' ); 
+            foreach ( $fields as $field ) {
+                if ( $value = CRM_Utils_Array::value( $field, $params ) ) {
+                    $ipnParams[$field] = $value;
+                }
+            }
+            
+            require_once 'CRM/Core/Payment/BaseIPN.php';
+            $changedStatusId = CRM_Core_Payment_BaseIPN::updateContributionStatus( $ipnParams );
+            
+            if ( $changedStatusId ) {
+                CRM_Core_Session::setStatus( ts( 'Related Online Pending Contribution status has been updated.' ) );
+            }
+            
+            return;
+        }
+        
         // set the contact, when contact is selected
         if ( CRM_Utils_Array::value('contact_select_id', $params ) ) {
             $this->_contactID = CRM_Utils_Array::value('contact_select_id', $params);
@@ -1052,14 +1072,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
         }
         
-        //CRM-4395
-        $updateOnlineContribution = false;
-        if ( CRM_Utils_Array::value( 'update_contribution_status', $params ) ) {
-            require_once 'CRM/Core/Payment/BaseIPN.php';
-            $updateOnlineContribution = CRM_Core_Payment_BaseIPN::updateContributionStatus( $this->_participantId, 
-                                                                                            $params['status_id'], 'Event' );
-        }
-        
         $updateStatusMsg = null;
         //send mail when participant status changed, CRM-4326
         if ( $this->_participantId && $this->_statusId && 
@@ -1223,10 +1235,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $statusMsg = ts('Event registration information for %1 has been updated.', array(1 => $this->_contributorDisplayName));
             if ( $params['send_receipt']  && count($sent) ) {
                 $statusMsg .= ' ' .  ts('A confirmation email has been sent to %1', array(1 => $this->_contributorEmail));
-            }
-            
-            if ( $updateOnlineContribution ) {
-                $statusMsg .= ts('<br />Also related Online Contribution status has been updated.' );
             }
             
             if ( $updateStatusMsg ) {

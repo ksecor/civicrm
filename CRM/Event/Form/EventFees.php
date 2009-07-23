@@ -367,6 +367,17 @@ class CRM_Event_Form_EventFees
         //CRM-4453
         $form->assign( 'fee_currency', $defaults[$form->_pId]['participant_fee_currency']);
         
+        // CRM-4395 
+        if ( $contriId = $form->get( 'onlinePendingContributionId' ) ) {
+            require_once 'CRM/Contribute/DAO/Contribution.php';
+            $contribution =& new CRM_Contribute_DAO_Contribution( );
+            $contribution->id = $contriId;
+            $contribution->find( true );
+            foreach( array('contribution_type_id', 'payment_instrument_id','contribution_status_id', 'receive_date' ) as $f ) {
+                $defaults[$form->_pId][$f] = $contribution->$f;
+            }
+        }
+        
         return $defaults[$form->_pId];
     }
     
@@ -454,11 +465,21 @@ class CRM_Event_Form_EventFees
                                     'objectExists', array( 'CRM_Contribute_DAO_Contribution', $form->_eventId, 'trxn_id' ) );
                     $form->assign('showTransactionId', true );
                 }
-            
+                
+                $allowStatuses = array( );
+                $statuses = CRM_Contribute_PseudoConstant::contributionStatus( );
+                if ( $form->get( 'onlinePendingContributionId' )  ) {
+                    $statusNames = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
+                    foreach ( $statusNames as $val => $name ) {
+                        if ( in_array( $name, array( 'Completed', 'Cancelled', 'Failed' ) ) ) {
+                            $allowStatuses[$val] = $statuses[$val]; 
+                        }
+                    }
+                } else {
+                    $allowStatuses = $statuses;
+                }
                 $form->add('select', 'contribution_status_id',
-                           ts('Payment Status'), 
-                           CRM_Contribute_PseudoConstant::contributionStatus( )
-                           );
+                           ts('Payment Status'), $allowStatuses );
                 
                 $form->add( 'text', 'check_number', ts('Check Number'), 
                             CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution', 'check_number' ) );
@@ -467,6 +488,7 @@ class CRM_Event_Form_EventFees
         } else {
             $form->add( 'text', 'amount', ts('Event Fee(s)') );
         }
+        $form->assign( 'onlinePendingContributionId', $form->get( 'onlinePendingContributionId' ) );
         
         $form->assign("paid", $form->_isPaidEvent );
         

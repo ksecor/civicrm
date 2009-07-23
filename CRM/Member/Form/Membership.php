@@ -46,10 +46,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 {
     protected $_memType = null;
     
-    /* store the online contribution id. 
-     *
-     */
-    protected $_onlineContributionId = null;
     
     public function preProcess()  
     {  
@@ -145,12 +141,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         // CRM-4395, get the online pending contribution id.
-        if ( $this->_id && $this->_action & CRM_Core_Action::UPDATE ) {
+        $this->_onlinePendingContributionId = null;
+        if ( !$this->_mode && $this->_id && ($this->_action & CRM_Core_Action::UPDATE) ) {
             require_once 'CRM/Contribute/BAO/Contribution.php';
-            $this->_onlineContributionId = CRM_Contribute_BAO_Contribution::checkOnlinePendingContribution( $this->_id, 
-                                                                                                            'Membership' );
+            $this->_onlinePendingContributionId = CRM_Contribute_BAO_Contribution::checkOnlinePendingContribution( $this->_id, 
+                                                                                                                   'Membership' );
         }
-        $this->assign( 'onlinePendingContributionId', $this->_onlineContributionId );
+        $this->assign( 'onlinePendingContributionId', $this->_onlinePendingContributionId );
         
         parent::preProcess( );
     }
@@ -190,10 +187,14 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         if ( CRM_Utils_Array::value( 'id' , $defaults ) ) {
-            $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
-                                                                            $defaults['id'], 
-                                                                            'contribution_id', 
-                                                                            'membership_id' );
+            if ( $this->_onlinePendingContributionId ) {
+                $defaults['record_contribution'] = $this->_onlinePendingContributionId;
+            } else {
+                $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
+                                                                                $defaults['id'], 
+                                                                                'contribution_id', 
+                                                                                'membership_id' );
+            }
         }
         
         if ( $this->_memType ) {
@@ -402,8 +403,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                             'objectExists', array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );
             
             $allowStatuses = array( );
-            $statuses = CRM_Contribute_PseudoConstant::contributionStatus( null, 'label' );
-            if ( $this->_onlineContributionId ) {
+            $statuses = CRM_Contribute_PseudoConstant::contributionStatus( );
+            if ( $this->_onlinePendingContributionId ) {
                 $statusNames = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
                 foreach ( $statusNames as $val => $name ) {
                     if ( in_array( $name, array( 'Completed', 'Cancelled', 'Failed' ) ) ) {
@@ -578,21 +579,29 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->_params = $formValues = $this->controller->exportValues( $this->_name );
         
         //CRM-4395
-        if ( $this->_onlineContributionId  && 
-             CRM_Utils_Array::value( 'record_contribution', $formValues ) &&
-             ($this->_action & CRM_Core_Action::UPDATE) ) {
-            $params['contact_id']      = $this->_contactID;
-            $params['component_id']    = $this->_id;
-            $params['componentName']   = 'Membership';
-            $params['contribution_id'] = $this->_onlineContributionId;
+        if ( $this->_onlinePendingContributionId && 
+             CRM_Utils_Array::value( 'record_contribution', $formValues ) ) {
+            $params = array( 'contact_id'      => $this->_contactID,
+                             'component_id'    => $this->_id,
+                             'componentName'   => 'Membership',
+                             'contribution_id' => $this->_onlinePendingContributionId );
+            
             $fields = array( 'total_amount', 'fee_amount', 'check_number', 'trxn_id',
                              'receive_date', 'payment_instrument_id', 'contribution_status_id' ); 
             foreach ( $fields as $field ) {
-                $params[$field] = CRM_Utils_Array::value( $field, $formValues );  
+                if ( $value = CRM_Utils_Array::value( $field, $formValues ) ) {
+                    $params[$field] = $value;
+                }
             }
             
             require_once 'CRM/Core/Payment/BaseIPN.php';
-            $changedStatus = CRM_Core_Payment_BaseIPN::updateContributionStatus( $params );
+            $changedStatusId = CRM_Core_Payment_BaseIPN::updateContributionStatus( $params );
+            
+            if ( $changedStatusId ) {
+                $statuses = CRM_Contribute_PseudoConstant::contributionStatus(  );
+                CRM_Core_Session::setStatus( ts( 'Related Online Pending Contribution status has been updated.' ) );
+            }
+            
             return;
         }
         
@@ -936,9 +945,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
             if ( $receiptSend ) {
                 $statusMsg .= ' '.ts('A confirmation for membership updation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
-            }
-            if ( $updateOnlineContribution ) {
-                $statusMsg .= ts('<br />Also related Online Contribution status has been updated.' );
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             require_once 'CRM/Core/DAO.php';

@@ -841,16 +841,23 @@ class CRM_Core_Payment_BaseIPN {
         }
         
         //set values for ipn code.
-        $input['amount']                = CRM_Utils_Array::value( 'total_amount', $params,  $contribution->total_amount );
-        $input['fee_amount']            = CRM_Utils_Array::value( 'fee_amount',   $params,  $contribution->fee_amount   );
-        $input['check_number']          = CRM_Utils_Array::value( 'check_number', $params,  $contribution->check_number );
-        $input['trxn_id']               = CRM_Utils_Array::value( 'trxn_id',      $params,  $contribution->invoice_id   );
-        $input['trxn_date']             = CRM_Utils_Array::value( 'receive_date', $params,  self::$_now                 );
-        $input['is_test']               = $contribution->is_test;
-        $input['payment_instrument_id'] = CRM_Utils_Array::value( 'payment_instrument_id', $params,  
-                                                                  $contribution->payment_instrument_id );
-        
-        $input['net_amount']            = $contribution->fee_amount;
+        $fields = array( 'fee_amount', 'check_number', 'payment_instrument_id' );
+        foreach ( $fields as $field ) {
+            $input[$field] = $contribution->$field;
+            if ( $value = CRM_Utils_Array::value( $field, $params ) ) {
+                $input[$field] = $value;
+            }
+        }
+        $input['trxn_id'] = $contribution->invoice_id;
+        if ( $value = CRM_Utils_Array::value( 'trxn_id', $params ) ) {
+            $input['trxn_id'] = $value;
+        }
+        $input['amount'] = $contribution->total_amount;
+        if ( $value = CRM_Utils_Array::value( 'total_amount', $params ) ) {
+            $input['amount'] = $value;
+        }
+        $input['is_test']    = $contribution->is_test;
+        $input['net_amount'] = $contribution->net_amount;
         if ( CRM_Utils_Array::value( 'fee_amount', $input ) && CRM_Utils_Array::value( 'amount', $input ) ) {
             $input['net_amount'] = $input['amount'] - $input['fee_amount'];
         }
