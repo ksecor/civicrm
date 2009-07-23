@@ -196,12 +196,12 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
         
         $this->_from = null;
         $this->_from = "
-        FROM  civicrm_relationship relationship 
+        FROM  civicrm_relationship  {$this->_aliases['civicrm_relationship']}
             LEFT  JOIN civicrm_contact {$this->_aliases['civicrm_contact_organization']} ON 
-                      ({$this->_aliases['civicrm_contact_organization']}.id = relationship.$this->orgContact AND {$this->_aliases['civicrm_contact_organization']}.contact_type='Organization')
+                      ({$this->_aliases['civicrm_contact_organization']}.id = {$this->_aliases['civicrm_relationship']}.$this->orgContact AND {$this->_aliases['civicrm_contact_organization']}.contact_type='Organization')
             LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} ON 
-                      ({$this->_aliases['civicrm_contact']}.id = relationship.$this->otherContact )           INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON
-                      ({$this->_aliases['civicrm_contribution']}.contact_id = relationship.$this->otherContact )";
+                      ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_relationship']}.$this->otherContact )           INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON
+                      ({$this->_aliases['civicrm_contribution']}.contact_id = {$this->_aliases['civicrm_relationship']}.$this->otherContact )";
         
         if( $this->_addressField ) {
             $this->_from .= " 
@@ -233,7 +233,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                         $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
                         if ( $op ) {
                             if( $fieldName == 'relationship_type_id' ) {
-                                $clause =  "relationship.relationship_type_id=".$this->relationshipId;
+                                $clause =  "{$this->_aliases['civicrm_relationship']}.relationship_type_id=".$this->relationshipId;
                             } else {
                                 $clause = 
                                     $this->whereClause( $field,
@@ -261,7 +261,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
     
     
     function groupBy( ) {
-        $this->_groupBy = " GROUP BY relationship.$this->orgContact, relationship.$this->otherContact , contribution.id, relationship.relationship_type_id ";
+        $this->_groupBy = " GROUP BY {$this->_aliases['civicrm_relationship']}.$this->orgContact, {$this->_aliases['civicrm_relationship']}.$this->otherContact , {$this->_aliases['civicrm_contribution']}.id, {$this->_aliases['civicrm_relationship']}.relationship_type_id ";
     }
     
     function statistics( &$rows ) {
