@@ -2974,7 +2974,7 @@ WHERE  id IN ( $groupIDs )
                               $smartGroupCache = true )
     {
         $query =& new CRM_Contact_BAO_Query( $params, $returnProperties,
-                                             $fields, true, false, 1,
+                                             null, true, false, 1,
                                              false, true, $smartGroupCache );
  
         list( $select, $from, $where ) = $query->query( );
