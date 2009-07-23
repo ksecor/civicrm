@@ -1556,12 +1556,12 @@ AND cl.modified_id  = c.id
         
         // check if there are any tokens
         $greetingTokens = self::getTokens( $tokenString );
-                    
+                                        
         if ( !empty($greetingTokens) ) {
             // first use the existing contact object for token replacement
             if ( !empty( $contactDetails ) ) {
                 require_once 'CRM/Utils/Token.php';
-                $tokenString = CRM_Utils_Token::replaceContactTokens( $tokenString, $contactDetails, true , $greetingTokens);
+                $tokenString = CRM_Utils_Token::replaceContactTokens( $tokenString, $contactDetails, true , $greetingTokens, true );
             }
             
             // check if there are any unevaluated tokens

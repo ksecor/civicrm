@@ -422,24 +422,24 @@ class CRM_Utils_Token
      * Replace all the contact-level tokens in $str with information from
      * $contact.
      *
-     * @param string $str         The string with tokens to be replaced
-     * @param array $contact      Associative array of contact properties
-     * @param boolean $html       Replace tokens with HTML or plain text
-     * @param array $knownTokens  A list of tokens that are known to exist in the email body
-     * @return string             The processed string
+     * @param string  $str               The string with tokens to be replaced
+     * @param array   $contact           Associative array of contact properties
+     * @param boolean $html              Replace tokens with HTML or plain text
+     * @param array   $knownTokens       A list of tokens that are known to exist in the email body
+     * @param boolean $returnBlankToken  return unevaluated token if value is null
+     * @return string                    The processed string
      * @access public
      * @static
      */
-    public static function &replaceContactTokens($str, &$contact, $html = false, $knownTokens = null) {
+    public static function &replaceContactTokens($str, &$contact, $html = false, $knownTokens = null, $returnBlankToken = false ) {
         $key = 'contact';
         if (self::$_tokens[$key] == null) {
             /* This should come from UF */
             self::$_tokens[$key] =
-                array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields('All') ),
-                             array( 'display_name', 'checksum', 'contact_id',
-                                    'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region' ) );
+                array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields('All') ),
+                             array( 'checksum', 'contact_id' ) );
         }
-
+        
         // here we intersect with the list of pre-configured valid tokens
         // so that we remove anything we do not recognize
         // I hope to move this step out of here soon and
@@ -447,20 +447,20 @@ class CRM_Utils_Token
         if ( !$knownTokens || ! CRM_Utils_Array::value( $key, $knownTokens ) ) return $str;
 
         $str = preg_replace(self::tokenRegex($key),
-                            'self::getContactTokenReplacement(\'\\1\', $contact, $html)',
+                            'self::getContactTokenReplacement(\'\\1\', $contact, $html, $returnBlankToken)',
                             $str);
        
         $str = str_replace( '{ }', ' ', $str );
         return $str;
     }
     
-    public function getContactTokenReplacement($token, &$contact, $html = false)
+    public function getContactTokenReplacement($token, &$contact, $html = false, $returnBlankToken = false )
     {
         if (self::$_tokens['contact'] == null) {
             /* This should come from UF */
             self::$_tokens['contact'] =
-                array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( 'All' ) ),
-                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region' ) );
+                array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( 'All' ) ),
+                             array( 'checksum', 'contact_id' ) );
         }
         
         /* Construct value from $token and $contact */
@@ -469,7 +469,7 @@ class CRM_Utils_Token
         // check if the token we were passed is valid
         // we have to do this because this function is
         // called only when we find a token in the string
-        
+            
         if (!in_array($token,self::$_tokens['contact'])) {
             $value = "{contact.$token}";
         } else if ( $token == 'checksum' ) {
@@ -483,7 +483,12 @@ class CRM_Utils_Token
         if (!$html) {
             $value = str_replace('&amp;', '&', $value);
         }
-
+        
+        // if null then return actual token
+        if ( $returnBlankToken && !$value ) {
+            $value = "{contact.$token}";
+        }
+        
         return $value;
     }
 
