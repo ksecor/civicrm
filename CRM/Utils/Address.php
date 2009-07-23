@@ -132,9 +132,9 @@ class CRM_Utils_Address
                       'organization_name'      => CRM_Utils_Array::value( 'display_name', $fields ),
                       'legal_name'             => CRM_Utils_Array::value( 'legal_name', $fields ),
                       'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields ),
-                      'addressee_display'      => CRM_Utils_Array::value( 'addressee_display', $fields ),
-                      'email_greeting_display' => CRM_Utils_Array::value( 'email_greeting_display', $fields ),
-                      'postal_greeting_display' => CRM_Utils_Array::value( 'postal_greeting_display', $fields )
+                      'addressee'              => CRM_Utils_Array::value( 'addressee_display', $fields ),
+                      'email_greeting'         => CRM_Utils_Array::value( 'email_greeting_display', $fields ),
+                      'postal_greeting'        => CRM_Utils_Array::value( 'postal_greeting_display', $fields )
                        );
         } else {
             $replacements =

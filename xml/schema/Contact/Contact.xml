@@ -375,7 +375,6 @@
        <title>Email Greeting</title>
        <type>varchar</type>
        <length>225</length>
-       <export>true</export>
        <comment>Cache Email Greeting.</comment>
        <add>2.3</add>
   </field>
@@ -399,7 +398,6 @@
        <title>Postal Greeting</title>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
        <comment>Cache Postal greeting.</comment>
        <add>2.3</add>
   </field>
@@ -423,7 +421,6 @@
        <title>Addressee</title>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
        <comment>Cache Addressee.</comment>
        <add>2.3</add>
   </field>

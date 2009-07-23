@@ -248,7 +248,7 @@ class CRM_Core_OptionValue
      * @access public
      * @static
      */
-    static function getFields( $mode = '' , $contactType = 'Individual', $import = true ) 
+    static function getFields( $mode = '' , $contactType = 'Individual' ) 
     {
         if ( !self::$_fields || ! CRM_Utils_Array::value( $mode, self::$_fields ) || $mode) {
             if ( !self::$_fields ) {
@@ -271,27 +271,26 @@ class CRM_Core_OptionValue
             } else if ( $mode == '' ) {  
                 //the fields email greeting and postal greeting are meant only for Individual and Household
                 //the field addressee is meant for all contact types, CRM-4575
-                if ( $import ) {
-                    if ( in_array($contactType, array('Individual', 'Household', 'Organization', 'All') ) ) {
-                        $nameTitle = array( 'addressee'     => array('name' => 'addressee',
-                                                                     'title'=> 'Addressee',
-                                                                     'headerPattern' => '/^addressee$/i'
-                                                                     ),
-                                            );
-                    }
-                    if ( $contactType == 'Individual' || $contactType == 'Household' || $contactType == 'All' ) {
-                        $title = array( 'email_greeting'    => array('name' => 'email_greeting',
-                                                                     'title'=> 'Email Greeting',
-                                                                     'headerPattern' => '/^email_greeting$/i'
-                                                                     ),  
-                                        'postal_greeting'   => array('name' => 'postal_greeting',
-                                                                     'title'=> 'Postal Greeting',
-                                                                     'headerPattern' => '/^postal_greeting$/i'
-                                                                     ),
+                if ( in_array($contactType, array('Individual', 'Household', 'Organization', 'All') ) ) {
+                    $nameTitle = array( 'addressee'     => array('name' => 'addressee',
+                                                                 'title'=> 'Addressee',
+                                                                 'headerPattern' => '/^addressee$/i'
+                                                                 ),
                                         );
-                        $nameTitle = array_merge( $nameTitle, $title );
-                    }
                 }
+                if ( $contactType == 'Individual' || $contactType == 'Household' || $contactType == 'All' ) {
+                    $title = array( 'email_greeting'    => array('name' => 'email_greeting',
+                                                                 'title'=> 'Email Greeting',
+                                                                 'headerPattern' => '/^email_greeting$/i'
+                                                                 ),  
+                                    'postal_greeting'   => array('name' => 'postal_greeting',
+                                                                 'title'=> 'Postal Greeting',
+                                                                 'headerPattern' => '/^postal_greeting$/i'
+                                                                 ),
+                                    );
+                    $nameTitle = array_merge( $nameTitle, $title );
+                }
+
                 if ( $contactType == 'Individual' || $contactType == 'All') {
                     $title = array( 'gender'            => array('name' => 'gender',
                                                                  'title'=> 'Gender',

@@ -794,7 +794,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 // the fields are meant for contact types
                 if ( in_array( $contactType, array('Individual', 'Household', 'Organization') ) ) {
                     require_once 'CRM/Core/OptionValue.php';
-                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( '', $contactType, false ) );  
+                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( '', $contactType ) );  
                 }
                 // add current employer for individuals
                 $fields = array_merge( $fields, array( 'current_employer' =>
@@ -852,7 +852,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     
                     require_once "CRM/Core/OptionValue.php";
                     $fields = array_merge( $fields, 
-                                           CRM_Core_OptionValue::getFields( '', 'All', false ) );
+                                           CRM_Core_OptionValue::getFields( '', 'All' ) );
                     
                 }
             

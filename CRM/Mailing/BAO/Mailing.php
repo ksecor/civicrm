@@ -1950,6 +1950,13 @@ SELECT $selectClause
                                                                        $cfID, $details[1] );
                     }
                 }
+                
+                //special case for greeting replacement
+                foreach ( array( 'email_greeting', 'postal_greeting', 'addressee' ) as $val ) {
+                    if ( CRM_Utils_Array::value( $val, $contactDetails[$contactID] ) ) {
+                        $contactDetails[$contactID][$val] = $contactDetails[$contactID]["{$val}_display"];
+                    }
+                }
             }
         }
 

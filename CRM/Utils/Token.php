@@ -437,8 +437,7 @@ class CRM_Utils_Token
             self::$_tokens[$key] =
                 array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields('All') ),
                              array( 'display_name', 'checksum', 'contact_id',
-                                    'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region',
-                                    'email_greeting_display', 'postal_greeting_display', 'addressee_display' ) );
+                                    'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region' ) );
         }
 
         // here we intersect with the list of pre-configured valid tokens
@@ -461,8 +460,7 @@ class CRM_Utils_Token
             /* This should come from UF */
             self::$_tokens['contact'] =
                 array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( 'All' ) ),
-                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region',
-                                    'email_greeting_display', 'postal_greeting_display', 'addressee_display') );
+                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type', 'sort_name', 'on_hold', 'world_region' ) );
         }
         
         /* Construct value from $token and $contact */
@@ -471,7 +469,7 @@ class CRM_Utils_Token
         // check if the token we were passed is valid
         // we have to do this because this function is
         // called only when we find a token in the string
-
+        
         if (!in_array($token,self::$_tokens['contact'])) {
             $value = "{contact.$token}";
         } else if ( $token == 'checksum' ) {

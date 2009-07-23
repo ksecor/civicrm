@@ -276,11 +276,7 @@ class CRM_Export_BAO_Export
         while ( $dao->fetch( ) ) {
             $row = array( );
             //first loop through returnproperties so that we return what is required, and in same order.
-            //do not allow custom greeting / addressee fields in exported file,CRM-4575
             foreach( $returnProperties as $field => $value ) {
-                if ( in_array($field, array('email_greeting_custom', 'postal_greeting_custom', 'addressee_custom') ) ) {
-                    continue;
-                }
                 //we should set header only once
                 if ( $setHeader ) { 
                     if ( isset( $query->_fields[$field]['title'] ) ) {
@@ -365,6 +361,10 @@ class CRM_Export_BAO_Export
                         }
                         CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                         $row[$field] = $paramsNew[$field];
+                   } else if ( in_array( $field , array( 'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+                        //special case for greeting replacement
+                        $fldValue = "{$field}_display";
+                        $row[$field] = $dao->$fldValue;
                     } else {
                         //normal fields
                         $row[$field] = $fieldValue;

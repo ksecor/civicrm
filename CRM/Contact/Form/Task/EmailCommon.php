@@ -342,7 +342,7 @@ class CRM_Contact_Form_Task_EmailCommon
         // replacing token labels in body with Original tokens during Task-send mail to contacts
         // specifically for Custom Fields.CRM-3734
         require_once 'CRM/Core/SelectValues.php';
-        $contactTokens = CRM_Core_SelectValues::ContactTokens();
+        $contactTokens = CRM_Core_SelectValues::contactTokens();
         $tokenKeys     = array_keys( $contactTokens );
         if ( $text ) {
             $text = str_replace( $contactTokens, $tokenKeys, $text );
