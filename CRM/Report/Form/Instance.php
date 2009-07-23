@@ -75,7 +75,7 @@ class CRM_Report_Form_Instance {
                     ts( 'Report Footer' ),
                     $attributes['footer'] );
 
-        $form->addElement( 'checkbox', 'is_navigation', ts('Do you want Menu in Navigation?'), null, 
+        $form->addElement( 'checkbox', 'is_navigation', ts('Include Report in Navigation Menu?'), null, 
                            array('onclick' =>"return showHideByValue('is_navigation','','navigation_menu','table-row','radio',false);") );
 
         $form->addElement( 'select',

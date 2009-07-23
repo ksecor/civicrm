@@ -53,7 +53,7 @@
     <tr>
 	<td class="report-label">{$form.is_navigation.label}</td>
         <td>{$form.is_navigation.html}<br />
-            <span class="description">{ts}Check this box to select parent menu.{/ts}</span>
+            <span class="description">{ts}All report instances are automatically included in the Report Listing page. Check this box to also add this report to the navigation menu.{/ts}</span>
         </td>
     </tr>
     <tr id="navigation_menu">
