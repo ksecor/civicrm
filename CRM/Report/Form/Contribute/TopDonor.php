@@ -240,7 +240,7 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
     }
 
     function groupBy( ) {
-        $this->_groupBy = "GROUP BY contact.id ";
+        $this->_groupBy = "GROUP BY {$this->_aliases['civicrm_contact']}.id ";
     }
     
     function postProcess( ) {
