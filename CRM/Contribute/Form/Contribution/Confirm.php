@@ -711,6 +711,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                     'net_amount'   => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
                                     'trxn_id'      => $result['trxn_id'],
                                     'receipt_date' => $receiptDate,
+                                    // also add financial_trxn details as part of fix for CRM-4724
+                                    'trxn_result_code' => $result['trxn_result_code'],
+                                    'payment_processor' => $result['payment_processor'],
                                     );
         }
         
@@ -894,6 +897,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 'currency'          => $params['currencyID'],
                                 'payment_processor' => $form->_paymentProcessor['payment_processor_type'],
                                 'trxn_id'           => $result['trxn_id'],
+                                'trxn_result_code'  => $result['trxn_result_code'],
                                 );
             
             require_once 'CRM/Contribute/BAO/FinancialTrxn.php';

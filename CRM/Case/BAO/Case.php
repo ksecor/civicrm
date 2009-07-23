@@ -888,6 +888,15 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $activityCondition = " AND v.name IN ('Open Case', 'Change Case Type', 'Change Case Status', 'Change Case Start Date')";
         $caseAttributeActivities = CRM_Core_OptionGroup::values( 'activity_type', false, false, false, $activityCondition );
                    
+		require_once 'CRM/Core/OptionGroup.php'; 
+        $emailActivityTypeIDs = array('Email' => CRM_Core_OptionGroup::getValue( 'activity_type', 
+                                                               'Email', 
+                                                               'name' ),
+                                      'Inbound Email' => CRM_Core_OptionGroup::getValue( 'activity_type', 
+                                                               'Inbound Email', 
+                                                               'name' ),
+                                     );
+                                     
         require_once 'CRM/Case/BAO/Case.php';
         $caseDeleted = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $caseID, 'is_deleted' );
         
@@ -914,11 +923,12 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             }
 
             $url = "";
+            $url = "";
             $additionalUrl = "&id={$dao->id}";
             if ( !$dao->deleted ) {
                 //hide edit link of activity type email.CRM-4530.
                 if ( ! in_array($dao->type, $emailActivityTypeIDs) ) {
-                    $url = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
+                    $url = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> |";
                 }
                               
                 //block deleting activities which affects
@@ -1550,6 +1560,31 @@ WHERE civicrm_case.id = %2";
         }
         
         return $caseManagerContact; 
+    }
+
+    /**
+     * Get all cases with no end dates
+     * 
+     * @return array of case and related data keyed on case id
+     */
+    static function getUnclosedCases()
+    {
+    	$dao    =& CRM_Core_DAO::executeQuery( "SELECT c.display_name, ca.id, ov.label as case_type
+FROM civicrm_case ca INNER JOIN civicrm_case_contact cc ON ca.id=cc.case_id
+INNER JOIN civicrm_contact c ON cc.contact_id=c.id
+INNER JOIN civicrm_option_group og ON og.name='case_type'
+INNER JOIN civicrm_option_value ov ON (ca.case_type_id=ov.value AND ov.option_group_id=og.id)
+WHERE ca.end_date is null
+");
+        $values = array();
+        while ( $dao->fetch() ) {
+            $values[$dao->id] = array(
+				'display_name' => $dao->display_name,
+				'case_type' => $dao->case_type,
+			);
+        }
+        $dao->free( );
+        return $values;
     }
 }
 
