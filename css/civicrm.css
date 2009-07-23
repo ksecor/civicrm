@@ -896,12 +896,15 @@ div.crm-pager a {
 ** Boxes of checkbox elements (e.g. Advanced Search page)
 */
 #crm-container .listing-box {
-  margin: 0.25em 2.0em 0.5em 0em;
   width: auto;
   max-width: 30em;
   height: 7.25em;
   overflow: auto;
   border: 1px solid #92B6EC;
+}
+
+#crm-container .listing-box div {
+  color: black;
 }
 
 /*
