@@ -1059,7 +1059,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     break;
                 case 'deceased_date': 
                     if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key  )) {
-                        if (! CRM_Utils_Rule::date($value)) {
+                        if (! CRM_Utils_Rule::date($params[$key])) {
                             self::addToErrorMsg('Deceased Date', $errorMessage);
                         }
                     } else {
