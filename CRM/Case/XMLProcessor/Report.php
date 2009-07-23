@@ -336,7 +336,15 @@ WHERE      a.id = %1
                                        'type'  => 'String' );
         
         // For Emails, include the recipient
-        if ( $activityTypeInfo['name'] == 'Email' && $activityDAO->targetID ) {
+        if ( ($activityTypeInfo['name'] == 'Email' || $activityTypeInfo['name'] == 'Inbound Email') && $activityDAO->targetID ) {
+        	// Re-lookup the target ID since the DAO only has the first recipient if there are multiple.
+        	// Maybe not the best solution.
+        	require_once 'CRM/Activity/BAO/ActivityTarget.php';
+        	$targNames = CRM_Activity_BAO_ActivityTarget::getTargetNames($activityDAO->id);
+        	$targNamesRedacted = array();
+        	foreach($targNames as $targ) {
+        		$targNamesRedacted[] = $this->redact($targ);
+        	}
             $recipient = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $activityDAO->targetID, 'display_name' );
             // add Recipient SortName as well as Display to the strings to be redacted across the case session 
             // suffixed with a randomly generated 4-digit number

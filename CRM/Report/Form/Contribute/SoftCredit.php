@@ -55,14 +55,14 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                           array( 'display_name_creditor'      => 
                                  array( 'title'      => ts( 'Soft Credit Name' ),
                                         'name'       => 'display_name',
-                                        'alias'      => 'contact',
+                                        'alias'      => 'contact_civireport',
                                         'required'   => true,
                                         'no_repeat'  => true,
                                         ), 
                                  'id_creditor'       =>
                                  array( 'title'      => ts('Soft Credit Id'),
                                         'name'       => 'id',
-                                        'alias'      => 'contact',
+                                        'alias'      => 'contact_civireport',
                                         'no_display' => true,
                                         'required'   => true,
                                         ),
@@ -264,7 +264,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
     
     function from( ) {
         $alias_constituent = 'constituentname';
-        $alias_creditor    = 'contact';
+        $alias_creditor    = 'contact_civireport';
         $this->_from = "
         FROM  civicrm_contribution {$this->_aliases['civicrm_contribution']}
               INNER JOIN civicrm_contribution_soft {$this->_aliases['civicrm_contribution_soft']} 
@@ -323,8 +323,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
     
     function groupBy( ) {
         $alias_constituent = 'constituentname';
-        $alias_creditor    = 'contact';
-        $this->_groupBy    = "GROUP BY contribution_soft.contact_id,
+        $alias_creditor    = 'contact_civireport';
+        $this->_groupBy    = "GROUP BY {$this->_aliases['civicrm_contribution_soft']}.contact_id,
                                        {$alias_constituent}.id, 
                                        {$alias_creditor}.display_name";
     }
@@ -333,9 +333,9 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
         $statistics = parent::statistics( $rows );
 
         $select = "
-        SELECT COUNT( contribution.total_amount ) as count,
-               SUM(   contribution.total_amount ) as amount,
-               ROUND(AVG(contribution.total_amount), 2) as avg
+        SELECT COUNT({$this->_aliases['civicrm_contribution']}.total_amount ) as count,
+               SUM({$this->_aliases['civicrm_contribution']}.total_amount ) as amount,
+               ROUND(AVG({$this->_aliases['civicrm_contribution']}.total_amount), 2) as avg
         ";
         
         $sql = "{$select} {$this->_from} {$this->_where}";

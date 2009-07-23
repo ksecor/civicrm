@@ -166,67 +166,16 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                                                        'default' => true ),
                                  ), 
                           ),
-                   
-                   'civicrm_activity'   =>
-                   array( 'dao'       => 'CRM_Activity_DAO_Activity',
-                          'fields'    =>
-                          array(  'id'    => 
-                                  array( 'title'      => ts( 'Activity' ),
-                                         'no_repeat'  => true,
-                                         'default'    => true 
-                                         ),
-                                  'activity_type_id'  => 
-                                  array( 'title'      => ts( 'Activity Type' ),
-                                         'default'    => true 
-                                         ),
-                                  'subject'     => 
-                                  array( 'title'      => ts('Subject'),
-                                         'default'    => true ),
-                                  'source_contact_id' => 
-                                  array( 'title'      => ts('Added By'),
-                                         'default'    => true, ),
-                                  'activity_date_time'  => 
-                                  array( 'title'      => ts('Activity Date'),
-                                         'default'    => true ),
-                                  'status_id' => 
-                                  array( 'title'      => ts( 'Activity Status' ),
-                                         'default'    => true 
-                                         ),
-                                  ), 
-                          'grouping'  => 'activity-fields',
-                          ),
 
-                   'civicrm_activity_target' =>
-                   array( 'dao'      => 'CRM_Activity_DAO_ActivityTarget',
-                          'fields'    =>
-                          array( 'target_contact_id' =>
-                                 array( 'title'      => ts( 'With Contact' ),
-                                        'default'    => true )
-                                 ),
-                          'alias'    => 'targetContact',
-                          'grouping' => 'activity-fields',
-                          ),
-                   
-                   'civicrm_activity_assignment' => 
-                   array( 'dao'      => 'CRM_Activity_DAO_ActivityAssignment',
-                          'fields'    =>
-                          array( 'assignee_contact_id' =>
-                                 array( 'title'      => ts( 'Assigned To' ),
-                                        'default'    => true )
-                                 ),
-                          'alias'    => 'assigneeContact',
-                          'grouping' => 'activity-fields',
-                          ),
-                   
                    'civicrm_group' => 
                    array( 'dao'    => 'CRM_Contact_DAO_Group',
                           'alias'  => 'cgroup',
                           'filters' =>             
                           array( 'gid' => 
-                                 array( 'name'         => 'id',
-                                        'title'        => ts( 'Group' ),
+                                 array( 'name'    => 'id',
+                                        'title'   => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) 
+                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) 
                                         ), 
                                  ), 
                           ),
@@ -249,7 +198,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     function select( ) {
         $select               = array( );
         $this->_columnHeaders = array( );
-        $this->_component     = array( 'contribution', 'membership', 'participant', 'activity' );
+        $this->_component     = array( 'contribution_civireport', 'membership_civireport', 'participant_civireport' );
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('fields', $table) ) {
                 foreach ( $table['fields'] as $fieldName => $field ) {
@@ -269,19 +218,6 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                             $this->_columnHeadersComponent[$table['alias']]["{$tableName}_{$fieldName}"]['type'] = 
                                 CRM_Utils_Array::value( 'type', $field );
                             $this->_columnHeadersComponent[$table['alias']]["{$tableName}_{$fieldName}"]['title'] =
-                                CRM_Utils_Array::value( 'title', $field );
-                        } elseif ( $table['alias'] == 'assigneeContact' ||
-                                   $table['alias'] == 'targetContact' ) {
-                            if( $table['alias'] == 'assigneeContact') {
-                                $addCotactId = 'target_contact_id';
-                            } else {
-                                $addCotactId = 'assignee_contact_id';
-                            }
-                            $tableName = $table['alias'];
-                            $select['activity'][] = "$tableName.display_name as {$tableName}_{$fieldName}, $addCotactId ";
-                            $this->_columnHeadersComponent['activity']["{$tableName}_{$fieldName}"]['type'] = 
-                                CRM_Utils_Array::value( 'type', $field );
-                            $this->_columnHeadersComponent['activity']["{$tableName}_{$fieldName}"]['title'] =
                                 CRM_Utils_Array::value( 'title', $field );
                         } else {
                             $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
@@ -343,8 +279,8 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         $this->_from .= "{$group}";
 
         foreach( $this->_component as $val ) {
-            if ( CRM_Utils_Array::value( 'contribution', $this->_selectComponent ) ) {
-                $this->_formComponent['contribution'] = 
+            if ( CRM_Utils_Array::value( 'contribution_civireport', $this->_selectComponent ) ) {
+                $this->_formComponent['contribution_civireport'] = 
                     " FROM 
                             civicrm_contact  {$this->_aliases['civicrm_contact']}
                             INNER JOIN civicrm_contribution       {$this->_aliases['civicrm_contribution']} 
@@ -352,47 +288,21 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                             {$group}
                     ";
             } 
-            if ( CRM_Utils_Array::value( 'membership', $this->_selectComponent ) ) {
-                $this->_formComponent['membership'] = 
+            if ( CRM_Utils_Array::value( 'membership_civireport', $this->_selectComponent ) ) {
+                $this->_formComponent['membership_civireport'] = 
                     " FROM 
                             civicrm_contact  {$this->_aliases['civicrm_contact']}
                             INNER JOIN civicrm_membership       {$this->_aliases['civicrm_membership']} 
                                     ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_membership']}.contact_id 
                             {$group} ";
             }
-            if ( CRM_Utils_Array::value( 'participant', $this->_selectComponent ) ) {
-                $this->_formComponent['participant'] = 
+            if ( CRM_Utils_Array::value( 'participant_civireport', $this->_selectComponent ) ) {
+                $this->_formComponent['participant_civireport'] = 
                     " FROM 
                             civicrm_contact  {$this->_aliases['civicrm_contact']}
                             INNER JOIN civicrm_participant       {$this->_aliases['civicrm_participant']} 
                                     ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_participant']}.contact_id 
                             {$group} ";
-            }
-
-            if ( CRM_Utils_Array::value( 'activity', $this->_selectComponent ) ) {
-                $this->_formComponent['activity'] =  
-                    "FROM
-                        civicrm_activity activity
-                        LEFT JOIN civicrm_activity_target ON 
-                            activity.id = civicrm_activity_target.activity_id 
-                        LEFT JOIN civicrm_activity_assignment ON 
-                            activity.id = civicrm_activity_assignment.activity_id 
-                        LEFT JOIN civicrm_contact sourceContact ON 
-                            activity.source_contact_id = sourceContact.id 
-		                LEFT JOIN civicrm_contact targetContact ON 
-                            target_contact_id = targetContact.id 
-                        LEFT JOIN civicrm_contact assigneeContact ON 
-                            assignee_contact_id = assigneeContact.id
-                        LEFT JOIN civicrm_option_value ON
-                            ( activity.activity_type_id = civicrm_option_value.value )
-                        LEFT JOIN civicrm_option_group ON  
-                            civicrm_option_group.id = civicrm_option_value.option_group_id
-                        LEFT JOIN civicrm_case_activity ON
-                            civicrm_case_activity.activity_id = activity.id
-                        LEFT JOIN civicrm_case ON
-                            civicrm_case_activity.case_id = civicrm_case.id
-                        LEFT JOIN civicrm_case_contact ON
-                            civicrm_case_contact.case_id = civicrm_case.id ";
             }
         }
     }
@@ -425,23 +335,20 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
-        $this->_where .= " GROUP BY contact.id ";
+        $this->_where .= " GROUP BY {$this->_aliases['civicrm_contact']}.id ";
     }
     function clauseComponent( ) {
-        $selectedContacts = implode( ',', $this->_contactSelected );
+
         $contribution = $membership =  $participant = null;
         $eligibleResult = $rows = $tempArray= array();
         foreach( $this->_component as $val ) {
-            if ( CRM_Utils_Array::value( $val, $this->_selectComponent ) && $val != 'activity' ) {
-                $sql  = "{$this->_selectComponent[$val]} {$this->_formComponent[$val]} 
-                         WHERE    contact.id IN ( $selectedContacts )
-                         GROUP BY contact.id,{$val}.id ";
-
+            if ( CRM_Utils_Array::value( $val, $this->_selectComponent ) ) {
+                $sql  = "{$this->_selectComponent[$val]} {$this->_formComponent[$val]} $this->_where ,{$val}.id ";
                 $dao  = CRM_Core_DAO::executeQuery( $sql );
                 while ( $dao->fetch( ) ) {
                     $countRecord = 0;
                     $eligibleResult[$val] = $val;
-                    $CC  = "civicrm_{$val}_contact_id";
+                    $CC  = "civicrm_" . substr_replace($val, '', -11, 11) . "_contact_id";
                     $row = array( );
                     foreach ( $this->_columnHeadersComponent[$val] as $key => $value ) {
                         $countRecord++;
@@ -457,74 +364,17 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                 }
             }
         }
-        
-        //get data for activity
-        if ( CRM_Utils_Array::value( 'activity', $this->_selectComponent ) ) {
-
-            $componentClause = "civicrm_option_value.component_id IS NULL";
-            $componentsIn    = null;
-            $compInfo        = CRM_Core_Component::getEnabledComponents();
-            foreach ( $compInfo as $compObj ) {
-                if ( $compObj->info['showActivitiesInCore'] ) {
-                    $componentsIn = $componentsIn ? 
-                        ($componentsIn . ', ' . $compObj->componentID) : $compObj->componentID;
-                }
-            }
-            if ( $componentsIn ) {
-                $componentClause = "( $componentClause OR 
-                                      civicrm_option_value.component_id IN ($componentsIn) )";
-            }
-            
-            $val = 'activity';
-            $eligibleResult[$val] = $val;
-            $sql = 
-                "{$this->_selectComponent[$val]} , 
-                 sourceContact.display_name as added_by {$this->_formComponent[$val]}
-
-                 WHERE ( activity.source_contact_id IN ($selectedContacts) OR 
-                         target_contact_id IN ($selectedContacts) OR 
-                         assignee_contact_id IN ($selectedContacts) OR 
-                         civicrm_case_contact.contact_id IN ($selectedContacts) ) AND 
-                        civicrm_option_group.name = 'activity_type' AND 
-                        activity.is_test = 0 AND 
-                        ($componentClause)
-
-                 GROUP BY activity.id 
-
-                 ORDER BY activity.activity_date_time desc  ";
-                     
-            $dao  = CRM_Core_DAO::executeQuery( $sql );
-            while ( $dao->fetch( ) ) {
-                foreach ( $this->_columnHeadersComponent[$val] as $key => $value ) {
-                    if ( $key == 'civicrm_activity_source_contact_id' ) {
-                        $row[$key] = $dao->added_by;
-                        continue;
-                    }
-                    $row[$key] = $dao->$key;
-                }
-                
-                if ( isset( $dao->civicrm_activity_source_contact_id ) ) {
-                    $rows[ $dao->civicrm_activity_source_contact_id][$val][] = $row ;
-                }
-                if ( isset( $dao->target_contact_id ) ) {
-                    $rows[$dao->target_contact_id][$val][] = $row;    
-                }
-                if ( isset( $dao->assignee_contact_id ) ) {
-                    $rows[$dao->assignee_contact_id][$val][] = $row;
-                }
-            }
-        }   
-        
         //unset the component header if data is not present
         foreach( $this->_component as $val ) {
             if ( !in_array( $val, $eligibleResult ) ) {
+
                 unset($this->_columnHeadersComponent[$val]);
             }
         }
         
         return $rows;
     }
-    
+
     
     function statistics( &$rows ) {
         $statistics = array();
@@ -556,34 +406,28 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
 
         $sql = $this->buildQuery( true );
 
-        $rows  = $graphRows = $this->_contactSelected = array();
+        $componentRows = $this->clauseComponent( );
+        $this->alterComponentDisplay( $componentRows);
+
+        //unset Conmponent id and contact id from display
+        foreach( $this->_columnHeadersComponent as $componentTitle => $headers ) {
+            $id_header      = "civicrm_" . substr_replace($componentTitle, '', -11, 11) . "_" . substr_replace($componentTitle, '', -11, 11) . "_id";
+            $contact_header = "civicrm_" . substr_replace($componentTitle, '', -11, 11) ."_contact_id";
+            
+            unset( $this->_columnHeadersComponent[$componentTitle][$id_header] );
+            unset( $this->_columnHeadersComponent[$componentTitle][$contact_header] );
+        }
+
+        $this->assign_by_ref( 'columnHeadersComponent', $this->_columnHeadersComponent );
+        $this->assign_by_ref( 'componentRows', $componentRows );
+
+        $rows  = $graphRows = array();
         $this->buildRows ( $sql, $rows );
         foreach( $rows as $key=> $val ) {
-            $rows[$key]['contactID']  = $val['civicrm_contact_id'];
-            $this->_contactSelected[] = $val['civicrm_contact_id'];
+            $rows[$key]['contactID'] = $val['civicrm_contact_id'];
         }
-
         $this->formatDisplay( $rows );
-
-        if( !empty( $this->_contactSelected ) ) {
-            $componentRows = $this->clauseComponent( );
-            $this->alterComponentDisplay( $componentRows);
-            
-            //unset Conmponent id and contact id from display
-            foreach( $this->_columnHeadersComponent as $componentTitle => $headers ) {
-                $id_header      = "civicrm_" . $componentTitle . "_" . $componentTitle. "_id";
-                $contact_header = "civicrm_" . $componentTitle ."_contact_id";
-                if( $componentTitle == 'activity') {
-                    $id_header  = "civicrm_" . $componentTitle . "_id";
-                }
-                unset( $this->_columnHeadersComponent[$componentTitle][$id_header] );
-                unset( $this->_columnHeadersComponent[$componentTitle][$contact_header] );
-            }
-            
-            $this->assign_by_ref( 'columnHeadersComponent', $this->_columnHeadersComponent );
-            $this->assign_by_ref( 'componentRows', $componentRows );
-            
-        }
+        
         $this->doTemplateAssignment( $rows );
         $this->endPostProcess( );
     }
@@ -601,8 +445,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                  array_key_exists('civicrm_contact_id', $row) ) {
                 
                 $url = CRM_Utils_System::url( "civicrm/contact/view",  
-                                              'reset=1&cid=' . $row['civicrm_contact_id'],
-                                              $this->_absoluteUrl );
+                                              'reset=1&cid=' . $row['civicrm_contact_id'] );
                 $rows[$rowNum]['civicrm_contact_display_name_link' ] = $url;
                 $rows[$rowNum]['civicrm_contact_display_name_hover'] = 
                     ts("View Contact Summary for this Contact");
@@ -623,6 +466,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                 $entryFound = true;
             }
 
+
             // skip looking further in rows, if first row itself doesn't 
             // have the column we need
             if ( !$entryFound ) {
@@ -632,16 +476,13 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     }
     function alterComponentDisplay( &$componentRows ) {
         // custom code to alter rows
-        require_once 'CRM/Core/PseudoConstant.php';
-        $activityTypes  = CRM_Core_PseudoConstant::activityType( true, false );
-        $activityStatus = CRM_Core_PseudoConstant::activityStatus();
-
+ 
         $entryFound = false;
         foreach ( $componentRows as $contactID => $components) {
             foreach ( $components as $component => $rows) { 
                 foreach ( $rows as $rowNum => $row ) {
                     // handle contribution
-                    if ( $component == 'contribution' ) {
+                    if ( $component == 'contribution_civireport' ) {
                         require_once 'CRM/Contribute/PseudoConstant.php';
                         if ( $val = CRM_Utils_Array::value('civicrm_contribution_contribution_type_id', $row ) ) {
                             $componentRows[$contactID][$component][$rowNum]['civicrm_contribution_contribution_type_id'] = 
@@ -650,12 +491,12 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                         
                         if ( $val = CRM_Utils_Array::value('civicrm_contribution_contribution_status_id', $row ) ) {
                             $componentRows[$contactID][$component][$rowNum]['civicrm_contribution_contribution_status_id'] = 
-                                CRM_Contribute_PseudoConstant::contributionStatus( $val );
+                                CRM_Contribute_PseudoConstant::contributionStatus( $val, false );
                         }
                         $entryFound = true;
                     }
                     
-                    if ( $component == 'membership' ) {
+                    if ( $component == 'membership_civireport' ) {
                         require_once 'CRM/Member/PseudoConstant.php';
                         if ( $val = CRM_Utils_Array::value('civicrm_membership_membership_type_id', $row ) ) {
                             $componentRows[$contactID][$component][$rowNum]['civicrm_membership_membership_type_id'] = 
@@ -669,7 +510,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                         $entryFound = true;
                     }
                     
-                    if ( $component == 'participant' ) {
+                    if ( $component == 'participant_civireport' ) {
                         require_once 'CRM/Event/PseudoConstant.php';
                         if ( $val = CRM_Utils_Array::value('civicrm_participant_event_id', $row ) ) {
                             $componentRows[$contactID][$component][$rowNum]['civicrm_participant_event_id'] = 
@@ -693,17 +534,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                         
                         $entryFound = true;
                     }
-                    if ( $component == 'activity' ) {
-                        if ( $val = CRM_Utils_Array::value('civicrm_activity_activity_type_id', $row ) ) {
-                            $componentRows[$contactID][$component][$rowNum]['civicrm_activity_activity_type_id'] = $activityTypes[$val];
-                        }
-                        if ( $val = CRM_Utils_Array::value('civicrm_activity_status_id', $row ) ) {
-                            $componentRows[$contactID][$component][$rowNum]['civicrm_activity_status_id'] = $activityStatus[$val];     
-                        }
-                        
-                        $entryFound = true;
-                    }
-     
+                    
                     // skip looking further in rows, if first row itself doesn't 
                     // have the column we need
                     if ( !$entryFound ) {

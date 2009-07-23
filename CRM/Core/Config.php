@@ -527,4 +527,18 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         return defined( 'CIVICRM_DOMAIN_ID' ) ? CIVICRM_DOMAIN_ID : 1;
     }
 
+    /**
+     * clear db cache
+     */
+    function clearDBCache( ) {
+        $queries = array( 'TRUNCATE TABLE civicrm_acl_cache',
+                          'TRUNCATE TABLE civicrm_cache',
+                          'UPDATE civicrm_group SET cache_date = NULL',
+                          'TRUNCATE TABLE civicrm_group_contact_cache' );
+
+        foreach ( $queries as $query ) {
+            CRM_Core_DAO::executeQuery( $query );
+        }
+    }
+
 } // end CRM_Core_Config

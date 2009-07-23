@@ -607,7 +607,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 				$unclosedCases = CRM_Case_BAO_Case::getUnclosedCases();
                 $caseList = array();
                 foreach($unclosedCases as $case_id => $case_data) {
-                	$caseList[$case_id] = $case_data['display_name'] . ' - ' . $case_data['case_type'];
+                	$caseList[$case_id . '_' . $case_data['contact_id']] = $case_data['display_name'] . ' - ' . $case_data['case_type'];
                 }                
 
 				// Don't want to freeze the whole form since then this select gets frozen too,

@@ -120,7 +120,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
                                          'operatorType' => CRM_Report_Form::OP_SELECT,
                                          'options' => $optionYear,
                                          'default' => date('Y'),
-                                         'clause'  => "contribution.contact_id NOT IN
+                                         'clause'  => "contribution_civireport.contact_id NOT IN
 (SELECT distinct cont.id FROM civicrm_contact cont, civicrm_contribution contri
  WHERE  cont.id = contri.contact_id AND YEAR (contri.receive_date) >= \$value)" ),  
                                   'contribution_status_id'         => 
@@ -270,7 +270,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         }
         
         if ( ($min > 0 || $max > 0) && !empty($this->_limit) ) {
-            $clauses[] = "contribution.contact_id BETWEEN $min AND $max";
+            $clauses[] = " {$this->_aliases['civicrm_contribution']}.contact_id BETWEEN $min AND $max";
         }
 
         if ( empty( $clauses ) ) {
@@ -282,8 +282,8 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     
     function groupBy( $receiveDate = false ) {
         $this->assign( 'chartSupported', true );
-        $this->_groupBy = $receiveDate ? "Group BY Year(contribution.receive_date), contribution.contact_id" : 
-            "Group BY contribution.contact_id";  
+        $this->_groupBy = $receiveDate ? "Group BY Year({$this->_aliases['civicrm_contribution']}.receive_date), {$this->_aliases['civicrm_contribution']}.contact_id" : 
+            "Group BY {$this->_aliases['civicrm_contribution']}.contact_id";  
     }
 
     function statistics( &$rows ) {
@@ -291,7 +291,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         
         $select = "
         SELECT 
-               SUM(contribution.total_amount ) as amount 
+               SUM({$this->_aliases['civicrm_contribution']}.total_amount ) as amount 
         ";
         $sql = "{$select} {$this->lifeTime_from } {$this->lifeTime_where}";
         $dao = CRM_Core_DAO::executeQuery( $sql );

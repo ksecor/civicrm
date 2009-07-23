@@ -122,7 +122,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
     function select( ) {
         $select = array( );
         $this->_columnHeaders = array( ); 
-        $select[] = " COUNT( DISTINCT membership.id ) as civicrm_membership_member_count";
+        $select[] = " COUNT( DISTINCT {$this->_aliases['civicrm_membership']}.id ) as civicrm_membership_member_count";
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('group_bys', $table) ) {
                 foreach ( $table['group_bys'] as $fieldName => $field ) {
@@ -235,11 +235,11 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
     
     function from( ) {
         $this->_from = "
-        FROM  civicrm_membership membership
+        FROM  civicrm_membership {$this->_aliases['civicrm_membership']}
               LEFT JOIN civicrm_membership_status 
-                        ON ( membership.status_id = civicrm_membership_status.id  )
+                        ON ({$this->_aliases['civicrm_membership']}.status_id = civicrm_membership_status.id  )
               LEFT JOIN civicrm_membership_payment payment
-                        ON ( membership.id = payment.membership_id )
+                        ON ( {$this->_aliases['civicrm_membership']}.id = payment.membership_id )
               INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} 
                          ON payment.contribution_id = {$this->_aliases['civicrm_contribution']}.id";
         
@@ -282,7 +282,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
              array_key_exists('join_date', $clauses) ) {
             $this->_where = "WHERE  civicrm_membership_status.is_current_member = 1 AND" . implode( ' AND ', $clauses );
         } else { 
-            $this->_where = "WHERE membership.is_test = 0 AND
+            $this->_where = "WHERE {$this->_aliases['civicrm_membership']}.is_test = 0 AND
                             civicrm_membership_status.is_current_member = 1";
         }
     }
@@ -323,7 +323,7 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
             }
             $this->_groupBy = "GROUP BY " . implode( ', ', $this->_groupBy ) . " {$this->_rollup} ";
         } else {
-            $this->_groupBy = "GROUP BY membership.join_date";
+            $this->_groupBy = "GROUP BY {$this->_aliases['civicrm_membership']}.join_date";
         }
     }
 
@@ -331,9 +331,9 @@ class CRM_Report_Form_Member_Summary extends CRM_Report_Form {
         $statistics = parent::statistics( $rows );
 
         $select = "
-        SELECT COUNT( contribution.total_amount ) as count,
-               SUM(   contribution.total_amount ) as amount,
-               ROUND(AVG(contribution.total_amount), 2) as avg
+        SELECT COUNT({$this->_aliases['civicrm_contribution']}.total_amount ) as count,
+               SUM({$this->_aliases['civicrm_contribution']}.total_amount ) as amount,
+               ROUND(AVG({$this->_aliases['civicrm_contribution']}.total_amount), 2) as avg
         ";
         
         $sql = "{$select} {$this->_from} {$this->_where}";

@@ -62,21 +62,22 @@
                         </table>
 
                         {if $columnHeadersComponent}
-                            {assign var=contribMode value=$row.contactID}
+                            {assign var=componentContactId value=$row.contactID}
                             {foreach from=$columnHeadersComponent item=pheader key=component}
-                                {if $componentRows.$contribMode.$component}
-                                    <u><strong>{$component|upper}</strong></u>
+                                {if $componentRows.$componentContactId.$component}
+                                    <u><strong>{$component|replace:'_civireport':''|upper}</strong></u>
                                 {/if}
-                            {if $componentRows.$contribMode.$component}
                         	<table class="report-layout">
                         	    {*add space before headers*}
+                        	    {if $componentRows.$componentContactId.$component}
                         		<tr>
                         		    {foreach from=$pheader item=header}
                         			<th>{$header.title}</th>
                         		    {/foreach}
                         		</tr>
+                        	    {/if}
                              
-                        	    {foreach from=$componentRows.$contribMode.$component item=row}
+                        	    {foreach from=$componentRows.$componentContactId.$component item=row}
                         		<tr>
                         		    {foreach from=$columnHeadersComponent.$component item=header key=field}
                         			{assign var=fieldLink value=$field|cat:"_link"}
@@ -107,8 +108,7 @@
                         		    {/foreach}
                         		</tr>
                         	    {/foreach}
-                        	</table>
-                            {/if}	
+                        	</table>	
                             {/foreach}
                         {/if}
                     </td>

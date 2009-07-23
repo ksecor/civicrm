@@ -234,8 +234,15 @@ function fileOnCase() {
 					return false;
 				}
 				
-				var destUrl = {/literal}"{crmURL p='civicrm/contact/view/case' q='action=view&id=' h=0 }"{literal}; 
+				var destUrl = {/literal}"{crmURL p='civicrm/contact/view/case' q='reset=1&action=view&id=' h=0 }"{literal}; 
  				var activityID = {/literal}"{$entityID}"{literal};
+ 				var underscore_pos = v1.indexOf('_');
+ 				if (underscore_pos < 1) {
+ 					alert('A problem occurred during case selection.');
+ 					return false;
+ 				}
+ 				var case_id = v1.substring(0, underscore_pos);
+ 				var contact_id = v1.substring(underscore_pos+1);
  				
 				cj(this).dialog("close"); 
 				cj(this).dialog("destroy");
@@ -244,7 +251,7 @@ function fileOnCase() {
                 cj.post( postUrl, { activityID: activityID, caseID: v1 },
                     function( data ) {
                     		if (data.error_msg == "") {
-                            	window.location.href = destUrl + v1;
+                            	window.location.href = destUrl + case_id + '&cid=' + contact_id;
                             } else {
                             	alert("Unable to file on case.\n\n" + data.error_msg);
                             	return false;
