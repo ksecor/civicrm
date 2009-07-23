@@ -766,37 +766,54 @@ class CRM_Core_Payment_BaseIPN {
         }
     }
     
-    function updateContributionStatus( $componentId, $statusId, $componentName ) 
+    function updateContributionStatus( &$params ) 
     {
-        if ( !$componentId || !$statusId || !$componentName ) {
-            return;
-        }
+        // get minimum required values.
+        $statusId       = CRM_Utils_Array::value( 'contribution_status_id', $params );
+        $componentId    = CRM_Utils_Array::value( 'component_id',           $params );
+        $componentName  = CRM_Utils_Array::value( 'componentName',          $params );
+        $contributionId = CRM_Utils_Array::value( 'contribution_id',        $params );
         
-        require_once 'CRM/Core/Payment/BaseIPN.php';
-        $baseIPN = new CRM_Core_Payment_BaseIPN( );
-        
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-        
-        $template =& CRM_Core_Smarty::singleton( );
-        
-        //get componentdetails.
-        $componentDetails = self::getComponentDetails( $componentId, $componentName );
-        
-        if ( !CRM_Utils_Array::value( 'contribution', $componentDetails ) ) {
+        if ( !$contributionId || !$componentId || !$componentName || !$statusId ) {
             return;
         }
         
         $input = $ids = $objects = array( );
         
-        $input['component']       = $componentDetails['component'];
-        $ids['contact'     ]      = $componentDetails['contact'];
-        $ids['contribution']      = $componentDetails['contribution'];
-        $ids['membership']        = $componentDetails['membership'];
-        $ids['participant']       = $componentDetails['participant'];
-        $ids['event']             = $componentDetails['event'];
-        $ids['contributionRecur'] = null;
+        //get the required ids.
+        $ids['contribution'] = $contributionId;
+        
+        if ( !$ids['contact'] = CRM_Utils_Array::value( 'contact_id', $params ) ) {
+            $ids['contact']   = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution',
+                                                             $contributionId,
+                                                             'contact_id' );
+        }
+        
+        if ( $componentName == 'Event' ) {
+            $name = 'event';
+            $ids['participant'] = $componentId;
+            
+            if ( !$ids['event'] = CRM_Utils_Array::value( 'event_id', $params ) ) {
+                $ids['event']   = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant',
+                                                               $componentId,
+                                                               'event_id' );
+            }
+        }
+        
+        if ( $componentName == 'Membership' ) {
+            $name = 'contribute';
+            $ids['membership'] = $componentId;
+        }
         $ids['contributionPage']  = null;
+        $ids['contributionRecur'] = null;
+        $input['component']       = $name;
+        
+        require_once 'CRM/Core/Payment/BaseIPN.php';
+        require_once 'CRM/Core/Transaction.php';
+        
+        $baseIPN     = new CRM_Core_Payment_BaseIPN( );
+        $template    =& CRM_Core_Smarty::singleton( );
+        $transaction = new CRM_Core_Transaction( );
         
         if ( !$baseIPN->validateData( $input, $ids, $objects, false ) ) {
             CRM_Core_Error::fatal( );
@@ -807,70 +824,44 @@ class CRM_Core_Payment_BaseIPN {
         require_once 'CRM/Contribute/PseudoConstant.php';
         $contributionStatuses = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
         
-        //do check across component status.
-        $processContribution = false;
-        if ( $componentName == 'Event' ) {
-            require_once 'CRM/Event/PseudoConstant.php';
-            $negativeStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" );
-            $positiveStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Positive'" );
-            
-            //check for cancel participant status.
-            if ( array_key_exists( $statusId, $negativeStatuses ) ) {
-                $baseIPN->cancelled( $objects, $transaction );
-                $transaction->commit( );
-                return true; 
-            }
-            
-            // do not process if participant status is not positive.
-            if ( !array_key_exists( $statusId, $positiveStatuses ) ) {
-                $transaction->commit( );
-                return;
-            }
-            
-            $processContribution = true;
+        if ( $statusId == array_search( 'Cancelled', $contributionStatuses ) ) {
+            $baseIPN->cancelled( $objects, $transaction );
+            $transaction->commit( );
+            return $statusId; 
+        } else if ( $statusId == array_search( 'Failed', $contributionStatuses ) ) {
+            $baseIPN->failed( $objects, $transaction );
+            $transaction->commit( );
+            return $statusId;
         }
         
-        if ( $componentName == 'Membership' ) {
-            require_once 'CRM/Member/PseudoConstant.php';
-            $membershipStatuses = CRM_Member_PseudoConstant::membershipStatus(  );
-            
-            //check for cancel membership status.
-            if ( $membershipStatuses[$statusId] == 'Cancelled' ) {
-                $baseIPN->cancelled( $objects, $transaction );
-                $transaction->commit( );
-                return true; 
-            }
-            
-            $currentMemberStatuses = CRM_Member_PseudoConstant::membershipStatus( null, 'is_current_member = 1' );
-            // do not process if  membership status is not is current.
-            if ( !array_key_exists( $statusId,  $currentMemberStatuses ) ) {
-                $transaction->commit( );
-                return;
-            }
-            
-            $processContribution = true;
+        // status is not pending
+        if ( $contribution->contribution_status_id != array_search( 'Pending', $contributionStatuses ) ) {
+            $transaction->commit( );
+            return;
         }
         
-        if ( $processContribution ) {
-            // set some fake input values so we can reuse IPN code
-            $input['amount']                = $contribution->total_amount;
-            $input['is_test']               = $contribution->is_test;
-            
-            //FIXME we might take this values from user.
-            $input['fee_amount']            = $contribution->fee_amount;
-            $input['check_number']          = $contribution->check_number;
-            $input['payment_instrument_id'] = $contribution->payment_instrument_id;
-            $input['net_amount']            = $contribution->fee_amount;
-            $input['trxn_id']               = $contribution->invoice_id;
-            $input['trxn_date']             = self::$_now;
-            
-            $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
-            
-            // reset template values before processing next transactions
-            $template->clearTemplateVars( ); 
+        //set values for ipn code.
+        $input['amount']                = CRM_Utils_Array::value( 'total_amount', $params,  $contribution->total_amount );
+        $input['fee_amount']            = CRM_Utils_Array::value( 'fee_amount',   $params,  $contribution->fee_amount   );
+        $input['check_number']          = CRM_Utils_Array::value( 'check_number', $params,  $contribution->check_number );
+        $input['trxn_id']               = CRM_Utils_Array::value( 'trxn_id',      $params,  $contribution->invoice_id   );
+        $input['trxn_date']             = CRM_Utils_Array::value( 'receive_date', $params,  self::$_now                 );
+        $input['is_test']               = $contribution->is_test;
+        $input['payment_instrument_id'] = CRM_Utils_Array::value( 'payment_instrument_id', $params,  
+                                                                  $contribution->payment_instrument_id );
+        
+        $input['net_amount']            = $contribution->fee_amount;
+        if ( CRM_Utils_Array::value( 'fee_amount', $input ) && CRM_Utils_Array::value( 'amount', $input ) ) {
+            $input['net_amount'] = $input['amount'] - $input['fee_amount'];
         }
         
-        return $processContribution;
+        //complete the contribution.
+        $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
+        
+        // reset template values before processing next transactions
+        $template->clearTemplateVars( ); 
+        
+        return $statusId;
     }
     
     static function getComponentDetails( $componentId, $componentName ) 

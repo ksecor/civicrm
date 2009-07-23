@@ -45,7 +45,12 @@ require_once "CRM/Core/BAO/CustomGroup.php";
 class CRM_Member_Form_Membership extends CRM_Member_Form
 {
     protected $_memType = null;
-
+    
+    /* store the online contribution id. 
+     *
+     */
+    protected $_onlineContributionId = null;
+    
     public function preProcess()  
     {  
         //custom data related code
@@ -63,7 +68,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                          $this );
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
-
+        
         // check for edit permission
         if ( !CRM_Core_Permission::checkActionPermission( 'CiviMember', $this->_action ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
@@ -138,6 +143,15 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             CRM_Custom_Form_Customdata::buildQuickForm( $this );
             CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
+        
+        // CRM-4395, get the online pending contribution id.
+        if ( $this->_id && $this->_action & CRM_Core_Action::UPDATE ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $this->_onlineContributionId = CRM_Contribute_BAO_Contribution::checkOnlinePendingContribution( $this->_id, 
+                                                                                                            'Membership' );
+        }
+        $this->assign( 'onlinePendingContributionId', $this->_onlineContributionId );
+        
         parent::preProcess( );
     }
     
@@ -386,30 +400,23 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->add('text', 'trxn_id', ts('Transaction ID'));
             $this->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
                             'objectExists', array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );
+            
+            $allowStatuses = array( );
+            $statuses = CRM_Contribute_PseudoConstant::contributionStatus( null, 'label' );
+            if ( $this->_onlineContributionId ) {
+                $statusNames = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
+                foreach ( $statusNames as $val => $name ) {
+                    if ( in_array( $name, array( 'Completed', 'Cancelled', 'Failed' ) ) ) {
+                        $allowStatuses[$val] = $statuses[$val]; 
+                    }
+                }
+            } else {
+                $allowStatuses = $statuses;
+            }
             $this->add('select', 'contribution_status_id',
-                       ts('Payment Status'), 
-                       CRM_Contribute_PseudoConstant::contributionStatus( )
-                       );
+                       ts('Payment Status'), $allowStatuses );
             $this->add( 'text', 'check_number', ts('Check Number'), 
                         CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution', 'check_number' ) );
-            
-            if ( $this->_action & CRM_Core_Action::UPDATE && $this->_id ) {
-                //get user feedback about update related contribution record, CRM-4395.
-                require_once 'CRM/Core/Payment/BaseIPN.php';
-                $membershipDetails = CRM_Core_Payment_BaseIPN::getComponentDetails( $this->_id, 'Membership' );
-                $hasOnlineContribution = false;
-                if ( CRM_Utils_Array::value( 'contribution', $membershipDetails ) && 
-                     (strpos(CRM_Core_DAO::getFieldValue('CRM_Contribute_DAO_Contribution',$membershipDetails['contribution'],'source'), 
-                             ts( 'Online Contribution' ) ) !== false || 
-                      CRM_Core_DAO::getFieldValue('CRM_Contribute_DAO_FinancialTrxn', 
-                                                  $membershipDetails['contribution'], 'id', 'contribution_id') ) ) {
-                    $this->addElement('checkbox', 
-                                      'update_contribution_status', 
-                                      ts('Update Contribution Status') );
-                    $hasOnlineContribution = true;
-                }
-                $this->assign( 'hasOnlineContribution', $hasOnlineContribution );
-            }
         }
         $this->addElement('checkbox', 
                           'send_receipt', 
@@ -569,7 +576,26 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $config =& CRM_Core_Config::singleton(); 
         // get the submitted form values.  
         $this->_params = $formValues = $this->controller->exportValues( $this->_name );
-              
+        
+        //CRM-4395
+        if ( $this->_onlineContributionId  && 
+             CRM_Utils_Array::value( 'record_contribution', $formValues ) &&
+             ($this->_action & CRM_Core_Action::UPDATE) ) {
+            $params['contact_id']      = $this->_contactID;
+            $params['component_id']    = $this->_id;
+            $params['componentName']   = 'Membership';
+            $params['contribution_id'] = $this->_onlineContributionId;
+            $fields = array( 'total_amount', 'fee_amount', 'check_number', 'trxn_id',
+                             'receive_date', 'payment_instrument_id', 'contribution_status_id' ); 
+            foreach ( $fields as $field ) {
+                $params[$field] = CRM_Utils_Array::value( $field, $formValues );  
+            }
+            
+            require_once 'CRM/Core/Payment/BaseIPN.php';
+            $changedStatus = CRM_Core_Payment_BaseIPN::updateContributionStatus( $params );
+            return;
+        }
+        
         $params = array( );
         $ids    = array( );
 
@@ -659,7 +685,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             foreach ( $recordContribution as $f ) {
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
-           
+            
             $membershipType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                            $formValues['membership_type_id'][1] );
             $params['contribution_source'] = "{$membershipType} Membership: Offline membership signup (by {$userName})";
@@ -804,15 +830,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $params['action'] = $this->_action;
             $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         }
-        
-        //CRM-4395
-        $updateOnlineContribution = false;
-        if ( CRM_Utils_Array::value( 'update_contribution_status', $formValues ) ) {
-            require_once 'CRM/Core/Payment/BaseIPN.php';
-            $updateOnlineContribution = CRM_Core_Payment_BaseIPN::updateContributionStatus( $this->_id, 
-                                                                                             $formValues['status_id'], 'Membership' );
-        }
-        
+                
         if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 

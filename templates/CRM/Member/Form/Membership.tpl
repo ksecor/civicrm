@@ -19,16 +19,6 @@
 </div>
 {/if}
 
-{if $hasOnlineContribution}
-<div class="messages status">
-  <dl>
-     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
-     <dd>{ts}It looks like there is Online Contribution record associated with this membership signup. <br />You can update contribution status by selecting Update Contribution Status check box.{/ts}
-     </dd>
-  </dl>
-</div> 
-{/if}
-
 {if $membershipMode}
     <div id="help">
         {ts 1=$displayName 2=$registerMode}Use this form to submit Membership Record on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
@@ -97,7 +87,8 @@
         {include file='CRM/Core/BillingBlock.tpl'}
         </td></tr>
  	{/if}
-    {if $accessContribution and ! $membershipMode AND ! ($action eq 2 AND $rows.0.contribution_id) }
+
+        {if $accessContribution and ! $membershipMode AND ($action neq 2 or !$rows.0.contribution_id or $onlinePendingContributionId)}
         <tr id="contri">
             <td class="label">{$form.record_contribution.label}</td><td>{$form.record_contribution.html}<br />
                 <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span></td>
@@ -125,13 +116,6 @@
     {else}
         <div class="spacer"></div>
 	{/if}
- 
-   {if $hasOnlineContribution}
-        <tr>
-            <td class="label">{$form.update_contribution_status.label}</td><td>{$form.update_contribution_status.html}<br />
-            <span class="description">{ts}Automatically update Online  Contribution Status?{/ts}</span></td>
-        </tr>
-   {/if}
 
     {if $emailExists and $outBound_option != 2 }
         <tr>
@@ -178,13 +162,21 @@
 </fieldset>
 <div class="html-adjust">{$form.buttons.html}</div>
 {if $action neq 8} {* Jscript additions not need for Delete action *} 
-{if $accessContribution and ! $membershipMode AND ! ($action eq 2 AND $rows.0.contribution_id) }
+{if $accessContribution and !$membershipMode AND ($action neq 2 or !$rows.0.contribution_id or $onlinePendingContributionId)}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="record_contribution"
     trigger_value       =""
     target_element_id   ="recordContribution" 
     target_element_type ="table-row"
     field_type          ="radio"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="payment_instrument_id"
+    trigger_value       = '4'
+    target_element_id   ="checkNumber" 
+    target_element_type ="table-row"
+    field_type          ="select"
     invert              = 0
 }
 {/if}
@@ -195,16 +187,6 @@
     target_element_id   ="notice" 
     target_element_type ="table-row"
     field_type          ="radio"
-    invert              = 0
-}
-{/if}
-{if !$membershipMode}
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="payment_instrument_id"
-    trigger_value       = '4'
-    target_element_id   ="checkNumber" 
-    target_element_type ="table-row"
-    field_type          ="select"
     invert              = 0
 }
 {/if}

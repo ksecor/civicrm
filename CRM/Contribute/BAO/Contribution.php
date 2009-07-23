@@ -1083,4 +1083,66 @@ WHERE ( $contributionCond  OR $contactCond )";
             CRM_Core_BAO_Block::blockDelete( 'Address', $params );
         }
     }
+    
+    /**
+     * This function check online pending contribution associated w/ 
+     * Online Event Registration or Online Membership signup.
+     * 
+     * @param int    $componentId   participant/membership id.
+     * @param string $componentName Event/Membership.
+     *
+     * @return $contributionId pending contribution id.
+     * @static
+     */
+    static function checkOnlinePendingContribution( $componentId, $componentName ) 
+    {
+        $contributionId = null;
+        if ( !$componentId || 
+             !in_array( $componentName, array( 'Event', 'Membership' ) ) ) {
+            return $contributionId;
+        }
+        
+        if ( $componentName == 'Event' ) {
+            $idName         = 'participant_id';
+            $componentTable = 'civicrm_participant';
+            $paymentTable   = 'civicrm_participant_payment'; 
+            $source         = ts( 'Online Event Registration' );
+        }
+        
+        if ( $componentName == 'Membership' ) {
+            $idName         = 'membership_id';
+            $componentTable = 'civicrm_membership';
+            $paymentTable   = 'civicrm_membership_payment';
+            $source         =  ts( 'Online Contribution' );
+        }
+        
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $pendingStatusId = array_search( 'Pending',  CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' ) );
+        
+        $query = "
+   SELECT  component.id as {$idName},
+           componentPayment.contribution_id as contribution_id,
+           contribution.source source,
+           contribution.contribution_status_id as contribution_status_id,
+           contribution.is_pay_later as is_pay_later
+     FROM  $componentTable component
+LEFT JOIN  $paymentTable componentPayment    ON ( componentPayment.{$idName} = component.id )
+LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_id = contribution.id )
+    WHERE  component.id = {$componentId}";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        
+        while( $dao->fetch( ) ) {
+            if ( $dao->contribution_id && 
+                 $dao->is_pay_later &&
+                 $dao->contribution_status_id == $pendingStatusId &&
+                 strpos( $dao->source, $source ) !== false ) {
+                $contributionId = $dao->contribution_id;
+            }
+            $dao->free( );
+        }
+        
+        return $contributionId; 
+    }
+    
 }
