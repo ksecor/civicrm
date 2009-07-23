@@ -187,5 +187,16 @@ cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : fals
                                                         cj( "#shared_household_id" ).val( data[1] );
                                                     }
                                               });
+//to check if same location type is already selected.
+function checkLocation( object, noAlert ) {
+	selectedText = cj( '#' + object + ' :selected').text();
+	cj( 'td#Address-Primary-html select' ).each( function() {
+		element = cj(this).attr('id');
+		if( element != object && selectedText == cj( '#' + element + ' :selected').text() ) {
+			if( ! noAlert ) alert( 'Location Type ' + selectedText + ' is already Selected. Please select another Location Type !' );
+			cj( '#' + object ).val('');
+		}
+	});
+}
 </script>
 {/literal}

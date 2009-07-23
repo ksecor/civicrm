@@ -57,17 +57,12 @@ class CRM_Contact_Form_Edit_Address
         $countryDefault = $config->defaultContactCountry;
         
         $form->applyFilter('__ALL__','trim');
-        
-        // only add hidden element when processing first block 
-        // for remaining blocks we'll calculate at run time w/ jQuery. 
-        if ( $blockId == 1 ) {
-            $form->addElement( 'hidden', 'hidden_Address_Instances', $blockId, array( 'id' => 'hidden_Address_Instances' ) );
-        }
-                
+   
+		$js = array( 'onChange' => 'checkLocation( this.id );');	       
         $form->addElement('select',
                           "address[$blockId][location_type_id]",
                           ts( 'Location Type' ),
-                          array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+                          array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ), $js );
         
         $js = array( 'id' => "Address_".$blockId."_IsPrimary", 'onClick' => 'singleSelect( this.id );');
         $form->addElement(

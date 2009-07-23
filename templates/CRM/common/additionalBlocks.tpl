@@ -4,8 +4,6 @@ cj( function( ) {
     {/literal}
     {if $generateAjaxRequest}
         {foreach from=$ajaxRequestBlocks key="blockName" item="instances"}
-        //reset count to 1 since each time counter get increamented.
-        cj( "#hidden_" + "{$blockName}" + "_Instances" ).val( 1 );
             {foreach from=$instances key="instance" item="active"}
                 buildAdditionalBlocks( '{$blockName}', '{$className}' );
             {/foreach}  	
@@ -65,6 +63,10 @@ function buildAdditionalBlocks( blockName, className ) {
             cj(fname).after(html[1]);
         }
     });
+	
+	if ( blockName == 'Address' ) {
+        checkLocation('address_' + currentInstance + '_location_type_id', true );
+    }
 }
 
 //select single for is_bulk & is_primary
