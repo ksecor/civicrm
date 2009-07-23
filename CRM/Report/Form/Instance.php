@@ -74,12 +74,15 @@ class CRM_Report_Form_Instance {
                     'report_footer',
                     ts( 'Report Footer' ),
                     $attributes['footer'] );
-        
-        $msEle = $form->addElement( 'select',
-                                    'permission',
-                                    ts( 'Permission' ),
-                                    array( '0' => '- Any One -') + CRM_Core_Permission::basicPermissions( ) );
 
+        $form->addElement( 'checkbox', 'is_navigation', ts('Do you want Menu in Navigation?'), null, 
+                           array('onclick' =>"return showHideByValue('is_navigation','','navigation_menu','table-row','radio',false);") );
+
+        $form->addElement( 'select',
+                           'permission',
+                           ts( 'Permission' ),
+                           array( '0' => '- Any One -') + CRM_Core_Permission::basicPermissions( ) );
+        
         //navigation field
         $parentMenu = array( );
         CRM_Core_BAO_Navigation::getNavigationList( $parentMenu );
@@ -160,8 +163,8 @@ class CRM_Report_Form_Instance {
         $params['footer']    = $params['report_footer'];
 
         //navigation parameters
-        if ( CRM_Utils_Array::value( 'parent_id', $params ) ) {
-            $form->_navigation['parent_id']  = $params['parent_id'];
+        if ( CRM_Utils_Array::value( 'is_navigation', $params ) ) {
+            $form->_navigation['parent_id']  = CRM_Utils_Array::value( 'parent_id', $params );
             $form->_navigation['label']      = $params['title'];
             $form->_navigation['name']       = $params['title'];
             $form->_navigation['permission'] = array( CRM_Utils_Array::value( 'permission', $params ) );

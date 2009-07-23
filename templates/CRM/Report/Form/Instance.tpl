@@ -51,6 +51,12 @@
 </table>
 <table class="report-layout">
     <tr>
+	<td class="report-label">{$form.is_navigation.label}</td>
+        <td>{$form.is_navigation.html}<br />
+            <span class="description">{ts}Check this box to select parent menu.{/ts}</span>
+        </td>
+    </tr>
+    <tr id="navigation_menu">
 	<td class="report-label">{$form.parent_id.label} {help id="id-parent" file="CRM/Admin/Form/Navigation.hlp"}</td>
 	<td>{$form.parent_id.html|crmReplace:class:huge}</td>
     </tr>
@@ -59,3 +65,12 @@
 	<td>{$form.permission.html|crmReplace:class:huge}</td>
     </tr>
 </table>
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_navigation"
+    trigger_value       =""
+    target_element_id   ="navigation_menu" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
