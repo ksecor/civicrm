@@ -627,7 +627,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         VALUES
             ( 1, {foreach from=$locales item=locale}'Free Meeting without Online Registration',  null            ,  null                                   ,   null                   , {/foreach}  4,  1, 1, 1, 0, 0, null, null, null, null,  null,                   null,                           1 ), 
             ( 1, {foreach from=$locales item=locale}'Free Meeting with Online Registration',     null            ,  'Confirm Your Registration Information', 'Thanks for Registering!', {/foreach}  4,  1, 1, 1, 0, 1,    1,    1,    0, null,  null,                   null,                           1 ),
-            ( 1, {foreach from=$locales item=locale}'Paid Conference with Online Registration',  'Conference Fee',  'Confirm Your Registration Information', 'Thanks for Registering!', {/foreach}  1,  1, 1, 1, 1, 1,    1,    1,    1,    4,  'Event Template Dept.', 'event_templates@example.org',  1 )";
+            ( 1, {foreach from=$locales item=locale}'Paid Conference with Online Registration',  'Conference Fee',  'Confirm Your Registration Information', 'Thanks for Registering!', {/foreach}  1,  1, 1, 1, 1, 1,    1,    1,    1,    4,  'Event Template Dept.', 'event_templates@example.org',  1 );
             
     {else}
         ALTER TABLE `civicrm_event`
@@ -645,7 +645,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         VALUES
             ( 1, 'Free Meeting without Online Registration', 4, 1, 1, 1, 0, 0, null, null, null,  null,  null,              null,                                      null,                    null, null, 1  ), 
             ( 1, 'Free Meeting with Online Registration',    4, 1, 1, 1, 0, 1, 1,    1,    0,     null,  null,              'Confirm Your Registration Information', 'Thanks for Registering!', null, null, 1  ),
-            ( 1, 'Paid Conference with Online Registration', 1, 1, 1, 1, 1, 1, 1,    1,    1,     4   ,  'Conference Fee',  'Confirm Your Registration Information', 'Thanks for Registering!', 'Event Template Dept.', 'event_templates@example.org', 1 )";
+            ( 1, 'Paid Conference with Online Registration', 1, 1, 1, 1, 1, 1, 1,    1,    1,     4   ,  'Conference Fee',  'Confirm Your Registration Information', 'Thanks for Registering!', 'Event Template Dept.', 'event_templates@example.org', 1 );
     {/if}
     
     -- CRM-4138
@@ -759,14 +759,26 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
 
 
     -- CRM-4575
+    -- drop column greeting type and custom greeting from civicrm_contact
+    ALTER TABLE `civicrm_contact`
+        DROP `greeting_type_id`,
+        DROP `custom_greeting`;   
+
+    -- delete greeting type option group
+    DELETE FROM civicrm_option_value WHERE option_group_id = @og_id_greeting;
+    DELETE FROM civicrm_option_group WHERE              id = @og_id_greeting;
+
     -- add email greeting, postal greeting and addressee fields
     ALTER TABLE `civicrm_contact` 
         ADD `email_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Email Greeting.' AFTER `suffix_id`, 
-        ADD `email_greeting_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Email Greeting.' AFTER `email_greeting_id`, 
+        ADD `email_greeting_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Email Greeting.' AFTER `email_greeting_id`, 
+        ADD `email_greeting_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Email greeting.'  AFTER `email_greeting_custom`,
         ADD `postal_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Postal Greeting.' AFTER `email_greeting_custom`, 
-        ADD `postal_greeting_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Postal greeting.' AFTER `postal_greeting_id`, 
+        ADD `postal_greeting_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Postal greeting.' AFTER `postal_greeting_id`,
+        ADD `postal_greeting_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Postal  greeting.' AFTER `postal_greeting_custom`,
         ADD `addressee_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Addressee.' AFTER `postal_greeting_custom`,
-        ADD `addressee_custom` VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Addressee.' AFTER `addressee_id`;
+        ADD `addressee_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Addressee.' AFTER `addressee_id`,
+        ADD `addressee_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Addressee.'  AFTER `addressee_custom`;
 
     SELECT @og_id_emailGreeting   := max(id) FROM civicrm_option_group WHERE name = 'email_greeting';
     SELECT @og_id_postalGreeting  := max(id) FROM civicrm_option_group WHERE name = 'postal_greeting';
@@ -819,44 +831,54 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             ( @og_id_addressee, '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}', '1', '{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}', '1', '1', '1', '0', '1'),
             ( @og_id_addressee, '{contact.household_name}',    '2', '{contact.household_name}',    '2',     '1', '2',  '0', '1'),
             ( @og_id_addressee, '{contact.organization_name}', '3', '{contact.organization_name}', '3',     '1', '3',  '0', '1'),
-            ( @og_id_addressee, 'Customized',                  '4', 'Customized',                   0 ,    '0', '4',  '1', '1');
+            ( @og_id_addressee, 'Customized',                  '4', 'Customized',                   0 ,     '0', '4',  '1', '1');
         {/literal}
     {/if}
-    -- Set civicrm_contact.addressee_id to default value for the given contact type. 
+    -- Set civicrm_contact.email_greeting_id and postal_greeting_id to default value for the given contact type. 
     SELECT @value := value
     FROM civicrm_option_value 
-        INNER JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
-    WHERE civicrm_option_group.name = 'addressee' AND 
-        civicrm_option_value.filter = 1 AND 
-        civicrm_option_value.is_default = 1;
-    UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Individual';
-
-    SELECT @value := value
-    FROM civicrm_option_value 
-        INNER JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
-    WHERE civicrm_option_group.name = 'addressee' AND 
-        civicrm_option_value.filter = 2 AND
-        civicrm_option_value.is_default = 1;
-    UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Household';
+         WHERE civicrm_option_value.option_group_id = @og_id_emailGreeting
+              AND civicrm_option_value.filter = 1 
+              AND civicrm_option_value.is_default = 1;
+    UPDATE civicrm_contact SET 
+           email_greeting_id       = @value,
+           email_greeting_display  = CONCAT("Dear ",first_name),
+           postal_greeting_id      = @value,
+           postal_greeting_display = CONCAT("Dear ",first_name)            
+    WHERE contact_type = 'Individual';
 
     SELECT @value := value
     FROM civicrm_option_value 
-        INNER JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
-    WHERE civicrm_option_group.name = 'addressee' AND 
-        civicrm_option_value.filter = 3 AND
-        civicrm_option_value.is_default = 1;
-    UPDATE civicrm_contact SET addressee_id = @value WHERE contact_type = 'Organization';
+         WHERE civicrm_option_value.option_group_id = @og_id_emailGreeting
+              AND civicrm_option_value.filter = 2 
+              AND civicrm_option_value.is_default = 1;
+    UPDATE civicrm_contact SET 
+           email_greeting_id       = @value,
+           email_greeting_display  = CONCAT("Dear ",household_name),
+           postal_greeting_id      = @value,
+           postal_greeting_display = CONCAT("Dear ",household_name)   
+    WHERE contact_type = 'Household';
 
-    {literal}
-    --  replace {contact.contact_name} with {contact.addressee}. in civicrm_preference.mailing_format
-        UPDATE civicrm_preferences 
-            SET `mailing_format` = replace(`mailing_format`, '{contact.contact_name}','{contact.addressee}');
-    {/literal}
+    SELECT @value := value
+    FROM civicrm_option_value 
+         WHERE civicrm_option_value.option_group_id = @og_id_addressee
+              AND civicrm_option_value.filter = 2 
+              AND civicrm_option_value.is_default = 1;
+    UPDATE civicrm_contact SET 
+           addressee_id      = @value,
+           addressee_display = household_name
+    WHERE  contact_type      = 'Household';
 
-    -- drop column individual_name_format
-    ALTER TABLE `civicrm_preferences`
-        DROP `individual_name_format`;
-    
+    SELECT @value := value
+    FROM civicrm_option_value 
+         WHERE civicrm_option_value.option_group_id = @og_id_addressee
+              AND civicrm_option_value.filter = 3 
+              AND civicrm_option_value.is_default = 1;
+    UPDATE civicrm_contact SET 
+           addressee_id      = @value,
+           addressee_display = organization_name
+    WHERE  contact_type      = 'Organization';
+
     -- CRM-4610
     ALTER TABLE `civicrm_group_organization`
         DROP FOREIGN KEY `FK_civicrm_group_organization_group_id`,
@@ -937,32 +959,30 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
 -- end of the if block
 -- ****************************
 {else}
-    -- CRM-4575 
-    -- replace email greeting and postal greeting as per greeting type
-    {foreach from=$mapperArray  key=greetingId item=replaceId}
-        UPDATE civicrm_contact
-            SET email_greeting_id = {$replaceId}, postal_greeting_id = {$replaceId}
-        WHERE  greeting_type_id = {$greetingId};
-    {/foreach} 
+    -- CRM-4575
+    -- set default value for addressee contact.contact_name with contact.addressee in civicrm_preference.mailing_format
 
-    SELECT @og_id_greeting            := max(id)  FROM civicrm_option_group    WHERE name = 'greeting_type';
-    SELECT @op_id_customGreeting      := op.value FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_greeting AND op.name = 'Customized';
-    SELECT @og_id_emailGreeting       := max(id)  FROM civicrm_option_group    WHERE name = 'email_greeting';
-    SELECT @op_id_customEmailGreeting := op.value FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_emailGreeting AND op.name = 'Customized';
+    SELECT @og_id_addressee       := max(id) FROM civicrm_option_group WHERE name = 'addressee';
+    {if $addresseeTokenValue} 
+        UPDATE civicrm_contact SET 
+           addressee_id      = {$addresseeTokenValue},
+           addressee_display = display_name
+        WHERE contact_type   = 'Individual';
+    {else}
+        UPDATE civicrm_contact SET 
+           addressee_id      = {$defaultAddresseeTokenValue},
+           addressee_display = display_name
+        WHERE contact_type   = 'Individual';
+    {/if}
+    -- replace contact.contact_name with contact.addressee in civicrm_preference.mailing_format
+   {literal}
+         UPDATE civicrm_preferences 
+            SET `mailing_format` = replace(`mailing_format`, '{contact.contact_name}','{contact.addressee}');
+    {/literal}
 
-    UPDATE civicrm_contact cc INNER JOIN civicrm_contact cca ON cc.id = cca.id 
-        SET cc.email_greeting_custom  = cc.custom_greeting, 
-            cc.postal_greeting_custom = cc.custom_greeting, 
-            cc.email_greeting_id      = @op_id_customEmailGreeting,  
-            cc.postal_greeting_id     = @op_id_customEmailGreeting
-    WHERE cc.greeting_type_id = @op_id_customGreeting;
+    -- drop column individual_name_format
+    ALTER TABLE `civicrm_preferences`
+        DROP `individual_name_format`;
+    
 
-    -- drop column greeting type and custom greeting from civicrm_contact
-    ALTER TABLE `civicrm_contact`
-        DROP `greeting_type_id`,
-        DROP `custom_greeting`;   
-
-    -- delete greeting type option group
-    DELETE FROM civicrm_option_value WHERE option_group_id = @og_id_greeting;
-    DELETE FROM civicrm_option_group WHERE              id = @og_id_greeting;
 {/if}

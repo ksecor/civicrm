@@ -176,79 +176,52 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
         }
         
         //CRM-4575
-        //Replacements for greeting type tokens with email and postal greeting
-        //to make mapper array
-        $replacements = array(
-                              'display'  => '{contact.display_name}',    
-                              'prefix'   => '{contact.individual_prefix}',
-                              'first'    => '{contact.first_name}',        
-                              'middle'   => '{contact.middle_name}',      
-                              'last'     => '{contact.last_name}',          
-                              'suffix'   => '{contact.individual_suffix}',
-                              'nick'     => '{contact.nick_name}',           
-                              'email'    => '{contact.email}',
-                              'household'=> '{contact.household_name}',              
-                              );
-        
-        $greetingTypes      = CRM_Core_OptionGroup::values( 'greeting_type' );
+        //check whether {contact.name} is set in mailing labels
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $mailingFormat = CRM_Core_BAO_Preferences::value( 'mailing_format' );
+        if ( strpos($mailingFormat,'{contact.contact_name}') === false ) {
+            $commonAddressee = true;
+        } else {
+            //else compare individual name format with default individual addressee.
+            $individualNameFormat = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
+            $defaultAddressee     = CRM_Core_OptionGroup::values( 'addressee', false, false, false, " AND v.filter = 1 AND v.is_default =  1", 'label' );
 
-        //Default data of email greeting and postal greeting are same hence can pick email greeting only
-        $emailGreetingTypes = CRM_Core_OptionGroup::values( 'email_greeting' );
-        $mapperArray        = array( );
-        
-        foreach ( $greetingTypes as $id => $label ) {
-            $greetingToken =  strstr( $label, '[');
-            if ( isset($greetingToken) ) {
-                $matches = array();
-                preg_match_all( '/(?<!\[|\\\\)\[(\w+\w+)\](?!\])/',
-                                $greetingToken,
-                                $matches,
-                                PREG_PATTERN_ORDER);
+            if ( array_search($individualNameFormat, $defaultAddressee) === false ) {
+                 $commonAddressee = true;
+            } else {
+                //otherwise inset new token in addressee and set as a default
+                $addresseeGroupId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
+                                                                  'addressee',
+                                                                  'id',
+                                                                  'name' );
                 
-                if ( $matches[1] ) {
-                    $newToken = array( ); 
-                    foreach ( $matches[1] as $token ) {
-                        $newToken[] = CRM_utils_Array::value($token, $replacements);
-                    }
-                    
-                    $newToken        = implode(' ', $newToken);
-                    $emailToken      = str_replace( $greetingToken, $newToken, $label );
-                    $emailGreetingId = CRM_Utils_Array::key($emailToken, $emailGreetingTypes);
-                    
-                    //if replaced token is already exist in default email/postal greeting
-                    //then add its value to mapper array.
-                    if ( $emailGreetingId ) {
-                        $mapperArray[$id] = $emailGreetingId; 
-                    } else {
-                        //otherwise insert new token in email and postal greeting.
-                        $optionValueParams = array( 'label'          => $emailToken,
-                                                    'is_active'      => 1, 
-                                                    'contactOptions' => 1,
-                                                    'filter'         => 1
-                                                    );
+                $optionValueParams = array( 'label'          => $individualNameFormat,
+                                            'is_active'      => 1, 
+                                            'contactOptions' => 1,
+                                            'filter'         => 1,
+                                            'defaultGreeting'=> 1,
+                                            'is_default'     => 1
+                                            );
+                
+                $action               = CRM_Core_Action::ADD;
+                $addresseeGroupParams = array( 'name' => 'addressee' );
+                $fieldValues          = array( 'option_group_id' => $addresseeGroupId );
+                $weight               = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
 
-                        $action = CRM_Core_Action::ADD;
-                        
-                        foreach ( array('email_greeting', 'postal_greeting') as $optionGroupName ) {
-                            $groupParams   = array( 'name' => $optionGroupName );
-                            
-                            $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
-                                                                          'email_greeting',
-                                                                          'id',
-                                                                          $optionGroupName );
-                            $fieldValues   = array( 'option_group_id' => $optionGroupId );
-                            $weight        = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
-                            $optionValueParams['weight'] = $weight;
-                            $optionValue   = CRM_Core_OptionValue::addOptionValue( $optionValueParams, $groupParams, 
-                                                                                   $action, $optionId = null );
-                            $mapperArray[$id] = $optionValue->value;
-                        }
-                    }
-                }
-            }
+                $optionValueParams['weight'] = $weight;
+                $addresseeTokne           = CRM_Core_OptionValue::addOptionValue( $optionValueParams, $addresseeGroupParams, 
+                                                                                     $action, $optionId = null );
+                $commonAddressee = false;
+            } 
         }
+        
+        if ( !$commonAddressee ) {
+            $template->assign('addresseeTokenValue', $addresseeTokne->value );    
+        } else {
+            $template->assign('defaultAddresseeTokenValue', key($defaultAddressee) );     
+        }
+        
         //Run the SQL file (2)
-        $template->assign( 'mapperArray', $mapperArray );
         $template->assign( 'skipGreetingTypePart', 0 );
         $upgrade->processSQL( $rev );
 
