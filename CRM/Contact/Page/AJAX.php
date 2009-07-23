@@ -465,10 +465,15 @@ WHERE sort_name LIKE '%$name%'";
             }
         } else {
             $name  = CRM_Utils_Type::escape( $_GET['name'], 'String' );
+			$queryString = "cc.sort_name LIKE '%$name%'";
+			if ( !$name ) {
+				$cid = CRM_Utils_Array::value( 'cid', $_GET );
+				$queryString = "cc.id IN ( $cid )";
+			}
             $query="
 SELECT sort_name name, ce.email, cc.id
 FROM civicrm_email ce LEFT JOIN civicrm_contact cc ON cc.id = ce.contact_id
-WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.is_deceased = 0 AND cc.do_not_email = 0 AND cc.sort_name LIKE '%$name%';";
+WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.is_deceased = 0 AND cc.do_not_email = 0 AND {$queryString};";
             
             $dao = CRM_Core_DAO::executeQuery( $query );
             
