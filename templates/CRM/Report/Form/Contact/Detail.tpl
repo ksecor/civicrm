@@ -66,16 +66,13 @@
                             {foreach from=$columnHeadersComponent item=pheader key=component}
                                 {if $componentRows.$componentContactId.$component}
                                     <u><strong>{$component|replace:'_civireport':''|upper}</strong></u>
-                                {/if}
                         	<table class="report-layout">
                         	    {*add space before headers*}
-                        	    {if $componentRows.$componentContactId.$component}
                         		<tr>
                         		    {foreach from=$pheader item=header}
                         			<th>{$header.title}</th>
                         		    {/foreach}
                         		</tr>
-                        	    {/if}
                              
                         	    {foreach from=$componentRows.$componentContactId.$component item=row}
                         		<tr>
@@ -108,7 +105,8 @@
                         		    {/foreach}
                         		</tr>
                         	    {/foreach}
-                        	</table>	
+                        	</table>
+                            {/if}	
                             {/foreach}
                         {/if}
                     </td>
