@@ -158,9 +158,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $defaults =& parent::setDefaultValues( );
         
         //setting default join date and receive date
+        $now = date("Y-m-d");
         if ($this->_action == CRM_Core_Action::ADD) {
-            $now = date("Y-m-d");
-            $defaults['join_date']    = $now;
             $defaults['receive_date'] = $now;
         }
         
@@ -264,6 +263,12 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 }
             } 
         }
+        
+        //setting default join date if there is no join date
+        if ( !CRM_Utils_Array::value('join_date', $defaults ) ) {
+            $defaults['join_date']    = $now;
+        }
+        
         return $defaults;
         
     }
