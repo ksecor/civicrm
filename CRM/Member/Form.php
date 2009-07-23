@@ -86,8 +86,10 @@ class CRM_Member_Form extends CRM_Core_Form
         if ( isset ($defaults['status'] ) ) {
             $this->assign( 'membershipStatus', $defaults['status'] );
         }
-        // its ok if there is no element called is_active
-        $defaults['is_active'] = 1;
+        
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $defaults['is_active'] = 1;
+        }
         
         if ( isset( $defaults['member_of_contact_id'] ) &&
              $defaults['member_of_contact_id'] ) {
