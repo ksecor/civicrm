@@ -192,7 +192,7 @@ function checkLocation( object, noAlert ) {
 	selectedText = cj( '#' + object + ' :selected').text();
 	cj( 'td#Address-Primary-html select' ).each( function() {
 		element = cj(this).attr('id');
-		if( element != object && selectedText == cj( '#' + element + ' :selected').text() ) {
+		if( cj(this).val() && element != object && selectedText == cj( '#' + element + ' :selected').text() ) {
 			if( ! noAlert ) alert( 'Location Type ' + selectedText + ' is already Selected. Please select another Location Type !' );
 			cj( '#' + object ).val('');
 		}
