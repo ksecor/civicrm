@@ -974,7 +974,7 @@ INSERT INTO civicrm_navigation
 ( 62, @domainID, 'civicrm/member/search&reset=1', '{ts escape="sql"}Find Members{/ts}', 'Find Members', NULL, '', '59', '1', NULL, 3 ), 
 ( 63, @domainID, 'civicrm/member/import&reset=1', '{ts escape="sql"}Import Members{/ts}', 'Import Members', NULL, '', '59', '1', NULL, 4 ), 
 
-( 64, @domainID, NULL, '{ts escape="sql"}Other{/ts}', 'Other', 'access CiviGrant,access CiviCase', 'OR', NULL, '1', NULL, 8 ), 
+( 64, @domainID, NULL, '{ts escape="sql"}Other{/ts}', 'Other', 'access CiviGrant,access CiviCase', 'OR', NULL, '1', NULL, 9 ), 
 ( 65, @domainID, NULL, '{ts escape="sql"}Cases{/ts}', 'Cases', 'access CiviCase', '', '64', '1', NULL, 1 ), 
 ( 66, @domainID, 'civicrm/case&reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '65', '1', NULL, 1 ), 
 ( 67, @domainID, 'civicrm/contact/view/case&reset=1&action=add&atype=13&context=standalone', '{ts escape="sql"}New Case{/ts}', 'New Case', NULL, '', '65', '1', NULL, 2 ), 
@@ -985,7 +985,7 @@ INSERT INTO civicrm_navigation
 ( 71, @domainID, 'civicrm/contact/view/grant&reset=1&action=add&context=standalone', '{ts escape="sql"}New Grant{/ts}', 'New Grant', NULL, '', '69', '1', NULL, 2 ), 
 ( 72, @domainID, 'civicrm/grant/search&reset=1', '{ts escape="sql"}Find Grants{/ts}', 'Find Grants', NULL, '', '69', '1', 1, 3 ), 
 
-( 73, @domainID, NULL, '{ts escape="sql"}Administer{/ts}', 'Administer', 'administer CiviCRM', '', NULL, '1', NULL, 9 ), 
+( 73, @domainID, NULL, '{ts escape="sql"}Administer{/ts}', 'Administer', 'administer CiviCRM', '', NULL, '1', NULL, 10 ), 
 ( 74, @domainID, 'civicrm/admin&reset=1', '{ts escape="sql"}Administration Console{/ts}', 'Administration Console', NULL, '', '73', '1', NULL, 1 ), 
 
 ( 75, @domainID, NULL, '{ts escape="sql"}Customize{/ts}', 'Customize', NULL, '', '73', '1', NULL, 2 ), 
@@ -1083,8 +1083,30 @@ INSERT INTO civicrm_navigation
 ( 155, @domainID, 'civicrm/admin/report/template/list&reset=1', '{ts escape="sql"}Create Reports from Templates{/ts}', 'Create Reports from Templates', NULL, '', '153', '1', NULL, 2 ), 
 ( 156, @domainID, 'civicrm/admin/report/options/report_template&reset=1', '{ts escape="sql"}Manage Templates{/ts}', 'Manage Templates', NULL, '', '153', '1', NULL, 3 ), 
 
-( 157, @domainID, NULL, '{ts escape="sql"}Help{/ts}', 'Help', NULL, '', NULL, '1', NULL, 10 ), 
+( 157, @domainID, NULL, '{ts escape="sql"}Help{/ts}', 'Help', NULL, '', NULL, '1', NULL, 11 ), 
 ( 158, @domainID, 'http://documentation.civicrm.org', '{ts escape="sql"}Documentation{/ts}', 'Documentation', NULL, 'AND', '157', '1', NULL, 1 ), 
 ( 159, @domainID, 'http://forum.civicrm.org', '{ts escape="sql"}Community Forums{/ts}', 'Community Forums', NULL, 'AND', '157', '1', NULL, 2 ), 
 ( 160, @domainID, 'http://civicrm.org/participate', '{ts escape="sql"}Participate{/ts}', 'Participate', NULL, 'AND', '157', '1', NULL, 3 ), 
-( 161, @domainID, 'http://civicrm.org/aboutcivicrm', '{ts escape="sql"}About{/ts}', 'About', NULL, 'AND', '157', '1', NULL, 4 );
+( 161, @domainID, 'http://civicrm.org/aboutcivicrm', '{ts escape="sql"}About{/ts}', 'About', NULL, 'AND', '157', '1', NULL, 4 ),
+
+( 162, @domainID, NULL,                                                     '{ts escape="sql"}Reports{/ts}',                        'Reports',                       'access CiviReport',   '',  NULL, '1', NULL, 8 ), 
+( 163, @domainID, 'civicrm/report/list&reset=1',                            '{ts escape="sql"}Manage Reports{/ts}',                 'Manage Reports',                 NULL,                 '', '162', '1', NULL, 1 ), 
+( 164, @domainID, 'civicrm/admin/report/template/list&reset=1',             '{ts escape="sql"}Create Reports from Templates{/ts}',  'Create Reports from Templates', 'administer Reports',  '', '162', '1', NULL, 2 ), 
+( 165, @domainID, 'civicrm/admin/report/options/report_template&reset=1',   '{ts escape="sql"}Manage Templates{/ts}',               'Manage Templates',              'administer Reports',  '', '162', '1', NULL, 3 ),
+( 166, @domainID, 'civicrm/admin/report/register&reset=1',                  '{ts escape="sql"}Register Report{/ts}',                'Register Report',               'administer Reports',  '', '162', '1', NULL, 4 ),
+
+( 167, @domainID, 'civicrm/report/instance/1&reset=1',     '{ts escape="sql"}Constituent Report (Summary){/ts}',       '{literal}Constituent Report (Summary){/literal}',     'administer CiviCRM',       '',  163,  '1', NULL, 1 ),
+( 168, @domainID, 'civicrm/report/instance/2&reset=1',     '{ts escape="sql"}Constituent Report (Detail){/ts}',        '{literal}Constituent Report (Detail){/literal}',      'administer CiviCRM',       '',  163,  '1', NULL, 2 ),
+( 169, @domainID, 'civicrm/report/instance/3&reset=1',     '{ts escape="sql"}Donor Report (Summary){/ts}',             '{literal}Donor Report (Summary){/literal}',           'access CiviContribute',    '',  163,  '1', NULL, 3 ),
+( 170, @domainID, 'civicrm/report/instance/4&reset=1',     '{ts escape="sql"}Donor Report (Detail){/ts}',              '{literal}Donor Report (Detail){/literal}',            'access CiviContribute',    '',  163,  '1', NULL, 4 ),
+( 171, @domainID, 'civicrm/report/instance/5&reset=1',     '{ts escape="sql"}Donation Summary Report (Repeat){/ts}',   '{literal}Donation Summary Report (Repeat){/literal}', 'access CiviContribute',    '',  163,  '1', NULL, 5 ),
+( 172, @domainID, 'civicrm/report/instance/6&reset=1',     '{ts escape="sql"}SYBUNT Report{/ts}',                      '{literal}SYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 6 ),
+( 173, @domainID, 'civicrm/report/instance/7&reset=1',     '{ts escape="sql"}LYBUNT Report{/ts}',                      '{literal}LYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 7 ),
+( 174, @domainID, 'civicrm/report/instance/8&reset=1',     '{ts escape="sql"}Soft Credit Report{/ts}',                 '{literal}Soft Credit Report{/literal}',               'access CiviContribute',    '',  163,  '1', NULL, 8 ),
+( 175, @domainID, 'civicrm/report/instance/9&reset=1',     '{ts escape="sql"}Membership Report (Summary){/ts}',        '{literal}Membership Report (Summary){/literal}',      'access CiviMember',        '',  163,  '1', NULL, 9 ),
+( 176, @domainID, 'civicrm/report/instance/10&reset=1',    '{ts escape="sql"}Membership Report (Detail){/ts}',         '{literal}Membership Report (Detail){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 10 ),
+( 177, @domainID, 'civicrm/report/instance/11&reset=1',    '{ts escape="sql"}Membership Report (Lapsed){/ts}',         '{literal}Membership Report (Lapsed){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 11 ),
+( 178, @domainID, 'civicrm/report/instance/12&reset=1',    '{ts escape="sql"}Event Participant Report (List){/ts}',    '{literal}Event Participant Report (List){/literal}',  'access CiviEvent',         '',  163,  '1', NULL, 12 ),
+( 179, @domainID, 'civicrm/report/instance/13&reset=1',    '{ts escape="sql"}Event Income Report (Summary){/ts}',      '{literal}Event Income Report (Summary){/literal}',    'access CiviEvent',         '',  163,  '1', NULL, 13 ),
+( 180, @domainID, 'civicrm/report/instance/14&reset=1',    '{ts escape="sql"}Event Income Report (Detail){/ts}',       '{literal}Event Income Report (Detail){/literal}',     'access CiviEvent',         '',  163,  '1', NULL, 14 ),
+( 181, @domainID, 'civicrm/report/instance/15&reset=1',    '{ts escape="sql"}Attendee List{/ts}',                      '{literal}Attendee List{/literal}',                    'access CiviEvent',         '',  163,  '1', NULL, 15 );

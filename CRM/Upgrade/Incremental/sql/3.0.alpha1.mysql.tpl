@@ -474,7 +474,31 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ( 157, @domain_id, 'http://documentation.civicrm.org',  '{ts escape="sql"}Documentation{/ts}',      'Documentation',    NULL, 'AND', '156', '1', NULL, 1 ), 
         ( 158, @domain_id, 'http://forum.civicrm.org',          '{ts escape="sql"}Community Forums{/ts}',   'Community Forums', NULL, 'AND', '156', '1', NULL, 2 ), 
         ( 159, @domain_id, 'http://civicrm.org/participate',    '{ts escape="sql"}Participate{/ts}',        'Participate',      NULL, 'AND', '156', '1', NULL, 3 ), 
-        ( 160, @domain_id, 'http://civicrm.org/aboutcivicrm',   '{ts escape="sql"}About{/ts}',              'About',            NULL, 'AND', '156', '1', NULL, 4 );
+        ( 160, @domain_id, 'http://civicrm.org/aboutcivicrm',   '{ts escape="sql"}About{/ts}',              'About',            NULL, 'AND', '156', '1', NULL, 4 ),
+
+        ( 161, @domain_id, 'civicrm/admin/setting/search?reset=1',              '{ts escape="sql"}Search Settings{/ts}', 'Search Settings', NULL, '', '82', '1', NULL, 10 ),
+        
+        ( 162, @domain_id, NULL,                                                     '{ts escape="sql"}Reports{/ts}',                        'Reports',                       'access CiviReport',   '',  NULL, '1', NULL, 8 ), 
+        ( 163, @domain_id, 'civicrm/report/list&reset=1',                            '{ts escape="sql"}Manage Reports{/ts}',                 'Manage Reports',                 NULL,                 '', '162', '1', NULL, 1 ), 
+        ( 164, @domain_id, 'civicrm/admin/report/template/list&reset=1',             '{ts escape="sql"}Create Reports from Templates{/ts}',  'Create Reports from Templates', 'administer Reports',  '', '162', '1', NULL, 2 ), 
+        ( 165, @domain_id, 'civicrm/admin/report/options/report_template&reset=1',   '{ts escape="sql"}Manage Templates{/ts}',               'Manage Templates',              'administer Reports',  '', '162', '1', NULL, 3 ),
+        ( 166, @domain_id, 'civicrm/admin/report/register&reset=1',                  '{ts escape="sql"}Register Report{/ts}',                'Register Report',               'administer Reports',  '', '162', '1', NULL, 4 ),
+        
+        ( 167, @domain_id, 'civicrm/report/instance/1&reset=1',     '{ts escape="sql"}Constituent Report (Summary){/ts}',       '{literal}Constituent Report (Summary){/literal}',     'administer CiviCRM',       '',  163,  '1', NULL, 1 ),
+        ( 168, @domain_id, 'civicrm/report/instance/2&reset=1',     '{ts escape="sql"}Constituent Report (Detail){/ts}',        '{literal}Constituent Report (Detail){/literal}',      'administer CiviCRM',       '',  163,  '1', NULL, 2 ),
+        ( 169, @domain_id, 'civicrm/report/instance/3&reset=1',     '{ts escape="sql"}Donor Report (Summary){/ts}',             '{literal}Donor Report (Summary){/literal}',           'access CiviContribute',    '',  163,  '1', NULL, 3 ),
+        ( 170, @domain_id, 'civicrm/report/instance/4&reset=1',     '{ts escape="sql"}Donor Report (Detail){/ts}',              '{literal}Donor Report (Detail){/literal}',            'access CiviContribute',    '',  163,  '1', NULL, 4 ),
+        ( 171, @domain_id, 'civicrm/report/instance/5&reset=1',     '{ts escape="sql"}Donation Summary Report (Repeat){/ts}',   '{literal}Donation Summary Report (Repeat){/literal}', 'access CiviContribute',    '',  163,  '1', NULL, 5 ),
+        ( 172, @domain_id, 'civicrm/report/instance/6&reset=1',     '{ts escape="sql"}SYBUNT Report{/ts}',                      '{literal}SYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 6 ),
+        ( 173, @domain_id, 'civicrm/report/instance/7&reset=1',     '{ts escape="sql"}LYBUNT Report{/ts}',                      '{literal}LYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 7 ),
+        ( 174, @domain_id, 'civicrm/report/instance/8&reset=1',     '{ts escape="sql"}Soft Credit Report{/ts}',                 '{literal}Soft Credit Report{/literal}',               'access CiviContribute',    '',  163,  '1', NULL, 8 ),
+        ( 175, @domain_id, 'civicrm/report/instance/9&reset=1',     '{ts escape="sql"}Membership Report (Summary){/ts}',        '{literal}Membership Report (Summary){/literal}',      'access CiviMember',        '',  163,  '1', NULL, 9 ),
+        ( 176, @domain_id, 'civicrm/report/instance/10&reset=1',    '{ts escape="sql"}Membership Report (Detail){/ts}',         '{literal}Membership Report (Detail){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 10 ),
+        ( 177, @domain_id, 'civicrm/report/instance/11&reset=1',    '{ts escape="sql"}Membership Report (Lapsed){/ts}',         '{literal}Membership Report (Lapsed){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 11 ),
+        ( 178, @domain_id, 'civicrm/report/instance/12&reset=1',    '{ts escape="sql"}Event Participant Report (List){/ts}',    '{literal}Event Participant Report (List){/literal}',  'access CiviEvent',         '',  163,  '1', NULL, 12 ),
+        ( 179, @domain_id, 'civicrm/report/instance/13&reset=1',    '{ts escape="sql"}Event Income Report (Summary){/ts}',      '{literal}Event Income Report (Summary){/literal}',    'access CiviEvent',         '',  163,  '1', NULL, 13 ),
+        ( 180, @domain_id, 'civicrm/report/instance/14&reset=1',    '{ts escape="sql"}Event Income Report (Detail){/ts}',       '{literal}Event Income Report (Detail){/literal}',     'access CiviEvent',         '',  163,  '1', NULL, 14 ),
+        ( 181, @domain_id, 'civicrm/report/instance/15&reset=1',    '{ts escape="sql"}Attendee List{/ts}',                      '{literal}Attendee List{/literal}',                    'access CiviEvent',         '',  163,  '1', NULL, 15 );
 
     -- End navigation
 
@@ -574,7 +598,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
 
     ALTER TABLE civicrm_activity DROP COLUMN due_date_time;
 
-    -- CRM-4120,CRM-4319, CRM-4326
+    -- CRM-4120, CRM-4319, CRM-4326, CRM-4464
     {if $multilingual} 
         ALTER TABLE `civicrm_event`
             CHANGE `default_discount_id` `default_discount_fee_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.',
@@ -591,6 +615,14 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             ADD `has_waitlist` tinyint(4) default NULL COMMENT 'Whether the event has waitlist support',
             ADD `requires_approval` tinyint(4) default NULL COMMENT 'Whether participants require approval before they can finish registering.',
             ADD `expiration_time` int unsigned   DEFAULT NULL COMMENT 'Expire pending but unconfirmed registrations after this many hours.';
+
+        INSERT INTO civicrm_event 
+            ( is_template, {foreach from=$locales item=locale}template_title_{$locale}, fee_label_{$locale},confirm_title_{$locale}, thankyou_title_{$locale},{/foreach} event_type_id, default_role_id, participant_listing_id, is_public, is_monetary, is_online_registration, is_multiple_registrations, allow_same_participant_emails, is_email_confirm, contribution_type_id, confirm_from_name, confirm_from_email, is_active )
+        VALUES
+            ( 1, {foreach from=$locales item=locale}'Free Meeting without Online Registration',  null            ,  null                                   ,   null                   , {/foreach}  4,  1, 1, 1, 0, 0, null, null, null, null,  null,                   null,                           1 ), 
+            ( 1, {foreach from=$locales item=locale}'Free Meeting with Online Registration',     null            ,  'Confirm Your Registration Information', 'Thanks for Registering!', {/foreach}  4,  1, 1, 1, 0, 1,    1,    1,    0, null,  null,                   null,                           1 ),
+            ( 1, {foreach from=$locales item=locale}'Paid Conference with Online Registration',  'Conference Fee',  'Confirm Your Registration Information', 'Thanks for Registering!', {/foreach}  1,  1, 1, 1, 1, 1,    1,    1,    1,    4,  'Event Template Dept.', 'event_templates@example.org',  1 )";
+            
     {else}
         ALTER TABLE `civicrm_event`
             CHANGE `default_discount_id` `default_discount_fee_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.',
@@ -601,7 +633,15 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             ADD COLUMN `expiration_time` int unsigned   DEFAULT NULL COMMENT 'Expire pending but unconfirmed registrations after this many hours.',
             ADD COLUMN `waitlist_text` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the event is full, but participants can signup for a waitlist.',
             ADD COLUMN `approval_req_text` text collate utf8_unicode_ci default NULL COMMENT 'Text to display when the approval is required to complete registration for an event.';
+    
+        INSERT INTO civicrm_event 
+            ( is_template, template_title, event_type_id, default_role_id, participant_listing_id, is_public, is_monetary, is_online_registration, is_multiple_registrations, allow_same_participant_emails, is_email_confirm, contribution_type_id, fee_label, confirm_title, thankyou_title, confirm_from_name, confirm_from_email, is_active )
+        VALUES
+            ( 1, 'Free Meeting without Online Registration', 4, 1, 1, 1, 0, 0, null, null, null,  null,  null,              null,                                      null,                    null, null, 1  ), 
+            ( 1, 'Free Meeting with Online Registration',    4, 1, 1, 1, 0, 1, 1,    1,    0,     null,  null,              'Confirm Your Registration Information', 'Thanks for Registering!', null, null, 1  ),
+            ( 1, 'Paid Conference with Online Registration', 1, 1, 1, 1, 1, 1, 1,    1,    1,     4   ,  'Conference Fee',  'Confirm Your Registration Information', 'Thanks for Registering!', 'Event Template Dept.', 'event_templates@example.org', 1 )";
     {/if}
+    
     -- CRM-4138
     ALTER TABLE `civicrm_payment_processor_type`
         ADD COLUMN `payment_type` int unsigned   DEFAULT 1 COMMENT 'Payment Type: Credit or Debit';
