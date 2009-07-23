@@ -13,21 +13,10 @@ cj( function( ) {
 });
 
 function buildAdditionalBlocks( blockName, className ) {
-    var elementName = "#contact-details tr";
-    if ( blockName == 'Address' ) {
-        elementName = "#addressBlock div";
-    }
-    if ( className == 'CRM_Event_Form_ManageEvent_Location' ) {
-        elementName = "#newLocation tr";
-    }
-    var previousInstance = 1;
-    cj( elementName ).each( function( ) {
-        bID = cj(this).attr('id').split( '_', 3);
-        if ( bID[0] == blockName ) {
-            previousInstance = bID[2];
-        } 
-    });
-
+	var element = blockName + '_Block_';
+	
+	//get blockcount of last element of relevant blockName
+	var previousInstance = cj( '[id^="'+ element +'"]:last' ).attr('id').slice( element.length );
     var currentInstance  = parseInt( previousInstance ) + 1;
 
     //show primary option if block count = 2
@@ -72,36 +61,33 @@ function buildAdditionalBlocks( blockName, className ) {
 //select single for is_bulk & is_primary
 function singleSelect( object ) {
 	var element = object.split( '_', 3 );
-	if ( element['0'] == 'Address' && element['2'] == 'IsBilling' ) {
-		currentElement = 'td#' + element['0'] + '-Primary-html Input';
-	} else {
-		currentElement = 'td#' + element['0'] + '-' + element['2'].slice('2')+'-html Input';
-	}
-	//element to check for radio / checkbox
+	
+	var block = (element['0'] == 'Address') ? 'Primary' : element['2'].slice('2');
+	var execBlock  = '#' + element['0'] + '-' + block + '-html Input[id*="' + element['2'] + '"]';
+	
+	//element to check for checkbox
 	var elementChecked =  cj( '#' + object ).attr('checked');
 	if ( elementChecked && confirm ( 'Do you want to make this '+ element['0'] + ' as '+ element['2'].slice('2') + '?' ) ) {
-		cj( currentElement ).each( function( ) { 
-			selectedElement = cj(this).attr('id').split( '_', 3); 
-			if ( cj(this).attr('id') != object && selectedElement['2'] == element['2']) {
-				cj(this).attr( 'checked', false );
+		cj( execBlock ).each( function() {
+			if ( cj(this).attr('id') != object ) {
+				 cj(this).attr( 'checked', false );
 			}
 		});
 	} else {
 		cj( '#' + object ).attr( 'checked', false );
 	}
-	
-	//check if non of elements is set Primary.
-	if( element['2'].slice('2') == 'Primary' || element['2'].slice('2') == 'Login' ) {
+
+	//check if non of elements is set Primary / Allowed to Login.
+	if( cj.inArray( block, [ 'Primary', 'Login' ] ) != -1 ) {
 		primary = false;
-		cj( 'td#' + element['0'] + '-' + element['2'].slice('2') + '-html Input').each( function( ) { 
-			selectedElement = cj(this).attr('id').split( '_', 3); 
-			if ( cj(this).attr( 'checked' ) && selectedElement['2'] == element['2']) {
+		cj( execBlock ).each( function( ) { 
+			if ( cj(this).attr( 'checked' ) ) {
 				primary = true;				
 			}
 		});
 		
 		if( ! primary ) {
-			alert('At least one ' + element['0'] +' must be set for '+ element['2'].slice('2') +'!');
+			if(cj( '#' + object ).attr( 'type') == 'checkbox' ) alert('At least one ' + element['0'] +' must be set for '+ block +'!');
 			cj('#' + object).attr( 'checked', true );
 		}
 	}
