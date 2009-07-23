@@ -568,9 +568,9 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             (10008, 'St. Maarten',      'SXM', 1151),
 	    (10009, "Jura", 		"39" , 1076);
 
-    -- CRM-4587 CRM-4534
+    -- CRM-4587 CRM-4534 CRM-4762 CRM-4394
     -- Update the name
-        UPDATE civicrm_state_province
+       UPDATE civicrm_state_province
             SET name = CASE id
                 WHEN 1859 THEN "Sofia"
                 WHEN 3707 THEN "Ulaanbaatar"
@@ -578,16 +578,18 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
                 WHEN 3808 THEN "Coahuila"
                 WHEN 3809 THEN "Colima"
                 WHEN 3811 THEN "Chihuahua"
-		WHEN 2543 THEN "tempName"
-	        WHEN 2544 THEN "Indre"
-            ELSE name
+	    ELSE name	
+	    END,
+            abbreviation = CASE id
+		WHEN 2543 THEN "36"
+	        WHEN 2544 THEN "35"
+	    ELSE abbreviation	
+	    END,
+	    country_id = CASE id
+	    	WHEN 1637 THEN 1008 
+	    ELSE country_id
+
         END;
-    
-    -- CRM-4762
-	UPDATE civicrm_state_province SET name = "Ille-et-Vilaine" WHERE id = 2543;	
-       
-    -- CRM-4394
-        UPDATE civicrm_state_province SET country_id = 1008 WHERE id = 1637;
 
     -- CRM-4633
     ALTER TABLE `civicrm_contact`
