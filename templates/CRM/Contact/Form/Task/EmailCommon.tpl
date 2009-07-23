@@ -180,7 +180,7 @@ function selectValue( val ) {
 
     function tokenReplText ( )
     {
-        var token     = cj("#token1").val( );
+        var token     = cj("#token1").val( )[0];
         var msg       = cj("#text_message").val( );
         var cursorlen = document.getElementById("text_message").selectionStart;
         var textlen   = msg.length;
