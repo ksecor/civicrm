@@ -186,10 +186,10 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
             $individualNameFormat = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
             $defaultAddressee     = CRM_Core_OptionGroup::values( 'addressee', false, false, false, " AND v.filter = 1 AND v.is_default =  1", 'label' );
 
-            if ( array_search($individualNameFormat, $defaultAddressee) === false ) {
+            if ( array_search($individualNameFormat, $defaultAddressee) !== false ) {
                  $commonAddressee = true;
             } else {
-                //otherwise inset new token in addressee and set as a default
+                //otherwise insert new token in addressee and set as a default
                 $addresseeGroupId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
                                                                   'addressee',
                                                                   'id',
