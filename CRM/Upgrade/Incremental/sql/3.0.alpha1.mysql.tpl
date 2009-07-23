@@ -562,7 +562,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         VALUES
             (5218,  'Distrito Federal', 'DIF', 1140),
             (10004, 'Bonaire',          'BON', 1151),
-            (10005, 'Curaçao',          'CUR', 1151),
+            (10005, 'Curaçao',         'CUR', 1151),
             (10006, 'Saba',             'SAB', 1151),
             (10007, 'St. Eustatius',    'EUA', 1151),
             (10008, 'St. Maarten',      'SXM', 1151);
@@ -577,12 +577,17 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
                 WHEN 3808 THEN "Coahuila"
                 WHEN 3809 THEN "Colima"
                 WHEN 3811 THEN "Chihuahua"
+		WHEN 2543 THEN "tempName"
+	        WHEN 2544 THEN "Indre"
             ELSE name
         END;
+    
+    -- CRM-4762
+	UPDATE civicrm_state_province SET name = "Ille-et-Vilaine" WHERE id = 2543;	
        
     -- CRM-4394
         UPDATE civicrm_state_province SET country_id = 1008 WHERE id = 1637;
-    
+
     -- CRM-4633
     ALTER TABLE `civicrm_contact`
         ADD `do_not_sms` tinyint(4) default '0' AFTER `do_not_mail`;
