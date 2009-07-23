@@ -3874,4 +3874,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (10005, 1151, 'CUR', 'Curaçao'),
 (10006, 1151, 'SAB', 'Saba'),
 (10007, 1151, 'EUA', 'St. Eustatius'),
-(10008, 1151, 'SXM', 'St. Maarten');
+(10008, 1151, 'SXM', 'St. Maarten'),
+
+-- department of France (CRM-4769)
+(10009, 1076, "39", "Jura");

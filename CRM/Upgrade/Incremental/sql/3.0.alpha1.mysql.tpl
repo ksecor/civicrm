@@ -556,7 +556,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     {/if}
     
     -- State / province
-    -- CRM-4534 CRM-4686
+    -- CRM-4534 CRM-4686 CRM-4769
         INSERT INTO civicrm_state_province
             (id, name, abbreviation, country_id)
         VALUES
@@ -565,7 +565,8 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             (10005, 'Curaçao',         'CUR', 1151),
             (10006, 'Saba',             'SAB', 1151),
             (10007, 'St. Eustatius',    'EUA', 1151),
-            (10008, 'St. Maarten',      'SXM', 1151);
+            (10008, 'St. Maarten',      'SXM', 1151),
+	    (10009, "Jura", 		"39" , 1076);
 
     -- CRM-4587 CRM-4534
     -- Update the name
