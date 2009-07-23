@@ -921,17 +921,20 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @static
      * @access public
      */
-    static function getHierContactDetails( $contactId, &$fields ) 
+    static function getHierContactDetails( $contactId, &$fields, $passFields = false ) 
     {   
         $params  = array( array( 'contact_id', '=', $contactId, 0, 0 ) );
-        $options = array( );                
+        $options = $fieldsArray = array( );                
 
         $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
         
         // we dont know the contents of return properties, but we need the lower level ids of the contact
         // so add a few fields
-        $returnProperties['first_name'] = $returnProperties['organization_name'] = $returnProperties['household_name'] = $returnProperties['contact_type'] = 1;
-        return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $fields );        
+        $returnProperties['first_name'] = $returnProperties['organization_name'] = $returnProperties['household_name'] = $returnProperties['contact_type'] = 1;         
+        if ( $passFields ) {
+            $fieldsArray = $fields;
+        }
+        return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $fieldsArray );        
     }
 
     /**
@@ -1120,7 +1123,7 @@ AND    civicrm_contact.id = %1";
         
         // get the contact details (hier)
         if ( $contactID ) {
-            list($details, $options) = self::getHierContactDetails( $contactID, $fields );
+            list($details, $options) = self::getHierContactDetails( $contactID, $fields, true );
             $contactDetails = $details[$contactID];
             $data['contact_type'] = CRM_Utils_Array::value( 'contact_type', $contactDetails );
         } else {
