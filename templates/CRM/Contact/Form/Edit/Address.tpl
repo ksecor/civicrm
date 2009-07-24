@@ -135,6 +135,10 @@
       {/if}
   </table>
  </div>
+
+{* FIXME : no need to include here if we include js inside <!-ADD-> *}
+{include file="CRM/common/stateCountry.tpl"}
+
 <!-Add->
 {if $title and $className eq 'CRM_Contact_Form_Contact'}
 </div>
