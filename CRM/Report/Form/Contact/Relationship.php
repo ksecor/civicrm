@@ -199,11 +199,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     function preProcess( ) {
         parent::preProcess( );
     }
-    
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
-    }
-    
+  
     function select( ) {        
         $select = $this->_columnHeaders = array( );        
         foreach ( $this->_columns as $tableName => $table ) {

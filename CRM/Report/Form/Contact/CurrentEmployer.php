@@ -136,10 +136,11 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
                          'alias'  => 'cgroup',
                          'filters'=>             
                          array( 'gid' => 
-                                array( 'name'    => 'id',
-                                       'title'   => ts( 'Group' ),
-                                       'type'    => CRM_Utils_Type::T_INT + CRM_Utils_Type::T_ENUM,
-                                       'options' => CRM_Core_PseudoConstant::staticGroup( ) ), ), 
+                                array( 'name'         => 'group_id',
+                                       'title'        => ts( 'Group' ),
+                                       'group'        => true,
+                                       'operatorType' => CRM_Report_Form::OP_MULTISELECT,
+                                       'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), 
                          ),
                   
                   );
@@ -188,13 +189,7 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
  
      LEFT JOIN  civicrm_email {$this->_aliases['civicrm_email']} 
           ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id 
-             AND {$this->_aliases['civicrm_email']}.is_primary = 1)
-
-     LEFT  JOIN civicrm_group_contact group_contact 
-          ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id              AND group_contact.status='Added'
-
-     LEFT  JOIN civicrm_group {$this->_aliases['civicrm_group']} 
-          ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id ";
+             AND {$this->_aliases['civicrm_email']}.is_primary = 1) ";
  
     }
 
@@ -224,7 +219,11 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
                     }
                     
                     if ( ! empty( $clause ) ) {
-                        $clauses[] = $clause;
+                        if ( CRM_Utils_Array::value( 'group', $field ) ) {
+                            $clauses[$fieldName] = $this->whereGroupClause( $clause );
+                        } else {
+                            $clauses[$fieldName] = $clause;
+                        }
                     }
                 }
             }
