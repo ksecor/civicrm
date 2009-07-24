@@ -649,11 +649,11 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             ADD `expiration_time` int unsigned   DEFAULT NULL COMMENT 'Expire pending but unconfirmed registrations after this many hours.';
 
         INSERT INTO civicrm_event 
-            ( is_template, {foreach from=$locales item=locale}template_title_{$locale}, fee_label_{$locale},confirm_title_{$locale}, thankyou_title_{$locale},{/foreach} event_type_id, default_role_id, participant_listing_id, is_public, is_monetary, is_online_registration, is_multiple_registrations, allow_same_participant_emails, is_email_confirm, contribution_type_id, confirm_from_name, confirm_from_email, is_active )
+            ( is_template, {foreach from=$locales item=locale}template_title_{$locale}, fee_label_{$locale},confirm_title_{$locale}, thankyou_title_{$locale}, confirm_from_name_{$locale} , {/foreach} event_type_id, default_role_id, participant_listing_id, is_public, is_monetary, is_online_registration, is_multiple_registrations, allow_same_participant_emails, is_email_confirm, contribution_type_id, confirm_from_email, is_active )
         VALUES
-            ( 1, {foreach from=$locales item=locale}'Free Meeting without Online Registration',  null            ,  null                                   ,   null                   , {/foreach}  4,  1, 1, 1, 0, 0, null, null, null, null,  null,                   null,                           1 ), 
-            ( 1, {foreach from=$locales item=locale}'Free Meeting with Online Registration',     null            ,  'Confirm Your Registration Information', 'Thanks for Registering!', {/foreach}  4,  1, 1, 1, 0, 1,    1,    1,    0, null,  null,                   null,                           1 ),
-            ( 1, {foreach from=$locales item=locale}'Paid Conference with Online Registration',  'Conference Fee',  'Confirm Your Registration Information', 'Thanks for Registering!', {/foreach}  1,  1, 1, 1, 1, 1,    1,    1,    1,    4,  'Event Template Dept.', 'event_templates@example.org',  1 );
+            ( 1, {foreach from=$locales item=locale}'Free Meeting without Online Registration',  null            ,  null                                   ,   null                   , null                  , {/foreach}  4,  1, 1, 1, 0, 0, null, null, null, null,  null,                           1 ), 
+            ( 1, {foreach from=$locales item=locale}'Free Meeting with Online Registration',     null            ,  'Confirm Your Registration Information', 'Thanks for Registering!', null                  , {/foreach}  4,  1, 1, 1, 0, 1,    1,    1,    0, null,  null,                           1 ),
+            ( 1, {foreach from=$locales item=locale}'Paid Conference with Online Registration',  'Conference Fee',  'Confirm Your Registration Information', 'Thanks for Registering!', 'Event Template Dept.', {/foreach}  1,  1, 1, 1, 1, 1,    1,    1,    1,    4,  'event_templates@example.org',  1 );
             
     {else}
         ALTER TABLE `civicrm_event`
@@ -799,10 +799,10 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ADD `email_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Email Greeting.' AFTER `suffix_id`, 
         ADD `email_greeting_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Email Greeting.' AFTER `email_greeting_id`, 
         ADD `email_greeting_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Email greeting.'  AFTER `email_greeting_custom`,
-        ADD `postal_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Postal Greeting.' AFTER `email_greeting_custom`, 
+        ADD `postal_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Postal Greeting.' AFTER `email_greeting_display`, 
         ADD `postal_greeting_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Postal greeting.' AFTER `postal_greeting_id`,
         ADD `postal_greeting_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Postal  greeting.' AFTER `postal_greeting_custom`,
-        ADD `addressee_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Addressee.' AFTER `postal_greeting_custom`,
+        ADD `addressee_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Addressee.' AFTER `postal_greeting_display`,
         ADD `addressee_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Addressee.' AFTER `addressee_id`,
         ADD `addressee_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Addressee.'  AFTER `addressee_custom`;
 
@@ -862,47 +862,69 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     {/if}
     -- Set civicrm_contact.email_greeting_id and postal_greeting_id to default value for the given contact type. 
     SELECT @value := value
-    FROM civicrm_option_value 
-         WHERE civicrm_option_value.option_group_id = @og_id_emailGreeting
-              AND civicrm_option_value.filter = 1 
-              AND civicrm_option_value.is_default = 1;
-    UPDATE civicrm_contact SET 
-           email_greeting_id       = @value,
-           email_greeting_display  = CONCAT("Dear ",first_name),
-           postal_greeting_id      = @value,
-           postal_greeting_display = CONCAT("Dear ",first_name)            
+    FROM   civicrm_option_value 
+    WHERE  civicrm_option_value.option_group_id = @og_id_emailGreeting
+            AND civicrm_option_value.filter     = 1 
+            AND civicrm_option_value.is_default = 1;
+    UPDATE civicrm_contact
+        SET 
+            {if $multilingual}
+                {foreach from=$locales item=locale} email_greeting_display_{$locale}  = CONCAT("Dear ",first_name_{$locale}) , {/foreach}
+                {foreach from=$locales item=locale}postal_greeting_display_{$locale}  = CONCAT("Dear ",first_name_{$locale}) , {/foreach}
+            {else}
+                email_greeting_display  = CONCAT("Dear ",first_name),
+                postal_greeting_display = CONCAT("Dear ",first_name),
+            {/if}
+            email_greeting_id       = @value,
+            postal_greeting_id      = @value                        
     WHERE contact_type = 'Individual';
 
     SELECT @value := value
-    FROM civicrm_option_value 
-         WHERE civicrm_option_value.option_group_id = @og_id_emailGreeting
-              AND civicrm_option_value.filter = 2 
-              AND civicrm_option_value.is_default = 1;
-    UPDATE civicrm_contact SET 
-           email_greeting_id       = @value,
-           email_greeting_display  = CONCAT("Dear ",household_name),
-           postal_greeting_id      = @value,
-           postal_greeting_display = CONCAT("Dear ",household_name)   
+    FROM civicrm_option_value
+    WHERE civicrm_option_value.option_group_id  = @og_id_emailGreeting
+            AND civicrm_option_value.filter     = 2 
+            AND civicrm_option_value.is_default = 1;
+    UPDATE civicrm_contact
+        SET             
+            {if $multilingual}
+                {foreach from=$locales item=locale}email_greeting_display_{$locale}  = CONCAT("Dear ",household_name_{$locale}) , {/foreach}
+                {foreach from=$locales item=locale}postal_greeting_display_{$locale} = CONCAT("Dear ",household_name_{$locale}) , {/foreach}
+            {else}
+                email_greeting_display  = CONCAT("Dear ",household_name),
+                postal_greeting_display = CONCAT("Dear ",household_name),
+            {/if}
+            email_greeting_id       = @value,
+            postal_greeting_id      = @value
     WHERE contact_type = 'Household';
 
     SELECT @value := value
-    FROM civicrm_option_value 
-         WHERE civicrm_option_value.option_group_id = @og_id_addressee
-              AND civicrm_option_value.filter = 2 
-              AND civicrm_option_value.is_default = 1;
-    UPDATE civicrm_contact SET 
-           addressee_id      = @value,
-           addressee_display = household_name
+    FROM civicrm_option_value
+    WHERE civicrm_option_value.option_group_id  = @og_id_addressee
+            AND civicrm_option_value.filter     = 2
+            AND civicrm_option_value.is_default = 1;
+    UPDATE civicrm_contact
+        SET
+            {if $multilingual}
+                {foreach from=$locales item=locale}addressee_display_{$locale}  = household_name_{$locale} , {/foreach}
+            {else}
+                addressee_display = household_name,
+            {/if}
+            addressee_id      = @value
     WHERE  contact_type      = 'Household';
 
     SELECT @value := value
     FROM civicrm_option_value 
-         WHERE civicrm_option_value.option_group_id = @og_id_addressee
-              AND civicrm_option_value.filter = 3 
-              AND civicrm_option_value.is_default = 1;
-    UPDATE civicrm_contact SET 
-           addressee_id      = @value,
-           addressee_display = organization_name
+        WHERE civicrm_option_value.option_group_id = @og_id_addressee
+            AND civicrm_option_value.filter        = 3 
+            AND civicrm_option_value.is_default    = 1;
+    UPDATE civicrm_contact
+        SET 
+            {if $multilingual}
+                {foreach from=$locales item=locale}addressee_display_{$locale}  = organization_name_{$locale} , {/foreach}
+            {else}
+                addressee_display = organization_name,
+            {/if}
+           addressee_id      = @value
     WHERE  contact_type      = 'Organization';
 
     -- CRM-4610
@@ -990,15 +1012,22 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
 
     SELECT @og_id_addressee       := max(id) FROM civicrm_option_group WHERE name = 'addressee';
     {if $addresseeTokenValue} 
-        UPDATE civicrm_contact SET 
-           addressee_id      = {$addresseeTokenValue},
+        UPDATE civicrm_contact
+            SET 
+                addressee_id = {$addresseeTokenValue},
         WHERE contact_type   = 'Individual';
     {else}
-        UPDATE civicrm_contact SET 
-           addressee_id      = {$defaultAddresseeTokenValue},
-           addressee_display = display_name
+        UPDATE civicrm_contact
+            SET
+                {if $multilingual}
+                    {foreach from=$locales item=locale}addressee_display_{$locale} = display_name_{$locale} , {/foreach}
+                {else}
+                    addressee_display = display_name,
+                {/if}
+                addressee_id      = {$defaultAddresseeTokenValue}
         WHERE contact_type   = 'Individual';
     {/if}
+    
     -- replace contact.contact_name with contact.addressee in civicrm_preference.mailing_format
    {literal}
          UPDATE civicrm_preferences 
