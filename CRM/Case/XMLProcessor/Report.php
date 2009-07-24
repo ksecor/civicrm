@@ -340,26 +340,23 @@ WHERE      a.id = %1
         	// Re-lookup the target ID since the DAO only has the first recipient if there are multiple.
         	// Maybe not the best solution.
         	require_once 'CRM/Activity/BAO/ActivityTarget.php';
-        	$targNames = CRM_Activity_BAO_ActivityTarget::getTargetNames($activityDAO->id);
-        	$targNamesRedacted = array();
-        	foreach($targNames as $targ) {
-        		$targNamesRedacted[] = $this->redact($targ);
+        	$targetNames = CRM_Activity_BAO_ActivityTarget::getTargetNames($activityDAO->id);
+        	$targetRedacted = array();
+        	foreach($targetNames as $targetID => $target) {
+                 // add Recipient SortName as well as Display to the strings to be redacted across the case session 
+                 // suffixed with a randomly generated 4-digit number
+                 if (!array_key_exists($target, $this->_redactionStringRules)) {
+                      $this->_redactionStringRules = CRM_Utils_Array::crmArrayMerge( $this->_redactionStringRules, 
+                                                                                     array($target => 'name_' .rand(10000, 100000)));
+                      $targetSortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $targetID, 'sort_name' );
+                      if (!array_key_exists($targetSortName, $this->_redactionStringRules)) {
+                           $this->_redactionStringRules[$targetSortName] = $this->_redactionStringRules[$target];
+                      } 
+                 }
+        		 $targetRedacted[] = $this->redact($target);
         	}
-            $recipient = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $activityDAO->targetID, 'display_name' );
-            // add Recipient SortName as well as Display to the strings to be redacted across the case session 
-            // suffixed with a randomly generated 4-digit number
-            if (!array_key_exists($recipient, $this->_redactionStringRules)) {
-                $this->_redactionStringRules = CRM_Utils_Array::crmArrayMerge( $this->_redactionStringRules, 
-                                                                               array($recipient => 'name_' .rand(10000, 100000)));
-                $recipientSortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                  $activityDAO->source_contact_id,
-                                                                  'sort_name' );
-                if (!array_key_exists($recipientSortName, $this->_redactionStringRules)) {
-                    $this->_redactionStringRules[$recipientSortName] = $this->_redactionStringRules[$recipient];
-                } 
-            }
             $activity['fields'][] = array( 'label' => 'Recipient',
-                                           'value' => $this->redact( $recipient ),
+                                           'value' => implode('; ', $targetRedacted),
                                            'type'  => 'String' );
         }
         

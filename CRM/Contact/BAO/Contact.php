@@ -1812,12 +1812,12 @@ UNION
          require_once 'CRM/Activity/BAO/Activity.php';
          
          //email greeting
-         if ( $contact->contact_type == 'Individual' ) { 
+         if ( $contact->contact_type == 'Individual' || $contact->contact_type == 'Household' ) { 
              if ( $contact->email_greeting_custom != 'null' && $contact->email_greeting_custom  ) {
                  $emailGreetingString = $contact->email_greeting_custom;
              } else if ( $contact->email_greeting_id != 'null' && $contact->email_greeting_id ) {
                  // the filter value for Individual contact type is set to 1
-                 $filter =  array( 'contact_type'  => 'Individual', 
+                 $filter =  array( 'contact_type'  => $contact->contact_type, 
                                    'greeting_type' => 'email_greeting' );
                  
                  $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
@@ -1828,6 +1828,7 @@ UNION
                   
              if ( $emailGreetingString ) {
                  CRM_Activity_BAO_Activity::replaceGreetingTokens($emailGreetingString, $contactDetails, $contact->id );
+                 $emailGreetingString = str_replace("'", "\'", $emailGreetingString);
                  $updateQueryString[] = " email_greeting_display = '{$emailGreetingString}'";
              } 
          }
@@ -1845,6 +1846,7 @@ UNION
 
          if ( $postalGreetingString ) {
              CRM_Activity_BAO_Activity::replaceGreetingTokens($postalGreetingString, $contactDetails, $contact->id );
+             $postalGreetingString = str_replace("'", "\'", $postalGreetingString);
              $updateQueryString[] = " postal_greeting_display = '{$postalGreetingString}'";
          }         
 
@@ -1863,6 +1865,7 @@ UNION
 
          if ( $addresseeString ) {
              CRM_Activity_BAO_Activity::replaceGreetingTokens($addresseeString, $contactDetails, $contact->id );
+             $addresseeString = str_replace("'", "\'", $addresseeString);
              $updateQueryString[] = " addressee_display = '{$addresseeString}'";
          }
 
