@@ -1598,8 +1598,6 @@ DIV.buttons #icons {
 #crm-container .report-layout {
    background-color : #F5F5F5; 
    border           : none;
-   margin           : 0em 0em 1em 0.1em;
-   //width            : 100%;
 }
 
 #crm-container .reports-header {

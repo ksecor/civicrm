@@ -7,7 +7,7 @@
     {/if}
     <br />
     <table class="report-layout">
-        <thead>
+        <thead class="sticky">
         <tr> 
             {foreach from=$columnHeaders item=header key=field}
                 {assign var=class value=""}

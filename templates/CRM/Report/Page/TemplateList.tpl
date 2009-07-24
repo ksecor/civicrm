@@ -2,29 +2,21 @@
 {ts}Create reports for your users from any of the report templates listed below. Click on a template titles to get started. Click
 Existing Report(s) to see any reports that have already been created from that template.{/ts}
 </div>
+<div class="accordion ui-accordion ui-widget ui-helper-reset" style="width:99%">
 {strip}
 {if $list}
     {foreach from=$list item=rows key=report}		
-	<div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
-	    <table class="report-layout">
-		<tr>
-		    <th>{if $report}{if $report EQ 'Contribute'}{ts}Contribution{/ts}{else}{$report}{/if}{else}Contact{/if} Report Templates</th>
-            <th>
-                <div style=" float:right; width:10px;"> 
-                    <img id="report_{$report}" src="{$config->resourceBase}i/menu-expanded.png" />
-                </div>
-            </th>
-		</tr>
-	    </table>
-	</div>
-	<div id="{$report}" style="display:block;">
+	<h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span>
+		<a href="#">{if $report}{if $report EQ 'Contribute'}{ts}Contribution{/ts}{else}{$report}{/if}{else}Contact{/if} Report Templates</a>
+	</h3>
+	<div id="{$report}" class="ui-accordion-content boxBlock ui-corner-bottom">
 	    <table class="report-layout">
 		{foreach from=$rows item=row}
 		    <tr>
 			<td style="width:35%;">
 			    <a href="{$row.url}" title="{ts}Create report from this template{/ts}">&raquo; <strong>{$row.title}</strong></a>
 			    {if $row.instanceUrl}
-				<div align="right">
+				<div style="font-size:10px;text-align:right;margin-top:3px;">
 				    <a href="{$row.instanceUrl}">{ts}Existing Report(s){/ts}</a>
 				</div>
 			    {/if}
@@ -36,7 +28,7 @@ Existing Report(s) to see any reports that have already been created from that t
 		{/foreach}
 	    </table>
 	</div>
-	<br />
+	<div class="spacer"> </div>
     {/foreach}
 {else}
     <div class="messages status">
@@ -51,19 +43,32 @@ Existing Report(s) to see any reports that have already been created from that t
     </div>
 {/if}
 {/strip}
+</div>
 {literal}
 <script type="text/javascript">
-    function toggle_visibility(id) {
-    var basepath = '{/literal}{$config->resourceBase}{literal}';
-	var e = document.getElementById(id);
-    var i = document.getElementById('report_'+id);
-	if (e.style.display == 'block') {
-	    e.style.display = 'none';
-        i.src =  basepath + 'i/menu-collapsed.png';
+
+cj(function() {
+	cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
+	cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
+	}, function() { cj(this).removeClass( "ui-state-hover");
+}).bind('click', function() { 
+	var checkClass = cj(this).find('span').attr( 'class' );
+	var len        = checkClass.length;
+	if ( checkClass.substring( len - 1, len ) == 's' ) {
+		cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
+		cj("span#help"+cj(this).find('span').attr('id')).hide();
 	} else {
-	    e.style.display = 'block';
-        i.src = basepath + 'i/menu-expanded.png';
+		cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+		cj("span#help"+cj(this).find('span').attr('id')).show();
 	}
-    }
+	cj(this).next().toggle(); return false; }).next().hide();
+
+	cj('div.accordion div.ui-accordion-content').each(function() {
+		cj(this).parent().find('h3 span').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
+		cj(this).show();
+	});
+});
+
+
 </script>
 {/literal}
