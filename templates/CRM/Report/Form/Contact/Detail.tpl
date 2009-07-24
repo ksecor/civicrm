@@ -4,7 +4,7 @@
 
     {if $rows}
         <div class="report-pager">
-            {include file="CRM/common/pager.tpl" noForm=1}
+            {include file="CRM/common/pager.tpl" noForm=0}
         </div>
         {foreach from=$rows item=row}
             <br />
