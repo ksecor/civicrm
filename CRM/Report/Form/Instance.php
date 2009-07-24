@@ -171,25 +171,19 @@ class CRM_Report_Form_Instance {
         if ( CRM_Utils_Array::value( 'is_navigation', $params ) ) {
 
             $form->_navigation['permission'] = array( );
-            $parentID   = CRM_Utils_Array::value( 'parent_id', $params );
             $permission = CRM_Utils_Array::value( 'permission', $params );
-
-            if ( CRM_Utils_Array::value( 'id', $form->_navigation ) &&
-                 ( CRM_Utils_Array::value( 'parent_id', $form->_navigation ) != $parentID ) ) {
-                $form->_navigation['weight'] =
-                    CRM_Core_BAO_Navigation::calculateWeight( $params['parent_id'] );
-            }
             
-            $form->_navigation['parent_id']  = $parentID;
-            $form->_navigation['label']      = $params['title'];
-            $form->_navigation['name']       = $params['title'];
-
+            $form->_navigation['current_parent_id']  = CRM_Utils_Array::value( 'parent_id', $form->_navigation );
+            $form->_navigation['parent_id']          = CRM_Utils_Array::value( 'parent_id', $params );
+            $form->_navigation['label']              = $params['title'];
+            $form->_navigation['name']               = $params['title'];
+            $form->_navigation['is_active']          = 1;
+            
             if ( $permission ) {
                 $form->_navigation['permission'][] = $permission;
             }
-
-            $form->_navigation['is_active']  = 1;
-
+            //unset the navigation related element,
+            //not used in report form values
             unset($params['parent_id']);
             unset($params['is_navigation']);
         }
