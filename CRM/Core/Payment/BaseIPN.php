@@ -841,20 +841,16 @@ class CRM_Core_Payment_BaseIPN {
         }
         
         //set values for ipn code.
-        $fields = array( 'fee_amount', 'check_number', 'payment_instrument_id' );
-        foreach ( $fields as $field ) {
-            $input[$field] = $contribution->$field;
-            if ( $value = CRM_Utils_Array::value( $field, $params ) ) {
-                $input[$field] = $value;
+        foreach ( array( 'fee_amount', 'check_number', 'payment_instrument_id' ) as $field ) {
+            if ( !$input[$field] = CRM_Utils_Array::value( $field, $params ) ) {
+                $input[$field]   = $contribution->$field;
             }
         }
-        $input['trxn_id'] = $contribution->invoice_id;
-        if ( $value = CRM_Utils_Array::value( 'trxn_id', $params ) ) {
-            $input['trxn_id'] = $value;
+        if ( !$input['trxn_id'] = CRM_Utils_Array::value( 'trxn_id', $params ) ) {
+            $input['trxn_id']   = $contribution->invoice_id;
         }
-        $input['amount'] = $contribution->total_amount;
-        if ( $value = CRM_Utils_Array::value( 'total_amount', $params ) ) {
-            $input['amount'] = $value;
+        if ( !$input['amount'] = CRM_Utils_Array::value( 'total_amount', $params ) ) {
+            $input['amount']   = $contribution->total_amount;
         }
         $input['is_test']    = $contribution->is_test;
         $input['net_amount'] = $contribution->net_amount;
