@@ -86,6 +86,20 @@ class CRM_Utils_Address
             }
         }
 
+        $contactName = CRM_Utils_Array::value( 'display_name', $fields );
+        if ( ! $individualFormat ) {  
+            require_once "CRM/Contact/BAO/Contact.php"; 
+            if ( isset( $fields['id'] ) ) {
+                $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
+            } else {
+                $type = 'Individual';
+            }
+
+            if ( $type == 'Individual' ) {
+                $contactName = CRM_Utils_Array::value( 'addressee_display', $fields );
+            }
+        }
+
         if (! $microformat) {
             $replacements =
                 array( // replacements in case of Individual Name Format
@@ -132,7 +146,7 @@ class CRM_Utils_Address
                       'organization_name'      => CRM_Utils_Array::value( 'display_name', $fields ),
                       'legal_name'             => CRM_Utils_Array::value( 'legal_name', $fields ),
                       'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields ),
-                      'addressee'              => CRM_Utils_Array::value( 'addressee_display', $fields ),
+                      'addressee'              => $contactName,
                       'email_greeting'         => CRM_Utils_Array::value( 'email_greeting_display', $fields ),
                       'postal_greeting'        => CRM_Utils_Array::value( 'postal_greeting_display', $fields )
                        );
