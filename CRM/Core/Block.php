@@ -525,7 +525,7 @@ class CRM_Core_Block {
                                                                                                $session->get( 'userID' ) );
             }
 
-            self::setProperty( self::EVENT, 'templateValues', array( 'event' => $info ) );
+            self::setProperty( self::EVENT, 'templateValues', array( 'eventBlock' => $info ) );
         }
 
     }
