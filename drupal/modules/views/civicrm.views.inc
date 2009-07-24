@@ -1118,11 +1118,13 @@ function civicrm_views_data() {
                                                  'argument' => array(
                                                                      'handler' => 'date_api_argument_handler',
                                                                      'empty name field' => t('Undated'),
-                                                                    ),
-                                                 );
-    }
-    //Numeric Event ID
-    $data['civicrm_event']['id'] = array(
+                                                                     'base' => 'civicrm_event',
+                                                                     ),
+                                                     );
+   }
+
+   // Numeric Event ID
+   $data['civicrm_event']['id'] = array(
                                          'title' => t('Event ID'),
                                          'help' => t('The numeric ID of the Event'),
                                          'field' => array(
