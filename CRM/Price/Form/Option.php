@@ -229,11 +229,14 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         CRM_Core_OptionValue::getValues( $groupParams, $customOption );
                 
         foreach( $customOption as $key => $value ) {
-            if( !( $value['id'] == $form->_oid ) && ( $value['value'] == $fields['weight'] ) ) {
-                $errors['value'] = ts( 'Duplicate option value' );  
-            }
-            if( !( $value['id']==$form->_oid ) && ( $value['label'] == $fields['label'] ) ) {
-                $errors['label'] = ts( 'Duplicate option label' );  
+            if ( $value['id'] != $form->_oid ) {
+                if( ( $form->_action  == CRM_Core_Action::ADD ) && 
+                    ( $value['value'] == $fields['weight'] ) ) {
+                    $errors['weight'] = ts( 'Please enter a different weight as this may result in duplicate option value' );  
+                }
+                if( $value['label'] == $fields['label'] ) {
+                    $errors['label'] = ts( 'Duplicate option label' );  
+                }
             }
         }
         
@@ -276,7 +279,11 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             $fieldName      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, 27 ), 'label') ;
             $params['description'] = $fieldName.' - '.$params['label'] ;
         }  
-        $params['value'] = $params['weight'];
+
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $params['value'] = $params['weight'];
+        }
+
         // fix the display of the monetary value, CRM-4038
         $params['name'] = CRM_Utils_Rule::cleanMoney( $params['name'] );
 
