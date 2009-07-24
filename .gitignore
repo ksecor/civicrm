@@ -70,6 +70,7 @@ CRM/Pledge/DAO
 CRM/Project/DAO
 CRM/Report/DAO
 bin/setup.sh
+civicrm.config.php
 l10n
 settings_location.php
 sql/civicrm.mysql
