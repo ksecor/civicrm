@@ -257,7 +257,7 @@ function selectValue( val ) {
             cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
             cj("span#help"+cj(this).find('span').attr('id')).show();
         }
-        cj(this).next().toggle('blind'); return false; }).next().hide();
+        cj(this).next().toggle(); return false; }).next().hide();
         cj('span#html').removeClass().addClass('ui-icon ui-icon-triangle-1-s');cj("div.html").show();         
     });
 
