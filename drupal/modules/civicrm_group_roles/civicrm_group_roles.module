@@ -26,7 +26,6 @@ function civicrm_group_roles_help($section, $args = array() )
  */
 function civicrm_group_roles_user($op, $edit, &$user, $category = NULL) 
 {
-    
     //$debug_mode = TRUE;
     
     if ($op == 'login' OR $op == 'after_update' OR $op == 'insert') {
@@ -143,7 +142,7 @@ function civicrm_group_roles_civicrm_post( $op, $objectName, $objectId, &$object
     while ($rid = db_result($query)) {
         
         $role_name = db_result(db_query('SELECT name FROM {role} WHERE rid = %d', $rid)); //we need this to properly save the user account below.
-    
+ 				
         foreach ($objectRef AS $contact_id) {
             
             //Do we have a Drupal Account?
@@ -161,9 +160,11 @@ function civicrm_group_roles_civicrm_post( $op, $objectName, $objectId, &$object
                 break;
                 
             case 'delete':
-                //Contact is removed from group; remove role
-                //TO DO: We should really only remove from a role when contact is removed from ALL groups which grant the role.
-                civicrm_group_roles_del_role($uid, $rid, $role_name);
+                //Contact is removed from group.
+                //Remove the role, but only if the contact is in no other groups that grant this role
+                if (!civicrm_role_granted_by_other_group($contact_id, $rid, $group_id)) {
+                  civicrm_group_roles_del_role($uid, $rid, $role_name);
+                }
                 break;
             } //end switch
         } //end foreach
@@ -194,6 +195,7 @@ function civicrm_group_roles_add_role($uid, $rid, $role_name)
  */
 function civicrm_group_roles_del_role($uid, $rid, $role_name)
 {
+    
     $account = user_load(array('uid' => (int)$uid));
     // Skip removing the role from the user if they already don't have it.
     if ($account !== FALSE && isset($account->roles[$rid])) {
@@ -201,6 +203,43 @@ function civicrm_group_roles_del_role($uid, $rid, $role_name)
         user_save($account, array('roles' => $roles));
     }
 }
+
+/** 
+ * Count the groups this contact is in which grant this role
+ */
+function civicrm_role_granted_by_other_group($contact_id, $rid, $group_id) {
+  civicrm_initialize(true);
+  require_once 'api/v2/GroupContact.php';
+  
+  //get all the groups this contact belongs to
+  $params = array('contact_id' => $contact_id);
+  $result = civicrm_group_contact_get($params);
+  
+  if (civicrm_error ($result )) {
+    drupal_set_message(t($result['error_message']));
+  } 
+  else {
+    //contact is not in *any* other groups so delete the role
+    if (count($result)==0) {
+      return (false);
+    }
+    //contact is in some groups, determine if any of them grant this role
+    else{
+      //get ids of the groups as , delim list
+      foreach ($result as $grpid => $grp) {
+        $grpsuserin.= $grp["group_id"].',';
+      }        
+      $grpsuserin = drupal_substr($grpsuserin, 0, -1);       
+      
+      //do any of them grant this role?
+      $rolecount = db_result(db_query('SELECT count(*) FROM `drup_civicrm_group_roles_rules` WHERE group_id in(%s) AND role_id=%d', $grpsuserin, $rid));
+      
+      //flip to boolean
+      return ($rolecount>0);
+    }
+  }
+}
+
 
 
 /**
