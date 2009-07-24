@@ -150,10 +150,6 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
         parent::preProcess( );
     }
     
-    function setDefaultValues( ) {
-        return parent::setDefaultValues( );
-    }
-
     function select( ) {
         
         $select = $this->_columnHeaders = array( );

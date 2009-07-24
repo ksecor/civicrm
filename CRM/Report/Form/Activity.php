@@ -47,14 +47,14 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                        array(
                                              'source_contact_id' =>
                                              array( 'name'       => 'id',
-                                                    'alias'      => 'contact',
+                                                    'alias'      => 'contact_civireport',
                                                     'no_display' => true, 
                                                     'required'   => true, 
                                                     ),
                                              'contact_source'    =>
                                               array( 'name'      => 'display_name' ,
                                                      'title'     => ts( 'Source Contact Name' ),
-                                                     'alias'     => 'contact',
+                                                     'alias'     => 'contact_civireport',
                                                      'required'  => true,
                                                      'no_repeat' => true ),
                                               'contact_assignee' =>
@@ -222,8 +222,8 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                     ON {$this->_aliases['civicrm_activity']}.id = {$this->_aliases['civicrm_activity_target']}.activity_id 
              LEFT JOIN civicrm_activity_assignment {$this->_aliases['civicrm_activity_assignment']}
                     ON {$this->_aliases['civicrm_activity']}.id = {$this->_aliases['civicrm_activity_assignment']}.activity_id 
-             LEFT JOIN civicrm_contact contact
-                    ON {$this->_aliases['civicrm_activity']}.source_contact_id = contact.id 
+             LEFT JOIN civicrm_contact contact_civireport
+                    ON {$this->_aliases['civicrm_activity']}.source_contact_id = contact_civireport.id 
              LEFT JOIN civicrm_contact civicrm_contact_target 
                     ON {$this->_aliases['civicrm_activity_target']}.target_contact_id = civicrm_contact_target.id
              LEFT JOIN civicrm_contact civicrm_contact_assignee 
@@ -309,7 +309,7 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                 }
             }
         }
-        $this->_groupBy[] = "activity.id";
+        $this->_groupBy[] = "{$this->_aliases['civicrm_activity']}.id";
         $this->_groupBy   = "GROUP BY " . implode( ', ', $this->_groupBy ) . " ";
     }
 
