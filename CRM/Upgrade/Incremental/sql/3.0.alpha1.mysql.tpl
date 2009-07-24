@@ -466,42 +466,66 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ( 151, @domain_id, 'civicrm/admin/member/membershipStatus&reset=1',     '{ts escape="sql"}Membership Status Rules{/ts}', 'Membership Status Rules', 'access CiviMember,administer CiviCRM', '', '149', '1', NULL, 2 ), 
         
         ( 152, @domain_id, NULL,                                                    '{ts escape="sql"}CiviReport{/ts}', 'CiviReport', 'access CiviReport,administer CiviCRM', 'AND', '73', '1', NULL, 12 ), 
-        ( 153, @domain_id, 'civicrm/report/list&reset=1',                           '{ts escape="sql"}Manage Reports{/ts}', 'Manage Reports', NULL, '', '152', '1', NULL, 1 ), 
+        ( 153, @domain_id, 'civicrm/report/list&reset=1',                           '{ts escape="sql"}Reports Listing{/ts}', 'Reports Listing', NULL, '', '152', '1', NULL, 1 ), 
         ( 154, @domain_id, 'civicrm/admin/report/template/list&reset=1',            '{ts escape="sql"}Create Reports from Templates{/ts}', 'Create Reports from Templates', NULL, '', '152', '1', NULL, 2 ), 
         ( 155, @domain_id, 'civicrm/admin/report/options/report_template&reset=1',  '{ts escape="sql"}Manage Templates{/ts}', 'Manage Templates', NULL, '', '152', '1', NULL, 3 ), 
-        
-        ( 156, @domain_id, NULL,                                '{ts escape="sql"}Help{/ts}',               'Help',             NULL, '',     NULL, '1', NULL, 10), 
-        ( 157, @domain_id, 'http://documentation.civicrm.org',  '{ts escape="sql"}Documentation{/ts}',      'Documentation',    NULL, 'AND', '156', '1', NULL, 1 ), 
-        ( 158, @domain_id, 'http://forum.civicrm.org',          '{ts escape="sql"}Community Forums{/ts}',   'Community Forums', NULL, 'AND', '156', '1', NULL, 2 ), 
-        ( 159, @domain_id, 'http://civicrm.org/participate',    '{ts escape="sql"}Participate{/ts}',        'Participate',      NULL, 'AND', '156', '1', NULL, 3 ), 
-        ( 160, @domain_id, 'http://civicrm.org/aboutcivicrm',   '{ts escape="sql"}About{/ts}',              'About',            NULL, 'AND', '156', '1', NULL, 4 ),
+        ( 156, @domain_id, 'civicrm/admin/report/register&reset=1',                  '{ts escape="sql"}Register Report{/ts}', 'Register Report', 'administer Reports',  '', '152', '1', NULL, 4 ),
 
-        ( 161, @domain_id, 'civicrm/admin/setting/search?reset=1',              '{ts escape="sql"}Search Settings{/ts}', 'Search Settings', NULL, '', '82', '1', NULL, 10 ),
+        ( 157, @domain_id, NULL,                                '{ts escape="sql"}Help{/ts}',               'Help',             NULL, '',     NULL, '1', NULL, 10), 
+        ( 158, @domain_id, 'http://documentation.civicrm.org',  '{ts escape="sql"}Documentation{/ts}',      'Documentation',    NULL, 'AND', '157', '1', NULL, 1 ), 
+        ( 159, @domain_id, 'http://forum.civicrm.org',          '{ts escape="sql"}Community Forums{/ts}',   'Community Forums', NULL, 'AND', '157', '1', NULL, 2 ), 
+        ( 160, @domain_id, 'http://civicrm.org/participate',    '{ts escape="sql"}Participate{/ts}',        'Participate',      NULL, 'AND', '157', '1', NULL, 3 ), 
+        ( 161, @domain_id, 'http://civicrm.org/aboutcivicrm',   '{ts escape="sql"}About{/ts}',              'About',            NULL, 'AND', '157', '1', NULL, 4 ),
+
+        ( 162, @domain_id, 'civicrm/admin/setting/search?reset=1',              '{ts escape="sql"}Search Settings{/ts}', 'Search Settings', NULL, '', '82', '1', NULL, 10 ),
         
-        ( 162, @domain_id, NULL,                                                     '{ts escape="sql"}Reports{/ts}',                        'Reports',                       'access CiviReport',   '',  NULL, '1', NULL, 8 ), 
-        ( 163, @domain_id, 'civicrm/report/list&reset=1',                            '{ts escape="sql"}Manage Reports{/ts}',                 'Manage Reports',                 NULL,                 '', '162', '1', NULL, 1 ), 
-        ( 164, @domain_id, 'civicrm/admin/report/template/list&reset=1',             '{ts escape="sql"}Create Reports from Templates{/ts}',  'Create Reports from Templates', 'administer Reports',  '', '162', '1', NULL, 2 ), 
-        ( 165, @domain_id, 'civicrm/admin/report/options/report_template&reset=1',   '{ts escape="sql"}Manage Templates{/ts}',               'Manage Templates',              'administer Reports',  '', '162', '1', NULL, 3 ),
-        ( 166, @domain_id, 'civicrm/admin/report/register&reset=1',                  '{ts escape="sql"}Register Report{/ts}',                'Register Report',               'administer Reports',  '', '162', '1', NULL, 4 ),
+        ( 163, @domain_id, NULL,                                                     '{ts escape="sql"}Reports{/ts}',                        'Reports',                       'access CiviReport',   '',  NULL, '1', NULL, 8 ), 
+        ( 164, @domain_id, 'civicrm/report/list&reset=1',                            '{ts escape="sql"}Reports Listing{/ts}',                'Reports Listing',                 NULL,                '', '163', '1', NULL, 1 ),
+        ( 165, @domain_id, 'civicrm/admin/report/template/list&reset=1',             '{ts escape="sql"}Create Reports from Templates{/ts}',  'Create Reports from Templates', 'administer Reports',  '', '163', '1', 1,    2 ), 
         
-        ( 167, @domain_id, 'civicrm/report/instance/1&reset=1',     '{ts escape="sql"}Constituent Report (Summary){/ts}',       '{literal}Constituent Report (Summary){/literal}',     'administer CiviCRM',       '',  163,  '1', NULL, 1 ),
-        ( 168, @domain_id, 'civicrm/report/instance/2&reset=1',     '{ts escape="sql"}Constituent Report (Detail){/ts}',        '{literal}Constituent Report (Detail){/literal}',      'administer CiviCRM',       '',  163,  '1', NULL, 2 ),
-        ( 169, @domain_id, 'civicrm/report/instance/3&reset=1',     '{ts escape="sql"}Donor Report (Summary){/ts}',             '{literal}Donor Report (Summary){/literal}',           'access CiviContribute',    '',  163,  '1', NULL, 3 ),
-        ( 170, @domain_id, 'civicrm/report/instance/4&reset=1',     '{ts escape="sql"}Donor Report (Detail){/ts}',              '{literal}Donor Report (Detail){/literal}',            'access CiviContribute',    '',  163,  '1', NULL, 4 ),
-        ( 171, @domain_id, 'civicrm/report/instance/5&reset=1',     '{ts escape="sql"}Donation Summary Report (Repeat){/ts}',   '{literal}Donation Summary Report (Repeat){/literal}', 'access CiviContribute',    '',  163,  '1', NULL, 5 ),
-        ( 172, @domain_id, 'civicrm/report/instance/6&reset=1',     '{ts escape="sql"}SYBUNT Report{/ts}',                      '{literal}SYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 6 ),
-        ( 173, @domain_id, 'civicrm/report/instance/7&reset=1',     '{ts escape="sql"}LYBUNT Report{/ts}',                      '{literal}LYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 7 ),
-        ( 174, @domain_id, 'civicrm/report/instance/8&reset=1',     '{ts escape="sql"}Soft Credit Report{/ts}',                 '{literal}Soft Credit Report{/literal}',               'access CiviContribute',    '',  163,  '1', NULL, 8 ),
-        ( 175, @domain_id, 'civicrm/report/instance/9&reset=1',     '{ts escape="sql"}Membership Report (Summary){/ts}',        '{literal}Membership Report (Summary){/literal}',      'access CiviMember',        '',  163,  '1', NULL, 9 ),
-        ( 176, @domain_id, 'civicrm/report/instance/10&reset=1',    '{ts escape="sql"}Membership Report (Detail){/ts}',         '{literal}Membership Report (Detail){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 10 ),
-        ( 177, @domain_id, 'civicrm/report/instance/11&reset=1',    '{ts escape="sql"}Membership Report (Lapsed){/ts}',         '{literal}Membership Report (Lapsed){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 11 ),
-        ( 178, @domain_id, 'civicrm/report/instance/12&reset=1',    '{ts escape="sql"}Event Participant Report (List){/ts}',    '{literal}Event Participant Report (List){/literal}',  'access CiviEvent',         '',  163,  '1', NULL, 12 ),
-        ( 179, @domain_id, 'civicrm/report/instance/13&reset=1',    '{ts escape="sql"}Event Income Report (Summary){/ts}',      '{literal}Event Income Report (Summary){/literal}',    'access CiviEvent',         '',  163,  '1', NULL, 13 ),
-        ( 180, @domain_id, 'civicrm/report/instance/14&reset=1',    '{ts escape="sql"}Event Income Report (Detail){/ts}',       '{literal}Event Income Report (Detail){/literal}',     'access CiviEvent',         '',  163,  '1', NULL, 14 ),
-        ( 181, @domain_id, 'civicrm/report/instance/15&reset=1',    '{ts escape="sql"}Attendee List{/ts}',                      '{literal}Attendee List{/literal}',                    'access CiviEvent',         '',  163,  '1', NULL, 15 );
+        ( 166, @domain_id, 'civicrm/report/instance/1&reset=1',     '{ts escape="sql"}Constituent Report (Summary){/ts}',       '{literal}Constituent Report (Summary){/literal}',     'administer CiviCRM',       '',  163,  '1', NULL, 3 ),
+        ( 167, @domain_id, 'civicrm/report/instance/2&reset=1',     '{ts escape="sql"}Constituent Report (Detail){/ts}',        '{literal}Constituent Report (Detail){/literal}',      'administer CiviCRM',       '',  163,  '1', NULL, 4 ),
+        ( 168, @domain_id, 'civicrm/report/instance/3&reset=1',     '{ts escape="sql"}Donor Report (Summary){/ts}',             '{literal}Donor Report (Summary){/literal}',           'access CiviContribute',    '',  163,  '1', NULL, 5 ),
+        ( 169, @domain_id, 'civicrm/report/instance/4&reset=1',     '{ts escape="sql"}Donor Report (Detail){/ts}',              '{literal}Donor Report (Detail){/literal}',            'access CiviContribute',    '',  163,  '1', NULL, 6 ),
+        ( 170, @domain_id, 'civicrm/report/instance/5&reset=1',     '{ts escape="sql"}Donation Summary Report (Repeat){/ts}',   '{literal}Donation Summary Report (Repeat){/literal}', 'access CiviContribute',    '',  163,  '1', NULL, 7 ),
+        ( 171, @domain_id, 'civicrm/report/instance/6&reset=1',     '{ts escape="sql"}SYBUNT Report{/ts}',                      '{literal}SYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 8 ),
+        ( 172, @domain_id, 'civicrm/report/instance/7&reset=1',     '{ts escape="sql"}LYBUNT Report{/ts}',                      '{literal}LYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 9 ),
+        ( 173, @domain_id, 'civicrm/report/instance/8&reset=1',     '{ts escape="sql"}Soft Credit Report{/ts}',                 '{literal}Soft Credit Report{/literal}',               'access CiviContribute',    '',  163,  '1', NULL, 10 ),
+        ( 174, @domain_id, 'civicrm/report/instance/9&reset=1',     '{ts escape="sql"}Membership Report (Summary){/ts}',        '{literal}Membership Report (Summary){/literal}',      'access CiviMember',        '',  163,  '1', NULL, 11 ),
+        ( 175, @domain_id, 'civicrm/report/instance/10&reset=1',    '{ts escape="sql"}Membership Report (Detail){/ts}',         '{literal}Membership Report (Detail){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 12 ),
+        ( 176, @domain_id, 'civicrm/report/instance/11&reset=1',    '{ts escape="sql"}Membership Report (Lapsed){/ts}',         '{literal}Membership Report (Lapsed){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 13 ),
+        ( 177, @domain_id, 'civicrm/report/instance/12&reset=1',    '{ts escape="sql"}Event Participant Report (List){/ts}',    '{literal}Event Participant Report (List){/literal}',  'access CiviEvent',         '',  163,  '1', NULL, 14 ),
+        ( 178, @domain_id, 'civicrm/report/instance/13&reset=1',    '{ts escape="sql"}Event Income Report (Summary){/ts}',      '{literal}Event Income Report (Summary){/literal}',    'access CiviEvent',         '',  163,  '1', NULL, 15 ),
+        ( 179, @domain_id, 'civicrm/report/instance/14&reset=1',    '{ts escape="sql"}Event Income Report (Detail){/ts}',       '{literal}Event Income Report (Detail){/literal}',     'access CiviEvent',         '',  163,  '1', NULL, 16 ),
+        ( 180, @domain_id, 'civicrm/report/instance/15&reset=1',    '{ts escape="sql"}Attendee List{/ts}',                      '{literal}Attendee List{/literal}',                    'access CiviEvent',         '',  163,  '1', NULL, 17 );
 
     -- End navigation
+    
+    -- CRM-4114
+    ALTER TABLE `civicrm_report_instance`
+        ADD navigation_id int unsigned  COMMENT 'FK to navigation ID',
+        ADD CONSTRAINT `FK_civicrm_report_instance_navigation_id` FOREIGN KEY (`navigation_id`) REFERENCES `civicrm_navigation` (`id`) ON DELETE SET NULL;
 
+    UPDATE civicrm_report_instance
+	SET navigation_id = CASE id
+                                WHEN 1  THEN 166
+                                WHEN 2  THEN 167
+                                WHEN 3  THEN 168
+                                WHEN 4  THEN 169
+                                WHEN 5  THEN 170
+                                WHEN 6  THEN 171
+                                WHEN 7  THEN 172
+                                WHEN 8  THEN 173
+                                WHEN 9  THEN 174
+                                WHEN 10 THEN 175
+                                WHEN 11 THEN 176
+                                WHEN 12 THEN 177
+                                WHEN 13 THEN 178
+                                WHEN 14 THEN 179
+                                WHEN 15 THEN 180                       
+                                ELSE navigation_id
+                            END;
+                            
     -- CRM-4414
     -- Add individual, organization and household default profile
     {if $multilingual}

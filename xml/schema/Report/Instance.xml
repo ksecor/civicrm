@@ -97,4 +97,19 @@
       <cols>60</cols>
       <add>2.2</add>     
   </field>
+  <field> 
+      <name>navigation_id</name> 
+      <title>Navigation ID</title>
+      <type>int unsigned</type> 
+      <import>true</import>
+      <comment>FK to navigation ID</comment> 
+      <add>3.0</add> 
+  </field> 
+  <foreignKey> 
+       <name>navigation_id</name> 
+       <table>civicrm_navigation</table>
+       <key>id</key> 
+       <add>3.0</add> 
+       <onDelete>SET NULL</onDelete>
+  </foreignKey> 
 </table>

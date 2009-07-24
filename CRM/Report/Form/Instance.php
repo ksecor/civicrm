@@ -143,13 +143,18 @@ class CRM_Report_Form_Instance {
             if ( CRM_Utils_Array::value( 'footer', $defaults ) ) {
                 $defaults['report_footer'] = $defaults['footer'];
             }
-            //get the default navigation parent id
-            $params = array( 'url' => "civicrm/report/instance/{$instanceID}&reset=1" );
-            CRM_Core_BAO_Navigation::retrieve( $params, $navigationDefaults );
 
-            $defaults['parent_id'] = CRM_Utils_Array::value( 'parent_id', $navigationDefaults );
-            if ( CRM_Utils_Array::value( 'id', $navigationDefaults ) ) {
-                $form->_navigation['id'] = $navigationDefaults['id'];
+            if ( CRM_Utils_Array::value( 'navigation_id', $defaults )) {
+                //get the default navigation parent id
+                $params = array( 'id' => $defaults['navigation_id'] );
+                CRM_Core_BAO_Navigation::retrieve( $params, $navigationDefaults );
+                $defaults['is_navigation'] = 1;
+                $defaults['parent_id']     = CRM_Utils_Array::value( 'parent_id', $navigationDefaults );
+
+                if ( CRM_Utils_Array::value( 'id', $navigationDefaults ) ) {
+                    $form->_navigation['id']        = $navigationDefaults['id'];
+                    $form->_navigation['parent_id'] = $navigationDefaults['parent_id'];
+                }
             }
         } else {
             $defaults['description'] = $form->_description;
@@ -164,16 +169,29 @@ class CRM_Report_Form_Instance {
 
         //navigation parameters
         if ( CRM_Utils_Array::value( 'is_navigation', $params ) ) {
-            $form->_navigation['parent_id']  = CRM_Utils_Array::value( 'parent_id', $params );
+
+            $form->_navigation['permission'] = array( );
+            $parentID   = CRM_Utils_Array::value( 'parent_id', $params );
+            $permission = CRM_Utils_Array::value( 'permission', $params );
+
+            if ( CRM_Utils_Array::value( 'id', $form->_navigation ) &&
+                 ( CRM_Utils_Array::value( 'parent_id', $form->_navigation ) != $parentID ) ) {
+                $form->_navigation['weight'] =
+                    CRM_Core_BAO_Navigation::calculateWeight( $params['parent_id'] );
+            }
+            
+            $form->_navigation['parent_id']  = $parentID;
             $form->_navigation['label']      = $params['title'];
             $form->_navigation['name']       = $params['title'];
-            $form->_navigation['permission'] = array( CRM_Utils_Array::value( 'permission', $params ) );
-            if ( CRM_Utils_Array::value( 'id', $form->_navigation ) ) {
-                $form->_navigation['weight'] =
-                    CRM_Core_BAO_Navigation::calculateWeight($params['parent_id']);
+
+            if ( $permission ) {
+                $form->_navigation['permission'][] = $permission;
             }
+
             $form->_navigation['is_active']  = 1;
+
             unset($params['parent_id']);
+            unset($params['is_navigation']);
         }
 
         require_once 'CRM/Report/DAO/Instance.php';
@@ -206,7 +224,11 @@ class CRM_Report_Form_Instance {
         if ( $dao->id ) {
             if ( !empty($form->_navigation) ) {
                 $form->_navigation['url'] = "civicrm/report/instance/{$dao->id}&reset=1";
-                CRM_Core_BAO_Navigation::add( $form->_navigation );
+                $navigation = CRM_Core_BAO_Navigation::add( $form->_navigation );
+
+                //set the navigation id in report instance table
+                CRM_Core_DAO::setFieldValue( 'CRM_Report_DAO_Instance', $dao->id, 'navigation_id', $navigation->id );
+
                 //reset navigation
                 CRM_Core_BAO_Navigation::resetNavigation( );
             }

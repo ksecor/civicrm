@@ -64,7 +64,7 @@
   </item>
   <item>
      <path>civicrm/admin/report/list</path>
-     <title>Manage Reports</title>
+     <title>Reports Listing</title>
      <page_callback>CRM_Report_Page_InstanceList</page_callback>
      <desc>Browse existing report, change report criteria and settings.</desc>
      <adminGroup>CiviReport</adminGroup>
