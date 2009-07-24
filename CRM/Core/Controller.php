@@ -163,7 +163,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         if ( $snippet ) {
             if ( $snippet == 3 ) {
                 $this->_print = CRM_Core_Smarty::PRINT_PDF;
-            } else if ( $snippet == 4 ) {
+            } else if ( ( $snippet == 4 ) || ( $snippet == 6 )  ) {
                 $this->_print = CRM_Core_Smarty::PRINT_NOFORM;
                 self::$_template->assign( 'suppressForm', true );
             } else if ( $snippet == 5 ) {
