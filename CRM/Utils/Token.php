@@ -450,7 +450,7 @@ class CRM_Utils_Token
                             'self::getContactTokenReplacement(\'\\1\', $contact, $html, $returnBlankToken)',
                             $str);
        
-        $str = str_replace( '{ }', ' ', $str );
+        $str = preg_replace( '/\\\\|\{(\s*)?\}/', ' ', $str );
         return $str;
     }
     

@@ -152,12 +152,8 @@ class CRM_Contact_Form_Task_PDFLetterCommon
         $tokens = array( );
         CRM_Utils_Hook::tokens( $tokens );
         $categories = array_keys( $tokens );        
-		
-		require_once 'CRM/Core/SelectValues.php';
-        $contactTokens = CRM_Core_SelectValues::contactTokens();
-        $tokenKeys     = array_keys( $contactTokens );
-		
-		$html_message = str_replace( $contactTokens, $tokenKeys, $formValues['html_message'] );
+				
+		$html_message = $formValues['html_message'];
         
         require_once 'CRM/Activity/BAO/Activity.php';
 		$messageToken = CRM_Activity_BAO_Activity::getTokens( $html_message );  
