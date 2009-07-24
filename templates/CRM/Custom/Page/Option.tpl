@@ -13,23 +13,25 @@
      <p></p>
         <div class="form-item">
         {strip}
+	{* handle enable/disable actions*}
+ 	{include file="CRM/common/enableDisable.tpl"}
         <table class="selector">
         <tr class="columnheader">
         <th>{ts}Label{/ts}</th>
         <th>{ts}Value{/ts}</th>
-	    <th>{ts}Default{/ts}</th>
+	<th>{ts}Default{/ts}</th>
         <th>{ts}Weight{/ts}</th>
-	    <th>{ts}Status?{/ts}</th>
+	<th>{ts}Enabled?{/ts}</th>
         <th>&nbsp;</th>
         </tr>
-        {foreach from=$customOption item=row}
-        <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
+        {foreach from=$customOption item=row key=id}
+	<tr id="row_{$id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
             <td>{$row.value}</td>
             <td>{$row.default_value}</td>
             <td class="nowrap">{$row.weight}</td>
-            <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{$row.action|replace:'xx':$row.id}</td>
+	    <td id="row_{$id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+            <td>{$row.action|replace:'xx':$id}</td>
         </tr>
         {/foreach}
         </table>

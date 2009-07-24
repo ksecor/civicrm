@@ -48,7 +48,7 @@
 
 {strip}
 <table summary="{ts}Search results listings.{/ts}">
-  <tr class="columnheader">
+ <thead class="sticky">
   <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
   {foreach from=$columnHeaders item=header}
    {if ($header.sort eq 'activity_id') or ($header.sort eq 'activity_type_id') or ($header.sort eq 'case_id') }
@@ -65,7 +65,7 @@
     </th>
   {/foreach}
   <th>&nbsp;</th>
-  </tr>
+  </thead>
 
   {counter start=0 skip=1 print=false}
       {foreach from=$rows item=row}

@@ -79,8 +79,8 @@
     </tr>
 </table>
 
-{include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
-{include file="CRM/UF/Form/Block.tpl" fields=$customPost} 
+{include file="CRM/UF/Form/Block.tpl" fields=$additionalCustomPre} 
+{include file="CRM/UF/Form/Block.tpl" fields=$additionalCustomPost} 
 
 <div id="crm-submit-buttons">
     {$form.buttons.html}

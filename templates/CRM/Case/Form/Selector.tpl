@@ -1,10 +1,6 @@
 {if $context EQ 'Search'}
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
-{if $context != 'case'}
-{capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
-{ts 1=$expandIconURL}Click %1 to view case activities.{/ts}
-{/if}
 {strip}
 <table class="caseSelector">
   <tr class="columnheader">
@@ -62,7 +58,7 @@
     {/if}	
   
     {if !$single}
-    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a><br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
+    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a>{if $row.phone}<br /><span class="description">{$row.phone}</span>{/if}<br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
     {/if}
     
     <td class="{$row.class}">{$row.case_status_id}</td>

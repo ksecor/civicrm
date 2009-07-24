@@ -183,15 +183,23 @@ class CRM_Contribute_BAO_Contribution_Utils {
                 $form->assign('is_deductible',  true );
                 $form->set('is_deductible',  true);
             }
-            if( isset( $paymentParams['contribution_source'] ) ) {
+
+            if ( isset( $paymentParams['contribution_source'] ) ) {
                 $form->_params['source'] = $paymentParams['contribution_source'];
+            }
+            
+            // check if pending was set to true by payment processor
+            $pending = false;
+            if ( CRM_Utils_Array::value( 'contribution_status_pending',
+                                         $form->_params ) ) {
+                $pending = true;
             }
             
             $contribution =
                 CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
                                                                                $form->_params, $result,
                                                                                $contactID, $contributionType,
-                                                                               true, false, true );
+                                                                               true, $pending, true );
             
             $form->postProcessPremium( $premiumParams, $contribution );
             
@@ -487,6 +495,18 @@ class CRM_Contribute_BAO_Contribution_Utils {
             $params['contact_id'] = $contact->id;
         }
 
+        // handle contribution custom data
+        $customFields = 
+            CRM_Core_BAO_CustomField::getFields  ( 'Contribution',
+                                                   false,
+                                                   false, 
+                                                   CRM_Utils_Array::value('contribution_type_id',
+                                                                          $params ) );
+        $params['custom'] = 
+            CRM_Core_BAO_CustomField::postProcess( $params,
+                                                   $customFields,
+                                                   CRM_Utils_Array::value( 'id', $params, null ),
+                                                   'Contribution' );
         // create contribution
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params,

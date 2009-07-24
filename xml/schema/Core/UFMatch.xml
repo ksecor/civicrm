@@ -18,6 +18,19 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain is this match entry for</comment>
+      <add>2.3</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>2.3</add>
+  </foreignKey>  
+  <field>
        <name>uf_id</name>
        <type>int unsigned</type>
        <required>true</required>
@@ -61,21 +74,24 @@
     <add>2.1</add>
   </field>
   <index>
-     <name>UI_uf_id</name>
+     <name>UI_uf_id_domain_id</name>
      <fieldName>uf_id</fieldName>
+     <fieldName>domain_id</fieldName>
      <unique>true</unique>
      <add>1.5</add>
      <drop>1.7</drop>
   </index>
   <index>
-     <name>UI_uf_name</name>
+     <name>UI_uf_name_domain_id</name>
      <fieldName>uf_name</fieldName>
+     <fieldName>domain_id</fieldName>
      <unique>true</unique>
      <add>2.1</add>
   </index>
   <index>
-    <name>UI_contact</name>
+    <name>UI_contact_domain_id</name>
     <fieldName>contact_id</fieldName>
+     <fieldName>domain_id</fieldName>
     <unique>true</unique>
     <add>1.6</add>
   </index>

@@ -181,12 +181,18 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->_defaults['is_pay_later'] = 1;
         }
 
-//         //hack to simplify credit card entry for testing
+//         // hack to simplify credit card entry for testing
 //         $this->_defaults['credit_card_type']     = 'Visa';
 //         $this->_defaults['amount']               = 168;
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
-//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2010', 'M' => '05' );
+//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2012', 'M' => '05' );
+
+//         // hack to simplify direct debit entry for testing
+//         $this->_defaults['account_holder'] = 'Max Müller';
+//         $this->_defaults['bank_account_number'] = '12345678';
+//         $this->_defaults['bank_identification_number'] = '12030000';
+//         $this->_defaults['bank_name'] = 'Bankname';
 
         //build set default for pledge overdue payment.
         if ( CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
@@ -306,7 +312,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // doing this later since the express button type depends if there is an upload or not
         if ( $this->_values['is_monetary'] ) {
             require_once 'CRM/Core/Payment/Form.php';
-            CRM_Core_Payment_Form::buildCreditCard( $this );
+            if (  $this->_paymentProcessor['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_DIRECT_DEBIT ) {
+                CRM_Core_Payment_Form::buildDirectDebit( $this );
+            } else {
+                CRM_Core_Payment_Form::buildCreditCard( $this );
+            }
         }
 
         //to create an cms user 
@@ -642,8 +652,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             if ( ! $fields['org_option'] && ! $fields['organization_name'] ) {
                 $errors['organization_name'] = ts('Please enter the organization name.'); 
             }
-            if ( ! $fields['location'][1]['email'][1]['email']) {
-                $errors["location[1][email][1][email]"] = ts('Organization email is required.'); 
+            if ( ! $fields['email'][1]['email'] ) {
+                $errors["email[1][email]"] = ts('Organization email is required.'); 
             }
         }
 
@@ -670,7 +680,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             if ( ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' )
                  || isset( $fields['amount_other'] ) ) {
 
-                if ( ! (float) $amount ) {
+                if ( ! isset($amount) &&
+                     ! CRM_Utils_Array::value('amount_level',$fields) ) {
                     $errors['amount_other'] = ts('Amount is required field.');
                 }
                 
@@ -775,6 +786,20 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
+        $elements = array( 'email_greeting'  => 'email_greeting_custom', 
+                           'postal_greeting' => 'postal_greeting_custom',
+                           'addressee'       => 'addressee_custom' ); 
+        foreach ( $elements as $greeting => $customizedGreeting ) {
+            if( $greetingType = CRM_Utils_Array::value($greeting, $fields) ) {
+                $customizedValue = CRM_Core_OptionGroup::getValue( $greeting, 'Customized', 'name' ); 
+                if( $customizedValue  == $greetingType && 
+                    ! CRM_Utils_Array::value( $customizedGreeting, $fields ) ) {
+                    $errors[$customizedGreeting] = ts( 'Custom  %1 is a required field if %1 is of type Customized.', 
+                                                       array( 1 => ucwords(str_replace('_'," ", $greeting) ) ) );
+                }
+            }
+        }
+        
         return empty( $errors ) ? true : $errors;
     }
 
@@ -833,7 +858,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $params['amount'] = self::computeAmount( $params, $this );
         $memFee = null;
         if ( CRM_Utils_Array::value( 'selectMembership', $params ) ) {
-            $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
+            $membershipTypeValues = CRM_Member_BAO_Membership::buildMembershipTypeValues( $this,
+                                                                                          $params['selectMembership'] );
+            $memFee = $membershipTypeValues['minimum_fee'];
             if ( !$params['amount'] && !$this->_separateMembershipPayment ) {
                 $params['amount'] = $memFee ? $memFee : 0;
             }

@@ -4,7 +4,7 @@
 
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
     
-{* Only include joomla.css in administrator (backend). Page layout style id's and classes conflict with typical front-end css and break the page layout. *}
+{* Only include joomla.css in administrator (backend). Page layout style ids and classes conflict with typical front-end css and break the page layout. *}
 
 {if ! $config->userFrameworkFrontend}
     <link rel="stylesheet" href="{$config->resourceBase}css/joomla.css" type="text/css" />
@@ -27,15 +27,11 @@
         <link rel="stylesheet" href="{$config->resourceBase}css/civicrm-new.css" type="text/css" />
     {/if}
 {/if}
-<link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script> 
 
 {include file="CRM/common/jquery.tpl"}
 {include file="CRM/common/action.tpl"}
 
-{if $buildNavigation and !$urlIsPublic }
+{if $buildNavigation }
     {include file="CRM/common/Navigation.tpl" }
 {/if}
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
@@ -70,10 +66,10 @@
     
 {if $browserPrint}
 {* Javascript window.print link. Used for public pages where we can't do printer-friendly view. *}
-<div id="printer-friendly"><a href="javascript:window.print()" title="{ts}Print this page.{/ts}"><img src="{$config->resourceBase}i/print_preview.gif" alt="{ts}Print this page.{/ts}" /></a></div>
+<div id="printer-friendly"><a href="javascript:window.print()" title="{ts}Print this page.{/ts}"><img src="{$config->resourceBase}i/print-icon.png" alt="{ts}Print this page.{/ts}" /></a></div>
 {else}
 {* Printer friendly link/icon. *}
-<div id="printer-friendly"><a href="{$printerFriendly}" title="{ts}Printer-friendly view of this page.{/ts}"><img src="{$config->resourceBase}i/print_preview.gif" alt="{ts}Printer-friendly view of this page.{/ts}" /></a></div>
+<div id="printer-friendly"><a href="{$printerFriendly}" title="{ts}Printer-friendly view of this page.{/ts}"><img src="{$config->resourceBase}i/print-icon.png" alt="{ts}Printer-friendly view of this page.{/ts}" /></a></div>
 {/if}
 
 {*{include file="CRM/common/langSwitch.tpl"}*}

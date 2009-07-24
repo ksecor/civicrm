@@ -161,15 +161,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @protected
      */
     public $_priceSet;
-          
-     /**
-     * 
-     *Greeting Type value
-     * @var int
-     * @public
-     */
-    public $_greetingTypeValue;
-
+    
     public $_action;
     
     /** 
@@ -298,6 +290,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             if ( ! $this->_values['event']['is_online_registration'] ) {
                 CRM_Core_Error::statusBounce( ts( 'Online registration is not currently available for this event (contact the site administrator for assistance).' ), $infoUrl );
             }
+
+            // is this an event template ?
+            if ( $this->_values['event']['is_template'] ) {
+                CRM_Core_Error::statusBounce( ts( 'Event templates are not meant to be registered.' ), $infoUrl );
+            }
+
             $now = time( );
 
             $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',
@@ -388,6 +386,36 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                   $this->_values['custom_post_id'] ) =
                 CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
     
+            // set profiles for additional participants
+            if ( $this->_values['event']['is_multiple_registrations'] ) {
+                require_once 'CRM/Core/BAO/UFJoin.php'; 
+                $ufJoinParams = array( 'entity_table' => 'civicrm_event',   
+                                       'module'       => 'CiviEvent_Additional',       // CRM-4377: CiviEvent for the main participant, CiviEvent_Additional for additional participants
+                                       'entity_id'    => $this->_eventId );
+                list( $this->_values['additional_custom_pre_id'],
+                      $this->_values['additional_custom_post_id'], $preActive, $postActive ) =
+                    CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
+                
+                // CRM-4377: we need to maintain backward compatibility, hence if there is profile for main contact
+                // set same profile for additional contacts.
+                if ( $this->_values['custom_pre_id'] && !$this->_values['additional_custom_pre_id'] ) {
+                    $this->_values['additional_custom_pre_id'] = $this->_values['custom_pre_id'];
+                }
+
+                if ( $this->_values['custom_post_id'] && !$this->_values['additional_custom_post_id'] ) {
+                    $this->_values['additional_custom_post_id'] = $this->_values['custom_post_id'];
+                }
+                
+                // now check for no profile condition, in that case is_active = 0
+                if ( isset( $preActive ) && !$preActive ) {
+                    unset( $this->_values['additional_custom_pre_id'] );
+                }
+
+                if ( isset( $postActive ) && !$postActive ) {
+                    unset( $this->_values['additional_custom_post_id'] );
+                }
+            }
+                
             $params = array( 'id' => $this->_eventId );
             
             // get the billing location type
@@ -406,7 +434,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             $params = array( 'entity_id' => $this->_eventId ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $this->_values, true );
+            $this->_values['location'] = CRM_Core_BAO_Location::getValues( $params, true );
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
@@ -423,15 +451,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );
-        
-        // get greeting type value
-        $this->_greetingTypeValue = CRM_Core_DAO::getFieldValue( 
-                                                               'CRM_Core_DAO_OptionValue', 
-                                                               'Customized', 
-                                                               'value', 
-                                                               'name'
-                                                                );
-
+                
         // setting CMS page title
         CRM_Utils_System::setTitle($this->_values['event']['title']);  
         $this->assign( 'title', $this->_values['event']['title'] );
@@ -680,7 +700,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             $mail = 'email-5';
             //in case of Pay later option we skipped 'email-5' so we should use 'email-Primary'
-            if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ) {
+            if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
+                 $this->_allowWaitlist || $this->_requireApproval ) {
                 $mail = 'email-Primary';
             }
             require_once "CRM/Core/BAO/CMSUser.php";

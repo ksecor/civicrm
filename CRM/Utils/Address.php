@@ -86,26 +86,9 @@ class CRM_Utils_Address
             }
         }
 
-        $contactName = CRM_Utils_Array::value( 'display_name', $fields );
-        if ( ! $individualFormat ) {  
-            require_once "CRM/Contact/BAO/Contact.php"; 
-            if ( isset( $fields['id'] ) ) {
-                $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
-            } else {
-                $type = 'Individual';
-            }
-
-            if ( $type == 'Individual' ) {
-                $format = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
-                $format = str_replace('contact.',"",$format);
-                $contactName = self::format($fields, $format, null, null, true);
-            }
-        }
-
         if (! $microformat) {
             $replacements =
                 array( // replacements in case of Individual Name Format
-                      'addressee'              => CRM_Utils_Array::value( 'addressee', $fields ),
                       'display_name'           => CRM_Utils_Array::value( 'display_name', $fields ),
                       'individual_prefix'      => CRM_Utils_Array::value( 'individual_prefix', $fields ),
                       'first_name'             => CRM_Utils_Array::value( 'first_name', $fields ),
@@ -145,9 +128,13 @@ class CRM_Utils_Address
                       'contact_source'         => CRM_Utils_Array::value( 'contact_source', $fields ),
                       'external_identifier'    => CRM_Utils_Array::value( 'external_identifier', $fields ),
                       'contact_id'             => CRM_Utils_Array::value( 'id', $fields ),
+                      'household_name'         => CRM_Utils_Array::value( 'display_name', $fields ),
+                      'organization_name'      => CRM_Utils_Array::value( 'display_name', $fields ),
+                      'legal_name'             => CRM_Utils_Array::value( 'legal_name', $fields ),
                       'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields ),
-                      'email_greeting'         => CRM_Utils_Array::value( 'email_greeting', $fields ),
-                      'postal_greeting'        => CRM_Utils_Array::value( 'postal_greeting', $fields )
+                      'addressee'              => CRM_Utils_Array::value( 'addressee_display', $fields ),
+                      'email_greeting'         => CRM_Utils_Array::value( 'email_greeting_display', $fields ),
+                      'postal_greeting'        => CRM_Utils_Array::value( 'postal_greeting_display', $fields )
                        );
         } else {
             $replacements =
@@ -203,12 +190,11 @@ class CRM_Utils_Address
                 $formatted = preg_replace("/{[^{}]*\b{$token}\b[^{}]*}/u", '', $formatted);
             }
         }
-
         // drop any {...} constructs from lines' ends
         if (! $microformat) {
             $formatted = "\n$formatted\n";
         } else {
-            if( $microformat === 1) {
+            if( $microformat == 1) {
                 $formatted = "\n<div class=\"location vcard\"><span class=\"adr\">$formatted</span></div>\n";
             } else {
                 $formatted = "\n<div class=\"vcard\"><span class=\"adr\">$formatted</span></div>\n";

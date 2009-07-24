@@ -322,7 +322,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      * @var array
      */
     public $enableComponents   = array( 'CiviContribute','CiviPledge','CiviMember',
-                                        'CiviEvent', 'CiviMail', 'CiviAuction' );
+                                        'CiviEvent', 'CiviMail', 'CiviReport' );
     public $enableComponentIDs = array( 1, 6, 2, 3, 4, 8 );
 
     /**
@@ -389,17 +389,14 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $includeNickNameInName  = 0;
     public $smartGroupCacheTimeout = 0;
 
+    public $defaultSearchProfileID = null;
+
     /**
      * Optimization related variables
      */
     public $includeAlphabeticalPager = 1;
     public $includeOrderByClause     = 1;
     public $oldInputStyle            = 1;
-
-    /**
-     * Should we include dojo?
-     */
-    public $includeDojo              = 1;
 
     /**
      * should we disbable key generation for forms

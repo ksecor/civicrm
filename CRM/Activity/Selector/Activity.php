@@ -138,6 +138,9 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             $url      = 'civicrm/activity/view';
             $delUrl   = 'civicrm/activity';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+        } elseif ( $activityTypeId == $activityTypeIds['Inbound Email'] ) {
+            $url      = 'civicrm/contact/view/activity';
+            $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         } else {
             $showUpdate = true;
             $showDelete = true;
@@ -264,7 +267,10 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      */
     function getTotalCount($action, $case = null )
     { 
-        return CRM_Activity_BAO_Activity::getNumOpenActivity($this->_contactId, $this->_admin, $this->_context, $case );
+
+        require_once 'CRM/Activity/BAO/Activity.php';
+        $data = array( 'contact_id' => $this->_contactId );
+        return CRM_Activity_BAO_Activity::getActivities( $data, null, null, null, 'Activity', false, null, null, true );
     }
 
 

@@ -70,7 +70,6 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
     function &links()
     {
           if (!(self::$_links)) {
-              $disableExtra = ts('Are you sure you want to disable this ACL Role Assignment?');
               self::$_links = array(
                                     CRM_Core_Action::UPDATE  => array(
                                                                       'name'  => ts('Edit'),
@@ -80,15 +79,14 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
                                                                       ),
                                     CRM_Core_Action::DISABLE => array(
                                                                       'name'  => ts('Disable'),
-                                                                      'url'   => 'civicrm/acl/entityrole',
-                                                                      'qs'    => 'action=disable&id=%%id%%',
-                                                                      'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                      'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_ACL_BAO_EntityRole' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                      'ref'   => 'disable-action',
                                                                       'title' => ts('Disable ACL Role Assignment') 
                                                                       ),
                                     CRM_Core_Action::ENABLE  => array(
                                                                       'name'  => ts('Enable'),
-                                                                      'url'   => 'civicrm/acl/entityrole',
-                                                                      'qs'    => 'action=enable&id=%%id%%',
+                                                                      'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_ACL_BAO_EntityRole' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                      'ref'   => 'enable-action',
                                                                       'title' => ts('Enable ACL Role Assignment') 
                                                                       ),
                                     CRM_Core_Action::DELETE  => array(
@@ -97,10 +95,9 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
                                                                       'qs'    => 'action=delete&id=%%id%%',
                                                                       'title' => ts('Delete ACL Role Assignment') 
                                                                       ),
-                                    
                                     );
-        }
-        return self::$_links;
+          }
+          return self::$_links;
     }
 
     /**

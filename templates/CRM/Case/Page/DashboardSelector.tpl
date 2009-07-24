@@ -1,5 +1,4 @@
 {capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
-{ts 1=$expandIconURL}Click %1 to view case details.{/ts}
 {strip}
 <table class="caseSelector">
   <tr class="columnheader">
@@ -19,7 +18,7 @@
  
   <tr id='{$list}Rowid{$row.case_id}'>
 	<td>
-        &nbsp;{$row.contact_type_icon}<br />
+        {* &nbsp;{$row.contact_type_icon}<br /> *}
         <span id="{$list}{$row.case_id}_show">
 	    <a href="#" onclick="show('{$list}CaseDetails{$row.case_id}', 'table-row');
                              {$list}CaseDetails('{$row.case_id}','{$row.contact_id}'); 
@@ -36,7 +35,7 @@
                              return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
 
-    <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a><br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
+    <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a>{if $row.phone}<br /><span class="description">{$row.phone}</span>{/if}<br /><span class="description">{ts}Case ID{/ts}: {$row.case_id}</span></td>
     <td class="{$row.class}">{$row.case_status}</td>
     <td>{$row.case_type}</td>
     <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>

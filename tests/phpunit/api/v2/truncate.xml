@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--  $Id  -->
+<!--  $Id$  -->
 <!--  Truncate all tables that will be used in the tests  -->
 <dataset>
+  <civicrm_acl />
+  <civicrm_acl_cache />
+  <civicrm_acl_entity_role />
   <civicrm_activity />
   <civicrm_contact />
+  <civicrm_group />
+  <civicrm_group_contact />
+  <civicrm_location_type />
+  <civicrm_openid />
   <civicrm_option_group />
   <civicrm_option_value />
 </dataset>

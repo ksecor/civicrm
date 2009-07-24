@@ -86,8 +86,17 @@ class CRM_Utils_System_Standalone {
         if ( !$allowLogin ) {
             return false;
         }
-        
-        // ask something about the speed of unladen swallows
+
+        // see if the password matches the API key
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $dao = CRM_Contact_BAO_Contact::matchContactOnOpenId( $name );
+        require_once 'CRM/Core/DAO.php';
+        $api_key = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $dao->contact_id, 'api_key');
+        if ( $api_key != $password ) {
+            return false;
+        }
+
+        // everything looks good, setup the session and return
         require_once 'CRM/Standalone/User.php';
         $user = new CRM_Standalone_User( $name );
         require_once 'CRM/Core/BAO/UFMatch.php';
@@ -214,7 +223,12 @@ class CRM_Utils_System_Standalone {
             $fragment = '#'. $fragment;
         }
 
-        $base = $absolute ? $config->userFrameworkBaseURL: '';
+        if ( ! isset( $config->useFrameworkRelativeBase ) ) {
+            $base = parse_url( $config->userFrameworkBaseURL );
+            $config->useFrameworkRelativeBase = $base['path'];
+        }
+        $base = $absolute ? $config->userFrameworkBaseURL : $config->useFrameworkRelativeBase;
+
         $separator = $htmlize ? '&amp;' : '&';
 
         if (! $config->cleanURL ) {

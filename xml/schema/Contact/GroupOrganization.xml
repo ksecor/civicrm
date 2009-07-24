@@ -28,6 +28,7 @@
     <name>group_id</name>
     <table>civicrm_group</table>
     <key>id</key>
+    <onDelete>CASCADE</onDelete>
     <add>2.0</add>
   </foreignKey>
   <field>
@@ -41,6 +42,14 @@
     <name>organization_id</name>
     <table>civicrm_contact</table>
     <key>id</key>
+    <onDelete>CASCADE</onDelete>
     <add>2.0</add>
   </foreignKey>
+  <index>
+    <name>UI_group_organization</name>
+    <unique>true</unique>
+    <fieldName>group_id</fieldName>
+    <fieldName>organization_id</fieldName>
+    <add>2.0</add>
+  </index>
 </table>

@@ -129,7 +129,7 @@ class CRM_Core_OptionValue
             if ( CRM_Utils_Array::value( 'component_id', $optionValue[$dao->id] ) ) {
                 $optionValue[$dao->id]['component_name'] = $componentNames[$optionValue[$dao->id]['component_id']];
             } else {
-                $optionValue[$dao->id]['component_name'] = 'Core';
+                $optionValue[$dao->id]['component_name'] = 'Contact';
             }
             
             if (  CRM_Utils_Array::value( 'visibility_id', $optionValue[$dao->id] ) ) {
@@ -248,12 +248,12 @@ class CRM_Core_OptionValue
      * @access public
      * @static
      */
-    static function getFields( $mode = '' ,$contactType = 'Individual') 
+    static function getFields( $mode = '', $contactType = 'Individual' ) 
     {
-        if ( !self::$_fields || ! CRM_Utils_Array::value( $mode, self::$_fields ) || $mode) {
-            if ( !self::$_fields ) {
-                self::$_fields = array();
-            }
+        $key = "$mode $contactType";    
+        if ( empty( self::$_fields[$key] ) || !self::$_fields[$key] ) {
+            self::$_fields[$key] = array( );
+
             require_once "CRM/Core/DAO/OptionValue.php";  
             $option = CRM_Core_DAO_OptionValue::import( );
 
@@ -261,7 +261,8 @@ class CRM_Core_OptionValue
                 $optionName = $option[$id];
             }
             
-            if( $mode == 'contribute' ) {
+            $nameTitle = array( );
+            if ( $mode == 'contribute' ) {
                 $nameTitle = array('payment_instrument' => array('name' =>'payment_instrument',
                                                                  'title'=> 'Payment Instrument',
                                                                  'headerPattern' => '/^payment|(p(ayment\s)?instrument)$/i'
@@ -279,14 +280,17 @@ class CRM_Core_OptionValue
                 }
                 if ( $contactType == 'Individual' || $contactType == 'Household' || $contactType == 'All' ) {
                     $title = array( 'email_greeting'    => array('name' => 'email_greeting',
-                                                                 'title'=> 'Email Greeting'
+                                                                 'title'=> 'Email Greeting',
+                                                                 'headerPattern' => '/^email_greeting$/i'
                                                                  ),  
                                     'postal_greeting'   => array('name' => 'postal_greeting',
                                                                  'title'=> 'Postal Greeting',
+                                                                 'headerPattern' => '/^postal_greeting$/i'
                                                                  ),
                                     );
                     $nameTitle = array_merge( $nameTitle, $title );
                 }
+
                 if ( $contactType == 'Individual' || $contactType == 'All') {
                     $title = array( 'gender'            => array('name' => 'gender',
                                                                  'title'=> 'Gender',
@@ -307,20 +311,20 @@ class CRM_Core_OptionValue
             
             if ( is_array( $nameTitle ) ) {   
                 foreach ( $nameTitle as $name => $attribs ) {
-                    self::$_fields[$mode][$name] = $optionName;
+                    self::$_fields[$key][$name] = $optionName;
                     list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
                     // not sure of this fix, so keeping it commented for now
                     // this is from CRM-1541
                     // self::$_fields[$mode][$name]['where'] = $name . '.' . $fieldName;
-                    self::$_fields[$mode][$name]['where'] = "{$name}.label";
-                    foreach ( $attribs as $key => $val ) {
-                        self::$_fields[$mode][$name][$key] = $val;
+                    self::$_fields[$key][$name]['where'] = "{$name}.label";
+                    foreach ( $attribs as $k => $val ) {
+                        self::$_fields[$key][$name][$k] = $val;
                     }
                 }
             }
         }
         
-        return self::$_fields[$mode];
+        return self::$_fields[$key];
     }
     
     /** 

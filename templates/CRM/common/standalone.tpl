@@ -10,13 +10,10 @@
 <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
 {/if}
 <link rel="stylesheet" href="{$config->resourceBase}css/standalone.css" type="text/css" />
-<link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script> 
 
 {$pageHTMLHead}
 {include file="CRM/common/jquery.tpl"}
+{include file="CRM/common/action.tpl"}
 {if $buildNavigation and !$urlIsPublic }
     {include file="CRM/common/Navigation.tpl" }
 {/if}
@@ -54,7 +51,17 @@
       {/if}
     
       <h1 class="title">{$pageTitle}</h1>
-    
+      
+      {if $browserPrint}
+      {* Javascript window.print link. Used for public pages where we can't do printer-friendly view. *}
+      <div id="printer-friendly"><a href="javascript:window.print()" title="{ts}Print this page.{/ts}"><img src="{$config->resourceBase}i/print-icon.png" alt="{ts}Print this page.{/ts}" /></a></div>
+      {else}
+      {* Printer friendly link/icon. *}
+      <div id="printer-friendly"><a href="{$printerFriendly}" title="{ts}Printer-friendly view of this page.{/ts}"><img src="{$config->resourceBase}i/print-icon.png" alt="{ts}Printer-friendly view of this page.{/ts}" /></a></div>
+      {/if}
+      
+      <div class="spacer"></div>    
+      
       {if $localTasks}
         {include file="CRM/common/localNav.tpl"}
       {/if}

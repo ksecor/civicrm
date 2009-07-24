@@ -57,8 +57,7 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
     {
         return 'CRM_Contact_BAO_RelationshipType';
     }
-
-
+    
     /**
      * Get action Links
      *
@@ -67,9 +66,6 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
     function &links()
     {
         if (!( self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this relationship type?') . '\n\n' . ts('Users will no longer be able to select this value when adding or editing relationships between contacts.');
-
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
@@ -85,15 +81,14 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/reltype',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contact_BAO_RelationshipType' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
                                                                     'title' => ts('Disable Relationship Type') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/reltype',
-                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contact_BAO_RelationshipType' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
                                                                     'title' => ts('Enable Relationship Type') 
                                                                    ),
                                    CRM_Core_Action::DELETE  => array(
@@ -132,7 +127,7 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
      *
      * @return string user context.
      */
-    function userContext(  $mode = null ) 
+    function userContext( $mode = null ) 
     {
         return 'civicrm/admin/reltype';
     }

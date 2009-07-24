@@ -34,7 +34,7 @@
  */
 
 /**
- * This class contains all the function that are called using AJAX (dojo)
+ * This class contains all the function that are called using AJAX
  */
 class CRM_Import_Page_AJAX
 {
@@ -60,6 +60,7 @@ class CRM_Import_Page_AJAX
             $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
             echo $json->encode( array( 0, $status ) );
         }
+		exit;
     }
 
 }

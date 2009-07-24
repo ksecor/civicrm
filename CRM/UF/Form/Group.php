@@ -161,13 +161,13 @@ class CRM_UF_Form_Group extends CRM_Core_Form
         
         foreach ( $paneNames as $name => $type ) {
             if ( $this->_id ) {
-                $dojoUrlParams = "&reset=1&action=update&id={$this->_id}&snippet=4&formType={$type}";  
+                $dataURL = "&reset=1&action=update&id={$this->_id}&snippet=4&formType={$type}";  
             } else {
-                $dojoUrlParams = "&reset=1&action=add&snippet=4&formType={$type}";
+                $dataURL = "&reset=1&action=add&snippet=4&formType={$type}";
             }
             
             $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/admin/uf/group/setting',
-                                                                       $dojoUrlParams ),
+                                                                       $dataURL ),
                                       'open' => 'false',
                                       'id'   => $type,
                                       );
@@ -300,12 +300,16 @@ class CRM_UF_Form_Group extends CRM_Core_Form
 
             if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
                 $ids['ufgroup'] = $this->_id;
-            
+                
                 $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFJoin', $this->_id, 'weight', 'uf_group_id' );
                 $params['weight'] = 
                     CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFJoin', $oldWeight, $params['weight']);
+            } elseif ( $this->_action & CRM_Core_Action::ADD ) {
+                $session =& CRM_Core_Session::singleton( );
+                $params['created_id']   = $session->get( 'userID' );
+                $params['created_date'] = date('YmdHis');
             }
-
+            
             // create uf group
             $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);
 

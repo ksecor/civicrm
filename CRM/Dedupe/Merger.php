@@ -36,13 +36,13 @@ class CRM_Dedupe_Merger
 {
     // FIXME: this should be auto-generated from the schema
     static $validFields = array(
-        'birth_date', 'contact_source', 'contact_type', 'custom_greeting', 
+        'addressee', 'addressee_custom', 'birth_date', 'contact_source', 'contact_type',
         'deceased_date', 'do_not_email', 'do_not_mail', 'do_not_sms', 'do_not_phone', 
-        'do_not_trade', 'external_identifier', 'first_name', 'gender', 
-        'greeting_type', 'home_URL', 'household_name', 'image_URL', 
+        'do_not_trade', 'external_identifier', 'email_greeting', 'email_greeting_custom', 'first_name', 'gender', 
+        'home_URL', 'household_name', 'image_URL', 
         'individual_prefix', 'individual_suffix', 'is_deceased', 'is_opt_out', 
         'job_title', 'last_name', 'legal_identifier', 'legal_name', 
-        'middle_name', 'nick_name', 'organization_name', 
+        'middle_name', 'nick_name', 'organization_name', 'postal_greeting', 'postal_greeting_custom', 
         'preferred_communication_method', 'preferred_mail_format', 'sic_code'
     );
 
@@ -274,7 +274,7 @@ class CRM_Dedupe_Merger
         }
         $main  =& civicrm_contact_get($mainParams);
         $other =& civicrm_contact_get($otherParams);
-
+        
         //CRM-4524
         $main  = reset( $main );
         $other = reset( $other );

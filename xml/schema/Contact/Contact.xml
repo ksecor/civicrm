@@ -366,10 +366,19 @@
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
+       <export>false</export>
        <comment>Custom Email Greeting.</comment>
        <add>2.3</add>
   </field>
-   <field>
+  <field>
+       <name>email_greeting_display</name>
+       <title>Email Greeting</title>
+       <type>varchar</type>
+       <length>225</length>
+       <comment>Cache Email Greeting.</comment>
+       <add>2.3</add>
+  </field>
+  <field>
        <name>postal_greeting_id</name>
        <type>int unsigned</type>
        <comment>FK to civicrm_option_value.id, that has to be valid registered Postal Greeting.</comment>
@@ -380,7 +389,16 @@
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
+       <export>false</export>
        <comment>Custom Postal greeting.</comment>
+       <add>2.3</add>
+  </field>
+  <field>
+       <name>postal_greeting_display</name>
+       <title>Postal Greeting</title>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Cache Postal greeting.</comment>
        <add>2.3</add>
   </field>
   <field>
@@ -394,7 +412,16 @@
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
+       <export>false</export>
        <comment>Custom Addressee.</comment>
+       <add>2.3</add>
+  </field>
+  <field>
+       <name>addressee_display</name>
+       <title>Addressee</title>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Cache Addressee.</comment>
        <add>2.3</add>
   </field>
   <field>

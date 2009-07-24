@@ -321,7 +321,7 @@ class CRM_Pledge_BAO_Query
             $newName = str_replace(',' , " " ,$name );
             $pieces =  explode( ' ', $newName ); 
             foreach ( $pieces as $piece ) { 
-                $value = strtolower(addslashes(trim($piece)));
+                $value = strtolower(CRM_Core_DAO::escapeString(trim($piece)));
                 $value = "'%$value%'";
                 $sub[] = " ( pledge_contact_b.sort_name LIKE $value )";
             }

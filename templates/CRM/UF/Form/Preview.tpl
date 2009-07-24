@@ -77,47 +77,21 @@
 		<table id="selector" class="selector" style="width:auto;">
 		<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
 		</table>
-    {elseif $n eq 'email_greeting'}
-          <table class="form-layout-compressed">
-             <tr>
-                <td>{$form.$n.html|crmReplace:class:big}</td>
-                <td id='emailCustomGreeting'>
-                   {$form.email_greeting_custom.label}&nbsp;&nbsp;&nbsp;
-                   {$form.email_greeting_custom.html|crmReplace:class:big}
-                </td>
-             </tr>
-          </table>
-    {elseif $n eq 'postal_greeting'}
-          <table class="form-layout-compressed">
-             <tr>
-                <td>{$form.$n.html|crmReplace:class:big}</td>
-                <td id='postalCustomGreeting'>
-                   {$form.postal_greeting_custom.label}&nbsp;&nbsp;&nbsp;
-                   {$form.postal_greeting_custom.html|crmReplace:class:big}
-                </td>
-             </tr>
-          </table>   
-    {elseif $n eq 'addressee'}
-          <table class="form-layout-compressed">
-             <tr>
-                <td>{$form.$n.html|crmReplace:class:big}</td>
-                <td id='addresseeCustom'>
-                   {$form.addressee_custom.label}&nbsp;&nbsp;&nbsp;
-                   {$form.addressee_custom.html|crmReplace:class:big}
-                </td>
-             </tr>
-          </table>       
+    {elseif $n eq 'email_greeting' or  $n eq 'postal_greeting' or $n eq 'addressee'}
+            {include file="CRM/Profile/Form/GreetingType.tpl"}  
 	{else}
 	   {$form.$n.html}
 	   {if $field.is_view eq 0}
 	       {if ( $field.html_type eq 'Radio' or  $n eq 'gender') and $form.formName eq 'Preview'}
                	   &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
 	       {elseif $field.data_type eq 'Date' AND $element.skip_calendar NEQ true } 
-                   <span>
-			{include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
+            <span>
+			    {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
 		    	{include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
 		   </span>
-	       {/if}
+	       {elseif $field.html_type eq 'Autocomplete-Select'}
+                {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
+		   {/if}
 	   {/if}
 	{/if}
         </td>
@@ -147,42 +121,10 @@
 <div class=" horizontal-center "> 
 	{$form.buttons.html}
 </div>
-{if $form.email_greeting or $form.postal_greeting or $form.addressee}
-  {literal}
-    <script type="text/javascript">
-      window.onload = function() {
-        showEmailGreeting();
-        showPostalGreeting();
-        showAddressee();
-      }
-    </script>
-  {/literal}
-{/if}
 {literal}
 <script type="text/javascript">
-  function showEmailGreeting() {
-      if( document.getElementById("email_greeting").value == 4 ) {
-           show('emailCustomGreeting');                   
-      } else {
-           hide('emailCustomGreeting');      
-      }     
-  }
-  function showPostalGreeting() {
-      if( document.getElementById("postal_greeting").value == 4 ) {
-           show('postalCustomGreeting');                   
-      } else {
-           hide('postalCustomGreeting');      
-      }     
-  }
-  function showAddressee() {
-      if( document.getElementById("addressee").value == 4 ) {
-           show('addresseeCustom');                   
-      } else {
-           hide('addresseeCustom');      
-      }     
-  }
-cj(document).ready(function(){ 
-	cj('#selector tr:even').addClass('odd-row ');
+    cj(document).ready(function(){ 
+    cj('#selector tr:even').addClass('odd-row ');
 	cj('#selector tr:odd ').addClass('even-row');
 
     // Initialise the table

@@ -67,35 +67,31 @@ class CRM_Admin_Page_PaymentProcessor extends CRM_Core_Page_Basic
     function &links()
     {
         if (!(self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this payment processor?') . '\n\n' . ts('Users will no longer be able to select this value when adding or editing transaction pages.');
-
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/paymentProcessor',
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Payment Processor') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/paymentProcessor',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_PaymentProcessor' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
                                                                     'title' => ts('Disable Payment Processor') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/paymentProcessor',
-                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_PaymentProcessor' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
                                                                     'title' => ts('Enable Payment Processor') 
                                                                     ),
-                                   CRM_Core_Action::DELETE  => array(
+                                  CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/admin/paymentProcessor',
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'title' => ts('Delete Payment Processor') 
-                                                                   )
+                                                                    )
                                   );
         }
         return self::$_links;

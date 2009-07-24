@@ -154,15 +154,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @public
      */
     public $_pcpInfo;
-     
-    /**
-     * greeting type value
-     *
-     * @var int
-     * @public
-     */
-    public $_greetingTypeValue;
-
+        
     protected $_userID;
 
     /**
@@ -445,7 +437,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&
              CRM_Utils_Array::value('is_monetary', $this->_values) ) {
             require_once 'CRM/Core/Payment/Form.php';
-            CRM_Core_Payment_Form::setCreditCardFields( $this );
+            require_once 'CRM/Core/Payment.php';
+            // payment fields are depending on payment type
+            if ( $this->_paymentProcessor['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_DIRECT_DEBIT ){
+                CRM_Core_Payment_Form::setDirectDebitFields( $this );
+            } else {
+                CRM_Core_Payment_Form::setCreditCardFields( $this );
+            }         
         }
 
         $this->assign_by_ref( 'paymentProcessor', $this->_paymentProcessor );
@@ -508,13 +506,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         
         $this->_amount   = $this->get( 'amount' );
         
-        // get greeting type value
-        $this->_greetingTypeValue = CRM_Core_DAO::getFieldValue( 
-                                                               'CRM_Core_DAO_OptionValue', 
-                                                               'Customized', 
-                                                               'value', 
-                                                               'name'
-                                                                );
     }
 
     /** 
@@ -567,7 +558,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         if( isset($this->_params['amount_other']) || isset($this->_params['selectMembership']) ) {
             $this->_params['amount_level'] = '';
         }
-       
+
         foreach ( $vars as $v ) {
             if ( CRM_Utils_Array::value( $v, $this->_params ) ) {
                 $this->assign( $v, $this->_params[$v] );
@@ -589,11 +580,12 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
-
+        
         if ( CRM_Utils_Array::value( 'is_for_organization', $this->_params ) ) {
-            $this->assign('onBehalfName', $this->_params['organization_name']);
-            $this->assign('onBehalfEmail', $this->_params['location'][1]['email'][1]['email']);
-            $this->assign('onBehalfAddress', CRM_Utils_Address::format($this->_params['location'][1]['address']));
+            $this->assign('onBehalfName',    $this->_params['organization_name']);
+            $this->assign('onBehalfEmail',   $this->_params['onbehalf_location']['email'][1]['email']);
+            $this->assign('onBehalfAddress', 
+                          CRM_Utils_Address::format($this->_params['onbehalf_location']['address'][1]));
         }
         
         //fix for CRM-3767
@@ -608,11 +600,19 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
         
         if ( $this->_contributeMode == 'direct' && $assignCCInfo ) {
-            $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
-            $date = CRM_Utils_Date::mysqlToIso( $date );
-            $this->assign( 'credit_card_exp_date', $date );
-            $this->assign( 'credit_card_number',
-                           CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
+            if ( $this->_paymentProcessor['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_DIRECT_DEBIT ) {
+                $this->assign( 'payment_type', $this->_paymentProcessor['payment_type']);
+                $this->assign( 'account_holder', $this->_params['account_holder'] );
+                $this->assign( 'bank_identification_number', $this->_params['bank_identification_number'] );
+                $this->assign( 'bank_name', $this->_params['bank_name'] );
+                $this->assign( 'bank_account_number', $this->_params['bank_account_number'] );
+            } else {
+                $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
+                $date = CRM_Utils_Date::mysqlToIso( $date );
+                $this->assign( 'credit_card_exp_date', $date );
+                $this->assign( 'credit_card_number',
+                               CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
+            }
         }
         
         $this->assign( 'email',

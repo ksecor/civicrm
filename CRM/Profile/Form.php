@@ -310,7 +310,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->assign( 'id'          , $this->_id       );
         $this->assign( 'mode'        , $this->_mode     );
         $this->assign( 'action'      , $this->_action   );
-        $this->assign( 'fields'      , $this->_fields   );
+        $this->assign_by_ref( 'fields'      , $this->_fields   );
         $this->assign( 'fieldset'    , (isset($this->_fieldset)) ? $this->_fieldset : "" ); 
         
         // do we need inactive options ?
@@ -562,6 +562,20 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
         }
+
+        $elements = array( 'email_greeting'  => 'email_greeting_custom', 
+                           'postal_greeting' => 'postal_greeting_custom',
+                           'addressee'       => 'addressee_custom' ); 
+        foreach ( $elements as $greeting => $customizedGreeting ) {
+            if( $greetingType = CRM_Utils_Array::value($greeting, $fields) ) {
+                $customizedValue = CRM_Core_OptionGroup::getValue( $greeting, 'Customized', 'name' ); 
+                if( $customizedValue  == $greetingType && 
+                    ! CRM_Utils_Array::value( $customizedGreeting, $fields ) ) {
+                    $errors[$customizedGreeting] = ts( 'Custom  %1 is a required field if %1 is of type Customized.', 
+                                                       array( 1 => ucwords(str_replace('_'," ", $greeting) ) ) );
+                }
+            }
+        }
         
         return empty($errors) ? true : $errors;
     }
@@ -575,7 +589,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
-        
+                
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );

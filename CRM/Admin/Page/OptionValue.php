@@ -49,7 +49,15 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
     static $_links = null;
 
     static $_gid = null;
-
+    
+    /**
+     * The option group name
+     *
+     * @var string
+     * @static
+     */
+    static $_gName = null;
+    
     /**
      * Get BAO Name
      *
@@ -68,27 +76,23 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
     function &links()
     {
         if (!(self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this Option Value?');
-
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/optionValue',
                                                                     'qs'    => 'action=update&id=%%id%%&gid=%%gid%%&reset=1',
                                                                     'title' => ts('Edit Option Value') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/optionValue',
-                                                                    'qs'    => 'action=disable&id=%%id%%&gid=%%gid%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
                                                                     'title' => ts('Disable Option Value') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/optionValue',
-                                                                    'qs'    => 'action=enable&id=%%id%%&gid=%%gid%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_OptionValue' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
                                                                     'title' => ts('Enable Option Value') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
@@ -96,8 +100,8 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/optionValue',
                                                                     'qs'    => 'action=delete&id=%%id%%&gid=%%gid%%',
                                                                     'title' => ts('Delete Option Value') 
-                                                                   )
-                                 );
+                                                                    )
+                                  );
         }
         return self::$_links;
     }
@@ -123,6 +127,8 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
             require_once 'CRM/Core/BAO/OptionGroup.php';
             $groupTitle = CRM_Core_BAO_OptionGroup::getTitle($this->_gid);
             CRM_Utils_System::setTitle(ts('%1 - Option Values', array(1 => $groupTitle)));
+            //get optionGroup name in case of email/postal greeting or addressee, CRM-4575
+            $this->_gName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $this->_gid, 'name');
         }
         
         parent::run();
@@ -155,7 +161,10 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
             if( $dao->is_default ) {
                 $optionValue[$dao->id]['default_value'] = '[x]';
             }
-            
+            //do not show default option for email/postal greeting and addressee, CRM-4575
+            if ( ! in_array($this->_gName, array('email_greeting', 'postal_greeting', 'addressee') ) ) {
+                $this->assign( 'showIsDefault', true );
+            }
             // update enable/disable links depending on if it is is_reserved or is_active
             if ($dao->is_reserved) {
                 $action = CRM_Core_Action::UPDATE;

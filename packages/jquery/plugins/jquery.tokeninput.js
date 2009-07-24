@@ -284,30 +284,30 @@ $.TokenList = function (input, settings) {
         li_data = settings.prePopulate;
         if(li_data.length) {
             for(var i in li_data) {
+				if( li_data[i].id ) {
+					var this_token = $("<li><p>"+li_data[i].name+"</p> </li>")
+						.addClass(settings.classes.token)
+						.insertBefore(input_token);
+						 
+					$("<span>x</span>")
+						.addClass(settings.classes.tokenDelete)
+						.appendTo(this_token)
+						.click(function () {
+							delete_token($(this).parent());
+							return false;
+						});
+					$.data(this_token.get(0), "tokeninput", {"id": li_data[i].id, "name": li_data[i].name});
 
-            var this_token = $("<li><p>"+li_data[i].name+"</p> </li>")
-                .addClass(settings.classes.token)
-                .insertBefore(input_token);
-                 
-            $("<span>x</span>")
-                .addClass(settings.classes.tokenDelete)
-                .appendTo(this_token)
-                .click(function () {
-                    delete_token($(this).parent());
-                    return false;
-                });
-            
-            $.data(this_token.get(0), "tokeninput", {"id": li_data[i].id, "name": li_data[i].name});
+					// Clear input box
+					input_box.val("");        
+					
+					// Don't show the help dropdown, they've got the idea
+					hide_dropdown();
 
-            // Clear input box
-            input_box.val("");        
-            
-            // Don't show the help dropdown, they've got the idea
-            hide_dropdown();
-
-            // Save this token id
-            var id_string = li_data[i].id + ","
-            hidden_input.val(hidden_input.val() + id_string);
+					// Save this token id
+					var id_string = li_data[i].id + ","
+					hidden_input.val(hidden_input.val() + id_string);
+				}
             }
         }
     }

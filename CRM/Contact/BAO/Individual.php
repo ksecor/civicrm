@@ -148,7 +148,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                         }
                     } else if ( array_key_exists( $dbName, $params ) ) {
                         $temp = $$vals;
-                        $$phpName = $temp[$params[$dbName]];
+                        $$phpName = CRM_Utils_Array::value( $params[$dbName], $temp );
                     } else if ( $value ) {
                         $temp = $$vals;
                         $$phpName = $temp[$value];
@@ -174,17 +174,15 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
             $contact->display_name = trim( $display_name );
         }
 
-        if ( CRM_Utils_Array::value( 'location', $params ) ) {
-            foreach ($params['location'] as $locBlock) {
-                if (! isset($locBlock['is_primary']) || ! ($locBlock['is_primary']) ) {
-                    continue;
-                }
-                if ( isset($locBlock['email'][1]['email']) ) {
-                    $email = $locBlock['email'][1]['email'];
+        if ( CRM_Utils_Array::value( 'email', $params ) ) {
+            foreach ($params['email'] as $emailBlock) {
+                if ( isset( $emailBlock['is_primary'] ) ) {
+                    $email = $emailBlock['email'];
                     break;
                 }
             }
         }
+
         $uniqId = CRM_Utils_Array::value( 'user_unique_id', $params );
         if (empty($contact->display_name)) {
             if (isset($email)) {
@@ -207,7 +205,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                 //CRM-3143
                 if ( !CRM_Utils_System::isNull( $date ) && 
                      !CRM_Utils_Array::value( 'Y', $date ) ) {
-                    $date['Y'] = '1900';
+                    $date['Y'] = '1902';
                 }
                 $contact->birth_date = CRM_Utils_Date::format( $date );
             } else {
@@ -222,7 +220,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                 //CRM-3143
                 if ( !CRM_Utils_System::isNull( $date ) && 
                      !CRM_Utils_Array::value( 'Y', $date ) ) {
-                    $date['Y'] = '1900';
+                    $date['Y'] = '1902';
                 }
                 $contact->deceased_date = CRM_Utils_Date::format( $date );
             } else {

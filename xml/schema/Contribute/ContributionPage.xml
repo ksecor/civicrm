@@ -302,4 +302,24 @@
        <comment>Date and time that this page ends. May be NULL if no defined end date/time</comment>
        <add>1.8</add>
   </field>
+  <field>
+      <name>created_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_contact, who created this contribution page</comment>
+      <add>2.3</add>
+  </field>
+  <foreignKey>
+      <name>created_id</name>
+      <table>civicrm_contact</table>
+      <key>id</key>
+      <add>2.3</add>
+      <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <field>
+      <name>created_date</name>
+      <type>datetime</type>
+      <title>Contribution Page Created Date</title>
+      <comment>Date and time that contribution page was created.</comment>
+      <add>2.3</add>
+  </field>
 </table>

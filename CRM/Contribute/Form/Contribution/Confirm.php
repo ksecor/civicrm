@@ -125,13 +125,18 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $this->_params['organization_name'] = 
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
                 }
-                if ( !empty( $this->_params['location'][1]['address']['country_id'] ) ) {
-                    $this->_params['location'][1]['address']['country'] = 
-                        CRM_Core_PseudoConstant::countryIsoCode( $this->_params['location'][1]['address']['country_id'] ); 
+                if ( !empty( $this->_params['address'][1]['country_id'] ) ) {
+                    $this->_params['address'][1]['country'] = 
+                        CRM_Core_PseudoConstant::countryIsoCode( $this->_params['address'][1]['country_id'] ); 
                 }
-                if ( !empty( $this->_params['location'][1]['address']['state_province_id'] ) ) {
-                    $this->_params['location'][1]['address']['state_province'] = 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['location'][1]['address']['state_province_id'] );
+                if ( !empty( $this->_params['address'][1]['state_province_id'] ) ) {
+                    $this->_params['address'][1]['state_province'] = 
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['address'][1]['state_province_id'] );
+                }
+                // hardcode blocks for now. We might shift to generalized model in 3.1 which uses profiles
+                foreach ( array('phone', 'email', 'address') as $loc ) {
+                    $this->_params['onbehalf_location'][$loc] = $this->_params[$loc];
+                    unset($this->_params[$loc]);
                 }
             }
 
@@ -292,10 +297,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                                                                   $options );
                 } else {
                     $defaults[$name] = $contact[$name];
-                    if ( $name == 'greeting_type' ) {   
-                        if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
-                            $defaults['custom_greeting'] = $contact['custom_greeting'];
-                        }
+                    if ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting'))
+                         && CRM_Utils_Array::value($name.'_custom', $contact) ) { 
+                         $defaults[$name.'_custom'] = $contact[$name.'_custom'];
                     }
                 } 
             }
@@ -426,10 +430,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // process on-behalf-of functionality.
         if ( CRM_Utils_Array::value( 'is_for_organization', $this->_values ) ) {
             $behalfOrganization = array();
-            foreach ( array('organization_name', 'organization_id', 'location', 'org_option') as $fld ) {
+            foreach ( array('organization_name', 'organization_id', 'org_option') as $fld ) {
                 $behalfOrganization[$fld] = $params[$fld];
                 unset($params[$fld]);
             }
+            foreach ( $params['onbehalf_location'] as $block => $vals ) {
+                $behalfOrganization[$block] = $vals;
+            }
+            unset($params['onbehalf_location']);
         }
         
         if ( ! isset( $contactID ) ) {
@@ -703,6 +711,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                     'net_amount'   => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
                                     'trxn_id'      => $result['trxn_id'],
                                     'receipt_date' => $receiptDate,
+                                    // also add financial_trxn details as part of fix for CRM-4724
+                                    'trxn_result_code' => $result['trxn_result_code'],
+                                    'payment_processor' => $result['payment_processor'],
                                     );
         }
         
@@ -886,6 +897,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                 'currency'          => $params['currencyID'],
                                 'payment_processor' => $form->_paymentProcessor['payment_processor_type'],
                                 'trxn_id'           => $result['trxn_id'],
+                                'trxn_result_code'  => $result['trxn_result_code'],
                                 );
             
             require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
@@ -1012,10 +1024,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // formalities for creating / editing organization.
-        $behalfOrganization['contact_type']                    = 'Organization';
-        $behalfOrganization['location'][1]['is_primary']       = 1;
-        $behalfOrganization['location'][1]['location_type_id'] = 
-            CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 'Main', 'id', 'name' );
+        require_once "CRM/Core/BAO/LocationType.php";
+        $locType = CRM_Core_BAO_LocationType::getDefault();
+        $behalfOrganization['contact_type'] = 'Organization';
+        foreach ( array('phone', 'email', 'address') as $locFld ) {
+            $behalfOrganization[$locFld][1]['is_primary'] = 1;
+            $behalfOrganization[$locFld][1]['location_type_id'] = $locType->id;
+        }
         
         // get the relationship type id
         require_once "CRM/Contact/DAO/RelationshipType.php";

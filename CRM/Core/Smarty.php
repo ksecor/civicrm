@@ -114,7 +114,7 @@ class CRM_Core_Smarty extends Smarty {
         
         //check if logged in use has access CiviCRM permission and build menu
         require_once 'CRM/Core/Permission.php';
-        $buildNavigation = CRM_Core_Permission::check( 'administer CiviCRM' );
+        $buildNavigation = CRM_Core_Permission::check( 'access CiviCRM' );
         $this->assign('buildNavigation', $buildNavigation );
         
         if ( $buildNavigation ) {

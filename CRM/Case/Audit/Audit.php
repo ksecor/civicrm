@@ -217,9 +217,11 @@ fclose($fh);
 
         $template = CRM_Core_Smarty::singleton( );
         $template->assign_by_ref( 'activities', $activities );
-        $template->assign('caseurl', CRM_Utils_System::url(	'civicrm/contact/view/case',
-        													"reset=1&cid=${clientID}&action=view&id={$caseID}&selectedChild=case" ));
+       
         if ( $printReport ) {
+            require_once 'CRM/Utils/Date.php';
+            $reportDate = CRM_Utils_Date::customFormat( date('Y-m-d H:i') );
+            $template->assign( 'reportDate', $reportDate );
             $contents = $template->fetch( 'CRM/Case/Audit/Report.tpl' );
         } else {
             $contents = $template->fetch( 'CRM/Case/Audit/Audit.tpl' );

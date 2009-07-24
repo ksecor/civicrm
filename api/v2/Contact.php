@@ -86,32 +86,15 @@ function civicrm_contact_update( &$params, $create_new = false ) {
 
         // If we get here, we're ready to create a new contact
 
-        /** 
-         * FIXME: This code doesn't work right now, but it should probably be
-         * fixed since creating locations when you create contacts is pretty
-         * handy.
-         * I think the problem currently is that it doesn't put the email
-         * address in the same location block as other location data that's
-         * added separately. So we should either support all or nothing.
-         */
-        if ( isset( $params['email'] ) ) {
-            if ( ! isset( $params['location'] ) ) {
-                $params['location'] =  array( );
-            }
-            if ( ! isset( $params['location'][1] ) ) {
-                $params['location']['1'] = array( );
-            }
-
-            if ( ! isset( $params['location']['1']['location_type_id'] ) ) {
-                $params['location']['1']['location_type_id'] = 1;
-            }
-            $params['location']['1']['is_primary'] = 1;
-            $params['location']['1']['email']['1']['email'] = $params['email'];
-            $params['location']['1']['email']['1']['is_primary'] = 1;
-
-            unset($params['email']);
+        if ( ($email = CRM_Utils_Array::value( 'email', $params ) ) && !is_array( $params['email'] ) ) {
+            require_once 'CRM/Core/BAO/LocationType.php';
+            $defLocType = CRM_Core_BAO_LocationType::getDefault( );
+            $params['email'] = array( 1 => array( 'email'            => $email,
+                                                  'is_primary'       => 1, 
+                                                  'location_type_id' => ($defLocType->id)?$defLocType->id:1
+                                                  ),
+                                      );
         }
-        // End FIXME
     }
 
     // FIXME: Some legacy support cruft, should get rid of this in 3.0
@@ -187,8 +170,8 @@ function &civicrm_contact_add( &$params ) {
 /**
  * Retrieve one or more contacts, given a set of search params
  *
- * @param  array   $params           (reference ) input parameters
- * @param  bool    $deprecated_behavior  follow the pre-2.2.3 behavior of this function
+ * @param  mixed[]  (reference ) input parameters
+ * @param  bool  follow the pre-2.2.3 behavior of this function
  *
  * @return array (reference )        array of properties, if error an array with an error id and error message
  * @static void
@@ -523,9 +506,8 @@ function civicrm_contact_format_create( &$params ) {
         }
     }
     
-    $ids = array();
-    $contact = CRM_Contact_BAO_Contact::create( $params, $ids, 
-                                                count($params['location']), $params['fixAddress']);
+    $contact = CRM_Contact_BAO_Contact::create( $params, 
+                                                CRM_Utils_Array::value( 'fixAddress',  $params ) );
     
     _civicrm_object_to_array($contact, $contactArray);
     return $contactArray;

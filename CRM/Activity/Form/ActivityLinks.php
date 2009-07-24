@@ -55,10 +55,6 @@ class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
  
         $activityType = CRM_Core_PseudoConstant::activityType( false );
         
-        //unset Phone and Meeting
-        unset( $activityType[1] );
-        unset( $activityType[2] );
-
         $this->assign( 'emailSetting', false );
         require_once 'CRM/Utils/Mail.php';
         if ( CRM_Utils_Mail::validOutBoundMail() ) { 
@@ -66,7 +62,7 @@ class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
         }
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'other_activity', ts('Other Activities'),
-                   array('' => ts('- select -')) + $activityType,
+                   array('' => ts('Register Activity')) + $activityType,
                    false, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
 
         $this->assign( 'suppressForm', true );

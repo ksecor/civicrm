@@ -99,7 +99,7 @@ class CRM_Activity_BAO_Query
         switch( $name ) {
             
         case 'activity_activitytag1_id':
-            $value = strtolower(addslashes(trim($value)));
+            $value = strtolower(CRM_Core_DAO::escapeString(trim($value)));
             $query->_where[$grouping][] = "civicrm_activity.activity_tag1_id $op {$value}";
 
             require_once 'CRM/Core/OptionGroup.php' ;
@@ -111,7 +111,7 @@ class CRM_Activity_BAO_Query
             return;
 
         case 'activity_activitytag2_id':
-            $value = strtolower(addslashes(trim($value)));
+            $value = strtolower(CRM_Core_DAO::escapeString(trim($value)));
             $query->_where[$grouping][] = "civicrm_activity.activity_tag2_id $op {$value}";
 
             require_once 'CRM/Core/OptionGroup.php' ;
@@ -143,7 +143,7 @@ class CRM_Activity_BAO_Query
             return;
 
         case 'activity_details':
-            $value = strtolower(addslashes(trim($value)));
+            $value = strtolower(CRM_Core_DAO::escapeString(trim($value)));
             $op = 'LIKE';
             $query->_where[$grouping][] = "civicrm_activity.details $op '%{$value}%'";
 

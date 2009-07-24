@@ -70,8 +70,6 @@ class CRM_ACL_Page_ACLBasic extends CRM_Core_Page_Basic
     function &links()
     {
           if (!(self::$_links)) {
-              $disableExtra = ts('Are you sure you want to disable this ACL?');
-            // helper variable for nicer formatting
               self::$_links = array(
                                     CRM_Core_Action::UPDATE  => array(
                                                                       'name'  => ts('Edit'),
@@ -85,10 +83,9 @@ class CRM_ACL_Page_ACLBasic extends CRM_Core_Page_Basic
                                                                       'qs'    => 'reset=1&action=delete&id=%%id%%',
                                                                       'title' => ts('Delete ACL') 
                                                                       ),
-
-                                 );
-        }
-        return self::$_links;
+                                    );
+          }
+          return self::$_links;
     }
 
     /**

@@ -10,6 +10,9 @@
    {/if}
    </li>
 {/foreach}
+{if $doneUrl}
+   <li class="float-right"><div><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{$doneUrl}';"/></div></li>
+{/if}
 </ul>
 </div>
 {/if}

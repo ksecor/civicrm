@@ -145,9 +145,11 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
             $first       = $dao->uf_group_id;
             $firstWeight = $dao->weight;
             $firstWeight = $dao->weight;
+            $firstActive = $dao->is_active;
         }
         if ( $dao->fetch( ) ) {
-            $second = $dao->uf_group_id; 
+            $second       = $dao->uf_group_id; 
+            $secondActive = $dao->is_active;
         } 
 
         // if there is only one profile check to see the weight, if > 1 then let it be second
@@ -158,7 +160,7 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
             $first  = null;
         }
 
-        return array( $first, $second );
+        return array( $first, $second, $firstActive, $secondActive );
     } 
 
 }

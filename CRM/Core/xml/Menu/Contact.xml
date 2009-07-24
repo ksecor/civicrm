@@ -66,14 +66,14 @@
   <item>
      <path>civicrm/contact/add</path>
      <title>New Contact</title>
-     <page_callback>CRM_Contact_Form_Edit</page_callback>
+     <page_callback>CRM_Contact_Form_Contact</page_callback>
      <page_arguments>addSequence=1</page_arguments>
      <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
   <item>
      <path>civicrm/contact/add/individual</path>
      <title>New Individual</title>
-     <page_callback>CRM_Contact_Form_Edit</page_callback>
+     <page_callback>CRM_Contact_Form_Contact</page_callback>
      <page_arguments>addSequence=1</page_arguments>
      <path_arguments>ct=Individual</path_arguments>
      <access_arguments>access CiviCRM,add contacts</access_arguments>
@@ -127,7 +127,7 @@
      <path>civicrm/contact/view</path>
      <path_arguments>cid=%%cid%%</path_arguments>
      <title>Contact Summary</title>
-     <page_callback>CRM_Contact_Page_View_Tabbed</page_callback>
+     <page_callback>CRM_Contact_Page_View_Summary</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/delete</path>

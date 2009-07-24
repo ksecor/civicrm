@@ -83,7 +83,12 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $template->assign( 'cancelURL', 
                           CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
 
-        if ( version_compare($currentVer, $latestVer) >= 0 ) {
+        if ( version_compare($currentVer, $latestVer) > 0 ) {
+            // DB version number is higher than codebase being upgraded to. This is unexpected condition-fatal error.
+            $error = ts( 'Your database is marked with an unexpected version number: %1. The automated upgrade to version %2 can not be run - and the %2 codebase may not be compatible with your database state. You will need to determine the correct version corresponding to your current database state. The database tools utility at %3 may be helpful. You may want to revert to the codebase you were using prior to beginning this upgrade until you resolve this problem.',
+                           array( 1 => $currentVer, 2 => $latestVer, 3 => 'http://wiki.civicrm.org/confluence/display/CRMDOC/Database+Troubleshooting+Tools' ) );
+            CRM_Core_Error::fatal( $error );
+        } else if ( version_compare($currentVer, $latestVer) == 0 ) {
             $message = ts( 'Your database has already been upgraded to CiviCRM %1',
                            array( 1 => $latestVer ) );
             $template->assign( 'upgraded', true );
@@ -116,7 +121,10 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
                 // also cleanup the templates_c directory
                 $config =& CRM_Core_Config::singleton( );
                 $config->cleanup( 1 );
-                
+
+                // clear db caching
+                $config->clearDBCache( );
+
                 // clean the session. Note: In case of standalone this makes the user logout. 
                 // So skip this step for standalone. 
                 if ( $config->userFramework !== 'Standalone' ) {
@@ -240,83 +248,50 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $upgrade->processSQL( $rev );
     }
     
-    function upgrade_2_3_alpha1( $rev ) {
+    function upgrade_3_0_alpha1( $rev ) {
+
+        require_once 'CRM/Upgrade/ThreeZero/ThreeZero.php';
+        $threeZero = new CRM_Upgrade_ThreeZero_ThreeZero( );
         
-        $template = & CRM_Core_Smarty::singleton( );
-
-        $upgrade =& new CRM_Upgrade_Form( );
-        $upgrade->processSQL( $rev );
-        
-        //delete unnecessary activities 
-        require_once 'CRM/Core/OptionGroup.php';
-        $bulkEmailID = CRM_Core_OptionGroup::getValue('activity_type', 'Bulk Email', 'name' );
- 
-        if ( $bulkEmailID ) {
-
-            $mailingActivityIds = array( );
-            $query = " 
-SELECT max( ca.id ) as aid , ca.source_record_id sid
-FROM civicrm_activity ca
-WHERE ca.activity_type_id = %1 
-GROUP BY ca.source_record_id";
-            
-            $params = array( 1 => array(  $bulkEmailID, 'Integer' ) );
-            $dao = CRM_Core_DAO::executeQuery( $query, $params );
-
-            while ( $dao->fetch( ) ) { 
-                
-                $updateQuery = "
-UPDATE civicrm_activity_target cat, civicrm_activity ca 
-SET cat.activity_id = {$dao->aid}  
-WHERE ca.source_record_id IS NOT NULL 
-AND ca.activity_type_id = %1 AND ca.id <> {$dao->aid} 
-AND ca.source_record_id = {$dao->sid} AND ca.id = cat.activity_id";
-                
-                $updateParams = array( 1 => array(  $bulkEmailID, 'Integer' ) );    
-                CRM_Core_DAO::executeQuery( $updateQuery,  $updateParams );
-                
-                $deleteQuery = " 
-DELETE ca.* FROM civicrm_activity ca 
-WHERE ca.source_record_id IS NOT NULL 
-AND ca.activity_type_id = %1
-AND ca.id <> {$dao->aid} AND ca.source_record_id = {$dao->sid}";
-                
-                $deleteParams = array( 1 => array(  $bulkEmailID, 'Integer' ) );    
-                CRM_Core_DAO::executeQuery( $deleteQuery,  $deleteParams );
+        $error = null;
+        if ( ! $threeZero->verifyPreDBState( $error ) ) {
+            if ( ! isset( $error ) ) {
+                $error = 'pre-condition failed for current upgrade for 3.0.alpha1';
             }
+            CRM_Core_Error::fatal( $error );
         }
         
-        //CRM-4453
-        //lets insert column in civicrm_aprticipant table
-        $query  = "
-ALTER TABLE `civicrm_participant` ADD `fee_currency` VARCHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '3 character string, value derived from config setting.' AFTER `discount_id`";
-        CRM_Core_DAO::executeQuery( $query );
-        
-        //get currency from contribution table if exists/default
-        //insert currency when fee_amount != NULL or event is paid.
-        $query = "
-   SELECT  civicrm_participant.id 
-     FROM  civicrm_participant
-LEFT JOIN  civicrm_event ON ( civicrm_participant.event_id = civicrm_event.id )
-    WHERE  civicrm_participant.fee_amount IS NOT NULL OR civicrm_event.is_monetary = 1";
-        
-        $participant = CRM_Core_DAO::executeQuery( $query );
-        while ( $participant->fetch( ) ) {
-            $query = "
-SELECT  civicrm_contribution.currency 
-  FROM  civicrm_contribution, civicrm_participant_payment
- WHERE  civicrm_contribution.id = civicrm_participant_payment.contribution_id
-   AND  civicrm_participant_payment.participant_id = {$participant->id}";
-            $currencyID = CRM_Core_DAO::singleValueQuery( $query );
-            if ( !$currencyID ) {
-                $config =& CRM_Core_Config::singleton( ); 
-                $currencyID = $config->defaultCurrency;
-            }
-            
-            //finally update participant record.
-            CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Participant', $participant->id, 'fee_currency', $currencyID );
-        }
+        $threeZero->upgrade( $rev );
     }
     
+    function upgrade_2_2_7( $rev ) {
+        $upgrade =& new CRM_Upgrade_Form( );
+        $upgrade->processSQL( $rev );
+        $sql = "UPDATE civicrm_report_instance 
+                       SET form_values = REPLACE(form_values,'#',';') ";
+        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+
+        // make report component enabled by default
+        require_once "CRM/Core/DAO/Domain.php";
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->selectAdd( );
+        $domain->selectAdd( 'config_backend' );
+        $domain->find(true);
+        if ($domain->config_backend) {
+            $defaults = unserialize($domain->config_backend);
+
+            if ( is_array($defaults['enableComponents']) ) {
+                $compId   = 
+                    CRM_Core_DAO::singleValueQuery( "SELECT id FROM civicrm_component WHERE name = 'CiviReport'" );
+                if ( $compId ) {
+                    $defaults['enableComponents'][]   = 'CiviReport';
+                    $defaults['enableComponentIDs'][] = $compId;
+
+                    require_once "CRM/Core/BAO/Setting.php";
+                    CRM_Core_BAO_Setting::add($defaults);            
+                }
+            }
+        }
+    }
 }
 

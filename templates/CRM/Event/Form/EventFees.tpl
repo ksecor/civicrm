@@ -91,7 +91,7 @@
      </tr>
     {/if}
 
-    {if $accessContribution and ! $participantMode and ! ($action eq 2 and $rows.0.contribution_id) }
+    {if $accessContribution and ! $participantMode and ($action neq 2 or !$rows.0.contribution_id or $onlinePendingContributionId) }
         <tr>
         <td class="label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.record_contribution.label}</td>
         <td class="html-adjust">{$form.record_contribution.html}<br />

@@ -16,7 +16,7 @@ cj(function() {
 					     } else {
 					       cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
 					     }
-					     cj(this).next().toggle('blind'); return false; }).next().hide();
+					     cj(this).next().toggle(); return false; }).next().hide();
   if ( showPane.length > 1 ) {
     eval("showPane =[ '" + showPane.substring( 0,showPane.length - 2 ) +"]");
     cj.each( showPane, function( index, value ) {

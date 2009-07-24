@@ -929,6 +929,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         
         require_once 'api/v2/Contact.php';
         require_once 'CRM/Utils/Token.php';
+        require_once 'CRM/Activity/BAO/Activity.php';
         $config =& CRM_Core_Config::singleton( );
         $knownTokens = $this->getTokens();
         
@@ -959,7 +960,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             
             // also call the hook to get contact details
             require_once 'CRM/Utils/Hook.php';
-            CRM_Utils_Hook::tokenValues( $contact, $contactId );
+            CRM_Utils_Hook::tokenValues( $contact, $contactId, $job_id );
         }
 
         $pTemplates = $this->getPreparedTemplates();
@@ -1063,17 +1064,6 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
     function tokenReplace( &$mailing )
     {
         require_once 'CRM/Core/BAO/Domain.php';
-        // replacing token labels in body with Original tokens before replacing actual token values
-        // works for Test mail/ Schedule & send mail/ Preview. Specifically for Custom Fields.CRM-3734
-        $contactTokens = CRM_Core_SelectValues::ContactTokens();
-        $tokenKeys     = array_keys( $contactTokens );
-        if ( $mailing->body_text ) {
-            $mailing->body_text = str_replace( $contactTokens, $tokenKeys, $mailing->body_text );
-        } 
-        if ( $mailing->body_html ) {
-            $mailing->body_html = str_replace( $contactTokens, $tokenKeys, $mailing->body_html );
-        }
-
         $domain =& CRM_Core_BAO_Domain::getDomain( );
         foreach ( array('text', 'html') as $type ) {
             require_once 'CRM/Utils/Token.php';
@@ -1881,17 +1871,17 @@ SELECT $selectClause
         $params = array( );
         foreach ( $contactIDs  as $key => $contactID ) {
             $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
-                               '=', 1, 0, 1);
+                               '=', 1, 0, 0);
         }
         
         // fix for CRM-2613
         if ( $skipDeceased ) {
-            $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+            $params[] = array( 'is_deceased', '=', 0, 0, 0 );
         }
         
         //fix for CRM-3798
         if ( $skipOnHold ) {
-            $params[] = array( 'on_hold', '=', 0, 0, 1 );
+            $params[] = array( 'on_hold', '=', 0, 0, 0 );
         }
         
         // if return properties are not passed then get all return properties
@@ -1911,20 +1901,10 @@ SELECT $selectClause
                 $custom[] = $cfID;
             }
         }
-        
-        //get custom values of email/postal greeting or addressee, CRM-4575
-        $element = array( 'email_greeting'   => 'email_greeting_custom', 
-                           'postal_greeting' => 'postal_greeting_custom', 
-                           'addressee'       => 'addressee_custom' );
-        foreach( $element as $field => $customField ) {
-            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
-                $returnProperties[$customField] = 1;
-            }
-        }    
-        
+                
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $contactIDs );
-        
+
         require_once 'CRM/Contact/BAO/Query.php';
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
@@ -1951,20 +1931,19 @@ SELECT $selectClause
                     }
                     $contactDetails[$contactID]['preferred_communication_method'] = implode( ', ', $result );
                 }
-                //If the contact has a "Customized" value for email/postal greeting or addressee
-                //then output the corresponding custom value instead. CRM-4575
-                foreach( $element as $field => $customField ) {
-                    $fieldId = $field."_id";
-                    if($contactDetails[$contactID][$fieldId] == 4 ) {
-                        $contactDetails[$contactID][$field] = $contactDetails[$contactID][$customField];
-                    } 
-                }
                 
                 foreach ( $custom as $cfID ) {
                     if ( isset ( $contactDetails[$contactID]["custom_{$cfID}"] ) ) {
                         $contactDetails[$contactID]["custom_{$cfID}"] = 
                             CRM_Core_BAO_CustomField::getDisplayValue( $contactDetails[$contactID]["custom_{$cfID}"],
                                                                        $cfID, $details[1] );
+                    }
+                }
+                
+                //special case for greeting replacement
+                foreach ( array( 'email_greeting', 'postal_greeting', 'addressee' ) as $val ) {
+                    if ( CRM_Utils_Array::value( $val, $contactDetails[$contactID] ) ) {
+                        $contactDetails[$contactID][$val] = $contactDetails[$contactID]["{$val}_display"];
                     }
                 }
             }
@@ -2037,7 +2016,55 @@ SELECT $selectClause
                            ts('HTML format'),
                            array('cols' => '80', 'rows' => '8',
                                  'onkeyup' =>"return verify(this)" ) );
+ 
+    }
+
+    /**
+     * Function to build the  compose PDF letter form
+     * @param   $form 
+     * @return None
+     * @access public
+     */
+    
+    public function commonLetterCompose ( &$form )
+    {
+        //get the tokens.
+        $tokens = CRM_Core_SelectValues::contactTokens( );
+        if ( CRM_Utils_System::getClassName( $form )  == 'CRM_Mailing_Form_Upload' ) {
+            $tokens = array_merge( CRM_Core_SelectValues::mailingTokens( ), $tokens );
+        }
+
+        //sorted in ascending order tokens by ignoring word case
+        natcasesort($tokens);
+
+        $form->add( 'select', 'token1',  ts( 'Insert Tokens' ), 
+                    $tokens , false, 
+                    array(
+                          'size'     => "5",
+                          'multiple' => true,
+                          'onchange' => "return tokenReplHtml(this);"
+                          )
+                    );
         
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
+        if ( !empty( $form->_templates ) ) {
+            $form->assign('templates', true);
+            $form->add('select', 'template', ts('Select Template'),
+                       array( '' => ts( '- select -' ) ) + $form->_templates, false,
+                       array('onChange' => "selectValue( this.value );") );
+            $form->add('checkbox','updateTemplate',ts('Update Template'), null);
+        } 
+        
+        $form->add('checkbox','saveTemplate',ts('Save As New Template'), null,false,
+                          array( 'onclick' => "showSaveDetails(this);" ));
+        $form->add('text','saveTemplateName',ts('Template Title'));
+      
+       
+        $form->addWysiwyg( 'html_message',
+                           ts('HTML Message'),
+                           array('cols' => '80', 'rows' => '8',
+                                 'onkeyup' =>"return verify(this)" ) );
     }
     
     /**

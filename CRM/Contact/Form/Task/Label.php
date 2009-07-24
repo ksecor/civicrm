@@ -132,13 +132,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         
         //build the returnproperties
         $returnProperties = array ('display_name' => 1 );
-        
-        $nameFormat = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
-        $nameFormatProperties = array();
-        if ( $nameFormat ) {
-            $nameFormatProperties = self::getReturnProperties( $nameFormat );
-        }
-        
+       
         $mailingFormat = CRM_Core_BAO_Preferences::value( 'mailing_format' );
         $mailingFormatProperties = array();
         if ( $mailingFormat ) {
@@ -167,7 +161,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             $locName = $locType[$fv['location_type_id']];
             $location = array ('location' => array("{$locName}"  => $address ) ) ;
             $returnProperties = array_merge( $returnProperties , $location );
-            $params[] = array( 'location_type', '=', array( $fv['location_type_id'] => 1 ), 0, 1 );
+            $params[] = array( 'location_type', '=', array( $fv['location_type_id'] => 1 ), 0, 0 );
             
         } else {
             $returnProperties = array_merge( $returnProperties , $address );
@@ -177,15 +171,15 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
  
         foreach ( $this->_contactIds  as $key => $contactID ) {
             $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
-                               '=', 1, 0, 1);
+                               '=', 1, 0, 0);
         }
         
         // fix for CRM-2651
         if ( CRM_Utils_Array::value( 'do_not_mail', $fv ) ) {
-            $params[] = array( 'do_not_mail', '=', 0, 0, 1 );
+            $params[] = array( 'do_not_mail', '=', 0, 0, 0 );
         }
         // fix for CRM-2613
-        $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+        $params[] = array( 'is_deceased', '=', 0, 0, 0 );
 
         $custom = array( );
         foreach ( $returnProperties as $name => $dontCare ) {
@@ -194,15 +188,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 $custom[] = $cfID;
             }
         }
-       //get custom values of custom email/postal greeting or addressee, CRM-4575
-        $elements = array( 'email_greeting' => 'email_greeting_custom', 
-                           'postal_greeting' => 'postal_greeting_custom', 
-                           'addressee' => 'addressee_custom' );
-        foreach( $elements as $field => $customField ) {
-            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
-                $returnProperties[$customField] = 1;
-            }
-        }       
+                           
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $this->_contactIds );
         require_once 'CRM/Contact/BAO/Query.php';      
@@ -231,16 +217,6 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             }
             $contact = CRM_Utils_Array::value( $value, $details['0'] );
                         
-            //if email/postal greeting or addressee has a customized value 
-            //then output the corresponding "custom" column value instead, CRM-4575
-            foreach( $elements as $field => $customField ) {
-                $fieldId = $field."_id";
-                if( $contact[$fieldId] == 4 ) {
-                    $contact[$field] = $contact[$customField];
-                    unset($contact['email_greeting_custom']);
-                } 
-            }
-
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }

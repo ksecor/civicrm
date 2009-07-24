@@ -16,30 +16,11 @@
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
       <dd>
         {if $action eq 8}
-            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' price set - it is currently in use by one or more active events.{/ts}
-        {elseif $action eq 64}
-            {ts 1=$usedPriceSetTitle}Unable to disable the '%1' price set - it is currently in use by one or more active events.{/ts}
+            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' price set - it is currently in use by one or more active events. If you no longer want to use this price set, click the event title below, and modify the fees for that event.{/ts}<br />
         {/if}
-        {ts}If you no longer want to use this price set, click the event title below, and modify the fees for that event.{/ts}<br />
-        
-        {if $usedBy.civicrm_event} {* If and when Price Sets are used by entities other than events, add condition here and change text above. *}
-            <table class="report">
-            <thead class="sticky">
-                <th scope="col">{ts}Event{/ts}</th>
-                <th scope="col">{ts}Type{/ts}</th>
-                <th scope="col">{ts}Public{/ts}</th>
-                <th scope="col">{ts}Date(s){/ts}</th>
-            </thead>
-
-            {foreach from=$usedBy.civicrm_event item=event key=id}
-                <tr>
-                    <td><a href="{crmURL p="civicrm/admin/event" q="action=update&reset=1&subPage=Fee&id=`$id`"}">{$event.title}</a></td>
-                    <td>{$event.eventType}</td>
-                    <td>{if $event.isPublic}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-                    <td>{$event.startDate}{if $event.endDate}&nbsp;to&nbsp;{$event.endDate}{/if}</td>
-                </tr>
-            {/foreach}
-            </table>
+        {if $usedBy.civicrm_event} 
+	    {* If and when Price Sets are used by entities other than events, add condition here and change text above. *}
+            {include file="CRM/Price/Page/table.tpl"} 
         {/if}
       </dd>
       </dl>
@@ -50,17 +31,19 @@
     <div id="price_set">
     <p></p>
         {strip}
+	{* handle enable/disable actions*}
+ 	{include file="CRM/common/enableDisable.tpl"}
         <table class="selector">
         <thead class="sticky">
             <th>{ts}Set Title{/ts}</th>
-            <th>{ts}Status?{/ts}</th>
+            <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </thead>
         {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
-            <td>{if $row.is_active       eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{$row.action}</td>
+	    <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+            <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
         </table>

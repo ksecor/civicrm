@@ -59,7 +59,8 @@
       <title>Participant Status</title>
       <headerPattern>/(participant.)?(status)$/i</headerPattern>
       <import>true</import>
-      <type>int unsigned</type> 
+      <type>int unsigned</type>
+      <required>true</required>  
       <default>1</default>
       <comment>Participant status ID. FK to civicrm_participant_status_type. Default of 1 should map to status = Registered.</comment>
       <add>1.7</add> 

@@ -74,8 +74,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
     function &actionLinks()
     {
         if (!isset(self::$_actionLinks)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this custom data field?');
             $deleteExtra = ts('Are you sure you want to delete this custom data field?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
@@ -98,15 +96,15 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field',
-                                                                          'qs'    => 'action=disable&reset=1&gid=%%gid%%&id=%%id%%',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_CustomField' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
                                                                           'title' => ts('Disable Custom Field'),
-                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                          
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field',
-                                                                          'qs'    => 'action=enable&reset=1&gid=%%gid%%&id=%%id%%',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_CustomField' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
                                                                           'title' => ts('Enable Custom Field'),
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
@@ -116,7 +114,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
                                                                           'title' => ts('Delete Custom Field'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                           ),
-                        
                                         );
         }
         return self::$_actionLinks;
@@ -157,13 +154,12 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
             case "Int":
             case "Float":
             case "Money":
-            case "Auto-complete":
                 // if Multi Select field is selected in custom field
-                if( $customFieldBAO->html_type == 'Text' || $customFieldBAO->html_type == 'Contact Reference' ) {
+                if ( $customFieldBAO->html_type == 'Text') {
                     $action -= CRM_Core_Action::BROWSE;
                 } 
                 break;
-                
+            case "ContactReference":    
             case "Memo":
             case "Date":
             case "Boolean":
@@ -276,13 +272,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
         } else {
             require_once 'CRM/Core/BAO/CustomField.php';
             require_once 'CRM/Core/BAO/UFField.php';
-            if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_CustomField::setIsActive($id, 0);
-                CRM_Core_BAO_UFField::setUFField($id, 0);
-            } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_CustomField::setIsActive($id, 1);
-                CRM_Core_BAO_UFField::setUFField($id, 1);
-            } 
             $this->browse();
         }
 

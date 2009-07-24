@@ -68,6 +68,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $context = CRM_Utils_Request::retrieve( 'context', 'String'  , $this, false, 'register' );
         $this->assign( 'context', $context );
 
+        // Sometimes we want to suppress the Event Full msg
+        $noFullMsg = CRM_Utils_Request::retrieve( 'noFullMsg', 'String' , $this, false, 'false' );
+
         // set breadcrumb to append to 2nd layer pages
         $breadCrumbPath       = CRM_Utils_System::url( "civicrm/event/info", "id={$this->_id}&reset=1" );
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Events') . '</a>';
@@ -102,7 +105,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         
         $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::getValues( $params, $values, true );
+        $values['location'] = CRM_Core_BAO_Location::getValues( $params, true );
         
         //retrieve custom field information
         require_once 'CRM/Core/BAO/CustomGroup.php';
@@ -146,7 +149,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         }
         require_once 'CRM/Event/BAO/Participant.php';
         $eventFullMessage = CRM_Event_BAO_Participant::eventFull( $this->_id );
-        if ( $eventFullMessage ) {
+        if ( $eventFullMessage AND ( $noFullMsg == 'false' ) ) {
             if ( CRM_Utils_Array::value( 'has_waitlist', $values['event'] ) ) {
                 $eventFullMessage = null;
                 $statusMessage = CRM_Utils_Array::value( 'waitlist_text', $values['event'], 
@@ -202,6 +205,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         
         // we do not want to display recently viewed items, so turn off
         $this->assign('displayRecent' , false );
+        
+        // set page title = event title
+        CRM_Utils_System::setTitle($values['event']['title']);  
         
         $this->assign('event',   $values['event']);
         if ( isset( $values['feeBlock'] ) ) {

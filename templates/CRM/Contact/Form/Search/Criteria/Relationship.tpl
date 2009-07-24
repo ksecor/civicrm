@@ -13,7 +13,7 @@
                 </div>
             </td>    
             <td>
-               {$form.relation_status.label}<br />
+               {$form.relation_status.label}&nbsp; <a href="#" title="unselect" onclick="unselectRadio('relation_status', 'Advanced'); return false;" >unselect</a><br />
                {$form.relation_status.html}
             </td>
          </tr>

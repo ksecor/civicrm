@@ -1,7 +1,6 @@
 {* this template is used for displaying event information *}
 
 <div class="vevent">
-    <h2><span class="summary">{$event.title}</span></h2>	
     <div class="display-block">
         <table class="form-layout">
             {if $event.summary}
@@ -36,16 +35,13 @@
                 </td>
             </tr>
             {if $isShowLocation}
-                {if $location.1.address}
+                {if $location.address.1}
                     <tr>
                         <td style="vertical-align:top;" height="auto"><label>{ts}Location{/ts}</label></td>
                         <td style="vertical-align:top;" height="auto">
-                        {$location.1.address.display|nl2br}
-                            {if ( $event.is_map && $config->mapAPIKey && ( is_numeric($location.1.address.geo_code_1)  || ( $config->mapGeoCoding && $location.1.address.city AND $location.1.address.state_province ) ) ) && !$locations }
-                                <br/><a href="{$mapURL}" title="{ts}Map this Address{/ts}">{ts}Map this Location{/ts}</a>
-                            {/if}
+                        {$location.address.1.display|nl2br}
                             </td>
-                            {if ( $event.is_map && $config->mapAPIKey && ( is_numeric($location.1.address.geo_code_1)  || ( $config->mapGeoCoding && $location.1.address.city AND $location.1.address.state_province ) ) ) }
+                            {if ( $event.is_map && $config->mapAPIKey && ( is_numeric($location.address.1.geo_code_1)  || ( $config->mapGeoCoding && $location.address.1.city AND $location.address.1.state_province ) ) ) }
                                 <td style="vertical-align:top;" rowspan=3 align="left">
                                 {assign var=showDirectly value="1"}
                                 {if $mapProvider eq 'Google'}
@@ -53,25 +49,26 @@
                                 {elseif $mapProvider eq 'Yahoo'}
                                     {include file="CRM/Contact/Form/Task/Map/Yahoo.tpl"  fields=$showDirectly}
                                 {/if}
+                                <br/><a href="{$mapURL}" title="{ts}Show large map{/ts}">{ts}Show large map{/ts}</a>
                                 </td>
                             {/if}
                     </tr> 
                 {/if}
             {/if}{*End of isShowLocation condition*}  
 
-            {if $location.1.phone.1.phone || $location.1.email.1.email}
+            {if $location.phone.1.phone || $location.email.1.email}
                 <tr>
                     <td><label>{ts}Contact{/ts}</label></td>
                     <td>
                         {* loop on any phones and emails for this event *}
-                        {foreach from=$location.1.phone item=phone}
+                        {foreach from=$location.phone item=phone}
                             {if $phone.phone}
                                 {if $phone.phone_type}{$phone.phone_type_display}{else}{ts}Phone{/ts}{/if}: 
                                     <span class="tel">{$phone.phone}</span> <br />
                                 {/if}
                         {/foreach}
 
-                        {foreach from=$location.1.email item=email}
+                        {foreach from=$location.email item=email}
                             {if $email.email}
                                 {ts}Email:{/ts} <span class="email"><a href="mailto:{$email.email}">{$email.email}</a></span>
                             {/if}

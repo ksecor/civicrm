@@ -594,8 +594,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                         $providerName   = $imProviders[$result->$providerId];
                         $row[$property] = $result->$property . " ({$providerName})";
                     }
-                } else if ( $property == 'greeting_type' && $result->custom_greeting && $result->greeting_type_id == 4 ) {
-                    $row[$property] = $result->custom_greeting.' ('.$result->$property.')';
+                } else if ( in_array($property, array('addressee', 'email_greeting', 'postal_greeting')) ) {
+                    $customGreeting = $property.'_custom';
+                    if ( $result->$customGreeting ) { 
+                        $row[$property] = $result->$customGreeting.' ('.$result->$property.')';
+                    } else {
+                        $row[$property] = $result->$property;
+                    }
                 } else {
                     $row[$property] = $result->$property;
                 }
@@ -760,7 +765,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         return $this->_query->searchQuery( null, null, null, false, false, true );
     }
 
-    function &contactIDQuery( $params, $action, $sortID ) {
+    function contactIDQuery( $params, $action, $sortID ) {
         $sortOrder =& $this->getSortOrder( $this->_action );
         $sort      =& new CRM_Utils_Sort( $sortOrder, $sortID );
 

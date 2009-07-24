@@ -19,7 +19,7 @@ ul.token-input-list-facebook {
 }
 
 ul.token-input-list-facebook li input {
-    border: 0;
+    border: 0 !important;
     width: 100px;
     padding: 3px 8px;
     background-color: white;

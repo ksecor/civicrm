@@ -328,13 +328,13 @@ class CRM_Contact_BAO_Query
         // CRM_Core_Error::debug( 'post', $_POST );
         // CRM_Core_Error::debug( 'r', $returnProperties );
         $this->_params =& $params;
-        
+                    
         if ( empty( $returnProperties ) ) {
             $this->_returnProperties =& self::defaultReturnProperties( $mode );
         } else {
             $this->_returnProperties =& $returnProperties;
         }
-
+        
         $this->_includeContactIds       = $includeContactIds;
         $this->_strict                  = $strict;
         $this->_mode                    = $mode;
@@ -504,6 +504,16 @@ class CRM_Contact_BAO_Query
                              || $tableName == 'addressee' ) {
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
+                            if ( in_array( $tableName, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+                                //get display
+                                $greetField = "{$name}_display";
+                                $this->_select [ $greetField ] = "contact_a.{$greetField} as {$greetField}";
+                                $this->_element[ $greetField ] = 1;
+                                //get custom
+                                $greetField = "{$name}_custom";
+                                $this->_select [ $greetField ] = "contact_a.{$greetField} as {$greetField}";
+                                $this->_element[ $greetField ] = 1;
+                            }
                         } else {
                             $this->_tables[$tableName]         = 1;
                             
@@ -684,7 +694,7 @@ class CRM_Contact_BAO_Query
                 $index++;
                 $elementName = $elementCmpName = $elementFullName;
                 
-                if(substr($elementCmpName, 0, 5) == 'phone'){
+                if (substr($elementCmpName, 0, 5) == 'phone') {
                     $elementCmpName = 'phone';
                 }
                 
@@ -803,6 +813,7 @@ class CRM_Contact_BAO_Query
                             case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
+                            case 'civicrm_openid':
 
                                 $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$lCond";
                                 // this special case to add phone type
@@ -1284,7 +1295,7 @@ class CRM_Contact_BAO_Query
         
         //add phone type if exists
         if ( isset( $locType[2] ) && $locType[2] ) {
-            $locType[2] = addslashes( $locType[2] );
+            $locType[2] = CRM_Core_DAO::escapeString( $locType[2] );
         }
         $field = CRM_Utils_Array::value( $name, $this->_fields );
         
@@ -1431,7 +1442,7 @@ class CRM_Contact_BAO_Query
                 $this->_qill[$grouping][]  = "$field[title] $op $value";
             }
         } else if ( $name === 'name' ) {
-            $value = strtolower( addslashes( $value ) );
+            $value = strtolower( CRM_Core_DAO::escapeString( $value ) );
             if ( $wildcard ) {
                 $value = "%$value%"; 
                 $op    = 'LIKE';
@@ -1440,7 +1451,7 @@ class CRM_Contact_BAO_Query
             $this->_where[$grouping][] = self::buildClause( $wc, $op, "'$value'" );
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else if ( $name === 'current_employer' ) {
-            $value = strtolower( addslashes( $value ) );
+            $value = strtolower( CRM_Core_DAO::escapeString( $value ) );
             if ( $wildcard ) {
                 $value = "%$value%"; 
                 $op    = 'LIKE';
@@ -1450,7 +1461,8 @@ class CRM_Contact_BAO_Query
                                                             "'$value' AND contact_a.contact_type ='Individual'" );
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else if ( $name === 'email_greeting' ) {
-            $emailGreetings =& CRM_Core_PseudoConstant::emailGreeting( $filterCondition ); 
+            $filterCondition =  array( 'greeting_type' => 'email_greeting' );
+            $emailGreetings =& CRM_Core_PseudoConstant::greeting( $filterCondition );
             if ( is_numeric( $value ) ) { 
                 $value     =  $emailGreetings[(int ) $value];  
             }
@@ -1458,7 +1470,8 @@ class CRM_Contact_BAO_Query
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             $this->_qill[$grouping][] = ts('Email Greeting') . " $op '$value'";
         } else if ( $name === 'postal_greeting' ) {
-            $postalGreetings =& CRM_Core_PseudoConstant::postalGreeting( $filterCondition ); 
+            $filterCondition =  array( 'greeting_type' => 'postal_greeting' );
+            $postalGreetings =& CRM_Core_PseudoConstant::greeting( $filterCondition ); 
             if ( is_numeric( $value ) ) { 
                 $value     =  $postalGreetings[(int ) $value];  
             }
@@ -1466,7 +1479,8 @@ class CRM_Contact_BAO_Query
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             $this->_qill[$grouping][] = ts('Postal Greeting') . " $op '$value'";
         } else if ( $name === 'addressee' ) {
-            $addressee =& CRM_Core_PseudoConstant::addressee( $filterCondition ); 
+            $filterCondition =  array( 'greeting_type' => 'addressee' );
+            $addressee =& CRM_Core_PseudoConstant::greeting( $filterCondition ); 
             if ( is_numeric( $value ) ) { 
                 $value     =  $addressee[(int ) $value];  
             }
@@ -1481,7 +1495,7 @@ class CRM_Contact_BAO_Query
 
             if ( ! empty( $field['where'] ) ) {
                 if ( $op != 'IN' ) {
-                    $value = strtolower( addslashes( $value ) );
+                    $value = strtolower( CRM_Core_DAO::escapeString( $value ) );
                 }
                 if ( $wildcard ) {
                     $value = "%$value%"; 
@@ -1514,17 +1528,17 @@ class CRM_Contact_BAO_Query
                     if ( $tableName == 'civicrm_contact' ) {
                         $fieldName = "LOWER(contact_a.{$fieldName})";
                     } else {
-                        $fieldName = "LOWER({$field['where']})";
+                        if ( $op != 'IN' && !is_numeric( $value ) ) {
+                            $fieldName = "LOWER({$field['where']})";
+                            $value     = "'$value'";
+                        } else {
+                            $fieldName = "{$field['where']}";
+                        }
                     }
-                    if ( $op != 'IN' ) {
-                        $this->_where[$grouping][] = self::buildClause( $fieldName,
-                                                                        $op,
-                                                                        "'$value'" );
-                    } else {
-                        $this->_where[$grouping][] = self::buildClause( $fieldName,
-                                                                        $op,
-                                                                        $value );
-                    }
+                    
+                    $this->_where[$grouping][] = self::buildClause( $fieldName,
+                                                                    $op,
+                                                                    $value );
                     $this->_qill[$grouping][]  = "$field[title] $op $value";
                 }
                 
@@ -2159,7 +2173,7 @@ WHERE  id IN ( $groupIDs )
                                           contact_a.id = civicrm_note.entity_id ) ";
 
         $n = trim( $value );
-        $value = strtolower(addslashes($n));
+        $value = strtolower(CRM_Core_DAO::escapeString($n));
         if ( $wildcard || $op == 'LIKE' ) {
             if ( strpos( $value, '%' ) !== false ) {
                 // only add wild card if not there
@@ -2192,10 +2206,15 @@ WHERE  id IN ( $groupIDs )
         $config =& CRM_Core_Config::singleton( );
 
         $sub  = array( ); 
+
+		//By default, $sub elements should be joined together with OR statements (don't change this variable).
+        $subGlue = ' OR ';
+        
         if ( substr( $name, 0 , 1 ) == '"' &&
              substr( $name, -1, 1 ) == '"' ) {
+			//If name is encased in double quotes, the value should be taken to be the string in entirety and the 
             $value = substr( $name, 1, -1 );
-            $value = strtolower(addslashes($value));
+            $value = strtolower(CRM_Core_DAO::escapeString($value));
             $wc = ( $newName == 'sort_name') ? 'LOWER(contact_a.sort_name)' : 'LOWER(contact_a.display_name)';
             $sub[] = " ( $wc = '$value' ) ";
             if ( $config->includeEmailInName ) {
@@ -2203,7 +2222,7 @@ WHERE  id IN ( $groupIDs )
             }
         } else if ( strpos( $name, ',' ) !== false ) {
             // if we have a comma in the string, search for the entire string 
-            $value = strtolower(addslashes($name));
+            $value = strtolower(CRM_Core_DAO::escapeString($name));
             if ( $wildcard ) {
                 if ( $config->includeWildCardInName ) {
                     $value = "'%$value%'";
@@ -2228,8 +2247,21 @@ WHERE  id IN ( $groupIDs )
                 $sub[] = " ( civicrm_email.email $op $value ) ";
             }
         } else {
-            // split the string into pieces 
-            // check if the string is enclosed in quotes
+            //Else, the string should be treated as a series of keywords to be matched with match ANY/ match ALL depending on Civi config settings (see CiviAdmin)
+            
+            // The Civi configuration setting can be overridden if the string *starts* with the case insenstive strings 'AND:' or 'OR:'  
+            // TO THINK ABOUT: what happens when someone searches for the following "AND: 'a string in quotes'"? - probably nothing - it would make the AND OR variable reduntant because there is only one search string?
+
+        	// Check to see if the $subGlue is overridden in the search text
+        	if(strtolower(substr( $name,  0,  4 ))=='and:'){
+        		$name = substr( $name,  4 );
+        		$subGlue = ' AND ';
+        	}
+        	if(strtolower(substr( $name,  0,  3 ))=='or:'){
+        		$name = substr( $name,  3 );
+        		$subGlue = ' OR ';
+        	}
+        	
             $firstChar = substr( $name,  0,  1 );
             $lastChar  = substr( $name, -1, 1 );
             $quotes    = array( "'", '"' );
@@ -2242,34 +2274,44 @@ WHERE  id IN ( $groupIDs )
                 $pieces =  explode( ' ', $name );
             }
             foreach ( $pieces as $piece ) { 
-                $value = strtolower( addslashes( trim( $piece ) ) );
-                if ( $wildcard ) {
-                    if ( $config->includeWildCardInName ) {
-                        $value = "'%$value%'";
+                $value = strtolower( CRM_Core_DAO::escapeString( trim( $piece ) ) );
+                if ( strlen( $value ) ) {
+             		// Added If as a sanitization - without it, when you do an OR search, any string with
+             		// double spaces (i.e. "  ") or that has a space after the keyword (e.g. "OR: ") will
+             		// return all contacts because it will include a condition similar to "OR contact
+             		// name LIKE '%'".  It might be better to replace this with array_filter. 
+ 	            	$fieldsub = array();
+                    if ( $wildcard ) {
+                        if ( $config->includeWildCardInName ) {
+                            $value = "'%$value%'";
+                        } else {
+                            $value = "'$value%'";
+                        }
+                        $op    = 'LIKE';
                     } else {
-                        $value = "'$value%'";
+                        $value = "'$value'";
                     }
-                    $op    = 'LIKE';
-                } else {
-                    $value = "'$value'";
+                    if( $newName == 'sort_name') {
+                        $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.sort_name)" : "contact_a.sort_name";
+                    } else {
+                        $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.display_name)" : "contact_a.display_name";
+                    }
+                    $fieldsub[] = " ( $wc $op $value )";
+                    if ( $config->includeNickNameInName ) {
+                        $wc    = ( $op != 'LIKE' ) ? "LOWER(contact_a.nick_name)" : "contact_a.nick_name";
+                        $fieldsub[] = " ( $wc $op $value )";
+                    }
+                    if ( $config->includeEmailInName ) {
+                        $fieldsub[] = " ( civicrm_email.email $op $value ) ";
+                    }
+                    $sub[] = ' ( ' . implode( ' OR ', $fieldsub ) . ' ) ';
+                    // I seperated the glueing in two.  The first stage should always be OR because we are searching for matches in *ANY* of these fields
                 }
-                if( $newName == 'sort_name') {
-                    $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.sort_name)" : "contact_a.sort_name";
-                } else {
-                    $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.display_name)" : "contact_a.display_name";
-                }
-                $sub[] = " ( $wc $op $value )";
-                if ( $config->includeNickNameInName ) {
-                    $wc    = ( $op != 'LIKE' ) ? "LOWER(contact_a.nick_name)" : "contact_a.nick_name";
-                    $sub[] = " ( $wc $op $value )";
-                }
-                if ( $config->includeEmailInName ) {
-                    $sub[] = " ( civicrm_email.email $op $value ) ";
-                }
-            } 
-        }
+            }
+        } 
 
-        $sub = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
+        $sub = ' ( ' . implode( $subGlue, $sub ) . ' ) '; 
+
         $this->_where[$grouping][] = $sub;
         if ( $config->includeEmailInName ) {
             $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
@@ -2297,11 +2339,11 @@ WHERE  id IN ( $groupIDs )
         if ( substr( $n, 0 , 1 ) == '"' &&
              substr( $n, -1, 1 ) == '"' ) {
             $n     = substr( $n, 1, -1 );
-            $value = strtolower(addslashes($n));
+            $value = strtolower(CRM_Core_DAO::escapeString($n));
             $value = "'$value'";
             $op    = '=';
         } else {
-            $value = strtolower(addslashes($n));
+            $value = strtolower(CRM_Core_DAO::escapeString($n));
             if ( $wildcard ) {
                 if ( strpos( $value, '%' ) !== false ) {
                     $value = "'$value'";
@@ -2331,7 +2373,7 @@ WHERE  id IN ( $groupIDs )
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         $name = trim( $value );
-        $cond = " contact_a.sort_name LIKE '" . strtolower(addslashes($name)) . "%'"; 
+        $cond = " contact_a.sort_name LIKE '" . strtolower(CRM_Core_DAO::escapeString($name)) . "%'"; 
         $this->_where[$grouping][] = $cond;
         $this->_qill[$grouping][]  = ts( 'Restricted to Contacts starting with: \'%1\'', array( 1 => $name ) );
     }
@@ -2477,7 +2519,7 @@ WHERE  id IN ( $groupIDs )
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         $name = trim( $value );
 
-        $v = strtolower(addslashes(trim($name)));
+        $v = strtolower(CRM_Core_DAO::escapeString(trim($name)));
         $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_activity_history.activity_type)" : "civicrm_activity_history.activity_type";
         $this->_where[$grouping][] = " $wc $op '$v'";
         $this->_tables['civicrm_activity_history'] = $this->_whereTables['civicrm_activity_history'] = 1; 
@@ -2509,7 +2551,7 @@ WHERE  id IN ( $groupIDs )
         }
 
         $name = trim( $targetName[2] );
-        $name = strtolower( addslashes( $name ) );
+        $name = strtolower( CRM_Core_DAO::escapeString( $name ) );
         $name = $targetName[4] ? "%$name%" : $name;
         $this->_where[$grouping][] = "contact_b.sort_name LIKE '%$name%'";
         $this->_tables['civicrm_log'] = $this->_whereTables['civicrm_log'] = 1; 
@@ -2552,7 +2594,7 @@ WHERE  id IN ( $groupIDs )
                 $name = null;
             } else {
                 $name = trim( $activityTargetName[2] );
-                $name = strtolower( addslashes( $name ) );
+                $name = strtolower( CRM_Core_DAO::escapeString( $name ) );
             }
             $this->_where[$grouping][] = " contact_a.sort_name LIKE '%{$name}%'";
            
@@ -2592,7 +2634,7 @@ WHERE  id IN ( $groupIDs )
             break;   
         case 'activity_subject':
             $n = trim( $value );
-            $value = strtolower(addslashes($n));
+            $value = strtolower(CRM_Core_DAO::escapeString($n));
             if ( $wildcard ) {
                 if ( strpos( $value, '%' ) !== false ) {
                     // only add wild card if not there
@@ -2642,9 +2684,14 @@ WHERE  id IN ( $groupIDs )
     function privacy( &$values ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
-        $this->_where[$grouping][] = "contact_a.{$name} $op $value";
-
+        //fixed for profile search listing CRM-4633
+        if ( strpbrk( $value, "[" ) ) {
+            $value = "'{$value}'";
+            $op    = "!{$op}";
+            $this->_where[$grouping][] = "contact_a.{$name} $op $value";
+        } else {
+            $this->_where[$grouping][] = "contact_a.{$name} $op $value";
+        }
         $field = CRM_Utils_Array::value( $name, $this->_fields );
         $title = $field ? $field['title'] : $name;
         $this->_qill[$grouping][]  = "$title $op $value";
@@ -2747,10 +2794,10 @@ WHERE  id IN ( $groupIDs )
             if ( substr( $name, 0 , 1 ) == '"' &&
                  substr( $name, -1, 1 ) == '"' ) {
                 $name = substr( $name, 1, -1 );
-                $name = strtolower( addslashes( $name ) );
+                $name = strtolower( CRM_Core_DAO::escapeString( $name ) );
                 $nameClause = "= '$name'";
             } else {
-                $name = strtolower( addslashes( $name ) );
+                $name = strtolower( CRM_Core_DAO::escapeString( $name ) );
                 $nameClause = "LIKE '%{$name}%'";
             }
         }
@@ -2920,7 +2967,7 @@ WHERE  id IN ( $groupIDs )
      */
     static function apiQuery( $params = null,
                               $returnProperties = null,
-                              $options = null,
+                              $fields = null,
                               $sort = null,
                               $offset = 0,
                               $row_count = 25,
@@ -2945,7 +2992,7 @@ WHERE  id IN ( $groupIDs )
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
-
+        
         $dao =& CRM_Core_DAO::executeQuery( $sql );
         
         $values = array( );
@@ -3121,7 +3168,7 @@ WHERE  id IN ( $groupIDs )
 		}	
 
         $query = "$select $from $where $groupBy $order $limit";
-        //CRM_Core_Error::debug('query', $query);
+        //CRM_Core_Error::debug('query', $query); exit();
 
         if ( $returnQuery ) {
             return $query;

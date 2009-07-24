@@ -148,12 +148,12 @@ WHERE civicrm_case.id=  %1";
                                     'clientID'           => $form->_currentlyViewedContactId,
                                     'creatorID'          => $form->_currentUserId,
                                     'standardTimeline'   => 0,
-                                    'dueDateTime'        => $params['start_date'],
+                                    'activity_date_time' => $params['start_date'],
                                     'caseID'             => $form->_caseId,
                                     'caseType'           => $caseType,
                                     'activityTypeName'   => 'Change Case Start Date',
                                     'activitySetName'    => 'standard_timeline',
-                                    'is_StartdateChanged'=> 1,           
+                                    'resetTimeline'      => 1,           
                                      );
         
         $xmlProcessor->run( $caseType, $xmlProcessorParams );

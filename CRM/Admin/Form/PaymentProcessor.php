@@ -236,20 +236,22 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         $defaults['payment_processor_type'] = $this->_ppType;
 
         if ( ! $this->_id ) {
-            $defaults['is_active'] = $defaults['is_default'] = 1;
-            $defaults['url_site'] = $this->_ppDAO->url_site_default;
-            $defaults['url_api'] = $this->_ppDAO->url_api_default;
-            $defaults['url_recur'] = $this->_ppDAO->url_recur_default;
-            $defaults['url_button'] = $this->_ppDAO->url_button_default;
-            $defaults['test_url_site'] = $this->_ppDAO->url_site_test_default;
-            $defaults['test_url_api'] = $this->_ppDAO->url_api_test_default;
-            $defaults['test_url_recur'] = $this->_ppDAO->url_recur_test_default;
+            $defaults['is_active']       = $defaults['is_default'] = 1;
+            $defaults['url_site']        = $this->_ppDAO->url_site_default;
+            $defaults['url_api']         = $this->_ppDAO->url_api_default;
+            $defaults['url_recur']       = $this->_ppDAO->url_recur_default;
+            $defaults['url_button']      = $this->_ppDAO->url_button_default;
+            $defaults['test_url_site']   = $this->_ppDAO->url_site_test_default;
+            $defaults['test_url_api']    = $this->_ppDAO->url_api_test_default;
+            $defaults['test_url_recur']  = $this->_ppDAO->url_recur_test_default;
             $defaults['test_url_button'] = $this->_ppDAO->url_button_test_default;
             return $defaults;
         }
-
+        $domainID = CRM_Core_Config::domainID( );
+        
         $dao =& new CRM_Core_DAO_PaymentProcessor( );
         $dao->id        = $this->_id;
+        $dao->domain_id = $domainID;
         if ( ! $dao->find( true ) ) {
             return $defaults;
         }
@@ -260,6 +262,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         $testDAO =& new CRM_Core_DAO_PaymentProcessor( );
         $testDAO->name      = $dao->name;
         $testDAO->is_test   = 1;
+        $testDAO->domain_id = $domainID;
         if ( $testDAO->find( true ) ) {
             $this->_testID = $testDAO->id;
 
@@ -290,22 +293,24 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
             return;
         }
 
-        $values = $this->controller->exportValues( $this->_name );
+        $values   = $this->controller->exportValues( $this->_name );
+        $domainID = CRM_Core_Config::domainID( );
 
         if ( CRM_Utils_Array::value( 'is_default', $values ) ) {
-            $query = "UPDATE civicrm_payment_processor SET is_default = 0";
+            $query = "UPDATE civicrm_payment_processor SET is_default = 0 WHERE domain_id = $domainID";
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        $this->updatePaymentProcessor( $values, false );
-        $this->updatePaymentProcessor( $values, true );
+        $this->updatePaymentProcessor( $values, $domainID, false );
+        $this->updatePaymentProcessor( $values, $domainID, true  );
 
     }//end of function
 
-    function updatePaymentProcessor( &$values, $test ) {
+    function updatePaymentProcessor( &$values, $domainID, $test ) {
         $dao =& new CRM_Core_DAO_PaymentProcessor( );
 
         $dao->id         = $test ? $this->_testID : $this->_id;
+        $dao->domain_id  = $domainID;
         $dao->is_test    = $test;
         if ( ! $test ) {
             $dao->is_default = CRM_Utils_Array::value( 'is_default', $values, 0 );
@@ -330,6 +335,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         $dao->is_recur     = $this->_ppDAO->is_recur;
         $dao->billing_mode = $this->_ppDAO->billing_mode;
         $dao->class_name   = $this->_ppDAO->class_name;
+        $dao->payment_type = $this->_ppDAO->payment_type;
 
         $dao->save( );
     }

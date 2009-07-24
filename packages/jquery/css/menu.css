@@ -81,6 +81,8 @@ li.active {
 	text-decoration: none;
 	color: white;
 	cursor: default;
+	display: block;
+	font-weight: normal;
 }
 
 * html div.menu-item {
@@ -324,4 +326,17 @@ li#crm-qsearch input {
 li#menu-logout {
     float: right;
     border-left: 1px solid #5D5D5D;
+}
+
+/** Joomla Admin Menu **/
+
+div.m ul#civicrm-menu {
+    z-index: 0;
+    position:relative;
+    border: none;
+    left:0px;
+	padding: 5px 0px 20px 2px;
+}
+div#submenu-box ul#civicrm-menu, .m ul#civicrm-menu li.menumain{
+    background-color:#555555;
 }

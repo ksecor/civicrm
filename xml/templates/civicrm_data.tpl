@@ -1,6 +1,6 @@
 -- This file provides template to civicrm_data.mysql. Inserts all base data needed for a new CiviCRM DB
 
-SET @domain_name := 'Default Domain Name';
+SET @domainName := 'Default Domain Name';
 
 -- Add components to system wide registry
 -- We're doing it early to avoid constraint errors.
@@ -11,7 +11,7 @@ INSERT INTO civicrm_component (name, namespace) VALUES ('CiviMail'      , 'CRM_M
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviGrant'     , 'CRM_Grant' );
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviPledge'    , 'CRM_Pledge' );
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviCase'      , 'CRM_Case' );
-INSERT INTO civicrm_component (name, namespace) VALUES ('CiviAuction'   , 'CRM_Auction' );
+INSERT INTO civicrm_component (name, namespace) VALUES ('CiviReport'    , 'CRM_Report' );
 
 INSERT INTO civicrm_address ( contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_code_1, geo_code_2, timezone)
       VALUES
@@ -37,7 +37,8 @@ INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, em
 
 SELECT @locBlockId := id from civicrm_loc_block where phone_id = @phoneId AND email_id = @emailId AND address_id = @addId;
 
-INSERT INTO civicrm_domain (name, version, loc_block_id) VALUES (@domain_name, '2.2', @locBlockId);
+INSERT INTO civicrm_domain (name, version, loc_block_id) VALUES (@domainName, '2.2', @locBlockId);
+SELECT @domainID := id FROM civicrm_domain where name = 'Default Domain Name';
 
 INSERT INTO civicrm_mail_settings (name, is_default, domain) VALUES ('default', true, 'FIXME.ORG');
 
@@ -144,7 +145,6 @@ VALUES
    ('custom_data_type'              , '{ts escape="sql"}Custom Data Type{/ts}'                   , 0, 1),  
    ('visibility'                    , '{ts escape="sql"}Visibility{/ts}'                         , 0, 1),
    ('mail_protocol'                 , '{ts escape="sql"}Mail Protocol{/ts}'                      , 0, 1),
-   ('auction_item_type'             , '{ts escape="sql"}Auction Item Type{/ts}'                  , 0, 1),
    ('priority'                      , '{ts escape="sql"}Priority{/ts}'                           , 0, 1),
    ('redaction_rule'                , '{ts escape="sql"}Redaction Rule{/ts}'                     , 0, 1),	
    ('report_template'               , '{ts escape="sql"}Report Template{/ts}'                    , 0, 1),
@@ -189,13 +189,19 @@ SELECT @option_group_id_fma            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_cdt            := max(id) from civicrm_option_group where name = 'custom_data_type';
 SELECT @option_group_id_vis            := max(id) from civicrm_option_group where name = 'visibility';
 SELECT @option_group_id_mp             := max(id) from civicrm_option_group where name = 'mail_protocol';
-SELECT @option_group_id_aitype         := max(id) from civicrm_option_group where name = 'auction_item_type';
-SELECT @option_group_id_rt             := max(id) from civicrm_option_group where name = 'report_template';
 SELECT @option_group_id_priority       := max(id) from civicrm_option_group where name = 'priority';
 SELECT @option_group_id_rr             := max(id) from civicrm_option_group where name = 'redaction_rule';
 SELECT @option_group_id_emailGreeting  := max(id) from civicrm_option_group where name = 'email_greeting';
 SELECT @option_group_id_postalGreeting := max(id) from civicrm_option_group where name = 'postal_greeting';
 SELECT @option_group_id_addressee      := max(id) from civicrm_option_group where name = 'addressee';
+SELECT @option_group_id_report         := max(id) from civicrm_option_group where name = 'report_template';
+
+SELECT @contributeCompId := max(id) FROM civicrm_component where name = 'CiviContribute';
+SELECT @eventCompId      := max(id) FROM civicrm_component where name = 'CiviEvent';
+SELECT @memberCompId     := max(id) FROM civicrm_component where name = 'CiviMember';
+SELECT @pledgeCompId     := max(id) FROM civicrm_component where name = 'CiviPledge';
+
+
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
 VALUES
@@ -229,6 +235,7 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}Change Case Start Date{/ts}',         19, 'Change Case Start Date',         NULL, 0,  0, 19, '', 0, 0, 1, 7, NULL ), 
    (@option_group_id_act, '{ts escape="sql"}Bulk Email{/ts}',                         20, 'Bulk Email',         NULL, 1, NULL, 20, '{ts escape="sql"}Bulk Email Sent.{/ts}',                                                    0, 1, 1, NULL, NULL),
    (@option_group_id_act, '{ts escape="sql"}Assign Case Role{/ts}',                   21, 'Assign Case Role', NULL,0, 0, 21, '', 0, 0, 1, 7, NULL),
+   (@option_group_id_act, '{ts escape="sql"}Remove Case Role{/ts}',                   22, 'Remove Case Role', NULL,0, 0, 22, '', 0, 0, 1, 7, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
    (@option_group_id_gender, '{ts escape="sql"}Transgender{/ts}', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
@@ -310,10 +317,16 @@ VALUES
   (@option_group_id_cvOpt, '{ts escape="sql"}Grants{/ts}'       ,  11, 'CiviGrant', NULL, 0, NULL,  11, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_cvOpt, '{ts escape="sql"}Pledges{/ts}'      ,  13, 'CiviPledge', NULL, 0, NULL,  13, NULL, 0, 0, 1, NULL, NULL),
 
-  (@option_group_id_ceOpt, '{ts escape="sql"}Communication Preferences{/ts}',   1, 'CommBlock', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_ceOpt, '{ts escape="sql"}Demographics{/ts}'             ,   2, 'Demographics', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_ceOpt, '{ts escape="sql"}Tags and Groups{/ts}'          ,   3, 'TagsAndGroups', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_ceOpt, '{ts escape="sql"}Custom Data{/ts}'              ,   1, 'CustomData', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_ceOpt, '{ts escape="sql"}Address{/ts}'                  ,   2, 'Address', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_ceOpt, '{ts escape="sql"}Communication Preferences{/ts}',   3, 'CommunicationPreferences', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_ceOpt, '{ts escape="sql"}Notes{/ts}'                    ,   4, 'Notes', NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_ceOpt, '{ts escape="sql"}Demographics{/ts}'             ,   5, 'Demographics', NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_ceOpt, '{ts escape="sql"}Tags and Groups{/ts}'          ,   6, 'TagsAndGroups', NULL, 0, NULL, 6, NULL, 0, 0, 1, NULL, NULL),
+ (@option_group_id_ceOpt, '{ts escape="sql"}Email{/ts}'                     ,   7, 'Email', NULL, 1, NULL, 7, NULL, 0, 0, 1, NULL, NULL),
+ (@option_group_id_ceOpt, '{ts escape="sql"}Phone{/ts}'                     ,   8, 'Phone', NULL, 1, NULL, 8, NULL, 0, 0, 1, NULL, NULL),
+ (@option_group_id_ceOpt, '{ts escape="sql"}Instant Messenger{/ts}'         ,   9, 'IM', NULL, 1, NULL, 9, NULL, 0, 0, 1, NULL, NULL),
+ (@option_group_id_ceOpt, '{ts escape="sql"}Open ID{/ts}'                   ,   10, 'OpenID', NULL, 1, NULL, 10, NULL, 0, 0, 1, NULL, NULL),
 
   (@option_group_id_asOpt, '{ts escape="sql"}Address Fields{/ts}'          ,   1, 'location', NULL, 0, NULL,  1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_asOpt, '{ts escape="sql"}Custom Fields{/ts}'           ,   2, 'custom', NULL, 0, NULL,  2, NULL, 0, 0, 1, NULL, NULL),
@@ -355,8 +368,6 @@ VALUES
   (@option_group_id_adOpt, '{ts escape="sql"}Latitude{/ts}'          , 10, 'geo_code_1'    , NULL, 0, NULL, 10, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_adOpt, '{ts escape="sql"}Longitude{/ts}'         , 11, 'geo_code_2', NULL, 0, NULL, 11, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_adOpt, '{ts escape="sql"}Address Name{/ts}'      , 12, 'address_name', NULL, 0, NULL, 12, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_adOpt, '{ts escape="sql"}Instant Messenger{/ts}' , 13, 'im', NULL, 0, NULL, 13, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_adOpt, '{ts escape="sql"}OpenID{/ts}'            , 14, 'openid', NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL, NULL),
 
   (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL, NULL),
@@ -377,15 +388,40 @@ VALUES
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Group'                , 4, 'CRM_Contact_Form_Search_Custom_Group'       , NULL, 0, NULL, 4, '{ts escape="sql"}Include / Exclude Contacts in a Group / Tag{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PostalMailing'        , 5, 'CRM_Contact_Form_Search_Custom_PostalMailing', NULL, 0, NULL, 5, '{ts escape="sql"}Postal Mailing{/ts}', 0, 0, 1, NULL, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Proximity'            , 6, 'CRM_Contact_Form_Search_Custom_Proximity', NULL, 0, NULL, 6, '{ts escape="sql"}Proximity Search{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_EventAggregate', 7, 'CRM_Contact_Form_Search_Custom_EventAggregate', NULL, 0, NULL, 7, '{ts escape="sql"}Event Aggregate{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ActivitySearch', 8, 'CRM_Contact_Form_Search_Custom_ActivitySearch', NULL, 0, NULL, 8, '{ts escape="sql"}Activity Search{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PriceSet', 9, 'CRM_Contact_Form_Search_Custom_PriceSet', NULL, 0, NULL, 9, '{ts escape="sql"}Price Set Details for Event Participants{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ZipCodeRange', 10, 'CRM_Contact_Form_Search_Custom_ZipCodeRange', NULL, 0, NULL, 10, '{ts escape="sql"}Zip Code Range{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_DateAdded', 11, 'CRM_Contact_Form_Search_Custom_DateAdded', NULL, 0, NULL, 11, '{ts escape="sql"}Date Added to CiviCRM{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_MultipleValues', 12, 'CRM_Contact_Form_Search_Custom_MultipleValues', NULL, 0, NULL, 12, '{ts escape="sql"}Custom Group Multiple Values Listing{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ContribSYBNT', 13, 'CRM_Contact_Form_Search_Custom_ContribSYBNT', NULL, 0, NULL, 13, '{ts escape="sql"}Contributions made in Year X and not Year Y{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_TagContributions', 14, 'CRM_Contact_Form_Search_Custom_TagContributions', NULL, 0, NULL, 14, '{ts escape="sql"}Find Contribution Amounts by Tag{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_FullText', 15, 'CRM_Contact_Form_Search_Custom_FullText', NULL, 0, NULL, 15, '{ts escape="sql"}Full-text Search{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_EventAggregate'       , 7, 'CRM_Contact_Form_Search_Custom_EventAggregate', NULL, 0, NULL, 7, '{ts escape="sql"}Event Aggregate{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ActivitySearch'       , 8, 'CRM_Contact_Form_Search_Custom_ActivitySearch', NULL, 0, NULL, 8, '{ts escape="sql"}Activity Search{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PriceSet'             , 9, 'CRM_Contact_Form_Search_Custom_PriceSet', NULL, 0, NULL, 9, '{ts escape="sql"}Price Set Details for Event Participants{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ZipCodeRange'         ,10, 'CRM_Contact_Form_Search_Custom_ZipCodeRange', NULL, 0, NULL, 10, '{ts escape="sql"}Zip Code Range{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_DateAdded'            ,11, 'CRM_Contact_Form_Search_Custom_DateAdded', NULL, 0, NULL, 11, '{ts escape="sql"}Date Added to CiviCRM{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_MultipleValues'       ,12, 'CRM_Contact_Form_Search_Custom_MultipleValues', NULL, 0, NULL, 12, '{ts escape="sql"}Custom Group Multiple Values Listing{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ContribSYBNT'         ,13, 'CRM_Contact_Form_Search_Custom_ContribSYBNT', NULL, 0, NULL, 13, '{ts escape="sql"}Contributions made in Year X and not Year Y{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_TagContributions'     ,14, 'CRM_Contact_Form_Search_Custom_TagContributions', NULL, 0, NULL, 14, '{ts escape="sql"}Find Contribution Amounts by Tag{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_FullText'             ,15, 'CRM_Contact_Form_Search_Custom_FullText', NULL, 0, NULL, 15, '{ts escape="sql"}Full-text Search{/ts}', 0, 0, 1, NULL, NULL),
+
+-- report templates
+  (@option_group_id_report , '{ts escape="sql"}Constituent Report (Summary){/ts}',            'contact/summary',                'CRM_Report_Form_Contact_Summary',                NULL, 0, NULL, 1,  '{ts escape="sql"}Provides a list of address and telephone information for constituent records in your system.{/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Constituent Report (Detail){/ts}',             'contact/detail',                 'CRM_Report_Form_Contact_Detail',                 NULL, 0, NULL, 2,  '{ts escape="sql"}Provides contact-related information on contributions, memberships, events and activities.{/ts}',   0, 0, 1, NULL, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Activity Report{/ts}',                         'activity',                       'CRM_Report_Form_Activity',                       NULL, 0, NULL, 3,  '{ts escape="sql"}Provides a list of constituent activity including activity statistics for one/all contacts during a given date range(required){/ts}', 0, 0, 1, NULL, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Walk / Phone List Report{/ts}',                'walklist',                       'CRM_Report_Form_Walklist',                       NULL, 0, NULL, 4,  '{ts escape="sql"}Provides a detailed report for your walk/phonelist for targetted contacts{/ts}', 0, 0, 0, NULL, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Current Employer Report{/ts}',                 'contact/currentEmployer',        'CRM_Report_Form_Contact_CurrentEmployer',        NULL, 0, NULL, 5,  '{ts escape="sql"}Provides detail list of employer employee relationships along with employment details Ex Join Date{/ts}', 0, 0, 0, NULL, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Donor Report (Summary){/ts}',                  'contribute/summary',             'CRM_Report_Form_Contribute_Summary',             NULL, 0, NULL, 6,  '{ts escape="sql"}Shows contribution statistics by month / week / year .. country / state .. type.{/ts}', 0, 0, 1, @contributeCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Donor Report (Detail){/ts}',                   'contribute/detail',              'CRM_Report_Form_Contribute_Detail',              NULL, 0, NULL, 7,  '{ts escape="sql"}Lists detailed contribution(s) for one / all contacts. Contribution summary report points to this report for specific details.{/ts}', 0, 0, 1, @contributeCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Donation Summary Report (Repeat){/ts}',        'contribute/repeat',              'CRM_Report_Form_Contribute_Repeat',              NULL, 0, NULL, 8,  '{ts escape="sql"}Given two date ranges, shows contacts (and their contributions) who contributed in both the date ranges with percentage increase / decrease.{/ts}', 0, 0, 1, @contributeCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Donation Summary Report (Organization){/ts}',  'contribute/organizationSummary', 'CRM_Report_Form_Contribute_OrganizationSummary', NULL, 0, NULL, 9,  '{ts escape="sql"}Displays a detailed contribution report for Organization relationships with contributors, as to if contribution done was  from an employee of some organization or from that Organization itself.{/ts}', 0, 0, 1, @contributeCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Donation Summary Report (Household){/ts}',     'contribute/householdSummary',    'CRM_Report_Form_Contribute_HouseholdSummary',    NULL, 0, NULL, 10, '{ts escape="sql"}Provides a detailed report for Contributions made by contributors(Or Household itself) who are having a relationship with household (For ex a Contributor is Head of Household for some household or is a member of.){/ts}', 0, 0, 1, @contributeCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Top Donors Report{/ts}',                       'contribute/topDonor',            'CRM_Report_Form_Contribute_TopDonor',            NULL, 0, NULL, 11, '{ts escape="sql"}Provides a list of the top donors during a time period you define. You can include as many donors as you want (for example, top 100 of your donors).{/ts}', 0, 0, 1, @contributeCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}SYBUNT Report{/ts}',                           'contribute/sybunt',              'CRM_Report_Form_Contribute_Sybunt',              NULL, 0, NULL, 12, '{ts escape="sql"}Some year(s) but not this year. Provides a list of constituents who donated at some time in the history of your organization but did not donate during the time period you specify.{/ts}', 0, 0, 1, @contributeCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}LYBUNT Report{/ts}',                           'contribute/lybunt',              'CRM_Report_Form_Contribute_Lybunt',              NULL, 0, NULL, 13, '{ts escape="sql"}Last year but not this year. Provides a list of constituents who donated last year but did not donate during the time period you specify as the current year.{/ts}', 0, 0, 1, @contributeCompId, NULL),	
+  (@option_group_id_report , '{ts escape="sql"}Soft Credit Report{/ts}',                      'contribute/softcredit',          'CRM_Report_Form_Contribute_SoftCredit',          NULL, 0, NULL, 14, '{ts escape="sql"}Soft Credit details.{/ts}', 0, 0, 1,@contributeCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Membership Report (Summary){/ts}',             'member/summary',                 'CRM_Report_Form_Member_Summary',                 NULL, 0, NULL, 15, '{ts escape="sql"}Provides a summary of memberships by type and join date.{/ts}', 0, 0, 1, @memberCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Membership Report (Detail){/ts}',              'member/detail',                  'CRM_Report_Form_Member_Detail',                  NULL, 0, NULL, 16, '{ts escape="sql"}Provides a list of members along with their membership status and membership details (Join Date, Start Date, End Date).{/ts}', 0, 0, 1, @memberCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Membership Report (Lapsed){/ts}',              'member/lapse',                   'CRM_Report_Form_Member_Lapse',                   NULL, 0, NULL, 17, '{ts escape="sql"}Provides a list of memberships that lapsed or will lapse before the date you specify.{/ts}', 0, 0, 1, @memberCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Event Participant Report (List){/ts}',         'event/participantListing',       'CRM_Report_Form_Event_ParticipantListing',       NULL, 0, NULL, 18, '{ts escape="sql"}Provides lists of participants for an event.{/ts}', 0, 0, 1, @eventCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Event Income Report (Summary){/ts}',           'event/summary',                  'CRM_Report_Form_Event_Summary',                  NULL, 0, NULL, 19, '{ts escape="sql"}Provides an overview of event income. You can include key information such as event ID, registration, attendance, and income generated to help you determine the success of an event.{/ts}', 0, 0, 1, @eventCompId, NULL),			
+  (@option_group_id_report , '{ts escape="sql"}Event Income Report (Detail){/ts}',            'event/income',                   'CRM_Report_Form_Event_Income',                   NULL, 0, NULL, 20, '{ts escape="sql"}Helps you to analyze the income generated by an event. The report can include details by participant type, status and payment method.{/ts}', 0, 0, 1, @eventCompId, NULL),
+  (@option_group_id_report , '{ts escape="sql"}Pledge Report{/ts}',                           'pledge/summary',                 'CRM_Report_Form_Pledge_Summary',                 NULL, 0, NULL, 21, '{ts escape="sql"}Pledge Report{/ts}', 0, 0, 1, @pledgeCompId, NULL),			
+  (@option_group_id_report , '{ts escape="sql"}Pledged But not Paid Report{/ts}',             'pledge/pbnp',                    'CRM_Report_Form_Pledge_Pbnp',                    NULL, 0, NULL, 22, '{ts escape="sql"}Pledged but not Paid Report{/ts}', 0, 0, 1, @pledgeCompId, NULL),  
+  (@option_group_id_report , '{ts escape="sql"}Relationship Report{/ts}',                     'contact/relationship',           'CRM_Report_Form_Contact_Relationship',           NULL, 0, NULL, 23, '{ts escape="sql"}Relationship Report{/ts}', 0, 0, 1, NULL, NULL),  	
 
   (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL, NULL),
@@ -459,11 +495,6 @@ VALUES
   (@option_group_id_mp, 'POP3',    3, 'POP3',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL ),
   (@option_group_id_mp, 'Localdir', 4, 'Localdir', NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL, NULL ),
 
--- auction types
-  (@option_group_id_aitype, '{ts escape="sql"}Live{/ts}'  , 1, 'Live'  ,  NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_aitype, '{ts escape="sql"}Silent{/ts}', 2, 'Silent',  NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_aitype, '{ts escape="sql"}Raffle{/ts}', 3, 'Raffle',  NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
-
 -- priority
   (@option_group_id_priority, '{ts escape="sql"}Urgent{/ts}', 1, 'Urgent', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_priority, '{ts escape="sql"}Normal{/ts}', 2, 'Normal', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
@@ -473,27 +504,23 @@ VALUES
   (@option_group_id_rr, 'Vancouver', 'city_', NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_rr, '{literal}/(19|20)(\\d{2})-(\\d{1,2})-(\\d{1,2})/{/literal}', 'date_', NULL, NULL, 1, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
 
--- report templates
-  (@option_group_id_rt , 'CRM_Report_Form_Contribution_Detail' , 1, 'CRM_Report_Form_Contribution_Detail', NULL, 0, NULL, 1, '{ts escape="sql"}Contribution Detail Report{/ts}', 0, 0, 1, NULL, NULL),
-  (@option_group_id_rt , 'CRM_Report_Form_Contribution_Summary', 2, 'CRM_Report_Form_Contribution_Summary', NULL, 0, NULL, 2, '{ts escape="sql"}Contribution Summary Report{/ts}', 0, 0, 1, NULL, NULL),
-
 -- email greeting.
   (@option_group_id_emailGreeting, '{literal}Dear {contact.first_name}{/literal}',                                                 1, '{literal}Dear {contact.first_name}{/literal}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_emailGreeting, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', 2, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_emailGreeting, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      3, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_emailGreeting, '{literal}Customized{/literal}',                                                                4, '{literal}Customized{/literal}',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
+  (@option_group_id_emailGreeting, '{literal}Customized{/literal}',                                                                4, '{literal}Customized{/literal}',                                                                NULL, 0, 0, 4, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_emailGreeting, '{literal}Dear {contact.household_name}{/literal}',                                             5, '{literal}Dear {contact.househols_name}{/literal}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
 -- postal greeting.
   (@option_group_id_postalGreeting, '{literal}Dear {contact.first_name}{/literal}',                                                 1, '{literal}Dear {contact.first_name}{/literal}',                                                 NULL,    1, 1, 1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_postalGreeting, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', 2, '{literal}Dear {contact.individual_prefix} {contact.first_name} {contact.last_name}{/literal}', NULL,    1, 0, 2, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_postalGreeting, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      3, '{literal}Dear {contact.individual_prefix} {contact.last_name}{/literal}',                      NULL,    1, 0, 3, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_postalGreeting, '{literal}Customized{/literal}',                                                                4, '{literal}Customized{/literal}',                                                                NULL, NULL, 0, 4, NULL, 0, 1, 1, NULL, NULL),
+  (@option_group_id_postalGreeting, '{literal}Customized{/literal}',                                                                4, '{literal}Customized{/literal}',                                                                NULL, 0, 0, 4, NULL, 0, 1, 1, NULL, NULL),
   (@option_group_id_postalGreeting, '{literal}Dear {contact.household_name}{/literal}',                                             5, '{literal}Dear {contact.househols_name}{/literal}',                                             NULL,    2, 1, 5, NULL, 0, 0, 1, NULL, NULL),
 -- addressee.
   (@option_group_id_addressee, '{literal}{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}{/literal}',          '1', '{literal}}{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}{/literal}',         NULL ,   '1', '1', '1', NULL , '0', '0', '1', NULL , NULL),
-  (@option_group_id_addressee, '{literal}{contact.household_name}{/literal}',    '2', '{literal}{contact.household_name}{/literal}',    NULL ,   '2', '0', '2', NULL , '0', '0', '1', NULL , NULL),
-  (@option_group_id_addressee, '{literal}{contact.organization_name}{/literal}', '3', '{literal}{contact.organization_name}{/literal}', NULL ,   '3', '0', '3', NULL , '0', '0', '1', NULL , NULL),
-  (@option_group_id_addressee, '{literal}Customized{/literal}',                  '4', '{literal}Customized{/literal}',                  NULL , NULL , '0', '4', NULL , '0', '1', '1', NULL , NULL);
+  (@option_group_id_addressee, '{literal}{contact.household_name}{/literal}',    '2', '{literal}{contact.household_name}{/literal}',    NULL ,   '2', '1', '2', NULL , '0', '0', '1', NULL , NULL),
+  (@option_group_id_addressee, '{literal}{contact.organization_name}{/literal}', '3', '{literal}{contact.organization_name}{/literal}', NULL ,   '3', '1', '3', NULL , '0', '0', '1', NULL , NULL),
+  (@option_group_id_addressee, '{literal}Customized{/literal}',                  '4', '{literal}Customized{/literal}',                  NULL ,    0 , '0', '4', NULL , '0', '1', '1', NULL , NULL);
 
 -- /*******************************************************
 -- *
@@ -527,9 +554,9 @@ VALUES
 {literal}
 -- Initial state of system preferences
 INSERT INTO 
-     civicrm_preferences(contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, address_standardization_provider, address_standardization_userid, address_standardization_url, editor_id, mailing_backend )
+     civicrm_preferences(domain_id, contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, address_standardization_provider, address_standardization_userid, address_standardization_url, editor_id, mailing_backend )
 VALUES 
-     (NULL,1,1,'123456789101113','1234','1234567891011121315161718','1234578','1234568910111314','{contact.address_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.addressee}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}',NULL,NULL,NULL,2,NULL);
+     (@domainID,NULL,1,1,'123456789101113','12345678910','1234567891011121315161718','1234578','1234568910111314','{contact.address_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.addressee}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}',NULL,NULL,NULL,2,NULL);
 {/literal}
 
 INSERT INTO `civicrm_preferences_date`
@@ -537,7 +564,7 @@ INSERT INTO `civicrm_preferences_date`
 VALUES
   ( 'activityDate'    ,  20, 10,  0, null,        'Date for activities including contributions: receive, receipt, cancel. membership: join, start, renew. case: start, end.'         ),
   ( 'activityDatetime',  20, 10, 1, null,        'Date and time for activity: scheduled. participant: registered.'                                                                  ),
-  ( 'birth'           , 100,  0,  0, null,        'Birth and deceased dates.'                                                                                                        ),
+  ( 'birth'           , 100,  0,  0, null,        'Birth and deceased dates. Only year, month and day fields are supported.'                                                         ),
   ( 'creditCard'      ,   0, 10,  0, 'M Y',       'Month and year only for credit card expiration.'                                                                                  ),
   ( 'custom'          ,  20, 20, 15, 'Y M d h i A', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),
   ( 'datetime'        ,  10,  3, 15, null,        'General date and time.'                                                                                                           ),
@@ -875,117 +902,210 @@ INSERT INTO civicrm_participant_status_type
   (11, 'Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,          11,     2            );
 
 INSERT INTO civicrm_navigation
-( id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight ) VALUES
+( id, domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight ) VALUES
 
-( 1,  NULL, '{ts escape="sql"}Search...{/ts}', 'Search...', NULL, '', NULL, '1', NULL, 1 ), 
-( 2,  'civicrm/contact/search?reset=1', '{ts escape="sql"}Find Contacts{/ts}', 'Find Contacts', NULL, '', '1', '1', NULL, 1 ), 
-( 3,  'civicrm/contact/search/advanced?reset=1', '{ts escape="sql"}Find Contacts - Advanced Search{/ts}', 'Find Contacts - Advanced Search', NULL, '', '1', '1', NULL, 2 ), 
-( 4,  'civicrm/contact/search/custom?csid=15&reset=1', '{ts escape="sql"}Full-text Search{/ts}', 'Full-text Search', NULL, '', '1', '1', NULL, 3 ), 
-( 5,  'civicrm/contact/search/builder?reset=1', '{ts escape="sql"}Search Builder{/ts}', 'Search Builder', NULL, '', '1', '1', '1', 4 ), 
-( 6,  'civicrm/case/search?reset=1', '{ts escape="sql"}Find Cases{/ts}', 'Find Cases', 'access CiviCase', '', '1', '1', NULL, 5 ), 
-( 7,  'civicrm/contribute/search?reset=1', '{ts escape="sql"}Find Contributions{/ts}', 'Find Contributions', 'access CiviContribute', '', '1', '1', NULL, 6 ), 
-( 8,  'civicrm/mailing?reset=1', '{ts escape="sql"}Find Mailings{/ts}', 'Find Mailings', 'access CiviMail', '', '1', '1', NULL, 7 ), 
-( 9,  'civicrm/member/search?reset=1', '{ts escape="sql"}Find Members{/ts}', 'Find Members', 'access CiviMember', '', '1', '1', NULL, 8 ), 
-( 10, 'civicrm/event/search?reset=1', '{ts escape="sql"}Find Participants{/ts}', 'Find Participants',  'access CiviEvent', '', '1', '1', NULL, 9 ), 
-( 11, 'civicrm/pledge/search?reset=1', '{ts escape="sql"}Find Pledges{/ts}', 'Find Pledges', 'access CiviPledge', '', '1', '1', 1, 10 ), 
+( 1, @domainID,  NULL, '{ts escape="sql"}Search...{/ts}', 'Search...', NULL, '', NULL, '1', NULL, 1 ), 
+( 2, @domainID,  'civicrm/contact/search&reset=1', '{ts escape="sql"}Find Contacts{/ts}', 'Find Contacts', NULL, '', '1', '1', NULL, 1 ), 
+( 3, @domainID,  'civicrm/contact/search/advanced&reset=1', '{ts escape="sql"}Find Contacts - Advanced Search{/ts}', 'Find Contacts - Advanced Search', NULL, '', '1', '1', NULL, 2 ), 
+( 4, @domainID,  'civicrm/contact/search/custom&csid=15&reset=1', '{ts escape="sql"}Full-text Search{/ts}', 'Full-text Search', NULL, '', '1', '1', NULL, 3 ), 
+( 5, @domainID,  'civicrm/contact/search/builder&reset=1', '{ts escape="sql"}Search Builder{/ts}', 'Search Builder', NULL, '', '1', '1', '1', 4 ), 
+( 6, @domainID,  'civicrm/case/search&reset=1', '{ts escape="sql"}Find Cases{/ts}', 'Find Cases', 'access CiviCase', '', '1', '1', NULL, 5 ), 
+( 7, @domainID,  'civicrm/contribute/search&reset=1', '{ts escape="sql"}Find Contributions{/ts}', 'Find Contributions', 'access CiviContribute', '', '1', '1', NULL, 6 ), 
+( 8, @domainID,  'civicrm/mailing&reset=1', '{ts escape="sql"}Find Mailings{/ts}', 'Find Mailings', 'access CiviMail', '', '1', '1', NULL, 7 ), 
+( 9, @domainID,  'civicrm/member/search&reset=1', '{ts escape="sql"}Find Members{/ts}', 'Find Members', 'access CiviMember', '', '1', '1', NULL, 8 ), 
+( 10, @domainID, 'civicrm/event/search&reset=1', '{ts escape="sql"}Find Participants{/ts}', 'Find Participants',  'access CiviEvent', '', '1', '1', NULL, 9 ), 
+( 11, @domainID, 'civicrm/pledge/search&reset=1', '{ts escape="sql"}Find Pledges{/ts}', 'Find Pledges', 'access CiviPledge', '', '1', '1', 1, 10 ), 
 
-( 12, 'civicrm/contact/search/custom/list?reset=1', '{ts escape="sql"}Custom Searches...{/ts}', 'Custom Searches...', NULL, '', '1', '1', NULL, 11 ), 
-( 13, 'civicrm/contact/search/custom?reset=1&csid=8', '{ts escape="sql"}Activity Search{/ts}', 'Activity Search', NULL, '', '12', '1', NULL, 1 ), 
-( 14, 'civicrm/contact/search/custom?reset=1&csid=11', '{ts escape="sql"}Contacts by Date Added{/ts}', 'Contacts by Date Added', NULL, '', '12', '1', NULL, 2 ), 
-( 15, 'civicrm/contact/search/custom?reset=1&csid=2', '{ts escape="sql"}Contributors by Aggregate Totals{/ts}', 'Contributors by Aggregate Totals', NULL, '', '12', '1', NULL, 3 ), 
-( 16, 'civicrm/contact/search/custom?reset=1&csid=6', '{ts escape="sql"}Proximity Search{/ts}', 'Proximity Search', NULL, '', '12', '1', NULL, 4 ), 
+( 12, @domainID, 'civicrm/contact/search/custom/list&reset=1', '{ts escape="sql"}Custom Searches...{/ts}', 'Custom Searches...', NULL, '', '1', '1', NULL, 11 ), 
+( 13, @domainID, 'civicrm/contact/search/custom&reset=1&csid=8', '{ts escape="sql"}Activity Search{/ts}', 'Activity Search', NULL, '', '12', '1', NULL, 1 ), 
+( 14, @domainID, 'civicrm/contact/search/custom&reset=1&csid=11', '{ts escape="sql"}Contacts by Date Added{/ts}', 'Contacts by Date Added', NULL, '', '12', '1', NULL, 2 ), 
+( 15, @domainID, 'civicrm/contact/search/custom&reset=1&csid=2', '{ts escape="sql"}Contributors by Aggregate Totals{/ts}', 'Contributors by Aggregate Totals', NULL, '', '12', '1', NULL, 3 ), 
+( 16, @domainID, 'civicrm/contact/search/custom&reset=1&csid=6', '{ts escape="sql"}Proximity Search{/ts}', 'Proximity Search', NULL, '', '12', '1', NULL, 4 ), 
 
-( 17, NULL, '{ts escape="sql"}Contacts{/ts}', 'Contacts', NULL, '', NULL, '1', NULL, 3 ), 
-( 18, 'civicrm/contact/add?reset=1&ct=Individual', '{ts escape="sql"}New Individual{/ts}', 'New Individual', NULL, '', '17', '1', NULL, 1 ), 
-( 19, 'civicrm/contact/add?reset=1&ct=Household', '{ts escape="sql"}New Household{/ts}', 'New Household', NULL, '', '17', '1', NULL, 2 ), 
-( 20, 'civicrm/contact/add?reset=1&ct=Organization', '{ts escape="sql"}New Organization{/ts}', 'New Organization', NULL, '', '17', '1', 1, 3 ), 
-( 21, 'civicrm/activity?reset=1&action=add&context=standalone', '{ts escape="sql"}New Activity{/ts}', 'New Activity', NULL, '', '17', '1', NULL, 4 ), 
-( 22, 'civicrm/contact/view/activity?atype=3&action=add&reset=1&context=standalone', '{ts escape="sql"}New Email{/ts}', 'New Email', NULL, '', '17', '1', '1', 5 ), 
-( 23, 'civicrm/import/contact?reset=1', '{ts escape="sql"}Import Contacts{/ts}', 'Import Contacts', NULL, '', '17', '1', NULL, 6 ), 
-( 24, 'civicrm/import/activity?reset=1', '{ts escape="sql"}Import Activities{/ts}', 'Import Activities', NULL, '', '17', '1', '1', 7 ), 
-( 25, 'civicrm/group/add?reset=1', '{ts escape="sql"}New Group{/ts}', 'New Group', NULL, '', '17', '1', NULL, 8 ), 
-( 26, 'civicrm/group?reset=1', '{ts escape="sql"}Manage Groups{/ts}', 'Manage Groups', NULL, '', '17', '1', '1', 9 ), 
-( 27,'civicrm/admin/tag?reset=1&action=add', '{ts escape="sql"}New Tag{/ts}', 'New Tag', NULL, '', '17', '1', NULL, 10 ), 
-( 28,'civicrm/admin/tag?reset=1', '{ts escape="sql"}Manage Tags (Categories){/ts}', 'Manage Tags (Categories)', NULL, '', '17', '1', NULL, 11 ), 
+( 17, @domainID, NULL, '{ts escape="sql"}Contacts{/ts}', 'Contacts', NULL, '', NULL, '1', NULL, 3 ), 
+( 18, @domainID, 'civicrm/contact/add&reset=1&ct=Individual', '{ts escape="sql"}New Individual{/ts}', 'New Individual', NULL, '', '17', '1', NULL, 1 ), 
+( 19, @domainID, 'civicrm/contact/add&reset=1&ct=Household', '{ts escape="sql"}New Household{/ts}', 'New Household', NULL, '', '17', '1', NULL, 2 ), 
+( 20, @domainID, 'civicrm/contact/add&reset=1&ct=Organization', '{ts escape="sql"}New Organization{/ts}', 'New Organization', NULL, '', '17', '1', 1, 3 ), 
+( 21, @domainID, 'civicrm/activity&reset=1&action=add&context=standalone', '{ts escape="sql"}New Activity{/ts}', 'New Activity', NULL, '', '17', '1', NULL, 4 ), 
+( 22, @domainID, 'civicrm/contact/view/activity&atype=3&action=add&reset=1&context=standalone', '{ts escape="sql"}New Email{/ts}', 'New Email', NULL, '', '17', '1', '1', 5 ), 
+( 23, @domainID, 'civicrm/import/contact&reset=1', '{ts escape="sql"}Import Contacts{/ts}', 'Import Contacts', NULL, '', '17', '1', NULL, 6 ), 
+( 24, @domainID, 'civicrm/import/activity&reset=1', '{ts escape="sql"}Import Activities{/ts}', 'Import Activities', NULL, '', '17', '1', '1', 7 ), 
+( 25, @domainID, 'civicrm/group/add&reset=1', '{ts escape="sql"}New Group{/ts}', 'New Group', NULL, '', '17', '1', NULL, 8 ), 
+( 26, @domainID, 'civicrm/group&reset=1', '{ts escape="sql"}Manage Groups{/ts}', 'Manage Groups', NULL, '', '17', '1', '1', 9 ), 
+( 27, @domainID,'civicrm/admin/tag&reset=1&action=add', '{ts escape="sql"}New Tag{/ts}', 'New Tag', NULL, '', '17', '1', NULL, 10 ), 
+( 28, @domainID,'civicrm/admin/tag&reset=1', '{ts escape="sql"}Manage Tags (Categories){/ts}', 'Manage Tags (Categories)', NULL, '', '17', '1', NULL, 11 ), 
 
-( 29,NULL, '{ts escape="sql"}Contributions{/ts}', 'Contributions', 'access CiviContribute', '', NULL, '1', NULL, 4 ), 
-( 30,'civicrm/contribute?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '29', '1', NULL, 1 ), 
-( 31,'civicrm/contact/view/contribution?reset=1&action=add&context=standalone', '{ts escape="sql"}New Contribution{/ts}', 'New Contribution', NULL, '', '29', '1', NULL, 2 ), 
-( 32, 'civicrm/contribute/search?reset=1', '{ts escape="sql"}Find Contributions{/ts}', 'Find Contributions', NULL, '', '29', '1', NULL, 3 ), 
-( 33, 'civicrm/contribute/import?reset=1', '{ts escape="sql"}Import Contributions{/ts}', 'Import Contributions', NULL, '', '29', '1', '1', 4 ),
-( 34,NULL, '{ts escape="sql"}Pledges{/ts}', 'Pledges', 'access CiviPledge', '', 29, '1', 1, 5 ), 
-( 35,'civicrm/pledge?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '34', '1', NULL, 1 ), 
-( 36,'civicrm/pledge/search?reset=1', '{ts escape="sql"}Find Pledges{/ts}', 'Find Pledges', NULL, '', '34', '1', NULL, 2 ), 
-( 37, 'civicrm/admin/contribute?reset=1&action=add', '{ts escape="sql"}New Contribution Page{/ts}', 'New Contribution Page', NULL, '', '29', '1', NULL, 6 ), 
-( 38, 'civicrm/admin/contribute?reset=1', '{ts escape="sql"}Manage Contribution Pages{/ts}', 'Manage Contribution Pages', NULL, '', '29', '1', '1', 7 ), 
-( 39, 'civicrm/admin/pcp?reset=1', '{ts escape="sql"}Personal Campaign Pages{/ts}', 'Personal Campaign Pages', NULL, '', '29', '1', NULL, 8 ), 
-( 40, 'civicrm/admin/contribute/managePremiums?reset=1', '{ts escape="sql"}Premiums (Thank-you Gifts){/ts}', 'Premiums', NULL, '', '29', '1', NULL, 9	 ), 
+( 29, @domainID,NULL, '{ts escape="sql"}Contributions{/ts}', 'Contributions', 'access CiviContribute', '', NULL, '1', NULL, 4 ), 
+( 30, @domainID,'civicrm/contribute&reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '29', '1', NULL, 1 ), 
+( 31, @domainID,'civicrm/contact/view/contribution&reset=1&action=add&context=standalone', '{ts escape="sql"}New Contribution{/ts}', 'New Contribution', NULL, '', '29', '1', NULL, 2 ), 
+( 32, @domainID, 'civicrm/contribute/search&reset=1', '{ts escape="sql"}Find Contributions{/ts}', 'Find Contributions', NULL, '', '29', '1', NULL, 3 ), 
+( 33, @domainID, 'civicrm/contribute/import&reset=1', '{ts escape="sql"}Import Contributions{/ts}', 'Import Contributions', NULL, '', '29', '1', '1', 4 ),
+( 34, @domainID,NULL, '{ts escape="sql"}Pledges{/ts}', 'Pledges', 'access CiviPledge', '', 29, '1', 1, 5 ), 
+( 35, @domainID,'civicrm/pledge&reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '34', '1', NULL, 1 ), 
+( 36, @domainID,'civicrm/pledge/search&reset=1', '{ts escape="sql"}Find Pledges{/ts}', 'Find Pledges', NULL, '', '34', '1', NULL, 2 ), 
+( 37, @domainID, 'civicrm/admin/contribute&reset=1&action=add', '{ts escape="sql"}New Contribution Page{/ts}', 'New Contribution Page', NULL, '', '29', '1', NULL, 6 ), 
+( 38, @domainID, 'civicrm/admin/contribute&reset=1', '{ts escape="sql"}Manage Contribution Pages{/ts}', 'Manage Contribution Pages', NULL, '', '29', '1', '1', 7 ), 
+( 39, @domainID, 'civicrm/admin/pcp&reset=1', '{ts escape="sql"}Personal Campaign Pages{/ts}', 'Personal Campaign Pages', NULL, '', '29', '1', NULL, 8 ), 
+( 40, @domainID, 'civicrm/admin/contribute/managePremiums&reset=1', '{ts escape="sql"}Premiums (Thank-you Gifts){/ts}', 'Premiums', NULL, '', '29', '1', NULL, 9	 ), 
 
-( 41, NULL, '{ts escape="sql"}Events{/ts}', 'Events', 'access CiviEvent', '', NULL, '1', NULL, 5 ), 
-( 42, 'civicrm/event?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'CiviEvent Dashboard', NULL, '', '41', '1', NULL, 1 ), 
-( 43, 'civicrm/contact/view/participant?reset=1&action=add&context=standalone', '{ts escape="sql"}Register Event Participant{/ts}', 'Register Event Participant', NULL, '', '41', '1', NULL, 2 ), 
-( 44, 'civicrm/event/search?reset=1', '{ts escape="sql"}Find Participants{/ts}', 'Find Participants', NULL, '', '41', '1', NULL, 3 ), 
-( 45, 'civicrm/event/import?reset=1', '{ts escape="sql"}Import Participants{/ts}', 'Import Participants', NULL, '', '41', '1', '1', 4 ), 
-( 46, 'civicrm/event/add?reset=1&action=add', '{ts escape="sql"}New Event{/ts}', 'New Event', NULL, '', '41', '1', NULL, 5 ), 
-( 47, 'civicrm/event/manage?reset=1', '{ts escape="sql"}Manage Events{/ts}', 'Manage Events', NULL, '', '41', '1', 1, 6 ), 
-( 48, 'civicrm/admin/eventTemplate?reset=1', '{ts escape="sql"}Event Templates{/ts}', 'Event Templates', 'access CiviEvent, administer CiviCRM', '', '41', '1', 1, 7 ), 
-( 49, 'civicrm/admin/price?reset=1&action=add', '{ts escape="sql"}New Price Set{/ts}', 'New Price Set', NULL, '', '41', '1', NULL, 8 ), 
-( 50, 'civicrm/event/price?reset=1', '{ts escape="sql"}Manage Price Sets{/ts}', 'Manage Price Sets', NULL, '', '41', '1', NULL, 9 ),
+( 41, @domainID, NULL, '{ts escape="sql"}Events{/ts}', 'Events', 'access CiviEvent', '', NULL, '1', NULL, 5 ), 
+( 42, @domainID, 'civicrm/event&reset=1', '{ts escape="sql"}Dashboard{/ts}', 'CiviEvent Dashboard', NULL, '', '41', '1', NULL, 1 ), 
+( 43, @domainID, 'civicrm/contact/view/participant&reset=1&action=add&context=standalone', '{ts escape="sql"}Register Event Participant{/ts}', 'Register Event Participant', NULL, '', '41', '1', NULL, 2 ), 
+( 44, @domainID, 'civicrm/event/search&reset=1', '{ts escape="sql"}Find Participants{/ts}', 'Find Participants', NULL, '', '41', '1', NULL, 3 ), 
+( 45, @domainID, 'civicrm/event/import&reset=1', '{ts escape="sql"}Import Participants{/ts}', 'Import Participants', NULL, '', '41', '1', '1', 4 ), 
+( 46, @domainID, 'civicrm/event/add&reset=1&action=add', '{ts escape="sql"}New Event{/ts}', 'New Event', NULL, '', '41', '1', NULL, 5 ), 
+( 47, @domainID, 'civicrm/event/manage&reset=1', '{ts escape="sql"}Manage Events{/ts}', 'Manage Events', NULL, '', '41', '1', 1, 6 ), 
+( 48, @domainID, 'civicrm/admin/eventTemplate&reset=1', '{ts escape="sql"}Event Templates{/ts}', 'Event Templates', 'access CiviEvent,administer CiviCRM', '', '41', '1', 1, 7 ), 
+( 49, @domainID, 'civicrm/admin/price&reset=1&action=add', '{ts escape="sql"}New Price Set{/ts}', 'New Price Set', NULL, '', '41', '1', NULL, 8 ), 
+( 50, @domainID, 'civicrm/event/price&reset=1', '{ts escape="sql"}Manage Price Sets{/ts}', 'Manage Price Sets', NULL, '', '41', '1', NULL, 9 ),
 
-( 51, NULL, '{ts escape="sql"}Mailings{/ts}', 'Mailings', 'access CiviMail', '', NULL, '1', NULL, 6 ), 
-( 52, 'civicrm/mailing/send?reset=1', '{ts escape="sql"}New Mailing{/ts}', 'New Mailing', NULL, '', '51', '1', NULL, 1 ), 
-( 53, 'civicrm/mailing/browse/unscheduled?reset=1&scheduled=false', '{ts escape="sql"}Draft and Unscheduled Mailings{/ts}', 'Draft and Unscheduled Mailings', NULL, '', '51', '1', NULL, 2 ), 
-( 54, 'civicrm/mailing/browse/scheduled?reset=1&scheduled=true', '{ts escape="sql"}Scheduled and Sent Mailings{/ts}', 'Scheduled and Sent Mailings', NULL, '', '51', '1', NULL, 3 ), 
-( 55, 'civicrm/mailing/browse/archived?reset=1', '{ts escape="sql"}Archived Mailings{/ts}', 'Archived Mailings', NULL, '', '51', '1', 1, 4 ), 
-( 56, 'civicrm/admin/component?reset=1', '{ts escape="sql"}Headers, Footers, and Automated Messages{/ts}', 'Headers, Footers, and Automated Messages', NULL, '', '51', '1', NULL, 5 ), 
+( 51, @domainID, NULL, '{ts escape="sql"}Mailings{/ts}', 'Mailings', 'access CiviMail', '', NULL, '1', NULL, 6 ), 
+( 52, @domainID, 'civicrm/mailing/send&reset=1', '{ts escape="sql"}New Mailing{/ts}', 'New Mailing', NULL, '', '51', '1', NULL, 1 ), 
+( 53, @domainID, 'civicrm/mailing/browse/unscheduled&reset=1&scheduled=false', '{ts escape="sql"}Draft and Unscheduled Mailings{/ts}', 'Draft and Unscheduled Mailings', NULL, '', '51', '1', NULL, 2 ), 
+( 54, @domainID, 'civicrm/mailing/browse/scheduled&reset=1&scheduled=true', '{ts escape="sql"}Scheduled and Sent Mailings{/ts}', 'Scheduled and Sent Mailings', NULL, '', '51', '1', NULL, 3 ), 
+( 55, @domainID, 'civicrm/mailing/browse/archived&reset=1', '{ts escape="sql"}Archived Mailings{/ts}', 'Archived Mailings', NULL, '', '51', '1', 1, 4 ), 
+( 56, @domainID, 'civicrm/admin/component&reset=1', '{ts escape="sql"}Headers, Footers, and Automated Messages{/ts}', 'Headers, Footers, and Automated Messages', NULL, '', '51', '1', NULL, 5 ), 
+( 57, @domainID, 'civicrm/admin/messageTemplates&reset=1', '{ts escape="sql"}Message Templates{/ts}', 'Message Templates', NULL, '', '51', '1', NULL, 6 ), 
+( 58, @domainID, 'civicrm/admin/options/from_email&group=from_email_address&reset=1', '{ts escape="sql"}From Email Addresses{/ts}', 'From Email Addresses', NULL, '', '51', '1', NULL, 7 ), 
 
-( 57, NULL, '{ts escape="sql"}Memberships{/ts}', 'Memberships', 'access CiviMember', '', NULL, '1', NULL, 7 ), 
-( 58, 'civicrm/member?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '57', '1', NULL, 1 ), 
-( 59, 'civicrm/contact/view/membership?reset=1&action=add&context=standalone', '{ts escape="sql"}New Membership{/ts}', 'New Membership', NULL, '', '57', '1', NULL, 2 ), 
-( 60, 'civicrm/member/search?reset=1', '{ts escape="sql"}Find Members{/ts}', 'Find Members', NULL, '', '57', '1', NULL, 3 ), 
-( 61, 'civicrm/member/import?reset=1', '{ts escape="sql"}Import Members{/ts}', 'Import Members', NULL, '', '57', '1', 1, 4 ), 
-( 62, 'civicrm/admin/member/membershipType?reset=1', '{ts escape="sql"}Membership Types{/ts}', 'Membership Types', 'access CiviMember, administer CiviCRM', '', '57', '1', NULL, 5 ), 
-( 63, 'civicrm/admin/member/membershipStatus?reset=1', '{ts escape="sql"}Membership Status Rules{/ts}', 'Membership Status Rules', 'access CiviMember, administer CiviCRM', '', '57', '1', NULL, 6 ), 
+( 59, @domainID, NULL, '{ts escape="sql"}Memberships{/ts}', 'Memberships', 'access CiviMember', '', NULL, '1', NULL, 7 ), 
+( 60, @domainID, 'civicrm/member&reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '59', '1', NULL, 1 ), 
+( 61, @domainID, 'civicrm/contact/view/membership&reset=1&action=add&context=standalone', '{ts escape="sql"}New Membership{/ts}', 'New Membership', NULL, '', '59', '1', NULL, 2 ), 
+( 62, @domainID, 'civicrm/member/search&reset=1', '{ts escape="sql"}Find Members{/ts}', 'Find Members', NULL, '', '59', '1', NULL, 3 ), 
+( 63, @domainID, 'civicrm/member/import&reset=1', '{ts escape="sql"}Import Members{/ts}', 'Import Members', NULL, '', '59', '1', NULL, 4 ), 
 
-( 64, NULL, '{ts escape="sql"}Other{/ts}', 'Other', 'access CiviGrant, access CiviCase', 'OR', NULL, '1', NULL, 8 ), 
-( 65, NULL, '{ts escape="sql"}Cases{/ts}', 'Cases', 'access CiviCase', '', '64', '1', NULL, 1 ), 
-( 66, 'civicrm/case?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '65', '1', NULL, 1 ), 
-( 67, 'civicrm/contact/view/case?reset=1&action=add&atype=13&context=standalone', '{ts escape="sql"}New Case{/ts}', 'New Case', NULL, '', '65', '1', NULL, 2 ), 
-( 68, 'civicrm/case/search?reset=1', '{ts escape="sql"}Find Cases{/ts}', 'Find Cases', NULL, '', '65', '1', NULL, 3 ), 
-( 69, NULL, '{ts escape="sql"}Grants{/ts}', 'Grants', 'access CiviGrant', '', '64', '1', NULL, 2 ),
-( 70, 'civicrm/grant?reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '69', '1', NULL, 1 ), 
-( 71, 'civicrm/contact/view/grant?reset=1&action=add&context=standalone', '{ts escape="sql"}New Grant{/ts}', 'New Grant', NULL, '', '69', '1', NULL, 2 ), 
-( 72, 'civicrm/grant/search?reset=1', '{ts escape="sql"}Find Grants{/ts}', 'Find Grants', NULL, '', '69', '1', NULL, 3 ), 
+( 64, @domainID, NULL, '{ts escape="sql"}Other{/ts}', 'Other', 'access CiviGrant,access CiviCase', 'OR', NULL, '1', NULL, 9 ), 
+( 65, @domainID, NULL, '{ts escape="sql"}Cases{/ts}', 'Cases', 'access CiviCase', '', '64', '1', NULL, 1 ), 
+( 66, @domainID, 'civicrm/case&reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '65', '1', NULL, 1 ), 
+( 67, @domainID, 'civicrm/contact/view/case&reset=1&action=add&atype=13&context=standalone', '{ts escape="sql"}New Case{/ts}', 'New Case', NULL, '', '65', '1', NULL, 2 ), 
+( 68, @domainID, 'civicrm/case/search&reset=1', '{ts escape="sql"}Find Cases{/ts}', 'Find Cases', NULL, '', '65', '1', 1, 3 ), 
 
-( 73, NULL, '{ts escape="sql"}Administer{/ts}', 'Administer', 'administer CiviCRM', '', NULL, '1', NULL, 9 ), 
-( 74, 'civicrm/admin?reset=1', '{ts escape="sql"}Administration Console{/ts}', 'Administration Console', NULL, '', '73', '1', NULL, 1 ), 
+( 69, @domainID, NULL, '{ts escape="sql"}Grants{/ts}', 'Grants', 'access CiviGrant', '', '64', '1', NULL, 2 ),
+( 70, @domainID, 'civicrm/grant&reset=1', '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '', '69', '1', NULL, 1 ), 
+( 71, @domainID, 'civicrm/contact/view/grant&reset=1&action=add&context=standalone', '{ts escape="sql"}New Grant{/ts}', 'New Grant', NULL, '', '69', '1', NULL, 2 ), 
+( 72, @domainID, 'civicrm/grant/search&reset=1', '{ts escape="sql"}Find Grants{/ts}', 'Find Grants', NULL, '', '69', '1', 1, 3 ), 
 
-( 75, NULL, '{ts escape="sql"}Customize{/ts}', 'Customize', NULL, '', '73', '1', NULL, 2 ), 
-( 76, 'civicrm/admin/custom/group?reset=1', '{ts escape="sql"}Custom Data{/ts}', 'Custom Data', NULL, '', '75', '1', NULL, 1 ), 
-( 77, 'civicrm/admin/uf/group?reset=1', '{ts escape="sql"}CiviCRM Profile{/ts}', 'CiviCRM Profile', NULL, '', '75', '1', NULL, 2 ), 
-( 78, 'civicrm/admin/menu?reset=1', '{ts escape="sql"}Navigation Menu{/ts}', 'Navigation Menu', NULL, '', '75', '1', NULL, 3 ), 
-( 79, 'civicrm/admin/options/custom_search?reset=1&group=custom_search', '{ts escape="sql"}Manage Custom Searches{/ts}', 'Manage Custom Searches', NULL, '', '75', '1', NULL, 4 ), 
+( 73, @domainID, NULL, '{ts escape="sql"}Administer{/ts}', 'Administer', 'administer CiviCRM', '', NULL, '1', NULL, 10 ), 
+( 74, @domainID, 'civicrm/admin&reset=1', '{ts escape="sql"}Administration Console{/ts}', 'Administration Console', NULL, '', '73', '1', NULL, 1 ), 
 
-( 80, NULL, '{ts escape="sql"}Configure{/ts}', 'Configure', NULL, '', '73', '1', NULL, 3 ), 
-( 81, 'civicrm/admin/configtask?reset=1', '{ts escape="sql"}Configuration Checklist{/ts}', 'Configuration Checklist', NULL, '', '80', '1', NULL, 1 ), 
-( 82, 'civicrm/admin/setting?reset=1', '{ts escape="sql"}Global Settings{/ts}', 'Global Settings', NULL, '', '80', '1', NULL, 2 ), 
-( 83, 'civicrm/admin/mapping?reset=1', '{ts escape="sql"}Import/Export Mappings{/ts}', 'Import/Export Mappings', NULL, '', '80', '1', NULL, 3 ), 
-( 84, 'civicrm/admin/messageTemplates?reset=1', '{ts escape="sql"}Message Templates{/ts}', 'Message Templates', NULL, '', '80', '1', NULL, 4 ), 
-( 85, 'civicrm/contact/domain?action=update&reset=1', '{ts escape="sql"}Domain Information{/ts}', 'Domain Information', NULL, '', '80', '1', NULL, 4 ), 
-( 86, 'civicrm/admin/options/from_email_address?group=from_email_address&reset=1', '{ts escape="sql"}FROM Email Addresses{/ts}', 'FROM Email Addresses', NULL, '', '80', '1', NULL, 4 ), 
-( 87, 'civicrm/admin/setting/updateConfigBackend?reset=1', '{ts escape="sql"}Update Directory Path and URL{/ts}', 'Update Directory Path and URL', NULL, '', '80', '1', NULL, 4 ), 
+( 75, @domainID, NULL, '{ts escape="sql"}Customize{/ts}', 'Customize', NULL, '', '73', '1', NULL, 2 ), 
+( 76, @domainID, 'civicrm/admin/custom/group&reset=1', '{ts escape="sql"}Custom Data{/ts}', 'Custom Data', NULL, '', '75', '1', NULL, 1 ), 
+( 77, @domainID, 'civicrm/admin/uf/group&reset=1', '{ts escape="sql"}CiviCRM Profile{/ts}', 'CiviCRM Profile', NULL, '', '75', '1', NULL, 2 ), 
+( 78, @domainID, 'civicrm/admin/menu&reset=1', '{ts escape="sql"}Navigation Menu{/ts}', 'Navigation Menu', NULL, '', '75', '1', NULL, 3 ), 
+( 79, @domainID, 'civicrm/admin/options/custom_search&reset=1&group=custom_search', '{ts escape="sql"}Manage Custom Searches{/ts}', 'Manage Custom Searches', NULL, '', '75', '1', NULL, 4 ), 
 
-( 88, NULL, '{ts escape="sql"}Manage{/ts}', 'Manage', NULL, '', '73', '1', NULL, 4 ), 
-( 89, 'civicrm/admin/deduperules?reset=1', '{ts escape="sql"}Find and Merge Duplicate Contacts{/ts}', 'Find and Merge Duplicate Contacts', '', '', '86', '1', NULL, 1 ), 
-( 90, 'civicrm/admin/access?reset=1', '{ts escape="sql"}Access Control{/ts}', 'Access Control', NULL, '', '86', '1', NULL, 2 ), 
-( 91, 'civicrm/admin/synchUser?reset=1', '{ts escape="sql"}Synchronize Users to Contacts{/ts}', 'Synchronize Users to Contacts', NULL, '', '86', '1', NULL, 3 ), 
+( 80, @domainID, NULL, '{ts escape="sql"}Configure{/ts}', 'Configure', NULL, '', '73', '1', NULL, 3 ), 
+( 81, @domainID, 'civicrm/admin/configtask&reset=1', '{ts escape="sql"}Configuration Checklist{/ts}', 'Configuration Checklist', NULL, '', '80', '1', NULL, 1 ), 
 
-( 92, NULL, '{ts escape="sql"}Option Lists{/ts}', 'Option Lists', NULL, '', '73', '1', NULL, 5 ), 
-( 93, 'civicrm/admin/options/activity_type?reset=1&group=activity_type', '{ts escape="sql"}Activity Types{/ts}', 'Activity Types', NULL, '', '92', '1', NULL, 1 ), 
-( 94, 'civicrm/admin/options/gender?reset=1&group=gender', '{ts escape="sql"}Gender Options{/ts}', 'Gender Options', NULL, '', '92', '1', NULL, 2 ), 
+( 82, @domainID, 'civicrm/admin/setting&reset=1', '{ts escape="sql"}Global Settings{/ts}', 'Global Settings', NULL, '', '80', '1', NULL, 2 ), 
+( 83, @domainID, 'civicrm/admin/setting/component&reset=1', '{ts escape="sql"}Enable CiviCRM Components{/ts}', 'Enable Components', NULL, '', '82', '1', NULL, 1 ), 
+( 84, @domainID, 'civicrm/admin/setting/preferences/display&reset=1', '{ts escape="sql"}Site Preferences (screen and form configuration){/ts}', 'Site Preferences', NULL, '', '82', '1', NULL, 2 ), 
+( 85, @domainID, 'civicrm/admin/setting/path&reset=1', '{ts escape="sql"}Directories{/ts}', 'Directories', NULL, '', '82', '1', NULL, 3 ), 
+( 86, @domainID, 'civicrm/admin/setting/url&reset=1', '{ts escape="sql"}Resource URLs{/ts}', 'Resource URLs', NULL, '', '82', '1', NULL, 4 ), 
+( 87, @domainID, 'civicrm/admin/setting/smtp&reset=1', '{ts escape="sql"}Outbound Email (SMTP/Sendmail){/ts}', 'Outbound Email', NULL, '', '82', '1', NULL, 5 ), 
+( 88, @domainID, 'civicrm/admin/setting/mapping&reset=1', '{ts escape="sql"}Mapping and Geocoding{/ts}', 'Mapping and Geocoding', NULL, '', '82', '1', NULL, 6 ), 
+( 89, @domainID, 'civicrm/admin/paymentProcessor&reset=1', '{ts escape="sql"}Payment Processors{/ts}', 'Payment Processors', NULL, '', '82', '1', NULL, 7 ), 
+( 90, @domainID, 'civicrm/admin/setting/localization&reset=1', '{ts escape="sql"}Localization{/ts}', 'Localization', NULL, '', '82', '1', NULL, 8 ), 
+( 91, @domainID, 'civicrm/admin/setting/preferences/address&reset=1', '{ts escape="sql"}Address Settings{/ts}', 'Address Settings', NULL, '', '82', '1', NULL, 9 ), 
+( 92, @domainID, 'civicrm/admin/setting/search?reset=1', '{ts escape="sql"}Search Settings{/ts}', 'Search Settings', NULL, '', '82', '1', NULL, 10 ), 
+( 93, @domainID, 'civicrm/admin/setting/date&reset=1', '{ts escape="sql"}Date Formats{/ts}', 'Date Formats', NULL, '', '82', '1', NULL, 11 ), 
+( 94, @domainID, 'civicrm/admin/setting/uf&reset=1', '{ts escape="sql"}CMS Integration{/ts}', 'CMS Integration', NULL, '', '82', '1', NULL, 12 ), 
+( 95, @domainID, 'civicrm/admin/setting/misc&reset=1', '{ts escape="sql"}Miscellaneous (version check, search, reCAPTCHA...){/ts}', 'Miscellaneous', NULL, '', '82', '1', NULL, 13 ), 
+( 96, @domainID, 'civicrm/admin/options/safe_file_extension&group=safe_file_extension&reset=1', '{ts escape="sql"}Safe File Extensions{/ts}', 'Safe File Extensions', NULL, '', '82', '1', NULL, 14 ), 
+( 97, @domainID, 'civicrm/admin/setting/debug&reset=1', '{ts escape="sql"}Debugging{/ts}', 'Debugging', NULL, '', '82', '1', NULL, 15 ), 
 
-( 95, NULL, '{ts escape="sql"}Help{/ts}', 'Help', NULL, '', NULL, '1', NULL, 10 ), 
-( 96, 'http://documentation.civicrm.org', '{ts escape="sql"}Documentation{/ts}', 'Documentation', NULL, 'AND', '95', '1', NULL, 1 ), 
-( 97, 'http://forum.civicrm.org', '{ts escape="sql"}Community Forums{/ts}', 'Community Forums', NULL, 'AND', '95', '1', NULL, 2 ), 
-( 98, 'http://civicrm.org/participate', '{ts escape="sql"}Participate{/ts}', 'Participate', NULL, 'AND', '95', '1', NULL, 3 ), 
-( 99, 'http://civicrm.org/aboutcivicrm', '{ts escape="sql"}About{/ts}', 'About', NULL, 'AND', '95', '1', NULL, 4 );
+( 98, @domainID, 'civicrm/admin/mapping&reset=1', '{ts escape="sql"}Import/Export Mappings{/ts}', 'Import/Export Mappings', NULL, '', '80', '1', NULL, 3 ), 
+( 99, @domainID, 'civicrm/admin/messageTemplates&reset=1', '{ts escape="sql"}Message Templates{/ts}', 'Message Templates', NULL, '', '80', '1', NULL, 4 ), 
+( 100, @domainID, 'civicrm/admin/domain&action=update&reset=1', '{ts escape="sql"}Domain Information{/ts}', 'Domain Information', NULL, '', '80', '1', NULL, 5 ), 
+( 101, @domainID, 'civicrm/admin/options/from_email_address&group=from_email_address&reset=1', '{ts escape="sql"}FROM Email Addresses{/ts}', 'FROM Email Addresses', NULL, '', '80', '1', NULL, 6 ), 
+( 102, @domainID, 'civicrm/admin/setting/updateConfigBackend&reset=1', '{ts escape="sql"}Update Directory Path and URL{/ts}', 'Update Directory Path and URL', NULL, '', '80', '1', NULL, 7 ), 
+
+( 103, @domainID, NULL, '{ts escape="sql"}Manage{/ts}', 'Manage', NULL, '', '73', '1', NULL, 4 ), 
+( 104, @domainID, 'civicrm/admin/deduperules&reset=1', '{ts escape="sql"}Find and Merge Duplicate Contacts{/ts}', 'Find and Merge Duplicate Contacts', '', '', '103', '1', NULL, 1 ), 
+( 105, @domainID, 'civicrm/admin/access&reset=1', '{ts escape="sql"}Access Control{/ts}', 'Access Control', NULL, '', '103', '1', NULL, 2 ), 
+( 106, @domainID, 'civicrm/admin/synchUser&reset=1', '{ts escape="sql"}Synchronize Users to Contacts{/ts}', 'Synchronize Users to Contacts', NULL, '', '103', '1', NULL, 3 ), 
+
+( 107, @domainID, NULL, '{ts escape="sql"}Option Lists{/ts}', 'Option Lists', NULL, '', '73', '1', NULL, 5 ), 
+( 108, @domainID, 'civicrm/admin/options/activity_type&reset=1&group=activity_type', '{ts escape="sql"}Activity Types{/ts}', 'Activity Types', NULL, '', '107', '1', NULL, 1 ), 
+( 109, @domainID, 'civicrm/admin/reltype&reset=1', '{ts escape="sql"}Relationship Types{/ts}', 'Relationship Types', NULL, '', '107', '1', NULL, 2 ), 
+( 110, @domainID, 'civicrm/admin/tag&reset=1', '{ts escape="sql"}Tags (Categories){/ts}', 'Tags (Categories)', NULL, '', '107', '1', 1, 3 ), 
+( 111, @domainID, 'civicrm/admin/options/gender&reset=1&group=gender', '{ts escape="sql"}Gender Options{/ts}', 'Gender Options', NULL, '', '107', '1', NULL, 4 ), 
+( 112, @domainID, 'civicrm/admin/options/individual_prefix&group=individual_prefix&reset=1', '{ts escape="sql"}Individual Prefixes (Ms, Mr...){/ts}', 'Individual Prefixes (Ms, Mr...)', NULL, '', '107', '1', NULL, 5 ), 
+( 113, @domainID, 'civicrm/admin/options/individual_suffix&group=individual_suffix&reset=1', '{ts escape="sql"}Individual Suffixes (Jr, Sr...){/ts}', 'Individual Suffixes (Jr, Sr...)', NULL, '', '107', '1', 1, 6 ), 
+( 114, @domainID, 'civicrm/admin/options/addressee&group=addressee&reset=1', '{ts escape="sql"}Addressee Formats{/ts}', 'Addressee Formats', NULL, '', '107', '1', NULL, 7 ), 
+( 115, @domainID, 'civicrm/admin/options/email_greeting&group=email_greeting&reset=1', '{ts escape="sql"}Email Greetings{/ts}', 'Email Greetings', NULL, '', '107', '1', NULL, 8 ), 
+( 116, @domainID, 'civicrm/admin/options/postal_greeting&group=postal_greeting&reset=1', '{ts escape="sql"}Postal Greetings{/ts}', 'Postal Greetings', NULL, '', '107', '1', 1, 9 ), 
+( 117, @domainID, 'civicrm/admin/options/instant_messenger_service&group=instant_messenger_service&reset=1', '{ts escape="sql"}Instant Messenger Services{/ts}', 'Instant Messenger Services', NULL, '', '107', '1', NULL, 10 ), 
+( 118, @domainID, 'civicrm/admin/locationType&reset=1', '{ts escape="sql"}Location Types (Home, Work...){/ts}', 'Location Types (Home, Work...)', NULL, '', '107', '1', NULL, 11 ), 
+( 119, @domainID, 'civicrm/admin/options/mobile_provider&group=mobile_provider&reset=1', '{ts escape="sql"}Mobile Phone Providers{/ts}', 'Mobile Phone Providers', NULL, '', '107', '1', NULL, 12 ), 
+( 120, @domainID, 'civicrm/admin/options/phone_type&group=phone_type&reset=1', '{ts escape="sql"}Phone Types{/ts}', 'Phone Types', NULL, '', '107', '1', NULL, 13 ), 
+( 121, @domainID, 'civicrm/admin/options/preferred_communication_method&group=preferred_communication_method&reset=1', '{ts escape="sql"}Preferred Communication Methods{/ts}', 'Preferred Communication Methods', NULL, '', '107', '1', NULL, 14 ), 
+
+( 122, @domainID, NULL, '{ts escape="sql"}CiviCase{/ts}', 'CiviCase', 'access CiviCase,administer CiviCRM', 'AND', '73', '1', NULL, 6 ), 
+( 123, @domainID, 'civicrm/admin/options/case_type&group=case_type&reset=1', '{ts escape="sql"}Case Types{/ts}', 'Case Types', 'access CiviCase,administer CiviCRM', '', '122', '1', NULL, 1 ), 
+( 124, @domainID, 'civicrm/admin/options/redaction_rule&group=redaction_rule&reset=1', '{ts escape="sql"}Redaction Rules{/ts}', 'Redaction Rules', 'access CiviCase,administer CiviCRM', '', '122', '1', NULL, 2 ), 
+
+( 125, @domainID, NULL, '{ts escape="sql"}CiviContribute{/ts}', 'CiviContribute', 'access CiviContribute,administer CiviCRM', 'AND', '73', '1', NULL, 7 ), 
+( 126, @domainID, 'civicrm/admin/contribute&reset=1&action=add', '{ts escape="sql"}New Contribution Page{/ts}', 'New Contribution Page', NULL, '', '125', '1', NULL, 6 ), 
+( 127, @domainID, 'civicrm/admin/contribute&reset=1', '{ts escape="sql"}Manage Contribution Pages{/ts}', 'Manage Contribution Pages', NULL, '', '125', '1', '1', 7 ), 
+( 128, @domainID, 'civicrm/admin/pcp&reset=1', '{ts escape="sql"}Personal Campaign Pages{/ts}', 'Personal Campaign Pages', NULL, '', '125', '1', NULL, 8 ), 
+( 129, @domainID, 'civicrm/admin/contribute/managePremiums&reset=1', '{ts escape="sql"}Premiums (Thank-you Gifts){/ts}', 'Premiums', NULL, '', '125', '1', 1, 9	 ), 
+( 130, @domainID, 'civicrm/admin/contribute/contributionType&reset=1', '{ts escape="sql"}Contribution Types{/ts}', 'Contribution Types', NULL, '', '125', '1', NULL, 10	 ), 
+( 131, @domainID, 'civicrm/admin/options/payment_instrument&group=payment_instrument&reset=1', '{ts escape="sql"}Payment Instruments{/ts}', 'Payment Instruments', NULL, '', '125', '1', NULL, 11	 ), 
+( 132, @domainID, 'civicrm/admin/options/accept_creditcard&group=accept_creditcard&reset=1', '{ts escape="sql"}Accepted Credit Cards{/ts}', 'Accepted Credit Cards', NULL, '', '125', '1', NULL, 12	 ), 
+
+( 133, @domainID, NULL, '{ts escape="sql"}CiviEvent{/ts}', 'CiviEvent', 'access CiviEvent,administer CiviCRM', 'AND', '73', '1', NULL, 8 ), 
+( 134, @domainID, 'civicrm/event/add&reset=1&action=add', '{ts escape="sql"}New Event{/ts}', 'New Event', NULL, '', '133', '1', NULL, 1 ), 
+( 135, @domainID, 'civicrm/event/manage&reset=1', '{ts escape="sql"}Manage Events{/ts}', 'Manage Events', NULL, '', '133', '1', 1, 2 ), 
+( 136, @domainID, 'civicrm/admin/eventTemplate&reset=1', '{ts escape="sql"}Event Templates{/ts}', 'Event Templates', 'access CiviEvent,administer CiviCRM', '', '133', '1', 1, 3 ), 
+( 137, @domainID, 'civicrm/admin/price&reset=1&action=add', '{ts escape="sql"}New Price Set{/ts}', 'New Price Set', NULL, '', '133', '1', NULL, 4 ), 
+( 138, @domainID, 'civicrm/event/price&reset=1', '{ts escape="sql"}Manage Price Sets{/ts}', 'Manage Price Sets', NULL, '', '133', '1', 1, 5 ),
+( 139, @domainID, 'civicrm/admin/options/participant_listing&group=participant_listing&reset=1', '{ts escape="sql"}Participant Listing Templates{/ts}', 'Participant Listing Templates', NULL, '', '133', '1', NULL, 6 ), 
+( 140, @domainID, 'civicrm/admin/options/event_type&group=event_type&reset=1', '{ts escape="sql"}Event Types{/ts}', 'Event Types', NULL, '', '133', '1', NULL, 7 ), 
+( 141, @domainID, 'civicrm/admin/participant_status&reset=1', '{ts escape="sql"}Participant Statuses{/ts}', 'Participant Statuses', NULL, '', '133', '1', NULL, 8 ), 
+( 142, @domainID, 'civicrm/admin/options/participant_role&group=participant_role&reset=1', '{ts escape="sql"}Participant Roles{/ts}', 'Participant Roles', NULL, '', '133', '1', NULL, 9 ), 
+
+( 143, @domainID, NULL, '{ts escape="sql"}CiviGrant{/ts}', 'CiviGrant', 'access CiviGrant,administer CiviCRM', 'AND', '73', '1', NULL, 9 ), 
+( 144, @domainID, 'civicrm/admin/options/grant_type&group=grant_type&reset=1', '{ts escape="sql"}Grant Types{/ts}', 'Grant Types', 'access CiviGrant,administer CiviCRM', '', '143', '1', NULL, 1 ), 
+
+( 145, @domainID, NULL, '{ts escape="sql"}CiviMail{/ts}', 'CiviMail', 'access CiviMail,administer CiviCRM', 'AND', '73', '1', NULL, 10 ), 
+( 146, @domainID, 'civicrm/admin/component&reset=1', '{ts escape="sql"}Headers, Footers, and Automated Messages{/ts}', 'Headers, Footers, and Automated Messages', NULL, '', '145', '1', NULL, 1 ), 
+( 147, @domainID, 'civicrm/admin/messageTemplates&reset=1', '{ts escape="sql"}Message Templates{/ts}', 'Message Templates', NULL, '', '145', '1', NULL, 2 ), 
+( 148, @domainID, 'civicrm/admin/options/from_email&group=from_email_address&reset=1', '{ts escape="sql"}From Email Addresses{/ts}', 'From Email Addresses', NULL, '', '145', '1', NULL, 3 ), 
+( 149, @domainID, 'civicrm/admin/mailSettings&reset=1', '{ts escape="sql"}Mail Accounts{/ts}', 'Mail Accounts', NULL, '', '145', '1', NULL, 4 ), 
+
+( 150, @domainID, NULL, '{ts escape="sql"}CiviMember{/ts}', 'CiviMember', 'access CiviMember,administer CiviCRM', 'AND', '73', '1', NULL, 11 ), 
+( 151, @domainID, 'civicrm/admin/member/membershipType&reset=1', '{ts escape="sql"}Membership Types{/ts}', 'Membership Types', 'access CiviMember,administer CiviCRM', '', '150', '1', NULL, 1 ), 
+( 152, @domainID, 'civicrm/admin/member/membershipStatus&reset=1', '{ts escape="sql"}Membership Status Rules{/ts}', 'Membership Status Rules', 'access CiviMember,administer CiviCRM', '', '150', '1', NULL, 2 ), 
+
+( 153, @domainID, NULL, '{ts escape="sql"}CiviReport{/ts}', 'CiviReport', 'access CiviReport,administer CiviCRM', 'AND', '73', '1', NULL, 12 ), 
+( 154, @domainID, 'civicrm/report/list&reset=1', '{ts escape="sql"}Reports Listing{/ts}', 'Reports Listing', NULL, '', '153', '1', NULL, 1 ), 
+( 155, @domainID, 'civicrm/admin/report/template/list&reset=1', '{ts escape="sql"}Create Reports from Templates{/ts}', 'Create Reports from Templates', NULL, '', '153', '1', NULL, 2 ), 
+( 156, @domainID, 'civicrm/admin/report/options/report_template&reset=1', '{ts escape="sql"}Manage Templates{/ts}', 'Manage Templates', NULL, '', '153', '1', NULL, 3 ),
+( 157, @domainID, 'civicrm/admin/report/register&reset=1',  '{ts escape="sql"}Register Report{/ts}',  'Register Report',  'administer Reports',  '', '153', '1', NULL, 4 ),
+
+( 158, @domainID, NULL,                                 '{ts escape="sql"}Help{/ts}',               'Help',             NULL, '',     NULL, '1', NULL, 11), 
+( 159, @domainID, 'http://documentation.civicrm.org',   '{ts escape="sql"}Documentation{/ts}',      'Documentation',    NULL, 'AND', '158', '1', NULL, 1 ), 
+( 160, @domainID, 'http://forum.civicrm.org',           '{ts escape="sql"}Community Forums{/ts}',   'Community Forums', NULL, 'AND', '158', '1', NULL, 2 ), 
+( 161, @domainID, 'http://civicrm.org/participate',     '{ts escape="sql"}Participate{/ts}',        'Participate',      NULL, 'AND', '158', '1', NULL, 3 ), 
+( 162, @domainID, 'http://civicrm.org/aboutcivicrm',    '{ts escape="sql"}About{/ts}',              'About',            NULL, 'AND', '158', '1', NULL, 4 ),
+
+( 163, @domainID, NULL,                                                     '{ts escape="sql"}Reports{/ts}',                        'Reports',                       'access CiviReport',   '',  NULL, '1', NULL, 8 ), 
+( 164, @domainID, 'civicrm/report/list&reset=1',                            '{ts escape="sql"}Reports Listing{/ts}',                'Reports Listing',                 NULL,                '', '163', '1', NULL, 1 ), 
+( 165, @domainID, 'civicrm/admin/report/template/list&reset=1',             '{ts escape="sql"}Create Reports from Templates{/ts}',  'Create Reports from Templates', 'administer Reports',  '', '163', '1', 1,    2 ), 
+
+( 166, @domainID, 'civicrm/report/instance/1&reset=1',     '{ts escape="sql"}Constituent Report (Summary){/ts}',       '{literal}Constituent Report (Summary){/literal}',     'administer CiviCRM',       '',  163,  '1', NULL, 3 ),
+( 167, @domainID, 'civicrm/report/instance/2&reset=1',     '{ts escape="sql"}Constituent Report (Detail){/ts}',        '{literal}Constituent Report (Detail){/literal}',      'administer CiviCRM',       '',  163,  '1', NULL, 4 ),
+( 168, @domainID, 'civicrm/report/instance/3&reset=1',     '{ts escape="sql"}Donor Report (Summary){/ts}',             '{literal}Donor Report (Summary){/literal}',           'access CiviContribute',    '',  163,  '1', NULL, 5 ),
+( 169, @domainID, 'civicrm/report/instance/4&reset=1',     '{ts escape="sql"}Donor Report (Detail){/ts}',              '{literal}Donor Report (Detail){/literal}',            'access CiviContribute',    '',  163,  '1', NULL, 6 ),
+( 170, @domainID, 'civicrm/report/instance/5&reset=1',     '{ts escape="sql"}Donation Summary Report (Repeat){/ts}',   '{literal}Donation Summary Report (Repeat){/literal}', 'access CiviContribute',    '',  163,  '1', NULL, 7 ),
+( 171, @domainID, 'civicrm/report/instance/6&reset=1',     '{ts escape="sql"}SYBUNT Report{/ts}',                      '{literal}SYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 8 ),
+( 172, @domainID, 'civicrm/report/instance/7&reset=1',     '{ts escape="sql"}LYBUNT Report{/ts}',                      '{literal}LYBUNT Report{/literal}',                    'access CiviContribute',    '',  163,  '1', NULL, 9 ),
+( 173, @domainID, 'civicrm/report/instance/8&reset=1',     '{ts escape="sql"}Soft Credit Report{/ts}',                 '{literal}Soft Credit Report{/literal}',               'access CiviContribute',    '',  163,  '1', NULL, 10 ),
+( 174, @domainID, 'civicrm/report/instance/9&reset=1',     '{ts escape="sql"}Membership Report (Summary){/ts}',        '{literal}Membership Report (Summary){/literal}',      'access CiviMember',        '',  163,  '1', NULL, 11 ),
+( 175, @domainID, 'civicrm/report/instance/10&reset=1',    '{ts escape="sql"}Membership Report (Detail){/ts}',         '{literal}Membership Report (Detail){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 12 ),
+( 176, @domainID, 'civicrm/report/instance/11&reset=1',    '{ts escape="sql"}Membership Report (Lapsed){/ts}',         '{literal}Membership Report (Lapsed){/literal}',       'access CiviMember',        '',  163,  '1', NULL, 13 ),
+( 177, @domainID, 'civicrm/report/instance/12&reset=1',    '{ts escape="sql"}Event Participant Report (List){/ts}',    '{literal}Event Participant Report (List){/literal}',  'access CiviEvent',         '',  163,  '1', NULL, 14 ),
+( 178, @domainID, 'civicrm/report/instance/13&reset=1',    '{ts escape="sql"}Event Income Report (Summary){/ts}',      '{literal}Event Income Report (Summary){/literal}',    'access CiviEvent',         '',  163,  '1', NULL, 15 ),
+( 179, @domainID, 'civicrm/report/instance/14&reset=1',    '{ts escape="sql"}Event Income Report (Detail){/ts}',       '{literal}Event Income Report (Detail){/literal}',     'access CiviEvent',         '',  163,  '1', NULL, 16 ),
+( 180, @domainID, 'civicrm/report/instance/15&reset=1',    '{ts escape="sql"}Attendee List{/ts}',                      '{literal}Attendee List{/literal}',                    'access CiviEvent',         '',  163,  '1', NULL, 17 );

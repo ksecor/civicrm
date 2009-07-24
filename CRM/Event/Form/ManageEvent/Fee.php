@@ -632,6 +632,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Event/BAO/Event.php';
         $params['id'] = $this->_id;
         CRM_Event_BAO_Event::add( $params );
+
+        parent::endPostProcess( );
     }
     
     /**

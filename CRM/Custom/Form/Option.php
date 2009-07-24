@@ -164,10 +164,6 @@ class CRM_Custom_Form_Option extends CRM_Core_Form
             
             $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value'), true);
         
-            // the above value is used directly by QF, so the value has to be have a rule
-            // please check with Lobo before u comment this
-            $this->addRule('value', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters. The length of the variable string should be less than 31 characters'), 'qfVariable');
-
             // weight
             $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
             $this->addRule('weight', ts('is a numeric field') , 'numeric');
@@ -317,9 +313,9 @@ SELECT data_type
 
             case 'Country':
                 if( !empty($fields["value"]) ) {
-                    $fieldCountry = addslashes( $fields['value'] );
-                    $query = "SELECT count(*) FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query,$temp ) <= 0 ) {
+                    $params = array( 1 => array( $fields['value'], 'String' ) );
+                    $query = "SELECT count(*) FROM civicrm_country WHERE name = %1 OR iso_code = %1";
+                    if ( CRM_Core_DAO::singleValueQuery( $query, $params ) <= 0 ) {
                         $errors['value'] = ts( 'Invalid default value for country.' );
                     }
                 }
@@ -327,10 +323,13 @@ SELECT data_type
 
             case 'StateProvince':
                 if( !empty($fields["value"]) ) {
-                    $fieldStateProvince = addslashes( $fields['value'] );
-                    $query = "SELECT count(*) FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
-            
-                    if ( CRM_Core_DAO::singleValueQuery( $query ,$temp) <= 0 ) {
+                    $params = array( 1 => array( $fields['value'], 'String' ) );
+                    $query = "
+SELECT count(*) 
+  FROM civicrm_state_province
+ WHERE name = %1
+    OR abbreviation = %1";
+                    if ( CRM_Core_DAO::singleValueQuery( $query , $params ) <= 0 ) {
                         $errors['value'] = ts( 'The invalid value for State/Province data type' );
                     }
                 }

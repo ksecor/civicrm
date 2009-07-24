@@ -471,25 +471,25 @@ WHERE id={$contactId}; ";
 
         //Primary Phone 
         $form->addElement('text',
-                          "location[1][phone][1][phone]", 
+                          "phone[1][phone]", 
                           ts('Primary Phone'),
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                      'phone'));
         //Primary Email
         $form->addElement('text', 
-                          "location[1][email][1][email]",
+                          "email[1][email]",
                           ts('Primary Email'),
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                      'email'));
         //build the address block
-        $location   = array();
-        CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1 );
-
+        require_once 'CRM/Contact/Form/Edit/Address.php';
+        CRM_Contact_Form_Edit_Address::buildQuickForm( $form );
+        
         // also fix the state country selector
-        CRM_Contact_Form_Address::fixStateSelect( $form,
-                                                  "location[1][address][country_id]",
-                                                  "location[1][address][state_province_id]",
-                                                  $countryID );
+        CRM_Contact_Form_Edit_Address::fixStateSelect( $form,
+                                                       "address[1][country_id]",
+                                                       "address[1][state_province_id]",
+                                                       $countryID );
     }
 
     

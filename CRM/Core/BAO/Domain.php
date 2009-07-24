@@ -79,6 +79,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         static $domain = null;
         if ( ! $domain ) {
             $domain =& new CRM_Core_BAO_Domain();
+            $domain->id = CRM_Core_Config::domainID( );
             if ( ! $domain->find(true) ) {
                 CRM_Core_Error::fatal( );
             }
@@ -106,18 +107,11 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
                             'entity_id' => $this->id, 
                             'entity_table' => self::getTableName()
                             );
-            $values = array();
-            $ids = array();
-            CRM_Core_BAO_Location::getValues($params, $values, true);
-            if ( ! CRM_Utils_Array::value( 'location', $values ) ||
-                 ! CRM_Utils_Array::value( '1', $values['location'] ) ) {
+            $this->_location = CRM_Core_BAO_Location::getValues($params,  true);
+
+            if ( empty($this->_location) ) {
                 $this->_location = null;
-                return $this->_location;
             }
-            
-            $loc =& $values['location'];
-            
-            $this->_location = $loc[1];
         }
         return $this->_location;
     }
@@ -169,6 +163,46 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         CRM_Core_Error::fatal( $status );
     }
     
+    static function addContactToDomainGroup( $contactID ) {
+        $groupID = self::getGroupId( );
+
+        if ( $groupID ) {
+            $contactIDs = array( $contactID );
+            require_once 'CRM/Contact/DAO/GroupContact.php';
+            CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIDs, $groupID );
+
+            return $groupID;
+        }
+        return false;
+    }
+
+    static function getGroupId( ) {
+        static $groupID = null;
+
+        if ( $groupID ) {
+            return $groupID;
+        }
+
+        if ( defined('CIVICRM_DOMAIN_GROUP_ID') && CIVICRM_DOMAIN_GROUP_ID ) {
+            $groupID = CIVICRM_DOMAIN_GROUP_ID;
+        } else {
+            // create a group /w that of domain name
+            $title   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain', 
+                                                    CRM_Core_Config::domainID( ), 'name' );
+            $groupID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', 
+                                                    $title, 'id', 'title' );
+            if ( empty($groupID) && !empty($title) ) {
+                $groupParams = array( 'title'            => $title,
+                                      'is_active'        => 1,
+                                      'no_parent'        => 1 );
+                require_once 'CRM/Contact/BAO/Group.php';
+                $group   = CRM_Contact_BAO_Group::create( $groupParams );
+                $groupID = $group->id;
+            }
+        }
+        return $groupID ? $groupID : false;
+    }
+
 }
 
 

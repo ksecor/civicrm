@@ -71,18 +71,18 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     {
         if ( !(self::$_dataType) ) {
             self::$_dataType = array(
-                                     'String'        => ts('Alphanumeric'),
-                                     'Int'           => ts('Integer'),
-                                     'Float'         => ts('Number'),
-                                     'Money'         => ts('Money'),
-                                     'Memo'          => ts('Note'),
-                                     'Date'          => ts('Date'),
-                                     'Boolean'       => ts('Yes or No'),
-                                     'StateProvince' => ts('State/Province'),
-                                     'Country'       => ts('Country'),
-                                     'File'          => ts('File'),
-                                     'Link'          => ts('Link'),
-                                     'Auto-complete' => ts('Auto-complete')
+                                     'String'           => ts('Alphanumeric'),
+                                     'Int'              => ts('Integer'),
+                                     'Float'            => ts('Number'),
+                                     'Money'            => ts('Money'),
+                                     'Memo'             => ts('Note'),
+                                     'Date'             => ts('Date'),
+                                     'Boolean'          => ts('Yes or No'),
+                                     'StateProvince'    => ts('State/Province'),
+                                     'Country'          => ts('Country'),
+                                     'File'             => ts('File'),
+                                     'Link'             => ts('Link'),
+                                     'ContactReference' => ts('Contact Reference')
                                      );
         }
         return self::$_dataType;
@@ -146,7 +146,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $transaction = new CRM_Core_Transaction( );
         // create any option group & values if required
         if ( $params['html_type'] != 'Text' &&
-             in_array( $params['data_type'], array('String', 'Int', 'Float', 'Money', 'Auto-complete') ) &&
+             in_array( $params['data_type'], array('String', 'Int', 'Float', 'Money') ) &&
              ! empty($params['option_value']) && is_array($params['option_value']) ) {
 
             $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
@@ -286,6 +286,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      */
     static function setIsActive( $id, $is_active )
     {
+        require_once 'CRM/Core/BAO/UFField.php';
+        //enable-disable UFField 
+        CRM_Core_BAO_UFField::setUFField($id, $is_active);
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomField', $id, 'is_active', $is_active );
     }
     
@@ -532,9 +535,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                                 $search = false,
                                                 $label = null ) 
     {
-        if( isset( $qf->_submitValues['_qf_Relationship_refresh'] ) && 
-            ( $qf->_submitValues['_qf_Relationship_refresh'] == 'Search' || 
-              $qf->_submitValues['_qf_Relationship_refresh'] == 'Search Again') ) {
+        // we use $_POST directly, since we dont want to use session memory, CRM-4677
+        if( isset( $_POST['_qf_Relationship_refresh'] ) && 
+            ( $_POST['_qf_Relationship_refresh'] == 'Search' || 
+              $_POST['_qf_Relationship_refresh'] == 'Search Again') ) {
             $useRequired = 0;
         }
         
@@ -555,7 +559,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         /**
          * at some point in time we might want to split the below into small functions
          **/
-
+     
         switch ( $field->html_type ) {
         case 'Text':
             if ($field->is_search_range && $search) {
@@ -634,20 +638,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'Select':
-            if ( $field->data_type == 'Auto-complete' ) {
-                $dataUrl = CRM_Utils_System::url( "civicrm/ajax/auto",
-                                                  "reset=1&id={$field->option_group_id}",
-                                                  false, null, false );
-                $qf->assign('dataUrl',$dataUrl );                                          
-                $qf->addElement( 'text', $elementName, $label );
-                $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
-            } else {
-                $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $field->id,
-                                                                        $field->option_group_id );
-                $qf->add('select', $elementName, $label,
-                         array( '' => ts('- select -')) + $selectOption,
-                         ( ( $useRequired || ($useRequired && $field->is_required) ) && !$search));
-            }
+            $selectOption =& CRM_Core_BAO_CustomOption::valuesByID( $field->id,
+                                                                    $field->option_group_id );
+            $qf->add('select', $elementName, $label,
+                     array( '' => ts('- select -')) + $selectOption,
+                     ( ( $useRequired || ($useRequired && $field->is_required) ) && !$search));
             break;
 
             //added for select multiple
@@ -745,13 +740,27 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray, $search );
             break;
                     
-        case 'Contact Reference':
-            $dataUrl = CRM_Utils_System::url( "civicrm/ajax/contactlist",
-                                              "reset=1",
-                                              false, null, false );
-            $qf->assign('dataUrl',$dataUrl );                                          
-            $qf->addElement( 'text', $elementName, $label );
+        case 'Autocomplete-Select':
+            $qf->add( 'text', $elementName, $label, $field->attributes, 
+                    (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
             $qf->addElement( 'hidden', $elementName . '_id', '', array( 'id' => $elementName. '_id' ) );
+
+            static $customUrls = array( );            
+            if ( $field->data_type == 'ContactReference' )  {
+                $customUrls[$elementName] = CRM_Utils_System::url( "civicrm/ajax/contactlist",
+                                                                   "reset=1",
+                                                                   false, null, false );                
+                $qf->addRule($elementName, ts('Select a valid contact for %1.', array(1 => $label)), 'validContact' );
+            } else {
+                $customUrls[$elementName] = CRM_Utils_System::url( "civicrm/ajax/auto",
+                                                                   "reset=1&ogid={$field->option_group_id}&cfid={$field->id}",
+                                                                   false, null, false );                
+                $qf->addRule($elementName, ts('Select a valid value for %1.', array(1 => $label)) , 
+                                          'autocomplete', array( 'fieldID'       => $field->id,
+                                                                 'optionGroupID' => $field->option_group_id ) );
+            }
+                                                
+            $qf->assign( "customUrls", $customUrls );                                          
             break;
         }
         
@@ -865,7 +874,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $index      =  $attributes['label'];
 
         $display = $value;
-
+        
         switch ( $html_type ) {
 
         case "Radio":
@@ -876,6 +885,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             break;
 
+        case "Autocomplete-Select":
+            if ( $data_type == 'ContactReference' ) {
+                if ( $value ) {
+                    $display = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $value, 'sort_name' );
+                }
+                break;
+            }
         case "Select":
             $display = CRM_Utils_Array::value( $value, $option );
             break;
@@ -986,7 +1002,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'Link':
-        case 'Auto-complete':
             if ( empty( $value ) ) {
                 $display='';
             } else {
@@ -1441,7 +1456,7 @@ SELECT $columnName
             $params['fk_table_name'] = 'civicrm_file';
             $params['fk_field_name'] = 'id';
             $params['fk_attributes'] = 'ON DELETE SET NULL';
-        } else if ( $field->data_type == 'Auto-complete' && $field->html_type == 'ContactReference' ) {
+        } else if ( $field->data_type == 'ContactReference' ) {
             $params['fk_table_name'] = 'civicrm_contact';
             $params['fk_field_name'] = 'id';
             $params['fk_attributes'] = 'ON DELETE SET NULL';
@@ -1598,8 +1613,8 @@ ORDER BY html_type";
 
         foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
-                //handle the transfer of hidden id value
-                if ( substr($key,0,7) == 'custom_'  && isset($value) && isset ( $params[$key. '_id'] ) ) {
+                // for autocomplete transfer hidden value instead of label
+                if ( $params[$key] && isset ( $params[$key. '_id'] ) ) {
                     $value = $params[$key. '_id'];
                 }
                 

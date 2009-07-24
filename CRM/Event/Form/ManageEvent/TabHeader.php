@@ -40,11 +40,12 @@ class CRM_Event_Form_ManageEvent_TabHeader {
 
     static function build( &$form ) {
         $tabs = $form->get( 'tabHeader' );
-        if ( ! $tabs ) {
+        if ( !$tabs || !CRM_Utils_Array::value('reset', $_GET) ) {
             $tabs =& self::process( $form );
             $form->set( 'tabHeader', $tabs );
         }
         $form->assign_by_ref( 'tabHeader', $tabs );
+        $form->assign_by_ref( 'selectedTab', self::getCurrentTab($tabs) );
         return $tabs;
     }
 
@@ -97,13 +98,13 @@ class CRM_Event_Form_ManageEvent_TabHeader {
         }
         if ( array_key_exists( $className, $tabs ) ) {
             $tabs[$className]['current'] = true;
-            $form->assign_by_ref( 'selectedTab', $className );
         }
 
         if ( $eventID ) {
+            $reset = CRM_Utils_Array::value('reset', $_GET) ? 'reset=1&' : '';
             foreach ( $tabs as $key => $value ) {
                 $tabs[$key]['link'] = CRM_Utils_System::url( 'civicrm/admin/event',
-                                                             "reset=1&action=update&snippet=4&subPage={$key}&id={$eventID}" );
+                                                             "{$reset}action=update&snippet=4&subPage={$key}&id={$eventID}" );
                 $tabs[$key]['active'] = $tabs[$key]['valid'] = true;
             }
             
@@ -156,5 +157,34 @@ WHERE      e.id = %1
             }
         }
         return 'EventInfo';
+    }
+
+    static function getSubPageInfo( $form, $subPage, $info = 'title' ) {
+        $tabs = self::build( $form );
+
+        if ( is_array($tabs[$subPage]) && array_key_exists($info, $tabs[$subPage]) ) {
+            return $tabs[$subPage][$info];
+        }
+        return false;
+    }
+
+    static function getCurrentTab( $tabs ) {
+        static $current = false;
+
+        if ( $current ) {
+            return $current;
+        }
+        
+        if ( is_array($tabs) ) {
+            foreach ( $tabs as $subPage => $pageVal ) {
+                if ( $pageVal['current'] === true ) {
+                    $current = $subPage;
+                    break;
+                }
+            }
+        }
+        
+        $current = $current ? $current : 'EventInfo';
+        return $current;
     }
 }

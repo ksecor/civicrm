@@ -615,12 +615,15 @@ class CRM_Core_SelectValues
         if ( ! $tokens ) {
             require_once 'CRM/Contact/BAO/Contact.php';
             require_once 'CRM/Core/BAO/CustomField.php';
-            $values= array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( ) ),
-                                  array( 'display_name', 'checksum', 'contact_id' ) );
+            $additionalFields =  array( 'checksum'     => array( 'title' => ts('Checksum') ),
+                                        'contact_id'   => array( 'title' => ts('Internal Contact ID') ) );
+            $exportFields = array_merge( CRM_Contact_BAO_Contact::exportableFields( ), $additionalFields );
+
+            $values = array_merge( array_keys( $exportFields ) );
             unset($values[0]); 
             
             //FIXME:skipping some tokens for time being.
-            $skipTokens = array( 'greeting_type', 'is_bulkmail', 'group', 'tag', 'contact_sub_type', 'note', 
+            $skipTokens = array( 'is_bulkmail', 'group', 'tag', 'contact_sub_type', 'note', 
                                  'is_deceased','deceased_date','legal_identifier','contact_sub_type', 'user_unique_id'
                                  );
             $customFields = array();
@@ -632,9 +635,9 @@ class CRM_Core_SelectValues
                 } 
                 //keys for $tokens should be constant. $token Values are changed for Custom Fields. CRM-3734
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $val ) ) {
-                    $tokens["{contact.$val}"] = "{contact.".$customFields[$customFieldId]['label'].": ".$customFields[$customFieldId]['groupTitle']."}";
+                    $tokens["{contact.$val}"] = $customFields[$customFieldId]['label'].": ".$customFields[$customFieldId]['groupTitle'];
                 } else {
-                    $tokens["{contact.$val}"] = "{contact.$val}";
+                    $tokens["{contact.$val}"] = $exportFields[$val]['title'];
                 }
             }
 
@@ -644,7 +647,7 @@ class CRM_Core_SelectValues
             CRM_Utils_Hook::tokens( $hookTokens );
             foreach ( $hookTokens as $category => $tokenValues ) {
                 foreach ( $tokenValues as $value ) {
-                    $tokens[] = '{' . $value . '}';
+                    $tokens[ '{' . $value . '}' ] = '{' . $value . '}';
                 }
             }
         }

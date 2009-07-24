@@ -25,7 +25,7 @@ if [ -d $TRG ] ; then
 fi
 
 # copy all the stuff
-for CODE in css i js l10n packages PEAR templates bin joomla CRM api drupal extern Reports standalone install; do
+for CODE in css i js l10n packages PEAR templates bin joomla CRM api drupal extern Reports install; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
@@ -67,7 +67,7 @@ fi
 cp $SRC/agpl-3.0.txt $TRG
 cp $SRC/gpl.txt $TRG 
 cp $SRC/README.txt $TRG
-cp $SRC/civicrm.config.php $TRG
+cp $SRC/drupal/civicrm.config.php.drupal $TRG/civicrm.config.php
 
 # final touch
 echo "$DM_VERSION Drupal PHP5 $DM_REVISION" > $TRG/civicrm-version.txt

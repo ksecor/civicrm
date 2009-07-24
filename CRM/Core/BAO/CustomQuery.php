@@ -184,11 +184,8 @@ SELECT f.id, f.label, f.data_type,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
             $optionGroupID = null;
-            if ( ( $dao->html_type == 'CheckBox'     ||
-                   $dao->html_type == 'Radio'        ||
-                   $dao->html_type == 'Select'       ||
-                   $dao->html_type == 'Multi-Select' ||
-                   $dao->html_type == 'AdvMulti-Select') ) { 
+            $htmlTypes = array( 'CheckBox','Radio','Select','Multi-Select', 'AdvMulti-Select', 'Autocomplete-Select' );                            
+            if ( in_array( $dao->html_type, $htmlTypes ) && $dao->data_type != 'ContactReference' ) { 
                 if ( $dao->option_group_id ) {
                     $optionGroupID = $dao->option_group_id;
                 } else if ( $dao->data_type != 'Boolean' ) {
@@ -303,7 +300,7 @@ SELECT label, value
                 $qillValue = CRM_Core_BAO_CustomField::getDisplayValue( $value, $id, $this->_options );
 
                 if ( ! is_array( $value ) ) {
-                    $value = addslashes(trim($value));
+                    $value = CRM_Core_DAO::escapeString(trim($value));
                 }
 
                 $fieldName = "{$field['table_name']}.{$field['column_name']}";
@@ -363,9 +360,14 @@ SELECT label, value
                                                 $value,
                                                 $grouping );
                         } else {
-                            $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
+                            if ( $field['html_type'] == 'Autocomplete-Select' ) {
+                                $val = array_search( $value, $this->_options[$field['id']] );
+                            } else {
+                                $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
+                            }
+
                             if ( $wildcard ) {
-                                $val = strtolower( addslashes( $val ) );
+                                $val = strtolower( CRM_Core_DAO::escapeString( $val ) );
                                 $val = "%$val%";
                                 $op  = 'LIKE';
                             }
@@ -376,7 +378,12 @@ SELECT label, value
                         }
                     } 
                     continue;
-
+                case 'ContactReference':
+                    $label = $value;
+                    $value = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', str_replace( '\\', '', $value), 'id', 'sort_name' );
+                    $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'String' );
+                    $this->_qill[$grouping][]  = $field['label'] . " $op $label";                    
+                    continue;
                 case 'Int':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
                         $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );

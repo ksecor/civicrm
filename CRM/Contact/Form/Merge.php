@@ -313,10 +313,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         }
 
         // FIXME: fix gender, prefix and postfix, so they're edible by createProfileContact()
-        $names['gender']            = array('newName' => 'gender_id', 'groupName' => 'gender');
-        $names['individual_prefix'] = array('newName' => 'prefix_id', 'groupName' => 'individual_prefix');
-        $names['individual_suffix'] = array('newName' => 'suffix_id', 'groupName' => 'individual_suffix');
-        $names['greeting_type']     = array('newName' => 'greeting_type_id', 'groupName' => 'greeting_type');
+        $names['gender']            = array('newName' => 'gender_id',          'groupName' => 'gender');
+        $names['individual_prefix'] = array('newName' => 'prefix_id',          'groupName' => 'individual_prefix');
+        $names['individual_suffix'] = array('newName' => 'suffix_id',          'groupName' => 'individual_suffix');
+        $names['addressee']         = array('newName' => 'addressee_id',       'groupName' => 'addressee');
+        $names['email_greeting']    = array('newName' => 'email_greeting_id',  'groupName' => 'email_greeting');
+        $names['postal_greeting']   = array('newName' => 'postal_greeting_id', 'groupName' => 'postal_greeting');
         CRM_Core_OptionGroup::lookupValues($submitted, $names, true);
 
         // FIXME: fix custom fields so they're edible by createProfileContact()

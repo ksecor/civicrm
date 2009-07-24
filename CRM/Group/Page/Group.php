@@ -68,8 +68,6 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     function &links()
     {
-        $disableExtra = ts('Are you sure you want to disable this Group?');
-        
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW => array(
@@ -84,18 +82,17 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
                                                                    'qs'    => 'reset=1&action=update&id=%%id%%',
                                                                    'title' => ts('Edit Group')
                                                                    ),
-                                  CRM_Core_Action::DISABLE => array( 
+                                  CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/group',
-                                                                    'qs'    => 'reset=1&action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\''. $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contact_BAO_Group' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
                                                                     'title' => ts('Disable Group') 
                                                                     ),
-                                  CRM_Core_Action::ENABLE  => array( 
+                                  CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/group',
-                                                                    'qs'    => 'reset=1&action=enable&id=%%id%%',
-                                                                    'title' => ts( 'Enable Group' ) 
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Contact_BAO_Group' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
+                                                                    'title' => ts('Enable Group') 
                                                                     ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'  => ts('Delete'),
@@ -103,7 +100,6 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
                                                                    'qs'    => 'reset=1&action=delete&id=%%id%%',
                                                                    'title' => ts('Delete Group')
                                                                    )
-                                  
                                   );
         }
         return self::$_links;
@@ -244,9 +240,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
             $this->set( 'sortByCharacter', '' );
         }
         
-        $query = "
-SELECT COUNT(*)
-  FROM civicrm_group";
+        $query = " SELECT COUNT(*) FROM civicrm_group";
         $groupExists = CRM_Core_DAO::singleValueQuery( $query );
         $this->assign( 'groupExists',$groupExists );
 
@@ -263,13 +257,28 @@ SELECT COUNT(*)
         $this->pager( $whereClause, $params );
         
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
-        
+        $select = $from = $where = "";
+        if ( CRM_Core_Permission::check( 'administer Multiple Organizations' ) ) {
+            $select = ", contact.display_name as orgName, contact.id as orgID";
+            $from   = " LEFT JOIN civicrm_group_organization gOrg
+                               ON gOrg.group_id = groups.id 
+                        LEFT JOIN civicrm_contact contact
+                               ON contact.id = gOrg.organization_id ";
+
+            //get the Organization ID
+            $orgID = CRM_Utils_Request::retrieve( 'oid', 'Positive', CRM_Core_DAO::$_nullObject );
+            if ( $orgID ) { 
+                $where = " AND gOrg.organization_id = {$orgID}";
+            }
+            $this->assign( 'groupOrg',true );    
+        }
         $query = "
-  SELECT *
-    FROM civicrm_group
-   WHERE $whereClause
-ORDER BY title asc
-   LIMIT $offset, $rowCount";
+        SELECT groups.* {$select}
+        FROM  civicrm_group groups 
+              {$from}
+        WHERE $whereClause {$where}
+        ORDER BY groups.title asc
+        LIMIT $offset, $rowCount";
         
         $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
        
@@ -334,6 +343,12 @@ ORDER BY title asc
                                                                             $action,
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
+                if ( array_key_exists( 'orgName', $object ) ) {
+                    if ( $object->orgName ) {
+                        $values[$object->id]['org_name'] = $object->orgName;
+                        $values[$object->id]['org_id']   = $object->orgID;
+                    }   
+                }
             }
         }
 
@@ -363,7 +378,7 @@ ORDER BY title asc
         $clauses = array( );
         $title   = $this->get( 'title' );
         if ( $title ) {
-            $clauses[] = "title LIKE %1";
+            $clauses[] = "groups.title LIKE %1";
             if ( strpos( $title, '%' ) !== false ) {
                 $params[1] = array( $title, 'String', false );
             } else {
@@ -376,7 +391,7 @@ ORDER BY title asc
         if ( $groupType ) {
             $types = array_keys( $groupType );
             if ( ! empty( $types ) ) {
-                $clauses[] = 'group_type LIKE %2';
+                $clauses[] = 'groups.group_type LIKE %2';
                 $typeString = 
                     CRM_Core_DAO::VALUE_SEPARATOR . 
                     implode( CRM_Core_DAO::VALUE_SEPARATOR, $types ) .
@@ -387,30 +402,30 @@ ORDER BY title asc
 
         $visibility = $this->get( 'visibility' );
         if ( $visibility ) {
-            $clauses[] = 'visibility = %3';
+            $clauses[] = 'groups.visibility = %3';
             $params[3] = array( $visibility, 'String' );
         }
 
         $active_status   = $this->get( 'active_status' );
         $inactive_status = $this->get( 'inactive_status' );
         if ( $active_status && !$inactive_status ) {
-            $clauses[] = 'is_active = 1';
+            $clauses[] = 'groups.is_active = 1';
             $params[4] = array( $active_status, 'Boolean' );
         }
        
       
         if ( $inactive_status && !$active_status ) {
-            $clauses[] = 'is_active = 0';
+            $clauses[] = 'groups.is_active = 0';
             $params[5] = array( $inactive_status, 'Boolean' );
         }
         
         if ( $inactive_status && $active_status ) {
-            $clauses[] = '(is_active = 0 OR is_active = 1 )';
+            $clauses[] = '(groups.is_active = 0 OR groups.is_active = 1 )';
         }
         
         if ( $sortBy &&
              $this->_sortByCharacter ) {
-            $clauses[] = 'title LIKE %6';
+            $clauses[] = 'groups.title LIKE %6';
             $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
 
@@ -425,11 +440,11 @@ ORDER BY title asc
         }
 
         if ( empty( $clauses ) ) {
-             $clauses[] = 'is_active = 1';
+             $clauses[] = 'groups.is_active = 1';
         }
         
         if ( $excludeHidden ) {
-            $clauses[] = 'is_hidden = 0';
+            $clauses[] = 'groups.is_hidden = 0';
         }
         
         return implode( ' AND ', $clauses );
@@ -448,9 +463,9 @@ ORDER BY title asc
         }
 
         $query = "
-SELECT id, title
-  FROM civicrm_group
- WHERE $whereClause";
+        SELECT groups.id, groups.title
+            FROM  civicrm_group groups
+            WHERE $whereClause";
       
         $object = CRM_Core_DAO::executeQuery( $query, $whereParams );
         $total  = 0;
@@ -472,11 +487,11 @@ SELECT id, title
         require_once 'CRM/Utils/PagerAToZ.php';
 
         $query = "
-   SELECT DISTINCT UPPER(LEFT(title, 1)) as sort_name
-     FROM civicrm_group
-    WHERE $whereClause
- ORDER BY LEFT(title, 1)
-";
+        SELECT DISTINCT UPPER(LEFT(groups.title, 1)) as sort_name
+        FROM  civicrm_group groups
+        WHERE $whereClause
+        ORDER BY LEFT(groups.title, 1)
+            ";
         $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
 
         $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );

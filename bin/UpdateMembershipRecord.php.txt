@@ -85,6 +85,7 @@ SELECT civicrm_membership.id                 as membership_id,
        civicrm_contact.is_deceased           as is_deceased
 FROM   civicrm_membership, civicrm_contact
 WHERE  civicrm_membership.contact_id = civicrm_contact.id
+AND    civicrm_membership.is_test = 0
 ";
         $params = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
@@ -183,6 +184,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             
             //send reminder for membership renewal
             if ( $dao->reminder_date &&
+                 $dao->reminder_date != '0000-00-00' &&
                  ( $reminder_date <= $today_date ) ) {
                 $memType =& new CRM_Member_BAO_MembershipType( );
                 

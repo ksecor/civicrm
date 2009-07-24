@@ -206,6 +206,7 @@ class CRM_Core_Action {
         $url = array( );
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
+                $extra = null;
                 if ( isset( $link['extra'] ) ) {
                     $extra = self::replace( CRM_Utils_Array::value( 'extra', $link, '' ),  $values );
                 }

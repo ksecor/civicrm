@@ -1,17 +1,13 @@
 {literal}
 <script type="text/javascript">
-cj(document).ready(function(){
-	cj("#activity-content").css({'overflow':'auto', 'width':'680px', 'height':'560px'});
-});
-	
 function viewActivity( activityID, contactID ) {
     cj("#view-activity").show( );
 
     cj("#view-activity").dialog({
         title: "View Activity",
         modal: true, 
-        width : 700,
-        height : 650,
+        width : "680px", // don't remove px
+        height: "560", 
         resizable: true,
         bgiframe: true,
         overlay: { 

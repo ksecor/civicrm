@@ -83,7 +83,7 @@ class CRM_Activity_Page_Tab extends CRM_Contact_Page_View
 
     function edit( )
     {
-        // used for dojo tabs
+        // used for ajax tabs
         $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         $this->assign('context', $context );
 

@@ -91,7 +91,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
               array( 'Text' => 'Text', 'Select' => 'Select', 
                      'Radio' => 'Radio', 'CheckBox' => 'CheckBox', 
                      'Multi-Select' => 'Multi-Select', 
-                     'AdvMulti-Select' => 'AdvMulti-Select' ),
+                     'AdvMulti-Select' => 'AdvMulti-Select',
+                     'Autocomplete-Select' => 'Autocomplete-Select' ),
               array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
               array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
               array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
@@ -102,8 +103,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
               array('Country' => 'Select Country', 'Multi-Select' => 'Multi-Select Country'),
               array('File' => 'File'),
               array('Link' => 'Link'),
-              array('ContactReference' => 'Contact Reference',
-                    'Select'           => 'Select' )
+              array('ContactReference' => 'Autocomplete-Select' )
               );
     
     private static $_dataToLabels = null;
@@ -143,7 +143,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 = array(
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
                               'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select'),
-                              'AdvMulti-Select' => ts('Advanced Multi-Select')),
+                              'AdvMulti-Select' => ts('Advanced Multi-Select'),
+                              'Autocomplete-Select' => ts('Autocomplete Select') ),
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
                               'Radio' => ts('Radio')),
                         array('Text' => ts('Text'), 'Select' => ts('Select'), 
@@ -156,9 +157,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                         array('StateProvince' => ts('Select State/Province'),'Multi-Select' => ts('Multi-Select State/Province')),
                         array('Country' => ts('Select Country'),'Multi-Select' => ts('Multi-Select Country ')),
                         array('File' => ts('Select File')),
-                        array('Link' => ts ('Link')),
-                        array('ContactReference' => ts ('Contact Reference'),
-                              'Select'           => ts ('Select'))
+                        array('Link' => ts('Link')),
+                        array('ContactReference' => ts('Autocomplete Select') )
                         );
         }
     }
@@ -337,8 +337,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $this->add('text', 'option_value['.$i.']', ts('Value'),
                        $optionAttributes['value'] );
 
-            // Below rule is uncommented for CRM-1313
-            $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters.'), 'qfVariable');
             // weight
             $this->add('text', "option_weight[$i]", ts('Order'),
                        $optionAttributes['weight']);
@@ -553,9 +551,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 
             case 'Country':
                 if( !empty($default) ) {
-                    $fieldCountry = addslashes( $fields['default_value'] );
-                    $query = "SELECT count(*) FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) <= 0 ) {
+                    $query = "SELECT count(*) FROM civicrm_country WHERE name = %1 OR iso_code = %1";
+                    $params = array( 1 => array( $fields['default_value'], 'String' ) );
+                    if ( CRM_Core_DAO::singleValueQuery( $query, $params ) <= 0 ) {
                         $errors['default_value'] = ts( 'Invalid default value for country.' );
                     }
                 }
@@ -563,13 +561,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
 
             case 'StateProvince':
                 if( !empty($default) ) {
-                    $fieldStateProvince = addslashes( $fields['default_value'] );
                     $query = "
 SELECT count(*) 
   FROM civicrm_state_province
- WHERE name = '$fieldStateProvince'
-    OR abbreviation = '$fieldStateProvince'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) <= 0 ) {
+ WHERE name = %1
+    OR abbreviation = %1";
+                    $params = array( 1 => array( $fields['default_value'], 'String' ) );
+                    if ( CRM_Core_DAO::singleValueQuery( $query, $params ) <= 0 ) {
                         $errors['default_value'] = ts( 'The invalid default value for State/Province data type' );
                     }
                 }

@@ -177,7 +177,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
         $returnProperties['contact_type'] = 1;
         $returnProperties['sort_name'   ] = 1;
-        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_params, 1 );
+            
+        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_params, 1 );            
         $this->_query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $this->_fields );
         $this->_options =& $this->_query->_options;
     }//end of constructor
@@ -398,7 +399,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         //FIXME : make sure to handle delete separately. CRM-4418
         $mask = CRM_Core_Action::mask( array( CRM_Core_Permission::getPermission( ) ) );
         if ( $editLink && ( $mask & CRM_Core_Permission::EDIT ) ) {
-            $this->_editLink = true;
+            // do not allow edit for anon users in joomla frontend, CRM-4668
+            $config =& CRM_Core_Config::singleton( );
+            if ( ! $config->userFrameworkFrontend ) {
+                $this->_editLink = true;
+            }
         }
         $links =& self::links( $this->_map, $this->_editLink, $this->_linkToUF );
         
@@ -515,12 +520,15 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     }
                 } elseif ( (substr( $name, 0, 8 ) == 'kabissa_') && $accessKabissa ) {
                     $row[] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing($name, $result, false);
+                } elseif ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting')) ) {
+                    $dname = $name . '_display';
+                    $row[] = $result->$dname;
                 } elseif ( isset($result->$name ) ){
                     $row[] = $result->$name;
                 } else {
                     $row[] = '';
                 }
-            
+
                 if ( ! empty( $result->$name ) ) {
                     $empty = false;
                 }

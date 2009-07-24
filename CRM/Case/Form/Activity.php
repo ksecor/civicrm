@@ -89,7 +89,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->assign( 'context', $this->_context );
         
         $result = parent::preProcess( );
-        
+
+        $scheduleStatusId = CRM_Core_OptionGroup::getValue('activity_status', 'Scheduled', 'name' );
+        $this->assign('scheduleStatusId', $scheduleStatusId);
+
         if ( $this->_cdType  || $this->_addAssigneeContact || $this->_addTargetContact  ) {
             return $result;
         }
@@ -168,11 +171,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         if ( $this->_cdType  || $this->_addAssigneeContact || $this->_addTargetContact ) {
             return $this->_defaults;
         }
-
-        if ( !isset($this->_defaults['due_date_time']) ) {
-            $this->_defaults['due_date_time'] = array( );
-            CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
-        }
         
         //avoid default current date to actual date.CRM-4438
         $activityDate = null;
@@ -191,7 +189,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
     {
         // modify core Activity fields
         $this->_fields['activity_date_time']['label']    = ts('Actual Date'); 
-        $this->_fields['activity_date_time']['required'] = false;
         $this->_fields['source_contact_id']['label']     = ts('Reported By'); 
         $this->_fields['status_id']['attributes']        =  array( '' => ts('- select -')) + CRM_Core_PseudoConstant::activityStatus( ); 
     
@@ -221,10 +218,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         $this->add('select', 'medium_id',  ts( 'Medium' ), 
                    CRM_Core_OptionGroup::values('encounter_medium'), true);
-        
-        $this->add('date', 'due_date_time', ts('Due Date'), CRM_Core_SelectValues::date('activityDatetime'), true);
-        $this->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
-        
+                      
         $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedAndGlobalContacts( $this->_caseId );
         //add case client in send a copy selector.CRM-4438.
         $this->_relatedContacts[] = CRM_Case_BAO_Case::getcontactNames( $this->_caseId );
@@ -323,7 +317,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // store the dates with proper format
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
-        $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
         $params['activity_type_id']   = $this->_activityTypeId;
         $params['target_contact_id']  = $this->_currentlyViewedContactId;
 
@@ -336,20 +329,27 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                     $match = array( );
                     if ( preg_match('/^(custom_\d+_)(\d+)$/', $key, $match) ) {
                         $params[$match[1] . '-1'] = $params[$key];
+
+                        // for autocomplete transfer hidden value instead of label
+                        if ( $params[$key] && isset ( $params[$key. '_id'] ) ) {
+                            $params[$match[1] . '-1_id'] = $params[$key. '_id'];
+                            unset($params[$key. '_id']);
+                        }
                         unset($params[$key]);
                     }
                 }
             }
-			// build custom data getFields array
-			$customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $this->_activityTypeId );
-			$customFields = 
+
+            // build custom data getFields array
+            $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $this->_activityTypeId );
+            $customFields = 
                 CRM_Utils_Array::crmArrayMerge( $customFields, 
                                                 CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, 
                                                                                      null, null, true ) );
-	        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
-	                                                                   $customFields,
-	                                                                   $this->_activityId,
-	                                                                   'Activity' );
+            $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                       $customFields,
+                                                                       $this->_activityId,
+                                                                       'Activity' );
         }
 
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
@@ -382,7 +382,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
             // call begin post process, before the activity is created/updated.
             $this->beginPostProcess( $params );
-
+            $params['case_id'] = $this->_caseId;
             // activity create/update
             $activity = CRM_Activity_BAO_Activity::create( $params );
 
@@ -417,8 +417,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
             // call begin post process, before the activity is created/updated.
             $this->beginPostProcess( $newActParams );
-
-            $newActParams['skipRecentView'] = true;
+            $newActParams['case_id'] = $this->_caseId;
             $activity = CRM_Activity_BAO_Activity::create( $newActParams );
             
             // call end post process, after the activity has been created/updated.
@@ -524,7 +523,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // create follow up activity if needed
         $followupStatus = '';
         if ( CRM_Utils_Array::value('followup_activity_type_id', $params) ) {
-            $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params, true );
+            $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params );
             
             if ( $followupActivity ) {
                 $caseParams = array( 'activity_id' => $followupActivity->id,
