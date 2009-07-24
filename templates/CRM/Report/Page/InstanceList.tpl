@@ -1,19 +1,11 @@
 {strip}
 {if $list}
-    {foreach from=$list item=rows key=report}		
-	<div style="cursor:pointer;" onclick="toggle_visibility('{$report}');">
-	    <table class="report-layout">
-		<tr>
-		    <th>{if $title}{$title}{elseif $report EQ 'Contribute'}{ts}Contribution Reports{/ts}{else}{$report} {ts}Reports{/ts}{/if}</th>
-		    <th>
-			<div style=" float:right; width:10px;"> 
-			    <img id="report_{$report}" src="{$config->resourceBase}i/menu-expanded.png" />
-			</div>
-		    </th>
-		</tr>
-	    </table>
-	</div>
-	<div id="{$report}" style="display:block;">
+<div class="accordion ui-accordion ui-widget ui-helper-reset" style="width:99%">    
+	{foreach from=$list item=rows key=report}		
+	  <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e"></span>
+		<a href="#">{if $title}{$title}{elseif $report EQ 'Contribute'}{ts}Contribution Reports{/ts}{else}{$report} {ts}Reports{/ts}{/if}</a>
+	  </h3>
+	<div id="{$report}" class="ui-accordion-content boxBlock ui-corner-bottom">
 	    <table class="report-layout">
 		{foreach from=$rows item=row}
 		    <tr>
@@ -26,8 +18,9 @@
 		{/foreach}
 	    </table>
 	</div>
-	<br />
+	<div class="spacer"> </div>
     {/foreach}
+</div>
     {if $reportUrl}
 	<a href="{$reportUrl}" class="button"><span>&raquo; {ts}View All Reports{/ts}</span></a>
     {/if}
@@ -51,17 +44,26 @@
 {/strip}
 {literal}
 <script type="text/javascript">
-    function toggle_visibility(id) {
-    var basepath = '{/literal}{$config->resourceBase}{literal}';
-	var e = document.getElementById(id);
-    var i = document.getElementById('report_'+id);
-	if (e.style.display == 'block') {
-	    e.style.display = 'none';
-        i.src =  basepath + 'i/menu-collapsed.png'
+cj(function() {
+	cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ");
+	cj('.accordion .head').hover( function() { cj(this).addClass( "ui-state-hover");
+	}, function() { cj(this).removeClass( "ui-state-hover");
+}).bind('click', function() { 
+	var checkClass = cj(this).find('span').attr( 'class' );
+	var len        = checkClass.length;
+	if ( checkClass.substring( len - 1, len ) == 's' ) {
+		cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-e');
+		cj("span#help"+cj(this).find('span').attr('id')).hide();
 	} else {
-	    e.style.display = 'block';
-        i.src = basepath + 'i/menu-expanded.png';
+		cj(this).find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
+		cj("span#help"+cj(this).find('span').attr('id')).show();
 	}
-    }
+	cj(this).next().toggle(); return false; }).next().hide();
+
+	cj('div.accordion div.ui-accordion-content').each(function() {
+		cj(this).parent().find('h3 span').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
+		cj(this).show();
+	});
+});
 </script>
 {/literal}
