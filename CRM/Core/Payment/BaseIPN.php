@@ -870,56 +870,6 @@ class CRM_Core_Payment_BaseIPN {
         
         return $statusId;
     }
-    
-    static function getComponentDetails( $componentId, $componentName ) 
-    {
-        $details = array( );
-        if ( !$componentId || 
-             !in_array( $componentName, array( 'Event', 'Membership' ) ) ) {
-            return $details;
-        }
-        
-        $eventClause = null;
-        if ( $componentName == 'Event' ) {
-            $name           = 'event';
-            $idName         = 'participant_id';
-            $eventClause    = ', component.event_id as event_id';
-            $componentTable = 'civicrm_participant';
-            $paymentTable   = 'civicrm_participant_payment';      
-        }
-        
-        if ( $componentName == 'Membership' ) {
-            $name           = 'contribute';
-            $idName         = 'membership_id';
-            $componentTable = 'civicrm_membership';
-            $paymentTable   = 'civicrm_membership_payment';
-        }
-        
-        $query = "
-   SELECT  component.id as {$idName},
-           component.contact_id as contact_id,
-           componentPayment.contribution_id as contribution_id
-           {$eventClause}
-     FROM  $componentTable component
-LEFT JOIN  $paymentTable componentPayment    ON ( componentPayment.{$idName} = component.id )
-LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_id = contribution.id )
-    WHERE  component.id = {$componentId}";
-        
-        $dao = CRM_Core_DAO::executeQuery( $query );
-        while( $dao->fetch( ) ) {
-            $details = array( 'contact'      => $dao->contact_id,
-                              'contribution' => $dao->contribution_id,
-                              'event'        => ($dao->event_id) ? $dao->event_id : null,
-                              'component'    => $name,
-                              'membership'   => $dao->membership_id,
-                              'participant'  => $dao->participant_id,
-                              );
-            $dao->free( );
-        }
-        
-        return $details;
-    }
-    
 }
 
 

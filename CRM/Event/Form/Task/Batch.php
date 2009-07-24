@@ -232,7 +232,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                         $value[$d]['i'] = '00';
                         $value[$d]['s'] = '00';
                         $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
-                    }   
+                    }
                 }
                 
                 //check for custom data
@@ -277,9 +277,8 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 if ( $statusChange ) {
                     CRM_Event_BAO_Participant::transitionParticipants( array( $key ), $value['status_id'], $fromStatusId ); 
                     
-                    //change related contribution status.
-                    require_once 'CRM/Core/Payment/BaseIPN.php';
-                    CRM_Core_Payment_BaseIPN::updateContributionStatus( $key, $value['status_id'], 'Event' );
+                    //update related contribution status, CRM-4395
+                    self::updatePendingOnlineContribution( $key, $value['status_id'] );
                 }
             }
             CRM_Core_Session::setStatus(ts('The updates have been saved.'));
@@ -287,5 +286,52 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             CRM_Core_Session::setStatus(ts('No updates have been saved.'));
         }
     }//end of function
+
+    static function updatePendingOnlineContribution( $participantId, $statusId ) 
+    {
+        if ( !$participantId || !$statusId ) {
+            return;
+        }
+        
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $contributionId = CRM_Contribute_BAO_Contribution::checkOnlinePendingContribution( $participantId, 
+                                                                                           'Event' );
+        if ( !$contributionId ) {
+            return;
+        }
+        
+        //status rules.
+        //1. participant - positive => contribution - completed.
+        //2. participant - negative => contribution - cancelled.
+        
+        require_once 'CRM/Event/PseudoConstant.php';
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $positiveStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Positive'" );
+        $negativeStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Negative'" );
+        $contributionStatuses = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
+        
+        $contributionStatusId = null;
+        if ( array_key_exists( $statusId, $positiveStatuses ) ) {
+            $contributionStatusId = array_search( 'Completed', $contributionStatuses );   
+        }
+        if ( array_key_exists( $statusId, $negativeStatuses ) ) {
+            $contributionStatusId = array_search( 'Cancelled', $contributionStatuses ); 
+        }
+        
+        if ( !$contributionStatusId ) {
+            return;
+        }
+        
+        $params = array( 'component_id'           => $participantId, 
+                         'componentName'          => 'Event',
+                         'contribution_id'        => $contributionId, 
+                         'contribution_status_id' => $contributionStatusId );
+        
+        //change related contribution status.
+        require_once 'CRM/Core/Payment/BaseIPN.php';
+        $updatedStatusId = CRM_Core_Payment_BaseIPN::updateContributionStatus( $params ); 
+        
+        return $updatedStatusId;
+    }
 }
 
