@@ -812,8 +812,11 @@ class CRM_Core_Payment_BaseIPN {
         require_once 'CRM/Core/Transaction.php';
         
         $baseIPN     = new CRM_Core_Payment_BaseIPN( );
-        $template    =& CRM_Core_Smarty::singleton( );
         $transaction = new CRM_Core_Transaction( );
+        
+        // reset template values.
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->clearTemplateVars( ); 
         
         if ( !$baseIPN->validateData( $input, $ids, $objects, false ) ) {
             CRM_Core_Error::fatal( );
