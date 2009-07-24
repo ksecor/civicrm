@@ -248,12 +248,12 @@ class CRM_Core_OptionValue
      * @access public
      * @static
      */
-    static function getFields( $mode = '' , $contactType = 'Individual' ) 
+    static function getFields( $mode = '', $contactType = 'Individual' ) 
     {
-        if ( !self::$_fields || ! CRM_Utils_Array::value( $mode, self::$_fields ) || $mode) {
-            if ( !self::$_fields ) {
-                self::$_fields = array();
-            }
+        $key = "$mode $contactType";    
+        if ( empty( self::$_fields[$key] ) || !self::$_fields[$key] ) {
+            self::$_fields[$key] = array( );
+
             require_once "CRM/Core/DAO/OptionValue.php";  
             $option = CRM_Core_DAO_OptionValue::import( );
 
@@ -311,20 +311,20 @@ class CRM_Core_OptionValue
             
             if ( is_array( $nameTitle ) ) {   
                 foreach ( $nameTitle as $name => $attribs ) {
-                    self::$_fields[$mode][$name] = $optionName;
+                    self::$_fields[$key][$name] = $optionName;
                     list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
                     // not sure of this fix, so keeping it commented for now
                     // this is from CRM-1541
                     // self::$_fields[$mode][$name]['where'] = $name . '.' . $fieldName;
-                    self::$_fields[$mode][$name]['where'] = "{$name}.label";
-                    foreach ( $attribs as $key => $val ) {
-                        self::$_fields[$mode][$name][$key] = $val;
+                    self::$_fields[$key][$name]['where'] = "{$name}.label";
+                    foreach ( $attribs as $k => $val ) {
+                        self::$_fields[$key][$name][$k] = $val;
                     }
                 }
             }
         }
         
-        return self::$_fields[$mode];
+        return self::$_fields[$key];
     }
     
     /** 

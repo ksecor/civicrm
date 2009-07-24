@@ -792,7 +792,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 $fields = array_merge($fields, CRM_Contact_DAO_Contact::export( ));
             
                 // the fields are meant for contact types
-                if ( in_array( $contactType, array('Individual', 'Household', 'Organization') ) ) {
+                if ( in_array( $contactType, array('Individual', 'Household', 'Organization', 'All' ) ) ) {
                     require_once 'CRM/Core/OptionValue.php';
                     $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( '', $contactType ) );  
                 }
@@ -849,11 +849,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                         $fields = array_merge( $fields, 
                                                CRM_Core_BAO_CustomField::getFieldsForImport($type));                        
                     }
-                    
-                    require_once "CRM/Core/OptionValue.php";
-                    $fields = array_merge( $fields, 
-                                           CRM_Core_OptionValue::getFields( '', 'All' ) );
-                    
                 }
             
                 //fix for CRM-791
@@ -1856,7 +1851,7 @@ UNION
          // addressee
          if ( $contact->addressee_custom != 'null' && $contact->addressee_custom ) {
             $addresseeString = $contact->addressee_custom;
-         } else if ( $contact->addressee_custom == 'null' && $contact->addressee_id ) {
+         } else if ( $contact->addressee_id != 'null' && $contact->addressee_id ) {
             $filter = array( 'contact_type'  => $contact->contact_type, 
                              'greeting_type' => 'addressee' );
 
