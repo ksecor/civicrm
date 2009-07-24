@@ -2672,7 +2672,14 @@ function civicrm_views_data() {
                                                            'title' => t('CiviCRM Memberships'),
                                                            'help' => t("View displays CiviCRM Memberships, with connection to contacts."),
                                                            );
-  
+   $data['civicrm_membership']['table']['join'] = array(
+                                                           // Directly links to contact table - link A
+                                                           'civicrm_contact' => array(
+                                                                                      'left_field' => 'id',
+                                                                                      'field' => 'contact_id',
+                                                                                      )
+                                                                                      );
+
     //CiviCRM Memberships - FIELDS
   
     //Numeric Membership ID
