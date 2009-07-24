@@ -5,7 +5,6 @@
 
 <div id="addressBlock" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 {/if}
-<!-Add->
 {if $blockId gt 1}<div class="spacer"></div>{/if}
  <div id="Address_Block_{$blockId}" {if $className eq 'CRM_Contact_Form_Contact'} class="boxBlock ui-corner-all" {/if}>
   <table class="form-layout-compressed">
@@ -136,12 +135,14 @@
   </table>
  </div>
 
-<!-Add->
 {if $title and $className eq 'CRM_Contact_Form_Contact'}
 </div>
 {/if}
 {literal}
 <script type="text/javascript">
+{/literal}
+{if $blockId eq 1}
+{literal}
 cj(document).ready( function() { 
     //shared household default setting
 	if ( cj('#use_household_address').is(':checked') ) {
@@ -188,6 +189,9 @@ cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : fals
                                                         cj( "#shared_household_id" ).val( data[1] );
                                                     }
                                               });
+{/literal}
+{/if}	
+{literal}										  
 //to check if same location type is already selected.
 function checkLocation( object, noAlert ) {
 	selectedText = cj( '#' + object + ' :selected').text();

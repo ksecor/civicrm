@@ -11,7 +11,6 @@
 	{/if}
 </tr>
 {/if}
-<!-Add->
 <tr id="Email_Block_{$blockId}">
     <td>{$form.email.$blockId.email.html|crmReplace:class:twenty}&nbsp;{$form.email.$blockId.location_type_id.html}</td>
 	<td align="center">{$form.email.$blockId.on_hold.html}</td>
@@ -21,4 +20,3 @@
     <td><a href="#" title="{ts}Delete Email Block{/ts}" onClick="removeBlock( 'Email', '{$blockId}' ); return false;">{ts}delete{/ts}</a></td>
   {/if}
 </tr>
-<!-Add->

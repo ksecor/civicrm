@@ -10,7 +10,7 @@
     <td id="OpenID-Primary" class="hiddenElement">{ts}Primary?{/ts}</td>
 </tr>
 {/if}
-<!-Add->
+
 <tr id="OpenID_Block_{$blockId}">
      <td>{$form.openid.$blockId.openid.html|crmReplace:class:twenty}&nbsp;{$form.openid.$blockId.location_type_id.html}</td>
      <td align="center" id="OpenID-Login-html" colspan="2">
@@ -21,4 +21,3 @@
     <td><a href="#" title="{ts}Delete OpenID Block{/ts}" onClick="removeBlock('OpenID','{$blockId}'); return false;">{ts}delete{/ts}</a></td>
    {/if}
 </tr>
-<!-Add->

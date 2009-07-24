@@ -25,7 +25,7 @@ function buildAdditionalBlocks( blockName, className ) {
         cj("#" + blockName + '-Primary-html').show( );
     }
 
-    var dataUrl = {/literal}"{crmURL h=0 q='snippet=4'}"{literal} + '&block=' + blockName + '&count=' + currentInstance;;
+    var dataUrl = {/literal}"{crmURL h=0 q='snippet=6'}"{literal} + '&block=' + blockName + '&count=' + currentInstance;;
     
     if ( className == 'CRM_Event_Form_ManageEvent_Location' ) {
         dataUrl = ( currentInstance <= 2 ) ? dataUrl + '&subPage=Location' : '';
@@ -48,8 +48,7 @@ function buildAdditionalBlocks( blockName, className ) {
         url     : dataUrl,   
         async   : false,
         success : function(html){
-            var html = html.split('<!-Add->',2);
-            cj(fname).after(html[1]);
+				cj(fname).after(html);
         }
     });
 	
