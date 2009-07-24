@@ -71,8 +71,7 @@ class CRM_Contact_Form_Edit_Household
         $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
         if ( !empty( $emailGreeting ) ) {
             $this->addElement('select', 'email_greeting_id', ts('Email Greeting'), 
-                              array('' => ts('- select -')) + $emailGreeting, 
-                              array( 'onchange' => " showCustomized(this.id);" ));
+                              array('' => ts('- select -')) + $emailGreeting );
             //email greeting custom
             $this->addElement('text', 'email_greeting_custom', ts('Custom Email Greeting'), 
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'email_greeting_custom' ),

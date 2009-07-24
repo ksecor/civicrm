@@ -42,6 +42,11 @@ require_once 'CRM/Admin/Form.php';
 class CRM_Admin_Form_Navigation extends CRM_Admin_Form
 {
     /**
+     * The parent id of the navigation menu
+     */
+    protected $_currentParentID = null;
+
+    /**
      * Function to build the form
      *
      * @return None
@@ -99,6 +104,9 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
                 }
                 $defaults['permission'] = $components;
             }
+            //Take parent id in object variable to calculate the menu
+            //weight if menu parent id changed
+            $this->_currentParentID = CRM_Utils_Array::value( 'parent_id', $defaults );
         } else {
             $defaults['permission'] = "access CiviCRM";
         }
@@ -120,6 +128,7 @@ class CRM_Admin_Form_Navigation extends CRM_Admin_Form
         
         if ( isset( $this->_id ) ) {
             $params['id'] = $this->_id;
+            $params['current_parent_id'] = $this->_currentParentID;
         }
         
         $navigation = CRM_Core_BAO_Navigation::add( $params );

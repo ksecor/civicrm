@@ -357,6 +357,20 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 }
             }
         }
+        
+        // set defaults for country-state widget
+        if ( CRM_Utils_Array::value( 'address', $defaults ) && is_array( $defaults['address'] ) ) {
+            require_once 'CRM/Contact/Form/Edit/Address.php';
+            foreach ( $defaults['address'] as $blockId => $values ) {
+                CRM_Contact_Form_Edit_Address::fixStateSelect( $this,
+                                                               "address[$blockId][country_id]",
+                                                               "address[$blockId][state_province_id]",
+                                                               CRM_Utils_Array::value( 'country_id',
+                                                                                       $values, $config->defaultContactCountry ) );
+                
+            }
+        }
+        
     }
     
     /**
