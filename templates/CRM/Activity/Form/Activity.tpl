@@ -197,6 +197,82 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
         </table>   
       </fieldset> 
 
+{if $form.case_select}
+<div id="fileOnCaseDialog">
+{$form.case_select.label}<br /><br />
+{$form.case_select.html}
+</div>
+
+{literal}
+<script type="text/javascript">
+
+cj("#fileOnCaseDialog").hide( );
+function fileOnCase() {
+    cj("#fileOnCaseDialog").show( );
+
+	cj("#fileOnCaseDialog").dialog({
+		title: "File on case",
+		modal: true,
+		bgiframe: true, 
+		overlay: { 
+			opacity: 0.5, 
+			background: "black" 
+		},
+
+        beforeclose: function(event, ui) {
+            cj(this).dialog("destroy");
+        },
+
+		open:function() {
+		},
+
+		buttons: { 
+			"Ok": function() { 	    
+				var v1 = cj("#case_select").val();
+				if ( ! v1 ) {
+					alert('Please select a case from the list.');
+					return false;
+				}
+				
+				var destUrl = {/literal}"{crmURL p='civicrm/contact/view/case' q='reset=1&action=view&id=' h=0 }"{literal}; 
+ 				var activityID = {/literal}"{$entityID}"{literal};
+ 				var underscore_pos = v1.indexOf('_');
+ 				if (underscore_pos < 1) {
+ 					alert('A problem occurred during case selection.');
+ 					return false;
+ 				}
+ 				var case_id = v1.substring(0, underscore_pos);
+ 				var contact_id = v1.substring(underscore_pos+1);
+ 				
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy");
+
+				var postUrl = {/literal}"{crmURL p='civicrm/ajax/activity/convert' h=0 }"{literal};
+                cj.post( postUrl, { activityID: activityID, caseID: v1 },
+                    function( data ) {
+                    		if (data.error_msg == "") {
+                            	window.location.href = destUrl + case_id + '&cid=' + contact_id;
+                            } else {
+                            	alert("Unable to file on case.\n\n" + data.error_msg);
+                            	return false;
+                            } 
+                        }, 'json' 
+                    );
+			},
+
+			"Cancel": function() { 
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy"); 
+			} 
+		} 
+
+	});
+}
+
+</script>
+{/literal}
+{/if}
+
 {if $action eq 1 or $action eq 2 or $context eq 'search' or $context eq 'smog'}
    {*include custom data js file*}
    {include file="CRM/common/customData.tpl"}

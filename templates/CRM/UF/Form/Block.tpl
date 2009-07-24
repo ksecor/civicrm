@@ -70,15 +70,8 @@
                {assign var="provider" value=$n|cat:"-provider_id"}
                {$form.$provider.html}&nbsp;
              {/if}
-             {if $n eq 'greeting_type'}
-               <table class="form-layout-compressed">
-                  <tr>
-                     <td>{$form.$n.html}</td>
-                     <td id='customGreeting'>
-                     {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}
-                     </td>
-                  </tr>
-               </table> 
+             {if $n eq 'email_greeting' or  $n eq 'postal_greeting' or $n eq 'addressee'}
+                {include file="CRM/Profile/Form/GreetingType.tpl"}  
              {elseif $n eq 'group'} 
 		<table id="selector" class="selector" style="width:auto;">
 			<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
@@ -94,6 +87,15 @@
                  <span style="line-height: .75em; margin-top: 1px;">
                   &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
                  </span>
+             {elseif $field.html_type eq 'Autocomplete-Select'}
+                 {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
+             {elseif $field.data_type eq 'Date'}
+                {if $element.skip_calendar NEQ true } 
+                    <span>
+                        {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
+    	                {include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
+    	            </span>
+    	        {/if}
              {/if}  
              {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
              {if $field.help_post && $action neq 4 && $action neq 1028}
@@ -124,25 +126,9 @@
  
 {/if} {* fields array is not empty *} 
 
-{if $form.greeting_type}
-  {literal}
-    <script type="text/javascript">
-      window.onload = function() {
-        showGreeting();
-      }
-    </script>
-  {/literal}
-{/if}
 {literal}
   <script type="text/javascript">
-    function showGreeting() {
-       if( document.getElementById("greeting_type") && document.getElementById("greeting_type").value == 4 ) {
-           show('customGreeting');                   
-       } else {
-           hide('customGreeting');      
-       }     
-    }
-
+   
 cj(document).ready(function(){ 
 	cj('#selector tr:even').addClass('odd-row ');
 	cj('#selector tr:odd ').addClass('even-row');

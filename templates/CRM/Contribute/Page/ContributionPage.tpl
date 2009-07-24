@@ -26,7 +26,7 @@
           <thead class="sticky">
             <th>{ts}Title{/ts}</th>
             <th>{ts}ID{/ts}</th>
-            <th>{ts}Status?{/ts}</th>
+            <th>{ts}Enabled?{/ts}</th>
             <th>&nbsp;</th>
           </thead>
           {foreach from=$rows item=row}
@@ -35,7 +35,7 @@
                <strong>{$row.title}</strong>
             </td>
             <td>{$row.id}</td>
-            <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}

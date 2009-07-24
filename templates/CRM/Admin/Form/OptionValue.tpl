@@ -19,9 +19,14 @@
         <dt>{$form.grouping.label}</dt><dd>{$form.grouping.html}</dd>
     	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
+       {if $form.is_default}
         <dt>{$form.is_default.label}</dt><dd>{$form.is_default.html}</dd>
+       {/if}
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         <dt>{$form.is_optgroup.label}</dt><dd>{$form.is_optgroup.html}</dd>
+       {if $form.contactOptions}{* contactOptions is exposed for email/postal greeting and addressee types to set filter for contact types *}
+        <dt>{$form.contactOptions.label}</dt><dd>{$form.contactOptions.html}</dd>
+       {/if}
       </dl> 
      {/if}
     <dl>   

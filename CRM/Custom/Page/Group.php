@@ -65,8 +65,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
     {
         // check if variable _actionsLinks is populated
         if (!isset(self::$_actionLinks)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this custom data group? Any profile fields that are linked to custom fields of this group will be disabled.');
             self::$_actionLinks = array(
                                         CRM_Core_Action::BROWSE  => array(
                                                                           'name'  => ts('View and Edit Custom Fields'),
@@ -88,22 +86,22 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/custom/group',
-                                                                          'qs'    => 'action=disable&reset=1&id=%%id%%',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_CustomGroup' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
                                                                           'title' => ts('Disable Custom Group'),
-                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                          
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/custom/group',
-                                                                          'qs'    => 'action=enable&reset=1&id=%%id%%',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_CustomGroup' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
                                                                           'title' => ts('Enable Custom Group'),
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),
                                                                           'url'   => 'civicrm/admin/custom/group',
                                                                           'qs'    => 'action=delete&reset=1&id=%%id%%',
-                                                                          'title' => ts('Enable Custom Group'),
+                                                                          'title' => ts('Delete Custom Group'),
                                                                           ),
                                         );
         }
@@ -125,7 +123,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      */
     function run()
     {
-
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
@@ -154,16 +151,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         } else {
             require_once 'CRM/Core/BAO/CustomGroup.php';
             require_once 'CRM/Core/BAO/UFField.php';
-
-            // if action is enable or disable to the needful.
-            if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_CustomGroup::setIsActive($id, 0);
-                CRM_Core_BAO_UFField::setUFFieldStatus($id, 0);
-            } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_CustomGroup::setIsActive($id, 1);
-                //CRM_Core_BAO_UFField::setUFFieldStatus($id, 1);
-            }
-
             // finally browse the custom groups
             $this->browse();
         }

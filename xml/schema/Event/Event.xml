@@ -434,19 +434,19 @@
   <field>
       <name>has_waitlist</name>
       <type>boolean</type>
-      <comment>whether the event has waitlist support</comment>
+      <comment>Whether the event has waitlist support.</comment>
       <add>2.3</add>
   </field>
   <field>
       <name>requires_approval</name>
       <type>boolean</type>
-      <comment>whether the event participant require approval before they can finish registering</comment>
+      <comment>Whether participants require approval before they can finish registering.</comment>
       <add>2.3</add>
   </field>
   <field>
       <name>expiration_time</name>
       <type>int unsigned</type>
-      <comment>expire pending participants after this many minutes</comment>
+      <comment>Expire pending but unconfirmed registrations after this many hours.</comment>
       <add>2.3</add>
   </field>
   <field>
@@ -456,7 +456,17 @@
       <rows>4</rows>
       <cols>60</cols>
       <localizable>true</localizable>
-      <comment>text to show when the event is full, but participants can sign for a waitlist</comment>
+      <comment>Text to display when the event is full, but participants can signup for a waitlist.</comment>
+      <add>2.3</add>
+  </field>
+  <field>
+      <name>approval_req_text</name>
+      <type>text</type>
+      <htmlType>textarea</htmlType>
+      <rows>4</rows>
+      <cols>60</cols>
+      <localizable>true</localizable>
+      <comment>Text to display when the approval is required to complete registration for an event.</comment>
       <add>2.3</add>
   </field>
   <field>
@@ -477,4 +487,24 @@
       <comment>Event Template Title</comment>
       <add>2.3</add>     
   </field>
- </table>
+  <field>
+      <name>created_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_contact, who created this event</comment>
+      <add>2.3</add>
+  </field>
+  <foreignKey>
+      <name>created_id</name>
+      <table>civicrm_contact</table>
+      <key>id</key>
+      <add>2.3</add>
+      <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <field>
+      <name>created_date</name>
+      <type>datetime</type>
+      <title>Event Created Date</title>
+      <comment>Date and time that event was created.</comment>
+      <add>2.3</add>
+  </field>
+</table>

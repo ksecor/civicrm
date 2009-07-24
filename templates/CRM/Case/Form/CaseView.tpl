@@ -39,7 +39,7 @@
  <fieldset>
   <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Roles{/ts}</legend>
 
-    <div><a href="Javascript:addRole()">Add new role</a></div>
+    <div><input type="button" class="form-submit default" onClick="Javascript:addRole()" value="{ts}Add new role{/ts}" /></div>
 
     <table class="report">
     	<tr class="columnheader">
@@ -216,7 +216,7 @@ cj(document).ready(function(){
   <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Other Relationships{/ts}</legend>
   
   {if $clientRelationships}
-    <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`&caseID=`$caseID`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
+    <div><input type="button" class="form-submit default" onClick="window.location='{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`&caseID=`$caseID`"}'" value="{ts}Add client relationship{/ts}" /></div>
 	
     <table class="report">
     	<tr class="columnheader">
@@ -249,7 +249,7 @@ cj(document).ready(function(){
   <br />
   
   {if $globalRelationships}
-    <div><a href="{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupInfo.id`"}" title="{ts}Add members to {$globalGroupInfo.title}{/ts}">{ts}Add members to {$globalGroupInfo.title}{/ts}</a></div>
+    <div><input type="button" class="form-submit default" onClick="window.location='{crmURL p='civicrm/group/search' q="reset=1&context=amtg&amtgID=`$globalGroupInfo.id`"}'" value="{ts}Add members to {$globalGroupInfo.title}{/ts}" /></div>
 	
     <table class="report">
     	<tr class="columnheader">
@@ -365,6 +365,15 @@ function addRole() {
 				cj(this).dialog("close"); 
 				cj(this).dialog("destroy");
 				
+// Temporary workaround for problems with SSL connections being too
+// slow. The relationship doesn't get created because the page reload
+// happens before the ajax call.
+// In general this reload needs improvement, which is already on the list for phase 2.
+var sdate = (new Date()).getTime();
+var curDate = sdate;
+while(curDate-sdate < 2000) {
+curDate = (new Date()).getTime();
+}
 				window.location.reload(); 
 			},
 
@@ -407,8 +416,7 @@ function addRole() {
     </tr>
     <tr>
         <td> 
-	        {$form.date_range.html}
-                 &nbsp;&nbsp; <label>- {ts}From{/ts}</label> 
+	            {$form.activity_date_low.label} 
                 <br />
                 {$form.activity_date_low.html}
                 &nbsp;
@@ -417,7 +425,8 @@ function addRole() {
                 
         </td>
         <td> 
-                <label>{ts}To{/ts}</label><br />                  
+                {$form.activity_date_high.label}
+                <br /> 
                 {$form.activity_date_high.html}
                 &nbsp;
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_2} 
@@ -465,7 +474,7 @@ cj(document).ready(function(){
             ],
             usepager: true,
             useRp: true,
-            rp: 10,
+            rp: 40,
             showToggleBtn: false,
             width: 680,
             height: 'auto',
@@ -502,7 +511,6 @@ function search(com)
 	    newp:1, 
 		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
 			{name:'status_id', value: cj("select#status_id").val()},
-			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
 			{name:'activity_date_low', value: activity_date_low },
 			{name:'activity_date_high', value: activity_date_high},
 			{name:'activity_deleted', value: activity_deleted }

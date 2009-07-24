@@ -89,7 +89,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         //check if custom data profile field is disabled
         if ( $is_active ) {
             if ( CRM_Core_BAO_UFField::checkUFStatus( $id ) ) {
-                CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );
+                return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFField', $id, 'is_active', $is_active );
             } else {
                 CRM_Core_Session::setStatus(ts('Cannot enable this UF field since the used custom field is disabled.'));
             }
@@ -310,7 +310,6 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     static function checkUFStatus( $UFFieldId ) 
     {
         $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $UFFieldId, 'field_name' );
-        
         // return if field is not a custom field
         require_once 'CRM/Core/BAO/CustomField.php';
         if ( !$customFieldId = CRM_Core_BAO_CustomField::getKeyID( $fieldName ) ) {                
@@ -320,7 +319,6 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         require_once "CRM/Core/DAO/CustomField.php";
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->id = $customFieldId;
-
         if ( $customField->find(true) ) { // if uf field is custom field
             if ( !$customField->is_active ) {
                 return false;

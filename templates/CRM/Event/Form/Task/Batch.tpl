@@ -1,8 +1,16 @@
 <div class="form-item">
 <fieldset>
 <div id="help">
-    <p>{$statusChangeText}</p>
-    <p>{ts}Update field values for each participation as needed. Click <strong>Update Participant(s)</strong> below to save all your changes. To set a field to the same value for ALL rows, enter that value for the first participation and then click the <strong>Copy icon</strong> (next to the column title).{/ts}</p>
+    {if $context EQ 'statusChange'} {* Update Participant Status task *}
+        {ts}Update the status for each participant individually, OR change all statuses to:{/ts}
+        {$form.status_change.html}  {help id="id-status_change"}
+        <div class="status">
+            {ts}Participants whose status is changed TO any of the following will be automatically notified via email: Pending from waitlist, Pending from approval, Rejected.{/ts}
+        </div>
+    {else}
+        {ts}Update field values for each participant as needed. To set a field to the same value for ALL rows, enter that value for the first participation and then click the <strong>Copy icon</strong> (next to the column title).{/ts}
+    {/if}
+    <p>{ts}Click <strong>Update Participant(s)</strong> below to save all your changes.{/ts}</p>
 </div>
     <legend>{$profileTitle}</legend>
          <table>

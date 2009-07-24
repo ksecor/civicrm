@@ -66,6 +66,7 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
 
         require_once 'CRM/Core/DAO/Preferences.php';
         $this->_config =& new CRM_Core_DAO_Preferences( );
+        $this->_config->domain_id = CRM_Core_Config::domainID( );
 
         if ( $this->_system ) {
             if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) {

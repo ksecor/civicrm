@@ -29,7 +29,7 @@
       <tr>
          <td>
             {$form.gender.label}<br />
-            {$form.gender.html}
+            {$form.gender.html} &nbsp;<a href="#" title="unselect" onclick="unselectRadio('gender', 'Advanced'); return false;" >unselect</a>
          </td>
       </tr>
     </table>            

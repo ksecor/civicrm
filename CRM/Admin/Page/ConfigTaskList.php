@@ -52,6 +52,13 @@ class CRM_Admin_Page_ConfigTaskList extends CRM_Core_Page {
         $destination = urlencode( $destination );
         $this->assign( 'destination', $destination );
 
+        require_once 'CRM/Core/OptionValue.php';
+        CRM_Core_OptionValue::getValues( array( 'name' => 'from_email_address'), $optionValue );
+        if( !empty( $optionValue ) ) {
+            list( $id ) = array_keys( $optionValue );
+            $this->assign( 'fromEmailId', $id );
+        }
+        
         parent::run();
     }   
 }

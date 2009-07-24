@@ -143,6 +143,11 @@
      <page_callback>CRM_Admin_Form_Setting_Date</page_callback>
   </item>
   <item>
+     <path>civicrm/admin/setting/search</path>
+     <title>Search</title>
+     <page_callback>CRM_Admin_Form_Setting_Search</page_callback>
+  </item>
+  <item>
      <path>civicrm/admin/setting/misc</path>
      <title>Miscellaneous</title>
      <page_callback>CRM_Admin_Form_Setting_Miscellaneous</page_callback>
@@ -171,7 +176,7 @@
      <weight>260</weight>
   </item>
   <item>
-     <path>civicrm/contact/domain</path>
+     <path>civicrm/admin/domain</path>
      <title>Domain Information</title>
      <desc>Configure primary contact name, email, return-path and address information. This information is used by CiviMail to identify the sending organization.</desc>
      <path_arguments>action=update</path_arguments>
@@ -457,5 +462,10 @@
      <path>civicrm/ajax/menutree</path>
      <page_callback>CRM_Admin_Page_AJAX::menuTree</page_callback>
      <access_arguments>access CiviCRM,administer CiviCRM</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/ajax/statusmsg</path>
+     <page_callback>CRM_Admin_Page_AJAX::getStatusMsg</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
   </item>
 </menu>

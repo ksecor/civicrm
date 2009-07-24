@@ -114,10 +114,10 @@ class CRM_Utils_Pager extends Pager_Sliding {
                                  'last'         => $this->_printLastPage(),
                                  'currentPage'  => $this->getCurrentPageID(),
                                  'numPages'     => $this->numPages(),
-                                 'csvString'    => $params['csvString'],
-                                 'status'       => $params['status'],
-                                 'buttonTop'    => $params['buttonTop'],
-                                 'buttonBottom' => $params['buttonBottom'],
+                                 'csvString'    => CRM_Utils_Array::value( 'csvString',    $params ),
+                                 'status'       => CRM_Utils_Array::value( 'status',       $params ),
+                                 'buttonTop'    => CRM_Utils_Array::value( 'buttonTop',    $params ),
+                                 'buttonBottom' => CRM_Utils_Array::value( 'buttonBottom', $params ),
                                  'twentyfive'   => $this->getPerPageLink(25),
                                  'fifty'        => $this->getPerPageLink(50),
                                  'onehundred'   => $this->getPerPageLink(100),
@@ -205,7 +205,7 @@ class CRM_Utils_Pager extends Pager_Sliding {
         // else if a value is set that has higher priority and finally the GET var
         $currentPage = $defaultPageId;
         if ( ! empty( $_POST ) ) {
-            if ( isset( $_POST[ $params['buttonTop'] ] ) && isset( $_POST[ self::PAGE_ID ] ) ) {
+            if ( isset( $_POST[ CRM_Utils_Array::value('buttonTop', $params) ] ) && isset( $_POST[ self::PAGE_ID ] ) ) {
                 $currentPage = max( (int ) @$_POST[ self::PAGE_ID ], 1 );
             } else if ( isset( $_POST[ $params['buttonBottom'] ] ) && isset( $_POST[ self::PAGE_ID_BOTTOM ] ) ) {
                 $currentPage = max( (int ) @$_POST[ self::PAGE_ID_BOTTOM ], 1 );

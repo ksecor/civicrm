@@ -126,6 +126,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
     protected $_roleId = null;
 
     /**
+     * participant status Id
+     */
+    protected $_statusId = null;
+
+    /**
      * participant mode
      */
     public  $_mode = null;
@@ -324,6 +329,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 			CRM_Custom_Form_Customdata::setDefaultValues( $this );
 
 		}
+        
+        // CRM-4395, get the online pending contribution id.
+        $this->_onlinePendingContributionId = null;
+        if ( !$this->_mode && $this->_participantId && ($this->_action & CRM_Core_Action::UPDATE) ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $this->_onlinePendingContributionId = 
+                CRM_Contribute_BAO_Contribution::checkOnlinePendingContribution( $this->_participantId, 
+                                                                                 'Event' );
+        }
+        $this->set( 'onlinePendingContributionId', $this->_onlinePendingContributionId );
     }
     
     /**
@@ -354,8 +369,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $params = array( 'id' => $this->_participantId );
             
             require_once "CRM/Event/BAO/Participant.php";
-            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );            
+            CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );
             $this->_contactID = $defaults[$this->_participantId]['contact_id'];
+            $this->_statusId = $defaults[$this->_participantId]['participant_status_id'];
             
             //set defaults for note
             $noteDetails = CRM_Core_BAO_Note::getNote( $this->_participantId, 'civicrm_participant' );
@@ -428,7 +444,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                $defaults[$this->_participantId]['id'], 
                                                                'contribution_id', 
                                                                'participant_id' );
-          
+            
             //contribution record exists for this participation
             if ( $recordContribution ) {
                 foreach( array('contribution_type_id', 'payment_instrument_id','contribution_status_id', 'receive_date' ) 
@@ -558,6 +574,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         } else {
             $events = CRM_Event_BAO_Event::getEvents( );
         }
+        
         if ( $this->_mode ) {
             //unset the event which are not monetary when credit card
             //event registration is used
@@ -581,7 +598,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                               $this->_participantId, 'contribution_id', 'participant_id' ) ) {
                 $element->freeze();
             }
-        } 
+        }
        
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),
                     CRM_Core_SelectValues::date('activityDatetime' ),
@@ -619,7 +636,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                           );
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
-        }		
+        } 
     }
     
     /**
@@ -679,21 +696,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $errorMsg['contribution_type_id'] = ts( "Please enter the associated Contribution Type" );
         }
         
-        $message = null;
-        if ( $id &&
-             ( $values['status_id'] == 1 || $values['status_id'] == 2 ) ) {
-            $previousStatus = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $id, 'status_id' );
-            
-            if ( ! ( $previousStatus == 1 || $previousStatus == 2 ) ) {
-                require_once "CRM/Event/BAO/Participant.php";
-                $message = CRM_Event_BAO_Participant::eventFull( $values['event_id'] );
-            }
-        }
-        
-        if ( $message ) {
-            $errorMsg["_qf_default"] = $message;  
-        }
-
         return empty( $errorMsg ) ? true : $errorMsg;
     }    
        
@@ -709,10 +711,36 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             CRM_Event_BAO_Participant::deleteParticipant( $this->_participantId );
             return;
         }
-
+        
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-
+        
+        // CRM-4395
+        if ( $this->_onlinePendingContributionId && 
+             CRM_Utils_Array::value( 'record_contribution', $params ) ) {
+            $ipnParams = array( 'event_id'        => $params['event_id'],
+                                'contact_id'      => $this->_contactID,
+                                'component_id'    => $this->_participantId,
+                                'componentName'   => 'Event',
+                                'contribution_id' => $this->_onlinePendingContributionId );
+            $fields = array( 'total_amount', 'fee_amount', 'check_number', 'trxn_id',
+                             'receive_date', 'payment_instrument_id', 'contribution_status_id' ); 
+            foreach ( $fields as $field ) {
+                if ( $value = CRM_Utils_Array::value( $field, $params ) ) {
+                    $ipnParams[$field] = $value;
+                }
+            }
+            
+            require_once 'CRM/Core/Payment/BaseIPN.php';
+            $changedStatusId = CRM_Core_Payment_BaseIPN::updateContributionStatus( $ipnParams );
+            
+            if ( $changedStatusId ) {
+                CRM_Core_Session::setStatus( ts( 'Related Online Pending Contribution status has been updated.' ) );
+            }
+            
+            return;
+        }
+        
         // set the contact, when contact is selected
         if ( CRM_Utils_Array::value('contact_select_id', $params ) ) {
             $this->_contactID = CRM_Utils_Array::value('contact_select_id', $params);
@@ -1044,6 +1072,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
         }
         
+        $updateStatusMsg = null;
+        //send mail when participant status changed, CRM-4326
+        if ( $this->_participantId && $this->_statusId && 
+             $this->_statusId != CRM_Utils_Array::value( 'status_id', $params ) ) {
+            $updateStatusMsg = $this->updateStatusMessage( $this->_participantId, $params['status_id'], $this->_statusId );
+        }
+        
         if ( CRM_Utils_Array::value( 'send_receipt', $params ) ) {
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             $this->assign( 'module', 'Event Registration' );          
@@ -1072,9 +1107,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( CRM_Utils_Array::value( 'is_show_location', $event ) == 1 ) {
                 $locationParams = array( 'entity_id'    => $params['event_id'] ,
                                          'entity_table' => 'civicrm_event');
-                $values = array();
                 require_once 'CRM/Core/BAO/Location.php';
-                $location = CRM_Core_BAO_Location::getValues( $locationParams, $values , true );
+                $location = CRM_Core_BAO_Location::getValues( $locationParams, true );
                 $this->assign( 'location', $location );
             }             
             
@@ -1202,6 +1236,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( $params['send_receipt']  && count($sent) ) {
                 $statusMsg .= ' ' .  ts('A confirmation email has been sent to %1', array(1 => $this->_contributorEmail));
             }
+            
+            if ( $updateStatusMsg ) {
+                $statusMsg = "{$statusMsg} {$updateStatusMsg}";
+            }
+            
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             if ( $this->_single ) {
                 $statusMsg = ts('Event registration for %1 has been added.', array(1 => $this->_contributorDisplayName));
@@ -1230,5 +1269,94 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
         }
     }
+    
+    /** 
+     * get event full and waiting list message.
+     * 
+     * @return string
+     * @access public 
+     */ 
+    static function eventFullMessage( $eventId, $participantId = null )  
+    {
+        $eventfullMsg = $dbStatusId =  null;
+        $checkEventFull = true;
+        if ( $participantId ) {
+            require_once 'CRM/Event/PseudoConstant.php';
+            $dbStatusId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $participantId, 'status_id' );
+            if ( array_key_exists( $dbStatusId, CRM_Event_PseudoConstant::participantStatus( null, "is_counted = 1" ) ) ) {
+                //participant already in counted status no need to check for event full messages.
+                $checkEventFull = false;
+            }
+        }
+        
+        //early return.
+        if ( !$eventId || !$checkEventFull ) {
+            return $eventfullMsg;
+        }
+        
+        require_once "CRM/Event/BAO/Participant.php";
+        //event is truly full.
+        $emptySeats = CRM_Event_BAO_Participant::eventFull( $eventId, false, false );
+        if ( is_string( $emptySeats ) && $emptySeats !== null ) {
+            $maxParticipants = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'max_participants' ) ;
+            $eventfullMsg = ts( "This event currently has the maximum number of participants registered ( %1 ). 
+However, you can still override this limit and register additional participants using this form.<br >", 
+                                array( 1 =>  $maxParticipants ) ); 
+        }
+        
+        $hasWaiting = false;
+        $waitListedCount = CRM_Event_BAO_Participant::eventFull( $eventId, false, true, true );
+        if ( is_numeric( $waitListedCount ) ) {
+            $hasWaiting = true;
+            //only current processing participant is on waitlist.
+            if ( $waitListedCount == 1 && CRM_Event_PseudoConstant::participantStatus( $dbStatusId ) == 'On waitlist' ) {
+                $hasWaiting = false;
+            }
+        }
+        
+        if ( $hasWaiting ) {
+            $waitingStatusId = array_search( 'On waitlist', 
+                                             CRM_Event_PseudoConstant::participantStatus(null, "class = 'Waiting'"));
+            $viewWaitListUrl = CRM_Utils_System::url( 'civicrm/event/search',
+						      "reset=1&force=1&event={$eventId}&status={$waitingStatusId}" );
+                                                     
+            $eventfullMsg .= ts( "There are %2 people currently on the waiting list for this event. You can <a href='%1'>view waitlisted registrations here</a>, or you can continue and register additional participants using this form.", 
+                                 array( 1 => $viewWaitListUrl,
+                                        2 => $waitListedCount ) );  
+        }
+        
+        return $eventfullMsg;
+    }
+    
+    /** 
+     * get participant status change message.
+     * 
+     * @return string
+     * @access public 
+     */ 
+    function updateStatusMessage( $participantId, $statusChangeTo, $fromStatusId )  
+    {
+        $statusMsg = null;
+        $results = CRM_Event_BAO_Participant::transitionParticipants( array( $participantId ), 
+                                                                      $statusChangeTo, $fromStatusId, true );
+        
+        $allStatuses = CRM_Event_PseudoConstant::participantStatus( );
+        //give user message only when mail has sent.
+        if ( is_array( $results ) && !empty( $results ) ) {
+            if ( is_array( $results['updatedParticipantIds'] ) && !empty( $results['updatedParticipantIds'] ) ) {
+                foreach ( $results['updatedParticipantIds'] as $processedId ) {
+                    if ( is_array( $results['mailedParticipants'] ) && 
+                         array_key_exists( $processedId,  $results['mailedParticipants']) ) {
+                        $statusMsg .= ts( "<br /> Participant status has been updated to '%1'. An email has been sent to %2.",
+                                          array( 1 => $allStatuses[$statusChangeTo],
+                                                 2 => $results['mailedParticipants'][$processedId] ) );
+                    }
+                }
+            }
+        }
+        
+        return $statusMsg;
+    }
+    
 }
 

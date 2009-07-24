@@ -89,13 +89,13 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                            ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_DAO_Event' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_BAO_Event' . '\',\'' . 'enable-disable' . '\' );"',
                                                                           'ref'   => 'disable-action',
                                                                           'title' => ts( 'Disable Event' )
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_DAO_Event' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Event_BAO_Event' . '\',\'' . 'disable-enable' . '\' );"',
                                                                           'ref'   => 'enable-action',
                                                                           'title' => ts( 'Enable Event' )
                                                                           ),
@@ -108,15 +108,16 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::COPY     => array(
                                                                            'name'  => ts('Copy Event'),
-                                                                           'url'   => CRM_Utils_System::currentPath( ),                                                                                                'qs'    => 'reset=1&action=copy&id=%%id%%',
+                                                                           'url'   => CRM_Utils_System::currentPath( ), 
+                                                                           'qs'    => 'reset=1&action=copy&id=%%id%%',
                                                                            'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
                                                                            'title' => ts('Copy Event') 
-                                                                          )
+                                                                           )
                                         );
         }
         return self::$_actionLinks;
     }
-
+    
     /**
      * Run the page.
      *
@@ -147,7 +148,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         }
         
         if ($this->_isTemplate) {
-            $breadCrumb = array(array('title' => ts('Event Templates'),
+            $breadCrumb = array(array('title' => ts('Manage Event Templates'),
                                       'url'   => CRM_Utils_System::url('civicrm/admin/eventTemplate', 'reset=1')));
         } elseif ($this->_id) {
             $breadCrumb = array(array('title' => ts('Manage Events'),
@@ -165,7 +166,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             require_once 'CRM/Event/Page/ManageEventEdit.php';
             $page =& new CRM_Event_Page_ManageEventEdit( );
             return $page->run( );
-        } else if ($action & CRM_Core_Action::DELETE ) {
+        } else if ( $action & CRM_Core_Action::DELETE ) {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=browse' ) );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ManageEvent_Delete',
@@ -265,12 +266,12 @@ ORDER BY start_date desc
 
             $params = array( 'entity_id' => $dao->id, 'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $defaults );
-            if ( isset ( $defaults['location'][1]['address']['city'] ) ) {
-                $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
+            $defaults['location'] = CRM_Core_BAO_Location::getValues( $params, true );
+            if ( isset ( $defaults['location']['address'][1]['city'] ) ) {
+                $manageEvent[$dao->id]['city'] = $defaults['location']['address'][1]['city'];
             }
-            if ( isset( $defaults['location'][1]['address']['state_province_id'] )) {
-                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
+            if ( isset( $defaults['location']['address'][1]['state_province_id'] )) {
+                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location']['address'][1]['state_province_id']);
             }
         }
         $this->assign('rows', $manageEvent);
@@ -292,8 +293,7 @@ ORDER BY start_date desc
 
         return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage', 'reset=1' ) );
     }
-
-
+    
     function search( ) {
         if ( isset($this->_action) &
              ( CRM_Core_Action::ADD    |
@@ -333,13 +333,6 @@ ORDER BY start_date desc
                 } 
                 $type = implode (',' ,$val);
             }
-
-
-
-
-
-
-            
             $clauses[] = "event_type_id IN ({$type})";
         }
         

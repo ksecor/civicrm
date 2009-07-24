@@ -5,32 +5,36 @@
 {include file="CRM/common/TrackingFields.tpl"}
 
 <div class="form-item">
-    <div id="help">
-    {ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes.{/ts}
-    {if $contributeMode EQ 'notify' and !$is_pay_later and ! $isAmountzero }
-	{if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}
-	    {ts 1=$paymentProcessor.processorName}Click the <strong>%1</strong> button to checkout to Google, where you will select your payment method and complete the registration.{/ts}
-	{else} 	
-	    {ts 1=$paymentProcessor.processorName}Click the <strong>Continue</strong> button to checkout to %1, where you will select your payment method and complete the registration.{/ts}
-	{/if }
+    {if $isOnWaitlist}
+        <div class="help">
+            {ts}Please verify the information below. <span class="bold">Then click 'Continue' to be added to the WAIT LIST for this event</span>. If space becomes available you will receive an email with a link to a web page where you can complete your registration.{/ts}
+        </div>
+    {elseif $isRequireApproval}
+        <div class="help">
+            {ts}Please verify the information below. Then click 'Continue' to submit your registration. <span class="bold">Once approved, you will receive an email with a link to a web page where you can complete the registration process.</span>{/ts}
+        </div>
     {else}
-	{ts}Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}
+        <div id="help">
+        {ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes.{/ts}
+        {if $contributeMode EQ 'notify' and !$is_pay_later and ! $isAmountzero }
+            {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}
+                {ts 1=$paymentProcessor.processorName}Click the <strong>%1</strong> button to checkout to Google, where you will select your payment method and complete the registration.{/ts}
+            {else} 	
+                {ts 1=$paymentProcessor.processorName}Click the <strong>Continue</strong> button to checkout to %1, where you will select your payment method and complete the registration.{/ts}
+            {/if }
+        {else}
+            {ts}Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}
+        {/if}
+        </div>
+        {if $is_pay_later}
+            <div class="bold">{$pay_later_receipt}</div>
+        {/if}
     {/if}
-    </div>
 
     {if $event.confirm_text}
         <div id="intro_text">
 	    <p>{$event.confirm_text}</p>
         </div>
-    {/if}
-    {if $isOnWaitlist}
-	 <div class="bold">{ts}Your Event registration will be on waiting list. Once event get enough free spaces, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
-        </div>
-    {elseif $isRequireApproval}
-	<div class="bold">{ts}Your Event registration require approval. Once registration get approved, will send you a mail to confirm your registration. Mail contain a link by clicking it you can go to a web page where you can confirm your registration online.{/ts}
-        </div>
-    {elseif $is_pay_later}
-        <div class="bold">{$pay_later_receipt}</div>
     {/if}
     
     <div class="header-dark">
@@ -105,10 +109,10 @@
             <div class="header-dark">
                 {ts 1=$participantNo+1}Participant Information - Participant %1{/ts}	
             </div>
-            {if $participant.customPre}
-                <fieldset><legend>{$participant.customPreGroupTitle}</legend>
+            {if $participant.additionalCustomPre}
+                <fieldset><legend>{$participant.additionalCustomPreGroupTitle}</legend>
                     <table class="form-layout-compressed">
-                        {foreach from=$participant.customPre item=value key=field}
+                        {foreach from=$participant.additionalCustomPre item=value key=field}
                         <tr>
 			    <td class="label">{$field}</td><td class="view-value">{$value}</td>
                         </tr>
@@ -117,10 +121,10 @@
                 </fieldset>
             {/if}
 
-            {if $participant.customPost}
-                <fieldset><legend>{$participant.customPostGroupTitle}</legend>
+            {if $participant.additionalCustomPost}
+                <fieldset><legend>{$participant.additionalCustomPostGroupTitle}</legend>
                     <table class="form-layout-compressed">
-                        {foreach from=$participant.customPost item=value key=field}
+                        {foreach from=$participant.additionalCustomPost item=value key=field}
                         <tr>
 			    <td class="label">{$field}</td><td class="view-value">{$value}</td>
                         </tr>
@@ -132,7 +136,7 @@
         {/foreach}
     {/if}
 
-    {if $contributeMode ne 'notify' and ! $is_pay_later and $paidEvent and ! $isAmountzero }
+    {if $contributeMode ne 'notify' and !$is_pay_later and $paidEvent and !$isAmountzero and !$isOnWaitlist and !$isRequireApproval}
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -142,7 +146,7 @@
     </div>
     {/if}
     
-    {if $contributeMode eq 'direct' and ! $is_pay_later and !$isAmountzero}
+    {if $contributeMode eq 'direct' and ! $is_pay_later and !$isAmountzero and !$isOnWaitlist and !$isRequireApproval}
     <div class="header-dark">
         {ts}Credit Card Information{/ts}
     </div>
@@ -156,12 +160,12 @@
     {if $contributeMode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
-        {ts}Your registration will not be completed until you click the <strong>Continue</strong> button. Please click the button one time only.{/ts}
+        {ts}Your registration will not be submitted until you click the <strong>Continue</strong> button. Please click the button one time only.{/ts}
         </p>
     </div>
     {/if}    
    
-    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent and !$is_pay_later and ! $isAmountzero}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent and !$is_pay_later and ! $isAmountzero and !$isOnWaitlist and !$isRequireApproval}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
         <table class="form-layout-compressed">
 	    <tr>

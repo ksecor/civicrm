@@ -173,7 +173,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                                'date', 'qfDate', 'currentDate',
                                'asciiFile', 'htmlFile', 'utf8File',
                                'objectExists', 'optionExists', 'postalCode', 'money','positiveInteger',
-                               'xssString', 'fileExists', 'qfBirthDate' );
+                               'xssString', 'fileExists', 'qfBirthDate', 'autocomplete', 'validContact' );
 
         foreach ( $rules as $rule ) {
             $this->registerRule( $rule, 'callback', $rule, 'CRM_Utils_Rule' );
@@ -762,7 +762,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         
     function addWysiwyg( $name, $label, $attributes, $forceTextarea = false ) 
     {
-        // 1. Get configuration option for editor (tinymce, fckeditor, dojoeditor, pure textarea)
+        // 1. Get configuration option for editor (tinymce, fckeditor, pure textarea)
         // 2. Based on the option, initialise proper editor
         require_once 'CRM/Core/BAO/Preferences.php';
         $editor = strtolower( CRM_Utils_Array::value( CRM_Core_BAO_Preferences::value( 'editor_id' ),

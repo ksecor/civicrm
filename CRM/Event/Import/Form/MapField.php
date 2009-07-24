@@ -422,8 +422,10 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
                         if ( $weightSum >= $threshold || in_array('external_identifier', $importKeys) ||
                              in_array('participant_id', $importKeys)) {
                             continue;    
+                        } if ( $self->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
+                            $errors['_qf_default'] .= ts('Missing required field: Provide Particiapnt ID') . '<br />';
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields.') . " $fieldMessage ". ts('(Sum of all weights should be greater than or equal to threshold: %1).', array(1 => $threshold)) . ' ' . ts('Or Provide Contact Id or External Identifier (OR Participant ID if update mode).') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields.') . " $fieldMessage ". ts('(Sum of all weights should be greater than or equal to threshold: %1).', array(1 => $threshold)) . ' ' . ts('Or Provide Contact Id or External Identifier.') . '<br />';
                         }
                         
                     } elseif (!in_array('event_title', $importKeys)) {

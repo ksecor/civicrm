@@ -36,10 +36,11 @@
 require_once 'CRM/Contribute/Form/ContributionPage.php';
 require_once 'CRM/Contribute/PseudoConstant.php';
 
-class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_ContributionPage {
+class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_ContributionPage 
+{
 
     /**
-    * This function sets the default values for the form. Note that in edit/view mode
+     * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
      *
      * @access public
@@ -69,7 +70,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
     {
         $this->_first = true;
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage');
-     
+        
         // name
         $this->add('text', 'title', ts('Title'), $attributes['title'], true);
 
@@ -151,12 +152,18 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
     {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
-
+        
         // we do this in case the user has hit the forward/back button
         if ( $this->_id ) {
             $params['id'] = $this->_id;
         }
-
+        //new contribution page, so lets set the created_id
+        if ( $this->_action & CRM_Core_Action::ADD ) { 
+            $session =& CRM_Core_Session::singleton( );
+            $params['created_id']   = $session->get( 'userID' );
+            $params['created_date'] = date('YmdHis');
+        }            
+        
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
         $params['honor_block_is_active'] = CRM_Utils_Array::value('honor_block_is_active', $params, false);

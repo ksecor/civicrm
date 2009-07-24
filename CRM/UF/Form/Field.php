@@ -119,7 +119,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $this->assign( 'showBestResult', $showBestResult );
         }
         
-        if($this->_action & CRM_Core_Action::UPDATE) {
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true, true);
         } else {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true);
@@ -235,15 +235,23 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $this->add('hidden', 'field_id', $this->_id);
          
         $fields = array();
-        $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual');
-        $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
-        $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
+        $fields['Individual'  ] =& CRM_Contact_BAO_Contact::importableFields('Individual', false, false, true);
+        $fields['Household'   ] =& CRM_Contact_BAO_Contact::importableFields('Household', false, false, true);
+        $fields['Organization'] =& CRM_Contact_BAO_Contact::importableFields('Organization', false, false, true);            
 
-        //unset note field
-        unset( $fields['Individual'  ]['note']);
-        unset( $fields['Household'   ]['note']);
-        unset( $fields['Organization']['note']);
-
+        // add current employer for individuals
+        $fields['Individual']['current_employer'] = array( 'name'  => 'organization_name',
+                                                           'title' => ts('Current Employer') );
+        
+        // unset unwanted fields
+        $unsetFieldArray = array( 'note', 'email_greeting_custom', 'postal_greeting_custom', 'addressee_custom', 'id' );
+        
+        foreach ( $unsetFieldArray as $value ) {
+            unset( $fields['Individual'  ][$value]);
+            unset( $fields['Household'   ][$value]);
+            unset( $fields['Organization'][$value]);
+        }
+        
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
         

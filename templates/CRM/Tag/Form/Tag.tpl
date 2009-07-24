@@ -56,7 +56,8 @@ function initTagTree() {
                  }
              });
         }
-
+		//showing count of tags in summary tab
+		cj( '.ui-tabs-nav #tab_tag a' ).html( 'Tags (' + cj("#tagtree input:checkbox:checked").length + ')');
         //update summary tab 
         tagLabels = tagsArray.join(', ');
         cj("#tags").html( tagLabels );

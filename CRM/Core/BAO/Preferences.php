@@ -48,6 +48,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
     static function &systemObject( ) {
         if ( ! self::$_systemObject ) {
             self::$_systemObject =& new CRM_Core_DAO_Preferences( );
+            self::$_systemObject->domain_id  = CRM_Core_Config::domainID( );
             self::$_systemObject->is_domain  = true;
             self::$_systemObject->contact_id = null;
             self::$_systemObject->find( true );
@@ -58,6 +59,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
     static function &mailingPreferences( ) {
         if ( ! self::$_mailingPref ) {
             $mailingPref =& new CRM_Core_DAO_Preferences( );
+            $mailingPref->domain_id  = CRM_Core_Config::domainID( );
             $mailingPref->is_domain  = true;
             $mailingPref->contact_id = null;
             $mailingPref->find( true );
@@ -76,6 +78,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
                 $userID  =  $session->get( 'userID' );
             }
             self::$_userObject =& new CRM_Core_DAO_Preferences( );
+            self::$_userObject->domain_id  = CRM_Core_Config::domainID( );
             self::$_userObject->is_domain  = false;
             self::$_userObject->contact_id = $userID;
             self::$_userObject->find( true );
@@ -128,7 +131,8 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         return $newSequence;
     }
 
-    static function valueOptions( $name, $system = true, $userID = null, $localize = false ) {
+    static function valueOptions( $name, $system = true, $userID = null, $localize = false,
+                                  $returnField = 'name', $returnNameANDLabels = false, $condition = null ) {
         if ( $system ) {
             $object = self::systemObject( );
         } else {
@@ -137,12 +141,25 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
         $optionValue = $object->$name;
         require_once 'CRM/Core/OptionGroup.php';
-        $groupValues = CRM_Core_OptionGroup::values( $name, false, false, $localize, null, 'name' );
-
+        $groupValues = CRM_Core_OptionGroup::values( $name, false, false, $localize, $condition, $returnField );
+        
+        //enabled name => label require for new contact edit form, CRM-4605
+        if ( $returnNameANDLabels ) {
+            $names = $labels = $nameAndLabels = array( );
+            if ( $returnField == 'name' ) {
+                $names  = $groupValues;
+                $labels = CRM_Core_OptionGroup::values( $name, false, false, $localize, $condition, 'label' );
+            } else {
+                $labels = $groupValues;
+                $names  = CRM_Core_OptionGroup::values( $name, false, false, $localize, $condition, 'name' );
+            }
+        }
+        
         $returnValues = array( );
         foreach ( $groupValues as $gn => $gv ) {
             $returnValues[$gv] = 0;
         }
+        
         if ( ! empty( $optionValue ) ) { 
             require_once 'CRM/Core/BAO/CustomOption.php';
             $dbValues = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
@@ -151,14 +168,17 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
                 foreach ( $dbValues as $key => $val ) {
                     if ( CRM_Utils_Array::value( $val, $groupValues) ) {
                         $returnValues[$groupValues[$val]] = 1;
+                        if ( $returnNameANDLabels ) {
+                            $nameAndLabels[$names[$val]] = $labels[$val];
+                        }
                     }
                 }
             }
         }
         
-        return $returnValues;
+        return ( $returnNameANDLabels ) ? $nameAndLabels : $returnValues;
     }
-
+    
 }
 
 

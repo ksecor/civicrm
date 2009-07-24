@@ -188,8 +188,8 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $enabled->freeze();
         }
         
-        //fix for CRM-3552
-        if ( $this->_gName == 'from_email_address' ) {
+        //fix for CRM-3552, CRM-4575
+        if ( in_array( $this->_gName, array('email_greeting', 'postal_greeting', 'addressee', 'from_email_address') ) ) {
             $this->assign( 'showDefault', true );
             $this->add('checkbox', 'is_default', ts('Default Option?'));
         }
@@ -270,8 +270,13 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         } else {
             $params = $ids = array( );
             $params = $this->exportValues();
-            //save contact type for email greeting, postal greeting, addressee, CRM-4575
-            $params['filter'] = array_key_exists ( 'contactOptions', $params ) ? CRM_Utils_Array::value( 'contactOptions', $params ) : null;
+           
+            //set defaultGreeting option in params as per contact type 
+            if ( CRM_Utils_Array::value( 'contactOptions', $params ) ) {
+                $params['filter']          = CRM_Utils_Array::value( 'contactOptions', $params );
+                $params['defaultGreeting'] = 1;
+            }
+            
             $groupParams = array( 'name' => ($this->_gName) );
             require_once 'CRM/Core/OptionValue.php';
             $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);

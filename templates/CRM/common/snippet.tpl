@@ -20,6 +20,6 @@
     {include file=$tplFile}
 {/if}
 
-
+{include file="CRM/common/action.tpl" isSnippet = true}
 </div> {* end crm-container-snippet div *}
 {/if}

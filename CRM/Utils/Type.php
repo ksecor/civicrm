@@ -144,7 +144,7 @@ class CRM_Utils_Type
             break;
             
         case 'String':
-            return addslashes($data);
+            return CRM_Core_DAO::escapeString($data);
             break;
             
         case 'Date':
@@ -252,6 +252,7 @@ class CRM_Utils_Type
         }
 
         if ( $abort ) {
+            $data = htmlentities( $data );
             CRM_Core_Error::fatal( "$name (value: $data) is not of the type $type" );
         }
 

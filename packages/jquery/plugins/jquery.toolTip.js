@@ -11,11 +11,12 @@
 	  var tipY = e.pageY + 12;
 	  $("body").append("<div id='toolTip' style='position: absolute; z-index: 100; display: none;'>" + text + "</div>");
 	  $("#toolTip").width("50%");
+	  $("#toolTip").fadeIn("medium");
 	  var tipWidth  = $("#toolTip").outerWidth(true);
 	  var tipHeight = $("#toolTip").outerHeight(true);
 	  if(tipX + tipWidth > $(window).scrollLeft() + $(window).width()) tipX = e.pageX - tipWidth;
 	  if($(window).height()+$(window).scrollTop() < tipY + tipHeight) tipY = e.pageY - tipHeight;
-	  $("#toolTip").css("left", tipX).css("top", tipY).fadeIn("medium");
+	  $("#toolTip").css("left", tipX).css("top", tipY);
 	  clickedElement = cj(this).children().attr('id');
       }).bind( 'mouseout', function() {
 	$(document).click( function() {

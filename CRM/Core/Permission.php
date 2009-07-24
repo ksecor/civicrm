@@ -291,7 +291,7 @@ class CRM_Core_Permission {
         }
     }
 
-    static function &basicPermissions( ) {
+    static function &basicPermissions( $all = false ) {
         static $permissions = null;
 
         if ( ! $permissions ) {
@@ -312,11 +312,18 @@ class CRM_Core_Permission {
                       'access CiviCRM'             => ts( 'access CiviCRM' ),
                       'access Contact Dashboard'   => ts( 'access Contact Dashboard' ),
                       'translate CiviCRM'          => ts( 'translate CiviCRM' ),
+                      'administer Multiple Organizations' => ts( 'administer Multiple Organizations' ),
                       );
 
             $config = CRM_Core_Config::singleton( );
             require_once 'CRM/Core/Component.php';
-            $components = CRM_Core_Component::getEnabledComponents();
+            
+            if ( !$all ) {
+                $components = CRM_Core_Component::getEnabledComponents( );
+            } else {
+                $components = CRM_Core_Component::getComponents( ); 
+            }
+                
             foreach ( $components as $comp ) {
                 $perm = $comp->getPermissions( );
                 if ( $perm ) {

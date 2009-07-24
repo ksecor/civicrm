@@ -1,7 +1,11 @@
 {ts 1=$contact.display_name}Dear %1{/ts},
 
-{ts}Your Event Registration is Expired.{/ts}
+{ts 1=$event.event_title}Your pending event registration for %1 has expired
+because you did not confirm your registration.{/ts}
 
+
+{ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions
+or want to inquire about reinstating your registration for this event.{/ts}
 
 ===========================================================
 {ts}Event Information and Location{/ts}
@@ -13,30 +17,30 @@
 {ts}Participant Role{/ts} : {$participant.role}
 
 {if $isShowLocation}
-{if $event.location.1.name}
+{if $event.location.name}
 
-{$event.location.1.name}
+{$event.location.name}
 {/if}
-{if $event.location.1.address.street_address}{$event.location.1.address.street_address}
+{if $event.location.address.1.street_address}{$event.location.address.1.street_address}
 {/if}
-{if $event.location.1.address.supplemental_address_1}{$event.location.1.address.supplemental_address_1}
+{if $event.location.address.1.supplemental_address_1}{$event.location.address.1.supplemental_address_1}
 {/if}
-{if $event.location.1.address.supplemental_address_2}{$event.location.1.address.supplemental_address_2}
+{if $event.location.address.1.supplemental_address_2}{$event.location.address.1.supplemental_address_2}
 {/if}
-{if $event.location.1.address.city}{$event.location.1.address.city} {$event.location.1.address.postal_code}{if $event.location.1.address.postal_code_suffix} - {$event.location.1.address.postal_code_suffix}{/if}
+{if $event.location.address.1.city}{$event.location.address.1.city} {$event.location.address.1.postal_code}{if $event.location.address.1.postal_code_suffix} - {$event.location.address.1.postal_code_suffix}{/if}
 {/if}
 
 {/if}{*End of isShowLocation condition*}
 
-{if $event.location.1.phone.1.phone || $event.location.1.email.1.email}
+{if $event.location.phone.1.phone || $event.location.email.1.email}
 
 {ts}Event Contacts:{/ts}
-{foreach from=$event.location.1.phone item=phone}
+{foreach from=$event.location.phone item=phone}
 {if $phone.phone}
 
 {if $phone.phone_type}{$phone.phone_type_display}{else}{ts}Phone{/ts}{/if}: {$phone.phone}{/if}
 {/foreach}
-{foreach from=$event.location.1.email item=eventEmail}
+{foreach from=$event.location.email item=eventEmail}
 {if $eventEmail.email}
 
 {ts}Email{/ts}: {$eventEmail.email}{/if}{/foreach}
@@ -56,7 +60,4 @@
 {if $register_date}
 {ts}Registration Date{/ts}: {$participant.register_date|crmDate}
 {/if}
-
-{ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions
-or need to modify your event registration.{/ts}
 

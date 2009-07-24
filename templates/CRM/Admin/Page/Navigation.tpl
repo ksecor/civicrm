@@ -58,8 +58,8 @@
                         id		: "delete",
                         label	: "Delete",
                         icon	: "remove.png",
-                        visible	: function (node, treeObject) { var ok = true; $.each(node, function () { if(treeObject.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
-                        action	: function (node, treeObject) { $.each(node, function () { treeObject.remove(this); }); } 
+                        visible	: function (node, treeObject) { var ok = true; cj.each(node, function () { if(treeObject.check("deletable", this) == false) ok = false; return false; }); return ok; }, 
+                        action	: function (node, treeObject) { cj.each(node, function () { treeObject.remove(this); }); } 
                     }
                 ]
             },                
@@ -81,7 +81,10 @@
             		);
     			},
     			beforedelete : function( node ) {
-    				return confirm("Are you sure you want to delete?");
+    			    var nid = cj( node ).attr("id");
+    			    var menuItem = cj("#" + nid ).find("a").html();
+    			    var deleteMsg = {/literal}"Are you sure you want to delete this menu item: "{literal} + menuItem + {/literal}" ? This action can not be undone."{literal};
+    				return confirm( deleteMsg );
     			},
     			ondelete : function ( node ) {
                     var postURL = {/literal}"{crmURL p='civicrm/ajax/menutree' h=0 }"{literal};

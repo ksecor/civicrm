@@ -288,7 +288,9 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $events[$dao->id] = $dao->title . ' - '.CRM_Utils_Date::customFormat($dao->start_date);
+            if ( $dao->title ) { 
+                $events[$dao->id] = $dao->title . ' - '.CRM_Utils_Date::customFormat($dao->start_date);
+            }
         }
         
         return $events;
@@ -305,8 +307,9 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         $eventSummary = array( );
         
         $query = "SELECT count(id) as total_events
-                  FROM   civicrm_event 
-                  WHERE  civicrm_event.is_active=1";
+                  FROM   civicrm_event e
+                  WHERE  e.is_active=1 AND
+                        ( e.is_template IS NULL OR e.is_template = 0)";
         
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
@@ -337,7 +340,8 @@ FROM       civicrm_event
 LEFT JOIN  civicrm_option_value ON (
            civicrm_event.event_type_id = civicrm_option_value.value AND
            civicrm_option_value.option_group_id = %1 )
-WHERE      civicrm_event.is_active = 1
+WHERE      civicrm_event.is_active = 1 AND
+           ( civicrm_event.is_template IS NULL OR civicrm_event.is_template = 0)
 GROUP BY   civicrm_event.id
 ORDER BY   civicrm_event.end_date DESC
 LIMIT      0, 10
@@ -404,12 +408,12 @@ LIMIT      0, 10
                         $params = array( 'entity_id' => $dao->id ,'entity_table' => 'civicrm_event');
 
                         require_once 'CRM/Core/BAO/Location.php';
-                        CRM_Core_BAO_Location::getValues($params, $values, true );
+                        $values['location'] = CRM_Core_BAO_Location::getValues( $params, true );
                         
-                        if ( is_numeric( CRM_Utils_Array::value('geo_code_1',$values['location'][1]['address']) ) ||
+                        if ( is_numeric( CRM_Utils_Array::value('geo_code_1',$values['location']['address'][1]) ) ||
                              ( $config->mapGeoCoding &&
-                               $values['location'][1]['address']['city'] && 
-                               $values['location'][1]['address']['state_province_id']
+                               $values['location']['address'][1]['city'] && 
+                               $values['location']['address'][1]['state_province_id']
                              ) ) {
                             $set = CRM_Utils_System::url( 'civicrm/contact/map',"reset=1&eid={$dao->id}" );
                         }
@@ -864,7 +868,7 @@ WHERE civicrm_event.is_active = 1
                     $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
                     if ( $email ) {
                         //get values of corresponding profile fields for notification
-                        $profileValues = self::buildCustomDisplay( $gId, null, $contactID, $template, $participantId, $isTest, true );  
+                        list( $profileValues ) = self::buildCustomDisplay( $gId, null, $contactID, $template, $participantId, $isTest, true );  
                         $val = array(
                                      'id'     => $gId,
                                      'values' => $profileValues,
@@ -878,9 +882,15 @@ WHERE civicrm_event.is_active = 1
         
         if ( $values['event']['is_email_confirm'] ) {
             require_once 'CRM/Contact/BAO/Contact/Location.php';
-            // if pay later or for additional participant than we should use primary email address    
-            if ( CRM_Utils_Array::value( 'is_pay_later', $values['params'] ) ||
-                 CRM_Utils_Array::value( 'additionalParticipant', $values['params'] ) )  {
+            //use primary email address, since we are not creating billing address for
+            //1. participant is pay later.
+            //2. participant might be additional participant.
+            //3. participant might be on waiting list.
+            //4. registration might require approval.
+            if ( CRM_Utils_Array::value( 'is_pay_later',          $values['params'] ) ||
+                 CRM_Utils_Array::value( 'additionalParticipant', $values['params'] ) ||
+                 CRM_Utils_Array::value( 'isOnWaitlist',          $values['params'] ) ||
+                 CRM_Utils_Array::value( 'isRequireApproval',     $values['params'] ) ) {
                 list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
             } else {
                 // get the billing location type
@@ -891,8 +901,16 @@ WHERE civicrm_event.is_active = 1
             
             //send email only when email is present
             if ( isset( $email ) ) {
-                self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
-                self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId, $isTest );
+                $preProfileID  = $values['custom_pre_id'];
+                $postProfileID = $values['custom_post_id'];
+                
+                if ( CRM_Utils_Array::value( 'additionalParticipant', $values['params'] ) ) {
+                    $preProfileID  = $values['additional_custom_pre_id'];
+                    $postProfileID = $values['additional_custom_post_id'];
+                }
+                
+                self::buildCustomDisplay( $preProfileID, 'customPre' , $contactID, $template, $participantId, $isTest );
+                self::buildCustomDisplay( $postProfileID, 'customPost', $contactID, $template, $participantId, $isTest );
                 
                 // set confirm_text and contact email address for display in the template here
                 $template->assign( 'email', $email );
@@ -953,6 +971,7 @@ WHERE civicrm_event.is_active = 1
                     $params[] = array( 'participant_test', '=', 1, 0, 0 );
                 }
                 
+                $groupTitles = array( );
                 $groupTitle = null;
                 foreach( $fields as $k => $v  ) {
                     if ( ! $groupTitle ) {
@@ -966,6 +985,7 @@ WHERE civicrm_event.is_active = 1
 
                 if ( $groupTitle ) {
                     $template->assign( $name."_grouptitle", $groupTitle );
+                    $groupTitles[ $name."_grouptitle" ] = $groupTitle;
                 }
 
 
@@ -1007,7 +1027,7 @@ WHERE civicrm_event.is_active = 1
                 //return if we only require array of participant's info.
                 if ( $isCustomProfile ) {
                     if ( count($values) ) {
-                        return $values;
+                        return array( $values, $groupTitles );
                     } else {
                         return null;
                     }
@@ -1076,11 +1096,23 @@ WHERE civicrm_event.is_active = 1
                 }
                 
                 if ( 'state_province' == substr( $name, 0, 14 ) ) {
-                    $values[$index] = CRM_Core_PseudoConstant::stateProvince( $params[$name] );
+                    if ( $params[$name] ) {
+                        $values[$index] = CRM_Core_PseudoConstant::stateProvince( $params[$name] );
+                    } else {
+                        $values[$index] = '';
+                    }
                 } else if ( 'country' == substr( $name, 0, 7 ) ) {
-                    $values[$index] = CRM_Core_PseudoConstant::country( $params[$name] );
+                    if ( $params[$name] ) {
+                        $values[$index] = CRM_Core_PseudoConstant::country( $params[$name] );
+                    } else {
+                        $values[$index] = '';
+                    }
                 } else if ( 'county' == substr( $name, 0, 6 ) ) {
-                    $values[$index] = $params[$name];
+                    if ( $params[$name] ) {
+                        $values[$index] = CRM_Core_PseudoConstant::county( $params[$name] );
+                    } else {
+                        $values[$index] = '';
+                    }
                 } else if ( 'gender' == substr( $name, 0, 6 ) ) {
                     $gender =  CRM_Core_PseudoConstant::gender( );
                     $values[$index] = $gender[$params[$name]];
@@ -1090,9 +1122,10 @@ WHERE civicrm_event.is_active = 1
                 } else if ( 'individual_suffix' == substr( $name, 0, 17 ) ) {
                     $suffix = CRM_Core_PseudoConstant::individualSuffix( );
                     $values[$index] = $suffix[$params[$name]];
-                } else if ( 'greeting_type' == substr( $name, 0, 13 ) ) {
-                    $greeting = CRM_Core_PseudoConstant::greeting( );
-                    $values[$index] = $greeting[$params[$name]];
+                } else if ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting') ) ) {
+                            $filterCondition = array( 'greeting_type' => $name ); 
+                            $greeting =& CRM_Core_PseudoConstant::greeting( $filterCondition );
+                            $values[$index] = $greeting[$params[$name]];
                 } else if ( $name === 'preferred_communication_method' ) {
                     $communicationFields = CRM_Core_PseudoConstant::pcm();
                     $pref = array();
@@ -1281,27 +1314,29 @@ WHERE  id = $cfID
         
         //else build array of Additional participant's information. 
         if ( count($additionalIDs) ) { 
-            if ( $values['custom_pre_id'] || $values['custom_post_id'] ) {
+            if ( $values['additional_custom_pre_id'] || $values['additional_custom_post_id'] ) {
                 $template =& CRM_Core_Smarty::singleton( );
                 $isCustomProfile = true;
                 $i = 1;
                 foreach ( $additionalIDs as $pId => $cId ) {
-                    $profilePre =  self::buildCustomDisplay( $values['custom_pre_id'], 'customPre',
+                    list( $profilePre, $groupTitles ) =  self::buildCustomDisplay( $values['additional_custom_pre_id'], 'additionalCustomPre',
                                                              $cId, $template, $pId, $isTest, $isCustomProfile );
                     if ( $profilePre ) {
-                        $customProfile[$i]['customPre'] =  $profilePre;
+                        $customProfile[$i]['additionalCustomPre'] =  $profilePre;
+                        $customProfile[$i] = array_merge( $groupTitles, $customProfile[$i] );
                     }
 
-                    $profilePost =  self::buildCustomDisplay( $values['custom_post_id'], 'customPost',
+                    list( $profilePost, $groupTitles ) =  self::buildCustomDisplay( $values['additional_custom_post_id'], 'additionalCustomPost',
                                                               $cId, $template, $pId, $isTest, $isCustomProfile );
                     if ( $profilePost ) {
-                        $customProfile[$i]['customPost'] =  $profilePost;
+                        $customProfile[$i]['additionalCustomPost'] =  $profilePost;
+                        $customProfile[$i] = array_merge( $groupTitles, $customProfile[$i] );
                     }
                     $i++;
                 }
             }
         }
-
+        
         return $customProfile;
     }
     

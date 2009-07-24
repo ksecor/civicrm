@@ -91,7 +91,7 @@
                     }       
 				  </script>
                 {/literal}
-                <dd  class="tundra">{$form.name.html}</dd></div>
+                <dd  class="tundra">{$form.name.html}</dd>
                 <dt> </dt>
                   <dd>
                     {$form._qf_Relationship_refresh.html}
@@ -177,6 +177,7 @@
 
                 <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
+        </div>
         {if $action eq 2}
 	<div>
             <dt id="employee">{ts}Is current employee?{/ts}</dt>
@@ -189,8 +190,7 @@
         <dl>
       	  <dt></dt><dd>{$form.buttons.html}</dd>
         </dl>
-        </div>
-        </div></fieldset>
+        </fieldset>
         {/if}
   {/if}
  

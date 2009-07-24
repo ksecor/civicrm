@@ -124,14 +124,12 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
     {
         $params       = array( );
         $params['id'] = $params['contact_id'] = $this->_contactId;
-        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $this->_defaults );
+        $contact      = CRM_Contact_BAO_Contact::retrieve( $params, $this->_defaults );
 
-        $address   = CRM_Utils_Array::value( 'address',
-                                             $this->_defaults['location'][1] );
         $countryID = CRM_Utils_Array::value( 'country_id',
-                                             $address );
+                                             $this->_defaults['address'][1] );
         $stateID   = CRM_Utils_Array::value( 'state_province_id',
-                                             $address );
+                                             $this->_defaults['address'][1] );
         CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this,
                                                          $this->_contactType, 
                                                          $countryID,
@@ -159,9 +157,15 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         
-        $params['location'][1]['is_primary'] = 1;
-	    $params['contact_type']              = $this->_contactType;
-        $params['contact_id']                = $this->_contactId;
+        require_once "CRM/Core/BAO/LocationType.php";
+        $locType = CRM_Core_BAO_LocationType::getDefault();
+        foreach ( array('phone', 'email', 'address') as $locFld ) {
+            $params[$locFld][1]['is_primary']       = 1;
+            $params[$locFld][1]['location_type_id'] = $locType->id;
+        }
+
+	    $params['contact_type'] = $this->_contactType;
+        $params['contact_id']   = $this->_contactId;
 
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );

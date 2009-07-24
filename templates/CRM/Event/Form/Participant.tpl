@@ -15,7 +15,9 @@
 	{ts 1=$displayName 2=$registerMode}Use this form to submit an event registration on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
 </div>
 {/if}
-<div class="html-adjust">{$form.buttons.html}</div>
+<div id="eventFullMsg" class="messages status" style="display:none;"></div>
+
+<div class="html-adjust disable-buttons">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend>
 	{if $action eq 1 AND $paid}
 	<div id="help">
@@ -106,7 +108,7 @@
     {/if}
 </fieldset> 
 
-<div class="html-adjust">{$form.buttons.html}</div>
+<div class="html-adjust disable-buttons">{$form.buttons.html}</div>
 
 {if $action eq 1 or $action eq 2}
 {literal}
@@ -140,6 +142,7 @@
 		if ( eventId) {
 			dataUrl = dataUrl + '&eventId=' + eventId;	
 		} else {
+                        cj('#eventFullMsg').hide( );
 			cj('#feeBlock').html('');
 			return;
 		}
@@ -164,16 +167,22 @@
     	});
     					
         cj("#feeBlock").ajaxStart(function(){
-            cj("#overlay").show();
+            cj(".disable-buttons input").attr('disabled', true);
         });
         
         cj("#feeBlock").ajaxStop(function(){
-            cj("#overlay").hide();
+            cj(".disable-buttons input").attr('disabled', false);
         });
+
+        //show event real full as well as waiting list message. 
+        if ( cj("#hidden_eventFullMsg").val( ) ) {
+          cj( "#eventFullMsg" ).show( ).html( cj("#hidden_eventFullMsg" ).val( ) );
+        } else {
+          cj( "#eventFullMsg" ).hide( );
+        }
 	}
 </script>
 {/literal}
-<div id="overlay">Loading...</div>
 {*include custom data js file*}
 {include file="CRM/common/customData.tpl"}
 {literal}

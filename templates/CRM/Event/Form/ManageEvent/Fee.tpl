@@ -2,7 +2,10 @@
 {capture assign="adminPriceSets"}{crmURL p='civicrm/admin/price' q="reset=1"}{/capture}
 
 <div class="form-item">
-<fieldset><legend>{ts}Event Fees{/ts}</legend>
+<div class="crm-submit-buttons">
+    {$form.buttons.html}
+</div>
+<fieldset>
     {if !$paymentProcessor}
         {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
         <div class="status message">
@@ -150,10 +153,10 @@
     </div>
     </div>	
     </div>
-    <dl>   
-      <dt></dt><dd>{$form.buttons.html}</dd>
-    </dl>
 </fieldset>
+<div class="crm-submit-buttons">
+    {$form.buttons.html}
+</div>
 </div>
 
 {include file="CRM/common/showHide.tpl"}

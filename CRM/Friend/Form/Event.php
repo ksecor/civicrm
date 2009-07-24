@@ -114,9 +114,7 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
 
         CRM_Friend_BAO_Friend::addTellAFriend( $formValues );
 
-        if ($formValues['is_template']) {
-            CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/eventTemplate', 'reset=1'));
-        }
+        parent::endPostProcess( );
     }
 
      /** 

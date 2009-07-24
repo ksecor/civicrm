@@ -15,7 +15,7 @@
         </td> 
     </tr>
     <tr> 
-        <td>{$form.sort_name.label}<br />
+        <td colspan="3">{$form.sort_name.label}<br />
             {$form.sort_name.html|crmReplace:class:big} {help id="id-create_sort_name"}
         </td>
     </tr>

@@ -26,7 +26,7 @@
   });
 
   function newContact( gid ) {
-      var dataURL = {/literal}"{crmURL p='civicrm/profile/create?reset=1&snippet=5&context=dialog' h=0 }"{literal};
+      var dataURL = {/literal}"{crmURL p='civicrm/profile/create' q='reset=1&snippet=5&context=dialog' h=0 }"{literal};
       dataURL = dataURL + '&gid=' + gid;
       cj.ajax({
          url: dataURL,

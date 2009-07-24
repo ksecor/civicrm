@@ -171,7 +171,7 @@ class CRM_Member_BAO_Query
             
         case 'member_source':
             
-            $value = strtolower(addslashes(trim($value)));
+            $value = strtolower(CRM_Core_DAO::escapeString(trim($value)));
 
             $query->_where[$grouping][] = "civicrm_membership.source $op '{$value}'";
             $query->_qill[$grouping ][] = ts( 'Source %2 %1', array( 1 => $value, 2 => $op) );

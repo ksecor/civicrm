@@ -65,18 +65,26 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
         }
 
         $this->_id  = CRM_Utils_Request::retrieve('id', 'Positive',
-                                                 $this, false, 0);
+                                                  $this, false, 0);
+
+        if ( $this->_id ) {
+            $params = array( 'id' => $this->_id );
+            require_once 'CRM/Event/BAO/Event.php';
+            CRM_Event_BAO_Event::retrieve( $params, $eventInfo );
+        }
 
         // figure out whether we’re handling an event or an event template
         if ($this->_id) {
-            $this->_isTemplate = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'is_template');
+            $this->_isTemplate = CRM_Utils_Array::value( 'is_template', $eventInfo );
         } elseif ($action & CRM_Core_Action::ADD) {
             $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
         }
 
         // assign vars to templates
-        $this->assign('action', $action);
-        $this->assign( 'id', $this->_id );
+        $this->assign( 'action', $action);
+        $this->assign( 'id',     $this->_id );
+        $this->assign( 'isTemplate', $this->_isTemplate);
+        $this->assign( 'isOnlineRegistration', CRM_Utils_Array::value( 'is_online_registration', $eventInfo ));
         
         $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
         
@@ -84,16 +92,24 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
             $subPage = 'EventInfo';
         }
 
-        if ($this->_id) {
-            $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title'));
-
-            if ($this->_isTemplate) {
-                $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'template_title');
-                CRM_Utils_System::setTitle(ts('Configure Event Template') . " - $title");
+        if ( $this->_id ) {
+            if ( $this->_isTemplate ) {
+                $title = CRM_Utils_Array::value( 'template_title', $eventInfo );
+                CRM_Utils_System::setTitle(ts('Edit Event Template') . " - $title");
             } else {
-                $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'title');
+                $title = CRM_Utils_Array::value( 'title', $eventInfo );
                 CRM_Utils_System::setTitle(ts('Configure Event') . " - $title");
             }
+            $this->assign( 'title', $title );
+        } else if ( $action & CRM_Core_Action::ADD ) {
+            if ( $this->_isTemplate ) {
+                $title = ts('New Event Template');
+                CRM_Utils_System::setTitle( $title );
+            } else {
+                $title = ts('New Event');
+                CRM_Utils_System::setTitle( $title );
+            }
+            $this->assign( 'title', $title );
         }
 
         require_once 'CRM/Event/PseudoConstant.php';
@@ -108,9 +124,7 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
         $this->assign('findParticipants', $findParticipants);
         
         if ($this->_id) {
-            $participantListingID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                                 $this->_id,
-                                                                 'participant_listing_id' );
+            $participantListingID = CRM_Utils_Array::value( 'participant_listing_id', $eventInfo );
         }
         if ( $participantListingID ) {
             $participantListingURL = CRM_Utils_System::url( 'civicrm/event/participant',
@@ -152,43 +166,13 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page
             return $controller->run(); 
         }
 
+        if ( $this->_id ) {
+            $session =& CRM_Core_Session::singleton(); 
+            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
+                                                              "action=update&reset=1&id={$this->_id}" ) );
+        }
         return parent::run();
     }
 
-
-    /**
-     * Browse Manage Event
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    function browse($action=null)
-    {
-        
-        // get all custom groups sorted by weight
-        $event =  array();
-        $dao      =& new CRM_Event_DAO_Event();
-
-        $dao->orderBy('title');
-        $dao->find();
-
-        while ($dao->fetch()) {
-           
-            // form all action links
-            $action = array_sum(array_keys($this->actionLinks()));
-            
-            // update enable/disable links depending on custom_group properties.
-            if ($dao->is_active) {
-                $action -= CRM_Core_Action::ENABLE;
-            } else {
-                $action -= CRM_Core_Action::DISABLE;
-            }
-            
-            $event[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                          array('id' => $dao->id));
-        }
-        $this->assign('rows', $event);
-    }
 }
 

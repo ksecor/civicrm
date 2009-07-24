@@ -60,21 +60,21 @@
         {*assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
         {assign var="element_name" value=$element.element_name}  
         <dt>{$form.$element_name.label}</dt>
-	<dd>{$form.$element_name.html}&nbsp;
+	    <dd>{$form.$element_name.html}&nbsp;
 	    {if $element.html_type eq 'Radio'}
-	    	&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;)</dd>
-	    {/if}
-	    {if $element.data_type eq 'Date'}
+	    	&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;)
+	    {elseif $element.data_type eq 'Date'}
 	        {if $element.skip_calendar NEQ true } 
                 <span>
                     {include file="CRM/common/calendar/desc.tpl" trigger="$element_name"}
-		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=2010 doTime=1  trigger="$element_name"}
-		</span>
-		{/if} </dd>
-	    {elseif $element.data_type eq 'Auto-complete'}
+		            {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=2010 doTime=1  trigger="$element_name"}
+		       </span>
+		    {/if} 
+	    {elseif $element.html_type eq 'Autocomplete-Select'}
 	        {include file="CRM/Custom/Form/AutoComplete.tpl"}
-            {/if}
-         {if $element.help_post}
+        {/if}
+        </dd>
+        {if $element.help_post}
             <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
         {/if}
 	{/if}

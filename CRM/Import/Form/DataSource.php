@@ -55,6 +55,19 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
      * @access public 
      */
     public function preProcess( ) {
+
+        //Test database user privilege to create table(Temporary) CRM-4725
+        CRM_Core_Error::ignoreException();
+        $daoTestPrivilege = new CRM_Core_DAO;
+        $daoTestPrivilege->query( "CREATE TEMPORARY TABLE import_job_permission_one(test int) ENGINE=InnoDB" );
+        $daoTestPrivilege->query( "CREATE TEMPORARY TABLE import_job_permission_two(test int) ENGINE=InnoDB" );
+        $daoTestPrivilege->query( "DROP TABLE IF EXISTS import_job_permission_one, import_job_permission_two" );
+        CRM_Core_Error::setCallback();
+        
+        if ( $daoTestPrivilege->_lastError ) {
+            CRM_Core_Error::fatal( ts('Database Configuration Error: Insufficient permissions. Import requires that the CiviCRM database user has permission to create temporary tables. Contact your site administrator for assistance.') );
+        }
+
         $this->_dataSourceIsValid = false;
         $this->_dataSource = CRM_Utils_Request::retrieve( 'dataSource', 'String',
                                                           CRM_Core_DAO::$_nullObject );

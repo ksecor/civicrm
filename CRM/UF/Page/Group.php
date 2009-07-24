@@ -65,7 +65,6 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         // check if variable _actionsLinks is populated
         if ( ! self::$_actionLinks ) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this CiviCRM Profile?');
             $copyExtra = ts('Are you sure you want to make a copy of this Profile?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::BROWSE  => array(
@@ -88,15 +87,15 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=disable&id=%%id%%',
-                                                                          'title' => ts('Disable CiviCRM Profile Group')
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_UFGroup' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'ref'   => 'disable-action',
+                                                                          'title' => ts('Disable CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'url'   => 'civicrm/admin/uf/group',
-                                                                          'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable CiviCRM Profile Group'),
+                                                                          'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_UFGroup' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'ref'   => 'enable-action',
+                                                                          'title' => ts('Enable CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::DELETE  => array(
                                                                           'name'  => ts('Delete'),
@@ -195,6 +194,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page
      */
     function profile( ) 
     {
+        $config =& CRM_Core_Config::singleton( );
+        
+        // reassign resource base to be the full url, CRM-4660
+        $config->resourceBase = $config->userFrameworkResourceURL;
+        $config->useFrameworkRelativeBase = $config->userFrameworkBaseURL;
+
         $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this, false, 0, 'GET');
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD,
@@ -213,7 +218,6 @@ class CRM_UF_Page_Group extends CRM_Core_Page
 
         // FIXME: (CRM-3587) hack to make standalone profile in joomla work
         // without administrator login 
-        $config =& CRM_Core_Config::singleton( );
         if ( $config->userFramework == 'Joomla' ) {
             $profile = str_replace( '/administrator/index2.php', '/index.php', $profile );
         }

@@ -108,8 +108,8 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
             self::$redactionRule = array( );
                         
             if( $filter === 0) {
-                $condition = "  AND  v.filter = 0";
-
+                $condition = "  AND (v.filter = 0 OR v.filter IS NULL)";
+                
             } elseif ( $filter === 1) {
                 $condition = "  AND  v.filter = 1";
             } elseif ( $filter === null) {
@@ -117,7 +117,7 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
             } 
             
             require_once 'CRM/Core/OptionGroup.php';
-            self::$redactionRule = CRM_Core_OptionGroup::values('redaction_rule', false, false, false, $condition);
+            self::$redactionRule = CRM_Core_OptionGroup::values('redaction_rule', true, false, false, $condition);
             // }
         return self::$redactionRule;
     }
@@ -212,9 +212,10 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
         if ( !$caseId ) {
             return false;
         }
-        
+
+        require_once('CRM/Case/BAO/Case.php');
         if ( ! array_key_exists($caseId, self::$caseTypePair) ) {
-            $caseTypes    = self::caseType();
+            $caseTypes    = self::caseType( 'name' );
             $caseTypeIds  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
                                                          $caseId,
                                                          'case_type_id' );

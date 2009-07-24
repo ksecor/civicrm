@@ -310,7 +310,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              $row['showConfirmUrl'] = false;
              if ($statusClass == 'Pending') {
                  $row['showConfirmUrl'] = true;
-                 $extraInfo[] = ts('Incomplete Transaction');
+                 if ($result->participant_status_id == 'Pending from pay later') $extraInfo[] = ts('Incomplete Transaction');
                  if ($result->participant_is_pay_later) $extraInfo[] = ts('Pay Later');
              }             
              if (CRM_Utils_Array::value('participant_is_test', $row)) $extraInfo[] = ts('test');
@@ -376,7 +376,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Fee Amount'),
+                                                'name'      => ts('Amount'),
                                                 'sort'      => 'fee_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -386,7 +386,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DESCENDING, 
                                                 ),
                                           array(
-                                                'name'      => ts('Register Date(s)'),
+                                                'name'      => ts('Registered'),
                                                 'sort'      => 'participant_register_date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING, 
                                                 ),

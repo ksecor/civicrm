@@ -1167,8 +1167,8 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (2540, 1076, "65", "Hautes-Pyrénées"),
 (2541, 1076, "92", "Hauts-de-Seine"),
 (2542, 1076, "34", "Hérault"),
-(2543, 1076, "35", "Indre"),
-(2544, 1076, "36", "Ille-et-Vilaine"),
+(2543, 1076, "36", "Indre"),
+(2544, 1076, "35", "Ille-et-Vilaine"),
 (2545, 1076, "37", "Indre-et-Loire"),
 (2546, 1076, "38", "Isère"),
 (2547, 1076, "40", "Landes"),
@@ -3867,4 +3867,14 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (10000, 1107, "CI", "Carbonia-Iglesias"),
 (10001, 1107, "OT", "Olbia-Tempio"),
 (10002, 1107, "VS", "Medio Campidano"),
-(10003, 1107, "OG", "Ogliastra");
+(10003, 1107, "OG", "Ogliastra"),
+
+-- states of the Netherlands Antilles (CRM-4686)
+(10004, 1151, 'BON', 'Bonaire'),
+(10005, 1151, 'CUR', 'Curaçao'),
+(10006, 1151, 'SAB', 'Saba'),
+(10007, 1151, 'EUA', 'St. Eustatius'),
+(10008, 1151, 'SXM', 'St. Maarten'),
+
+-- department of France (CRM-4769)
+(10009, 1076, "39", "Jura");

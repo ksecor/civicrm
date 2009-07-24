@@ -2,10 +2,12 @@
 {if $cdType} 
 	{include file="CRM/Custom/Form/CustomData.tpl"} 
 {else} 
-	{capture assign=mapURL}{crmURL p='civicrm/admin/setting/mapping' q="reset=1"}{/capture} 
 	{assign var=eventID value=$id}
 	<div class="form-item">
-	<fieldset><legend>{ts}Event Information{/ts}</legend>
+        <div class="crm-submit-buttons">
+            {$form.buttons.html}
+        </div>
+	<fieldset>
 	<table class="form-layout-compressed">
 		{if $form.template_title}
 			<tr>
@@ -56,7 +58,7 @@
 				<td>{$form.start_date.html}</br>
 				<span class="description">
 				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1} 
-				{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_event_1 ampm=1}</span><//td>
+				{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_event_1 ampm=1}</span></td>
 			</tr>
 			<tr>
 				<td class="label">{$form.end_date.label}</td>
@@ -69,23 +71,23 @@
 		{/if}
 		<tr>
 			<td class="label">{$form.max_participants.label}</td>
-			<td>{$form.max_participants.html|crmReplace:class:four}<br />
-			<span class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached. Only participants with status types marked as 'counted' are included when checking if the event is full.{/ts}</span></td>
+			<td>{$form.max_participants.html|crmReplace:class:four} {help id="id-max_participants"}</td>
 		</tr>
-		<tr>
-			<td class="label">{$form.event_full_text.label}</td>
-			<td>{$form.event_full_text.html}<br />
-			<span class="description">{ts}Text displayed on the Event Information page when the maximum number of registrations is reached. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}</span></td>
+        <tr id="id-waitlist">
+            <td class="label">{$form.has_waitlist.label}</td>
+            <td>{$form.has_waitlist.html} {help id="id-has_waitlist"}</td>
+        </tr>
+		<tr id="id-event_full">
+			<td class="label">{$form.event_full_text.label}<br />{help id="id-event_full_text"}</td>
+			<td>{$form.event_full_text.html}</td>
 		</tr>
-		<tr>
-			<td class="label">{$form.waitlist_text.label}</td>
-			<td>{$form.waitlist_text.html}<br />
-			<span class="description">{ts}Text displayed on the Event Information page when the maximum number of registrations is reached, but the event offers the possibility to sign up for a waitlist.{/ts}</span></td>
+		<tr id="id-waitlist-text">
+			<td class="label">{$form.waitlist_text.label}<br />{help id="id-help-waitlist_text"}</td>
+			<td>{$form.waitlist_text.html}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td>{$form.is_map.html} {$form.is_map.label}<br />
-			<span class="description">{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href='%1'>Global Settings &raquo; Mapping</a>){/ts}</span></td>
+			<td>{$form.is_map.html} {$form.is_map.label} {help id="id-is_map"}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -130,10 +132,12 @@
 			});
 		</script>
 	{/literal}
-	<dl>    
-		<dt></dt>
-		<dd class="html-adjust">{$form.buttons.html}</dd>   
-	</dl> 
 	</fieldset>     
+        <div class="crm-submit-buttons">
+            {$form.buttons.html}
+        </div>
 	</div>
+    {include file="CRM/common/showHide.tpl" elemType="table-row"}
 {/if}
+
+

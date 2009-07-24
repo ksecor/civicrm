@@ -1,5 +1,4 @@
 {ts 1=$contact.display_name}Dear %1{/ts},
-
 {if !$isAdditional and $participant.id}
 
 ===========================================================
@@ -21,30 +20,30 @@ Click this link to go to a web page where you can confirm your registration onli
 {ts}Participant Role{/ts} : {$participant.role}
 
 {if $isShowLocation}
-{if $event.location.1.name}
+{if $event.location.address.1.name}
 
-{$event.location.1.name}
+{$event.location.address.1.name}
 {/if}
-{if $event.location.1.address.street_address}{$event.location.1.address.street_address}
+{if $event.location.address.1.street_address}{$event.location.address.1.street_address}
 {/if}
-{if $event.location.1.address.supplemental_address_1}{$event.location.1.address.supplemental_address_1}
+{if $event.location.address.1.supplemental_address_1}{$event.location.address.1.supplemental_address_1}
 {/if}
-{if $event.location.1.address.supplemental_address_2}{$event.location.1.address.supplemental_address_2}
+{if $event.location.address.1.supplemental_address_2}{$event.location.address.1.supplemental_address_2}
 {/if}
-{if $event.location.1.address.city}{$event.location.1.address.city} {$event.location.1.address.postal_code}{if $event.location.1.address.postal_code_suffix} - {$event.location.1.address.postal_code_suffix}{/if}
+{if $event.location.address.1.city}{$event.location.address.1.city} {$event.location.address.1.postal_code}{if $event.location.address.1.postal_code_suffix} - {$event.location.address.1.postal_code_suffix}{/if}
 {/if}
 
 {/if}{*End of isShowLocation condition*}
 
-{if $event.location.1.phone.1.phone || $event.location.1.email.1.email}
+{if $event.location.phone.1.phone || $event.location.email.1.email}
 
 {ts}Event Contacts:{/ts}
-{foreach from=$event.location.1.phone item=phone}
+{foreach from=$event.location.phone item=phone}
 {if $phone.phone}
 
 {if $phone.phone_type}{$phone.phone_type_display}{else}{ts}Phone{/ts}{/if}: {$phone.phone}{/if}
 {/foreach}
-{foreach from=$event.location.1.email item=eventEmail}
+{foreach from=$event.location.email item=eventEmail}
 {if $eventEmail.email}
 
 {ts}Email{/ts}: {$eventEmail.email}{/if}{/foreach}

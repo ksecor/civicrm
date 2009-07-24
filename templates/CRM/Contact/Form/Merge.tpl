@@ -77,5 +77,36 @@
           }
           document.getElementById( 'move_' + element.id + '_overwrite_label').innerHTML = status;
      }
+
+cj(document).ready(function(){ 
+    cj('table td input.form-checkbox').each(function() {
+       var ele = null;
+       var element = cj(this).attr('id').split('_',3);
+
+       switch ( element['1'] ) {
+           case 'addressee':
+                 var ele = '#' + element['0'] + '_' + element['1'];
+                 break;
+
+           case 'email':
+           case 'postal':
+                 var ele = '#' + element['0'] + '_' + element['1'] + '_' + element['2'];
+                 break;
+       }
+
+       if( ele ) {
+          cj(this).bind( 'click', function() {
+ 
+              if( cj( this).attr( 'checked' ) ){
+                  cj('input' + ele ).attr('checked', true );
+                  cj('input' + ele + '_custom' ).attr('checked', true );
+              } else {
+                  cj('input' + ele ).attr('checked', false );
+                  cj('input' + ele + '_custom' ).attr('checked', false );
+              }
+          });
+       }
+    });
+});
 </script>
 {/literal}

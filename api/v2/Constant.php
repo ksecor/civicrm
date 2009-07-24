@@ -43,6 +43,50 @@ require_once 'api/v2/utils.php';
  * Generic file to retrieve all the constants and
  * pseudo constants used in CiviCRM
  *
+ *  @param  string  Name of a public static method of
+ *                  CRM_Core_PseudoContant: one of 
+ *  <ul>
+ *    <li>activityStatus</li>
+ *    <li>activityType</li>
+ *    <li>addressee</li>
+ *    <li>allGroup</li>
+ *    <li>country</li>
+ *    <li>countryIsoCode</li>
+ *    <li>county</li>
+ *    <li>currencyCode</li>
+ *    <li>currencySymbols</li>
+ *    <li>customGroup</li>
+ *    <li>emailGreeting</li>
+ *    <li>fromEmailAddress</li>
+ *    <li>gender</li>
+ *    <li>group</li>
+ *    <li>groupIterator</li>
+ *    <li>honor</li>
+ *    <li>IMProvider</li>
+ *    <li>individualPrefix</li>
+ *    <li>individualSuffix</li>
+ *    <li>locationType</li>
+ *    <li>locationVcardName</li>
+ *    <li>mailProtocol</li>
+ *    <li>mappingTypes</li>
+ *    <li>paymentProcessor</li>
+ *    <li>paymentProcessorType</li>
+ *    <li>pcm</li>
+ *    <li>phoneType</li>
+ *    <li>postalGreeting</li>
+ *    <li>priority</li>
+ *    <li>relationshipType</li>
+ *    <li>stateProvince</li>
+ *    <li>stateProvinceAbbreviation</li>
+ *    <li>stateProvinceForCountry</li>
+ *    <li>staticGroup</li>
+ *    <li>tag</li>
+ *    <li>tasks</li>
+ *    <li>ufGroup</li>
+ *    <li>visibility</li>
+ *    <li>worldRegion</li>
+ *    <li>wysiwygEditor</li>
+ *  </ul>
  */
 function civicrm_constant_get( $name ) {
     require_once 'CRM/Core/PseudoConstant.php';

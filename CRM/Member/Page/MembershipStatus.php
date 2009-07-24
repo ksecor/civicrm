@@ -66,27 +66,23 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
     function &links()
     {
         if (!(self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this membership status rule?');
-
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/member/membershipStatus',
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Membership Status') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/member/membershipStatus',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Member_BAO_MembershipStatus' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
                                                                     'title' => ts('Disable Membership Status') 
-                                                                   ),
+                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/member/membershipStatus',
-                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Member_BAO_MembershipStatus' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
                                                                     'title' => ts('Enable Membership Status') 
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
@@ -94,12 +90,12 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/member/membershipStatus',
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'title' => ts('Delete Membership Status') 
-                                                                   )
+                                                                    )
                                  );
         }
         return self::$_links;
     }
-
+    
     /**
      * Run the page.
      *
@@ -113,7 +109,6 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
      */
     function run()
     {
-               
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'

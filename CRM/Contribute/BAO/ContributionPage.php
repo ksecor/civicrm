@@ -57,6 +57,20 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         return $dao;
     }
 
+   /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+   static function setIsActive( $id, $is_active ) 
+   {
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_ContributionPage', $id, 'is_active', $is_active );
+   }
+    
     static function setValues( $id, &$values ) 
     {
         $params = array('id' => $id);
@@ -147,8 +161,16 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $template =& CRM_Core_Smarty::singleton( );
 
             // get the billing location type
-            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-            $billingLocationTypeId = array_search( 'Billing',  $locationTypes );
+            if ( !array_key_exists('related_contact', $values) ) {
+                $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+                $billingLocationTypeId = array_search( 'Billing',  $locationTypes );
+            } else {
+                // presence of related contact implies onbehalf of org case, 
+                // where location type is set to default. 
+                require_once 'CRM/Core/BAO/LocationType.php';
+                $locType = CRM_Core_BAO_LocationType::getDefault();
+                $billingLocationTypeId = $locType->id;
+            }
 
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $billingLocationTypeId );

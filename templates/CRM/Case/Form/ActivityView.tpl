@@ -19,6 +19,9 @@
   {/strip}
 {else}
 {if $report}
+{if $caseID}
+<div id="activity-content">
+{/if}        
 <table style="width: 95%">
 {foreach from=$report.fields item=row name=report}
 <tr{if ! $smarty.foreach.report.last} style="border-bottom: 1px solid #F6F6F6;"{/if}>
@@ -49,6 +52,7 @@
 </table>
 {if $caseID}
     <div><a href="{crmURL p='civicrm/contact/view/case' q="reset=1&id=`$caseID`&cid=`$contactID`&action=view"}">{ts}&raquo; Manage Case{/ts}</a></div>
+    </div>
 {/if}
 {else}
     <div class="messages status">{ts}This activity might not be attached to any case. Please investigate.{/ts}</div>

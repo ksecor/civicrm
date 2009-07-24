@@ -120,10 +120,9 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         foreach ($fields as $name => $dontCare ) {
             if ( isset($this->_params[0][$name]) ) {
                 $defaults[$name] = $this->_params[0][$name];
-                if ( $name == 'greeting_type' ) { 
-                    if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
-                        $defaults['custom_greeting'] = $this->_params[0]['custom_greeting'];
-                    }
+                if ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting'))
+                     && CRM_Utils_Array::value($name.'_custom', $this->_params[0]) ) { 
+                    $defaults[$name.'_custom'] = $this->_params[0][$name.'_custom'];
                 }
             }
         }

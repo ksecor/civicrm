@@ -351,6 +351,11 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
    
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $params['id'] = $this->_id;
+        } elseif ($this->_action & CRM_Core_Action::ADD) {
+            //new custom group, so lets set the created_id
+            $session =& CRM_Core_Session::singleton( );
+            $params['created_id']   = $session->get( 'userID' );
+            $params['created_date'] = date('YmdHis');
         } 
        
         $group = CRM_Core_BAO_CustomGroup::create( $params );

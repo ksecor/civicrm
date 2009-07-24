@@ -32,24 +32,25 @@
     <p></p>
         <div class="form-item">
         {strip}
+        {* handle enable/disable actions*}
+ 	{include file="CRM/common/enableDisable.tpl"}
       <table class="selector">
          <tr class="columnheader">
             <th>{ts}Profile Title{/ts}</th>
             <th>{ts}Type{/ts}</th>
             <th>{ts}ID{/ts}</th>
             <th>{ts}Used For{/ts}</th>
-            <th>{ts}Status?{/ts}</th>
+            <th>{ts}Enabled?{/ts}</th>
             <th>{ts}Reserved{/ts}</th>
             <th></th>
          </tr>
         {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}
-        {if NOT $row.is_active}disabled{/if}">
+	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
             <td>{$row.group_type}</td>
             <td>{$row.id}</td>
             <td>{$row.module}</td>
-            <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{if $row.is_reserved}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>

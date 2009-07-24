@@ -269,6 +269,47 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     }
     
     /**
+     * Removes associations where a child group is identified by $childGroupId from the group
+     * identified by $groupId; does not delete child group, just the
+     * association between the two
+     *
+     * @param            $parentID         The id of the group to remove the child from
+     * @param            $childID          The id of the child group being removed
+     *
+     * @return           void
+     *
+     * @access public
+     */
+    
+    static function removeAllParentForChild( $childID ) {
+        $dao = new CRM_Contact_DAO_GroupNesting( );
+        $query = "DELETE FROM civicrm_group_nesting WHERE child_group_id = $childID";
+        $dao->query( $query );
+    }
+
+    /**
+     * Returns true if the association between parent and child is present,
+     * false otherwise.
+     *
+     * @param            $parentID         The parent id of the association
+     * @param            $childID          The child id of the association
+     *
+     * @return           boolean           True if association is found, false otherwise.
+     *
+     * @access public
+     */
+    
+    static function isParentChild( $parentID, $childID ) {
+        $dao = new CRM_Contact_DAO_GroupNesting( );
+        $query = "SELECT id FROM civicrm_group_nesting WHERE child_group_id = $childID AND parent_group_id = $parentID";
+        $dao->query( $query );
+        if ( $dao->fetch( ) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Returns true if if the given groupId has 1 or more child groups,
      * false otherwise.
      *

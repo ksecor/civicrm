@@ -65,9 +65,13 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
      * @return array associated array
      */
     static function getMenus( ) {
+
         $menus = array( );
         require_once "CRM/Core/DAO/Menu.php";
         $menu  =& new CRM_Core_DAO_Menu( );
+
+        $menu->domain_id = CRM_Core_Config::domainID( );
+        
         $menu->find();
         while ( $menu->fetch() ) {
             if ( $menu->title ) {
@@ -88,6 +92,8 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
     static function add( &$params ) {
         require_once "CRM/Core/DAO/Navigation.php";
         $navigation  =& new CRM_Core_DAO_Navigation( );
+        
+        $params['is_active'] = CRM_Utils_Array::value( 'is_active', $params, false );
         if ( !isset( $params['id'] ) ) {
             $params['name']   = $params['label'];
             $params['weight'] = self::calculateWeight( $params['parent_id'] );
@@ -96,6 +102,9 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
         $params['permission'] = implode( ',', $params['permission'] );
 
         $navigation->copyValues( $params );
+
+        $navigation->domain_id = CRM_Core_Config::domainID( );
+        
         $navigation->save();
         return $navigation;
     } 
@@ -117,6 +126,9 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
     static function retrieve( &$params, &$defaults ) {
         $navigation =& new CRM_Core_DAO_Navigation( );
         $navigation->copyValues( $params );
+
+        $navigation->domain_id = CRM_Core_Config::domainID( );
+        
         if ( $navigation->find( true ) ) {
             CRM_Core_DAO::storeValues( $navigation, $defaults );
             return $navigation;
@@ -134,14 +146,16 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
      * @static
      */
     static function calculateWeight( $parentID = null, $menuID = null ) {
+        $domainID = CRM_Core_Config::domainID( );
+
         $weight = 1;
         // we reset weight for each parent, i.e we start from 1 to n
         // calculate max weight for top level menus, if parent id is absent
         if ( !$parentID ) {
-            $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id IS NULL";
+            $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id IS NULL AND domain_id = $domainID";
         } else {
             // if parent is passed, we need to get max weight for that particular parent
-            $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id = {$parentID}";
+            $query = "SELECT max(weight) as weight FROM civicrm_navigation WHERE parent_id = {$parentID} AND domain_id = $domainID";
         }
 
         $dao = CRM_Core_DAO::executeQuery( $query );
@@ -160,7 +174,7 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
      * @return array $navigations returns associated array
      * @static
      */
-    static function getNavigationList( &$navigations, $flatList = true, $parentID = null, $separtor = '&nbsp;&nbsp;' ) {
+    static function getNavigationList( &$navigations, $parentID = null, $separtor = '&nbsp;&nbsp;' ) {
         $whereClause = " parent_id IS NULL";
         if (  $parentID ) {
             $whereClause = " parent_id = {$parentID}"; 
@@ -169,7 +183,8 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
             $separator = '';
         }
 
-        $query = "SELECT id, label, parent_id, weight, is_active FROM civicrm_navigation WHERE {$whereClause} ORDER BY weight, parent_id ASC";
+        $domainID = CRM_Core_Config::domainID( );
+        $query = "SELECT id, label, parent_id, weight, is_active FROM civicrm_navigation WHERE {$whereClause} AND domain_id = $domainID ORDER BY weight, parent_id ASC";
         $navigation = CRM_Core_DAO::executeQuery( $query );
 
         while ( $navigation->fetch() ) {
@@ -179,15 +194,8 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
                 $label = "{$separtor}{$navigation->label}";
             }
 
-            if ( $flatList ) {
-                $navigations[$navigation->id] = $label;
-            } else {
-                $navigations[$navigation->id] = array( 'label'     => $label,
-                                                       'is_active' => $navigation->is_active,
-                                                       'parent_id' => $navigation->parent_id );
-            }
-
-            self::getNavigationList( $navigations, $flatList, $navigation->id, $separtor );
+            $navigations[$navigation->id] = $label;
+            self::getNavigationList( $navigations, $navigation->id, $separtor );
         }
 
         return $navigations;           
@@ -209,13 +217,15 @@ class CRM_Core_BAO_Navigation extends CRM_Core_DAO_Navigation {
             $whereClause = " parent_id = {$parentID}"; 
         }
 
+        $domainID = CRM_Core_Config::domainID( );
+
         // get the list of menus
         $query = "
-SELECT id, label, url, permission, permission_operator, has_separator, parent_id 
+SELECT id, label, url, permission, permission_operator, has_separator, parent_id, is_active 
 FROM civicrm_navigation 
-WHERE {$whereClause} 
-AND is_active = 1
-ORDER BY weight, parent_id";
+WHERE {$whereClause}
+AND domain_id = $domainID
+ORDER BY parent_id, weight";
 
         $navigation = CRM_Core_DAO::executeQuery( $query );
         while ( $navigation->fetch() ) { 
@@ -226,7 +236,8 @@ ORDER BY weight, parent_id";
                                                                              'operator'   => $navigation->permission_operator,
                                                                              'separator'  => $navigation->has_separator,
                                                                              'parentID'   => $navigation->parent_id,
-                                                                             'navID'      => $navigation->id) );
+                                                                             'navID'      => $navigation->id,
+                                                                             'active'     => $navigation->is_active ));
             self::buildNavigationTree( $navigationTree[$navigation->id]['child'], $navigation->id );
         }
 
@@ -253,7 +264,11 @@ ORDER BY weight, parent_id";
                 if ( $navigationString ) {
                     $navigationString .= '},';
                 }
-                $navigationString .= ' { attributes: { id : "node_'.$key.'" }, data: "'. $value['attributes']['label']. '"';
+                $data = $value['attributes']['label'];
+                if ( !$value['attributes']['active'] ) {
+                    $data = "<font class='font-red'>{$value['attributes']['label']}</font>";
+                }
+                $navigationString .= ' { attributes: { id : "node_'.$key.'" }, data: "'. $data. '"';
             } else {
                 $name = self::getMenuName( $value, $skipMenuItems );
                 if ( $name ) { 
@@ -269,7 +284,7 @@ ORDER BY weight, parent_id";
         } else {
             // clean up - Need to remove empty <ul>'s, this happens when user don't have 
             // permission to access parent
-            $navigationString = str_replace( '<ul></ul>', '', $navigationString );
+            $navigationString = str_replace( '<ul></ul></li>', '', $navigationString );
         }
 
         return $navigationString;
@@ -289,8 +304,12 @@ ORDER BY weight, parent_id";
             if ( !empty( $value['child'] ) ) {
                 $appendComma = false;
                 foreach($value['child'] as $k => $val ) {
-                    $appendComma = true;                        
-                    $navigationString .= ' { attributes: { id : "node_'.$k.'" }, data: "'. $val['attributes']['label'] .'"';
+                    $appendComma = true; 
+                    $data = $val['attributes']['label'];
+                    if ( !$val['attributes']['active'] ) {
+                        $data = "<font class='font-red'>{$val['attributes']['label']}</font>";
+                    }                       
+                    $navigationString .= ' { attributes: { id : "node_'.$k.'" }, data: "'. $data .'"';
                     self::recurseNavigation($val, $navigationString, $json, $skipMenuItems );
                     if ( $appendComma ) {
                         $navigationString .= ' },';
@@ -338,11 +357,13 @@ ORDER BY weight, parent_id";
         $operator   = $value['attributes']['operator'];
         $parentID   = $value['attributes']['parentID'];
         $navID      = $value['attributes']['navID'];
+        $active     = $value['attributes']['active'];
         
-        if ( in_array( $parentID, $skipMenuItems ) ) {
+        if ( in_array( $parentID, $skipMenuItems ) || !$active ) {
+            $skipMenuItems[] = $navID;
             return false;
         }
-              
+        
         $makeLink = false;
         if ( isset( $url ) && $url) {
             if ( substr( $url, 0, 4 ) === 'http' ) {
@@ -357,6 +378,7 @@ ORDER BY weight, parent_id";
             $permissions = explode(',', $permission ); 
             $config  =& CRM_Core_Config::singleton( );
             
+            $hasPermission = false;    
             foreach ( $permissions as $key ) {
                 $showItem = true;
                 //hack to determine if it's a component related permission
@@ -369,6 +391,8 @@ ORDER BY weight, parent_id";
                             $skipMenuItems[] = $navID;
                             return $showItem;
                         }
+                    } else {
+                        $hasPermission = true;
                     }
                } else if ( !CRM_Core_Permission::check( $key ) ) {
                      $showItem = false;
@@ -376,10 +400,12 @@ ORDER BY weight, parent_id";
                          $skipMenuItems[] = $navID;
                          return $showItem;
                      }
+                } else {
+                    $hasPermission = true;
                 }
             }
             
-            if ( !$showItem ) {
+            if ( !$showItem && !$hasPermission ) {
                 $skipMenuItems[] = $navID;
                 return false;
             }   
@@ -401,11 +427,16 @@ ORDER BY weight, parent_id";
      * @static
      */
     static function createNavigation( $contactID ) {
-        if ( !$contactID ) {
+        if ( !$contactID || 
+             !CRM_Core_DAO::checkFieldExists( 'civicrm_preferences', 'navigation' ) ) {
             return;
         }
+        
+        $navParams = array( 'contact_id' => $contactID,
+                            'domain_id'  => CRM_Core_Config::domainID( ) );
+        CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_Preferences', $navParams, $navParams );
+        $navigation = array_key_exists('navigation', $navParams) ? $navParams['navigation'] : false;
 
-        $navigation = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Preferences', $contactID, 'navigation', 'contact_id' );
         if ( ! $navigation ) {
             //retrieve navigation if it's not cached.       
             require_once 'CRM/Core/BAO/Navigation.php';
@@ -437,6 +468,8 @@ ORDER BY weight, parent_id";
                 require_once 'CRM/Core/DAO/Preferences.php';
                 $preference =& new CRM_Core_DAO_Preferences();
                 $preference->contact_id = $contactID;
+                $preference->domain_id  = CRM_Core_Config::domainID( );
+                $preference->find(true);
                 $preference->navigation = $navigation;
                 $preference->save();
             }

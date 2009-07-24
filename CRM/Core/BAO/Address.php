@@ -67,7 +67,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         $addresses = array( );
         $contactId = null;
         if ( ! $entity ) {
-            $contactId = $params['address']['contact_id'];
+            $contactId = $params['contact_id'];
             //get all the addresses for this contact
             $addresses = self::allAddress( $contactId );
         } else {
@@ -281,7 +281,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
         $config =& CRM_Core_Config::singleton( );
         foreach ($params as $name => $value) {
-            if ( in_array ($name, array ('is_primary', 'location_type_id', 'id' ) ) ) {
+            if ( in_array ($name, array ('is_primary', 'location_type_id', 'id', 'contact_id', 'is_billing', 'display' ) ) ) {
                 continue;
             } else if ( !empty($value) ) {
                 if ( substr( $name, 0, 14 ) == 'state_province' ) {
@@ -347,8 +347,12 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 return $addresses;
             }
         } 
+        //get primary address as a first block.
+        $address->orderBy( 'is_primary desc, id' );
+        
         $address->find( );
-
+        
+        $count = 1;
         while ( $address->fetch( ) ) {
             $stree = $address->street_address;
             $values = array( );
@@ -373,8 +377,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
             $values['display'] = $address->display;
 
-            $addresses[$address->location_type_id] = $values;
+            $addresses[$count] = $values;
+            $count++;
         }
+        
         return $addresses;
     }
     
@@ -518,8 +524,8 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
             foreach ( $config->stateCountryMap as $index => $match ) {
                 if ( array_key_exists( 'state_province', $match ) &&
                      array_key_exists( 'country', $match ) ) {
-                    require_once 'CRM/Contact/Form/Address.php';
-                    CRM_Contact_Form_Address::fixStateSelect( $form,
+                    require_once 'CRM/Contact/Form/Edit/Address.php';
+                    CRM_Contact_Form_Edit_Address::fixStateSelect( $form,
                                                               $match['country'],
                                                               $match['state_province'],
                                                               CRM_Utils_Array::value( $match['country'],

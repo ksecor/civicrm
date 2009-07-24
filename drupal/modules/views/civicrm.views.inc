@@ -1451,7 +1451,7 @@ function civicrm_views_data() {
                                                                ),
                                                );
   
-    //Numeric Event ID
+    //Numeric Contact ID
     $data['civicrm_participant']['contact_id'] = array(
                                                        'title' => t('Participant\'s Contact ID'),
                                                        'help' => t('The numeric ID of the Contact of the Participant'),
@@ -1472,6 +1472,12 @@ function civicrm_views_data() {
                                                        'sort' => array(
                                                                        'handler' => 'views_handler_sort',
                                                                        ),
+                                                       'relationship' => array(
+                                                                  'base' => 'civicrm_contact',
+                                                                  'field' => 'id',
+                                                                  'handler' => 'views_handler_relationship',
+                                                                  'label' => t('CiviCRM Contact, with custom fields'),
+                                                                  ),
                                                        );
   
     //Participant Status

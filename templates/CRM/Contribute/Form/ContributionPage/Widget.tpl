@@ -1,13 +1,13 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {if $widget_id} {* If we have a widget for this page, construct the embed code.*}
-    {capture assign=widgetVars}serviceUrl={$config->resourceBase}packages/amfphp/gateway.php&amp;contributionPageID={$id}&amp;widgetID=1{/capture}
+    {capture assign=widgetVars}serviceUrl={$config->userFrameworkResourceURL}packages/amfphp/gateway.php&amp;contributionPageID={$id}&amp;widgetID=1{/capture}
     {capture assign=widget_code}
 <div style="text-align: center; width:260px">
-	<object type="application/x-shockwave-flash" data="{$config->resourceBase}extern/Widget/widget.swf" width="220" height="220" id="civicontribute-widget" align="middle" pluginspage="http://www.macromedia.com/go/getflashplayer">
+	<object type="application/x-shockwave-flash" data="{$config->userFrameworkResourceURL}extern/Widget/widget.swf" width="220" height="220" id="civicontribute-widget" align="middle" pluginspage="http://www.macromedia.com/go/getflashplayer">
     <param name="flashvars" value="{$widgetVars}">
 	<param name="allowScriptAccess" value="sameDomain" />
 	<param name="allowFullScreen" value="false" />
-	<param name="movie" value="{$config->resourceBase}extern/Widget/widget.swf" />
+	<param name="movie" value="{$config->userFrameworkResourceURL}extern/Widget/widget.swf" />
 	<param name="quality" value="high" />
 	<param name="bgcolor" value="#ffffff" />
 	</object>
@@ -71,11 +71,11 @@
 
         
         <div id="id-colors-show" class="section-hidden section-hidden-border" style="clear: both;">
-            <a href="#" onclick="hide('id-colors-show'); show('id-colors'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Edit Widget Colors{/ts}</label><br />
+            <a href="#" onclick="hide('id-colors-show'); show('id-colors'); return false;"><img src="{$config->userFrameworkResourceURL}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Edit Widget Colors{/ts}</label><br />
         </div>
         <div id="id-colors" class="section-shown">
         <fieldset>
-        <legend><a href="#" onclick="hide('id-colors'); show('id-colors-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Widget Colors{/ts}</legend>
+        <legend><a href="#" onclick="hide('id-colors'); show('id-colors-show'); return false;"><img src="{$config->userFrameworkResourceURL}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Widget Colors{/ts}</legend>
         <div class="description">
             {ts}Enter colors in hexadecimal format prefixed with <em>0x</em>. EXAMPLE: <em>0xFF0000</em> = Red. You can do a web search on 'hexadecimal colors' to find a chart of color codes.{/ts}
         </div>

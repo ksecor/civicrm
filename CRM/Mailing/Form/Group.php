@@ -368,7 +368,8 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
         } else {
             // new mailing, so lets set the created_id
             $session =& CRM_Core_Session::singleton( );
-            $params['created_id'] = $session->get( 'userID' );
+            $params['created_id']   = $session->get( 'userID' );
+            $params['created_date'] = date('YmdHis');
         }
 
         require_once 'CRM/Mailing/BAO/Mailing.php';

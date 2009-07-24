@@ -61,8 +61,6 @@ class CiviUnitTestCase extends DrupalTestCase {
         $object->free( );
         $matchSize = count( $match );
         if ( $verifiedCount != $matchSize ) {
-            CRM_Core_Error::debug( 'm', $match );
-            CRM_Core_Error::debug( 'o', $object );
             $this->fail("Did not verify all fields in match array: $daoName, $id. Verified count = $verifiedCount. Match array size = $matchSize");
         }
     }

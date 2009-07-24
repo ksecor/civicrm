@@ -396,7 +396,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $rrb = parse_url( $this->userFrameworkResourceURL );
             // dont use absolute path if resources are stored on a different server
             // CRM-4642
-            $this->resourceBase = ($rrb['host'] == $_SERVER['HTTP_HOST']) ? $rrb['path'] : $this->userFrameworkResourceURL;
+            $this->resourceBase = $this->userFrameworkResourceURL;
+            if ( isset( $_SERVER['HTTP_HOST']) ) {
+                $this->resourceBase = ($rrb['host'] == $_SERVER['HTTP_HOST']) ? $rrb['path'] : $this->userFrameworkResourceURL;
+            }
         } 
             
         if ( !$this->customFileUploadDir ) {
@@ -464,18 +467,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     }
     
     /**
-     * get the domain Id of the current user
-     *
-     * @param
-     * @access private
-     * @return int
-     */
-    static function domainID( ) 
-    {
-        CRM_Core_Error::backtrace( 'Aborting due to invalid call to domainID' );
-    }
-
-    /**
      * delete the web server writable directories
      *
      * @param int $value 1 - clean templates_c, 2 - clean upload, 3 - clean both
@@ -527,6 +518,27 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     function reset( ) {
         $query = "UPDATE civicrm_domain SET config_backend = null";
         CRM_Core_DAO::executeQuery( $query );
+    }
+
+    /**
+     * one function to get domain ID
+     */
+    static function domainID( ) {
+        return defined( 'CIVICRM_DOMAIN_ID' ) ? CIVICRM_DOMAIN_ID : 1;
+    }
+
+    /**
+     * clear db cache
+     */
+    function clearDBCache( ) {
+        $queries = array( 'TRUNCATE TABLE civicrm_acl_cache',
+                          'TRUNCATE TABLE civicrm_cache',
+                          'UPDATE civicrm_group SET cache_date = NULL',
+                          'TRUNCATE TABLE civicrm_group_contact_cache' );
+
+        foreach ( $queries as $query ) {
+            CRM_Core_DAO::executeQuery( $query );
+        }
     }
 
 } // end CRM_Core_Config

@@ -6,7 +6,7 @@
 {ts 1=$iconURL}Click %1 to view pledge payments.{/ts}
 {strip}
 <table class="selector">
-  <tr class="columnheader">
+ <thead class="sticky">
 {if ! $single and $context eq 'Search' }
   <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
 {/if}
@@ -23,7 +23,7 @@
     {/if}
     </th>
   {/foreach}
-  </tr>
+  </thead>
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}

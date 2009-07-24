@@ -1,26 +1,30 @@
 {if $action eq 1024}
 {include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
 {/if}
-{if $event.confirm_email_text}
+{* Don't use "normal" thank-you message for Waitlist and Approval Required registrations - since it will probably not make sense for those situations. dgg *}
+{if $event.confirm_email_text AND (not $isOnWaitlist AND not $isRequireApproval)}
 {$event.confirm_email_text}
 {/if}
 
 {if $isOnWaitlist}
-
 ===========================================================
-Your registration is on waiting list.  
+{ts}You have been added to the WAIT LIST for this event.{/ts}
+
 {if $isPrimary}
-If event get enough free spaces, will send you a mail to confirm your registration.
-You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.
+{ts}If space becomes available you will receive an email with
+a link to a web page where you can complete your registration.{/ts}
+
 {/if}
 ===========================================================
 {elseif $isRequireApproval}
-
 ===========================================================
-Your registration require approval. 
+{ts}Your registration has been submitted.{/ts}
+
 {if $isPrimary}
-If registration get approved, will send you a mail to confirm your registration.
-You can click url link from your confirmation mail and go to a web page where you can confirm your registration online.
+{ts}Once your registration has been reviewed, you will receive
+an email with a link to a web page where you can complete the
+registration process.{/ts}
+
 {/if}
 ===========================================================
 {elseif $is_pay_later}
@@ -46,30 +50,30 @@ You can click url link from your confirmation mail and go to a web page where yo
 {/if}
 
 {if $isShowLocation}
-{if $location.1.address.name}
+{if $location.address.1.name}
 
-{$location.1.address.name}
+{$location.address.1.name}
 {/if}
-{if $location.1.address.street_address}{$location.1.address.street_address}
+{if $location.address.1.street_address}{$location.address.1.street_address}
 {/if}
-{if $location.1.address.supplemental_address_1}{$location.1.address.supplemental_address_1}
+{if $location.address.1.supplemental_address_1}{$location.address.1.supplemental_address_1}
 {/if}
-{if $location.1.address.supplemental_address_2}{$location.1.address.supplemental_address_2}
+{if $location.address.1.supplemental_address_2}{$location.address.1.supplemental_address_2}
 {/if}
-{if $location.1.address.city}{$location.1.address.city} {$location.1.address.postal_code}{if $location.1.address.postal_code_suffix} - {$location.1.address.postal_code_suffix}{/if}
+{if $location.address.1.city}{$location.address.1.city} {$location.address.1.postal_code}{if $location.address.1.postal_code_suffix} - {$location.address.1.postal_code_suffix}{/if}
 {/if}
 
 {/if}{*End of isShowLocation condition*}
 
-{if $location.1.phone.1.phone || $location.1.email.1.email}
+{if $location.phone.1.phone || $location.email.1.email}
 
 {ts}Event Contacts:{/ts}
-{foreach from=$location.1.phone item=phone}
+{foreach from=$location.phone item=phone}
 {if $phone.phone}
 
 {if $phone.phone_type}{$phone.phone_type_display}{else}{ts}Phone{/ts}{/if}: {$phone.phone}{/if}
 {/foreach}
-{foreach from=$location.1.email item=eventEmail}
+{foreach from=$location.email item=eventEmail}
 {if $eventEmail.email}
 
 {ts}Email{/ts}: {$eventEmail.email}{/if}{/foreach}
@@ -141,7 +145,7 @@ Participant {$priceset+1}
 {if $checkNumber}
 {ts}Check Number{/ts}: {$checkNumber} 
 {/if}
-{if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
+{if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later and !$isOnWaitlist and !$isRequireApproval}
 
 ===========================================================
 {ts}Billing Name and Address{/ts}
@@ -151,7 +155,7 @@ Participant {$priceset+1}
 {$address}
 {/if}
 
-{if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later}
+{if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later and !$isOnWaitlist and !$isRequireApproval}
 ===========================================================
 {ts}Credit Card Information{/ts}
 
@@ -163,20 +167,9 @@ Participant {$priceset+1}
 {/if}
 {/if} {* End of conditional section for Paid events *}
 
-{if $isPrimary and $participantId}
-===========================================================
-{ts}Confirm Your Paticipatation{/ts}
-
-===========================================================
-{capture assign=confirmUrl}{crmURL p='civicrm/event/confirm' q="reset=1&participantId=`$participantId`&cs=`$checksumValue`" a=true h=0}{/capture}
-Click this link to go to a web page where you can confirm your registration online:
-{$confirmUrl} 
-{/if}
-
 {if $customPre}
 ===========================================================
-{ts}{$customPre_grouptitle} {/ts}
-
+{$customPre_grouptitle}
 ===========================================================
 {foreach from=$customPre item=value key=customName}
 {if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
@@ -187,8 +180,7 @@ Click this link to go to a web page where you can confirm your registration onli
 
 {if $customPost}
 ===========================================================
-{ts}{$customPost_grouptitle}{/ts}
-
+{$customPost_grouptitle}
 ===========================================================
 {foreach from=$customPost item=value key=customName}
 {if ( $trackingFields and ! in_array( $customName, $trackingFields ) ) or ! $trackingFields}
@@ -204,16 +196,14 @@ Click this link to go to a web page where you can confirm your registration onli
 
 ===========================================================
 {foreach from=$value item=val key=field}
-{if $field}
-{if $field eq 'customPre' }
+{if $field eq 'additionalCustomPre' or $field eq 'additionalCustomPost' }
+{if $field eq 'additionalCustomPre' }
 ----------------------------------------------------------
-{ts}{$customPre_grouptitle}{/ts}
-
+{$additionalCustomPre_grouptitle}
 ----------------------------------------------------------
 {else}
 ----------------------------------------------------------
-{ts}{$customPost_grouptitle}{/ts}
-
+{$additionalCustomPost_grouptitle}
 ----------------------------------------------------------
 {/if}
 {foreach from=$val item=v key=f}

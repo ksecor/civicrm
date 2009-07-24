@@ -1,27 +1,24 @@
 <?php
-
 /************************************************************************ 
 *                                                                       * 
-*  FILE NAME: iatslinkReoccur.php                                              *
+*  FILE NAME: iatslinkReoccur.php                                       *
 *  Copyright (C) 2005 Ticketmaster Canada                               *
 *  Requirements:  PHP5, cURL, SSL, creditcard.php                       * 
 *  It only requires that cURL is installed                              * 
 *                                                                       * 
-*  V1.00: Feb. 05, 2005, Haibin                                         *
+*  V1.32: Aug. 18, 2008, Haibin                                        *
 *                                                                       * 
 ************************************************************************/ 
-
- include( "creditcard.php" );
-
+ include_once( "creditcard.php" );
+ 
  class iatslinkReoccur
  {
    // Constants.
-   private $version; 		//String 
+   private $version;     //String 
    
    // Inputs common to both US and Canadian credit card processing.
    private $agentCode;
    private $password;
-
    private $webServer;
  
    private $firstName;
@@ -34,14 +31,13 @@
    private $cardType;
    private $cardNumber;
    private $cardExpiry;
-   private $dollarAmount;	//double   
-
+   private $dollarAmount;  //double   
    private $customerCode;
-   private $reoccuringStatus;	//ON,OFF
-   private $beginDate;     	//YYYY-MM-DD
-   private $endDate;       	//YYYY-MM-DD
-   private $scheduleType;  	//MONTHLY,WEEKLY
-   private $scheduleDate;  	//MONTHLY:1-31;WEEKLY:1-7
+   private $reoccuringStatus;  //ON,OFF
+   private $beginDate;       //YYYY-MM-DD
+   private $endDate;         //YYYY-MM-DD
+   private $scheduleType;    //MONTHLY,WEEKLY
+   private $scheduleDate;    //MONTHLY:1-31;WEEKLY:1-7
    
    private $reportResultFileName;
    
@@ -50,26 +46,24 @@
    // 
    private $cookieFile;
    private $loginOK; 
-
    // Optional inputs.
    private $invoiceNumber; 
-   private $testMode;		//boolean 
+   private $testMode;    //boolean 
    
-   private $proxyHost;		 
-   private $proxyPort;		//int
+   private $proxyHost;     
+   private $proxyPort;    //int
    private $proxyUsername;
    private $proxyPassword;
    
    // Outputs.
-   private $status;		//int
+   private $status;    //int
    private $authorizationResult;
    private $error;
-
    // Constructor.  
    function iatslinkReoccur()
    {
       // Initialize inputs.  
-      $this->version ="1.10";
+      $this->version ="1.32";
       
       $this->agentCode = "";
       $this->password = "";
@@ -95,12 +89,11 @@
       $this->city = "";
       $this->state = "";
       $this->zipCode = "";
-      $this->cardholderName = "";
       
       $this->invoiceNumber = "";
       $this->testMode = false;
       $this->reportResultFileName = "";
-      // Proxy Setting	
+      // Proxy Setting  
       $this->proxyHost   = "";
       $this->proxyPort   = -1;
       $this->proxyUsername = "";
@@ -137,32 +130,26 @@
    {
       $this->agentCode = $newAgentCode;
    }
-
    public function setPassword($newPassword)
    {
       $this->password = $newPassword;
    }
-
    public function setCardType($newCardType)
    {
       $this->cardType = $newCardType;
    }
-
    public function setCardNumber($newCardNumber)
    {
       $this->cardNumber = $newCardNumber;
    }
-
    public function setCardExpiry($newCardExpiry)
    {
       $this->cardExpiry = $newCardExpiry;
    }
-
    public function setDollarAmount($newDollarAmount)
    {
       $this->dollarAmount = $newDollarAmount;
    }
-
    public function setWebServer($newWebServer)
    {
       $this->webServer = $newWebServer;
@@ -172,12 +159,10 @@
    {
       $this->serverType = $newServerType;
    }
-
    public function setInvoiceNumber($newInvoiceNumber)
    {
       $this->invoiceNumber = $newInvoiceNumber;
    }
-
    public function setTestMode($newTestMode)
    {
       $this->testMode = $newTestMode;
@@ -192,33 +177,26 @@
    {
       $this->firstName = $newFirstName;
    }
-
    public function setLastName($newLastName)
    {
       $this->lastName = $newLastName;
    }
-
    public function setStreetAddress($newStreetAddress)
    {
       $this->streetAddress = $newStreetAddress;
    }
-
    public function setCity($newCity)
    {
       $this->city = $newCity;
    }
-
    public function setState($newState)
    {
       $this->state = $newState;
    }
-
    public function setZipCode($newZipCode)
    {
       $this->zipCode = $newZipCode;
    }
-
-
    public function setCustomerCode($newCode)
    {
      $this->customerCode =$newCode;  
@@ -227,24 +205,24 @@
    public function setReoccuringStatus($newStatus)
    {
      $this->reoccuringStatus =$newStatus;
-   }	
+   }  
    
    public function setBeginDate($newDate)
    {
      $this->beginDate = $newDate;
-   }	
+   }  
    public function setEndDate($newDate)
    {
      $this->endDate = $newDate;
-   }	
+   }  
    public function setScheduleType($newType)
    {
      $this->scheduleType =$newType;
-   }	
+   }  
    public function setScheduleDate($newDate)
    {
      $this->scheduleDate = $newDate;
-   }	
+   }  
    
    /**
     * Methods for retrieving results of processing.
@@ -258,17 +236,14 @@
    {
       return $this->status;
    }
-
    public function getAuthorizationResult()
    {
       return $this->authorizationResult;
    }
-
    public function getError()
    {
       return $this->error;
    }
-
    /**
    * Methods for processing reoccurring.
    */
@@ -282,20 +257,20 @@
       { $LoginAction = "/itravel/itravel.pro";
         if ($this->testMode == true)
         {
-              $url = "http://"  . $this->webServer . $LoginAction; 	  
+              $url = "http://"  . $this->webServer . $LoginAction;     
         }
         else
         {  
-              $url = "https://" . $this->webServer . $LoginAction; 	
+              $url = "https://" . $this->webServer . $LoginAction;   
         }
-	
+  
         $params2 = "UserName=" . $this->agentCode;   
-   	$params2 = $params2 . "&Password=" . $this->password;  
-   	$params2 = $params2 . "&Version=" . $this->version;
-   	
-   	$user_agent = "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)"; 
-   	$ch = curl_init();
-      	curl_setopt($ch, CURLOPT_POST,1);
+     $params2 = $params2 . "&Password=" . $this->password;  
+     $params2 = $params2 . "&Version=" . $this->version;
+     
+     $user_agent = "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)"; 
+     $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST,1);
         curl_setopt($ch, CURLOPT_POSTFIELDS,$params2);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
         curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
@@ -303,14 +278,12 @@
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   // this line makes it work under https
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_HEADER, 1);
-
         
         curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookieFile);
         $iatsReturn = curl_exec ($ch);
-
         $this->error = curl_error($ch);
         $errorNumber = curl_errno($ch);
-        curl_close($ch); 	     
+        curl_close($ch);        
         // echo  $iatsReturn;
         if ( (strpos($iatsReturn,"\"CCName\"")==false) || (strpos($iatsReturn,"\"CCNum\"")==false))
         {
@@ -318,13 +291,13 @@
           $this->error = "Error 1";
           $this->authorizationResult = "FAILED: INVALID AGENT CODE/PASSWORD";
           @unlink( $this->cookieFile);
-          	
+            
           return false;     
         } 
         $this->loginOK = true;
         return true;
       }
-	
+  
    }
   
    
@@ -339,15 +312,15 @@
         
          if ($creditCard1->isValid($this->cardNumber) == false )
          {
-      	  $this->status = 1;
+          $this->status = 1;
           $this->authorizationResult = "REJECT: 40";
-          $this->error = "INVALID CC NUMBER!"; 	
+          $this->error = "INVALID CC NUMBER!";   
           return;
          } 
       } catch (Exception $e ) {
           $this->status = 1;
           $this->authorizationResult = "REJECT: 40";
-          $this->error = "INVALID CC NUMBER!"; 	
+          $this->error = "INVALID CC NUMBER!";   
           return;
       }
       
@@ -357,26 +330,26 @@
       }
       else 
       {
-      	  $this->cardType = $creditCard1->ccType($this->cardNumber);
+          $this->cardType = $creditCard1->ccType($this->cardNumber);
           if ($this->cardType == "UNKNOWN")
           {
            $this->status = 1;
            $this->authorizationResult = "REJECT: 40";
-           $this->error = "UNKNOWN CC TYPE!"; 	
-           return;	
+           $this->error = "UNKNOWN CC TYPE!";   
+           return;  
           }
       }
      
       if ($this->serverType ==1) 
       {
-      	 $this->doLogin();      	 
-      } 
-      if ($this->loginOK == false)
-      {
-      	  $this->status = 0;
+        $this->doLogin();               
+        if ($this->loginOK == false)
+        {
+          $this->status = 0;
           $this->error = "ERROR 1";
-          $this->authorizationResult = "FAILED: INVALID AGENT CODE/PASSWORD";	
-          return;     
+          $this->authorizationResult = "FAILED: INVALID AGENT CODE/PASSWORD";  
+          return;  
+        }   
       } 
       
       // Read input variables, send for processing, parse response and store in output variables.
@@ -384,17 +357,17 @@
       {
   
          $params = "AgentCode=" . $this->agentCode;   
-   	 $params = $params . "&Password=" . $this->password;  
+      $params = $params . "&Password=" . $this->password;  
         
          $params = $params . "&FirstName=" . $this->firstName;
          $params = $params . "&LastName="  . $this->lastName;
-   	 $params = $params . "&Address="   . $this->streetAddress;
+      $params = $params . "&Address="   . $this->streetAddress;
          $params = $params . "&City="      . $this->city;
          $params = $params . "&State="     . $this->state;
          $params = $params . "&ZipCode="   . $this->zipCode; 
          
          $params = $params . "&CCNum1="       .  $creditCard1->cleanNum($this->cardNumber);
-         $params = $params . "&CCEXPIRY1="   .  $this->cardExpiry;
+         $params = $params . "&CCEXPIRY1="    .  $this->cardExpiry;
          $params = $params . "&MOP1="         .  $this->cardType;
          $params = $params . "&Amount1="      .  $this->dollarAmount;
          
@@ -418,11 +391,11 @@
          try {           
            if ($this->testMode == true)
            {
-            $url = "http://"  . $this->webServer . $postAction; 	  
+            $url = "http://"  . $this->webServer . $postAction;     
            }
            else
            {  
-            $url = "https://" . $this->webServer . $postAction; 	
+            $url = "https://" . $this->webServer . $postAction;   
            }
       
                                  
@@ -436,7 +409,7 @@
           
            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);  // this line makes it work under https
            if ($this->serverType==1) {
-      	      curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
+              curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
            } else {
               curl_setopt($ch, CURLOPT_USERPWD,$this->agentCode . ":" . $this->password); //               
            }
@@ -460,7 +433,7 @@
               $this->status = 0;
               $this->error = "Error:" + $this->error;
               $this->authorizationResult = "FAILURE: SENDERROR";
-              return;	 
+              return;   
            } else {
               
               $this->status = 0;
@@ -468,18 +441,18 @@
               $this->error = "ERROR!";
               
               if (strpos($iatsReturn,"HTTP 401.") >0 ){
-       	         $this->status = 0;
+                  $this->status = 0;
                  $this->error = "Error 1";
                  $this->authorizationResult = "INVALID AGENT CODE / PASSWORD";
                  //echo $iatsReturn //full error msg
                  return;
-       	      }
-       	      if (strpos($iatsReturn,"Reoccurring1") <=0 ){
-       	         $this->status = 0;
+               }
+               if (strpos($iatsReturn,"Reoccurring1") <=0 ){
+                  $this->status = 0;
                  $this->error = "FAILURE";
                  $this->authorizationResult = $iatsReturn; 
                  return;
-       	      }
+               }
               $iatsReturn = stristr($iatsReturn,"CustCode ");
               $iatsReturn = stristr($iatsReturn,"value=");
               $ipos2 = strpos($iatsReturn,">");
@@ -503,10 +476,9 @@
             $this->status = 0;
             $this->error = "FAILURE: ERRORCONN" ;
             $this->authorizationResult = "FAILURE: ERRORCONN";
-            return; 	
+            return;   
           }
           
-
       } catch (Exception $e)  {
          $this->status = 0;
          $this->error = "12002";
@@ -528,15 +500,15 @@
         
          if ($creditCard1->isValid($this->cardNumber) == false )
          {
-      	  $this->status = 1;
+          $this->status = 1;
           $this->authorizationResult = "REJECT: 40";
-          $this->error = "INVALID CC NUMBER!"; 	
+          $this->error = "INVALID CC NUMBER!";   
           return;
          } 
       } catch (Exception $e ) {
           $this->status = 1;
           $this->authorizationResult = "REJECT: 40";
-          $this->error = "INVALID CC NUMBER!"; 	
+          $this->error = "INVALID CC NUMBER!";   
           return;
       }
       
@@ -546,26 +518,26 @@
       }
       else 
       {
-      	  $this->cardType = $creditCard1->ccType($this->cardNumber);
+          $this->cardType = $creditCard1->ccType($this->cardNumber);
           if ($this->cardType == "UNKNOWN")
           {
            $this->status = 1;
            $this->authorizationResult = "REJECT: 40";
-           $this->error = "UNKNOWN CC TYPE!"; 	
-           return;	
+           $this->error = "UNKNOWN CC TYPE!";   
+           return;  
           }
       }
      
       if ($this->serverType ==1) 
       {
-      	 $this->doLogin();      	 
-      } 
-      if ($this->loginOK == false)
-      {
-      	  $this->status = 0;
+       $this->doLogin();               
+       if ($this->loginOK == false)
+       {
+          $this->status = 0;
           $this->error = "ERROR 1";
-          $this->authorizationResult = "FAILED: INVALID AGENT CODE/PASSWORD";	
-          return;     
+          $this->authorizationResult = "FAILED: INVALID AGENT CODE/PASSWORD";  
+          return; 
+       }    
       } 
          
       
@@ -574,12 +546,12 @@
       {
   
          $params = "AgentCode=" . $this->agentCode;   
-   	 $params = $params . "&Password=" . $this->password; 
-   	  
+      $params = $params . "&Password=" . $this->password; 
+       
          $params = $params . "&CustCode="      .  $this->customerCode; 
          $params = $params . "&FirstName=" . $this->firstName;
          $params = $params . "&LastName="  . $this->lastName;
-   	 $params = $params . "&Address="   . $this->streetAddress;
+      $params = $params . "&Address="   . $this->streetAddress;
          $params = $params . "&City="      . $this->city;
          $params = $params . "&State="     . $this->state;
          $params = $params . "&ZipCode="   . $this->zipCode; 
@@ -611,11 +583,11 @@
          try {           
            if ($this->testMode == true)
            {
-            $url = "http://"  . $this->webServer . $postAction; 	  
+            $url = "http://"  . $this->webServer . $postAction;     
            }
            else
            {  
-            $url = "https://" . $this->webServer . $postAction; 	
+            $url = "https://" . $this->webServer . $postAction;   
            }
       
                                  
@@ -627,7 +599,7 @@
            curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
            curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
            if ($this->serverType==1) {
-      	      curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
+              curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
            } else {
               curl_setopt($ch, CURLOPT_USERPWD,$this->agentCode . ":" . $this->password); //               
            } 
@@ -653,7 +625,7 @@
               $this->status = 0;
               $this->error = "Error:" + $this->error;
               $this->authorizationResult = "FAILURE: SENDERROR";
-              return;	 
+              return;   
            } else {
               
               $this->status = 0;
@@ -661,18 +633,18 @@
               $this->error = "ERROR!";
               
               if (strpos($iatsReturn,"HTTP 401.") >0 ){
-       	         $this->status = 0;
+                  $this->status = 0;
                  $this->error = "Error 1";
                  $this->authorizationResult = "INVALID AGENT CODE / PASSWORD";
                  //echo $iatsReturn //full error msg
                  return;
-       	      }
-       	      if (strpos($iatsReturn,"Reoccurring1") <=0 ){
-       	         $this->status = 0;
+               }
+               if (strpos($iatsReturn,"Reoccurring1") <=0 ){
+                  $this->status = 0;
                  $this->error = "FAILURE";
                  $this->authorizationResult = $iatsReturn; 
                  return;
-       	      }
+               }
               
                $this->status = 1;
                $this->error = "";             
@@ -684,10 +656,9 @@
             $this->status = 0;
             $this->error = "FAILURE: ERRORCONN" ;
             $this->authorizationResult = "FAILURE: ERRORCONN";
-            return; 	
+            return;   
           }
           
-
       } catch (Exception $e)  {
          $this->status = 0;
          $this->error = "12002";
@@ -699,24 +670,25 @@
    
    public function deleteReoccCustomer()
    {  
-      if ($this->serverType==1) 
+      if ($this->serverType ==1) 
       {
-      	 $this->doLogin();      	 
-      } 
-      if ($this->loginOK == false)
-      {
-      	  $this->status = 0;
+       $this->doLogin();               
+       if ($this->loginOK == false)
+       {
+          $this->status = 0;
           $this->error = "ERROR 1";
-          $this->authorizationResult = "FAILED: INVALID AGENT CODE/PASSWORD";	
-          return;     
-      }      
+          $this->authorizationResult = "FAILED: INVALID AGENT CODE/PASSWORD";  
+          return; 
+       }    
+      } 
+          
       // Read input variables, send for processing, parse response and store in output variables.
       try
       {
   
          $params = "AgentCode=" . $this->agentCode;   
-   	 $params = $params . "&Password=" . $this->password; 
-   	  
+      $params = $params . "&Password=" . $this->password; 
+       
          $params = $params . "&CustCode="      .  $this->customerCode; 
                   
          $params = $params . "&Version=" . $this->version;
@@ -728,11 +700,11 @@
          try {           
            if ($this->testMode == true)
            {
-            $url = "http://"  . $this->webServer . $postAction; 	  
+            $url = "http://"  . $this->webServer . $postAction;     
            }
            else
            {  
-            $url = "https://" . $this->webServer . $postAction; 	
+            $url = "https://" . $this->webServer . $postAction;   
            }
       
                                  
@@ -744,7 +716,7 @@
            curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
            curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
            if ($this->serverType==1) {
-      	      curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
+              curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
            } else {
               curl_setopt($ch, CURLOPT_USERPWD,$this->agentCode . ":" . $this->password); //               
            } 
@@ -770,7 +742,7 @@
               $this->status = 0;
               $this->error = "Error:" + $this->error;
               $this->authorizationResult = "FAILURE: SENDERROR";
-              return;	 
+              return;   
            } else {
               
               $this->status = 0;
@@ -778,19 +750,19 @@
               $this->error = "ERROR!";
               
               if (strpos($iatsReturn,"HTTP 401.") >0 ){
-       	         $this->status = 0;
+                  $this->status = 0;
                  $this->error = "Error 1";
                  $this->authorizationResult = "INVALID AGENT CODE / PASSWORD";
                  //echo $iatsReturn //full error msg
                  return;
-       	      }
-       	      if (strpos($iatsReturn,"Reoccurring1") <=0 ){
-       	         $this->status = 0;
+               }
+               if (strpos($iatsReturn,"Reoccurring1") <=0 ){
+                  $this->status = 0;
                  $this->error = "FAILURE";
                  $this->authorizationResult = $iatsReturn; 
                  return;
-       	      }
- 	      
+               }
+         
               
                $this->status = 1;
                $this->error = "";             
@@ -802,10 +774,9 @@
             $this->status = 0;
             $this->error = "FAILURE: ERRORCONN" ;
             $this->authorizationResult = "FAILURE: ERRORCONN";
-            return; 	
+            return;   
           }
           
-
       } catch (Exception $e)  {
          $this->status = 0;
          $this->error = "12002";
@@ -822,9 +793,9 @@
       {
   
          $params = "AgentCode=" . $this->agentCode;   
-   	 $params = $params . "&Password=" . $this->password;  
-   	 $params = $params . "&CustCode=" . $this->customerCode; 
-   	 
+      $params = $params . "&Password=" . $this->password;  
+      $params = $params . "&CustCode=" . $this->customerCode; 
+      
          $params = $params . "&Total="   .  $this->dollarAmount;
                       
          if ($this->invoiceNumber != "")
@@ -841,11 +812,11 @@
          try {           
            if ($this->testMode == true)
            {
-            $url = "http://"  . $this->webServer . $postAction; 	  
+            $url = "http://"  . $this->webServer . $postAction;     
            }
            else
            {  
-            $url = "https://" . $this->webServer . $postAction; 	
+            $url = "https://" . $this->webServer . $postAction;   
            }
       
                                  
@@ -878,7 +849,7 @@
               $this->status = 0;
               $this->error = "Error:" + $this->error;
               $this->authorizationResult = "REJECT: ERRORSEND";
-              return;	 
+              return;   
            } else {
               
               $this->status = 0;
@@ -887,7 +858,6 @@
               
               $iatsReturn = stristr($iatsReturn,"AUTHORIZATION RESULT:");
               $iatsReturn = substr($iatsReturn, strpos($iatsReturn,":")+1, strpos($iatsReturn,"<")-strpos($iatsReturn,":")-1);
-
               if ($iatsReturn == "")
               {
                $this->status = 0;
@@ -905,10 +875,9 @@
             $this->status = 0;
             $this->error = "Error: ERRORCONN" ;
             $this->authorizationResult = "REJECT: ERRORCONN";
-            return; 	
+            return;   
           }
           
-
       } catch (Exception $e)  {
          $this->status = 0;
          $this->error = "12002";
@@ -921,16 +890,16 @@
    
    public function getReoccurringCustomerList()
    {  
-      if ($this->serverType==1) 
+      if ($this->serverType ==1) 
       {
-      	 $this->doLogin();      	 
-      } 
-      if ($this->loginOK == false)
-      {
-      	  $this->status = 0;
+       $this->doLogin();               
+       if ($this->loginOK == false)
+       {
+          $this->status = 0;
           $this->error = "ERROR 1";
-          $this->authorizationResult = "FAILED: INVALID AGENT CODE/PASSWORD";	
-          return;     
+          $this->authorizationResult = "FAILED: INVALID AGENT CODE/PASSWORD";  
+          return; 
+       }    
       }        
       
       // Read input variables, send for processing, parse response and store in output variables.
@@ -938,7 +907,7 @@
       {
   
          $params = "AgentCode=" . $this->agentCode;   
-   	 $params = $params . "&Password=" . $this->password;  
+      $params = $params . "&Password=" . $this->password;  
             
          $params = $params . "&Version=" . $this->version;
        
@@ -949,11 +918,11 @@
          try {           
            if ($this->testMode == true)
            {
-            $url = "http://"  . $this->webServer . $postAction; 	  
+            $url = "http://"  . $this->webServer . $postAction;     
            }
            else
            {  
-            $url = "https://" . $this->webServer . $postAction; 	
+            $url = "https://" . $this->webServer . $postAction;   
            }
                           
            $ch = curl_init();
@@ -964,7 +933,7 @@
            curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
            curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
            if ($this->serverType==1) {
-      	      curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
+              curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
            } else {
               curl_setopt($ch, CURLOPT_USERPWD,$this->agentCode . ":" . $this->password); //               
            } 
@@ -990,7 +959,7 @@
               $this->status = 0;
               $this->error = "Error:" + $this->error;
               $this->authorizationResult = "FAILURE: SENDERROR";
-              return;	 
+              return;   
            } else {
               
               $this->status = 0;
@@ -998,26 +967,26 @@
               $this->error = "ERROR!";
               
               if (strpos($iatsReturn,"HTTP 401.") >0 ){
-       	         $this->status = 0;
+                  $this->status = 0;
                  $this->error = "Error 1";
                  $this->authorizationResult = "INVALID AGENT CODE / PASSWORD";
                  //echo $iatsReturn; //full error msg
                  return;
-       	      }
-       	      
-       	         	      
-       	      if (strpos($iatsReturn,"<!-- #REOCCBEGIN -->") <=0 ){
-       	         $this->status = 0;
+               }
+               
+                          
+               if (strpos($iatsReturn,"<!-- #REOCCBEGIN -->") <=0 ){
+                  $this->status = 0;
                  $this->error = "FAILURE";
                  $this->authorizationResult = $iatsReturn; 
                  return;
-       	      }
-       	      
-       	      $fReportFile = fopen($this->reportResultFileName,"w");
-                                  	      
-       	      $iatsReturn = strstr($iatsReturn,"<!-- #REOCCBEGIN -->");
-       	      $ipos1 = strpos($iatsReturn,"#REOCCBEGIN -->");
-       	      $resultLine = "";
+               }
+               
+               $fReportFile = fopen($this->reportResultFileName,"w");
+                                          
+               $iatsReturn = strstr($iatsReturn,"<!-- #REOCCBEGIN -->");
+               $ipos1 = strpos($iatsReturn,"#REOCCBEGIN -->");
+               $resultLine = "";
               while ($ipos1 > 0 ) {
                $ipos2 = strpos($iatsReturn,"<!-- #REOCCEND -->");
                $resultLine = substr($iatsReturn, $ipos1+15,$ipos2 - 15 - $ipos1);
@@ -1025,9 +994,9 @@
                //print $resultLine . "\n";
                $iatsReturn = substr($iatsReturn,$ipos2+18,strlen($iatsReturn)-$ipos2-18);
                //$iatsReturn = strstr($iatsReturn,"<!-- #REOCCBEGIN -->");
-       	       $ipos1 = strpos($iatsReturn,"#REOCCBEGIN -->");
-       	       //echo $iatsReturn;
-       	       //break;
+                $ipos1 = strpos($iatsReturn,"#REOCCBEGIN -->");
+                //echo $iatsReturn;
+                //break;
               }
               fclose($fReportFile); 
               
@@ -1041,10 +1010,9 @@
             $this->status = 0;
             $this->error = "FAILURE: ERRORCONN" ;
             $this->authorizationResult = "FAILURE: ERRORCONN";
-            return; 	
+            return;   
           }
           
-
       } catch (Exception $e)  {
          $this->status = 0;
          $this->error = "12002";

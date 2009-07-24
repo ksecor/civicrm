@@ -87,9 +87,11 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
     {
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false);
 
-        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_id     = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
 
         $this->_single = $this->get( 'single' );
+
+        $subPage       = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
 
         $this->_isTemplate = (bool) CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
         if (!$this->_isTemplate and $this->_id) {
@@ -99,27 +101,24 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
         $this->_templateId = (int) CRM_Utils_Request::retrieve('template_id', 'Integer', $this);
 
-        if ($this->_isTemplate) {
-            $breadCrumb = array(array('title' => ts('Event Templates'),
-                                      'url'   => CRM_Utils_System::url('civicrm/admin/eventTemplate', 'reset=1')));
-        } elseif ($this->_id) {
-            $breadCrumb = array( array('title' => ts('Configure Event'),
-                                       'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), "action=update&reset=1&id={$this->_id}" )) );
-        }
-
         // also set up tabs
         require_once 'CRM/Event/Form/ManageEvent/TabHeader.php';
         CRM_Event_Form_ManageEvent_TabHeader::build( $this );
 
-        // make submit buttons shift to next available valid(not disabled) tabs
-        if ( $this->_id ) {
-            $subPage     = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
-            $nextsubPage = CRM_Event_Form_ManageEvent_TabHeader::getNextSubPage( $this, $subPage );
-            $session =& CRM_Core_Session::singleton(); 
-            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
-                                                              "action=update&reset=1&id={$this->_id}&subPage={$nextsubPage}" ) );
+        // Set Done button URL and breadcrumb. Templates go back to Manage Templates, otherwise go to ManageEventEdit for this event.
+        if ( !$this->_isTemplate && $this->_id ) {
+            $doneUrl = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 
+                                             "action=update&reset=1&id={$this->_id}" );
+            $breadCrumb = 
+                array( array('title' => ts('Configure Event'),
+                             'url'   => $doneUrl) );
+        } else {
+            $doneUrl = CRM_Utils_System::url( 'civicrm/admin/eventTemplate', 'reset=1' );
+            $breadCrumb = 
+            array( array('title' => ts('Manage Event Templates'),
+                         'url'   => $doneUrl) );
         }
-
+        $this->assign( 'doneUrl', $doneUrl );
         CRM_Utils_System::appendBreadCrumb($breadCrumb);
     }
     
@@ -170,21 +169,11 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $buttons = array(
                              array ( 'type'      => 'upload',
                                      'name'      => ts('Save'),
-                                     'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                     'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                      'isDefault' => true   ),
                              array ( 'type'      => 'cancel',
                                      'name'      => ts('Cancel'), ), 
                              );
-            if ( $this->_id ) {
-                // add js to cancel button
-                $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
-                                              "action=update&reset=1&id={$this->_id}", 
-                                              false, null, false );
-
-                $buttons[1]['js'] = array( 'onclick' => 
-                                           "location.href='{$url}';return false;" );
-            }
-
             $this->addButtons( $buttons );
 
         } else {
@@ -208,9 +197,23 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
         $this->add('hidden', 'is_template', $this->_isTemplate);
     }
 
+    function endPostProcess( ) {
+        // make submit buttons shift to next available valid(not disabled) tabs
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String', $this );
+            if ( $subPage ) {
+                $title = CRM_Event_Form_ManageEvent_TabHeader::getSubPageInfo( $this, $subPage );
+            }
+            CRM_Core_Session::setStatus( ts("'%1' information has been saved.", array(1 => $title)) );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
+                                                               "action=update&reset=1&id={$this->_id}&subPage={$subPage}" ) );
+        }
+    }
+
     function getTemplateFileName( ) {
         if ( $this->controller->getPrint( ) == CRM_Core_Smarty::PRINT_NOFORM ||
-             $this->getVar( '_id' ) <= 0 ) {
+             $this->getVar( '_id' ) <= 0 ||
+             ( $this->_action & CRM_Core_Action::DELETE ) ) {
             return parent::getTemplateFileName( );
         } else {
             return 'CRM/Event/Form/ManageEvent/Tab.tpl';

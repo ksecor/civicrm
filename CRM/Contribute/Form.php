@@ -79,11 +79,10 @@ class CRM_Contribute_Form extends CRM_Core_Form
 
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->assign( 'delName', $defaults['name'] );
+        } elseif ($this->_action == CRM_Core_Action::ADD) {
+            $defaults['is_active'] = 1;
         }
-
-        // its ok if there is no element called is_active
-        $defaults['is_active'] = 1;
-
+        
         return $defaults;
     }
 

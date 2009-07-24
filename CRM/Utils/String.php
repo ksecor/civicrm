@@ -198,7 +198,7 @@ class CRM_Utils_String {
         return true;
     }
 
-    static function redaction( $str, $regexRules, $stringRules ) {
+    static function redaction( $str, $stringRules, $regexRules ) {
         //redact the regular expressions
         if (!empty($regexRules)){
             foreach ($regexRules as $pattern => $replacement) {

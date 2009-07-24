@@ -225,16 +225,22 @@ WHERE  f.custom_group_id = g.id
                 $params['value'] = CRM_Utils_Rule::cleanMoney( $params['value'] );
             }
             switch ( $dao->htmlType ) {
+            case 'Autocomplete-Select':    
             case 'Select':
             case 'Radio':
                 $query = "
 UPDATE {$dao->tableName}
 SET    {$dao->columnName} = %1
 WHERE  {$dao->columnName} = %2";
+                if ( $dao->dataType == 'Auto-complete' ) {
+                    $dataType = "String";
+                } else {
+                    $dataType = $dao->dataType;
+                }
                 $queryParams = array( 1 => array( $params['value'],
-                                                  $dao->dataType ),
+                                                  $dataType ),
                                       2 => array( $oldValue,
-                                                  $dao->dataType ) );
+                                                  $dataType ) );
                 break;
 
             case 'AdvMulti-Select':
@@ -260,11 +266,11 @@ SET    {$dao->columnName} = REPLACE( {$dao->columnName}, %1, %2 )";
 
     static function &valuesByID( $customFieldID, $optionGroupID = null ) {
         if ( ! $optionGroupID ) {
-            $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+            $optionGroupID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
                                                           $customFieldID,
                                                           'option_group_id' );
         }
-
+        
         require_once 'CRM/Core/OptionGroup.php';
         $options =& CRM_Core_OptionGroup::valuesByID( $optionGroupID );
 

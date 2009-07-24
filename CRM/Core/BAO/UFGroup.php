@@ -382,33 +382,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'field_type'       => $field->field_type,
                           'field_id'         => $field->id
                           );
-                //add fields custom addressee, custom email/postal greeting if Addressee, 
-                //email greeting or postal greeting are present, CRM-4575
-                if( $name == 'addressee' && ( $action == 2 || $action == 4 ) )  {
-                    $fields['addressee_custom'] = array (
-                                                         'name'       => 'addressee_custom',
-                                                         'where'      => 'contact_a.addressee_custom',
-                                                         'title'      => 'Custom Addressee',
-                                                         'group_id'   => $group->id,
-                                                         'visibility' => $field->visibility
-                                                         );
-                } else if ( $name == 'email_greeting' && ( $action == 2 || $action == 4 ) )  {
-                    $fields['email_greeting_custom'] = array (
-                                                              'name'       => 'email_greeting_custom',
-                                                              'where'      => 'contact_a.email_greeting_custom',
-                                                              'title'      => 'Custom Email Greeting',
-                                                              'group_id'   => $group->id,
-                                                              'visibility' => $field->visibility
-                                                              );
-                } else if( $name == 'postal_greeting' && ( $action == 2 || $action == 4 ) )  {
-                    $fields['postal_greeting_custom'] = array (
-                                                               'name'       => 'postal_greeting_custom',
-                                                               'where'      => 'contact_a.postal_greeting_custom',
-                                                               'title'      => 'Custom Postal Greeting',
-                                                               'group_id'   => $group->id,
-                                                               'visibility' => $field->visibility
-                                                               );
-                }
                 
                 //adding custom field property 
                 if ( substr($name, 0, 6) == 'custom' ) {
@@ -641,18 +614,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once 'CRM/Quest/BAO/Student.php';
             $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
-        
+                        
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
-        //set default values of custom email/postal greeting or addressee on profile, CRM-4575
-        $elements = array( 'email_greeting'  => 'email_greeting_custom', 
-                           'postal_greeting' => 'postal_greeting_custom', 
-                           'addressee'       => 'addressee_custom' );
-        foreach( $elements as $field => $customField ) {
-            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
-                $returnProperties[$customField] = 1;
-            }
-        }    
+   
         $params  = array( array( 'contact_id', '=', $cid, 0, 0 ) );
         
         // add conditions specified by components. eg partcipant_id etc
@@ -667,7 +632,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ( ! $details->fetch( ) ) {
             return;
         }
-        
+            
         $config =& CRM_Core_Config::singleton( );
         
         require_once 'CRM/Core/PseudoConstant.php'; 
@@ -690,9 +655,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                              'addressee_custom'       => 'addressee');
             if ( isset($details->$name) || $name == 'group' || $name == 'tag') {//hack for CRM-665
                 // to handle gender / suffix / prefix
-                if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix', 
-                                             'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+                if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix' ) ) ) {
                     $values[$index] = $details->$name;
+                    $name = $name . '_id';
+                    $params[$index] = $details->$name;
+                } else if ( in_array( $name, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+                    $dname = $name . '_display';
+                    $values[$index] = $details->$dname;
                     $name = $name . '_id';
                     $params[$index] = $details->$name;
                 } else if ( in_array( $name, array( 'state_province', 'country', 'county' ) ) ) {
@@ -796,6 +765,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                     $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal,
                                                                                                  $cfID,
                                                                                                  $options );
+                                    if ( $htmlType == 'Autocomplete-Select' ) {
+                                        $params[$index] = $values[$index];
+                                    }
                                     if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
                                                                       $cfID, 'is_search_range' ) ) {
                                         $customFieldName = "{$name}_from";
@@ -877,25 +849,25 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 
                 $url= null;
                 if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
-		    $htmlType = $field['html_type'];
-		    if ( $htmlType == 'Link' ) {
+                    $htmlType = $field['html_type'];
+                    if ( $htmlType == 'Link' ) {
                         $url =  $params[$index] ;
                     } else if ( in_array( $htmlType, array( 'CheckBox', 'Multi-Select', 'AdvMulti-Select', 
-							    'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {   
-			$valSeperator    = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ;
-			$selectedOptions = explode( $valSeperator, $params[$index] );
-			
-			foreach ( $selectedOptions as $key => $multiOption ) {
-			    if ( $multiOption ) {
-				$eachOption = $valSeperator.$multiOption.$valSeperator;
-				$url[] =  CRM_Utils_System::url( 'civicrm/profile',
-								 'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-								 urlencode( $fieldName ) .
-								 '=' .
-								 urlencode( $eachOption ) );
-			    }
-			}
-		    } else {
+                                                            'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {   
+                        $valSeperator    = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ;
+                        $selectedOptions = explode( $valSeperator, $params[$index] );
+                        
+                        foreach ( $selectedOptions as $key => $multiOption ) {
+                            if ( $multiOption ) {
+                                $eachOption = $valSeperator.$multiOption.$valSeperator;
+                                $url[] =  CRM_Utils_System::url( 'civicrm/profile',
+                                                                 'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                                 urlencode( $fieldName ) .
+                                                                 '=' .
+                                                                 urlencode( $eachOption ) );
+                            }
+                        }
+                    } else {
                         $url = CRM_Utils_System::url( 'civicrm/profile',
                                                       'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                                       urlencode( $fieldName ) .
@@ -903,72 +875,28 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                       urlencode( $params[$index] ) );
                     }
                 } else {
-                    if ( $fieldName == 'email_greeting_custom' ) {   
-                        if ( CRM_Utils_Array::value('Email Greeting', $params) != 4 ) { 
-                            array_pop($values); 
-                        } else {    
-                            $url = CRM_Utils_System::url( 'civicrm/profile',
-                                                          'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-                                                          urlencode( 'email_greeting' ) .
-                                                          '=' .
-                                                          urlencode( $params['Email Greeting'] ) . '&'.
-                                                          urlencode( $fieldName ) .
-                                                          '=' .
-                                                          urlencode( $params[$index] ) 
-                                                          );
-                        }
-                    } else if ( $fieldName == 'postal_greeting_custom' ) {
-                        if ( CRM_Utils_Array::value('Email Greeting', $params) != 4 ) { 
-                            array_pop($values); 
-                        } else {    
-                            $url = CRM_Utils_System::url( 'civicrm/profile',
-                                                          'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-                                                          urlencode( 'postal_greeting' ) .
-                                                          '=' .
-                                                          urlencode( $params['Postal Greeting'] ) . '&'.
-                                                          urlencode( $fieldName ) .
-                                                          '=' .
-                                                          urlencode( $params[$index] ) 
-                                                          );
-                        }
-                    } else if ( $fieldName == 'addressee_custom' ) {
-                        if ( CRM_Utils_Array::value('Addressee', $params) != 4 ) { 
-                            array_pop($values); 
-                        } else {    
-                            $url = CRM_Utils_System::url( 'civicrm/profile',
-                                                          'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-                                                          urlencode( 'addressee' ) .
-                                                          '=' .
-                                                          urlencode( $params['Addressee'] ) . '&'.
-                                                          urlencode( $fieldName ) .
-                                                          '=' .
-                                                          urlencode( $params[$index] ) 
-                                                          );
-                        }
-                    } else {   
-                        $url = CRM_Utils_System::url( 'civicrm/profile',
-                                                      'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
-                                                      urlencode( $fieldName ) .
-                                                      '=' .
-                                                      urlencode( $params[$index] ) );
-                    }
+                    $url = CRM_Utils_System::url( 'civicrm/profile',
+                                                  'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                  urlencode( $fieldName ) .
+                                                  '=' .
+                                                  urlencode( $params[$index] ) );
                 }
                
                 if ( $url &&
-                     ! empty( $values[$index] ) &&
-                     $searchable ) {
+                         ! empty( $values[$index] ) &&
+                         $searchable ) {
 		    
-		    if (  is_array( $url ) && !empty( $url ) ) {
-			$links = array( );
-			$eachMultiValue = explode( ', ', $values[$index] );
-			foreach ( $eachMultiValue as $key => $valueLabel ) {
-			    $links[] = '<a href="' . $url[$key] . '">' . $valueLabel . '</a>';
-			}
-			$values[$index] = implode( ', ', $links );				
-		    } else {
-			$values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
-		    }
-		}
+        		    if (  is_array( $url ) && !empty( $url ) ) {
+            			$links = array( );
+            			$eachMultiValue = explode( ', ', $values[$index] );
+            			foreach ( $eachMultiValue as $key => $valueLabel ) {
+            			    $links[] = '<a href="' . $url[$key] . '">' . $valueLabel . '</a>';
+            			}
+            			$values[$index] = implode( ', ', $links );				
+        		    } else {
+        			    $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
+        		    }
+    		    }
             }
         }
     }
@@ -1048,21 +976,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function add(&$params, &$ids) 
     {
-        $params['is_active'              ] = CRM_Utils_Array::value( 'is_active'           , $params, false );
-        $params['add_captcha'            ] = CRM_Utils_Array::value( 'add_captcha'         , $params, false );
-        $params['is_map'                 ] = CRM_Utils_Array::value( 'is_map'              , $params, false );
-        $params['is_update_dupe'         ] = CRM_Utils_Array::value( 'is_update_dupe'      , $params, false );
-        $params['limit_listings_group_id'] = CRM_Utils_Array::value( 'group'               , $params        );
-        $params['add_to_group_id'        ] = CRM_Utils_Array::value( 'add_contact_to_group', $params        );
-        $params['is_edit_link'           ] = CRM_Utils_Array::value( 'is_edit_link'        , $params, false );
-        $params['is_uf_link'             ] = CRM_Utils_Array::value( 'is_uf_link'          , $params, false );
-        $params['is_cms_user'            ] = CRM_Utils_Array::value( 'is_cms_user'         , $params, false );
+        $fields = array( 'is_active', 'add_captcha', 'is_map', 'is_update_dupe', 'is_edit_link', 'is_uf_link', 'is_cms_user' );
+        foreach( $fields as $field ) {
+            $params[$field] = CRM_Utils_Array::value( $field, $params, false );    
+        }
+        
+        $params['limit_listings_group_id'] = CRM_Utils_Array::value( 'group', $params );
+        $params['add_to_group_id'        ] = CRM_Utils_Array::value( 'add_contact_to_group', $params );
 
-        $ufGroup             =& new CRM_Core_DAO_UFGroup();
-        $ufGroup->copyValues($params); 
-                
-        $ufGroup->id = CRM_Utils_Array::value( 'ufgroup', $ids );;
+        $ufGroup =& new CRM_Core_DAO_UFGroup();
+        $ufGroup->copyValues( $params ); 
+        $ufGroup->id = CRM_Utils_Array::value( 'ufgroup', $ids );
         $ufGroup->save();
+        
         return $ufGroup;
     }    
 
@@ -1151,6 +1077,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
     {
         if ($displayName) { 
             $UFGroupType = array( );
+            require_once "CRM/Core/SelectValues.php";
             $UFGroupType = CRM_Core_SelectValues::ufGroupTypes( );
         }
         
@@ -1194,7 +1121,6 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
     static function addUFJoin( &$params ) 
     {
         require_once 'CRM/Core/DAO/UFJoin.php';
-        
         $ufJoin =& new CRM_Core_DAO_UFJoin( );
         $ufJoin->copyValues( $params );
         $ufJoin->save( );
@@ -1443,31 +1369,25 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             $gId =$form->get('gid');
             require_once 'CRM/Core/BAO/UFField.php';
             $profileType = CRM_Core_BAO_UFField::getProfileType( $gId);
-            switch( $profileType ) {
-            case 'Individual': 
-                $filterVal = "v.filter = 1";
-                break;
-            case 'Household':
-                $filterVal = "v.filter = 2";
-                break;
-            case 'Organization':
-                $filterVal = "v.filter = 3";
-                break;
-            }
-            $filterCondition = "AND (v.filter IS NULL OR {$filterVal}) ";
-            if( $fieldName == 'email_greeting') {
+            if ( $fieldName == 'email_greeting') {
+                $emailGreeting = array( 'contact_type'  => $profileType, 
+                                        'greeting_type' => 'email_greeting');
                 $form->add('select', $name, $title, 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::emailGreeting($filterCondition), $required, array( 'onchange' => "showEmailGreeting();"));
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting($emailGreeting), $required );
                 // adding custom email greeting element alongwith email greeting        
                 $form->add('text', 'email_greeting_custom', ts('Custom Email Greeting'), null, false);   
             } else if ( $fieldName === 'postal_greeting' ) { 
+                $postalGreeting = array( 'contact_type'  => $profileType, 
+                                         'greeting_type' => 'postal_greeting');
                 $form->add('select', $name, $title, 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::postalGreeting($filterCondition), $required, array( 'onchange' => "showPostalGreeting();"));
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting($postalGreeting), $required );
                 // adding custom postal greeting element alongwith postal greeting         
                 $form->add('text', 'postal_greeting_custom', ts('Custom Postal Greeting'), null, false);   
             } else if ( $fieldName === 'addressee' ) { 
+                 $addressee = array( 'contact_type'  => $profileType, 
+                                     'greeting_type' => 'addressee');
                 $form->add('select', $name, $title, 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::addressee($filterCondition), $required, array( 'onchange' => "showAddressee();"));
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting($addressee), $required );
                 // adding custom addressee  element alongwith addressee type         
                 $form->add('text', 'addressee_custom', ts('Custom Addressee'), null, false);   
             }
@@ -1493,18 +1413,17 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                             'objectExists', 
                             array( 'CRM_Contact_DAO_Contact', $contID, 'external_identifier' ) );
         } else if ( $fieldName === 'group' ) {
-            require_once 'CRM/Contact/Form/GroupTag.php';
-            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $contactId,
-                                                          CRM_Contact_Form_GroupTag::GROUP,
-                                                          true, $required,
-                                                          $title, null, $name );
-        } else if ( $fieldName === 'tag' ) {
-            require_once 'CRM/Contact/Form/GroupTag.php';
-            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $contactId,
-                                                          CRM_Contact_Form_GroupTag::TAG,
-                                                          false, $required,
-                                                          null, $title, $name );
-            
+            require_once 'CRM/Contact/Form/Edit/TagsAndGroups.php';
+            CRM_Contact_Form_Edit_TagsAndGroups::buildQuickForm( $form, $contactId,
+																  CRM_Contact_Form_Edit_TagsAndGroups::GROUP,
+																  true, $required,
+																  $title, null, $name );
+        } else if ( $fieldName === 'tag'  ) {
+            require_once 'CRM/Contact/Form/Edit/TagsAndGroups.php';
+            CRM_Contact_Form_Edit_TagsAndGroups::buildQuickForm( $form, $contactId,
+																  CRM_Contact_Form_Edit_TagsAndGroups::TAG,
+																  false, $required,
+																  null, $title, $name );
         } else if ( $fieldName === 'home_URL' ) {
             $form->addElement('text', $name, $title,
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
@@ -1616,7 +1535,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             require_once 'CRM/Contact/BAO/Contact.php';
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
             $details = $contactDetails[$contactId];
-            
+            require_once 'CRM/Contact/Form/Edit/TagsAndGroups.php';
             //start of code to set the default values
             foreach ($fields as $name => $field ) {
                 //set the field name depending upon the profile mode(single/batch)
@@ -1626,12 +1545,11 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                     $fldName = "field[$contactId][$name]";
                 }
                 
-                require_once 'CRM/Contact/Form/GroupTag.php';
                 if ( $name == 'group' ) {                   
-                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::GROUP, $fldName ); 
+                    CRM_Contact_Form_Edit_TagsAndGroups::setDefaults( $contactId, $defaults, CRM_Contact_Form_Edit_TagsAndGroups::GROUP, $fldName ); 
                 }
                 if( $name == 'tag' ) {
-                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG, $fldName ); 
+                    CRM_Contact_Form_Edit_TagsAndGroups::setDefaults( $contactId, $defaults, CRM_Contact_Form_Edit_TagsAndGroups::TAG, $fldName ); 
                 }
                 
                 if (CRM_Utils_Array::value($name, $details ) || isset( $details[$name] ) ) {
@@ -1661,7 +1579,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                         } 
                     } else if ($name == 'world_region') {
                         $defaults[$fldName] = $details['worldregion_id'];
-                    } else if ( substr( $name, 0, 7 ) == 'custom_') {
+                    } else if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
                         //fix for custom fields
                         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'Individual', $values ) );
 
@@ -1672,7 +1590,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                                                                             CRM_Core_BAO_CustomField::getFieldsForImport($value));
                         }
                         
-                        switch( $customFields[substr($name,7,9)]['html_type'] ) {
+                        switch( $customFields[$customFieldId]['html_type'] ) {
                         case 'Multi-Select State/Province':
                         case 'Multi-Select Country':
                         case 'AdvMulti-Select':
@@ -1697,6 +1615,20 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                             }
                             break;
                             
+                        case 'Autocomplete-Select':                            
+                            if ( $customFields[$customFieldId]['data_type'] == "ContactReference" ) {
+                                require_once 'CRM/Contact/BAO/Contact.php';
+                                if ( is_numeric( $details[$name] ) ) {
+                                    $defaults[$fldName.'_id'] = $details[$name]; 
+                                    $defaults[$fldName] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $details[$name], 'sort_name' );
+                                }
+                            } else {
+                                $label = CRM_Core_BAO_CustomOption::getOptionLabel( $customFieldId, $details[$name] );
+                                $defaults[$fldName.'_id'] = $details[$name];
+                                $defaults[$fldName] = $label;
+                            }
+                            break;
+                                
                         default:
                             $defaults[$fldName] = $details[$name];
                             break;
@@ -2102,8 +2034,6 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                         $data['prefix_id'] = $value;
                     } else if ($key === 'gender') { 
                         $data['gender_id'] = $value;
-                    } else if ($key === 'greeting_type') { 
-                        $data['greeting_type_id'] = $value;
                     } else if (substr($key, 0, 6) === 'custom') {
                         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                             //fix checkbox
