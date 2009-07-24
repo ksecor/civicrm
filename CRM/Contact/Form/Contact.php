@@ -104,6 +104,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     public $_values = array( );
     
     public $_action;
+    /**
+     * The array of greetings with option group and filed names
+     *
+     * @var array
+     */
+    public $_greetings;
     
     /**
      * build all the data structures needed to build the form
@@ -388,7 +394,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
 			return;
 		}
         
-        $this->addFormRule( array( 'CRM_Contact_Form_Edit_'. $this->_contactType, 'formRule' ), $this->_contactId );
+        $this->addFormRule( array( 'CRM_Contact_Form_Edit_'. $this->_contactType,   'formRule' ), $this->_contactId );
+        $this->addFormRule( array( 'CRM_Contact_Form_Edit_CommunicationPreferences','formRule' ), $this );
     }
     
     /**
@@ -482,17 +489,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             }
         }
         
-        //CRM-4575
-        $filter = array( 'greeting_type' => 'addressee'  );
-        $addresseeValues = CRM_Core_PseudoConstant::greeting( $filter, 'name' );
-        $addresseeValue  = CRM_Utils_Array::key( 'Customized', $addresseeValues );
-        if( CRM_Utils_Array::value( 'addressee_id', $fields ) == $addresseeValue && 
-            ! CRM_Utils_Array::value( 'addressee_custom', $fields ) ) {
-            $errors['addressee_custom'] = ts('Custom Addressee is a required field if Addressee is of type Customized.');
-        } 
-        
         return $primaryID;
-        
     }
     
     /**
@@ -525,9 +522,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         // build location blocks.
         CRM_Contact_Form_Location::buildQuickForm( $this );
-        
-        //build the addressee block CRM-4575
-        $this->buildAddresseeBlock( );
         
         // add the dedupe button
         $this->addElement('submit', 
@@ -724,29 +718,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         return false;
     }
-    
-    /**
-     * build elements to set addressee formats
-     *
-     * @return None
-     * @access public
-     */
-    function buildAddresseeBlock( ) 
-    {
-        //check contact type and build filter clause accordingly for addressee, CRM-4575
-        $greeting = array(
-							'contact_type'  => $this->_contactType, 
-                            'greeting_type' => 'addressee'  );
-        //add addressee in Contact form
-        $addressee = CRM_Core_PseudoConstant::greeting( $greeting );
-        if ( !empty( $addressee ) ) {
-            $this->addElement('select', 'addressee_id', ts('Addressee'), 
-                              array('' => ts('- select -')) + $addressee );
-            //custom addressee
-            $this->addElement('text', 'addressee_custom', ts('Custom Addressee'), 
-                              CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'addressee_custom' ));
-        }
-    }  
 }
 
 
