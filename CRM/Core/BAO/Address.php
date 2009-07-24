@@ -104,13 +104,13 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             if ( $isPrimary && $value['is_primary'] ) {
                 $isPrimary = false;
             } else {
-                $value['is_primary'] = false;
+                $value['is_primary'] = 0;
             }
             
             if ( $isBilling && $value['is_billing'] ) {
                 $isBilling = false;
             } else {
-                $value['is_billing'] = false;
+                $value['is_billing'] = 0;
             }
             $value['contact_id'] = $contactId;
 
@@ -378,6 +378,13 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             $values['display'] = $address->display;
 
             $addresses[$count] = $values;
+            
+            //unset is_primary after first block. Due to some bug in earlier version
+            //there might be more than one primary blocks, hence unset is_primary other than first
+            if ( $count > 1 ) {
+                unset($addresses[$count]['is_primary']);
+            }
+
             $count++;
         }
         
