@@ -134,7 +134,15 @@
 {/if}
 <dl>
 	<dt></dt>
-	<dd>{$form.buttons.html}</dd>
+        <dd>
+            {$form.buttons.html}
+            {if call_user_func(array('CRM_Core_Permission','check'), 'edit contributions')}
+                &nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&id=$id&cid=$contact_id&action=update&context=contribution"}" accesskey="e">Edit</a>
+            {/if}
+            {if call_user_func(array('CRM_Core_Permission','check'), 'delete in CiviContribute')}
+                &nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&id=$id&cid=$contact_id&action=delete&context=contribution"}">Delete</a>
+            {/if}
+        </dd>
 </dl>
 </fieldset>
 </div>
