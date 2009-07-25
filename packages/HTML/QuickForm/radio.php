@@ -202,11 +202,13 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
         switch ($event) {
             case 'updateValue':
                 // constant values override both default and submitted ones
-                // default values are overriden by submitted
                 $value = $this->_findValue($caller->_constantValues);
                 if (null === $value) {
-                    $value = $this->_findValue($caller->_submitValues);
-                    if (null === $value) {
+                    // we should retrieve value from submitted values when form is submitted,
+                    // else set value from defaults values
+                    if ( $caller->isSubmitted( ) ) { 
+                        $value = $this->_findValue($caller->_submitValues);
+                    } else {
                         $value = $this->_findValue($caller->_defaultValues);
                     }
                 }
@@ -239,9 +241,9 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     {
         $value = $this->_findValue($submitValues);
         if (null === $value) {
-            //fix to return blank value when all radio's are unselected / not selected - kurund
-            // this also fixes if all radio button are unselected
-            // $value = $this->getChecked()? $this->getValue(): '';
+            // fix to return blank value when all radio's are unselected / not selected
+            // always use submitted values rather than defaults
+            //$value = $this->getChecked()? $this->getValue(): null;
             $value = '';
         } elseif ($value != $this->getValue()) {
             $value = null;
