@@ -73,13 +73,13 @@
      <tr>
      <td class ='html-adjust' colspan=2>
      	<dl class="html-adjust">
-	{if $discount}
+        {if $discount}
             <dt class="label">{ts}Discount Set{/ts}</dt><dd>{$discount}</dd>
         {else if $form.discount_id.label}
             <dt class="label">{$form.discount_id.label}</dt><dd>{$form.discount_id.html}</dd>
         {/if}
-	{if $action EQ 2}
-	    <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</dd>
+        {if $action EQ 2}
+	    <dt>{ts}Event Level{/ts}</dt><dd><span class="bold">{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</span></dd>
         {/if}
         <dt class="label">{$form.amount.label}</dt><dd>{$form.amount.html}
         {if $action EQ 1}
@@ -108,7 +108,7 @@
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership}
                 {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership}</dd> 
                 <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-        	<div id="checkNumber"><dt class="label">{$form.check_number.label}</dt><dd>{$form.check_number.html}</dd></div>
+        	<div id="checkNumber"><dt class="label">{$form.check_number.label}</dt><dd>{$form.check_number.html|crmReplace:class:six}</dd></div>
 	        {if $showTransactionId }	
                     <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>	
                 {/if}	

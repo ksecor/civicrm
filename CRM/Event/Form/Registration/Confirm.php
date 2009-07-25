@@ -684,6 +684,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $this->_values['params']['isRequireApproval'] = $this->_requireApproval;
                 
                 //send mail to primary as well as additional participants.
+                $this->assign( 'contactID', $contactId );
+                $this->assign( 'participantID', $participantID );
                 CRM_Event_BAO_Event::sendMail( $contactId, $this->_values, $participantID, $isTest );
             }
                 

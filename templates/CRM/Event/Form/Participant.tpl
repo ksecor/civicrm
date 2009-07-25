@@ -48,14 +48,14 @@
     {else} {* If action is other than Delete *}
         <table class="form-layout-compressed">
         {if $single and $context neq 'standalone'}
-			<tr><td class="right font-size12pt bold">{ts}Participant Name{/ts}&nbsp;&nbsp;</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
+			<tr><td class="label">{ts}Participant{/ts}</td><td class="view-value bold">{$displayName}&nbsp;</td></tr>
 	    {else}
             {include file="CRM/Contact/Form/NewContact.tpl"}
         {/if}	
         {if $participantMode}
             <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td></tr>
         {/if}
-        <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
+        <tr><td class="label">{$form.event_id.label}</td><td class="view-value bold">{$form.event_id.html}&nbsp;        
 					{if $action eq 1 && !$past }<br /><a href="{$pastURL}">&raquo; {ts}Include past event(s) in this select list.{/ts}</a>{/if}    
 					{if $is_test}
 					{ts}(test){/ts}
@@ -64,7 +64,7 @@
         </tr> 
         <tr><td class="label">{$form.role_id.label}</td><td>{$form.role_id.html}</td></tr>
         <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
-				{if $hideCalender neq true}<br />
+				{if $hideCalender neq true}&nbsp;
 				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event doTime=1}
 				{include file="CRM/common/calendar/body.tpl" dateVar=register_date  offset=10 doTime=1  trigger=trigger_event ampm=1}       
 				{/if}    

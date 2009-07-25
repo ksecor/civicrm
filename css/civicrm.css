@@ -123,7 +123,6 @@ div.spacer, .spacer {
   width: 22%;
   text-align: right;
   vertical-align: top;
-  font-weight: bold;
   padding: 5px 15px 5px 0px;
   font-size: .95em;
   white-space: normal;
@@ -443,10 +442,6 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 #crm-container .notorg {
   font-weight: normal;
-}
-
-#crm-container .labels, .label {
-  font-weight: bold;
 }
 
 #crm-container .font-light {
