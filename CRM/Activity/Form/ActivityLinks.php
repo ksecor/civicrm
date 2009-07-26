@@ -62,7 +62,7 @@ class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
         }
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'other_activity', ts('Other Activities'),
-                   array('' => ts('Register Activity')) + $activityType,
+                   array('' => ts('- new activity -')) + $activityType,
                    false, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
 
         $this->assign( 'suppressForm', true );
