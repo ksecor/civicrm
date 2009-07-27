@@ -218,6 +218,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
         
         $this->addFormRule(array('CRM_Member_Form_MembershipType', 'formRule'));
+
+        $this->assign('membershipTypeId', $this->_id);
     }
     
     /**
