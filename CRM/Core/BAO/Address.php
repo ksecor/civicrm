@@ -543,7 +543,31 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
             }
         }
     }
-
+    
+    /* Function to get address sequence
+     *
+     * @return  array of address sequence.
+     */
+    static function addressSequence(  ) {
+        $config =& CRM_Core_Config::singleton( );
+        $addressSequence = $config->addressSequence();
+        
+        $countryState = $cityPostal = false;
+        foreach ( $addressSequence as $key => $field ) {
+            if ( in_array( $field, array( 'country', 'state_province' ) ) && !$countryState ) {
+                $countryState = true;
+                $addressSequence[$key] = 'country_state_province';
+            } else if ( in_array( $field, array( 'city', 'postal_code' ) ) && !$cityPostal ) {
+                $cityPostal = true;
+                $addressSequence[$key] = 'city_postal_code';
+            } else if (  in_array( $field, array( 'country', 'state_province', 'city', 'postal_code' ) ) ) {
+                unset( $addressSequence[$key] );
+            }
+        }
+        
+        return $addressSequence;
+    }
+    
 }
 
 
