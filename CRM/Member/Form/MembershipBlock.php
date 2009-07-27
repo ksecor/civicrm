@@ -74,7 +74,9 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
         // Set Display Minimum Fee default to true if we are adding a new membership block
         if ( ! isset( $defaults['id'] ) ) {
             $defaults['display_min_fee'] = 1;
-        }     
+        } else {
+            $this->assign('membershipBlockId', $defaults['id']);
+        }
         return $defaults;
     }
     

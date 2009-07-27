@@ -14,13 +14,13 @@
     </dl>
     <div id="memberFields">
     <dl class="html-adjust">
-    <dt>{$form.new_title.label}</dt><dd>{$form.new_title.html}</dd>
+    <dt>{$form.new_title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_membership_block' field='new_title' id=$membershipBlockId}{/if}</dt><dd>{$form.new_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section title - for new member signups.{/ts}</dd>
 
     <dt>{$form.new_text.label}</dt><dd>{$form.new_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section introductory text - for new member signups.{/ts}</dd>
    
-    <dt>{$form.renewal_title.label}</dt><dd>{$form.renewal_title.html}</dd>
+    <dt>{$form.renewal_title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_membership_block' field='renewal_title' id=$membershipBlockId}{/if}</dt><dd>{$form.renewal_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section title - displayed to renewing members.{/ts}</dd>
 
     <dt>{$form.renewal_text.label}</dt><dd>{$form.renewal_text.html}</dd>
