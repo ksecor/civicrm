@@ -10,21 +10,21 @@
         <td>
             {$form.first_name.label}<br /> 
             {if $action == 2}
-                {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name' id=$entityID}
+                {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name' id=$contactId}
             {/if}
             {$form.first_name.html}
         </td>
         <td>
             {$form.middle_name.label}<br />
             {if $action == 2}
-                {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$entityID}
+                {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$contactId}
             {/if}
             {$form.middle_name.html}
         </td>
         <td>
             {$form.last_name.label}<br />
             {if $action == 2}
-                {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$entityID}
+                {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$contactId}
             {/if}
             {$form.last_name.html}
         </td>
