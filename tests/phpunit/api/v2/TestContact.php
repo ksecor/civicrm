@@ -62,7 +62,7 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
     {
         AllTests::installDB();
         return $this->createDefaultDBConnection(AllTests::$utils->pdo,
-                                             'test_civicrm');
+                                             'civicrm_tests_dev');
     }
 
     /**
