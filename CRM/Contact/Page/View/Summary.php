@@ -149,9 +149,6 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
             }
         }
 		
-		$this->showGreeting( $defaults );
-        //CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
-        
         if ( CRM_Utils_Array::value( 'gender_id',  $defaults ) ) {
             $gender =CRM_Core_PseudoConstant::gender();
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
@@ -337,31 +334,4 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
             $this->assign( 'hookContentPlacement', $contentPlacement );
         }
     }
-
-
-    /**
-     * Show greeting blocks based on default values.
-     *
-     * @param array (reference) $defaults
-     * @return void
-     * @access public
-     */
-    function showGreeting( &$defaults ) 
-	{
-		$greeting = array( 
-							'email_greeting'  => array( 
-                                                        'contact_type'  => $defaults['contact_type'], 
-                                                        'greeting_type' => 'email_greeting'  ),
-							'postal_greeting' => array( 
-                                                        'contact_type'  => $defaults['contact_type'], 
-                                                        'greeting_type' => 'postal_greeting'  ),
-							'addressee'       => array( 
-                                                        'contact_type'  => $defaults['contact_type'], 
-                                                        'greeting_type' => 'addressee'  )
-						);
-		foreach( $greeting as $key => $value ) {
-			$pseudoConst = CRM_Core_PseudoConstant::greeting( $value ); 
-			CRM_Utils_Array::lookupValue( $defaults, $key, $pseudoConst, false );
-		}
-	}
 }
