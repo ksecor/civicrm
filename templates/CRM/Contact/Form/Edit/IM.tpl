@@ -1,4 +1,7 @@
-{* tpl for building IM related fields*}
+{* This file provides the plugin for the Instant Messenger block *}
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller*}
+{* @var $blockId Contains the current block id, assigned in the CRM/Contact/Form/Location.php file *}
+
 {if !$addBlock}
 <tr>
     <td>{ts}Instant Messenger{/ts}

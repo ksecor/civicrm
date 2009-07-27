@@ -1,3 +1,7 @@
+{* This file provides the plugin for the Address block *}
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller*}
+{* @var $blockId Contains the current address block id, and assigned in the  CRM/Contact/Form/Location.php file *}
+
 {if $title and $className eq 'CRM_Contact_Form_Contact'}
 <h3 class="head"> 
     <span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{ts}{$title}{/ts}</a>
