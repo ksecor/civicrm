@@ -1,4 +1,4 @@
-{if $smarty.get.snippet eq 6}
+{if $smarty.get.snippet eq 4}
     {include file="CRM/Form/default.tpl"}
 {else}
     {if $smarty.get.snippet eq 2}
