@@ -141,7 +141,7 @@
 
                         <div style="CLEAR: both"></div>
                     </div><!-- #contact_panel -->
-
+					{if $address}
                     <div class="separator"></div>
 
                     <div id="contact_panel">
@@ -169,7 +169,7 @@
                     </div>
 
                     <div class="separator"></div>
-
+					{/if}
                     <div id="contact_panel">
                         <div id="contactCardLeft">
                             <table>
