@@ -185,30 +185,14 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             return eval( 'CRM_Contact_Form_Edit_' . $this->_addBlockName . '::buildQuickForm( $this );' );
         }
         
-        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);
-        
         $this->applyFilter('__ALL__', 'trim');
         
-        //hack the address sequence so that state province always comes after country
-        $config =& CRM_Core_Config::singleton( );
-        $addressSequence = $config->addressSequence();
-        $key = array_search( 'country', $addressSequence);
-        unset($addressSequence[$key]);
-
-        $key = array_search( 'state_province', $addressSequence);
-        unset($addressSequence[$key]);
-
-        $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
-        $this->assign( 'addressSequence', $addressSequence );
-
-        require_once 'CRM/Contact/Form/Location.php';
-
         //build location blocks.
         CRM_Contact_Form_Location::buildQuickForm( $this );
         
         //fix for CRM-1971
         $this->assign( 'action', $this->_action );
-
+        
         if ( $this->_id ) {
             $this->_oldLocBlockId = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', 
                                                                 $this->_id, 'loc_block_id' );

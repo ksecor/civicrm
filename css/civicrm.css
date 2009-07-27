@@ -123,7 +123,6 @@ div.spacer, .spacer {
   width: 22%;
   text-align: right;
   vertical-align: top;
-  font-weight: bold;
   padding: 5px 15px 5px 0px;
   font-size: .95em;
   white-space: normal;
@@ -427,7 +426,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 /* Page and form-level 'help' */
 #crm-container #help, #crm-container .help {
-  margin: 1em 0em 0.5em;
+  margin: 0.5em 0em 0.5em;
 }
 
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
@@ -443,10 +442,6 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 #crm-container .notorg {
   font-weight: normal;
-}
-
-#crm-container .labels, .label {
-  font-weight: bold;
 }
 
 #crm-container .font-light {

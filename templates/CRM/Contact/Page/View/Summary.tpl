@@ -235,6 +235,7 @@
 						 </table>
 						</div>
 						<div id="contactCardRight">
+						{if $contact_type neq 'Organization'}
 						 <table>
 							<tr>
 								<td class="label">{ts}Email Greeting{/ts}{if $email_greeting_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
@@ -245,6 +246,7 @@
 								<td>{$postal_greeting_display}</td>
 							</tr>
 						 </table>
+						 {/if}
 						</div>
 						
                         <div style="CLEAR: both"></div>

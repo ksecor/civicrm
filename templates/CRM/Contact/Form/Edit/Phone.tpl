@@ -10,7 +10,6 @@
 	{/if}
 </tr>
 {/if}
-<!-Add->
 <tr id="Phone_Block_{$blockId}">
      <td>{$form.phone.$blockId.phone.html|crmReplace:class:twenty}&nbsp;{$form.phone.$blockId.location_type_id.html}</td>
      <td colspan="2">{$form.phone.$blockId.phone_type_id.html}</td>
@@ -19,4 +18,3 @@
    <td><a href="#" title="{ts}Delete Phone Block{/ts}" onClick="removeBlock('Phone','{$blockId}'); return false;">{ts}delete{/ts}</a></td>
   {/if}
 </tr>
-<!-Add->

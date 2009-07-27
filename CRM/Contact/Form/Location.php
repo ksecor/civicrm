@@ -62,6 +62,14 @@ class CRM_Contact_Form_Location
         
         $form->assign( 'blocks',    $form->_blocks );
         $form->assign( 'className', $className );
+        
+        // get address sequence.
+        if ( !$addressSequence = $form->get( 'addressSequence' ) ) {
+            require_once 'CRM/Core/BAO/Address.php';
+            $addressSequence = CRM_Core_BAO_Address::addressSequence( );
+            $form->set( 'addressSequence', $addressSequence );
+        }
+        $form->assign( 'addressSequence', $addressSequence  );
     }
     
     /** 

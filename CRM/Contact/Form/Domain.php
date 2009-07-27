@@ -153,18 +153,6 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         //build location blocks.
         CRM_Contact_Form_Location::buildQuickForm( $this );
         
-        //hack the address sequence so that state province always comes after country
-        $config =& CRM_Core_Config::singleton( );
-        $addressSequence = $config->addressSequence();
-        $key = array_search( 'country', $addressSequence);
-        unset($addressSequence[$key]);
-
-        $key = array_search( 'state_province', $addressSequence);
-        unset($addressSequence[$key]);
-
-        $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
-        $this->assign( 'addressSequence', $addressSequence );
-
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),

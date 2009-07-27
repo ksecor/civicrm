@@ -23,14 +23,14 @@
 {foreach from=$rows item=row}
 <tr class="{cycle values="odd-row,even-row"}">
     <td>{$row.display_name}</td>
-    <td class="right">{$row.amount|crmMoney}&nbsp;&nbsp;</td>
+    <td class="right nowrap">{$row.amount|crmMoney}&nbsp;&nbsp;</td>
     <td>{$row.source}</td>
     {assign var="element_name" value="fee_amount_"|cat:$row.contribution_id}
     <td>{$form.$element_name.html}</td>
     {assign var="element_name" value="payment_instrument_id_"|cat:$row.contribution_id}
     <td class="form-text four">{$form.$element_name.html}</td>
     {assign var="element_name" value="check_number_"|cat:$row.contribution_id}
-    <td class="form-text four">{$form.$element_name.html}</td>
+    <td class="form-text four">{$form.$element_name.html|crmReplace:class:four}</td>
     {assign var="element_name" value="trxn_id_"|cat:$row.contribution_id}
     <td>{$form.$element_name.html|crmReplace:class:eight}</td>
     {assign var="element_name" value="trxn_date_"|cat:$row.contribution_id}

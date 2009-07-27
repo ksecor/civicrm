@@ -1173,7 +1173,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( $params['receive_date'] ) {
                 $this->assign( 'receive_date', $params['receive_date'] );
             }
-            $this->assign( 'subject', ts('Event Confirmation') );
 
             $participant = array( array( 'participant_id', '=', $participants[0]->id, 0, 0 ) );
             // check whether its a test drive ref CRM-3075
@@ -1198,6 +1197,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 list( $this->_contributorDisplayName, $this->_contributorEmail, $this->_toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
                 $this->_contributorDisplayName = ($this->_contributorDisplayName == ' ') ? $this->_contributorEmail : $this->_contributorDisplayName;
                 $this->assign( 'customGroup', $customGroup );
+                $this->assign( 'contactID', $contactID);
+                $this->assign( 'participantID', $participants[$num]->id );
                 
                 if ( $this->_isPaidEvent ) {
                     // fix amount for each of participants ( for bulk mode )
@@ -1208,7 +1209,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     //So we have to build amount as array.
                     $this->assign( 'amount', $eventAmount );
                 }
-                $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
+
+                $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubjectOffline.tpl' ) );
                 $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
               
                 //Do not try to send emails if emailID is not present
