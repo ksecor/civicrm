@@ -134,7 +134,6 @@
         {if $action neq 4 and $action neq 2}
             <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect and store for this contact. Then select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
         {/if}
-        </dl>
         <div class="spacer"></div>
 
 	<dt id="textLength" {if ( $action eq 1 || $action eq 2 ) && ($form.data_type.value.0.0 == 0)}class="show-block"{else} class="hide-block" {/if}>{$form.text_length.label}</dt><dd id="textLengthDef" {if ( $action eq 1 || $action eq 2 ) && ($form.data_type.value.0.0 == 0)}class="show-block"{else} class="hide-block"{/if}>{$form.text_length.html}</dd> 
@@ -143,6 +142,7 @@
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
         <div id='showoption' class="hide-block">{ include file="CRM/Custom/Form/Optionfields.tpl"}</div>
     {/if}
+	</dl>
         <dl>
 	<dt id="optionsPerLine" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 EQ 'CheckBox' || $form.data_type.value.1.0 EQ 'Radio' )}class="show-block"{else} class="hide-block" {/if}>{$form.options_per_line.label}</dt>	
 	    <dd id="optionsPerLineDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 EQ 'CheckBox' || $form.data_type.value.1.0 EQ 'Radio' )}class="show-block"{else} class="hide-block"{/if}>{$form.options_per_line.html|crmReplace:class:two}</dd>
