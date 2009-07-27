@@ -927,12 +927,11 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             }
 
             $url = "";
-            $url = "";
             $additionalUrl = "&id={$dao->id}";
             if ( !$dao->deleted ) {
                 //hide edit link of activity type email.CRM-4530.
                 if ( ! in_array($dao->type, $emailActivityTypeIDs) ) {
-                    $url = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> |";
+                    $url = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> ";
                 }
                               
                 //block deleting activities which affects
