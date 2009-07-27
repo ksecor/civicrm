@@ -36,7 +36,7 @@
             <dl>
             <dt>{$form.contribution_type_id.label}<span class="marker"> *</span></dt><dd>{$form.contribution_type_id.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This contribution type will be assigned to payments made by participants when they register online.{/ts}
-            <dt>{$form.fee_label.label}<span class="marker"> *</span></dt><dd>{$form.fee_label.html}</dd>
+            <dt>{$form.fee_label.label}<span class="marker"> *</span> {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='fee_label' id=$id}{/if}</dt><dd>{$form.fee_label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This label is displayed with the list of event fees.{/ts}
             </dl>
         </div>
@@ -50,9 +50,9 @@
 
         <div id="payLaterOptions">
           <dl>
-             <dt>{$form.pay_later_text.label}<span class="marker"> *</span></dt><dd>{$form.pay_later_text.html|crmReplace:class:big}</dd>
+             <dt>{$form.pay_later_text.label}<span class="marker"> *</span> {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='pay_later_text' id=$id}{/if}</dt><dd>{$form.pay_later_text.html|crmReplace:class:big}</dd>
              <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the 'pay later' option on the contribution form.{/ts}</dd>
-             <dt>{$form.pay_later_receipt.label}<span class="marker"> *</span></dt><dd>{$form.pay_later_receipt.html|crmReplace:class:big}</dd>
+             <dt>{$form.pay_later_receipt.label}<span class="marker"> *</span> {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='pay_later_receipt' id=$id}{/if}</dt><dd>{$form.pay_later_receipt.html|crmReplace:class:big}</dd>
              <dt>&nbsp;</dt><dd class="description">{ts}Instructions added to Confirmation and Thank-you pages when the user selects the 'pay later' option (e.g. 'Mail your check to ... within 3 business days.').{/ts}</dd>
           </dl>
         </div>
