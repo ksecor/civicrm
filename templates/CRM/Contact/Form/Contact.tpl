@@ -32,8 +32,8 @@
               <td>{$form.external_identifier.label}<br />
                   {$form.external_identifier.html}
               </td>
-              {if $entityID}
-				<td><label for="internal_identifier">Internal Id</label><br />{$entityID}</td>
+              {if $contactId}
+				<td><label for="internal_identifier">Internal Id</label><br />{$contactId}</td>
 			  {/if}
             </tr>            
         </table>

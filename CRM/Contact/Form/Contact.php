@@ -188,9 +188,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 CRM_Utils_System::setTitle( $displayName, $contactImage . ' ' . $displayName ); 
                 $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid='. $this->_contactId ));
                 
-                // need this for custom data in edit mode
-                $this->assign('entityID', $this->_contactId );
-                
                 $values = $this->get( 'values');
                 // get contact values.
                 if ( !empty( $values ) ) {
@@ -242,6 +239,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             //only custom data has preprocess hence directly call it
             CRM_Custom_Form_CustomData::preProcess( $this, null, null, 1, $this->_contactType, $this->_contactId );
         }
+        
+        // this is needed for custom data.
+        $this->assign( 'entityID', $this->_contactId );
+        
+        // also keep the convention.
+        $this->assign( 'contactId', $this->_contactId );
         
         // location blocks.
         CRM_Contact_Form_Location::preProcess( $this );
