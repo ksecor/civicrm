@@ -159,7 +159,11 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         
-        $params['location'][1]['is_primary'] = 1;
+        require_once 'CRM/Core/BAO/LocationType.php';
+        $locType =& CRM_Core_BAO_LocationType::getDefault();
+
+        $params['location'][1]['is_primary']       = 1;
+        $params['location'][1]['location_type_id'] = $locType->id;
 	    $params['contact_type']              = $this->_contactType;
         $params['contact_id']                = $this->_contactId;
 
