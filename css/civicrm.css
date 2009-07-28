@@ -1673,7 +1673,8 @@ DIV.buttons #icons {
     display 		: none;
 }
 
-#crm-container .boxBlock {
-	background-color: #F7F7F7;
-	border			: 1px solid #CCCCCC;
+#crm-container .boxBlock, #crm-container fieldset{
+	background-color   : #F7F7F7;
+	border			   : 1px solid #CCCCCC;
+	-moz-border-radius : 4px 4px 4px 4px;	
 }

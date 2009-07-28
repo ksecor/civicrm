@@ -1,24 +1,24 @@
 {* Custom Data form*}
 {foreach from=$groupTree item=cd_edit key=group_id}
 <div id="{$cd_edit.name}_show_{$cgCount}" class="section-hidden section-hidden-border">
-	<a href="#" onclick="hide('{$cd_edit.name}_show_{$cgCount}'); show('{$cd_edit.name}_{$cgCount}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
+	<a href="#" onclick="cj('#{$cd_edit.name}_show_{$cgCount}').hide(); cj('#{$cd_edit.name}_{$cgCount}').show(); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
 </div>
 
-<div id="{$cd_edit.name}_{$cgCount}" class="form-item">
-	<fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$cgCount}'); show('{$cd_edit.name}_show_{$cgCount}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
-
+<div id="{$cd_edit.name}_{$cgCount}" class="form-item" align="center">
+	<fieldset>
+		<legend><a href="#" onclick="cj('#{$cd_edit.name}_{$cgCount}').hide(); cj('#{$cd_edit.name}_show_{$cgCount}').show(); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
 		{if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
-		<dl>
+		<table class="form-layout-compressed">
 			{foreach from=$cd_edit.fields item=element key=field_id}
 			{assign var="element_name" value=$element.element_name}
 			{if $element.is_view eq 0}{* fix for CRM-3510 *}
-                        {if $element.help_pre}
-                            <dt></dt><dd class="html-adjust description">{$element.help_pre}</dd>
-			{/if}
+				{if $element.help_pre}
+					<tr><td colspan="2" class="html-adjust description">{$element.help_pre}</td></tr>
+				{/if}
 			{if $element.options_per_line != 0 }
-
-			<dt>{$form.$element_name.label}</dt>
-			<dd class="html-adjust">
+			<tr>
+			<td align="right">{$form.$element_name.label}</td><td>&nbsp;&nbsp;</td>
+			<td class="html-adjust">
 				{assign var="count" value="1"}
 				<table class="form-layout-compressed" style="margin-top: -0.5em;">
 					<tr>
@@ -45,13 +45,13 @@
 				        {/if}
 					</tr>
                 </table>
-			</dd>
+			</td>
 			{if $element.help_post}
-			<dt></dt><dd class="html-adjust description">{$element.help_post}</dd>
+			<td class="html-adjust description">{$element.help_post}</td>
 			{/if}
 			{else}
-    			<dt>{$form.$element_name.label}</dt>
-    			<dd class="html-adjust">{$form.$element_name.html}
+    			<td align="right">{$form.$element_name.label}</td><td>&nbsp;&nbsp;</td>
+    			<td class="html-adjust">{$form.$element_name.html}
     				{if $element.html_type eq 'Radio'}
     				    &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 
     				{elseif $element.data_type eq 'File'}
@@ -80,14 +80,15 @@
                     {elseif $element.html_type eq 'Autocomplete-Select'}
                         {include file="CRM/Custom/Form/AutoComplete.tpl"}
     				{/if}
-    			</dd>                
+    			</td>                
     			{if $element.help_post}
-    			    <dt>&nbsp;</dt><dd class="html-adjust description">{$element.help_post}</dd>
+    			    <td class="html-adjust description">{$element.help_post}</td>
     			{/if}
 			{/if}
 			{/if}
+		</tr>
 			{/foreach}
-		</dl>
+	</table>
 		<div class="spacer"></div>
 		{if $cd_edit.help_post}<div class="messages help">{$cd_edit.help_post}</div>{/if}
 
@@ -100,9 +101,9 @@
 
 <script type="text/javascript">
 {if $cd_edit.collapse_display eq 0 }
-	hide("{$cd_edit.name}_show_{$cgCount}"); show("{$cd_edit.name}_{$cgCount}");
+	cj('#{$cd_edit.name}_show_{$cgCount}').hide(); cj('#{$cd_edit.name}_{$cgCount}').show();
 {else}
-	show("{$cd_edit.name}_show_{$cgCount}"); hide("{$cd_edit.name}_{$cgCount}");
+	cj('#{$cd_edit.name}_show_{$cgCount}').show(); cj('#{$cd_edit.name}_{$cgCount}').hide();
 {/if}
 </script>
 {/foreach}
