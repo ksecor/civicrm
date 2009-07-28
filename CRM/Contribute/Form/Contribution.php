@@ -1112,105 +1112,9 @@ WHERE  contribution_id = {$this->_id}
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
             
-            //process associated membership / participant
-            if ( $this->_action & CRM_Core_Action::UPDATE ) {
-                require_once 'CRM/Core/Payment/BaseIPN.php';
-                $baseIPN = new CRM_Core_Payment_BaseIPN( );
-                
-                $input = $ids = $objects = array( );
-                $IdDetails = $this->getDetails( $contribution->id );
-                                                                      
-                $input['component']       = $IdDetails['component'];
-                $ids['contact'     ]      = $contribution->contact_id;
-                $ids['contribution']      = $contribution->id;
-                $ids['contributionRecur'] = null;
-                $ids['contributionPage']  = null;
-                $ids['membership']        = $IdDetails['membership'];
-                $ids['participant']       = $IdDetails['participant'];
-                $ids['event']             = $IdDetails['event'];
-                $ids['pledge_payment']    = CRM_Utils_Array::value( 'pledge_payment', $IdDetails );
-             
-                if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
-                    CRM_Core_Error::fatal( );
-                }
-                                
-                $membership     =& $objects['membership']  ;
-                $participant    =& $objects['participant'] ;
-                $pledgePayment  = array ( );
-                $pledgePayment  =& $objects['pledge_payment'] ;
-                                         
-                if ( $pledgePayment ) {
-                    require_once 'CRM/Pledge/BAO/Payment.php';
-                    $pledgePaymentIDs = array ( );
-                    foreach ( $pledgePayment as $key => $object ) {
-                        $pledgePaymentIDs[] = $object->id;
-                    }
-                    $pledgeID = $pledgePayment[0]->pledge_id;
-                }
-
-                require_once 'CRM/Event/BAO/Participant.php';
-                if ( $contribution->contribution_status_id == 3 ) {
-                    if ( $membership ) {
-                        $membership->status_id = 6;
-                        $membership->save( );
-                    }
-                    if ( $participant ) {
-                        CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, 4 );
-                    }
-                    if ( $pledgePayment ) {
-                        CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, 3 );   
-                    }
-                    
-                } elseif ( $contribution->contribution_status_id == 4 ) {
-                    if ( $membership ) {
-                        $membership->status_id = 4;
-                        $membership->save( );
-                    }
-                    if ( $participant ) {
-                        CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, 4 );
-                    }
-                    if ( $pledgePayment ) {
-                        CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, 4 );   
-                    }
-                } elseif ( $contribution->contribution_status_id == 1 ) {
-                    if ( $membership ) {
-                        $format       = '%Y%m%d';
-                        require_once 'CRM/Member/BAO/Membership.php';
-                        require_once 'CRM/Member/BAO/MembershipType.php';  
-                        
-                        //CRM-4523
-                        $currentMembership =  CRM_Member_BAO_Membership::getContactMembership( $membership->contact_id,
-                                                                                               $membership->membership_type_id, 
-                                                                                               $membership->is_test, $membership->id );
-                        if ( $currentMembership ) {
-                            CRM_Member_BAO_Membership::fixMembershipStatusBeforeRenew( $currentMembership, 
-                                                                                       $changeToday = null  );
-                            $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id, 
-                                                                                                      $changeToday = null );
-                            $dates['join_date'] =  CRM_Utils_Date::customFormat($currentMembership['join_date'], $format );
-                        } else {
-                            $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
-                        }
-                        
-                        $membership->join_date     = 
-                            CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
-                        $membership->start_date    = 
-                            CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
-                        $membership->end_date      = 
-                            CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
-                        $membership->reminder_date = 
-                            CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
-                        
-                        $membership->status_id = 2;
-                        $membership->save( );
-                    }
-                    if ( $participant ) { 
-                        CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, 1 );
-                    }
-                    if ( $pledgePayment ) {
-                        CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, 1 );   
-                    }
-                }
+            // process associated membership / participant, CRM-4395
+            if ( $contribution->id && $this->_action & CRM_Core_Action::UPDATE ) {
+                $this->updateRelatedComponent( $contribution->id, $contribution->contribution_status_id );
             }
             
             //process  note
@@ -1260,10 +1164,165 @@ WHERE  contribution_id = {$this->_id}
         }
     }
     
+    /**
+     * This function process contribution related objects.
+     */
+    function updateRelatedComponent( $contributionId, $statusId ) {
+        // we only process 
+        //1. Completed,  2.Cancelled, 3.Failed contributions.
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $contributionStatuses = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
+        if ( !in_array( $statusId, array( array_search( 'Completed', $contributionStatuses ),
+                                          array_search( 'Cancelled', $contributionStatuses ),
+                                          array_search( 'Failed',    $contributionStatuses ) ) ) ) {
+            return;
+        }
+        
+        //get the related component details.
+        $IdDetails = $this->getDetails( $contributionId );
+        
+        if ( !CRM_Utils_Array::value( 'membership', $IdDetails ) && 
+             !CRM_Utils_Array::value( 'participant', $IdDetails ) &&
+             !CRM_Utils_Array::value( 'pledge_payment', $IdDetails ) ) {
+            return;
+        }
+        
+        require_once 'CRM/Core/Payment/BaseIPN.php';
+        $baseIPN = new CRM_Core_Payment_BaseIPN( );
+        
+        $input = $ids = $objects = array( );
+        
+        $input['component']       = CRM_Utils_Array::value( 'component',  $IdDetails );
+        $ids['contribution']      = $contributionId;
+        $ids['contact'     ]      = CRM_Utils_Array::value( 'contact_id',  $IdDetails );
+        $ids['membership']        = CRM_Utils_Array::value( 'membership',  $IdDetails ); 
+        $ids['participant']       = CRM_Utils_Array::value( 'participant',  $IdDetails );
+        $ids['event']             = CRM_Utils_Array::value( 'event',  $IdDetails );
+        $ids['pledge_payment']    = CRM_Utils_Array::value( 'pledge_payment', $IdDetails );
+        $ids['contributionRecur'] = null;
+        $ids['contributionPage']  = null;
+        
+        if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        
+        $membership     =& $objects['membership']  ;
+        $participant    =& $objects['participant'] ;
+        $pledgePayment  = array ( );
+        $pledgePayment  =& $objects['pledge_payment'] ;
+        
+        if ( $pledgePayment ) {
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            $pledgePaymentIDs = array ( );
+            foreach ( $pledgePayment as $key => $object ) {
+                $pledgePaymentIDs[] = $object->id;
+            }
+            $pledgeID = $pledgePayment[0]->pledge_id;
+        }
+        
+        require_once 'CRM/Event/PseudoConstant.php';        
+        require_once 'CRM/Event/BAO/Participant.php';
+        require_once 'CRM/Member/PseudoConstant.php';
+        $membershipStatuses  = CRM_Member_PseudoConstant::membershipStatus( );
+        $participantStatuses = CRM_Event_PseudoConstant::participantStatus( );
+        
+        if ( $statusId == array_search( 'Cancelled', $contributionStatuses ) ) {
+            if ( $membership ) {
+                $membership->status_id = array_search( 'Cancelled', $membershipStatuses );
+                $membership->save( );
+            }
+            if ( $participant ) {
+                CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, array_search('Cancelled', $participantStatuses) );
+            }
+            if ( $pledgePayment ) {
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, $statusId );   
+            }
+        } else if ( $statusId == array_search( 'Failed', $contributionStatuses ) ) {
+            if ( $membership ) {
+                $membership->status_id = array_search( 'Expired', $membershipStatuses );
+                $membership->save( );
+            }
+            if ( $participant ) {
+                CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, array_search('Cancelled', $participantStatuses) );
+            }
+            if ( $pledgePayment ) {
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, $statusId );   
+            }
+        } else if ( $statusId == array_search( 'Completed', $contributionStatuses ) ) {
+            if ( $membership ) {
+                $format       = '%Y%m%d';
+                require_once 'CRM/Member/BAO/Membership.php';
+                require_once 'CRM/Member/BAO/MembershipType.php';  
+                
+                //CRM-4523
+                $currentMembership =  CRM_Member_BAO_Membership::getContactMembership( $membership->contact_id,
+                                                                                       $membership->membership_type_id, 
+                                                                                       $membership->is_test, $membership->id );
+                if ( $currentMembership ) {
+                    CRM_Member_BAO_Membership::fixMembershipStatusBeforeRenew( $currentMembership, 
+                                                                               $changeToday = null  );
+                    $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id, 
+                                                                                              $changeToday = null );
+                    $dates['join_date'] =  CRM_Utils_Date::customFormat($currentMembership['join_date'], $format );
+                } else {
+                    $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                }
+                
+                //get the status for membership.
+                require_once 'CRM/Member/BAO/MembershipStatus.php';
+                $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $dates['start_date'], 
+                                                                                          $dates['end_date'], 
+                                                                                          $dates['join_date'],
+                                                                                          'today', 
+                                                                                          true );
+                
+                $formatedParams = array( 'status_id'     => CRM_Utils_Array::value( 'id', $calcStatus, 2 ),
+                                         'join_date'     => CRM_Utils_Date::customFormat( $dates['join_date'],     $format ),
+                                         'start_date'    => CRM_Utils_Date::customFormat( $dates['start_date'],    $format ),
+                                         'end_date'      => CRM_Utils_Date::customFormat( $dates['end_date'],      $format ),
+                                         'reminder_date' => CRM_Utils_Date::customFormat( $dates['reminder_date'], $format ) );
+                
+                $membership->copyValues( $formatedParams );
+                $membership->save( );
+                
+                //updating the membership log
+                $membershipLog = array();
+                $membershipLog = $formatedParams;
+                $logStartDate  = CRM_Utils_Date::customFormat( $dates['log_start_date'], $format );
+                $logStartDate  = ($logStartDate) ? CRM_Utils_Date::isoToMysql( $logStartDate ) : $formatedParams['start_date'];
+                
+                $membershipLog['start_date']    = $logStartDate;
+                $membershipLog['membership_id'] = $membership->id;
+                $membershipLog['modified_id']   = $membership->contact_id;
+                $membershipLog['modified_date'] = date('Ymd');
+                
+                require_once 'CRM/Member/BAO/MembershipLog.php';
+                CRM_Member_BAO_MembershipLog::add( $membershipLog, CRM_Core_DAO::$_nullArray);
+                
+                //update related Memberships.              
+                CRM_Member_BAO_Membership::updateRelatedMemberships( $membership->id, $formatedParams );
+            }
+            
+            if ( $participant ) { 
+                CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, array_search('Registered', $participantStatuses) );
+            }
+            
+            if ( $pledgePayment ) {
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, $statusId );   
+            }
+        }
+    }
+    
     function &getDetails( $contributionID ) 
     {
+        $componentDetails = $pledgePayment = array( );
+        if ( !$contributionID ) {
+            return $componentDetails;
+        }
+        
         $query = "
 SELECT    c.id                 as contribution_id,
+          c.contact_id         as contact_id,
           mp.membership_id     as membership_id,
           m.membership_type_id as membership_type_id,
           pp.participant_id    as participant_id,
@@ -1276,27 +1335,26 @@ LEFT JOIN civicrm_participant         p    ON pp.participant_id  = p.id
 LEFT JOIN civicrm_membership          m    ON m.id  = mp.membership_id
 LEFT JOIN civicrm_pledge_payment      pgp  ON pgp.contribution_id  = c.id
 WHERE     c.id = $contributionID";
-
-        $rows = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query,
-                                           CRM_Core_DAO::$_nullArray );
-        $pledgePayment = array( );
+        
+        $dao = CRM_Core_DAO::executeQuery( $query );
         while ( $dao->fetch( ) ) {
-            $rows = array(
-                          'component'       => $dao->participant_id ? 'event' : 'contribute',
-                          'membership'      => $dao->membership_id,
-                          'membership_type' => $dao->membership_type_id,
-                          'participant'     => $dao->participant_id,
-                          'event'           => $dao->event_id
-                          );
+            $componentDetails = array(
+                                      'component'       => $dao->participant_id ? 'event' : 'contribute',
+                                      'contact_id'      => $dao->contact_id,
+                                      'event'           => $dao->event_id,
+                                      'participant'     => $dao->participant_id,
+                                      'membership'      => $dao->membership_id,
+                                      'membership_type' => $dao->membership_type_id,
+                                      );
             if ( $dao->pledge_payment_id ) {
                 $pledgePayment[] = $dao->pledge_payment_id;
             }
         }
         if ( $pledgePayment ) {
-            $rows['pledge_payment'] = $pledgePayment; 
+            $componentDetails['pledge_payment'] = $pledgePayment; 
         }  
-        return $rows;
+        
+        return $componentDetails;
     }
     
 }
