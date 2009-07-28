@@ -4,7 +4,7 @@
 	<a href="#" onclick="cj('#{$cd_edit.name}_show_{$cgCount}').hide(); cj('#{$cd_edit.name}_{$cgCount}').show(); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
 </div>
 
-<div id="{$cd_edit.name}_{$cgCount}" class="form-item" align="center">
+<div id="{$cd_edit.name}_{$cgCount}" class="form-item">
 	<fieldset>
 		<legend><a href="#" onclick="cj('#{$cd_edit.name}_{$cgCount}').hide(); cj('#{$cd_edit.name}_show_{$cgCount}').show(); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
 		{if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
