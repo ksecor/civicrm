@@ -78,7 +78,7 @@ class CRM_Admin_Page_AJAX
                 $result = array($recordBAO,$method);
                 $ufJoin = call_user_func_array(($result), array($recordID,true));
                 if (!empty($ufJoin)) {
-                    $status = ts('This profile is currently used for %1. <br/><br/>If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?', array(1 => implode (', ' , $ufJoin)));
+                    $status = ts('This profile is currently used for %1.', array(1 => implode (', ' , $ufJoin))) . ' <br/><br/>' . ts('If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?');
                 } else {
                     $status = ts('Are you sure you want to disable this profile?');   
                 }
@@ -93,7 +93,7 @@ class CRM_Admin_Page_AJAX
                     $template->assign( 'usedBy', $usedBy );
                     $show   = "none";
                     $table  = $template->fetch( 'CRM/Price/Page/table.tpl' );
-                    $status = ts('Unable to disable the \'%1\' price set - it is currently in use by one or more active events. If you no longer want to use this price set, click the event title below, and modify the fees for that event.<br/> %2', array(1 => $priceSet, 2 => $table));
+                    $status = ts('Unable to disable the \'%1\' price set - it is currently in use by one or more active events. If you no longer want to use this price set, click the event title below, and modify the fees for that event.', array(1 => $priceSet)) . "<br/> $table";
                 } else {
                     $status = ts('Are you sure you want to disable \'%1\' Price Set?', array(1 => $priceSet));
                 }
@@ -112,7 +112,7 @@ class CRM_Admin_Page_AJAX
                 break;
                 
             case 'CRM_Contact_BAO_RelationshipType':
-                $status = ts('Are you sure you want to disable this relationship type?<br/><br/>Users will no longer be able to select this value when adding or editing relationships between contacts.');
+                $status = ts('Are you sure you want to disable this relationship type?') . '<br/><br/>' . ts('Users will no longer be able to select this value when adding or editing relationships between contacts.');
                 break;
                 
             case 'CRM_Contribute_BAO_ContributionType':
@@ -120,15 +120,15 @@ class CRM_Admin_Page_AJAX
                 break;
                 
             case 'CRM_Core_BAO_PaymentProcessor':
-                $status = ts('Are you sure you want to disable this payment processor? <br/><br/>Users will no longer be able to select this value when adding or editing transaction pages.');
+                $status = ts('Are you sure you want to disable this payment processor?') . ' <br/><br/>' . ts('Users will no longer be able to select this value when adding or editing transaction pages.');
                 break;
                 
             case 'CRM_Core_BAO_LocationType':
-                $status = ts('Are you sure you want to disable this location type? <br/><br/>Users will no longer be able to select this value when adding or editing contact locations.');
+                $status = ts('Are you sure you want to disable this location type?') . ' <br/><br/>' . ts('Users will no longer be able to select this value when adding or editing contact locations.');
                 break;
 
             case 'CRM_Event_BAO_ParticipantStatusType':
-                $status = ts('Are you sure you want to disable this Participant Status?<br/><br/> Users will no longer be able to select this value when adding or editing Participant Status.');
+                $status = ts('Are you sure you want to disable this Participant Status?') . '<br/><br/> ' . ts('Users will no longer be able to select this value when adding or editing Participant Status.');
                 break;
                 
             case 'CRM_Mailing_BAO_Component':
