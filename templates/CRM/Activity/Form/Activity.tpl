@@ -200,7 +200,9 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
 {if $form.case_select}
 <div id="fileOnCaseDialog">
 {$form.case_select.label}<br /><br />
-{$form.case_select.html}
+{$form.case_select.html}<br /><br />
+{$form.case_subject.label}<br /><br />
+{$form.case_subject.html}
 </div>
 
 {literal}
@@ -214,6 +216,8 @@ function fileOnCase() {
 		title: "File on case",
 		modal: true,
 		bgiframe: true, 
+		width: 400,
+		height: 300,
 		overlay: { 
 			opacity: 0.5, 
 			background: "black" 
@@ -233,6 +237,7 @@ function fileOnCase() {
 					alert('Please select a case from the list.');
 					return false;
 				}
+				var v2 = cj("#case_subject").val();
 				
 				var destUrl = {/literal}"{crmURL p='civicrm/contact/view/case' q='reset=1&action=view&id=' h=0 }"{literal}; 
  				var activityID = {/literal}"{$entityID}"{literal};
@@ -248,7 +253,7 @@ function fileOnCase() {
 				cj(this).dialog("destroy");
 
 				var postUrl = {/literal}"{crmURL p='civicrm/ajax/activity/convert' h=0 }"{literal};
-                cj.post( postUrl, { activityID: activityID, caseID: v1 },
+                cj.post( postUrl, { activityID: activityID, caseID: v1, newSubject: v2 },
                     function( data ) {
                     		if (data.error_msg == "") {
                             	window.location.href = destUrl + case_id + '&cid=' + contact_id;
