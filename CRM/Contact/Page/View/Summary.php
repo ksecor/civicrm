@@ -100,7 +100,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
         $url = CRM_Utils_System::url('civicrm/contact/view/basic', 'action=browse&cid=' . $this->_contactId );
         $session->pushUserContext( $url );
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Edit', ts('Contact Page'), CRM_Core_Action::UPDATE );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Contact', ts('Contact Page'), CRM_Core_Action::UPDATE );
         $controller->setEmbedded( true );
         $controller->process( );
         return $controller->run( );
