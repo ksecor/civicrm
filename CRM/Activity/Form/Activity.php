@@ -626,7 +626,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 				foreach($this->_elements as $e) {
 					$temp_elementList[] = $e->getName();
 				}
-                $this->add('select', 'case_select',  ts( 'Open Cases' ), array( '' => ts( '- select case -' ) ) + $caseList );
+                $this->add('select', 'case_select',  ts( 'Open Cases' ), array( '' => ts( '- select case -' ) ) + $caseList, true);
+                $this->add('text', 'case_subject', ts('New Subject'), array('size'=>50));
 				$this->freeze($temp_elementList);
             } else {
                 $this->freeze();

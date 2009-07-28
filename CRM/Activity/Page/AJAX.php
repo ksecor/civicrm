@@ -61,6 +61,7 @@ class CRM_Activity_Page_AJAX
     {
         $caseID     = CRM_Utils_Array::value( 'caseID', $_POST );
         $activityID = CRM_Utils_Array::value( 'activityID', $_POST );
+        $newSubject = CRM_Utils_Array::value( 'newSubject', $_POST );
 
         require_once "CRM/Case/DAO/CaseActivity.php";
         $caseActivity =& new CRM_Case_DAO_CaseActivity();
@@ -69,6 +70,18 @@ class CRM_Activity_Page_AJAX
         $caseActivity->find(true);
         $caseActivity->save();
 
-        echo json_encode(array('error_msg' => $caseActivity->_lastError));
+		$error_msg = $caseActivity->_lastError;
+		
+		if (! empty($newSubject)) {
+            require_once "CRM/Activity/DAO/Activity.php";
+            $activity =& new CRM_Activity_DAO_Activity();
+            $params = array('id' => $activityID, 'subject' => $newSubject);
+            $activity->copyValues($params);
+            $activity->save();
+            
+            $error_msg .= $activity->_lastError;
+		}
+		
+        echo json_encode(array('error_msg' => $error_msg));
     }
 }
