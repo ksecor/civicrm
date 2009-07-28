@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -1057,7 +1057,7 @@ WHERE  civicrm_contact.id = %1 ";
             "civicrm_contact.display_name";
         
        $sql = "
-SELECT $nameFields, civicrm_email.email, civicrm_contact.do_not_email, civicrm_email.on_hold
+SELECT $nameFields, civicrm_email.email, civicrm_contact.do_not_email, civicrm_email.on_hold, civicrm_contact.is_deceased
 FROM   civicrm_contact, civicrm_email 
 WHERE  civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
 AND    civicrm_contact.id = %1";
@@ -1073,9 +1073,10 @@ AND    civicrm_contact.id = %1";
            $email      = $dao->email;
            $doNotEmail = $dao->do_not_email ? true : false;
            $onHold     = $dao->on_hold ? true : false;
-           return array( $name, $email, $doNotEmail, $onHold);
+           $isDeseased = $dao->is_deseased ? true : false;
+           return array( $name, $email, $doNotEmail, $onHold, $isDeseased );
        }
-       return array( null, null, null, null );
+       return array( null, null, null, null, null );
     }
 
     /**

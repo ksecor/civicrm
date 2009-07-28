@@ -374,7 +374,8 @@
        <name>email_greeting_display</name>
        <title>Email Greeting</title>
        <type>varchar</type>
-       <length>225</length>
+       <length>255</length>
+       <localizable>true</localizable>
        <comment>Cache Email Greeting.</comment>
        <add>2.3</add>
   </field>
@@ -390,6 +391,7 @@
        <length>128</length>
        <import>true</import>
        <export>false</export>
+       <localizable>true</localizable>
        <comment>Custom Postal greeting.</comment>
        <add>2.3</add>
   </field>
@@ -421,6 +423,7 @@
        <title>Addressee</title>
        <type>varchar</type>
        <length>255</length>
+       <localizable>true</localizable>
        <comment>Cache Addressee.</comment>
        <add>2.3</add>
   </field>

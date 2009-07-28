@@ -8,7 +8,7 @@
 <div class="form-item">
     <fieldset><legend>{ts}Thank-you Message and Receipting{/ts}</legend>
     <dl class="html-adjust">
-    <dt>{$form.thankyou_title.label}</dt><dd>{$form.thankyou_title.html}</dd>
+    <dt>{$form.thankyou_title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contribution_page' field='thankyou_title' id=$id}{/if}</dt><dd>{$form.thankyou_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}This title will be displayed at the top of the thank-you / transaction confirmation page.{/ts}</dd>
     <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter text (and optional HTML layout tags) for the thank-you message that will appear at the top of the confirmation page.{/ts}</dd>
@@ -19,11 +19,11 @@
     </dl>
     <div id="receiptDetails">
     <dl class="html-adjust">
-    <dt>{$form.receipt_from_name.label}</dt><dd>{$form.receipt_from_name.html}</dd>
+    <dt>{$form.receipt_from_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contribution_page' field='receipt_from_name' id=$id}{/if}</dt><dd>{$form.receipt_from_name.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter the FROM name to be used when receipts are emailed to contributors.{/ts}</dd>
     <dt>{$form.receipt_from_email.label}{$reqMark}</dt><dd>{$form.receipt_from_email.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter the FROM email address to be used when receipts are emailed to contributors.{/ts}</dd>
-    <dt>{$form.receipt_text.label}{$reqMark}</dt><dd>{$form.receipt_text.html}</dd>
+    <dt>{$form.receipt_text.label}{$reqMark} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contribution_page' field='receipt_text' id=$id}{/if}</dt><dd>{$form.receipt_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter a message you want included at the beginning of emailed receipts. NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here.{/ts}</dd>
     <dt>{$form.cc_receipt.label}</dt><dd>{$form.cc_receipt.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If you want member(s) of your organization to receive a carbon copy of each emailed receipt, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>

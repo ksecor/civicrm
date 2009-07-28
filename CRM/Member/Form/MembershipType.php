@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -218,6 +218,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
         
         $this->addFormRule(array('CRM_Member_Form_MembershipType', 'formRule'));
+
+        $this->assign('membershipTypeId', $this->_id);
     }
     
     /**

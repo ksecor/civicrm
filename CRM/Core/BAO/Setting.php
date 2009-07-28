@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -229,6 +229,16 @@ class CRM_Core_BAO_Setting
                         $lcMessages = $ufm->language;
                     }
                     $session->set('lcMessages', $lcMessages);
+                }
+            }
+
+            // if unset, try to inherit the language from the hosting CMS
+            if ($lcMessages === null) {
+                require_once 'CRM/Utils/System.php';
+                $lcMessages = CRM_Utils_System::getUFLocale();
+                require_once 'CRM/Core/BAO/CustomOption.php';
+                if ($domain->locales and !in_array($lcMessages, explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $domain->locales))) {
+                    $lcMessages = null;
                 }
             }
 

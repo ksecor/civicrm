@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -81,36 +81,7 @@ class CRM_Contact_Form_Edit_Individual {
       
         // job title
         $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);
-        
-        // add email and postal greeting on contact form, CRM-4575
-        // the filter value for Individual contact type is set to 1
-		$filter =  array( 
-							'contact_type'  => 'Individual', 
-							'greeting_type' => 'email_greeting'  );
-        //email greeting
-        $emailGreeting = CRM_Core_PseudoConstant::greeting( $filter );
-        if ( !empty( $emailGreeting ) ) {
-            $this->addElement('select', 'email_greeting_id', ts('Email Greeting'), 
-                              array('' => ts('- select -')) + $emailGreeting );
-            //email greeting custom
-            $this->addElement('text', 'email_greeting_custom', ts('Custom Email Greeting'), 
-                              array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'email_greeting_custom' ),
-                                           array( 'onfocus' => "if (!this.value) this.value='Dear '; else return false",
-                                                  'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
-        }
-        
-        //postal greeting$
-		$filter['greeting_type'] = 'postal_greeting';
-        $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);
-        if ( !empty( $postalGreeting ) ) {
-            $this->addElement('select', 'postal_greeting_id', ts('Postal Greeting'), 
-                              array('' => ts('- select -')) + $postalGreeting );
-            //postal greeting custom
-            $this->addElement('text', 'postal_greeting_custom', ts('Custom Postal Greeting'), 
-                              array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'postal_greeting_custom' ), 
-                                           array( 'onfocus' => "if (!this.value) this.value='Dear '; else return false",
-                                                  'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false") ) );
-        }
+            
         if ( $action & CRM_Core_Action::UPDATE ) {
             $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                                $form->_contactId, 
@@ -224,21 +195,6 @@ class CRM_Contact_Form_Edit_Individual {
             $errors["shared_household"] = ts("Please select a household from the 'Select Household' list");
         }
         
-        //if email/postal greeting type is 'Customized' 
-        //then Custom greeting field must have a value. CRM-4575
-        $fieldId    = null;
-        $fieldValue = null;
-        $elements = array( 'email_greeting'  => 'email_greeting_custom', 
-                           'postal_greeting' => 'postal_greeting_custom' ); 
-        foreach ( $elements as $greeting => $customizedGreeting ) {
-            $fieldId = $greeting."_id";
-            $customizedValue = CRM_Core_OptionGroup::getValue( $greeting, 'Customized', 'name' ); 
-            if( CRM_Utils_Array::value( $fieldId, $fields ) == $customizedValue && 
-                ! CRM_Utils_Array::value( $customizedGreeting, $fields ) ) {
-                $errors[$customizedGreeting] = ts( 'Custom  %1 is a required field if %1 is of type Customized.', 
-                                            array( 1 => ucwords(str_replace('_'," ", $greeting) ) ) );
-            }
-        }
         return empty($errors) ? true : $errors; 
     }
     

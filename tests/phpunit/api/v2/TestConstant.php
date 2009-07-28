@@ -64,7 +64,7 @@ class api_v2_TestConstant extends PHPUnit_Extensions_Database_TestCase
     {
         AllTests::installDB();
         return $this->createDefaultDBConnection(AllTests::$utils->pdo,
-                                             'test_civicrm');
+                                             'civicrm_tests_dev');
     }
 
     /**

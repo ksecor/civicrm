@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -220,12 +220,12 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
         
+        // User must explicitly choose to send a receipt in both add and update mode.
+        $defaults['send_receipt'] = 0; 
+        
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             // in this mode by default uncheck this checkbox
             unset($defaults['record_contribution']);
-            $defaults['send_receipt'] = 0; 
-        } elseif ( $this->_action & CRM_Core_Action::ADD ) {
-            $defaults['send_receipt'] = 1; 
         }
         if ( $defaults['membership_type_id'][1] ) {
             $defaults['receipt_text_signup'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
@@ -917,7 +917,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $this->assign( 'isPrimary', 1 );
             }
             $this->assign( 'module', 'Membership' );
-            $this->assign( 'subject', ts('Membership Confirmation and Receipt') );
+            $this->assign('receiptType', 'membership signup');
             $this->assign( 'receive_date', $params['receive_date'] );            
             $this->assign( 'formValues', $formValues );
             $this->assign( 'mem_start_date', CRM_Utils_Date::customFormat($calcDates['start_date']) );

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -548,7 +548,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $this->assign_by_ref( 'formValues', $formValues );
             $this->assign( 'receive_date', $renewalDate );
             $this->assign( 'module', 'Membership' );
-            $this->assign( 'subject', ts('Membership Renewal Confirmation and Receipt') );
+            $this->assign('receiptType', 'membership renewal');
             $this->assign( 'mem_start_date', CRM_Utils_Date::customFormat( $renewMembership->start_date  ) );
             $this->assign( 'mem_end_date', CRM_Utils_Date::customFormat( $renewMembership->end_date ) );
             $this->assign( 'membership_name', CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',

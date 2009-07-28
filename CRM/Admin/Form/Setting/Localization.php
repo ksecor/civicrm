@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -69,6 +69,12 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             // add language limiter and language adder
             $this->addCheckBox('languageLimit', ts('Available Languages'), array_flip($lcMessages), null, null, null, null, ' &nbsp; ');
             $this->addElement('select', 'addLanguage', ts('Add Language'), array_merge(array('' => ts('- select -')), array_diff($locales, $lcMessages)));
+
+            // add the ability to return to single language
+            $warning = ts('WARNING: This will make your CiviCRM installation a single-language one again. THIS WILL DELETE ALL DATA RELATED TO LANGUAGES OTHER THAN THE DEFAULT ONE SELECTED ABOVE (and only that language will be preserved).');
+            $this->assign('warning', $warning);
+            $this->addElement('checkbox', 'makeSinglelingual', ts('Return to Single Language'),
+                              null, array('onChange' => "if (this.checked) alert('$warning')"));
 
         } else {
             // for single-lingual sites, populate default language drop-down with all languages
@@ -159,6 +165,10 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             require_once 'CRM/Core/I18n/Schema.php';
             CRM_Core_I18n_Schema::makeMultilingual($values['lcMessages']);
             $values['languageLimit'][$values['lcMessages']] = 1;
+        // make the site single-lang if requested
+        } elseif (CRM_Utils_Array::value('makeSinglelingual', $values)) {
+            require_once 'CRM/Core/I18n/Schema.php';
+            CRM_Core_I18n_Schema::makeSinglelingual($values['lcMessages']);
         }
 
         // add a new db locale if the requested language is not yet supported by the db

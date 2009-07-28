@@ -1140,11 +1140,13 @@ function civicrm_views_data() {
                                                  'argument' => array(
                                                                      'handler' => 'date_api_argument_handler',
                                                                      'empty name field' => t('Undated'),
-                                                                    ),
-                                                 );
-    }
-    //Numeric Event ID
-    $data['civicrm_event']['id'] = array(
+                                                                     'base' => 'civicrm_event',
+                                                                     ),
+                                                     );
+   }
+
+   // Numeric Event ID
+   $data['civicrm_event']['id'] = array(
                                          'title' => t('Event ID'),
                                          'help' => t('The numeric ID of the Event'),
                                          'field' => array(
@@ -2692,7 +2694,14 @@ function civicrm_views_data() {
                                                            'title' => t('CiviCRM Memberships'),
                                                            'help' => t("View displays CiviCRM Memberships, with connection to contacts."),
                                                            );
-  
+   $data['civicrm_membership']['table']['join'] = array(
+                                                           // Directly links to contact table - link A
+                                                           'civicrm_contact' => array(
+                                                                                      'left_field' => 'id',
+                                                                                      'field' => 'contact_id',
+                                                                                      )
+                                                                                      );
+
     //CiviCRM Memberships - FIELDS
   
     //Numeric Membership ID

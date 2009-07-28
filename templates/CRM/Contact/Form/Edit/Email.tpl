@@ -1,4 +1,7 @@
-{* tpl file for building email block*}
+{* This file provides the plugin for the email block *}
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller*}
+{* @var $blockId Contains the current email block id in evaluation, and assigned in the CRM/Contact/Form/Location.php file *}
+
 {if !$addBlock}
 <tr>
     <td>{ts}Email{/ts}
@@ -11,7 +14,6 @@
 	{/if}
 </tr>
 {/if}
-<!-Add->
 <tr id="Email_Block_{$blockId}">
     <td>{$form.email.$blockId.email.html|crmReplace:class:twenty}&nbsp;{$form.email.$blockId.location_type_id.html}</td>
 	<td align="center">{$form.email.$blockId.on_hold.html}</td>
@@ -21,4 +23,3 @@
     <td><a href="#" title="{ts}Delete Email Block{/ts}" onClick="removeBlock( 'Email', '{$blockId}' ); return false;">{ts}delete{/ts}</a></td>
   {/if}
 </tr>
-<!-Add->

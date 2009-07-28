@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -111,6 +111,11 @@ class CRM_Core_BAO_Block
         $blocks = array( );
         while ( $block->fetch( ) ) {
             CRM_Core_DAO::storeValues( $block, $blocks[$count] );
+            //unset is_primary after first block. Due to some bug in earlier version
+            //there might be more than one primary blocks, hence unset is_primary other than first
+            if ( $count > 1 ) {
+                unset($blocks[$count]['is_primary']);
+            }
             $count++; 
         }
         
@@ -245,14 +250,14 @@ class CRM_Core_BAO_Block
                 $contactFields['is_primary'] = $value['is_primary'];
                 $isPrimary = false;
             } else {
-                $contactFields['is_primary'] = false;
+                $contactFields['is_primary'] = 0;
             }
             
             if ( $isBilling && CRM_Utils_Array::value( 'is_billing', $value ) ) {
                 $contactFields['is_billing'] = $value['is_billing'];
                 $isBilling = false;
             } else {
-                $contactFields['is_billing'] = false;
+                $contactFields['is_billing'] = 0;
             }
             
             $blockFields = array_merge( $value, $contactFields );

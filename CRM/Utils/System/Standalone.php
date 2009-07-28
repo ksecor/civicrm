@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -315,6 +315,15 @@ class CRM_Utils_System_Standalone {
     static function logout( ) {
         session_destroy();
         header("Location:index.php");
+    }
+
+    /**
+     * Get the locale set in the hosting CMS
+     * @return null  as the language is set elsewhere
+     */
+    static function getUFLocale()
+    {
+        return null;
     }
 }
 

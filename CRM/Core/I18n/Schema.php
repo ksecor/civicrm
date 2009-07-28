@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -109,6 +109,69 @@ class CRM_Core_I18n_Schema
 
         // update civicrm_domain.locales
         $domain->locales = $locale;
+        $domain->save();
+    }
+
+    /**
+     * Switch database from multi-lang back to single (by dropping 
+     * additional columns and views and retaining only the selected locale).
+     *
+     * @param $retain string  the locale to retain
+     * @return void
+     */
+    function makeSinglelingual($retain)
+    {
+        $domain = new CRM_Core_DAO_Domain;
+        $domain->find(true);
+        $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+
+        // break early if the db is already single-lang
+        if (!$locales) return;
+
+        // build the column-dropping SQL queries
+        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        $indices =& CRM_Core_I18n_SchemaStructure::indices();
+        $queries = array();
+        foreach ($columns as $table => $hash) {
+            // drop old indices
+            if (isset($indices[$table])) {
+                foreach ($indices[$table] as $index) {
+                    foreach ($locales as $loc) {
+                        $queries[] = "DROP INDEX {$index['name']}_{$loc} ON {$table}";
+                    }
+                }
+            }
+
+            // drop triggers
+            $queries[] = "DROP TRIGGER IF EXISTS {$table}_before_insert";
+            $queries[] = "DROP TRIGGER IF EXISTS {$table}_before_update";
+
+            // deal with columns
+            foreach ($hash as $column => $type) {
+                $queries[] = "ALTER TABLE {$table} ADD {$column} {$type}";
+                $queries[] = "UPDATE {$table} SET {$column} = {$column}_{$retain}";
+                foreach ($locales as $loc) {
+                    $queries[] = "ALTER TABLE {$table} DROP {$column}_{$loc}";
+                }
+            }
+
+            // drop views
+            foreach ($locales as $loc) {
+                $queries[] = "DROP VIEW {$table}_{$loc}";
+            }
+
+            // add original indices
+            $queries = array_merge($queries, self::createIndexQueries(null, $table));
+        }
+
+        // execute the queries without i18n rewriting
+        $dao = new CRM_Core_DAO;
+        foreach ($queries as $query) {
+            $dao->query($query, false);
+        }
+
+        // update civicrm_domain.locales
+        $domain->locales = null;
         $domain->save();
     }
 
@@ -241,7 +304,7 @@ class CRM_Core_I18n_Schema
     /**
      * CREATE INDEX queries for a given locale and table
      *
-     * @param $locale string  locale for which the queries should be created
+     * @param $locale string  locale for which the queries should be created (null to create original indices)
      * @param $table string   table for which the queries should be created
      * @return array          array of CREATE INDEX queries
      */
@@ -256,10 +319,12 @@ class CRM_Core_I18n_Schema
             $unique = $index['unique'] ? 'UNIQUE' : '';
             foreach ($index['field'] as $i => $col) {
                 // if a given column is localizable, extend its name with the locale
-                if (isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
+                if ($locale and isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
             }
             $cols = implode(', ', $index['field']);
-            $queries[$index['name']] = "CREATE {$unique} INDEX {$index['name']}_{$locale} ON {$table} ({$cols})";
+            $name = $index['name'];
+            if ($locale) $name .= '_' . $locale;
+            $queries[$index['name']] = "CREATE {$unique} INDEX {$name} ON {$table} ({$cols})";
         }
         return $queries;
     }

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -525,7 +525,7 @@ class CRM_Core_Block {
                                                                                                $session->get( 'userID' ) );
             }
 
-            self::setProperty( self::EVENT, 'templateValues', array( 'event' => $info ) );
+            self::setProperty( self::EVENT, 'templateValues', array( 'eventBlock' => $info ) );
         }
 
     }

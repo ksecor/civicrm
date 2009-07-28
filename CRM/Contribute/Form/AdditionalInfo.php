@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -291,6 +291,7 @@ class CRM_Contribute_Form_AdditionalInfo
      */ 
     function emailReceipt( &$form, &$params, $ccContribution = false )
     {
+        $this->assign('receiptType', 'contribution');
         // Retrieve Contribution Type Name from contribution_type_id
         $params['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
                                                                         $params['contribution_type_id'] );
@@ -407,11 +408,12 @@ class CRM_Contribute_Form_AdditionalInfo
               $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );
         $template =& CRM_Core_Smarty::singleton( );
         $session  =& CRM_Core_Session::singleton( );
+        $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
         $message  = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
+
         $userID   = $session->get( 'userID' );
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
         $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
-        $subject     = ts('Contribution Receipt');
         $sendReceipt = CRM_Utils_Mail::send( $receiptFrom,
                                              $contributorDisplayName,
                                              $contributorEmail,

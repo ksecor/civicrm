@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -275,6 +275,15 @@ class CRM_Utils_System_Drupal {
         menu_rebuild();
     }
 
+    /**
+     * Get the locale set in the hosting CMS
+     * @return string  with the locale or null for none
+     */
+    static function getUFLocale()
+    {
+        # FIXME: actally fetch the locale from Drupal
+        return null;
+    }
 }
 
 

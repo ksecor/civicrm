@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -66,11 +66,11 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
 
         if ( empty( $this->_config->address_format ) ) {
             $defaults['address_format'] = "
-{street_address}
-{supplemental_address_1}
-{supplemental_address_2}
-{city}{, }{state_province}{ }{postal_code}
-{country}
+{contact.street_address}
+{contact.supplemental_address_1}
+{contact.supplemental_address_2}
+{contact.city}{, }{contact.state_province}{ }{contact.postal_code}
+{contact.country}
 ";
         } else {
             $defaults['address_format'] = $this->_config->address_format;
@@ -78,12 +78,12 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
 
         if ( empty( $this->_config->mailing_format ) ) {
             $defaults['mailing_format'] = "
-{contact_name}
-<{street_address}
-{supplemental_address_1}
-{supplemental_address_2}
-{city}{, }{state_province}{ }{postal_code}
-{country}
+{contact.addressee}
+{contact.street_address}
+{contact.supplemental_address_1}
+{contact.supplemental_address_2}
+{contact.city}{, }{contact.state_province}{ }{contact.postal_code}
+{contact.country}
 ";
         } else {
             $defaults['mailing_format'] = $this->_config->mailing_format;

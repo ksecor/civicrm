@@ -15,7 +15,16 @@
         <dt>{ts}End date{/ts}</dt><dd>{$end_date|crmDate}&nbsp;</dd>
         <dt>{ts}Reminder date{/ts}</dt><dd>{$reminder_date|crmDate}&nbsp;</dd>
         {include file="CRM/Custom/Page/CustomDataView.tpl"}
-        <dt></dt><dd>{$form.buttons.html} <a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&id=$id&cid=$contact_id&action=update&context=membership"}" accesskey="e">Edit</a>&nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&id=$id&cid=$contact_id&action=delete&context=membership"}">Delete</a></dd>
+        <dt></dt>
+            <dd>
+                {$form.buttons.html}
+                {if call_user_func(array('CRM_Core_Permission','check'), 'edit memberships')}
+                    &nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&id=$id&cid=$contact_id&action=update&context=membership"}" accesskey="e">Edit</a>
+                {/if}
+                {if call_user_func(array('CRM_Core_Permission','check'), 'delete in CiviMember')}
+                    &nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&id=$id&cid=$contact_id&action=delete&context=membership"}">Delete</a>
+                {/if}
+            </dd>
     </dl>
 	{if $accessContribution and $rows.0.contribution_id}
 	    {include file="CRM/Contribute/Form/Selector.tpl" context="Search"}	

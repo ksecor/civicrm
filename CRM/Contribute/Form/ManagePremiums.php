@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -187,6 +187,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                                  ) 
                            );
              
+        $this->assign('productId', $this->_id);
     }
 
     /**

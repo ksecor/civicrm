@@ -37,18 +37,14 @@
         &nbsp;{$row.contact_type}<br/>
     {/if}
 	<span id="{$row.pledge_id}_show">
-	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); 
+	    <a href="#" onclick="cj('#paymentDetails{$row.pledge_id},#minus{$row.pledge_id}_hide,#{$row.pledge_id}_hide').show(); 
                              buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); 
-                             hide('{$row.pledge_id}_show');
-                             show('minus{$row.pledge_id}_hide');
-                             show('{$row.pledge_id}_hide','table-row');
+                             cj('#{$row.pledge_id}_show').hide();
                              return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</span>
 	<span id="minus{$row.pledge_id}_hide">
-	    <a href="#" onclick="hide('paymentDetails{$row.pledge_id}'); 
-                             show('{$row.pledge_id}_show', 'table-row');
-                             hide('{$row.pledge_id}_hide');
-                             hide('minus{$row.pledge_id}_hide');
+	    <a href="#" onclick="cj('#paymentDetails{$row.pledge_id},#{$row.pledge_id}_hide,#minus{$row.pledge_id}_hide').hide(); 
+                             cj('#{$row.pledge_id}_show').show();
                              return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
     {if ! $single }	
@@ -64,15 +60,8 @@
     <td>{$row.action|replace:'xx':$row.pledge_id}</td>
    </tr>
    <tr id="{$row.pledge_id}_hide" class='{$rowClass}'>
-     <td style="border-right: none;">
-     </td>
-{if $context EQ 'Search'}
-     <td colspan="10" class="enclosingNested">
-{else}
-     <td colspan="9" class="enclosingNested">
-{/if}
-        <div id="paymentDetails{$row.pledge_id}"></div>
-     </td>
+     <td style="border-right: none;"></td>
+     <td colspan= {if $context EQ 'Search'} "10" {else} "8" {/if} class="enclosingNested" id="paymentDetails{$row.pledge_id}">&nbsp;</td>
    </tr>
  <script type="text/javascript">
      hide('{$row.pledge_id}_hide');
@@ -108,7 +97,7 @@
 
 function buildPaymentDetails( pledgeId, contactId )
 {
-    var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q="action=browse&snippet=4&context=`$context`&pledgeId="}"{literal} + pledgeId + '&cid=' + contactId;
+  var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q="action=browse&snippet=4&context=`$context`&pledgeId="}"{literal} + pledgeId + '&cid=' + contactId;
 	
   cj.ajax({
                url     : dataUrl,

@@ -15,6 +15,7 @@
 {literal}
 <script type="text/javascript">
 var fieldName = "{/literal}{$field}{literal}";
+var tsLocale = "{/literal}{$tsLocale}{literal}";
 cj('#Form').submit(function() { 
       cj(this).ajaxSubmit({ 
                             beforeSubmit: function (formData, jqForm, options) {
@@ -26,6 +27,7 @@ cj('#Form').submit(function() {
                                                              async  : false,
                                                              data   : queryString,
                                                              success: function( response ) {
+																	  cj('#' + fieldName).val( cj('#' + fieldName +'_' + tsLocale ).val() );
                                                                       cj("#locale-dialog_"+fieldName).dialog("close");
                                                                      }
                                                     });

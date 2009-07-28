@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -38,6 +38,14 @@
  */
 class CRM_Contact_Form_Edit_CommunicationPreferences 
 {
+    
+    /**
+     * greetings 
+     * @var array
+     * @static
+     */
+    static $greetings = array( );
+    
     /**
      * build the form elements for Communication Preferences object
      *
@@ -75,6 +83,53 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
         
         $form->add('select', 'preferred_mail_format', ts('Email Format'), CRM_Core_SelectValues::pmf());
         $form->add('checkbox', 'is_opt_out', ts( 'NO BULK EMAILS (User Opt Out)' ) );
+
+        //check contact type and build filter clause accordingly for greeting types, CRM-4575
+        $greetings = self::getGreetingFields( $form->_contactType );
+        
+        foreach( $greetings as $greeting => $fields ) {
+            $filter = array( 'contact_type'  => $form->_contactType, 
+                             'greeting_type' => $greeting );
+            
+            //add addressee in Contact form
+            $greetingTokens = CRM_Core_PseudoConstant::greeting( $filter );
+            if ( !empty( $greetingTokens ) ) {
+                $form->addElement('select', $fields['field'], $fields['label'], 
+                                  array('' => ts('- select -')) + $greetingTokens );
+                //custom addressee
+                $form->addElement('text', $fields['customField'], $fields['customLabel'], 
+                                  CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', $fields['customField'] ), $fields['js'] );
+            }
+        }
+
+    }
+
+    /**
+     * global form rule
+     *
+     * @param array $fields  the input form values
+     * @param array $files   the uploaded files if any
+     * @param array $options additional user data
+     *
+     * @return true if no errors, else array of errors
+     * @access public
+     * @static
+     */
+    static function formRule( &$fields, &$files, $self ) 
+    {
+        //CRM-4575
+        require_once 'CRM/Core/OptionGroup.php';
+       
+        $greetings = self::getGreetingFields( $self->_contactType );
+        foreach ( $greetings as $greeting => $details ) { 
+            $customizedValue = CRM_Core_OptionGroup::getValue( $greeting, 'Customized', 'name' );
+            if( CRM_Utils_Array::value( $details['field'], $fields ) == $customizedValue 
+                && !CRM_Utils_Array::value( $details['customField'], $fields ) ) {
+                $errors[$details['customField']] = ts( 'Custom  %1 is a required field if %1 is of type Customized.', 
+                                                       array(1 => $details['label']) );
+            }
+        } 
+        return empty($errors) ? true : $errors; 
     }
     
     /**
@@ -112,6 +167,51 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
             }
         }
     }
+
+    /**
+     *  set array of greeting fields
+     *
+     * @return None
+     * @access public
+     */
+     static function getGreetingFields( $contactType ) 
+    {
+        if ( empty(self::$greetings[$contactType]) ) {
+            self::$greetings[$contactType] = array( );
+            
+            $js =  array( 'onfocus' => "if (!this.value) this.value='Dear '; else return false",
+                          'onblur'  => "if ( this.value == 'Dear') this.value=''; else return false");
+            
+            self::$greetings[$contactType] = array(
+                                             'addressee'       => array ( 'field'       => 'addressee_id',
+                                                                          'customField' => 'addressee_custom',
+                                                                          'label'       => ts('Addresse'),
+                                                                          'customLabel' => ts('Custom Addressee'),
+                                                                          'js'          => null  
+                                                                          ),
+                                             'email_greeting'  => array ( 'field'       => 'email_greeting_id',
+                                                                          'customField' => 'email_greeting_custom',
+                                                                          'label'       => ts('Email Greeting'),
+                                                                          'customLabel' => ts('Custom Email Greeting'),
+                                                                          'js'          => $js
+                                                                          ),
+                                             'postal_greeting' => array ( 'field'       => 'postal_greeting_id',
+                                                                          'customField' => 'postal_greeting_custom',
+                                                                          'label'       => ts('Postal Greeting'),
+                                                                          'customLabel' => ts('Custom Postal Greeting'),
+                                                                          'js'          => $js 
+                                                                          )
+                               );
+            
+            if ( $contactType == 'Organization' ) {
+                unset( self::$greetings[$contactType]['email_greeting' ] );
+                unset( self::$greetings[$contactType]['postal_greeting'] );
+            }
+        }
+        
+        return self::$greetings[$contactType];   
+    }
+
 }
 
 

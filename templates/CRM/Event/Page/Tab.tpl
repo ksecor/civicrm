@@ -1,4 +1,3 @@
-<div class="view-content">
 {if $action eq 1 or $action eq 2 or $action eq 8} {* add, update or view *}            
     {include file="CRM/Event/Form/Participant.tpl"}
 {elseif $action eq 4}
@@ -42,6 +41,4 @@
            </dl>
        </div>
     {/if}
-
 {/if}
-</div>

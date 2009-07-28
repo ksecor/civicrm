@@ -141,7 +141,7 @@
 
                         <div style="CLEAR: both"></div>
                     </div><!-- #contact_panel -->
-
+					{if $address}
                     <div class="separator"></div>
 
                     <div id="contact_panel">
@@ -169,7 +169,7 @@
                     </div>
 
                     <div class="separator"></div>
-
+					{/if}
                     <div id="contact_panel">
                         <div id="contactCardLeft">
                             <table>
@@ -235,6 +235,7 @@
 						 </table>
 						</div>
 						<div id="contactCardRight">
+						{if $contact_type neq 'Organization'}
 						 <table>
 							<tr>
 								<td class="label">{ts}Email Greeting{/ts}{if $email_greeting_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
@@ -245,6 +246,7 @@
 								<td>{$postal_greeting_display}</td>
 							</tr>
 						 </table>
+						 {/if}
 						</div>
 						
                         <div style="CLEAR: both"></div>
@@ -276,19 +278,12 @@
     </div>
 
     <script type="text/javascript"> 
-    {if !$contactTag}cj("#tagLink").hide( );{/if}
     var selectedTab = 'summary';
     {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
     {literal}
     cj( function() {
         var tabIndex = cj('#tab_' + selectedTab).prevAll().length
         cj("#mainTabContainer").tabs( {selected: tabIndex} );        
-
-        {/literal}
-        var showBlocks = new Array({$showBlocks});
-        var hideBlocks = new Array({$hideBlocks});
-        {literal}
-        // on_load_init_blocks( showBlocks, hideBlocks );
     });
     {/literal}
     </script>

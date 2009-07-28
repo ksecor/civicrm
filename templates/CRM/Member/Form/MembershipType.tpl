@@ -9,11 +9,11 @@
     <dl><dt>&nbsp;</dt><dd>{$form.buttons.html}</dd></dl>
     {else}
     <dl> 
-        <dt>{$form.name.label}</dt>
+        <dt>{$form.name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_membership_type' field='name' id=$membershipTypeId}{/if}</dt>
         <dd>{$form.name.html}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">{ts}e.g. 'Student', 'Senior', 'Honor Society'...{/ts}</dd>
-    	<dt>{$form.description.label}</dt>
+        <dt>{$form.description.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_membership_type' field='description' id=$membershipTypeId}{/if}</dt>
         <dd>{$form.description.html}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">{ts}Description of this membership type for display on signup forms. May include eligibility, benefits, terms, etc.{/ts}</dd>

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -166,6 +166,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         //CRM-4363 check for in selector or searchable fields.
         $this->_hasSearchableORInSelector = CRM_Core_BAO_UFField::checkSearchableORInSelector( $this->_gid );
+
+        $this->assign('fieldId', $this->_id);
     }
     
     /**

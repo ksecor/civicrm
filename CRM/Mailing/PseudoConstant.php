@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -129,7 +129,8 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
                 self::$defaultComponent[$dao->component_type] = $dao->id;
             }
         }
-        return CRM_Utils_Array::value($type, self::$defaultComponent, $undefined);
+        $value = CRM_Utils_Array::value($type, self::$defaultComponent, $undefined);
+        return $value;
     }
 
     /**

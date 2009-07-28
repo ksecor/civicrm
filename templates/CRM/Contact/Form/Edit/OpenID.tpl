@@ -1,4 +1,7 @@
-{* tpl for building IM related fields *}
+{* This file provides the plugin for the openid block *}
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller*}
+{* @var $blockId Contains the current block Id, and assigned in the CRM/Contact/Form/Location.php file *}
+
 {if !$addBlock}
 <tr>
     <td>{ts}Open ID{/ts}
@@ -10,7 +13,7 @@
     <td id="OpenID-Primary" class="hiddenElement">{ts}Primary?{/ts}</td>
 </tr>
 {/if}
-<!-Add->
+
 <tr id="OpenID_Block_{$blockId}">
      <td>{$form.openid.$blockId.openid.html|crmReplace:class:twenty}&nbsp;{$form.openid.$blockId.location_type_id.html}</td>
      <td align="center" id="OpenID-Login-html" colspan="2">
@@ -21,4 +24,3 @@
     <td><a href="#" title="{ts}Delete OpenID Block{/ts}" onClick="removeBlock('OpenID','{$blockId}'); return false;">{ts}delete{/ts}</a></td>
    {/if}
 </tr>
-<!-Add->

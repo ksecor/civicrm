@@ -135,11 +135,6 @@
      <page_callback>CRM_Contact_Form_Task_Delete</page_callback>
   </item>
   <item>
-     <path>civicrm/contact/view/delete/location</path>
-     <title>Delete Location</title>
-     <page_callback>CRM_Contact_Form_DeleteLocation</page_callback>
-  </item>
-  <item>
      <path>civicrm/contact/view/activity</path>
      <path_arguments>show=1,cid=%%cid%%</path_arguments>
      <title>Activities</title>

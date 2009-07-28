@@ -1,4 +1,7 @@
-{* tpl for building phone related fields*}
+{* This file provides the plugin for the phone block *}
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller*}
+{* @var blockId Contains the current block id, and assigned in the CRM/Contact/Form/Location.php file *}
+
 {if !$addBlock}
 <tr>
     <td>{ts}Phone{/ts}
@@ -10,7 +13,6 @@
 	{/if}
 </tr>
 {/if}
-<!-Add->
 <tr id="Phone_Block_{$blockId}">
      <td>{$form.phone.$blockId.phone.html|crmReplace:class:twenty}&nbsp;{$form.phone.$blockId.location_type_id.html}</td>
      <td colspan="2">{$form.phone.$blockId.phone_type_id.html}</td>
@@ -19,4 +21,3 @@
    <td><a href="#" title="{ts}Delete Phone Block{/ts}" onClick="removeBlock('Phone','{$blockId}'); return false;">{ts}delete{/ts}</a></td>
   {/if}
 </tr>
-<!-Add->

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -941,6 +941,17 @@ class CRM_Utils_System {
             return "<a href=\"{$link}\" $style target=\"_blank\" title=\"{$params['title']}\">{$params['text']}</a>";
         }
 
+    }
+
+    /**
+     * Get the locale set in the hosting CMS
+     * @return string  the used locale or null for none
+     */
+    static function getUFLocale()
+    {
+        $config =& CRM_Core_Config::singleton();
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $config->userFrameworkClass) . '.php');
+        return eval("return {$config->userFrameworkClass}::getUFLocale();");
     }
 
 }
