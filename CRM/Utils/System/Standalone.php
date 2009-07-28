@@ -316,6 +316,15 @@ class CRM_Utils_System_Standalone {
         session_destroy();
         header("Location:index.php");
     }
+
+    /**
+     * Get the locale set in the hosting CMS
+     * @return null  as the language is set elsewhere
+     */
+    static function getUFLocale()
+    {
+        return null;
+    }
 }
 
 

@@ -11,7 +11,7 @@
 	<table class="form-layout-compressed">
 		{if $form.template_title}
 			<tr>
-				<td class="label">{$form.template_title.label}</td>
+				<td class="label">{$form.template_title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='template_title' id=$eventID}{/if}</td>
 				<td>{$form.template_title.html}</td>
 			</tr>
 		{/if}
@@ -39,13 +39,13 @@
 			{help id="id-listing"} </span></td>
 		</tr>
 		<tr>
-			<td class="label">{$form.title.label}</td>
+			<td class="label">{$form.title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='title' id=$eventID}{/if}</td>
 			<td>{$form.title.html}<br />
 			<span class="description"> {ts}Please use only alphanumeric, spaces, hyphens and dashes for event names.{/ts} 
 			</span></td>
 		</tr>
 		<tr>
-			<td class="label">{$form.summary.label}</td>
+			<td class="label">{$form.summary.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='summary' id=$eventID}{/if}</td>
 			<td>{$form.summary.html}</td>
 		</tr>
 		<tr>
@@ -78,11 +78,11 @@
             <td>{$form.has_waitlist.html} {help id="id-has_waitlist"}</td>
         </tr>
 		<tr id="id-event_full">
-			<td class="label">{$form.event_full_text.label}<br />{help id="id-event_full_text"}</td>
+			<td class="label">{$form.event_full_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='event_full_text' id=$eventID}{/if}<br />{help id="id-event_full_text"}</td>
 			<td>{$form.event_full_text.html}</td>
 		</tr>
 		<tr id="id-waitlist-text">
-			<td class="label">{$form.waitlist_text.label}<br />{help id="id-help-waitlist_text"}</td>
+			<td class="label">{$form.waitlist_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='waitlist_text' id=$eventID}{/if}<br />{help id="id-help-waitlist_text"}</td>
 			<td>{$form.waitlist_text.html}</td>
 		</tr>
 		<tr>

@@ -13,7 +13,7 @@
     <fieldset><legend>{ts}Title and Settings{/ts}</legend>
 	<table class="form-layout-compressed">
 
-	<tr><td class="label">{$form.title.label}</td><td>{$form.title.html}<br/>
+	<tr><td class="label">{$form.title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contribution_page' field='title' id=$id}{/if}</td><td>{$form.title.html}<br/>
             <span class="description">{ts}This title will be displayed at the top of the page.<br />Please use only alphanumeric, spaces, hyphens and dashes for Title.{/ts}</td>
 	</tr>
 	<tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />	
@@ -25,7 +25,7 @@
         <td>
             <table class="form-layout-compressed">
             <tr id="for_org_text">
-                <td class="label">{$form.for_organization.label}</td><td>{$form.for_organization.html}<br />
+                <td class="label">{$form.for_organization.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contribution_page' field='for_organization' id=$id}{/if}</td><td>{$form.for_organization.html}<br />
                     <span class="description">{ts}Text displayed next to the checkbox on the contribution form.{/ts}</span>
                 </td>
             </tr>
@@ -60,11 +60,11 @@
 	</tr>
 </table>
 <table class="form-layout-compressed" id="honor">
-    	<tr><td class="label">{$form.honor_block_title.label}</td><td>{$form.honor_block_title.html}<br />
+    	<tr><td class="label">{$form.honor_block_title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contribution_page' field='honor_block_title' id=$id}{/if}</td><td>{$form.honor_block_title.html}<br />
 	    <span class="description">{ts}Title for the Honoree section (e.g. &quot;Honoree Information&quot;).{/ts}</span></td>
 	</tr>
 	<tr>
-    	    <td class="label">{$form.honor_block_text.label}</td><td>{$form.honor_block_text.html}<br />
+    	    <td class="label">{$form.honor_block_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contribution_page' field='honor_block_text' id=$id}{/if}</td><td>{$form.honor_block_text.html}<br />
     	    <span class="description">{ts}Optional explanatory text for the Honoree section (displayed above the Honoree fields).{/ts}</span></td>
 	</tr>
 </table>

@@ -15,9 +15,9 @@
      {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="previewPremium"}
   {else}  
   <dl  class="html-adjust">
- 	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
+ 	<dt>{$form.name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_product' field='name' id=$productId}{/if}</dt><dd>{$form.name.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Name of the premium (product, service, subscription, etc.) as it will be displayed to contributors.{/ts}</dd>
-    <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+    <dt>{$form.description.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_product' field='description' id=$productId}{/if}</dt><dd>{$form.description.html}</dd>
 	<dt>{$form.sku.label}</dt><dd>{$form.sku.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Optional product SKU or code. If used, this value will be included in contributor receipts.{/ts}</dd>
 	
@@ -53,7 +53,7 @@
 	<dt>{$form.cost.label}</dt><dd>{$form.cost.html|crmMoney}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}You may optionally record the actual cost of this premium to your organization. This may be useful when evaluating net return for this incentive.{/ts}</dd>
 <dl class="html-adjust">
-	<dt>{$form.options.label}</dt><dd>{$form.options.html}</dd>
+	<dt>{$form.options.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_product' field='options' id=$productId}{/if}</dt><dd>{$form.options.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Enter a comma-delimited list of color, size, etc. options for the product if applicable. Contributors will be presented a drop-down menu of these options when they select this product.{/ts}</dd></dl>
  	</dl>
  <div class="spacer"></div> 	 

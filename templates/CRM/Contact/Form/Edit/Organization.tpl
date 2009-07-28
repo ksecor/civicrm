@@ -2,6 +2,9 @@
 <table class="form-layout-compressed">
     <tr>
        <td>{$form.organization_name.label}<br/>
+        {if $action == 2}
+            {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='organization_name' id=$entityID}
+        {/if}
        {$form.organization_name.html|crmReplace:class:big}</td>
 
        <td>{$form.legal_name.label}<br/>

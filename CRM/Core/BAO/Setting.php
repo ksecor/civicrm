@@ -232,6 +232,16 @@ class CRM_Core_BAO_Setting
                 }
             }
 
+            // if unset, try to inherit the language from the hosting CMS
+            if ($lcMessages === null) {
+                require_once 'CRM/Utils/System.php';
+                $lcMessages = CRM_Utils_System::getUFLocale();
+                require_once 'CRM/Core/BAO/CustomOption.php';
+                if ($domain->locales and !in_array($lcMessages, explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $domain->locales))) {
+                    $lcMessages = null;
+                }
+            }
+
             // if a single-lang site or the above didn't yield a result, use default
             if ($lcMessages === null) {
                 $lcMessages = $defaults['lcMessages'];

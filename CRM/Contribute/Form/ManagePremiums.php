@@ -187,6 +187,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                                  ) 
                            );
              
+        $this->assign('productId', $this->_id);
     }
 
     /**

@@ -27,7 +27,7 @@
         {edit}
             <dt> </dt><dd class="description">&nbsp;{ts}Select the type of CiviCRM record and the field you want to include in this Profile.{/ts}</dd>
         {/edit}  
-        <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>       
+        <dt>{$form.label.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_uf_field' field='label' id=$fieldId}{/if}</dt><dd>&nbsp;{$form.label.html}</dd>       
         {edit}
             <dt> </dt><dd class="description">&nbsp;{ts}The field label displayed on the form (over-ride the default field label here, if desired).{/ts}</dd>
         {/edit}  

@@ -40,6 +40,9 @@
       <dl>
         {if $form.languageLimit}
           <dt>&nbsp;</dt><dd class="description">{ts 1="http://documentation.civicrm.org"}This is a multilingual installation. It contains certain schema differences compared to regular installations of CiviCRM. Please <a href="%1">refer to the documentation</a> for details.{/ts}</dd>
+          <dt>{$form.makeSinglelingual.label}</dt><dd>{$form.makeSinglelingual.html}</dd>
+          <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from multi- to single-language.{/ts}</dd>
+          <dd class="description"><span style="color:red">{$warning}</span>
         {elseif $form.makeMultilingual}
           <dt>{$form.makeMultilingual.label}</dt><dd>{$form.makeMultilingual.html}</dd>
           <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from single- to multi-language, then add further languages.{/ts}</dd>
