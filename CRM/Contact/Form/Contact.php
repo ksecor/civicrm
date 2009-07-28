@@ -695,6 +695,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      * @access public
      */
     static function blockDataExists( &$fields ) {
+        if ( !is_array( $fields ) ) return false;
+        
         static $skipFields = array( 'location_type_id', 'is_primary', 'phone_type_id', 'provider_id', 'country_id' );
         foreach ( $fields as $name => $value ) {
             $skipField = false;
