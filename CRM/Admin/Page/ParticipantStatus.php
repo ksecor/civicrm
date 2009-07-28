@@ -82,6 +82,7 @@ class CRM_Admin_Page_ParticipantStatus extends CRM_Core_Page_Basic
         $statusTypes = array();
 
         $dao = new CRM_Event_DAO_ParticipantStatusType;
+        $dao->orderBy('weight');
         $dao->find();
 
         $visibilities =& CRM_Core_PseudoConstant::visibility();

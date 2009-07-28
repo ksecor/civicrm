@@ -67,6 +67,9 @@ class CRM_Event_BAO_ParticipantStatusType extends CRM_Event_DAO_ParticipantStatu
         $participant->status_id = $id;
         if ($participant->find()) return false;
 
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::delWeight('CRM_Event_DAO_ParticipantStatusType', $id);
+
         $dao = new CRM_Event_DAO_ParticipantStatusType;
         $dao->id = $id;
         $dao->find(true);
