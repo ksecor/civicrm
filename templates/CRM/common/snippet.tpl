@@ -1,5 +1,10 @@
 {if $smarty.get.snippet eq 4}
-    {include file="CRM/Form/default.tpl"}
+    <!-- .tpl file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
+    {if $isForm}
+        {include file="CRM/Form/default.tpl"}
+    {else}
+        {include file=$tplFile}
+    {/if}
 {else}
     {if $smarty.get.snippet eq 2}
     {include file="CRM/common/print.tpl"}
