@@ -65,7 +65,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page
     function preProcess( )
     {
         $this->_id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                          $this, false);
+                                                 $this, false);
         if ( ! $this->_id ) {
             $session =& CRM_Core_Session::singleton();
             $this->_id = $session->get( 'userID' );
