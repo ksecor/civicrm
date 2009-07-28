@@ -52,11 +52,11 @@ class CRM_Event_BAO_ParticipantStatusType extends CRM_Event_DAO_ParticipantStatu
         $transaction = new CRM_Core_Transaction;
         $statusType = self::add($params);
         if (is_a($statusType, 'CRM_Core_Error')) {
-            $mailSettings->rollback();
-            return $mailSettings;
+            $transaction->rollback();
+            return $statusType;
         }
         $transaction->commit();
-        return $mailSettings;
+        return $statusType;
     }
 
     static function deleteParticipantStatusType($id)

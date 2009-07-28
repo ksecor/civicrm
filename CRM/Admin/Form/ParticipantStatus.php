@@ -119,7 +119,7 @@ class CRM_Admin_Form_ParticipantStatus extends CRM_Admin_Form
 
         if ($participantStatus->id) {
             if ($this->_action & CRM_Core_Action::UPDATE) {
-                CRM_Core_Session::setStatus(ts('The Participant Status have been updated.'));
+                CRM_Core_Session::setStatus(ts('The Participant Status has been updated.'));
             } else {
                 CRM_Core_Session::setStatus(ts('The new Participant Status has been saved.'));
             }
