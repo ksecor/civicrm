@@ -1,4 +1,7 @@
-{* tpl for building IM related fields *}
+{* This file provides the plugin for the openid block *}
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller*}
+{* @var $blockId Contains the current block Id, and assigned in the CRM/Contact/Form/Location.php file *}
+
 {if !$addBlock}
 <tr>
     <td>{ts}Open ID{/ts}

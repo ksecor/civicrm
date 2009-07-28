@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -59,6 +59,10 @@ class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
         require_once 'CRM/Utils/Mail.php';
         if ( CRM_Utils_Mail::validOutBoundMail() ) { 
             $this->assign( 'emailSetting', true );
+			list( $name, $email, $doNotEmail, $onHold, $isDeseased ) = CRM_Contact_BAO_Contact::getContactDetails( $contactId );
+			if( !$doNotEmail && $email && !$isDeseased ) {
+				$activityType += array( '3' => ts('Send an Email') );
+			}
         }
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'other_activity', ts('Other Activities'),

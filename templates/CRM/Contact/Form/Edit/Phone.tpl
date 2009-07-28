@@ -1,4 +1,7 @@
-{* tpl for building phone related fields*}
+{* This file provides the plugin for the phone block *}
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller*}
+{* @var blockId Contains the current block id, and assigned in the CRM/Contact/Form/Location.php file *}
+
 {if !$addBlock}
 <tr>
     <td>{ts}Phone{/ts}

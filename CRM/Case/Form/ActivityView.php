@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -59,7 +59,8 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
                                                          $activityID,
                                                          'subject' );
         $this->assign('contactID', $contactID );
-        
+        $this->assign('caseID', $caseID );
+
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
         $report       = $xmlProcessor->getActivityInfo( $contactID, $activityID, true );
@@ -112,11 +113,11 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
         } else {
             $recentContactId = $contactID; 
         }
-        
+
         if ( !isset( $caseID ) ) {
             $caseID = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity', $activityID, 'case_id', 'activity_id' );
         }
-        $this->assign('caseID', $caseID );
+        
         require_once 'CRM/Utils/Recent.php';
         $url = CRM_Utils_System::url( 'civicrm/case/activity/view', 
                                       "reset=1&aid={$activityID}&cid={$recentContactId}&caseID={$caseID}" );

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -495,7 +495,7 @@ class CRM_Event_Form_EventFees
         $form->addElement('checkbox', 
                           'send_receipt', 
                           ts('Send Confirmation?'), null, 
-                          array('onclick' =>"return showHideByValue('send_receipt','','notice','block','radio',false);") );
+                          array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
         $form->add('textarea', 'receipt_text', ts('Confirmation Message') );
         
         // Retrieve the name and email of the contact - form will be the TO for receipt email ( only if context is not standalone)        

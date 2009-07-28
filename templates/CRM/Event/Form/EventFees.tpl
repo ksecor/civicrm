@@ -1,24 +1,27 @@
 {if $paid} {* We retrieve this tpl when event is selected - keep it empty if event is not paid *} 
 <fieldset id="priceset">
-    <div class="form-item">
     <table class="form-layout">
     {if $priceSet}
-    	{if $action eq 2}
-	    {if $line_items}	
-    	        <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
-	    {else}
-                 <tr><td class="label">{ts}Event Level{/ts}</td>
-		     <td>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</td>
-		 </tr>
+    	{if $action eq 2} {* Updating *}
+            {if $line_items}	
+                <tr>
+                    <td class="label">{ts}Event Fees{/ts}</td>
+                    <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+                </tr>
+            {else}
+                <tr>
+                    <td class="label">{ts}Event Level{/ts}</td>
+                    <td>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</td>
+                </tr>
             {/if}
-        {else}
-     <tr>  
-     <td class="label">{$form.amount.label}</td>
-     <td><table class="form-layout-compressed">
+        {else} {* New participant *}
+        <tr>  
+        <td class="label" style="padding-top: 10px;">{$form.amount.label}</td>
+        <td class="view-value"><table class="form-layout-compressed">
          {if $priceSet.help_pre AND $action eq 1}
             <tr><td colspan=2><span class="description">{$priceSet.help_pre}</span></td></tr>
          {/if}
-      {foreach from=$priceSet.fields item=element key=field_id}
+        {foreach from=$priceSet.fields item=element key=field_id}
          {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
             {assign var="element_name" value=price_$field_id}
             {assign var="count" value="1"}
@@ -26,7 +29,7 @@
                 <td class="view-value">
                 <table class="form-layout-compressed">
                 <tr>	
-		{foreach name=outer key=key item=item from=$form.$element_name}
+            {foreach name=outer key=key item=item from=$form.$element_name}
                     {if is_numeric($key) }
                         <td class="labels font-light"><td>{$form.$element_name.$key.html}</td>
                         {if $count == $element.options_per_line}
@@ -72,48 +75,53 @@
     {else} {* NOT Price Set *}
      <tr>
      <td class ='html-adjust' colspan=2>
-     	<dl class="html-adjust">
+     	<table class="form-layout" style="width: auto;">
         {if $discount}
-            <dt class="label">{ts}Discount Set{/ts}</dt><dd>{$discount}</dd>
+            <tr><td class="label">&nbsp;&nbsp;{ts}Discount Set{/ts}</td><td class="view-value">{$discount}</td></tr>
         {else if $form.discount_id.label}
-            <dt class="label">{$form.discount_id.label}</dt><dd>{$form.discount_id.html}</dd>
+            <tr><td class="label">&nbsp;&nbsp;{$form.discount_id.label}</td><td>{$form.discount_id.html}</td></tr>
         {/if}
         {if $action EQ 2}
-	    <dt>{ts}Event Level{/ts}</dt><dd><span class="bold">{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</span></dd>
+            <tr><td class="label">&nbsp;&nbsp;{ts}Event Level{/ts}</td><td class="view-value"><span class="bold">{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</span></td></tr>
         {/if}
-        <dt class="label">{$form.amount.label}</dt><dd>{$form.amount.html}
+        <tr><td class="label">&nbsp;&nbsp;{$form.amount.label}</td><td>{$form.amount.html}
         {if $action EQ 1}
-            <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
+            <br />&nbsp;&nbsp;<span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
         {/if}
-        </dd>
-     	</dl>
+        </td></tr>
+     	</table>
      </td>
      </tr>
     {/if}
 
     {if $accessContribution and ! $participantMode and ($action neq 2 or !$rows.0.contribution_id or $onlinePendingContributionId) }
         <tr>
-        <td class="label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.record_contribution.label}</td>
-        <td class="html-adjust">{$form.record_contribution.html}<br />
-            <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span>
-        </td>
+            <td class="label">{$form.record_contribution.label}</td>
+            <td>{$form.record_contribution.html}<br />
+                <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span>
+            </td>
         </tr>
         <tr id="payment_information">
            <td class ='html-adjust' colspan=2>
            <fieldset><legend>{ts}Payment Information{/ts}</legend>
-             <dl id="recordContribution" class="html-adjust">	        
-                <dt class="label">{$form.contribution_type_id.label}<span class="marker"> *</span></dt>
-                <dd>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
-                <dt class="label" >{$form.receive_date.label}</dt><dd>{$form.receive_date.html}
-                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership}
-                {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership}</dd> 
-                <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-        	<div id="checkNumber"><dt class="label">{$form.check_number.label}</dt><dd>{$form.check_number.html|crmReplace:class:six}</dd></div>
-	        {if $showTransactionId }	
-                    <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>	
+             <table id="recordContribution" class="form-layout" style="width:auto;">
+                <tr>
+                    <td class="label">{$form.contribution_type_id.label}<span class="marker"> *</span></td>
+                    <td>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></td>
+                </tr>
+                <tr>
+                    <td class="label" >{$form.receive_date.label}</td><td>{$form.receive_date.html}
+                    {include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership}
+                    {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership}
+                    </td>
+                </tr> 
+                <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
+                <tr id="checkNumber"><td class="label">{$form.check_number.label}</td><td>{$form.check_number.html|crmReplace:class:six}</td></tr>
+                {if $showTransactionId }	
+                    <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>	
                 {/if}	
-                <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>      
-             </dl>
+                <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>      
+             </table>
            </fieldset>
            </td>
         </tr>
@@ -129,7 +137,6 @@
         }
     {/if}
     </table>
-    </div>
 </fieldset>
 {/if}
 
@@ -140,37 +147,39 @@
 {/if}
 {if ($email OR $batchEmail) and $outBound_option != 2}
     <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>  
-      <div class="form-item">
-		 <dl> 
-            <dt class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</dt>
-            <dd class ='html-adjust' >{$form.send_receipt.html}<br>
-                     <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {$email}?{/ts}</span></dd>
-        </dl>
-        <div id='notice'>
-            <dl>
- 			<dt class="label">{$form.receipt_text.label}</dt> 
-                	<dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}</span><br/>
-                    {$form.receipt_text.html|crmReplace:class:huge}</dd>
-            </dl>
-        </div> 
-      </div>
+      <table class="form-layout" style="width:auto;">
+		 <tr> 
+            <td class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</td>
+            <td>{$form.send_receipt.html}<br>
+                <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {$email}?{/ts}</span></td>
+        </tr>
+        <tr id='notice'>
+ 			<td class="label">{$form.receipt_text.label}</td> 
+            <td><span class="description">
+                {ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}
+                </span><br />
+                {$form.receipt_text.html|crmReplace:class:huge}
+            </td>
+        </tr> 
+      </table>
     </fieldset>
 {elseif $context eq 'standalone' and $outBound_option != 2 }
     <fieldset id="email-receipt" style="display:none;"><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>  
-      <div class="form-item">
-    	 <dl> 
-            <dt class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</dt>
-            <dd class ='html-adjust' >{$form.send_receipt.html}<br>
-            <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {/ts}<span id="email-address"></span>?</span></dd>
-        </dl>
-        <div id='notice'>
-            <dl>
-    		<dt class="label">{$form.receipt_text.label}</dt> 
-                	<dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}</span><br/>
-                    {$form.receipt_text.html|crmReplace:class:huge}</dd>
-            </dl>
-        </div> 
-      </div>
+      <table class="form-layout" style="width:auto;">
+    	 <tr> 
+            <td class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</td>
+            <td>{$form.send_receipt.html}<br>
+                <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {/ts}<span id="email-address"></span>?</span>
+            </td>
+        </tr>
+        <tr id='notice'>
+    		<td class="label">{$form.receipt_text.label}</td> 
+            <td><span class="description">
+                {ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}
+                </span><br />
+                {$form.receipt_text.html|crmReplace:class:huge}</td>
+        </tr>
+      </table>
     </fieldset>
 {/if}
 
@@ -179,7 +188,7 @@
     trigger_field_id    ="send_receipt"
     trigger_value       =""
     target_element_id   ="notice" 
-    target_element_type ="block"
+    target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
 }

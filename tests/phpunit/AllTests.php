@@ -34,7 +34,7 @@
  */
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'Utils.php';
-require_once 'standalone/civicrm.settings.php';
+require_once '/var/www/api.dev.civicrm.org/helper/civicrm.settings.php';
 
 /**
  *  Class containing all test suites
@@ -80,18 +80,18 @@ class AllTests
 
         if ( !$dbInit ) {
             echo PHP_EOL
-                . "Installing test_civicrm database"
+                . "Installing civicrm_tests_dev database"
                 . PHP_EOL;
 
             //  create test database
             self::$utils = new Utils( $GLOBALS['mysql_host'],
-                                'test_civicrm',
+                                'civicrm_tests_dev',
                                 $GLOBALS['mysql_user'],
                                 $GLOBALS['mysql_pass'] );
-            $query = "DROP DATABASE IF EXISTS test_civicrm;"
-                   . "CREATE DATABASE test_civicrm DEFAULT"
+            $query = "DROP DATABASE IF EXISTS civicrm_tests_dev;"
+                   . "CREATE DATABASE civicrm_tests_dev DEFAULT"
                    . " CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
-                   . "USE test_civicrm;";
+                   . "USE civicrm_tests_dev;";
             if ( self::$utils->do_query($query) === false ) {
 
                 //  failed to create test database

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -163,7 +163,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         if ( $snippet ) {
             if ( $snippet == 3 ) {
                 $this->_print = CRM_Core_Smarty::PRINT_PDF;
-            } else if ( ( $snippet == 4 ) || ( $snippet == 6 )  ) {
+            } else if ( $snippet == 4 ) {
                 $this->_print = CRM_Core_Smarty::PRINT_NOFORM;
                 self::$_template->assign( 'suppressForm', true );
             } else if ( $snippet == 5 ) {

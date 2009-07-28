@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -513,7 +513,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 
                 if ( is_a( $result, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::displaySessionError( $result );
-                    CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info', "id={$this->_eventId}&reset=1" ) );
+                    CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/register', "id={$this->_eventId}" ) );
                 }
                 
                 if ( $result ) {
