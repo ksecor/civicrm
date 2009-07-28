@@ -1,7 +1,7 @@
 name = CiviCRM CCK Sync
 description = Create Drupal node for CiviCRM Objects.
 core = 6.x
-version = 2.2
+version = 3.0
 dependencies[] = civicrm
 dependencies[] = content
 dependencies[] = content_copy
