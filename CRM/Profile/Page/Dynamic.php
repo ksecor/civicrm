@@ -144,8 +144,21 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
                 }
             }
             CRM_Core_BAO_UFGroup::getValues( $this->_id, $fields, $values );
+            
+            // $profileFields_$gid array can be used for customized display of field labels and values in Profile/View.tpl
+            $profileFields = array( );
+            $labels = array( );
 
+            foreach ( $fields as $name => $field ) {
+                $labels[$field['title']] = $name;
+            }
+            foreach ( $values as $title => $value ) {
+                $profileFields[$labels[$title]] = array( 'label' => $title,
+                                                    'value' => $value );
+            }
+            
             $template->assign_by_ref( 'row', $values );
+            $template->assign_by_ref( 'profileFields_' . $this->_gid, $profileFields );
         }
         return trim( $template->fetch(  $this->getTemplateFileName( ) ) );
     }
