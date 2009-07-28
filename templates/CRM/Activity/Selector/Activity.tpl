@@ -48,8 +48,14 @@
           {$row.recipients}
         {elseif !$row.target_contact_name}
           <em>n/a</em>
-        {elseif $contactId NEQ $row.target_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}" title="{ts}View contact{/ts}">{$row.target_contact_name}</a>
+        {elseif $row.target_contact_name}
+            {assign var="showComma" value=0}
+            {foreach from=$row.target_contact_name item=targetName key=targetID}
+                {if $contactId NEQ $targetID}
+                    {if $showComma},&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$targetID`"}" title="{ts}View contact{/ts}">"{$targetName}"</a>
+                    {assign var="showComma" value=1}
+                {/if}
+            {/foreach}
         {else}
           {$row.target_contact_name}
         {/if}
@@ -58,8 +64,14 @@
         <td>
         {if !$row.assignee_contact_name}
             <em>n/a</em>
-        {elseif $contactId NEQ $row.assignee_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}" title="{ts}View contact{/ts}">{$row.assignee_contact_name}</a>
+        {elseif $row.assignee_contact_name}
+            {assign var="showComma" value=0}
+            {foreach from=$row.assignee_contact_name item=assigneeName key=assigneeID}
+                {if $contactId NEQ $assigneeID}
+                    {if $showComma},&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$assigneeID`"}" title="{ts}View contact{/ts}">"{$assigneeName}"</a>
+                    {assign var="showComma" value=1}
+                {/if}
+            {/foreach}
         {else}
             {$row.assignee_contact_name}
         {/if}	

@@ -549,9 +549,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $dao =& new CRM_Core_DAO();
         $params = array( );
         $clause = 1 ;
-        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                          'Bulk Email',
-                                                          'name' );
+        $bulkActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                              'Bulk Email',
+                                                              'name' );
         if ( !$admin ) {
             $clause = " ( source_contact_id = %1 or 
                               target_contact_id = %1 or 
@@ -602,10 +602,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                          civicrm_activity.status_id, civicrm_activity.subject,
                          civicrm_activity.source_contact_id,civicrm_activity.source_record_id,
                          sourceContact.sort_name as source_contact_name,
-                         civicrm_activity_target.target_contact_id,
-			             targetContact.sort_name as target_contact_name,
-                         civicrm_activity_assignment.assignee_contact_id,
-			             assigneeContact.sort_name as assignee_contact_name,
+                         GROUP_CONCAT( DISTINCT(civicrm_activity_target.target_contact_id ) SEPARATOR '::') as target_contact_id,
+			             GROUP_CONCAT( DISTINCT(targetContact.sort_name ) SEPARATOR '::') as target_contact_name,
+                         GROUP_CONCAT( DISTINCT(civicrm_activity_assignment.assignee_contact_id  ) SEPARATOR '::' ) as assignee_contact_id,
+			             GROUP_CONCAT( DISTINCT(assigneeContact.sort_name ) SEPARATOR '::' ) as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
                          civicrm_case_activity.case_id as case_id,
@@ -640,8 +640,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                    and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause}";
 
         $order = $limit = $groupBy = '';
-        if ( $onlyCount == null ) {
-            $groupBy = " GROUP BY id";
+        if ( !$onlyCount ) {
+            $groupBy = " GROUP BY civicrm_activity.id";
             if ($sort) {
                 $orderBy = $sort->orderBy();
                 if ( ! empty( $orderBy ) ) {
@@ -663,6 +663,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         
         $queryString = $select. $from.  $join. $where. $groupBy. $order. $limit;
+            
         if ( $onlyCount == true ) {
             return CRM_Core_DAO::singleValueQuery( $queryString, $params );
         }
@@ -695,13 +696,18 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         while($dao->fetch()) {
             foreach( $selectorFields as $dc => $field ) {
                 if ( isset($dao->$field ) ) {
-                    if ( $activityTypeID == $dao->activity_type_id && $field == 'target_contact_name' ) {
+                    if ( $bulkActivityTypeID == $dao->activity_type_id && $field == 'target_contact_name' ) {
                         $values[$rowCnt]['recipients'] = ts('(recipients)');
                         if ( $accessCiviMail && in_array( $dao->source_record_id, $mailingIDs ) ) {
                             $values[$rowCnt]['mailingId'] = 
                                 CRM_Utils_System::url( 'civicrm/mailing/report', 
                                                        "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" );   
                         }
+                    } else if ( in_array( $field, array( 'target_contact_id', 'assignee_contact_id' ) ) ) {
+                        $contactIDs = explode( '::', $dao->$field );
+                        $fName = substr( $field, 0, -2) ."name";
+                        $contactNames = explode( '::', $dao->$fName );
+                        $values[$rowCnt][$fName] = array_combine( $contactIDs, $contactNames );
                     } else {
                         $values[$rowCnt][$field] = $dao->$field;
                     }
