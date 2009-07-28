@@ -745,7 +745,7 @@ function _civicrm_location_get_v3_to_v2( &$locations ) {
     }
     
     foreach ( array( 'email', 'phone', 'im', 'address', 'openid' ) as $field ) {
-        if ( CRM_Utils_Array::value( $field, $locations ) ) unset( $locations[$field] );
+        if ( array_key_exists( $field, $locations ) ) unset( $locations[$field] );
     }
     $locations['location'] = $locValues; 
     
