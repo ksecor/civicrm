@@ -138,7 +138,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
         if ( !empty($relationshipType) ) {
             $fields = array_merge( $fields,
-                                   array( 'related' => array( 'title' => '- related contact info -') ),
+                                   array( 'related' => array( 'title' => ts('- related contact info -') ) ),
                                    $relationshipType );
         }
 
