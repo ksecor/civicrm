@@ -103,29 +103,37 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         WHERE name = 'Pending';
 
         INSERT INTO civicrm_participant_status_type
-            (name,                    {foreach from=$locales item=locale}label_{$locale}, {/foreach}         class,      is_reserved, is_active, is_counted, weight, visibility_id)
+            (name,                                  {foreach from=$locales item=locale}label_{$locale},                       {/foreach} class,      is_reserved, is_active, is_counted, weight, visibility_id)
         VALUES
-            ('On waitlist',           {foreach from=$locales item=locale}'On waitlist',           {/foreach} 'Waiting',  1,           0,         0,          6,      2            ),
-            ('Awaiting approval',     {foreach from=$locales item=locale}'Awaiting approval',     {/foreach} 'Waiting',  1,           0,         1,          7,      2            ),
-            ('Pending from waitlist', {foreach from=$locales item=locale}'Pending from waitlist', {/foreach} 'Pending',  1,           0,         1,          8,      2            ),
-            ('Pending from approval', {foreach from=$locales item=locale}'Pending from approval', {/foreach} 'Pending',  1,           0,         1,          9,      2            ),
-            ('Rejected',              {foreach from=$locales item=locale}'Rejected',              {/foreach} 'Negative', 1,           0,         0,          10,     2            ),
-            ('Expired',               {foreach from=$locales item=locale}'Expired',               {/foreach} 'Negative', 1,           1,         0,          11,     2            );
+            ('On waitlist',                         {foreach from=$locales item=locale}'On waitlist',                         {/foreach} 'Waiting',  1,           0,         0,          6,      2            ),
+            ('Awaiting approval',                   {foreach from=$locales item=locale}'Awaiting approval',                   {/foreach} 'Waiting',  1,           0,         1,          7,      2            ),
+            ('Pending from waitlist',               {foreach from=$locales item=locale}'Pending from waitlist',               {/foreach} 'Pending',  1,           0,         1,          8,      2            ),
+            ('Pending from approval',               {foreach from=$locales item=locale}'Pending from approval',               {/foreach} 'Pending',  1,           0,         1,          9,      2            ),
+            ('Rejected',                            {foreach from=$locales item=locale}'Rejected',                            {/foreach} 'Negative', 1,           0,         0,          10,     2            ),
+            ('Expired',                             {foreach from=$locales item=locale}'Expired',                             {/foreach} 'Negative', 1,           1,         0,          11,     2            ),
+            ('Pending from incomplete transaction', {foreach from=$locales item=locale}'Pending from incomplete transaction', {/foreach} 'Pending',  1,           1,         1,          12,     2            );
     {else}
         UPDATE civicrm_participant_status_type
             SET name = 'Pending from pay later', label = 'Pending from pay later'
         WHERE name = 'Pending';
    
         INSERT INTO civicrm_participant_status_type
-            (name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id)
+            (name,                                  label,                                                       class,      is_reserved, is_active, is_counted, weight, visibility_id)
         VALUES
-            ('On waitlist',           '{ts escape="sql"}On waitlist{/ts}',           'Waiting',  1,           0,         0,          6,      2            ),
-            ('Awaiting approval',     '{ts escape="sql"}Awaiting approval{/ts}',     'Waiting',  1,           0,         1,          7,      2            ),
-            ('Pending from waitlist', '{ts escape="sql"}Pending from waitlist{/ts}', 'Pending',  1,           0,         1,          8,      2            ),
-            ('Pending from approval', '{ts escape="sql"}Pending from approval{/ts}', 'Pending',  1,           0,         1,          9,      2            ),
-            ('Rejected',              '{ts escape="sql"}Rejected{/ts}',              'Negative', 1,           0,         0,          10,     2            ),
-            ('Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,          11,     2            );
+            ('On waitlist',                         '{ts escape="sql"}On waitlist{/ts}',                         'Waiting',  1,           0,         0,          6,      2            ),
+            ('Awaiting approval',                   '{ts escape="sql"}Awaiting approval{/ts}',                   'Waiting',  1,           0,         1,          7,      2            ),
+            ('Pending from waitlist',               '{ts escape="sql"}Pending from waitlist{/ts}',               'Pending',  1,           0,         1,          8,      2            ),
+            ('Pending from approval',               '{ts escape="sql"}Pending from approval{/ts}',               'Pending',  1,           0,         1,          9,      2            ),
+            ('Rejected',                            '{ts escape="sql"}Rejected{/ts}',                            'Negative', 1,           0,         0,          10,     2            ),
+            ('Expired',                             '{ts escape="sql"}Expired{/ts}',                             'Negative', 1,           1,         0,          11,     2            ),
+            ('Pending from incomplete transaction', '{ts escape="sql"}Pending from incomplete transaction{/ts}', 'Pending',  1,           1,         1,          12,     2            );
     {/if}
+
+    -- CRM-4321 migration: Pending from pay later + false is_pay_later ==> Pending from incomplete transaction
+    SELECT @ps_ppl := id FROM civicrm_participant_status_type WHERE name = 'Pending from pay later';
+    SELECT @ps_pit := id FROM civicrm_participant_status_type WHERE name = 'Pending from incomplete transaction';
+    UPDATE civicrm_participant SET status_id = @ps_pit WHERE status_id = @ps_ppl AND is_pay_later = 0;
+
     DELETE FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
     DELETE FROM civicrm_option_group WHERE              id = @ps_ogid;
  

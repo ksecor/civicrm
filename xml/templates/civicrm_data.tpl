@@ -888,18 +888,19 @@ INSERT INTO civicrm_uf_field
        (18, 6,           'email',                 0,           0,           3,      'User and User Admin Only',  0,           0,             NULL,             '{ts escape="sql"}Email Address{/ts}',         'Contact',     NULL);
 
 INSERT INTO civicrm_participant_status_type
-  (id, name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id) VALUES
-  (1,  'Registered',            '{ts escape="sql"}Registered{/ts}',            'Positive', 1,           1,         1,          1,      1            ),
-  (2,  'Attended',              '{ts escape="sql"}Attended{/ts}',              'Positive', 0,           1,         1,          2,      2            ),
-  (3,  'No-show',               '{ts escape="sql"}No-show{/ts}',               'Negative', 0,           1,         0,          3,      2            ),
-  (4,  'Cancelled',             '{ts escape="sql"}Cancelled{/ts}',             'Negative', 1,           1,         0,          4,      2            ),
-  (5,  'Pending from pay later','{ts escape="sql"}Pending from pay later{/ts}','Pending',  1,           1,         1,          5,      2            ),
-  (6,  'On waitlist',           '{ts escape="sql"}On waitlist{/ts}',           'Waiting',  1,           0,         0,          6,      2            ),
-  (7,  'Awaiting approval',     '{ts escape="sql"}Awaiting approval{/ts}',     'Waiting',  1,           0,         1,          7,      2            ),
-  (8,  'Pending from waitlist', '{ts escape="sql"}Pending from waitlist{/ts}', 'Pending',  1,           0,         1,          8,      2            ),
-  (9,  'Pending from approval', '{ts escape="sql"}Pending from approval{/ts}', 'Pending',  1,           0,         1,          9,      2            ),
-  (10, 'Rejected',              '{ts escape="sql"}Rejected{/ts}',              'Negative', 1,           0,         0,          10,     2            ),
-  (11, 'Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,          11,     2            );
+  (id, name,                                  label,                                                       class,      is_reserved, is_active, is_counted, weight, visibility_id) VALUES
+  (1,  'Registered',                          '{ts escape="sql"}Registered{/ts}',                          'Positive', 1,           1,         1,          1,      1            ),
+  (2,  'Attended',                            '{ts escape="sql"}Attended{/ts}',                            'Positive', 0,           1,         1,          2,      2            ),
+  (3,  'No-show',                             '{ts escape="sql"}No-show{/ts}',                             'Negative', 0,           1,         0,          3,      2            ),
+  (4,  'Cancelled',                           '{ts escape="sql"}Cancelled{/ts}',                           'Negative', 1,           1,         0,          4,      2            ),
+  (5,  'Pending from pay later',              '{ts escape="sql"}Pending from pay later{/ts}',              'Pending',  1,           1,         1,          5,      2            ),
+  (6,  'On waitlist',                         '{ts escape="sql"}On waitlist{/ts}',                         'Waiting',  1,           0,         0,          6,      2            ),
+  (7,  'Awaiting approval',                   '{ts escape="sql"}Awaiting approval{/ts}',                   'Waiting',  1,           0,         1,          7,      2            ),
+  (8,  'Pending from waitlist',               '{ts escape="sql"}Pending from waitlist{/ts}',               'Pending',  1,           0,         1,          8,      2            ),
+  (9,  'Pending from approval',               '{ts escape="sql"}Pending from approval{/ts}',               'Pending',  1,           0,         1,          9,      2            ),
+  (10, 'Rejected',                            '{ts escape="sql"}Rejected{/ts}',                            'Negative', 1,           0,         0,          10,     2            ),
+  (11, 'Expired',                             '{ts escape="sql"}Expired{/ts}',                             'Negative', 1,           1,         0,          11,     2            ),
+  (12, 'Pending from incomplete transaction', '{ts escape="sql"}Pending from incomplete transaction{/ts}', 'Pending',  1,           1,         1,          12,     2            );
 
 INSERT INTO civicrm_navigation
 ( id, domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight ) VALUES
