@@ -218,8 +218,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                      
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
-                    if ( CRM_Utils_Array::value( 'email-5', $v ) ) {
-                        $append = $v['email-5'];
+                    if ( CRM_Utils_Array::value( 'email-{$this->_bltID}', $v ) ) {
+                        $append = $v['email-{$this->_bltID}'];
                     } else {
                         $append = $v['first_name'] .' ' . $v['last_name'];  
                     }
@@ -764,8 +764,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $fields["email-{$this->_bltID}"] = 1;
         $fields["email-Primary"] = 1;
         //if its pay later or additional participant set email address as primary.
-        if( (CRM_Utils_Array::value( 'is_pay_later', $params ) || !CRM_Utils_Array::value('is_primary', $params))
-            && CRM_Utils_Array::value("email-{$this->_bltID}", $params) ) {
+        if( (CRM_Utils_Array::value( 'is_pay_later', $params ) || !CRM_Utils_Array::value('is_primary', $params)
+             || !$this->_values['event']['is_monetary'] ) && CRM_Utils_Array::value("email-{$this->_bltID}", $params) ) {
             $params["email-Primary"] = $params["email-{$this->_bltID}"];
         }
     }
