@@ -11,7 +11,7 @@
     <h3 class="head"> 
         <span class="ui-icon ui-icon-triangle-1-e" id='contact'></span><a href="#">{ts}Contact Details{/ts}</a>
     </h3>
-    <div id="contact-details" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+    <div id="contactDetails" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
         {include file="CRM/Contact/Form/Edit/$contactType.tpl"}
         <br/>
         <table class="form-layout-compressed">
@@ -75,16 +75,48 @@ cj(function( ) {
     }).next( ).hide( );
     
     cj('span#contact').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
-    cj("#contact-details").show( );
+    cj("#contactDetails").show( );
+	
+	cj('div.accordion div.ui-accordion-content').each( function() {
+		//hide tab which doesn't have any element
+		if ( ! cj(this).text().trim() ) {
+			cj(this).hide().prev().hide();
+		}
+		//open tab if form rule throws error
+		if ( cj(this).children().find('span.error').text() ) {
+			cj(this).show().prev().children('span:first').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
+		}
+	});
 
-	//open tab if form rule throws error.
-	if( cj('span.error').text()	) {
-		cj('div.accordion div.ui-accordion-content').each( function() {
-			if ( cj(this).children().find('span.error').text() ) {
-				cj(this).show().prev().children('span:first').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
+	//highlight the tab having data inside.
+	cj('div.accordion div.ui-accordion-content :input').each( function() { 
+		var element = cj(this).closest("div.ui-accordion-content").attr("id");
+		eval('var ' + element + ' = "";');
+		switch( cj(this).attr('type') ) {
+			case 'checkbox':
+			case 'radio':
+			if( cj(this).is(':checked') ) {
+				eval( element + ' = true;'); 
 			}
-		});
-	}
+			break;
+			
+			case 'text':
+			case 'textarea':
+			if( cj(this).val() ) {
+				eval( element + ' = true;');
+			}
+			break;
+			
+			case 'select-one':
+			if( cj(this).is(':selected') ) {
+				eval( element + ' = true;');
+			}
+			break;		
+		}
+		if( eval( element + ';') ) { 
+			cj(this).closest("div.ui-accordion-content").prev().children('a:first').css( 'font-weight', 'bold' );
+		}
+	});
 });
 
 cj('a#expand').click( function( ){
