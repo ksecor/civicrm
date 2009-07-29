@@ -351,6 +351,7 @@ div.spacer, .spacer {
 
 #crm-container .messages {
   margin: 1.0em 0em 1.0em;
+  border: 1px solid #CCCCCC;
 }
 
 #crm-container .action-link {
