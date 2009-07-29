@@ -17,7 +17,7 @@
 				{/if}
 			{if $element.options_per_line != 0 }
 			<tr>
-			<td align="right">{$form.$element_name.label}</td><td>&nbsp;&nbsp;</td>
+			<td class="label">{$form.$element_name.label}</td><td>&nbsp;&nbsp;</td>
 			<td class="html-adjust">
 				{assign var="count" value="1"}
 				<table class="form-layout-compressed" style="margin-top: -0.5em;">
@@ -50,7 +50,7 @@
 			<td class="html-adjust description">{$element.help_post}</td>
 			{/if}
 			{else}
-    			<td align="right">{$form.$element_name.label}</td><td>&nbsp;&nbsp;</td>
+    			<td class="label">{$form.$element_name.label}</td><td>&nbsp;&nbsp;</td>
     			<td class="html-adjust">{$form.$element_name.html}
     				{if $element.html_type eq 'Radio'}
     				    &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 

@@ -56,8 +56,14 @@ div#crm-container {
   height: 2em;
 }
 
-#crm-container .add-remove-link {
+#crm-container .add-remove-link. #crm-container .map-link {
   font-size: .9em;
+}
+
+#crm-container .geotag {
+    padding: 2px 0 2px 20px;
+    background: url('../i/geotag_16.png') left center no-repeat;
+    font-size: .9em;
 }
 
 /*

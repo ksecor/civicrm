@@ -51,13 +51,13 @@
                 <div id="contactTopBar" class="ui-corner-all">
                     <table>
                         <tr>
-                            {if $job_title}
-                            <td class="label">{ts}Position{/ts}</td>
-                            <td>{$job_title}</td>
-                            {/if}
                             {if $current_employer_id}
                             <td class="label">{ts}Employer{/ts}</td>
                             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$current_employer_id`"}" title="{ts}view current employer{/ts}">{$current_employer}</a></td>
+                            {/if}
+                            {if $job_title}
+                            <td class="label">{ts}Position{/ts}</td>
+                            <td>{$job_title}</td>
                             {/if}
                             {if $legal_name}
                             <td class="label">{ts}Legal Name{/ts}</td>
@@ -151,7 +151,7 @@
                                 <tr>
                                     <td class="label">{$add.location_type}&nbsp;{ts}Address{/ts}
                                         {if $config->mapAPIKey AND $add.geo_code_1 AND $add.geo_code_2}
-                                            <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$add.location_type_id`"}" title="{ts}Map {$add.location_type} Address{/ts}"><br/><span style="font-size:8px;">{ts}Map Address{/ts}</span></a>
+                                            <br /><span class="geotag"><a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$add.location_type_id`"}" title="{ts}Map {$add.location_type} Address{/ts}">{ts}Map{/ts}</a></span>
                                         {/if}</td>
                                     <td>
                                         {if $HouseholdName and $locationIndex eq 1}
@@ -225,16 +225,9 @@
                         </div><!-- #contactCardRight -->
 						
 						<div style="CLEAR: both"></div>
+                        <div class="separator"></div>
 						
 						<div id="contactCardLeft">
-						 <table>
-							<tr>
-								<td class="label">{ts}Addressee{/ts}{if $addressee_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
-								<td>{$addressee_display}</td>
-							</tr>
-						 </table>
-						</div>
-						<div id="contactCardRight">
 						{if $contact_type neq 'Organization'}
 						 <table>
 							<tr>
@@ -247,6 +240,14 @@
 							</tr>
 						 </table>
 						 {/if}
+						</div>
+						<div id="contactCardRight">
+						 <table>
+							<tr>
+								<td class="label">{ts}Addressee{/ts}{if $addressee_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
+								<td>{$addressee_display}</td>
+							</tr>
+						 </table>
 						</div>
 						
                         <div style="CLEAR: both"></div>
