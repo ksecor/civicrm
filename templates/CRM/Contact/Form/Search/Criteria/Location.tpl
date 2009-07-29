@@ -58,7 +58,7 @@
         {/if}&nbsp;
         </td>
         <td>{$form.state_province.label}<br />
-            {$form.state_province.html|crmReplace:class:bigSelect
+            {$form.state_province.html|crmReplace:class:bigSelect}
         </td>
     </tr>
     </table>
