@@ -17,6 +17,7 @@
 #crm-container textarea.huge {width: 45em; height: 16em;}
 #crm-container textarea.huge40 {width: 40em; height: 16em;}
 #crm-container textarea.nowrap {width: 45em; height: 4.5em; white-space: nowrap; overflow: auto;}
+#crm-container .bigSelect {width: 15em; height: 12em;}
 
 /*
 ** Override line-height from style.css

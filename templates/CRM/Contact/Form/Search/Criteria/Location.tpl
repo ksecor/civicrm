@@ -10,7 +10,7 @@
         </div> 
         </td>
         <td colspan="2">{$form.street_address.label}<br />
-            {$form.street_address.html}<br />
+            {$form.street_address.html|crmReplace:class:big}<br />
             {$form.city.label}<br />
             {$form.city.html}
   	    </td>	   
@@ -37,28 +37,30 @@
                 		&nbsp;&nbsp;{$form.postal_code_high.html|crmReplace:class:six}
 			</td>
 		    </tr>
+			<tr rowspan="3"><td>&nbsp;</td></tr>
+			<tr>
+				<td colspan="2">{$form.address_name.label}<br />
+					{$form.address_name.html|crmReplace:class:medium}
+				</td>        
+				<td>{$form.world_region.label}<br />
+					{$form.world_region.html}&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">{$form.county.label}<br />
+					{$form.county.html|crmReplace:class:big}&nbsp;
+				</td>        
+				<td>{$form.country.label}<br />
+					{$form.country.html|crmReplace:class:big}&nbsp;
+				</td>
+			</tr>
 		</table>
         {/if}&nbsp;
         </td>
         <td>{$form.state_province.label}<br />
-             {$form.state_province.html|crmReplace:class:big}&nbsp;
-        </td>
-        <td>{$form.country.label}<br />
-            {$form.country.html|crmReplace:class:big}&nbsp;
+            {$form.state_province.html|crmReplace:class:bigSelect
         </td>
     </tr>
-          	
-    <tr>
-	    <td>{$form.world_region.label}<br />
-            {$form.world_region.html}&nbsp;
-	    </td>  
-	    <td>{$form.county.label}<br />
- 	        {$form.county.html|crmReplace:class:big}&nbsp;
-	    </td>
-        <td colspan="2">{$form.address_name.label}<br />
-            {$form.address_name.html|crmReplace:class:medium}
-	    </td>
-	 </tr>
     </table>
 </div>
 

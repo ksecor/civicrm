@@ -56,7 +56,7 @@ function loadPanes( id ) {
 
 <div class="form-item">
 {strip}
-    <div id="basicCriteria" class="content-pane">
+    <div class="ui-widget" style="width:98%">
         {include file="CRM/Contact/Form/Search/Criteria/Basic.tpl"}
     </div>
     <div class="accordion ui-accordion ui-widget ui-helper-reset">
