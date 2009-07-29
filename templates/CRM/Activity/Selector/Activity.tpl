@@ -72,7 +72,7 @@
             {foreach from=$row.assignee_contact_name item=assigneeName key=assigneeID}
                 {if $showAssignee < 5}
                     {if $contactId NEQ $assigneeID}
-                        {if $showComma},&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$assigneeID`"}" title="{ts}View contact{/ts}">"{$assigneeName}"</a>
+                        {if $showAssignee},&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$assigneeID`"}" title="{ts}View contact{/ts}">"{$assigneeName}"</a>
                         {assign var="showAssignee" value=$showAssignee+1}
                     {/if}
                 {/if}

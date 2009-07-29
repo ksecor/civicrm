@@ -554,9 +554,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                                               'name' );
         if ( !$admin ) {
             $clause = " ( source_contact_id = %1 or 
-                              target_contact_id = %1 or 
-                              assignee_contact_id = %1 or 
-                              civicrm_case_contact.contact_id = %1 ) ";
+                          at.target_contact_id = %1 or 
+                          aa.assignee_contact_id = %1 or 
+                          civicrm_case_contact.contact_id = %1 ) ";
             
             $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
         }
@@ -602,26 +602,30 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                          civicrm_activity.status_id, civicrm_activity.subject,
                          civicrm_activity.source_contact_id,civicrm_activity.source_record_id,
                          sourceContact.sort_name as source_contact_name,
-                         GROUP_CONCAT( DISTINCT(civicrm_activity_target.target_contact_id ) SEPARATOR '::') as target_contact_id,
-			             GROUP_CONCAT( DISTINCT(targetContact.sort_name ) SEPARATOR '::') as target_contact_name,
-                         GROUP_CONCAT( DISTINCT(civicrm_activity_assignment.assignee_contact_id  ) SEPARATOR '::' ) as assignee_contact_id,
-			             GROUP_CONCAT( DISTINCT(assigneeContact.sort_name ) SEPARATOR '::' ) as assignee_contact_name,
+                         GROUP_CONCAT( DISTINCT(activity_target.target_contact_id ) SEPARATOR '::') as target_contact_id,
+                         GROUP_CONCAT( DISTINCT(targetContact.sort_name ) SEPARATOR '::') as target_contact_name,
+                         GROUP_CONCAT( DISTINCT(activity_assignment.assignee_contact_id  ) SEPARATOR '::' ) as assignee_contact_id,
+                         GROUP_CONCAT( DISTINCT(assigneeContact.sort_name ) SEPARATOR '::' ) as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
                          civicrm_case_activity.case_id as case_id,
                          civicrm_case.subject as case_subject ";
         }
         $join   = "\n 
-                  left join civicrm_activity_target on 
-                            civicrm_activity.id = civicrm_activity_target.activity_id 
-                  left join civicrm_activity_assignment on 
-                            civicrm_activity.id = civicrm_activity_assignment.activity_id 
+                  left join civicrm_activity_target at on 
+                            civicrm_activity.id = at.activity_id 
+                  left join civicrm_activity_assignment aa on 
+                            civicrm_activity.id = aa.activity_id 
+                  left join civicrm_activity_target as activity_target on 
+                            civicrm_activity.id = activity_target.activity_id 
+                  left join civicrm_activity_assignment as activity_assignment on 
+                            civicrm_activity.id = activity_assignment.activity_id                               
                   left join civicrm_contact sourceContact on 
                             source_contact_id = sourceContact.id 
 		          left join civicrm_contact targetContact on 
-                            target_contact_id = targetContact.id 
+                            activity_target.target_contact_id = targetContact.id 
                   left join civicrm_contact assigneeContact on 
-                            assignee_contact_id = assigneeContact.id
+                            activity_assignment.assignee_contact_id = assigneeContact.id
                   left join civicrm_option_value on
                             ( civicrm_activity.activity_type_id = civicrm_option_value.value )
                   left join civicrm_option_group on  
@@ -661,7 +665,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 $limit = " LIMIT $offset, $rowCount ";
             }
         }
-        
+                    
         $queryString = $select. $from.  $join. $where. $groupBy. $order. $limit;
             
         if ( $onlyCount == true ) {
@@ -677,9 +681,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'subject',                                 
                                  'source_contact_name',
                                  'source_contact_id',
-                                 'target_contact_name',
                                  'target_contact_id',
-                                 'assignee_contact_name',
                                  'assignee_contact_id',
                                  'source_record_id',
                                  'case_id',
