@@ -1057,3 +1057,13 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     
 
 {/if}
+
+    -- CRM-4813
+
+    ALTER TABLE `civicrm_menu`
+    	DROP INDEX `UI_path`,
+        ADD UNIQUE `UI_path_domain_id` ( `path`,`domain_id` );
+
+    ALTER TABLE `civicrm_payment_processor`
+        DROP INDEX `UI_name_test`,
+        ADD UNIQUE `UI_name_test_domain_id` ( `name`,`is_test`,`domain_id` );

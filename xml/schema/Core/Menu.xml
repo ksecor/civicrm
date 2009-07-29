@@ -37,8 +37,9 @@
        <add>2.1</add>
   </field>
   <index>
-    <name>UI_path</name>
+    <name>UI_path_domain_id</name>
     <fieldName>path</fieldName>
+    <fieldName>domain_id</fieldName>
     <unique>true</unique>
     <add>2.1</add>
   </index>
