@@ -333,13 +333,6 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                  $row[$property] = $result->$property;
              }
 
-             if ( $result->member_is_pay_later && $row["status_id"] == 5 ) {
-                 $row["status"] .= " (Pay Later)";
-                 
-             } else if ( $row["status_id"] == 5 ) {
-                 $row["status"] .= " (Incomplete Transaction)";
-             }
-             
              if ( $row['member_is_test'] ) {
                  $row['membership_type'] = $row['membership_type'] . " (test)";
              }

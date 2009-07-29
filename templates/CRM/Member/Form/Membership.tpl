@@ -73,14 +73,12 @@
     {* Show read-only Status block - when action is UPDATE and is_override is FALSE *}
         <tr id="memberStatus_show">
         {if $action eq 2}
-        <td class="label">{$form.status_id.label}</td><td class="view-value">{$membershipStatus}
-             {if $membership_status_id eq 5}{if $is_pay_later}: {ts}Pay Later{/ts}{else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td>
+        <td class="label">{$form.status_id.label}</td><td class="view-value">{$membershipStatus}</td>
         {/if}
         </tr>
 
     {* Show editable status field when is_override is TRUE *}
-        <tr id="memberStatus"><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}
-        {if $membership_status_id eq 5}{if $is_pay_later}: {ts}Pay Later{/ts}{else}: {ts}Incomplete Transaction{/ts}{/if}{/if}<br />
+        <tr id="memberStatus"><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}<br />
             <span class="description">{ts}If <strong>Status Override</strong> is checked, the selected status will remain in force (it will NOT be modified by the automated status update script).{/ts}</span></td></tr>
 	{else if $membershipMode}
         <tr><td colspan="2">
