@@ -74,8 +74,7 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                          'fields'        =>
                          array( 
                                'relationship_type_id' => 
-                               array ('title'    => ts( 'Relationship Type' ),
-                                      'required' => true ),
+                               array ('title'    => ts( 'Relationship Type' ), ),
                                 ),
                          'filters'        =>
                          array( 'relationship_type_id' => 
