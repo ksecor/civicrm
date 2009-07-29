@@ -395,8 +395,9 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
     {
         //max records that will be listed
         $searchValues = array();
-        $searchValues[] = array( 'sort_name', 'LIKE', $params['member_org'], 0, 1 );
-        
+        if ( !empty($params['member_org']) ) {
+            $searchValues[] = array( 'sort_name', 'LIKE', $params['member_org'], 0, 1 );
+        }
         $searchValues[] = array( 'contact_type', '=', 'organization', 0, 0 );
 
         // get the count of contact
