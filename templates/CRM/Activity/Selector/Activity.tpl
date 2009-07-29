@@ -49,13 +49,16 @@
         {elseif !$row.target_contact_name}
           <em>n/a</em>
         {elseif $row.target_contact_name}
-            {assign var="showComma" value=0}
+            {assign var="showTarget" value=0}
             {foreach from=$row.target_contact_name item=targetName key=targetID}
-                {if $contactId NEQ $targetID}
-                    {if $showComma},&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$targetID`"}" title="{ts}View contact{/ts}">"{$targetName}"</a>
-                    {assign var="showComma" value=1}
+                {if $showTarget < 5}
+                    {if $contactId NEQ $targetID}
+                        {if $showTarget},&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$targetID`"}" title="{ts}View contact{/ts}">"{$targetName}"</a>
+                        {assign var="showTarget" value=$showTarget+1}
+                    {/if}
                 {/if}
             {/foreach}
+            {if count($row.target_contact_name) > 5}({ts}more{/ts}){/if}
         {else}
           {$row.target_contact_name}
         {/if}
@@ -65,13 +68,16 @@
         {if !$row.assignee_contact_name}
             <em>n/a</em>
         {elseif $row.assignee_contact_name}
-            {assign var="showComma" value=0}
+            {assign var="showAssignee" value=0}
             {foreach from=$row.assignee_contact_name item=assigneeName key=assigneeID}
-                {if $contactId NEQ $assigneeID}
-                    {if $showComma},&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$assigneeID`"}" title="{ts}View contact{/ts}">"{$assigneeName}"</a>
-                    {assign var="showComma" value=1}
+                {if $showAssignee < 5}
+                    {if $contactId NEQ $assigneeID}
+                        {if $showComma},&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$assigneeID`"}" title="{ts}View contact{/ts}">"{$assigneeName}"</a>
+                        {assign var="showAssignee" value=$showAssignee+1}
+                    {/if}
                 {/if}
             {/foreach}
+            {if count($row.assignee_contact_name) > 5}({ts}more{/ts}){/if}
         {else}
             {$row.assignee_contact_name}
         {/if}	
