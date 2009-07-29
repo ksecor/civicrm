@@ -166,6 +166,6 @@
       <type>int unsigned</type>
       <default>1</default>
       <comment>Payment Type: Credit or Debit</comment>
-      <add>2.3</add>
+      <add>3.0</add>
   </field>
 </table>

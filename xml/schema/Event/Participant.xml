@@ -69,7 +69,7 @@
     <name>status_id</name>
     <table>civicrm_participant_status_type</table>
     <key>id</key>
-    <add>2.3</add>
+    <add>3.0</add>
   </foreignKey>
   <index>
     <name>index_status_id</name>
@@ -195,6 +195,6 @@
       <headerPattern>/(fee)?.?cur(rency)?/i</headerPattern>
       <dataPattern>/^[A-Z]{3}$/i</dataPattern>
       <comment>3 character string, value derived from config setting.</comment>   
-      <add>2.3</add>
+      <add>3.0</add>
   </field>
 </table>

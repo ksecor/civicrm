@@ -120,7 +120,7 @@
        <type>datetime</type>
        <comment>Date and time this activity is due.</comment>
        <add>2.0</add>
-       <drop>2.3</drop>     
+       <drop>3.0</drop>     
   </field>  
   <field>
        <name>duration_hours</name>

@@ -178,7 +178,7 @@
       <type>datetime</type>
       <title>Mailing Created Date</title>
       <comment>Date and time this mailing was created.</comment>
-      <add>2.3</add>
+      <add>3.0</add>
   </field>
   <field>
       <name>scheduled_id</name>
