@@ -225,12 +225,12 @@ function civicrm_location_get( $contact ) {
  * @param <type> $locationTypeId
  * @return <type>
  */
-function _civicrm_location_add( &$params, $locationTypeId ) {
+function _civicrm_location_add( &$params, $locationTypeId = null ) {
     // convert api params to 3.0 format.
     if ( '3.0' != CRM_Utils_Array::value( 'version', $params ) ) {
         _civicrm_format_params_v2_to_v3( $params, $locationTypeId );
     }
-
+    
     // Get all existing location blocks.
     $blockParams = array( 'contact_id' => $params['contact_id'],
                           'entity_id'  => $params['contact_id'] );
@@ -675,7 +675,7 @@ function _civicrm_location_get_v3_to_v2( &$locations ) {
 /**
  * function convert params to v3.0 format before add location.
  */
-function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId ) {
+function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId = null ) {
     
     // get the loc type id.
     if ( !$locationTypeId ) {
@@ -731,12 +731,10 @@ function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId ) {
             if ( !CRM_Utils_Array::value( $name, $primary ) && CRM_Utils_Array::value( 'is_primary', $params ) ) {
                 $primary[$name][$firstBlockCount] = true;
                 $params[$name][$firstBlockCount]['is_primary'] = true;
-                unset( $params['is_primary'] );
             }
             if ( !CRM_Utils_Array::value( $name, $billing ) && CRM_Utils_Array::value( 'is_billing', $params ) ) {
                 $billing[$name][$firstBlockCount] = true;
                 $params[$name][$firstBlockCount]['is_billing'] = true;
-                unset( $params['is_billing'] );
             }
         }
     }
@@ -744,14 +742,7 @@ function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId ) {
     //get the address fields.
     $addressCount = 1;
     
-    // check for primary address.
-    if ( CRM_Utils_Array::value( 'is_primary', $params ) ) {
-        $primary['address'][$addressCount] = true;
-    }
-    if ( CRM_Utils_Array::value( 'is_billing', $params ) ) {
-        $billing['address'][$addressCount] = true;   
-    }
-    
+   
     $ids = array( 'county', 'country_id', 'country', 
                   'state_province_id', 'state_province',
                   'supplemental_address_1', 'supplemental_address_2',
@@ -783,7 +774,19 @@ function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId ) {
             unset( $fValue );
         }
     }
+
+    // check for primary address.
+    if ( CRM_Utils_Array::value( 'is_primary', $params ) ) {
+        unset( $params['is_primary'] );
+        $primary['address'][$addressCount] = true;
+        $params['address'][$addressCount]['is_primary'] = true;
+    }
     
+    if ( CRM_Utils_Array::value( 'is_billing', $params ) ) {
+        unset( $params['is_billing'] );
+        $billing['address'][$addressCount] = true;   
+        $params['address'][$addressCount]['is_billing'] = true;
+    }
     
     // handle primary and billing reset.
     foreach ( array( 'email', 'phone', 'im', 'address', 'openid' ) as $name ) {
