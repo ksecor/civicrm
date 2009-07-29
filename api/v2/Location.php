@@ -243,7 +243,7 @@ function _civicrm_location_add( &$params, $locationTypeId = null ) {
     
     // copy params value in contact array.
     $primary = $billing = array( );
-    foreach ( array( 'Email', 'Phone', 'IM', 'OpenID' ) as $name ) {
+    foreach ( array( 'email', 'phone', 'im', 'openid' ) as $name ) {
         if ( CRM_Utils_Array::value( $name, $params ) ) {
             if ( ! isset( $contact[$name]) ||
                  ! is_array( $contact[$name])) {
@@ -289,18 +289,18 @@ function _civicrm_location_add( &$params, $locationTypeId = null ) {
         // check for primary and billing address.
         if ( CRM_Utils_Array::value('is_primary', $params['address'][1]) ) $primary['address'][$addressCount] = true;
         if ( CRM_Utils_Array::value('is_billing', $params['address'][1]) ) $billing['address'][$addressCount] = true;
-    }
-    
-    // format state and country.
-    foreach ( array( 'state_province', 'country' ) as $field ) {
-        $fName = ( $field == 'state_province' ) ? 'stateProvinceAbbreviation' : 'countryIsoCode';
-        if ( CRM_Utils_Array::value( $field, $contact['address'][$addressCount] ) &&
-             is_numeric( $contact['address'][$addressCount][$field])) {
-            $fValue =& $contact['address'][$addressCount][$field];
-            eval( '$fValue = CRM_Core_PseudoConstant::' . $fName . '( $fValue );'  );
-            
-            //kill the reference.
-            unset( $fValue );
+        
+        // format state and country.
+        foreach ( array( 'state_province', 'country' ) as $field ) {
+            $fName = ( $field == 'state_province' ) ? 'stateProvinceAbbreviation' : 'countryIsoCode';
+            if ( CRM_Utils_Array::value( $field, $contact['address'][$addressCount] ) &&
+                 is_numeric( $contact['address'][$addressCount][$field])) {
+                $fValue =& $contact['address'][$addressCount][$field];
+                eval( '$fValue = CRM_Core_PseudoConstant::' . $fName . '( $fValue );'  );
+                
+                //kill the reference.
+                unset( $fValue );
+            }
         }
     }
     
@@ -409,18 +409,18 @@ function _civicrm_location_update( $params, $locations ) {
         // check for primary and billing address.
         if ( CRM_Utils_Array::value('is_primary', $params['address'][1]) ) $primary['address'][$addressCount] = true;
         if ( CRM_Utils_Array::value('is_billing', $params['address'][1]) ) $billing['address'][$addressCount] = true;
-    }
-    
-    // format state and country.
-    foreach ( array( 'state_province', 'country' ) as $field ) {
-        $fName = ( $field == 'state_province' ) ? 'stateProvinceAbbreviation' : 'countryIsoCode';
-        if ( CRM_Utils_Array::value( $field, $contact['address'][$addressCount] ) &&
-             is_numeric( $contact['address'][$addressCount][$field])) {
-            $fValue =& $contact['address'][$addressCount][$field];
-            eval( '$fValue = CRM_Core_PseudoConstant::' . $fName . '( $fValue );'  );
-            
-            //kill the reference.
-            unset( $fValue );
+        
+        // format state and country.
+        foreach ( array( 'state_province', 'country' ) as $field ) {
+            $fName = ( $field == 'state_province' ) ? 'stateProvinceAbbreviation' : 'countryIsoCode';
+            if ( CRM_Utils_Array::value( $field, $contact['address'][$addressCount] ) &&
+                 is_numeric( $contact['address'][$addressCount][$field])) {
+                $fValue =& $contact['address'][$addressCount][$field];
+                eval( '$fValue = CRM_Core_PseudoConstant::' . $fName . '( $fValue );'  );
+                
+                //kill the reference.
+                unset( $fValue );
+            }
         }
     }
     
@@ -495,7 +495,7 @@ function _civicrm_location_delete( &$contact ) {
     require_once 'CRM/Core/DAO/LocationType.php';
     $locationTypeDAO     =& new CRM_Core_DAO_LocationType( );
     $locationTypeDAO->id = $contact['location_type'];
-    
+        
     if ( ! $locationTypeDAO->find( ) ) {
         return civicrm_create_error( ts('invalid location type') );
     }
