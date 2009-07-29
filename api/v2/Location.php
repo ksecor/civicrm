@@ -721,9 +721,25 @@ function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId = null ) {
                     }
                 }
             } else {
-                $p = array( $name => $params[$name] );
-                _civicrm_store_values( $fields, $p, $locValues[$name][++$blockCount] );
+                //need to get ids.
+                if ( in_array( $name, array( 'im', 'phone' ) ) ) {
+                    require_once 'CRM/Core/PseudoConstant.php';
+                    if ( $name == 'im' ) {
+                        CRM_Utils_Array::lookupValue( $params, 
+                                                      'provider', 
+                                                      CRM_Core_PseudoConstant::IMProvider( ), true );
+                    } else {
+                        CRM_Utils_Array::lookupValue( $params, 
+                                                      'phone_type', 
+                                                      CRM_Core_PseudoConstant::phoneType( ), true );
+                    }
+                }
+                
+                $locValues[$name] = array( );
+                _civicrm_store_values( $fields, $params, $locValues[$name][++$blockCount] );
+                $params[$name] = $locValues[$name];
                 $firstBlockCount = $blockCount;
+                unset( $locValues[$name] );
             }
             
             // make first block as default primary when is_primary 
@@ -741,8 +757,6 @@ function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId = null ) {
     
     //get the address fields.
     $addressCount = 1;
-    
-   
     $ids = array( 'county', 'country_id', 'country', 
                   'state_province_id', 'state_province',
                   'supplemental_address_1', 'supplemental_address_2',
@@ -761,11 +775,12 @@ function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId = null ) {
             unset( $params[$id] );
         }
     }
-    
+
     // format state and country.
     foreach ( array( 'state_province', 'country' ) as $field ) {
         $fName = ( $field == 'state_province' ) ? 'stateProvinceAbbreviation' : 'countryIsoCode';
-        if ( CRM_Utils_Array::value( $field, $params['address'][$addressCount] ) &&
+        if ( CRM_Utils_Array::value( 'address', $params ) &&
+             CRM_Utils_Array::value( $field, $params['address'][$addressCount] ) &&
              is_numeric( $params['address'][$addressCount][$field])) {
             $fValue =& $params['address'][$addressCount][$field];
             eval( '$fValue = CRM_Core_PseudoConstant::' . $fName . '( $fValue );'  );
@@ -774,18 +789,22 @@ function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId = null ) {
             unset( $fValue );
         }
     }
-
+    
     // check for primary address.
     if ( CRM_Utils_Array::value( 'is_primary', $params ) ) {
+        if ( $addressTaken ) {
+            $primary['address'][$addressCount] = true;
+            $params['address'][$addressCount]['is_primary'] = true;
+        }
         unset( $params['is_primary'] );
-        $primary['address'][$addressCount] = true;
-        $params['address'][$addressCount]['is_primary'] = true;
     }
     
     if ( CRM_Utils_Array::value( 'is_billing', $params ) ) {
+        if ( $addressTaken ) {
+            $billing['address'][$addressCount] = true;   
+            $params['address'][$addressCount]['is_billing'] = true;
+        }
         unset( $params['is_billing'] );
-        $billing['address'][$addressCount] = true;   
-        $params['address'][$addressCount]['is_billing'] = true;
     }
     
     // handle primary and billing reset.
