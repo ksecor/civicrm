@@ -1375,8 +1375,13 @@ div.crm-pager a {
 
 /* loader autocomplete */
 
-body .ac_loading {background:url('../i/loading.gif') no-repeat right center;}
-.ac_input {background:url('../i/magnify.gif') no-repeat right center;}
+body .ac_loading {
+  background       : white url('../i/loading.gif') no-repeat right center;
+}
+
+.ac_input {
+  background       : white url(../i/magnify.gif) no-repeat scroll right center;
+}
 
 /*class for CMS user name check used in profile*/
 .cmsmessagebox {
