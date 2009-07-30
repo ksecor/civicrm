@@ -94,7 +94,7 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      * @return array - array reference of all events if any
      * @static
      */
-    public static function &event( $id = null, $all = false )
+    public static function &event( $id = null, $all = false, $condition = null ) 
     {
         if ( !isset( self::$event[$all] ) ) {
             self::$event[$all] = array( );
@@ -103,7 +103,7 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
         if ( ! self::$event[$all] ) {
             CRM_Core_PseudoConstant::populate( self::$event[$all],
                                                'CRM_Event_DAO_Event',
-                                               $all, 'title', 'is_active', null, null);
+                                               $all, 'title', 'is_active', $condition , null);
         }
                         
         if ($id) {

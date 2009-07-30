@@ -73,7 +73,7 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                          array( 			 			   
                                'id'               => array( 'title'   => ts( 'Event Title' ),
                                                             'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
-                                                            'options' => CRM_Event_PseudoConstant::event() ), 
+                                                            'options' => CRM_Event_PseudoConstant::event( null, null, "is_template IS NULL OR is_template = 0" ), ), 
                                
                                'event_type_id'    => array( 'name'    => 'event_type_id',
                                                             'title'   => ts( 'Event Type' ),
@@ -153,12 +153,8 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                 }
             }
         }
-
-        if ( empty( $clauses ) ) {
-            $this->_where = "WHERE  ( 1 ) ";
-        } else {
-            $this->_where = "WHERE  " . implode( ' AND ', $clauses);          
-        }
+        $clauses[] = "{$this->_aliases['civicrm_event']}.is_template IS NULL";
+        $this->_where = "WHERE  " . implode( ' AND ', $clauses);          
     }
     
     function groupBy( ) {
