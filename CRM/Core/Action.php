@@ -212,11 +212,11 @@ class CRM_Core_Action {
                 }
                 
                 $urlPath = null;
-                if ( !CRM_Utils_System::isNull( $link['qs'] ) ) {
+                if ( CRM_Utils_Array::value( 'qs', $link ) && !CRM_Utils_System::isNull( $link['qs'] ) ) {
                     $urlPath = CRM_Utils_System::url( self::replace( $link['url'], $values ),
                                                       self::replace( $link['qs'] , $values ), true );
                 } else {
-                    $urlPath = $link['url'];
+                    $urlPath = CRM_Utils_Array::value( 'url', $link );
                 }
                 
                 $ref = '';

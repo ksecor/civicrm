@@ -594,13 +594,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                         $providerName   = $imProviders[$result->$providerId];
                         $row[$property] = $result->$property . " ({$providerName})";
                     }
-                } else if ( in_array($property, array('addressee', 'email_greeting', 'postal_greeting')) ) {
-                    $customGreeting = $property.'_custom';
-                    if ( $result->$customGreeting ) { 
-                        $row[$property] = $result->$customGreeting.' ('.$result->$property.')';
-                    } else {
-                        $row[$property] = $result->$property;
-                    }
+                } else if ( in_array( $property, array( 'addressee', 'email_greeting', 'postal_greeting' ) ) ) {
+                    $greeting = $property.'_display';
+                    $row[$property] = $result->$greeting;
                 } else {
                     $row[$property] = $result->$property;
                 }
