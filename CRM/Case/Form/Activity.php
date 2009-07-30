@@ -180,6 +180,12 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         
         if ( !$activityDate ) {
             $this->_defaults['activity_date_time'] = array( );
+            // set default encounter medium CRM-4816
+            require_once "CRM/Core/OptionGroup.php";
+            $medium = CRM_Core_OptionGroup::values('encounter_medium', false, false, false, 'AND is_default = 1');
+            if ( count($medium) == 1 ) {
+                $this->_defaults['medium_id'] = key($medium);
+            }
         }
         
         return $this->_defaults;
