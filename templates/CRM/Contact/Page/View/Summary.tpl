@@ -82,9 +82,9 @@
                     <div class="clear"></div>
                 </div><!-- #contactTopBar -->
 
-                <div id="contact_details" class="ui-corner-all">
-                    <div id="contact_panel">
-                        <div id="contactCardLeft">
+                <div class="contact_details ui-corner-all">
+                    <div class="contact_panel">
+                        <div class="contactCardLeft">
                             <table>
                                 {foreach from=$phone item=item}
                                     {if $item.phone}
@@ -114,7 +114,7 @@
                             </table>
                         </div><!-- #contactCardLeft -->
 
-                        <div id="contactCardRight">
+                        <div class="contactCardRight">
                             <table>
                                 {foreach from=$email item=item }
                                     {if $item.email}
@@ -144,9 +144,9 @@
 					{if $address}
                     <div class="separator"></div>
 
-                    <div id="contact_panel">
+                    <div class="contact_panel">
                         {foreach from=$address item=add key=locationIndex}
-                        <div id="{cycle name=location values="contactCardLeft,contactCardRight"}">
+                        <div class="{cycle name=location values="contactCardLeft,contactCardRight"}">
                             <table>
                                 <tr>
                                     <td class="label">{$add.location_type}&nbsp;{ts}Address{/ts}
@@ -170,8 +170,8 @@
 
                     <div class="separator"></div>
 					{/if}
-                    <div id="contact_panel">
-                        <div id="contactCardLeft">
+                    <div class="contact_panel">
+                        <div class="contactCardLeft">
                             <table>
                                 <tr><td class="label">{ts}Privacy{/ts}</td>
                                     <td><span class="font-red upper">
@@ -189,7 +189,7 @@
                             </table>
                         </div>
 
-                        <div id="contactCardRight">
+                        <div class="contactCardRight">
                             {if $contact_type eq 'Individual' AND $showDemographics}
                             <table>
                                 <tr>
@@ -227,7 +227,7 @@
 						<div class="clear"></div>
                         <div class="separator"></div>
 						
-						<div id="contactCardLeft">
+						<div class="contactCardLeft">
 						{if $contact_type neq 'Organization'}
 						 <table>
 							<tr>
@@ -241,7 +241,7 @@
 						 </table>
 						 {/if}
 						</div>
-						<div id="contactCardRight">
+						<div class="contactCardRight">
 						 <table>
 							<tr>
 								<td class="label">{ts}Addressee{/ts}{if $addressee_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
@@ -255,12 +255,12 @@
                 </div><!--contact_details-->
 
                 <div id="customFields">
-                    <div id="contact_panel">
-                        <div id="contactCardLeft">
+                    <div class="contact_panel">
+                        <div class="contactCardLeft">
                             {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='1'}
                         </div><!--contactCardLeft-->
 
-                        <div id="contactCardRight">
+                        <div class="contactCardRight">
                             {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='0'}
                         </div>
 
@@ -282,10 +282,10 @@
     var selectedTab = 'summary';
     {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
     {literal}
-	if( cj('#tab_tag a').text().trim().slice(6,-1) == '0') {
+	if( cj('#tab_tag a').text().slice(6,-1) == '0') {
 		cj('#tags_html,#tags_label').hide();
 	}
-    cj( function() {
+	cj( function() {
         var tabIndex = cj('#tab_' + selectedTab).prevAll().length
         cj("#mainTabContainer").tabs( {selected: tabIndex} );        
     });
