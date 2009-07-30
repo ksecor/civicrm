@@ -35,6 +35,7 @@
 
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Dedupe/Merger.php';
+require_once 'CRM/Contact/BAO/Contact.php';
 
 class CRM_Contact_Form_Merge extends CRM_Core_Form
 {
@@ -73,7 +74,6 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         // ensure that oid is not the current user, if so refuse to do the merge
         $session =& CRM_Core_Session::singleton( );
         if ( $session->get( 'userID' ) == $oid ) {
-            require_once 'CRM/Contact/BAO/Contact.php';
             $display_name = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $oid, 'display_name' );
             $message = ts( 'The contact record which is linked to the currently logged in user account - \'%1\' - cannot be deleted.',
                            array( 1 => $display_name ) );
@@ -438,13 +438,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $dao->free();
             }
 
-            eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
-            $dao->contact_id = $this->_cid;
-            $dao->is_primary = 1;
-            if ( $dao->find(true) ) {
+            $mainPrimaryLocation = CRM_Contact_BAO_Contact::getPrimaryLocationType( $this->_cid, true );
+            if ( !empty($mainPrimaryLocation) ) {
                 $isMainPrimarySet = 1;
             }
-            $dao->free();
             
             //to set is_primary properly
             //CRM-4793
