@@ -102,7 +102,7 @@ cj(document).ready( function() {
 });
 
 var dataUrl = "{/literal}{$housholdDataURL}{literal}";
-cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : false 
+cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : false, matchCase : true
                                               }).result( function(event, data, formatted) { 
                                                     if( isNaN( data[1] ) ){
                                                         cj( "span#show_address" ).html( 'New Household Record'); 
