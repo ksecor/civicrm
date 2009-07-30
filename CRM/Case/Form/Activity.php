@@ -177,15 +177,18 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         if ( $this->_activityId ) { 
             $activityDate = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $this->_activityId, 'activity_date_time' );
         } 
-        
-        if ( !$activityDate ) {
-            $this->_defaults['activity_date_time'] = array( );
-            // set default encounter medium CRM-4816
+
+        // set default encounter medium CRM-4816
+        if ( empty($this->_defaults['medium_id']) ) {
             require_once "CRM/Core/OptionGroup.php";
             $medium = CRM_Core_OptionGroup::values('encounter_medium', false, false, false, 'AND is_default = 1');
             if ( count($medium) == 1 ) {
                 $this->_defaults['medium_id'] = key($medium);
             }
+        }
+        
+        if ( !$activityDate ) {
+            $this->_defaults['activity_date_time'] = array( );
         }
         
         return $this->_defaults;
