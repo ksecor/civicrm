@@ -463,7 +463,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             while ($dao->fetch()) {
                 $dao->contact_id       = $this->_cid;
                 $dao->location_type_id = CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]);
-                if ( $isDuplicatePrimarySet && !$isMainPrimarySet ) {
+                if ( ($isDuplicatePrimarySet && !$isMainPrimarySet) || ($locTypeId == $mainPrimaryLocation) ) {
                     $dao->is_primary   = $dao->is_primary  ? 1 : 0;
                 } else {
                     $dao->is_primary   = $isMainPrimarySet ? 0 : 1;
