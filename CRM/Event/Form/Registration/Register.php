@@ -1193,7 +1193,7 @@ WHERE  id IN ($optionIDs)
 
                         $session->setStatus( $status );
                         $url = CRM_Utils_System::url( 'civicrm/event/info',
-                                                      "reset=1&id={$self->_values['event']['id']}" );
+                                                      "reset=1&id={$self->_values['event']['id']}&noFullMsg=true" );
                         if ( $self->_action & CRM_Core_Action::PREVIEW ) {
                             $url .= '&action=preview';
                         }
