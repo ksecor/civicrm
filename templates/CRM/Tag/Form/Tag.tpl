@@ -6,13 +6,14 @@
 #Tag .tree .collapsable .hit {ldelim}background:url('{$config->resourceBase}/i/collapsable.gif') no-repeat left 3px;cursor:pointer{rdelim}
 #Tag .tree .expandable .hit {ldelim}background:url('{$config->resourceBase}/i/expandable.gif') no-repeat left 3px;cursor:pointer{rdelim}
 #Tag #tagtree .highlighted {ldelim}background-color:lightgrey;{rdelim}
-#restmsg {ldelim}position:absolute;top:20px;left:200px;z-index:10000;padding:3px 15px;{rdelim}
+#restmsg {ldelim}position:absolute;left:200px;z-index:10000;padding:5px;{rdelim}
 #restmsg.msgok {ldelim}display:block;background:#ffff99;border: 1px solid #5A8FDB;{rdelim}
 #restmsg.msgnok {ldelim}display:block;background:red;color:white;border: 1px solid #5A8FDB;{rdelim}
 </style>
 <script type="text/javascript">
 civicrm_ajaxURL="{crmURL p='civicrm/ajax/rest' h=0}";
 contactID={$contactId};
+var image = '<img alt="Hide" src="{$config->resourceBase}i/close.png" />';
 {literal}
 function hideStatus( ) {
     cj( '#restmsg' ).hide( );
@@ -44,11 +45,11 @@ function initTagTree() {
         //get current tag label
         var currentTagLabel = cj("#tagLabel_" + tagid ).text( );
         if (this.checked) {
-            civiREST ('entity_tag','add',{contact_id:contactID,tag_id:tagid});
+            civiREST ('entity_tag','add',{contact_id:contactID,tag_id:tagid},image);
             // add check to tab label array
             tagsArray.push( currentTagLabel );
         } else {
-            civiREST ('entity_tag','remove',{contact_id:contactID,tag_id:tagid});
+            civiREST ('entity_tag','remove',{contact_id:contactID,tag_id:tagid},image);
             // build array of tag labels
             tagsArray = cj.map(tagsArray, function (a) { 
                  if ( cj.trim( a ) != currentTagLabel ) {
