@@ -85,6 +85,7 @@
                 <div class="contact_details ui-corner-all">
                     <div class="contact_panel">
                         <div class="contactCardLeft">
+						{if $phone OR $im OR $openid}
                             <table>
                                 {foreach from=$phone item=item}
                                     {if $item.phone}
@@ -112,6 +113,7 @@
                                     {/if}
                                 {/foreach}
                             </table>
+						{/if}
                         </div><!-- #contactCardLeft -->
 
                         <div class="contactCardRight">
