@@ -987,7 +987,7 @@ div.crm-pager a {
 #crm-container div#searchForm table.form-layout td {
   padding: 4px;
   border: 1px groove #DDDDDD;
-  background: #F5F5F5;
+  background: #F7F7F7;
 }
 
 #crm-container #main {
@@ -1654,7 +1654,7 @@ div.grippie {
 }
 
 #crm-container .report-layout {
-   background-color : #F5F5F5; 
+   background-color : #F7F7F7; 
    border           : none;
 }
 
