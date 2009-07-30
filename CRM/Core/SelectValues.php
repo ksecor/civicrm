@@ -582,22 +582,21 @@ class CRM_Core_SelectValues
         static $tokens = null;
 
         if (! $tokens ) {
-            $tokens = array( '{action.unsubscribe}',
-                             '{action.unsubscribeUrl}',
-                             '{action.resubscribe}',
-                             '{action.resubscribeUrl}',
-                             '{action.optOut}',
-                             '{action.optOutUrl}',
-                             '{action.forward}',
-                             '{action.reply}',
-                             '{action.subscribeUrl}',
-                             '{domain.name}',
-                             '{domain.address}',
-                             '{domain.phone}',
-                             '{domain.email}',
-                             '{mailing.name}',
-                             '{mailing.group}'
-                             
+            $tokens = array( '{action.unsubscribe}'    => '{action.unsubscribe}',
+                             '{action.unsubscribeUrl}' => '{action.unsubscribeUrl}',
+                             '{action.resubscribe}'    => '{action.resubscribe}',
+                             '{action.resubscribeUrl}' => '{action.resubscribeUrl}',
+                             '{action.optOut}'         => '{action.optOut}',
+                             '{action.optOutUrl}'      => '{action.optOutUrl}',
+                             '{action.forward}'        => '{action.forward}',
+                             '{action.reply}'          => '{action.reply}',
+                             '{action.subscribeUrl}'   => '{action.subscribeUrl}',
+                             '{domain.name}'           => '{domain.name}',
+                             '{domain.address}'        => '{domain.address}',
+                             '{domain.phone}'          => '{domain.phone}',
+                             '{domain.email}'          => '{domain.email}',
+                             '{mailing.name}'          => '{mailing.name}',
+                             '{mailing.group}'         => '{mailing.group}'    
                           );
         }
         return $tokens;
