@@ -217,7 +217,8 @@ class CRM_Contact_Form_Edit_Individual {
             CRM_Core_Error::statusBounce( ts("Shared Household-ID not found.") );
         }
         
-        $locParams = array( 'contact_id' => $params['mail_to_household_id'] );
+        $locParams = array( 'version'    => '3.0', 
+                            'contact_id' => $params['mail_to_household_id'] );
         
         require_once 'api/v2/Location.php';
         $values =& _civicrm_location_get( $locParams, $location_types );

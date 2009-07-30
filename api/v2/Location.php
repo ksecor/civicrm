@@ -312,7 +312,7 @@ function _civicrm_location_add( &$params, $locationTypeId = null ) {
         $primaryBlockIndex = $billingBlockIndex = 0;
         if ( array_key_exists( $name, $primary ) ) {
             if ( count( $primary[$name] ) > 1 ) {
-                $errorMsg .= ts ( "<br />Multiple Primary %1.", array( 1 => $name ) );
+                $errorMsg .= ts ( "Multiple primary %1.", array( 1 => $name ) );
             } else {
                 $primaryBlockIndex = key( $primary[$name] );
             }
@@ -320,7 +320,7 @@ function _civicrm_location_add( &$params, $locationTypeId = null ) {
         
         if ( array_key_exists( $name, $billing ) ) {
             if ( count( $billing[$name] ) > 1 ) {
-                $errorMsg .= ts ( "<br />Multiple Billing %1.", array( 1 => $name ) );
+                $errorMsg .= ts ( "Multiple billing %1.", array( 1 => $name ) );
             } else {
                 $billingBlockIndex = key( $billing[$name] ); 
             }
