@@ -1092,7 +1092,7 @@ INSERT INTO civicrm_navigation
 ( 162, @domainID, 'http://civicrm.org/aboutcivicrm',    '{ts escape="sql"}About{/ts}',              'About',            NULL, 'AND', '158', '1', NULL, 4 ),
 
 ( 163, @domainID, NULL,                                                     '{ts escape="sql"}Reports{/ts}',                        'Reports',                       'access CiviReport',   '',  NULL, '1', NULL, 8 ), 
-( 164, @domainID, 'civicrm/report/list&reset=1',                            '{ts escape="sql"}Reports Listing{/ts}',                'Reports Listing',                 NULL,                '', '163', '1', NULL, 1 ), 
+( 164, @domainID, 'civicrm/report/list&reset=1',                            '{ts escape="sql"}Reports Listing{/ts}',                'Reports Listing',                 NULL,                '', '163', '1', 1,    1 ), 
 ( 165, @domainID, 'civicrm/admin/report/template/list&reset=1',             '{ts escape="sql"}Create Reports from Templates{/ts}',  'Create Reports from Templates', 'administer Reports',  '', '163', '1', 1,    2 ), 
 
 ( 166, @domainID, 'civicrm/report/instance/1&reset=1',     '{ts escape="sql"}Constituent Report (Summary){/ts}',       '{literal}Constituent Report (Summary){/literal}',     'administer CiviCRM',       '',  163,  '1', NULL, 3 ),
