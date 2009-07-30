@@ -536,19 +536,17 @@ function &_civicrm_location_get( $contact, $locationTypes = array( ) ) {
                 }
             }
         }
+    } else {
+        $locValues = $locations;
     }
     
-    $results = $locValues;
-    if ( empty( $results ) ) {
-        $results = $locations;
-    }
     
     // CRM-4800
     if ( '3.0' != CRM_Utils_Array::value( 'version', $contact ) ) {
-        _civicrm_location_get_v3_to_v2( $results );
+        _civicrm_location_get_v3_to_v2( $locValues );
     }
     
-    return $results;
+    return $locValues;
 }
 
 /**
@@ -667,7 +665,7 @@ function _civicrm_location_get_v3_to_v2( &$locations ) {
     foreach ( array( 'email', 'phone', 'im', 'address', 'openid' ) as $field ) {
         if ( array_key_exists( $field, $locations ) ) unset( $locations[$field] );
     }
-    $locations['location'] = $locValues; 
+    $locations = $locValues; 
     
     return $locValues;
 }
