@@ -474,7 +474,6 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     $isMainPrimarySet = 1;
                 }
                 
-                $dao->is_primary       = $isMainPrimarySet ? 0 : 1;
                 $dao->update();
             }
             $dao->free();
