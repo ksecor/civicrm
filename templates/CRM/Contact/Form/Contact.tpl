@@ -79,7 +79,7 @@ cj(function( ) {
 	
 	cj('div.accordion div.ui-accordion-content').each( function() {
 		//hide tab which doesn't have any element
-		if ( ! cj(this).text().trim() ) {
+		if ( cj(this).text().replace(/^\s\s*/, '').replace(/\s\s*$/, '') == '') { 
 			cj(this).hide().prev().hide();
 		}
 		//open tab if form rule throws error
