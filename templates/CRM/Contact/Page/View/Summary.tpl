@@ -72,14 +72,14 @@
                             {/if}
                         </tr>
                         <tr>
-                            <td class="label"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a></td><td id="tags">{$contactTag}</td>
+                            <td class="label" id="tags_label"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a></td><td id="tags_html">{$contactTag}</td>
                             {if $source}
                             <td class="label">{ts}Source{/ts}</td><td>{$source}</td>
                             {/if}
                         </tr>
                     </table>
 
-                    <div style="CLEAR: both"></div>
+                    <div class="clear"></div>
                 </div><!-- #contactTopBar -->
 
                 <div id="contact_details" class="ui-corner-all">
@@ -90,20 +90,20 @@
                                     {if $item.phone}
                                     <tr>
                                         <td class="label">{$item.location_type}&nbsp;{$item.phone_type}</td>
-                                        <td><span {if $privacy.do_not_phone} class="do-not-phone" title={ts}"Privacy flag: Do Not Phone"{/ts} {/if}>{$item.phone}</span></td>
+                                        <td {if $item.is_primary eq 1}class="primary"{/if}><span {if $privacy.do_not_phone} class="do-not-phone" title={ts}"Privacy flag: Do Not Phone"{/ts} {/if}>{$item.phone}</span></td>
                                     </tr>
                                     {/if}
                                 {/foreach}
                                 {foreach from=$im item=item}
                                     {if $item.name or $item.provider}
-                                    {if $item.name}<tr><td class="label">{$item.provider}&nbsp;({$item.location_type})</td><td>{$item.name}</td></tr>{/if}
+                                    {if $item.name}<tr><td class="label">{$item.provider}&nbsp;({$item.location_type})</td><td {if $item.is_primary eq 1}class="primary"{/if}>{$item.name}</td></tr>{/if}
                                     {/if}
                                 {/foreach}
                                 {foreach from=$openid item=item}
                                     {if $item.openid}
                                         <tr>
                                             <td class="label">{$item.location_type}&nbsp;{ts}OpenID{/ts}</td>
-                                            <td><a href="{$item.openid}">{$item.openid|mb_truncate:40}</a>
+                                            <td {if $item.is_primary eq 1}class="primary"{/if}><a href="{$item.openid}">{$item.openid|mb_truncate:40}</a>
                                                 {if $config->userFramework eq "Standalone" AND $item.allowed_to_login eq 1}
                                                     <br/> <span style="font-size:9px;">{ts}(Allowed to login){/ts}</span>
                                                 {/if}
@@ -120,7 +120,7 @@
                                     {if $item.email}
                                     <tr>
                                         <td class="label">{$item.location_type}&nbsp;{ts}Email{/ts}</td>
-                                        <td><span class={if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email" {else if $item.is_primary eq 1}"primary"{/if}><a href="mailto:{$item.email}">{$item.email}</a>{if $item.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
+                                        <td><span class={if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email" {elseif $item.is_primary eq 1}"primary"{/if}><a href="mailto:{$item.email}">{$item.email}</a>{if $item.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
                                     </tr>
                                     {/if}
                                 {/foreach}
@@ -139,7 +139,7 @@
                             </table>
                         </div><!-- #contactCardRight -->
 
-                        <div style="CLEAR: both"></div>
+                        <div class="clear"></div>
                     </div><!-- #contact_panel -->
 					{if $address}
                     <div class="separator"></div>
@@ -165,7 +165,7 @@
                         </div>
                         {/foreach}
 
-                        <div style="CLEAR: both"></div>
+                        <div class="clear"></div>
                     </div>
 
                     <div class="separator"></div>
@@ -224,7 +224,7 @@
                             {/if}
                         </div><!-- #contactCardRight -->
 						
-						<div style="CLEAR: both"></div>
+						<div class="clear"></div>
                         <div class="separator"></div>
 						
 						<div id="contactCardLeft">
@@ -250,7 +250,7 @@
 						 </table>
 						</div>
 						
-                        <div style="CLEAR: both"></div>
+                        <div class="clear"></div>
                     </div>
                 </div><!--contact_details-->
 
@@ -264,7 +264,7 @@
                             {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='0'}
                         </div>
 
-                        <div style="CLEAR: both"></div>
+                        <div class="clear"></div>
                     </div>
                 </div>
                 
@@ -282,6 +282,9 @@
     var selectedTab = 'summary';
     {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
     {literal}
+	if( cj('#tab_tag a').text().trim().slice(6,-1) == '0') {
+		cj('#tags_html,#tags_label').hide();
+	}
     cj( function() {
         var tabIndex = cj('#tab_' + selectedTab).prevAll().length
         cj("#mainTabContainer").tabs( {selected: tabIndex} );        

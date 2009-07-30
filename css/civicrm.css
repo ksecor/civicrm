@@ -1688,3 +1688,6 @@ DIV.buttons #icons {
     display 		: none;
 }
 
+#crm-container .clear {
+    clear 		    : both;
+}
