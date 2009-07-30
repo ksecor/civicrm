@@ -72,7 +72,7 @@
                             {/if}
                         </tr>
                         <tr>
-                            <td class="label" id="tags_label"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a></td><td id="tags_html">{$contactTag}</td>
+                            <td class="label" id="tagLink"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a></td><td id="tags">{$contactTag}</td>
                             {if $source}
                             <td class="label">{ts}Source{/ts}</td><td>{$source}</td>
                             {/if}
@@ -281,10 +281,8 @@
     <script type="text/javascript"> 
     var selectedTab = 'summary';
     {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
-    {literal}
-	if( cj('#tab_tag a').text().slice(6,-1) == '0') {
-		cj('#tags_html,#tags_label').hide();
-	}
+	{if !$contactTag}cj("#tagLink,#tags").hide( );{/if}
+	{literal}
 	cj( function() {
         var tabIndex = cj('#tab_' + selectedTab).prevAll().length
         cj("#mainTabContainer").tabs( {selected: tabIndex} );        

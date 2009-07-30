@@ -61,7 +61,7 @@ function initTagTree() {
         //update summary tab 
         tagLabels = tagsArray.join(', ');
         cj("#tags").html( tagLabels );
-        cj("#tagLink").show( );
+        ( tagLabels ) ? cj("#tagLink,#tags").show( ) : cj("#tagLink,#tags").hide( );
     });
     
     {/literal}
