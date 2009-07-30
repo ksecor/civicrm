@@ -233,11 +233,12 @@ class CRM_Core_Menu
         self::buildAdminLinks( $menu );
     }
 
-    static function store( ) {
+    static function store( $truncate = true ) {
         // first clean up the db
-        $query = 'TRUNCATE civicrm_menu';
-        CRM_Core_DAO::executeQuery( $query );
-
+        if ( $truncate ) {
+            $query = 'TRUNCATE civicrm_menu';
+            CRM_Core_DAO::executeQuery( $query );
+        }
         $menu =& self::items( );
 
         self::build( $menu );
