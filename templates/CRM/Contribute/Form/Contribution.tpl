@@ -25,7 +25,7 @@
     {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
 </div>
 <div class="crm-submit-buttons">{$form.buttons.html}</div>
-<fieldset>
+<fieldset><legend>{ts}Credit Card Contribution{/ts}</legend>
 {else}
 <div class="crm-submit-buttons">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
@@ -39,6 +39,7 @@
           </dd> 
        </dl> 
       </div> 
+      </fieldset>
    {else}
       <table class="form-layout-compressed">
         {if $context neq 'standalone'}
@@ -125,8 +126,10 @@
 
     <div id="customData"></div>
 
-{*include custom data js file*}
-{include file="CRM/common/customData.tpl"}
+    {*include custom data js file*}
+    {include file="CRM/common/customData.tpl"}
+    </fieldset>
+
 {literal}
 <script type="text/javascript">
     cj( function( ) {
@@ -226,7 +229,6 @@
 
 {/if}
 
-</fieldset>
 <div class="crm-submit-buttons">{$form.buttons.html}</div>
     {literal}
     <script type="text/javascript">
