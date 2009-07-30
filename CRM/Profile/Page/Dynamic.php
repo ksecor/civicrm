@@ -120,16 +120,31 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
     {
         $template =& CRM_Core_Smarty::singleton( ); 
         if ( $this->_id && $this->_gid ) {
+
+            // first check that id is part of the limit group id, CRM-4822
+            $limitListingsGroupsID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup',
+                                                                  $this->_gid,
+                                                                  'limit_listings_group_id' );
+            $config =& CRM_Core_Config::singleton( );
+            if ( $limitListingsGroupsID ) {
+                require_once 'CRM/Contact/BAO/GroupContact.php';
+                
+                if ( ! CRM_Contact_BAO_GroupContact::isContactInGroup( $this->_id, $limitListingsGroupsID ) ) {
+                    CRM_Core_Error::statusBounce( ts( 'You do not have permission to view this contact record. Contact the site administrator if you need assistance.' ),
+                                                  $config->userFrameworkBaseURL );
+                }
+            }
+
             require_once 'CRM/Core/BAO/UFGroup.php';
 
             $values = array( );
             $fields = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, CRM_Core_Action::VIEW,
                                                        null, null, false, $this->_restrict, $this->_skipPermission );
 
+
             // make sure we dont expose all fields based on permission
             $admin = false; 
             $session  =& CRM_Core_Session::singleton( ); 
-            $config =& CRM_Core_Config::singleton( );
             if ( ( ! $config->userFrameworkFrontend &&
                    ( CRM_Core_Permission::check( 'administer users' )  ||
                      CRM_Core_Permission::check( 'view all contacts' ) ) ) ||
