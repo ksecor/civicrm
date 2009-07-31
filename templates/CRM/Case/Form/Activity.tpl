@@ -261,7 +261,7 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
                if (!okMessage ) {
                     return false;
 	       }
-	  } else if ( activityStatusId == 1 && today >= activity_date_time ) {
+	  } else if ( activity_date_time && activityStatusId == 1 && today >= activity_date_time ) {
 	       var ok = confirm( 'Are you sure? This is a SCHEDULED activity with the ACTUAL DATE in the PAST. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
                if (!ok ) {
                     return false;
