@@ -1,28 +1,35 @@
 {* This template is used for adding/editing/deleting offline Event Registrations *}
 {if $showFeeBlock }
-{include file="CRM/Event/Form/EventFees.tpl"}
+	{include file="CRM/Event/Form/EventFees.tpl"}
 {elseif $cdType }
-{include file="CRM/Custom/Form/CustomData.tpl"}
+	{include file="CRM/Custom/Form/CustomData.tpl"}
 {else}
-{if $participantMode == 'test' }
-{assign var=registerMode value="TEST"}
-{else if $participantMode == 'live'}
-{assign var=registerMode value="LIVE"}
+	{if $participantMode == 'test' }
+		{assign var=registerMode value="TEST"}
+	{else if $participantMode == 'live'}
+		{assign var=registerMode value="LIVE"}
 {/if}
 <div class="view-content">
     {if $participantMode}
-    <div id="help">
-    	{ts 1=$displayName 2=$registerMode}Use this form to submit an event registration on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
-    </div>
+		<div id="help">
+			{ts 1=$displayName 2=$registerMode}Use this form to submit an event registration on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
+		</div>
     {/if}
     <div id="eventFullMsg" class="messages status" style="display:none;"></div>
 
     <div class="html-adjust disable-buttons">{$form.buttons.html}</div>
-    <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend>
+    <fieldset>
+		<legend>
+			{if $action eq 1}
+				{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}
+			{else}
+				{ts}Edit Event Registration{/ts}
+			{/if}
+		</legend>
     	{if $action eq 1 AND $paid}
-    	<div id="help">
-    		{ts}If you are accepting offline payment from this participant, check <strong>Record Payment</strong>. You will be able to fill in the payment information, and optionally send a receipt.{/ts}
-    	</div>  
+			<div id="help">
+				{ts}If you are accepting offline payment from this participant, check <strong>Record Payment</strong>. You will be able to fill in the payment information, and optionally send a receipt.{/ts}
+			</div>  
     	{/if}
 
         {if $action eq 8} {* If action is Delete *}
@@ -78,33 +85,41 @@
 
     		<tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
             </table>
-
+		</fieldset>
             {* Fee block (EventFees.tpl) is injected here when an event is selected. *}
+		<div class="accordion ui-accordion ui-widget ui-helper-reset">
+			<h3 class="head"> 
+				<span class="ui-icon ui-icon-triangle-1-e" id='eventFee'></span><a href="#">{ts}Event Fee{/ts}</a>
+			</h3>
             <div id="feeBlock"></div>
-
-            <fieldset>
-            <table class="form-layout-compressed">
-                <tr>
-                    <td class="label">{$form.note.label}</td><td>{$form.note.html}</td>
-                </tr>
-            </table>
-            </fieldset>
-
-            <table class="form-layout">
-                <tr>
-                    <td colspan=2>
-                        <div id="customData"></div>  {* Participant Custom data *}
-                        <div id="customData{$eventNameCustomDataTypeID}"></div> {* Event Custom Data *}
-                        <div id="customData{$roleCustomDataTypeID}"></div> {* Role Custom Data *}	
-                    </td>
-                </tr>
-            </table>
+            
+			<h3 class="head"> 
+				<span class="ui-icon ui-icon-triangle-1-e" id='eventNotes'></span><a href="#">{ts}Notes{/ts}</a>
+			</h3>
+            <div id="notes">
+				<fieldset>
+					<table class="form-layout-compressed">
+						<tr>
+							<td class="label">{$form.note.label}</td><td>{$form.note.html}</td>
+						</tr>
+					</table>
+				</fieldset>
+			</div>
+			
+			<h3 class="head"> 
+				<span class="ui-icon ui-icon-triangle-1-e" id='eventcustomData'></span><a href="#">{ts}Custom Data{/ts}</a>
+			</h3>
+            <div id="custom">
+				<div id="customData"></div>  {* Participant Custom data *}
+				<div id="customData{$eventNameCustomDataTypeID}"></div> {* Event Custom Data *}
+				<div id="customData{$roleCustomDataTypeID}"></div> {* Role Custom Data *}	
+			</div>
+		</div>
     	{/if}
 		 
         {if $accessContribution and $action eq 2 and $rows.0.contribution_id}
             {include file="CRM/Contribute/Form/Selector.tpl" context="Search"}
         {/if}
-    </fieldset> 
 
     <div class="html-adjust disable-buttons">{$form.buttons.html}</div>
 </div>
@@ -140,7 +155,7 @@
 		if ( eventId) {
 			dataUrl = dataUrl + '&eventId=' + eventId;	
 		} else {
-                        cj('#eventFullMsg').hide( );
+			cj('#eventFullMsg').hide( );
 			cj('#feeBlock').html('');
 			return;
 		}
@@ -160,7 +175,9 @@
 			async: false,
 			global: false,
 			success: function ( html ) {
-			    cj("#feeBlock").html( html );
+				cj('span#eventFee').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
+				cj('#feeBlock').show().html(html).prev().show();	
+				cj('#email-receipt').show()
 			}
     	});
     					
@@ -195,6 +212,31 @@
 		    buildCustomData( '{$customDataType}', {$eventID}, {$eventNameCustomDataTypeID} );
 		{/if}
 		{literal}
+	
+	//accordion tab
+	cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all");
+
+    cj('.accordion .head').hover( function( ) { 
+        cj(this).addClass( "ui-state-hover");
+    }, function() { 
+        cj(this).removeClass( "ui-state-hover");
+    }).bind('click', function( ) { 
+        var checkClass = cj(this).find('span').attr( 'class' );
+        var len        = checkClass.length;
+        if ( checkClass.substring( len - 1, len ) == 's' ) {
+            cj(this).find('span').removeClass( ).addClass('ui-icon ui-icon-triangle-1-e');
+        } else {
+            cj(this).find('span').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
+        }
+        cj(this).next( ).toggle(); return false; 
+    }).next( ).hide( );
+	
+	cj('div.accordion div:first').each( function() {
+		//remove tab which doesn't have any element
+		if ( ! cj.trim( cj(this).text() ) ) { 
+			cj(this).hide().prev().hide();			
+		}
+		});
 	});
 </script>
 {/literal}	
