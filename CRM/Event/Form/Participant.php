@@ -590,7 +590,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $element = $this->add('select', 'event_id',  ts( 'Event' ),  
                               array( '' => ts( '- select -' ) ) + $events,
                               true,
-                              array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', this.value, {$this->_eventNameCustomDataTypeID} );") );
+                              array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', this.value, {$this->_eventNameCustomDataTypeID} );", 'class' => 'huge' ) );
         
         //frozen the field fix for CRM-4171
         if ( $this->_action & CRM_Core_Action::UPDATE && $this->_participantId ) {
