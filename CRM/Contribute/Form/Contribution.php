@@ -1115,7 +1115,10 @@ WHERE  contribution_id = {$this->_id}
             // process associated membership / participant, CRM-4395
             $relatedComponentStatusMsg = null;
             if ( $contribution->id && $this->_action & CRM_Core_Action::UPDATE ) {
-                $relatedComponentStatusMsg = $this->updateRelatedComponent( $contribution->id, $contribution->contribution_status_id );
+                $relatedComponentStatusMsg = $this->updateRelatedComponent( $contribution->id,
+                                                                            $contribution->contribution_status_id,
+                                                                            CRM_Utils_Array::value( 'contribution_status_id',
+                                                                                                    $this->_values  ) );
             }
             
             //process  note
@@ -1173,7 +1176,7 @@ WHERE  contribution_id = {$this->_id}
     /**
      * This function process contribution related objects.
      */
-    function updateRelatedComponent( $contributionId, $statusId ) {
+    function updateRelatedComponent( $contributionId, $statusId, $previousStatusId = null ) {
         $statusMsg = null;
         
         //we process only ( Completed, Cancelled, or Failed ) contributions.
@@ -1267,6 +1270,12 @@ WHERE  contribution_id = {$this->_id}
                 $statusMsg = ts( "<br />Pledge Payment for %1 has been Failed.", array( 1 => $userDisplayName ) );
             }
         } else if ( $statusId == array_search( 'Completed', $contributionStatuses ) ) {
+            // only pending contribution related object can be updated.
+            if ( $previousStatusId && 
+                 $previousStatusId != array_search( 'Pending', $contributionStatuses ) ) {
+                return;
+            }
+            
             if ( $membership ) {
                 $format       = '%Y%m%d';
                 require_once 'CRM/Member/BAO/Membership.php';

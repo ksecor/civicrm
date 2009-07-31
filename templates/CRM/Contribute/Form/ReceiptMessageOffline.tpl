@@ -20,6 +20,9 @@
 {ts}Membership Fee{/ts}
 
 ===========================================================
+{if $formValues.contributionType_name}
+{ts}Contribution Type{/ts}: {$formValues.contributionType_name}
+{/if}
 {ts}Amount{/ts}: {$formValues.total_amount|crmMoney}
 {if $receive_date}
 {ts}Received Date{/ts}: {$receive_date|truncate:10:''|crmDate}

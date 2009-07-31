@@ -684,6 +684,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             if ( $formValues['send_receipt'] ) {
                 $params['receipt_date'] = $params['receive_date'];
             }
+            
+            //insert contribution type name in receipt.
+            $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                                $formValues['contribution_type_id'] );
         }
 
         if ( $this->_mode ) {

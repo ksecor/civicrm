@@ -1032,6 +1032,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     }
                 }
                 
+                //insert contribution type name in receipt.
+                $this->assign( 'contributionTypeName', CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                                    $contributionParams['contribution_type_id'] ) );
                 require_once 'CRM/Contribute/BAO/Contribution.php';
                 $contributions = array( );
                 if ( $this->_single ) {
