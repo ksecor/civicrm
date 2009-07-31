@@ -16,7 +16,7 @@
 <div id="group">
 {if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}  
 {include file="CRM/common/pager.tpl" location="top"}
-{include file="CRM/common/pagerAToZ.tpl}
+{include file="CRM/common/pagerAToZ.tpl"}
    {strip}
    {* handle enable/disable actions*}
    {include file="CRM/common/enableDisable.tpl"}
