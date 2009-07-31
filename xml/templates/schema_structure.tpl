@@ -36,19 +36,53 @@ class CRM_Core_I18n_SchemaStructure
     static function &columns()
     {
         static $result = null;
-        if (!$result) $result = unserialize('{/literal}{$columns}{literal}');
+        if (!$result) {
+          $result = array(
+            {/literal}
+            {foreach from=$columns key=table item=types}
+              '{$table}' => array(
+                {foreach from=$types key=column item=type}
+                  '{$column}' => '{$type}',
+                {/foreach}
+              ),
+            {/foreach}
+            {literal}
+          );
+        }
         return $result;
     }
     static function &indices()
     {
         static $result = null;
-        if (!$result) $result = unserialize('{/literal}{$indices}{literal}');
+        if (!$result) {
+          $result = array(
+            {/literal}
+            {foreach from=$indices key=table item=tableIndices}
+              '{$table}' => array(
+                {foreach from=$tableIndices key=name item=info}
+                  '{$name}' => array(
+                      'name' => '{$info.name}',
+                      'field' => array(
+                        {foreach from=$info.field item=field}
+                          '{$field}',
+                        {/foreach}
+                      ),
+                      {if $info.unique}'unique' => 1,{/if}
+                  ),
+                {/foreach}
+              ),
+            {/foreach}
+            {literal}
+          );
+        }
         return $result;
     }
     static function &tables()
     {
         static $result = null;
-        if (!$result) $result = array_keys(self::columns());
+        if (!$result) {
+            $result = array_keys(self::columns());
+        }
         return $result;
     }
 }

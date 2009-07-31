@@ -242,8 +242,6 @@ foreach ($tables as $table) {
         }
     }
 }
-$columns = serialize($columns);
-$indices = serialize($indices);
 
 $smarty->clear_all_cache();
 $smarty->clear_all_assign();
