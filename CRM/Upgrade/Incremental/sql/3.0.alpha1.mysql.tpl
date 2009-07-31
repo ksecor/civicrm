@@ -1041,7 +1041,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     {if $addresseeTokenValue} 
         UPDATE civicrm_contact
             SET 
-                addressee_id = {$addresseeTokenValue},
+                addressee_id = {$addresseeTokenValue}
         WHERE contact_type   = 'Individual';
     {else}
         UPDATE civicrm_contact
