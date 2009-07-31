@@ -244,16 +244,15 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
 
           var activity_date_time  = cj("select#activity_date_time\\[Y\\]").val() + month + day;
 
-	  var currentDay   = new Date().getDate();
-	  var currentMonth = new Date().getMonth()+1;
-	  var currentYear  = new Date().getYear();
+	  var currentDay    = new Date().getDate();
+	  var currentMonth  = new Date().getMonth()+1;
+	  var currentYear   = new Date().getYear();
 
 	  if(currentDay   < 10)   currentDay   = "0" + currentDay;
 	  if(currentMonth < 10)   currentMonth = "0" + currentMonth; 
 	  if(currentYear < 1000)  currentYear += 1900;
   
-	  var today = currentYear + currentMonth + currentDay;
-
+	  var today = currentYear + currentMonth + currentDay
 	  var activityStatusId = cj('#status_id').val();
 
 	  if ( activityStatusId == 2 &&  today < activity_date_time ) {
@@ -261,7 +260,7 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
                if (!okMessage ) {
                     return false;
 	       }
-	  } else if ( activity_date_time && activityStatusId == 1 && today >= activity_date_time ) {
+	  } else if ( activity_date_time && activityStatusId == 1 && today > activity_date_time ) {
 	       var ok = confirm( 'Are you sure? This is a SCHEDULED activity with the ACTUAL DATE in the PAST. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
                if (!ok ) {
                     return false;
