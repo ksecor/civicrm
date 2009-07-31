@@ -407,9 +407,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             if ( $this->_onlinePendingContributionId ) {
                 $statusNames = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
                 foreach ( $statusNames as $val => $name ) {
-                    if ( in_array( $name, array( 'Completed', 'Cancelled', 'Failed' ) ) ) {
-                        $allowStatuses[$val] = $statuses[$val]; 
-                    }
+                    if ( in_array($name, array('In Progress', 'Overdue')) ) continue;
+                    $allowStatuses[$val] = $statuses[$val]; 
                 }
             } else {
                 $allowStatuses = $statuses;
@@ -552,6 +551,14 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             if ( !$params['total_amount'] ) {
                 $errors['total_amount'] = ts('Please enter the contribution.'); 
             }
+        }
+        
+        // validate contribution status for 'Failed'.
+        if ( $self->_onlinePendingContributionId && 
+             CRM_Utils_Array::value( 'record_contribution', $params ) && 
+             (CRM_Utils_Array::value( 'contribution_status_id', $params ) == 
+              array_search( 'Failed', CRM_Contribute_PseudoConstant::contributionStatus(null, 'name'))) ) {
+            $errors['contribution_status_id'] = ts( "Please select a valid contribution status before updating." );
         }
         
         return empty($errors) ? true : $errors;

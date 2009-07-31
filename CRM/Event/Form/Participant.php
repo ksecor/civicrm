@@ -622,14 +622,25 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
         $this->add('textarea', 'note', ts('Notes'), $noteAttributes['note']);
-
+        
+        $confirmJS = null;
+        if ( $this->_onlinePendingContributionId ) {
+            $participantStatusId  = array_search( 'Pending from pay later', 
+                                                  CRM_Event_PseudoConstant::participantStatus() );
+            $contributionStatusId = array_search( 'Completed', 
+                                                  CRM_Contribute_PseudoConstant::contributionStatus(null, 'name') ); 
+            $confirmJS = array( 'onclick' => "return confirmStatus( {$participantStatusId}, {$contributionStatusId} );" );
+        }
+        
         $this->addButtons(array( 
                                 array ( 'type'      => 'upload',
                                         'name'      => ts('Save'), 
-                                        'isDefault' => true   ),
+                                        'isDefault' => true,
+                                        'js'        => $confirmJS ),
                                 array ( 'type'      => 'upload',
                                         'name'      => ts('Save and New'), 
-                                        'subName'   => 'new' ),         
+                                        'subName'   => 'new',
+                                        'js'        => $confirmJS ),         
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
                                 ) 
@@ -647,7 +658,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      */
     function addRules( ) 
     {
-        $this->addFormRule( array( 'CRM_Event_Form_Participant', 'formRule'), $this->_participantId );
+        $this->addFormRule( array( 'CRM_Event_Form_Participant', 'formRule'), $this );
     }
     
     /**
@@ -659,7 +670,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * @static
      * @access public
      */
-    static function formRule( &$values, $form, $id ) 
+    static function formRule( &$values, $files, $self ) 
     {
         // If $values['_qf_Participant_next'] is Delete or 
         // $values['event_id'] is empty, then return 
@@ -670,7 +681,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
              ) {
             return true;
         }
-           
+        
         //check if contact is selected in standalone mode
         if ( isset( $values['contact_select_id'] ) && !$values['contact_select_id'] ) {
             $errorMsg['contact'] = ts('Please select a valid contact or create new contact');
@@ -696,9 +707,17 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $errorMsg['contribution_type_id'] = ts( "Please enter the associated Contribution Type" );
         }
         
+        // validate contribution status for 'Failed'.
+        if ( $self->_onlinePendingContributionId && 
+             CRM_Utils_Array::value( 'record_contribution', $values ) && 
+             (CRM_Utils_Array::value( 'contribution_status_id', $values ) == 
+              array_search( 'Failed', CRM_Contribute_PseudoConstant::contributionStatus(null, 'name'))) ) {
+            $errorMsg['contribution_status_id'] = ts( "Please select a valid contribution status before updating." );
+        }
+        
         return empty( $errorMsg ) ? true : $errorMsg;
     }    
-       
+    
     /** 
      * Function to process the form 
      * 
