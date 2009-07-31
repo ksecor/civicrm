@@ -36,6 +36,7 @@
 require_once 'CRM/Core/Form.php';
 require_once "CRM/Custom/Form/CustomData.php";
 require_once 'CRM/Contact/BAO/GroupNesting.php';
+require_once 'CRM/Core/BAO/Domain.php';
 
 /**
  * This class is to build the form for adding Group
@@ -167,7 +168,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         }
 
         if ( !CRM_Utils_Array::value('parents',$defaults) ) {
-            require_once 'CRM/Core/BAO/Domain.php';
             $defaults['parents'] = CRM_Core_BAO_Domain::getGroupId( );
         }
 
@@ -259,6 +259,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         
         if ( count( $parentGroupSelectValues ) > 1 ) {
             $required = empty($parentGroups) ? true : false;
+            $required = ($this->_id && CRM_Core_BAO_Domain::isDomainGroup($this->_id)) ? false : $required;
             $this->add( 'select', 'parents', ts('Add Parent'), $parentGroupSelectValues, $required );
         }
         if ( CRM_Core_Permission::check( 'administer Multiple Organizations' ) ) {
@@ -283,7 +284,10 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                                  )
                            );
         
-        $this->addFormRule( array( 'CRM_Group_Form_Edit', 'formRule' ), $parentGroups );
+        $doParentCheck = ($this->_id && CRM_Core_BAO_Domain::isDomainGroup($this->_id)) ? false : true;
+        if ( $doParentCheck ) {
+            $this->addFormRule( array( 'CRM_Group_Form_Edit', 'formRule' ), $parentGroups );
+        }
     }
     
     /**

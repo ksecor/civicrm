@@ -203,6 +203,10 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         return $groupID ? $groupID : false;
     }
 
+    static function isDomainGroup( $groupId ) {
+        $domainGroupID = self::getGroupId( );
+        return $domainGroupID == $groupId ? true : false;
+    }
 }
 
 
