@@ -228,16 +228,25 @@ class CRM_Utils_Address
         $formatted = str_replace(array('{', '}'), '', $formatted);
 
         // drop any empty lines left after the replacements
-        $lines = array();
+        $formatted = preg_replace('/^[ \t]*[\r\n]+/m', '', $formatted);
+
+        // remove \n from each line and only add at the end
+        // this hack solves formatting issue, when we convert nl2br
+        $lines = array( );
+        $count = 0;
+        $finalFormatted = null;
         foreach (explode("\n", $formatted) as $line) {
             $line = trim($line);
             if ( $line ) {
-                $lines[] = $line;
+                if ( $count > 0 ) {
+                   $line = "$line\n";
+                }
+                $finalFormatted .= $line;
+                $count++;
             }
         }
-        $formatted = implode("\n", $lines);
 
-        return $formatted;
+        return $finalFormatted;
     }
 
 }
