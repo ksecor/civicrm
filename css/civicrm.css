@@ -102,6 +102,10 @@ div.spacer, .spacer {
   margin: 1em 0.5em 0.25em 0;
 }
 
+#crm-container .form-submit-inline {
+  margin: 0em 0.5em 0.25em 0em;
+}
+
 #crm-container fieldset{
     background-image   : none;
     margin             : .5em 0em .5em 0em;

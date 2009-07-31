@@ -257,12 +257,12 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
 	  var activityStatusId = cj('#status_id').val();
 
 	  if ( activityStatusId == 2 &&  today < activity_date_time ) {
-	       var okMessage = confirm( 'This activity has Actual Date set in the future, but the status is still "Completed". If you meant to set the Actual Date in the past, click Cancel and set the Actual Date field. Otherwise click OK to save the activity with "Completed" status.' );    
+	       var okMessage = confirm( 'Are you sure? This is a COMPLETED activity with the ACTUAL DATE in the FUTURE. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
                if (!okMessage ) {
                     return false;
 	       }
 	  } else if ( activityStatusId == 1 && today >= activity_date_time ) {
-	       var ok = confirm( 'This activity has an Actual Date set in the past, but the status is still "Scheduled". If you meant to set the status to "Completed", click Cancel and update the status field. Otherwise click OK to save the activity with "Scheduled" status.' );    
+	       var ok = confirm( 'Are you sure? This is a SCHEDULED activity with the ACTUAL DATE in the PAST. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
                if (!ok ) {
                     return false;
 	       }
