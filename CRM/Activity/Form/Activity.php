@@ -557,8 +557,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         $sourceContactField =& $this->add( $this->_fields['source_contact_id']['type'],
                                            'source_contact_id', 
-                                           $this->_fields['source_contact_id']['label'], 
-                                           $this->_fields['source_contact_id']['attributes'], 
+                                           $this->_fields['source_contact_id']['label'],
+                                           null, 
                                            $admin );
         $hiddenSourceContactField =& $this->add( 'hidden', 'source_contact_qid', '', array( 'id' => 'source_contact_qid') );
         $targetContactField   =& $this->add( 'text', 'target_contact_id', ts('target') );

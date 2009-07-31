@@ -1087,7 +1087,7 @@ AND    civicrm_contact.id = %1";
            $email      = $dao->email;
            $doNotEmail = $dao->do_not_email ? true : false;
            $onHold     = $dao->on_hold ? true : false;
-           $isDeseased = $dao->is_deseased ? true : false;
+           $isDeseased = $dao->is_deceased ? true : false;
            return array( $name, $email, $doNotEmail, $onHold, $isDeseased );
        }
        return array( null, null, null, null, null );
