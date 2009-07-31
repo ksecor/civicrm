@@ -1148,7 +1148,7 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
     /**
      * This function update contribution as well as related objects.
      */
-    function transitionComponents( $params ) 
+    function transitionComponents( $params, $processContributionObject = false ) 
     {
         // get minimum required values.
         $contactId               = CRM_Utils_Array::value( 'contact_id',                      $params );
@@ -1222,9 +1222,10 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
             CRM_Core_Error::fatal( );
         }
         
-        $membership     =& $objects['membership']  ;
-        $participant    =& $objects['participant'] ;
-        $pledgePayment  =& $objects['pledge_payment'] ;
+        $membership     =& $objects['membership'    ];
+        $participant    =& $objects['participant'   ];
+        $pledgePayment  =& $objects['pledge_payment'];
+        $contribution   =& $objects['contribution'  ];
         
         if ( $pledgePayment ) {
             require_once 'CRM/Pledge/BAO/Payment.php';
@@ -1244,12 +1245,16 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
         $membershipStatuses  = CRM_Member_PseudoConstant::membershipStatus( );
         $participantStatuses = CRM_Event_PseudoConstant::participantStatus( );
         
+        // we might want to process contribution object.
+        $processContribution = false;
+        
         if ( $contributionStatusId == array_search( 'Cancelled', $contributionStatuses ) ) {
             if ( $membership ) {
                 $membership->status_id = array_search( 'Cancelled', $membershipStatuses );
                 $membership->save( );
                 
                 $updateResult['updatedComponents']['CiviMember'] = $membership->status_id;
+                if ( $processContributionObject ) $processContribution = true;
             }
             
             if ( $participant ) {
@@ -1257,12 +1262,14 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
                 CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, $updatedStatusId );
                 
                 $updateResult['updatedComponents']['CiviEvent'] = $updatedStatusId;
+                if ( $processContributionObject ) $processContribution = true;
             }
             
             if ( $pledgePayment ) {
                 CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, $contributionStatusId ); 
                 
                 $updateResult['updatedComponents']['CiviPledge'] = $contributionStatusId;
+                if ( $processContributionObject ) $processContribution = true;
             }
         } else if ( $contributionStatusId == array_search( 'Failed', $contributionStatuses ) ) {
             if ( $membership ) {
@@ -1270,6 +1277,7 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
                 $membership->save( );
                 
                 $updateResult['updatedComponents']['CiviMember'] = $membership->status_id;
+                if ( $processContributionObject ) $processContribution = true;
             }
             
             if ( $participant ) {
@@ -1277,12 +1285,14 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
                 CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, $updatedStatusId );
                 
                 $updateResult['updatedComponents']['CiviEvent'] = $updatedStatusId;
+                if ( $processContributionObject ) $processContribution = true;
             }
             
             if ( $pledgePayment ) {
                 CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, $contributionStatusId );
                 
                 $updateResult['updatedComponents']['CiviPledge'] = $contributionStatusId;
+                if ( $processContributionObject ) $processContribution = true;
             }
         } else if ( $contributionStatusId == array_search( 'Completed', $contributionStatuses ) ) {
             
@@ -1353,7 +1363,7 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
                 $updateResult['membership_end_date']             = CRM_Utils_Date::customFormat( $dates['end_date'], 
                                                                                                  '%B %E%f, %Y');
                 $updateResult['updatedComponents']['CiviMember'] = $membership->status_id;
-                
+                if ( $processContributionObject ) $processContribution = true;
             }
             
             if ( $participant ) { 
@@ -1361,13 +1371,32 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
                 CRM_Event_BAO_Participant::updateParticipantStatus( $participant->id, $updatedStatusId );
                 
                 $updateResult['updatedComponents']['CiviEvent'] = $updatedStatusId;
+                if ( $processContributionObject ) $processContribution = true;
             }
             
             if ( $pledgePayment ) {
                 CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, $contributionStatusId );   
                 
                 $updateResult['updatedComponents']['CiviPledge'] = $contributionStatusId;
+                if ( $processContributionObject ) $processContribution = true;
             }
+        }
+        
+        // process contribution object.
+        if ( $processContribution ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $contributionParams = array( );
+            $fields = array( 'contact_id', 'total_amount', 'receive_date', 'is_test',
+                             'payment_instrument_id', 'trxn_id', 'invoice_id', 'contribution_type_id', 
+                             'contribution_status_id', 'non_deductible_amount', 'receipt_date', 'check_number' );
+            foreach ( $fields as $field ) {
+                if ( !CRM_Utils_Array::value( $field, $params ) ) continue;
+                $contributionParams[$field] = $params[$field];
+            }
+            
+            $ids = array( 'contribution' => $contributionId );
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $contribution =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
         }
         
         return $updateResult; 
