@@ -311,7 +311,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $moveTables = array_merge($moveTables, $relTables[substr($key, 5)]['tables']);
             }
         }
-
+       
         // FIXME: fix gender, prefix and postfix, so they're edible by createProfileContact()
         $names['gender']            = array('newName' => 'gender_id', 'groupName' => 'gender');
         $names['individual_prefix'] = array('newName' => 'prefix_id', 'groupName' => 'individual_prefix');
@@ -421,19 +421,17 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
             // indicates if main contact already has any location /w primary data
             $isMainPrimarySet      = 0;
-            $isDuplicatePrimarySet = 0;
-
+            $mainLocationTypeId    = CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]);
             // delete the existing location component of main contact if - 
             // 1. location type is same for both duplicate and main contact.
             // 2. address location found, since address always needs to be replaced.
-            if ( in_array( CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]), 
-                           $this->_overwriteLocTypeIds ) ||
-                 in_array($field, array('address')) ) { 
+            if ( in_array($mainLocationTypeId, $this->_overwriteLocTypeIds)
+                 || in_array($field, array('address')) ) { 
                 eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
-
+                
                 $dao->contact_id = $this->_cid;
                 $dao->find();
-                $dao->location_type_id = CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]);
+                $dao->location_type_id = $mainLocationTypeId;
                 $dao->delete();
                 $dao->free();
             }
@@ -442,18 +440,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             if ( !empty($mainPrimaryLocation) ) {
                 $isMainPrimarySet = 1;
             }
-            
-            //to set is_primary properly
-            //CRM-4793
-            eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
-            $dao->contact_id       = $this->_oid;
-            $dao->location_type_id = $locTypeId;
-            $dao->is_primary = 1;
-            if ( $dao->find(true) ) {
-                $isDuplicatePrimarySet = 1;
-            }
-            $dao->free();
-            
+                               
             //move duplicate contact's location component.
             eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
             $dao->contact_id       = $this->_oid;
@@ -462,8 +449,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
             while ($dao->fetch()) {
                 $dao->contact_id       = $this->_cid;
-                $dao->location_type_id = CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]);
-                if ( ($isDuplicatePrimarySet && !$isMainPrimarySet) || ($locTypeId == $mainPrimaryLocation) ) {
+                $dao->location_type_id = $mainLocationTypeId;
+                if ( !$isMainPrimarySet || ($locTypeId == $mainLocationTypeId) ) {
                     $dao->is_primary   = $dao->is_primary  ? 1 : 0;
                 } else {
                     $dao->is_primary   = $isMainPrimarySet ? 0 : 1;
