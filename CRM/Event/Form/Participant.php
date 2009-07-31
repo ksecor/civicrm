@@ -1021,7 +1021,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 
                 $contributionParams['currency'             ] = $config->defaultCurrency;
                 $contributionParams['non_deductible_amount'] = 'null';
-                $contributionParams['receipt_date'         ] = CRM_Utils_Array::value( 'send_receipt', $params ) ? CRM_Utils_Array::value( 'receive_date', $contributionParams ) : 'null';
+                $contributionParams['receipt_date'         ] = CRM_Utils_Array::value( 'send_receipt', $params ) ? CRM_Utils_Array::value( 'receive_date', $params ) : 'null';
                 
                 $recordContribution = array( 'contact_id', 'contribution_type_id', 'payment_instrument_id', 'trxn_id', 'contribution_status_id', 'receive_date', 'check_number' );
                 
