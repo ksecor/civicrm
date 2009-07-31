@@ -78,9 +78,12 @@ cj(function( ) {
     cj("#contactDetails").show( );
 	
 	cj('div.accordion div.ui-accordion-content').each( function() {
-		//hide tab which doesn't have any element
+		//remove tab which doesn't have any element
 		if ( ! cj.trim( cj(this).text() ) ) { 
-			cj(this).hide().prev().hide();
+			ele     = cj(this);
+			prevEle = cj(this).prev();
+			cj( ele ).remove();
+			cj( prevEle).remove();
 		}
 		//open tab if form rule throws error
 		if ( cj(this).children().find('span.error').text() ) {
