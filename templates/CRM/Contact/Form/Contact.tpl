@@ -56,6 +56,7 @@
 
 {literal}
 <script type="text/javascript" >
+var action = "{/literal}{$action}{literal}";
 cj(function( ) {
     cj('.accordion .head').addClass( "ui-accordion-header ui-helper-reset ui-state-default ui-corner-all");
 
@@ -90,36 +91,37 @@ cj(function( ) {
 			cj(this).show().prev().children('span:first').removeClass( ).addClass('ui-icon ui-icon-triangle-1-s');
 		}
 	});
-
-	//highlight the tab having data inside.
-	cj('div.accordion div.ui-accordion-content :input').each( function() { 
-		var element = cj(this).closest("div.ui-accordion-content").attr("id");
-		eval('var ' + element + ' = "";');
-		switch( cj(this).attr('type') ) {
-			case 'checkbox':
-			case 'radio':
-			if( cj(this).is(':checked') ) {
-				eval( element + ' = true;'); 
+	if ( action == 2 ) {
+		//highlight the tab having data inside.
+		cj('div.accordion div.ui-accordion-content :input').each( function() { 
+			var element = cj(this).closest("div.ui-accordion-content").attr("id");
+			eval('var ' + element + ' = "";');
+			switch( cj(this).attr('type') ) {
+				case 'checkbox':
+				case 'radio':
+				if( cj(this).is(':checked') ) {
+					eval( element + ' = true;'); 
+				}
+				break;
+				
+				case 'text':
+				case 'textarea':
+				if( cj(this).val() ) {
+					eval( element + ' = true;');
+				}
+				break;
+				
+				case 'select-one':
+				if( cj(this).is(':selected') ) {
+					eval( element + ' = true;');
+				}
+				break;		
 			}
-			break;
-			
-			case 'text':
-			case 'textarea':
-			if( cj(this).val() ) {
-				eval( element + ' = true;');
+			if( eval( element + ';') ) { 
+				cj(this).closest("div.ui-accordion-content").prev().children('a:first').css( 'font-weight', 'bold' );
 			}
-			break;
-			
-			case 'select-one':
-			if( cj(this).is(':selected') ) {
-				eval( element + ' = true;');
-			}
-			break;		
-		}
-		if( eval( element + ';') ) { 
-			cj(this).closest("div.ui-accordion-content").prev().children('a:first').css( 'font-weight', 'bold' );
-		}
-	});
+		});
+	}
 });
 
 cj('a#expand').click( function( ){
