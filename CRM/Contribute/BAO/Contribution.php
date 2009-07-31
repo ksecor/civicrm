@@ -1198,7 +1198,7 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
              !CRM_Utils_Array::value( 'participant',    $componentDetails ) &&
              !CRM_Utils_Array::value( 'pledge_payment', $componentDetails ) ||
              !CRM_Utils_Array::value( 'contact_id',     $componentDetails ) ) {
-            return $updatedStatusId;
+            return $updateResult;
         }
         
         //now we are ready w/ required ids, start processing.
@@ -1300,11 +1300,11 @@ LEFT JOIN  civicrm_contribution contribution ON ( componentPayment.contribution_
             if ( $previousContriStatusId && 
                  ($previousContriStatusId != array_search( 'Pending', $contributionStatuses) ) ) { 
                 // this is case when we already processed contribution object.
-                return $updatedStatusId;
+                return $updateResult;
             } else if ( !$previousContriStatusId && 
                         $contribution->contribution_status_id != array_search( 'Pending', $contributionStatuses ) ) { 
                 // this is case when we will going to process contribution object.
-                return $updatedStatusId;
+                return $updateResult;
             }
             
             if ( $membership ) {
