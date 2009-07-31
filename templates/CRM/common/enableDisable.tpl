@@ -24,20 +24,18 @@ function modifyLinkAttributes( recordID, op ) {
     cj( fieldID ).html( htmlContent ); 	
 
     //change title
-    cj( fieldID ).attr({title:newTitle});
+    cj( fieldID ).attr( 'title', newTitle );
 
     //need to update js - change op from js to new allow operation. 
-    var updatedJavaScript = cj( fieldID ).attr("onClick").replace( op, operation );
-
     //set updated js
-    cj( fieldID ).attr({ onClick : updatedJavaScript });  
+    cj( fieldID ).click ( function() { cj(this).replace( op, operation );  });  
 
     //set the updated status
     var fieldStatus = "#row_"+ recordID + "_status";
     cj( fieldStatus ).text( newText );
 
     //finally change class to enable-action.
-    cj( fieldID ).attr({class: newClass });
+    cj( fieldID ).attr( 'class', newClass );
 }
 
 function modifySelectorRow( recordID, op ) {
