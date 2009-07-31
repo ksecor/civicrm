@@ -54,6 +54,14 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
      * @access protected
      */
     protected $_oid;
+    
+    /**
+     * option group  id, used when editing the Option
+     *
+     * @var int
+     * @access protected
+     */
+    protected $_ogId;
 
 
     /**
@@ -70,6 +78,11 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                                                    $this);
         $this->_oid  = CRM_Utils_Request::retrieve('oid' , 'Positive',
                                                    $this);
+        
+        $this->_ogId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
+                                                     "civicrm_price_field.amount.{$this->_fid}",
+                                                     'id',
+                                                     'name' );
     }
 
     /**
@@ -100,13 +113,9 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         require_once 'CRM/Core/DAO.php';
         require_once 'CRM/Utils/Weight.php';
         
-        if ($this->_action & CRM_Core_Action::ADD) {
-            $fieldValues = array( 'option_group_id' => CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup",
-                                                                                    "civicrm_price_field.amount.{$this->_fid}",
-                                                                                    'id', 'name' ) 
-                                  );
-            
-            $defaults['weight']    = CRM_Utils_Weight::getDefaultWeight( 'CRM_Core_DAO_OptionValue', $fieldValues );
+        if (! isset($defaults['weight']) || ! $defaults['weight']) {
+            $fieldValues = array('option_group_id' => $this->_ogId);
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
             $defaults['is_active'] = 1;
         }
         
@@ -142,10 +151,12 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             //hidden field ID for validation use
             $this->add('hidden', 'fieldId', $this->_fid); 
             
-            $optionGeoup = "civicrm_price_field.amount.{$this->_fid}";
-            
             // label
             $this->add('text', 'label', ts('Option Label'),null, true);
+            $this->addRule( 'label',
+                            ts('Duplicate option label.'),
+                            'optionExists',
+                            array( 'CRM_Core_DAO_OptionValue', $this->_oid, $this->_ogId, 'label' ) );
             
             if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $this->_fid, 'html_type' ) != 'Text' ) {
                 // the above value is used by query, so the value has to be have a rule
@@ -216,28 +227,11 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
     static function formRule( &$fields, &$files, &$form ) 
     {
         $errors       = array( );
-        $customOption = array( );
-        $groupParams  = array( 'name' => "civicrm_price_field.amount.{$form->_fid}" );
         $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $form->_fid, 'html_type' );
         if ( $htmlType == 'Text' && $fields['name'] <= 0 ) {
             $errors['name'] = ts( 'Amount must be greater than zero When Price Field is of Text type' );  
         } else if ($fields['name'] < 0 ) {
             $errors['name'] = ts( 'Amount must be greater than zero' ); 
-        }
-
-        require_once 'CRM/Core/OptionValue.php';
-        CRM_Core_OptionValue::getValues( $groupParams, $customOption );
-                
-        foreach( $customOption as $key => $value ) {
-            if ( $value['id'] != $form->_oid ) {
-                if( ( $form->_action  == CRM_Core_Action::ADD ) && 
-                    ( $value['value'] == $fields['weight'] ) ) {
-                    $errors['weight'] = ts( 'Please enter a different weight as this may result in duplicate option value' );  
-                }
-                if( $value['label'] == $fields['label'] ) {
-                    $errors['label'] = ts( 'Duplicate option label' );  
-                }
-            }
         }
         
         return empty($errors) ? true : $errors;
@@ -254,48 +248,30 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
 
     public function postProcess()
     {
+        require_once 'CRM/Core/OptionValue.php';
         if ( $this->_action == CRM_Core_Action::DELETE ) {
+            $fieldValues = array('option_group_id' => $this->_ogId);
+            $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_OptionValue', $this->_oid, $fieldValues);
             $label = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue",
                                                   $this->_oid,
                                                   'label', 'id' );
-            require_once 'CRM/Core/BAO/OptionValue.php';
-            CRM_Core_BAO_OptionValue::del( $this->_oid );
-            CRM_Core_Session::setStatus( ts( '%1 option has been deleted.', 
-                                             array( 1 => $label ) ) );
+   
+            if( CRM_Core_BAO_OptionValue::del($this->_oid) ) {
+                CRM_Core_Session::setStatus( ts('%1 option has been deleted.', array(1 => $label)) );
+            }
             return;
-        }
-        
-        // store the submitted values in an array
-        $params = $this->controller->exportValues( 'Option' );
-        
-        $params['is_active']       = CRM_Utils_Array::value( 'is_active', $params, false );
-        $params['is_default']      = CRM_Utils_Array::value( 'is_default', $params, false );
-        
-        $params['option_group_id'] = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup",
-                                                                  "civicrm_price_field.amount.{$this->_fid}",
-                                                                  'id', 'name' );
-        $groupName                 = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $params['option_group_id'], 'name' );
-        if ( $groupName ) {
-            $fieldName      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, 27 ), 'label') ;
-            $params['description'] = $fieldName.' - '.$params['label'] ;
-        }  
+        } else {
+            $params = $ids = array( );
+            $params = $this->controller->exportValues( 'Option' );
+            $fieldLabel = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', $this->_fid, 'label') ;
+            $params['description'] = $fieldLabel.' - '.$params['label'] ;
 
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            $params['value'] = $params['weight'];
+            $groupParams = array( 'id' => $this->_ogId );
+           
+            $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_oid);
+            
+            CRM_Core_Session::setStatus( ts('The option \'%1\' has been saved.', array(1 => $params['label'])) );
         }
-
-        // fix the display of the monetary value, CRM-4038
-        $params['name'] = CRM_Utils_Rule::cleanMoney( $params['name'] );
-
-        $ids = array( );
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['optionValue'] = $this->_oid;
-        }
-        
-        require_once 'CRM/Core/BAO/OptionValue.php';
-        $optoinValue = CRM_Core_BAO_OptionValue::add( $params, $ids );
-        CRM_Core_Session::setStatus( ts( 'The option \'%1\' has been saved.', 
-                                         array( 1 => $optoinValue->label ) ) );
     }
 }
 
