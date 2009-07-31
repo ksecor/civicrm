@@ -734,32 +734,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
         
-        // CRM-4395
-        if ( $this->_onlinePendingContributionId && 
-             CRM_Utils_Array::value( 'record_contribution', $params ) ) {
-            $ipnParams = array( 'event_id'        => $params['event_id'],
-                                'contact_id'      => $this->_contactID,
-                                'component_id'    => $this->_participantId,
-                                'componentName'   => 'Event',
-                                'contribution_id' => $this->_onlinePendingContributionId );
-            $fields = array( 'total_amount', 'fee_amount', 'check_number', 'trxn_id',
-                             'receive_date', 'payment_instrument_id', 'contribution_status_id' ); 
-            foreach ( $fields as $field ) {
-                if ( $value = CRM_Utils_Array::value( $field, $params ) ) {
-                    $ipnParams[$field] = $value;
-                }
-            }
-            
-            require_once 'CRM/Core/Payment/BaseIPN.php';
-            $changedStatusId = CRM_Core_Payment_BaseIPN::updateContributionStatus( $ipnParams );
-            
-            if ( $changedStatusId ) {
-                CRM_Core_Session::setStatus( ts( 'Related Online Pending Contribution status has been updated.' ) );
-            }
-            
-            return;
-        }
-        
         // set the contact, when contact is selected
         if ( CRM_Utils_Array::value('contact_select_id', $params ) ) {
             $this->_contactID = CRM_Utils_Array::value('contact_select_id', $params);
@@ -1028,17 +1002,24 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             
             if ( CRM_Utils_Array::value( 'record_contribution', $params ) ) {
-                if( CRM_Utils_Array::value( 'id', $params ) ) {
-                    $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
-                                                                        $params['id'], 
-                                                                        'contribution_id', 
-                                                                        'participant_id' );
-            }
+                if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                    if ( $this->_onlinePendingContributionId ) {
+                        $ids['contribution'] = $this->_onlinePendingContributionId;
+                    } else {
+                        $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
+                                                                            $params['id'], 
+                                                                            'contribution_id', 
+                                                                            'participant_id' );
+                    }
+                }
                 unset($params['note']);
                 
                 //build contribution params 
+                if ( !$this->_onlinePendingContributionId ) {
+                    $contributionParams['source'] = "{$eventTitle}: Offline registration (by {$userName})";
+                }
+                
                 $contributionParams['currency'             ] = $config->defaultCurrency;
-                $contributionParams['source'               ] = "{$eventTitle}: Offline registration (by {$userName})";
                 $contributionParams['non_deductible_amount'] = 'null';
                 $contributionParams['receipt_date'         ] = CRM_Utils_Array::value( 'send_receipt', $params ) ? CRM_Utils_Array::value( 'receive_date', $contributionParams ) : 'null';
                 

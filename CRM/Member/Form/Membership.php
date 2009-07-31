@@ -585,33 +585,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         // get the submitted form values.  
         $this->_params = $formValues = $this->controller->exportValues( $this->_name );
         
-        //CRM-4395
-        if ( $this->_onlinePendingContributionId && 
-             CRM_Utils_Array::value( 'record_contribution', $formValues ) ) {
-            $params = array( 'contact_id'      => $this->_contactID,
-                             'component_id'    => $this->_id,
-                             'componentName'   => 'Membership',
-                             'contribution_id' => $this->_onlinePendingContributionId );
-            
-            $fields = array( 'total_amount', 'fee_amount', 'check_number', 'trxn_id',
-                             'receive_date', 'payment_instrument_id', 'contribution_status_id' ); 
-            foreach ( $fields as $field ) {
-                if ( $value = CRM_Utils_Array::value( $field, $formValues ) ) {
-                    $params[$field] = $value;
-                }
-            }
-            
-            require_once 'CRM/Core/Payment/BaseIPN.php';
-            $changedStatusId = CRM_Core_Payment_BaseIPN::updateContributionStatus( $params );
-            
-            if ( $changedStatusId ) {
-                $statuses = CRM_Contribute_PseudoConstant::contributionStatus(  );
-                CRM_Core_Session::setStatus( ts( 'Related Online Pending Contribution status has been updated.' ) );
-            }
-            
-            return;
-        }
-        
         $params = array( );
         $ids    = array( );
 
@@ -704,7 +677,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
             $membershipType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                            $formValues['membership_type_id'][1] );
-            $params['contribution_source'] = "{$membershipType} Membership: Offline membership signup (by {$userName})";
+            if ( !$this->_onlinePendingContributionId ) {
+                $params['contribution_source'] = "{$membershipType} Membership: Offline membership signup (by {$userName})";
+            }
             
             if ( $formValues['send_receipt'] ) {
                 $params['receipt_date'] = $params['receive_date'];
@@ -844,7 +819,21 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         } else {
             $params['action'] = $this->_action;
-            $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+            if ( $this->_onlinePendingContributionId && 
+                 CRM_Utils_Array::value( 'record_contribution', $formValues ) ) {
+                
+                //write a function which update contribution as well as membership objects.
+                require_once 'CRM/Contribute/Form/Contribution.php';
+                $params['contribution_id'] = $this->_onlinePendingContributionId;
+                $update = self::updateContribution( $params );
+                
+                //carry updated membership object.
+                $membership =& new CRM_Member_DAO_Membership( );
+                $membership->id = $this->_id;
+                $membership->find( true );
+            } else {
+                $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+            }
         }
                 
         if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
@@ -982,5 +971,138 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
         }
     }
+
+    function updateContribution( $params ) {
+        // get minimum required values.
+        $statusId       = CRM_Utils_Array::value( 'contribution_status_id', $params );
+        $contactId      = CRM_Utils_Array::value( 'contact_id',             $params );
+        $membershipId   = CRM_Utils_Array::value( 'id',                     $params );
+        $contributionId = CRM_Utils_Array::value( 'contribution_id',        $params );
+        
+        if ( !$contributionId || !$membershipId || !$statusId ) {
+            return;
+        }
+        
+        //we process only ( Completed, Cancelled, or Failed ) contributions.
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $contributionStatuses = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
+        if ( !in_array( $statusId, array( array_search( 'Completed', $contributionStatuses ),
+                                          array_search( 'Cancelled', $contributionStatuses ),
+                                          array_search( 'Failed',    $contributionStatuses ) ) ) ) {
+            return null;
+        }
+        
+        if ( !$contactId ) {
+            $contactId = CRM_Core_DAO::getFieldValue( 'CRM_Member_BAO_Membership', $membershipId, 'contact_id' );
+        }
+        
+        require_once 'CRM/Core/Payment/BaseIPN.php';
+        $baseIPN = new CRM_Core_Payment_BaseIPN( );
+        
+        $input = $ids = $objects = array( );
+        
+        $input['component']       = 'contribute';
+        $ids['contribution']      = $contributionId;
+        $ids['contact'     ]      = $contactId;
+        $ids['membership']        = $membershipId;
+        $ids['contributionRecur'] = null;
+        $ids['contributionPage']  = null;
+        
+        if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        
+        $membership =& $objects['membership']  ;
+        
+        require_once 'CRM/Member/PseudoConstant.php';
+        $membershipStatuses  = CRM_Member_PseudoConstant::membershipStatus( );
+        
+        $processContribution = false;
+        if ( $membership ) {
+            if ( $statusId == array_search( 'Cancelled', $contributionStatuses ) ) {
+                $processContribution = true;
+                $membership->status_id = array_search( 'Cancelled', $membershipStatuses );
+                $membership->save( );
+            } else if ( $statusId == array_search( 'Failed', $contributionStatuses ) ) {
+                $processContribution = true;
+                $membership->status_id = array_search( 'Expired', $membershipStatuses );
+                $membership->save( ); 
+            } else if ( $statusId == array_search( 'Completed', $contributionStatuses ) ) {
+                $processContribution = true;
+                $format       = '%Y%m%d';
+                require_once 'CRM/Member/BAO/Membership.php';
+                require_once 'CRM/Member/BAO/MembershipType.php';  
+                
+                //CRM-4523
+                $currentMembership =  CRM_Member_BAO_Membership::getContactMembership( $membership->contact_id,
+                                                                                       $membership->membership_type_id, 
+                                                                                       $membership->is_test, $membership->id );
+                if ( $currentMembership ) {
+                    CRM_Member_BAO_Membership::fixMembershipStatusBeforeRenew( $currentMembership, 
+                                                                               $changeToday = null  );
+                    $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id, 
+                                                                                              $changeToday = null );
+                    $dates['join_date'] =  CRM_Utils_Date::customFormat($currentMembership['join_date'], $format );
+                } else {
+                    $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                }
+                
+                //get the status for membership.
+                require_once 'CRM/Member/BAO/MembershipStatus.php';
+                $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $dates['start_date'], 
+                                                                                          $dates['end_date'], 
+                                                                                          $dates['join_date'],
+                                                                                          'today', 
+                                                                                          true );
+                
+                $formatedParams = array( 'status_id'     => CRM_Utils_Array::value( 'id', $calcStatus,
+                                                                                    array_search( 'Current', $membershipStatuses ) ),
+                                         'join_date'     => CRM_Utils_Date::customFormat( $dates['join_date'],     $format ),
+                                         'start_date'    => CRM_Utils_Date::customFormat( $dates['start_date'],    $format ),
+                                         'end_date'      => CRM_Utils_Date::customFormat( $dates['end_date'],      $format ),
+                                         'reminder_date' => CRM_Utils_Date::customFormat( $dates['reminder_date'], $format ) );
+                
+                $membership->copyValues( $formatedParams );
+                $membership->save( );
+                
+                //updating the membership log
+                $membershipLog = array();
+                $membershipLog = $formatedParams;
+                $logStartDate  = CRM_Utils_Date::customFormat( $dates['log_start_date'], $format );
+                $logStartDate  = ($logStartDate) ? CRM_Utils_Date::isoToMysql( $logStartDate ) : $formatedParams['start_date'];
+                
+                $membershipLog['start_date']    = $logStartDate;
+                $membershipLog['membership_id'] = $membership->id;
+                $membershipLog['modified_id']   = $membership->contact_id;
+                $membershipLog['modified_date'] = date('Ymd');
+                
+                require_once 'CRM/Member/BAO/MembershipLog.php';
+                CRM_Member_BAO_MembershipLog::add( $membershipLog, CRM_Core_DAO::$_nullArray);
+                
+                //update related Memberships.              
+                CRM_Member_BAO_Membership::updateRelatedMemberships( $membership->id, $formatedParams );
+            }
+        }
+        
+        // finally update contribution record.
+        if ( $processContribution ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $contributionParams = array( );
+            $fields = array( 'contact_id', 'total_amount', 'receive_date', 'is_test',
+                             'payment_instrument_id', 'trxn_id', 'invoice_id', 'contribution_type_id', 
+                             'contribution_status_id', 'non_deductible_amount', 'receipt_date', 'check_number' );
+            foreach ( $fields as $field ) {
+                if ( !CRM_Utils_Array::value( $field, $params ) ) continue;
+                $contributionParams[$field] = $params[$field];
+            }
+            
+            $ids = array( 'contribution' => $contributionId );
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $contribution =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
+        }
+        
+        return $processContribution;
+    }
+    
 }
 
