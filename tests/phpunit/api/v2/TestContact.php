@@ -180,7 +180,7 @@ class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
         $params = array(
                         'email'            => 'man2@yahoo.com',
                         'contact_type'     => 'Individual',
-                        'location_type_id' => 1,
+                        'location_type_id' => 1
                         );
 
         $contact =& civicrm_contact_create($params);
