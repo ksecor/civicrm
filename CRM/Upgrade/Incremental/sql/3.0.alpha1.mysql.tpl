@@ -1016,6 +1016,15 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ADD `created_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_contact, who created this event',
         ADD `created_date` datetime default NULL COMMENT 'Date and time that event was created.',
         ADD CONSTRAINT `FK_civicrm_event_created_id` FOREIGN KEY (`created_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+    -- CRM-4842
+    ALTER TABLE `civicrm_mailing`
+        DROP  FOREIGN KEY `FK_civicrm_mailing_created_id`,
+  	DROP  FOREIGN KEY `FK_civicrm_mailing_scheduled_id`;
+
+    ALTER TABLE `civicrm_mailing`
+    	ADD CONSTRAINT `FK_civicrm_mailing_created_id` FOREIGN KEY (`created_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL,
+  	ADD CONSTRAINT `FK_civicrm_mailing_scheduled_id` FOREIGN KEY (`scheduled_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
     
     -- CRM-4469
     -- Add collapse_adv_search column to civicrm_custom_group
