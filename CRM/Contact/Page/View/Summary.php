@@ -184,6 +184,15 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
             $this->$varName = CRM_Utils_Array::value( $c, $this->_editOptions );
             $this->assign( substr( $varName, 1 ), $this->$varName );
         }
+        
+        //get the householdname
+        if ( isset($defaults['mail_to_household_id']) ) {
+            $HouseholdName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                          $defaults['mail_to_household_id'], 
+                                                          'display_name', 
+                                                          'id' );
+            $this->assign( 'HouseholdName',$HouseholdName );
+        }
 
         //get the current employer name
         if ( $defaults['contact_type'] == 'Individual' ) {
