@@ -675,12 +675,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @param int     $contactType contact Type
      * @param boolean $status  status is used to manipulate first title
      * @param boolean $showAll if true returns all fields (includes disabled fields)
+     * @param boolean $isProfile if its profile mode
      *
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contactType = 'Individual', $status = false, $showAll = false, $skipTitle = false ) 
-    {
+    function &importableFields( $contactType = 'Individual', $status = false, $showAll = false, 
+                                $isProfile = false ) {
         if ( empty( $contactType ) ) {
             $contactType = 'All';
         }
@@ -743,6 +744,12 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     }
                 }
                 
+                if ( $isProfile ) {
+                    $fields = array_merge( $fields, array ( 'group'  => array( 'title' => ts( 'Group(s)' ) ),
+                                                            'tag'    => array( 'title'  => ts( 'Tag(s)'  ) ),
+                                                            'note'   => array( 'title'  => ts( 'Note(s)' ) ) ) );
+                }
+                
                 //Sorting fields in alphabetical order(CRM-1507)
                 foreach ( $fields as $k=>$v ) {
                     $sortArray[$k] = $v['title'];
@@ -756,7 +763,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             self::$_importableFields[$contactType] = $fields;
         }
 
-        if ( !$skipTitle ) {
+        if ( !$isProfile ) {
             if ( ! $status ) {
                 $fields =
                     array_merge( array( 'do_not_import' => array( 'title' => ts('- do not import -') ) ),
