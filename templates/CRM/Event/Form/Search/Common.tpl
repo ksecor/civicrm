@@ -1,5 +1,5 @@
 <tr>
-    <td> {$form.event_id.label}  <br />{$form.event_id.html} </td>
+    <td> {$form.event_name.label}  <br />{$form.event_name.html} </td>
     <td> {$form.event_type.label}<br />{$form.event_type.html} </td>
 </tr>     
  
@@ -66,9 +66,9 @@ var eventUrl = "{/literal}{$dataURLEvent}{literal}";
 var typeUrl  = "{/literal}{$dataURLEventType}{literal}";
 var feeUrl   = "{/literal}{$dataURLEventFee}{literal}";
 
-cj('#event_id').autocomplete( eventUrl, { width : 280, selectFirst : false
-                            }).result( function(event, data, formatted) { cj( "#event_name_id" ).val( data[1] );
-                            }).bind( 'click', function( ) { cj( "#event_name_id" ).val(''); });
+cj('#event_name').autocomplete( eventUrl, { width : 280, selectFirst : false
+                            }).result( function(event, data, formatted) { cj( "#event_id" ).val( data[1] );
+                            }).bind( 'click', function( ) { cj( "#event_id" ).val(''); });
 
 cj('#event_type').autocomplete( typeUrl, { width : 180, selectFirst : false
                                }).result(function(event, data, formatted) { cj( "#event_type_id" ).val( data[1] );
