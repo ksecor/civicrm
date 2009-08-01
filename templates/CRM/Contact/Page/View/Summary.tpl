@@ -48,6 +48,7 @@
                     {include file="CRM/Contact/Page/View/SummaryHook.tpl"}
                 {/if}
                 
+                {if $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name}
                 <div id="contactTopBar" class="ui-corner-all">
                     <table>
                         <tr>
@@ -81,6 +82,7 @@
 
                     <div class="clear"></div>
                 </div><!-- #contactTopBar -->
+                {/if}
 
                 <div class="contact_details ui-corner-all">
                     <div class="contact_panel">

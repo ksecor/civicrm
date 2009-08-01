@@ -1449,16 +1449,6 @@ div.grippie {
 }
 
 /* Styles for Contact Summary mockup start here. dgg */
-#crm-container span.email-hold, #crm-container span.do-not-email, #crm-container span.do-not-phone {
-    background-position:3px; background-repeat:no-repeat; background-image:url("../i/stop-icon.png");
-    padding-left: 24px;
-	color: #ff6655 !important
- }
-
-#crm-container span.email-hold a:link, #crm-container span.email-hold a:visited, #crm-container span.do-not-email a:link, #crm-container span.email-hold a:visited {
-	color: #ff6655 !important
-}
-
 .primary {
 	FONT-WEIGHT: bold
 }
@@ -1594,6 +1584,17 @@ div.grippie {
 	padding          : 4px;
 	width            : 100%;
 }
+
+#crm-container div.contact_panel span.email-hold, #crm-container div.contact_panel span.do-not-email, #crm-container div.contact_panel span.do-not-phone {
+    background-position:3px; background-repeat:no-repeat; background-image:url("../i/stop-icon.png");
+    padding-left: 24px;
+	color: #ff6655 !important
+ }
+
+#crm-container span.email-hold a:link, #crm-container span.email-hold a:visited, #crm-container span.do-not-email a:link, #crm-container span.email-hold a:visited {
+	color: #ff6655 !important
+}
+
 
 #crm-container DIV.buttons {
 	TEXT-ALIGN       : right;
