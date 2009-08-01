@@ -69,14 +69,22 @@ class CiviMailProcessor {
         require_once 'CRM/Core/DAO/MailSettings.php';
         $dao = new CRM_Core_DAO_MailSettings;
         $name ? $dao->name = $name : $dao->is_default = 1;
-        if (!$dao->find(true)) throw new Exception("Could not find entry named $name in civicrm_mail_settings");
+        if ( ! $dao->find(true) ) {
+            throw new Exception("Could not find entry named $name in civicrm_mail_settings");
+        }
+
+        $config =& CRM_Core_Config::singleton();
+        $verpSeperator = preg_quote( $config->verpSeparator );
+        $twoDigitStringMin = $verpSeperator . '(\d+)' . $verpSeperator . '(\d+)';
+        $twoDigitString    = $twoDigitStringMin . $verpSeperator;
+        $threeDigitString  = $twoDigitString . '(\d+)' . $verpSeperator;
 
         // FIXME: legacy regexen to handle CiviCRM 2.1 address patterns, with domain id and possible VERP part
-        $commonRegex = '/^' . preg_quote($dao->localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+)\.(\d+)\.(\d+)\.([0-9a-f]{16})(-.*)?@' . preg_quote($dao->domain) . '$/';
-        $subscrRegex = '/^' . preg_quote($dao->localpart) . '(s|subscribe)\.(\d+)\.(\d+)@' . preg_quote($dao->domain) . '$/';
+        $commonRegex = '/^' . preg_quote($dao->localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)' . $threeDigitString . '([0-9a-f]{16})(-.*)?@' . preg_quote($dao->domain) . '$/';
+        $subscrRegex = '/^' . preg_quote($dao->localpart) . '(s|subscribe)' . $twoDigitStringMin . '@' . preg_quote($dao->domain) . '$/';
 
         // a common-for-all-actions regex to handle CiviCRM 2.2 address patterns
-        $regex = '/^' . preg_quote($dao->localpart) . '(b|c|e|o|r|u)\.(\d+)\.(\d+)\.([0-9a-f]{16})@' . preg_quote($dao->domain) . '$/';
+        $regex = '/^' . preg_quote($dao->localpart) . '(b|c|e|o|r|u)' . $twoDigitString . '([0-9a-f]{16})@' . preg_quote($dao->domain) . '$/';
 
         // retrieve the emails
         require_once 'CRM/Mailing/MailStore.php';
