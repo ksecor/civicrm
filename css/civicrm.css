@@ -1745,3 +1745,20 @@ div.grippie {
 #crm-container .clear {
     clear 		    : both;
 }
+
+#crm-container table.view-layout {
+  margin: 0em;
+  width: 98%;	
+  border-collapse: collapse;
+  border: 0px none;
+}
+
+#crm-container table.view-layout .label {
+	color          : DimGray; 
+	FONT-SIZE      : 0.95em; 
+	VERTICAL-ALIGN : top; 
+	FONT-WEIGHT    : bold; 
+	MARGIN-RIGHT   : 10px;
+	background-color:#EEEEEE;
+	width: 20%;
+}
