@@ -711,8 +711,8 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
                     foreach($customOption as $customValue => $customLabel) {
-                        if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
-                            ( strtolower($customValue) == strtolower(trim($v1)) )) { 
+                        if (( strtolower(trim($customLabel['label'])) == strtolower(trim($v1)) ) ||
+                            ( strtolower(trim($customValue)) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
                                 $values[$key][$customValue] = 1;
                             } else {
@@ -849,7 +849,7 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
                     foreach($customOption as $customValue => $customLabel) {
-                        if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                        if (( strtolower($customLabel['label']) == strtolower(trim($v1)) ) ||
                             ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
                                 $values[$key][$customValue] = 1;
@@ -1185,7 +1185,7 @@ function _civicrm_membership_formatted_param( &$params, &$values, $create=false)
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
                     foreach($customOption as $customValue => $customLabel) {
-                        if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                        if (( strtolower($customLabel['label']) == strtolower(trim($v1)) ) ||
                             ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
                                 $values[$key][$customValue] = 1;
@@ -1304,7 +1304,7 @@ function _civicrm_activity_formatted_param( &$params, &$values, $create=false)
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
                     foreach($customOption as $customValue => $customLabel) {
-                        if (( strtolower($customLabel) == strtolower(trim($v1)) ) ||
+                        if (( strtolower($customLabel['label']) == strtolower(trim($v1)) ) ||
                             ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
                                 $values[$key][$customValue] = 1;

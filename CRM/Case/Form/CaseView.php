@@ -157,7 +157,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $this->add('select', 'report_id',  ts( 'Report' ), array( '' => ts( '- select report -' ) ) + $reports );
         $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
         $this->addElement( 'submit', $this->getButtonName('next'), ts('Go'), 
-                           array( 'class'   => 'form-submit',
+                           array( 'class'   => 'form-submit-inline',
                                   'onclick' => "return checkSelection( this );") ); 
         
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );

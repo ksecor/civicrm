@@ -171,14 +171,14 @@
        <name>created_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
-       <onDelete>CASCADE</onDelete>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
       <name>created_date</name>
       <type>datetime</type>
       <title>Mailing Created Date</title>
       <comment>Date and time this mailing was created.</comment>
-      <add>2.3</add>
+      <add>3.0</add>
   </field>
   <field>
       <name>scheduled_id</name>
@@ -189,7 +189,7 @@
        <name>scheduled_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
-       <onDelete>CASCADE</onDelete>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
        <name>is_archived</name>

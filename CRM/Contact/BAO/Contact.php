@@ -413,6 +413,20 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         CRM_Utils_Array::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
         
+        //lookup value of email/postal greeting, addressee, CRM-4575
+        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+                                  'greeting_type' => 'email_greeting' ); 
+        CRM_Utils_Array::lookupValue( $defaults, 'email_greeting', 
+                                      CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
+        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+                                  'greeting_type' => 'postal_greeting' ); 
+        CRM_Utils_Array::lookupValue( $defaults, 'postal_greeting', 
+                                      CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
+        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+                                  'greeting_type' => 'addressee' ); 
+        CRM_Utils_Array::lookupValue( $defaults, 'addressee', 
+                                      CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
+        
         $blocks = array( 'address', 'im', 'phone' );
         foreach ( $blocks as $name ) {
             if ( !array_key_exists($name, $defaults) || !is_array($defaults[$name]) ) continue;
@@ -661,12 +675,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @param int     $contactType contact Type
      * @param boolean $status  status is used to manipulate first title
      * @param boolean $showAll if true returns all fields (includes disabled fields)
+     * @param boolean $isProfile if its profile mode
      *
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( $contactType = 'Individual', $status = false, $showAll = false, $skipTitle = false ) 
-    {
+    function &importableFields( $contactType = 'Individual', $status = false, $showAll = false, 
+                                $isProfile = false ) {
         if ( empty( $contactType ) ) {
             $contactType = 'All';
         }
@@ -729,6 +744,12 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     }
                 }
                 
+                if ( $isProfile ) {
+                    $fields = array_merge( $fields, array ( 'group'  => array( 'title' => ts( 'Group(s)' ) ),
+                                                            'tag'    => array( 'title'  => ts( 'Tag(s)'  ) ),
+                                                            'note'   => array( 'title'  => ts( 'Note(s)' ) ) ) );
+                }
+                
                 //Sorting fields in alphabetical order(CRM-1507)
                 foreach ( $fields as $k=>$v ) {
                     $sortArray[$k] = $v['title'];
@@ -742,7 +763,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             self::$_importableFields[$contactType] = $fields;
         }
 
-        if ( !$skipTitle ) {
+        if ( !$isProfile ) {
             if ( ! $status ) {
                 $fields =
                     array_merge( array( 'do_not_import' => array( 'title' => ts('- do not import -') ) ),
@@ -989,12 +1010,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * 
      * $params int     $contactId contact_id
      * $params boolean $isPrimaryExist if true, return primary contact location type otherwise null
+     * $params boolean $skipDefaultPriamry if true, return primary contact location type otherwise null
      *
      * @return int $locationType location_type_id
      * @access public
      * @static
      */
-    static function getPrimaryLocationType( $contactId, $isPrimaryExist = false ) 
+    static function getPrimaryLocationType( $contactId, $skipDefaultPriamry = false ) 
     {
         $query = "
 SELECT
@@ -1026,8 +1048,8 @@ WHERE  civicrm_contact.id = %1 ";
         
         if ( $locationType ) {
             return $locationType;
-        } else if ( $isPrimaryExist ) {
-            // if there is no primary contact location then return null, CRM-4423
+        } else if ( $skipDefaultPriamry ) {
+            // if there is no primary contact location then return null
             return null; 
         } else {
             // if there is no primart contact location, then return default
@@ -1073,8 +1095,8 @@ AND    civicrm_contact.id = %1";
            $email      = $dao->email;
            $doNotEmail = $dao->do_not_email ? true : false;
            $onHold     = $dao->on_hold ? true : false;
-           $isDeseased = $dao->is_deseased ? true : false;
-           return array( $name, $email, $doNotEmail, $onHold, $isDeseased );
+           $isDeceased = $dao->is_deceased ? true : false;
+           return array( $name, $email, $doNotEmail, $onHold, $isDeceased );
        }
        return array( null, null, null, null, null );
     }

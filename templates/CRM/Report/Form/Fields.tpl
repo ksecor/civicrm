@@ -115,7 +115,17 @@
            hideBlocks[0] = "id_{$instanceForm}_show";
  	   on_load_init_blocks( showBlocks, hideBlocks );
         {/if}
-	
+
+	    {literal}
+	    function checkGroup( ) {
+            var groupSelected = document.getElementById('groups').value;
+            if( groupSelected ) { 
+                return true;
+            }
+            alert("Please select valid Group");
+            return false;
+        }
+        {/literal}
     </script>
 
 {/if} {* NO print section ends *}

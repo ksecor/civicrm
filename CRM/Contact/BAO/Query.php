@@ -1502,6 +1502,10 @@ class CRM_Contact_BAO_Query
                     $op    = 'LIKE';
                 }
 
+                if ( $op != 'IN' ) {
+                    $value     = "'$value'";
+                }
+
                 if ( isset( $locType[1] ) &&
                      is_numeric( $locType[1] ) ) {
                     $setTables = false;
@@ -1511,16 +1515,10 @@ class CRM_Contact_BAO_Query
                     list($tName, $fldName ) = self::getLocationTableName( $field['where'], $locType );
 
                     $where = "`$tName`.$fldName"; 
-                    if ( $op != 'IN' ) {
-                        $this->_where[$grouping][] = self::buildClause( "LOWER($where)",
-                                                                        $op,
-                                                                        "'$value'" );
-
-                    } else {
-                        $this->_where[$grouping][] = self::buildClause( "LOWER($where)",
-                                                                        $op,
-                                                                        $value );
-                    }
+                    
+                    $this->_where[$grouping][] = self::buildClause( "LOWER($where)",
+                                                                    $op,
+                                                                    $value );
                     $this->_whereTables[$tName] = $this->_tables[$tName];
                     $this->_qill[$grouping][]  = "$field[title] $op '$value'";
                 } else {
@@ -1529,8 +1527,7 @@ class CRM_Contact_BAO_Query
                         $fieldName = "LOWER(contact_a.{$fieldName})";
                     } else {
                         if ( $op != 'IN' && !is_numeric( $value ) ) {
-                            $fieldName = "LOWER({$field['where']})";
-                            $value     = "'$value'";
+                            $fieldName = "LOWER({$field['where']})";                           
                         } else {
                             $fieldName = "{$field['where']}";
                         }
@@ -3168,7 +3165,7 @@ WHERE  id IN ( $groupIDs )
 		}	
 
         $query = "$select $from $where $groupBy $order $limit";
-        //CRM_Core_Error::debug('query', $query); exit();
+        //CRM_Core_Error::debug('query', $query); exit(); 
 
         if ( $returnQuery ) {
             return $query;

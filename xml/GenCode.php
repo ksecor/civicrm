@@ -125,6 +125,12 @@ $fd = fopen( $sqlCodePath . "civicrm_drop.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
+echo "Generating navigation file\n";
+$fd  = fopen( $sqlCodePath . "civicrm_navigation.mysql", "w" );
+$sql = $smarty->fetch( 'civicrm_navigation.tpl' );
+fputs( $fd, $sql );
+fclose($fd);
+
 // write the civicrm data file
 // and translate the {ts}-tagged strings
 $smarty->clear_all_assign();
@@ -154,6 +160,7 @@ foreach ($locales as $locale) {
     $data .= $smarty->fetch('civicrm_state_province.tpl');
     $data .= $smarty->fetch('civicrm_currency.tpl');
     $data .= $smarty->fetch('civicrm_data.tpl');
+    $data .= $smarty->fetch('civicrm_navigation.tpl');
 
     $data .= " UPDATE civicrm_domain SET version = '$db_version';";
 

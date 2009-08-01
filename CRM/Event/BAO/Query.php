@@ -237,7 +237,7 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
             return;
 
-        case 'event_type':
+        case 'event_type_id':
             require_once 'CRM/Core/OptionGroup.php';
             require_once 'CRM/Utils/Array.php';
 
@@ -255,7 +255,7 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
             
-        case 'participant_fee_level':
+        case 'participant_fee_id':
 
             $feeLabel = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_OptionValue', $value, 'label');
             if ( $value ) {
@@ -388,11 +388,6 @@ class CRM_Event_BAO_Query
             $query->_where[$grouping][] = "civicrm_participant.contact_id $op $value";
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
-            
-        case 'event_type_id':
-            $query->_where[$grouping][] = "civicrm_event.event_type_id $op $value";
-            $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
-            return;
 
         case 'event_is_public':
             $query->_where[$grouping][] = "civicrm_event.is_public $op $value";
@@ -511,41 +506,14 @@ class CRM_Event_BAO_Query
         $form->assign( 'dataURLEventType' , $dataURLEventType);
         $form->assign( 'dataURLEventFee'  , $dataURLEventFee );
         
-        $eventId         =& $form->add('text', 'event_id'             , ts('Event Name') );
+        $eventId         =& $form->add('text', 'event_name'           , ts('Event Name') );
         $eventType       =& $form->add('text', 'event_type'           , ts('Event Type') );
         $participantFee  =& $form->add('text', 'participant_fee_level', ts('Fee Level')  );
 
         //elements for assigning value operation
-        $eventNameId      =& $form->add( 'hidden', 'event_name_id'     , '', array( 'id' => 'event_name_id'      ) );
+        $eventNameId      =& $form->add( 'hidden', 'event_id'          , '', array( 'id' => 'event_id'      ) );
         $eventTypeId      =& $form->add( 'hidden', 'event_type_id'     , '', array( 'id' => 'event_type_id'      ) );
         $participantFeeId =& $form->add( 'hidden', 'participant_fee_id', '', array( 'id' => 'participant_fee_id' ) );
-        
-        if ( $eventId->getValue( ) ) {
-            $form->assign( 'event_id_value', $eventId->getValue( ) );
-        } else {
-            $fv  =& $form->getFormValues( );
-            if ( CRM_Utils_Array::value( 'event_id', $fv ) ) {
-                $form->assign( 'event_id_value',  $fv['event_id'] );
-            }
-        }
-
-        if ( $eventType->getValue( ) ) {
-            $form->assign( 'event_type_value',  $eventType->getValue( ) );
-        } else {
-            $fv  =& $form->getFormValues( );
-            if ( CRM_Utils_Array::value( 'event_type', $fv ) ) {
-                $form->assign( 'event_type_value',  $fv['event_type'] );
-            }
-        }
-        
-        if ( $participantFee->getValue( ) ) {
-            $form->assign( 'participant_fee_level_value',  $participantFee->getValue( ) );
-        } else {
-            $fv  =& $form->getFormValues( );
-            if ( CRM_Utils_Array::value( 'participant_fee_level', $fv ) ) {
-                $form->assign( 'participant_fee_level_value',  $fv['participant_fee'] );
-            }
-        }
 
         // Date selects for date 
         $form->add('date', 'event_start_date_low', ts('Event Date - From'), CRM_Core_SelectValues::date('relative')); 

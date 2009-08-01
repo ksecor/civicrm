@@ -33,13 +33,13 @@
  *
  */
 
-require_once 'CRM/Contact/Page/View/Tabbed.php';
+require_once 'CRM/Contact/Page/View/Summary.php';
 
 /**
  * Main page for viewing contact.
  *
  */
-class CRM_Contact_Page_View_Print extends CRM_Contact_Page_View_Tabbed {
+class CRM_Contact_Page_View_Print extends CRM_Contact_Page_View_Summary {
 
     /**
      * Heart of the viewing process. The runner gets all the meta data for

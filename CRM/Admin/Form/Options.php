@@ -104,9 +104,10 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $fieldValues = array('option_group_id' => $this->_gid);
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
         }
+        
         //setDefault of contact types for email greeting, postal greeting, addressee, CRM-4575
-        if ( in_array( $this->_gName, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) && ! $isReserved ) {
-            $defaults['contactOptions'] = ( $defaults['filter'] ) ? $defaults['filter'] : null;
+        if ( in_array( $this->_gName, array( 'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+            $defaults['contactOptions'] = ( CRM_Utils_Array::value( 'filter', $defaults) ) ? $defaults['filter'] : null;
         }
         return $defaults;
     }

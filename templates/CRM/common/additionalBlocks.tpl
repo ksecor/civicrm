@@ -75,6 +75,19 @@ function singleSelect( object ) {
     } else {
         cj( '#' + object ).attr( 'checked', false );
     }
+
+	//check if non of elements is set Primary / Allowed to Login.
+	if( cj.inArray( element['2'].slice('2'), [ 'Primary', 'Login' ] ) != -1 ) {
+		primary = false;
+		cj( execBlock ).each( function( ) { 
+			if ( cj(this).attr( 'checked' ) ) {
+				primary = true;				
+			}
+		});
+		if( ! primary ) {
+			cj('#' + object).attr( 'checked', true );
+		}
+	}
 }
 
 function removeBlock( blockName, blockId ) {

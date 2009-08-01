@@ -349,10 +349,11 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_group', $group->id );
         }
 
-        // make the group, child of multi-site group by default. 
-        if ( CRM_Utils_Array::value( 'no_parent', $params ) !== 1 ) {
-            require_once 'CRM/Core/BAO/Domain.php';
-            $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
+        // make the group, child of domain/site group by default. 
+        require_once 'CRM/Core/BAO/Domain.php';
+        $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
+        if ( ( CRM_Utils_Array::value( 'no_parent', $params ) !== 1 ) && 
+             ( $domainGroupID != $group->id )                       ) {
             if ( empty($params['parents']) ) {
                 $params['parents'] = array( $domainGroupID => 1 );
             } else if ( !is_array($params['parents']) ) {

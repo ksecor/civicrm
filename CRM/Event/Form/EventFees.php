@@ -471,9 +471,8 @@ class CRM_Event_Form_EventFees
                 if ( $form->get( 'onlinePendingContributionId' )  ) {
                     $statusNames = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
                     foreach ( $statusNames as $val => $name ) {
-                        if ( in_array( $name, array( 'Completed', 'Cancelled', 'Failed' ) ) ) {
-                            $allowStatuses[$val] = $statuses[$val]; 
-                        }
+                        if ( in_array($name, array('In Progress', 'Overdue')) ) continue;
+                        $allowStatuses[$val] = $statuses[$val]; 
                     }
                 } else {
                     $allowStatuses = $statuses;

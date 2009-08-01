@@ -228,7 +228,6 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
                 }
                 
                 if ( !$contactId ) {
-                    //FIXME : get back to this once we fix api. 
                     //create new contact.
                     $params = array( 'contact_type' => 'Individual',
                                      'email'        => array( 1 => array( 'email'            => $email,

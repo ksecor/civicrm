@@ -1377,6 +1377,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         
             if ( $key == 'location' ) {
                 $location = true;
+            } else if ( in_array( $key , array( 'email_greeting', 'postal_greeting', 'addressee' ) ) ) {
+                // CRM-4575, need to null custom 
+                if ( $params["{$key}_id"] != 4 ) {
+                    $params["{$key}_custom"] = 'null';
+                }
+                unset( $params[$key] );
             } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
                 $custom = true;
             } else {
@@ -1387,12 +1393,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     unset( $params[$key] );
                 }
                 
-                if ( $modeFill   &&   isset( $getValue ) ) {
+                if ( $modeFill && isset( $getValue ) ) {
                     unset( $params[$key] );
                 }
             }
         }
-        
+                    
         if ( $location ) {
             for ( $loc = 1; $loc <= count( $params['location'] ); $loc++ ) {               
                 //if location block is already present for the contact 

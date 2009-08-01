@@ -21,13 +21,13 @@
        <type>int unsigned</type>
        <required>true</required>
        <comment>Which Domain is this match entry for</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
-       <add>2.3</add>
+       <add>3.0</add>
   </foreignKey>  
   <field>
        <name>name</name>
@@ -70,9 +70,10 @@
        <add>1.8</add>
   </field>
   <index>
-    <name>UI_name_test</name>
+    <name>UI_name_test_domain_id</name>
     <fieldName>name</fieldName>
     <fieldName>is_test</fieldName>
+    <fieldName>domain_id</fieldName>
     <unique>true</unique>
     <add>1.8</add>
   </index>
@@ -157,6 +158,6 @@
       <type>int unsigned</type>
       <default>1</default> 
       <comment>Payment Type: Credit or Debit</comment>
-      <add>2.3</add>
+      <add>3.0</add>
   </field>
 </table>

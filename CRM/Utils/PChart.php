@@ -206,7 +206,7 @@ class CRM_Utils_PChart
      *
      * @static
      */
-    static function barGraph( $params ) 
+    static function barGraph( $params, $divisionWidth = 44 )
     {
         if ( empty( $params ) ) {
             return;
@@ -253,7 +253,6 @@ class CRM_Utils_PChart
             $maxScale =  ceil( max( $values ) * 1.1 );
             
             $fontSize = 8;
-            $divisionWidth = 44;
             $angleOfIncline = 45;
             $monetaryformatting = true;
             require_once 'CRM/Utils/Money.php';

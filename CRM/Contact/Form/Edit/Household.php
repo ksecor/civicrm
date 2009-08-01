@@ -134,7 +134,8 @@ class CRM_Contact_Form_Edit_Household
     {
         require_once 'api/v2/Location.php';
         require_once 'CRM/Core/BAO/Location.php';
-        $locValues =& _civicrm_location_get( array( 'contact_id' => $householdContactID ) );
+        $locValues =& _civicrm_location_get( array( 'version'    => '3.0',
+                                                    'contact_id' => $householdContactID ) );
         $contact   = CRM_Core_DAO::executeQuery( "SELECT id from civicrm_contact where mail_to_household_id=$householdContactID" );
         
         if ( CRM_Utils_Array::value( 'address', $locValues ) && count( $locValues['address'] ) ) {

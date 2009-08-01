@@ -103,29 +103,37 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         WHERE name = 'Pending';
 
         INSERT INTO civicrm_participant_status_type
-            (name,                    {foreach from=$locales item=locale}label_{$locale}, {/foreach}         class,      is_reserved, is_active, is_counted, weight, visibility_id)
+            (name,                                  {foreach from=$locales item=locale}label_{$locale},                       {/foreach} class,      is_reserved, is_active, is_counted, weight, visibility_id)
         VALUES
-            ('On waitlist',           {foreach from=$locales item=locale}'On waitlist',           {/foreach} 'Waiting',  1,           1,         0,          6,      2            ),
-            ('Awaiting approval',     {foreach from=$locales item=locale}'Awaiting approval',     {/foreach} 'Waiting',  1,           1,         1,          7,      2            ),
-            ('Pending from waitlist', {foreach from=$locales item=locale}'Pending from waitlist', {/foreach} 'Pending',  1,           1,         1,          8,      2            ),
-            ('Pending from approval', {foreach from=$locales item=locale}'Pending from approval', {/foreach} 'Pending',  1,           1,         1,          9,      2            ),
-            ('Rejected',              {foreach from=$locales item=locale}'Rejected',              {/foreach} 'Negative', 1,           1,         0,          10,     2            ),
-            ('Expired',               {foreach from=$locales item=locale}'Expired',               {/foreach} 'Negative', 1,           1,         0,          11,     2            );
+            ('On waitlist',                         {foreach from=$locales item=locale}'On waitlist',                         {/foreach} 'Waiting',  1,           0,         0,          6,      2            ),
+            ('Awaiting approval',                   {foreach from=$locales item=locale}'Awaiting approval',                   {/foreach} 'Waiting',  1,           0,         1,          7,      2            ),
+            ('Pending from waitlist',               {foreach from=$locales item=locale}'Pending from waitlist',               {/foreach} 'Pending',  1,           0,         1,          8,      2            ),
+            ('Pending from approval',               {foreach from=$locales item=locale}'Pending from approval',               {/foreach} 'Pending',  1,           0,         1,          9,      2            ),
+            ('Rejected',                            {foreach from=$locales item=locale}'Rejected',                            {/foreach} 'Negative', 1,           0,         0,          10,     2            ),
+            ('Expired',                             {foreach from=$locales item=locale}'Expired',                             {/foreach} 'Negative', 1,           1,         0,          11,     2            ),
+            ('Pending from incomplete transaction', {foreach from=$locales item=locale}'Pending from incomplete transaction', {/foreach} 'Pending',  1,           1,         1,          12,     2            );
     {else}
         UPDATE civicrm_participant_status_type
             SET name = 'Pending from pay later', label = 'Pending from pay later'
         WHERE name = 'Pending';
    
         INSERT INTO civicrm_participant_status_type
-            (name,                    label,                                         class,      is_reserved, is_active, is_counted, weight, visibility_id)
+            (name,                                  label,                                                       class,      is_reserved, is_active, is_counted, weight, visibility_id)
         VALUES
-            ('On waitlist',           '{ts escape="sql"}On waitlist{/ts}',           'Waiting',  1,           1,         0,          6,      2            ),
-            ('Awaiting approval',     '{ts escape="sql"}Awaiting approval{/ts}',     'Waiting',  1,           1,         1,          7,      2            ),
-            ('Pending from waitlist', '{ts escape="sql"}Pending from waitlist{/ts}', 'Pending',  1,           1,         1,          8,      2            ),
-            ('Pending from approval', '{ts escape="sql"}Pending from approval{/ts}', 'Pending',  1,           1,         1,          9,      2            ),
-            ('Rejected',              '{ts escape="sql"}Rejected{/ts}',              'Negative', 1,           1,         0,          10,     2            ),
-            ('Expired',               '{ts escape="sql"}Expired{/ts}',               'Negative', 1,           1,         0,          11,     2            );
+            ('On waitlist',                         '{ts escape="sql"}On waitlist{/ts}',                         'Waiting',  1,           0,         0,          6,      2            ),
+            ('Awaiting approval',                   '{ts escape="sql"}Awaiting approval{/ts}',                   'Waiting',  1,           0,         1,          7,      2            ),
+            ('Pending from waitlist',               '{ts escape="sql"}Pending from waitlist{/ts}',               'Pending',  1,           0,         1,          8,      2            ),
+            ('Pending from approval',               '{ts escape="sql"}Pending from approval{/ts}',               'Pending',  1,           0,         1,          9,      2            ),
+            ('Rejected',                            '{ts escape="sql"}Rejected{/ts}',                            'Negative', 1,           0,         0,          10,     2            ),
+            ('Expired',                             '{ts escape="sql"}Expired{/ts}',                             'Negative', 1,           1,         0,          11,     2            ),
+            ('Pending from incomplete transaction', '{ts escape="sql"}Pending from incomplete transaction{/ts}', 'Pending',  1,           1,         1,          12,     2            );
     {/if}
+
+    -- CRM-4321 migration: Pending from pay later + false is_pay_later ==> Pending from incomplete transaction
+    SELECT @ps_ppl := id FROM civicrm_participant_status_type WHERE name = 'Pending from pay later';
+    SELECT @ps_pit := id FROM civicrm_participant_status_type WHERE name = 'Pending from incomplete transaction';
+    UPDATE civicrm_participant SET status_id = @ps_pit WHERE status_id = @ps_ppl AND is_pay_later = 0;
+
     DELETE FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
     DELETE FROM civicrm_option_group WHERE              id = @ps_ogid;
  
@@ -796,15 +804,24 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
 
     -- add email greeting, postal greeting and addressee fields
     ALTER TABLE `civicrm_contact` 
-        ADD `email_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Email Greeting.' AFTER `suffix_id`, 
-        ADD `email_greeting_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Email Greeting.' AFTER `email_greeting_id`, 
-        ADD `email_greeting_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Email greeting.'  AFTER `email_greeting_custom`,
-        ADD `postal_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Postal Greeting.' AFTER `email_greeting_display`, 
+        ADD `email_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Email Greeting.' AFTER `suffix_id`,
+        ADD `postal_greeting_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Postal Greeting.' AFTER `email_greeting_id`, 
+        ADD `addressee_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Addressee.' AFTER `postal_greeting_id`,        
+        {if $multilingual}    
+            {foreach from=$locales item=locale}
+                ADD `email_greeting_display_{$locale}` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Email greeting.'  AFTER `email_greeting_id`,               
+                ADD `postal_greeting_display_{$locale}` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Postal  greeting.' AFTER `postal_greeting_id`,        
+                ADD `addressee_display_{$locale}` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Addressee.'  AFTER `addressee_id`,
+            {/foreach}
+        {else}
+            ADD `email_greeting_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Email greeting.'  AFTER `email_greeting_id`,               
+            ADD `postal_greeting_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Postal  greeting.' AFTER `postal_greeting_id`,        
+            ADD `addressee_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Addressee.'  AFTER `addressee_id`,
+        {/if}
+        ADD `email_greeting_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Email Greeting.' AFTER `email_greeting_id`,
         ADD `postal_greeting_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Postal greeting.' AFTER `postal_greeting_id`,
-        ADD `postal_greeting_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Postal  greeting.' AFTER `postal_greeting_custom`,
-        ADD `addressee_id` INT(10) UNSIGNED DEFAULT NULL COMMENT 'FK to civicrm_option_value.id, that has to be valid registered Addressee.' AFTER `postal_greeting_display`,
-        ADD `addressee_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Addressee.' AFTER `addressee_id`,
-        ADD `addressee_display` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cache Addressee.'  AFTER `addressee_custom`;
+        ADD `addressee_custom`  VARCHAR(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Custom Addressee.' AFTER `addressee_id`;
+        
 
     SELECT @og_id_emailGreeting   := max(id) FROM civicrm_option_group WHERE name = 'email_greeting';
     SELECT @og_id_postalGreeting  := max(id) FROM civicrm_option_group WHERE name = 'postal_greeting';
@@ -957,6 +974,16 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     ALTER TABLE `civicrm_menu`
         ADD CONSTRAINT `FK_civicrm_menu_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`);
     
+ -- CRM-4813
+
+    ALTER TABLE `civicrm_menu`
+    	DROP INDEX `UI_path`,
+        ADD UNIQUE `UI_path_domain_id` ( `path`,`domain_id` );
+
+    ALTER TABLE `civicrm_payment_processor`
+        DROP INDEX `UI_name_test`,
+        ADD UNIQUE `UI_name_test_domain_id` ( `name`,`is_test`,`domain_id` );
+
     ALTER TABLE `civicrm_preferences`
         ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`;
     UPDATE `civicrm_preferences` SET domain_id = @domain_id;
@@ -989,6 +1016,15 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ADD `created_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_contact, who created this event',
         ADD `created_date` datetime default NULL COMMENT 'Date and time that event was created.',
         ADD CONSTRAINT `FK_civicrm_event_created_id` FOREIGN KEY (`created_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+    -- CRM-4842
+    ALTER TABLE `civicrm_mailing`
+        DROP  FOREIGN KEY `FK_civicrm_mailing_created_id`,
+  	DROP  FOREIGN KEY `FK_civicrm_mailing_scheduled_id`;
+
+    ALTER TABLE `civicrm_mailing`
+    	ADD CONSTRAINT `FK_civicrm_mailing_created_id` FOREIGN KEY (`created_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL,
+  	ADD CONSTRAINT `FK_civicrm_mailing_scheduled_id` FOREIGN KEY (`scheduled_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
     
     -- CRM-4469
     -- Add collapse_adv_search column to civicrm_custom_group
@@ -1014,7 +1050,7 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     {if $addresseeTokenValue} 
         UPDATE civicrm_contact
             SET 
-                addressee_id = {$addresseeTokenValue},
+                addressee_id = {$addresseeTokenValue}
         WHERE contact_type   = 'Individual';
     {else}
         UPDATE civicrm_contact
@@ -1040,3 +1076,5 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
     
 
 {/if}
+
+   

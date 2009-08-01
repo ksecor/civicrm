@@ -4,13 +4,13 @@
   <base>CRM/Auction</base> 
   <class>Auction</class> 
   <name>civicrm_auction</name> 
-  <add>2.3</add> 
+  <add>3.0</add> 
   <field> 
       <name>id</name> 
       <type>int unsigned</type> 
       <required>true</required> 
       <comment>Auction ID</comment> 
-      <add>2.3</add> 
+      <add>3.0</add> 
   </field> 
   <primaryKey> 
        <name>id</name> 
@@ -25,7 +25,7 @@
       <length>255</length>  
       <localizable>true</localizable>
       <comment>Auction Title (e.g. Fall Auction Dinner)</comment>
-      <add>2.3</add>     
+      <add>3.0</add>     
   </field>   
   <field>        
       <name>description</name>     
@@ -37,7 +37,7 @@
       <cols>60</cols>
       <localizable>true</localizable>
       <comment>Full description of auction. Text and html allowed.</comment>
-      <add>2.3</add>     
+      <add>3.0</add>     
   </field>   
   <field>
        <name>start_date</name>
@@ -45,7 +45,7 @@
        <uniqueName>auction_start_date</uniqueName>
        <title>Auction Start Date</title>
        <comment>Date and time the auction starts.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>end_date</name>
@@ -53,21 +53,21 @@
        <uniqueName>auction_end_date</uniqueName>
        <title>Auction End Date</title>
        <comment>Date and time the auction ends. May be NULL if no defined end date/time</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>item_start_date</name>
        <type>datetime</type>
        <title>Item registration Start Date</title>
        <comment>Date and time that users can add item.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>item_end_date</name>
        <type>datetime</type>
        <title>Item registration End Date</title>
        <comment>Date and time that item registration ends. May be NULL if no defined end date/time</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field> 
       <name>is_approval_needed</name> 
@@ -75,7 +75,7 @@
       <title>Do items need to be approved?</title>
       <default>0</default>                
       <comment>If true all items needs to be approved before appearing on the auction pages.</comment> 
-      <add>2.3</add> 
+      <add>3.0</add> 
   </field>
   <field> 
       <name>is_item_groups</name> 
@@ -83,7 +83,7 @@
       <title>Can items be grouped?</title>
       <default>0</default>                
       <comment>If true multiple items can be consolidated into one item group.</comment> 
-      <add>2.3</add> 
+      <add>3.0</add> 
   </field>
   <field> 
       <name>max_items</name> 
@@ -91,20 +91,20 @@
       <title>Max Auction items</title>
       <default>NULL</default>
       <comment>Maximum number of items that can be added to the auction.</comment> 
-      <add>2.3</add> 
+      <add>3.0</add> 
   </field>
   <field> 
       <name>max_items_user</name> 
       <type>int unsigned</type> 
       <default>NULL</default>
       <comment>Maximum number of items that can be added to the auction per user.</comment> 
-      <add>2.3</add> 
+      <add>3.0</add> 
   </field>
   <field> 
       <name>event_id</name> 
       <type>int unsigned</type>                 
       <comment>Event this auction is linked to</comment> 
-      <add>2.3</add> 
+      <add>3.0</add> 
   </field> 
   <foreignKey> 
        <name>event_id</name> 
@@ -116,7 +116,7 @@
       <name>donor_profile_id</name> 
       <type>int unsigned</type>                 
       <comment>Profile to be used for donor account creation.</comment> 
-      <add>2.3</add> 
+      <add>3.0</add> 
   </field> 
   <foreignKey> 
        <name>donor_profile_id</name> 
@@ -129,6 +129,6 @@
       <type>boolean</type>
       <default>0</default>                
       <comment>Is this Auction enabled or disabled/cancelled?</comment> 
-      <add>2.3</add> 
+      <add>3.0</add> 
   </field> 
 </table>

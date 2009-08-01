@@ -82,7 +82,7 @@
        <name>im_provider_id</name>
        <type>int unsigned</type>
        <comment>Which type of IM Provider does this name belong.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>relationship_type_id</name>

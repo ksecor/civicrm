@@ -97,7 +97,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $name .= '-Primary';
             }
             
-            if ($fieldDAO->phone_type) {
+            if ( isset($fieldDAO->phone_type) ) {
                 $name .= '-'.$fieldDAO->phone_type;
             }
             

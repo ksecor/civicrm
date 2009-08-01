@@ -72,7 +72,7 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                                        'filters' =>             
                                        array( 'contact_source'   =>
                                               array('name'       => 'sort_name' ,
-                                                    'alias'      => 'contact',
+                                                    'alias'      => 'contact_civireport',
                                                     'title'      => ts( 'Source Contact Name' ),
                                                     'operator'   => 'like',
                                                     'type'       => CRM_Report_Form::OP_STRING ),

@@ -136,6 +136,9 @@ Participant {$priceset+1}
 {if $receive_date}
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
 {/if}
+{if $contributionTypeName}
+{ts}Contribution Type{/ts}: {$contributionTypeName}
+{/if}
 {if $trxn_id}
 {ts}Transaction #{/ts}    : {$trxn_id}
 {/if}

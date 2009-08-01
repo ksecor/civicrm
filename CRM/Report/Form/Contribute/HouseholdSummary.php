@@ -74,9 +74,8 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
                          'fields'        =>
                          array( 
                                'relationship_type_id' => 
-                               array ('title'    => ts( 'Relationship Type' ),
-                                      'required' => true ),
-                               ),
+                               array ('title'    => ts( 'Relationship Type' ),),
+                                ),
                          'filters'        =>
                          array( 'relationship_type_id' => 
                                 array( 
@@ -359,7 +358,7 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
                         $rows[$rowNum]['civicrm_contact_household_household_name'] = "";          
                     } else {
                         $url = CRM_Utils_System::url( 'civicrm/contact/view', 
-                                                      'reset=1&cid=' . $rows[$rowNum]['civicrm_contact_organization_id'] );
+                                                      'reset=1&cid=' . $rows[$rowNum]['civicrm_contact_household_id'] );
                         
                         $rows[$rowNum]['civicrm_contact_household_household_name'] ="<a href='$url'>" .$value. '</a>';
                     }

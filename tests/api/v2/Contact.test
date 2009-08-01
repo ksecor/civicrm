@@ -13,7 +13,7 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
     {
         return array(
                      'name'        => 'Contact Add',
-                     'description' => 'Test all Activity Create API methods.',
+                     'description' => 'Test all Contact Create API methods.',
                      'group'       => 'CiviCRM API Tests',
                      );
     }

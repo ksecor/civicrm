@@ -326,7 +326,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         }
         
         if ( $onDuplicate != CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
-            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $formatted,
                                                                           CRM_Core_DAO::$_nullObject,
                                                                           null,
                                                                           'Participant' );
@@ -336,11 +336,10 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 $dao =  new CRM_Event_BAO_Participant();
                 $dao->id = $formatValues['participant_id'];
                 
-                $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $formatted,
                                                                               CRM_Core_DAO::$_nullObject,
                                                                               $formatValues['participant_id'],
                                                                               'Participant' );
-                
                 if ( $dao->find( true ) ) { 
                     $ids = array(
                                  'participant' => $formatValues['participant_id'],

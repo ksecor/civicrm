@@ -174,26 +174,26 @@
     <name>is_reserved</name>
     <type>boolean</type>
     <comment>Is this group reserved for use by some other CiviCRM functionality?</comment>
-    <add>2.3</add>
+    <add>3.0</add>
   </field>
   <field>
     <name>name</name>
     <type>varchar</type>
     <length>64</length>
     <comment>Name of the UF group for directly addressing it in the codebase</comment>
-    <add>2.3</add>
+    <add>3.0</add>
   </field>
   <field>
     <name>created_id</name>
     <type>int unsigned</type>
     <comment>FK to civicrm_contact, who created this UF group</comment>
-    <add>2.3</add>
+    <add>3.0</add>
   </field>
   <foreignKey>
     <name>created_id</name>
     <table>civicrm_contact</table>
     <key>id</key>
-    <add>2.3</add>
+    <add>3.0</add>
     <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
@@ -201,6 +201,6 @@
     <type>datetime</type>
     <title>UF Group Created Date</title>
     <comment>Date and time this UF group was created.</comment>
-    <add>2.3</add>
+    <add>3.0</add>
   </field>
 </table>

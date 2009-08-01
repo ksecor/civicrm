@@ -549,14 +549,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $dao =& new CRM_Core_DAO();
         $params = array( );
         $clause = 1 ;
-        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                          'Bulk Email',
-                                                          'name' );
+        $bulkActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                              'Bulk Email',
+                                                              'name' );
         if ( !$admin ) {
             $clause = " ( source_contact_id = %1 or 
-                              target_contact_id = %1 or 
-                              assignee_contact_id = %1 or 
-                              civicrm_case_contact.contact_id = %1 ) ";
+                          at.target_contact_id = %1 or 
+                          aa.assignee_contact_id = %1 or 
+                          civicrm_case_contact.contact_id = %1 ) ";
             
             $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
         }
@@ -602,26 +602,30 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                          civicrm_activity.status_id, civicrm_activity.subject,
                          civicrm_activity.source_contact_id,civicrm_activity.source_record_id,
                          sourceContact.sort_name as source_contact_name,
-                         civicrm_activity_target.target_contact_id,
-			             targetContact.sort_name as target_contact_name,
-                         civicrm_activity_assignment.assignee_contact_id,
-			             assigneeContact.sort_name as assignee_contact_name,
+                         GROUP_CONCAT( DISTINCT(activity_target.target_contact_id ) SEPARATOR '::') as target_contact_id,
+                         GROUP_CONCAT( DISTINCT(targetContact.sort_name ) SEPARATOR '::') as target_contact_name,
+                         GROUP_CONCAT( DISTINCT(activity_assignment.assignee_contact_id  ) SEPARATOR '::' ) as assignee_contact_id,
+                         GROUP_CONCAT( DISTINCT(assigneeContact.sort_name ) SEPARATOR '::' ) as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
                          civicrm_case_activity.case_id as case_id,
                          civicrm_case.subject as case_subject ";
         }
         $join   = "\n 
-                  left join civicrm_activity_target on 
-                            civicrm_activity.id = civicrm_activity_target.activity_id 
-                  left join civicrm_activity_assignment on 
-                            civicrm_activity.id = civicrm_activity_assignment.activity_id 
+                  left join civicrm_activity_target at on 
+                            civicrm_activity.id = at.activity_id 
+                  left join civicrm_activity_assignment aa on 
+                            civicrm_activity.id = aa.activity_id 
+                  left join civicrm_activity_target as activity_target on 
+                            civicrm_activity.id = activity_target.activity_id 
+                  left join civicrm_activity_assignment as activity_assignment on 
+                            civicrm_activity.id = activity_assignment.activity_id                               
                   left join civicrm_contact sourceContact on 
                             source_contact_id = sourceContact.id 
 		          left join civicrm_contact targetContact on 
-                            target_contact_id = targetContact.id 
+                            activity_target.target_contact_id = targetContact.id 
                   left join civicrm_contact assigneeContact on 
-                            assignee_contact_id = assigneeContact.id
+                            activity_assignment.assignee_contact_id = assigneeContact.id
                   left join civicrm_option_value on
                             ( civicrm_activity.activity_type_id = civicrm_option_value.value )
                   left join civicrm_option_group on  
@@ -640,8 +644,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                    and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause}";
 
         $order = $limit = $groupBy = '';
-        if ( $onlyCount == null ) {
-            $groupBy = " GROUP BY id";
+        if ( !$onlyCount ) {
+            $groupBy = " GROUP BY civicrm_activity.id";
             if ($sort) {
                 $orderBy = $sort->orderBy();
                 if ( ! empty( $orderBy ) ) {
@@ -661,8 +665,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 $limit = " LIMIT $offset, $rowCount ";
             }
         }
-        
+                    
         $queryString = $select. $from.  $join. $where. $groupBy. $order. $limit;
+            
         if ( $onlyCount == true ) {
             return CRM_Core_DAO::singleValueQuery( $queryString, $params );
         }
@@ -676,9 +681,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'subject',                                 
                                  'source_contact_name',
                                  'source_contact_id',
-                                 'target_contact_name',
                                  'target_contact_id',
-                                 'assignee_contact_name',
                                  'assignee_contact_id',
                                  'source_record_id',
                                  'case_id',
@@ -695,13 +698,18 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         while($dao->fetch()) {
             foreach( $selectorFields as $dc => $field ) {
                 if ( isset($dao->$field ) ) {
-                    if ( $activityTypeID == $dao->activity_type_id && $field == 'target_contact_name' ) {
+                    if ( $bulkActivityTypeID == $dao->activity_type_id ) {
                         $values[$rowCnt]['recipients'] = ts('(recipients)');
                         if ( $accessCiviMail && in_array( $dao->source_record_id, $mailingIDs ) ) {
                             $values[$rowCnt]['mailingId'] = 
                                 CRM_Utils_System::url( 'civicrm/mailing/report', 
                                                        "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" );   
                         }
+                    } else if ( in_array( $field, array( 'target_contact_id', 'assignee_contact_id' ) ) ) {
+                        $contactIDs = explode( '::', $dao->$field );
+                        $fName = substr( $field, 0, -2) ."name";
+                        $contactNames = explode( '::', $dao->$fName );
+                        $values[$rowCnt][$fName] = array_combine( $contactIDs, $contactNames );
                     } else {
                         $values[$rowCnt][$field] = $dao->$field;
                     }
@@ -713,57 +721,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         return $values;
     }
 
-    /**
-     * Get total number of open activities
-     *
-     * @param  int $id id of the contact
-     * @param string  $context         context , page on which selector is build
-     *
-     * @return int $numRow - total number of open activities    
-     *
-     * @static
-     * @access public
-     */
-    static function getNumOpenActivity( $id, $admin = false, $context = null, $caseId = null ) 
-    {
-        $params = array( );
-        $clause = 1 ;
-
-        if ( !$admin ) {
-            $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 ) ";
-            $params = array( 1 => array( $id, 'Integer' ) );
-        }
-        
-        $statusClause = 1 ;
-        if ( $context == 'home' ) {
-            $statusClause = " civicrm_activity.status_id = 1 "; 
-        }
-        //handle case related activity if $case is set
-        $case     = 1;
-        $caseJoin = null;
-        if ( $caseId ) {
-            $case = "civicrm_case_activity.case_id = {$caseId}";
-            $caseJoin = "LEFT JOIN civicrm_case_activity ON civicrm_activity.id = civicrm_case_activity.activity_id";
-        } 
-
-        // Exclude Contribution-related activity records if user doesn't have 'access CiviContribute' permission
-        $contributionFilter = 1;
-        if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
-            $contributionFilter = " civicrm_activity.activity_type_id != 6 ";
-        }
-        
-        $query = "select count(civicrm_activity.id) from civicrm_activity
-                  left join civicrm_activity_target on 
-                            civicrm_activity.id = civicrm_activity_target.activity_id
-                  left join civicrm_activity_assignment on 
-                            civicrm_activity.id = civicrm_activity_assignment.activity_id
-                  {$caseJoin}
-                  where {$clause}
-                  and is_test = 0 and {$contributionFilter} and {$statusClause} and {$case}";
-
-        return CRM_Core_DAO::singleValueQuery( $query, $params );
-    }
-    
     /**
      * send the message to all the contacts and also insert a
      * contact activity in each contacts record

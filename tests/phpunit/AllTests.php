@@ -101,12 +101,19 @@ class AllTests
             //  initialize test database
             $sql_file = dirname( dirname( dirname( __FILE__ ) ) )
                 . "/sql/civicrm.mysql";
+            $sql_file1 = dirname( dirname( dirname( __FILE__ ) ) )
+                . "/sql/civicrm_data.mysql";
             $query = file_get_contents( $sql_file );
+            $query1 = file_get_contents( $sql_file1 );
             if ( self::$utils->do_query($query) === false ) {
-
                 //  failed to initialze test database
                 exit;
             }
+            if ( self::$utils->do_query($query1) === false ) {
+                //  failed to initialze test database
+                exit;
+            }            
+            
             $dbInit = true;
         }
         return self::$db_conn;

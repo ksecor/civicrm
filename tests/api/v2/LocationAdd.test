@@ -218,14 +218,14 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
                                     'phone_type_id'    => 3,
                                     'phone'            => '91-20-234-657686' );
         $match['im'][0] = array( 'name'             => 'Hi',
-                                 'is_primary'       => 1,
+                                 'is_primary'       => 0,
                                  'provider_id'      => 1,
                                  'location_type_id' => 3);
         $match['im'][1] = array( 'name'             => 'Hola',
                                  'is_primary'       => 0,
                                  'provider_id'      => 3);
         $match['im'][2] = array( 'name'             => 'Welcome',
-                                 'is_primary'       => 0,
+                                 'is_primary'       => 1,
                                  'provider_id'      => 5,
                                  'contact_id'       => $this->_contactID );
         $this->checkResult( $location['result'], $match );

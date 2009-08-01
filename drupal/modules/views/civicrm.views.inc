@@ -538,6 +538,13 @@ function civicrm_views_data() {
                                                                        'field' => 'contact_id',
                                                                        );
 
+    $data['civicrm_address']['table']['join']['users'] = array(
+           'left_table'   => 'civicrm_uf_match',
+           'left_field'   => 'contact_id',
+           'field'        => 'contact_id',
+    );
+    
+
     //BOOLEAN : IS PRIMARY ADDRESS
     $data['civicrm_address']['is_primary'] = array(
                                                    'title' => t('Is Primary Address'),

@@ -637,7 +637,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         
         //$this->addElement('select', 'select_add_to_group_id', ts('Group'), $groupList);
         $label = ts( 'Add these Contacts to Group' );
-        $this->addElement('submit', $this->_groupButtonName, $label );
+        $this->addElement('submit', $this->_groupButtonName, $label, array('onclick' => 'return checkGroup();') );
 
         $this->addChartOptions( );
         $this->addButtons( array(
@@ -942,12 +942,12 @@ class CRM_Report_Form extends CRM_Core_Form {
         }
         $lastRow = array_pop($rows);
 
-        $grandFlag = false;
+        $this->_grandFlag = false;
         foreach ($this->_columnHeaders as $fld => $val) {
             if ( !in_array($fld, $this->_statFields) ) {
                 if ( !$grandFlag ) {
                     $lastRow[$fld] = "Grand Total";
-                    $grandFlag = true;
+                    $this->_grandFlag = true;
                 } else{
                     $lastRow[$fld] = "";
                 }
@@ -1166,7 +1166,8 @@ class CRM_Report_Form extends CRM_Core_Form {
         $statistics = array();
 
         $count = count($rows);
-        if ( $this->_rollup && ($this->_rollup != '') ) {
+    
+        if ( $this->_rollup && ($this->_rollup != '') && $this->_grandFlag ) {
             $count++;
         }
 

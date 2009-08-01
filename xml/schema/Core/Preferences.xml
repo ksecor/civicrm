@@ -21,13 +21,13 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain is this menu item for</comment>
-      <add>2.3</add>
+      <add>3.0</add>
   </field>
   <foreignKey>
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
-       <add>2.3</add>
+       <add>3.0</add>
   </foreignKey>
   <field>
       <name>contact_id</name>
@@ -130,7 +130,7 @@
        <type>text</type>
        <comment>Format to display a individual name</comment>
        <add>1.8</add>
-       <drop>2.3</drop>
+       <drop>3.0</drop>
   </field>
   <field>
        <name>address_standardization_provider</name>
@@ -173,6 +173,6 @@
        <name>navigation</name>
        <type>text</type>
        <comment>Store navigation for the Contact</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
 </table>

@@ -94,26 +94,28 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      * @return array - array reference of all events if any
      * @static
      */
-    public static function &event( $id = null, $all = false )
+    public static function &event( $id = null, $all = false, $condition = null ) 
     {
-        if ( !isset( self::$event[$all] ) ) {
-            self::$event[$all] = array( );
+        $key = "{$id}_{$all}_{$condition}";
+
+        if ( !isset( self::$event[$key] ) ) {
+            self::$event[$key] = array( );
         }
 
-        if ( ! self::$event[$all] ) {
-            CRM_Core_PseudoConstant::populate( self::$event[$all],
+        if ( ! self::$event[$key] ) {
+            CRM_Core_PseudoConstant::populate( self::$event[$key],
                                                'CRM_Event_DAO_Event',
-                                               $all, 'title', 'is_active', null, null);
+                                               $all, 'title', 'is_active', $condition , null);
         }
                         
         if ($id) {
-            if (array_key_exists($id, self::$event[$all])) {
-                return self::$event[$all][$id];
+            if (array_key_exists($id, self::$event[$key])) {
+                return self::$event[$key][$id];
             } else {
                 return null;
             }
         }
-        return self::$event[$all];
+        return self::$event[$key];
     }
     
     /**
@@ -134,7 +136,7 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
             self::$participantStatus[$index] = array( );
             CRM_Core_PseudoConstant::populate( self::$participantStatus[$index],
                                                'CRM_Event_DAO_ParticipantStatusType',
-                                               false, 'name', 'is_active', $cond, 'id' );
+                                               false, 'name', 'is_active', $cond, 'label' );
         }
         
         if ( $id ) {

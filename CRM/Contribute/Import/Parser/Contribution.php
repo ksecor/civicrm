@@ -335,7 +335,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
 
         if ( $onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
-            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $formatted,
                                                                           CRM_Core_DAO::$_nullObject,
                                                                           null,
                                                                           'Contribution' );
@@ -353,7 +353,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 $ids['contribution'] = CRM_Contribute_BAO_Contribution::checkDuplicateIds( $dupeIds );                 
                 if ( $ids['contribution'] ) {     
                     $formatted['id'] = $ids['contribution'];
-                    $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                    $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $formatted,
                                                                                   CRM_Core_DAO::$_nullObject,
                                                                                   $formatted['id'],
                                                                                   'Contribution' );

@@ -8,7 +8,6 @@
     <column>activity_type_id</column>
     <column>subject</column>
     <column>activity_date_time</column>
-    <column>due_date_time</column>
     <column>duration</column>
     <column>location</column>
     <column>phone_id</column>
@@ -31,7 +30,6 @@
       <value>5</value>                      <!--  activity_type_id  -->
       <value>test activity type id</value>  <!--  subject  -->
       <null />                              <!--  activity_date_time  -->
-      <null />                              <!--  due_date_time  -->
       <null />  <!--  duration  -->
       <null />  <!--  location  -->
       <null />  <!--  phone_id  -->

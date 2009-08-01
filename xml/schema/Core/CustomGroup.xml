@@ -143,7 +143,7 @@
      <type>int unsigned</type>
      <default>0</default>
      <comment>Will this group be in collapsed or expanded mode on advanced search display ?</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <index>
     <name>UI_title_extends</name>
@@ -163,13 +163,13 @@
     <name>created_id</name>
     <type>int unsigned</type>
     <comment>FK to civicrm_contact, who created this custom group</comment>
-    <add>2.3</add>
+    <add>3.0</add>
   </field>
   <foreignKey>
     <name>created_id</name>
     <table>civicrm_contact</table>
     <key>id</key>
-    <add>2.3</add>
+    <add>3.0</add>
     <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
@@ -177,7 +177,7 @@
     <type>datetime</type>
     <title>Custom Group Created Date</title>
     <comment>Date and time this custom group was created.</comment>
-    <add>2.3</add>
+    <add>3.0</add>
   </field>
 </table>
 

@@ -27,7 +27,7 @@
     <dl><div class="spacer"></div>	
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     </dl>
-
+    </fieldset>
     {* adding advance setting tab *}
     {include file='CRM/UF/Form/AdvanceSetting.tpl'}
 
@@ -43,8 +43,6 @@
         <dt></dt><dd>{$form.done.html}</dd>
         </div>
     {/if} {* $action ne view *}
-  		
-    </fieldset>
 </div>
   
 {if $action eq 2 or $action eq 4 } {* Update or View*}

@@ -310,7 +310,6 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              $row['showConfirmUrl'] = false;
              if ($statusClass == 'Pending') {
                  $row['showConfirmUrl'] = true;
-                 if ($result->participant_status_id == 'Pending from pay later') $extraInfo[] = ts('Incomplete Transaction');
                  if ($result->participant_is_pay_later) $extraInfo[] = ts('Pay Later');
              }             
              if (CRM_Utils_Array::value('participant_is_test', $row)) $extraInfo[] = ts('test');
