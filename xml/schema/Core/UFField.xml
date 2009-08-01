@@ -166,6 +166,6 @@
     <name>is_reserved</name>
     <type>boolean</type>
     <comment>Is this field reserved for use by some other CiviCRM functionality?</comment>
-    <add>2.3</add>
+    <add>3.0</add>
   </field>
 </table>

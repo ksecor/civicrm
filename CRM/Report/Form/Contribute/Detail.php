@@ -268,8 +268,8 @@ class CRM_Report_Form_Contribute_Detail extends CRM_Report_Form {
                 $this->_from .= "\n" . '        ON ' . $alias . '.entity_id = ' . $this->_aliases['civicrm_contribution'] . '.id';
             }
         }
-        
-        if ( $this->_addressField ) {
+
+        if ( $this->_addressField OR ( !empty($this->_params['state_province_id_value']) OR !empty($this->_params['country_id_value']) ) ) { 
             $this->_from .= "
             LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
                    ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 

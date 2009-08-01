@@ -166,6 +166,30 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                                                        'default' => true ),
                                  ), 
                           ),
+                   'civicrm_relationship' =>
+                   array( 'dao'    => 'CRM_Contact_DAO_Relationship',
+                          'fields' =>
+                          array('relationship_id' =>
+                                array( 'name'       => 'id',
+                                       'title'      => ts( 'Relationship' ),
+                                       'no_repeat'  => true,
+                                       'default'    => true ,
+                                       ),
+                                'relationship_type_id' => 
+                                array( 'title'   => ts('Retaionship Type'),
+                                       'default' => true ),
+                                'contact_id_b' => 
+                                array( 'title'      => ts('Retaionship With'),
+                                       'default'    => true ),
+                                /* 'relationship_start_date' => 
+                                 array( 'name'    => 'start_date',
+                                 'title'   => 'Start Date',
+                                 ),
+                                 'relationship_end_date' => 
+                                 array( 'name'    => 'end_date',
+                                 'title'   => 'End Date',
+                                 ),*/
+                                ),),
                    
                    'civicrm_activity'   =>
                    array( 'dao'       => 'CRM_Activity_DAO_Activity',
@@ -248,7 +272,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     function select( ) {
         $select               = array( );
         $this->_columnHeaders = array( );
-        $this->_component     = array( 'contribution_civireport', 'membership_civireport', 'participant_civireport', 'activity_civireport' );
+        $this->_component     = array( 'contribution_civireport', 'membership_civireport', 'participant_civireport', 'relationship_civireport', 'activity_civireport' );
         foreach ( $this->_columns as $tableName => $table ) {
             if ( array_key_exists('fields', $table) ) {
                 foreach ( $table['fields'] as $fieldName => $field ) {
@@ -298,6 +322,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                 unset($select[$val]);
             }
         }
+
         $this->_select = "SELECT " . implode( ', ', $select ) . " ";
     }
     
@@ -395,6 +420,17 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                         LEFT JOIN civicrm_case_contact ON
                             civicrm_case_contact.case_id = civicrm_case.id ";
             }
+            
+            if ( CRM_Utils_Array::value( 'relationship_civireport', $this->_selectComponent ) ) {
+                $this->_formComponent['relationship_civireport'] = 
+                    "FROM 
+                            civicrm_relationship {$this->_aliases['civicrm_relationship']}
+                            
+                            LEFT JOIN civicrm_contact  {$this->_aliases['civicrm_contact']} ON 
+                                {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_relationship']}.contact_id_b
+                            LEFT JOIN civicrm_contact  contact_a ON 
+                               contact_a.id = {$this->_aliases['civicrm_relationship']}.contact_id_a ";  
+                    }
         }
     }
 
@@ -433,7 +469,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         $contribution = $membership =  $participant = null;
         $eligibleResult = $rows = $tempArray= array();
         foreach( $this->_component as $val ) {
-            if ( CRM_Utils_Array::value( $val, $this->_selectComponent ) && $val != 'activity_civireport' ) {
+            if ( CRM_Utils_Array::value( $val, $this->_selectComponent ) && ($val != 'activity_civireport' && $val != 'relationship_civireport') ) {
                 $sql  = "{$this->_selectComponent[$val]} {$this->_formComponent[$val]} 
                          WHERE    {$this->_aliases['civicrm_contact']}.id IN ( $selectedContacts )
                          GROUP BY {$this->_aliases['civicrm_contact']}.id,{$val}.id ";
@@ -456,6 +492,46 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                     }
                     $tempArray[$dao->$CC]= $dao->$CC;
                 }
+            }
+        }
+        
+        if ( CRM_Utils_Array::value( 'relationship_civireport', $this->_selectComponent ) ) {
+            
+            require_once 'CRM/Contact/BAO/Relationship.php';
+            $relTypes = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, 'null', null, null, true);
+
+            $val  = 'relationship_civireport';
+            $eligibleResult[$val] = $val;
+            $sql  = "{$this->_selectComponent[$val]},{$this->_aliases['civicrm_contact']}.display_name as contact_b_name,  contact_a.id as contact_a_id , contact_a.display_name  as contact_a_name  {$this->_formComponent[$val]} 
+                         WHERE    ({$this->_aliases['civicrm_contact']}.id IN ( $selectedContacts )
+                                  OR 
+                                  contact_a.id IN ( $selectedContacts ) ) AND
+                                  {$this->_aliases['civicrm_relationship']}.is_active = 1
+                         GROUP BY {$this->_aliases['civicrm_relationship']}.id";
+            
+            $dao  = CRM_Core_DAO::executeQuery( $sql );
+            while ( $dao->fetch( ) ) {
+                foreach ( $this->_columnHeadersComponent[$val] as $key => $value ) {
+                    if ( $key == 'civicrm_relationship_contact_id_b' ) {
+                        $row[$key] = $dao->contact_b_name;
+                        continue;
+                    }
+
+                    $row[$key] = $dao->$key;
+                }
+                
+                $relTitle = "".$dao->civicrm_relationship_relationship_type_id."_a_b";
+                $row['civicrm_relationship_relationship_type_id'] =  $relTypes[$relTitle];
+                   
+                $rows[$dao->contact_a_id][$val][] = $row;    
+                
+                $row['civicrm_relationship_contact_id_b'] = $dao->contact_a_name;
+                $relTitle = "".$dao->civicrm_relationship_relationship_type_id."_b_a";
+                if( isset( $relTypes[$relTitle] ) ) {
+                $row['civicrm_relationship_relationship_type_id'] = $relTypes[$relTitle];
+                }
+                $rows[$dao->civicrm_relationship_contact_id_b][$val][] = $row ;
+
             }
         }
         
@@ -492,7 +568,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                  GROUP BY {$this->_aliases['civicrm_activity']}.id 
 
                  ORDER BY {$this->_aliases['civicrm_activity']}.activity_date_time desc  ";
-            
+
             $dao  = CRM_Core_DAO::executeQuery( $sql );
             while ( $dao->fetch( ) ) {
                 foreach ( $this->_columnHeadersComponent[$val] as $key => $value ) {
@@ -522,6 +598,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                 }
             }
         }
+
         return $rows;
     }
     

@@ -7,8 +7,7 @@
         <dt>{ts}Event{/ts}</dt><dd><a href="{crmURL p='civicrm/admin/event' q="action=update&reset=1&id=$event_id"}">{$event}</a>&nbsp;</dd>
         <dt>{ts}Participant Role{/ts}</dt><dd>{$role}&nbsp;</dd>
         <dt>{ts}Registration Date and Time{/ts}</dt><dd>{$register_date|crmDate}&nbsp;</dd>
-        <dt>{ts}Status{/ts}</dt><dd>{$status}&nbsp;
-        {if $participant_status_id eq 5}{if $participant_is_pay_later}: {ts}Pay Later{/ts}{else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</dd>
+        <dt>{ts}Status{/ts}</dt><dd>{$status}&nbsp;</dd>
         {if $source}
             <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         {/if}

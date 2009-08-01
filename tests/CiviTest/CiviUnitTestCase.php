@@ -533,7 +533,7 @@ class CiviUnitTestCase extends DrupalTestCase {
                         'is_primary'             => 1,
                         'name'                   => 'Saint Helier St',
                         'county'                 => 'Marin',
-                        'country'                => 'India', 
+                        'country'                => 'United States', 
                         'state_province'         => 'Michigan',
                         'supplemental_address_1' => 'Hallmark Ct', 
                         'supplemental_address_2' => 'Jersey Village'

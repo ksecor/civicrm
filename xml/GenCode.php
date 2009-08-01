@@ -125,6 +125,12 @@ $fd = fopen( $sqlCodePath . "civicrm_drop.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
+echo "Generating navigation file\n";
+$fd  = fopen( $sqlCodePath . "civicrm_navigation.mysql", "w" );
+$sql = $smarty->fetch( 'civicrm_navigation.tpl' );
+fputs( $fd, $sql );
+fclose($fd);
+
 // write the civicrm data file
 // and translate the {ts}-tagged strings
 $smarty->clear_all_assign();
@@ -154,6 +160,7 @@ foreach ($locales as $locale) {
     $data .= $smarty->fetch('civicrm_state_province.tpl');
     $data .= $smarty->fetch('civicrm_currency.tpl');
     $data .= $smarty->fetch('civicrm_data.tpl');
+    $data .= $smarty->fetch('civicrm_navigation.tpl');
 
     $data .= " UPDATE civicrm_domain SET version = '$db_version';";
 
@@ -235,15 +242,13 @@ foreach ($tables as $table) {
         }
     }
 }
-$columns = serialize($columns);
-$indices = serialize($indices);
-$beautifier->setInputString(
-    file_get_contents("$phpCodePath/header.txt") . "
-    class CRM_Core_I18n_SchemaStructure {
-        static function &columns() { static \$result = null; if (!\$result) \$result = unserialize('$columns');     return \$result; }
-        static function &indices() { static \$result = null; if (!\$result) \$result = unserialize('$indices');     return \$result; }
-        static function &tables()  { static \$result = null; if (!\$result) \$result = array_keys(self::columns()); return \$result; }
-    }");
+
+$smarty->clear_all_cache();
+$smarty->clear_all_assign();
+$smarty->assign_by_ref('columns', $columns);
+$smarty->assign_by_ref('indices', $indices);
+
+$beautifier->setInputString($smarty->fetch('schema_structure.tpl'));
 $beautifier->setOutputFile("$phpCodePath/CRM/Core/I18n/SchemaStructure.php");
 $beautifier->process();
 $beautifier->save();

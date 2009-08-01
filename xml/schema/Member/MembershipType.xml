@@ -22,13 +22,13 @@
       <type>int unsigned</type>
       <required>true</required>
       <comment>Which Domain is this match entry for</comment>
-      <add>2.3</add>
+      <add>3.0</add>
   </field>
   <foreignKey>
       <name>domain_id</name>
       <table>civicrm_domain</table>
       <key>id</key>
-      <add>2.3</add>
+      <add>3.0</add>
   </foreignKey> 
   <field>
       <name>name</name>

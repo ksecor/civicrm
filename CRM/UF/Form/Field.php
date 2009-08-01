@@ -119,11 +119,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $this->assign( 'showBestResult', $showBestResult );
         }
         
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true, true);
-        } else {
-            $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true);
-        } 
+        $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true, true, true );
 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             require_once "CRM/Contribute/BAO/Contribution.php";

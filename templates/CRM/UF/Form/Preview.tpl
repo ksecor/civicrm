@@ -124,8 +124,6 @@
 {literal}
 <script type="text/javascript">
     cj(document).ready(function(){ 
-    cj('#selector tr:even').addClass('odd-row ');
-	cj('#selector tr:odd ').addClass('even-row');
 
     // Initialise the table
     cj("#table-1").tableDnD();

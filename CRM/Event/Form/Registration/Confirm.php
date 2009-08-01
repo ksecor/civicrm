@@ -218,8 +218,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                      
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
-                    if ( CRM_Utils_Array::value( 'email-5', $v ) ) {
-                        $append = $v['email-5'];
+                    if ( CRM_Utils_Array::value( 'email-{$this->_bltID}', $v ) ) {
+                        $append = $v['email-{$this->_bltID}'];
                     } else {
                         $append = $v['first_name'] .' ' . $v['last_name'];  
                     }
@@ -501,7 +501,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                         //get the participant statuses.
                         require_once 'CRM/Event/PseudoConstant.php';
                         $pendingStatuses = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" );
-                        $value['participant_status_id'] = array_search( 'Pending from pay later', $pendingStatuses );
+                        $status = CRM_Utils_Array::value('is_pay_later', $value) ? 'Pending from pay later' : 'Pending from incomplete transaction';
+                        $value['participant_status_id'] = array_search($status, $pendingStatuses);
                     }
                 } else if ( $this->_contributeMode == 'express' && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                     $result =& $payment->doExpressCheckout( $value );

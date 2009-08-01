@@ -69,7 +69,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin', 'reset=1' );
         CRM_Utils_System::appendBreadCrumb( ts('Administer CiviCRM'), $breadCrumbPath );
 
-        $this->_id = 1;
+        $this->_id = CRM_Core_Config::domainID( );
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                       $this, false, 'view' );
         //location blocks.

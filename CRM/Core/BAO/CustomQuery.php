@@ -189,7 +189,9 @@ SELECT f.id, f.label, f.data_type,
                 if ( $dao->option_group_id ) {
                     $optionGroupID = $dao->option_group_id;
                 } else if ( $dao->data_type != 'Boolean' ) {
-                    CRM_Core_Error::fatal( );
+                    $errorMessage = ts( "The custom field %1 is corrupt. Please delete and re-build the field",
+                                        array( 1 => $dao->label ) );
+                    CRM_Core_Error::fatal( $errorMessage );
                 }
             }
            

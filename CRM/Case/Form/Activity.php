@@ -172,23 +172,29 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             return $this->_defaults;
         }
         
-        //avoid default current date to actual date.CRM-4438
-        $activityDate = null;
         if ( $this->_activityId ) { 
             $activityDate = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $this->_activityId, 'activity_date_time' );
-        } 
-        
-        if ( !$activityDate ) {
-            $this->_defaults['activity_date_time'] = array( );
+        } else {
+            // Set activity date-time to now() in create mode
+            $defaults['activity_date_time'] = array( );
+            CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
         }
-        
+
+        // set default encounter medium CRM-4816
+        if ( empty($this->_defaults['medium_id']) ) {
+            require_once "CRM/Core/OptionGroup.php";
+            $medium = CRM_Core_OptionGroup::values('encounter_medium', false, false, false, 'AND is_default = 1');
+            if ( count($medium) == 1 ) {
+                $this->_defaults['medium_id'] = key($medium);
+            }
+        }
+               
         return $this->_defaults;
     }
     
     public function buildQuickForm( ) 
     {
         // modify core Activity fields
-        $this->_fields['activity_date_time']['label']    = ts('Actual Date'); 
         $this->_fields['source_contact_id']['label']     = ts('Reported By'); 
         $this->_fields['status_id']['attributes']        =  array( '' => ts('- select -')) + CRM_Core_PseudoConstant::activityStatus( ); 
     

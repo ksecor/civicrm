@@ -235,8 +235,7 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
    {literal}
     <script type="text/javascript">
      function verify( ) {
-          var scheduleStatusId = {/literal}{$scheduleStatusId}{literal};
-      	
+
           var month = cj("select#activity_date_time\\[M\\]").val( );
           if ( month.length == 1 ) month = "0" + month;
 
@@ -244,18 +243,28 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
           if ( day.length == 1 ) day = "0" + day;
 
           var activity_date_time  = cj("select#activity_date_time\\[Y\\]").val() + month + day;
-	      var status = cj('#status_id').val();
 
-	      if ( status == scheduleStatusId && !activity_date_time ) {
-	             var okMessage = confirm( 'This activity does not have an Actual Date set, but the status is still "Completed". If you meant to set the Actual Date, click Cancel and set the Actual Date field. Otherwise click OK to save the activity with "Completed" status.' );    
-                 if (!okMessage ) {
-                        return false;
-	             }
-	      } else if ( status == 1 && activity_date_time ) {
-	             var ok = confirm( 'This activity has an Actual Date set, but the status is still "Scheduled". If you meant to set the status to "Completed", click Cancel and update the status field. Otherwise click OK to save the activity with "Scheduled" status.' );    
-                 if (!ok ) {
-                       return false;
-	             }
+	  var currentDay    = new Date().getDate();
+	  var currentMonth  = new Date().getMonth()+1;
+	  var currentYear   = new Date().getYear();
+
+	  if(currentDay   < 10)   currentDay   = "0" + currentDay;
+	  if(currentMonth < 10)   currentMonth = "0" + currentMonth; 
+	  if(currentYear < 1000)  currentYear += 1900;
+  
+	  var today = currentYear + currentMonth + currentDay
+	  var activityStatusId = cj('#status_id').val();
+
+	  if ( activityStatusId == 2 &&  today < activity_date_time ) {
+	       var okMessage = confirm( 'Are you sure? This is a COMPLETED activity with the ACTUAL DATE in the FUTURE. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
+               if (!okMessage ) {
+                    return false;
+	       }
+	  } else if ( activity_date_time && activityStatusId == 1 && today > activity_date_time ) {
+	       var ok = confirm( 'Are you sure? This is a SCHEDULED activity with the ACTUAL DATE in the PAST. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
+               if (!ok ) {
+                    return false;
+	       }
           }
      }
 </script>

@@ -1030,7 +1030,7 @@ WHERE  id = %1";
      */
     public static function &relationshipType( $valueColumnName = 'label' )
     {
-        if ( !self::$relationshipType[$valueColumnName] ) {
+        if ( !CRM_Utils_Array::value($valueColumnName, self::$relationshipType) ) {
             self::$relationshipType[$valueColumnName] = array( );
             
             //now we have name/label columns CRM-3336

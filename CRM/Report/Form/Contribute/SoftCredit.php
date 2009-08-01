@@ -409,7 +409,12 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                     if( $dispname_flag ) {
                         unset($rows[$rowNum]['civicrm_contact_display_name_creditor']);          
                     } else {
-                        $rows[$rowNum]['civicrm_contact_display_name_creditor'] = $value;
+                        $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
+                                                                    'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id_creditor'],
+                                                                    $this->_absoluteUrl, $this->_id );
+                        $rows[$rowNum]['civicrm_contact_display_name_creditor_link' ] = $url;
+                        $rows[$rowNum]['civicrm_contact_display_name_creditor_hover'] =  
+                            ts("Lists detailed contribution(s) for this record.");
                     }
                     $entryFound = true;
                 }

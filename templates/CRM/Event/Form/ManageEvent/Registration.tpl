@@ -45,14 +45,18 @@
             <th scope="row" class="label" width="20%">{$form.allow_same_participant_emails.label}</th>
             <td>{$form.allow_same_participant_emails.html} {help id="id-allow_same_email"}</td>
         </tr>
-        <tr>  
+        <tr>
+          {if $form.requires_approval}
             <th scope="row" class="label" width="20%">{$form.requires_approval.label}</th>
-            <td>{$form.requires_approval.html} {help id="id-requires_approval"}</td> 
+            <td>{$form.requires_approval.html} {help id="id-requires_approval"}</td>
+          {/if}
         </tr>
-		<tr id="id-approval-text">
-			<th scope="row" class="label" width="20%">{$form.approval_req_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='approval_req_text' id=$eventID}{/if}</th>
-			<td>{$form.approval_req_text.html}</td>
-		</tr>
+        <tr id="id-approval-text">
+          {if $form.approval_req_text}
+            <th scope="row" class="label" width="20%">{$form.approval_req_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='approval_req_text' id=$eventID}{/if}</th>
+            <td>{$form.approval_req_text.html}</td>
+          {/if}
+        </tr>
         <tr>
             <th scope="row" class="label" width="20%">{$form.expiration_time.label}</th>
             <td>{$form.expiration_time.html|crmReplace:class:four} {help id="id-expiration_time"}</td>

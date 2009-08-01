@@ -65,7 +65,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page
     function preProcess( )
     {
         $this->_id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                          $this, false);
+                                                 $this, false);
         if ( ! $this->_id ) {
             $session =& CRM_Core_Session::singleton();
             $this->_id = $session->get( 'userID' );
@@ -76,8 +76,8 @@ class CRM_Profile_Page_View extends CRM_Core_Page
         $this->assign( 'cid', $this->_id );
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
-                                           $this);
-
+                                                  $this);
+        
         if ($this->_gid) {
             require_once 'CRM/Profile/Page/Dynamic.php';
             $page =& new CRM_Profile_Page_Dynamic($this->_id, $this->_gid, 'Profile' );

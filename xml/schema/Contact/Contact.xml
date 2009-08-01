@@ -83,7 +83,7 @@
        <headerPattern>/d(o )?(not )?(sms)/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>do_not_trade</name>
@@ -344,7 +344,7 @@
        <type>int unsigned</type>
        <comment>FK to civicrm_option_value.id, that has to be valid, registered Greeting type.</comment>
        <add>2.2</add>
-       <drop>2.3</drop>
+       <drop>3.0</drop>
   </field>
   <field>
        <name>custom_greeting</name>
@@ -353,13 +353,13 @@
        <import>true</import>
        <comment>Custom greeting message.</comment>
        <add>1.1</add>
-       <drop>2.3</drop>
+       <drop>3.0</drop>
   </field>
   <field>
        <name>email_greeting_id</name>
        <type>int unsigned</type>
        <comment>FK to civicrm_option_value.id, that has to be valid registered Email Greeting.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>email_greeting_custom</name>
@@ -368,7 +368,7 @@
        <import>true</import>
        <export>false</export>
        <comment>Custom Email Greeting.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>email_greeting_display</name>
@@ -377,13 +377,13 @@
        <length>255</length>
        <localizable>true</localizable>
        <comment>Cache Email Greeting.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>postal_greeting_id</name>
        <type>int unsigned</type>
        <comment>FK to civicrm_option_value.id, that has to be valid registered Postal Greeting.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>postal_greeting_custom</name>
@@ -391,23 +391,23 @@
        <length>128</length>
        <import>true</import>
        <export>false</export>
-       <localizable>true</localizable>
        <comment>Custom Postal greeting.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>postal_greeting_display</name>
        <title>Postal Greeting</title>
        <type>varchar</type>
        <length>255</length>
+       <localizable>true</localizable>
        <comment>Cache Postal greeting.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>addressee_id</name>
        <type>int unsigned</type>
        <comment>FK to civicrm_option_value.id, that has to be valid registered Addressee.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>addressee_custom</name>
@@ -416,7 +416,7 @@
        <import>true</import>
        <export>false</export>
        <comment>Custom Addressee.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>addressee_display</name>
@@ -425,7 +425,7 @@
        <length>255</length>
        <localizable>true</localizable>
        <comment>Cache Addressee.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>job_title</name>

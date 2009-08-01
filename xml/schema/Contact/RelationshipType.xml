@@ -29,7 +29,7 @@
        <type>varchar</type>
        <length>64</length>
        <comment>label for relationship of contact_a to contact_b.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>name_b_a</name>
@@ -43,7 +43,7 @@
        <type>varchar</type>
        <length>64</length>
        <comment>Optional label for relationship of contact_b to contact_a.</comment>
-       <add>2.3</add>
+       <add>3.0</add>
   </field>
   <field>
        <name>description</name>

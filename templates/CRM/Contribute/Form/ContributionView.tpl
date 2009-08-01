@@ -1,127 +1,152 @@
-<div class="form-item">
 <fieldset><legend>{ts}View Contribution{/ts}</legend>
-<dl>
-	<dt class="font-size12pt">{ts}From{/ts}</dt>
-	<dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
-
-	<dt>{ts}Contribution Type{/ts}</dt>
-	<dd>{$contribution_type}&nbsp; {if $is_test} {ts}(test){/ts} {/if}</dd>
-
-	<dt>{ts}Total Amount{/ts}</dt>
-	<dd class="bold">{$total_amount|crmMoney:$currency}&nbsp; 
-{if $contribution_recur_id}
-  <strong>{ts}Recurring Contribution{/ts}</strong> <br/>
-  {ts}Installments{/ts}: {$recur_installments}, {ts}Interval{/ts}: {$recur_frequency_interval} {$recur_frequency_unit}(s)
-{/if}
-</dd>
-
-	{if $non_deductible_amount}
-	<dt>{ts}Non-deductible Amount{/ts}</dt>
-	<dd>{$non_deductible_amount|crmMoney:$currency}&nbsp;</dd>
-	{/if} 
-
+<table class="view-layout">
+    <tr>
+        <td class="label">{ts}From{/ts}</td>
+        <td class="bold">{$displayName}</td>
+    </tr>
+    <tr>
+        <td class="label">{ts}Contribution Type{/ts}</td>
+    	<td>{$contribution_type}&nbsp; {if $is_test} {ts}(test){/ts} {/if}</td>
+    </tr>
+    <tr>
+        <td class="label">{ts}Total Amount{/ts}</td>
+        <td><strong>{$total_amount|crmMoney:$currency}</strong>&nbsp; 
+            {if $contribution_recur_id}
+              <strong>{ts}Recurring Contribution{/ts}</strong> <br/>
+              {ts}Installments{/ts}: {$recur_installments}, {ts}Interval{/ts}: {$recur_frequency_interval} {$recur_frequency_unit}(s)
+            {/if}
+        </td>
+    </tr>
+    {if $non_deductible_amount}
+        <tr>
+	        <td class="label">{ts}Non-deductible Amount{/ts}</td>
+	        <td>{$non_deductible_amount|crmMoney:$currency}</td>
+	    </tr>
+	{/if}
 	{if $fee_amount}
-	<dt>{ts}Fee Amount{/ts}</dt>
-	<dd>{$fee_amount|crmMoney:$currency}&nbsp;</dd>
-	{/if} 
-
+	    <tr>
+	        <td class="label">{ts}Fee Amount{/ts}</td>
+	        <td>{$fee_amount|crmMoney:$currency}</td>
+	    </tr>
+	{/if}
 	{if $net_amount}
-	<dt>{ts}Net Amount{/ts}</dt>
-	<dd>{$net_amount|crmMoney:$currency}&nbsp;</dd>
+	    <tr>
+	        <td class="label">{ts}Net Amount{/ts}</td>
+	        <td>{$net_amount|crmMoney:$currency}</td>
+	    </tr>    
 	{/if}
 
-	<dt>{ts}Received{/ts}</dt>
-	<dd>{if $receive_date}{$receive_date|truncate:10:''|crmDate}{else}({ts}pending{/ts}){/if}&nbsp;</dd>
-
-	<dt>{ts}Contribution Status{/ts}</dt>
-	<dd {if $contribution_status_id eq 3} class="font-red bold"{/if}>{$contribution_status}
-	{if $contribution_status_id eq 2} {if $is_pay_later}: {ts}Pay Later{/ts} {else} : {ts}Incomplete Transaction{/ts} {/if}{/if}</dd>
+	<tr>
+	    <td class="label">{ts}Received{/ts}</td>
+    	<td>{if $receive_date}{$receive_date|truncate:10:''|crmDate}{else}({ts}pending{/ts}){/if}</td>
+	</tr>
+	<tr>
+	    <td class="label">{ts}Contribution Status{/ts}</td>
+	    <td {if $contribution_status_id eq 3} class="font-red bold"{/if}>{$contribution_status}
+	    {if $contribution_status_id eq 2} {if $is_pay_later}: {ts}Pay Later{/ts} {else} : {ts}Incomplete Transaction{/ts} {/if}{/if}</td>
+	</tr>
 
 	{if $cancel_date}
-	<dt>{ts}Cancelled Date{/ts}</dt>
-	<dd>{$cancel_date|truncate:10:''|crmDate}</dd>
-
-	{if $cancel_reason}
-	<dt>{ts}Cancellation Reason{/ts}</dt>
-	<dd>{$cancel_reason}</dd>
-	{/if} 
+        <tr>
+	        <td class="label">{ts}Cancelled Date{/ts}</td>
+	        <td>{$cancel_date|truncate:10:''|crmDate}</td>
+        </tr>
+	    {if $cancel_reason}
+	        <tr>
+	            <td class="label">{ts}Cancellation Reason{/ts}</td>
+	            <td>{$cancel_reason}</td>
+	        </tr>
+	    {/if} 
 	{/if}
-
-	<dt>{ts}Paid By{/ts}</dt>
-	<dd>{$payment_instrument}&nbsp;</dd>
-
+	<tr>
+	    <td class="label">{ts}Paid By{/ts}</td>
+    	<td>{$payment_instrument}</td>
+	</tr>
+	
 	{if $payment_instrument eq 'Check'}
-	<dt>{ts}Check Number{/ts}</dt>
-	<dd>{$check_number}&nbsp;</dd>
+        <tr>
+            <td class="label">{ts}Check Number{/ts}</td>
+            <td>{$check_number}</td>
+        </tr>
 	{/if}
-
-	<dt>{ts}Source{/ts}</dt>
-	<dd>{$source}&nbsp;</dd>
-
+	<tr>
+	    <td class="label">{ts}Source{/ts}</td>
+    	<td>{$source}</td>
+	</tr>
 	{if $receipt_date}
-	<dt>{ts}Receipt Sent{/ts}</dt>
-	<dd>{$receipt_date|truncate:10:''|crmDate}</dd>
-	{/if} 
-
+    	<tr>
+    	    <td class="label">{ts}Receipt Sent{/ts}</td>
+        	<td>{$receipt_date|truncate:10:''|crmDate}</td>
+    	</tr>
+	{/if}	
 	{foreach from=$note item="rec"} 
 		{if $rec }
-		<dt>{ts}Note:{/ts}</dt>	<dd>{$rec}</dd>
+		    <tr>
+		        <td class="label">{ts}Note{/ts}</td><td>{$rec}</td>
+		    </tr>
 		{/if} 
 	{/foreach} 
 
 	{if $trxn_id}
-	<dt>{ts}Transaction ID{/ts}</dt>
-	<dd>{$trxn_id}&nbsp;</dd>
+        <tr>
+	        <td class="label">{ts}Transaction ID{/ts}</td>
+	        <td>{$trxn_id}</td>
+	    </tr>
 	{/if} 
 
 	{if $invoice_id}
-	<dt>{ts}Invoice ID{/ts}</dt>
-	<dd>{$invoice_id}&nbsp;</dd>
+	    <tr>
+	        <td class="label">{ts}Invoice ID{/ts}</td>
+	        <td>{$invoice_id}&nbsp;</td>
+	    </tr
 	{/if} 
 
 	{if $honor_display}
-	<dt>{ts}{$honor_type}{/ts}</dt>
-	<dd>{$honor_display}&nbsp;</dd>
+	    <tr>
+	        <td class="label">{ts}{$honor_type}{/ts}</td>
+	        <td>{$honor_display}&nbsp;</td>
+	    </tr>
 	{/if} 
 
 	{if $thankyou_date}
-	<dt>{ts}Thank-you Sent{/ts}</dt>
-	<dd>{$thankyou_date|truncate:10:''|crmDate}</dd>
+	    <tr>
+	        <td class="label">{ts}Thank-you Sent{/ts}</td>
+	        <td>{$thankyou_date|truncate:10:''|crmDate}</td>
+	    </tr>
 	{/if}
-
-</dl>
+	
+	{if $softCreditToName}
+    <tr>
+    	<td class="label">{ts}Soft Credit To{/ts}</td>
+        <td><a href="{crmURL p="civicrm/contact/view" q="reset=1&cid=`$soft_credit_to`"}" id="view_contact" title="{ts}View contact record{/ts}">{$softCreditToName}</a></td>
+    </tr>
+    {/if}	
+</table>
 
 {if $premium}
 <fieldset><legend>{ts}Premium Information{/ts}</legend>
-<dl>
-	<dt>{ts}Premium{/ts}</dt><dd>{$premium}&nbsp;</dd>
-	<dt>{ts}Option{/ts}</dt><dd>{$option}&nbsp;</dd>
-	<dt>{ts}Fulfilled{/ts}</dt><dd>{$fulfilled|truncate:10:''|crmDate}&nbsp;</dd>
-</dl>
+<table class="view-layout">
+	<td class="label">{ts}Premium{/ts}</td><td>{$premium}</td>
+	<td class="label">{ts}Option{/ts}</td><td>{$option}</td>
+	<td class="label">{ts}Fulfilled{/ts}</td><td>{$fulfilled|truncate:10:''|crmDate}</td>
+</table>
 </fieldset>
 {/if}
- 
-{if $softCreditToName}
-<dl>
-	<dt>{ts}Soft Credit To{/ts}</dt>
-    <dd><a href="{crmURL p="civicrm/contact/view" q="reset=1&cid=`$soft_credit_to`"}" id="view_contact" title="{ts}View contact record{/ts}">{$softCreditToName}</a>&nbsp;</dd>
-</dl>
-{/if}
-       
+
 {if $pcp_id}
 <fieldset><legend>{ts}Personal Campaign Page{/ts}</legend>
-<dl>
-	<dt>{ts}Campaign Page{/ts}</dt>
-    <dd><a href="{crmURL p="civicrm/contribute/pcp/info" q="reset=1&id=`$pcp_id`"}">{$pcp}</a><br />
+<table class="view-layout">
+	<td>{ts}Campaign Page{/ts}</td>
+    <td><a href="{crmURL p="civicrm/contribute/pcp/info" q="reset=1&id=`$pcp_id`"}">{$pcp}</a><br />
         <span class="description">{ts}Contribution was made through this personal campaign page.{/ts}</span>
-    </dd>
-	<dt>{ts}In Public Honor Roll?{/ts}</dt><dd>{if $pcp_display_in_roll}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</dd>
+    </td>
+	<td>{ts}In Public Honor Roll?{/ts}</td><td>{if $pcp_display_in_roll}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
     {if $pcp_roll_nickname}
-        <dt>{ts}Honor Roll Name{/ts}</dt><dd>{$pcp_roll_nickname}</dd>
+        <td>{ts}Honor Roll Name{/ts}</td><td>{$pcp_roll_nickname}</td>
     {/if}
-</dl>
+</table>
 </fieldset>
-{/if} 
+{/if}
 
 {include file="CRM/Custom/Page/CustomDataView.tpl"}
 
@@ -132,9 +157,11 @@
 	</div>
 </fieldset>
 {/if}
-<dl>
-	<dt></dt>
-        <dd>
+
+<table class="view-layout">
+    <tr>
+	    <td>&nbsp;</td>
+        <td>
             {$form.buttons.html}
             {if call_user_func(array('CRM_Core_Permission','check'), 'edit contributions')}
                 &nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&id=$id&cid=$contact_id&action=update&context=contribution"}" accesskey="e">Edit</a>
@@ -142,8 +169,9 @@
             {if call_user_func(array('CRM_Core_Permission','check'), 'delete in CiviContribute')}
                 &nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&id=$id&cid=$contact_id&action=delete&context=contribution"}">Delete</a>
             {/if}
-        </dd>
-</dl>
-</fieldset>
-</div>
+        </td>
+    </tr>    
+</table>
 
+
+</fieldset>

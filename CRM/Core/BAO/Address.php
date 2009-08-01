@@ -333,6 +333,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      */
     static function &getValues( &$entityBlock, $microformat = false, $fieldName = 'contact_id' )
     {
+        $addresses = array( );
         $address =& new CRM_Core_BAO_Address();
        
         if ( ! CRM_Utils_Array::value( 'entity_table' , $entityBlock ) ) {

@@ -62,6 +62,15 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
         $transaction = new CRM_Core_Transaction( );
         $bounce =& new CRM_Mailing_Event_BAO_Bounce();
         $bounce->time_stamp = date('YmdHis');
+
+        // if we dont have a valid bounce type, we should set it
+        // to bounce_type_id 6 which is Invalid. this allows such email
+        // addresses to be put on hold immediately, CRM-4814
+        if ( empty( $params['bounce_type_id'] ) ) {
+            $params['bounce_type_id'] = 6;
+            $params['bounce_reason'] = ts( 'Unknown bounce type: Could not parse bounce email' );
+        }
+             
         $bounce->copyValues($params);
         $bounce->save();
 

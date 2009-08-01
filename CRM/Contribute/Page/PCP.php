@@ -93,7 +93,41 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
         }
         return self::$_links;
     }
+    
+    /**
+     * Run the page.
+     *
+     * This method is called after the page is created. It checks for the  
+     * type of action and executes that action.
+     * Finally it calls the parent's run method.
+     *
+     * @param
+     * @return void
+     * @access public
+     */
+    function run()
+    {
+        // get the requested action
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false,
+                                              'browse');
+        
+        if ( $action & CRM_Core_Action::ENABLE )  { 
+            $id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false );
+            require_once "CRM/Contribute/BAO/PCP.php";
+            CRM_Contribute_BAO_PCP::setIsActive( $id, 1 );
+        } elseif ( $action & CRM_Core_Action::DISABLE) {
+            $id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false );
+            require_once "CRM/Contribute/BAO/PCP.php";
+            CRM_Contribute_BAO_PCP::setIsActive( $id, 0 );
+        }
 
+        // finally browse
+        $this->browse();
+
+        // parent run 
+        parent::run();
+    }
 
     /**
      * Browse all custom data groups.

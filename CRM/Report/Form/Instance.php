@@ -215,6 +215,8 @@ class CRM_Report_Form_Instance {
         $dao->save( );
 
         $form->set( 'id', $dao->id );
+
+        $reloadTemplate = false;
         if ( $dao->id ) {
             if ( !empty($form->_navigation) ) {
                 $form->_navigation['url'] = "civicrm/report/instance/{$dao->id}&reset=1";
@@ -225,6 +227,9 @@ class CRM_Report_Form_Instance {
 
                 //reset navigation
                 CRM_Core_BAO_Navigation::resetNavigation( );
+
+                // in order to reflect change in navigation, template needs to be reloaded 
+                $reloadTemplate = true;
             }
             
             $instanceParams   = array( 'value' => $dao->report_id );
@@ -250,10 +255,11 @@ class CRM_Report_Form_Instance {
             }
             CRM_Core_Session::setStatus( $statusMsg );
         }
+
+        if ( $reloadTemplate ) {
+            // as there's been change in navigation, reload the template 
+            return CRM_Utils_System::redirect( CRM_Utils_System::url(CRM_Utils_System::currentPath( ), 'force=1') );
+        }
     }
     
-  }
-
-
-
-
+}

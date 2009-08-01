@@ -17,6 +17,7 @@
 #crm-container textarea.huge {width: 45em; height: 16em;}
 #crm-container textarea.huge40 {width: 40em; height: 16em;}
 #crm-container textarea.nowrap {width: 45em; height: 4.5em; white-space: nowrap; overflow: auto;}
+#crm-container .bigSelect {width: 15em; height: 12em;}
 
 /*
 ** Override line-height from style.css
@@ -56,8 +57,14 @@ div#crm-container {
   height: 2em;
 }
 
-#crm-container .add-remove-link {
+#crm-container .add-remove-link. #crm-container .map-link {
   font-size: .9em;
+}
+
+#crm-container .geotag {
+    padding: 2px 0 2px 20px !important;
+    background: url('../i/geotag_16.png') left center no-repeat;
+    font-size: .9em;
 }
 
 /*
@@ -95,13 +102,29 @@ div.spacer, .spacer {
   margin: 1em 0.5em 0.25em 0;
 }
 
-#crm-container fieldset {
-  margin: .5em 0em .5em 0em;
+#crm-container .form-submit-inline {
+  margin: 0em 0.5em 0.25em 0em;
 }
+
+#crm-container fieldset{
+    background-image   : none;
+    margin             : .5em 0em .5em 0em;
+}
+
+#crm-container .boxBlock, #crm-container fieldset{
+	background-color   : #F7F7F7;
+	border			   : 1px solid #CCCCCC;
+	-moz-border-radius : 4px 4px 4px 4px;	
+}
+
 
 #crm-container fieldset.form-layout {
   margin: .25em 0em .5em 0em;
   padding: 1px 10px 1px 10px;
+}
+
+#crm-container fieldset.collapsible {
+  border: 0px;
 }
 
 #crm-container div.form-item {
@@ -221,13 +244,13 @@ div.spacer, .spacer {
 }
 
 #crm-container .form-layout td {
-  vertical-align: text-top;
+  vertical-align: top;
   padding: 5px;
   white-space: nowrap;
 }
 
 #crm-container .form-layout td.report, #crm-container .form-layout td.description, #crm-container .form-layout-compressed td.description {
-  white-space: normal;
+  white-space   : normal;
 }
 
 #crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
@@ -332,6 +355,7 @@ div.spacer, .spacer {
 
 #crm-container .messages {
   margin: 1.0em 0em 1.0em;
+  border: 1px solid #CCCCCC;
 }
 
 #crm-container .action-link {
@@ -414,10 +438,12 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 */
 /* Inline form field 'post-help' */
 #crm-container .description {
+  margin-bottom : 0.5em;
   padding: 0px 0px 5px;
   font-size: 0.9em;
   white-space: normal;
   width: auto;
+  color: #696969;
 }
 
 #crm-container .form-layout-compressed td.description {
@@ -433,11 +459,6 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 #crm-container label {
   font-weight: normal;
   display: inline;
-}
-
-/* Normal weight labels for advanced search - too busy otherwise */
-#crm-container #Advanced label {
-  font-weight: normal;
 }
 
 #crm-container .notorg {
@@ -716,6 +737,7 @@ div.crm-pager a {
   display: block;
   margin: 0px 0px 5px 5px;
   padding: 5px;
+  font-size: 0.95em;
 }
 #crm-container .section-hidden-border {
   border-bottom: 1px solid #B0B0B0;  
@@ -970,12 +992,7 @@ div.crm-pager a {
 #crm-container div#searchForm table.form-layout td {
   padding: 4px;
   border: 1px groove #DDDDDD;
-  background: #F5F5F5;
-}
-
-/* Suppress fading background image in search fieldsets. Looks bad with gray tables. */
-#crm-container div#searchForm fieldset {
- background-image: none;
+  background: #F7F7F7;
 }
 
 #crm-container #main {
@@ -996,9 +1013,7 @@ div.crm-pager a {
 #crm-container .label-pane :hover {
 	cursor: pointer;
 }
-#crm-container fieldset.collapsible {
-  border: 0px;
-}
+
 #crm-container .content-pane {
   overflow: auto;
 }
@@ -1365,8 +1380,13 @@ div.crm-pager a {
 
 /* loader autocomplete */
 
-body .ac_loading {background:url('../i/loading.gif') no-repeat right center;}
-.ac_input {background:url('../i/magnify.gif') no-repeat right center;}
+body .ac_loading {
+  background       : white url('../i/loading.gif') no-repeat right center;
+}
+
+.ac_input {
+  background       : white url(../i/magnify.gif) no-repeat scroll right center;
+}
 
 /*class for CMS user name check used in profile*/
 .cmsmessagebox {
@@ -1429,7 +1449,143 @@ div.grippie {
 }
 
 /* Styles for Contact Summary mockup start here. dgg */
-#crm-container span.email-hold, #crm-container span.do-not-email, #crm-container span.do-not-phone {
+.primary {
+	FONT-WEIGHT: bold
+}
+
+#crm-container .ui-tabs-panel {
+    padding : 0em 1.4em 1em 1em;
+}
+
+#crm-container DIV.contactTopBar {
+	PADDING          : 4px;
+	LINE-HEIGHT      : 1.4em;
+	MARGIN           : 8px 0pt 0px;
+	/*FONT-SIZE: 1.1em;*/
+	background-color : #eee;
+	border           : 1px solid #CCCCCC;
+	width            : 100%;
+}
+#crm-container DIV.contact_details, #crm-container DIV#contactTopBar {
+	PADDING          : 4px;
+	LINE-HEIGHT      : 1.4em;
+	MARGIN           : 8px 0pt 0px;
+	/*FONT-SIZE: 1.1em;*/
+	background-color : #F7F7F7;
+	border           : 1px solid #CCCCCC;
+	width            : 100%;
+}
+
+#crm-container DIV.contact_panel, #crm-container DIV#contactTopBar {
+	WIDTH   : 100%; 
+	DISPLAY : block
+}
+
+#crm-container DIV.contact_panel * , #crm-container DIV#contactTopBar * {
+	BORDER         : 0px;
+	PADDING-BOTTOM : 0px;
+	MARGIN         : 0px;
+	PADDING-LEFT   : 0px;
+	PADDING-RIGHT  : 0px;
+	PADDING-TOP    : 0px;
+}
+
+#crm-container DIV.contactCardLeft, #crm-container DIV#Top {
+	WIDTH   : 49%; 
+	DISPLAY : block; 
+	FLOAT   : left;
+}
+
+#crm-container DIV.contactCardRight {
+	WIDTH   : 49%; 
+	DISPLAY : block; 
+	FLOAT   : right;
+}
+
+#crm-container DIV#contactTopBar .label, #crm-container DIV.contactCardLeft .label, #crm-container DIV.contactCardRight .label {
+	color          : DimGray; 
+	FONT-SIZE      : 0.95em; 
+	VERTICAL-ALIGN : top; 
+	FONT-WEIGHT    : bold; 
+	MARGIN-RIGHT   : 10px;
+}
+
+#crm-container DIV.contactCardLeft .grouplabel, #crm-container DIV.contactCardRight .grouplabel {
+	BORDER-BOTTOM    : grey 1px solid; 
+	WIDTH            : 100%; 
+	FONT-SIZE        : 0.95em; 
+	FONT-WEIGHT      : bold;
+	background-color : #ddd;
+}
+
+#crm-container DIV.contact_panel .spacer {
+	PADDING-BOTTOM   : 8px; 
+	PADDING-LEFT     : 8px; 
+	PADDING-RIGHT    : 8px; 
+	PADDING-TOP      : 8px;
+}
+
+#crm-container DIV.contact_panel TD, #crm-container DIV#contactTopBar TD  {
+	PADDING-BOTTOM      : 4px;
+	PADDING-LEFT        : 4px;
+	PADDING-RIGHT       : 4px;
+	VERTICAL-ALIGN      : top;
+	PADDING-TOP         : 4px;
+	border-bottom-width : 1px;
+	border-bottom-style : solid;
+	border-bottom-color : #E2E2E2;
+}
+
+#crm-container DIV.contact_panel TD.label, #crm-container DIV#contactTopBar TD.label {
+	background-color    : #EEEEEE;
+}
+
+#crm-container DIV#contactTopBar TD.label {
+    width : 14%;
+}
+
+#crm-container DIV.contact_panel TD.label {
+    width : 28%;
+}
+
+#crm-container DIV.contact_panel TD.last {
+	BORDER-BOTTOM: 0px
+}
+
+#crm-container DIV#customFields {
+	width: 100%;
+}
+
+#crm-container DIV#customFields DIV.contact_panel TD {
+	BORDER-BOTTOM  : lightgray 1px solid; 
+	PADDING-BOTTOM : 4px; 
+	PADDING-LEFT   : 4px; 
+	PADDING-RIGHT  : 4px; 
+	VERTICAL-ALIGN : top; 
+	PADDING-TOP    : 4px
+}
+
+#crm-container DIV#customFields DIV.contact_panel TD.talabel {
+	BORDER-BOTTOM  : 0px; 
+	BORDER-LEFT    : 0px; 
+	PADDING-BOTTOM : 0pt; 
+	PADDING-LEFT   : 4px; 
+	PADDING-RIGHT  : 0pt; 
+	BORDER-TOP     : 0px; 
+	BORDER-RIGHT   : 0px; 
+	PADDING-TOP    : 4px
+}
+
+#crm-container #customFields .contact_panel .customFieldGroup {
+	background-color : #F7F7F7;
+	border           : 1px solid #CCCCCC;
+	line-height      : 1.4em;
+	margin           : 8px 0 0;
+	padding          : 4px;
+	width            : 100%;
+}
+
+#crm-container div.contact_panel span.email-hold, #crm-container div.contact_panel span.do-not-email, #crm-container div.contact_panel span.do-not-phone {
     background-position:3px; background-repeat:no-repeat; background-image:url("../i/stop-icon.png");
     padding-left: 24px;
 	color: #ff6655 !important
@@ -1439,159 +1595,72 @@ div.grippie {
 	color: #ff6655 !important
 }
 
-.primary {
-	FONT-WEIGHT: bold
+
+#crm-container DIV.buttons {
+	TEXT-ALIGN       : right;
+    margin           : 8px 0 0;
+	PADDING          : 4px 4px 2px;
+	WIDTH            : 100%;
+	background-color : #fff;
+	border           : none;
 }
 
-#crm-container .ui-tabs-panel {
-    padding:0em 1.4em 1em 1em;
+#crm-container DIV.buttons INPUT {
+	FONT-SIZE      : 0.9em; 
+	VERTICAL-ALIGN : top !important
 }
 
-DIV#contactTopBar {
-	PADDING: 4px;
-	LINE-HEIGHT: 1.4em;
-	MARGIN: 8px 0pt 0px;
-	/*FONT-SIZE: 1.1em;*/
-	background-color: #eee;
-	border: 1px solid #CCCCCC;
-	width: 100%;
-}
-DIV#contact_details, DIV#contactTopBar {
-	PADDING: 4px;
-	LINE-HEIGHT: 1.4em;
-	MARGIN: 8px 0pt 0px;
-	/*FONT-SIZE: 1.1em;*/
-	background-color: #F7F7F7;
-	border: 1px solid #CCCCCC;
-	width: 100%;
+#crm-container DIV.buttons SELECT {
+	FONT-SIZE      : 0.9em; 
+	VERTICAL-ALIGN : top !important
 }
 
-DIV#contact_panel, DIV#contactTopBar {
-	WIDTH: 100%; DISPLAY: block
-}
-
-DIV#contact_panel *,
-DIV#contactTopBar * {
-	BORDER: 0px;
-	PADDING-BOTTOM: 0px;
-	MARGIN: 0px;
-	PADDING-LEFT: 0px;
-	PADDING-RIGHT: 0px;
-	PADDING-TOP: 0px;
-}
-
-DIV#contactCardLeft, DIV#Top {
-	WIDTH: 49%; DISPLAY: block; FLOAT: left
-}
-DIV#contactCardRight {
-	WIDTH: 49%; DISPLAY: block; FLOAT: right
-}
-DIV#contactTopBar .label, DIV#contactCardLeft .label, DIV#contactCardRight .label {
-	color: DimGray; FONT-SIZE: 0.8em; VERTICAL-ALIGN: top; FONT-WEIGHT: bold; MARGIN-RIGHT: 10px
-}
-
-DIV#contactCardLeft .grouplabel, 
-DIV#contactCardRight .grouplabel {
-	BORDER-BOTTOM: grey 1px solid; 
-	WIDTH: 100%; 
-	FONT-SIZE: 0.9em; 
-	FONT-WEIGHT: bold;
-	background-color: #ddd;
-}
-DIV#contact_panel .spacer {
-	PADDING-BOTTOM: 8px; PADDING-LEFT: 8px; PADDING-RIGHT: 8px; PADDING-TOP: 8px
-}
-DIV#contact_panel TD, DIV#contactTopBar TD  {
-	PADDING-BOTTOM: 4px;
-	PADDING-LEFT: 4px;
-	PADDING-RIGHT: 4px;
-	VERTICAL-ALIGN: top;
-	PADDING-TOP: 4px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #E2E2E2;
-}
-DIV#contact_panel TD.label, DIV#contactTopBar TD.label {
-	background-color: #EEEEEE;
-}
-
-DIV#contactTopBar TD.label {
-    width: 14%;
-}
-
-DIV#contact_panel TD.label {
-    width: 28%;
-}
-
-DIV#contact_panel TD.last {
-	BORDER-BOTTOM: 0px
-}
-
-DIV#customFields {
-	width: 100%;
-}
-
-DIV#customFields DIV#contact_panel TD {
-	BORDER-BOTTOM: lightgray 1px solid; PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; VERTICAL-ALIGN: top; PADDING-TOP: 4px
-}
-DIV#customFields DIV#contact_panel TD.talabel {
-	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; PADDING-BOTTOM: 0pt; PADDING-LEFT: 4px; PADDING-RIGHT: 0pt; BORDER-TOP: 0px; BORDER-RIGHT: 0px; PADDING-TOP: 4px
-}
-
-#customFields #contact_panel .customFieldGroup {
-	background-color:#F7F7F7;
-	border:1px solid #CCCCCC;
-	line-height:1.4em;
-	margin:8px 0 0;
-	padding:4px;
-	width:100%;
-}
-
-
-DIV.buttons {
-	TEXT-ALIGN: right;
-    margin:8px 0 0;
-	PADDING: 4px 4px 2px;
-	WIDTH: 100%;
-	background-color: #fff;
-	border: none;
-}
-DIV.buttons INPUT {
-	FONT-SIZE: 0.9em; VERTICAL-ALIGN: top !important
-}
-DIV.buttons SELECT {
-	FONT-SIZE: 0.9em; VERTICAL-ALIGN: top !important
-}
-DIV.buttons #actions {
-	TEXT-ALIGN: left; 
+#crm-container DIV.buttons #actions {
+	TEXT-ALIGN : left; 
 	/*WIDTH: 89%;*/ 
-	FLOAT: left
+	FLOAT      : left
 }
-DIV.buttons #icons {
+
+#crm-container DIV.buttons #icons {
 	/*WIDTH: 10%*/
 }
+
 .ui-tabs .ui-tabs-nav LI A {
-	FONT-SIZE: 0.9em
+	FONT-SIZE  : 0.9em
 }
+
 .ui-tabs-collapsible.ui-tabs .ui-tabs-nav LI.ui-tabs-selected A {
-	FONT-SIZE: 0.9em
+	FONT-SIZE  : 0.9em
 }
+
 .ui-tabs .ui-tabs-nav LI A {
-	PADDING-BOTTOM: 5px !important; PADDING-LEFT: 5px !important; PADDING-RIGHT: 5px !important; PADDING-TOP: 5px !important
+	PADDING-BOTTOM : 5px !important; 
+	PADDING-LEFT   : 5px !important; 
+	PADDING-RIGHT  : 5px !important; 
+	PADDING-TOP    : 5px !important;
 }
 
 #crm-container .separator {
-	border-bottom: solid 2px #ccc;
+	border-bottom  : solid 2px #ccc;
 }
 
-.individual h2 {background:url("../i/contact_ind.gif") no-repeat 0 50%;padding-left:20px;}
+.individual h2 {
+	background   : url("../i/contact_ind.gif") no-repeat 0 50%;
+	padding-left : 20px;
+}
 
 .button {}
-.edit {background:url("../i/edit.png") transparent no-repeat; padding-left:18px;}
-.delete {background:url("../i/delete.png") transparent no-repeat; padding-left:18px;}
+.edit {
+	background   : url("../i/edit.png") transparent no-repeat; 
+	padding-left : 18px;
+}
+.delete {
+	background   : url("../i/delete.png") transparent no-repeat; 
+	padding-left : 18px;
+}
 
 #crm-container .report-layout {
-   background-color : #F5F5F5; 
+   background-color : #F7F7F7; 
    border           : none;
 }
 
@@ -1673,7 +1742,23 @@ DIV.buttons #icons {
     display 		: none;
 }
 
-#crm-container .boxBlock {
-	background-color: #F7F7F7;
-	border			: 1px solid #CCCCCC;
+#crm-container .clear {
+    clear 		    : both;
+}
+
+#crm-container table.view-layout {
+  margin: 0em;
+  width: 98%;	
+  border-collapse: collapse;
+  border: 0px none;
+}
+
+#crm-container table.view-layout .label {
+	color          : DimGray; 
+	FONT-SIZE      : 0.95em; 
+	VERTICAL-ALIGN : top; 
+	FONT-WEIGHT    : bold; 
+	MARGIN-RIGHT   : 10px;
+	background-color:#EEEEEE;
+	width: 20%;
 }

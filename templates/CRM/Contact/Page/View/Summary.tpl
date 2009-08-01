@@ -48,16 +48,17 @@
                     {include file="CRM/Contact/Page/View/SummaryHook.tpl"}
                 {/if}
                 
+                {if $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name}
                 <div id="contactTopBar" class="ui-corner-all">
                     <table>
                         <tr>
-                            {if $job_title}
-                            <td class="label">{ts}Position{/ts}</td>
-                            <td>{$job_title}</td>
-                            {/if}
                             {if $current_employer_id}
                             <td class="label">{ts}Employer{/ts}</td>
                             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$current_employer_id`"}" title="{ts}view current employer{/ts}">{$current_employer}</a></td>
+                            {/if}
+                            {if $job_title}
+                            <td class="label">{ts}Position{/ts}</td>
+                            <td>{$job_title}</td>
                             {/if}
                             {if $legal_name}
                             <td class="label">{ts}Legal Name{/ts}</td>
@@ -72,38 +73,40 @@
                             {/if}
                         </tr>
                         <tr>
-                            <td class="label"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a></td><td id="tags">{$contactTag}</td>
+                            <td class="label" id="tagLink"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a></td><td id="tags">{$contactTag}</td>
                             {if $source}
                             <td class="label">{ts}Source{/ts}</td><td>{$source}</td>
                             {/if}
                         </tr>
                     </table>
 
-                    <div style="CLEAR: both"></div>
+                    <div class="clear"></div>
                 </div><!-- #contactTopBar -->
+                {/if}
 
-                <div id="contact_details" class="ui-corner-all">
-                    <div id="contact_panel">
-                        <div id="contactCardLeft">
+                <div class="contact_details ui-corner-all">
+                    <div class="contact_panel">
+                        <div class="contactCardLeft">
+						{if $phone OR $im OR $openid}
                             <table>
                                 {foreach from=$phone item=item}
                                     {if $item.phone}
                                     <tr>
                                         <td class="label">{$item.location_type}&nbsp;{$item.phone_type}</td>
-                                        <td><span {if $privacy.do_not_phone} class="do-not-phone" title={ts}"Privacy flag: Do Not Phone"{/ts} {/if}>{$item.phone}</span></td>
+                                        <td {if $item.is_primary eq 1}class="primary"{/if}><span {if $privacy.do_not_phone} class="do-not-phone" title={ts}"Privacy flag: Do Not Phone"{/ts} {/if}>{$item.phone}</span></td>
                                     </tr>
                                     {/if}
                                 {/foreach}
                                 {foreach from=$im item=item}
                                     {if $item.name or $item.provider}
-                                    {if $item.name}<tr><td class="label">{$item.provider}&nbsp;({$item.location_type})</td><td>{$item.name}</td></tr>{/if}
+                                    {if $item.name}<tr><td class="label">{$item.provider}&nbsp;({$item.location_type})</td><td {if $item.is_primary eq 1}class="primary"{/if}>{$item.name}</td></tr>{/if}
                                     {/if}
                                 {/foreach}
                                 {foreach from=$openid item=item}
                                     {if $item.openid}
                                         <tr>
                                             <td class="label">{$item.location_type}&nbsp;{ts}OpenID{/ts}</td>
-                                            <td><a href="{$item.openid}">{$item.openid|mb_truncate:40}</a>
+                                            <td {if $item.is_primary eq 1}class="primary"{/if}><a href="{$item.openid}">{$item.openid|mb_truncate:40}</a>
                                                 {if $config->userFramework eq "Standalone" AND $item.allowed_to_login eq 1}
                                                     <br/> <span style="font-size:9px;">{ts}(Allowed to login){/ts}</span>
                                                 {/if}
@@ -112,15 +115,16 @@
                                     {/if}
                                 {/foreach}
                             </table>
+						{/if}
                         </div><!-- #contactCardLeft -->
 
-                        <div id="contactCardRight">
+                        <div class="contactCardRight">
                             <table>
                                 {foreach from=$email item=item }
                                     {if $item.email}
                                     <tr>
                                         <td class="label">{$item.location_type}&nbsp;{ts}Email{/ts}</td>
-                                        <td><span class={if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email" {else if $item.is_primary eq 1}"primary"{/if}><a href="mailto:{$item.email}">{$item.email}</a>{if $item.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
+                                        <td><span class={if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email" {elseif $item.is_primary eq 1}"primary"{/if}><a href="mailto:{$item.email}">{$item.email}</a>{if $item.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
                                     </tr>
                                     {/if}
                                 {/foreach}
@@ -139,19 +143,19 @@
                             </table>
                         </div><!-- #contactCardRight -->
 
-                        <div style="CLEAR: both"></div>
+                        <div class="clear"></div>
                     </div><!-- #contact_panel -->
 					{if $address}
                     <div class="separator"></div>
 
-                    <div id="contact_panel">
+                    <div class="contact_panel">
                         {foreach from=$address item=add key=locationIndex}
-                        <div id="{cycle name=location values="contactCardLeft,contactCardRight"}">
+                        <div class="{cycle name=location values="contactCardLeft,contactCardRight"}">
                             <table>
                                 <tr>
                                     <td class="label">{$add.location_type}&nbsp;{ts}Address{/ts}
                                         {if $config->mapAPIKey AND $add.geo_code_1 AND $add.geo_code_2}
-                                            <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$add.location_type_id`"}" title="{ts}Map {$add.location_type} Address{/ts}"><br/><span style="font-size:8px;">{ts}Map Address{/ts}</span></a>
+                                            <br /><span class="geotag"><a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$add.location_type_id`"}" title="{ts}Map {$add.location_type} Address{/ts}">{ts}Map{/ts}</a></span>
                                         {/if}</td>
                                     <td>
                                         {if $HouseholdName and $locationIndex eq 1}
@@ -165,13 +169,13 @@
                         </div>
                         {/foreach}
 
-                        <div style="CLEAR: both"></div>
+                        <div class="clear"></div>
                     </div>
 
                     <div class="separator"></div>
 					{/if}
-                    <div id="contact_panel">
-                        <div id="contactCardLeft">
+                    <div class="contact_panel">
+                        <div class="contactCardLeft">
                             <table>
                                 <tr><td class="label">{ts}Privacy{/ts}</td>
                                     <td><span class="font-red upper">
@@ -189,7 +193,7 @@
                             </table>
                         </div>
 
-                        <div id="contactCardRight">
+                        <div class="contactCardRight">
                             {if $contact_type eq 'Individual' AND $showDemographics}
                             <table>
                                 <tr>
@@ -224,17 +228,10 @@
                             {/if}
                         </div><!-- #contactCardRight -->
 						
-						<div style="CLEAR: both"></div>
+						<div class="clear"></div>
+                        <div class="separator"></div>
 						
-						<div id="contactCardLeft">
-						 <table>
-							<tr>
-								<td class="label">{ts}Addressee{/ts}{if $addressee_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
-								<td>{$addressee_display}</td>
-							</tr>
-						 </table>
-						</div>
-						<div id="contactCardRight">
+						<div class="contactCardLeft">
 						{if $contact_type neq 'Organization'}
 						 <table>
 							<tr>
@@ -248,22 +245,30 @@
 						 </table>
 						 {/if}
 						</div>
+						<div class="contactCardRight">
+						 <table>
+							<tr>
+								<td class="label">{ts}Addressee{/ts}{if $addressee_custom}<br/><span style="font-size:8px;">({ts}Customized{/ts})</span>{/if}</td>
+								<td>{$addressee_display}</td>
+							</tr>
+						 </table>
+						</div>
 						
-                        <div style="CLEAR: both"></div>
+                        <div class="clear"></div>
                     </div>
                 </div><!--contact_details-->
 
                 <div id="customFields">
-                    <div id="contact_panel">
-                        <div id="contactCardLeft">
+                    <div class="contact_panel">
+                        <div class="contactCardLeft">
                             {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='1'}
                         </div><!--contactCardLeft-->
 
-                        <div id="contactCardRight">
+                        <div class="contactCardRight">
                             {include file="CRM/Contact/Page/View/CustomDataView.tpl" side='0'}
                         </div>
 
-                        <div style="CLEAR: both"></div>
+                        <div class="clear"></div>
                     </div>
                 </div>
                 
@@ -280,8 +285,9 @@
     <script type="text/javascript"> 
     var selectedTab = 'summary';
     {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
-    {literal}
-    cj( function() {
+	{if !$contactTag}cj("#tagLink,#tags").hide( );{/if}
+	{literal}
+	cj( function() {
         var tabIndex = cj('#tab_' + selectedTab).prevAll().length
         cj("#mainTabContainer").tabs( {selected: tabIndex} );        
     });

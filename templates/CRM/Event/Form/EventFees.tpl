@@ -239,4 +239,17 @@ function checkEmail( ) {
 </script>
 {/if}
 
+{if $onlinePendingContributionId}
+<script type="text/javascript">
+{literal}
+  function confirmStatus( pStatusId, cStatusId ) {
+     if ( (pStatusId == cj("#status_id").val() ) && (cStatusId == cj("#contribution_status_id").val()) ) {
+         var allow = confirm( "The Payment Status for this participant is Completed. The Participant Status is set to Pending from pay later. Click Cancel if you want to review or modify these values before saving this record." );       
+         if ( !allow ) return false; 
+     }
+  }
+{/literal}
+</script>
+{/if}
+
 {* ADD mode if *}    

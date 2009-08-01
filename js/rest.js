@@ -20,7 +20,7 @@ it also should use closure so we can properly interface the result of the call t
     }; 
 */
 
-function civiREST (entity,action,params) {
+function civiREST (entity,action,params,close) {
   params ['fnName']="civicrm/"+entity+"/"+action;
   params ['json'] = 1;
   cj('#restmsg').removeClass('msgok').removeClass('msgnok').html("");
@@ -29,7 +29,10 @@ function civiREST (entity,action,params) {
     cj('#restmsg').addClass('msgnok').html(result.error_message);
     return false;
   }
-  var successMsg = 'Saved &nbsp; <a href="javascript:hideStatus();">Hide</a>'; 
+  if( !close ){
+	  close = "Hide";
+  }
+  var successMsg = 'Saved &nbsp; <a href="javascript:hideStatus();">'+ close +'</a>'; 
   cj('#restmsg').addClass('msgok').html( successMsg ).show();
   return true;
   });

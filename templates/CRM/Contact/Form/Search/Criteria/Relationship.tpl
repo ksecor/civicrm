@@ -7,7 +7,7 @@
             </td>
             <td>
                {$form.relation_target_name.label}<br />
-               {$form.relation_target_name.html|crmReplace:class:large}
+               {$form.relation_target_name.html|crmReplace:class:huge}
                 <div class="description font-italic">
                     {ts}Complete OR partial contact name.{/ts}
                 </div>
@@ -26,4 +26,3 @@
          {/if}
     </table>         
 </div>
-

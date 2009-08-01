@@ -722,6 +722,11 @@ class CRM_Core_Payment_BaseIPN {
             $values['params']['additionalParticipant'] = false;
             $template->assign( 'isPrimary', 1 );
             $template->assign( 'amount', $primaryAmount );
+            
+            // carry paylater, since we did not created billing,
+            // so need to pull email from primary location, CRM-4395 
+            $values['params']['is_pay_later'] = $participant->is_pay_later;
+            
             return CRM_Event_BAO_Event::sendMail( $ids['contact'], $values, $participant->id, $isTest, $returnMessageText );
             
         } else {

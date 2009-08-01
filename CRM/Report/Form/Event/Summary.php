@@ -73,7 +73,7 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                          array( 			 			   
                                'id'               => array( 'title'   => ts( 'Event Title' ),
                                                             'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
-                                                            'options' => CRM_Event_PseudoConstant::event() ), 
+                                                            'options' => CRM_Event_PseudoConstant::event( null, null, "is_template IS NULL OR is_template = 0" ), ), 
                                
                                'event_type_id'    => array( 'name'    => 'event_type_id',
                                                             'title'   => ts( 'Event Type' ),
@@ -153,12 +153,8 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
                 }
             }
         }
-
-        if ( empty( $clauses ) ) {
-            $this->_where = "WHERE  ( 1 ) ";
-        } else {
-            $this->_where = "WHERE  " . implode( ' AND ', $clauses);          
-        }
+        $clauses[] = "{$this->_aliases['civicrm_event']}.is_template IS NULL";
+        $this->_where = "WHERE  " . implode( ' AND ', $clauses);          
     }
     
     function groupBy( ) {
@@ -310,7 +306,7 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
         if ( CRM_Utils_Array::value('charts', $this->_params ) ) {
             foreach ( $rows as $key => $value ) {
                 $graphRows['totalAmount'][]    = ($rows[$key]['totalAmount']);
-                $graphRows[$this->_interval][] = ($rows[$key]['civicrm_event_id']);
+                $graphRows[$this->_interval][] = substr( $rows[$key]['civicrm_event_title'], 0, 12)."..(". $rows[$key]['civicrm_event_id'].") ";
                 $graphRows['value'][]          = ($rows[$key]['totalAmount']);
                 $count++;
             }
@@ -322,14 +318,22 @@ class CRM_Report_Form_Event_Summary extends CRM_Report_Form {
             if ( (!empty($rows)) && $countEvent != 1 ) {
                 $chartInfo = array( 'legend' => 'Event Summary',
                                     'xname'  => 'Total Amount',
-                                    'yname'  => 'Event ID'
+                                    'yname'  => 'Event'
                                     );
                 if ( !empty($graphRows) ) {
-                    $graphs = CRM_Utils_PChart::reportChart( $graphRows,
-                                                             $this->_params['charts'],
-                                                             $graphRows[$this->_interval],
-                                                             $chartInfo );
-            
+                    foreach ( $graphRows[$this->_interval] as $key => $val ) {
+                        $graph[$val] = $graphRows['value'][$key];
+                    }
+                    
+                    $chartInfo['values'] = $graph;
+                    $params[] = $chartInfo;
+
+                    if ( CRM_Utils_Array::value('charts', $this->_params ) == 'barGraph' ) {
+                        $graphs =  CRM_Utils_PChart::barGraph( $params, 85 );
+                    } else {
+                        unset( $params[0]['xname'], $params[0]['yname'] );
+                        $graphs = CRM_Utils_PChart::pieGraph( $params );
+                    }
                     $this->assign( 'graphFilePath', $graphs['0']['file_name'] );
                     $this->_graphPath =  $graphs['0']['file_name'];
                 } 

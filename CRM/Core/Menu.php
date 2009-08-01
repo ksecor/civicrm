@@ -233,11 +233,12 @@ class CRM_Core_Menu
         self::buildAdminLinks( $menu );
     }
 
-    static function store( ) {
+    static function store( $truncate = true ) {
         // first clean up the db
-        $query = 'TRUNCATE civicrm_menu';
-        CRM_Core_DAO::executeQuery( $query );
-
+        if ( $truncate ) {
+            $query = 'TRUNCATE civicrm_menu';
+            CRM_Core_DAO::executeQuery( $query );
+        }
         $menu =& self::items( );
 
         self::build( $menu );
@@ -312,8 +313,7 @@ class CRM_Core_Menu
             self::get( 'navigation' );
         }
         
-        $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_GET ) == 'civicrm/upgrade' ) {
+        if ( CRM_Core_Config::isUpgradeMode( ) ) {
             return array( );
         }
         
@@ -585,8 +585,7 @@ UNION (
             }
         }
         
-        // *FIXME* : hack for 2.1 -> 2.2 upgrades. The below block of code 
-        // can be safely removed for v2.3.
+        // *FIXME* : hack for 2.1 -> 2.2 upgrades.
         if ( $path == 'civicrm/upgrade' ) {
             $menuPath['page_callback']         = 'CRM_Upgrade_Page_Upgrade';
             $menuPath['access_arguments'][0][] = 'administer CiviCRM';

@@ -139,7 +139,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $errorMsg = array ();
         foreach ($fld as $k => $v) {   
             if ( !$v[1] ) {
-                $errorMsg["operator[$v[3]][$v[4]]"] = ts("Please enter the operator.");  
+                $errorMsg["operator[$v[3]][$v[4]]"] = ts("Please enter the operator.");
             } else {
                 if ( in_array( $v[1], array( 'IS NULL', 'IS NOT NULL' ) ) && $v[2] ) {
                     $errorMsg["value[$v[3]][$v[4]]"] = ts('Please clear your value if you want to use %1 operator.', array( 1 => $v[1] ));  
@@ -177,8 +177,13 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                         if ( $error != $v2[0] ) {
                             $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");  
                         }
-                    } else {
+                    } else { 
                         $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value."); 
+                    }
+                } else if ( ($v[0] === 'sort_name' || $v[0] === 'display_name') ) { 
+                    $v2 = trim($v[2]);
+                    if (empty($v2) ){
+                        $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value.");  
                     }
                 } else {
                     if ( substr($v[0], 0, 7) == 'custom_' ) {

@@ -58,7 +58,8 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
                                 array( 'title'         => ts( 'Event Title' ),
                                        'operatorType'  => CRM_Report_Form::OP_MULTISELECT,
                                        'type'          => CRM_Utils_Type::T_INT,
-                                       'options'       => CRM_Event_PseudoConstant::event(), ), 
+                                       'options'       => CRM_Event_PseudoConstant::event( null, null,
+                                                              "is_template IS NULL OR is_template = 0" ) ), 
                                 ),
                          ),
                   );
@@ -287,7 +288,8 @@ class CRM_Report_Form_Event_Income extends CRM_Report_Form {
         if ( empty( $this->_params['id_value'][0] ) ) {
             $this->_params['id_value'] = array();
             $this->_setVariable = false;
-            $events = CRM_Event_PseudoConstant::event();
+            $events = CRM_Event_PseudoConstant::event( null, null,
+                                                       "is_template IS NULL OR is_template = 0" );
             if ( empty($events) ) {
                 return false;
             }

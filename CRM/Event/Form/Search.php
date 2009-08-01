@@ -21,7 +21,7 @@
  | License along with this program; if not, contact CiviCRM LLC       |
  | at info[AT]civicrm[DOT]org. If you have questions about the        |
  | GNU Affero General Public License or the licensing of CiviCRM,     |
- | see the CiviCRM license FAQ at http://civicrm.org/licensing   
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |    
  +--------------------------------------------------------------------+
 */
 
@@ -326,17 +326,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_done = true;
         
         $this->_formValues = $this->controller->exportValues($this->_name);
-
-        $eventSearchIds = array( 
-                                'event_id'              => 'event_name_id',
-                                'event_type'            => 'event_type_id',
-                                'participant_fee_level' => 'participant_fee_id'
-                                );
-        foreach( $eventSearchIds as $key => $value ) {
-            $this->_formValues[$key]   = ( empty($this->_formValues[$key]) ) ? '' : $this->_formValues[$value];
-            $this->_formValues[$value] = '';
-        }
-
+        
         $this->fixFormValues( );
         
         if ( isset( $this->_ssID ) && empty( $_POST ) ) {
@@ -438,7 +428,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
     {
         $errors = array( );
        
-        if ( $fields['event_id'] && !is_numeric( $fields['event_name_id'] ) ) {
+        if ( $fields['event_name'] && !is_numeric( $fields['event_id'] ) ) {
             $errors['event_id'] = ts('Please select valid event.');
         }
         
@@ -474,8 +464,9 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $event = CRM_Utils_Request::retrieve( 'event', 'Positive',
                                               CRM_Core_DAO::$_nullObject );
         if ( $event ) {
+            require_once 'CRM/Event/PseudoConstant.php';
             $this->_formValues['event_id'] = $event;
-            $this->assign( 'event_id_value', $event );
+            $this->_formValues['event_name'] = CRM_Event_PseudoConstant::event( $event, true );
         }
         
         $status = CRM_Utils_Request::retrieve( 'status', 'String',

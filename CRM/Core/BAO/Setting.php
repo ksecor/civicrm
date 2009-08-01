@@ -54,6 +54,7 @@ class CRM_Core_BAO_Setting
 
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
+        $domain->id = CRM_Core_Config::domainID( );
         $domain->find(true);
         if ($domain->config_backend) {
             $values = unserialize($domain->config_backend);
@@ -150,6 +151,7 @@ class CRM_Core_BAO_Setting
             $domain->selectAdd( 'config_backend, locales' );
         }
         
+        $domain->id = CRM_Core_Config::domainID( );
         $domain->find(true);
         if ($domain->config_backend) {
             $defaults   = unserialize($domain->config_backend);

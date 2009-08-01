@@ -180,7 +180,7 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         require_once 'CRM/Event/PseudoConstant.php';
         $event       = array( '-1' => ts( '- select -' ),
                               '0'  => ts( 'All Events' ) )        +
-            CRM_Event_PseudoConstant::event( );
+            CRM_Event_PseudoConstant::event( null, false, "( is_template IS NULL OR is_template != 1 )" );
 
         $this->add( 'select', 'group_id'       , ts( 'Group'        ), $group       );
         $this->add( 'select', 'custom_group_id', ts( 'Custom Data'  ), $customGroup );

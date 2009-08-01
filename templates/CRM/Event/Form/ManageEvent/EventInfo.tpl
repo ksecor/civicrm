@@ -73,17 +73,21 @@
 			<td class="label">{$form.max_participants.label}</td>
 			<td>{$form.max_participants.html|crmReplace:class:four} {help id="id-max_participants"}</td>
 		</tr>
-        <tr id="id-waitlist">
-            <td class="label">{$form.has_waitlist.label}</td>
-            <td>{$form.has_waitlist.html} {help id="id-has_waitlist"}</td>
-        </tr>
+    <tr id="id-waitlist">
+      {if $form.has_waitlist}
+        <td class="label">{$form.has_waitlist.label}</td>
+        <td>{$form.has_waitlist.html} {help id="id-has_waitlist"}</td>
+      {/if}
+    </tr>
 		<tr id="id-event_full">
 			<td class="label">{$form.event_full_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='event_full_text' id=$eventID}{/if}<br />{help id="id-event_full_text"}</td>
 			<td>{$form.event_full_text.html}</td>
 		</tr>
 		<tr id="id-waitlist-text">
-			<td class="label">{$form.waitlist_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='waitlist_text' id=$eventID}{/if}<br />{help id="id-help-waitlist_text"}</td>
-			<td>{$form.waitlist_text.html}</td>
+      {if $form.waitlist_text}
+        <td class="label">{$form.waitlist_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='waitlist_text' id=$eventID}{/if}<br />{help id="id-help-waitlist_text"}</td>
+        <td>{$form.waitlist_text.html}</td>
+      {/if}
 		</tr>
 		<tr>
 			<td>&nbsp;</td>

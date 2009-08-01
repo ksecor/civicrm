@@ -407,9 +407,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             if ( $this->_onlinePendingContributionId ) {
                 $statusNames = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
                 foreach ( $statusNames as $val => $name ) {
-                    if ( in_array( $name, array( 'Completed', 'Cancelled', 'Failed' ) ) ) {
-                        $allowStatuses[$val] = $statuses[$val]; 
-                    }
+                    if ( in_array($name, array('In Progress', 'Overdue')) ) continue;
+                    $allowStatuses[$val] = $statuses[$val]; 
                 }
             } else {
                 $allowStatuses = $statuses;
@@ -554,6 +553,14 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
         
+        // validate contribution status for 'Failed'.
+        if ( $self->_onlinePendingContributionId && 
+             CRM_Utils_Array::value( 'record_contribution', $params ) && 
+             (CRM_Utils_Array::value( 'contribution_status_id', $params ) == 
+              array_search( 'Failed', CRM_Contribute_PseudoConstant::contributionStatus(null, 'name'))) ) {
+            $errors['contribution_status_id'] = ts( "Please select a valid payment status before updating." );
+        }
+        
         return empty($errors) ? true : $errors;
     }
        
@@ -577,33 +584,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $config =& CRM_Core_Config::singleton(); 
         // get the submitted form values.  
         $this->_params = $formValues = $this->controller->exportValues( $this->_name );
-        
-        //CRM-4395
-        if ( $this->_onlinePendingContributionId && 
-             CRM_Utils_Array::value( 'record_contribution', $formValues ) ) {
-            $params = array( 'contact_id'      => $this->_contactID,
-                             'component_id'    => $this->_id,
-                             'componentName'   => 'Membership',
-                             'contribution_id' => $this->_onlinePendingContributionId );
-            
-            $fields = array( 'total_amount', 'fee_amount', 'check_number', 'trxn_id',
-                             'receive_date', 'payment_instrument_id', 'contribution_status_id' ); 
-            foreach ( $fields as $field ) {
-                if ( $value = CRM_Utils_Array::value( $field, $formValues ) ) {
-                    $params[$field] = $value;
-                }
-            }
-            
-            require_once 'CRM/Core/Payment/BaseIPN.php';
-            $changedStatusId = CRM_Core_Payment_BaseIPN::updateContributionStatus( $params );
-            
-            if ( $changedStatusId ) {
-                $statuses = CRM_Contribute_PseudoConstant::contributionStatus(  );
-                CRM_Core_Session::setStatus( ts( 'Related Online Pending Contribution status has been updated.' ) );
-            }
-            
-            return;
-        }
         
         $params = array( );
         $ids    = array( );
@@ -697,11 +677,17 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
             $membershipType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                            $formValues['membership_type_id'][1] );
-            $params['contribution_source'] = "{$membershipType} Membership: Offline membership signup (by {$userName})";
+            if ( !$this->_onlinePendingContributionId ) {
+                $params['contribution_source'] = "{$membershipType} Membership: Offline membership signup (by {$userName})";
+            }
             
             if ( $formValues['send_receipt'] ) {
                 $params['receipt_date'] = $params['receive_date'];
             }
+            
+            //insert contribution type name in receipt.
+            $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                                $formValues['contribution_type_id'] );
         }
 
         if ( $this->_mode ) {
@@ -837,7 +823,23 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         } else {
             $params['action'] = $this->_action;
-            $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+            if ( $this->_onlinePendingContributionId && 
+                 CRM_Utils_Array::value( 'record_contribution', $formValues ) ) {
+                
+                // update membership as well as contribution object, CRM-4395
+                require_once 'CRM/Contribute/Form/Contribution.php';
+                $params['contribution_id'] = $this->_onlinePendingContributionId;
+                $params['componentId']     = $params['id'];
+                $params['componentName']   = 'contribute';
+                $result = CRM_Contribute_BAO_Contribution::transitionComponents( $params, true );
+                
+                //carry updated membership object.
+                $membership =& new CRM_Member_DAO_Membership( );
+                $membership->id = $this->_id;
+                $membership->find( true );
+            } else {
+                $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+            }
         }
                 
         if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
@@ -944,7 +946,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $statusMsg .= ' '.ts('The membership End Date is %1.', array(1 => $endDate));
             }
             if ( $receiptSend ) {
-                $statusMsg .= ' '.ts('A confirmation for membership updation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
+                $statusMsg .= ' '.ts('A confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             require_once 'CRM/Core/DAO.php';
@@ -975,5 +977,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
         }
     }
+    
 }
 

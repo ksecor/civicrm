@@ -34,7 +34,6 @@
             <span class="description">{ts}Check this box if you want to give users the option to submit payment offline (e.g. mail in a check, call in a credit card, etc.).{/ts}</span></td></tr>
         <tr id="payLaterFields"><td>&nbsp;</td>
             <td>
-            {debug}
             <table class="form-layout">
                 <tr><th scope="row" class="label">{$form.pay_later_text.label} <span class="marker" title="This field is required.">*</span> {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contribution_page' field='pay_later_text' id=$id}{/if}</th>
                 <td>{$form.pay_later_text.html|crmReplace:class:big}<br />

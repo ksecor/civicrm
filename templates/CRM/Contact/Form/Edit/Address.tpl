@@ -12,7 +12,7 @@
 
 {if $blockId gt 1}<div class="spacer"></div>{/if}
 
- <div id="Address_Block_{$blockId}" {if $className eq 'CRM_Contact_Form_Contact'} class="boxBlock ui-corner-all" {/if}>
+ <div id="Address_Block_{$blockId}" {if $className eq 'CRM_Contact_Form_Contact'} class="boxBlock" {/if}>
   <table class="form-layout-compressed">
      <tr>
 	 {if $className eq 'CRM_Contact_Form_Contact'}
@@ -102,7 +102,7 @@ cj(document).ready( function() {
 });
 
 var dataUrl = "{/literal}{$housholdDataURL}{literal}";
-cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : false 
+cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : false, matchCase : true
                                               }).result( function(event, data, formatted) { 
                                                     if( isNaN( data[1] ) ){
                                                         cj( "span#show_address" ).html( 'New Household Record'); 
