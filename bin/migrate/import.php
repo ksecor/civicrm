@@ -179,6 +179,12 @@ class bin_migrate_import {
 function run( ) {
     session_start( );
 
+    if ( ! array_key_exists( 'file', $_GET ) ||
+         is_empty( $_GET['file'] ) ) {
+        echo "Please send an input file to import<p>";
+        exit( );
+    }
+
     require_once '../../civicrm.config.php';
     require_once 'CRM/Core/Config.php'; 
     $config =& CRM_Core_Config::singleton( );
@@ -189,6 +195,10 @@ function run( ) {
     $import = new bin_migrate_import( );
 
     $import->run( $_GET['file'] );
+
+    // clean up all caches etc
+    CRM_Core_Config::clearDBCache( );
+
 }
 
 run( );

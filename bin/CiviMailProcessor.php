@@ -131,11 +131,20 @@ class CiviMailProcessor {
                     if ($mail->body instanceof ezcMailText) {
                         $text = $mail->body->text;
                     } elseif ($mail->body instanceof ezcMailMultipart) {
-                        foreach ($mail->body->getParts() as $part) {
-                            if (isset($part->subType) and $part->subType == 'plain') {
-                                $text = $part->text;
-                                break;
-                            }
+                        if ($mail->body instanceof ezcMailMultipartRelated) {
+                           foreach ($mail->body->getRelatedParts() as $part) {
+                               if (isset($part->subType) and $part->subType == 'plain') {
+                                   $text = $part->text;
+                                   break;
+                               }
+                           }                           
+                        } else {   
+                           foreach ($mail->body->getParts() as $part) {
+                               if (isset($part->subType) and $part->subType == 'plain') {
+                                   $text = $part->text;
+                                   break;
+                               }
+                           }
                         }
                     }
                     crm_mailer_event_bounce($job, $queue, $hash, $text);
@@ -195,7 +204,8 @@ if ($lock->isAcquired()) {
     CiviMailProcessor::cleanupDir($config->customFileUploadDir . DIRECTORY_SEPARATOR . 'CiviMail.processed');
 
     // if there are named sets of settings, use them - otherwise use the default (null)
-    $names = isset($_REQUEST['names']) && is_array($_REQUEST['names']) ? $_REQUEST['names'] : array(null);
+    $names = isset($_REQUEST['names']) && is_array($_REQUEST['names']) ? $_REQUEST['names'] : array( null );
+    
     foreach ($names as $name) {
         CiviMailProcessor::process($name);
     }

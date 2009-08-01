@@ -1010,12 +1010,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * 
      * $params int     $contactId contact_id
      * $params boolean $isPrimaryExist if true, return primary contact location type otherwise null
+     * $params boolean $skipDefaultPriamry if true, return primary contact location type otherwise null
      *
      * @return int $locationType location_type_id
      * @access public
      * @static
      */
-    static function getPrimaryLocationType( $contactId, $isPrimaryExist = false ) 
+    static function getPrimaryLocationType( $contactId, $skipDefaultPriamry = false ) 
     {
         $query = "
 SELECT
@@ -1047,8 +1048,8 @@ WHERE  civicrm_contact.id = %1 ";
         
         if ( $locationType ) {
             return $locationType;
-        } else if ( $isPrimaryExist ) {
-            // if there is no primary contact location then return null, CRM-4423
+        } else if ( $skipDefaultPriamry ) {
+            // if there is no primary contact location then return null
             return null; 
         } else {
             // if there is no primart contact location, then return default
