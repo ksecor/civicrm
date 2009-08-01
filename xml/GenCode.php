@@ -235,15 +235,13 @@ foreach ($tables as $table) {
         }
     }
 }
-$columns = serialize($columns);
-$indices = serialize($indices);
-$beautifier->setInputString(
-    file_get_contents("$phpCodePath/header.txt") . "
-    class CRM_Core_I18n_SchemaStructure {
-        static function &columns() { static \$result = null; if (!\$result) \$result = unserialize('$columns');     return \$result; }
-        static function &indices() { static \$result = null; if (!\$result) \$result = unserialize('$indices');     return \$result; }
-        static function &tables()  { static \$result = null; if (!\$result) \$result = array_keys(self::columns()); return \$result; }
-    }");
+
+$smarty->clear_all_cache();
+$smarty->clear_all_assign();
+$smarty->assign_by_ref('columns', $columns);
+$smarty->assign_by_ref('indices', $indices);
+
+$beautifier->setInputString($smarty->fetch('schema_structure.tpl'));
 $beautifier->setOutputFile("$phpCodePath/CRM/Core/I18n/SchemaStructure.php");
 $beautifier->process();
 $beautifier->save();
