@@ -342,7 +342,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         }
         
         if ( $onDuplicate != CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
-            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $formatted,
                                                                           CRM_Core_DAO::$_nullObject,
                                                                           null,
                                                                           'Membership' );
@@ -366,7 +366,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     }
                 }
                 
-                $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $formatted,
                                                                               CRM_Core_DAO::$_nullObject,
                                                                               $formatValues['membership_id'],
                                                                               'Membership' );
