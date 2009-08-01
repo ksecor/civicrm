@@ -215,12 +215,14 @@ function fileOnCase() {
 	cj("#fileOnCaseDialog").dialog({
 		title: "File on case",
 		modal: true,
-		bgiframe: true, 
+		bgiframe: true,
+		width: 400,
+		height: 300,
 		width: 400,
 		height: 300,
 		overlay: { 
 			opacity: 0.5, 
-			background: "black" 
+			background: "black"
 		},
 
         beforeclose: function(event, ui) {

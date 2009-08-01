@@ -883,8 +883,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     if ( $registerByID ) {
                         $value['registered_by_id'] = $registerByID;
                     }
-                    if ( CRM_Utils_Array::value( 'email-5', $value ) ) {
-                        $this->_participantInfo[] = $value['email-5']; 
+                    if ( CRM_Utils_Array::value( 'email-{$this->_bltID}', $value ) ) {
+                        $this->_participantInfo[] = $value['email-{$this->_bltID}']; 
                     } else {
                         $this->_participantInfo[] = $value['first_name'] .' ' . $value['last_name'];  
                     }
@@ -892,8 +892,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 require_once 'CRM/Event/Form/Registration/Confirm.php';
                 CRM_Event_Form_Registration_Confirm::fixLocationFields( $value, $fields );
-                //for additional participant, dont create billing email address.
-                if ( !CRM_Utils_Array::value( 'is_primary', $value ) ) {
+                //for free event or additional participant, dont create billing email address.
+                if ( !CRM_Utils_Array::value( 'is_primary', $value ) || !$this->_values['event']['is_monetary'] ) {
                     unset( $value["email-{$this->_bltID}"] ); 
                 }
 

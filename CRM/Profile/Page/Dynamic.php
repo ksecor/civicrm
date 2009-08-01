@@ -162,6 +162,11 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
             $template->assign_by_ref( 'row', $values );
             $template->assign_by_ref( 'profileFields_' . $this->_gid, $profileFields );
         }
+
+        // invoke the pagRun hook, CRM-3906
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::pageRun( $this );
+
         return trim( $template->fetch(  $this->getTemplateFileName( ) ) );
     }
 

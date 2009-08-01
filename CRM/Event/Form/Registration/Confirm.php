@@ -218,8 +218,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                      
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
-                    if ( CRM_Utils_Array::value( 'email-5', $v ) ) {
-                        $append = $v['email-5'];
+                    if ( CRM_Utils_Array::value( 'email-{$this->_bltID}', $v ) ) {
+                        $append = $v['email-{$this->_bltID}'];
                     } else {
                         $append = $v['first_name'] .' ' . $v['last_name'];  
                     }
