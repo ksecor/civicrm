@@ -6,13 +6,16 @@
 {$formValues.receipt_text_renewal}
 {else}{ts}Thanks for your support.{/ts}{/if}
 
-{ts}Please print this receipt for your records.{/ts}
+{if ! $cancelled}{ts}Please print this receipt for your records.{/ts}
 
+
+{/if}
 ===========================================================
 {ts}Membership Information{/ts}
 
 ===========================================================
 {ts}Membership Type{/ts}: {$membership_name}
+{if ! $cancelled}
 {ts}Membership Start Date{/ts}: {$mem_start_date}
 {ts}Membership End Date{/ts}: {$mem_end_date}
 {if $formValues.total_amount}
@@ -31,6 +34,7 @@
 {ts}Paid By{/ts}: {$formValues.paidBy}
 {if $formValues.check_number}
 {ts}Check Number{/ts}: {$formValues.check_number} 
+{/if}
 {/if}
 {/if}
 {/if}

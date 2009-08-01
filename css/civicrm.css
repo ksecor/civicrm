@@ -244,7 +244,7 @@ div.spacer, .spacer {
 }
 
 #crm-container .form-layout td {
-  vertical-align: text-top;
+  vertical-align: top;
   padding: 5px;
   white-space: nowrap;
 }

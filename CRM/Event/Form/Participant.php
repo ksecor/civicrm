@@ -712,7 +712,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
              CRM_Utils_Array::value( 'record_contribution', $values ) && 
              (CRM_Utils_Array::value( 'contribution_status_id', $values ) == 
               array_search( 'Failed', CRM_Contribute_PseudoConstant::contributionStatus(null, 'name'))) ) {
-            $errorMsg['contribution_status_id'] = ts( "Please select a valid contribution status before updating." );
+            $errorMsg['contribution_status_id'] = ts( "Please select a valid payment status before updating." );
         }
         
         return empty( $errorMsg ) ? true : $errorMsg;

@@ -558,7 +558,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
              CRM_Utils_Array::value( 'record_contribution', $params ) && 
              (CRM_Utils_Array::value( 'contribution_status_id', $params ) == 
               array_search( 'Failed', CRM_Contribute_PseudoConstant::contributionStatus(null, 'name'))) ) {
-            $errors['contribution_status_id'] = ts( "Please select a valid contribution status before updating." );
+            $errors['contribution_status_id'] = ts( "Please select a valid payment status before updating." );
         }
         
         return empty($errors) ? true : $errors;
@@ -946,7 +946,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $statusMsg .= ' '.ts('The membership End Date is %1.', array(1 => $endDate));
             }
             if ( $receiptSend ) {
-                $statusMsg .= ' '.ts('A confirmation for membership updation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
+                $statusMsg .= ' '.ts('A confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             require_once 'CRM/Core/DAO.php';
