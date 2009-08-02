@@ -158,7 +158,7 @@
 </fieldset>
 {/if}
 
-<table class="view-layout">
+<table class="form-layout">
     <tr>
 	    <td>&nbsp;</td>
         <td>
@@ -172,6 +172,5 @@
         </td>
     </tr>    
 </table>
-
 
 </fieldset>

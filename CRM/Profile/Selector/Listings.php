@@ -509,7 +509,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                     $row[] = $paramsNew[$key]; 
-                } else if ( strpos($name, '-im-')) {
+                } else if ( strpos($name, '-im')) {
                     if ( !empty($result->$name) ) {
                         $imProviders  = CRM_Core_PseudoConstant::IMProvider( );
                         $providerId   = $name."-provider_id";

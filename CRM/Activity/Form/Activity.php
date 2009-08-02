@@ -271,7 +271,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
              $this->_context == 'standalone' || 
              $this->_currentlyViewedContactId ) { 
             $this->_single = true;
-            $this->assign( 'urlPath', 'civicrm/contact/view/activity' );
+            $this->assign( 'urlPath', 'civicrm/activity' );
         } else {
             //set the appropriate action
             $advanced = null;
