@@ -1860,7 +1860,7 @@ UNION
                 $postalGreetingString = $contact->postal_greeting_custom;
              } else if ( $contact->postal_greeting_id != 'null' && $contact->postal_greeting_id ) {
                 $filter =  array( 'contact_type'  => $contact->contact_type, 
-                                  'greeting_type' => 'email_greeting' );
+                                  'greeting_type' => 'postal_greeting' );
                 $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);    
                 $postalGreetingString = $postalGreeting[ $contact->postal_greeting_id ];
              } elseif ( $contact->postal_greeting_custom ) {
