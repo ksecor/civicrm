@@ -37,7 +37,6 @@
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
-       <localizable>true</localizable>
        <comment>Report Instance description.</comment>
        <add>2.2</add>
   </field>
