@@ -212,9 +212,6 @@ echo "Generating CRM_Core_I18n_SchemaStructure...\n";
 $columns = array();
 $indices = array();
 foreach ($tables as $table) {
-    # ugly hack to fix CRM-4846
-    if ($table['name'] == 'civicrm_report_instance') continue;
-
     if ($table['localizable']) {
         $columns[$table['name']] = array();
     } else {
