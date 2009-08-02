@@ -167,7 +167,7 @@ SET    version = '$version'
         return $revList;
     }
 
-    function processLocales( $tplFile ) {
+    function processLocales($tplFile, $rev) {
         $config =& CRM_Core_Config::singleton();
         $smarty =& CRM_Core_Smarty::singleton( );
         $smarty->compile_dir = $config->templateCompileDir;
@@ -189,7 +189,7 @@ SET    version = '$version'
 
         if ( $multilingual ) {
             require_once 'CRM/Core/I18n/Schema.php';
-            CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
+            CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales, $rev);
         }
         
         return $multilingual;
@@ -202,7 +202,7 @@ SET    version = '$version'
         $tplFile = "$sqlFile.tpl";
 
         if ( file_exists( $tplFile ) ) {
-            $this->processLocales( $tplFile );
+            $this->processLocales($tplFile, $rev);
         } else {
             if ( ! file_exists($sqlFile) ) {
                 CRM_Core_Error::fatal("sqlfile - $rev.mysql not found.");
