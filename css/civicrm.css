@@ -1762,3 +1762,7 @@ div.grippie {
 	background-color:#EEEEEE;
 	width: 20%;
 }
+
+#crm-container table.view-layout td {
+   border-bottom:1px solid #E2E2E2;
+}
