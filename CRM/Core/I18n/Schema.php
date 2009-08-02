@@ -231,12 +231,21 @@ class CRM_Core_I18n_Schema
      * Rebuild multilingual indices, views and triggers (useful for upgrades)
      *
      * @param $locales array  locales to be rebuilt
+     * @param $version string version of schema structure to use
      * @return void
      */
-    static function rebuildMultilingualSchema($locales)
+    static function rebuildMultilingualSchema($locales, $version = null)
     {
-        $indices =& CRM_Core_I18n_SchemaStructure::indices();
-        $tables  =& CRM_Core_I18n_SchemaStructure::tables();
+        if ($version) {
+            list($major, $minor) = explode('.', $version);
+            $class = "CRM_Core_I18n_SchemaStructure_{$major}_{$minor}";
+            require_once "CRM/Core/I18n/SchemaStructure_{$major}_{$minor}.php";
+        } else {
+            $class = 'CRM_Core_I18n_SchemaStructure';
+            require_once 'CRM/Core/I18n/SchemaStructure.php';
+        }
+        eval("\$indices =& $class::indices();");
+        eval("\$tables  =& $class::tables();");
         $queries = array();
         $dao = new CRM_Core_DAO;
 
@@ -255,7 +264,7 @@ class CRM_Core_I18n_Schema
         // from all of the CREATE INDEX queries fetch the ones creating missing indices
         foreach ($locales as $locale) {
             foreach (array_keys($indices) as $table) {
-                $allQueries = self::createIndexQueries($locale, $table);
+                $allQueries = self::createIndexQueries($locale, $table, $class);
                 foreach ($allQueries as $name => $query) {
                     if (!in_array("{$name}_{$locale}", $existing[$table])) {
                         $queries[] = $query;
@@ -267,13 +276,13 @@ class CRM_Core_I18n_Schema
         // rebuild views
         foreach ($locales as $locale) {
             foreach ($tables as $table) {
-                $queries[] = self::createViewQuery($locale, $table, $dao);
+                $queries[] = self::createViewQuery($locale, $table, $dao, $class);
             }
         }
 
         // rebuild triggers
         $last = array_pop($locales);
-        $queries = array_merge($queries, self::createTriggerQueries($locales, $last));
+        $queries = array_merge($queries, self::createTriggerQueries($locales, $last, $class));
 
         foreach ($queries as $query) {
             $dao->query($query, false);
@@ -306,12 +315,13 @@ class CRM_Core_I18n_Schema
      *
      * @param $locale string  locale for which the queries should be created (null to create original indices)
      * @param $table string   table for which the queries should be created
+     * @param $class string   schema structure class to use
      * @return array          array of CREATE INDEX queries
      */
-    private function createIndexQueries($locale, $table)
+    private function createIndexQueries($locale, $table, $class = 'CRM_Core_I18n_SchemaStructure')
     {
-        $indices =& CRM_Core_I18n_SchemaStructure::indices();
-        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        eval("\$indices =& $class::indices();");
+        eval("\$columns =& $class::columns();");
         if (!isset($indices[$table])) return array();
 
         $queries = array();
@@ -334,11 +344,12 @@ class CRM_Core_I18n_Schema
      *
      * @param $locales array  array of current database locales
      * @param $locale string  new locale to add
+     * @param $class string   schema structure class to use
      * @return array          array of CREATE TRIGGER queries
      */
-    private function createTriggerQueries($locales, $locale)
+    private function createTriggerQueries($locales, $locale, $class = 'CRM_Core_I18n_SchemaStructure')
     {
-        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        eval("\$columns =& $class::columns();");
         $queries = array();
         $namesTrigger = array();
 
@@ -414,11 +425,12 @@ class CRM_Core_I18n_Schema
      * @param $locale string  locale of the view
      * @param $table string   table of the view
      * @param $dao object     a DAO object to run DESCRIBE queries
+     * @param $class string   schema structure class to use
      * @return array          array of CREATE INDEX queries
      */
-    private function createViewQuery($locale, $table, &$dao)
+    private function createViewQuery($locale, $table, &$dao, $class = 'CRM_Core_I18n_SchemaStructure')
     {
-        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        eval("\$columns =& $class::columns();");
         $cols = array();
         $dao->query("DESCRIBE {$table}", false);
         while ($dao->fetch()) {
