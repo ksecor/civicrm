@@ -17,30 +17,32 @@
     <div id="{$cd_edit.name}_{$index}" class="section-shown form-item">
     <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$cd_edit.title}{if $groupId and $cvID and $editCustomData}&nbsp;&nbsp;&nbsp;<a href="javascript:showDelete( {$cvID}, '{$cd_edit.name}_{$index}', {$customGroupId}, {$contactId} );"><img title="delete this record" src="{$config->resourceBase}i/delete.png" class="action-icon" alt="{ts}delete this record{/ts}" /></a>{/if}</legend>
 
-    <dl>
+    <table class="view-layout">
     {foreach from=$cd_edit.fields item=element key=field_id}
+    <tr>
         {if $element.options_per_line != 0}
-            <dt>{$element.field_title}</dt>
-            <dd class="html-adjust">
+            <td class="label">{$element.field_title}</td>
+            <td class="html-adjust">
                     {* sort by fails for option per line. Added a variable to iterate through the element array*}
                     {foreach from=$element.field_value item=val}
                         {$val}<br/>
                     {/foreach}
-            </dd>
+            </td>
         {else}
-            <dt>{$element.field_title}</dt>
+            <td class="label">{$element.field_title}</td>
             {if $element.field_type == 'File'}
                 {if $element.field_value.displayURL}
-                    <dd class="html-adjust"><a href="javascript:imagePopUp('{$element.field_value.displayURL}')" ><img src="{$element.field_value.displayURL}" height = "100" width="100"></a></dd>
+                    <td class="html-adjust"><a href="javascript:imagePopUp('{$element.field_value.displayURL}')" ><img src="{$element.field_value.displayURL}" height = "100" width="100"></a></td>
                 {else}
-                    <dd class="html-adjust"><a href="{$element.field_value.fileURL}">{$element.field_value.fileName}</a></dd>
+                    <td class="html-adjust"><a href="{$element.field_value.fileURL}">{$element.field_value.fileName}</a></td>
                 {/if}
             {else}
-                <dd class="html-adjust">{$element.field_value}</dd>
+                <td class="html-adjust">{$element.field_value}</td>
             {/if}
         {/if}
+    </tr>
     {/foreach}
-    </dl>
+    </table>
     </fieldset>
     </div>
 
