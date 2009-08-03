@@ -22,8 +22,8 @@
 {if $form.has_waitlist}
   {ts}You may allow users to join a waitlist when the event is full (by checking the box below).{/ts}
 {else}
-  {ts}You may allow users to join a waitlist when the event is full - to do so, enable the statuses required to make waitlisting work (Administer » CiviEvent » Participant Statuses) to make an 'Offer a Waitlist?' box appear below and check it.{/ts}
-{/if}
+  {ts}You may allow users to join a waitlist when the event is full. To enable this feature you must first enable the Participant Statuses used by the waitlist work-flow (Administer » CiviEvent » Participant Statuses). Then reload this form and check 'Offer a Waitlist?'.{/ts}
+{/if}   
 
 {ts}Otherwise, the registration link is hidden and the &quot;Event Full Message&quot' is displayed when the maximum number of registrations is reached. Only participants with status types marked as 'counted' are included when checking if the event is full.{/ts}
 {/htxt}

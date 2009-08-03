@@ -1,6 +1,7 @@
 {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
 {htxt id="id-event-reg"}
 {ts 1=$ppUrl}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href="%1">payment processor</a> for your site.{/ts}
+{ts}You may also configure events to require administrative approval prior to participants completing the registration process. To enable this feature you must first enable the Participant Statuses used by the approval work-flow (Administer » CiviEvent » Participant Statuses). Then reload this form and check 'Require participant approval?'.{/ts}
 {/htxt}
 
 {htxt id='event-profile'}

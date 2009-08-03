@@ -559,6 +559,8 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   border: 1px solid #5A8FDB;
 }
 #crm-container th {
+  font-weight: normal;
+  font-size: 1em;
   padding: 4px;
   border-top: 1px solid #5A8FDB;	
   border-bottom: 1px solid #5A8FDB;
