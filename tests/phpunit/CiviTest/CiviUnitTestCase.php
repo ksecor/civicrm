@@ -1,12 +1,11 @@
 <?php
 
-class CiviUnitTestCase extends DrupalTestCase {
+class CiviUnitTestCase extends PHPUnit_Framework_Testcase {
 
 
     function __construct( ) {
-
         parent::__construct( );
-        
+
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton( );
     }
@@ -769,12 +768,13 @@ class CiviUnitTestCase extends DrupalTestCase {
      */
     function customFieldDelete( $customFieldID ) 
     {
-        $params['result']['customFieldId'] = $customFieldID;
-        $result = & civicrm_custom_field_delete($params);
-        if ( civicrm_error( $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete custom field' );
-        }
-        return;
+          $this->fail( 'civicrm_custom_field_delete seems to be broken!');
+//        $params['result']['customFieldId'] = $customFieldID;
+//        $result = & civicrm_custom_field_delete($params);
+//        if ( civicrm_error( $result ) ) {
+//            CRM_Core_Error::fatal( 'Could not delete custom field' );
+//        }
+//        return;
     }
     
     /**

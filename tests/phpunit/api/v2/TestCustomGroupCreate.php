@@ -3,8 +3,6 @@
 /**
  *  Include class definitions
  */
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'AllTests.php';
 require_once 'api/v2/CustomGroup.php';
 
 /**
@@ -12,7 +10,7 @@ require_once 'api/v2/CustomGroup.php';
  *
  *  @package   CiviCRM
  */
-class api_v2_TestCustomGroupCreate extends PHPUnit_Framework_Testcase
+class api_v2_TestCustomGroupCreate extends CiviUnitTestCase
 {
     
     function get_info( )
@@ -74,7 +72,7 @@ class api_v2_TestCustomGroupCreate extends PHPUnit_Framework_Testcase
         $customGroup =& civicrm_custom_group_create($params);
         $this->assertEquals($customGroup['is_error'],0);
         $this->assertNotNull($customGroup['id']);
-//        $this->customGroupDelete($customGroup['id']);
+        $this->customGroupDelete($customGroup['id']);
     } 
     
     function testCustomGroupCreateNoTitle()
@@ -107,7 +105,7 @@ class api_v2_TestCustomGroupCreate extends PHPUnit_Framework_Testcase
         $customGroup =& civicrm_custom_group_create($params);
         $this->assertEquals($customGroup['is_error'],0);
         $this->assertNotNull($customGroup['id']);
-//        $this->customGroupDelete($customGroup['id']);
+        $this->customGroupDelete($customGroup['id']);
     }
     
     function testCustomGroupCreateContributionDonation()
@@ -126,7 +124,7 @@ class api_v2_TestCustomGroupCreate extends PHPUnit_Framework_Testcase
         $customGroup =& civicrm_custom_group_create($params); 
         $this->assertEquals($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['id']);
-//        $this->customGroupDelete($customGroup['id']);
+        $this->customGroupDelete($customGroup['id']);
     }
     
     function testCustomGroupCreateGroup()
@@ -146,7 +144,7 @@ class api_v2_TestCustomGroupCreate extends PHPUnit_Framework_Testcase
         $customGroup =& civicrm_custom_group_create($params); 
         $this->assertEquals($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['id']);
-//        $this->customGroupDelete($customGroup['id']);
+        $this->customGroupDelete($customGroup['id']);
     }
     
     function testCustomGroupCreateActivityMeeting()
@@ -165,7 +163,7 @@ class api_v2_TestCustomGroupCreate extends PHPUnit_Framework_Testcase
         $customGroup =& civicrm_custom_group_create($params); 
         $this->assertEquals($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['id']);
-//        $this->customGroupDelete($customGroup['id']);
+        $this->customGroupDelete($customGroup['id']);
     }
     
 }
