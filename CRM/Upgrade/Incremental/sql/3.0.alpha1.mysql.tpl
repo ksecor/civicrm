@@ -986,13 +986,12 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
 
     ALTER TABLE `civicrm_preferences`
         ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`,
-        DROP FOREIGN KEY `FK_civicrm_preferences_contact_id`,
-        DROP FOREIGN KEY `FK_civicrm_preferences_domain_id`;
+        DROP FOREIGN KEY `FK_civicrm_preferences_contact_id`;
+
     UPDATE `civicrm_preferences` SET domain_id = @domain_id;
     ALTER TABLE `civicrm_preferences`
-        ADD CONSTRAINT `FK_civicrm_preferences_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`),
-        ADD CONSTRAINT `FK_civicrm_preferences_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE,
-        ADD CONSTRAINT `FK_civicrm_preferences_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`) ON DELETE CASCADE;
+        ADD CONSTRAINT `FK_civicrm_preferences_domain_id`  FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`) ON DELETE CASCADE,
+        ADD CONSTRAINT `FK_civicrm_preferences_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
     
     ALTER TABLE `civicrm_uf_match`
         DROP FOREIGN KEY `FK_civicrm_uf_match_contact_id`,
