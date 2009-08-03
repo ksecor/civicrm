@@ -96,7 +96,7 @@ class CRM_Core_I18n_Schema
             }
 
             // add view
-            $queries[] = self::createViewQuery($locale, $table, $dao, false);
+            $queries[] = self::createViewQuery($locale, $table, $dao);
 
             // add new indices
             $queries = array_merge($queries, self::createIndexQueries($locale, $table));
