@@ -146,7 +146,7 @@
   {include file='CRM/Core/BillingBlock.tpl'}
 {/if}
 {if ($email OR $batchEmail) and $outBound_option != 2}
-    <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>  
+    <fieldset id="send_confirmation_receipt"><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>  
       <table class="form-layout" style="width:auto;">
 		 <tr> 
             <td class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</td>
@@ -248,6 +248,25 @@ function checkEmail( ) {
          if ( !allow ) return false; 
      }
   }
+
+  function checkCancelled( statusId, pStatusId, cStatusId ) {
+    //selected participant status is 'cancelled'
+    if ( statusId == pStatusId ) {
+       cj("#contribution_status_id").val( cStatusId );
+       
+       //unset value for send receipt check box.
+       cj("#send_receipt").attr( "checked", false );
+       cj("#send_confirmation_receipt").hide( );
+
+       // set receive data to null.
+       document.getElementById("receive_date[M]").value = null;
+       document.getElementById("receive_date[d]").value = null;
+       document.getElementById("receive_date[Y]").value = null;
+    } else {
+       cj("#send_confirmation_receipt").show( );
+    }	
+  }
+
 {/literal}
 </script>
 {/if}

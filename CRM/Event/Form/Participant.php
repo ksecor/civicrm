@@ -614,9 +614,19 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     true,
                     array('onchange' => "buildCustomData( 'Participant', this.value, {$this->_roleCustomDataTypeID} );") );
         
+        // CRM-4395
+        $checkCancelledJs = null;
+        if ( $this->_onlinePendingContributionId ) {
+            $cancelledparticipantStatusId  = array_search( 'Cancelled',CRM_Event_PseudoConstant::participantStatus() );
+            $cancelledContributionStatusId = array_search( 'Cancelled', 
+                                                           CRM_Contribute_PseudoConstant::contributionStatus(null, 'name') ); 
+            $checkCancelledJs = array('onchange' => 
+                                      "checkCancelled( this.value, {$cancelledparticipantStatusId},{$cancelledContributionStatusId});");
+        }
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( ),
-                    true );
+                    true, 
+                    $checkCancelledJs );
         
         $this->add( 'text', 'source', ts('Event Source') );
         
