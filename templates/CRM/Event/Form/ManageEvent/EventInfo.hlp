@@ -17,7 +17,15 @@
 {/htxt}
 
 {htxt id="id-max_participants"}
-{ts}Optionally set a maximum number of participants for this event. You may allow users to join a waitlist when the event is full (by checking the box below). Otherwise, the registration link is hidden and the &quot;Event Full Message&quot' is displayed when the maximum number of registrations is reached. Only participants with status types marked as 'counted' are included when checking if the event is full.{/ts}
+{ts}Optionally set a maximum number of participants for this event.{/ts}
+
+{if $form.has_waitlist}
+  {ts}You may allow users to join a waitlist when the event is full (by checking the box below).{/ts}
+{else}
+  {ts}You may allow users to join a waitlist when the event is full - to do so, enable the statuses required to make waitlisting work (Administer » CiviEvent » Participant Statuses) to make an 'Offer a Waitlist?' box appear below and check it.{/ts}
+{/if}
+
+{ts}Otherwise, the registration link is hidden and the &quot;Event Full Message&quot' is displayed when the maximum number of registrations is reached. Only participants with status types marked as 'counted' are included when checking if the event is full.{/ts}
 {/htxt}
 
 {htxt id="id-event_full_text"}
