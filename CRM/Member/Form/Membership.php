@@ -843,7 +843,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     //display end date w/ status message.
                     $endDate = $membership->end_date;
                     
-                    require_once 'CRM/Member/BAO/Membership.php';
+                    require_once 'CRM/Member/PseudoConstant.php';
                     $membershipStatues = CRM_Member_PseudoConstant::membershipStatus( );
                     if ( !in_array( $membership->status_id, array( array_search('Cancelled',$membershipStatues),
                                                                    array_search('Expired',$membershipStatues) ) ) ) {   
