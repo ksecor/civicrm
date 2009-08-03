@@ -94,10 +94,10 @@ class CRM_Admin_Page_ParticipantStatus extends CRM_Core_Page_Basic
             CRM_Core_DAO::storeValues($dao, $statusTypes[$dao->id]);
             $action = array_sum(array_keys($this->links()));
             if ($dao->is_reserved) {
-                $action &= ~CRM_Core_Action::DELETE;
-                if (!in_array($dao->name, $disablable)) $action &= ~CRM_Core_Action::DISABLE;
+                $action -= CRM_Core_Action::DELETE;
+                if (!in_array($dao->name, $disablable)) $action -= CRM_Core_Action::DISABLE;
             }
-            $action &= $dao->is_active ? ~CRM_Core_Action::ENABLE : ~CRM_Core_Action::DISABLE;
+            $action -= $dao->is_active ? CRM_Core_Action::ENABLE : CRM_Core_Action::DISABLE;
             $statusTypes[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, array('id' => $dao->id));
             $statusTypes[$dao->id]['visibility'] = $visibilities[$dao->visibility_id];
         }
