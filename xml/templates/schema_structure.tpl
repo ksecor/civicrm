@@ -30,15 +30,13 @@
  * $Id$
  *
  */
-{literal}
 class CRM_Core_I18n_SchemaStructure
-{
+{ldelim}
     static function &columns()
-    {
+    {ldelim}
         static $result = null;
-        if (!$result) {
+        if (!$result) {ldelim}
           $result = array(
-            {/literal}
             {foreach from=$columns key=table item=types}
               '{$table}' => array(
                 {foreach from=$types key=column item=type}
@@ -46,17 +44,15 @@ class CRM_Core_I18n_SchemaStructure
                 {/foreach}
               ),
             {/foreach}
-            {literal}
           );
-        }
+        {rdelim}
         return $result;
-    }
+    {rdelim}
     static function &indices()
-    {
+    {ldelim}
         static $result = null;
-        if (!$result) {
+        if (!$result) {ldelim}
           $result = array(
-            {/literal}
             {foreach from=$indices key=table item=tableIndices}
               '{$table}' => array(
                 {foreach from=$tableIndices key=name item=info}
@@ -72,18 +68,16 @@ class CRM_Core_I18n_SchemaStructure
                 {/foreach}
               ),
             {/foreach}
-            {literal}
           );
-        }
+        {rdelim}
         return $result;
-    }
+    {rdelim}
     static function &tables()
-    {
+    {ldelim}
         static $result = null;
-        if (!$result) {
+        if (!$result) {ldelim}
             $result = array_keys(self::columns());
-        }
+        {rdelim}
         return $result;
-    }
-}
-{/literal}
+    {rdelim}
+{rdelim}
