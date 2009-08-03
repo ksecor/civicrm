@@ -1059,7 +1059,12 @@ WHERE  contribution_id = {$this->_id}
             $params = $ids = array( );
             
             $params['contact_id'] = $this->_contactID;
+
             $params['currency'  ] = $config->defaultCurrency;
+            
+            if ( $currency = CRM_Utils_Array::value( 'currency', $this->_values ) ) {
+                $params['currency'  ] = $currency;
+            }
             
             $fields = array( 'contribution_type_id',
                              'contribution_status_id',
