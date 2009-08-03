@@ -27,6 +27,7 @@
        <name>domain_id</name>
        <table>civicrm_domain</table>
        <key>id</key>
+       <onDelete>CASCADE</onDelete>
        <add>3.0</add>
   </foreignKey>
   <field>
@@ -39,6 +40,7 @@
        <name>contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
+       <onDelete>CASCADE</onDelete>
        <add>1.8</add>
   </foreignKey>
   <field>
