@@ -112,9 +112,9 @@ div.spacer, .spacer {
 }
 
 #crm-container .boxBlock, #crm-container fieldset{
-	background-color   : #F7F7F7;
-	border			   : 1px solid #CCCCCC;
-	-moz-border-radius : 4px 4px 4px 4px;	
+    background-color   : #F7F7F7;
+    border	       : 1px solid #CCCCCC;
+    -moz-border-radius : 4px 4px 4px 4px;	
 }
 
 
@@ -1739,11 +1739,11 @@ div.grippie {
 }
 
 #crm-container .hiddenElement {
-    display 		: none;
+    display   	    : none;
 }
 
 #crm-container .clear {
-    clear 		    : both;
+    clear 	    : both;
 }
 
 #crm-container table.view-layout {
