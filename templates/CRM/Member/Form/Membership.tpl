@@ -88,8 +88,9 @@
 
         {if $accessContribution and ! $membershipMode AND ($action neq 2 or !$rows.0.contribution_id or $onlinePendingContributionId)}
         <tr id="contri">
-            <td class="label">{$form.record_contribution.label}</td><td>{$form.record_contribution.html}<br />
-                <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span></td>
+            <td class="label">{if $onlinePendingContributionId}{ts}Update Payment Status{/ts}{else}{$form.record_contribution.label}{/if}</td>
+            <td>{$form.record_contribution.html}<br />
+                <span class="description">{ts}Check this box to enter or update payment information. You will also be able to generate a customized receipt.{/ts}</span></td>
             </tr>
         <tr><td colspan="2">    
         <fieldset id="recordContribution"><legend>{ts}Membership Payment and Receipt{/ts}</legend>
