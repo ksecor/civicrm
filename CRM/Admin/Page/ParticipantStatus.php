@@ -87,11 +87,15 @@ class CRM_Admin_Page_ParticipantStatus extends CRM_Core_Page_Basic
 
         $visibilities =& CRM_Core_PseudoConstant::visibility();
 
+        // these statuses are reserved, but disabled by default - so should be disablable after being enabled
+        $disablable = array('On waitlist', 'Awaiting approval', 'Pending from waitlist', 'Pending from approval', 'Rejected');
+
         while ($dao->fetch()) {
             CRM_Core_DAO::storeValues($dao, $statusTypes[$dao->id]);
             $action = array_sum(array_keys($this->links()));
             if ($dao->is_reserved) {
                 $action &= ~CRM_Core_Action::DELETE;
+                if (!in_array($dao->name, $disablable)) $action &= ~CRM_Core_Action::DISABLE;
             }
             $action &= $dao->is_active ? ~CRM_Core_Action::ENABLE : ~CRM_Core_Action::DISABLE;
             $statusTypes[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, array('id' => $dao->id));
