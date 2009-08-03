@@ -13,8 +13,8 @@
         <tr><td class="label">{ts}Start date{/ts}</td><td>{$start_date|crmDate}&nbsp;</td></tr>
         <tr><td class="label">{ts}End date{/ts}</td><td>{$end_date|crmDate}&nbsp;</td></tr>
         <tr><td class="label">{ts}Reminder date{/ts}</td><td>{$reminder_date|crmDate}&nbsp;</td></tr>
-        <tr><td colspan="2">{include file="CRM/Custom/Page/CustomDataView.tpl"};</td></tr>
     </table>
+        {include file="CRM/Custom/Page/CustomDataView.tpl"}
     <table class="form-layout">
        <tr>   
          <td>&nbsp;</td>
