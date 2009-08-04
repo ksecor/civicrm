@@ -56,7 +56,8 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                          array( 
                                'organization_name'=> 
                                array ('title'    => ts( 'Organization Name' ),
-                                      'required' => true ),
+                                      'required' => true,
+                                      'no_repeat' => true),
                                'id'=>
                                array( 'no_display' => true,
                                       'required'   => true, )
@@ -337,47 +338,65 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
             //replace retionship id by relationship name 
             if ( array_key_exists('civicrm_relationship_relationship_type_id', $row ) ) {
                 if ( $value = $row['civicrm_relationship_relationship_type_id'] ) {
-                    $rows[$rowNum]['civicrm_relationship_relationship_type_id'] = $this->relationTypes[$value.'_'.$type];
+                    $rows[$rowNum]['civicrm_relationship_relationship_type_id'] = 
+                        $this->relationTypes[$value.'_'.$type];
                     $entryFound = true;
                 }
             }
             
             //remove duplicate Organization names
-            if ( array_key_exists('civicrm_contact_organization_organization_name', $row) ) {
-                if ( $value = $row['civicrm_contact_organization_organization_name'] ) {
+            if ( array_key_exists('civicrm_contact_organization_id', $row) ) {
+                if ( $value = $row['civicrm_contact_organization_id'] ) {
                     if( $rowNum == 0 ) {
-                        $priviousOrganization = $value;
+                        $previousOrganization = $value;
                     } else {
-                        if(  $priviousOrganization == $value) {
+                        if(  $previousOrganization == $value) {
                             $flagOrganization     = 1;
-                            $priviousOrganization = $value;
-                        } else { $flagOrganization = 0; $priviousOrganization = $value; }
+                            $previousOrganization = $value;
+                        } else {
+                            $flagOrganization = 0; 
+                            $previousOrganization = $value; 
+                        }
                     }
                     
                     if(  $flagOrganization == 1 ) {
-                        $rows[$rowNum]['civicrm_contact_organization_organization_name'] = "";          
-                    } else {
-                        $url = CRM_Utils_System::url( 'civicrm/contact/view', 
-                                                      'reset=1&cid=' . $rows[$rowNum]['civicrm_contact_organization_id'] );
-                        
-                        $rows[$rowNum]['civicrm_contact_organization_organization_name'] ="<a href='$url'>" .$value. '</a>';
+                        foreach (  $row as $colName => $colVal ) {
+                            if ( in_array($colName, $this->_noRepeats) ) {
+                                unset($rows[$rowNum][$colName]);          
+                            }
+                        }
                     }
                     $entryFound = true;
                 }
             }
             
+             // convert Organization display name to links
+            if ( array_key_exists('civicrm_contact_organization_organization_name', $row) && 
+                 CRM_Utils_Array::value( 'civicrm_contact_organization_organization_name', 
+                                         $rows[$rowNum] ) && 
+                 array_key_exists('civicrm_contact_organization_id', $row) ) {
+                $url = CRM_Utils_System::url( "civicrm/contact/view"  , 
+                                              'reset=1&cid=' . 
+                                              $rows[$rowNum]['civicrm_contact_organization_id'],
+                                              $this->_absoluteUrl );
+
+                $rows[$rowNum]['civicrm_contact_organization_organization_name_link' ] = $url;
+                $rows[$rowNum]['civicrm_contact_organization_organization_name_hover'] =  
+                    ts("View Contact Summary for this Organization.");
+            }
+
             //remove duplicate Contact names and relationship type
             if ( array_key_exists('civicrm_contact_id', $row) ) {
                 if ( $value = $row['civicrm_contact_id'] ) {
                     if ( $rowNum == 0 ) {
-                        $priviousContact= $value;
+                        $previousContact= $value;
                     } else {
-                        if( $priviousContact == $value ) {
+                        if( $previousContact == $value ) {
                             $flagContact     = 1;
-                            $priviousContact = $value;
+                            $previousContact = $value;
                         } else { 
                             $flagContact     = 0;
-                            $priviousContact = $value;
+                            $previousContact = $value;
                         }
                     }
                     
@@ -415,12 +434,13 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
                 $entryFound = true;
             }
             
-            // convert display name to links
+            // convert Individual display name to links
             if ( array_key_exists('civicrm_contact_display_name', $row) && 
                  $rows[$rowNum]['civicrm_contact_display_name'] && 
                  array_key_exists('civicrm_contact_id', $row) ) {
                 $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
-                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['civicrm_contact_id'], 
+                                                            'reset=1&force=1&id_op=eq&id_value=' . 
+                                                            $row['civicrm_contact_id'], 
                                                             $this->_absoluteUrl, $this->_id );
                 $rows[$rowNum]['civicrm_contact_display_name_link'] = $url;
                 
