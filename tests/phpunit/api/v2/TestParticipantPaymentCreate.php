@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Participant.php';
 
-class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase 
+class api_v2_TestOfParticipantPaymentCreate extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_participantID;
@@ -30,7 +30,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
     {
         $params = array();        
         $participantPayment = & civicrm_participant_payment_create( $params );
-        $this->assertEqual( $participantPayment['is_error'], 1 );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
     }
     
     function testParticipantPaymentCreateMissingParticipantId( )
@@ -46,7 +46,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
                         'contribution_id'    => $contributionID
                         );        
         $participantPayment = & civicrm_participant_payment_create( $params );
-        $this->assertEqual( $participantPayment['is_error'], 1 );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
         
         //delete created contribution
         $this->contributionDelete( $contributionID );
@@ -62,7 +62,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
                         'participant_id'       => $this->_participantID,
                         );        
         $participantPayment = & civicrm_participant_payment_create( $params );
-        $this->assertEqual( $participantPayment['is_error'], 1 );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
     }
     
     function testParticipantPaymentCreate( )
@@ -80,7 +80,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
                         'contribution_id' => $contributionID
                         );
         $participantPayment = & civicrm_participant_payment_create( $params );
-        $this->assertEqual( $participantPayment['is_error'], 0 );
+        $this->assertEquals( $participantPayment['is_error'], 0 );
         $this->assertTrue( array_key_exists( 'id', $participantPayment ) );
         
         //delete created contribution

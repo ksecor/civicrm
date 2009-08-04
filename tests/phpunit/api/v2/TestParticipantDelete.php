@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Participant.php';
 
-class TestOfParticipantDeleteAPIV2 extends CiviUnitTestCase 
+class api_v2_TestParticipantDelete extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_participantID;
@@ -48,7 +48,7 @@ class TestOfParticipantDeleteAPIV2 extends CiviUnitTestCase
                         'id' => $this->_participantID,
                         );
         $participant = & civicrm_participant_delete($params);
-        $this->assertNotEqual( $participant['is_error'],1 );
+        $this->assertNotEquals( $participant['is_error'],1 );
         $this->assertDBState( 'CRM_Event_DAO_Participant', $this->_participantID, NULL, true ); 
 
     }
@@ -61,7 +61,7 @@ class TestOfParticipantDeleteAPIV2 extends CiviUnitTestCase
                         'event_id'      => $this->_eventID,
                         );
         $participant = & civicrm_participant_delete($params);
-        $this->assertEqual( $participant['is_error'],1 );
+        $this->assertEquals( $participant['is_error'],1 );
         $this->assertNotNull($participant['error_message']);
         $this->_failureCase = 1;
     }

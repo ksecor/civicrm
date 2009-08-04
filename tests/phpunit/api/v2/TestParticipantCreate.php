@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Participant.php';
 
-class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase 
+class api_v2_TestParticipantCreate extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_createdParticipants;
@@ -52,7 +52,7 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
         if ( CRM_Utils_Array::value('id', $participant) ) {
             $this->_createdParticipants[] = $participant['id'];
         }
-        $this->assertEqual( $participant['is_error'],1 );
+        $this->assertEquals( $participant['is_error'],1 );
         $this->assertNotNull($participant['error_message']);
     }
 
@@ -65,7 +65,7 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
         if ( CRM_Utils_Array::value('id', $participant) ) {
             $this->_createdParticipants[] = $participant['id'];
         }
-        $this->assertEqual( $participant['is_error'],1 );
+        $this->assertEquals( $participant['is_error'],1 );
         $this->assertNotNull($participant['error_message']);
     }
     
@@ -76,7 +76,7 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
                         'event_id'      => $this->_eventID,
                         );
         $participant = & civicrm_participant_create($params);
-        $this->assertNotEqual( $participant['is_error'],1 );
+        $this->assertNotEquals( $participant['is_error'],1 );
         $this->_participantID = $participant['result'];
         
         if ( ! $participant['is_error'] ) {
@@ -103,7 +103,7 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $participant = & civicrm_participant_create($params);
-        $this->assertNotEqual( $participant['is_error'],1 );
+        $this->assertNotEquals( $participant['is_error'],1 );
         $this->_participantID = $participant['result'];
         if ( ! $participant['is_error'] ) {
             $this->_createdParticipants[] = CRM_Utils_Array::value('result', $participant);
