@@ -82,7 +82,7 @@ class CRM_UpdateGreeting {
                           'greeting_type' => $greeting );
     
         $allGreetings   = CRM_Core_PseudoConstant::greeting( $filter );            
-        $greetingString = CRM_Utils_Array::value( $valueID, $allGreetings );
+        $originalGreetingString = $greetingString = CRM_Utils_Array::value( $valueID, $allGreetings );
         if ( !$greetingString ) {
             CRM_Core_Error::fatal( ts('Incorrect greeting value id %1.', array( 1 => $valueID ) ) );
         }
@@ -101,6 +101,7 @@ class CRM_UpdateGreeting {
         $contactIds = array( );
         $cacheFieldQuery = "UPDATE civicrm_contact SET {$greeting}_display = CASE id ";
         foreach ( $greetingDetails as $contactID => $contactDetails ) {
+            $greetingString = $originalGreetingString;	 
             CRM_Activity_BAO_Activity::replaceGreetingTokens($greetingString, $contactDetails, $contactID );
             $greetingString = CRM_Core_DAO::escapeString( $greetingString );
             $cacheFieldQuery .= " WHEN {$contactID} THEN '{$greetingString}' ";
@@ -113,7 +114,7 @@ class CRM_UpdateGreeting {
 
         // need to update greeting _id field.
         $queryString = "UPDATE civicrm_contact set {$greeting}_id = {$valueID} WHERE id IN (" . implode( ',', $contactIds ) . ")";
-        CRM_Core_DAO::executeQuery( $cacheFieldQuery );
+        CRM_Core_DAO::executeQuery( $queryString );
 
         // now update cache field
         CRM_Core_DAO::executeQuery( $cacheFieldQuery );
