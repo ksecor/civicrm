@@ -699,8 +699,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 #crm-container .element-right {
-  position: absolute;
-  right: 35px;
+    float : right;
 }
 
 #crm-container #search-status {
