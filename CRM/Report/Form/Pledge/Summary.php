@@ -106,14 +106,14 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                               array( 'title'=> ts('Installments'),),
                               
                               'start_date'  =>
-                              array( 'title'=> ts('Start Date'),
+                              array( 'title'=> ts('Peldge Start Date'),
                                      'type' => CRM_Utils_Type::T_DATE ),
                               
                               'pledge_create_date' =>
-                              array( 'title'=> ts('Create Date'), ),                                        
+                              array( 'title'=> ts('Pledge Create Date'), ),                                        
 
                               'end_date'    =>   
-                              array( 'title'=> ts('End Date'),
+                              array( 'title'=> ts('Pledge End Date'),
                                      'type' => CRM_Utils_Type::T_DATE ),
                               
                               'status_id'   =>
@@ -121,25 +121,31 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                                      'required'=>true               ),
                               
                               'total_paid'  =>
-                              array( 'title'   => ts('Total Paid'), ),
+                              array( 'title'   => ts('Total Amount Paid'), ),
                               
                               ),
                         'filters'   => 
                         array(
-                              'pledge_create_date' => array( 'title'        => 'Event Create Date',
-                                                             'operatorType' => CRM_Report_Form::OP_DATE ),
-                              'sid'         => array( 'name'    => 'status_id',
-                                                      'title'   => ts( 'Status Type' ),
-                                                      'operatorType' => CRM_Report_Form::OP_MULTISELECT ,
-                                                      'options' => CRM_Core_OptionGroup::values('contribution_status') ), ), ),
-                  
+                              'pledge_create_date' => 
+                              array( 'title'        => 'Pledge Create Date',
+                                     'operatorType' => CRM_Report_Form::OP_DATE ),
+                              'pledge_amount'  => 
+                              array( 'title'        => ts( 'Pledged Amount' ),
+                                     'operatorType' => CRM_Report_Form::OP_INT ), 
+                              'sid'    =>
+                              array( 'name'    => 'status_id',
+                                     'title'   => ts( 'Pledge Status' ),
+                                     'operatorType' => CRM_Report_Form::OP_MULTISELECT ,
+                                     'options' => CRM_Core_OptionGroup::values('contribution_status') ), ), 
+                        ),
+
                   'civicrm_group' => 
                   array( 'dao'    => 'CRM_Contact_DAO_Group',
                          'alias'  => 'cgroup',
                          'filters' =>             
                          array( 'gid' => 
                                 array( 'name'    => 'group_id',
-                                       'title'   => ts( 'Creditor\'s Group' ),
+                                       'title'   => ts( ' Group' ),
                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                        'group'   => true,
                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) ) ), ),
@@ -291,11 +297,11 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
         
         // Pledge- Payment Detail Headers 
         $tableHeader = array( 'scheduled_date'  => array ( 'type'  => CRM_Utils_Type::T_DATE , 
-                                                           'title' => 'Next Payment Date'),
+                                                           'title' => 'Payment Scheduled Date'),
                               'scheduled_amount'=> array ( 'type'  => CRM_Utils_Type::T_MONEY , 
-                                                           'title' => 'Next Payment Amount'),  
+                                                           'title' => 'Payment Amount'),  
                               'total_paid'      => array ( 'type'  => CRM_Utils_Type::T_MONEY , 
-                                                           'title' => 'Total Paid'),
+                                                           'title' => 'Total Amount Paid'),
                               'balance_due'     => array ( 'type'  => CRM_Utils_Type::T_MONEY , 
                                                            'title' => 'Balance Due') , 
                               'status_id'       => null,

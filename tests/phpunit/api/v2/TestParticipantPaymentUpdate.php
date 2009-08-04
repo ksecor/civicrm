@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Participant.php';
 
-class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase 
+class api_v2_TestParticipantPaymentUpdate extends CiviUnitTestCase 
 {
 
     protected $_contactID;
@@ -32,7 +32,7 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
     {
         $params = array();        
         $participantPayment = & civicrm_participant_payment_create( $params );
-        $this->assertEqual( $participantPayment['is_error'], 1 );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
     }
 
     function testParticipantPaymentUpdateMissingParticipantId()
@@ -42,7 +42,7 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
                         'contribution_id'    => '3'
                         );        
         $participantPayment = & civicrm_participant_payment_create( $params );
-        $this->assertEqual( $participantPayment['is_error'], 1 );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
     }
 
     function testParticipantPaymentUpdateMissingContributionId()
@@ -51,7 +51,7 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
                         'participant_id'       => $this->_participantID,
                         );        
         $participantPayment = & civicrm_participant_payment_create( $params );
-        $this->assertEqual( $participantPayment['is_error'], 1 );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
     }
     
     function testParticipantPaymentUpdate()
@@ -72,13 +72,13 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
         
         // Update Payment
         $participantPayment = & civicrm_participant_payment_create( $params );
-        $this->assertEqual( $participantPayment['id'],$this->_participantPaymentID );
-        $this->assertEqual( $participantPayment['is_error'], 0 );
+        $this->assertEquals( $participantPayment['id'],$this->_participantPaymentID );
+        $this->assertEquals( $participantPayment['is_error'], 0 );
         $this->assertTrue ( array_key_exists( 'id', $participantPayment ) );
         
         $params = array( 'id' => $this->_participantPaymentID );         
         $deletePayment = & civicrm_participant_payment_delete( $params );   
-        $this->assertEqual( $deletePayment['is_error'], 0 );
+        $this->assertEquals( $deletePayment['is_error'], 0 );
         
         $this->contributionDelete( $contributionID );
         $this->contributionTypeDelete( $contributionTypeID );

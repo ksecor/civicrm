@@ -91,12 +91,15 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
         //So using conditions for skipping some part of sql CRM-4575
 
         $template = & CRM_Core_Smarty::singleton( );
-        $template->assign( 'skipGreetingTypePart', 1 );
-        
+              
         $upgrade =& new CRM_Upgrade_Form( );
         //Run the SQL file (1)
         $upgrade->processSQL( $rev );
-        
+        //replace # with ; in report instance
+        $sql = "UPDATE civicrm_report_instance 
+                       SET form_values = REPLACE(form_values,'#',';') ";
+        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+
         //delete unnecessary activities 
         $bulkEmailID = CRM_Core_OptionGroup::getValue('activity_type', 'Bulk Email', 'name' );
  
@@ -179,52 +182,60 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
         //check whether {contact.name} is set in mailing labels
         require_once 'CRM/Core/BAO/Preferences.php';
         $mailingFormat    = CRM_Core_BAO_Preferences::value( 'mailing_format' );
-        $defaultAddressee = CRM_Core_OptionGroup::values( 'addressee', false, false, false, 
-                                                          " AND v.filter = 1 AND v.is_default =  1", 'label' );
+        $addNewAddressee = true;
+        
         if ( strpos($mailingFormat,'{contact.contact_name}') === false ) {
-            $commonAddressee = true;
+            $addNewAddressee = false;
         } else {
             //else compare individual name format with default individual addressee.
             $individualNameFormat = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
             
+            $defaultAddressee = CRM_Core_OptionGroup::values( 'addressee', false, false, false, 
+                                                              " AND v.filter = 1 AND v.is_default =  1", 'label' );
+            
             if ( array_search($individualNameFormat, $defaultAddressee) !== false ) {
-                 $commonAddressee = true;
-            } else {
-                //otherwise insert new token in addressee and set as a default
-                $addresseeGroupId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
-                                                                  'addressee',
-                                                                  'id',
-                                                                  'name' );
-                
-                $optionValueParams = array( 'label'          => $individualNameFormat,
-                                            'is_active'      => 1, 
-                                            'contactOptions' => 1,
-                                            'filter'         => 1,
-                                            'defaultGreeting'=> 1,
-                                            'is_default'     => 1
-                                            );
-                
-                $action               = CRM_Core_Action::ADD;
-                $addresseeGroupParams = array( 'name' => 'addressee' );
-                $fieldValues          = array( 'option_group_id' => $addresseeGroupId );
-                $weight               = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
-
-                $optionValueParams['weight'] = $weight;
-                $addresseeTokne           = CRM_Core_OptionValue::addOptionValue( $optionValueParams, $addresseeGroupParams, 
-                                                                                     $action, $optionId = null );
-                $commonAddressee = false;
+                $addNewAddressee = false;
             } 
         }
         
-        if ( !$commonAddressee ) {
-            $template->assign('addresseeTokenValue', $addresseeTokne->value );    
-        } else {
-            $template->assign('defaultAddresseeTokenValue', key($defaultAddressee) );     
-        }
+        if ( $addNewAddressee ) {
+            //otherwise insert new token in addressee and set as a default
+            $addresseeGroupId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
+                                                              'addressee',
+                                                              'id',
+                                                              'name' );
+            
+            $optionValueParams = array( 'label'          => $individualNameFormat,
+                                        'is_active'      => 1, 
+                                        'contactOptions' => 1,
+                                        'filter'         => 1,
+                                        'defaultGreeting'=> 1,
+                                        'is_default'     => 1
+                                        );
+            
+            $action               = CRM_Core_Action::ADD;
+            $addresseeGroupParams = array( 'name' => 'addressee' );
+            $fieldValues          = array( 'option_group_id' => $addresseeGroupId );
+            $weight               = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
+            
+            $optionValueParams['weight'] = $weight;
+            $addresseeTokne              = CRM_Core_OptionValue::addOptionValue( $optionValueParams, $addresseeGroupParams, 
+                                                                                 $action, $optionId = null );
+        } 
         
-        //Run the SQL file (2)
-        $template->assign( 'skipGreetingTypePart', 0 );
-        $upgrade->processSQL( $rev );
-
+        //replace contact.contact_name with contact.addressee in civicrm_preference.mailing_format
+        $updateQuery  = "
+        UPDATE civicrm_preferences 
+               SET `mailing_format` = 
+                    replace(`mailing_format`, '{contact.contact_name}','{contact.addressee}')";
+        
+        CRM_Core_DAO::executeQuery( $updateQuery );
+        
+        //drop column individual_name_format
+        $alterQuery = "
+        ALTER TABLE `civicrm_preferences`
+              DROP `individual_name_format`";
+        
+        CRM_Core_DAO::executeQuery( $alterQuery );
     }
 }

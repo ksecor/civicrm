@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Participant.php';
 
-class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase 
+class api_v2_TestParticipantUpdate extends CiviUnitTestCase 
 {
     protected $_participant;
     protected $_individualId; 
@@ -29,8 +29,8 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
     {
         $params = array();        
         $participant = & civicrm_participant_create($params);  
-        $this->assertEqual( $participant['is_error'],1 );
-        $this->assertEqual( $participant['error_message'],'Required parameter missing' );
+        $this->assertEquals( $participant['is_error'],1 );
+        $this->assertEquals( $participant['error_message'],'Required parameter missing' );
     }
 
     function testParticipantUpdateWithoutEventId()
@@ -45,8 +45,8 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
                         'event_level'   => 'Donation'                        
                         );
         $participant = & civicrm_participant_create($params);
-        $this->assertEqual( $participant['is_error'], 1 );
-        $this->assertEqual( $participant['error_message'],'Required parameter missing' );
+        $this->assertEquals( $participant['is_error'], 1 );
+        $this->assertEquals( $participant['error_message'],'Required parameter missing' );
         // Cleanup created participant records.
         $result = $this->participantDelete( $participantId );
     }
@@ -65,7 +65,7 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
                         'event_level'   => 'Donation'                        
                         );
         $participant = & civicrm_participant_create($params);
-        $this->assertNotEqual( $participant['is_error'],1 );
+        $this->assertNotEquals( $participant['is_error'],1 );
         
         if ( ! $participant['is_error'] ) {
             $params['id'] = CRM_Utils_Array::value('result', $participant);

@@ -47,11 +47,11 @@ class CiviUnitTestCase extends PHPUnit_Framework_Testcase {
                   $dbName = $value['name'];
                   if ( isset( $match[$name] ) ) {
                     $verifiedCount++;
-                    $this->assertEqual( $object->$dbName, $match[$name] );
+                    $this->assertEquals( $object->$dbName, $match[$name] );
                   } 
                   else if ( isset( $match[$dbName] ) ) {
                     $verifiedCount++;
-                    $this->assertEqual( $object->$dbName, $match[$dbName] );
+                    $this->assertEquals( $object->$dbName, $match[$dbName] );
                   }
             }
         } else {
@@ -303,6 +303,7 @@ class CiviUnitTestCase extends PHPUnit_Framework_Testcase {
                         );
         
         $ids = null;
+        require_once "CRM/Contribute/BAO/ContributionType.php";
         $contributionType = CRM_Contribute_BAO_ContributionType::add($params, $ids);
         return $contributionType->id;
     }

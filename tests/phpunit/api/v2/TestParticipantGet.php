@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Participant.php';
 
-class TestOfParticipantGetAPIV2 extends CiviUnitTestCase 
+class api_v2_TestParticipantGet extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_contactID2;
@@ -51,9 +51,9 @@ class TestOfParticipantGetAPIV2 extends CiviUnitTestCase
                         'participant_id'      => $this->_participantID,
                         );
         $participant = & civicrm_participant_get($params);
-        $this->assertEqual($participant['event_id'], $this->_eventID);
-        $this->assertEqual($participant['participant_register_date'], '2007-02-19 00:00:00');
-        $this->assertEqual($participant['participant_source'],'Wimbeldon');
+        $this->assertEquals($participant['event_id'], $this->_eventID);
+        $this->assertEquals($participant['participant_register_date'], '2007-02-19 00:00:00');
+        $this->assertEquals($participant['participant_source'],'Wimbeldon');
     }
 
     function testParticipantGetContactIdOnly()
@@ -62,10 +62,10 @@ class TestOfParticipantGetAPIV2 extends CiviUnitTestCase
                         'contact_id'      => $this->_contactID,
                         );
         $participant = & civicrm_participant_get($params);
-        $this->assertEqual($participant['participant_id'],$this->_participantID);
-        $this->assertEqual($participant['event_id'], $this->_eventID);
-        $this->assertEqual($participant['participant_register_date'], '2007-02-19 00:00:00');
-        $this->assertEqual($participant['participant_source'],'Wimbeldon');
+        $this->assertEquals($participant['participant_id'],$this->_participantID);
+        $this->assertEquals($participant['event_id'], $this->_eventID);
+        $this->assertEquals($participant['participant_register_date'], '2007-02-19 00:00:00');
+        $this->assertEquals($participant['participant_source'],'Wimbeldon');
     }
     
 
@@ -90,7 +90,7 @@ class TestOfParticipantGetAPIV2 extends CiviUnitTestCase
                         );
         $participant = & civicrm_participant_get($params);
       
-        $this->assertEqual( $participant['is_error'],1 );
+        $this->assertEquals( $participant['is_error'],1 );
         $this->assertNotNull($participant['error_message']);
     }
 

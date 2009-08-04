@@ -5,7 +5,7 @@ require_once 'api/v2/Relationship.php';
  * Class contains api test cases for "civicrm_relationship_type"
  *
  */
-class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase 
+class api_v2_TestRelationshipTypeCreate extends CiviUnitTestCase 
 {
     protected $_cId_a;
     protected $_cId_b;
@@ -26,8 +26,8 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
         $this->_cId_b  = $this->organizationCreate( );
         
         $relTypeParams = array(
-                               'name_a_b'       => 'Relation 1',
-                               'name_b_a'       => 'Relation 2',
+                               'name_a_b'       => 'Relation 1 for create',
+                               'name_b_a'       => 'Relation 2 for create',
                                'description'    => 'Testing relationship type',
                                'contact_type_a' => 'Individual',
                                'contact_type_b' => 'Organization',
@@ -50,8 +50,8 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
         $params = array( );        
         $result =& civicrm_relationship_type_add( $params );
         
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'No input parameters present' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'No input parameters present' );
     }
     
     /**
@@ -63,8 +63,8 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
         $result =& civicrm_relationship_type_add( $params );                  
        
         
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Parameter is not an array' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Parameter is not an array' );
     }
 
     /**
@@ -79,8 +79,8 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
                                );
         $result =& civicrm_relationship_type_add( $relTypeParams );
         
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing required parameters' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Missing required parameters' );
     }
        
     /**
@@ -89,8 +89,8 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
     function testRelationshipTypeCreateWithoutcontactType( )
     {
         $relTypeParams = array(
-                               'name_a_b' => 'Relation 1',
-                               'name_b_a' => 'Relation 2'
+                               'name_a_b' => 'Relation 1 without contact type',
+                               'name_b_a' => 'Relation 2 without contact type'
                                );
         $result = & civicrm_relationship_type_add( $relTypeParams ); 
        
@@ -108,8 +108,8 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
     function testRelationshipTypeCreate( )
     {
         $relTypeParams = array(
-                               'name_a_b'       => 'Relation 1',
-                               'name_b_a'       => 'Relation 2',
+                               'name_a_b'       => 'Relation 1 for relationship type create',
+                               'name_b_a'       => 'Relation 2 for relationship type create',
                                'contact_type_a' => 'Individual',
                                'contact_type_b' => 'Organization',
                                'is_reserved'    => 1,

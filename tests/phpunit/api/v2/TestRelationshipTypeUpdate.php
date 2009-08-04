@@ -5,7 +5,7 @@ require_once 'api/v2/Relationship.php';
  * Class contains api test cases for "civicrm_relationship_type"
  *
  */
-class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase 
+class api_v2_TestRelationshipTypeUpdate extends CiviUnitTestCase 
 {
     //protected $_relationshipTypeID;
     protected $_relTypeID;
@@ -27,8 +27,8 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
     function testRelationshipTypeCreate( )
     { 
         $relTypeParams = array(
-                               'name_a_b'       => 'Relation 1',
-                               'name_b_a'       => 'Relation 2',
+                               'name_a_b'       => 'Relation 1 for type update',
+                               'name_b_a'       => 'Relation 2 for type update',
                                'description'    => 'Testing relationship type',
                                'contact_type_a' => 'Individual',
                                'contact_type_b' => 'Organization',
@@ -50,8 +50,8 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
         $params = array( );        
         $result =& civicrm_relationship_type_add( $params );
         
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'No input parameters present' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'No input parameters present' );
     }
     
     /**
@@ -62,8 +62,8 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
         $params = 'name_a_b = Relation 1';                            
         $result =& civicrm_relationship_type_add( $params );
         
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Parameter is not an array' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Parameter is not an array' );
     }
     
     /**
@@ -95,8 +95,8 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
     {
         $relTypeParams = array(
                                'id'             => $this->_relTypeID,
-                               'name_a_b'       => 'Test 1',
-                               'name_b_a'       => 'Test 2',
+                               'name_a_b'       => 'Test 1 for update',
+                               'name_b_a'       => 'Test 2 for update',
                                'description'    => 'SUNIL PAWAR relationship type',
                                'contact_type_a' => 'Individual',
                                'contact_type_b' => 'Individual',
@@ -109,7 +109,7 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
         
         // assertDBState compares expected values in $result to actual values in the DB          
         $this->assertDBState( 'CRM_Contact_DAO_RelationshipType', $result['id'],  $relTypeParams ); 
-        
+        $this->fail ('requires data cleanup!');        
     }
     
     function testRelationshipTypeDelete( )
@@ -118,7 +118,7 @@ class TestOfRelationshipTypeUpdateAPIV2 extends CiviUnitTestCase
         
         $result = & civicrm_relationship_type_delete( $params );
         
-        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEquals( $result['is_error'], 0 );
 
     }
  

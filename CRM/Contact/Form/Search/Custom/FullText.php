@@ -188,33 +188,37 @@ CREATE TEMPORARY TABLE {$this->_entityIDTableName} (
     }
 
     function fillTable( ) {
-        if ( ! $this->_table ||
-             $this->_table == 'Contact') {
+        require_once 'CRM/Core/Permission.php';
+        $config =& CRM_Core_Config::singleton( );
+       
+        if ( ( ! $this->_table ||
+               $this->_table == 'Contact') && CRM_Core_Permission::check('view all contacts') ) {
             $this->fillContact( );
         }
 
-        if ( ! $this->_table ||
-             $this->_table == 'Activity') {
+        if ( ( ! $this->_table ||
+               $this->_table == 'Activity') && CRM_Core_Permission::check('view all activities') ) {
             $this->fillActivity( );
         }
 
-        if ( ! $this->_table ||
-             $this->_table == 'Case') {
+        if ( ( ! $this->_table ||
+               $this->_table == 'Case') && in_array( 'CiviCase', $config->enableComponents ) ) {
             $this->fillCase( );
         }
 
-        if ( ! $this->_table ||
-             $this->_table == 'Contribution') {
+        if ( ( ! $this->_table ||
+               $this->_table == 'Contribution') && in_array( 'CiviContribute', $config->enableComponents ) ) {
             $this->fillContribution( );
         }
 
-        if ( ! $this->_table ||
-             $this->_table == 'Participant') {
+        if ( ( ! $this->_table ||
+               $this->_table == 'Participant') &&
+             (in_array('CiviEvent', $config->enableComponents) && CRM_Core_Permission::check('view event participants')) ) {
             $this->fillParticipant( );
         }
 
-        if ( ! $this->_table ||
-             $this->_table == 'Membership') {
+        if ( ( ! $this->_table ||
+               $this->_table == 'Membership') && in_array( 'CiviMember', $config->enableComponents ) ) {
             $this->fillMembership( );
         }
     }

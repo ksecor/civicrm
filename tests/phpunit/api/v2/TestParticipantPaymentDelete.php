@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Participant.php';
 
-class TestOfParticipantPaymentDeleteAPIV2 extends CiviUnitTestCase 
+class api_v2_TestParticipantPaymentDelete extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_participantID;
@@ -30,16 +30,16 @@ class TestOfParticipantPaymentDeleteAPIV2 extends CiviUnitTestCase
     {
         $params = array();        
         $deletePayment = & civicrm_participant_payment_delete( $params ); 
-        $this->assertEqual( $deletePayment['is_error'], 1 );
-        $this->assertEqual( $deletePayment['error_message'], 'Invalid or no value for Participant payment ID' );
+        $this->assertEquals( $deletePayment['is_error'], 1 );
+        $this->assertEquals( $deletePayment['error_message'], 'Invalid or no value for Participant payment ID' );
     }
     
     function testParticipantPaymentDeleteWithWrongID()
     {
         $params = array( 'id' => 0 );        
         $deletePayment = & civicrm_participant_payment_delete( $params ); 
-        $this->assertEqual( $deletePayment['is_error'], 1 );
-        $this->assertEqual( $deletePayment['error_message'], 'Invalid or no value for Participant payment ID' );
+        $this->assertEquals( $deletePayment['is_error'], 1 );
+        $this->assertEquals( $deletePayment['error_message'], 'Invalid or no value for Participant payment ID' );
     }
 
     function testParticipantPaymentDelete()
@@ -55,7 +55,7 @@ class TestOfParticipantPaymentDeleteAPIV2 extends CiviUnitTestCase
         
         $params = array( 'id' => $this->_participantPaymentID );         
         $deletePayment = & civicrm_participant_payment_delete( $params );   
-        $this->assertEqual( $deletePayment['is_error'], 0 );
+        $this->assertEquals( $deletePayment['is_error'], 0 );
         
         $this->contributionDelete( $contributionID );
         $this->contributionTypeDelete( $contributionTypeID );

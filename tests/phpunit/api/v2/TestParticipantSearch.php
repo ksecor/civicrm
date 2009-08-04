@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Participant.php';
 
-class TestOfParticipantSearchAPIV2 extends CiviUnitTestCase 
+class api_v2_TestParticipantSearch extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_contactID2;
@@ -53,9 +53,9 @@ class TestOfParticipantSearchAPIV2 extends CiviUnitTestCase
                         'participant_id'      => $this->_participantID,
                         );
         $participant = & civicrm_participant_search($params);
-        $this->assertEqual($participant[$this->_participantID]['event_id'], $this->_eventID);
-        $this->assertEqual($participant[$this->_participantID]['participant_register_date'], '2007-02-19 00:00:00');
-        $this->assertEqual($participant[$this->_participantID]['participant_source'],'Wimbeldon');
+        $this->assertEquals($participant[$this->_participantID]['event_id'], $this->_eventID);
+        $this->assertEquals($participant[$this->_participantID]['participant_register_date'], '2007-02-19 00:00:00');
+        $this->assertEquals($participant[$this->_participantID]['participant_source'],'Wimbeldon');
     }
     
     function testParticipantSearchContactIdOnly()
@@ -65,7 +65,7 @@ class TestOfParticipantSearchAPIV2 extends CiviUnitTestCase
                         'contact_id'      => $this->_contactID,
                         );
         $participant = & civicrm_participant_search($params);
-        $this->assertEqual( count( $participant ), 3 );
+        $this->assertEquals( count( $participant ), 3 );
     }
     
     
@@ -82,8 +82,8 @@ class TestOfParticipantSearchAPIV2 extends CiviUnitTestCase
             $this->fail("Event search returned less than expected miniumum of 3 records.");
         }
         
-        $this->assertEqual($participant[$this->_participantID]['last_name'],'Anderson');
-        $this->assertEqual($participant[$this->_participantID]['event_title'],'Annual CiviCRM meet');        
+        $this->assertEquals($participant[$this->_participantID]['last_name'],'Anderson');
+        $this->assertEquals($participant[$this->_participantID]['event_title'],'Annual CiviCRM meet');        
     }
     
 
@@ -96,7 +96,7 @@ class TestOfParticipantSearchAPIV2 extends CiviUnitTestCase
                         );
         $participant = & civicrm_participant_search($params);
                
-        $this->assertEqual( count( $participant ), 3 );
+        $this->assertEquals( count( $participant ), 3 );
     }
     
 }

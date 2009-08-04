@@ -102,7 +102,6 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                          'fields'    =>
                          array( 'start_date' => 
                                 array( 'title'     => ts( 'Relationship Start Date' ),
-                                       'default'   => true
                                        ),
                                 ),
                          'grouping'  => 'relation-fields',
@@ -112,7 +111,8 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                   array( 'dao'       => 'CRM_Contact_DAO_RelationshipType',
                          'fields'    =>
                          array( 'label_a_b' => 
-                                array( 'title' => ts( 'RelationShip A-B ' ), ),
+                                array( 'title'   => ts( 'RelationShip A-B ' ),
+                                       'default' => true,),
                                 
                                 'label_b_a' => 
                                 array( 'title' => ts( 'RelationShip B-A ' ), ),
@@ -148,7 +148,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                          array( 'country_id' => 
                                 array( 'title'        => ts( 'Country' ), 
                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                       'options'      => CRM_Core_PseudoConstant::country(null,false),
+                                       'options'      => CRM_Core_PseudoConstant::country(),
                                        ), 
                                 'state_province_id' =>  
                                 array( 'title'        => ts( 'State/Province' ), 

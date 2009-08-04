@@ -2,7 +2,7 @@
 <div id="enableDisableStatusMsg" class="messages status" style="display:none;"></div>
 {literal}
 <script type="text/javascript">
-function modifyLinkAttributes( recordID, op ) {
+function modifyLinkAttributes( recordID, op, recordBAO ) {
     //we changed record from enable to disable
     if ( op == 'enable-disable' ) {
         var fieldID     = "#row_"+ recordID + " a." + "disable-action";
@@ -28,8 +28,8 @@ function modifyLinkAttributes( recordID, op ) {
 
     //need to update js - change op from js to new allow operation. 
     //set updated js
-    var updatedJavaScript = cj( fieldID ).attr("onClick").replace( op, operation );
-    cj( fieldID ).attr( 'onClick', updatedJavaScript );
+    var newAction = 'enableDisable( ' + recordID + ',"' + recordBAO + '","' + operation + '" );';
+    cj( fieldID ).attr("onClick", newAction );
     
     //set the updated status
     var fieldStatus = "#row_"+ recordID + "_status";
@@ -105,7 +105,7 @@ function saveEnableDisable( recordID, recordBAO, op ) {
             modifySelectorRow( recordID, op );
 
             //modify action link html        
-            modifyLinkAttributes( recordID, op ); 
+            modifyLinkAttributes( recordID, op, recordBAO ); 
         } 
 
         cj( '#enableDisableStatusMsg' ).show( ).html( successMsg );

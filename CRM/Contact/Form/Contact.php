@@ -282,7 +282,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     $this->assign('defaultSharedHousehold', $defaults['mail_to_household_id'] );
                 }
                 $defaults['shared_household_id'] = CRM_Utils_Array::value( 'mail_to_household_id', $defaults );
-                $this->assign( 'sharedHouseholdAddress', $defaults['address'][1]['display'] );
+                if ( array_key_exists(1, $defaults['address']) ) {
+                    $this->assign( 'sharedHouseholdAddress', $defaults['address'][1]['display'] );
+                }
             }
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
