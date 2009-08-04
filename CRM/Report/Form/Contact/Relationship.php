@@ -148,7 +148,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                          array( 'country_id' => 
                                 array( 'title'        => ts( 'Country' ), 
                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                       'options'      => CRM_Core_PseudoConstant::country(null,false),
+                                       'options'      => CRM_Core_PseudoConstant::country(),
                                        ), 
                                 'state_province_id' =>  
                                 array( 'title'        => ts( 'State/Province' ), 

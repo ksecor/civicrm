@@ -321,11 +321,14 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         $this->select ( );
         $this->from   ( null, true );
         $this->where  ( ); 
-        $this->groupBy( true );   
-        $this->limit( );  
-        
+        $this->groupBy( true );
+
+        if ( !CRM_Utils_Array::value( 'charts', $this->_params ) ) { 
+            $this->limit( ); 
+        }
         
         $sql   = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy}{$this->_limit}"; 
+        $this->lifeTime_where = $this->_where;
         $dao   = CRM_Core_DAO::executeQuery( $sql );       
         $rows  = array( );
         $count = 0;
@@ -362,7 +365,6 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
             $sqlLifeTime  = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} ";             
             //use from and where clauses of LifeTime for Statistics
             $this->lifeTime_from  = $this->_from;
-            $this->lifeTime_where = $this->_where;
             
             $current_year = $this->_params['yid_value'] ; 
             $dao_lifeTime = CRM_Core_DAO::executeQuery( $sqlLifeTime );      
@@ -388,6 +390,9 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
                 }     
             }
         }
+        //hack for add to group
+        $this->_from  = $this->lifeTime_from;
+        $this->_where = $this->lifeTime_where;
         // format result set. 
         $this->formatDisplay( $rows, false );
         
@@ -417,9 +422,9 @@ class CRM_Report_Form_Contribute_Lybunt extends CRM_Report_Form {
         }
         
         $graphRows['value'] = $display;
-        $chartInfo          = array( 'legend' => 'Lybunt Report',
-                                     'xname'  => 'Amount',
-                                     'yname'  => 'Year'
+        $chartInfo          = array( 'legend' => ts('Lybunt Report'),
+                                     'xname'  => ts('Amount'),
+                                     'yname'  => ts('Year')
                                      );
         if($this->_params['charts']) {
             $graphs = CRM_Utils_PChart::reportChart( $graphRows, $this->_params['charts'] , $interval , $chartInfo );

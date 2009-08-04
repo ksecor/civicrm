@@ -1114,7 +1114,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->groupBy( );
         $this->orderBy( );
 
-        if ( $applyLimit ) {
+        if ( $applyLimit && !CRM_Utils_Array::value( 'charts', $this->_params ) ) {
             $this->limit( );
         }
         $sql = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_having} {$this->_orderBy} {$this->_limit}";
@@ -1327,7 +1327,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         require_once 'CRM/Utils/Pager.php';
         // lets do the pager if in html mode
         $this->_limit = null;
-        if ( $this->_outputMode == 'html' ) {
+        if ( $this->_outputMode == 'html' || $this->_outputMode == 'group'  ) {
             $this->_select = str_ireplace( 'SELECT ', 'SELECT SQL_CALC_FOUND_ROWS ', $this->_select );
 
             $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );

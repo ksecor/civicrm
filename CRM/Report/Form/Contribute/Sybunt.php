@@ -311,7 +311,9 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         $this->from   ( );
         $this->where  ( );
         $this->groupBy( false );
-        $this->limit( );
+        if( !CRM_Utils_Array::value( 'charts', $this->_params ) ) {  
+            $this->limit( );
+        }
 
         $sqlLifeTime = "{$this->_select} {$this->_from} {$this->_where} {$this->_groupBy} {$this->_limit}";
 
