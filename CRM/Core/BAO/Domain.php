@@ -207,6 +207,18 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         $domainGroupID = self::getGroupId( );
         return $domainGroupID == $groupId ? true : false;
     }
+
+    static function getChildGroupIds( ) {
+        $domainGroupID = self::getGroupId( );
+        $childGrps     = array();
+
+        if ( $domainGroupID ) {
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $childGrps = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $domainGroupID );
+            $childGrps[] = $domainGroupID;
+        }
+        return $childGrps;
+    }
 }
 
 

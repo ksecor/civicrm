@@ -1503,7 +1503,20 @@ SELECT     civicrm_contact.id as contact_id,
            civicrm_contact.contact_type as contact_type,
            civicrm_contact.contact_sub_type as contact_sub_type
 FROM       civicrm_contact
-INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
+INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )";
+
+        if ( defined( 'CIVICRM_UNIQ_EMAIL_PER_SITE' ) && CIVICRM_UNIQ_EMAIL_PER_SITE ) {
+            // try to find a match within a site (multisite).
+            require_once 'CRM/Core/BAO/Domain.php';
+            $groups = CRM_Core_BAO_Domain::getChildGroupIds( );
+            if ( ! empty( $groups ) ) {
+                $query .= "
+INNER JOIN civicrm_group_contact gc ON 
+(civicrm_contact.id = gc.contact_id AND gc.group_id IN (" . implode(',', $groups) . "))";
+            }
+        }
+
+        $query .= " 
 WHERE      civicrm_email.email = %1";
         $p = array( 1 => array( $mail, 'String' ) );
 
