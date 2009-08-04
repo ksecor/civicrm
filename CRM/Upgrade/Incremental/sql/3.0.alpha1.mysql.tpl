@@ -1,9 +1,5 @@
--- This file executed Two times
--- 1: IF   block executed
--- 2: ELSE block executed (for greeting)
+    SELECT @domain_id := min(id) FROM civicrm_domain;
 
-SELECT @domain_id := min(id) FROM civicrm_domain;
-{if $skipGreetingTypePart}
     -- CRM-4048
     -- modify visibility of civicrm_group
     ALTER TABLE `civicrm_group` 
@@ -913,6 +909,21 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
             email_greeting_id       = @value,
             postal_greeting_id      = @value
     WHERE contact_type = 'Household';
+    -- Set civicrm_contact.addressee_id to default value for the given contact type. 
+    SELECT @value := value
+    FROM civicrm_option_value
+    WHERE civicrm_option_value.option_group_id  = @og_id_addressee
+            AND civicrm_option_value.filter     = 1
+            AND civicrm_option_value.is_default = 1;
+    UPDATE civicrm_contact
+        SET
+           {if $multilingual}
+               {foreach from=$locales item=locale}addressee_display_{$locale} = display_name_{$locale} , {/foreach}
+           {else}
+               addressee_display = display_name,
+           {/if}
+          addressee_id   = @value
+    WHERE contact_type   = 'Individual';
 
     SELECT @value := value
     FROM civicrm_option_value
@@ -1042,42 +1053,6 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ADD `created_date` datetime default NULL COMMENT 'Date and time this UF group was created.',
         ADD CONSTRAINT `FK_civicrm_uf_group_created_id` FOREIGN KEY (`created_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
 
--- ****************************
--- end of the if block
--- ****************************
-{else}
-    -- CRM-4575
-    -- set default value for addressee contact.contact_name with contact.addressee in civicrm_preference.mailing_format
 
-    SELECT @og_id_addressee       := max(id) FROM civicrm_option_group WHERE name = 'addressee';
-    {if $addresseeTokenValue} 
-        UPDATE civicrm_contact
-            SET 
-                addressee_id = {$addresseeTokenValue}
-        WHERE contact_type   = 'Individual';
-    {else}
-        UPDATE civicrm_contact
-            SET
-                {if $multilingual}
-                    {foreach from=$locales item=locale}addressee_display_{$locale} = display_name_{$locale} , {/foreach}
-                {else}
-                    addressee_display = display_name,
-                {/if}
-                addressee_id      = {$defaultAddresseeTokenValue}
-        WHERE contact_type   = 'Individual';
-    {/if}
-    
-    -- replace contact.contact_name with contact.addressee in civicrm_preference.mailing_format
-   {literal}
-         UPDATE civicrm_preferences 
-            SET `mailing_format` = replace(`mailing_format`, '{contact.contact_name}','{contact.addressee}');
-    {/literal}
-
-    -- drop column individual_name_format
-    ALTER TABLE `civicrm_preferences`
-        DROP `individual_name_format`;
-    
-
-{/if}
 
    
