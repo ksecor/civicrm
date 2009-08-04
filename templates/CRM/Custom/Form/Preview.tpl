@@ -16,7 +16,7 @@
     <p></p>
     <fieldset>{if $preview_type eq 'group'}<legend>{$smarty.capture.legend}</legend>{/if}
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div><br />{/if}
-    <dl>
+    <dl class="html-adjust">
     {foreach from=$cd_edit.fields item=element key=field_id}
       {if $element.is_view eq 0}{* fix for CRM-2699 *}
         {if $element.help_pre}
