@@ -4,6 +4,7 @@
 </h3>
 <div id="tagGroup" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 {/if}
+<fieldset>
 <table class="form-layout-compressed" style="width:98%">
     <tr>
         {foreach key=key item=item from=$tagGroup}
@@ -23,6 +24,7 @@
 		{/foreach}
     </tr>
 </table>   
+</fieldset>
 {if $title}
 </div>
 {/if}

@@ -138,9 +138,10 @@ define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 define( 'CIVICRM_SITE_KEY', null );
 
 /**
- * Multi-org / Multi-site settings:
+ * Multi org / Multi site settings:
  *
  */
+//define( 'CIVICRM_MULTISITE'      , null );
 define( 'CIVICRM_DOMAIN_ID'      , 1 );
 define( 'CIVICRM_DOMAIN_GROUP_ID', null );
 define( 'CIVICRM_DOMAIN_ORG_ID'  , null );

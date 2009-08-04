@@ -349,30 +349,32 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_group', $group->id );
         }
 
-        // make the group, child of domain/site group by default. 
-        require_once 'CRM/Core/BAO/Domain.php';
-        $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
-        if ( ( CRM_Utils_Array::value( 'no_parent', $params ) !== 1 ) && 
-             ( $domainGroupID != $group->id )                       ) {
-            if ( empty($params['parents']) ) {
-                $params['parents'] = array( $domainGroupID => 1 );
-            } else if ( !is_array($params['parents']) ) {
-                $params['parents'] = array( $params['parents'] => 1 );
-            } else {
-                // if array with at least one value
-                $reset = true;
-            }
-            require_once 'CRM/Contact/BAO/GroupNesting.php';
-            if ( $reset ) {
-                CRM_Contact_BAO_GroupNesting::removeAllParentForChild( $group->id );
-            }
-            foreach ( $params['parents'] as $parentId => $dnc ) {
-                if ( !CRM_Contact_BAO_GroupNesting::isParentChild( $parentId, $group->id ) ) {
-                    CRM_Contact_BAO_GroupNesting::add( $parentId, $group->id );
+        if ( defined( 'CIVICRM_MULTISITE' ) && CIVICRM_MULTISITE ) {
+            // make the group, child of domain/site group by default. 
+            require_once 'CRM/Core/BAO/Domain.php';
+            $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
+            if ( ( CRM_Utils_Array::value( 'no_parent', $params ) !== 1 ) && 
+                 ( $domainGroupID != $group->id )                       ) {
+                if ( empty($params['parents']) ) {
+                    $params['parents'] = array( $domainGroupID => 1 );
+                } else if ( !is_array($params['parents']) ) {
+                    $params['parents'] = array( $params['parents'] => 1 );
+                } else {
+                    // if array with at least one value
+                    $reset = true;
                 }
+                require_once 'CRM/Contact/BAO/GroupNesting.php';
+                if ( $reset ) {
+                    CRM_Contact_BAO_GroupNesting::removeAllParentForChild( $group->id );
+                }
+                foreach ( $params['parents'] as $parentId => $dnc ) {
+                    if ( !CRM_Contact_BAO_GroupNesting::isParentChild( $parentId, $group->id ) ) {
+                        CRM_Contact_BAO_GroupNesting::add( $parentId, $group->id );
+                    }
+                }
+                require_once 'CRM/Contact/BAO/GroupNestingCache.php';
+                CRM_Contact_BAO_GroupNestingCache::update( );
             }
-            require_once 'CRM/Contact/BAO/GroupNestingCache.php';
-            CRM_Contact_BAO_GroupNestingCache::update( );
         }
 
         if ( CRM_Utils_Array::value( 'organization_id', $params ) ) {

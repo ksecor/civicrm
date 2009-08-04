@@ -837,6 +837,21 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $membership =& new CRM_Member_DAO_Membership( );
                 $membership->id = $this->_id;
                 $membership->find( true );
+                
+                $cancelled = true;
+                if ( $membership->end_date ) { 
+                    //display end date w/ status message.
+                    $endDate = $membership->end_date;
+                    
+                    require_once 'CRM/Member/PseudoConstant.php';
+                    $membershipStatues = CRM_Member_PseudoConstant::membershipStatus( );
+                    if ( !in_array( $membership->status_id, array( array_search('Cancelled',$membershipStatues),
+                                                                   array_search('Expired',$membershipStatues) ) ) ) {   
+                        $cancelled = false;
+                    }
+                }
+                // suppress form values in template.
+                $this->assign( 'cancelled', $cancelled );
             } else {
                 $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
             }

@@ -112,7 +112,7 @@ class CRM_Contact_Form_Edit_Household
                 $errors['_qf_default'] .= ts('If you are sure this is not a duplicate, click the Save Matching Contact button below.');
                 $template =& CRM_Core_Smarty::singleton( );
                 $template->assign( 'isDuplicate', 1 );
-            } else if ( CRM_Utils_Array::value( '_qf_Edit_refresh_dedupe', $fields ) ) {
+            } else if ( CRM_Utils_Array::value( '_qf_Contact_refresh_dedupe', $fields ) ) {
                 // add a session message for no matching contacts
                 CRM_Core_Session::setStatus( 'No matching contact found.' );
             }

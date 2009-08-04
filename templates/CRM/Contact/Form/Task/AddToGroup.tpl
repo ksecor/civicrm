@@ -1,29 +1,35 @@
 <div class="form-item">
 <fieldset>
     <legend>{ts}Add Contacts to a Group{/ts}</legend>
+<table class="view-layout">
     {if $group.id}
-    <dl>
-        <dt>{ts}Group{/ts}</dt><dd>{$form.group_id.html}</dd>
+       <tr><td class="label">{ts}Group{/ts}</td><td>{$form.group_id.html}</td></tr>
     {else}
-    <dl>
-        <dt></dt><dd>{$form.group_option.html}</dd>
-    </dl>
-    <dl id="id_existing_group">
-        <dt>{$form.group_id.label}<span class="marker">*</span></dt><dd>{$form.group_id.html}</dd>
-    </dl>
-    <dl id="id_new_group">
-        <dt>{$form.title.label}<span class="marker">*</span></dt><dd>{$form.title.html}</dd>
-        <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-{if $form.group_type}
-     <dt>{$form.group_type.label}</dt><dd>{$form.group_type.html}</dd>
-{/if}
-    </dl> 
-    <dl>
+        <tr><td>{$form.group_option.html}</td></tr>
+        <tr id="id_existing_group">
+            <td>
+                <table class="view-layout">
+                <tr><td class="label">{$form.group_id.label}<span class="marker">*</span></td><td>{$form.group_id.html}</td></tr>
+                </table>
+            </td>
+        </tr>
+        <tr id="id_new_group" class="html-adjust">
+            <td>
+                <table class="view-layout">
+                <tr><td class="label">{$form.title.label}<span class="marker">*</span></td><td>{$form.title.html}</td><tr>
+                <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}</td></tr>
+                {if $form.group_type}
+                    <tr><td class="label">{$form.group_type.label}</td><td>{$form.group_type.html}</td></tr>
+                {/if}
+                </table>
+            </td>
+        </tr>
     {/if}
-        <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd> 
-        <dt></dt><dd>{$form.buttons.html}</dd>
-       
-    </dl>
+</table>
+<table class="form-layout">
+        <tr><td>{include file="CRM/Contact/Form/Task.tpl"}</td></tr>
+        <tr><td>{$form.buttons.html}</td></tr>       
+</table>
 </fieldset>
 </div>
 
@@ -35,11 +41,11 @@
 showElements();
 function showElements() {
     if ( document.getElementsByName('group_option')[0].checked ) {
-      show('id_existing_group');
-      hide('id_new_group');
+      cj('#id_existing_group').show();
+      cj('#id_new_group').hide();
     } else {
-      show('id_new_group');
-      hide('id_existing_group');  
+      cj('#id_new_group').show();
+      cj('#id_existing_group').hide();  
     }
 }
 </script>

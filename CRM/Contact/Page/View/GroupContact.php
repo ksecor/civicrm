@@ -146,7 +146,8 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
 
         $groupNum = CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added', 
                                                                    null, true, true );
-        if ( $groupNum == 1 && $groupStatus == 'Removed' ) {
+        if ( defined( 'CIVICRM_MULTISITE' ) && CIVICRM_MULTISITE && 
+             $groupNum == 1 && $groupStatus == 'Removed' ) {
             CRM_Core_Session::setStatus( 'make sure at least one contact group association is maintained.' );
             return false;
         }

@@ -102,28 +102,32 @@ cj(document).ready( function() {
 });
 
 var dataUrl = "{/literal}{$housholdDataURL}{literal}";
+var newContactText = "{/literal}({ts}new contact record{/ts}){literal}";
 cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : false, matchCase : true
-                                              }).result( function(event, data, formatted) { 
-                                                    if( isNaN( data[1] ) ){
-                                                        cj( "span#show_address" ).html( 'New Household Record'); 
-                                                        cj( "#shared_household_id" ).val( data[0] );
-                                                        cj( 'table#address' ).toggle( ); 
-                                                    } else {
-                                                        cj( 'table#address' ).hide( ); 
-                                                        cj( "span#show_address" ).html( data[0] ); 
-                                                        cj( "#shared_household_id" ).val( data[1] );
-                                                    }
-                                              });
+}).result( function(event, data, formatted) { 
+    if( isNaN( data[1] ) ){
+        cj( "span#show_address" ).html( newContactText ); 
+        cj( "#shared_household_id" ).val( data[0] );
+        cj( 'table#address' ).toggle( ); 
+    } else {
+        cj( 'table#address' ).hide( ); 
+        cj( "span#show_address" ).html( data[0] ); 
+        cj( "#shared_household_id" ).val( data[1] );
+    }
+});
 {/literal}
 {/if}	
 {literal}										  
 //to check if same location type is already selected.
 function checkLocation( object, noAlert ) {
-	selectedText = cj( '#' + object + ' :selected').text();
+    var selectedText = cj( '#' + object + ' :selected').text();
 	cj( 'td#Address-Primary-html select' ).each( function() {
 		element = cj(this).attr('id');
-		if( cj(this).val() && element != object && selectedText == cj( '#' + element + ' :selected').text() ) {
-			if( ! noAlert ) alert( 'Location Type ' + selectedText + ' is already Selected. Please select another Location Type !' );
+		if ( cj(this).val() && element != object && selectedText == cj( '#' + element + ' :selected').text() ) {
+			if ( ! noAlert ) {
+			    var alertText = "{/literal}{ts}Location type{/ts} {literal}" + selectedText + "{/literal} {ts}has already been assigned to another address. Please select another location type for this address.{/ts}{literal}";
+			    alert( alertText );
+			}
 			cj( '#' + object ).val('');
 		}
 	});

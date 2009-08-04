@@ -112,9 +112,9 @@ div.spacer, .spacer {
 }
 
 #crm-container .boxBlock, #crm-container fieldset{
-	background-color   : #F7F7F7;
-	border			   : 1px solid #CCCCCC;
-	-moz-border-radius : 4px 4px 4px 4px;	
+    background-color   : #F7F7F7;
+    border	       : 1px solid #CCCCCC;
+    -moz-border-radius : 4px 4px 4px 4px;	
 }
 
 
@@ -322,6 +322,13 @@ div.spacer, .spacer {
   background-color: #ffff99;
   padding: .25em .5em .25em .5em;
   border: 1px solid #5A8FDB;
+}
+
+#crm-container div.view-data {
+  padding: .25em .5em .25em .5em;
+  border: 1px solid DimGray;
+  width: auto;
+  background-color: #ffffff;
 }
 
 #crm-container .footer {
@@ -559,6 +566,8 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   border: 1px solid #5A8FDB;
 }
 #crm-container th {
+  font-weight: normal;
+  font-size: 1em;
   padding: 4px;
   border-top: 1px solid #5A8FDB;	
   border-bottom: 1px solid #5A8FDB;
@@ -989,9 +998,14 @@ div.crm-pager a {
 	width: 100%;
 }
 
+#crm-container div#searchForm table.form-layout {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
 #crm-container div#searchForm table.form-layout td {
   padding: 4px;
-  border: 1px groove #DDDDDD;
+  border: 1px solid #DDDDDD;
   background: #F7F7F7;
 }
 
@@ -1448,6 +1462,10 @@ div.grippie {
    padding: 5px !important;
 }
 
+#crm-container div.ui-accordion-content {
+   padding: .5em 1em !important;
+}
+
 /* Styles for Contact Summary mockup start here. dgg */
 .primary {
 	FONT-WEIGHT: bold
@@ -1739,11 +1757,11 @@ div.grippie {
 }
 
 #crm-container .hiddenElement {
-    display 		: none;
+    display   	    : none;
 }
 
 #crm-container .clear {
-    clear 		    : both;
+    clear 	    : both;
 }
 
 #crm-container table.view-layout {

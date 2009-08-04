@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Note.php';
 
-class TestOfNoteCreateAPIV2 extends CiviUnitTestCase 
+class api_v2_TestNoteCreate extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_params;
@@ -35,9 +35,9 @@ class TestOfNoteCreateAPIV2 extends CiviUnitTestCase
         $params = null;
         $result = civicrm_note_create( $params );
         
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertNotEqual( $result['error_message'], 'Required parameter missing' );
-        $this->assertEqual( $result['error_message'], 'Params is not an array' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertNotEquals( $result['error_message'], 'Required parameter missing' );
+        $this->assertEquals( $result['error_message'], 'Params is not an array' );
     }    
     
     function testCreateNoteEmptyParams( )
@@ -45,25 +45,25 @@ class TestOfNoteCreateAPIV2 extends CiviUnitTestCase
         $params = array( );
         $result = civicrm_note_create( $params );
         
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
         $this->assertFalse( array_key_exists( 'entity_id', $result ) );
-        $this->assertEqual( $result['error_message'], 'Required parameter missing' );
+        $this->assertEquals( $result['error_message'], 'Required parameter missing' );
     }
     
     function testCreateNoteParamsWithoutEntityId( )
     {
         unset($this->_params['entity_id']);
         $result = civicrm_note_create( $this->_params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Required parameter missing' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Required parameter missing' );
     }
     
     function testCreateNote( )
     {
         $result = civicrm_note_create( $this->_params );
-        $this->assertEqual( $result['note'], 'Hello!!! m testing Note');
+        $this->assertEquals( $result['note'], 'Hello!!! m testing Note');
         $this->assertTrue( array_key_exists( 'entity_id', $result ) );
-        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEquals( $result['is_error'], 0 );
         civicrm_note_delete( $result );
     }
     

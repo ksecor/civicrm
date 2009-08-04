@@ -500,7 +500,7 @@ function _crm_check_required_fields(&$params, $daoName)
     
     $missing = array();
     foreach ($fields as $k => $v) {
-        if ($k == 'id') {
+        if ($k == 'id' || $k == 'domain_id') {
             continue;
         }
         

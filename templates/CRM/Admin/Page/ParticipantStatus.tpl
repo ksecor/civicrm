@@ -1,5 +1,7 @@
 {if $action eq 1 or $action eq 2 or $action eq 8}
   {include file="CRM/Admin/Form/ParticipantStatus.tpl"}
+{else}
+  <div id="help">{ts}Manage event participant statuses below. Enable selected statuses to allow event waitlisting and/or participant approval.{/ts} {help id="id-disabled_statuses" file="CRM/Admin/Page/ParticipantStatus.hlp"}</div>
 {/if}
 
 <div class="form-item">
@@ -8,8 +10,8 @@
     {include file="CRM/common/enableDisable.tpl"}
     <table cellpadding="0" cellspacing="0" border="0">
       <thead class="sticky">
-        <th>{ts}Name{/ts}</th>
         <th>{ts}Label{/ts}</th>
+        <th>{ts}Name{/ts}</th>
         <th>{ts}Class{/ts}</th>
         <th>{ts}Reserved?{/ts}</th>
         <th>{ts}Active?{/ts}</th>
@@ -20,8 +22,8 @@
       </thead>
       {foreach from=$rows item=row}
        <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-          <td>{$row.name}</td>
           <td>{$row.label}</td>
+          <td>{$row.name}</td>
           <td>{$row.class}</td>
           <td class="yes-no">{if $row.is_reserved}<img src="{$config->resourceBase}/i/check.gif" alt="{ts}Reserved{/ts}" />{/if}</td>
 	  <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>

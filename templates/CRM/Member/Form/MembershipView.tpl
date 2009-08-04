@@ -1,21 +1,24 @@
 <div class="form-item"> 
 <fieldset>
       <legend>{ts}View Membership{/ts}</legend>
-      <dl>  
-        <dt class="font-size12pt">{ts}Member{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
+    <table class="view-layout">
+        <tr><td class="label">{ts}Member{/ts}</td><td class="bold">{$displayName}&nbsp;</td></tr>
         {if $owner_display_name}
-            <dt>{ts}By Relationship{/ts}</dt><dd>{$relationship}&nbsp;&nbsp;{$owner_display_name}&nbsp;</dd>
+            <tr><td class="label">{ts}By Relationship{/ts}</td><td>{$relationship}&nbsp;&nbsp;{$owner_display_name}&nbsp;</td></tr>
         {/if}
-        <dt>{ts}Membership Type{/ts}</dt><dd>{$membership_type}&nbsp;</dd>
-        <dt>{ts}Status{/ts}</dt><dd>{$status}&nbsp;</dd>
-        <dt>{ts}Source{/ts}</dt><dd>{$source}&nbsp;</dd>
-        <dt>{ts}Join date{/ts}</dt><dd>{$join_date|crmDate}&nbsp;</dd>
-        <dt>{ts}Start date{/ts}</dt><dd>{$start_date|crmDate}&nbsp;</dd>
-        <dt>{ts}End date{/ts}</dt><dd>{$end_date|crmDate}&nbsp;</dd>
-        <dt>{ts}Reminder date{/ts}</dt><dd>{$reminder_date|crmDate}&nbsp;</dd>
+        <tr><td class="label">{ts}Membership Type{/ts}</td><td>{$membership_type}&nbsp;</td></tr>
+        <tr><td class="label">{ts}Status{/ts}</td><td>{$status}&nbsp;</td></tr>
+        <tr><td class="label">{ts}Source{/ts}</td><td>{$source}&nbsp;</td></tr>
+        <tr><td class="label">{ts}Join date{/ts}</td><td>{$join_date|crmDate}&nbsp;</td></tr>
+        <tr><td class="label">{ts}Start date{/ts}</td><td>{$start_date|crmDate}&nbsp;</td></tr>
+        <tr><td class="label">{ts}End date{/ts}</td><td>{$end_date|crmDate}&nbsp;</td></tr>
+        <tr><td class="label">{ts}Reminder date{/ts}</td><td>{$reminder_date|crmDate}&nbsp;</td></tr>
+    </table>
         {include file="CRM/Custom/Page/CustomDataView.tpl"}
-        <dt></dt>
-            <dd>
+    <table class="form-layout">
+       <tr>   
+         <td>&nbsp;</td>
+            <td>
                 {$form.buttons.html}
                 {if call_user_func(array('CRM_Core_Permission','check'), 'edit memberships')}
                     &nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&id=$id&cid=$contact_id&action=update&context=membership"}" accesskey="e">Edit</a>
@@ -23,8 +26,9 @@
                 {if call_user_func(array('CRM_Core_Permission','check'), 'delete in CiviMember')}
                     &nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&id=$id&cid=$contact_id&action=delete&context=membership"}">Delete</a>
                 {/if}
-            </dd>
-    </dl>
+            </td>
+        </tr>
+    </table>
 	{if $accessContribution and $rows.0.contribution_id}
 	    {include file="CRM/Contribute/Form/Selector.tpl" context="Search"}	
 	{/if}

@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Note.php';
 
-class TestOfNoteUpdateAPIV2 extends CiviUnitTestCase 
+class api_v2_TestNoteUpdate extends CiviUnitTestCase 
 {
 
     protected $_contactID;
@@ -29,8 +29,8 @@ class TestOfNoteUpdateAPIV2 extends CiviUnitTestCase
     {
         $params = array();        
         $note   = & civicrm_note_create( $params );
-        $this->assertEqual( $note['is_error'], 1 );
-        $this->assertEqual( $note['error_message'], 'Required parameter missing' );
+        $this->assertEquals( $note['is_error'], 1 );
+        $this->assertEquals( $note['error_message'], 'Required parameter missing' );
     }
 
     function testNoteUpdateMissingContactId( )
@@ -40,8 +40,8 @@ class TestOfNoteUpdateAPIV2 extends CiviUnitTestCase
                         'entity_table' => 'civicrm_contact'                
                         );        
         $note   = & civicrm_note_create( $params );
-        $this->assertEqual( $note['is_error'], 1 );
-        $this->assertEqual( $note['error_message'], 'Required parameter missing' );
+        $this->assertEquals( $note['is_error'], 1 );
+        $this->assertEquals( $note['error_message'], 'Required parameter missing' );
     }
     
     function testNoteUpdate( )
@@ -58,9 +58,9 @@ class TestOfNoteUpdateAPIV2 extends CiviUnitTestCase
         //Update Note
         $note = & civicrm_note_create( $params );
         
-        $this->assertEqual( $note['id'],$this->_noteID );
-        $this->assertEqual( $note['entity_id'],$this->_contactID );
-        $this->assertEqual( $note['entity_table'],'civicrm_contribution' );
+        $this->assertEquals( $note['id'],$this->_noteID );
+        $this->assertEquals( $note['entity_id'],$this->_contactID );
+        $this->assertEquals( $note['entity_table'],'civicrm_contribution' );
     }
     
     function tearDown( ) 

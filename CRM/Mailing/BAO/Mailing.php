@@ -1862,11 +1862,12 @@ SELECT $selectClause
      * @param  array   $returnProperties of required properties
      * @param  boolean $skipOnHold       don't return on_hold contact info also.
      * @param  boolean $skipDeceased     don't return deceased contact info.
+     * @param  array   $extraParams      extra params
      *
      * @return array
      * @access public
      */
-    function getDetails($contactIDs, $returnProperties = null, $skipOnHold = true, $skipDeceased = true ) 
+    function getDetails($contactIDs, $returnProperties = null, $skipOnHold = true, $skipDeceased = true, $extraParams = null ) 
     {
         $params = array( );
         foreach ( $contactIDs  as $key => $contactID ) {
@@ -1884,6 +1885,10 @@ SELECT $selectClause
             $params[] = array( 'on_hold', '=', 0, 0, 0 );
         }
         
+        if ( $extraParams ) {
+            $params = array_merge( $params, $extraParams );
+        }
+            
         // if return properties are not passed then get all return properties
         if ( empty( $returnProperties ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';

@@ -2,7 +2,7 @@
 
 require_once 'api/v2/CustomGroup.php';
 
-class TestOfCustomGroupDeleteAPIV2 extends CiviUnitTestCase 
+class api_v2_TestCustomGroupDelete extends CiviUnitTestCase 
 {
     function get_info( )
     {
@@ -25,8 +25,8 @@ class TestOfCustomGroupDeleteAPIV2 extends CiviUnitTestCase
     {
         $params = array( );
         $customGroup =& civicrm_custom_group_delete($params);
-        $this->assertEqual($customGroup['is_error'], 1);
-        $this->assertEqual($customGroup['error_message'],'Invalid or no value for Custom group ID');
+        $this->assertEquals($customGroup['is_error'], 1);
+        $this->assertEquals($customGroup['error_message'],'Invalid or no value for Custom group ID');
     }    
     
     function testCustomGroupDelete( )
@@ -34,7 +34,7 @@ class TestOfCustomGroupDeleteAPIV2 extends CiviUnitTestCase
         $customGroup = $this->customGroupCreate('Individual', 'test_group'); 
         $params = array('id' => $customGroup['id']);                         
         $customGroup =& civicrm_custom_group_delete($params);  
-        $this->assertEqual($customGroup['is_error'], 0);
+        $this->assertEquals($customGroup['is_error'], 0);
     } 
 }
 

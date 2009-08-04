@@ -33,7 +33,7 @@
  *
  */
 
-class CiviTestCase extends DrupalTestCase 
+class CiviTestCase extends PHPUnit_Framework_Testcase
 {
 
     function __construct( ) 

@@ -76,11 +76,12 @@ cj(document).ready( function() {
 {/if}
 {literal}
 var dataUrl = "{/literal}{$employerDataURL}{literal}";
+var newContactText = "{/literal}({ts}new contact record{/ts}){literal}";
 cj('#current_employer').autocomplete( dataUrl, { width : 250, selectFirst : false, matchCase : true
-                                              }).result( function(event, data, formatted) { 
-													cj( "#current_employer_id" ).val( data[1] );
-													htmlDiv = ( !parseInt (data[1]) ) ? 'New Organization' : data[0].replace( /::/gi, ' ');
-													cj('div#employer_address').html(htmlDiv);
-                                              });
+}).result( function(event, data, formatted) { 
+    cj( "#current_employer_id" ).val( data[1] );
+    htmlDiv = ( !parseInt (data[1]) ) ? newContactText : data[0].replace( /::/gi, ' ');
+    cj('div#employer_address').html(htmlDiv);
+});
 </script>
 {/literal}

@@ -105,13 +105,13 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         INSERT INTO civicrm_participant_status_type
             (name,                                  {foreach from=$locales item=locale}label_{$locale},                       {/foreach} class,      is_reserved, is_active, is_counted, weight, visibility_id)
         VALUES
-            ('On waitlist',                         {foreach from=$locales item=locale}'On waitlist',                         {/foreach} 'Waiting',  1,           0,         0,          6,      2            ),
-            ('Awaiting approval',                   {foreach from=$locales item=locale}'Awaiting approval',                   {/foreach} 'Waiting',  1,           0,         1,          7,      2            ),
-            ('Pending from waitlist',               {foreach from=$locales item=locale}'Pending from waitlist',               {/foreach} 'Pending',  1,           0,         1,          8,      2            ),
-            ('Pending from approval',               {foreach from=$locales item=locale}'Pending from approval',               {/foreach} 'Pending',  1,           0,         1,          9,      2            ),
-            ('Rejected',                            {foreach from=$locales item=locale}'Rejected',                            {/foreach} 'Negative', 1,           0,         0,          10,     2            ),
-            ('Expired',                             {foreach from=$locales item=locale}'Expired',                             {/foreach} 'Negative', 1,           1,         0,          11,     2            ),
-            ('Pending from incomplete transaction', {foreach from=$locales item=locale}'Pending from incomplete transaction', {/foreach} 'Pending',  1,           1,         1,          12,     2            );
+            ('Pending from incomplete transaction', {foreach from=$locales item=locale}'Pending from incomplete transaction', {/foreach} 'Pending',  1,           1,         1,          6,      2            ),
+            ('On waitlist',                         {foreach from=$locales item=locale}'On waitlist',                         {/foreach} 'Waiting',  1,           0,         0,          7,      2            ),
+            ('Awaiting approval',                   {foreach from=$locales item=locale}'Awaiting approval',                   {/foreach} 'Waiting',  1,           0,         1,          8,      2            ),
+            ('Pending from waitlist',               {foreach from=$locales item=locale}'Pending from waitlist',               {/foreach} 'Pending',  1,           0,         1,          9,      2            ),
+            ('Pending from approval',               {foreach from=$locales item=locale}'Pending from approval',               {/foreach} 'Pending',  1,           0,         1,          10,     2            ),
+            ('Rejected',                            {foreach from=$locales item=locale}'Rejected',                            {/foreach} 'Negative', 1,           0,         0,          11,     2            ),
+            ('Expired',                             {foreach from=$locales item=locale}'Expired',                             {/foreach} 'Negative', 1,           1,         0,          12,     2            );
     {else}
         UPDATE civicrm_participant_status_type
             SET name = 'Pending from pay later', label = 'Pending from pay later'
@@ -120,13 +120,13 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         INSERT INTO civicrm_participant_status_type
             (name,                                  label,                                                       class,      is_reserved, is_active, is_counted, weight, visibility_id)
         VALUES
-            ('On waitlist',                         '{ts escape="sql"}On waitlist{/ts}',                         'Waiting',  1,           0,         0,          6,      2            ),
-            ('Awaiting approval',                   '{ts escape="sql"}Awaiting approval{/ts}',                   'Waiting',  1,           0,         1,          7,      2            ),
-            ('Pending from waitlist',               '{ts escape="sql"}Pending from waitlist{/ts}',               'Pending',  1,           0,         1,          8,      2            ),
-            ('Pending from approval',               '{ts escape="sql"}Pending from approval{/ts}',               'Pending',  1,           0,         1,          9,      2            ),
-            ('Rejected',                            '{ts escape="sql"}Rejected{/ts}',                            'Negative', 1,           0,         0,          10,     2            ),
-            ('Expired',                             '{ts escape="sql"}Expired{/ts}',                             'Negative', 1,           1,         0,          11,     2            ),
-            ('Pending from incomplete transaction', '{ts escape="sql"}Pending from incomplete transaction{/ts}', 'Pending',  1,           1,         1,          12,     2            );
+            ('Pending from incomplete transaction', '{ts escape="sql"}Pending from incomplete transaction{/ts}', 'Pending',  1,           1,         1,          6,      2            ),
+            ('On waitlist',                         '{ts escape="sql"}On waitlist{/ts}',                         'Waiting',  1,           0,         0,          7,      2            ),
+            ('Awaiting approval',                   '{ts escape="sql"}Awaiting approval{/ts}',                   'Waiting',  1,           0,         1,          8,      2            ),
+            ('Pending from waitlist',               '{ts escape="sql"}Pending from waitlist{/ts}',               'Pending',  1,           0,         1,          9,      2            ),
+            ('Pending from approval',               '{ts escape="sql"}Pending from approval{/ts}',               'Pending',  1,           0,         1,          10,     2            ),
+            ('Rejected',                            '{ts escape="sql"}Rejected{/ts}',                            'Negative', 1,           0,         0,          11,     2            ),
+            ('Expired',                             '{ts escape="sql"}Expired{/ts}',                             'Negative', 1,           1,         0,          12,     2            );
     {/if}
 
     -- CRM-4321 migration: Pending from pay later + false is_pay_later ==> Pending from incomplete transaction
@@ -985,10 +985,13 @@ SELECT @domain_id := min(id) FROM civicrm_domain;
         ADD UNIQUE `UI_name_test_domain_id` ( `name`,`is_test`,`domain_id` );
 
     ALTER TABLE `civicrm_preferences`
-        ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`;
+        ADD `domain_id` INT(10) UNSIGNED NOT NULL COMMENT 'Which Domain is this match entry for' AFTER `id`,
+        DROP FOREIGN KEY `FK_civicrm_preferences_contact_id`;
+
     UPDATE `civicrm_preferences` SET domain_id = @domain_id;
     ALTER TABLE `civicrm_preferences`
-        ADD CONSTRAINT `FK_civicrm_preferences_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`);
+        ADD CONSTRAINT `FK_civicrm_preferences_domain_id`  FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`) ON DELETE CASCADE,
+        ADD CONSTRAINT `FK_civicrm_preferences_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
     
     ALTER TABLE `civicrm_uf_match`
         DROP FOREIGN KEY `FK_civicrm_uf_match_contact_id`,

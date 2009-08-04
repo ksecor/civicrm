@@ -2,7 +2,7 @@
 
 require_once 'api/v2/CustomGroup.php';
 
-class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase 
+class api_v2_TestCustomFieldDelete extends CiviUnitTestCase 
 {
     function get_info( )
     {
@@ -25,8 +25,8 @@ class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase
     {
         $params = array( ); 
         $customField =& civicrm_custom_field_delete($params); 
-        $this->assertEqual($customField['is_error'], 1);
-        $this->assertEqual($customField['error_message'], 'Invalid or no value for Custom Field ID');
+        $this->assertEquals($customField['is_error'], 1);
+        $this->assertEquals($customField['error_message'], 'Invalid or no value for Custom Field ID');
     }    
     
     function testCustomFieldDelete( )
@@ -35,7 +35,7 @@ class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase
         $customField = $this->customFieldCreate($customGroup['id'],'test_name'); 
         $this->assertNotNull($customField['result']['customFieldId']);
         $customField =& civicrm_custom_field_delete( $customField );
-        $this->assertEqual($customField['is_error'], 0);
+        $this->assertEquals($customField['is_error'], 0);
         $this->customGroupDelete($customGroup['id']);
     } 
     
@@ -44,7 +44,7 @@ class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase
         $customGroup = $this->customGroupCreate('Contact','ABC' );  
         $customOptionValueFields = $this->customFieldOptionValueCreate($customGroup,'fieldABC' );
         $customField =& civicrm_custom_field_delete($customOptionValueFields);
-        $this->assertEqual($customField['is_error'], 0);
+        $this->assertEquals($customField['is_error'], 0);
         $this->customGroupDelete($customGroup['id']); 
     } 
     

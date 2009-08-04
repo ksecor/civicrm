@@ -236,32 +236,31 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
     <script type="text/javascript">
      function verify( ) {
 
-          var month = cj("select#activity_date_time\\[M\\]").val( );
-          if ( month.length == 1 ) month = "0" + month;
+         var d = new Date();
+         var currentDateTime = d.getTime();
+         d.setFullYear(cj("select#activity_date_time\\[Y\\]").val());
+         d.setMonth(cj("select#activity_date_time\\[M\\]").val() - 1);
+         d.setDate(cj("select#activity_date_time\\[d\\]").val());
+         var hours = cj("select#activity_date_time\\[h\\]").val();
+         var ampm = cj("select#activity_date_time\\[A\\]").val();
+         if (ampm == "PM") {
+             // force arithmetic instead of string concatenation
+             hours = hours*1 + 12;
+         }
+         d.setHours(hours);
+         d.setMinutes(cj("select#activity_date_time\\[i\\]").val());
 
-          var day  = cj("select#activity_date_time\\[d\\]").val( );
-          if ( day.length == 1 ) day = "0" + day;
+         var activity_date_time = d.getTime();
 
-          var activity_date_time  = cj("select#activity_date_time\\[Y\\]").val() + month + day;
-
-	  var currentDay    = new Date().getDate();
-	  var currentMonth  = new Date().getMonth()+1;
-	  var currentYear   = new Date().getYear();
-
-	  if(currentDay   < 10)   currentDay   = "0" + currentDay;
-	  if(currentMonth < 10)   currentMonth = "0" + currentMonth; 
-	  if(currentYear < 1000)  currentYear += 1900;
-  
-	  var today = currentYear + currentMonth + currentDay
 	  var activityStatusId = cj('#status_id').val();
 
-	  if ( activityStatusId == 2 &&  today < activity_date_time ) {
-	       var okMessage = confirm( 'Are you sure? This is a COMPLETED activity with the ACTUAL DATE in the FUTURE. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
+	  if ( activityStatusId == 2 && currentDateTime < activity_date_time ) {
+	       var okMessage = confirm( 'Are you sure? This is a COMPLETED activity with the DATE in the FUTURE. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
                if (!okMessage ) {
                     return false;
 	       }
-	  } else if ( activity_date_time && activityStatusId == 1 && today > activity_date_time ) {
-	       var ok = confirm( 'Are you sure? This is a SCHEDULED activity with the ACTUAL DATE in the PAST. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
+	  } else if ( activity_date_time && activityStatusId == 1 && currentDateTime >= activity_date_time ) {
+	       var ok = confirm( 'Are you sure? This is a SCHEDULED activity with the DATE in the PAST. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
                if (!ok ) {
                     return false;
 	       }

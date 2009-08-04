@@ -1,10 +1,11 @@
 {* template for adding form elements for selecting existing or creating new contact*}
+{if $context ne 'search'}
 <tr id="contact-success" style="display:none;"><td></td><td><span class="success-status">{ts}New contact has been created.{/ts}</span></td></tr>
 <tr>
     <td class="label">{$form.contact.label}</td><td>{$form.contact.html}&nbsp;&nbsp;{ts}OR{/ts}&nbsp;&nbsp;{$form.profiles.html}<div id="contact-dialog" style="display:none;"/>
     </td>
 </tr>
-
+{/if}
 {literal}
 <script type="text/javascript">
   cj( function( ) {

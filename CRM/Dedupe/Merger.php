@@ -94,6 +94,10 @@ class CRM_Dedupe_Merger
                     'tables' => array('civicrm_entity_tag'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=tag'),
                 ),
+                'rel_table_mailings' => array(
+                    'title'  => ts('Mailings'),
+                    'tables' => array('civicrm_mailing', 'civicrm_mailing_event_queue', 'civicrm_mailing_event_subscribe' ),
+                ),
                 'rel_table_cases' => array(
                     'title'  => ts('Cases'),
                     'tables' => array('civicrm_case_contact'),
@@ -164,6 +168,7 @@ class CRM_Dedupe_Merger
                 'civicrm_group_contact'           => array('contact_id'),
                 'civicrm_group_organization'      => array('organization_id'),
                 'civicrm_log'                     => array('modified_id'),
+                'civicrm_mailing'                 => array('created_id', 'scheduled_id'),
                 'civicrm_mailing_event_queue'     => array('contact_id'),
                 'civicrm_mailing_event_subscribe' => array('contact_id'),
                 'civicrm_membership'              => array('contact_id'),

@@ -1,8 +1,8 @@
 <?php
 
 require_once 'api/v2/CustomGroup.php';
-require_once 'tests/CiviTest/CiviUnitTestCase.php';
-class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase 
+
+class api_v2_TestCustomFieldCreate extends CiviUnitTestCase 
 {
 
     function get_info( )
@@ -26,8 +26,8 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
     {
         $params = array();
         $customField =& civicrm_custom_field_create($params);
-        $this->assertEqual($customField['is_error'], 1);
-        $this->assertEqual( $customField['error_message'],'Missing Required field :custom_group_id' );
+        $this->assertEquals($customField['is_error'], 1);
+        $this->assertEquals( $customField['error_message'],'Missing Required field :custom_group_id' );
     }
     
     function testCustomFieldCreateWithoutGroupID( )
@@ -44,8 +44,8 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                              );
                
         $customField =& civicrm_custom_field_create($fieldParams);     
-        $this->assertEqual($customField['is_error'], 1);
-        $this->assertEqual( $customField['error_message'],'Missing Required field :custom_group_id' );
+        $this->assertEquals($customField['is_error'], 1);
+        $this->assertEquals( $customField['error_message'],'Missing Required field :custom_group_id' );
     }    
      
     function testCustomTextFieldCreate( )
@@ -64,7 +64,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $customField =& civicrm_custom_field_create($params);
-        $this->assertEqual($customField['is_error'],0);
+        $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']); 
         $this->customGroupDelete($customGroup['id']); 
@@ -85,7 +85,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                         'is_active'       => 1
                         );
         $customField =& civicrm_custom_field_create($params); 
-        $this->assertEqual($customField['is_error'],0);
+        $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
@@ -107,7 +107,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                         );
                
         $customField =& civicrm_custom_field_create($params);  
-        $this->assertEqual($customField['is_error'],0);
+        $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
@@ -115,7 +115,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
     
     function testCustomNoteFieldCreate( )
     {
-        $customGroup = $this->customGroupCreate('Individual','Country_test_group');
+        $customGroup = $this->customGroupCreate('Individual','Country2_test_group');
         $params = array('custom_group_id' => $customGroup['id'],
                         'name'            => 'test_note',
                         'label'           => 'test_note',
@@ -129,7 +129,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $customField =& civicrm_custom_field_create($params);  
-        $this->assertEqual($customField['is_error'],0);
+        $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
@@ -137,6 +137,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
     
     function testCustomFieldOptionValueCreate( )
     {
+          $this->fail( 'Needs fixing!' );
         $customGroup = $this->customGroupCreate('Contact', 'select_test_group');
         $params = array ('custom_group_id' => 1,
                          'label'           => 'Country',
@@ -151,10 +152,10 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                          'option_weight'   => array( 1, 2),
                          'option_status'   => array( 1, 1),
                          );
-              
-        $customField =& civicrm_custom_field_create($params);  
+        $this->fail( 'Needs fixing!' );      
+//        $customField =& civicrm_custom_field_create($params);  
        
-        $this->assertEqual($customField['is_error'],0);
+        $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
@@ -176,10 +177,10 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                          'option_weight'   => array( 1, 2),
                          'option_status'   => array( 1, 1),
                          );
-                         
-        $customField =& civicrm_custom_field_create($params);    
+        $this->fail( 'Needs fixing!' );                         
+//        $customField =& civicrm_custom_field_create($params);    
 
-        $this->assertEqual($customField['is_error'],0);
+        $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
@@ -205,7 +206,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
         
         $customField =& civicrm_custom_field_create($params); 
 
-        $this->assertEqual($customField['is_error'],0);
+        $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
@@ -230,7 +231,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
         
         $customField =& civicrm_custom_field_create($params); 
 
-        $this->assertEqual($customField['is_error'],0);
+        $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
@@ -255,7 +256,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
               
         $customField =& civicrm_custom_field_create($params);    
 
-        $this->assertEqual($customField['is_error'],0);
+        $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 

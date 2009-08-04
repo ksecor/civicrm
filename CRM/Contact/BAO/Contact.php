@@ -254,20 +254,23 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         
         $params['contact_id'] = $contact->id;
 
-        // in order to make sure that every contact must be added to a group (CRM-4613) - 
-        require_once 'CRM/Core/BAO/Domain.php';
-        $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
-        if ( CRM_Utils_Array::value( 'group', $params ) && is_array($params['group']) ) {
-            $grpFlp = array_flip($params['group']);
-            if ( !array_key_exists( 1, $grpFlp ) ) {
-                $params['group'][$domainGroupID] = 1;
+        if ( defined( 'CIVICRM_MULTISITE' ) && CIVICRM_MULTISITE ) {
+            // in order to make sure that every contact must be added to a group (CRM-4613) - 
+            require_once 'CRM/Core/BAO/Domain.php';
+            $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
+            if ( CRM_Utils_Array::value( 'group', $params ) && is_array($params['group']) ) {
+                $grpFlp = array_flip($params['group']);
+                if ( !array_key_exists( 1, $grpFlp ) ) {
+                    $params['group'][$domainGroupID] = 1;
+                }
+            } else {
+                $params['group'] = array( $domainGroupID => 1 );
             }
-        } else {
-            $params['group'] = array( $domainGroupID => 1 );
         }
-        require_once 'CRM/Contact/BAO/GroupContact.php';
-        CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
-
+        if ( array_key_exists('group', $params) ) {
+            require_once 'CRM/Contact/BAO/GroupContact.php';
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+        }
         //add location Block data
         $blocks = CRM_Core_BAO_Location::create( $params, $fixAddress );
         foreach ( $blocks as $name => $value )  $contact->$name = $value;  
@@ -1503,7 +1506,20 @@ SELECT     civicrm_contact.id as contact_id,
            civicrm_contact.contact_type as contact_type,
            civicrm_contact.contact_sub_type as contact_sub_type
 FROM       civicrm_contact
-INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
+INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )";
+
+        if ( defined( 'CIVICRM_UNIQ_EMAIL_PER_SITE' ) && CIVICRM_UNIQ_EMAIL_PER_SITE ) {
+            // try to find a match within a site (multisite).
+            require_once 'CRM/Core/BAO/Domain.php';
+            $groups = CRM_Core_BAO_Domain::getChildGroupIds( );
+            if ( ! empty( $groups ) ) {
+                $query .= "
+INNER JOIN civicrm_group_contact gc ON 
+(civicrm_contact.id = gc.contact_id AND gc.group_id IN (" . implode(',', $groups) . "))";
+            }
+        }
+
+        $query .= " 
 WHERE      civicrm_email.email = %1";
         $p = array( 1 => array( $mail, 'String' ) );
 
@@ -1851,27 +1867,28 @@ UNION
                   
              if ( $emailGreetingString ) {
                  CRM_Activity_BAO_Activity::replaceGreetingTokens($emailGreetingString, $contactDetails, $contact->id );
-                 $emailGreetingString = str_replace("'", "\'", $emailGreetingString);
+                 $emailGreetingString = CRM_Core_DAO::escapeString( $emailGreetingString );
                  $updateQueryString[] = " email_greeting_display = '{$emailGreetingString}'";
              } 
-         }
 
-         //postal greeting$
-         if ( $contact->postal_greeting_custom != 'null' && $contact->postal_greeting_custom ) {
-            $postalGreetingString = $contact->postal_greeting_custom;
-         } else if ( $contact->postal_greeting_id != 'null' && $contact->postal_greeting_id ) {
-            $filter['greeting_type'] = 'postal_greeting';
-            $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);    
-            $postalGreetingString = $postalGreeting[ $contact->postal_greeting_id ];
-         } elseif ( $contact->postal_greeting_custom ) {
-            $updateQueryString[] = " postal_greeting_display = NULL ";
-         }
+             //postal greetings
+             if ( $contact->postal_greeting_custom != 'null' && $contact->postal_greeting_custom ) {
+                $postalGreetingString = $contact->postal_greeting_custom;
+             } else if ( $contact->postal_greeting_id != 'null' && $contact->postal_greeting_id ) {
+                $filter =  array( 'contact_type'  => $contact->contact_type, 
+                                  'greeting_type' => 'postal_greeting' );
+                $postalGreeting = CRM_Core_PseudoConstant::greeting( $filter);    
+                $postalGreetingString = $postalGreeting[ $contact->postal_greeting_id ];
+             } elseif ( $contact->postal_greeting_custom ) {
+                $updateQueryString[] = " postal_greeting_display = NULL ";
+             }
 
-         if ( $postalGreetingString ) {
-             CRM_Activity_BAO_Activity::replaceGreetingTokens($postalGreetingString, $contactDetails, $contact->id );
-             $postalGreetingString = str_replace("'", "\'", $postalGreetingString);
-             $updateQueryString[] = " postal_greeting_display = '{$postalGreetingString}'";
-         }         
+             if ( $postalGreetingString ) {
+                 CRM_Activity_BAO_Activity::replaceGreetingTokens($postalGreetingString, $contactDetails, $contact->id );
+                 $postalGreetingString = CRM_Core_DAO::escapeString( $postalGreetingString );
+                 $updateQueryString[]  = " postal_greeting_display = '{$postalGreetingString}'";
+             }         
+        }
 
          // addressee
          if ( $contact->addressee_custom != 'null' && $contact->addressee_custom ) {
@@ -1888,7 +1905,7 @@ UNION
 
          if ( $addresseeString ) {
              CRM_Activity_BAO_Activity::replaceGreetingTokens($addresseeString, $contactDetails, $contact->id );
-             $addresseeString = str_replace("'", "\'", $addresseeString);
+             $addresseeString     = CRM_Core_DAO::escapeString( $addresseeString );
              $updateQueryString[] = " addressee_display = '{$addresseeString}'";
          }
 
