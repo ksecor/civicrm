@@ -477,7 +477,7 @@ GROUP BY currency
         }
         if ( $count ) {
             return array( 'amount' => implode( ', ', $amount ),
-                          'count'  => $dao->total_count );
+                          'count'  => $count );
         }
         return null;
     }
