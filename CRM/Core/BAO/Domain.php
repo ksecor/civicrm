@@ -185,8 +185,8 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
 
         if ( defined('CIVICRM_DOMAIN_GROUP_ID') && CIVICRM_DOMAIN_GROUP_ID ) {
             $groupID = CIVICRM_DOMAIN_GROUP_ID;
-        } else {
-            // create a group /w that of domain name
+        } else if ( defined( 'CIVICRM_MULTISITE' ) && CIVICRM_MULTISITE ) {
+            // create a group with that of domain name
             $title   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain', 
                                                     CRM_Core_Config::domainID( ), 'name' );
             $groupID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', 
