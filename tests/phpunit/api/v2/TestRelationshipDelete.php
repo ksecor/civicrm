@@ -7,7 +7,7 @@ require_once 'api/v2/Relationship.php';
  *
  */
 
-class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase 
+class api_v2_TestRelationshipDelete extends CiviUnitTestCase 
 {
     
     protected $_cId_a;
@@ -34,8 +34,8 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
     function testRelationshipTypeCreate( )
     {
         $relTypeParams = array(
-                               'name_a_b'       => 'Relation 1',
-                               'name_b_a'       => 'Relation 2',
+                               'name_a_b'       => 'Relation 1 for delete',
+                               'name_b_a'       => 'Relation 2 for delete',
                                'description'    => 'Testing relationship type',
                                'contact_type_a' => 'Individual',
                                'contact_type_b' => 'Organization',
@@ -44,6 +44,7 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
                                );
         
         $this->_relTypeID = $this->relationshipTypeCreate($relTypeParams );
+        $this->fail( 'There is no assertion!' );
     }
 
 
@@ -69,8 +70,8 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
     {
         $params = array( );
         $result =& civicrm_relationship_delete( $params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'No input parameter present' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'No input parameter present' );
     }
     
     /**
@@ -81,8 +82,8 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
     {
         $params = 'relationship_type_id = 5';                            
         $result =& civicrm_relationship_delete( $params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Input parameter is not an array' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Input parameter is not an array' );
     }
     
     /**
@@ -97,8 +98,8 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
                         );
         
         $result =& civicrm_relationship_delete( $params ); 
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing required parameter' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Missing required parameter' );
     }
     
     /**
@@ -113,8 +114,8 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
                         );
         
         $result =& civicrm_relationship_delete( $params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing required parameter' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Missing required parameter' );
     }
    
     /**

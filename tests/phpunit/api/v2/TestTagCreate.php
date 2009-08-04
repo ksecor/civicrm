@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Tag.php';
 
-class TestOfTagCreateAPIV2 extends CiviUnitTestCase 
+class api_v2_TestTagCreate extends CiviUnitTestCase 
 {
     
     function setUp() 
@@ -17,16 +17,16 @@ class TestOfTagCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $result =& civicrm_tag_create($params);
-        $this->assertEqual( $result['is_error'],1 ); 
-        $this->assertEqual( $result['error_message'],'Required fields domain_id for CRM_Core_DAO_Tag are not found' );
+        $this->assertEquals( $result['is_error'],1 ); 
+        $this->assertEquals( $result['error_message'],'Required fields domain_id for CRM_Core_DAO_Tag are not found' );
     }
     
     function testTagCreateEmptyParams()
     {
         $params = array( );
         $result =& civicrm_tag_create($params); 
-        $this->assertEqual( $result['is_error'],1 );
-        $this->assertEqual( $result['error_message'],'No input parameters present' );
+        $this->assertEquals( $result['is_error'],1 );
+        $this->assertEquals( $result['error_message'],'No input parameters present' );
     }
     
     function testTagCreateWithDomainID()
@@ -37,7 +37,7 @@ class TestOfTagCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $tag =& civicrm_tag_create($params); 
-        $this->assertEqual($tag['is_error'], 0); 
+        $this->assertEquals($tag['is_error'], 0); 
         $this->assertNotNull($tag['tag_id']);
         $this->tagDelete($tag['tag_id']);
     }
@@ -51,7 +51,7 @@ class TestOfTagCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $tag =& civicrm_tag_create($params); 
-        $this->assertEqual($tag['is_error'], 0);
+        $this->assertEquals($tag['is_error'], 0);
         $this->assertNotNull($tag['tag_id']);
         $this->tagDelete($tag['tag_id']);
     }

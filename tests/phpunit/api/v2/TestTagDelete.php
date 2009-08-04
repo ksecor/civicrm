@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Tag.php';
 
-class TestOfTagDeleteAPIV2 extends CiviUnitTestCase 
+class api_v2_TestTagDelete extends CiviUnitTestCase 
 {
     function setUp( )
     {
@@ -12,8 +12,8 @@ class TestOfTagDeleteAPIV2 extends CiviUnitTestCase
     {
         $tag = array( );
         $tagDelete =& civicrm_tag_delete( $tag );
-        $this->assertEqual( $tagDelete['is_error'], 1 );
-        $this->assertEqual( $tagDelete['error_message'],'Could not find tag_id in input parameters' );
+        $this->assertEquals( $tagDelete['is_error'], 1 );
+        $this->assertEquals( $tagDelete['error_message'],'Could not find tag_id in input parameters' );
     }
     
     function testTagDeleteError( )
@@ -21,8 +21,8 @@ class TestOfTagDeleteAPIV2 extends CiviUnitTestCase
         $tag = "noID";
         
         $tagDelete =& civicrm_tag_delete($tag); 
-        $this->assertEqual( $tagDelete['is_error'], 1 ); 
-        $this->assertEqual( $tagDelete['error_message'],'Could not find tag_id in input parameters' );            
+        $this->assertEquals( $tagDelete['is_error'], 1 ); 
+        $this->assertEquals( $tagDelete['error_message'],'Could not find tag_id in input parameters' );            
     }
     
     function testTagDelete( )
@@ -30,7 +30,7 @@ class TestOfTagDeleteAPIV2 extends CiviUnitTestCase
         $tagID = $this->tagCreate(null); 
         $params = array('tag_id'=> $tagID);
         $tagDelete =& civicrm_tag_delete($params ); 
-        $this->assertEqual( $tagDelete['is_error'], 0 );
+        $this->assertEquals( $tagDelete['is_error'], 0 );
     }
     
     function tearDown() 

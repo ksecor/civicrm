@@ -7,7 +7,7 @@ require_once 'api/v2/Relationship.php';
  *
  */
 
-class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase 
+class api_v2_TestRelationshipTypeDelete extends CiviUnitTestCase 
 {
     protected $_cId_a;
     protected $_cId_b;
@@ -33,8 +33,8 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
     { 
        
         $relTypeParams = array(
-                               'name_a_b'       => 'Relation 1',
-                               'name_b_a'       => 'Relation 2',
+                               'name_a_b'       => 'Relation 1 for delete',
+                               'name_b_a'       => 'Relation 2 for delete',
                                'description'    => 'Testing relationship type',
                                'contact_type_a' => 'Individual',
                                'contact_type_b' => 'Organization',
@@ -56,7 +56,7 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
         $params = array( );
         $result =& civicrm_relationship_type_delete( $params );
         
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
     }
     
     /**
@@ -68,7 +68,7 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
         $params = 'name_a_b = Test1';                            
         $result =& civicrm_relationship_type_delete( $params );
        
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
     }
     
     /**
@@ -77,7 +77,7 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
     function testRelationshipTypeDeleteWithoutRequired( )
     {
         $params = array(
-                        'name_b_a'       => 'Relation 2',
+                        'name_b_a'       => 'Relation 2 delete without required',
                         'contact_type_b' => 'Individual',
                         'is_reserved'    => 0,
                         'is_active'      => 0
@@ -85,8 +85,8 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
         
         $result =& civicrm_relationship_type_delete( $params );
               
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing required parameter' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Missing required parameter' );
     }
     
     /**
@@ -96,7 +96,7 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
     {
         $params = array(
                         'id'             => 'abcd',
-                        'name_b_a'       => 'Relation 2',
+                        'name_b_a'       => 'Relation 2 delete with incorrect',
                         'description'    => 'Testing relationship type',
                         'contact_type_a' => 'Individual',
                         'contact_type_b' => 'Individual',
@@ -106,8 +106,8 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
 
         $result =& civicrm_relationship_type_delete( $params );
        
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Invalid value for relationship type ID' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Invalid value for relationship type ID' );
     }
     
     /**
@@ -119,7 +119,7 @@ class TestOfRelationshipTypeDeleteAPIV2 extends CiviUnitTestCase
         
         $result = & civicrm_relationship_type_delete( $params );
         
-        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEquals( $result['is_error'], 0 );
     }
     
     function tearDown( ) 
