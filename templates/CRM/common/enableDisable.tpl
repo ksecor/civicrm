@@ -28,8 +28,9 @@ function modifyLinkAttributes( recordID, op ) {
 
     //need to update js - change op from js to new allow operation. 
     //set updated js
-    cj( fieldID ).click ( function() { cj(this).replace( op, operation );  });  
-
+    var updatedJavaScript = cj( fieldID ).attr("onClick").replace( op, operation );
+    cj( fieldID ).attr( 'onClick', updatedJavaScript );
+    
     //set the updated status
     var fieldStatus = "#row_"+ recordID + "_status";
     cj( fieldStatus ).text( newText );
