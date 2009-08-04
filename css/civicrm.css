@@ -324,6 +324,13 @@ div.spacer, .spacer {
   border: 1px solid #5A8FDB;
 }
 
+#crm-container div.view-data {
+  padding: .25em .5em .25em .5em;
+  border: 1px solid DimGray;
+  width: auto;
+  background-color: #ffffff;
+}
+
 #crm-container .footer {
   font-size: 0.8em;
 }
@@ -991,9 +998,14 @@ div.crm-pager a {
 	width: 100%;
 }
 
+#crm-container div#searchForm table.form-layout {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
 #crm-container div#searchForm table.form-layout td {
   padding: 4px;
-  border: 1px groove #DDDDDD;
+  border: 1px solid #DDDDDD;
   background: #F7F7F7;
 }
 
@@ -1448,6 +1460,10 @@ div.grippie {
 
 .ui-tabs .ui-tabs-nav li a {
    padding: 5px !important;
+}
+
+#crm-container div.ui-accordion-content {
+   padding: .5em 1em !important;
 }
 
 /* Styles for Contact Summary mockup start here. dgg */

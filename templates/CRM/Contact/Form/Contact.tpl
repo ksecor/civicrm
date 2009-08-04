@@ -12,6 +12,7 @@
         <span class="ui-icon ui-icon-triangle-1-e" id='contact'></span><a href="#">{ts}Contact Details{/ts}</a>
     </h3>
     <div id="contactDetails" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+        <fieldset>
         {include file="CRM/Contact/Form/Edit/$contactType.tpl"}
         <br/>
         <table class="form-layout-compressed">
@@ -48,7 +49,7 @@
     {foreach from = $editOptions item = "title" key="name"}
         {include file="CRM/Contact/Form/Edit/$name.tpl"}
     {/foreach}
-    
+    </fieldset>
 </div>
 <div class="crm-submit-buttons">
    {$form.buttons.html}

@@ -48,9 +48,10 @@
                     {include file="CRM/Contact/Page/View/SummaryHook.tpl"}
                 {/if}
                 
-                {if $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name}
+                {if $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name OR $contactTag OR $source}
                 <div id="contactTopBar" class="ui-corner-all">
                     <table>
+                        {if $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name}
                         <tr>
                             {if $current_employer_id}
                             <td class="label">{ts}Employer{/ts}</td>
@@ -72,12 +73,15 @@
                             <td>{$nick_name}</td>
                             {/if}
                         </tr>
+                        {/if}
+                        {if $contactTag OR $source}
                         <tr>
                             <td class="label" id="tagLink"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a></td><td id="tags">{$contactTag}</td>
                             {if $source}
                             <td class="label">{ts}Source{/ts}</td><td>{$source}</td>
                             {/if}
                         </tr>
+                        {/if}
                     </table>
 
                     <div class="clear"></div>
@@ -285,7 +289,6 @@
     <script type="text/javascript"> 
     var selectedTab = 'summary';
     {if $selectedChild}selectedTab = "{$selectedChild}";{/if}    
-	{if !$contactTag}cj("#tagLink,#tags").hide( );{/if}
 	{literal}
 	cj( function() {
         var tabIndex = cj('#tab_' + selectedTab).prevAll().length

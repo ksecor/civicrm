@@ -3,6 +3,7 @@
 </h3>
 
 <div id="demographics" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+  <fieldset>
   <div class="form-item">
         <span class="labels">{$form.gender_id.label}</span>
         
@@ -37,6 +38,7 @@
        {/if}
        </span>
   </div> 
+  </fieldset>
 </div>
 
 {literal}

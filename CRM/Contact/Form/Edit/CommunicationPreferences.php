@@ -185,7 +185,7 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
             self::$greetings[$contactType] = array(
                                              'addressee'       => array ( 'field'       => 'addressee_id',
                                                                           'customField' => 'addressee_custom',
-                                                                          'label'       => ts('Addresse'),
+                                                                          'label'       => ts('Addressee'),
                                                                           'customLabel' => ts('Custom Addressee'),
                                                                           'js'          => null  
                                                                           ),

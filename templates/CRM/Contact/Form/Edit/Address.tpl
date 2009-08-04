@@ -123,7 +123,7 @@ function checkLocation( object, noAlert ) {
 	cj( 'td#Address-Primary-html select' ).each( function() {
 		element = cj(this).attr('id');
 		if( cj(this).val() && element != object && selectedText == cj( '#' + element + ' :selected').text() ) {
-			if( ! noAlert ) alert( 'Location Type ' + selectedText + ' is already Selected. Please select another Location Type !' );
+			if( ! noAlert ) alert( 'Location type ' + selectedText + ' has already been assigned to another address. Please select another location type for this address.' );
 			cj( '#' + object ).val('');
 		}
 	});
