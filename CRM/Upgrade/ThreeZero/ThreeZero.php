@@ -95,7 +95,11 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
         $upgrade =& new CRM_Upgrade_Form( );
         //Run the SQL file (1)
         $upgrade->processSQL( $rev );
-        
+        //replace # with ; in report instance
+        $sql = "UPDATE civicrm_report_instance 
+                       SET form_values = REPLACE(form_values,'#',';') ";
+        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+
         //delete unnecessary activities 
         $bulkEmailID = CRM_Core_OptionGroup::getValue('activity_type', 'Bulk Email', 'name' );
  
