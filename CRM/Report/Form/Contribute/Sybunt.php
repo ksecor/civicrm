@@ -358,37 +358,34 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
             $daoUpTo = CRM_Core_DAO::executeQuery( $sqlUpTo );
             
             $upto = $this->_params['yid_value'] - 4;
-            
+            $chartRow["civicrm_upto_{$upto}"] = null;
             while ( $daoUpTo->fetch( ) ) {
                 $contact_id = $daoUpTo->civicrm_contribution_contact_id;
-                $display[ $contact_id ]["civicrm_upto_{$upto}"] =
-    $daoUpTo->civicrm_contribution_total_amount;            
-                $display[ $contact_id ]['civicrm_contact_display_name'] = $daoUpTo->civicrm_contact_display_name;
+                $display[$contact_id]["civicrm_upto_{$upto}"]          = $daoUpTo->civicrm_contribution_total_amount;
+                $display[$contact_id]['civicrm_contact_display_name']  = $daoUpTo->civicrm_contact_display_name;
                 if ( isset( $daoUpTo->civicrm_email_email ) ) {
-                    $display[ $contact_id ]['civicrm_email_email']          = $daoUpTo->civicrm_email_email ;
+                    $display[$contact_id]['civicrm_email_email']       = $daoUpTo->civicrm_email_email ;
                 }
                 if ( isset( $daoUpTo->civicrm_phone_phone ) ) {
-                    $display[ $contact_id ]['civicrm_phone_phone']          = $daoUpTo->civicrm_phone_phone ;
-            }
-                $chartRow[ "civicrm_upto_{$upto}" ]      = $chartRow[ "civicrm_upto_{$upto}" ] + $daoUpTo->civicrm_contribution_total_amount;
-                
+                    $display[$contact_id]['civicrm_phone_phone']       = $daoUpTo->civicrm_phone_phone ;
+                }
+                $chartRow[ "civicrm_upto_{$upto}" ] = $chartRow[ "civicrm_upto_{$upto}" ] + $daoUpTo->civicrm_contribution_total_amount;
             } 
             $daoUpTo->free( );
             
             while ( $daoYear->fetch( ) ) { 
                 $contact_id = $daoYear->civicrm_contribution_contact_id;            
-                $display[ $contact_id ][ $daoYear->civicrm_contribution_receive_date ] = 
-    $daoYear->civicrm_contribution_total_amount ;
-                $display  [ $contact_id ][ 'civicrm_contact_display_name' ]       = $daoYear->civicrm_contact_display_name;
+                $display[$contact_id][$daoYear->civicrm_contribution_receive_date ] =  $daoYear->civicrm_contribution_total_amount ;
+                $display[$contact_id]['civicrm_contact_display_name' ]              = $daoYear->civicrm_contact_display_name;
                 if (isset($daoYear->civicrm_email_email ) ) {
-                    $display  [ $contact_id ][ 'civicrm_email_email' ]                = $daoYear->civicrm_email_email ;
+                    $display  [ $contact_id ][ 'civicrm_email_email' ]  = $daoYear->civicrm_email_email ;
                 }
                 if ( isset( $daoYear->civicrm_phone_phone ) ) {
-                    $display[ $contact_id ]['civicrm_phone_phone']                    = $daoYear->civicrm_phone_phone ;
+                    $display[ $contact_id ]['civicrm_phone_phone']      = $daoYear->civicrm_phone_phone ;
                 } 
                 
-                $chartRow [ $daoYear->civicrm_contribution_receive_date ]         =  
-    CRM_Utils_Array::value( $daoYear->civicrm_contribution_receive_date, $chartRow )   +     $daoYear->civicrm_contribution_total_amount ;
+                $chartRow [ $daoYear->civicrm_contribution_receive_date ]  =
+    CRM_Utils_Array::value( $daoYear->civicrm_contribution_receive_date, $chartRow ) + $daoYear->civicrm_contribution_total_amount;
                 
             }
             $daoYear->free( );
@@ -432,9 +429,9 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         foreach ( $rows as $key => $row ) {
             $display["upto_{$upto}"] =  
                 CRM_Utils_Array::value("upto_{$upto}", $display) + CRM_Utils_Array::value("civicrm_upto_{$upto}", $row);
-            $display[ $previous_year ]              = CRM_Utils_Array::value($previous_year, $display)  + CRM_Utils_Array::value($previous_year, $row);
-            $display[ $previous_two_year ]          = CRM_Utils_Array::value($previous_two_year, $display) + CRM_Utils_Array::value($previous_two_year, $row);
-            $display[ $previous_three_year ]        = CRM_Utils_Array::value($previous_three_year, $display)  + CRM_Utils_Array::value($previous_three_year, $row);           
+            $display[$previous_year]       = CRM_Utils_Array::value( $previous_year, $display)       + CRM_Utils_Array::value( $previous_year, $row);
+            $display[$previous_two_year]   = CRM_Utils_Array::value( $previous_two_year, $display)   + CRM_Utils_Array::value( $previous_two_year, $row);
+            $display[$previous_three_year] = CRM_Utils_Array::value( $previous_three_year, $display) + CRM_Utils_Array::value( $previous_three_year, $row);           
         }
         
         $graphRows['value'] = $display;
