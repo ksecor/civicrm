@@ -6,50 +6,51 @@
     <div class="form-item">
       <fieldset><legend>{ts}View Relationship{/ts}</legend>
 
-        <div class="form-item">
+        <table class="view-layout">
 	    {foreach from=$viewRelationship item="row"}
-            <dl>
-            <dt>{$row.relation}</dt> 
-            <dd class="label"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.cid`"}">{$row.name}</a></dd>
+            <tr>
+                <td class="label">{$row.relation}</td> 
+                <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.cid`"}">{$row.name}</a></td>
+            </tr>
             {if $row.start_date}
-                <dt>{ts}Start Date:{/ts}</dt><dd>{$row.start_date|crmDate}</dd>
+                <tr><td class="label">{ts}Start Date:{/ts}</td><td>{$row.start_date|crmDate}</td></tr>
             {/if}
             {if $row.end_date}
-                <dt>{ts}End Date:{/ts}</dt><dd>{$row.end_date|crmDate}</dd>
+                <tr><td class="label">{ts}End Date:{/ts}</td><td>{$row.end_date|crmDate}</td></tr>
             {/if}
             {if $row.description}
-                <dt>{ts}Description:{/ts}</dt><dd>{$row.description}</dd>
+                <tr><td class="label">{ts}Description:{/ts}</td><td>{$row.description}</td></tr>
             {/if}
-	    {foreach from=$viewNote item="rec"}
+	        {foreach from=$viewNote item="rec"}
 		    {if $rec }
-			<dt>{ts}Note:{/ts}</dt><dd>{$rec}</dd>	
+			    <tr><td class="label">{ts}Note:{/ts}</td><td>{$rec}</td></tr>	
 	   	    {/if}
             {/foreach}
             {if $row.is_permission_a_b}
                 {if $row.rtype EQ 'a_b' AND $is_contact_id_a}
-                     <dt>&nbsp;</dt><dd><strong>'{$displayName}'</strong> can view and update information for <strong>'{$row.display_name}'</strong></dd>
+                     <tr><td class="label">&nbsp;</td><td><strong>'{$displayName}'</strong> can view and update information for <strong>'{$row.display_name}'</strong></td></tr>
                 {else}
-                     <dt>&nbsp;</dt><dd><strong>'{$row.display_name}'</strong> can view and update information for <strong>'{$displayName}'</strong></dd>
+                     <tr><td class="label">&nbsp;</td><td><strong>'{$row.display_name}'</strong> can view and update information for <strong>'{$displayName}'</strong></td></tr>
                 {/if}
             {/if}
             {if $row.is_permission_b_a}
                  {if $row.rtype EQ 'a_b' AND $is_contact_id_a}   
-                     <dt>&nbsp;</dt><dd><strong>'{$row.display_name}'</strong> can view and update information for <strong>'{$displayName}'</strong></dd>
+                     <tr><td class="label">&nbsp;</td><td><strong>'{$row.display_name}'</strong> can view and update information for <strong>'{$displayName}'</strong></td></tr>
                  {else}
-                     <dt>&nbsp;</dt><dd><strong>'{$displayName}'</strong> can view and update information for <strong>'{$row.display_name}'</strong></dd>
+                     <tr><td class="label">&nbsp;</td><td><strong>'{$displayName}'</strong> can view and update information for <strong>'{$row.display_name}'</strong></td></tr>
                  {/if}   
             {/if}
            
-            <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
-            </dl>
+            <tr><td class="label">{ts}Status{/ts}</td><td>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</td></tr>
+
             {include file="CRM/Custom/Page/CustomDataView.tpl"}
-            <dl>
-            <dt></dt>
-            <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=rel'}';"/></dd>
-            </dl>
+            <tr>
+            <td></td>
+            <td><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=rel'}';"/></td>
+            </tr>
             {/foreach}
 		
-        </div>
+        </table>
         </fieldset>
      </div>    
    {/if}

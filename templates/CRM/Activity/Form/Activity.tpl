@@ -76,7 +76,7 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
                 <div id="help">{$activityTypeDescription}</div>
             {/if}
 
-            <table class="form-layout">
+            <table class="{if $action eq 4}view-layout{else}form-layout{/if}">
              {if $context eq 'standalone' or $context eq 'search' or $context eq 'smog'}
                 <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>

@@ -1,15 +1,14 @@
 <div class="view-content">
 {if $action eq 4}{* when action is view  *}
     {if $notes}
-        <p></p>
         <fieldset>
           <legend>{ts}View Note{/ts}</legend>
-          <div class="form-item">
-            <label>{ts}Subject:{/ts}</label> {$note.subject} <br />
-            <label>{ts}Date:{/ts}</label> {$note.modified_date|crmDate}
-            <p>{$note.note}</p>
-            <input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=note'}';"/>        
-          </div>
+          <table class="view-layout">
+            <tr><td class="label">{ts}Subject{/ts}</td><td>{$note.subject}</td></tr>
+            <tr><td class="label">{ts}Date:{/ts}</td><td>{$note.modified_date|crmDate}</td></tr>
+            <tr><td class="label"></td><td>{$note.note}</td></tr>
+            <tr><td></td><td><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=note'}';"/></td></tr>        
+          </table>
         </fieldset>
         {/if}
 {elseif $action eq 1 or $action eq 2} {* action is add or update *}
