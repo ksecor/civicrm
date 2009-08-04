@@ -70,7 +70,8 @@ class CRM_Contact_Form_Search_Custom_FullText
             $this->_text   = CRM_Utils_Request::retrieve( 'text', 'String',
                                                           CRM_Core_DAO::$_nullObject );
             if ( $this->_text ) {
-                $formValues['text'] = $this->_text;
+                $this->_text        = trim($this->_text);
+                $formValues['text'] = $this->_text; 
             }
         }
     
@@ -336,9 +337,13 @@ AND     {$tableValues['id']} IS NOT NULL
 
         $contactSQL[] = "
 SELECT ca.id 
-FROM   civicrm_activity ca, civicrm_contact c
+FROM   civicrm_activity ca, civicrm_contact c, civicrm_email e
+LEFT JOIN civicrm_option_group og ON og.name = 'activity_type'
+LEFT JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id ) 
 WHERE  ca.source_contact_id = c.id
-AND    c.display_name LIKE {$this->_text}
+AND    ( c.display_name LIKE {$this->_text} OR
+         ( e.email LIKE {$this->_text} AND ca.source_contact_id = e.contact_id AND 
+           ca.activity_type_id = ov.value AND ov.name IN ('Inbound Email', 'Email') ) )
 ";
 
         $contactSQL[] = "
@@ -350,15 +355,19 @@ WHERE  cat.activity_id = ca.id
 AND    cat.target_contact_id = c.id
 AND    ( c.display_name LIKE {$this->_text} OR
          ( e.email LIKE {$this->_text} AND cat.target_contact_id = e.contact_id AND 
-          ca.activity_type_id = ov.value AND ov.name IN ('Inbound Email', 'Email') ) )
+           ca.activity_type_id = ov.value AND ov.name IN ('Inbound Email', 'Email') ) )
 ";
 
         $contactSQL[] = "
 SELECT ca.id 
-FROM   civicrm_activity ca, civicrm_activity_assignment caa, civicrm_contact c
+FROM   civicrm_activity ca, civicrm_activity_assignment caa, civicrm_contact c, civicrm_email e
+LEFT JOIN civicrm_option_group og ON og.name = 'activity_type'
+LEFT JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id )
 WHERE  caa.activity_id = ca.id
 AND    caa.assignee_contact_id = c.id
-AND    c.display_name LIKE {$this->_text}
+AND    ( c.display_name LIKE {$this->_text}  OR
+         ( e.email LIKE {$this->_text} AND caa.assignee_contact_id = e.contact_id AND 
+           ca.activity_type_id = ov.value AND ov.name IN ('Inbound Email', 'Email') ) )
 ";
         
         $tables = array( 'civicrm_activity' => array( 'id' => 'id',
