@@ -1,7 +1,7 @@
 <?php
 require_once 'api/v2/Note.php';
 
-class TestOfNoteDeleteAPIV2 extends CiviUnitTestCase 
+class api_v2_TestNoteDelete extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_noteID;
@@ -28,8 +28,8 @@ class TestOfNoteDeleteAPIV2 extends CiviUnitTestCase
         $params     = array();        
         $deleteNote = & civicrm_note_delete( $params );
                
-        $this->assertEqual( $deleteNote['is_error'], 1 );
-        $this->assertEqual( $deleteNote['error_message'], 'Invalid or no value for Note ID');
+        $this->assertEquals( $deleteNote['is_error'], 1 );
+        $this->assertEquals( $deleteNote['error_message'], 'Invalid or no value for Note ID');
     }
     
     function testNoteDeleteWithWrongID( )
@@ -37,8 +37,8 @@ class TestOfNoteDeleteAPIV2 extends CiviUnitTestCase
         $params     = array( 'id' => 0 );        
         $deleteNote = & civicrm_note_delete( $params ); 
        
-        $this->assertEqual( $deleteNote['is_error'], 1 );
-        $this->assertEqual( $deleteNote['error_message'], 'Invalid or no value for Note ID');
+        $this->assertEquals( $deleteNote['is_error'], 1 );
+        $this->assertEquals( $deleteNote['error_message'], 'Invalid or no value for Note ID');
     }
     
     function testNoteDelete( )
@@ -49,8 +49,8 @@ class TestOfNoteDeleteAPIV2 extends CiviUnitTestCase
                         
         $deleteNote  =& civicrm_note_delete( $params );
              
-        $this->assertEqual( $deleteNote['is_error'], 0 );
-        $this->assertEqual( $deleteNote['result'], 1 );
+        $this->assertEquals( $deleteNote['is_error'], 0 );
+        $this->assertEquals( $deleteNote['result'], 1 );
     }
 
     function tearDown( ) 
