@@ -26,7 +26,7 @@
        {include file="CRM/Contact/Form/Search/ResultTasks.tpl"}
 
        {* This section displays the rows along and includes the paging controls *}
-       <p></p>
+       <br />
        {include file="CRM/Contact/Form/Selector.tpl"}
        
 
