@@ -1239,12 +1239,9 @@ AND    civicrm_contact.id = %1";
                     if ($locTypeId == $primaryLocationType) {
                         $data[$blockName][$loc]['is_primary'] = 1;
                     } 
-                } else {
-                    if  ( $locTypeId == $defaultLocationId ) {
-                        $data[$blockName][$loc]['is_primary'] = 1;
-                    } elseif ( $locTypeId == $billingLocationTypeId ) {
-                        $data[$blockName][$loc]['is_primary'] = 1;
-                    }
+                } else if ( ($locTypeId == $defaultLocationId || $locTypeId == $billingLocationTypeId) && 
+                            ($loc == 1 || !CRM_Utils_Array::retrieveValueRecursive($data['location'][$loc-1], 'is_primary')) ) {
+                    $data[$blockName][$loc]['is_primary'] = 1;
                 }
                                     
                 if ($fieldName == 'phone') {
