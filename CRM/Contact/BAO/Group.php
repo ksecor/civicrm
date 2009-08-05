@@ -349,6 +349,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_group', $group->id );
         }
 
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
         if ( defined( 'CIVICRM_MULTISITE' ) && CIVICRM_MULTISITE ) {
             // make the group, child of domain/site group by default. 
             require_once 'CRM/Core/BAO/Domain.php';
@@ -374,6 +375,12 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
                 }
                 require_once 'CRM/Contact/BAO/GroupNestingCache.php';
                 CRM_Contact_BAO_GroupNestingCache::update( );
+
+                // update group contact cache for all parent groups
+                $parentIds = CRM_Contact_BAO_GroupNesting::getParentGroupIds( $group->id );
+                foreach ( $parentIds as $parentId ) {
+                    CRM_Contact_BAO_GroupContactCache::add( $parentId );
+                }
             }
         }
 
@@ -385,7 +392,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             CRM_Contact_BAO_GroupOrganization::add( $groupOrg );
         }
 
-        require_once 'CRM/Contact/BAO/GroupContactCache.php';
         CRM_Contact_BAO_GroupContactCache::add( $group->id );
 
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
