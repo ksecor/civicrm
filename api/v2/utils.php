@@ -364,7 +364,7 @@ function _civicrm_add_formatted_location_blocks( &$values, &$params )
         if ( !array_key_exists( $name, $values ) ) continue; 
         
         // block present in value array. 
-        if ( !array_key_exists( $name, $params ) ) $params[$name] = array( ); 
+        if ( !array_key_exists($name, $params) || !is_array($params[$name]) ) $params[$name] = array( ); 
         
         if ( !array_key_exists( $block, $fields ) ) {
             require_once( str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block ) . ".php");
@@ -382,7 +382,18 @@ function _civicrm_add_formatted_location_blocks( &$values, &$params )
     }
     
     // handle address fields.
+    if ( !array_key_exists('address', $params) || !is_array($params['address']) ) $params['address'] = array( );
+    
     $addressCnt = 1;
+    foreach ( $params['address'] as $cnt => $addressBlock ) {
+        if ( CRM_Utils_Array::value( 'location_type_id', $values ) ==
+             CRM_Utils_Array::value( 'location_type_id', $addressBlock ) ) { 
+            $addressCnt = $cnt;
+            break;
+        }
+        $addressCnt++;
+    }
+    
     if ( !array_key_exists( 'Address', $fields ) ) {
         require_once 'CRM/Core/DAO/Address.php';
         $fields['Address'] =& CRM_Core_DAO_Address::fields( );
@@ -399,6 +410,8 @@ function _civicrm_add_formatted_location_blocks( &$values, &$params )
             $params['address'][$addressCnt][$field] = $values[$field];
         }
     }
+    
+    if ( $addressCnt == 1 ) $params['address'][$addressCnt]['is_primary'] = true;
     
     return true;
 }
