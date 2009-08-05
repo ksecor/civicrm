@@ -1791,3 +1791,16 @@ div.grippie {
 #crm-container hr {
    background-color : #B0B0B0;
 }
+
+#crm-container th.contriTotalRight {
+   border-right: 1px solid #999999;
+}
+
+#crm-container th.contriTotalLeft {
+   border-left: 1px solid #999999;
+}
+
+#crm-container th.softTotal {
+   border-left: 1px solid #999999;
+   border-right: 1px solid #999999;
+}
