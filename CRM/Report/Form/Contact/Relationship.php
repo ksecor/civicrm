@@ -209,8 +209,8 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                          CRM_Utils_Array::value( $fieldName, $this->_params['fields'] ) ) {                
                         
                         $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'];
-                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = CRM_Utils_Array::value( 'type', $field );
+                        $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = CRM_Utils_Array::value( 'title', $field );
                     }
                 }
             }
@@ -226,7 +226,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
         $relationship_contact     = "contact_id_a" ;
         $relationship_contact_two = "contact_id_b" ;
         $this->relationship_label = "label_a_b";
-        if( $relationship['1'] == 'b' ) {            
+        if( CRM_Utils_Array::value( '1', $relationship ) == 'b' ) {            
             $relationship_contact     = "contact_id_b" ;
             $relationship_contact_two = "contact_id_a" ;
             $this->relationship_label = "label_b_a";
@@ -275,7 +275,7 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
             if ( array_key_exists('filters', $table) ) { 
                 foreach ( $table['filters'] as $fieldName => $field ) { 
                     $clause = null;
-                    if ( $field['operatorType'] & CRM_Report_Form::OP_DATE ) { 
+                    if ( CRM_Utils_Array::value( 'operatorType', $field ) & CRM_Report_Form::OP_DATE ) { 
                         $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
                         $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
                         $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );

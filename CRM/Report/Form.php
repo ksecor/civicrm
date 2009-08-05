@@ -159,7 +159,7 @@ class CRM_Report_Form extends CRM_Core_Form {
     protected $_rowsFound          = null;
     protected $_select             = null;        
     protected $_rollup             = null;
-    
+    protected $_limit              = null;
     /**
      * To what frequency group-by a date column
      *
@@ -780,7 +780,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         case 'in':
             if ( $value !== null && count( $value ) > 0 ) {
                 $sqlOP  = self::getSQLOperator( $op );
-                if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
+                if ( CRM_Utils_Array::value( 'type', $field ) == CRM_Utils_Type::T_STRING ) {
                     $clause = "( {$field['dbAlias']} $sqlOP ( '" . implode( "' , '", $value ) . "') )" ;
                 } else {
                     
@@ -945,7 +945,7 @@ class CRM_Report_Form extends CRM_Core_Form {
         $this->_grandFlag = false;
         foreach ($this->_columnHeaders as $fld => $val) {
             if ( !in_array($fld, $this->_statFields) ) {
-                if ( !$grandFlag ) {
+                if ( !$this->_grandFlag ) {
                     $lastRow[$fld] = "Grand Total";
                     $this->_grandFlag = true;
                 } else{
