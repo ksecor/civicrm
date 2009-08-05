@@ -359,7 +359,7 @@ function _civicrm_add_formatted_location_blocks( &$values, &$params )
         $fields = array();
     }
     
-    foreach ( array( 'Phone', 'Email', 'IM' ) as $block ) {
+    foreach ( array( 'Phone', 'Email', 'IM', 'OpenID' ) as $block ) {
         $name = strtolower( $block );
         if ( !array_key_exists( $name, $values ) ) continue; 
         
@@ -372,6 +372,10 @@ function _civicrm_add_formatted_location_blocks( &$values, &$params )
         }
         
         $blockCnt = count( $params[$name] );
+        
+        // copy value to dao field name.
+        if ( $name == 'im' ) $values['name'] = $values[$name];
+        
         _civicrm_store_values( $fields[$block ], $values,
                                $params[$name][++$blockCnt] );
         
