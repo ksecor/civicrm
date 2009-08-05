@@ -41,6 +41,7 @@
       </div> 
       </fieldset>
    {else}
+      {if $isOnline}{assign var=valueStyle value=" class='view-value'"}{else}{assign var=valueStyle value=""}{/if}
       <table class="form-layout-compressed">
         {if $context neq 'standalone'}
             <tr>
@@ -52,13 +53,13 @@
         {if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
         {/if}
-        <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
+        <tr><td class="label">{$form.contribution_type_id.label}</td><td{$valueStyle}>{$form.contribution_type_id.html}&nbsp;
         {if $is_test}
         {ts}(test){/ts}
         {/if} {help id="id-contribution_type"}
         </td></tr> 
-        <tr><td class="label">{$form.total_amount.label}</td><td>{$form.total_amount.html|crmMoney:$currency} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.source.label}</td><td>{$form.source.html} {help id="id-contrib_source"}</td></tr>
+        <tr><td class="label">{$form.total_amount.label}</td><td{$valueStyle}>{$form.total_amount.html|crmMoney:$currency} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
+        <tr><td class="label">{$form.source.label}</td><td{$valueStyle}>{$form.source.html} {help id="id-contrib_source"}</td></tr>
 
         {if $contributionMode}
             {if $email and $outBound_option != 2}
@@ -74,19 +75,19 @@
         {/if}
         {if !$contributionMode}
             <tr><td class="label">{$form.receive_date.label}</td>
-                <td>{if $hideCalender neq true}{$form.receive_date.html}{else}{$receive_date|truncate:10:''|crmDate}{/if}
+                <td{$valueStyle}>{if $hideCalender neq true}{$form.receive_date.html}{else}{$receive_date|truncate:10:''|crmDate}{/if}
             {if $hideCalender neq true}
                  {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
                  {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_1}
             {/if}
             </td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
-            <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
+            <tr><td class="label">{$form.payment_instrument_id.label}</td><td{$valueStyle}>{$form.payment_instrument_id.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Leave blank for non-monetary contributions.{/ts}</td></tr>
             {if $showCheckNumber || !$isOnline}  
                 <tr id="checkNumber"><td class="label">{$form.check_number.label}</td><td>{$form.check_number.html|crmReplace:class:six}</td></tr>
             {/if}
-            <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html|crmReplace:class:twelve} {help id="id-trans_id"}</td></tr>
+            <tr><td class="label">{$form.trxn_id.label}</td><td{$valueStyle}>{$form.trxn_id.html|crmReplace:class:twelve} {help id="id-trans_id"}</td></tr>
             {if $email and $outBound_option != 2}
                 <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html} <span class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</span></td></tr>
             {elseif $context eq 'standalone' and $outBound_option != 2 }
@@ -228,7 +229,7 @@
 </div>
 
 {/if}
-
+<br />
 <div class="crm-submit-buttons">{$form.buttons.html}</div>
     {literal}
     <script type="text/javascript">
