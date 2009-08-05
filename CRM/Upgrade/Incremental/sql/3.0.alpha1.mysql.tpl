@@ -741,13 +741,8 @@
             AND civicrm_option_value.is_default = 1;
     UPDATE civicrm_contact
         SET 
-            {if $multilingual}
-                {foreach from=$locales item=locale} email_greeting_display_{$locale}  = CONCAT("Dear ",first_name_{$locale}) , {/foreach}
-                {foreach from=$locales item=locale}postal_greeting_display_{$locale}  = CONCAT("Dear ",first_name_{$locale}) , {/foreach}
-            {else}
-                email_greeting_display  = CONCAT("Dear ",first_name),
-                postal_greeting_display = CONCAT("Dear ",first_name),
-            {/if}
+            {localize field='email_greeting_display,  first_name'}email_greeting_display  = CONCAT("Dear ", first_name){/localize},
+            {localize field='postal_greeting_display, first_name'}postal_greeting_display = CONCAT("Dear ", first_name){/localize},
             email_greeting_id       = @value,
             postal_greeting_id      = @value                        
     WHERE contact_type = 'Individual';
@@ -759,13 +754,8 @@
             AND civicrm_option_value.is_default = 1;
     UPDATE civicrm_contact
         SET             
-            {if $multilingual}
-                {foreach from=$locales item=locale}email_greeting_display_{$locale}  = CONCAT("Dear ",household_name_{$locale}) , {/foreach}
-                {foreach from=$locales item=locale}postal_greeting_display_{$locale} = CONCAT("Dear ",household_name_{$locale}) , {/foreach}
-            {else}
-                email_greeting_display  = CONCAT("Dear ",household_name),
-                postal_greeting_display = CONCAT("Dear ",household_name),
-            {/if}
+            {localize field='email_greeting_display,  household_name'}email_greeting_display  = CONCAT("Dear ", household_name){/localize},
+            {localize field='postal_greeting_display, household_name'}postal_greeting_display = CONCAT("Dear ", household_name){/localize},
             email_greeting_id       = @value,
             postal_greeting_id      = @value
     WHERE contact_type = 'Household';
@@ -777,11 +767,7 @@
             AND civicrm_option_value.is_default = 1;
     UPDATE civicrm_contact
         SET
-           {if $multilingual}
-               {foreach from=$locales item=locale}addressee_display_{$locale} = display_name_{$locale} , {/foreach}
-           {else}
-               addressee_display = display_name,
-           {/if}
+          {localize field='addressee_display, display_name'}addressee_display = display_name{/localize},
           addressee_id   = @value
     WHERE contact_type   = 'Individual';
 
@@ -792,11 +778,7 @@
             AND civicrm_option_value.is_default = 1;
     UPDATE civicrm_contact
         SET
-            {if $multilingual}
-                {foreach from=$locales item=locale}addressee_display_{$locale}  = household_name_{$locale} , {/foreach}
-            {else}
-                addressee_display = household_name,
-            {/if}
+            {localize field='addressee_display, household_name'}addressee_display = household_name{/localize},
             addressee_id      = @value
     WHERE  contact_type      = 'Household';
 
@@ -807,11 +789,7 @@
             AND civicrm_option_value.is_default    = 1;
     UPDATE civicrm_contact
         SET 
-            {if $multilingual}
-                {foreach from=$locales item=locale}addressee_display_{$locale}  = organization_name_{$locale} , {/foreach}
-            {else}
-                addressee_display = organization_name,
-            {/if}
+            {localize field='addressee_display, organization_name'}addressee_display = organization_name{/localize},
            addressee_id      = @value
     WHERE  contact_type      = 'Organization';
 
