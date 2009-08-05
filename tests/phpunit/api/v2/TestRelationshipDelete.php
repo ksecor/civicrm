@@ -1,6 +1,7 @@
 <?php
 
 require_once 'api/v2/Relationship.php';
+require_once 'tests/phpunit/CiviTest/CiviUnitTestCase.php';
 
 /**
  * Class contains api test cases for "civicrm_relationship"
@@ -15,6 +16,10 @@ class api_v2_TestRelationshipDelete extends CiviUnitTestCase
     protected $_relTypeID;
     protected $_relationID;
 
+    function __construct( ) {
+        parent::__construct( );
+    }
+
     function get_info( )
     {
         return array(
@@ -26,13 +31,20 @@ class api_v2_TestRelationshipDelete extends CiviUnitTestCase
     
     function setUp( ) 
     {
+        //  Connect to the database
+        parent::setUp();
+
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/truncate.xml') );
+
+	//  Create an individual and an organization
         $this->_cId_a  = $this->individualCreate( );
         $this->_cId_b  = $this->organizationCreate( );
-    }
-    
 
-    function testRelationshipTypeCreate( )
-    {
+	//  Create a relationship type
         $relTypeParams = array(
                                'name_a_b'       => 'Relation 1 for delete',
                                'name_b_a'       => 'Relation 2 for delete',
@@ -42,11 +54,8 @@ class api_v2_TestRelationshipDelete extends CiviUnitTestCase
                                'is_reserved'    => 1,
                                'is_active'      => 1
                                );
-        
         $this->_relTypeID = $this->relationshipTypeCreate($relTypeParams );
-        $this->fail( 'There is no assertion!' );
     }
-
 
     function testRelationshipCreate( )
     {
@@ -127,7 +136,8 @@ class api_v2_TestRelationshipDelete extends CiviUnitTestCase
         
         $result = & civicrm_relationship_delete( $params );
         $this->relationshipTypeDelete( $this->_relTypeID ); 
-
+        throw new PHPUnit_Framework_IncompleteTestError(
+                      "test not implemented" );
     }
     
     /**
@@ -137,14 +147,10 @@ class api_v2_TestRelationshipDelete extends CiviUnitTestCase
     */
     function testRelationshipDeleteWithCustomData( )
     {        
-       
+        throw new PHPUnit_Framework_IncompleteTestError(
+                      "test not implemented" );
     }
-    
-    function tearDown() 
-    { 
-        $this->contactDelete( $this->_cId_a );
-        $this->contactDelete( $this->_cId_b );
-    }
+
 }
  
 ?> 

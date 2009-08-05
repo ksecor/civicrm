@@ -1,14 +1,99 @@
-<?php
+<?php  // vim: set si ai expandtab tabstop=4 shiftwidth=4 softtabstop=4:
 
-class CiviUnitTestCase extends PHPUnit_Framework_Testcase {
+/**
+ *  File for the CiviUnitTestCase class
+ *
+ *  (PHP 5)
+ *  
+ *   @copyright Copyright CiviCRM LLC (C) 2009
+ *   @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
+ *              GNU Affero General Public License version 3
+ *   @version   $Id$
+ *   @package   CiviCRM
+ *
+ *   This file is part of CiviCRM
+ *
+ *   CiviCRM is free software; you can redistribute it and/or
+ *   modify it under the terms of the GNU Affero General Public License
+ *   as published by the Free Software Foundation; either version 3 of
+ *   the License, or (at your option) any later version.
+ *
+ *   CiviCRM is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Affero General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Affero General Public
+ *   License along with this program.  If not, see
+ *   <http://www.gnu.org/licenses/>.
+ */
 
+/**
+ *  Include class definitions
+ */
+require_once 'PHPUnit/Extensions/Database/TestCase.php';
+require_once 'PHPUnit/Extensions/Database/DataSet/FlatXmlDataSet.php';
+require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
+require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
+require_once 'tests/phpunit/AllTests.php';
 
+/**
+ *  Base class for CiviCRM unit tests
+ *
+ *  Common functions for unit tests
+ *  @package CiviCRM
+ */
+class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
+
+    /**
+     *  Database connection
+     *
+     *  @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     */
+    protected $_dbconn;
+
+    /**
+     *  Constructor
+     *
+     *  Load the CiviCRM configuration.
+     *  CIVICRM_DSN must refer to database civicrm_tests_dev
+     */
     function __construct( ) {
-        parent::__construct( );
 
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton( );
     }
+
+    /**
+     *  Create database connection for this instance
+     *
+     *  @return PHPUnit_Extensions_Database_DB_IDatabaseConnection connection
+     */
+    protected function getConnection()
+    {
+        AllTests::installDB();
+        return $this->createDefaultDBConnection(AllTests::$utils->pdo,
+                                             'civicrm_tests_dev');
+    }
+
+    /**
+     *  Required implementation of abstract method
+     */
+    protected function getDataSet() {echo "CiviU getDataSet\n"; }
+
+    /**
+     *  Common setup functions for all unit tests
+     */
+    protected function setUp() {
+
+        //  Get and save a connection to the database
+        $this->_dbconn = $this->getConnection();
+    }
+
+    /**
+     *  Common teardown functions for all unit tests
+     */
+    protected function tearDown() { }
                                             
     /** 
     * Generic function to compare expected values after an api call to retrieved
@@ -862,4 +947,11 @@ class CiviUnitTestCase extends PHPUnit_Framework_Testcase {
     }      
 }
 
-
+// -- set Emacs parameters --
+// Local variables:
+// mode: php;
+// tab-width: 4
+// c-basic-offset: 4
+// c-hanging-comment-ender-p: nil
+// indent-tabs-mode: nil
+// End:
