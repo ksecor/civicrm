@@ -39,3 +39,14 @@ img, a img {
 .crm_blocktitle {
   font-size:75%;
 }
+
+div.cmDiv {
+  opacity: .9;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+  filter: alpha(opacity=90);
+  shadow
+}
+
+.clickMenu {
+  font-family: Arial, Helvetica, Tahoma, sans-serif;
+}
