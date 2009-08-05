@@ -52,11 +52,15 @@ function smarty_block_localize($params, $text, &$smarty)
 
     $lines = array();
     foreach ($smarty->_tpl_vars['locales'] as $locale) {
+        $line = $text;
         if ($params['field']) {
-            $lines[] = preg_replace('/\b' . preg_quote($params['field']) . '\b/', $params['field'] . "_$locale", $text);
-        } else {
-            $lines[] = $text;
+            $fields = explode(',', $params['field']);
+            foreach ($fields as $field) {
+                $field = trim($field);
+                $line = preg_replace('/\b' . preg_quote($field) . '\b/', "{$field}_{$locale}", $line);
+            }
         }
+        $lines[] = $line;
     }
 
     return implode(', ', $lines);
