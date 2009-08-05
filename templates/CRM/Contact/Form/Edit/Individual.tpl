@@ -78,10 +78,14 @@ cj(document).ready( function() {
 var dataUrl = "{/literal}{$employerDataURL}{literal}";
 var newContactText = "{/literal}({ts}new contact record{/ts}){literal}";
 cj('#current_employer').autocomplete( dataUrl, { width : 250, selectFirst : false, matchCase : true
-}).result( function(event, data, formatted) { 
+}).result( function(event, data, formatted) {
     cj( "#current_employer_id" ).val( data[1] );
     htmlDiv = ( !parseInt (data[1]) ) ? newContactText : data[0].replace( /::/gi, ' ');
     cj('div#employer_address').html(htmlDiv);
+}).bind( 'change blur', function( ) {
+    if ( !parseInt ( cj( "#current_employer_id" ).val( ) ) ) {
+        cj('div#employer_address').html( newContactText );
+    }
 });
 </script>
 {/literal}

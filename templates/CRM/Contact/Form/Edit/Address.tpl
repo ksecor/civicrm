@@ -43,7 +43,7 @@
      {/if}
      <tr><td>
 
-     <table id="address" style="display:block" class="form-layout-compressed">
+     <table id="address_{$blockId}" style="display:block" class="form-layout-compressed">
          {* build address block w/ address sequence. *}
          {foreach item=addressElement from=$addressSequence}
               {include file=CRM/Contact/Form/Edit/Address/$addressElement.tpl}
@@ -71,7 +71,7 @@
 cj(document).ready( function() { 
     //shared household default setting
 	if ( cj('#use_household_address').is(':checked') ) {
-    	cj('table#address').hide(); 
+    	cj('table#address_1').hide(); 
         cj('#share_household').show(); 
     }
 {/literal}
@@ -94,9 +94,9 @@ cj(document).ready( function() {
 	cj('#use_household_address').click( function() { 
 		cj('#share_household').toggle( );
         if( ! cj('#use_household_address').is(':checked')) {
-            cj('table#address').show( );
+            cj('table#address_1').show( );
         } else {
-           cj('table#address').toggle( );
+           cj('table#address_1').toggle( );
         }
 	});	
 });
@@ -108,11 +108,15 @@ cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : fals
     if( isNaN( data[1] ) ){
         cj( "span#show_address" ).html( newContactText ); 
         cj( "#shared_household_id" ).val( data[0] );
-        cj( 'table#address' ).toggle( ); 
+        cj( 'table#address_1' ).toggle( ); 
     } else {
-        cj( 'table#address' ).hide( ); 
+        cj( 'table#address_1' ).hide( ); 
         cj( "span#show_address" ).html( data[0] ); 
         cj( "#shared_household_id" ).val( data[1] );
+    }
+}).bind( 'change blur', function( ) {
+    if ( !parseInt( cj( "#shared_household_id" ).val( ) ) ) {
+        cj( "span#show_address" ).html( newContactText );
     }
 });
 {/literal}
