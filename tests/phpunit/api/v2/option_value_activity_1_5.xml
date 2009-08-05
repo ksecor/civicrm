@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--  $Id$  -->
+<dataset>
+  <table name="civicrm_option_value">
+    <column>id</column>
+    <column>option_group_id</column>
+    <column>label</column>
+    <column>value</column>
+    <column>name</column>
+    <column>grouping</column>
+    <column>filter</column>
+    <column>is_default</column>
+    <column>weight</column>
+    <column>description</column>
+    <column>is_optgroup</column>
+    <column>is_reserved</column>
+    <column>is_active</column>
+    <column>component_id</column>
+    <column>visibility_id</column>
+    <row>
+      <value>6</value>  <!--  id  -->
+      <value>2</value>  <!--  option_group_id  -->
+      <value>Meeting</value>  <!--  label  -->
+      <value>1</value>  <!--  value  -->
+      <value>Meeting</value>  <!--  name  -->
+      <null />  <!--  grouping  -->
+      <value>0</value>  <!--  filter  -->
+      <null />  <!--  is_default  -->
+      <value>1</value>  <!--  weight  -->
+      <null />  <!--  description  -->
+      <value>0</value>  <!--  is_optgroup  -->
+      <value>1</value>  <!--  is_reserved  -->
+      <value>1</value>  <!--  is_active  -->
+      <null />  <!--  component_id  -->
+      <null />  <!--  visibility_id  -->
+    </row>
+    <row>
+      <value>7</value>  <!--  id  -->
+      <value>2</value>  <!--  option_group_id  -->
+      <value>Phone Call</value>  <!--  label  -->
+      <value>2</value>  <!--  value  -->
+      <value>Phone Call</value>  <!--  name  -->
+      <null />  <!--  grouping  -->
+      <value>0</value>  <!--  filter  -->
+      <null />  <!--  is_default  -->
+      <value>2</value>  <!--  weight  -->
+      <null />  <!--  description  -->
+      <value>0</value>  <!--  is_optgroup  -->
+      <value>1</value>  <!--  is_reserved  -->
+      <value>1</value>  <!--  is_active  -->
+      <null />  <!--  component_id  -->
+      <null />  <!--  visibility_id  -->
+    </row>
+    <row>
+      <value>8</value>  <!--  id  -->
+      <value>2</value>  <!--  option_group_id  -->
+      <value>Email</value>  <!--  label  -->
+      <value>3</value>  <!--  value  -->
+      <value>Email</value>  <!--  name  -->
+      <null />  <!--  grouping  -->
+      <value>1</value>  <!--  filter  -->
+      <null />  <!--  is_default  -->
+      <value>3</value>  <!--  weight  -->
+      <value>Email sent.</value>  <!--  description  -->
+      <value>0</value>  <!--  is_optgroup  -->
+      <value>1</value>  <!--  is_reserved  -->
+      <value>1</value>  <!--  is_active  -->
+      <null />  <!--  component_id  -->
+      <null />  <!--  visibility_id  -->
+    </row>
+    <row>
+      <value>9</value>                        <!--  id  -->
+      <value>2</value>                        <!--  option_group_id  -->
+      <value>Text Message (SMS)</value>       <!--  label  -->
+      <value>4</value>                        <!--  value  -->
+      <value>SMS</value>                      <!--  name  -->
+      <null />                                <!--  grouping  -->
+      <value>1</value>                        <!--  filter  -->
+      <null />                                <!--  is_default  -->
+      <value>4</value>                        <!--  weight  -->
+      <value>Text message (SMS) sent.</value> <!--  description  -->
+      <value>0</value>                        <!--  is_optgroup  -->
+      <value>1</value>                        <!--  is_reserved  -->
+      <value>1</value>                        <!--  is_active  -->
+      <null />                                <!--  component_id  -->
+      <null />                                <!--  visibility_id  -->
+    </row>
+    <row>
+      <value>10</value>  <!--  id  -->
+      <value>2</value>  <!--  option_group_id  -->
+      <value>Event Registration</value>  <!--  label  -->
+      <value>5</value>  <!--  value  -->
+      <value>Event Registration</value>  <!--  name  -->
+      <null />  <!--  grouping  -->
+      <value>1</value>  <!--  filter  -->
+      <null />  <!--  is_default  -->
+      <value>5</value>  <!--  weight  -->
+      <value>Online or offline event registration.</value>  <!--  description  -->
+      <value>0</value>  <!--  is_optgroup  -->
+      <value>1</value>  <!--  is_reserved  -->
+      <value>1</value>  <!--  is_active  -->
+      <value>1</value>  <!--  component_id  -->
+      <null />  <!--  visibility_id  -->
+    </row>
+
+
+
+
+  </table>
+</dataset>

@@ -6,6 +6,7 @@
   <civicrm_acl_cache />
   <civicrm_acl_entity_role />
   <civicrm_activity />
+  <civicrm_component />
   <civicrm_contact />
   <civicrm_group />
   <civicrm_group_contact />
