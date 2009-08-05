@@ -689,6 +689,7 @@
         DROP `custom_greeting`;   
 
     -- delete greeting type option group
+    SELECT @og_id_greeting := max(id) from civicrm_option_group where name = 'greeting_type';     
     DELETE FROM civicrm_option_value WHERE option_group_id = @og_id_greeting;
     DELETE FROM civicrm_option_group WHERE              id = @og_id_greeting;
 
