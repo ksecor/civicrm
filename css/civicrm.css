@@ -599,13 +599,13 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 #crm-container .report td {
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
   background-color: #F6F6F6;
 }
 
 /* double line right border for last cell in a horizontal grouping */
 #crm-container table.report td.splitter {
-    border-right: 5px double #92B6EC;
+    border-right: 5px double #999999;
 }
 
 #crm-container .report td.separator {
@@ -616,7 +616,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 #crm-container .chart td {
-  border: 2px solid #92B6EC;
+  border: 2px solid #999999;
 }
 
 #crm-container .odd-row, tbody.scrollContent {
@@ -630,11 +630,11 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   border-top: 1px solid #DDDDDD;
 }
 
-#crm-container .selected {
+#crm-container .row-selected {
   margin: 0px;
   padding: 3px 0px 3px 0px;
   clear: none;
-  background-color: #ffff99;
+  background-color: #FAFAD2;
 }
 
 #crm-container td.yes-no {
@@ -701,11 +701,11 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 #crm-container .element-right {
     float : right;
 }
-
+/*
 #crm-container div.crm-pager .element-right {
     margin-top:-1.5em;
 }
-
+*/
 #crm-container #search-status {
  padding: 0.25em;
  /*background-color: #ccc;*/
@@ -728,7 +728,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 div.crm-pager {
   border: thin solid #696969; 
   background-color: #999999;
-  color: #213245;
+  color: #000000;
   position: relative;
   height: 25px;
   margin-left: -1px;
@@ -779,7 +779,7 @@ div.crm-pager a {
 #crm-container ul.wizard-bar li {
   display: inline;
   background-color: #FAFAFA;
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
   height: auto;
   margin-right: 1em;
   padding: .5em 1em .5em;
@@ -789,7 +789,7 @@ div.crm-pager a {
 }
 #crm-container ul.wizard-bar li.current-step {
   background-color: #FAFAFA;
-  border-color: #92B6EC;
+  border-color: #999999;
   font-weight: bold;
 }
 #crm-container ul.wizard-bar li.past-step {
@@ -809,7 +809,7 @@ div.crm-pager a {
   margin: 1px;
   padding: 1px;
   padding-left: 3px;
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
   background-color: #fff;
   white-space: nowrap;
   overflow: hidden;  
@@ -879,7 +879,7 @@ div.crm-pager a {
   display: inline;
   background-image: none;
   background-color: #F5F5F5;
-  border: 1px solid #4A88DF;
+  border: 1px solid #999999;
   color: #aaa;
   font-size: .95em;
   font-weight: normal;
@@ -929,7 +929,7 @@ div.crm-pager a {
   max-width: 30em;
   height: 7.25em;
   overflow: auto;
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
 }
 
 #crm-container .listing-box div {
@@ -945,7 +945,7 @@ div.crm-pager a {
   max-width: 30em;
   height: 15em;
   overflow: auto;
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
 }
 
 /* Image Styles */
@@ -1324,8 +1324,8 @@ div.crm-pager a {
 }
 
 #crm-container .panel li:hover { 
- background-color: #3399FF;
- color: #FFFFFF;
+  background-color: #999999;
+  color: #FFFFFF;
 }
 
 /*Styles for Context menu */
@@ -1420,7 +1420,7 @@ div.helpicon {
 div#toolTip {
 	padding   : 10px;
 	background: #FFFFFF url(../i/popupMenuBg.gif) repeat-x scroll left bottom;
-	border    : 1px solid #7EABCD;
+	border    : 1px solid #999999;
 	font-size : small;
 	color     : black;
 	text-align: left;
@@ -1782,4 +1782,12 @@ div.grippie {
 
 #crm-container table.view-layout td {
    border-bottom:1px solid #E2E2E2;
+}
+
+#crm-container a:link, a:visited {
+   color : #494949;
+}
+
+#crm-container hr {
+   background-color : #B0B0B0;
 }
