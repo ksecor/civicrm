@@ -1186,13 +1186,15 @@ AND    civicrm_contact.id = %1";
 
         $blocks = array( 'email', 'phone', 'im', 'openid' );
         
-        // reset all block params, to prevent overwritten of formatted array
+        // prevent overwritten of formatted array, reset all block from
+        // params if it is not in valid format (since import pass valid format) 
         foreach( $blocks as $blk ) {
-            if ( isset( $params[$blk] ) ) {
+            if ( array_key_exists( $blk, $params ) && 
+                 ! is_array( $params[$blk] ) ) { 
                 unset( $params[$blk] );
             }
         }
-            
+        
         $primaryPhoneLoc = null;
         foreach ($params as $key => $value) {
             $fieldName = $locTypeId = $typeId = null;
@@ -1239,12 +1241,9 @@ AND    civicrm_contact.id = %1";
                     if ($locTypeId == $primaryLocationType) {
                         $data[$blockName][$loc]['is_primary'] = 1;
                     } 
-                } else {
-                    if  ( $locTypeId == $defaultLocationId ) {
-                        $data[$blockName][$loc]['is_primary'] = 1;
-                    } elseif ( $locTypeId == $billingLocationTypeId ) {
-                        $data[$blockName][$loc]['is_primary'] = 1;
-                    }
+                } else if ( ($locTypeId == $defaultLocationId || $locTypeId == $billingLocationTypeId) && 
+                            ($loc == 1 || !CRM_Utils_Array::retrieveValueRecursive($data['location'][$loc-1], 'is_primary')) ) {
+                    $data[$blockName][$loc]['is_primary'] = 1;
                 }
                                     
                 if ($fieldName == 'phone') {

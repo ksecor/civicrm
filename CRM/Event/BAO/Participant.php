@@ -877,7 +877,7 @@ UPDATE  civicrm_participant
      */
     static function transitionParticipants( $participantIds, $toStatusId, $fromStatusId = null, $returnResult = false )
     {   
-        if ( !is_array( $participantIds ) || empty( $participantIds ) ) {
+        if ( !is_array( $participantIds ) || empty( $participantIds ) || !$toStatusId ) {
             return;
         }
         

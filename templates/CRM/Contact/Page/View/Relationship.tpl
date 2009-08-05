@@ -7,7 +7,13 @@
     {include file="CRM/Contact/Form/Relationship.tpl"}
     <div class="spacer"></div>
   {/if}
-
+  {if $action NEQ 1 AND $action NEQ 2 AND $permission EQ 'edit'}
+        <div class="action-link">
+            <a accesskey="N" href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}" class="button"><span>&raquo; {ts}New Relationship{/ts}</span></a>
+        </div>
+        <div class="clear"></div>
+  {/if}
+  
   {* start of code to show current relationships *}
   {if $currentRelationships}
     {* show browse table for any action *}
@@ -79,16 +85,6 @@
            </dl>
       </div>
   {/if}
-{else}
-
-  <div>
-    {if $action NEQ 1 AND $action NEQ 2 AND $permission EQ 'edit'}
-            <div class="action-link">
-                <a accesskey="N" href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}" class="button"><span>&raquo; {ts}New Relationship{/ts}</span></a>
-            </div>
-        {/if}
-  </div>
-
 {/if}
 <div class="spacer"></div>
 

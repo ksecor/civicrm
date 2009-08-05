@@ -43,6 +43,7 @@ html>body .innerbox
 #root-menu-div li{
 	white-space:nowrap;
 	background-image: none;
+	text-align: left;
 }
 * html #root-menu-div li{
 	height: 1.5em; /* fixing ie6 problem */

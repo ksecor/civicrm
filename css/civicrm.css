@@ -44,7 +44,7 @@ div#crm-container {
 
 #crm-container div.solid-border-top {
  margin-top: 15px;
- border-top: 1px solid #4E82CF;}
+ border-top: 1px solid #696969;}
 
 /*
 ** Size the verticle heights in crm-containers by class. 
@@ -232,7 +232,7 @@ div.spacer, .spacer {
   margin: 0em;
   width: auto;
   border-collapse: collapse;
-  border: 1px solid #4E82CF;
+  border: 1px solid #696969;
 }
 
 #crm-container table.advmultiselect td {
@@ -321,7 +321,7 @@ div.spacer, .spacer {
   margin: 0.5em;
   background-color: #ffff99;
   padding: .25em .5em .25em .5em;
-  border: 1px solid #5A8FDB;
+  border: 1px solid #696969;
 }
 
 #crm-container div.view-data {
@@ -373,7 +373,7 @@ div.spacer, .spacer {
 #crm-container .header-dark {
   margin: 0.5em 0em 0.5em;
   padding: 0.5em;
-  background-color: #4D94E3;
+  background-color: #999999;
   font-weight: bold;
   color: #BADAFF;
 }
@@ -516,7 +516,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   margin: .5em .1em .5em;
   width: 99%;
   border-collapse: collapse;
-  border: 1px solid #4E82CF;
+  border: 1px solid #999999;
 }
 
 #crm-container #map-field table, #crm-container table.report, #crm-container table.chart  {
@@ -548,9 +548,9 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
  
 #crm-container tr.columnheader {
-  background-color: #B3D1FF;
+  background-color: #E6E6E6;
   color: #000000;
-  border: 1px solid #5A8FDB;
+  border: 1px solid #999999;
 }
 #crm-container tr.columnheader a {
   color: #000;
@@ -559,18 +559,18 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 #crm-container tr.columnheader-dark {
   /*background-color: #B0B0B0;*/
-  background-color: #4D94E3;
+  background-color: #999999;
   /*color: #FFFFFF;*/
-  color: #CDE4FF;
+  color: #FAFAFA;
   /*border: 1px solid #000000;*/
-  border: 1px solid #5A8FDB;
+  border: 1px solid #696969;
 }
 #crm-container th {
   font-weight: normal;
   font-size: 1em;
   padding: 4px;
-  border-top: 1px solid #5A8FDB;	
-  border-bottom: 1px solid #5A8FDB;
+  border-top: 1px solid #999999;	
+  border-bottom: 1px solid #999999;
   text-align: left;
   vertical-align: top;
 }
@@ -586,12 +586,12 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 #crm-container tr.columnfooter {
-  border-top: 2px solid #4E82CF; /*#4574BA;*//*#4A88DF;*/
+  border-top: 2px solid #999999; /*#4574BA;*//*#4A88DF;*/
   font-size: 1.1em;
 }
 
 #crm-container #map-field th {
-    border-right: 1px solid #5A8FDB;
+    border-right: 1px solid #999999;
 }
 
 #crm-container #map-field td, #crm-container .report td, #crm-container .chart td {
@@ -599,13 +599,13 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 #crm-container .report td {
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
   background-color: #F6F6F6;
 }
 
 /* double line right border for last cell in a horizontal grouping */
 #crm-container table.report td.splitter {
-    border-right: 5px double #92B6EC;
+    border-right: 5px double #999999;
 }
 
 #crm-container .report td.separator {
@@ -616,25 +616,25 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 #crm-container .chart td {
-  border: 2px solid #92B6EC;
+  border: 2px solid #999999;
 }
 
 #crm-container .odd-row, tbody.scrollContent {
   background-color: #FAFAFA;
 }
 #crm-container .even-row, tbody.scrollContent tr.alternateRow {
-  background-color: #E8F2FF;
+  background-color: #F5F5F5;
 }
 #crm-container tr.even-row td, #crm-container tr.odd-row td{
   border-collapse: collapse;
-  border-top: 1px solid #92B6EC;
+  border-top: 1px solid #DDDDDD;
 }
 
-#crm-container .selected {
+#crm-container .row-selected {
   margin: 0px;
   padding: 3px 0px 3px 0px;
   clear: none;
-  background-color: #ffff99;
+  background-color: #FAFAD2;
 }
 
 #crm-container td.yes-no {
@@ -701,14 +701,18 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 #crm-container .element-right {
     float : right;
 }
-
+/*
+#crm-container div.crm-pager .element-right {
+    margin-top:-1.5em;
+}
+*/
 #crm-container #search-status {
  padding: 0.25em;
  /*background-color: #ccc;*/
- background-color: #B3D1FF;
+ background-color: #E6E6E6;
  font-size: .95em;
  font-weight: bold;
- border: 1px solid #4E82CF;
+ border: 1px solid #999999;
 }
 
 #crm-container #search-status ul, #crm-container ul.left-alignment, #crm-container td ul {
@@ -722,9 +726,9 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 div.crm-pager {
-  border: thin solid #4A88DF; 
-  background-color: #2E7ED6;
-  color: #213245;
+  border: thin solid #696969; 
+  background-color: #999999;
+  color: #000000;
   position: relative;
   height: 25px;
   margin-left: -1px;
@@ -733,7 +737,7 @@ div.crm-pager {
 
 div.crm-pager a {
   /*color: #FFFFFF;*/
-  color: #CDE4FF;/*#BADAFF;*/
+  color: #FAFAFA;/*#BADAFF;*/
 }
 
 .crm-pager-nav {
@@ -775,7 +779,7 @@ div.crm-pager a {
 #crm-container ul.wizard-bar li {
   display: inline;
   background-color: #FAFAFA;
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
   height: auto;
   margin-right: 1em;
   padding: .5em 1em .5em;
@@ -785,11 +789,11 @@ div.crm-pager a {
 }
 #crm-container ul.wizard-bar li.current-step {
   background-color: #FAFAFA;
-  border-color: #92B6EC;
+  border-color: #999999;
   font-weight: bold;
 }
 #crm-container ul.wizard-bar li.past-step {
-  background-color: #EDF2FF;
+  background-color: #F5F5F5;
   color: #666;
 }
 
@@ -805,7 +809,7 @@ div.crm-pager a {
   margin: 1px;
   padding: 1px;
   padding-left: 3px;
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
   background-color: #fff;
   white-space: nowrap;
   overflow: hidden;  
@@ -874,8 +878,8 @@ div.crm-pager a {
 #crm-container #alpha-filter li {
   display: inline;
   background-image: none;
-  background-color: #EDF2FF;
-  border: 1px solid #4A88DF;
+  background-color: #F5F5F5;
+  border: 1px solid #999999;
   color: #aaa;
   font-size: .95em;
   font-weight: normal;
@@ -925,7 +929,7 @@ div.crm-pager a {
   max-width: 30em;
   height: 7.25em;
   overflow: auto;
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
 }
 
 #crm-container .listing-box div {
@@ -941,7 +945,7 @@ div.crm-pager a {
   max-width: 30em;
   height: 15em;
   overflow: auto;
-  border: 1px solid #92B6EC;
+  border: 1px solid #999999;
 }
 
 /* Image Styles */
@@ -1149,11 +1153,7 @@ div.crm-pager a {
 #crm-container table.nestedSelector {
     margin: 0px;
     width: 100%;
-    border: 2px solid #5A8FDB;
-}
-
-#crm-container table.nestedSelector tr.columnheader {
-    background-color: #4D94E3;
+    border: 1px solid #999999;
 }
 
 #crm-container table.nestedSelector tr.columnheader th {
@@ -1261,7 +1261,7 @@ div.crm-pager a {
     margin-left: 6px;
     background-color: #ffff99;
     padding: .25em .5em .25em .5em;
-    border: 1px solid #5A8FDB;
+    border: 1px solid #696969;
 }
 
 .ac_results ul li {background-image:url('');}
@@ -1324,8 +1324,8 @@ div.crm-pager a {
 }
 
 #crm-container .panel li:hover { 
- background-color: #3399FF;
- color: #FFFFFF;
+  background-color: #999999;
+  color: #FFFFFF;
 }
 
 /*Styles for Context menu */
@@ -1373,16 +1373,16 @@ div.crm-pager a {
 /* Styles for Sticky Header */
 
 #crm-container thead div.sticky-header {
-  background-color : #B3D1FF;
+  background-color : #E6E6E6;
   font-size        : 1em;
   height           : 15px;
-  border-bottom    : 1px solid #5A8FDB;
+  border-bottom    : 1px solid #999999;
 }
 
 #crm-container thead.sticky {
-  background-color : #B3D1FF;
+  background-color : #E6E6E6;
   color            : #000000;
-  border           : 1px solid #5A8FDB;
+  border           : 1px solid #999999;
 }
 
 #crm-container thead.sticky a {
@@ -1420,7 +1420,7 @@ div.helpicon {
 div#toolTip {
 	padding   : 10px;
 	background: #FFFFFF url(../i/popupMenuBg.gif) repeat-x scroll left bottom;
-	border    : 1px solid #7EABCD;
+	border    : 1px solid #999999;
 	font-size : small;
 	color     : black;
 	text-align: left;
@@ -1782,4 +1782,25 @@ div.grippie {
 
 #crm-container table.view-layout td {
    border-bottom:1px solid #E2E2E2;
+}
+
+#crm-container a:link, a:visited {
+   color : #494949;
+}
+
+#crm-container hr {
+   background-color : #B0B0B0;
+}
+
+#crm-container th.contriTotalRight {
+   border-right: 1px solid #999999;
+}
+
+#crm-container th.contriTotalLeft {
+   border-left: 1px solid #999999;
+}
+
+#crm-container th.softTotal {
+   border-left: 1px solid #999999;
+   border-right: 1px solid #999999;
 }

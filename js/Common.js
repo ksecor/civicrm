@@ -503,15 +503,15 @@ function checkSelectedBox (chkName, form)
         document.forms[form].radio_ts[1].checked = true;
         
         if (document.getElementById(row).className == 'even-row') {
-            document.getElementById(row).className = 'selected even-row';
+            document.getElementById(row).className = 'row-selected even-row';
         } else {
-            document.getElementById(row).className = 'selected odd-row';
+            document.getElementById(row).className = 'row-selected odd-row';
         }
 	
     } else {
-        if (document.getElementById(row).className == 'selected even-row') {
+        if (document.getElementById(row).className == 'row-selected even-row') {
             document.getElementById(row).className = 'even-row';
-        } else if (document.getElementById(row).className == 'selected odd-row') {
+        } else if (document.getElementById(row).className == 'row-selected odd-row') {
             document.getElementById(row).className = 'odd-row';
         }
     }

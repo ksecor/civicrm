@@ -2,7 +2,7 @@
 {strip}
 <table class="form-layout-compressed">
     <tr>
-        <th class="right">{ts}Total Soft Credits{/ts} - {$softCreditTotals.total|crmMoney}</th>
+        <th class="right softTotal">{ts}Total Soft Credits{/ts} - {$softCreditTotals.total|crmMoney}</th>
     </tr>
 </table> 
 <p></p>
