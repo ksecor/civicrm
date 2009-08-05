@@ -17,18 +17,20 @@
 	 {include file="CRM/common/enableDisable.tpl"}    
         <table class="selector">
         <thead class="sticky">
-            <th>{ts}Group Title{/ts}</th>
-            <th>{ts}Enabled?{/ts}</th>
-            <th>{ts}Used For{/ts}</th>
-            <th>{ts}Type{/ts}</th>
-            <th>{ts}Order{/ts}</th>
-            <th>{ts}Style{/ts}</th>
-            <th></th>
+            <tr>
+                <th>{ts}Group Title{/ts}</th>
+                <th>{ts}Enabled?{/ts}</th>
+                <th>{ts}Used For{/ts}</th>
+                <th>{ts}Type{/ts}</th>
+                <th>{ts}Order{/ts}</th>
+                <th>{ts}Style{/ts}</th>
+                <th></th>
+            </tr>
         </thead>
         {foreach from=$rows item=row}
         <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
-	    <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{if $row.extends eq 'Contact'}{ts}All Contact Types{/ts}{else}{$row.extends_display}{/if}</td>
             <td>{$row.extends_entity_column_value}</td>
             <td class="nowrap">{$row.weight}</td>

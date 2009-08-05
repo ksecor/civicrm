@@ -35,7 +35,8 @@
         {* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
       <table class="selector">
-         <tr class="columnheader">
+        <thead class="sticky">
+          <tr>
             <th>{ts}Profile Title{/ts}</th>
             <th>{ts}Type{/ts}</th>
             <th>{ts}ID{/ts}</th>
@@ -43,7 +44,8 @@
             <th>{ts}Enabled?{/ts}</th>
             <th>{ts}Reserved{/ts}</th>
             <th></th>
-         </tr>
+          </tr>
+        </thead> 
         {foreach from=$rows item=row}
 	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>

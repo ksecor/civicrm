@@ -4,22 +4,24 @@
 
 <table summary="{ts}Search results listings.{/ts}" class="selector">
   <thead class="sticky">
-  <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
-  {if $context eq 'smog'}
-      <th scope="col">
-        {ts}Status{/ts}
-      </th>
-  {/if}
-  {foreach from=$columnHeaders item=header}
-    <th scope="col">
-    {if $header.sort}
-      {assign var='key' value=$header.sort}
-      {$sort->_response.$key.link}
-    {else}
-      {$header.name}
-    {/if}
-    </th>
-  {/foreach}
+    <tr>
+      <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
+      {if $context eq 'smog'}
+          <th scope="col">
+            {ts}Status{/ts}
+          </th>
+      {/if}
+      {foreach from=$columnHeaders item=header}
+        <th scope="col">
+        {if $header.sort}
+          {assign var='key' value=$header.sort}
+          {$sort->_response.$key.link}
+        {else}
+          {$header.name}
+        {/if}
+        </th>
+      {/foreach}
+    </tr>
   </thead>
 
   {counter start=0 skip=1 print=false}
