@@ -40,7 +40,7 @@ class CRM_Upgrade_TwoTwo_Form_Step3 extends CRM_Upgrade_Form {
     function verifyPreDBState( &$errorMessage ) 
     {
         $errorMessage = ts('Pre-condition failed for upgrade step %1.', array(1 => '3'));
-        return $this->checkVersion( '2.12' );
+        return $this->checkVersion( '2.1.102' );
     }
     
     function upgrade( ) 
@@ -51,7 +51,7 @@ class CRM_Upgrade_TwoTwo_Form_Step3 extends CRM_Upgrade_Form {
         //2.preserve mailer preferences.
         self::mailerPreferences( );
         
-        $this->setVersion( '2.13' );
+        $this->setVersion( '2.1.103' );
     }
     
     function verifyPostDBState( &$errorMessage ) {
@@ -83,7 +83,7 @@ class CRM_Upgrade_TwoTwo_Form_Step3 extends CRM_Upgrade_Form {
         }
         $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '2'));
         
-        return $this->checkVersion( '2.13' );
+        return $this->checkVersion( '2.1.103' );
     }
     
     function getTitle( ) {
