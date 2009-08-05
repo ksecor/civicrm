@@ -1401,6 +1401,11 @@ body .ac_loading {
   background       : white url(../i/magnify.gif) no-repeat scroll right center;
 }
 
+.ac_over {
+	background-color: #999999;
+	color: white;
+}
+
 /*class for CMS user name check used in profile*/
 .cmsmessagebox {
    position    : absolute;
