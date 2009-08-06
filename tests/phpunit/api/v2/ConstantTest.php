@@ -48,7 +48,7 @@ require_once 'CRM/Utils/Cache.php';
  *  @package CiviCRM_APIv2
  *  @subpackage API_Constant
  */
-class api_v2_TestConstant extends PHPUnit_Extensions_Database_TestCase
+class api_v2_ConstantTest extends PHPUnit_Extensions_Database_TestCase
 {
     /**
      *  Database connection

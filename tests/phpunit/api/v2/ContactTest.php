@@ -44,7 +44,7 @@ require_once 'api/v2/Contact.php';
  *
  *  @package   CiviCRM
  */
-class api_v2_TestContact extends PHPUnit_Extensions_Database_TestCase
+class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
 {
     /**
      *  Database connection
