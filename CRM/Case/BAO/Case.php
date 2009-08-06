@@ -427,7 +427,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
          return $caseArray;
      }
 
-    function getCaseActivityQuery( $type = 'upcoming', $userID = null, $condition = null ) {
+    function getCaseActivityQuery( $type = 'upcoming', $userID = null, $condition = null, $isDeleted = 0 ) {
         $actStatus         = array_flip( CRM_Core_PseudoConstant::activityStatus('name') );
         $scheduledStatusId = $actStatus['Scheduled'];
         
@@ -509,7 +509,8 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   LEFT JOIN civicrm_activity ca2
                              ON ( ca2.id IN ( SELECT cca.activity_id FROM civicrm_case_activity cca 
                                               WHERE cca.case_id = civicrm_case.id )
-                                  AND ca2.is_current_revision = 1 ";
+                                  AND ca2.is_current_revision = 1 
+                                  AND ca2.is_deleted = $isDeleted ";
         
         if ( $type == 'upcoming' ) {
             $query .= "AND ca2.status_id = $scheduledStatusId
@@ -1261,7 +1262,7 @@ AND civicrm_case.id IN( {$caseID})
 AND civicrm_activity.is_deleted = {$cases['case_deleted']}
 AND civicrm_case.is_deleted     = {$cases['case_deleted']}";
 
-        $query = self::getCaseActivityQuery( $type, $userID, $condition );
+        $query = self::getCaseActivityQuery( $type, $userID, $condition, $cases['case_deleted'] );
 
         $res   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
