@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Tag.php';
 
-class api_v2_TestTagCreate extends CiviUnitTestCase 
+class api_v2_TagCreateTest extends CiviUnitTestCase 
 {
     
     function setUp() 
