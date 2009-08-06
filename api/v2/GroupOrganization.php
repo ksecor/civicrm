@@ -85,7 +85,7 @@ function civicrm_group_organization_create( &$params )
  * @param <type> $params
  * @return <type>
  */
-function civicrm_group_contact_remove( &$params ) 
+function civicrm_group_organization_remove( &$params ) 
 {
     require_once 'CRM/Contact/DAO/GroupOrganization.php';
     $dao = new CRM_Contact_DAO_GroupOrganization();
