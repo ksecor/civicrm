@@ -715,7 +715,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
  border: 1px solid #999999;
 }
 
-#crm-container #search-status ul, #crm-container ul.left-alignment, #crm-container td ul {
+#crm-container #search-status ul {
  margin: 0em 0em 0em -2.0em;
 }
 
