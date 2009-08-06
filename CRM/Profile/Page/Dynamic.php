@@ -167,7 +167,7 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
             $labels = array( );
 
             foreach ( $fields as $name => $field ) {
-                $labels[$field['title']] = $name;
+                $labels[$field['title']] = preg_replace('/\s+|\W+/', '_', $name);
             }
             foreach ( $values as $title => $value ) {
                 $profileFields[$labels[$title]] = array( 'label' => $title,
