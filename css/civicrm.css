@@ -700,6 +700,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 #crm-container .element-right {
     float : right;
+    margin-right: 35px;
 }
 /*
 #crm-container div.crm-pager .element-right {
