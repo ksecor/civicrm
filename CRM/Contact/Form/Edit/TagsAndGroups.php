@@ -100,9 +100,10 @@ class CRM_Contact_Form_Edit_TagsandGroups
             
             if ( $groupID || !empty( $group ) ) {
                 $sql = "
-    SELECT id, title, description, visibility
-    FROM   civicrm_group
-    WHERE  id $ids
+    SELECT   id, title, description, visibility
+    FROM     civicrm_group
+    WHERE    id $ids
+    ORDER BY title
     ";
                 $dao = CRM_Core_DAO::executeQuery( $sql );
                 $attributes['skiplabel'] = true;

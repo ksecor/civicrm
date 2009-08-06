@@ -51,6 +51,7 @@
     {/foreach}
     </fieldset>
 </div>
+<br />
 <div class="crm-submit-buttons">
    {$form.buttons.html}
 </div>
