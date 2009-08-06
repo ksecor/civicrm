@@ -438,6 +438,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
 
         CRM_Activity_BAO_Activity::deleteActivity( $params );
 
+        self::deleteMembershipPayment( $membershipId );
+        
         require_once 'CRM/Member/DAO/Membership.php';
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->id = $membershipId;
@@ -1498,6 +1500,30 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                 CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
         }
+    }
+
+    /**                          
+     * Delete the record that are associated with this Membership Payment
+     * 
+     * @param  int  $membershipId  membsership id. 
+     * 
+     * @return boolean  true if deleted false otherwise
+     * @access public 
+     */ 
+    static function deleteMembershipPayment( $membershipId ) 
+    {
+     
+        require_once 'CRM/Member/DAO/MembershipPayment.php';
+        $membesrshipPayment =& new CRM_Member_DAO_MembershipPayment( );
+        $membesrshipPayment->membership_id  = $membershipId;
+
+        if ( $membesrshipPayment->find( true ) ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            CRM_Contribute_BAO_Contribution::deleteContribution( $membesrshipPayment->contribution_id );
+            $membesrshipPayment->delete( ); 
+            return $membesrshipPayment;
+        }
+        return false;
     }
 }
 
