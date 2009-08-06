@@ -140,13 +140,13 @@ class AllTests
                  && ( substr( $file, 0, 1 ) != '.' ) ) {
                 self::addAllTests( $suite, $path, $prefix . '_' . $file ) ;
             } else {
-                if ( preg_match( '/Test.*\.php/', $file ) ) {
+                if ( preg_match( '/.*Test\.php/', $file ) ) {
                     $oldClassNames = get_declared_classes();
                     require_once $path;
                     $newClassNames = get_declared_classes();
                     foreach( array_diff( $newClassNames,
                                          $oldClassNames ) as $name ) {
-                        if ( preg_match( "/^{$prefix}_Test/", $name ) ) {
+                        if ( preg_match( "/^{$prefix}_.*Test/", $name ) ) {
                             $suite->addTestSuite( $name );
                         }
                     }

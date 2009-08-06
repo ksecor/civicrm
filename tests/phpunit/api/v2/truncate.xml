@@ -15,4 +15,5 @@
   <civicrm_option_group />
   <civicrm_option_value />
   <civicrm_relationship_type />
+  <civicrm_note />
 </dataset>
