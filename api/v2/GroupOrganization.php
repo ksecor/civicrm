@@ -65,7 +65,8 @@ function civicrm_group_organization_get( &$params )
     if ( array_key_exists( 'group_id', $params ) ) {
         $dao->group_id = $params['group_id'];
     }
-    $values = _civicrm_object_to_array( $dao->find() );
+    $values = array( );
+    _civicrm_object_to_array( $dao->find(), $values );
     return $values;
 }
 

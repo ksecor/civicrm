@@ -97,7 +97,7 @@ function civicrm_contact_update( &$params, $create_new = false ) {
         }
     }
 
-    // FIXME: Some legacy support cruft, should get rid of this in 3.0
+    // FIXME: Some legacy support cruft, should get rid of this in 3.1
     $change = array( 'individual_prefix' => 'prefix',
                      'prefix'            => 'prefix_id',
                      'individual_suffix' => 'suffix',

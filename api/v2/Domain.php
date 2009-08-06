@@ -73,3 +73,17 @@ function civicrm_domain_get( ) {
     list( $domain['from_name'], $domain['from_email'] ) = CRM_Core_BAO_Domain::getNameAndEmail();
     return $domain;
 }
+
+/**
+ * Create a new domain
+ *
+ * @param array $params
+ * @return array
+ */
+function civicrm_domain_create( $params ) {
+    require_once 'CRM/Core/BAO/Domain.php';
+    $domain = CRM_Core_BAO_Domain::create( $params );
+    $domain_array = array( );
+    _civicrm_object_to_array( $domain, $domain_array );
+    return $domain_array;
+}
