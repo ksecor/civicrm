@@ -1516,14 +1516,14 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
         require_once 'CRM/Member/DAO/MembershipPayment.php';
         $membesrshipPayment =& new CRM_Member_DAO_MembershipPayment( );
         $membesrshipPayment->membership_id  = $membershipId;
+        $membesrshipPayment->find( );
 
-        if ( $membesrshipPayment->find( true ) ) {
+        while ( $membesrshipPayment->fetch() ) {
             require_once 'CRM/Contribute/BAO/Contribution.php';
             CRM_Contribute_BAO_Contribution::deleteContribution( $membesrshipPayment->contribution_id );
             $membesrshipPayment->delete( ); 
-            return $membesrshipPayment;
         }
-        return false;
+        return $membesrshipPayment;
     }
 }
 
