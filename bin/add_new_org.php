@@ -12,6 +12,8 @@
 $debug = false;
 
 function run( $argc, $argv ) {
+    global $debug;
+
     session_start( );
     require_once '../civicrm.config.php';
     require_once 'api/v2/Domain.php';
@@ -58,7 +60,8 @@ function run( $argc, $argv ) {
     $org_id = $org['contact_id'];
 
     # associate the two
-    $group_org_params = array('group_id' => $group_id, 'org_id' => $org_id);
+    $group_org_params = array('group_id' => $group_id,
+        'organization_id' => $org_id);
     $group_org_id = civicrm_group_organization_create( $group_org_params );
     if ($debug) {
         print "Create group-org association result: ".print_r($group_org_id)."\n";
