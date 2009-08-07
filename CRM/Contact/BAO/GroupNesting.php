@@ -244,6 +244,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      */
     
     static function add( $parentID, $childID ) {
+        // TODO: Add checks here to make sure invalid nests can't be created
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "REPLACE INTO civicrm_group_nesting (child_group_id, parent_group_id) VALUES ($childID,$parentID);";
         $dao->query( $query );
