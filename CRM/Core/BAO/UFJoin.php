@@ -138,7 +138,7 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         $dao->entity_id    = CRM_Utils_Array::value( 'entity_id'   , $params );
         $dao->orderBy( 'weight' );
 
-        $first = $second  = null;
+        $first = $second  = $firstActive = $secondActive = null;
         $firstWeight = null;
         $dao->find( );
         if ( $dao->fetch( ) ) {
