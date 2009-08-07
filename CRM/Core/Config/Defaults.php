@@ -82,7 +82,8 @@ class CRM_Core_Config_Defaults
         $this->civiHRD   = defined( 'CIVICRM_HRD' ) ? true : false;
         
         // add UI revamp pages
-        $this->revampPages = array( 'CRM/Admin/Form/Setting/Url.tpl', 'CRM/Admin/Form/Preferences/Address.tpl' );
+        //$this->revampPages = array( 'CRM/Admin/Form/Setting/Url.tpl', 'CRM/Admin/Form/Preferences/Address.tpl' );
+        $this->revampPages = array( );
         
         //profile double opt-in 
         $this->profileDoubleOptIn = defined( 'CIVICRM_PROFILE_DOUBLE_OPTIN' ) ? false : true;
