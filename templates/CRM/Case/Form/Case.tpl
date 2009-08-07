@@ -2,9 +2,11 @@
    Note: 1. We will include all the activity fields here however each activity type file may build (via php) only those required by them. 
          2. Each activity type file can include its case fields in its own template, so that they will be included during activity edit.
 *}
+{if $action neq 8 && $action neq 32768}
 <div class="html-adjust">{$form.buttons.html}</div>
+{/if}
 
-<fieldset><legend>{if $action eq 8}{ts}Delete Case{/ts}{else}{$activityType}{/if}</legend>
+<fieldset><legend>{if $action eq 8}{ts}Delete Case{/ts}{elseif $action eq 32768}{ts}Restore Case{/ts}{else}{$activityType}{/if}</legend>
 <table class="form-layout">
 {if $action eq 8 or $action eq 32768 } 
       <div class="messages status"> 

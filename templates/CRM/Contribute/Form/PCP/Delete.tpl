@@ -3,7 +3,7 @@
 <div class="messages status">
 <dl>
 	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-	<dd>{ts 1=$title}Are you sure you want to Campaign Page '%1'?{/ts}<br />
+	<dd>{ts 1=$title}Are you sure you want to delete Campaign Page '%1'?{/ts}<br />
 	{ts}This operation cannot be undone.{/ts}</dd>
 </dl>
 </div>

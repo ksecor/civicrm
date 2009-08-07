@@ -31,10 +31,13 @@
     <column>suffix_id</column>
     <column>email_greeting_id</column>
     <column>email_greeting_custom</column>
+    <column>email_greeting_display</column>
     <column>postal_greeting_id</column>
     <column>postal_greeting_custom</column>
+    <column>postal_greeting_display</column>
     <column>addressee_id</column>
     <column>addressee_custom</column>
+    <column>addressee_display</column>
     <column>job_title</column>
     <column>gender_id</column>
     <column>birth_date</column>
@@ -77,10 +80,13 @@
       <null /><!--  suffix_id  -->
       <null /><!--  email_greeting_id  -->
       <null /><!--  email_greeting_custom  -->
+      <null /><!--  email_greeting_display  -->
       <null /><!--  postal_greeting_id  -->
       <null /><!--  postal_greeting_custom  -->
+      <null /><!--  postal_greeting_display  -->
       <null /><!--  addressee_id  -->
       <null /><!--  addressee_custom  -->
+      <null /><!--  addressee_display  -->
       <null /><!--  job_title  -->
       <null /><!--  gender_id  -->
       <null /><!--  birth_date  -->

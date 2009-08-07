@@ -46,6 +46,12 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
     function run( ) {
         $latestVer  = CRM_Utils_System::version();
         $currentVer = CRM_Core_BAO_Domain::version();
+        if ( ! $currentVer ) {
+            CRM_Core_Error::fatal( ts('Version information missing in civicrm database.') );
+        }
+        if ( ! $latestVer ) {
+            CRM_Core_Error::fatal( ts('Version information missing in civicrm codebase.') );
+        }
 
         // hack to make past ver compatible /w new incremental upgrade process
         $convertVer = array( '2.1'      => '2.1.0',

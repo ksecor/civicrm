@@ -934,6 +934,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $this->assign( 'isPrimary', 1 );
             }
             $this->assign( 'module', 'Membership' );
+            $this->assign( 'contactID', $this->_contactID );
+            $this->assign( 'membershipID', $params['membership_id'] );
             $this->assign('receiptType', 'membership signup');
             $this->assign( 'receive_date', $params['receive_date'] );            
             $this->assign( 'formValues', $formValues );

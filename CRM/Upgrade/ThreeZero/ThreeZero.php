@@ -89,13 +89,11 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
 
         //We execute some part of php after sql and then again sql
         //So using conditions for skipping some part of sql CRM-4575
-
-        $template = & CRM_Core_Smarty::singleton( );
-              
+                    
         $upgrade =& new CRM_Upgrade_Form( );
         //Run the SQL file (1)
         $upgrade->processSQL( $rev );
-        //replace # with ; in report instance
+        //replace  with ; in report instance
         $sql = "UPDATE civicrm_report_instance 
                        SET form_values = REPLACE(form_values,'#',';') ";
         CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
@@ -197,7 +195,9 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
                 $addNewAddressee = false;
             } 
         }
-        
+
+        $docURL = '<a href="http://wiki.civicrm.org/confluence/display/CRMUPCOMING/Update+Greetings+and+Address+Data+for+Contacts" style="color: white; text-decoration: underline;" target="_blank">('.ts('read more') .'....).</a>'; 
+            
         if ( $addNewAddressee ) {
             //otherwise insert new token in addressee and set as a default
             $addresseeGroupId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
@@ -221,8 +221,13 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
             $optionValueParams['weight'] = $weight;
             $addresseeTokne              = CRM_Core_OptionValue::addOptionValue( $optionValueParams, $addresseeGroupParams, 
                                                                                  $action, $optionId = null );
-        } 
-        
+            
+            $afterUpgradeMessage = ts("During this upgrade, Postal Addressee values have been stored for each contact record using the system default format - %2.You will need to run the included command-line script to update your Individual contact records to use the \"Individual Name Format\" previously specified for your site %1", array( 1 => $docURL, 2 => array_pop($defaultAddressee) ) ); 
+            
+        } else {
+            $afterUpgradeMessage = ts("Email Greeting, Postal Greeting and Postal Addressee values have been stored for all contact records based on the system default formats. If you want to use a different format for any of these contact fields - you can run the provided command line script to update contacts to a different format %1 ", array( 1 => $docURL ) ); 
+        }
+
         //replace contact.contact_name with contact.addressee in civicrm_preference.mailing_format
         $updateQuery  = "
         UPDATE civicrm_preferences 
@@ -237,5 +242,9 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
               DROP `individual_name_format`";
         
         CRM_Core_DAO::executeQuery( $alterQuery );
+
+        //set status message for default greetings 
+        $template = & CRM_Core_Smarty::singleton( );
+        $template->assign('afterUpgradeMessage', $afterUpgradeMessage);
     }
 }

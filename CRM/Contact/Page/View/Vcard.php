@@ -86,7 +86,10 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
         if ( CRM_Utils_Array::value( 'home_URL'  , $defaults )) $vcard->setURL($defaults['home_URL'] );
         // TODO: $vcard->setGeo($lat, $lon);
         if ( CRM_Utils_Array::value( 'address', $defaults ) ) {
-            foreach ( $defaults['address'] as $location ) {
+            require_once 'CRM/Core/PseudoConstant.php';
+            $stateProvices = CRM_Core_PseudoConstant::stateProvince( );
+            $countries     = CRM_Core_PseudoConstant::country( );
+            foreach ( $defaults['address'] as $location ) {                    
                 // we don't keep PO boxes in separate fields
                 $pob = '';
                 $extend = CRM_Utils_Array::value( 'supplemental_address_1', $location );
@@ -94,11 +97,20 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
                     $extend .= ', ' . $location['supplemental_address_2'];
                 $street   = CRM_Utils_Array::value( 'street_address' , $location );
                 $locality = CRM_Utils_Array::value( 'city'           , $location );
-                $region   = CRM_Utils_Array::value( 'state_province' , $location );
-                $postcode = CRM_Utils_Array::value( 'postal_code'    , $location );
-                if ( CRM_Utils_Array::value( 'postal_code_suffix', $location )) 
-                    $postcode .= '-' . $location['postal_code_suffix'];
+                $region = null;
+                if ( CRM_Utils_Array::value( 'state_province_id' , $location ) ) {
+                    $region = $stateProvices[CRM_Utils_Array::value( 'state_province_id' , $location )];
+                }
+                $country = null;
+                if ( CRM_Utils_Array::value( 'country_id' , $location ) ) {
+                    $country = $countries[CRM_Utils_Array::value( 'country_id', $location )];
+                }
             
+                $postcode = CRM_Utils_Array::value( 'postal_code'    , $location );
+                if ( CRM_Utils_Array::value( 'postal_code_suffix', $location )) {
+                    $postcode .= '-' . $location['postal_code_suffix'];
+                }
+                    
                 $vcard->addAddress($pob, $extend, $street, $locality, $region, $postcode, $country);
                 $vcardName = $vcardNames[$location['location_type_id']];
                 if( $vcardName ) $vcard->addParam('TYPE', $vcardName );  

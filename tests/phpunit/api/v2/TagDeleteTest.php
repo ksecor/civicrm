@@ -2,7 +2,7 @@
 
 require_once 'api/v2/Tag.php';
 
-class api_v2_TestTagDelete extends CiviUnitTestCase 
+class api_v2_TagDeleteTest extends CiviUnitTestCase 
 {
     function setUp( )
     {

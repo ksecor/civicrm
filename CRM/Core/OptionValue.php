@@ -105,11 +105,7 @@ class CRM_Core_OptionValue
             CRM_Core_DAO::storeValues( $dao, $optionValue[$dao->id] );
             // form all action links
             $action = array_sum(array_keys($links));
-         
-            if( $dao->is_default ) {
-                $optionValue[$dao->id]['default_value'] = '[x]';
-            }
-            
+                     
             // update enable/disable links depending on if it is is_reserved or is_active
             if ( $dao->is_reserved ) {
                 $action = CRM_Core_Action::UPDATE;

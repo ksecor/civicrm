@@ -2,7 +2,7 @@
 
 require_once 'api/v2/CustomGroup.php';
 
-class api_v2_TestCustomFieldCreate extends CiviUnitTestCase 
+class api_v2_CustomFieldCreateTest extends CiviUnitTestCase 
 {
 
     function get_info( )

@@ -32,11 +32,7 @@
            <dl>
              <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
                <dd>
-                 {if $permission EQ 'edit'}
-                   {ts 1=$newEventURL}There are no event registrations recorded for this contact. You can <a href='%1'>enter one now</a>.{/ts}
-                 {else}
-                   {ts}There are no event registrations recorded for this contact.{/ts}
-                 {/if}
+                   {ts}No event registrations have been recorded for this contact.{/ts}
                </dd>
            </dl>
        </div>

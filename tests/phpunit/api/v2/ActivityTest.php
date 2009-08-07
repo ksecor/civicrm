@@ -44,7 +44,7 @@ require_once 'api/v2/Activity.php';
  *
  *  @package   CiviCRM
  */
-class api_v2_TestActivity extends PHPUnit_Extensions_Database_TestCase
+class api_v2_ActivityTest extends PHPUnit_Extensions_Database_TestCase
 {
     /**
      *  Database connection

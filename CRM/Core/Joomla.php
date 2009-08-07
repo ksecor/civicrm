@@ -59,7 +59,9 @@ class CRM_Core_Joomla {
             CRM_Core_Block::CREATE_NEW,
             CRM_Core_Block::DASHBOARD,
             CRM_Core_Block::ADD,
-            CRM_Core_Block::LANGSWITCH
+            CRM_Core_Block::LANGSWITCH,
+            //CRM_Core_Block::EVENT,
+            //CRM_Core_Block::FULLTEXT_SEARCH
         );
 
         $blocks = array( );
@@ -73,7 +75,4 @@ class CRM_Core_Joomla {
         $sidebarLeft = $template->fetch( 'CRM/Block/blocks.tpl' );
         $template->assign_by_ref( 'sidebarLeft', $sidebarLeft );
     }
-
 }
-
-

@@ -87,13 +87,13 @@ class AllTests
 
             //  create test database
             self::$utils = new Utils( $GLOBALS['mysql_host'],
-                                'civicrm_tests_dev',
                                 $GLOBALS['mysql_user'],
                                 $GLOBALS['mysql_pass'] );
             $query = "DROP DATABASE IF EXISTS civicrm_tests_dev;"
                    . "CREATE DATABASE civicrm_tests_dev DEFAULT"
                    . " CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
-                   . "USE civicrm_tests_dev;";
+                   . "USE civicrm_tests_dev;"
+                   . "SET foreign_key_checks = 0";
             if ( self::$utils->do_query($query) === false ) {
 
                 //  failed to create test database
@@ -140,13 +140,13 @@ class AllTests
                  && ( substr( $file, 0, 1 ) != '.' ) ) {
                 self::addAllTests( $suite, $path, $prefix . '_' . $file ) ;
             } else {
-                if ( preg_match( '/Test.*\.php/', $file ) ) {
+                if ( preg_match( '/.*Test\.php/', $file ) ) {
                     $oldClassNames = get_declared_classes();
                     require_once $path;
                     $newClassNames = get_declared_classes();
                     foreach( array_diff( $newClassNames,
                                          $oldClassNames ) as $name ) {
-                        if ( preg_match( "/^{$prefix}_Test/", $name ) ) {
+                        if ( preg_match( "/^{$prefix}_.*Test/", $name ) ) {
                             $suite->addTestSuite( $name );
                         }
                     }

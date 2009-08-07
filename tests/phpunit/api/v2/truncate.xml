@@ -6,11 +6,15 @@
   <civicrm_acl_cache />
   <civicrm_acl_entity_role />
   <civicrm_activity />
+  <civicrm_component />
   <civicrm_contact />
+  <civicrm_email />
   <civicrm_group />
   <civicrm_group_contact />
   <civicrm_location_type />
   <civicrm_openid />
   <civicrm_option_group />
   <civicrm_option_value />
+  <civicrm_relationship_type />
+  <civicrm_note />
 </dataset>

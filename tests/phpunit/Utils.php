@@ -45,14 +45,14 @@ class Utils {
     /**
      *  Construct an object for this database
      */
-    public function __construct( $host, $db, $user, $pass )
+    public function __construct( $host, $user, $pass )
     {
         try {
-            $this->pdo = new PDO( "mysql:host={$host};dbname={$db}",
+            $this->pdo = new PDO( "mysql:host={$host}",
                                   $user, $pass );
         } catch ( PDOException $e ) {
-            echo "Can't connect to database {$db}: "
-                . $e->getMessage() . "\n";
+            echo "Can't connect to MySQL server:" . PHP_EOL
+                . $e->getMessage() . PHP_EOL;
             exit(1);
         }
     }

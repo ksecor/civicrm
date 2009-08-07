@@ -56,7 +56,7 @@
                 <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td></tr>
             {/if}
             <tr><td class="label">{$form.event_id.label}</td><td class="view-value bold">{$form.event_id.html}&nbsp;        
-    					{if $action eq 1 && !$past }<br /><a href="{$pastURL}">&raquo; {ts}Include past event(s) in this select list.{/ts}</a>{/if}    
+    					{if ($action eq 1 || $action eq 512 || $action eq 8192) && !$past }<br /><a href="{$pastURL}">&raquo; {ts}Include past event(s) in this select list.{/ts}</a>{/if}    
     					{if $is_test}
     					{ts}(test){/ts}
     					{/if}
@@ -108,7 +108,7 @@
 
     <div class="html-adjust disable-buttons">{$form.buttons.html}</div>
 </div>
-{if $action eq 1 or $action eq 2}
+{if $action eq 1 or $action eq 2 or $action eq 512 or $action eq 8192}
 {literal}
 <script type="text/javascript">
 	//build fee block

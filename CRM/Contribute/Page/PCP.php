@@ -112,7 +112,7 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
                                               $this, false,
                                               'browse');
         
-        if ( $action & CRM_Core_Action::ENABLE )  { 
+        if ( $action & CRM_Core_Action::ENABLE ) { 
             $id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false );
             require_once "CRM/Contribute/BAO/PCP.php";
             CRM_Contribute_BAO_PCP::setIsActive( $id, 1 );
@@ -120,6 +120,17 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
             $id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false );
             require_once "CRM/Contribute/BAO/PCP.php";
             CRM_Contribute_BAO_PCP::setIsActive( $id, 0 );
+        } elseif ( $action & CRM_Core_Action::DELETE) {
+            $id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false );
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=browse' ) );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_PCP_PCP',
+                                                           'Personal Campaign Page',
+                                                           CRM_Core_Action::DELETE );
+            //$this->setContext( $id, $action );
+            $controller->set('id', $id);
+            $controller->process( );
+            return $controller->run( );
         }
 
         // finally browse
@@ -272,28 +283,7 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
     {
         return ts('Personal Campaign Page');
     }
-    /**
-     * return class name of delete form
-     *
-     * @return string
-     * @access public
-     */
-    function deleteForm( ) 
-    {
-        return 'CRM_Contribute_Form_PCP_Delete';
-    }
-    
-    /**
-     * return name of delete form
-     *
-     * @return string
-     * @access public
-     */
-    function deleteName( ) 
-    {
-        return ts('Delete Personal Campaign Page');
-    }
-    
+        
     /**
      * Get user context.
      *

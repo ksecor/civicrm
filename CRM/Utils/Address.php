@@ -146,7 +146,7 @@ class CRM_Utils_Address
                       'organization_name'      => CRM_Utils_Array::value( 'display_name', $fields ),
                       'legal_name'             => CRM_Utils_Array::value( 'legal_name', $fields ),
                       'preferred_communication_method' => CRM_Utils_Array::value( 'preferred_communication_method', $fields ),
-                      'addressee'              => $contactName,
+                      'addressee'              => CRM_Utils_Array::value( 'addressee_display', $fields ),
                       'email_greeting'         => CRM_Utils_Array::value( 'email_greeting_display', $fields ),
                       'postal_greeting'        => CRM_Utils_Array::value( 'postal_greeting_display', $fields )
                        );
@@ -209,11 +209,12 @@ class CRM_Utils_Address
             $formatted = "\n$formatted\n";
         } else {
             if( $microformat == 1) {
-                $formatted = "\n<div class=\"location vcard\"><span class=\"adr\">$formatted</span></div>\n";
+                $formatted = "\n<div class=\"location vcard\"><span class=\"adr\">\n$formatted</span></div>\n";
             } else {
                 $formatted = "\n<div class=\"vcard\"><span class=\"adr\">$formatted</span></div>\n";
             }
         }
+        
         $formatted = preg_replace('/\n{[^{}]*}/u', "\n", $formatted);
         $formatted = preg_replace('/{[^{}]*}\n/u', "\n", $formatted);
 
@@ -230,22 +231,25 @@ class CRM_Utils_Address
         // drop any empty lines left after the replacements
         $formatted = preg_replace('/^[ \t]*[\r\n]+/m', '', $formatted);
 
-        // remove \n from each line and only add at the end
-        // this hack solves formatting issue, when we convert nl2br
-        $lines = array( );
-        $count = 0;
-        $finalFormatted = null;
-        foreach (explode("\n", $formatted) as $line) {
-            $line = trim($line);
-            if ( $line ) {
-                if ( $count > 0 ) {
-                   $line = "$line\n";
+        if ( ! $microformat ) {
+            $finalFormatted = $formatted;
+        } else {
+            // remove \n from each line and only add at the end
+            // this hack solves formatting issue, when we convert nl2br
+            $lines = array( );
+            $count = 0;
+            $finalFormatted = null;
+            foreach (explode("\n", $formatted) as $line) {
+                $line = trim($line);
+                if ( $line ) {
+                    if ( $count > 0 ) {
+                       $line = "$line\n";
+                    }
+                    $finalFormatted .= $line;
+                    $count++;
                 }
-                $finalFormatted .= $line;
-                $count++;
             }
         }
-
         return $finalFormatted;
     }
 

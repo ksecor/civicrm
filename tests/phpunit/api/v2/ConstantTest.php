@@ -10,7 +10,8 @@
  *   @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html
  *              GNU Affero General Public License version 3
  *   @version   $Id$
- *   @package   CiviCRM
+ *   @package CiviCRM_APIv2
+ *   @subpackage API_Constant
  *
  *   This file is part of CiviCRM
  *
@@ -44,9 +45,10 @@ require_once 'CRM/Utils/Cache.php';
 /**
  *  Test APIv2 civicrm_activity_* functions
  *
- *  @package   CiviCRM
+ *  @package CiviCRM_APIv2
+ *  @subpackage API_Constant
  */
-class api_v2_TestConstant extends PHPUnit_Extensions_Database_TestCase
+class api_v2_ConstantTest extends PHPUnit_Extensions_Database_TestCase
 {
     /**
      *  Database connection
@@ -133,6 +135,34 @@ class api_v2_TestConstant extends PHPUnit_Extensions_Database_TestCase
         $this->assertEquals( 3, count( $result ), "In line " . __LINE__  );
         $this->assertContains( 'Scheduled', $result, "In line " . __LINE__  );
         $this->assertContains( 'Completed', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Canceled', $result, "In line " . __LINE__  );
+        $this->assertTrue( empty( $result['is_error'] ),
+                           "In line " . __LINE__  );
+    } 
+
+    /**
+     *  Test civicrm_constant_get( 'activityType' )
+     */
+    public function testActivityType()
+    {
+        //  Insert 'activity_type' option group
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__)
+                             . '/option_group_activity_type.xml') );
+
+        //  Insert some activity type values
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/option_value_activity_1_5.xml') );
+
+        $result = civicrm_constant_get( 'activityType' );
+        $this->assertEquals( 5, count( $result ), "In line " . __LINE__  );
+        $this->assertContains( 'Meeting', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Email', $result, "In line " . __LINE__  );
         $this->assertContains( 'Canceled', $result, "In line " . __LINE__  );
         $this->assertTrue( empty( $result['is_error'] ),
                            "In line " . __LINE__  );

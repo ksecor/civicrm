@@ -3,6 +3,7 @@
 /**
  *  Include class definitions
  */
+require_once 'tests/phpunit/CiviTest/CiviUnitTestCase.php';
 require_once 'api/v2/CustomGroup.php';
 
 /**
@@ -10,7 +11,7 @@ require_once 'api/v2/CustomGroup.php';
  *
  *  @package   CiviCRM
  */
-class api_v2_TestCustomGroupCreate extends CiviUnitTestCase
+class api_v2_CustomGroupCreateTest extends CiviUnitTestCase
 {
     
     function get_info( )

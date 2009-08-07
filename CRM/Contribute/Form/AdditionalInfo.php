@@ -406,6 +406,8 @@ class CRM_Contribute_Form_AdditionalInfo
         require_once 'CRM/Utils/Mail.php';
         list( $contributorDisplayName, 
               $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );
+        $this->assign( 'contactID', $params['contact_id'] );
+        $this->assign( 'contributionID', $params['contribution_id'] );
         $template =& CRM_Core_Smarty::singleton( );
         $session  =& CRM_Core_Session::singleton( );
         $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );

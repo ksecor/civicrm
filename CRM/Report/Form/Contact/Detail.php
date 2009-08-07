@@ -332,7 +332,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     }
     
     function from( ) {
-        
+        $group= " ";
         if ( !empty( $this->_params['gid_value'] ) ) {
             $group= "
             LEFT  JOIN civicrm_group_contact  group_contact 

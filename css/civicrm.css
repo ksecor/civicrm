@@ -13,8 +13,10 @@
 #crm-container .medium {width: 12em;}
 #crm-container .big {width: 15em;}
 #crm-container .huge {width: 25em;}
+#crm-container .huge40 {width: 40em;}
 #crm-container textarea.big {width: 35em; height: 4em;}
 #crm-container textarea.huge {width: 45em; height: 16em;}
+#crm-container textarea.huge12 {width: 40em; height: 12em;}
 #crm-container textarea.huge40 {width: 40em; height: 16em;}
 #crm-container textarea.nowrap {width: 45em; height: 4.5em; white-space: nowrap; overflow: auto;}
 #crm-container .bigSelect {width: 15em; height: 12em;}
@@ -99,7 +101,7 @@ div.spacer, .spacer {
 }
   
 #crm-container .form-submit {
-  margin: 1em 0.5em 0.25em 0;
+  margin: .25em 0.5em 0.25em 0;
 }
 
 #crm-container .form-submit-inline {
@@ -375,7 +377,7 @@ div.spacer, .spacer {
   padding: 0.5em;
   background-color: #999999;
   font-weight: bold;
-  color: #BADAFF;
+  color: #FAFAFA;
 }
 
 #crm-container div.display-block {
@@ -700,6 +702,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 #crm-container .element-right {
     float : right;
+    margin-right: 35px;
 }
 /*
 #crm-container div.crm-pager .element-right {
@@ -715,7 +718,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
  border: 1px solid #999999;
 }
 
-#crm-container #search-status ul, #crm-container ul.left-alignment, #crm-container td ul {
+#crm-container #search-status ul {
  margin: 0em 0em 0em -2.0em;
 }
 
@@ -1325,6 +1328,11 @@ div.crm-pager a {
 
 #crm-container .panel li:hover { 
   background-color: #999999;
+  text-color: #FFFFFF;
+}
+
+#crm-container .panel li a:hover { 
+  background-color: #999999;
   color: #FFFFFF;
 }
 
@@ -1367,7 +1375,7 @@ div.crm-pager a {
 
 #crm-container .contextMenu li.hover a {
   color            : #FFF;
-  background-color : #3399FF;
+  background-color : #999999;
 }
 
 /* Styles for Sticky Header */
@@ -1399,6 +1407,11 @@ body .ac_loading {
 
 .ac_input {
   background       : white url(../i/magnify.gif) no-repeat scroll right center;
+}
+
+.ac_over {
+	background-color: #999999;
+	color: white;
 }
 
 /*class for CMS user name check used in profile*/
@@ -1798,9 +1811,4 @@ div.grippie {
 
 #crm-container th.contriTotalLeft {
    border-left: 1px solid #999999;
-}
-
-#crm-container th.softTotal {
-   border-left: 1px solid #999999;
-   border-right: 1px solid #999999;
 }

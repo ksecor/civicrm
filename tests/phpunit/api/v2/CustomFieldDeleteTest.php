@@ -1,8 +1,9 @@
 <?php
 
+require_once 'tests/phpunit/CiviTest/CiviUnitTestCase.php';
 require_once 'api/v2/CustomGroup.php';
 
-class api_v2_TestCustomFieldDelete extends CiviUnitTestCase 
+class api_v2_CustomFieldDeleteTest extends CiviUnitTestCase 
 {
     function get_info( )
     {

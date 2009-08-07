@@ -130,6 +130,19 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         return $domain;
     }
 
+    /**
+     * Create a new domain
+     *
+     * @return domain array
+     * @access public
+     */
+    static function create( $params ) {
+        $domain = new CRM_Core_DAO_Domain( );
+        $domain->copyValues( $params );
+        $domain->save( );
+        return $domain;
+    }
+
     static function multipleDomains( ) {
         $session =& CRM_Core_Session::singleton( );
         

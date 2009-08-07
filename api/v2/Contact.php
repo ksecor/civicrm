@@ -97,7 +97,7 @@ function civicrm_contact_update( &$params, $create_new = false ) {
         }
     }
 
-    // FIXME: Some legacy support cruft, should get rid of this in 3.0
+    // FIXME: Some legacy support cruft, should get rid of this in 3.1
     $change = array( 'individual_prefix' => 'prefix',
                      'prefix'            => 'prefix_id',
                      'individual_suffix' => 'suffix',
@@ -159,6 +159,8 @@ function civicrm_contact_update( &$params, $create_new = false ) {
  * @access public
  */
 function &civicrm_contact_add( &$params ) {
+    _civicrm_initialize( );
+
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
     if ( !empty($contactID) ) {
         return civicrm_contact_update($params);
@@ -439,7 +441,7 @@ function civicrm_replace_contact_formatted($contactId, &$params, &$fields) {
     
     $cid = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, 
                                                           null, null, null, 
-                                                          $params['conatct_type'] );
+                                                          $params['contact_type'] );
     return civicrm_create_success( $cid );
 }
 

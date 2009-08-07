@@ -139,19 +139,20 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             $mailingFormatProperties = self::getReturnProperties( $mailingFormat );
             $returnProperties = array_merge( $returnProperties , $mailingFormatProperties );
         }
-                    
+        
+        $customFormatProperties = array( );            
         if ( stristr( $mailingFormat ,'custom_' ) ) {
             foreach ( $mailingFormatProperties as $token => $true ) {
                 if ( substr( $token,0,7 ) == 'custom_' ) {
-                    if ( !CRM_Utils_Array::value( $token, $nameFormatProperties ) ) { 
-                        $nameFormatProperties[$token] = $mailingFormatProperties[$token];
+                    if ( !CRM_Utils_Array::value( $token, $customFormatProperties ) ) { 
+                        $customFormatProperties[$token] = $mailingFormatProperties[$token];
                     }
                 }
             }
         }
         
-        if ( is_array( $nameFormatProperties ) ) {
-            $returnProperties = array_merge( $returnProperties , $nameFormatProperties );
+        if ( !empty( $customFormatProperties ) ) {
+            $returnProperties = array_merge( $returnProperties , $customFormatProperties );
         }
         
         //get the contacts information
@@ -316,7 +317,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 $row['preferred_communication_method'] = implode(', ', $temp);
             }
             $row['id'] = $id;
-            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat, $tokenFields );          
+            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', false, true, $individualFormat, $tokenFields );          
 
             // CRM-2211: UFPDF doesn't have bidi support; use the PECL fribidi package to fix it.
             // On Ubuntu (possibly Debian?) be aware of http://pecl.php.net/bugs/bug.php?id=12366
