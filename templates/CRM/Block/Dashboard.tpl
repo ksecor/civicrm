@@ -1,7 +1,5 @@
-<div class="menu">
-<ul class="indented">
+<div class="block-civicrm">
 {foreach from=$dashboardLinks item=dash}
-    <li class="leaf"><a accesskey="{$dash.key}" href="{$dash.url}">{$dash.title}</a></li>
+<a accesskey="{$dash.key}" href="{$dash.url}">{$dash.title}</a>
 {/foreach}
-</ul>
 </div>

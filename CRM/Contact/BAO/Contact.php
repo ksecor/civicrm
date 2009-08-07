@@ -1681,7 +1681,7 @@ UNION
      * @access public
      * @static
      */
-    private static function &_getValues( &$params, &$values ) 
+    private static function _getValues( &$params, &$values ) 
     {
         $contact =& new CRM_Contact_BAO_Contact( );
 

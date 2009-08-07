@@ -195,7 +195,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
         }
 
         //get the current employer name
-        if ( $defaults['contact_type'] == 'Individual' ) {
+        if ( CRM_Utils_Array::value( 'contact_type', $defaults ) == 'Individual' ) {
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
             $defaults['current_employer'] = $currentEmployer[ $this->_contactId ]['org_name'];
