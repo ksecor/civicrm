@@ -1812,8 +1812,3 @@ div.grippie {
 #crm-container th.contriTotalLeft {
    border-left: 1px solid #999999;
 }
-
-#crm-container th.softTotal {
-   border-left: 1px solid #999999;
-   border-right: 1px solid #999999;
-}

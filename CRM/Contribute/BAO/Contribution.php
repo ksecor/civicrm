@@ -1005,31 +1005,41 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
      */
     static function getSoftContributionList( $contact_id, $isTest = 0 )
     { 
-        $query =    "select ccs.id, ccs.amount as amount,
-                    ccs.contribution_id, ccs.pcp_id,
-                    cc.receive_date,
-                    cc.contact_id as contributor_id,
-                    cc.contribution_type_id as contribution_type_id,
-                    cc.contribution_status_id as contribution_status_id,
-                    cp.title as pcp_title
-                    from civicrm_contribution_soft ccs
-                    left join civicrm_contribution cc on ccs.contribution_id = cc.id
-                    left join civicrm_pcp cp on ccs.pcp_id = cp.id
-                    where cc.is_test = {$isTest} and ccs.contact_id = " . $contact_id;
+        $query = "SELECT ccs.id, ccs.amount as amount,
+                         ccs.contribution_id, 
+                         ccs.pcp_id,
+                         cc.receive_date,
+                         cc.contact_id as contributor_id,
+                         cc.contribution_status_id as contribution_status_id,
+                         cp.title as pcp_title,
+                         cc.currency,
+                         contact.display_name,
+                         cct.name as contributionType
+                  FROM civicrm_contribution_soft ccs
+                       LEFT JOIN civicrm_contribution cc
+                              ON ccs.contribution_id = cc.id
+                       LEFT JOIN civicrm_pcp cp 
+                              ON ccs.pcp_id = cp.id
+                       LEFT JOIN civicrm_contact contact
+                              ON ccs.contribution_id = cc.id AND
+                                 cc.contact_id = contact.id 
+                       LEFT JOIN civicrm_contribution_type cct
+                              ON cc.contribution_type_id = cct.id
+                  WHERE cc.is_test = {$isTest} AND ccs.contact_id = " . $contact_id;
        
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        
+        $contributionStatus = CRM_Contribute_Pseudoconstant::contributionStatus( );
         $result = array();
         while( $cs->fetch( ) ) {
-            $result[$cs->id]['amount'] = $cs->amount;
-            $result[$cs->id]['contributor_id'] = $cs->contributor_id;
-            $result[$cs->id]['contribution_id'] = $cs->contribution_id;
-            $result[$cs->id]['contributor_display_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $cs->contributor_id, 'display_name' );
-            $result[$cs->id]['contribution_type']        = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $cs->contribution_type_id, 'name' );
-            $result[$cs->id]['receive_date'] = $cs->receive_date;
-            $result[$cs->id]['contribution_status'] = CRM_Utils_Array::value($cs->contribution_status_id, CRM_Contribute_Pseudoconstant::contributionStatus( ) );
-            $result[$cs->id]['pcp_id'] = $cs->pcp_id;
-            $result[$cs->id]['pcp_title'] = $cs->pcp_title;
+            $result[$cs->id]['amount']            = CRM_Utils_Money::format( $cs->amount , $cs->currency );
+            $result[$cs->id]['contributor_id']    = $cs->contributor_id;
+            $result[$cs->id]['contribution_id']   = $cs->contribution_id;
+            $result[$cs->id]['contributor_name']  = $cs->display_name;
+            $result[$cs->id]['contribution_type'] = $cs->contributionType;
+            $result[$cs->id]['receive_date']      = $cs->receive_date;
+            $result[$cs->id]['pcp_id']            = $cs->pcp_id;
+            $result[$cs->id]['pcp_title']         = $cs->pcp_title;
+            $result[$cs->id]['contribution_status'] = CRM_Utils_Array::value($cs->contribution_status_id, $contributionStatus );
 
             if ( $isTest ) {
                 $result[$cs->id]['contribution_status'] = $result[$cs->id]['contribution_status'].'<br /> (test)';
@@ -1040,15 +1050,36 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
     
     static function getSoftContributionTotals( $contact_id, $isTest = 0 )
     {
-    
-        $query = "select sum(amount) as total from civicrm_contribution_soft  ccs left join civicrm_contribution cc on ccs.contribution_id = cc.id where cc.is_test = {$isTest} and ccs.contact_id = " . $contact_id;
+        $query = "SELECT SUM(amount) as amount,
+                         AVG(total_amount) as average,
+                         currency
+                  FROM civicrm_contribution_soft  ccs 
+                       LEFT JOIN civicrm_contribution cc 
+                              ON ccs.contribution_id = cc.id 
+                  WHERE cc.is_test = {$isTest} AND 
+                        ccs.contact_id = {$contact_id}
+                  GROUP BY currency ";
+        
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
-        $result = array();
-        if( $cs->fetch( ) ) {
-            $result['total'] = $cs->total;
+        $count  = 0;
+        $amount = $average = array( );
+        require_once 'CRM/Utils/Money.php';
+        
+        while ( $cs->fetch( ) ) {
+            if ( $cs->amount > 0 ) {
+                $count++;
+                $amount[]  = CRM_Utils_Money::format( $cs->amount , $cs->currency );
+                $average[] = CRM_Utils_Money::format( $cs->average, $cs->currency );
+            }
         }
-        return $result;
+
+        if ( $count > 0 ) {
+            return array( implode( ',&nbsp;', $amount  ),
+                          implode( ',&nbsp;', $average ) 
+                          );
+        }
+        return array( 0, 0 );
     }
 
     /**                                                           
