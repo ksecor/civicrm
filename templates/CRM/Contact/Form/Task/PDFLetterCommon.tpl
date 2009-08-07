@@ -176,7 +176,7 @@ showSaveUpdateChkBox();
 
 function tokenReplHtml ( )
 {
-    var token1 = document.getElementById("token1").options[document.getElementById("token1").selectedIndex].text;
+    var token1 = cj("#token1").val( )[0];
     var editor = {/literal}"{$editor}"{literal};
     if ( editor == "tinymce" ) {
         var content= tinyMCE.get('html_message').getContent() +token1;
