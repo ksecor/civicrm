@@ -118,10 +118,11 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
                           'alias'  => 'cgroup',
                           'filters' =>             
                           array( 'gid' => 
-                                 array( 'name'    => 'id',
+                                 array( 'name'    => 'group_id',
                                         'title'   => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
-                                        'options' => CRM_Core_PseudoConstant::staticGroup( ) 
+                                        'group'   => true,
+                                        'options' => CRM_Core_PseudoConstant::group( ) 
                                         ), 
                                  ), 
                           ),
@@ -184,16 +185,6 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
                    ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND 
                       {$this->_aliases['civicrm_phone']}.is_primary = 1 ";
         }   
-
-        if ( !empty( $this->_params['gid_value'] ) ) {
-            $this->_from .= "
-            LEFT  JOIN civicrm_group_contact  group_contact 
-                    ON {$this->_aliases['civicrm_contact']}.id = group_contact.contact_id  AND 
-                        group_contact.status = 'Added'
-            LEFT  JOIN civicrm_group  {$this->_aliases['civicrm_group']} 
-                    ON group_contact.group_id = {$this->_aliases['civicrm_group']}.id ";
-        }
-        
     }
 
     function where( ) {
@@ -214,17 +205,23 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
                     }
                     
                     if ( ! empty( $clause ) ) {
-                        $clauses[] = $clause;
+                        if ( CRM_Utils_Array::value( 'group', $field ) ) {
+                            $clauses[ ] = $this->whereGroupClause( $clause );
+                        } else {
+                            $clauses[ ] = $clause;
+                        }
                     }
                 }
             }
         }
-
+        
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
         } else {
+             
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
+        
     }
 
     function groupBy( ) {
@@ -236,7 +233,7 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
         $this->beginPostProcess( );
 
         $sql  = $this->buildQuery( true );
-        
+             
         $rows = $graphRows = array();
         $this->buildRows ( $sql, $rows );
         

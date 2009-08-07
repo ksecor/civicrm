@@ -148,7 +148,7 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
                                        'title'   => ts( ' Group' ),
                                        'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                        'group'   => true,
-                                       'options' => CRM_Core_PseudoConstant::staticGroup( ) ) ), ),
+                                       'options' => CRM_Core_PseudoConstant::group( ) ) ), ),
                   
                   
                   );

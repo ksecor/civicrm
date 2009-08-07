@@ -183,7 +183,7 @@ contribution2_total_amount_count, contribution2_total_amount_sum',
                                         'title'        => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'group'        => true,
-                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) ), ), ),
+                                        'options'      => CRM_Core_PseudoConstant::group( ) ), ), ),
                    );
 
         parent::__construct( );
