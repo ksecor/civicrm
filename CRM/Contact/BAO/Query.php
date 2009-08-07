@@ -1334,11 +1334,15 @@ class CRM_Contact_BAO_Query
 
             $wc = ( $op != 'LIKE' ) ? "LOWER($where)" : $where;
 
-            $states =& CRM_Core_PseudoConstant::stateProvince(); 
             if ( is_numeric( $value ) ) {
-                $value  =  $states[(int ) $value];
+                $where = str_replace( '.name', '.id', $where );                     
+                $this->_where[$grouping][] = self::buildClause( $where, $op, $value, 'Positive' );
+                $states =& CRM_Core_PseudoConstant::stateProvince(); 
+                $value  =  $states[(int ) $value]; 
+            } else {
+                $wc = ( $op != 'LIKE' ) ? "LOWER($where)" : $where;
+                $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             }
-            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('State') . " $op '$value'";
             } else {
@@ -1358,24 +1362,43 @@ class CRM_Contact_BAO_Query
                 $where = $field['where'];
             }
 
-            $countries =& CRM_Core_PseudoConstant::country( ); 
-            if ( is_numeric( $value ) ) { 
+            if ( is_numeric( $value ) ) {
+                $where = str_replace( '.name', '.id', $where );                     
+                $this->_where[$grouping][] = self::buildClause( $where, $op, $value, 'Positive' );
+                $countries =& CRM_Core_PseudoConstant::country( ); 
                 $value     =  $countries[(int ) $value]; 
+            } else {
+                $wc = ( $op != 'LIKE' ) ? "LOWER($where)" : $where;
+                $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             }
-            $wc = ( $op != 'LIKE' ) ? "LOWER($where)" : $where;
-            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('Country') . " $op '$value'";
             } else {
                 $this->_qill[$grouping][] = ts('Country') . " ($lType) $op '$value'";
             }
         } else if ( substr($name,0,6) === 'county' ) {
-            $counties =& CRM_Core_PseudoConstant::county( ); 
-            if ( is_numeric( $value ) ) { 
-                $value     =  $counties[(int ) $value]; 
+            if ( isset( $locType[1] ) &&
+                 is_numeric( $locType[1] ) ) {
+                $setTables = false;
+                    
+                //get the location name 
+                $locationType =& CRM_Core_PseudoConstant::locationType();
+                list($tName, $fldName ) = self::getLocationTableName( $field['where'], $locType );
+                $this->_whereTables[$tName] = $this->_tables[$tName];
+                $where = "`$tName`.$fldName";
+            } else {
+                $where = $field['where'];
             }
-            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
-            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
+            if ( is_numeric( $value ) ) {
+                $where = str_replace( '.name', '.id', $where );                     
+                $this->_where[$grouping][] = self::buildClause( $where, $op, $value, 'Positive' );
+                $counties =& CRM_Core_PseudoConstant::county( ); 
+                $value     =  $counties[(int ) $value]; 
+            } else {
+                $wc = ( $op != 'LIKE' ) ? "LOWER($where)" : $where;
+                $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
+            }
+
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('County') . " $op '$value'";
             } else {
