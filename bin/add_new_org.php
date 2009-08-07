@@ -47,7 +47,6 @@ function run( $argc, $argv ) {
     if (! is_null($argv[3])) {
         $parent_group_name = $argv[3];
         $parent_group_params = array('title' => $parent_group_name);
-        print "Parent group params: ".var_export($parent_group_params)."\n";
         $parent_groups = civicrm_group_get( $parent_group_params );
         if ($debug) {
             print "Find parent group result: ".var_export($parent_groups)."\n";
