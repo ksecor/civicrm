@@ -84,7 +84,7 @@
             {if $showVisibility}<td>{$row.visibility_label}</td>{/if}
 	        <td>{$row.description}</td>	
 	        <td class="nowrap">{$row.weight}</td>
-            {if $showIsDefault}<td>{$row.default_value}</td>{/if}
+            {if $showIsDefault}<td align="center">{if $row.is_default eq 1}<img src="{$config->resourceBase}/i/check.gif" alt="{ts}Default{/ts}" />{/if}&nbsp;</td>{/if}
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action|replace:'xx':$row.id}</td>
