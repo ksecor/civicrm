@@ -11,7 +11,7 @@
   <tr class="columnheader">
 {if $id}
   {foreach from=$columnHeaders item=header}
-     <th>{ts}{$header}{/ts}</th>
+     <th>{$header}</th>
   {/foreach}
 {else}
     <th>{ts}Name{/ts}</th>

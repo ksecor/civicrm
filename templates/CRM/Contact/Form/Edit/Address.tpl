@@ -4,7 +4,7 @@
 
 {if $title and $className eq 'CRM_Contact_Form_Contact'}
 <h3 class="head"> 
-    <span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{ts}{$title}{/ts}</a>
+    <span class="ui-icon ui-icon-triangle-1-e"></span><a href="#">{$title}</a>
 </h3>
 
 <div id="addressBlock" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
@@ -54,7 +54,7 @@
      </td></tr>
      {if $className eq 'CRM_Contact_Form_Contact'}
      <tr id="addMoreAddress{$blockId}" >
-         <td><a href="#" onclick="buildAdditionalBlocks( 'Address', '{$className}' );return false;">add address</a></td>
+        <td><a href="#" onclick="buildAdditionalBlocks( 'Address', '{$className}' );return false;">{ts}add address{/ts}</a></td>
      </tr>
      {/if}
   </table>
