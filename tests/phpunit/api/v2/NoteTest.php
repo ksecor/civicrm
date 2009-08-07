@@ -31,12 +31,6 @@ class api_v2_NoteTest extends CiviUnitTestCase
         //  Connect to the database
         parent::setUp();
 
-        //  Truncate the tables
-        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__) . '/truncate.xml') );
-
         $this->_contactID = $this->organizationCreate( );
         
         $this->_params = array(

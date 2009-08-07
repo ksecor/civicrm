@@ -483,7 +483,7 @@ function civicrm_contact_format_create( &$params ) {
 
     // return error if we have no params
     if ( empty( $params ) ) {
-        return _civicrm_create_error( 'Input Parameters empty' );
+        return civicrm_create_error( 'Input Parameters empty' );
     }
 
     $error = _civicrm_required_formatted_contact($params);

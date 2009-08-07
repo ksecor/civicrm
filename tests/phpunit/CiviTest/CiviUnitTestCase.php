@@ -88,6 +88,19 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
 
         //  Get and save a connection to the database
         $this->_dbconn = $this->getConnection();
+
+        //  Use a temporary file for STDIN
+        $GLOBALS['stdin'] = tmpfile( );
+        if ( $GLOBALS['stdin'] === false ) {
+            echo "Couldn't open temporary file\n";
+            exit(1);
+        }
+
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/truncate.xml') );
     }
 
     /**

@@ -228,7 +228,7 @@ function &civicrm_contribution_format_create( &$params ) {
    
     // return error if we have no params
     if ( empty( $params ) ) {
-        return _civicrm_create_error( 'Input Parameters empty' );
+        return civicrm_create_error( 'Input Parameters empty' );
     }
     
     $error = _civicrm_contribute_check_params($params);
