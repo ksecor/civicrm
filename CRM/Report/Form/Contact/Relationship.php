@@ -111,11 +111,11 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                   array( 'dao'       => 'CRM_Contact_DAO_RelationshipType',
                          'fields'    =>
                          array( 'label_a_b' => 
-                                array( 'title'   => ts( 'RelationShip A-B ' ),
+                                array( 'title'   => ts( 'Relationship A-B ' ),
                                        'default' => true,),
                                 
                                 'label_b_a' => 
-                                array( 'title' => ts( 'RelationShip B-A ' ), ),
+                                array( 'title' => ts( 'Relationship B-A ' ), ),
                                 ),                         
                          'filters'   =>  
                          array( 'contact_type_a' => 
