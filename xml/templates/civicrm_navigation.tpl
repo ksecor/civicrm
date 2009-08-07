@@ -92,7 +92,7 @@ INSERT INTO civicrm_navigation
     ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
 VALUES    
     ( @domainID, 'civicrm/pledge&reset=1',                                  '{ts escape="sql"}Dashboard{/ts}',                  'Dashboard',                 NULL, '',  @pledgelastID,       '1', NULL, 1 ), 
-    ( @domainID, 'civicrm/contact/view/pledge?reset=1&action=add&context=standalone', '{ts escape="sql"}New Pledge{/ts}',       'New Pledge',                NULL, '', @pledgelastID,        '1', NULL, 2 ),
+    ( @domainID, 'civicrm/contact/view/pledge&reset=1&action=add&context=standalone', '{ts escape="sql"}New Pledge{/ts}',       'New Pledge',                NULL, '', @pledgelastID,        '1', NULL, 2 ),
     ( @domainID, 'civicrm/pledge/search&reset=1',                           '{ts escape="sql"}Find Pledges{/ts}',               'Find Pledges',              NULL, '',  @pledgelastID,       '1', NULL, 3 ), 
     ( @domainID, 'civicrm/admin/contribute&reset=1&action=add',             '{ts escape="sql"}New Contribution Page{/ts}',      'New Contribution Page',     NULL, '',  @contributionlastID, '1', NULL, 6 ), 
     ( @domainID, 'civicrm/admin/contribute&reset=1',                        '{ts escape="sql"}Manage Contribution Pages{/ts}',  'Manage Contribution Pages', NULL, '',  @contributionlastID, '1', '1',  7 ), 
