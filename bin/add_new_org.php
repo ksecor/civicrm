@@ -9,7 +9,7 @@
  * 8/6/09
  */
 
-$debug = true;
+$debug = false;
 
 function run( $argc, $argv ) {
     global $debug;
