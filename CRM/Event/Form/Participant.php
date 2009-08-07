@@ -387,7 +387,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         //setting default register date
-        if ($this->_action == CRM_Core_Action::ADD) {
+        if ($this->_action == CRM_Core_Action::ADD || $this->_action == CRM_Core_Action::ADVANCED) {
             $today_date = getDate();
             $defaults[$this->_participantId]['register_date']['M'] = $today_date['mon'];
             $defaults[$this->_participantId]['register_date']['d'] = $today_date['mday'];
@@ -994,10 +994,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
             if ( $this->_single ) {
                 $participants[] = CRM_Event_BAO_Participant::create( $params );
-            } else {
+            } else { 
                 foreach ( $this->_contactIds as $contactID ) {
-                    $params['contact_id'] = $contactID;
-                    $participants[]       = CRM_Event_BAO_Participant::create( $params );   
+                    $commonParams = $params;
+                    $commonParams['contact_id'] = $contactID;
+                    $participants[]       = CRM_Event_BAO_Participant::create( $commonParams );   
                 }        
             }
             
@@ -1256,7 +1257,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $statusMsg = "{$statusMsg} {$updateStatusMsg}";
             }
             
-        } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
+        } elseif ( $this->_action & CRM_Core_Action::ADD || $this->_action & CRM_Core_Action::ADVANCED ) {
             if ( $this->_single ) {
                 $statusMsg = ts('Event registration for %1 has been added.', array(1 => $this->_contributorDisplayName));
                 if ( CRM_Utils_Array::value( 'send_receipt', $params ) && count($sent) ) {
