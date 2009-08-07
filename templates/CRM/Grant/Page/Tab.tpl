@@ -28,12 +28,8 @@
            <dl>
              <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
                <dd>
-                 {if $permission EQ 'edit'}
-                    {ts 1=$newGrantURL}There are no grant recorded for this contact. You can <a href='%1'>enter one now</a>.{/ts}
-                 {else}
-                    {ts}There are no grant recorded for this contact.{/ts}
-                 {/if}
-               </dd>
+                   {ts}No grants have been recorded for this contact.{/ts}
+                </dd>
            </dl>
        </div>
     {/if}

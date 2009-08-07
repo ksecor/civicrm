@@ -30,14 +30,10 @@
     {if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4 and $action ne 32768}
        	<div class="messages status">
            <dl>
-	   <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-           <dd>
-                {if $permission EQ 'edit'}
-		{ts 1=$newURL}There are no memberships recorded for this contact. You can <a accesskey="N" href='%1'>enter one now</a>.{/ts}          
-                {else}
-                {ts}There are no memberships recorded for this contact.{/ts}
-                {/if}
-           </dd>
+	     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+               <dd>
+                 {ts}No memberships have been recorded for this contact.{/ts}
+               </dd>
            </dl>
       </div>
     {/if}
