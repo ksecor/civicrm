@@ -147,7 +147,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
             $this->_isTemplate = CRM_Utils_Request::retrieve('is_template', 'Boolean', $this);
         }
         
-        if ( !$this->_isTemplate && $this->_id ) {
+        if ( !$this->_isTemplate && $id ) {
             $breadCrumb = array(array('title' => ts('Manage Events'),
                                       'url'   => CRM_Utils_System::url(CRM_Utils_System::currentPath(), 'reset=1')));
         }

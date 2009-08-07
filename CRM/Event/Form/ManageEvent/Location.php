@@ -95,9 +95,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             $this->_values = CRM_Core_BAO_Location::getValues( $params );
             
             //get event values.
-            $params = array( 'id' => $eventId );
+            $params = array( 'id' => $this->_id );
             CRM_Event_BAO_Event::retrieve( $params, $this->_values );
-            
             $this->set( 'values', $this->_values );
         }
         

@@ -49,7 +49,7 @@ class CRM_Event_Form_ManageEvent_TabHeader {
         return $tabs;
     }
 
-    static function &process( &$form ) {
+    static function process( &$form ) {
         if ( $form->getVar( '_id' ) <= 0 ) {
             return null;
         }
