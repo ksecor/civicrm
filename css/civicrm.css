@@ -1328,6 +1328,11 @@ div.crm-pager a {
 
 #crm-container .panel li:hover { 
   background-color: #999999;
+  text-color: #FFFFFF;
+}
+
+#crm-container .panel li a:hover { 
+  background-color: #999999;
   color: #FFFFFF;
 }
 
@@ -1370,7 +1375,7 @@ div.crm-pager a {
 
 #crm-container .contextMenu li.hover a {
   color            : #FFF;
-  background-color : #3399FF;
+  background-color : #999999;
 }
 
 /* Styles for Sticky Header */
