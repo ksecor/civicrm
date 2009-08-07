@@ -47,10 +47,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     var $_oid         = null;
 
     var $_contactType = null;
-
-    // variable to keep track of location types need overwriting
-    protected $_overwriteLocTypeIds = array( );
-
+    
+    // variable to keep all location block ids.
+    protected $_locBlockIds = array( );
+    
     // FIXME: QuickForm can't create advcheckboxes with value set to 0 or '0' :(
     // see HTML_QuickForm_advcheckbox::setValues() - but patching that doesn't 
     // help, as QF doesn't put the 0-value elements in exportValues() anyway...
@@ -148,69 +148,63 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             }
             $rows["move_$field"]['title'] = $fields[$field]['title'];
         }
-
-        // handle locations
+        
+        // handle location blocks.
         require_once 'api/v2/Location.php';
+        $mainParams['version'] = $otherParams['version'] = '3.0';
+        
         $locations['main']  =& civicrm_location_get($mainParams);
         $locations['other'] =& civicrm_location_get($otherParams);
+        $allLocationTypes   = CRM_Core_PseudoConstant::locationType( );
+        
         $mainLoc = array();
-
-        foreach (CRM_Core_PseudoConstant::locationType() as $locTypeId => $locTypeName) {
-            foreach (array('main', 'other') as $moniker) {
-                $location = array();
-                foreach ($locations[$moniker] as $loc) {
-                    if ($loc['location_type_id'] == $locTypeId) {
-                        $location = $loc;
-                    }
-                }
-                if (empty($location)) {
-                    $locValue[$moniker] = 0;
-                    $locLabel[$moniker] = array();
+        foreach ( array( 'Email', 'Phone', 'IM', 'OpenID', 'Address' ) as $block ) {
+            $name = strtolower( $block );
+            foreach ( array('main', 'other') as $moniker ) {
+                $blockValue = CRM_Utils_Array::value( $name, $locations[$moniker], array( ) );
+                
+                if ( empty( $blockValue ) ) {
+                    $locValue[$moniker][$name] = 0;
+                    $locLabel[$moniker][$name] = array( );
+                    $locTypes[$moniker][$name] = array( );
                 } else {
-                    $locValue[$moniker] = $locTypeId;
-                    foreach (array('email','phone','openid') as $fieldType) {
-                        if (!isset($location[$fieldType])) $location[$fieldType] = array();
-                        $locLabel[$moniker][$fieldType] = '';
-                        foreach ($location[$fieldType] as $key =>$field) {
-                            $locLabel[$moniker][$fieldType] .= $field[$fieldType] . "\n";
-                        }
-                        $locLabel[$moniker][$fieldType] = preg_replace('/\n+/', "\n", $locLabel[$moniker][$fieldType]);
-                        $locLabel[$moniker][$fieldType] = nl2br(trim($locLabel[$moniker][$fieldType]));
-                    }
-                    if (!isset($location['im'])) $location['im'] = array();
-                    $locLabel[$moniker]['im'] = '';
-                    foreach ($location['im'] as $key =>$field) {
-                        $locLabel[$moniker]['im'] .= $field['name'] . "\n";
-                    }
-                    $locLabel[$moniker]['im'] = preg_replace('/\n+/', "\n", $locLabel[$moniker]['im']);
-                    $locLabel[$moniker]['im'] = nl2br(trim($locLabel[$moniker]['im']));
-                    if( isset($location['address']) ){
-                        $locLabel[$moniker]['address'] = $location['address']['display'];
+                    $locValue[$moniker][$name] = true; 
+                    foreach ( $blockValue as $count => $blkValues ) {
+                        $fldName   = $name;
+                        $locTypeId = $blkValues['location_type_id'];
+                        if ( $name == 'im'      ) $fldName = 'name';
+                        if ( $name == 'address' ) $fldName = 'display';
+                        $locLabel[$moniker][$name][$count] = $blkValues[$fldName];
+                        $locTypes[$moniker][$name][$count] = $locTypeId;
+                        $this->_locBlockIds[$moniker][$name][$count] = $blkValues['id'];
+                        if ( $moniker == 'main' ) $mainLoc["{$name}"][$count] = true;
                     }
                 }
-            } 
-
-            $mainLoc["main_$locTypeId"] = $locLabel['main'];
-            if ($locValue['other'] != 0) {
-                foreach (array('email','phone','im','openid','address') as $fieldType) {
-                    $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
-                    $rows["move_location_$fieldType"."_$locTypeId"]['main']  = $locLabel['main'][$fieldType];
-                    $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
-                    $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", 
-                                      null, null, null, $locValue['other']);
-
-                    $this->_overwriteLocTypeIds[] = $locTypeId;
-
+            }
+            
+            if ( $locValue['other'][$name] != 0 ) {
+                foreach ( $locLabel['other'][$name] as $count => $value ) {
+                    $locTypeId = $locTypes['other'][$name][$count];
+                    $rows["move_location_{$name}_$count"]['other'] = $value;
+                    $rows["move_location_{$name}_$count"]['main']  = $locLabel['main'][$name][$count];
+                    $rows["move_location_{$name}_$count"]['title'] = ts( '%1:%2:%3',
+                                                                         array( 1 => $block, 
+                                                                                2 => $count, 
+                                                                                3 => $allLocationTypes[$locTypeId] ) );
+                    
+                    $this->addElement( 'advcheckbox', "move_location_{$name}_{$count}" );
+                    
                     // make sure default location type is always on top
-                    $locTypes       = CRM_Core_PseudoConstant::locationType( );
-                    $defaultLocType = array( $locTypeId => $locTypes[$locTypeId] );
-                    unset($locTypes[$locTypeId]);
-
-                    $this->addElement('select', "location[$fieldType][$locTypeId]", null,  
-                                      $defaultLocType + $locTypes, 
-                                      array('onChange' => "displayMainLoc( this, '$fieldType', '$locTypeId' );") );
+                    $locTypeValues  = $allLocationTypes;
+                    $defaultLocType = array( $locTypeId => $locTypeValues[$locTypeId] );
+                    unset($locTypeValues[$locTypeId]);
+                    
+                    $this->addElement( 'select', "location[{$name}][$count][locTypeId]", null, $defaultLocType + $locTypeValues );
+                    if ( $name != 'address' ) {
+                        $this->addElement( 'advcheckbox', "location[{$name}][$count][operation]", null, ts('add new') );
+                    }
                 }
-            } 
+            }
         }
         
         // handle custom fields
@@ -248,10 +242,9 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 }
             }
         }
-
+        
         $this->assign('rows', $rows);
-        $this->assign('main_loc', json_encode($mainLoc));
-
+        
         // add the related tables and unset the ones that don't sport any of the duplicate contact's info
         $relTables = CRM_Dedupe_Merger::relTables();
         $activeRelTables = CRM_Dedupe_Merger::getActiveRelTables($oid);
@@ -298,20 +291,88 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
              array_key_exists('move_rel_table_activities', $formValues) ) {
             $formValues['move_rel_table_activities'] = '1';
         }
-
+        
         $relTables =& CRM_Dedupe_Merger::relTables();
-        $moveTables = array();
+        $moveTables = $locBlocks = array( );
         foreach ($formValues as $key => $value) {
             if ($value == $this->_qfZeroBug) $value = '0';
-            if ((in_array(substr($key, 5), CRM_Dedupe_Merger::$validFields) or substr($key, 0, 12) == 'move_custom_') and $value != null) {
+            if ((in_array(substr($key, 5), CRM_Dedupe_Merger::$validFields) or 
+                 substr($key, 0, 12) == 'move_custom_') and $value != null) {
                 $submitted[substr($key, 5)] = $value;
             } elseif (substr($key, 0, 14) == 'move_location_' and $value != null) {
-                $locations[substr($key, 14)] = $value;
+                $locField   = explode( '_',  $key );
+                $fieldName  = $locField[2];
+                $fieldCount = $locField[3];
+                $operation  = CRM_Utils_Array::value( 'operation', $formValues['location'][$fieldName][$fieldCount] );
+                // default operation is overwrite.
+                if ( !$operation ) {
+                    $operation = 2; 
+                }
+                
+                $locBlocks[$fieldName][$fieldCount]['operation'] = $operation;
+                $locBlocks[$fieldName][$fieldCount]['locTypeId'] = 
+                    CRM_Utils_Array::value( 'locTypeId', $formValues['location'][$fieldName][$fieldCount] );
             } elseif (substr($key, 0, 15) == 'move_rel_table_' and $value == '1') {
                 $moveTables = array_merge($moveTables, $relTables[substr($key, 5)]['tables']);
             }
         }
-       
+        
+        // process location blocks.
+        if ( !empty( $locBlocks ) ) {
+            $locComponent = array( 'email'   => 'Email',
+                                   'phone'   => 'Phone',
+                                   'im'      => 'IM',
+                                   'openid'  => 'OpenID',
+                                   'address' => 'Address' );
+            
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $primaryBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid );
+            $billingBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid, 'is_billing' );
+            
+            foreach ( $locBlocks as $name => $block ) {
+                if ( !is_array($block) || CRM_Utils_System::isNull($block) ) continue; 
+                $daoName = $locComponent[$name];
+                $primaryDAOId = (array_key_exists($name, $primaryBlockIds) )?array_pop($primaryBlockIds[$name]):null;
+                $billingDAOId = (array_key_exists($name, $billingBlockIds) )?array_pop($billingBlockIds[$name]):null;
+                
+                foreach ( $block as $blkCount => $values ) {
+                    $locTypeId =      CRM_Utils_Array::value( 'locTypeId', $values, 1 );
+                    $operation =      CRM_Utils_Array::value( 'operation', $values, 2 );
+                    $updateBlockId  = CRM_Utils_Array::value( $blkCount,   $this->_locBlockIds['other'][$name] );
+                    $deleteBlockId  = CRM_Utils_Array::value( $blkCount,   $this->_locBlockIds['main'][$name]  );
+                    if ( !$updateBlockId ) continue;
+                    
+                    require_once "CRM/Core/DAO/{$daoName}.php";
+                    eval("\$updateDAO =& new CRM_Core_DAO_$daoName();");
+                    $updateDAO->id = $updateBlockId;
+                    $updateDAO->find( true );
+                    $updateDAO->contact_id = $this->_cid;
+                    $updateDAO->location_type_id = $locTypeId;
+                    
+                    // contact having primary block.
+                    if ( $primaryDAOId ) $updateDAO->is_primary = 0;
+                    if ( $billingDAOId ) $updateDAO->is_billing = 0;
+                    
+                    // overwrite - need to delete block from main contact.
+                    if ( $deleteBlockId && ($operation == 2) ) {
+                        eval("\$deleteDAO =& new CRM_Core_DAO_$daoName();");
+                        $deleteDAO->id = $deleteBlockId;
+                        $deleteDAO->find( true );
+                        
+                        // since we overwrite primary block.
+                        if ( $primaryDAOId && ($primaryDAOId == $deleteDAO->id) ) $updateDAO->is_primary = 1;
+                        if ( $billingDAOId && ($billingDAOId == $deleteDAO->id) ) $updateDAO->is_billing = 1;
+                        
+                        $deleteDAO->delete( );
+                        $deleteDAO->free( );
+                    }
+                    
+                    $updateDAO->update( );
+                    $updateDAO->free( );
+                }
+            }
+        }
+        
         // FIXME: fix gender, prefix and postfix, so they're edible by createProfileContact()
         $names['gender']            = array('newName' => 'gender_id',          'groupName' => 'gender');
         $names['individual_prefix'] = array('newName' => 'prefix_id',          'groupName' => 'individual_prefix');
@@ -404,73 +465,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             }
         }
         
-        // FIXME: the simplest approach to locations
-        $locTypes =& CRM_Core_PseudoConstant::locationType();
-        if (!isset($locations)) $locations = array();
-        foreach ($locations as $field => $locTypeId) {
-            $field = substr($field, 0, -2);
-            $mainParams = array('contact_id' => $this->_cid, 'location_type' => $locTypeId);
-            
-            // if the new one is 0, we're done
-            if ($locTypeId == 0) continue;
-            
-            $locComponent = array(
-                                  'email'   => 'Email',
-                                  'phone'   => 'Phone',
-                                  'im'      => 'IM',
-                                  'openid'  => 'OpenID',
-                                  'address' => 'Address',
-                                  ); 
-
-            // indicates if main contact already has any location /w primary data
-            $isMainPrimarySet      = 0;
-            $mainLocationTypeId    = CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]);
-            // delete the existing location component of main contact if - 
-            // 1. location type is same for both duplicate and main contact.
-            // 2. address location found, since address always needs to be replaced.
-            if ( in_array($mainLocationTypeId, $this->_overwriteLocTypeIds)
-                 || in_array($field, array('address')) ) { 
-                eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
-                
-                $dao->contact_id = $this->_cid;
-                $dao->find();
-                $dao->location_type_id = $mainLocationTypeId;
-                $dao->delete();
-                $dao->free();
-            }
-
-            $mainPrimaryLocation = CRM_Contact_BAO_Contact::getPrimaryLocationType( $this->_cid, true );
-            if ( !empty($mainPrimaryLocation) ) {
-                $isMainPrimarySet = 1;
-            }
-                               
-            //move duplicate contact's location component.
-            eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
-            $dao->contact_id       = $this->_oid;
-            $dao->location_type_id = $locTypeId;
-            $dao->find();
-
-            while ($dao->fetch()) {
-                $dao->contact_id       = $this->_cid;
-                $dao->location_type_id = $mainLocationTypeId;
-                if ( !$isMainPrimarySet || ($locTypeId == $mainLocationTypeId) ) {
-                    $dao->is_primary   = $dao->is_primary  ? 1 : 0;
-                } else {
-                    $dao->is_primary   = $isMainPrimarySet ? 0 : 1;
-                    //set $isMainPrimarySet to avoid remaining fields as primary
-                    $isMainPrimarySet = 1;
-                }
-                
-                $dao->update();
-            }
-            $dao->free();
-        }
-       
         // handle the related tables
         if (isset($moveTables)) {
             CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid, $moveTables);
         }
-
+        
         // move file custom fields
         // FIXME: move this someplace else (one of the BAOs) after discussing
         // where to, and whether CRM_Core_BAO_File::delete() shouldn't actually,
