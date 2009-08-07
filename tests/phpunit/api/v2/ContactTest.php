@@ -100,6 +100,26 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     public function tearDown() { }
     
     /**
+     *  Test civicrm_contact_add()
+     *
+     *  Verify that attempt to create individual contact with only
+     *  first and last names succeeds
+     */
+    function testAddCreateIndividual() 
+    {
+        $params = array(
+                        'first_name'   => 'abc1',
+                        'contact_type' => 'Individual',
+                        'last_name'    => 'xyz1'
+                        );
+
+        $contact =& civicrm_contact_add($params);
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $contact['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
+    }
+
+    /**
      *  Verify that attempt to create contact with empty params fails
      */
     function testCreateEmptyContact() 
@@ -185,7 +205,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
 
         $contact =& civicrm_contact_create($params);
         $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
-                           . " error message: " . $result['error_message'] );
+                           . " error message: " . $contact['error_message'] );
         $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
 
@@ -203,7 +223,48 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
 
         $contact =& civicrm_contact_create($params);
         $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
-                           . " error message: " . $result['error_message'] );
+                           . " error message: " . $contact['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
+    }
+
+    /**
+     *  Verify that attempt to create individual contact with
+     *  first and last names and old key values works
+     */
+    function testCreateNameIndividualOldKeys() 
+    {
+        $params = array(
+                        'individual_prefix' => 'Dr.',
+                        'first_name'   => 'abc1',
+                        'contact_type' => 'Individual',
+                        'last_name'    => 'xyz1',
+                        'individual_suffix' => 'Jr.'
+                        );
+
+        $contact =& civicrm_contact_create($params);
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $contact['error_message'] );
+        $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
+    }
+
+    /**
+     *  Verify that attempt to create individual contact with
+     *  first and last names and old key values works
+     */
+    function testCreateNameIndividualOldKeys2() 
+    {
+        $params = array(
+                        'prefix_id'    => 'Dr.',
+                        'first_name'   => 'abc1',
+                        'contact_type' => 'Individual',
+                        'last_name'    => 'xyz1',
+                        'suffix_id'    => 'Jr.',
+                        'gender_id'    => 'M'
+                        );
+
+        $contact =& civicrm_contact_create($params);
+        $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
+                           . " error message: " . $contact['error_message'] );
         $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
@@ -220,7 +281,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
 
         $contact =& civicrm_contact_create($params);
         $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
-                           . " error message: " . $result['error_message'] );
+                           . " error message: " . $contact['error_message'] );
         $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
@@ -236,7 +297,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
                         );
         $contact =& civicrm_contact_create($params);
         $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
-                           . " error message: " . $result['error_message'] );
+                           . " error message: " . $contact['error_message'] );
         $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
@@ -255,7 +316,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
         
         $contact =& civicrm_contact_create($params);
         $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
-                           . " error message: " . $result['error_message'] );
+                           . " error message: " . $contact['error_message'] );
         $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
@@ -274,7 +335,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
                         );
         $contact =& civicrm_contact_create($params);
         $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
-                           . " error message: " . $result['error_message'] );
+                           . " error message: " . $contact['error_message'] );
         $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
     }
     
@@ -293,8 +354,92 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
 
         $contact =& civicrm_contact_create($params);
         $this->assertEquals( 0, $contact['is_error'], "In line " . __LINE__
-                           . " error message: " . $result['error_message'] );
+                           . " error message: " . $contact['error_message'] );
         $this->assertEquals( 1, $contact['contact_id'], "In line " . __LINE__ );
+    }
+    
+    /**
+     *  Test civicrm_contact_check_params with check for required
+     *  params and no params
+     */
+    function testCheckParamsWithNoParams()
+    {
+        $params = array();
+        $contact =& civicrm_contact_check_params($params, false );
+        $this->assertEquals( 1, $contact['is_error'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_check_params with params and no checkss
+     */
+    function testCheckParamsWithNoCheckss()
+    {
+        $params = array();
+        $contact =& civicrm_contact_check_params($params, false, false, false );
+        $this->assertNull( $contact );
+    }
+    
+    /**
+     *  Test civicrm_contact_check_params with no contact type
+     */
+    function testCheckParamsWithNoContactType()
+    {
+        $params = array( 'foo' => 'bar' );
+        $contact =& civicrm_contact_check_params($params, false );
+        $this->assertEquals( 1, $contact['is_error'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_check_params with a duplicate
+     */
+    function testCheckParamsWithDuplicateContact()
+    {
+        //  Insert a row in civicrm_contact creating individual contact
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/email_contact_17.xml') );
+
+        $params = array( 'first_name' => 'Test',
+                         'last_name'  => 'Contact',
+                         'email'      => 'TestContact@example.com',
+                         'contact_type' => 'Individual' );
+        $contact =& civicrm_contact_check_params($params, true );
+        $this->assertEquals( 1, $contact['is_error'] );
+        $this->assertRegexp( "/matching contacts.*17/s",
+                             $contact['error_message'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_check_params with a duplicate
+     *  and request a duplicate array
+     */
+    function testCheckParamsWithDuplicateContact2()
+    {
+        //  Insert a row in civicrm_contact creating individual contact
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/email_contact_17.xml') );
+
+        $params = array( 'first_name' => 'Test',
+                         'last_name'  => 'Contact',
+                         'email'      => 'TestContact@example.com',
+                         'contact_type' => 'Individual' );
+        $contact =& civicrm_contact_check_params($params, true, true );
+        $this->assertEquals( 1, $contact['is_error'] );
+        $this->assertRegexp( "/matching contacts.*17/s",
+                             $contact['error_message'] );
     }
     
     /**
@@ -423,9 +568,49 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     }
     
     /**
-     *  Verify deletion of a contact
+     *  Test civicrm_contact_update() with create=true and a
+     *  contact_id in the parameters (should return an error) 
      */
-    function testDeleteContacts() 
+    public function testUpdateCreateWithID()
+    {
+        $params = array(
+                        'contact_id'            => 23,
+                        'first_name'            => 'abcd',
+                        'last_name'             => 'wxyz', 
+                        'contact_type'          => 'Individual',
+                        );
+        
+        $result =& civicrm_contact_update($params, true);
+        $this->assertTrue( is_array( $result ) );
+        $this->assertEquals( 1, $result['is_error'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_delete() with no contact ID
+     */
+    function testContactDeleteNoID() 
+    {
+        $params = array( 'foo' => 'bar' );
+        $result = civicrm_contact_delete( $params );
+        $this->assertEquals( 1, $result['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_delete() with error
+     */
+    function testContactDeleteError() 
+    {
+        $params = array( 'contact_id' => 17 );
+        $result = civicrm_contact_delete( $params );
+        $this->assertEquals( 1, $result['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_delete()
+     */
+    function testContactDelete() 
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
@@ -435,6 +620,207 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
                              . '/contact_17.xml') );
         $params = array( 'contact_id' => 17 );
         $result = civicrm_contact_delete( $params );
+        $this->assertEquals( 0, $result['is_error'], "In line " . __LINE__
+                           . " error message: " . $result['error_message'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_get() return only first name
+     */
+    public function testContactGetRetFirst()
+    {
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+        $params = array( 'contact_id'       => 17,
+                         'return_first_name' => true,
+                         'sort'              => 'first_name' );
+        $result = civicrm_contact_get( $params );
+        $this->assertEquals( 2, count( $result[17] ) );
+        $this->assertEquals( 17, $result[17]['contact_id'] );
+        $this->assertEquals( 'Test', $result[17]['first_name'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_get() with default return properties
+     */
+    public function testContactGetRetDefault()
+    {
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+        $params = array( 'contact_id' => 17,
+                         'sort'       => 'first_name' );
+        $result = civicrm_contact_get( $params );
+        $this->assertEquals( 17, $result[17]['contact_id'] );
+        $this->assertEquals( 'Test', $result[17]['first_name'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_get(,true) with empty params 
+     */
+    public function testContactGetOldEmptyParams()
+    {
+        $params = array();
+        $result = civicrm_contact_get( $params, true );
+        $this->assertTrue( is_array( $result ) );
+        $this->assertEquals( 1, $result['is_error'] );
+        $this->assertRegexp( "/No.*parameters/s",
+                             $result['error_message'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_get(,true) with params not array
+     */
+    public function testContactGetOldParamsNotArray()
+    {
+        $params = 17;
+        $result = civicrm_contact_get( $params, true );
+        $this->assertTrue( is_array( $result ) );
+        $this->assertEquals( 1, $result['is_error'] );
+        $this->assertRegexp( "/not.*array/s",
+                             $result['error_message'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_get(,true) with no matches
+     */
+    public function testContactGetOldParamsNoMatches()
+    {
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+
+        $params = array( 'first_name' => 'Fred' );
+        $result = civicrm_contact_get( $params, true );
+        $this->assertTrue( is_array( $result ) );
+        $this->assertEquals( 1, $result['is_error'] );
+        $this->assertRegexp( "/0 contacts match/",
+                             $result['error_message'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_get(,true) with one match
+     */
+    public function testContactGetOldParamsOneMatch()
+    {
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+
+        $params = array( 'first_name' => 'Test' );
+        $result = civicrm_contact_get( $params, true );
+        $this->assertTrue( is_array( $result ) );
+        $this->assertFalse( array_key_exists( 'is_error', $result ) );
+        $this->assertEquals( 17, $result['contact_id'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_search() return only first name
+     */
+    public function testContactSearchRetFirst()
+    {
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+        $params = array( 'contact_id'       => 17,
+                         'return_first_name' => true,
+                         'sort'              => 'first_name' );
+        $result = civicrm_contact_search( $params );
+        $this->assertEquals( 2, count( $result[17] ) );
+        $this->assertEquals( 17, $result[17]['contact_id'] );
+        $this->assertEquals( 'Test', $result[17]['first_name'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_search() with default return properties
+     */
+    public function testContactSearchDefaultRet()
+    {
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+        $params = array( 'contact_id' => 17,
+                         'sort'       => 'first_name' );
+        $result = civicrm_contact_search( $params );
+        $this->assertEquals( 17, $result[17]['contact_id'] );
+        $this->assertEquals( 'Test', $result[17]['first_name'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_search_count()
+     */
+    public function testContactSearchCount()
+    {
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+        $params = array( 'contact_id' => 17 );
+        $result = civicrm_contact_search_count( $params );
+        $this->assertEquals( '1', $result );
+    }
+    
+    /**
+     *  Test civicrm_contact_format_create() with empty params
+     */
+    public function testContactFormatCreateEmpty()
+    {
+        $params = array( );
+        $result = civicrm_contact_format_create( $params );
+        $this->assertEquals( 1, $result['is_error'] );
+    }
+    
+    /**
+     *  Test civicrm_contact_format_create() with params
+     */
+    public function testContactFormatCreate()
+    {
+        $params = array( 'contact_type' => 'Individual',
+                         'first_name'   => 'Test',
+                         'last_name'    => 'Contact' );
+        $result = civicrm_contact_format_create( $params );
+        $this->assertTrue( is_array( $result ) );
+    }
+    
+    /**
+     *  Test civicrm_replace_contact_formatted()
+     */
+    public function testReplaceContactFormatted()
+    {
+        //  Insert a row in civicrm_contact creating contact 17
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/contact_17.xml') );
+
+        $params = array( 'contact_type' => 'Individual',
+                         'first_name'   => 'Fred',
+                         'last_name'    => 'Figby' );
+        $fields = array();
+        $result = civicrm_replace_contact_formatted( 17, $params, $fields );
+        $this->assertTrue( is_array( $result ) );
         $this->assertEquals( 0, $result['is_error'], "In line " . __LINE__
                            . " error message: " . $result['error_message'] );
     }

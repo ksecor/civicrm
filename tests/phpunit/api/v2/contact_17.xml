@@ -49,7 +49,7 @@
     <column>employer_id</column>
     <row>
       <value>17</value>  <!--  id  -->
-      <null />           <!--  contact_type  -->
+      <value>Individual</value>  <!--  contact_type  -->
       <null />           <!--  contact_sub_type  -->
       <null />           <!--  do_not_email  -->
       <null />           <!--  do_not_phone  -->
