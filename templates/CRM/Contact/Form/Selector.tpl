@@ -58,7 +58,7 @@
      {/foreach}
   {else}
       {foreach from=$rows item=row}
-         <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
+         <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}" title="{ts}Click contact name to view a summary. Right-click anywhere in the row for an actions menu."{/ts}>
             {assign var=cbName value=$row.checkbox}
             <td>{$form.$cbName.html}</td>
             {if $context eq 'smog'}

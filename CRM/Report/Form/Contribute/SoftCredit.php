@@ -181,7 +181,7 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                                         'title'        => ts( 'Soft Credit Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'group'        => true,
-                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) 
+                                        'options'      => CRM_Core_PseudoConstant::group( ) 
                                         ), 
                                  ), 
                           ),

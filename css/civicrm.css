@@ -88,7 +88,7 @@ div.spacer, .spacer {
   font-weight: bold;
 }
 
-#crm-container input[type="text"] {
+#crm-container input[type="text"], #crm-container input[type="password"] {
   border: 1px solid #494949;
   font-size:12px;
   font-size-adjust:none;

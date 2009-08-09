@@ -152,7 +152,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                 $this->_showHide->addHide( 'additional_profile_pre' );
                 $this->_showHide->addHide( 'additional_profile_post' );
             }
-            if ( ! $defaults['requires_approval']) {
+            if ( ! CRM_Utils_Array::value( 'requires_approval', $defaults ) ) {
                 $this->_showHide->addHide( 'id-approval-text' );
             }
         }

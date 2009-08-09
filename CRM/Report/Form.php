@@ -1365,10 +1365,33 @@ class CRM_Report_Form extends CRM_Core_Form {
     }
     
     function whereGroupClause( $clause ) {
+         
+        $smartGroupQuery = ""; 
+        require_once 'CRM/Contact/DAO/Group.php';
+        require_once 'CRM/Contact/BAO/SavedSearch.php';
+        
+        $group = new CRM_Contact_DAO_Group( );
+        $group->is_active = 1;
+        $group->find();
+        while( $group->fetch( ) ) {
+             if( in_array( $group->id, $this->_params['gid_value'] ) && $group->saved_search_id ) {
+                $smartGroups[] = $group->id;                
+             }
+        }
+        
+        if( !empty($smartGroups) ) {   
+            $smartGroups = implode( ',', $smartGroups );
+            $smartGroupQuery =                                                                             
+                " UNION DISTINCT 
+                  SELECT DISTINCT smartgroup_contact.contact_id                                    
+                  FROM civicrm_group_contact_cache smartgroup_contact        
+                  WHERE smartgroup_contact.group_id IN ({$smartGroups}) ";
+         }
+             
         return  " {$this->_aliases['civicrm_contact']}.id IN ( 
                           SELECT DISTINCT {$this->_aliases['civicrm_group']}.contact_id 
-                          FROM civicrm_group_contact {$this->_aliases['civicrm_group']} 
-                          WHERE {$clause} AND {$this->_aliases['civicrm_group']}.status = 'Added' )";
+                          FROM civicrm_group_contact {$this->_aliases['civicrm_group']}
+                          WHERE {$clause} AND {$this->_aliases['civicrm_group']}.status = 'Added' 
+                          {$smartGroupQuery} ) ";
     }
-
 }

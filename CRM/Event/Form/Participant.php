@@ -174,7 +174,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->_contactID 	   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_mode           = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
         $this->_participantId  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-        $this->_action         = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
         $this->_context        = CRM_Utils_Request::retrieve('context', 'String', $this );
         $this->assign('context', $this->_context );
         
@@ -248,12 +247,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign('cdType', true);
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
-
-        // check for edit permission
-        if ( ! CRM_Core_Permission::checkActionPermission( 'CiviEvent', $this->_action ) ) {
-            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
-        }     
-
+       
         //check the mode when this form is called either single or as
         //search task action
         
@@ -291,8 +285,15 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
         $this->assign( 'single', $this->_single );
+        
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
         $this->assign( 'action'  , $this->_action   ); 
-                
+
+        // check for edit permission
+        if ( ! CRM_Core_Permission::checkActionPermission( 'CiviEvent', $this->_action ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }     
+        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
@@ -387,9 +388,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         //setting default register date
-        if ($this->_action == CRM_Core_Action::ADD | 
-            $this->_action == CRM_Core_Action::ADVANCED | 
-            $this->_action == CRM_Core_Action::PROFILE) {
+        if ( $this->_action == CRM_Core_Action::ADD ) {
             $today_date = getDate();
             $defaults[$this->_participantId]['register_date']['M'] = $today_date['mon'];
             $defaults[$this->_participantId]['register_date']['d'] = $today_date['mday'];
@@ -1259,9 +1258,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $statusMsg = "{$statusMsg} {$updateStatusMsg}";
             }
             
-        } elseif ( $this->_action & CRM_Core_Action::ADD |
-                   $this->_action & CRM_Core_Action::ADVANCED |
-                   $this->_action = CRM_Core_Action::PROFILE ) {
+        } elseif ( $this->_action & CRM_Core_Action::ADD ) {
             if ( $this->_single ) {
                 $statusMsg = ts('Event registration for %1 has been added.', array(1 => $this->_contributorDisplayName));
                 if ( CRM_Utils_Array::value( 'send_receipt', $params ) && count($sent) ) {

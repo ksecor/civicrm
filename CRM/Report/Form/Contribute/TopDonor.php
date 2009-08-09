@@ -105,7 +105,7 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
                                         'title'        => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'group'        => true,
-                                        'options'      => CRM_Core_PseudoConstant::staticGroup( ) 
+                                        'options'      => CRM_Core_PseudoConstant::group( ) 
                                         ), 
                                  ),
                           ),
@@ -286,7 +286,7 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
         require_once 'CRM/Utils/Pager.php';
         // lets do the pager if in html mode
         $this->_limit = null;
-        if ( $this->_outputMode == 'html' ) {
+        if ( $this->_outputMode == 'html' || $this->_outputMode == 'group' ) {
             //replace only first occurence of SELECT
             $this->_select = preg_replace('/SELECT/', 'SELECT SQL_CALC_FOUND_ROWS ', $this->_select, 1);
             $pageId = CRM_Utils_Request::retrieve( 'crmPID', 'Integer', CRM_Core_DAO::$_nullObject );

@@ -1914,4 +1914,36 @@ UNION
              CRM_Core_DAO::executeQuery( $queryString );
          }
      }
+     
+     /**
+      * Function to retrieve loc block ids w/ given condition.
+      *
+      * @param  int     $contactId       contact id.
+      * @param  string  $condFieldName   dao field name for which condition going to apply.
+      * @param  string  condValue        condition value.
+      *
+      * @return array   $locBlockIds     loc block ids which fullfill condition. 
+      * @static
+      */
+     static function getLocBlockIds( $contactId, $condFieldName = 'is_primary', $condValue = '1' ) 
+     {
+         $locBlockIds = array( );
+         if ( !$contactId ) {
+             return $locBlockIds;
+         }
+         
+         foreach ( array( 'Email', 'OpenID', 'Phone', 'Address', 'IM' ) as $block ) {
+             $name = strtolower( $block );
+             require_once "CRM/Core/DAO/{$block}.php";
+             eval("\$blockDAO =& new CRM_Core_DAO_$block();");
+             $blockDAO->contact_id = $contactId;
+             $blockDAO->find( );
+             while ( $blockDAO->fetch( ) ) {
+                 if ($blockDAO->$condFieldName == $condValue) $locBlockIds[$name][] = $blockDAO->id;
+             }
+         }
+         
+         return $locBlockIds;
+     }
+     
 }

@@ -33,11 +33,7 @@
 /**
  *  Include class definitions
  */
-require_once 'PHPUnit/Extensions/Database/TestCase.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/FlatXmlDataSet.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
-require_once 'AllTests.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 require_once 'api/v2/Constant.php';
 require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Utils/Cache.php';
@@ -48,31 +44,16 @@ require_once 'CRM/Utils/Cache.php';
  *  @package CiviCRM_APIv2
  *  @subpackage API_Constant
  */
-class api_v2_ConstantTest extends PHPUnit_Extensions_Database_TestCase
+class api_v2_ConstantTest extends CiviUnitTestCase
 {
     /**
-     *  Database connection
+     *  Constructor
      *
-     *  @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     *  Initialize configuration
      */
-    private $dbconn;
-
-    /**
-     *  Create database connection for this instance
-     *
-     *  @return PHPUnit_Extensions_Database_DB_IDatabaseConnection connection
-     */
-    protected function getConnection()
-    {
-        AllTests::installDB();
-        return $this->createDefaultDBConnection(AllTests::$utils->pdo,
-                                             'civicrm_tests_dev');
+    function __construct( ) {
+        parent::__construct( );
     }
-
-    /**
-     *  Required implementation of abstract method
-     */
-    protected function getDataSet() { }
 
     /**
      *  Test setup for every test
@@ -82,26 +63,9 @@ class api_v2_ConstantTest extends PHPUnit_Extensions_Database_TestCase
      */
     public function setUp()
     {
-        $this->dbconn = $this->getConnection();
-        //  Use a temporary file for STDIN
-        $GLOBALS['stdin'] = tmpfile( );
-        if ( $GLOBALS['stdin'] === false ) {
-            echo "Couldn't open temporary file\n";
-            exit(1);
-        }
-
-        //  Truncate the tables
-        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
-        $op->execute( $this->dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__) . '/truncate.xml') );
+        //  Connect to the database
+        parent::setUp();
     }
-
-    /**
-     *  If tearDown() isn't defined, getConnection() and getDataSet()
-     *  will be called automatically during teardown
-     */
-    public function tearDown() { }
 
     /**
      *  Test civicrm_constant_get( ) for unknown constant
@@ -119,14 +83,14 @@ class api_v2_ConstantTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert 'activity_status' option group
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__)
                              . '/option_group_activity_status.xml') );
 
         //  Insert some activity status values
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/option_value_activity_status.xml') );
@@ -147,14 +111,14 @@ class api_v2_ConstantTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert 'activity_type' option group
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__)
                              . '/option_group_activity_type.xml') );
 
         //  Insert some activity type values
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/option_value_activity_1_5.xml') );
@@ -175,14 +139,14 @@ class api_v2_ConstantTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert 'email_greeting' option group
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__)
                              . '/option_group_email_greeting.xml') );
 
         //  Insert some email greeting values
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/option_value_email_greeting.xml') );
@@ -204,7 +168,7 @@ class api_v2_ConstantTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert default location type values
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/location_type_data.xml') );
@@ -218,7 +182,7 @@ class api_v2_ConstantTest extends PHPUnit_Extensions_Database_TestCase
                            "In line " . __LINE__  );
     } 
 
-} // class api_v2_TestConstant
+} // class api_v2_ConstantTest
 
 // -- set Emacs parameters --
 // Local variables:

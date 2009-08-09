@@ -32,11 +32,7 @@
 /**
  *  Include class definitions
  */
-require_once 'PHPUnit/Extensions/Database/TestCase.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/FlatXmlDataSet.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
-require_once 'AllTests.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 require_once 'api/v2/Contact.php';
 
 /**
@@ -44,31 +40,16 @@ require_once 'api/v2/Contact.php';
  *
  *  @package   CiviCRM
  */
-class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
+class api_v2_ContactTest extends CiviUnitTestCase
 {
     /**
-     *  Database connection
+     *  Constructor
      *
-     *  @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     *  Initialize configuration
      */
-    private $dbconn;
-
-    /**
-     *  Create database connection for this instance
-     *
-     *  @return PHPUnit_Extensions_Database_DB_IDatabaseConnection connection
-     */
-    protected function getConnection()
-    {
-        AllTests::installDB();
-        return $this->createDefaultDBConnection(AllTests::$utils->pdo,
-                                             'civicrm_tests_dev');
+    function __construct( ) {
+        parent::__construct( );
     }
-
-    /**
-     *  Required implementation of abstract method
-     */
-    protected function getDataSet() { }
 
     /**
      *  Test setup for every test
@@ -78,27 +59,10 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
      */
     public function setUp()
     {
-        $this->dbconn = $this->getConnection();
-        //  Use a temporary file for STDIN
-        $GLOBALS['stdin'] = tmpfile( );
-        if ( $GLOBALS['stdin'] === false ) {
-            echo "Couldn't open temporary file\n";
-            exit(1);
-        }
-
-        //  Truncate the tables
-        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
-        $op->execute( $this->dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__) . '/truncate.xml') );
+        //  Connect to the database
+        parent::setUp();
     }
 
-    /**
-     *  If tearDown() isn't defined, getConnection() and getDataSet()
-     *  will be called automatically during teardown
-     */
-    public function tearDown() { }
-    
     /**
      *  Test civicrm_contact_add()
      *
@@ -396,11 +360,11 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating individual contact
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/email_contact_17.xml') );
@@ -423,11 +387,11 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating individual contact
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/email_contact_17.xml') );
@@ -449,7 +413,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating individual contact
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_ind.xml') );
@@ -485,7 +449,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
         $expected = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                  dirname( __FILE__ ) . '/contact_ind_upd.xml' );
         $actual = new PHPUnit_Extensions_Database_DataSet_QueryDataset(
-                                       $this->dbconn );
+                                       $this->_dbconn );
         $actual->addTable( 'civicrm_contact' );
         $expected->assertEquals( $actual );
     }        
@@ -497,7 +461,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating organization contact
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_org.xml') );
@@ -524,7 +488,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
         $expected = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                  dirname( __FILE__ ) . '/contact_org_upd.xml' );
         $actual = new PHPUnit_Extensions_Database_DataSet_QueryDataset(
-                                       $this->dbconn );
+                                       $this->_dbconn );
         $actual->addTable( 'civicrm_contact' );
         $expected->assertEquals( $actual );
     }
@@ -536,7 +500,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating household contact
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_hld.xml') );
@@ -562,7 +526,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
         $expected = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                  dirname( __FILE__ ) . '/contact_hld_upd.xml' );
         $actual = new PHPUnit_Extensions_Database_DataSet_QueryDataset(
-                                       $this->dbconn );
+                                       $this->_dbconn );
         $actual->addTable( 'civicrm_contact' );
         $expected->assertEquals( $actual );
     }
@@ -614,7 +578,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
@@ -631,7 +595,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
@@ -651,7 +615,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
@@ -695,7 +659,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
@@ -715,7 +679,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
@@ -734,7 +698,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
@@ -754,7 +718,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
@@ -772,7 +736,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
@@ -810,7 +774,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
     {
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->dbconn,
+        $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/contact_17.xml') );
@@ -825,7 +789,7 @@ class api_v2_ContactTest extends PHPUnit_Extensions_Database_TestCase
                            . " error message: " . $result['error_message'] );
     }
 
-} // class api_v2_TestContact
+} // class api_v2_ContactTest
 
 // -- set Emacs parameters --
 // Local variables:
