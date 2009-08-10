@@ -98,12 +98,9 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
     function doTransferCheckout( &$params, $component ) {
         $component = strtolower( $component );
         
-        $url = 
-            $this->_paymentProcessor['url_site'] .
-            'cws/v2/Merchant/' . 
-            $this->_paymentProcessor['user_name'] .
-            '/checkout';
-        
+        $url = rtrim( $this->_paymentProcessor['url_site'], '/' ) . '/cws/v2/Merchant/' . 
+            $this->_paymentProcessor['user_name'] . '/checkout';
+
         //Create a new shopping cart object
         $merchant_id  = $this->_paymentProcessor['user_name'];   // Merchant ID
         $merchant_key = $this->_paymentProcessor['password'];    // Merchant Key
