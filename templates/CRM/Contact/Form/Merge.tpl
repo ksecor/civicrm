@@ -30,9 +30,13 @@
                 {assign var=blockName value=$field|substr:14:$position-14}
 
                 {$form.location.$blockName.$blockId.locTypeId.html}&nbsp;
+                {if $blockName eq 'address'}
+                <span id="main_{$blockName}_{$blockId}_overwrite">{if $row.main}(overwrite){else}(add){/if}</span>
+                {/if} 
+
                 {$form.location.$blockName.$blockId.operation.html}&nbsp;<br />
             {/if}
-            <span>{$row.main}</span>
+            <span id="main_{$blockName}_{$blockId}">{$row.main}</span>
         </td>
      </tr>
   {/foreach}
@@ -86,5 +90,20 @@ cj(document).ready(function(){
        }
     });
 });
+
+function mergeAddress( element, blockId ) {
+   var allAddress = {/literal}{$mainLocAddress}{literal};
+   var address    = eval( "allAddress." + 'main_' + element.value );
+   var label      = '(overwrite)';
+
+   if ( !address ) { 
+     address = '';
+     label   = '(add)';
+   }
+
+   cj( "#main_address_" + blockId ).html( address );	
+   cj( "#main_address_" + blockId +"_overwrite" ).html( label );
+}
+
 </script>
 {/literal}

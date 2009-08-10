@@ -157,7 +157,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $locations['other'] =& civicrm_location_get($otherParams);
         $allLocationTypes   = CRM_Core_PseudoConstant::locationType( );
         
-        $mainLoc = array();
+        $mainLocAddress = array();
         foreach ( array( 'Email', 'Phone', 'IM', 'OpenID', 'Address' ) as $block ) {
             $name = strtolower( $block );
             foreach ( array('main', 'other') as $moniker ) {
@@ -176,8 +176,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         if ( $name == 'address' ) $fldName = 'display';
                         $locLabel[$moniker][$name][$count] = $blkValues[$fldName];
                         $locTypes[$moniker][$name][$count] = $locTypeId;
-                        $this->_locBlockIds[$moniker][$name][$count] = $blkValues['id'];
-                        if ( $moniker == 'main' ) $mainLoc["{$name}"][$count] = true;
+                        if ( $moniker == 'main' && $name == 'address' ) {
+                            $mainLocAddress["main_$locTypeId"] = $blkValues[$fldName];
+                            $this->_locBlockIds['main']['address'][$locTypeId] = $blkValues['id'];
+                        } else {
+                            $this->_locBlockIds[$moniker][$name][$count] = $blkValues['id'];
+                        }
                     }
                 }
             }
@@ -195,17 +199,27 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     $this->addElement( 'advcheckbox', "move_location_{$name}_{$count}" );
                     
                     // make sure default location type is always on top
+                    $mainLocTypeId  = CRM_Utils_Array::value( $count, $locTypes['main'][$name], $locTypeId );
                     $locTypeValues  = $allLocationTypes;
-                    $defaultLocType = array( $locTypeId => $locTypeValues[$locTypeId] );
-                    unset($locTypeValues[$locTypeId]);
+                    $defaultLocType = array( $mainLocTypeId => $locTypeValues[$mainLocTypeId] );
+                    unset($locTypeValues[$mainLocTypeId]);
                     
-                    $this->addElement( 'select', "location[{$name}][$count][locTypeId]", null, $defaultLocType + $locTypeValues );
+                    // keep 1-1 mapping for address - location type.
+                    $js = null;
+                    if ( $name == 'address' && !empty( $mainLocAddress ) ) {
+                        $js = array( 'onChange' => "mergeAddress( this, $count );" );
+                    }
+                    
+                    $this->addElement( 'select', "location[{$name}][$count][locTypeId]", null, 
+                                       $defaultLocType + $locTypeValues, $js );
+                    
                     if ( $name != 'address' ) {
                         $this->addElement( 'advcheckbox', "location[{$name}][$count][operation]", null, ts('add new') );
                     }
                 }
             }
         }
+        $this->assign( 'mainLocAddress', json_encode( $mainLocAddress ) );        
         
         // handle custom fields
         $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, $this->_cid, -1);
@@ -336,10 +350,15 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $billingDAOId = (array_key_exists($name, $billingBlockIds) )?array_pop($billingBlockIds[$name]):null;
                 
                 foreach ( $block as $blkCount => $values ) {
-                    $locTypeId =      CRM_Utils_Array::value( 'locTypeId', $values, 1 );
-                    $operation =      CRM_Utils_Array::value( 'operation', $values, 2 );
+                    $locTypeId      = CRM_Utils_Array::value( 'locTypeId', $values, 1 );
+                    $operation      = CRM_Utils_Array::value( 'operation', $values, 2 );
                     $updateBlockId  = CRM_Utils_Array::value( $blkCount,   $this->_locBlockIds['other'][$name] );
-                    $deleteBlockId  = CRM_Utils_Array::value( $blkCount,   $this->_locBlockIds['main'][$name]  );
+                    
+                    // keep 1-1 mapping for address - loc type.
+                    $idKey = $blkCount;
+                    if ( $name == 'address' ) $idKey = $locTypeId;  
+                    $deleteBlockId = CRM_Utils_Array::value( $idKey, $this->_locBlockIds['main'][$name] );
+                    
                     if ( !$updateBlockId ) continue;
                     
                     require_once "CRM/Core/DAO/{$daoName}.php";
