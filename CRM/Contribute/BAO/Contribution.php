@@ -721,12 +721,14 @@ GROUP BY p.id
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $status = CRM_Contribute_Pseudoconstant::contributionStatus($honorDAO->contribution_status_id);
+        $type   = CRM_Contribute_Pseudoconstant::contributionType();
         
         while( $honorDAO->fetch( ) ) {
-            $params[$honorDAO->id]['honorId']      = $honorDAO->contact_id;		    
+            $params[$honorDAO->id]['honorId']      = $honorDAO->contact_id;            
             $params[$honorDAO->id]['display_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $honorDAO->contact_id, 'display_name' );
-            $params[$honorDAO->id]['type']         = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $honorDAO->contribution_type_id, 'name' );
-            $params[$honorDAO->id]['amount']       = $honorDAO->total_amount;
+            $params[$honorDAO->id]['type']         = $type[$honorDAO->contribution_type_id];
+            $params[$honorDAO->id]['type_id']      = $honorDAO->contribution_type_id;
+            $params[$honorDAO->id]['amount']       = CRM_Utils_Money::format( $honorDAO->total_amount , $honorDAO->currency );
             $params[$honorDAO->id]['source']       = $honorDAO->source;
             $params[$honorDAO->id]['receive_date'] = $honorDAO->receive_date;
             $params[$honorDAO->id]['contribution_status']= CRM_Utils_Array::value($honorDAO->contribution_status_id, $status);

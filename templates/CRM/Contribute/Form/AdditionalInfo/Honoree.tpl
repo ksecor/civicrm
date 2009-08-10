@@ -21,6 +21,7 @@
 	    <td></td>
 	    <td colspan="2">{$form.honor_email.html}<br />
                 <span class="description">{$form.honor_email.label}</td>
+         </tr>
       </table>
    </fieldset>
 </div>
