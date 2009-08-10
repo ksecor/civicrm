@@ -142,9 +142,10 @@ class CRM_Contribute_Form_AdditionalInfo
     { 
         //Honoree section
         $form->add( 'hidden', 'hidden_Honoree', 1 );
-        $honor = CRM_Core_PseudoConstant::honor( ); 
+        $honor = CRM_Core_PseudoConstant::honor( );
+        $extraOption = array('onclick' =>"return enableHonorType();");
         foreach ( $honor as $key => $var) {
-            $honorTypes[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key);
+            $honorTypes[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key, $extraOption);
         }
         $form->addGroup($honorTypes, 'honor_type_id', null);
         $form->add('select','honor_prefix_id',ts('Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());

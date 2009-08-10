@@ -31,17 +31,35 @@
         {if $is_pay_later}
 	    <div class="bold">{$pay_later_receipt}</div>
 	    {if $is_email_receipt}
-                <div>{ts 1=$email}An email confirmation with these payment instructions has been sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if}.</div>
+                <div>
+		    {if $onBehalfEmail AND ($onBehalfEmail neq $email)}		    
+			{ts 1=$email 2=$onBehalfEmail}An email confirmation with these payment instructions has been sent to %1 and to %2.{/ts}
+		    {else}
+			{ts 1=$email}An email confirmation with these payment instructions has been sent to %1.{/ts}
+		    {/if}
+		</div>
             {/if}
         {elseif $contributeMode EQ 'notify'}
             <div>{ts 1=$paymentProcessor.processorName}Your contribution has been submitted to %1 for processing. Please print this page for your records.{/ts}</div>
             {if $is_email_receipt}
-                <div>{ts 1=$email}An email receipt will be sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if} {ts}once the transaction is processed successfully.{/ts}</div>
+                <div>
+		    {if $onBehalfEmail AND ($onBehalfEmail neq $email)}
+			{ts 1=$email 2=$onBehalfEmail}An email receipt will be sent to %1 and to %2 once the transaction is processed successfully.{/ts}
+		    {else}
+			{ts 1=$email}An email receipt will be sent to %1 once the transaction is processed successfully.{/ts}
+		    {/if}
+		</div>
             {/if}
         {else}
             <div>{ts}Your transaction has been processed successfully. Please print this page for your records.{/ts}</div>
             {if $is_email_receipt}
-                <div>{ts 1=$email}An email receipt has also been sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if}</div>
+                <div>		    
+		    {if $onBehalfEmail AND ($onBehalfEmail neq $email)}
+			{ts 1=$email 2=$onBehalfEmail}An email receipt has also been sent to %1 and to %2{/ts}		    
+		    {else}
+			{ts 1=$email}An email receipt has also been sent to %1{/ts}
+		    {/if}
+		</div>
             {/if}
         {/if}
     </div>
