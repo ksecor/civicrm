@@ -84,8 +84,16 @@ create the database for you; otherwise, you must give the name of a database tha
 <h4>Other Settings</h4>
 <p style="margin-left: 2em" id="misc_credentials" > 
 <!--style="display: none"-->
+<label for="seedLanguage"><span>Language of basic data:</span></label><select id="seedLanguage" name="seedLanguage">
+  <?php
+    foreach ($langs as $locale => $language) {
+      $selected = ($locale == $seedLanguage) ? 'selected="selected"' : '';
+      echo "<option value='$locale' $selected>$language</option>";
+    }
+  ?>
+</select><br />
     <label for="loadGenerated"><span>Load sample data:</span><input id="loadGenerated" type="checkbox" name="loadGenerated" value=1 <?php if ( $loadGenerated == 1 ) { echo "checked='checked'"; } ?></label> <br />
-    <span class="testResults">Check this box to pre-populate CiviCRM with sample contact records, online contribution pages, profile forms, etc. These examples can help you learn about CiviCRM features.</span><br /> 
+    <span class="testResults">Check this box to pre-populate CiviCRM with sample English contact records, online contribution pages, profile forms, etc. These examples can help you learn about CiviCRM features.</span><br />
 </p>
 
 <p style="margin-left: 2em"><input type="submit" value="Re-check requirements" /></p>

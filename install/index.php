@@ -94,6 +94,18 @@ if ( isset($_REQUEST['loadGenerated'] ) ) {
     $loadGenerated = 1;
 }
 
+require_once "$crmPath/CRM/Core/I18n/PseudoConstant.php";
+$langs =& CRM_Core_I18n_PseudoConstant::languages();
+foreach ($langs as $locale => $_) {
+    if ($locale == 'en_US') continue;
+    if (!file_exists(implode(DIRECTORY_SEPARATOR, array($crmPath, 'sql', "civicrm_data.$locale.mysql")))) unset($langs[$locale]);
+}
+
+$seedLanguage = 'en_US';
+if (isset($_REQUEST['seedLanguage']) and isset($langs[$_REQUEST['seedLanguage']])) {
+    $seedLanguage = $_REQUEST['seedLanguage'];
+}
+
 if ( $installType == 'drupal' ) {
     global $cmsPath;
     $cmsPath = dirname( dirname( dirname( dirname( $crmPath ) ) ) );
