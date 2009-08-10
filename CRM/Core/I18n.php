@@ -71,45 +71,8 @@ class CRM_Core_I18n
         static $enabled = null;
 
         if (!$all) {
-            $all = array('en_US' => 'English (USA)',
-                         'af_ZA' => 'Afrikaans',
-                         'ar_EG' => 'العربية',
-                         'bg_BG' => 'български',
-                         'ca_ES' => 'Català',
-                         'cs_CZ' => 'Česky',
-                         'da_DK' => 'dansk',
-                         'de_DE' => 'Deutsch',
-                         'el_GR' => 'Ελληνικά',
-                         'en_AU' => 'English (Australia)',
-                         'en_GB' => 'English (United Kingdom)',
-                         'es_ES' => 'español',
-                         'fr_FR' => 'français',
-                         'fr_CA' => 'français (Canada)',
-                         'id_ID' => 'Bahasa Indonesia',
-                         'hi_IN' => 'हिन्दी',
-                         'it_IT' => 'Italiano',
-                         'he_IL' => 'עברית',
-                         'lt_LT' => 'Lietuvių',
-                         'hu_HU' => 'Magyar',
-                         'nl_NL' => 'Nederlands',
-                         'ja_JP' => '日本語',
-                         'no_NO' => 'Norsk',
-                         'km_KH' => 'ភាសាខ្មែរ',
-                         'pl_PL' => 'polski',
-                         'pt_PT' => 'Português',
-                         'pt_BR' => 'Português (Brasil)',
-                         'ro_RO' => 'română',
-                         'ru_RU' => 'русский',
-                         'sk_SK' => 'slovenčina',
-                         'sl_SI' => 'slovenščina',
-                         'fi_FI' => 'suomi',
-                         'sv_SE' => 'Svenska',
-                         'th_TH' => 'ไทย',
-                         'vi_VN' => 'Tiếng Việt',
-                         'tr_TR' => 'Türkçe',
-                         'uk_UA' => 'Українська',
-                         'zh_CN' => '中文 (简体)',
-                         'zh_TW' => '中文 (繁體)');
+            require_once 'CRM/Core/I18n/PseudoConstant.php';
+            $all =& CRM_Core_I18n_PseudoConstant::languages();
 
             // check which ones are available; add them to $all if not there already
             $config =& CRM_Core_Config::singleton();
