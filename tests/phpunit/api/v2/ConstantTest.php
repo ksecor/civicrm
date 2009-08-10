@@ -124,39 +124,14 @@ class api_v2_ConstantTest extends CiviUnitTestCase
                              . '/option_value_activity_1_5.xml') );
 
         $result = civicrm_constant_get( 'activityType' );
-        $this->assertEquals( 5, count( $result ), "In line " . __LINE__  );
+
+        print_r( $result );
+        
+        $this->assertEquals( 4, count( $result ), "In line " . __LINE__  );
         $this->assertContains( 'Meeting', $result, "In line " . __LINE__  );
         $this->assertContains( 'Email', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Canceled', $result, "In line " . __LINE__  );
-        $this->assertTrue( empty( $result['is_error'] ),
-                           "In line " . __LINE__  );
-    } 
-
-    /**
-     *  Test civicrm_constant_get( 'emailGreeting' )
-     */
-    public function testEmailGreeting()
-    {
-        //  Insert 'email_greeting' option group
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/option_group_email_greeting.xml') );
-
-        //  Insert some email greeting values
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
-                             dirname(__FILE__)
-                             . '/option_value_email_greeting.xml') );
-
-        $result = civicrm_constant_get( 'emailGreeting' );
-        var_dump($result);
-        $this->assertEquals( 3, count( $result ), "In line " . __LINE__  );
-        $this->assertContains( 'Dear', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Highness', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Holiness', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Phone Call', $result, "In line " . __LINE__  );
+        $this->assertContains( 'Text Message (SMS)', $result, "In line " . __LINE__  );
         $this->assertTrue( empty( $result['is_error'] ),
                            "In line " . __LINE__  );
     } 

@@ -85,26 +85,6 @@
       <null />                                <!--  component_id  -->
       <null />                                <!--  visibility_id  -->
     </row>
-    <row>
-      <value>10</value>  <!--  id  -->
-      <value>2</value>  <!--  option_group_id  -->
-      <value>Event Registration</value>  <!--  label  -->
-      <value>5</value>  <!--  value  -->
-      <value>Event Registration</value>  <!--  name  -->
-      <null />  <!--  grouping  -->
-      <value>1</value>  <!--  filter  -->
-      <null />  <!--  is_default  -->
-      <value>5</value>  <!--  weight  -->
-      <value>Online or offline event registration.</value>  <!--  description  -->
-      <value>0</value>  <!--  is_optgroup  -->
-      <value>1</value>  <!--  is_reserved  -->
-      <value>1</value>  <!--  is_active  -->
-      <value>1</value>  <!--  component_id  -->
-      <null />  <!--  visibility_id  -->
-    </row>
-
-
-
 
   </table>
 </dataset>
