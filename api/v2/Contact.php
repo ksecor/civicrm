@@ -410,8 +410,7 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
         // check for record already existing
         require_once 'CRM/Dedupe/Finder.php';
         $dedupeParams = CRM_Dedupe_Finder::formatParams($params, $params['contact_type']);
-        $ids = implode(',', CRM_Dedupe_Finder::dupesByParams($dedupeParams, $params['contact_type']));
-
+        $ids = implode(',', CRM_Dedupe_Finder::dupesByParams($dedupeParams, $params['contact_type']));        
         if ( $ids != null ) {
             if ( $dupeErrorArray ) {
                 $error = CRM_Core_Error::createError( "Found matching contacts: $ids",
@@ -419,7 +418,7 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
                                                       'Fatal', $ids );
                 return civicrm_create_error( $error->pop( ) );
             }
-            
+
             return civicrm_create_error( "Found matching contacts: $ids", $ids );
         }
     }
