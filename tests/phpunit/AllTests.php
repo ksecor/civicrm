@@ -58,8 +58,6 @@ class AllTests
      */
     public static function suite()
     {
-        ini_set('memory_limit', '256M');
-
         $suite = new PHPUnit_Framework_TestSuite('CiviCRM');
         $dir_name = dirname( __FILE__ );
         $dir = opendir( $dir_name );

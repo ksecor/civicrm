@@ -59,9 +59,11 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      *  CIVICRM_DSN must refer to database civicrm_tests_dev
      */
     function __construct( ) {
-
+        ini_set('memory_limit', '256M');
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton( );
+        require_once 'CRM/Core/Session.php';
+        $session = & CRM_Core_Session::singleton();
     }
 
     /**
