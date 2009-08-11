@@ -1,11 +1,13 @@
 <?php
 
 require_once 'api/v2/Relationship.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+
 /**
  * Class contains api test cases for "civicrm_relationship_type"
  *
  */
-class api_v2_TestRelationshipTypeUpdate extends CiviUnitTestCase 
+class api_v2_RelationshipTypeUpdateTest extends CiviUnitTestCase 
 {
     //protected $_relationshipTypeID;
     protected $_relTypeID;
@@ -21,7 +23,7 @@ class api_v2_TestRelationshipTypeUpdate extends CiviUnitTestCase
     
     function setUp( ) 
     {
-
+        parent::setUp();
     }
 
     function testRelationshipTypeCreate( )

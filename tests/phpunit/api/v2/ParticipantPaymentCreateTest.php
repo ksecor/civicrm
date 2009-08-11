@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Participant.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class api_v2_TestOfParticipantPaymentCreate extends CiviUnitTestCase 
+class api_v2_ParticipantPaymentCreateTest extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_participantID;
@@ -19,6 +20,8 @@ class api_v2_TestOfParticipantPaymentCreate extends CiviUnitTestCase
 
     function setUp( ) 
     { 
+        parent::setUp();
+        
         $event = $this->eventCreate();
         $this->_eventID = $event['event_id'];
 

@@ -8,7 +8,7 @@ require_once 'tests/phpunit/CiviTest/CiviUnitTestCase.php';
  *
  */
 
-class api_v2_TestRelationshipDelete extends CiviUnitTestCase 
+class api_v2_RelationshipDeleteTest extends CiviUnitTestCase 
 {
     
     protected $_cId_a;
