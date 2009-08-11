@@ -59,7 +59,7 @@ function smarty_function_crmAPI( $params, &$smarty ) {
     if (!empty($params['return'])) {
         $return= explode(",", $params['return']);
         foreach ($return as $r) {
-            $params ["return.".$r] = 1;
+            $params ["return.".trim($r)] = 1;
         }
         unset ($params ['return']);
     }
