@@ -124,7 +124,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 				cj("#rel_contact").val( cj("#relName_" + rowNumber).text( ) );
 			}
 
-			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
+			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' q='context=caseview' h=0 }"{literal};
 
 			cj("#rel_contact").autocomplete( contactUrl, {
 				width: 260,
@@ -320,7 +320,7 @@ function addRole() {
 			cj("#role_contact").val( "" );
 			cj("#role_contact_id").val( null );
 
-			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
+			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' q='context=caseview' h=0 }"{literal};
 
 			cj("#role_contact").autocomplete( contactUrl, {
 				width: 260,

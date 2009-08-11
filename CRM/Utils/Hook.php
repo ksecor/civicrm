@@ -537,4 +537,14 @@ class CRM_Utils_Hook {
                   '::invoke( 3, $contactID, $content, $contentPlacement, $null, $null, \'civicrm_summary\' );' );
     }
 
+    static function contactListQuery( &$query, $name, $context, $id ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 4, $query, $name, $context, $id, $null, \'civicrm_contactListQuery\' );' );
+    }
+
 }

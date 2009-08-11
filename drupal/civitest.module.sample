@@ -721,3 +721,17 @@ function civitest_civicrm_summary( $contactID, &$content, &$contentPlacement ) {
 ";
 
 }
+
+function civitest_civicrm_contactListQuery( &$query, $name, $context, $id ) {
+    if ( $context == 'customfield' &&
+         $id == 4 ) {
+        $query = "
+SELECT c.sort_name, c.id
+FROM civicrm_contact c, civicrm_group_contact cg
+WHERE c.sort_name LIKE '$name%'
+AND   cg.group_id IN ( 4 )
+AND   cg.contact_id = c.id
+ORDER BY c.sort_name ";            
+    }
+        
+}

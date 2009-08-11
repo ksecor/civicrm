@@ -267,13 +267,17 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $params['group'] = array( $domainGroupID => 1 );
             }
         }
+
         if ( array_key_exists('group', $params) ) {
             require_once 'CRM/Contact/BAO/GroupContact.php';
             CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
         }
+
         //add location Block data
         $blocks = CRM_Core_BAO_Location::create( $params, $fixAddress );
-        foreach ( $blocks as $name => $value )  $contact->$name = $value;  
+        foreach ( $blocks as $name => $value )  {
+            $contact->$name = $value;  
+        }
         
         //get userID from session
         $session =& CRM_Core_Session::singleton( );

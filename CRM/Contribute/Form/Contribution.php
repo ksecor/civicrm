@@ -709,7 +709,7 @@ WHERE  contribution_id = {$this->_id}
         }
 
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/contactlist",
-                                          "reset=1",
+                                          "reset=1&context=softcredit&id={$this->_id}",
                                           false, null, false );
         $this->assign('dataUrl',$dataUrl );                                          
         $this->addElement( 'text', 'soft_credit_to', ts('Soft Credit To') );

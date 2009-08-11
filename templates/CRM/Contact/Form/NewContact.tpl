@@ -9,7 +9,7 @@
 {literal}
 <script type="text/javascript">
   cj( function( ) {
-      var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
+      var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' q='context=newcontact' h=0 }"{literal};
 
       cj("#contact").autocomplete( contactUrl, {
       	selectFirst: false 

@@ -47,7 +47,15 @@ class CRM_Contact_Page_AJAX
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '%$name%'
-ORDER BY sort_name ";            
+ORDER BY sort_name
+";
+
+        // send query to hook to be modified if needed
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::contactListQuery( $query,
+                                          $name,
+                                          CRM_Utils_Array::value( 'context', $_GET ),
+                                          CRM_Utils_Array::value( 'id', $_GET ) );
 
         $dao = CRM_Core_DAO::executeQuery( $query );
         $contactList = null;
