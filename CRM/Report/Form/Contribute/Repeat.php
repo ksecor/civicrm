@@ -645,8 +645,8 @@ LEFT  JOIN (
             if ( array_key_exists('contact_civireport_display_name', $row) && 
                  array_key_exists('contact_civireport_id', $row) ) {
                 $url = CRM_Report_Utils_Report::getNextUrl( 'contribute/detail', 
-                                              'reset=1&force=1&id_op=eq&id_value=' . $row['contact_civireport_id'],
-                                              $this->_absoluteUrl, $this->_id );
+                                                            'reset=1&force=1&id_op=eq&id_value=' . $row['contact_civireport_id'],
+                                                            $this->_absoluteUrl, $this->_id );
                 $rows[$rowNum]['contact_civireport_display_name_link' ] = $url;
                 $rows[$rowNum]['contact_civireport_display_name_hover'] = 
                     ts("View Contribution details for this contact");
