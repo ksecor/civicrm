@@ -70,7 +70,7 @@ class api_v2_ConstantTest extends CiviUnitTestCase
     /**
      *  Test civicrm_constant_get( ) for unknown constant
      */
-    public function testUnknownContant()
+    public function testUnknownConstant()
     {
         $result = civicrm_constant_get( 'thisTypeDoesNotExist' );
         $this->assertEquals( 1, $result['is_error'], "In line " . __LINE__  );
@@ -123,10 +123,9 @@ class api_v2_ConstantTest extends CiviUnitTestCase
                              dirname(__FILE__)
                              . '/option_value_activity_1_5.xml') );
 
-        $result = civicrm_constant_get( 'activityType' );
+        $parameters = array( true, false, true );
+        $result = civicrm_constant_get( 'activityType', $parameters );
 
-        print_r( $result );
-        
         $this->assertEquals( 4, count( $result ), "In line " . __LINE__  );
         $this->assertContains( 'Meeting', $result, "In line " . __LINE__  );
         $this->assertContains( 'Email', $result, "In line " . __LINE__  );
