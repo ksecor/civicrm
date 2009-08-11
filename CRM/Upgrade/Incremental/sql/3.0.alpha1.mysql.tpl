@@ -568,7 +568,7 @@
     -- CRM-4687
     -- set activity_date = due_date and drop due_date_time column from civicrm_activity.
     UPDATE civicrm_activity ca INNER JOIN civicrm_case_activity cca ON ca.id = cca.activity_id 
-        SET activity_date_time = COALESCE( ca.due_date_time, ca.activity_date_time );
+        SET activity_date_time = COALESCE( ca.activity_date_time, ca.due_date_time );
 
     ALTER TABLE civicrm_activity DROP COLUMN due_date_time;
 
