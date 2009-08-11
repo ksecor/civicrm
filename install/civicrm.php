@@ -63,12 +63,14 @@ function civicrm_main( &$config ) {
     } else {
         if (isset($config['seedLanguage'])
             and preg_match('/^[a-z][a-z]_[A-Z][A-Z]$/', $config['seedLanguage'])
-            and file_exists($sqlPath . DIRECTORY_SEPARATOR . "civicrm_data.{$config['seedLanguage']}.mysql")) {
+            and file_exists($sqlPath . DIRECTORY_SEPARATOR . "civicrm_data.{$config['seedLanguage']}.mysql")
+            and file_exists($sqlPath . DIRECTORY_SEPARATOR . "civicrm_acl.{$config['seedLanguage']}.mysql" )) {
             civicrm_source($dsn, $sqlPath . DIRECTORY_SEPARATOR . "civicrm_data.{$config['seedLanguage']}.mysql");
+            civicrm_source($dsn, $sqlPath . DIRECTORY_SEPARATOR . "civicrm_acl.{$config['seedLanguage']}.mysql" );
         } else {
             civicrm_source($dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
+            civicrm_source($dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_acl.mysql' );
         }
-        civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_acl.mysql' );
         civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_sample_report.mysql', true );
     }
     
