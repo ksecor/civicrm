@@ -54,7 +54,7 @@
     <path_arguments>group=case_type</path_arguments>
     <page_callback>CRM_Admin_Page_Options</page_callback>
     <adminGroup>CiviCase</adminGroup>
-    <icon>admin/small/case_type.gif</icon>
+    <icon>admin/small/case_type.png</icon>
     <weight>390</weight>
   </item>
   <item>
@@ -64,7 +64,7 @@
     <path_arguments>group=redaction_rule</path_arguments>
     <page_callback>CRM_Admin_Page_Options</page_callback>
     <adminGroup>CiviCase</adminGroup>
-    <icon>admin/small/case_type.gif</icon>
+    <icon>admin/small/redaction_type.png</icon>
     <weight>400</weight>
   </item>
   <item>
