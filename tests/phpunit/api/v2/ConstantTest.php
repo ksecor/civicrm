@@ -86,14 +86,14 @@ class api_v2_ConstantTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__)
-                             . '/option_group_activity_status.xml') );
+                             . '/dataset/option_group_activity_status.xml') );
 
         //  Insert some activity status values
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/option_value_activity_status.xml') );
+                             . '/dataset/option_value_activity_status.xml') );
 
         $result = civicrm_constant_get( 'activityStatus' );
         $this->assertEquals( 3, count( $result ), "In line " . __LINE__  );
@@ -114,14 +114,14 @@ class api_v2_ConstantTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__)
-                             . '/option_group_activity_type.xml') );
+                             . '/dataset/option_group_activity_type.xml') );
 
         //  Insert some activity type values
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/option_value_activity_1_5.xml') );
+                             . '/dataset/option_value_activity_1_5.xml') );
 
         $parameters = array( true, false, true );
         $result = civicrm_constant_get( 'activityType', $parameters );
@@ -145,7 +145,7 @@ class api_v2_ConstantTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/location_type_data.xml') );
+                             . '/dataset/location_type_data.xml') );
 
         $result = civicrm_constant_get( 'locationType' );
         $this->assertEquals( 5, count( $result ), "In line " . __LINE__  );

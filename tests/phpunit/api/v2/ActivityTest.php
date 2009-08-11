@@ -67,7 +67,7 @@ class api_v2_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
  
         //  Insert a row in civicrm_option_group creating option group
         //  activity_type 
@@ -75,7 +75,7 @@ class api_v2_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__)
-                             . '/option_group_activity_type.xml') );
+                             . '/dataset/option_group_activity_type.xml') );
  
         //  Insert a row in civicrm_option_value creating
         //  activity_type 5
@@ -83,7 +83,7 @@ class api_v2_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/option_value_activity_5.xml') );
+                             . '/dataset/option_value_activity_5.xml') );
     }
     
     /**
@@ -223,7 +223,7 @@ class api_v2_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/activity_4_13.xml') );
+                             . '/dataset/activity_4_13.xml') );
         $params = array( 'id' => 13,
                          'activity_type_id' => 5 );
         
@@ -313,7 +313,7 @@ class api_v2_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/activity_type_5.xml') );
+                             . '/dataset/activity_type_5.xml') );
         $params = array( 'id' => 13,
                          'activity_type_id' => 5 );
         $today = date('Ymd');
@@ -358,7 +358,7 @@ class api_v2_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/activity_type_5.xml') );
+                             . '/dataset/activity_type_5.xml') );
         $params = array(
                         'id'                  => 4,
                         'source_contact_id'   => 17,

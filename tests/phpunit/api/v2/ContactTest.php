@@ -363,11 +363,11 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/email_contact_17.xml') );
+                             . '/dataset/email_contact_17.xml') );
 
         $params = array( 'first_name' => 'Test',
                          'last_name'  => 'Contact',
@@ -390,11 +390,11 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/email_contact_17.xml') );
+                             . '/dataset/email_contact_17.xml') );
 
         $params = array( 'first_name' => 'Test',
                          'last_name'  => 'Contact',
@@ -416,7 +416,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_ind.xml') );
+                             . '/dataset/contact_ind.xml') );
 
         $params = array(
                         'contact_id'            => 23,
@@ -447,7 +447,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
 
         //  Check updated civicrm_contact against expected
         $expected = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
-                 dirname( __FILE__ ) . '/contact_ind_upd.xml' );
+                 dirname( __FILE__ ) . '/dataset/contact_ind_upd.xml' );
         $actual = new PHPUnit_Extensions_Database_DataSet_QueryDataset(
                                        $this->_dbconn );
         $actual->addTable( 'civicrm_contact' );
@@ -464,7 +464,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_org.xml') );
+                             . '/dataset/contact_org.xml') );
 
         $params = array(
                         'contact_id'        => 24,
@@ -486,7 +486,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
 
         //  Check updated civicrm_contact against expected
         $expected = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
-                 dirname( __FILE__ ) . '/contact_org_upd.xml' );
+                 dirname( __FILE__ ) . '/dataset/contact_org_upd.xml' );
         $actual = new PHPUnit_Extensions_Database_DataSet_QueryDataset(
                                        $this->_dbconn );
         $actual->addTable( 'civicrm_contact' );
@@ -503,7 +503,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_hld.xml') );
+                             . '/dataset/contact_hld.xml') );
 
         $params = array(
                         'contact_id'     => 25,
@@ -524,7 +524,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
 
         //  Check updated civicrm_contact against expected
         $expected = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
-                 dirname( __FILE__ ) . '/contact_hld_upd.xml' );
+                 dirname( __FILE__ ) . '/dataset/contact_hld_upd.xml' );
         $actual = new PHPUnit_Extensions_Database_DataSet_QueryDataset(
                                        $this->_dbconn );
         $actual->addTable( 'civicrm_contact' );
@@ -581,7 +581,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
         $params = array( 'contact_id' => 17 );
         $result = civicrm_contact_delete( $params );
         $this->assertEquals( 0, $result['is_error'], "In line " . __LINE__
@@ -598,7 +598,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
         $params = array( 'contact_id'       => 17,
                          'return_first_name' => true,
                          'sort'              => 'first_name' );
@@ -618,7 +618,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
         $params = array( 'contact_id' => 17,
                          'sort'       => 'first_name' );
         $result = civicrm_contact_get( $params );
@@ -662,7 +662,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
 
         $params = array( 'first_name' => 'Fred' );
         $result = civicrm_contact_get( $params, true );
@@ -682,7 +682,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
 
         $params = array( 'first_name' => 'Test' );
         $result = civicrm_contact_get( $params, true );
@@ -701,7 +701,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
         $params = array( 'contact_id'       => 17,
                          'return_first_name' => true,
                          'sort'              => 'first_name' );
@@ -721,7 +721,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
         $params = array( 'contact_id' => 17,
                          'sort'       => 'first_name' );
         $result = civicrm_contact_search( $params );
@@ -739,7 +739,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
         $params = array( 'contact_id' => 17 );
         $result = civicrm_contact_search_count( $params );
         $this->assertEquals( '1', $result );
@@ -777,7 +777,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
-                             . '/contact_17.xml') );
+                             . '/dataset/contact_17.xml') );
 
         $params = array( 'contact_type' => 'Individual',
                          'first_name'   => 'Fred',
