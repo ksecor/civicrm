@@ -28,7 +28,7 @@
 
   { if $id }
       {foreach from=$rows item=row}
-        <tr id='rowid{$row.contact_id}' class="status-hold {cycle values="odd-row,even-row"}">
+        <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
             {assign var=cbName value=$row.checkbox}
             <td>{$form.$cbName.html}</td>
             {if $context eq 'smog'}

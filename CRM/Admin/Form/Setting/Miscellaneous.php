@@ -51,11 +51,6 @@ class CRM_Admin_Form_Setting_Miscellaneous extends  CRM_Admin_Form_Setting
         CRM_Utils_System::setTitle(ts('Settings - Miscellaneous'));
 
         $this->addYesNo( 'versionCheck'           , ts( 'Version Check & Statistics Reporting' ));
-        $this->addYesNo( 'includeWildCardInName'  , ts( 'Automatic Wildcard' ));
-        $this->addYesNo( 'includeEmailInName'     , ts( 'Include Email' ));
-        $this->addYesNo( 'includeNickNameInName'  , ts( 'Include Nickname' ));
-        $this->addElement('text', 'smartGroupCacheTimeout', ts('Smart group cache timeout'),
-                          array( 'size' => 3, 'maxlength' => 5 ) );
         $this->addElement('text', 'maxAttachments' , ts('Maximum Attachments'),
                           array( 'size' => 2, 'maxlength' => 8 ) );
         $this->addElement('text','recaptchaPublicKey' , ts('Public Key'),
