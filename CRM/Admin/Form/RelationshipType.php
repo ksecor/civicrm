@@ -69,13 +69,19 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
         $this->addRule( 'label_b_a', ts('Label already exists in Database.'), 
                         'objectExists', array( 'CRM_Contact_DAO_RelationshipType', $this->_id, 'label_b_a' ) );
         
-        // add select for contact type
-        $this->add('select', 'contact_type_a', ts('Contact Type A') . ' ', CRM_Core_SelectValues::contactType());
-        $this->add('select', 'contact_type_b', ts('Contact Type B') . ' ', CRM_Core_SelectValues::contactType());
-        
         $this->add('text', 'description', ts('Description'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'description' ) );
-        $this->add('checkbox', 'is_active', ts('Enabled?'));
+        
+        // add select for contact type
+        $contactTypeA =& $this->add('select', 'contact_type_a', ts('Contact Type A') . ' ', CRM_Core_SelectValues::contactType());
+        $contactTypeB =& $this->add('select', 'contact_type_b', ts('Contact Type B') . ' ', CRM_Core_SelectValues::contactType());
+        $isActive     =& $this->add('checkbox', 'is_active', ts('Enabled?'));
+        
+        //only selected field should be allow for edit, CRM-4888
+        if ( $this->_id &&
+             CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_RelationshipType', $this->_id, 'is_reserved' ) ) {
+            foreach ( array( 'contactTypeA', 'contactTypeB', 'isActive' ) as $field ) $$field->freeze( );
+        }
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
