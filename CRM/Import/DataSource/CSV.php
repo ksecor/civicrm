@@ -126,6 +126,10 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
                     }
                 }
             }
+
+            // CRM-4881: we need to quote column names, as they may be MySQL reserved words
+            foreach ($columns as &$column) $column = "`$column`";
+
         } else {
             $columns = array();
             foreach ($firstrow as $i => $_) $columns[] = "col_$i";
