@@ -90,6 +90,7 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         //CRM-4129
         $destination = CRM_Utils_Request::retrieve( 'destination', 'String', $this );
         if ( $destination ) {
+            $destination = urlencode( $destination );
             $refreshURL .= "&destination=$destination";
         }
         

@@ -667,7 +667,8 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
-                    foreach($customOption as $customValue => $customLabel) {
+                    foreach($customOption as $customValueID => $customLabel) {
+                        $customValue = $customLabel['value'];
                         if (( strtolower(trim($customLabel['label'])) == strtolower(trim($v1)) ) ||
                             ( strtolower(trim($customValue)) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
@@ -805,7 +806,8 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
-                    foreach($customOption as $customValue => $customLabel) {
+                    foreach($customOption as $customValueID => $customLabel) {
+                        $customValue = $customLabel['value'];
                         if (( strtolower($customLabel['label']) == strtolower(trim($v1)) ) ||
                             ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
@@ -1141,7 +1143,8 @@ function _civicrm_membership_formatted_param( &$params, &$values, $create=false)
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
-                    foreach($customOption as $customValue => $customLabel) {
+                    foreach($customOption as $customValueID => $customLabel) {
+                        $customValue = $customLabel['value'];
                         if (( strtolower($customLabel['label']) == strtolower(trim($v1)) ) ||
                             ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
@@ -1260,7 +1263,8 @@ function _civicrm_activity_formatted_param( &$params, &$values, $create=false)
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 $values[$key] = array();
                 foreach( $mulValues as $v1 ) {
-                    foreach($customOption as $customValue => $customLabel) {
+                    foreach($customOption as $customValueID => $customLabel) {
+                        $customValue = $customLabel['value'];
                         if (( strtolower($customLabel['label']) == strtolower(trim($v1)) ) ||
                             ( strtolower($customValue) == strtolower(trim($v1)) )) { 
                             if ( $type == 'CheckBox' ) {
