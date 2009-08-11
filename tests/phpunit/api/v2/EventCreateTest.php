@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Event.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfEventCreateAPIV2 extends CiviUnitTestCase 
+class api_v2_EventCreateTest extends CiviUnitTestCase 
 {
     protected $_params;
     
@@ -17,6 +18,8 @@ class TestOfEventCreateAPIV2 extends CiviUnitTestCase
 
     function setUp() 
     {
+        parent::setUp();
+    
         $this->_params = array(
             'title'                   => 'Annual CiviCRM meet',
             'summary'                 => 'If you have any CiviCRM realted issues or want to track where CiviCRM is heading, Sign up now',
@@ -40,49 +43,49 @@ class TestOfEventCreateAPIV2 extends CiviUnitTestCase
     {
         $params = null;
         $result = civicrm_event_create( $params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertNotEqual( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
-        $this->assertEqual( $result['error_message'], 'Params is not an array');
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertNotEquals( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
+        $this->assertEquals( $result['error_message'], 'Params is not an array');
     }    
     
     function testCreateEventEmptyParams( )
     {
         $params = array( );
         $result = civicrm_event_create( $params );
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
         $this->assertFalse( array_key_exists( 'event_id', $result ) );
-        $this->assertEqual( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
+        $this->assertEquals( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
     }
     
     function testCreateEventParamsWithoutTitle( )
     {
         unset($this->_params['title']);
         $result = civicrm_event_create( $this->_params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
     }
     
     function testCreateEventParamsWithoutEventTypeId( )
     {
         unset($this->_params['event_type_id']);
         $result = civicrm_event_create( $this->_params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
     }
     
     function testCreateEventParamsWithoutStartDate( )
     {
         unset($this->_params['start_date']);
         $result = civicrm_event_create( $this->_params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
     }
     
     function testCreateEvent( )
     {
         $result = civicrm_event_create( $this->_params );
         
-        $this->assertNotEqual( $result['is_error'], 1 );
+        $this->assertNotEquals( $result['is_error'], 1 );
         $this->assertTrue( array_key_exists( 'event_id', $result ) );
         
         civicrm_event_delete( $result );

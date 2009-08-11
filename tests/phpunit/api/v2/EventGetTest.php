@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Event.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfEventGetAPIV2 extends CiviUnitTestCase 
+class api_v2_EventGetTest extends CiviUnitTestCase 
 {
     private $_event;
    
@@ -17,6 +18,8 @@ class TestOfEventGetAPIV2 extends CiviUnitTestCase
 
     function setUp( )
     {
+        parent::setUp();
+
         $this->_event = $this->eventCreate( );
     }
     
@@ -26,8 +29,8 @@ class TestOfEventGetAPIV2 extends CiviUnitTestCase
         
         $result = civicrm_event_get( $params );
         
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Params is not an array' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Params is not an array' );
     }
     
     function testGetEventById( )
@@ -35,7 +38,7 @@ class TestOfEventGetAPIV2 extends CiviUnitTestCase
         $params = array( 'id' => $this->_event['event_id'] );
         
         $result = civicrm_event_get( $params );
-        $this->assertEqual( $result['event_title'], 'Annual CiviCRM meet' );
+        $this->assertEquals( $result['event_title'], 'Annual CiviCRM meet' );
     }
     
     function testGetEventByEventTitle( )
@@ -43,7 +46,7 @@ class TestOfEventGetAPIV2 extends CiviUnitTestCase
         $params = array( 'title' => 'Annual CiviCRM meet' );
         
         $result = civicrm_event_get( $params );
-        $this->assertEqual( $result['id'], $this->_event['event_id'] );
+        $this->assertEquals( $result['id'], $this->_event['event_id'] );
     }
     
     function tearDown( )

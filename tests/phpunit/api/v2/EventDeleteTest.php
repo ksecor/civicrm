@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Event.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfEventDeleteAPIV2 extends CiviUnitTestCase
+class api_v2_EventDeleteTest extends CiviUnitTestCase
 {
     protected $_eventId;
 
@@ -17,6 +18,8 @@ class TestOfEventDeleteAPIV2 extends CiviUnitTestCase
     
     function setUp( )
     {
+        parent::setUp();
+    
         $params = array(
                         'title'         => 'Annual CiviCRM meet',
                         'event_type_id' => 1,
@@ -31,7 +34,7 @@ class TestOfEventDeleteAPIV2 extends CiviUnitTestCase
     {
         $params = array( );
         $result =& civicrm_event_delete($params);
-        $this->assertEqual($result['is_error'], 1);
+        $this->assertEquals($result['is_error'], 1);
         
         // delete the event created for testing
         $event  = array( 'event_id' => $this->_eventId );
@@ -42,7 +45,7 @@ class TestOfEventDeleteAPIV2 extends CiviUnitTestCase
     {
         $params = array('event_id' => $this->_eventId);
         $result =& civicrm_event_delete($params);
-        $this->assertNotEqual($result['is_error'], 1);
+        $this->assertNotEquals($result['is_error'], 1);
     }
     
     function testDeleteWithWrongEventId( )
@@ -52,7 +55,7 @@ class TestOfEventDeleteAPIV2 extends CiviUnitTestCase
         // try to delete again - there's no such event anymore
         $params = array('event_id' => $this->_eventId);
         $result =& civicrm_event_delete($params);
-        $this->assertEqual($result['is_error'], 1);
+        $this->assertEquals($result['is_error'], 1);
     }
     
     function tearDown( )
