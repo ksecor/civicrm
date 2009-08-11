@@ -9,12 +9,14 @@
   <civicrm_component />
   <civicrm_contact />
   <civicrm_email />
+  <civicrm_entity_tag />
   <civicrm_group />
   <civicrm_group_contact />
   <civicrm_location_type />
+  <civicrm_note />
   <civicrm_openid />
   <civicrm_option_group />
   <civicrm_option_value />
   <civicrm_relationship_type />
-  <civicrm_note />
+  <civicrm_tag />
 </dataset>

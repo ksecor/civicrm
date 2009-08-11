@@ -29,6 +29,11 @@
  */
 
 /**
+ *  Include configuration
+ */
+require_once 'tests/phpunit/CiviTest/civicrm.settings.php';
+
+/**
  *  Include class definitions
  */
 require_once 'PHPUnit/Extensions/Database/TestCase.php';
