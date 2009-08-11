@@ -46,7 +46,7 @@ class CRM_Contact_Page_AJAX
         $query = "
 SELECT sort_name, id
 FROM civicrm_contact
-WHERE sort_name LIKE '$name%'
+WHERE sort_name LIKE '%$name%'
 ORDER BY sort_name ";            
 
         $dao = CRM_Core_DAO::executeQuery( $query );
