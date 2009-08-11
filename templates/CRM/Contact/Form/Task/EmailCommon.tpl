@@ -26,11 +26,6 @@
         <div class='text'>
             {$form.text_message.html}<br />
         </div>
-        {if ! $noAttach}
-            <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='attachment'></span>
-            <a href="#"><strong>{ts}Attachment(s){/ts}</strong></a></h3>
-            {include file="CRM/Form/attachment.tpl" noexpand=true}
-        {/if}
     </div>
     <div id="editMessageDetails">
         <div id="updateDetails" >
@@ -44,6 +39,9 @@
 <div id="saveDetails">
     {$form.saveTemplateName.label}&nbsp;{$form.saveTemplateName.html}
 </div>
+ {if ! $noAttach}
+     {include file="CRM/Form/attachment.tpl"}
+ {/if}
 
 {literal}
 <script type="text/javascript" >
