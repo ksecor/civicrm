@@ -647,7 +647,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         require_once 'api/v2/Location.php';
         $result = civicrm_location_add( $params );
         if ( civicrm_error( $result ) ) {
-            CRM_Core_Error::fatal( 'Could not create location' );
+            CRM_Core_Error::createAPIError( 'Could not create location', $result );
         }
         
         return $result;
