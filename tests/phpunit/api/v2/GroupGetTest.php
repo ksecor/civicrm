@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Group.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
  
-class TestOfGroupGetAPIV2 extends CiviUnitTestCase 
+class api_v2_GroupGetTest extends CiviUnitTestCase 
 {
     protected $_groupID;
 
@@ -18,7 +19,8 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         
     function setUp() 
     {
-       $this->_groupID = $this->groupCreate();
+        parent::setUp();
+        $this->_groupID = $this->groupCreate();
     }
     
     function tearDown() 
@@ -31,7 +33,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         $params = '';
         $group = civicrm_group_get( $params );
         
-        $this->assertEqual( $group['error_message'], 'Params should be array' );        
+        $this->assertEquals( $group['error_message'], 'Params should be array' );        
     }
     
     function testGetGroupWithEmptyParams( ) 
@@ -41,9 +43,9 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         $group = civicrm_group_get( $params );
         
         $this->assertNotNull( count( $group ) );
-        $this->assertEqual( $group[$this->_groupID]['name'], 'Test Group 1' );
-        $this->assertEqual( $group[$this->_groupID]['is_active'], 1 );
-        $this->assertEqual( $group[$this->_groupID]['visibility'], 'Public Pages' );
+        $this->assertEquals( $group[$this->_groupID]['name'], 'Test Group 1' );
+        $this->assertEquals( $group[$this->_groupID]['is_active'], 1 );
+        $this->assertEquals( $group[$this->_groupID]['visibility'], 'Public Pages' );
     }
     
     function testGetGroupParamsWithGroupId( ) 
@@ -53,11 +55,11 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         $group =&civicrm_group_get( $params );
         
         foreach( $group as $v){
-            $this->assertEqual( $v['name'],'Test Group 1' );
-            $this->assertEqual( $v['title'],'New Test Group Created' );
-            $this->assertEqual( $v['description'], 'New Test Group Created');
-            $this->assertEqual( $v['is_active'], 1 );
-            $this->assertEqual( $v['visibility'], 'Public Pages' );
+            $this->assertEquals( $v['name'],'Test Group 1' );
+            $this->assertEquals( $v['title'],'New Test Group Created' );
+            $this->assertEquals( $v['description'], 'New Test Group Created');
+            $this->assertEquals( $v['is_active'], 1 );
+            $this->assertEquals( $v['visibility'], 'Public Pages' );
         }
     }
 
@@ -68,11 +70,11 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         $group =&civicrm_group_get( $params );
  
         foreach( $group as $v){
-            $this->assertEqual( $v['id'], $this->_groupID );
-            $this->assertEqual( $v['title'],'New Test Group Created' );
-            $this->assertEqual( $v['description'], 'New Test Group Created');
-            $this->assertEqual( $v['is_active'], 1 );
-            $this->assertEqual( $v['visibility'], 'Public Pages' );
+            $this->assertEquals( $v['id'], $this->_groupID );
+            $this->assertEquals( $v['title'],'New Test Group Created' );
+            $this->assertEquals( $v['description'], 'New Test Group Created');
+            $this->assertEquals( $v['is_active'], 1 );
+            $this->assertEquals( $v['visibility'], 'Public Pages' );
         }
         
         
@@ -85,11 +87,11 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         $group =&civicrm_group_get( $params );
        
         foreach( $group as $v){
-            $this->assertEqual( $v['id'], $this->_groupID );
-            $this->assertEqual( $v['name'],'Test Group 1' );
-            $this->assertEqual( $v['description'], 'New Test Group Created' );
-            $this->assertEqual( $v['is_active'], 1 );
-            $this->assertEqual( $v['visibility'], 'Public Pages' );
+            $this->assertEquals( $v['id'], $this->_groupID );
+            $this->assertEquals( $v['name'],'Test Group 1' );
+            $this->assertEquals( $v['description'], 'New Test Group Created' );
+            $this->assertEquals( $v['is_active'], 1 );
+            $this->assertEquals( $v['visibility'], 'Public Pages' );
         }
         
     }
