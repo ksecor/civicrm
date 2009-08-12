@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Membership.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfMembershipStatusCalcAPIV2 extends CiviUnitTestCase {
+class api_v2_MembershipStatusCalcTest extends CiviUnitTestCase {
     
     protected $_contactID;
     protected $_contributionTypeID;
@@ -20,6 +21,8 @@ class TestOfMembershipStatusCalcAPIV2 extends CiviUnitTestCase {
 
     function setup( ) 
     {
+        parent::setUp();
+
         $this->_contactID           = $this->individualCreate( ) ;
         $this->_contributionTypeID  = $this->contributionTypeCreate();
         
@@ -32,7 +35,7 @@ class TestOfMembershipStatusCalcAPIV2 extends CiviUnitTestCase {
         $calcParams = array( );
         
         $result = civicrm_membership_status_calc( $calcParams );
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
     }
     
     function testMembershipStatusCalcNoMembershipid( ) 
@@ -40,7 +43,7 @@ class TestOfMembershipStatusCalcAPIV2 extends CiviUnitTestCase {
         $calcParams = array( 'title' => 'Does not make sense' );
         
         $result = civicrm_membership_status_calc( $calcParams );
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
     }
     
     function testMembershipStatusCalc( ) 
@@ -53,14 +56,15 @@ class TestOfMembershipStatusCalcAPIV2 extends CiviUnitTestCase {
                         'end_date'    => '2008-06-13'
                         );
         $membershipID = $this->contactMembershipCreate( $params );
-        
-        $membershipStatusID = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership',$membershipID,'status_id');
+
+        $this->fail( 'getFieldValue throws fatal');        
+//        $membershipStatusID = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership',$membershipID,'status_id');
         
         $calcParams = array( 'membership_id' => $membershipID );
         $result = civicrm_membership_status_calc( $calcParams );
         
-        $this->assertEqual( $result['is_error'], 0 );
-        $this->assertEqual( $membershipStatusID,$result['id'] );
+        $this->assertEquals( $result['is_error'], 0 );
+        $this->assertEquals( $membershipStatusID,$result['id'] );
         $this->assertNotNull( $result['id'] );
         
         $this->membershipDelete( $membershipID );

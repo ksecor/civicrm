@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Membership.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfMembershipTypeGetAPIV2 extends CiviUnitTestCase 
+class api_v2_MembershipTypeGetTest extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_contributionTypeID;
@@ -17,6 +18,8 @@ class TestOfMembershipTypeGetAPIV2 extends CiviUnitTestCase
     
     function setUp() 
     {
+        parent::setUp();
+
         $this->_contactID           = $this->organizationCreate( ) ;
         $this->_contributionTypeID  = $this->contributionTypeCreate();
     }
@@ -24,7 +27,7 @@ class TestOfMembershipTypeGetAPIV2 extends CiviUnitTestCase
     function testMembershipTypeGetEmpty()
     {
         $membershiptype = & civicrm_membership_types_get( $params );
-        $this->assertEqual( $membershiptype['is_error'], 1 );
+        $this->assertEquals( $membershiptype['is_error'], 1 );
     }
         
     function testMembershipTypeGetWithoutId()
@@ -40,7 +43,7 @@ class TestOfMembershipTypeGetAPIV2 extends CiviUnitTestCase
                         );
         
         $membershiptype = & civicrm_membership_types_get( $params );
-        $this->assertEqual( $membershiptype['is_error'], 1 );
+        $this->assertEquals( $membershiptype['is_error'], 1 );
     }
 
     function testMembershipTypeGet()
@@ -50,12 +53,12 @@ class TestOfMembershipTypeGetAPIV2 extends CiviUnitTestCase
         $params = array( 'id'=> $id );        
         $membershiptype = & civicrm_membership_types_get( $params );
                        
-        $this->assertEqual($membershiptype[$id]['name'],'General');
-        $this->assertEqual($membershiptype[$id]['member_of_contact_id'],$this->_contactID);
-        $this->assertEqual($membershiptype[$id]['contribution_type_id'],$this->_contributionTypeID);
-        $this->assertEqual($membershiptype[$id]['duration_unit'],'year');
-        $this->assertEqual($membershiptype[$id]['duration_interval'],'1');
-        $this->assertEqual($membershiptype[$id]['period_type'],'rolling');
+        $this->assertEquals($membershiptype[$id]['name'],'General');
+        $this->assertEquals($membershiptype[$id]['member_of_contact_id'],$this->_contactID);
+        $this->assertEquals($membershiptype[$id]['contribution_type_id'],$this->_contributionTypeID);
+        $this->assertEquals($membershiptype[$id]['duration_unit'],'year');
+        $this->assertEquals($membershiptype[$id]['duration_interval'],'1');
+        $this->assertEquals($membershiptype[$id]['period_type'],'rolling');
         $this->membershipTypeDelete( $membershiptype[$id]['id'] );
     }
 

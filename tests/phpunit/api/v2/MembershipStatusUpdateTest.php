@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Membership.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfMembershipStatusUpdateAPIV2 extends CiviUnitTestCase {
+class api_v2_MembershipStatusUpdateTest extends CiviUnitTestCase {
 
     function get_info( )
     {
@@ -13,22 +14,23 @@ class TestOfMembershipStatusUpdateAPIV2 extends CiviUnitTestCase {
                      );
     }
 
-    function setup( ) 
+    function setUp( ) 
     {
+        parent::setUp();
     }
 
     function testMembershipStatusUpdateEmpty( ) 
     {
         $params = array( );
         $result = civicrm_membership_status_update( $params );
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
     }
 
     function testMembershipStatusUpdateMissingRequired( ) 
     {
         $params = array( 'title' => 'Does not make sense' );
         $result = civicrm_membership_status_update( $params );
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
     }
     
     function testMembershipStatusUpdate( ) 
@@ -38,7 +40,7 @@ class TestOfMembershipStatusUpdateAPIV2 extends CiviUnitTestCase {
                          'name' => 'new member',
                          );
         $result = civicrm_membership_status_update( $params );
-        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEquals( $result['is_error'], 0 );
         $this->membershipStatusDelete( $membershipStatusID );
     }
     

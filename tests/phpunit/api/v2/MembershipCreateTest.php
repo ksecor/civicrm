@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/MembershipContact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfMembershipCreateAPIV2 extends CiviUnitTestCase {
+class api_v2_MembershipCreateTest extends CiviUnitTestCase {
 
     function get_info( )
     {
@@ -13,16 +14,18 @@ class TestOfMembershipCreateAPIV2 extends CiviUnitTestCase {
                      );
     }
     
-    function setup( ) 
+    function setUp( ) 
     {
+        parent::setUp();
         $this->individualID = $this->individualCreate( );
     }
     
     function testMembershipCreateEmpty( ) 
     {
         $params = array( );
-        $result = civicrm_contact_membership_create( $params );
-        $this->assertEqual( $result['is_error'], 1 );
+        $result = 0;//civicrm_membership_contact_create( $params );
+        $this->fail( 'fails on constraint' );
+        $this->assertEquals( $result['is_error'], 1 );
     }
 
     function testMembershipCreateMissingRequired( ) 
@@ -36,8 +39,9 @@ class TestOfMembershipCreateAPIV2 extends CiviUnitTestCase {
                         'status_id'          => '2'                       
                         );
         
-        $result = civicrm_contact_membership_create( $params );
-        $this->assertEqual( $result['is_error'], 1 );
+        $result = 0;//civicrm_membership_contact_create( $params );
+        $this->fail( 'fails on constraint' );
+        $this->assertEquals( $result['is_error'], 1 );
     }
     
     function testMembershipCreate( ) 
@@ -52,8 +56,9 @@ class TestOfMembershipCreateAPIV2 extends CiviUnitTestCase {
                         'is_override'        => 1,
                         'status_id'          => 2                       
                         );
-        $result = civicrm_contact_membership_create( $params );
-        $this->assertEqual( $result['is_error'], 0 );
+        $result = 0;//civicrm_membership_contact_create( $params );
+        $this->fail( 'fails on constraint' );
+        $this->assertEquals( $result['is_error'], 0 );
         $this->assertNotNull( $result['id'] );
         $this->membershipDelete( $result['id'] );
     }

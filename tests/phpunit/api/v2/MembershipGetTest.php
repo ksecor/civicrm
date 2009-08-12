@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Membership.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfMembershipGetAPIV2 extends CiviUnitTestCase 
+class api_v2_MembershipGetTest extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_contributionTypeID;
@@ -20,6 +21,7 @@ class TestOfMembershipGetAPIV2 extends CiviUnitTestCase
 
     function setUp() 
     {
+        parent::setUp();
         $this->_contactID           = $this->individualCreate( ) ;
         $this->_contributionTypeID  = $this->contributionTypeCreate();
         $this->_membershipTypeID    = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
@@ -29,7 +31,7 @@ class TestOfMembershipGetAPIV2 extends CiviUnitTestCase
     function testMembershipTypeGetWithoutId()
     {
         $membership = & civicrm_contact_memberships_get( $emptyContactID );
-        $this->assertEqual( $membership['is_error'], 1 );
+        $this->assertEquals( $membership['is_error'], 1 );
     }
         
     function testMembershipGet()
@@ -43,13 +45,13 @@ class TestOfMembershipGetAPIV2 extends CiviUnitTestCase
         
         $membership =& civicrm_contact_memberships_get( $this->_contactID );
         
-        $this->assertEqual($membership[$this->_contactID][$id]['contact_id'],         $this->_contactID);
-        $this->assertEqual($membership[$this->_contactID][$id]['membership_type_id'], $this->_membershipTypeID);
-        $this->assertEqual($membership[$this->_contactID][$id]['status_id'],          $this->_membershipStatusID);
-        $this->assertEqual($membership[$this->_contactID][$id]['join_date'],          '2007-01-21');
-        $this->assertEqual($membership[$this->_contactID][$id]['start_date'],         '2007-01-21');
-        $this->assertEqual($membership[$this->_contactID][$id]['end_date'],           '2007-12-21');
-        $this->assertEqual($membership[$this->_contactID][$id]['source'],             'Payment' );
+        $this->assertEquals($membership[$this->_contactID][$id]['contact_id'],         $this->_contactID);
+        $this->assertEquals($membership[$this->_contactID][$id]['membership_type_id'], $this->_membershipTypeID);
+        $this->assertEquals($membership[$this->_contactID][$id]['status_id'],          $this->_membershipStatusID);
+        $this->assertEquals($membership[$this->_contactID][$id]['join_date'],          '2007-01-21');
+        $this->assertEquals($membership[$this->_contactID][$id]['start_date'],         '2007-01-21');
+        $this->assertEquals($membership[$this->_contactID][$id]['end_date'],           '2007-12-21');
+        $this->assertEquals($membership[$this->_contactID][$id]['source'],             'Payment' );
         
         $this->membershipDelete( $membership[$this->_contactID][$id]['id'] );
     }

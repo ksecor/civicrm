@@ -228,7 +228,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $result = civicrm_contact_add( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'contact_id', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not create test contact.' );
+            CRM_Core_Error::createAPIError( 'Could not create test contact.' );
         }
         return $result['contact_id'];
     }
@@ -239,7 +239,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $params['contact_id'] = $contactID;
         $result = civicrm_contact_delete( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete contact' );
+            CRM_Core_Error::createAPIError( 'Could not delete contact' );
         }
         return;
     }
@@ -257,7 +257,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
-            CRM_Core_Error::fatal( 'Could not create membership type' );
+            CRM_Core_Error::createAPIError( 'Could not create membership type' );
         }
         
         return $result['id'];
@@ -283,9 +283,9 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
             if ( CRM_Utils_Array::value( 'error_message', $result ) ) {
-                CRM_Core_Error::fatal( $result['error_message'] );
+                CRM_Core_Error::createAPIError( $result['error_message'] );
             } else {
-                CRM_Core_Error::fatal( 'Could not create membership' );
+                CRM_Core_Error::createAPIError( 'Could not create membership' );
             }
         }
         
@@ -302,7 +302,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $params['id'] = $membershipTypeID;
         $result = civicrm_membership_type_delete( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete membership type' );
+            CRM_Core_Error::createAPIError( 'Could not delete membership type' );
         }
         return;
     }
@@ -311,7 +311,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     {
         $result = civicrm_membership_delete( $membershipID );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete membership' );
+            CRM_Core_Error::createAPIError( 'Could not delete membership' );
         }
         return;
     }
@@ -321,7 +321,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $params['name'] = $name;
         $result = civicrm_membership_status_create( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not create membership status' );
+            CRM_Core_Error::createAPIError( 'Could not create membership status' );
         }
         return $result['id'];
     }
@@ -331,7 +331,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $params['id'] = $membershipStatusID;
         $result = civicrm_membership_status_delete( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete membership status' );
+            CRM_Core_Error::createAPIError( 'Could not delete membership status' );
         }
         return;
     }
@@ -343,7 +343,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $result= civicrm_relationship_type_add($params);
         
         if ( civicrm_error( $params ) ) {
-            CRM_Core_Error::fatal( 'Could not create relationship type' );
+            CRM_Core_Error::createAPIError( 'Could not create relationship type' );
         }
         return $result['id'];
     }
@@ -359,7 +359,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $result = civicrm_relationship_type_delete( $params );
         
         if (civicrm_error( $params ) ) {
-            CRM_Core_Error::fatal( 'Could not delete relationship type' );
+            CRM_Core_Error::createAPIError( 'Could not delete relationship type' );
         }
         return;
     }
@@ -387,7 +387,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         
         $result = civicrm_participant_create( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not create participant' );
+            CRM_Core_Error::createAPIError( 'Could not create participant' );
         }
         return $result['result'];
     }
@@ -454,7 +454,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $params['tag_id'] = $tagId;
         $result = civicrm_tag_delete( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete tag' );
+            CRM_Core_Error::createAPIError( 'Could not delete tag' );
         }
         return;
     }
@@ -470,7 +470,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $result = civicrm_entity_tag_add( $params );
         
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Error while creating entity tag' );
+            CRM_Core_Error::createAPIError( 'Error while creating entity tag' );
         }
         return ;
     }
@@ -577,7 +577,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $params = array( 'id' => $participantID );
         $result = & civicrm_participant_delete( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete participant' );
+            CRM_Core_Error::createAPIError( 'Could not delete participant' );
         }
         return;
         
@@ -602,7 +602,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         
         if ( CRM_Utils_Array::value( 'is_error', $participantPayment ) ||
              ! CRM_Utils_Array::value( 'id', $participantPayment ) ) {
-            CRM_Core_Error::fatal( 'Could not create participant payment' );
+            CRM_Core_Error::createAPIError( 'Could not create participant payment' );
         }
         
         return $participantPayment['id'];
@@ -620,7 +620,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $params = array( 'id' => $paymentID );        
         $result = & civicrm_participant_payment_delete( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete participant payment' );
+            CRM_Core_Error::createAPIError( 'Could not delete participant payment' );
         }
         
         return;
@@ -818,7 +818,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $result =& civicrm_custom_group_create($params);      
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
-            CRM_Core_Error::fatal( 'Could not create Custom Group' );
+            CRM_Core_Error::createAPIError( 'Could not create Custom Group' );
         }
         return $result;    
     }
@@ -833,7 +833,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $params['id'] = $customGroupID;
         $result = & civicrm_custom_group_delete($params);
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete custom group' );
+            CRM_Core_Error::createAPIError( 'Could not delete custom group' );
         }
         return;
     }
@@ -862,7 +862,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         
         if ( civicrm_error( $result ) 
              || !( CRM_Utils_Array::value( 'customFieldId' , $result['result'] ) ) ) {
-            CRM_Core_Error::fatal( 'Could not create Custom Field' );
+            CRM_Core_Error::createAPIError( 'Could not create Custom Field' );
         }
         return $result;    
     }
@@ -878,7 +878,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
 //        $params['result']['customFieldId'] = $customFieldID;
 //        $result = & civicrm_custom_field_delete($params);
 //        if ( civicrm_error( $result ) ) {
-//            CRM_Core_Error::fatal( 'Could not delete custom field' );
+//            CRM_Core_Error::createAPIError( 'Could not delete custom field' );
 //        }
 //        return;
     }
@@ -918,7 +918,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $result = & civicrm_note_delete( $params );
 
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete note' );
+            CRM_Core_Error::createAPIError( 'Could not delete note' );
         }
     
         return;
@@ -961,7 +961,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $result =& civicrm_custom_field_create($params);
         if ( civicrm_error( $result ) 
              || !( CRM_Utils_Array::value( 'customFieldId', $result['result'] ) ) ) {
-            CRM_Core_Error::fatal( 'Could not create Custom Field' );
+            CRM_Core_Error::createAPIError( 'Could not create Custom Field' );
         }
         return $result;    
     }      

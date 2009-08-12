@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Membership.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfMembershipDelete extends CiviUnitTestCase {
+class api_v2_MembershipDeleteTest extends CiviUnitTestCase {
     protected $_contactID;
     protected $_contributionTypeID;
     protected $_membershipTypeID;
@@ -19,6 +20,7 @@ class TestOfMembershipDelete extends CiviUnitTestCase {
 
     function setUp() 
     {
+        parent::setUp();
         $this->_contactID           = $this->individualCreate( ) ;
         $this->_contributionTypeID  = $this->contributionTypeCreate();
         $this->_membershipTypeID    = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
@@ -29,13 +31,13 @@ class TestOfMembershipDelete extends CiviUnitTestCase {
     {
         $params = array( );
         $result = civicrm_membership_delete( $params );
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
     }
 
     function testMembershipDeleteMissingRequired( ) 
     {
         $result = civicrm_membership_delete( $emptyMembershipID );
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
     }
 
     function testMembershipDelete( ) 
@@ -46,7 +48,7 @@ class TestOfMembershipDelete extends CiviUnitTestCase {
         $membershipID = $this->contactMembershipCreate( $params );
         
         $result = civicrm_membership_delete( $membershipID );
-        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEquals( $result['is_error'], 0 );
     }
 
     function tearDown( ) 

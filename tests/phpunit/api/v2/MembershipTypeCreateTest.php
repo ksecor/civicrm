@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Membership.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase 
+class api_v2_MembershipTypeCreateTest extends CiviUnitTestCase 
 {
     protected $_contactID;
     protected $_contributionTypeID;
@@ -18,6 +19,8 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
     
     function setUp() 
     {
+        parent::setUp();
+
         $this->_contactID           = $this->organizationCreate( ) ;
         $this->_contributionTypeID  = $this->contributionTypeCreate( );
               
@@ -27,7 +30,7 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
     {
         $params = array();        
         $membershiptype = & civicrm_membership_type_create($params);
-        $this->assertEqual( $membershiptype['is_error'], 1 );
+        $this->assertEquals( $membershiptype['is_error'], 1 );
     }
           
     function testMembershipTypeCreateWithoutMemberOfContactId()
@@ -43,7 +46,7 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $membershiptype = & civicrm_membership_type_create($params);
-        $this->assertEqual( $membershiptype['is_error'], 1 );
+        $this->assertEquals( $membershiptype['is_error'], 1 );
   
     }
     
@@ -59,7 +62,7 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
                         'visibility'           => 'public'
                         );
         $membershiptype = & civicrm_membership_type_create($params);
-        $this->assertEqual( $membershiptype['is_error'], 1 );
+        $this->assertEquals( $membershiptype['is_error'], 1 );
     }   
          
     function testMembershipTypeCreateWithoutDurationUnit()
@@ -76,7 +79,7 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $membershiptype = & civicrm_membership_type_create($params);
-        $this->assertEqual( $membershiptype['is_error'], 0 );
+        $this->assertEquals( $membershiptype['is_error'], 0 );
         $this->assertNotNull( $membershiptype['id'] );   
         $this->membershipTypeDelete( $membershiptype['id'] );
         
@@ -97,7 +100,7 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $membershiptype = & civicrm_membership_type_create($params);  
-        $this->assertEqual( $membershiptype['is_error'], 0 );
+        $this->assertEquals( $membershiptype['is_error'], 0 );
         if ( ! $membershiptype['is_error'] ) {
             $this->assertNotNull( $membershiptype['id'] );   
             $this->membershipTypeDelete( $membershiptype['id'] );
@@ -119,7 +122,7 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
                         );
 	
         $membershiptype = & civicrm_membership_type_create($params);  
-        $this->assertEqual( $membershiptype['is_error'], 0 );
+        $this->assertEquals( $membershiptype['is_error'], 0 );
         if ( ! $membershiptype['is_error'] ) {
             $this->assertNotNull( $membershiptype['id'] );   
             $this->membershipTypeDelete( $membershiptype['id'] );
