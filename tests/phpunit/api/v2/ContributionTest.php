@@ -3,7 +3,7 @@
 require_once 'api/v2/Contribute.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
 
-class api_v2_ContributionCreateTest extends CiviUnitTestCase 
+class api_v2_ContributionTest extends CiviUnitTestCase 
 {
     /**
      * Assume empty database with just civicrm_data
