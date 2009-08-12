@@ -1,9 +1,9 @@
 <?php
 
 require_once 'api/v2/Contribute.php';
-require_once 'CiviUnitTestCase.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfContributionGet_1APIV2 extends CiviUnitTestCase 
+class api_v2_ContributionGetTest extends CiviUnitTestCase 
 {
     /**
      * Assume empty database with just civicrm_data
@@ -18,6 +18,8 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
         
     function setUp() 
     {
+        parent::setUp();
+        
         $this->_contributionTypeId = $this->contributionTypeCreate();
         $this->_individualId = $this->individualCreate();
         $this->_contributionId = $this->contributionCreate($this->_individualId,$this->_contributionTypeId);
@@ -36,8 +38,8 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
     {
         $params = array();
         $contribution =& civicrm_contribution_get($params);
-        $this->assertEqual( $contribution['is_error'], 1 );
-        $this->assertEqual( $contribution['error_message'], 'No input parameters present' );
+        $this->assertEquals( $contribution['is_error'], 1 );
+        $this->assertEquals( $contribution['error_message'], 'No input parameters present' );
     }
     
     
@@ -45,8 +47,8 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
     {
         $params = 'domain_id= 1';                            
         $contribution =& civicrm_contribution_get($params);
-        $this->assertEqual( $contribution['is_error'], 1 );
-        $this->assertEqual( $contribution['error_message'], 'Input parameters is not an array' );
+        $this->assertEquals( $contribution['is_error'], 1 );
+        $this->assertEquals( $contribution['error_message'], 'Input parameters is not an array' );
     }
  
 
@@ -72,34 +74,34 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
         $this->_contribution =& civicrm_contribution_add($params);
         $params = array('contribution_id'=>$this->_contribution['id']);        
         $contribution =& civicrm_contribution_get($params);
-        $this->assertEqual($contribution['contact_id'],$this->_individualId); 
-        $this->assertEqual($contribution['total_amount'],100.00);
-        $this->assertEqual($contribution['contribution_type_id'],$this->_contributionTypeId);        
-        $this->assertEqual($contribution['non_deductible_amount'],10.00);
-        $this->assertEqual($contribution['fee_amount'],51.00);
-        $this->assertEqual($contribution['net_amount'],91.00);
-        $this->assertEqual($contribution['trxn_id'],23456);
-        $this->assertEqual($contribution['invoice_id'],78910);
-        $this->assertEqual($contribution['contribution_source'],'SSF');
-        $this->assertEqual($contribution['contribution_status_id'], 'Completed' );
+        $this->assertEquals($contribution['contact_id'],$this->_individualId); 
+        $this->assertEquals($contribution['total_amount'],100.00);
+        $this->assertEquals($contribution['contribution_type_id'],$this->_contributionTypeId);        
+        $this->assertEquals($contribution['non_deductible_amount'],10.00);
+        $this->assertEquals($contribution['fee_amount'],51.00);
+        $this->assertEquals($contribution['net_amount'],91.00);
+        $this->assertEquals($contribution['trxn_id'],23456);
+        $this->assertEquals($contribution['invoice_id'],78910);
+        $this->assertEquals($contribution['contribution_source'],'SSF');
+        $this->assertEquals($contribution['contribution_status_id'], 'Completed' );
        
         $params1 = array('contribution_id' =>$this->_contributionId);
         $contribution1 =& civicrm_contribution_get($params1);
-        $this->assertEqual($contribution1['contact_id'],$this->_individualId); 
-        $this->assertEqual($contribution1['total_amount'],100.00);
-        $this->assertEqual($contribution1['contribution_type_id'],$this->_contributionTypeId);        
-        $this->assertEqual($contribution1['non_deductible_amount'],10.00);
-        $this->assertEqual($contribution1['fee_amount'],50.00);
-        $this->assertEqual($contribution1['net_amount'],90.00);
-        $this->assertEqual($contribution1['trxn_id'],12345);
-        $this->assertEqual($contribution1['invoice_id'],67890);
-        $this->assertEqual($contribution1['contribution_source'],'SSF');
-        $this->assertEqual($contribution1['contribution_status_id'], 'Completed' );  
+        $this->assertEquals($contribution1['contact_id'],$this->_individualId); 
+        $this->assertEquals($contribution1['total_amount'],100.00);
+        $this->assertEquals($contribution1['contribution_type_id'],$this->_contributionTypeId);        
+        $this->assertEquals($contribution1['non_deductible_amount'],10.00);
+        $this->assertEquals($contribution1['fee_amount'],50.00);
+        $this->assertEquals($contribution1['net_amount'],90.00);
+        $this->assertEquals($contribution1['trxn_id'],12345);
+        $this->assertEquals($contribution1['invoice_id'],67890);
+        $this->assertEquals($contribution1['contribution_source'],'SSF');
+        $this->assertEquals($contribution1['contribution_status_id'], 'Completed' );  
         
         $params2 = array( 'contribution_id' => $this->_contribution['id'] );
         $contribution2 =& civicrm_contribution_delete( $params2 );
-        $this->assertEqual($contribution2['is_error'], 0);
-        $this->assertEqual($contribution2['result'], 1);
+        $this->assertEquals($contribution2['is_error'], 0);
+        $this->assertEquals($contribution2['result'], 1);
         
     }
  

@@ -95,8 +95,8 @@ if ( !empty( $GLOBALS['mysql_user'] ) ) {
 
 global $civicrm_root;
 
-$civicrm_root = '/home/haas/civicrm_repos/trunk';
-define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/home/haas/civicrm_repost/templates_c/' );
+$civicrm_root = '/var/www/api.dev.civicrm.org/trunk/';
+define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/api.dev.civicrm.org/helper/files/civicrm/templates_c/' );
 
 /**
  * Site URLs:
