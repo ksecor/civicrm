@@ -262,7 +262,7 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         $error = null;
         if ( ! $threeZero->verifyPreDBState( $error ) ) {
             if ( ! isset( $error ) ) {
-                $error = 'pre-condition failed for current upgrade for 3.0.alpha1';
+                $error = 'pre-condition failed for current upgrade for 3.0.alpha2';
             }
             CRM_Core_Error::fatal( $error );
         }

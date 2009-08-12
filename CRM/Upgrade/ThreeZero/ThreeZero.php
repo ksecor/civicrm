@@ -41,11 +41,11 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
         
-        $errorMessage = ts('Pre-condition failed for upgrade to 3.0.alpha1.');
+        $errorMessage = ts('Pre-condition failed for upgrade to 3.0.alpha2.');
         // check table, if the db is 3.0
         if ( CRM_Core_DAO::checkTableExists( 'civicrm_navigation' ) &&
              CRM_Core_DAO::checkTableExists( 'civicrm_participant_status_type' ) ) {
-            $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v3.0.alpha1) of the database.');
+            $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v3.0.alpha2) of the database.');
             return false;
         } 
         // check table-column, if the db is 3.0 
@@ -56,7 +56,7 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
              CRM_Core_DAO::checkFieldExists( 'civicrm_contact',  'email_greeting_id' )  &&
              CRM_Core_DAO::checkFieldExists( 'civicrm_payment_processor_type', 'payment_type' ) ) {
             
-            $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v3.0.alpha1) of the database.');
+            $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v3.0.alpha2) of the database.');
             return false;
         } 
         
