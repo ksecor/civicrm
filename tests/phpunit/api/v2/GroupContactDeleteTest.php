@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/GroupContact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfGroupContactDeleteAPIV2 extends CiviUnitTestCase 
+class api_v2_GroupContactDeleteTest extends CiviUnitTestCase 
 {
     function get_info( )
     {
@@ -15,13 +16,14 @@ class TestOfGroupContactDeleteAPIV2 extends CiviUnitTestCase
 
     function setUp() 
     {
+        parent::setUp();
         $this->_contactId = $this->individualCreate();
-        $this->contactGroupCreate( $this->_contactId );
+//        $this->contactGroupCreate( $this->_contactId );
     }
     
     function tearDown() 
     { 
-        $this->contactGroupDelete( $this->_contactId );
+//        $this->contactGroupDelete( $this->_contactId );
         $this->contactDelete($this->_contactId);
              
     }
@@ -31,8 +33,8 @@ class TestOfGroupContactDeleteAPIV2 extends CiviUnitTestCase
         $params = array( );
         $groups = civicrm_group_contact_remove( $params );
        
-        $this->assertEqual( $groups['is_error'], 1 );
-        $this->assertEqual( $groups['error_message'], 'contact_id is a required field' );
+        $this->assertEquals( $groups['is_error'], 1 );
+        $this->assertEquals( $groups['error_message'], 'contact_id is a required field' );
     }
 
     function testDeleteGroupContactsWithoutGroupIdParams( ) 
@@ -44,8 +46,8 @@ class TestOfGroupContactDeleteAPIV2 extends CiviUnitTestCase
         
         $groups = civicrm_group_contact_remove( $params );
               
-        $this->assertEqual( $groups['is_error'], 1 );
-        $this->assertEqual( $groups['error_message'], 'group_id is a required field' );
+        $this->assertEquals( $groups['is_error'], 1 );
+        $this->assertEquals( $groups['error_message'], 'group_id is a required field' );
     }
     
     
@@ -56,11 +58,12 @@ class TestOfGroupContactDeleteAPIV2 extends CiviUnitTestCase
                         'group_id'     => 1 );
         
         
-        $groups = civicrm_group_contact_remove( $params );
+//        $groups = civicrm_group_contact_remove( $params );
+        $this->fail( 'civicrm_group_contact_remove throws fatal error' );
              
-        $this->assertEqual( $groups['is_error'], 0 );
-        $this->assertEqual( $groups['removed'], 1 );
-        $this->assertEqual( $groups['total_count'], 1 );
+        $this->assertEquals( $groups['is_error'], 0 );
+        $this->assertEquals( $groups['removed'], 1 );
+        $this->assertEquals( $groups['total_count'], 1 );
 
     }
 

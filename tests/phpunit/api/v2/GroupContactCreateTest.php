@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/GroupContact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase 
+class api_v2_GroupContactCreateTest extends CiviUnitTestCase 
 {
    
     protected $_contactId;
@@ -19,16 +20,17 @@ class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase
     
     function setUp() 
     {
+        parent::setUp();
         $this->_contactId = $this->individualCreate();
         
     }
     
     function tearDown() 
     {
-        $this->contactGroupDelete( $this->_contactId );
+//        $this->contactGroupDelete( $this->_contactId );
         $this->contactDelete($this->_contactId);
         if (  $this->_contactId1 ){
-            $this->contactGroupDelete( $this->_contactId1 );
+//            $this->contactGroupDelete( $this->_contactId1 );
             $this->contactDelete($this->_contactId1);
         }
             
@@ -39,8 +41,8 @@ class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase
         $params = array( );
         $groups = civicrm_group_contact_add( $params );
         
-        $this->assertEqual( $groups['is_error'], 1 );
-        $this->assertEqual( $groups['error_message'], 'contact_id is a required field' );
+        $this->assertEquals( $groups['is_error'], 1 );
+        $this->assertEquals( $groups['error_message'], 'contact_id is a required field' );
     }
 
     function testCreateGroupContactsWithoutGroupIdParams( ) 
@@ -51,8 +53,8 @@ class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase
         
         $groups = civicrm_group_contact_add( $params );
         
-        $this->assertEqual( $groups['is_error'], 1 );
-        $this->assertEqual( $groups['error_message'], 'group_id is a required field' );
+        $this->assertEquals( $groups['is_error'], 1 );
+        $this->assertEquals( $groups['error_message'], 'group_id is a required field' );
     }
     
     
@@ -72,12 +74,13 @@ class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase
                         'contact_id.2' => $this->_contactId1,
                         'group_id'     => 1 );
         
-        $groups = civicrm_group_contact_add( $params );
+//        $groups = civicrm_group_contact_add( $params );
+        $this->fail( 'civicrm_group_contact_add throws fatal error' );
         
-        $this->assertEqual( $groups['is_error'], 0 );
-        $this->assertEqual( $groups['not_added'], 0 );
-        $this->assertEqual( $groups['added'], 2 );
-        $this->assertEqual( $groups['total_count'], 2 );
+        $this->assertEquals( $groups['is_error'], 0 );
+        $this->assertEquals( $groups['not_added'], 0 );
+        $this->assertEquals( $groups['added'], 2 );
+        $this->assertEquals( $groups['total_count'], 2 );
         
     }
     

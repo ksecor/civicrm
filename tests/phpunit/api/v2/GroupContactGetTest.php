@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/GroupContact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfGroupContactGetAPIV2 extends CiviUnitTestCase 
+class api_v2_GroupContactGetTest extends CiviUnitTestCase 
 {
     private   $_group ; 
     protected $_groupId1;
@@ -19,6 +20,7 @@ class TestOfGroupContactGetAPIV2 extends CiviUnitTestCase
     
     function setUp() 
     {
+        parent::setUp();
         $this->_contactId = $this->individualCreate();
         $this->_groupId1  = $this->groupCreate( );
         $params = array( 'contact_id.1' => $this->_contactId,
@@ -62,8 +64,8 @@ class TestOfGroupContactGetAPIV2 extends CiviUnitTestCase
         $params = array( );
         $groups = civicrm_group_contact_get( $params );
         
-        $this->assertEqual( $groups['is_error'], 1 );
-        $this->assertEqual( $groups['error_message'], 'contact_id is a required field' );
+        $this->assertEquals( $groups['is_error'], 1 );
+        $this->assertEquals( $groups['error_message'], 'contact_id is a required field' );
     }
     
    function testGetGroupContacts( ) 
@@ -72,9 +74,9 @@ class TestOfGroupContactGetAPIV2 extends CiviUnitTestCase
        $groups = civicrm_group_contact_get( $params );
                  
        foreach( $groups as $v  ){ 
-           $this->assertEqual( $v['title'], $this->_group[$v['group_id']]['title'] );
-           $this->assertEqual( $v['visibility'], $this->_group[$v['group_id']]['visibility'] );
-           $this->assertEqual( $v['in_method'], $this->_group[$v['group_id']]['in_method'] );
+           $this->assertEquals( $v['title'], $this->_group[$v['group_id']]['title'] );
+           $this->assertEquals( $v['visibility'], $this->_group[$v['group_id']]['visibility'] );
+           $this->assertEquals( $v['in_method'], $this->_group[$v['group_id']]['in_method'] );
        }
    }
    
