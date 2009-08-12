@@ -34,7 +34,7 @@
             {if $parentID}<a href="javascript:viewRevision({$parentID});">&raquo; {ts}Prompted by{/ts}</a>{/if}
         </td>
     {else}
-        <td colspan="2"{if $smarty.foreach.report.first} class="label"{/if}>{if $row.label eq 'Details'}{$row.value|nl2br}{else}{$row.value}{/if}</td>
+        <td colspan="2"{if $smarty.foreach.report.first} class="label"{/if}>{if $row.label eq 'Details'}{$row.value|nl2br}{elseif $row.type eq 'Date'}{$row.value|crmDate}{else}{$row.value}{/if}</td>
     {/if}
 </tr>
 {/foreach}

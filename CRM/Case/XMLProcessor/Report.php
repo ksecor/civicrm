@@ -388,7 +388,7 @@ WHERE      a.id = %1
                                        'value' => $activityDAO->location,
                                        'type'  => 'String' );
        
-        $activity['fields'][] = array( 'label' => 'Actual Date',
+        $activity['fields'][] = array( 'label' => 'Date and Time',
                                        'value' => $activityDAO->activity_date_time,
                                        'type'  => 'Date' );
         

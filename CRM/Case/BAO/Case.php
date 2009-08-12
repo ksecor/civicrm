@@ -1068,6 +1068,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $activityParams['activity_date_time'] = date('YmdHis');
         $activityParams['status_id']          = CRM_Core_OptionGroup::getValue( 'activity_status', 'Completed', 'name' );
         $activityParams['medium_id']          = CRM_Core_OptionGroup::getValue( 'encounter_medium', 'email', 'name' );
+        $activityParams['case_id']            = $caseId;
         $activityParams['is_auto']            = 0;
         
         $template->assign('activitySubject', $activitySubject);
