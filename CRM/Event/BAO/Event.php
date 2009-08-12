@@ -858,7 +858,8 @@ WHERE civicrm_event.is_active = 1
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             // if pay later or for additional participant than we should use primary email address    
             if ( CRM_Utils_Array::value( 'is_pay_later', $values['params'] ) ||
-                 CRM_Utils_Array::value( 'additionalParticipant', $values['params'] ) )  {
+                 CRM_Utils_Array::value( 'additionalParticipant', $values['params'] ) ||
+                 !CRM_Utils_Array::value( 'is_monetary', $values['event'] ) ) {
                 list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
             } else {
                 // get the billing location type
