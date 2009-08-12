@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Location.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase 
+class api_v2_LocationUpdateTest extends CiviUnitTestCase 
 {
     protected $_contactID;
     
@@ -15,8 +16,10 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
                      );
     }
     
-    function setup( ) 
+    function setUp( ) 
     {
+        parent::setUp();            
+        
         $this->_contactID = $this->organizationCreate( ) ;
     }
 
@@ -24,7 +27,7 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
     {
         $params = array( );
         $result = civicrm_location_update( $params );
-        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1 );
     }
 
 
@@ -33,8 +36,8 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
         $location = "noID";
         
         $locationUpdate =& civicrm_location_update($location);
-        $this->assertEqual( $locationUpdate['is_error'], 1 );
-        $this->assertEqual( $locationUpdate['error_message'], 'missing or invalid location_type_id' );        
+        $this->assertEquals( $locationUpdate['is_error'], 1 );
+        $this->assertEquals( $locationUpdate['error_message'], 'missing or invalid location_type_id' );        
         
     }
 
@@ -43,8 +46,8 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
         $params = array( 'location_type' => 3 );
         $locationUpdate =& civicrm_location_update( $params );
         
-        $this->assertEqual( $locationUpdate['is_error'], 1 );
-        $this->assertEqual( $locationUpdate['error_message'], '$contact is not valid contact datatype' );        
+        $this->assertEquals( $locationUpdate['is_error'], 1 );
+        $this->assertEquals( $locationUpdate['error_message'], '$contact is not valid contact datatype' );        
         $this->assertNotNull( $locationUpdate );
     }
    
@@ -53,9 +56,9 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
         $params    = array( 'contact_id'    => $this->_contactID );
         $locationUpdate =& civicrm_location_update( $params );
 
-        $this->assertEqual( $locationUpdate['is_error'], 1 );
+        $this->assertEquals( $locationUpdate['is_error'], 1 );
         $this->assertNotNull( $locationUpdate );
-        $this->assertEqual( $locationUpdate['error_message'], 'missing or invalid location_type_id' );        
+        $this->assertEquals( $locationUpdate['error_message'], 'missing or invalid location_type_id' );        
     }
 
     function testLocationUpdate()
@@ -83,7 +86,7 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
         
         $locationUpdate =& civicrm_location_update( $params );
         
-        $this->assertEqual( $locationUpdate['is_error'], 0 );
+        $this->assertEquals( $locationUpdate['is_error'], 0 );
     }
     
     function tearDown( ) 

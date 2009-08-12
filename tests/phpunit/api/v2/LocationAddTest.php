@@ -2,8 +2,9 @@
 
 require_once 'api/v2/Contact.php';
 require_once 'api/v2/Location.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfLocationAddAPIV2 extends CiviUnitTestCase 
+class api_v2_LocationAddTest extends CiviUnitTestCase 
 {
     protected $_contactID;
 
@@ -18,6 +19,8 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
 
     function setUp() 
     {
+        parent::setUp();
+    
         $this->_contactID = $this->organizationCreate( ) ;
     }
     
@@ -31,7 +34,7 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
         $params = array();        
         $location = & civicrm_location_add($params);
                     
-        $this->assertEqual( $location['error_message'], 'Input Parameters empty' );
+        $this->assertEquals( $location['error_message'], 'Input Parameters empty' );
     }
 
 
@@ -43,7 +46,7 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
                         );
         $location = & civicrm_location_add($params);
         
-        $this->assertEqual( $location['error_message'], 'Required fields not found for location contact_id' );
+        $this->assertEquals( $location['error_message'], 'Required fields not found for location contact_id' );
     }
 
 
@@ -56,7 +59,7 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
         
         $location = & civicrm_location_add($params);
         
-        $this->assertEqual( $location['error_message'], 'Required fields not found for location location_type' );
+        $this->assertEquals( $location['error_message'], 'Required fields not found for location location_type' );
     }
 
 // from v2.0 onward we don't support location add without location blocks.

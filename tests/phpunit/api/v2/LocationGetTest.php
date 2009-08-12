@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/Contribute.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfLocationGetAPIV2 extends CiviUnitTestCase
+class api_v2_LocationGetTest extends CiviUnitTestCase
 {
     var $_contactId;
     var $_location;
@@ -18,6 +19,8 @@ class TestOfLocationGetAPIV2 extends CiviUnitTestCase
     
     function setUp()
     {
+        parent::setUp();        
+    
         $this->_contactId = $this->individualCreate();
         $this->_location =& $this->locationAdd($this->_contactId);
     }
@@ -26,13 +29,13 @@ class TestOfLocationGetAPIV2 extends CiviUnitTestCase
     {
         // empty params
         $result =& civicrm_location_get(array());
-        $this->assertEqual($result['is_error'], 1);
+        $this->assertEquals($result['is_error'], 1);
         // no contact_id
         $result =& civicrm_location_get(array('location_type' => 'Main'));
-        $this->assertEqual($result['is_error'], 1);
+        $this->assertEquals($result['is_error'], 1);
         // location_type an empty array
         $result =& civicrm_location_get(array('contact_id' => $this->_contactId, 'location_type' => array()));
-        $this->assertEqual($result['is_error'], 1);
+        $this->assertEquals($result['is_error'], 1);
     }
 
     function testGetProper()
@@ -48,7 +51,7 @@ class TestOfLocationGetAPIV2 extends CiviUnitTestCase
         foreach ($result as $location) {
             if ( CRM_Utils_Array::value( 'address', $location ) ) {
                 foreach ($proper as $field => $value) {
-                    $this->assertEqual($location['address'][$field], $value);
+                    $this->assertEquals($location['address'][$field], $value);
                 }
             }
         }
