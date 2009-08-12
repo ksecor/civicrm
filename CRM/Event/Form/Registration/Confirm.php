@@ -905,9 +905,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                                                                          null,
                                                                          $ctype );
         } else {
+            // when we have allow_same_participant_emails = 1
+            // don't take email address in dedupe params - CRM-4886
+            // here we are making dedupe weak - so to make dedupe
+            // more effective please update individual 'Strict' rule.
+            $allowSameEmailAddress = CRM_Utils_Array::value( 'allow_same_participant_emails', $this->_values['event'] );
+            
             require_once 'CRM/Dedupe/Finder.php';
             //Dedupe couldn't recognize "email-Primary".So modify params temporary.
-            if ( CRM_Utils_Array::value('email-Primary', $params) ) {
+            if ( !$allowSameEmailAddress && CRM_Utils_Array::value('email-Primary', $params) ) {
                 $params['email'] = $params['email-Primary'];
             }
             $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
