@@ -200,7 +200,10 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                                                         $this->get( CRM_Utils_Sort::SORT_ID ).$this->get(CRM_Utils_Sort::SORT_DIRECTION),
                                                         CRM_Core_Action::VIEW, 
                                                         $this, 
-                                                        CRM_Core_Selector_Controller::TEMPLATE );
+                                                        CRM_Core_Selector_Controller::TEMPLATE,
+                                                        null,
+                                                        CRM_Utils_Array::value( 3,  $newArgs ) );
+        
         $controller->setEmbedded( true );
         $controller->run( );
         

@@ -1663,7 +1663,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         return $mailingACL;
     }
 
-    static function &mailingACLIDs( $count = false ) {
+    static function &mailingACLIDs( $count = false, $condition = null ) {
         $mailingIDs = array( );
 
         // get all the groups that this user can access
@@ -1680,7 +1680,8 @@ SELECT $selectClause
        civicrm_mailing_group g
  WHERE g.mailing_id   = m.id
    AND g.entity_table = 'civicrm_group'
-   AND g.entity_id IN ( $groupIDs )";
+   AND g.entity_id IN ( $groupIDs )
+   $condition";
             $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             if ( $count ) {
                 $dao->fetch( );

@@ -179,10 +179,26 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      * @return int Total number of rows 
      * @access public
      */
-    function getTotalCount($action)
+    function getTotalCount( $action, $mailingType = null )
     {
+        $condition = null;
+        // get count as per mailing type - CRM-4882
+        if ( $mailingType ) {
+            switch ( $mailingType ) {
+            case 'unscheduled' :
+                $condition = " AND m.scheduled_id IS NULL";
+                break;
+            case 'scheduled' :
+                $condition = " AND m.scheduled_id IS NOT NULL"; 
+                break;
+            case 'archived' :
+                $condition = " AND m.is_archived = 1";
+                break;
+            }
+        }
+        
         require_once 'CRM/Mailing/BAO/Mailing.php';
-        return CRM_Mailing_BAO_Mailing::mailingACLIDs( true );
+        return CRM_Mailing_BAO_Mailing::mailingACLIDs( true, $condition );
     }
 
     /**
