@@ -168,30 +168,17 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             $this->assign( 'replace', $replace     );
         }
         
-        $query="
-SELECT cc.id, cs.pcp_roll_nickname, cc.total_amount
-FROM civicrm_contribution cc LEFT JOIN civicrm_contribution_soft cs on cc.id = cs.contribution_id
-WHERE cs.pcp_id = $this->_id 
-AND cs.pcp_display_in_roll = 1 
-AND contribution_status_id =1 
-AND is_test = 0";
-        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        $honor = array();
+        $honor = CRM_Contribute_BAO_PCP::honorRoll( $this->_id );
         
-        while( $dao->fetch() ) {
-            $honor[$dao->id]['nickname'] = ucwords($dao->pcp_roll_nickname);
-            $honor[$dao->id]['total_amount'] = $dao->total_amount;
-        }
-           
-        if( $file_id = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_EntityFile', $this->_id , 'file_id', 'entity_id') ) {
+        if ( $file_id = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_EntityFile', $this->_id , 'file_id', 'entity_id') ) {
             $image = '<img align="right" style="margin: 10px;" src="'.CRM_Utils_System::url( 'civicrm/file', 
                                                          "reset=1&id=$file_id&eid={$this->_id}" ) . '" />';
             $this->assign('image', $image);
         }
 
         $totalAmount = CRM_Contribute_BAO_PCP::thermoMeter( $this->_id );
-        $achieved = round($totalAmount/$pcpInfo['goal_amount'] *100, 2);
-
+        $achieved    = round($totalAmount/$pcpInfo['goal_amount'] *100, 2);
+        
 
         if ( $linkText = CRM_Contribute_BAO_PCP::getPcpBlockStatus( $pcpInfo['contribution_page_id'] ) ) {
             $linkTextUrl = CRM_Utils_System::url( 'civicrm/contribute/campaign',
