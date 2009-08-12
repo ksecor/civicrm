@@ -189,7 +189,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                 $condition = " AND m.scheduled_id IS NULL";
                 break;
             case 'scheduled' :
-                $condition = " AND m.scheduled_id IS NOT NULL"; 
+                $condition = " AND m.scheduled_id IS NOT NULL AND m.is_archived != 1"; 
                 break;
             case 'archived' :
                 $condition = " AND m.is_archived = 1";
