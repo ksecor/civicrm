@@ -355,8 +355,10 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
         if ( CRM_Utils_Array::value( 'no_parent', $params ) !== 1 ) {
             if ( defined( 'CIVICRM_MULTISITE' ) && CIVICRM_MULTISITE && 
-                 empty($params['parents']) && ( $domainGroupID != $group->id ) ) {
-                // if no parent present, make sure site group goes as parent
+                 empty($params['parents']) && ( $domainGroupID != $group->id ) && 
+                 !CRM_Contact_BAO_GroupNesting::hasParentGroups( $group->id  ) ) {
+                // if no parent present and the group doesn't already have any parents, 
+                // make sure site group goes as parent
                 $params['parents'] = array( $domainGroupID => 1 );
             } else if ( !is_array($params['parents']) ) {
                 $params['parents'] = array( $params['parents'] => 1 );
