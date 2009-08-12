@@ -3,7 +3,7 @@
 require_once 'api/v2/Event.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
 
-class api_v2_EventCreateTest extends CiviUnitTestCase 
+class api_v2_EventTest extends CiviUnitTestCase 
 {
     protected $_params;
     
@@ -37,6 +37,45 @@ class api_v2_EventCreateTest extends CiviUnitTestCase
             'is_active'               => 1,
             'is_show_location'        => 0,
         );
+
+        $params = array(
+                        'title'         => 'Annual CiviCRM meet',
+                        'event_type_id' => 1,
+                        'start_date'    => 20081021,
+                        );
+        $event = civicrm_event_create($params);
+        
+        $this->_eventId = $event['event_id'];
+
+        $this->_event = $this->eventCreate( );
+
+    }
+
+
+    function testGetEventEmptyParams( )
+    {
+        $params = array( );
+        
+        $result = civicrm_event_get( $params );
+        
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Params is not an array' );
+    }
+    
+    function testGetEventById( )
+    {
+        $params = array( 'id' => $this->_event['event_id'] );
+        
+        $result = civicrm_event_get( $params );
+        $this->assertEquals( $result['event_title'], 'Annual CiviCRM meet' );
+    }
+    
+    function testGetEventByEventTitle( )
+    {
+        $params = array( 'title' => 'Annual CiviCRM meet' );
+        
+        $result = civicrm_event_get( $params );
+        $this->assertEquals( $result['id'], $this->_event['event_id'] );
     }
     
     function testCreateEventParamsNotArray( )
@@ -90,10 +129,41 @@ class api_v2_EventCreateTest extends CiviUnitTestCase
         
         civicrm_event_delete( $result );
     }
+
+    function testDeleteWithoutEventId( )
+    {
+        $params = array( );
+        $result =& civicrm_event_delete($params);
+        $this->assertEquals($result['is_error'], 1);
+        
+        // delete the event created for testing
+        $event  = array( 'event_id' => $this->_eventId );
+        $result = civicrm_event_delete( $event );
+    }
+    
+    function testDelete( )
+    {
+        $params = array('event_id' => $this->_eventId);
+        $result =& civicrm_event_delete($params);
+        $this->assertNotEquals($result['is_error'], 1);
+    }
+    
+    function testDeleteWithWrongEventId( )
+    {
+        $params = array('event_id' => $this->_eventId);
+        $result =& civicrm_event_delete($params);
+        // try to delete again - there's no such event anymore
+        $params = array('event_id' => $this->_eventId);
+        $result =& civicrm_event_delete($params);
+        $this->assertEquals($result['is_error'], 1);
+    }
     
     function tearDown() 
     {
-        
+	if ( $this->_eventId ) {
+	    $this->eventDelete( $this->_eventId );
+	}        
+        $this->eventDelete( $this->_event['event_id'] );	
     }
 }
 
