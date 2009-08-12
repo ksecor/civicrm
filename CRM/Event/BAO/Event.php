@@ -890,7 +890,8 @@ WHERE civicrm_event.is_active = 1
             if ( CRM_Utils_Array::value( 'is_pay_later',          $values['params'] ) ||
                  CRM_Utils_Array::value( 'additionalParticipant', $values['params'] ) ||
                  CRM_Utils_Array::value( 'isOnWaitlist',          $values['params'] ) ||
-                 CRM_Utils_Array::value( 'isRequireApproval',     $values['params'] ) ) {
+                 CRM_Utils_Array::value( 'isRequireApproval',     $values['params'] ) ||
+                 !CRM_Utils_Array::value( 'is_monetary',          $values['event']  ) ) {
                 list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
             } else {
                 // get the billing location type
