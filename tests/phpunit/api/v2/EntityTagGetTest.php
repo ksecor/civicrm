@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/EntityTag.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase 
+class api_v2_EntityTagGetTest extends CiviUnitTestCase 
 {
     protected $_individualID;
     
@@ -23,6 +24,8 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     
     function setUp() 
     { 
+        parent::setUp();
+        
         $this->_individualID   = $this->individualCreate( );
         $this->_tagID          = $this->tagCreate( ); 
         $this->_householdID    = $this->houseHoldCreate( );
@@ -33,7 +36,7 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     {
         $paramsEntity = array( );
         $entity       =& civicrm_entity_tag_get( $paramsEntity ); 
-        $this->assertEqual( $entity['is_error'], 1 );
+        $this->assertEquals( $entity['is_error'], 1 );
         $this->assertNotNull( $entity['error_message'] );
     }
     
@@ -46,8 +49,8 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
                            'tag_id'     =>  $tagID );
         
         $individualEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $individualEntity['is_error'], 0 );
-        $this->assertEqual( $individualEntity['added'], 1 );
+        $this->assertEquals( $individualEntity['is_error'], 0 );
+        $this->assertEquals( $individualEntity['added'], 1 );
         
         $paramsEntity = array('contact_id' =>  $ContactId );
         $entity =& civicrm_entity_tag_get( $paramsEntity );
@@ -57,7 +60,7 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     {
         $paramsEntity = array( );
         $entity       =& civicrm_entity_tag_get( $paramsEntity );
-        $this->assertEqual( $entity['is_error'], 1 );
+        $this->assertEquals( $entity['is_error'], 1 );
         $this->assertNotNull( $entity['error_message'] );
     }
 
@@ -71,8 +74,8 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
                            'tag_id'     =>  $tagID );
         
         $householdEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $householdEntity['is_error'], 0 );
-        $this->assertEqual( $householdEntity['added'], 1 );
+        $this->assertEquals( $householdEntity['is_error'], 0 );
+        $this->assertEquals( $householdEntity['added'], 1 );
         
         $paramsEntity = array('contact_id' => $ContactId ); 
         $entity =& civicrm_entity_tag_get( $paramsEntity );
@@ -82,7 +85,7 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     {
         $paramsEntity = array( );
         $entity =& civicrm_entity_tag_get( $paramsEntity ); 
-        $this->assertEqual( $entity['is_error'], 1 );
+        $this->assertEquals( $entity['is_error'], 1 );
         $this->assertNotNull( $entity['error_message'] );
     }
 
@@ -95,8 +98,8 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
                            'tag_id'     =>  $tagID );
         
         $organizationEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $organizationEntity['is_error'], 0 );
-        $this->assertEqual( $organizationEntity['added'], 1 );
+        $this->assertEquals( $organizationEntity['is_error'], 0 );
+        $this->assertEquals( $organizationEntity['added'], 1 );
         
         $paramsEntity = array('contact_id' => $ContactId );
         $entity =& civicrm_entity_tag_get( $paramsEntity ); 

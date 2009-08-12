@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/EntityTag.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase 
+class api_v2_EntityTagRemoveTest extends CiviUnitTestCase 
 {
     public $individualID;
     public $householdID;
@@ -19,6 +20,8 @@ class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase
     
     function setUp( )
     {
+        parent::setUp();
+        
         $this->individualID    = $this->individualCreate( );
         $this->householdID     = $this->householdCreate( );
         $this->organizationID  = $this->organizationCreate( );
@@ -40,8 +43,8 @@ class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase
                         );
                 
         $result = civicrm_entity_tag_remove( $params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'contact_id is a required field' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'contact_id is a required field' );
     }
     
     function testEntityTagRemoveNoTagId( )
@@ -59,8 +62,8 @@ class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase
                         );
                 
         $result = civicrm_entity_tag_remove( $params );
-        $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'tag_id is a required field' );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'tag_id is a required field' );
     }
     
     function testEntityTagRemoveINDHH( )
@@ -79,8 +82,8 @@ class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase
                         );
                 
         $result = civicrm_entity_tag_remove( $params );
-        $this->assertEqual( $result['is_error'], 0 );
-        $this->assertEqual( $result['removed'], 2 );
+        $this->assertEquals( $result['is_error'], 0 );
+        $this->assertEquals( $result['removed'], 2 );
     }    
     
     function testEntityTagRemoveHH( )
@@ -98,7 +101,7 @@ class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase
                         );
                 
         $result = civicrm_entity_tag_remove( $params );
-        $this->assertEqual( $result['removed'], 1 );
+        $this->assertEquals( $result['removed'], 1 );
     }
     
     function testEntityTagRemoveHHORG( )
@@ -117,8 +120,8 @@ class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase
                         );
                 
         $result = civicrm_entity_tag_remove( $params );
-        $this->assertEqual( $result['removed'], 1 );
-        $this->assertEqual( $result['not_removed'], 1 );
+        $this->assertEquals( $result['removed'], 1 );
+        $this->assertEquals( $result['not_removed'], 1 );
     }
     
     function tearDown( )

@@ -1,8 +1,9 @@
 <?php
 
 require_once 'api/v2/EntityTag.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
 
-class TestOfEntityTagAdd extends CiviUnitTestCase 
+class api_v2_EntityTagAddTest extends CiviUnitTestCase 
 {
     protected $_individualID;
 
@@ -21,8 +22,10 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                      );
     }
 
-    function setup( ) 
+    function setUp( ) 
     {
+        parent::setUp();
+
         $this->_individualID = $this->individualCreate( );
         $this->_tagID = $this->tagCreate( ); 
         $this->_householdID = $this->houseHoldCreate( );
@@ -41,8 +44,8 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     {
         $params = array( );                             
         $individualEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $individualEntity['is_error'], 1 ); 
-        $this->assertEqual( $individualEntity['error_message'], 'contact_id is a required field' );
+        $this->assertEquals( $individualEntity['is_error'], 1 ); 
+        $this->assertEquals( $individualEntity['error_message'], 'contact_id is a required field' );
        
     }
     
@@ -51,8 +54,8 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $ContactId =  $this->_individualID;
         $params = array('contact_id' =>  $ContactId);              
         $individualEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $individualEntity['is_error'], 1 );
-        $this->assertEqual( $individualEntity['error_message'], 'tag_id is a required field' );
+        $this->assertEquals( $individualEntity['is_error'], 1 );
+        $this->assertEquals( $individualEntity['error_message'], 'tag_id is a required field' );
     }
     
     function testIndividualEntityTagAdd( ) 
@@ -64,16 +67,16 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                         'tag_id'     =>  $tagID);
         
         $individualEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $individualEntity['is_error'], 0 );
-        $this->assertEqual( $individualEntity['added'], 1 );
+        $this->assertEquals( $individualEntity['is_error'], 0 );
+        $this->assertEquals( $individualEntity['added'], 1 );
     }
     
     function testHouseholdEntityTagAddEmptyParams( ) 
     {
         $params = array( );
         $householdEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $householdEntity['is_error'], 1 );
-        $this->assertEqual( $householdEntity['error_message'], 'contact_id is a required field' );
+        $this->assertEquals( $householdEntity['is_error'], 1 );
+        $this->assertEquals( $householdEntity['error_message'], 'contact_id is a required field' );
     }
     
     function testHouseholdEntityTagAddWithoutTagID( ) 
@@ -81,8 +84,8 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $ContactId = $this->_householdID;
         $params = array('contact_id' =>  $ContactId);
         $householdEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $householdEntity['is_error'], 1 );
-        $this->assertEqual( $householdEntity['error_message'], 'tag_id is a required field' );
+        $this->assertEquals( $householdEntity['is_error'], 1 );
+        $this->assertEquals( $householdEntity['error_message'], 'tag_id is a required field' );
         
     }
     
@@ -95,16 +98,16 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                         'tag_id'     =>  $tagID );
                                
         $householdEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $householdEntity['is_error'], 0 );
-        $this->assertEqual( $householdEntity['added'], 1 );
+        $this->assertEquals( $householdEntity['is_error'], 0 );
+        $this->assertEquals( $householdEntity['added'], 1 );
     }
     
     function testOrganizationEntityTagAddEmptyParams( ) 
     {
         $params = array( );
         $organizationEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $organizationEntity['is_error'], 1 );
-        $this->assertEqual( $organizationEntity['error_message'], 'contact_id is a required field' );
+        $this->assertEquals( $organizationEntity['is_error'], 1 );
+        $this->assertEquals( $organizationEntity['error_message'], 'contact_id is a required field' );
     }
     
     function testOrganizationEntityTagAddWithoutTagID( ) 
@@ -112,8 +115,8 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         $ContactId = $this->_organizationID;
         $params = array('contact_id' =>  $ContactId);
         $organizationEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $organizationEntity['is_error'], 1 );
-        $this->assertEqual( $organizationEntity['error_message'], 'tag_id is a required field' );
+        $this->assertEquals( $organizationEntity['is_error'], 1 );
+        $this->assertEquals( $organizationEntity['error_message'], 'tag_id is a required field' );
     }
         
     function testOrganizationEntityTagAdd( ) 
@@ -125,8 +128,8 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                         'tag_id'     =>  $tagID );
         
         $organizationEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEqual( $organizationEntity['is_error'], 0 );
-        $this->assertEqual( $organizationEntity['added'], 1 );
+        $this->assertEquals( $organizationEntity['is_error'], 0 );
+        $this->assertEquals( $organizationEntity['added'], 1 );
     }
     
     function testEntityTagAddIndividualDouble( ) 
@@ -141,8 +144,8 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
         
         $result = civicrm_entity_tag_add( $params );
         
-        $this->assertEqual( $result['is_error'], 0 );
-        $this->assertEqual( $result['added'],    1 );
+        $this->assertEquals( $result['is_error'], 0 );
+        $this->assertEquals( $result['added'],    1 );
                 
         $params = array(
                         'contact_id_i' => $individualId,
@@ -151,9 +154,9 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
                         );
         
         $result = civicrm_entity_tag_add( $params );
-        $this->assertEqual( $result['is_error'],  0 );
-        $this->assertEqual( $result['added'],     1 );
-        $this->assertEqual( $result['not_added'], 1 );
+        $this->assertEquals( $result['is_error'],  0 );
+        $this->assertEquals( $result['added'],     1 );
+        $this->assertEquals( $result['not_added'], 1 );
     }
     
 }
