@@ -76,7 +76,6 @@ echo "$DM_VERSION Standalone PHP5 $DM_REVISION" > $TRG/civicrm-version.txt
 # gen tarball
 cd $TRG/..
 tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-standalone.tar.gz --exclude l10n --exclude 'civicrm_*.??_??.mysql' civicrm
-tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-l10n.tar.gz --exclude '*.po' --exclude pot civicrm/l10n civicrm/sql/civicrm_*.??_??.mysql
 
 # clean up
 rm -rf $TRG
