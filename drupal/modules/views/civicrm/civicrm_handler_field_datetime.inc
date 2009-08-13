@@ -20,10 +20,11 @@ class civicrm_handler_field_datetime extends views_handler_field_date {
         // get default time zone form Drupal
         $timezone = variable_get('date_default_timezone', 0);
         $value = $values->{$this->field_alias};
-        $date = new DateTime($value);
-        $gmt = $date->getOffset();  //gives me the offset to GMT
 
-        if($value) {
+        
+        if(is_string($value)) {
+            $date = new DateTime($value);
+            $gmt = $date->getOffset();  //gives me the offset to GMT
             $value = strtotime($value);
              //set the timestamp to GMT
             $value = $value + $gmt;

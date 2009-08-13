@@ -17,6 +17,8 @@
    *     CiviCRM Participants Base Table
    *     CiviCRM Contributions Base Table
    *     CiviCRM Activities Base Table
+   *     CiviCRM Relationships Base Table
+   *     CiviCRM Memberships Base Table
    *     Text Links for each Base Table
    *     Custom Data Cache Query and Calls
    *
@@ -89,7 +91,8 @@ function civicrm_views_data() {
                                                                                   ),
                                                      );
 
-    // For other base tables, explain how we join -  
+     // For other base tables, explain how we join -
+
     $data['civicrm_contact']['table']['join']['users'] = array(
            'left_table'   => 'civicrm_uf_match',
            'left_field'   => 'contact_id',
@@ -793,7 +796,7 @@ function civicrm_views_data() {
     //Address name
     $data['civicrm_address']['name'] = array(
                                              'title' => t('Address Name'),
-                                             'help' => t('Name of the address'),
+                                             'help' => t('Be sure addres name is enabled '. l('In Global Settings','civicrm/admin/setting/preferences/address',array('query'=>'reset=1'))),
                                              'field' => array(
                                                               'handler' => 'views_handler_field',
                                                               'click sortable' => TRUE,
@@ -852,12 +855,19 @@ function civicrm_views_data() {
                                                                      'left_field' => 'email_id',
                                                                      'field' => 'id',
                                                                      );
-    //CiviCRM Email Using Contacts as a pitstop before going on to Memberhsips
+   //CiviCRM Email Using Contacts as a pitstop before going on to Memberhsips
     $data['civicrm_email']['table']['join']['civicrm_membership'] = array(
                                                                      'left_table' => 'civicrm_contact',
                                                                      'left_field' => 'id',
                                                                      'field' => 'contact_id',
                                                                      );
+
+    //Display E-mails in User Views
+    $data['civicrm_email']['table']['join']['users'] = array(
+           'left_table'   => 'civicrm_uf_match',
+           'left_field'   => 'contact_id',
+           'field'        => 'contact_id',
+    );
 
     //BOOLEAN : IS PRIMARY EMAIL
     $data['civicrm_email']['is_primary'] = array(
@@ -996,6 +1006,14 @@ function civicrm_views_data() {
                                                                      'left_field' => 'id',
                                                                      'field' => 'contact_id',
                                                                      );
+
+    //Display Phone Details in User Views
+    $data['civicrm_phone']['table']['join']['users'] = array(
+           'left_table'   => 'civicrm_uf_match',
+           'left_field'   => 'contact_id',
+           'field'        => 'contact_id',
+    );
+
 
     //BOOLEAN : IS PRIMARY EMAIL
     $data['civicrm_phone']['is_primary'] = array(
@@ -1383,8 +1401,7 @@ function civicrm_views_data() {
    civicrm_views_add_date_arguments($data['civicrm_event'],array('title' =>'Registration End Date',
                                                                     'name' => 'registration_end_date'));
 
-  
-    // CHILLING OUT AT THE CIVICRM_LOC_BLOCK TABLE
+      // CHILLING OUT AT THE CIVICRM_LOC_BLOCK TABLE
 
     $data['civicrm_loc_block']['table']['group']  = t('CiviCRM Locations');
 
@@ -1396,29 +1413,8 @@ function civicrm_views_data() {
                                                                                  'field' => 'id',
                                                                                  ),
                                                         );
-                                                    
-    //THE NAME OF THE LOCATION
-    $data['civicrm_loc_block']['name'] = array(
-                                               'title' => t('Name'),
-                                               'help' => t('The Name of the Event Location'),
-                                               'field' => array(
-                                                                'handler' => 'views_handler_field',
-                                                                'click sortable' => TRUE,
-                                                                ),
 
-                                               'argument' => array(
-                                                                   'handler' => 'views_handler_argument',
-                                                                   ),
 
-                                               'filter' => array(
-                                                                 'handler' => 'views_handler_filter_string',
-                                                                 ),
-
-                                               'sort' => array(
-                                                               'handler' => 'views_handler_sort',
-                                                               ),
-                                               );
-  
     //----------------------------------------------------------------
     // CIVICRM Participants are here, base tabling it up.
     //----------------------------------------------------------------
@@ -2533,6 +2529,15 @@ function civicrm_views_data() {
                                                            //									  'field' => 'contact_id_b',
                                                            //									  ),
                                                            );
+
+    //Display A->B relationships in User Views
+    $data['civicrm_relationship']['table']['join']['users'] = array(
+           'left_table'   => 'civicrm_uf_match',
+           'left_field'   => 'contact_id',
+           'field'        => 'contact_id_a',
+    );
+
+
   
     //CiviCRM Relationships - FIELDS
   
@@ -2708,6 +2713,15 @@ function civicrm_views_data() {
                                                                                       'field' => 'contact_id',
                                                                                       )
                                                                                       );
+
+    //Display Memberships in User Views
+    $data['civicrm_membership']['table']['join']['users'] = array(
+           'left_table'   => 'civicrm_uf_match',
+           'left_field'   => 'contact_id',
+           'field'        => 'contact_id',
+    );
+
+
 
     //CiviCRM Memberships - FIELDS
   
@@ -2978,6 +2992,191 @@ function civicrm_views_data() {
                                                                        'handler' => 'views_handler_sort',
                                                                        ),
                                                        );
+                                                       
+    /*
+     * Add support for CivicRM groups table
+     */
+
+    $data['civicrm_group']['table']['group']  = t('CiviCRM Groups');
+  
+                                                           
+    $data['civicrm_group']['table']['join']['civicrm_contact'] = array(
+                                                                                  'left_table' => 'civicrm_group_contact',
+                                                                                  'left_field' => 'group_id',
+                                                                                  'field' => 'id',
+                                                                                  );
+
+    $data['civicrm_group_contact']['table']['join']['civicrm_contact'] = array(
+                                                                  // Directly links to group table
+                                                                   'left_field' => 'id',
+                                                                   'field' => 'contact_id',
+                                                                   );
+                                                    
+      //CiviCRM Groups - FIELDS
+
+    //Numeric Group ID
+    $data['civicrm_group']['id'] = array(
+                                                'title' => t('Group ID'),
+                                                'help' => t('The numeric ID of the Group'),
+                                                'field' => array(
+                                                                 'handler' => 'views_handler_field_numeric',
+                                                                 'click sortable' => TRUE,
+                                                                 ),
+
+                                                'argument' => array(
+                                                                    'handler' => 'views_handler_argument_numeric',
+                                                                    'numeric' => TRUE,
+                                                                    ),
+
+                                                'filter' => array(
+                                                                  'handler' => 'views_handler_filter_numeric',
+                                                                  ),
+
+                                                'sort' => array(
+                                                                'handler' => 'views_handler_sort',
+                                                                ),
+                                                );
+    //Is Group Active?
+    $data['civicrm_group']['is_active'] = array(
+                                                'title' => t('Is Active'),
+                                                'help' => t('Is the Group Active'),
+                                                         'field' => array(
+                                                                        'handler' => 'views_handler_field_boolean',
+                                                                        'click sortable' => TRUE,
+                                                                        ),
+
+                                                       'argument' => array(
+                                                                           'handler' => 'views_handler_argument',
+                                                                           ),
+
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_boolean_operator',
+                                                                         ),
+
+                                                       'sort' => array(
+                                                                       'handler' => 'views_handler_sort',
+                                                                       ),
+                                                       );
+
+
+
+    $data['civicrm_group']['title'] = array(
+                                                         'title' => t('Title'),
+                                                         'help' =>  t('Group Title'),
+                                                         'field' => array(
+                                                                          'handler' => 'views_handler_field',
+                                                                          'click sortable' => TRUE,
+                                                                          ),
+                                                         'argument' => array(
+                                                                             'handler' => 'views_handler_argument',
+                                                                             ),
+
+                                                         'filter' => array(
+                                                                           'handler' => 'civicrm_handler_filter_group_title',
+                                                                           ),
+
+
+                                                         'sort' => array(
+                                                                         'handler' => 'views_handler_sort',
+                                                                         ),
+                                                            );
+    $data['civicrm_group']['description'] = array(
+                                                         'title' => t('Description'),
+                                                         'help' =>  t('Description of the Group'),
+                                                         'field' => array(
+                                                                          'handler' => 'views_handler_field',
+                                                                          'click sortable' => TRUE,
+                                                                          ),
+
+                                                         'argument' => array(
+                                                                             'handler' => 'views_handler_argument',
+                                                                             ),
+
+                                                         'sort' => array(
+                                                                         'handler' => 'views_handler_sort',
+                                                                         ),
+                                                            );
+    /*
+     * Add support for CivicRM tags
+     */
+    $data['civicrm_tag']['table']['group']  = t('CiviCRM Tags');
+
+    $data['civicrm_tag']['table']['join']['civicrm_contact'] = array(
+                                                                                  'left_table' => 'civicrm_entity_tag',
+                                                                                  'left_field' => 'tag_id',
+                                                                                  'field' => 'id',
+                                                                                  );
+
+    $data['civicrm_entity_tag']['table']['join']['civicrm_contact'] = array(
+                                                                  // Directly links to group table
+                                                                   'left_field' => 'id',
+                                                                   'field' => 'contact_id',
+                                                                   );
+
+
+     //CiviCRM Groups - FIELDS
+
+    //Numeric Group ID
+    $data['civicrm_tag']['id'] = array(
+                                                'title' => t('Tag ID'),
+                                                'help' => t('The numeric ID of the Group'),
+                                                'field' => array(
+                                                                 'handler' => 'views_handler_field_numeric',
+                                                                 'click sortable' => TRUE,
+                                                                 ),
+
+                                                'argument' => array(
+                                                                    'handler' => 'views_handler_argument_numeric',
+                                                                    'numeric' => TRUE,
+                                                                    ),
+
+                                                'filter' => array(
+                                                                  'handler' => 'views_handler_filter_numeric',
+                                                                  ),
+
+                                                'sort' => array(
+                                                                'handler' => 'views_handler_sort',
+                                                                ),
+                                                );
+
+    $data['civicrm_tag']['name'] = array(
+                                                         'title' => t('Name'),
+                                                         'help' =>  t('Name of Tag'),
+                                                         'field' => array(
+                                                                          'handler' => 'views_handler_field',
+                                                                          'click sortable' => TRUE,
+                                                                          ),
+
+                                                         'argument' => array(
+                                                                             'handler' => 'views_handler_argument',
+                                                                             ),
+
+                                                         'filter' => array(
+                                                                  'handler' => 'civicrm_handler_filter_tag_title',
+                                                                  ),
+
+                                                         'sort' => array(
+                                                                         'handler' => 'views_handler_sort',
+                                                                         ),
+                                                            );
+    $data['civicrm_tag']['description'] = array(
+                                                         'title' => t('Description'),
+                                                         'help' =>  t('Description of the Tag'),
+                                                         'field' => array(
+                                                                          'handler' => 'views_handler_field',
+                                                                          'click sortable' => TRUE,
+                                                                          ),
+
+                                                         'argument' => array(
+                                                                             'handler' => 'views_handler_argument',
+                                                                             ),
+
+                                                         'sort' => array(
+                                                                         'handler' => 'views_handler_sort',
+                                                                         ),
+                                                            );
+
+
     //Activity Text Link
     $data['civicrm_activity']['text_link'] =
         array(
@@ -3474,6 +3673,12 @@ function civicrm_views_handlers() {
                                                                     'parent' => 'views_handler_filter_in_operator',
                                                                     ),
                        'civicrm_handler_filter_participant_status' => array(
+                                                                            'parent' => 'views_handler_filter_in_operator',
+                                                                            ),
+                       'civicrm_handler_filter_group_title'=> array(
+                                                                            'parent' => 'views_handler_filter_in_operator',
+                                                                            ),
+                       'civicrm_handler_filter_tag_title' => array(
                                                                             'parent' => 'views_handler_filter_in_operator',
                                                                             ),
                        'civicrm_handler_filter_participant_role' => array(
