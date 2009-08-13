@@ -690,6 +690,7 @@ class CRM_Contact_BAO_Query
             $locationTypeJoin = array( );
             
             $addAddress = false;
+            $addWhereCount = 0;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
                 $elementName = $elementCmpName = $elementFullName;
@@ -707,7 +708,7 @@ class CRM_Contact_BAO_Query
                     $this->_element["{$tName}_id"] = 1; 
                     $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.contact_id = contact_a.id AND $aName.$lCond)";
                     $this->_tables[ $tName ] = $addressJoin;
-                    $locationTypeJoin[] = " ( $aName.location_type_id = $ltName.id ) ";
+                    $locationTypeJoin[$tName] = " ( $aName.location_type_id = $ltName.id ) ";
                     $processed[$aName] = 1;
                     $addAddress = true;
                 }
@@ -770,8 +771,11 @@ class CRM_Contact_BAO_Query
                     }
 
                     foreach ( $this->_params as $id => $values ) {
-                        if ( $values[0] == $nm ) {
+                        if ( $values[0] == $nm ||
+                             ( in_array( $elementName, array('phone', 'im') ) 
+                               && ( strpos( $values[0], $nm ) !== false ) ) ) {
                             $addWhere = true;
+                            $addWhereCount++;
                             break;
                         }
                     }
@@ -822,7 +826,7 @@ class CRM_Contact_BAO_Query
                                 }
 
                                 //build locationType join
-                                $locationTypeJoin[] = " ( `$tName`.location_type_id = $ltName.id )";
+                                $locationTypeJoin[$tName] = " ( `$tName`.location_type_id = $ltName.id )";
                                 
                                 if ( $addWhere ) {
                                     $this->_whereTables[$tName] = $this->_tables[$tName];
@@ -868,8 +872,20 @@ class CRM_Contact_BAO_Query
             $ltypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ( " . implode( 'OR', $locationTypeJoin ) . " )";
             $this->_tables[ $locationTypeName ] = $ltypeJoin;
             
-            if ( $addWhere ) {
-                $this->_whereTables[ $locationTypeName ] = $this->_tables[ $locationTypeName ];
+            // table should be present in $this->_whereTables,
+            // to add its condition in location type join, CRM-3939.
+            if ( $addWhereCount ) {
+                $locClause = array( );
+                foreach ( $this->_whereTables as $tableName => $clause ) {
+                    if ( CRM_Utils_Array::value( $tableName, $locationTypeJoin ) ) {
+                        $locClause[] = $locationTypeJoin[$tableName];  
+                    }
+                }
+                
+                if ( !empty( $locClause ) ) {
+                    $this->_whereTables[$locationTypeName] = 
+                        "\nLEFT JOIN civicrm_location_type $ltName ON ( " . implode( 'OR', $locClause ) . " )";
+                }
             }
         }
     }
