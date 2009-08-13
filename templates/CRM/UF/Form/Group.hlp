@@ -61,7 +61,7 @@
 {elseif $config->userFramework EQ 'Joomla'}
     This feature requires the 'Allow User Registration' setting to be 'Yes' in Joomla Global Configuration >> System Settings. 
 {/if}
-In addition, you must include a Primary Email Address field in the profile.{/ts} {docURL page="How to Create Profiles"}</dd>
+In addition, you must include a Primary Email Address field in the profile.{/ts} {docURL page="How to Create Profiles"}
 {/htxt}
 
 {htxt id='id-is_update_dupe'}
