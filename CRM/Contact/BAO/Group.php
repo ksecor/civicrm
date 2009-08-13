@@ -115,6 +115,12 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $query = "update civicrm_uf_group SET `limit_listings_group_id`= NULL where `limit_listings_group_id` = %1";
         CRM_Core_DAO::executeQuery( $query, $params );
 
+        if ( defined( 'CIVICRM_MULTISITE' ) && CIVICRM_MULTISITE ) {
+            // clear any descendant groups cache if exists
+            require_once 'CRM/Core/BAO/Cache.php';
+            $finalGroups =& CRM_Core_BAO_Cache::deleteGroup( 'descendant groups for an org' );
+        }
+
         // delete from group table
         $group =& new CRM_Contact_DAO_Group( );
         $group->id = $id;
@@ -370,6 +376,10 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
                     CRM_Contact_BAO_GroupNesting::add( $parentId, $group->id );
                 }
             }
+
+            // clear any descendant groups cache if exists
+            require_once 'CRM/Core/BAO/Cache.php';
+            $finalGroups =& CRM_Core_BAO_Cache::deleteGroup( 'descendant groups for an org' );
 
             // this is always required, since we don't know when a 
             // parent group is removed
