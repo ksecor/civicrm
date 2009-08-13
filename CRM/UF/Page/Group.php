@@ -336,6 +336,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         switch ( $context ) {
         case 'group':
             $url = CRM_Utils_System::url( 'civicrm/admin/uf/group', 'reset=1&action=browse' );
+
+            // as there is no argument after group in the url, and the context is different, 
+            // breadcrumb doesn't get set. And therefore setting it here -
+            $breadCrumb = array(array('title' => ts('CiviCRM Profile'),
+                                      'url'   => CRM_Utils_System::url(CRM_Utils_System::currentPath(), 'reset=1')));
+            CRM_Utils_System::appendBreadCrumb( $breadCrumb );
             break;
         case 'field' :
             $url = CRM_Utils_System::url( 'civicrm/admin/uf/group/field',
