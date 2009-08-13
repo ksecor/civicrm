@@ -231,15 +231,22 @@ class InstallRequirements {
                     $databaseConfig['password'],
                     $databaseConfig['database'],
                     array("MySQL $dbName Configuration",
-                                                "Can I access/create InnoDB tables in the database",
-                                                "Unable to create InnoDB tables. MySQL InnoDB support is required for CiviCRM but is either not available or not enabled in this MySQL database server." ) );
+                          "Can I access/create InnoDB tables in the database",
+                          "Unable to create InnoDB tables. MySQL InnoDB support is required for CiviCRM but is either not available or not enabled in this MySQL database server." ) );
                 $this->requireMySQLTempTables($databaseConfig['server'],
                     $databaseConfig['username'],
                     $databaseConfig['password'],
                     $databaseConfig['database'],
                     array("MySQL $dbName Configuration",
-                                                    'Can I create temporary tables in the database',
-                                                    'Unable to create temporary tables. This MySQL user is missing the CREATE TEMPORARY TABLES privilege.'));
+                          'Can I create temporary tables in the database',
+                          'Unable to create temporary tables. This MySQL user is missing the CREATE TEMPORARY TABLES privilege.'));
+                $this->requireMySQLLockTables($databaseConfig['server'],
+                    $databaseConfig['username'],
+                    $databaseConfig['password'],
+                    $databaseConfig['database'],
+                    array("MySQL $dbName Configuration",
+                          'Can I create lock tables in the database',
+                          'Unable to lock tables. This MySQL user is missing the LOCK TABLES privilege.'));
             }
         }
     }
@@ -552,6 +559,49 @@ class InstallRequirements {
             $this->error($testDetails);
         }
         $result = mysql_query('DROP TEMPORARY TABLE civicrm_install_temp_table_test');
+    }
+
+    function requireMySQLLockTables($server, $username, $password, $database, $testDetails) {
+        $this->testing($testDetails);
+        $conn = @mysql_connect($server, $username, $password);
+        if (!$conn) {
+            $testDetails[2] = 'Could not login to the database.';
+            $this->error($testDetails);
+            return;
+        }
+
+        if (! @mysql_select_db($database,$conn)) {
+            $testDetails[2] = 'Could not select the database.';
+            $this->error($testDetails);
+            return;
+        }
+
+        $result = mysql_query('CREATE TABLE civicrm_install_temp_table_test (test text)', $conn);
+        if (!$result) {
+            $testDetails[2] = 'Could not create a table.';
+            $this->error($testDetails);
+            return;
+        }
+
+        $result = mysql_query('LOCK TABLES civicrm_install_temp_table_test WRITE', $conn);
+        if (!$result) {
+            $testDetails[2] = 'Could not obtain a write lock for the table.';
+            $this->error($testDetails);
+            $result = mysql_query('DROP TEMPORARY TABLE civicrm_install_temp_table_test');
+            return;
+        }
+
+        $result = mysql_query('UNLOCK TABLES', $conn);
+        if (!$result) {
+            $testDetails[2] = 'Could not release the lock for the table.';
+            $this->error($testDetails);
+            $result = mysql_query('DROP TEMPORARY TABLE civicrm_install_temp_table_test');
+            return;
+        }
+
+        $result = mysql_query('DROP TEMPORARY TABLE civicrm_install_temp_table_test');
+        return;
+        
     }
 
     function requireDatabaseOrCreatePermissions($server, $username, $password, $database, $testDetails, $onlyRequire = false) {
