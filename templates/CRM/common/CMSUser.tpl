@@ -18,7 +18,7 @@
 	 <table class="form-layout-compressed">
 	    <tr>
 	       <td>{$form.cms_name.label}</td>
-	       <td>{$form.cms_name.html} <a id="checkavailability" href="#">{ts}<strong>Check Availability</strong>{/ts}</a>
+	       <td>{$form.cms_name.html} <a id="checkavailability" href="#" onClick="return false;">{ts}<strong>Check Availability</strong>{/ts}</a>
 	          <span id="msgbox" style="display:none"></span><br />
 	          <span class="description">{ts}Your preferred username; punctuation is not allowed except for periods, hyphens, and underscores.{/ts}</span>
 	       </td>
@@ -115,7 +115,7 @@
 	 }, "json");
 	 lastName = cmsUserName;
       } else {
-	 cj("#msgbox").removeClass().text('').fadeIn("fast");
+	 cj("#msgbox").removeClass().text('').css({"backgroundColor":"#FFFFFF", "border": "0px #FFFFFF"}).fadeIn("fast");
       }
    });
 
