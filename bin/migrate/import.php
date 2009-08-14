@@ -180,7 +180,7 @@ function run( ) {
     session_start( );
 
     if ( ! array_key_exists( 'file', $_GET ) ||
-         is_empty( $_GET['file'] ) ) {
+         empty( $_GET['file'] ) ) {
         echo "Please send an input file to import<p>";
         exit( );
     }
