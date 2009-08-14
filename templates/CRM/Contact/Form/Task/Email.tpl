@@ -52,7 +52,8 @@ var toContact  = ccContact = bccContact = '';
 {foreach from=","|explode:"cc,bcc" key=key item=element}
 	{assign var=currentElement value=`$element`_id}
 	{foreach from=","|explode:$form.$currentElement.value key=id item=email}
-		{if $email}
+                {* make sure email is valid to build object. *} 
+		{if $email|strpos:'@'}
 			{$element}{literal}Contact += '{"name":"'+{/literal}"{$email|replace:'"':''}"{literal}+'","id":"'+{/literal}"{$email|replace:'"':''}"{literal}+'"},';{/literal}
 		{/if}
 	{/foreach}
