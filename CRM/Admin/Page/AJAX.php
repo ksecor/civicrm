@@ -91,7 +91,7 @@ class CRM_Admin_Page_AJAX
                 if (!empty($usedBy)) {
                     $template =& CRM_Core_Smarty::singleton( );
                     $template->assign( 'usedBy', $usedBy );
-                    $show   = "none";
+                    $show   = "noButton";
                     $table  = $template->fetch( 'CRM/Price/Page/table.tpl' );
                     $status = ts('Unable to disable the \'%1\' price set - it is currently in use by one or more active events. If you no longer want to use this price set, click the event title below, and modify the fees for that event.', array(1 => $priceSet)) . "<br/> $table";
                 } else {
