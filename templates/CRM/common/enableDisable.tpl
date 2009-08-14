@@ -77,13 +77,23 @@ function enableDisable( recordID, recordBAO, op ) {
         	},
 
 		open:function() {
-       		var postUrl = {/literal}"{crmURL p='civicrm/ajax/statusmsg' h=0 }"{literal};
-		    cj.post( postUrl, { recordID: recordID, recordBAO: recordBAO, op: op  }, function( statusMessage ) {
-			    if ( statusMessage.status ) {
-	     		        var confirmMsg = statusMessage.status;
- 			        cj( '#enableDisableStatusMsg' ).show( ).html( confirmMsg );
-       	     		    } 
-	       	    }, 'json' );
+       		        var postUrl = {/literal}"{crmURL p='civicrm/ajax/statusmsg' h=0 }"{literal};
+		        cj.post( postUrl, { recordID: recordID, recordBAO: recordBAO, op: op  }, function( statusMessage ) {
+			        if ( statusMessage.status ) {
+ 			            cj( '#enableDisableStatusMsg' ).show( ).html( statusMessage.status );
+       	     		        }
+				if ( statusMessage.show == "none" ) {
+				    cj.extend( cj.ui.dialog.prototype, {
+			               	      'removebutton': function(buttonName) {
+				                      var buttons = this.element.dialog('option', 'buttons');
+						      delete buttons[buttonName];
+						      this.element.dialog('option', 'buttons', buttons);
+        				      }
+				    });
+				    cj('#enableDisableStatusMsg').dialog('removebutton', 'Cancel'); 
+				    cj('#enableDisableStatusMsg').dialog('removebutton', 'Ok'); 
+       			    }  
+	       	        }, 'json' );
 		},
 	
 		buttons: { 
