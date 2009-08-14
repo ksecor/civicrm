@@ -181,14 +181,14 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                 'contact_id_b' => 
                                 array( 'title'      => ts('Retaionship With'),
                                        'default'    => true ),
-                                /* 'relationship_start_date' => 
-                                 array( 'name'    => 'start_date',
-                                 'title'   => 'Start Date',
+                                'start_date' => 
+                                array( 'title'   => 'Start Date ',
+                                       'type'    => CRM_Report_Form::OP_DATE
                                  ),
-                                 'relationship_end_date' => 
-                                 array( 'name'    => 'end_date',
-                                 'title'   => 'End Date',
-                                 ),*/
+                                'end_date' => 
+                                array( 'title'   => 'End Date ',
+                                       'type'    => CRM_Report_Form::OP_DATE
+                                 ),
                                 ),),
                    
                    'civicrm_activity'   =>

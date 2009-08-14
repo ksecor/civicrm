@@ -437,7 +437,7 @@ LEFT  JOIN (
             }
         }
         
-        if ( !empty( $fields['gid_value'] ) ) {
+        if ( !empty( $fields['gid_value'] ) && CRM_Utils_Array::value( 'group_bys', $fields ) ) {
             if ( !array_key_exists( 'id', $fields['group_bys'] ) ) {
                 $errors['gid_value'] = ts("Filter with Group only allow with group by Contact");
             }

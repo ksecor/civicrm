@@ -353,14 +353,27 @@ class CRM_Report_Form_ActivitySummary extends CRM_Report_Form {
     function formRule ( &$fields, &$files, $self ) {
         $errors = array();
         $contactFields = array( 'display_name', 'email', 'phone' );
-        if ( $fields['group_bys']['activity_date_time'] ) {
-            if( $fields['group_bys']['display_name'] ) {
-                $errors['fields'] = ts("Please do not select GroupBy 'Activity Date' with GroupBy 'Contact'");
-            } else {
+        if ( CRM_Utils_Array::value( 'group_bys', $fields ) ) {
+            
+            if ( CRM_Utils_Array::value( 'activity_type_id', $fields['group_bys'] ) &&
+                 !CRM_Utils_Array::value( 'display_name', $fields['group_bys'] ) ) {
                 foreach ( $fields['fields'] as $fieldName => $val ) {
-                    if( in_array( $fieldName, $contactFields )) {
-                        $errors['fields'] = ts("Please do not select Contact Fields with GroupBy 'Activity Date'");
+                    if ( in_array( $fieldName, $contactFields ) ) {
+                        $errors['fields'] = ts("Please select GroupBy 'Contact' to display Contact Fields");
                         break;
+                    }
+                }
+            }
+            
+            if ( CRM_Utils_Array::value( 'activity_date_time', $fields['group_bys'] ) ) {
+                if ( CRM_Utils_Array::value( 'display_name', $fields['group_bys'] ) ) {
+                    $errors['fields'] = ts("Please do not select GroupBy 'Activity Date' with GroupBy 'Contact'");
+                } else {
+                    foreach ( $fields['fields'] as $fieldName => $val ) {
+                        if ( in_array( $fieldName, $contactFields ) ) {
+                            $errors['fields'] = ts("Please do not select any Contact Fields with GroupBy 'Activity Date'");
+                            break;
+                        }
                     }
                 }
             }
