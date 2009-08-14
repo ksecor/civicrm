@@ -81,7 +81,7 @@ var toDataUrl     = "{/literal}{crmURL p='civicrm/ajax/checkemail' q='id=1' h=0 
 {/literal}
 {if $form.to.value}
 {literal}
-	toContact = cj.ajax({ url: toDataUrl + "&cid={/literal}{$form.to.value|substr:0:-1}{literal}", async: false }).responseText;
+	toContact = cj.ajax({ url: toDataUrl + "&cid={/literal}{$form.to.value}{literal}", async: false }).responseText;
 {/literal}
 {/if}
 {literal}

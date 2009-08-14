@@ -273,9 +273,14 @@ $.TokenList = function (input, settings) {
         
         // Don't show the help dropdown, they've got the idea
         hide_dropdown();
-
-        // Save this token id
-        var id_string = li_data.id + ","
+	
+	//var id_string = li_data.id + ","
+	// remove trailing comma.
+        var id_string = li_data.id; 
+	if ( hidden_input.val( ) ) {
+	    id_string = ',' + id_string;
+	}
+	
         hidden_input.val(hidden_input.val() + id_string);
     }
     
@@ -303,9 +308,15 @@ $.TokenList = function (input, settings) {
 					
 					// Don't show the help dropdown, they've got the idea
 					hide_dropdown();
-
-					// Save this token id
-					var id_string = li_data[i].id + ","
+					
+					//var id_string = li_data[i].id + ","
+                                        // remove trailing comma. 
+                                        var id_string = li_data[i].id;
+					if ( hidden_input.val( ) ) {
+					    id_string = ',' + id_string;    
+					}
+					    
+					// Save this token id    
 					hidden_input.val(hidden_input.val() + id_string);
 				}
             }

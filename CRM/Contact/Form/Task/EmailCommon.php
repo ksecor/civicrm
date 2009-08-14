@@ -244,9 +244,9 @@ class CRM_Contact_Form_Task_EmailCommon
     static function postProcess( &$form ) 
     {
         $formValues = $form->controller->exportValues( $form->getName( ) );
-               
+        
         if ( CRM_Utils_Array::value( 'to', $formValues ) ) {
-            $toContacts        = substr( $formValues['to'], 0, -1 );
+            $toContacts        = $formValues['to'];
             $form->_contactIds = explode( ',', $toContacts );
             if ( count($form->_contactIds) == 1 ){
                 list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toContacts );
