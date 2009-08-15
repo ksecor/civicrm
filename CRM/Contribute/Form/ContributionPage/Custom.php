@@ -113,17 +113,25 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
         $ufJoinParams = array( 'is_active'    => 1, 
                                'module'       => 'CiviContribute',
                                'entity_table' => 'civicrm_contribution_page', 
-                               'entity_id'    => $this->_id, 
-                               'weight'       => 1, 
-                               'uf_group_id'  => $params['custom_pre_id'] ); 
+                               'entity_id'    => $this->_id );
 
         require_once 'CRM/Core/BAO/UFJoin.php';
-        CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+        // first delete all past entries
+        CRM_Core_BAO_UFJoin::deleteAll( $ufJoinParams );
+
+        if ( ! empty( $params['custom_pre_id'] ) ) {
+            $ufJoinParams['weight'     ] = 1;
+            $ufJoinParams['uf_group_id'] = $params['custom_pre_id'];
+            CRM_Core_BAO_UFJoin::create( $ufJoinParams );
+        }
 
         unset( $ufJoinParams['id'] );
-        $ufJoinParams['weight'     ] = 2; 
-        $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
-        CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+
+        if ( ! empty( $params['custom_post_id'] ) ) {
+            $ufJoinParams['weight'     ] = 2; 
+            $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
+            CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+        }
 
         $transaction->commit( ); 
     }

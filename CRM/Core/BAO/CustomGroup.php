@@ -1549,7 +1549,9 @@ SELECT $select
             }
 
             $options = array( );
-            if ( is_object( $coDAO ) ) {
+
+            CRM_Core_Error::debug( $coDAO );
+            if ( 'COD', is_object( $coDAO ) ) {
                 while ( $coDAO->fetch( ) ) {
                     $options[$coDAO->value] = $coDAO->label;
                 }
