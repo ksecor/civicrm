@@ -85,7 +85,7 @@
             <fieldset>
             <table class="form-layout-compressed">
                 <tr>
-                    <td class="label">{$form.note.label}</td><td>{$form.note.html}</td>
+                    <td class="label">&nbsp;</td><td class="label">{$form.note.label}</td><td>{$form.note.html}</td>
                 </tr>
             </table>
             </fieldset>
