@@ -199,6 +199,7 @@ function run( ) {
     // clean up all caches etc
     CRM_Core_Config::clearDBCache( );
 
+    echo "Import Done!";
 }
 
 run( );

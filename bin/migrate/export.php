@@ -206,7 +206,10 @@ function run( ) {
 
     $export = new bin_migrate_export( );
 
+    echo "Export Done!";
+
     $export->run( );
+
 }
 
 run( );
