@@ -13,7 +13,7 @@
         </h3>
         <div class='html'>
             {if $editor EQ 'textarea'}
-                <span class="description">{ts}If you are composing HTML-formatted messages, you may want to enable a WYSIWYG editor (Administer CiviCRM &raquo; Global Settings &raquo; Site Preferences).{/ts}</span><br />
+                <div class="help description">{ts}NOTE: If you are composing HTML-formatted messages, you may want to enable a Rich Text (WYSIWYG) editor (Administer CiviCRM &raquo; Global Settings &raquo; Site Preferences).{/ts}</div>
             {/if}
             {$form.html_message.html}<br />
         </div>
