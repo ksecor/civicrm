@@ -204,7 +204,7 @@ cj(document).ready( function( ) { cj( '#organization_id' ).val("{/literal}{$memb
 {* Javascript method to populate the location fields when a different existing related contact is selected *}
 {literal}
 var dataUrl   = "{/literal}{$employerDataURL}{literal}";
-cj('#organization_id').autocomplete( dataUrl, { width : 180, selectFirst : false
+cj('#organization_id').autocomplete( dataUrl, { width : 180, selectFirst : false, matchContains: true
                             }).result( function(event, data, formatted) {
                                              cj('#onbehalfof_id').val( data[1]);
                                              var locationUrl = {/literal}"{$locDataURL}"{literal}+ data[1]; 

@@ -6,7 +6,7 @@ cj( function( ) {
     var custom_id = "{/literal}#{$element_name}_id{literal}";
     
     if ( !cj(custom).hasClass('ac_input') ) {
-        cj(custom).autocomplete( url, { width : 250, selectFirst : false
+        cj(custom).autocomplete( url, { width : 250, selectFirst : false, matchContains: true
         }).result( 
             function(event, data, formatted) { 
                 cj( custom_id ).val( data[1] );

@@ -185,7 +185,7 @@
     }
     var url = "{/literal}{$dataUrl}{literal}";
 
-    cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false
+    cj('#soft_credit_to').autocomplete( url, { width : 180, selectFirst : false, matchContains: true
         }).result( function(event, data, formatted) { cj( "#soft_contact_id" ).val( data[1] );
     });
     {/literal}

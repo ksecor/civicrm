@@ -114,7 +114,7 @@
 
 var dataUrl = "{/literal}{$groupOrgDataURL}{literal}";
 cj('#organization').autocomplete( dataUrl, {
-					    width : 250, selectFirst : false 
+					    width : 250, selectFirst : false, matchContains: true  
 					    }).result( function(event, data, formatted) {
                                                        cj( "#organization_id" ).val( data[1] );
                                                        htmlDiv = data[0].replace( /::/gi, ' ');

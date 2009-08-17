@@ -77,7 +77,7 @@ cj(document).ready( function() {
 {literal}
 var dataUrl = "{/literal}{$employerDataURL}{literal}";
 var newContactText = "{/literal}({ts}new contact record{/ts}){literal}";
-cj('#current_employer').autocomplete( dataUrl, { width : 250, selectFirst : false, matchCase : true
+cj('#current_employer').autocomplete( dataUrl, { width : 250, selectFirst : false, matchCase : true, matchContains: true
 }).result( function(event, data, formatted) {
     cj( "#current_employer_id" ).val( data[1] );
     htmlDiv = ( !parseInt (data[1]) ) ? newContactText : data[0].replace( /::/gi, ' ');

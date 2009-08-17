@@ -66,15 +66,15 @@ var eventUrl = "{/literal}{$dataURLEvent}{literal}";
 var typeUrl  = "{/literal}{$dataURLEventType}{literal}";
 var feeUrl   = "{/literal}{$dataURLEventFee}{literal}";
 
-cj('#event_name').autocomplete( eventUrl, { width : 280, selectFirst : false
+cj('#event_name').autocomplete( eventUrl, { width : 280, selectFirst : false, matchContains: true
                             }).result( function(event, data, formatted) { cj( "#event_id" ).val( data[1] );
                             }).bind( 'click', function( ) { cj( "#event_id" ).val(''); });
 
-cj('#event_type').autocomplete( typeUrl, { width : 180, selectFirst : false
+cj('#event_type').autocomplete( typeUrl, { width : 180, selectFirst : false, matchContains: true
                                }).result(function(event, data, formatted) { cj( "#event_type_id" ).val( data[1] );
                                }).bind( 'click', function( ) { cj( "#event_type_id" ).val(''); });
 
-cj('#participant_fee_level').autocomplete( feeUrl, { width : 180, selectFirst : false
+cj('#participant_fee_level').autocomplete( feeUrl, { width : 180, selectFirst : false, matchContains: true
                                          }).result(function(event, data, formatted) { cj( "#participant_fee_id" ).val( data[1] );
                                          }).bind( 'click', function( ) { cj( "#participant_fee_id" ).val(''); });
 </script>

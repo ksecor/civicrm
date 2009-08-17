@@ -47,7 +47,8 @@ cj( function() {
 
     cj( '#sort_name' ).autocomplete( contactUrl, {
         width: 200,
-        selectFirst: false 
+        selectFirst: false,
+        matchContains: true 	 
     }).result(function(event, data, formatted) {
         cj("#sort_contact_id").val(data[1]);
     });    

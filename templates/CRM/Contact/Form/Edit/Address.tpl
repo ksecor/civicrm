@@ -103,7 +103,7 @@ cj(document).ready( function() {
 
 var dataUrl = "{/literal}{$housholdDataURL}{literal}";
 var newContactText = "{/literal}({ts}new contact record{/ts}){literal}";
-cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : false, matchCase : true
+cj('#shared_household').autocomplete( dataUrl, { width : 320, selectFirst : false, matchCase : true, matchContains: true
 }).result( function(event, data, formatted) { 
     if( isNaN( data[1] ) ){
         cj( "span#show_address" ).html( newContactText ); 

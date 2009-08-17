@@ -128,7 +128,8 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 
 			cj("#rel_contact").autocomplete( contactUrl, {
 				width: 260,
-				selectFirst: false 
+				selectFirst: false,
+	                        matchContains: true 
 			});
 			
 			cj("#rel_contact").focus();
@@ -324,7 +325,8 @@ function addRole() {
 
 			cj("#role_contact").autocomplete( contactUrl, {
 				width: 260,
-				selectFirst: false 
+				selectFirst: false,
+				matchContains: true 
 			});
 			
 			cj("#role_contact").focus();

@@ -84,7 +84,7 @@
                         if( relType ) {
                              cj('#name').unbind( 'click' );
                              var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="rel="}'{literal} + relType;
-                             cj('#name').autocomplete( dataUrl, { width : 180, selectFirst : false });
+                             cj('#name').autocomplete( dataUrl, { width : 180, selectFirst : false, matchContains: true });
                         } else { 
                             cj('#name').unautocomplete( );
                             cj('#name').click( function() { alert( 'First Select Relationship Type ...' );});

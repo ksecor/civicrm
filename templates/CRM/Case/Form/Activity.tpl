@@ -32,7 +32,7 @@ var sourceDataUrl = "{/literal}{$dataUrl}{literal}";
 
 cj( "#assignee_contact_id").tokenInput( sourceDataUrl, { prePopulate: assignee_contact, classes: tokenClass });
 
-cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirst : false
+cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirst : false, matchContains:true
                             }).result( function(event, data, formatted) { cj( "#source_contact_qid" ).val( data[1] );
                             }).bind( 'click', function( ) { cj( "#source_contact_qid" ).val(''); });
 });

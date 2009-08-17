@@ -48,7 +48,8 @@
        delay:200,
        max:25,
        minChars:2,
-       selectFirst: true
+       selectFirst: true,
+       matchContains: true	
      }).result(function(event, data, formatted) {
          document.location= contactViewUrl+'&cid='+data["contact_id"];
      });

@@ -12,7 +12,8 @@
       var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' q='context=newcontact' h=0 }"{literal};
 
       cj("#contact").autocomplete( contactUrl, {
-      	selectFirst: false 
+      	selectFirst: false, 
+	matchContains: true 
       }).focus();
 
       cj("#contact").result(function(event, data, formatted) {
