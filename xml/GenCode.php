@@ -186,11 +186,9 @@ echo "\ncivicrm_domain.version := $db_version\n\n";
 
 $tsLocale = 'en_US';
 
-$sample  = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
-$sample .= file_get_contents( $smarty->template_dir . '/civicrm_acl.tpl' );
-$fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
-fputs( $fd, $sample );
-fclose( $fd );
+$sample  = $smarty->fetch('civicrm_sample.tpl');
+$sample .= $smarty->fetch('civicrm_acl.tpl');
+file_put_contents($sqlCodePath . 'civicrm_sample.mysql', $sample);
 
 
 $beautifier =& new PHP_Beautifier(); // create a instance
