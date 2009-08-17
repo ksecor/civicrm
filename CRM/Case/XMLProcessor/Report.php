@@ -93,10 +93,9 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
                     }    
                     
                     if (!empty($this->{'_'. $rule})) {
-                        $this->{'_'. $rule} = CRM_Utils_Array::crmArrayMerge( $this->{'_'. $rule},
-                                                                              array_change_key_case($$rule,CASE_LOWER));
+                        $this->{'_'. $rule} = CRM_Utils_Array::crmArrayMerge( $this->{'_'. $rule}, $$rule );
                     } else {
-                        $this->{'_'. $rule} = array_change_key_case($$rule,CASE_LOWER);
+                        $this->{'_'. $rule} = $$rule;
                     }
                 }    
             }     
