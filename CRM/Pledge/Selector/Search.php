@@ -359,7 +359,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( 
                                           array(
-                                                'name'      => ts('Total Pledged'),
+                                                'name'      => ts('Pledged'),
                                                 'sort'      => 'pledge_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -369,7 +369,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Balance Due'),
+                                                'name'      => ts('Balance'),
                                                 'sort'      => 'pledge_balance_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -379,12 +379,12 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DESCENDING,
                                                 ),
                                           array(
-                                                'name'      => ts('Next Payment Date'),
+                                                'name'      => ts('Next Pay Date'),
                                                 'sort'      => 'pledge_next_pay_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Next Payment Amount'),
+                                                'name'      => ts('Next Amount'),
                                                 'sort'      => 'pledge_next_pay_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
