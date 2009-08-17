@@ -139,7 +139,7 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
                 <td class="label">{$form.duration.label}</td>
                 <td class="view-value">
                     {$form.duration.html}
-                    <span class="description">{ts}Total time spent on this activity (in minutes).{/ts}
+                    {if $action neq 4}<span class="description">{ts}Total time spent on this activity (in minutes).{/ts}{/if}
                 </td>
              </tr> 
              <tr>
@@ -148,7 +148,7 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
              <tr>
                 <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
              </tr> 
-	     <tr>
+             <tr>
                 <td class="label">{$form.priority_id.label}</td><td class="view-value">{$form.priority_id.html}</td>
              </tr>
              <tr>
