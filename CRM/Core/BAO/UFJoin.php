@@ -67,6 +67,24 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         return $dao; 
     } 
 
+    public static function &deleteAll( &$params ) {
+        $module      = CRM_Utils_Array::value( 'module'     , $params);
+        $entityTable = CRM_Utils_Array::value( 'entity_table', $params);
+        $entityID    = CRM_Utils_Array::value( 'entity_id'   , $params);
+
+        if ( empty( $entityTable ) ||
+             empty( $entityID ) ||
+             empty( $module ) ) {
+            return;
+        }
+
+        $dao =& new CRM_Core_DAO_UFJoin( );
+        $dao->module       = $module;
+        $dao->entity_table = $entityTable;
+        $dao->entity_id    = $entityID;
+        $dao->delete();
+    }
+
     /**
      * Given an assoc list of params, find if there is a record
      * for this set of params
@@ -136,7 +154,7 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         }
         $dao->entity_table = CRM_Utils_Array::value( 'entity_table', $params );
         $dao->entity_id    = CRM_Utils_Array::value( 'entity_id'   , $params );
-        $dao->orderBy( 'weight' );
+        $dao->orderBy( 'weight asc' );
 
         $first = $second  = $firstActive = $secondActive = null;
         $firstWeight = null;
@@ -144,12 +162,14 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         if ( $dao->fetch( ) ) {
             $first       = $dao->uf_group_id;
             $firstWeight = $dao->weight;
-            $firstWeight = $dao->weight;
             $firstActive = $dao->is_active;
         }
-        if ( $dao->fetch( ) ) {
-            $second       = $dao->uf_group_id; 
-            $secondActive = $dao->is_active;
+        while ( $dao->fetch( ) ) {
+            if ( $first != $dao->uf_group_id ) {
+                $second = $dao->uf_group_id; 
+                $secondActive = $dao->is_active;
+                break;
+            }
         } 
 
         // if there is only one profile check to see the weight, if > 1 then let it be second

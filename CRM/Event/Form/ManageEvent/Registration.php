@@ -380,16 +380,26 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $ufJoinParams = array( 'is_active'    => 1, 
                                'module'       => 'CiviEvent',
                                'entity_table' => 'civicrm_event', 
-                               'entity_id'    => $this->_id, 
-                               'weight'       => 1, 
-                               'uf_group_id'  => $params['custom_pre_id'] ); 
+                               'entity_id'    => $this->_id );
         
         require_once 'CRM/Core/BAO/UFJoin.php';
-        CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+
+        // first delete all past entries
+        CRM_Core_BAO_UFJoin::deleteAll( $ufJoinParams );
+
+        if ( ! empty( $params['custom_pre_id'] ) ) {
+            $ufJoinParams['weight'     ] = 1; 
+            $ufJoinParams['uf_group_id'] = $params['custom_pre_id'];  
+            CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
+        }
         
-        $ufJoinParams['weight'     ] = 2; 
-        $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
-        CRM_Core_BAO_UFJoin::create( $ufJoinParams );         
+        unset( $ufJoinParams['id'] );
+
+        if ( ! empty( $params['custom_post_id'] ) ) {
+            $ufJoinParams['weight'     ] = 2;
+            $ufJoinParams['uf_group_id'] = $params['custom_post_id'];
+            CRM_Core_BAO_UFJoin::create( $ufJoinParams );
+        }
          
         // CRM-4377: also update the profiles for additional participants
         $ufJoinParams['module'] = 'CiviEvent_Additional';
@@ -412,7 +422,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         CRM_Core_BAO_UFJoin::create($ufJoinParams);
 
         parent::endPostProcess( );
-    }//end of function
+    } //end of function
     
     /**
      * Return a descriptive name for the page, used in wizard header

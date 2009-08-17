@@ -1590,6 +1590,7 @@ SELECT $select
             }
 
             $options = array( );
+
             if ( is_object( $coDAO ) ) {
                 while ( $coDAO->fetch( ) ) {
                     $options[$coDAO->value] = $coDAO->label;

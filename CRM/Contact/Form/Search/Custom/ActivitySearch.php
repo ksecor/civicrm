@@ -47,14 +47,14 @@ implements CRM_Contact_Form_Search_Interface {
          * Define the columns for search result rows
          */
         $this->_columns = array( ts(' '      )   => 'activity_id',
-       							 ts('  '      )   => 'activity_type_id',
-								 ts('Name'      )   => 'sort_name',   
-								 ts('Status') => 'activity_status',
-								 ts('Activity Type'      )   => 'activity_type',
-                                 ts('Activity Subject') => 'activity_subject',								
-								 ts('Scheduled By'      )   => 'source_contact',
-                                 ts('Scheduled Date') => 'activity_date',
-                                 ts('   '      )   => 'case_id' );
+       				 ts(' '      )   => 'activity_type_id',
+				 ts('Name'   )   => 'sort_name',
+				 ts('Status' )   => 'activity_status',
+				 ts('Activity Type'     )   => 'activity_type',
+                                 ts('Activity Subject'  )   => 'activity_subject',
+				 ts('Scheduled By'      )   => 'source_contact',
+                                 ts('Scheduled Date'    )   => 'activity_date',
+                                 ts('   '    )   => 'case_id' );
 
         $this->_groupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
                                                        'activity_status', 
@@ -207,35 +207,43 @@ LEFT JOIN civicrm_case_activity cca ON activity.id = cca.activity_id
     function where( $includeContactIDs = false ) {
         $clauses = array( );
 		
-		$subject = $this->_formValues['activity_subject'];
+	$subject = $this->_formValues['activity_subject'];
 		
-		if (! empty($this->_formValues['contact_type']) ) {
-			$clauses[] = "contact_a.contact_type LIKE '%{$this->_formValues['contact_type']}%'";
-		}
+	if (! empty($this->_formValues['contact_type']) ) {
+            $clauses[] = "contact_a.contact_type LIKE '%{$this->_formValues['contact_type']}%'";
+	}
 		
-		if (! empty($subject) ) {
+	if (! empty($subject) ) {
             $dao = new CRM_Core_DAO();
             $subject = $dao->escape($subject);
             $clauses[] = "activity.subject LIKE '%{$subject}%'";
-		}
+	}
 		
-		if (! empty($this->_formValues['activity_status_id']) ) {
-			$clauses[] = "activity.status_id = {$this->_formValues['activity_status_id']}";
-		}
+	if (! empty($this->_formValues['activity_status_id']) ) {
+            $clauses[] = "activity.status_id = {$this->_formValues['activity_status_id']}";
+	}
 		
-		if (! empty($this->_formValues['activity_type_id']) ) {
-			$clauses[] = "activity.activity_type_id = {$this->_formValues['activity_type_id']}";
-		}
-		
-		$startDate = CRM_Utils_Date::format( $this->_formValues['start_date'] );
-        if ( $startDate ) {
-            $clauses[] = "activity.activity_date_time >= $startDate";
+	if (! empty($this->_formValues['activity_type_id']) ) {
+            $clauses[] = "activity.activity_type_id = {$this->_formValues['activity_type_id']}";
+	}
+
+        $startDate = $this->_formValues['start_date'];
+        $startDate['H'] = '00';
+        $startDate['i'] = '00';
+        $startDate['s'] = '00';
+	$startDateFormatted = CRM_Utils_Date::format( $startDate );
+        if ( $startDateFormatted ) {
+            $clauses[] = "activity.activity_date_time >= $startDateFormatted";
         }
 
-        $endDate = CRM_Utils_Date::format( $this->_formValues['end_date'] );
-        if ( $endDate ) {
-            $clauses[] = "activity.activity_date_time <= $endDate";
-        }
+        $endDate = $this->_formValues['end_date'];
+        $endDate['H'] = '23';
+        $endDate['i'] = '59';
+        $endDate['s'] = '59';
+        $endDateFormatted = CRM_Utils_Date::format( $endDate );
+        if ( $endDateFormatted ) {
+                    $clauses[] = "activity.activity_date_time <= $endDateFormatted";
+                }
 		
 		
         if ( $includeContactIDs ) {
