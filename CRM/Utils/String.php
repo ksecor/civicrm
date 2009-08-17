@@ -199,18 +199,18 @@ class CRM_Utils_String {
     }
 
     static function redaction( $str, $stringRules, $regexRules ) {
-        //redact the regular expressions
-        if (!empty($regexRules)){
-            foreach ($regexRules as $pattern => $replacement) {
-                $str = preg_replace( $pattern, $replacement, $str );    
-            }
-        } 
         //redact the strings
         if (!empty($stringRules)){
             foreach ($stringRules as $match => $replace) {
                 $str = str_replace($match,$replace,$str);
             }
         }
+        //redact the regular expressions
+        if (!empty($regexRules)){
+            foreach ($regexRules as $pattern => $replacement) {
+                $str = preg_replace( $pattern, $replacement, $str );
+            }
+        } 
         //return the redacted output
         return $str;
     }
