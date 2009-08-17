@@ -104,10 +104,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                                                                           'title' => ts('Delete CiviCRM Profile Group'),
                                                                           ),
                                         CRM_Core_Action::PROFILE  => array(
-                                                                           'name'  => ts('Standalone Form'),
+                                                                           'name'  => ts('HTML Form Snippet'),
                                                                            'url'   => 'civicrm/admin/uf/group',
                                                                            'qs'    => 'action=profile&gid=%%id%%',
-                                                                           'title' => ts('Standalone Form for Profile Group'),
+                                                                           'title' => ts('HTML Form Snippet for this Profile'),
                                                                            ),
                                         CRM_Core_Action::COPY     => array(
                                                                            'name'  => ts('Copy Profile'),
@@ -157,7 +157,8 @@ class CRM_UF_Page_Group extends CRM_Core_Page
                 require_once 'CRM/Utils/System.php';
                 CRM_Utils_System::updateCategories( );
             } else if ( $action & CRM_Core_Action::PROFILE ) { 
-                $this->profile( ); 
+                $this->profile( );
+                CRM_Utils_System::setTitle(ts('%1 - HTML Form Snippet', array(1 => $this->_title)));
             } else if ( $action & CRM_Core_Action::PREVIEW ) { 
                 $this->preview( $id, $action ); 
             } else if ( $action & CRM_Core_Action::COPY ) {
@@ -226,6 +227,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         //get the title of uf group
         if ($gid) {
             $title = CRM_Core_BAO_UFGroup::getTitle($gid);
+            $this->_title = $title;
         } else {
             $title = 'Profile Form';
         }

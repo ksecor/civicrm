@@ -5,20 +5,19 @@
     {* Preview Profile Group form *}	
     {include file="CRM/UF/Form/Preview.tpl"}
 {elseif $action eq 8192}
-    {* Display HTML Code for standalone Profile form *}
+    {* Display HTML Form Snippet Code *}
     <div id="help">
-    <p>{ts}The HTML code below will display a form consisting of the active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts} {help id='standalone'}</p>
+        {ts}The HTML code below will display a form consisting of the active fields in this Profile. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts} {help id='standalone'}
     </div>
-   
-    <h3>{$title} - {ts}Code for Stand-alone HTML Form{/ts}</h3>
+    <br />
     <form name="html_code" action="{crmURL p="civicrm/admin/uf/group" q="action=profile&gid=$gid"}">
     <div id="standalone-form">
         <textarea rows="20" cols="80" name="profile" id="profile">{$profile}</textarea>
         <div class="spacer"></div>    
-        <a href="#" onclick="html_code.profile.select(); return false;">Select Code</a> 
+        <a href="#" onclick="html_code.profile.select(); return false;" class="button"><span>Select HTML Code</span></a> 
     </div>
     <div class="action-link">
-        <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1"}">&raquo;  {ts}Back to Profile Listings{/ts}</a>
+        &nbsp; <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1"}">&raquo;  {ts}Back to Profile Listings{/ts}</a>
     </div>
     </form>
 
