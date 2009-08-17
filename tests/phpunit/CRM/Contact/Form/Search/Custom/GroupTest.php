@@ -50,482 +50,92 @@ require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/DAO.php';
 
 /**
+ *  Include dataProvider for tests
+ */
+require_once 'tests/phpunit/CRM/Contact/Form/Search/Custom/GroupTestDataProvider.php';
+
+/**
  *  Test contact custom search functions
  *
  *  @package CiviCRM
  */
 class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
 {
-    /**
-     *  Constructor
-     *
-     *  Initialize configuration
-     */
-    function __construct( ) {
-        parent::__construct( );
+
+    public function dataProvider()
+    {
+        return new CRM_Contact_Form_Search_Custom_GroupTestDataProvider;
     }
 
     /**
-     *  Test setup for every test
-     *
-     *  Connect to the database, truncate the tables that will be used
-     *  and redirect stdin to a temporary file
+     *  Test CRM_Contact_Form_Search_Custom_Group::count()
+     *  @dataProvider dataProvider
      */
-    public function setUp()
+    public function testCount( $fv, $count, $ids, $full )
     {
-        //  Connect to the database
-        parent::setUp();
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  If it's OK to include only contacts that are members of some group
-     *  the the right answer is '13', '14', '15', '16'
-     */
-    public function testAllExcGroup3()
-    {
-        //echo "\ntestAllExcGroup3()\n";
-        //  Insert database contents
+        //echo "testCount\n";
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__)
                              . '/dataset.xml') );
 
-        //  Find contacts not in group 3
-        $formValues = array( 'excludeGroups' => array( '3' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
+        $obj = new CRM_Contact_Form_Search_Custom_Group( $fv );
+        $this->assertEquals( $count, $obj->count( ),
+                             'In line ' . __LINE__  );
 
-        //  We should fetch contacts 9-17 once each
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '9', '10', '11', '12', '13', '14', '15', '16', '17' ),
-                             $contacts, 'In line ' . __LINE__ );
     }
 
     /**
      *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with only group inclusion
+     *  @dataProvider dataProvider
      */
-    public function testAllIncGroup3()
+    public function testAll( $fv, $count, $ids, $full )
     {
-        //echo "\ntestAllIncGroup3()\n";
-        //  Insert database contents
+        // echo "testAll\n";
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__)
                              . '/dataset.xml') );
-                     
-        //  Find contacts in group 3
-        $formValues = array( 'includeGroups' => array( '3' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
+        $obj = new CRM_Contact_Form_Search_Custom_Group( $fv );
         $sql = $obj->all( );
         $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
         $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 17-24 once each
         while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
+            $all[] = array( 'contact_id'   => $dao->contact_id,
+                            'contact_type' => $dao->contact_type,
+                            'sort_name'    => $dao->sort_name );
+
         }
-        asort( $contacts );
-        $this->assertEquals( array( '17', '18', '19', '20', '21', '22', '23', '24' ),
-                             $contacts, 'In line ' . __LINE__ );
+        asort( $all );
+        $this->assertEquals( $full, $all, 'In line ' . __LINE__ );
     }
 
     /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with only group inclusion
+     *  Test CRM_Contact_Form_Search_Custom_Group::contactIDs()
+     *  @dataProvider dataProvider
      */
-    public function testAllIncGroup5()
+    public function testContactIDs( $fv, $count, $ids, $full )
     {
-        //echo "\ntestAllIncGroup5()\n";
-        //  Insert database contents
+        // echo "testContactIDs\n";
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__)
                              . '/dataset.xml') );
-
-        //  Find contacts in group 5
-        $formValues = array( 'includeGroups' => array( '5' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
+        $obj = new CRM_Contact_Form_Search_Custom_Group( $fv );
+        $sql = $obj->contactIDs( );
         $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
         $dao =& CRM_Core_DAO::executeQuery( $sql );
         $contacts = array( );
-
-        //  We should fetch contacts 13-16, 21-24 once each
         while ( $dao->fetch( ) ) {
             $contacts[] = $dao->contact_id;
         }
         asort( $contacts );
-        $this->assertEquals( array( '13', '14', '15', '16', '21', '22', '23', '24' ),
-                             $contacts, 'In line ' . __LINE__ );
+        $this->assertEquals( $ids, $contacts, 'In line ' . __LINE__ );
     }
 
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with only group inclusion
-     */
-    public function testAllIncGroup3or5()
-    {
-        //echo "\ntestAllIncGroup3or5()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts in group 5
-        $formValues = array( 'includeGroups' => array( '3', '5' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 13-24 once each
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '13', '14', '15', '16', '17', '18',
-                                    '19', '20', '21', '22', '23', '24' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with group inclusion and exclusion
-     */
-    public function testAllIncGroup3ExcGroup5()
-    {
-        //echo "\ntestAllIncGroup3ExcGroup5()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts in group 5 but not in group 3
-        $formValues = array( 'includeGroups' => array( '3' ),
-                             'excludeGroups' => array( '5' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 17-20
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '17', '18', '19', '20' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  If it's OK to include only contacts that have some tag then
-     *  the right answer is '10', '14', '18', '22'
-     */
-    public function testAllExcTag7()
-    {
-        //echo "\ntestAllExcTag7()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts without tag 7
-        $formValues = array( 'excludeTags' => array( '7' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 9, 10, 14, 18, 22 once each
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '9', '10', '14',
-                                    '18', '22' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with only tag inclusion
-     */
-    public function testAllIncTag7()
-    {
-        //echo "\ntestAllIncTag7()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts with tag 7
-        $formValues = array( 'includeTags' => array( '7' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 11, 12, 15, 16, 19, 20, 23, 24 once each
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '11', '12', '15', '16',
-                                    '19', '20', '23', '24' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with only tag inclusion
-     */
-    public function testAllIncTag9()
-    {
-        //echo "\ntestAllIncTag9()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts with tag 7
-        $formValues = array( 'includeTags' => array( '9' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 10, 12, 14, 16, 18, 20, 22, 24 once each
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '10', '12', '14', '16',
-                                    '18', '20', '22', '24' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with only tag inclusion
-     */
-    public function testAllIncTag7or9()
-    {
-        //echo "\ntestAllIncTag7or9()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts with tag 7 or 9
-        $formValues = array( 'includeTags' => array( '7', '9' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 10-24 once each
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '10', '11', '12', '14', '15', '16',
-                                    '18', '19', '20', '22', '23', '24' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with tag inclusion and exclusion
-     */
-    public function testAllIncExcTags()
-    {
-        //echo "\ntestAllIncExcTags()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts with tags 7 and 9
-        $formValues = array( 'includeTags' => array( '7' ),
-                             'excludeTags' => array( '9' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 11, 15, 19, 23
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '11', '15', '19', '23' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with tag and group inclusion
-     */
-    public function testAllIncGroup3IncTag7()
-    {
-        //echo "\ntestAllIncGroup3IncTag7()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts in group 3 or with tag 7
-        $formValues = array( 'includeGroups' => array( '3' ),
-                             'includeTags'   => array( '7' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '11', '12', '15', '16', '17', '18', '19',
-                                    '20', '21', '22', '23', '24' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with group inclusion and tag exclusion
-     */
-    public function testAllIncGroup3ExcTag7()
-    {
-        //echo "\ntestAllIncGroup3ExcTag7()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts in group 3 but not with tag 7
-        $formValues = array( 'includeGroups' => array( '3' ),
-                             'excludeTags'   => array( '7' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 17, 18,  21, 22
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array(  '17', '18',  '21', '22' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with tag inclusion and group exclusion
-     */
-    public function testAllIncTag9ExcGroup5()
-    {
-        //echo "\ntestAllIncTag9ExcGroup5()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts with tag 9 but not in group 5
-        $formValues = array( 'includeTags' => array( '9' ),
-                             'excludeGroups' => array( '5' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 10, 12, 18, 20
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array(  '10', '12',  '18', '20' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
-
-    /**
-     *  Test CRM_Contact_Form_Search_Custom_Group::all()
-     *  Test with tag and group exclusion
-     *  If it's OK to include only contacts that have some tag then
-     *  the right answer is '11', '17', '19'
-     */
-    public function testAllExcTag9ExcGroup5()
-    {
-        //echo "\ntestAllExcTag9ExcGroup5()\n";
-        //  Insert database contents
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset.xml') );
-
-        //  Find contacts with tag 9 but not in group 5
-        $formValues = array( 'excludeTags' => array( '9' ),
-                             'excludeGroups' => array( '5' ) );
-        $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $sql = $obj->all( );
-        $this->assertTrue( is_string( $sql ), 'In line ' . __LINE__ );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
-        $contacts = array( );
-
-        //  We should fetch contacts 9, 11, 17, 19
-        while ( $dao->fetch( ) ) {
-            $contacts[] = $dao->contact_id;
-        }
-        asort( $contacts );
-        $this->assertEquals( array( '9', '11', '17', '19' ),
-                             $contacts, 'In line ' . __LINE__ );
-    }
 
     /**
      *  Test something
@@ -550,24 +160,6 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
             $this->assertTrue( is_string( $key ), 'In line ' . __LINE__ );
             $this->assertTrue( is_string( $value ), 'In line ' . __LINE__ );
         }
-    }
-
-    /**
-     *  Test something
-     *  @todo write this test
-     */
-    public function testContactIDs()
-    {
-        throw new PHPUnit_Framework_IncompleteTestError("test not implemented");
-    }
-
-    /**
-     *  Test something
-     *  @todo write this test
-     */
-    public function testCount()
-    {
-        throw new PHPUnit_Framework_IncompleteTestError("test not implemented");
     }
 
     /**

@@ -60,15 +60,20 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     /**
      *  Constructor
      *
-     *  Load the CiviCRM configuration.
-     *  CIVICRM_DSN must refer to database civicrm_tests_dev
+     *  Because we are overriding the parent class constructor, we
+     *  need to show the same arguments as exist in the constructor of
+     *  PHPUnit_Framework_TestCase, since
+     *  PHPUnit_Framework_TestSuite::createTest() creates a
+     *  ReflectionClass of the Test class and checks the constructor
+     *  of that class to decide how to set up the test.
+     *
+     *  @param  string $name
+     *  @param  array  $data
+     *  @param  string $dataName
      */
-    function __construct( ) {
+    function __construct($name = NULL, array $data = array(), $dataName = '' ) {
+        parent::__construct($name, $data, $dataName);
         ini_set('memory_limit', '256M');
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton( );
-        require_once 'CRM/Core/Session.php';
-        $session = & CRM_Core_Session::singleton();
     }
 
     /**
@@ -86,7 +91,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     /**
      *  Required implementation of abstract method
      */
-    protected function getDataSet() {echo "CiviU getDataSet\n"; }
+    protected function getDataSet() { }
 
     /**
      *  Common setup functions for all unit tests
