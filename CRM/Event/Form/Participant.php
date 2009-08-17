@@ -533,12 +533,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
 
         if ( $this->_single ) {
+            $urlParams = "reset=1&cid={$this->_contactID}&context=participant";
             if ( $this->_context == 'standalone' ) {
                 require_once 'CRM/Contact/Form/NewContact.php';
                 CRM_Contact_Form_NewContact::buildQuickForm( $this );
+                $urlParams = "reset=1&context=standalone";
             }        
-            
-            $urlParams = "reset=1&cid={$this->_contactID}&context=participant";
+
             if ( $this->_participantId ) {
                 $urlParams .= "&action=update&id={$this->_participantId}";
             } else {
