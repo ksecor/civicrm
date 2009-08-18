@@ -489,8 +489,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $menuItems = CRM_Contact_BAO_Contact::contextMenu( );
-        $contextContact     = CRM_Utils_Array::value( 'directlyAccessible', $menuItems ); 
-        $this->_contextMenu = CRM_Utils_Array::value( 'moreActions',        $menuItems );
+        $contextContact     = CRM_Utils_Array::value( 'directlyAccessible', $menuItems, array( ) ); 
+        $this->_contextMenu = CRM_Utils_Array::value( 'moreActions',        $menuItems, array( ) );
         $this->assign( 'contextMenu', $contextContact + $this->_contextMenu );
         
         // CRM_Core_Error::debug( 'f', $this->_formValues );
