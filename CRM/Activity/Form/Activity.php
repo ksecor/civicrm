@@ -777,11 +777,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         // assigning formated value to related variable
         if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
-            $params['target_contact_id'  ] = explode( ',', substr( $params['target_contact_id'], 0, -1 ) );
+            $params['target_contact_id'  ] = explode( ',', $params['target_contact_id'] );
         }
 
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
-            $params['assignee_contact_id'] = explode( ',', substr( $params['assignee_contact_id'], 0, -1 ) );
+            $params['assignee_contact_id'] = explode( ',', $params['assignee_contact_id'] );
         } else {
             $params['assignee_contact_id'] = array( );
         }
