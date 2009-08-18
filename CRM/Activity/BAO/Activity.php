@@ -703,7 +703,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                         if ( $accessCiviMail && in_array( $dao->source_record_id, $mailingIDs ) ) {
                             $values[$rowCnt]['mailingId'] = 
                                 CRM_Utils_System::url( 'civicrm/mailing/report', 
-                                                       "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" );   
+                                                       "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" ); 
+                            $values[$rowCnt]['activity_type_id']=($dao->activity_type_id);
+                            $values[$rowCnt]['source_record_id']=($dao->source_record_id);
+                            $values[$rowCnt]['id']=($dao->id);
                         }
                     } else if ( in_array( $field, array( 'target_contact_id', 'assignee_contact_id' ) ) ) {
                         $contactIDs = explode( '::', $dao->$field );
