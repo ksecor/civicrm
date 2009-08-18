@@ -168,16 +168,18 @@ class CRM_Utils_Recent {
      */
     static function delContact( $id ) {
         self::initialize( );
-
+        
         $tempRecent = self::$_recent;
         
         self::$_recent = '';
         
-        // make sure item is not already present in list
+        // rebuild recent.
         for ( $i = 0; $i < count( $tempRecent ); $i++ ) {
-            if ( $tempRecent[$i]['id' ] != $id ) {
-                self::$_recent[] = $tempRecent[$i];
+            // don't include deleted contact in recent.
+            if ( CRM_Utils_Array::value( 'contact_id', $tempRecent[$i] ) == $id ) {
+                continue;
             }
+            self::$_recent[] = $tempRecent[$i];
         }
         
         $session =& CRM_Core_Session::singleton( );
