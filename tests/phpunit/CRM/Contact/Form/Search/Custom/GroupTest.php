@@ -163,7 +163,7 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
     }
 
     /**
-     *  Test something
+     *  Test CRM_Contact_Form_Search_Custom_Group::from()
      *  @todo write this test
      */
     public function testFrom()
