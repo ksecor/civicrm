@@ -176,19 +176,19 @@ function mixProfile( ) {
         if ( document.getElementById("is_searchable").checked ) {
             document.getElementById("is_searchable").checked = false;
 	    if ( alreadyMixProfile ) {
-                alert('Oops its look like your profile is already a mix profile and you are trying to make this field Searchable. But we do not allow any field Searchable in mix profile.'); 
+                alert('Oops. You can not mark fields as Searchable in a profile that contains fields for multiple record types.'); 
            } else {
-                 alert('Oops its look like you are trying to make this field Searchable. But we do not allow ' 
-                       + type + ' field Searchable in profile.'); 
+                 alert('Oops. ' 
+                       + type + ' fields can not be marked as Searchable in a profile.'); 
 	   }
         }
         if ( document.getElementById("in_selector").checked ) {
             document.getElementById("in_selector").checked = false;
 	    if ( alreadyMixProfile ) {
-                alert('Oops its look like your profile is already a mix profile and you are trying to make this field as Results Column. But we do not allow any field as Result column in mix profile.');     
+                alert('Oops. You can not mark a field as a Result Column in a profile that contains fields from multiple record types.');     
             } else {
-                 alert('Oops its look like you are trying to make this field as Results Column. But we do not allow ' 
-                       + type + ' field as Result column for profile search.');     
+                 alert('Oops. ' 
+                       + type + ' can not be used as a Result Column for profile searches.');     
 	    }
         }
     }
@@ -198,7 +198,7 @@ function verify( ) {
     var allMixTypes = ["Participant", "Membership", "Contribution"];
     var type = document.forms.Field['field_name[0]'].value;
      if ( allMixTypes.indexOf( type ) != -1 ) {
-         var ok = confirm( "Oops its look like there are some fields from this profile already has been configured for 'Searchable' or 'Results Column' and you are trying to make this profile as mix by adding "+type+" field, But we do not allow mix profile fields as 'Searchable' or 'Results Column'. If you save this field we will going to reset all other fields settings correspond to 'Seachable' and 'Results Column'. Do you want to continue ?" );    
+         var ok = confirm( "Oops. One or more fields in this profile are configured to be Searchable and / or shown in a Results Column, AND you are trying to add a "+type+" field. Profiles with a mixture of field types can not include Searchable or Results Column fields. If you save this field now, the Seachable and Results Column settings will be removed for all fields in this profile. Do you want to continue?" );    
          if ( !ok ) {
              return false;
           }
