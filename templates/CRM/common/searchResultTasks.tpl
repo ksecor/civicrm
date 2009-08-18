@@ -24,7 +24,7 @@
   <tr>
     <td class="font-size11pt"> {ts}Select Records{/ts}:</td>
     <td class="nowrap">
-        {$form.radio_ts.ts_all.html} {ts count=$pager->_totalItems plural='All %count records'}The found record{/ts} &nbsp; {$form.radio_ts.ts_sel.html} {ts}Selected records only{/ts}
+        {$form.radio_ts.ts_all.html} {ts count=$pager->_totalItems plural='All %count records'}The found record{/ts} &nbsp; {if $pager->_totalItems > 1} {$form.radio_ts.ts_sel.html} {ts}Selected records only{/ts} {/if}
     </td>
   </tr>
   <tr>

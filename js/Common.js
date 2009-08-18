@@ -419,6 +419,9 @@ function countSelectedCheckboxes(fldPrefix, form) {
  */
 function toggleTaskAction( status ) {
     var radio_ts = document.getElementsByName('radio_ts');
+    if (!radio_ts[1]) {
+	radio_ts[0].checked = true;
+    }
     if ( radio_ts[0].checked || radio_ts[1].checked ) {
 	status = true;
     }
