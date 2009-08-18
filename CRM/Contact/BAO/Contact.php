@@ -2045,8 +2045,8 @@ UNION
              
              // build directly accessible action menu.
              if ( in_array( $values['ref'], array( 'view-contact', 'edit-contact' ) ) ) {
-                 $contextMenu['directlyAccessible'][$key] = array( 'title' => $values['title'],
-                                                                   'ref'   => $values['ref'] );
+                 $contextMenu['primaryActions'][$key] = array( 'title' => $values['title'],
+                                                               'ref'   => $values['ref'] );
                  continue;
              }
              
