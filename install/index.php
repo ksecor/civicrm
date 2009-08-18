@@ -576,7 +576,7 @@ class InstallRequirements {
             return;
         }
 
-        $result = mysql_query('CREATE TABLE civicrm_install_temp_table_test (test text)', $conn);
+        $result = mysql_query('CREATE TEMPORARY TABLE civicrm_install_temp_table_test (test text)', $conn);
         if (!$result) {
             $testDetails[2] = 'Could not create a table.';
             $this->error($testDetails);
