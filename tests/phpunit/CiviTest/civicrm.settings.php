@@ -95,7 +95,7 @@ if ( !empty( $GLOBALS['mysql_user'] ) ) {
 
 global $civicrm_root;
 
-$civicrm_root = '/var/www/api.dev.civicrm.org/trunk/';
+$civicrm_root = dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/api.dev.civicrm.org/helper/files/civicrm/templates_c/' );
 
 /**

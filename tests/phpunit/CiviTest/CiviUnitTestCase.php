@@ -73,7 +73,6 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */
     function __construct($name = NULL, array $data = array(), $dataName = '' ) {
         parent::__construct($name, $data, $dataName);
-        ini_set('memory_limit', '256M');
     }
 
     /**
@@ -174,6 +173,40 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         }
     }
 
+    // Request a record from the DB by seachColumn+searchValue. Success if a record is found. 
+    function assertDBNotNull(  $daoName, $searchValue, $returnColumn, $searchColumn, $message  ) 
+    {
+        $value = CRM_Core_DAO::getFieldValue( $daoName, $searchValue, $returnColumn, $searchColumn );
+        $this->assertNotNull(  $value, $message );
+        
+        return $value;
+    }
+
+    // Request a record from the DB by seachColumn+searchValue. Success if NO record is found. 
+    function assertDBNull(  $daoName, $searchValue, $returnColumn, $searchColumn, $message  ) 
+    {
+        $value = CRM_Core_DAO::getFieldValue( $daoName, $searchValue, $returnColumn, $searchColumn );
+        $this->assertNull(  $value, $message );
+    }
+
+    // Compare a single column value in a retrieved DB record to an expected value
+    function assertDBCompareValue(  $daoName, $searchValue, $returnColumn, $searchColumn,
+                                    $expectedValue, $message  ) 
+    {
+        $value = CRM_Core_DAO::getFieldValue( $daoName, $searchValue, $returnColumn, $searchColumn );
+        $this->assertEqual(  $value, $expectedValue, $message );
+    }
+
+    // Compare all values in a single retrieved DB record to an array of expected values
+    function assertDBCompareValues( $daoName, $searchParams, $expectedValues )  
+    {
+        //get the values from db 
+        $dbValues = array( );
+        CRM_Core_DAO::commonRetrieve( $daoName, $searchParams, $dbValues );
+        
+        // compare db values with expected values
+        self::assertAttributesEqual( $expectedValues, $dbValues);
+    }
     
     /** 
      * Generic function to create Organisation, to be used in test cases

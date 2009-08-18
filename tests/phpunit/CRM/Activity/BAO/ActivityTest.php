@@ -1,10 +1,11 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
 
-class BAO_Activity_Activity extends CiviTestCase 
+class CRM_Activity_BAO_ActivityTest extends CiviUnitTestCase 
 {
+
     function get_info( ) 
     {
         return array(
@@ -54,7 +55,7 @@ class BAO_Activity_Activity extends CiviTestCase
         $activityTypeId = $this->assertDBNotNull( 'CRM_Activity_DAO_Activity', 'Scheduling Interview',
                                                   'activity_type_id',
                                                   'subject', 'Database check on updated activity record.' );
-        $this->assertEqual( $activityTypeId, 3, 'Verify activity type id is 3.');
+        $this->assertEquals( $activityTypeId, 3, 'Verify activity type id is 3.');
         
         Contact::delete( $contactId );
         
@@ -90,7 +91,7 @@ class BAO_Activity_Activity extends CiviTestCase
         
         $activities = CRM_Activity_BAO_Activity::getContactActivity( $targetContactId );
         
-        $this->assertEqual( $activities[$activityId]['subject'], 'Scheduling Meeting', 'Verify activity subject is correct.');
+        $this->assertEquals( $activities[$activityId]['subject'], 'Scheduling Meeting', 'Verify activity subject is correct.');
         
         Contact::delete( $contactId );
         Contact::delete( $targetContactId );
@@ -131,15 +132,15 @@ class BAO_Activity_Activity extends CiviTestCase
         $defaults = array();
         $activity = CRM_Activity_BAO_Activity::retrieve( $params, $defaults );
         
-        $this->assertEqual( $activity->subject, 'Scheduling Meeting', 'Verify activity subject is correct.');
-        $this->assertEqual( $activity->source_contact_id, $contactId, 'Verify source contact id is correct.');
-        $this->assertEqual( $activity->activity_type_id, 2, 'Verify activity type id is correct.');
+        $this->assertEquals( $activity->subject, 'Scheduling Meeting', 'Verify activity subject is correct.');
+        $this->assertEquals( $activity->source_contact_id, $contactId, 'Verify source contact id is correct.');
+        $this->assertEquals( $activity->activity_type_id, 2, 'Verify activity type id is correct.');
         
-        $this->assertEqual( $defaults['subject'], 'Scheduling Meeting', 'Verify activity subject is correct.');
-        $this->assertEqual( $defaults['source_contact_id'], $contactId, 'Verify source contact id is correct.');
-        $this->assertEqual( $defaults['activity_type_id'], 2, 'Verify activity type id is correct.');
+        $this->assertEquals( $defaults['subject'], 'Scheduling Meeting', 'Verify activity subject is correct.');
+        $this->assertEquals( $defaults['source_contact_id'], $contactId, 'Verify source contact id is correct.');
+        $this->assertEquals( $defaults['activity_type_id'], 2, 'Verify activity type id is correct.');
         
-        $this->assertEqual( $defaults['target_contact'][1], $targetContactId, 'Verify target contact id is correct.');
+        $this->assertEquals( $defaults['target_contact'][1], $targetContactId, 'Verify target contact id is correct.');
         
         Contact::delete( $contactId );
         Contact::delete( $targetContactId );

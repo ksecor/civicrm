@@ -3,7 +3,7 @@
 require_once 'api/v2/Group.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
  
-class api_v2_GroupGetTest extends CiviUnitTestCase 
+class api_v2_GroupTest extends CiviUnitTestCase 
 {
     protected $_groupID;
 
