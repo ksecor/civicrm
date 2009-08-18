@@ -707,7 +707,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                     }
                 } 
                 if ( ! $emailField ) {
-                    $errors['field_name'] = ts( 'You need to include an Email field in this Profile before you add the Group(s) field when profile is configured for double-opt in. This ensures that an opt-in confirmation email can be sent to contacts when they join a group.' );
+                    $disableSetting = "define( 'CIVICRM_PROFILE_DOUBLE_OPTIN' , 0 );"; 
+                    $errors['field_name'] = ts( 'Your site is currently configured to require double-opt in when users join (subscribe) to Group(s) via a Profile form. In this mode, you need to include an Email field in a Profile BEFORE you can add the Group(s) field. This ensures that an opt-in confirmation email can be sent. Your site administrator can disable double opt-in by adding this line to the CiviCRM settings file: <em>%1</em>', array( 1 => $disableSetting ) );
                 }
             }
         }
