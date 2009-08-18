@@ -693,14 +693,19 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $contactType = 'All';
         }
         
-        if ( ! self::$_importableFields || ! CRM_Utils_Array::value( $contactType, self::$_importableFields ) ) {
+        $cacheKeyString  = "importableFields $contactType";
+        $cacheKeyString .= $status    ? "_1" : "_0";
+        $cacheKeyString .= $showAll   ? "_1" : "_0";
+        $cacheKeyString .= $isProfile ? "_1" : "_0";
+
+        if ( ! self::$_importableFields || ! CRM_Utils_Array::value( $cacheKeyString, self::$_importableFields ) ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
             }
 
             // check if we can retrieve from database cache
             require_once 'CRM/Core/BAO/Cache.php'; 
-            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "importableFields $contactType" );
+            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', $cacheKeyString );
                                          
             if ( ! $fields ) {
                 $fields = CRM_Contact_DAO_Contact::import( );
@@ -764,21 +769,21 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 asort($sortArray);
                 $fields = array_merge( $sortArray, $fields );
             
-                CRM_Core_BAO_Cache::setItem( $fields, 'contact fields', "importableFields $contactType" );
+                CRM_Core_BAO_Cache::setItem( $fields, 'contact fields', $cacheKeyString );
             }
             
-            self::$_importableFields[$contactType] = $fields;
+            self::$_importableFields[$cacheKeyString] = $fields;
         }
 
         if ( !$isProfile ) {
             if ( ! $status ) {
                 $fields =
                     array_merge( array( 'do_not_import' => array( 'title' => ts('- do not import -') ) ),
-                                 self::$_importableFields[$contactType] );
+                                 self::$_importableFields[$cacheKeyString] );
             } else {
                 $fields =
                     array_merge( array( '' => array( 'title' => ts('- Contact Fields -') ) ),
-                                 self::$_importableFields[$contactType] );
+                                 self::$_importableFields[$cacheKeyString] );
             }
         }
         return $fields;
