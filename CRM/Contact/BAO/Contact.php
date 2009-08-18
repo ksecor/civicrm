@@ -1950,4 +1950,112 @@ UNION
          return $locBlockIds;
      }
      
+     /**
+      * Function to build context menu items.
+      *
+      * @return array of context menu for logged in user.
+      * @static
+      */
+     static function contextMenu( ) 
+     {
+         $menu = array( 
+                       'view'         => array( 'title'        =>  ts( 'View Contact' ), 
+                                                'ref'          =>  'view-contact',
+                                                'permissions'  =>  array( 'view all contacts' ) 
+                                                ),
+                       'add'          => array( 'title'        =>  ts( 'Edit Contact' ), 
+                                                'ref'          =>  'edit-contact', 
+                                                'permissions'  =>  array( 'edit all contacts' )
+                                                ),
+                       'delete'       => array( 'title'        =>  ts( 'Delete Contact' ), 
+                                                'ref'          =>  'delete-contact',
+                                                'permissions'  =>  array( 'delete contacts' ) 
+                                                ),
+                       'contribution' => array( 'title'        =>  ts( 'Record Contribution' ), 
+                                                'ref'          =>  'new-contribution',
+                                                'component'    =>  'CiviContribute',
+                                                'permissions'  =>  array( 'access CiviContribute',
+                                                                          'edit contributions' ) 
+                                                ),
+                       'participant'  => array( 'title'        =>  ts( 'Register for Event' ),
+                                                'ref'          =>  'new-participant',
+                                                'component'    =>  'CiviEvent',
+                                                'permissions'  =>  array( 'access CiviEvent',
+                                                                          'edit event participants' )
+                                                ),
+                       'activity'     => array( 'title'        =>  ts( 'Record Activity' ),
+                                                'ref'          =>  'new-activity',
+                                                'permissions'  =>  array( 'access CiviCRM' )
+                                                ),
+                       'pledge'       => array( 'title'        =>  ts( 'Add Pledge' ),
+                                                'ref'          =>  'new-pledge',
+                                                'component'    =>  'CiviPledge',
+                                                'permissions'  =>  array( 'access CiviPledge',
+                                                                          'edit pledges' ) ),
+                       'membership'   => array( 'title'        =>  ts( 'Enter Membership' ),
+                                                'ref'          =>  'new-membership',
+                                                'component'    =>  'CiviMember',
+                                                'permissions'  =>  array( 'access CiviMember',
+                                                                          'edit memberships') 
+                                                ),
+                       'email'        => array( 'title'        =>  ts( 'Send an Email' ),
+                                                'ref'          =>  'new-email',
+                                                'permissions'  =>  array( 'access CiviCRM' ) 
+                                                ),
+                       'group'        => array( 'title'        =>  ts( 'Add to Group' ),
+                                                'ref'          =>  'group-add-contact',
+                                                'permissions'  =>  array( 'edit groups' )
+                                                ),
+                       'tag'          => array( 'title'        =>  ts( 'Tag' ),
+                                                'ref'          =>  'tag-contact',
+                                                'permissions'  =>  array( 'access CiviCRM' ) )
+                       );
+         
+         //1. check for component is active.
+         //2. check for user permissions.
+         //3. edit and view contact are directly accessible to user.
+         
+         require_once 'CRM/Core/Permission.php';
+         $config =& CRM_Core_Config::singleton( );
+         
+         $contextMenu = array( );
+         foreach ( $menu as $key => $values ) {
+             $componentName = CRM_Utils_Array::value( 'component',  $values );
+             
+             // if component action - make sure component is enable.
+             if ( $componentName && !in_array( $componentName, $config->enableComponents ) ) {
+                 continue;
+             }
+             
+             // make sure user has all required permissions.
+             $permissions = CRM_Utils_Array::value( 'permissions', $values );
+             if ( is_array( $permissions ) ) { 
+                 $hasPermissions = 0;
+                 foreach ( $permissions as $permission ) {
+                     if ( !CRM_Core_Permission::check( $permission ) ) {
+                         continue;
+                     }
+                     $hasPermissions++;
+                 }
+                 
+                 if ( count( $permissions ) != $hasPermissions ) {
+                     continue;
+                 }
+             }
+             
+             // build directly accessible action menu.
+             if ( in_array( $values['ref'], array( 'view-contact', 'edit-contact' ) ) ) {
+                 $contextMenu['directlyAccessible'][$key] = array( 'title' => $values['title'],
+                                                                   'ref'   => $values['ref'] );
+                 continue;
+             }
+             
+             // finally get menu item for -more- action widget.
+             $contextMenu['moreActions'][$key] = array( 'title' => $values['title'],
+                                                        'ref'   => $values['ref'] );
+         }
+         
+         return $contextMenu;
+     }
+     
 }

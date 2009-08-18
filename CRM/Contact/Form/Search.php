@@ -486,60 +486,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
         }
         $this->assign( 'id', CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) );
-
-        require_once 'CRM/Core/Permission.php';
-        $config =& CRM_Core_Config::singleton( );
-        $contextMenu = array( 
-                             'view'         => array( 'title'      => ts('View Contact'), 
-                                                      'permission' => "view all contacts",
-                                                      'ref'        =>  'view-contact'),
-                             'add'          => array( 'title'      => ts('Edit Contact'), 
-                                                      'permission' => "edit all contacts",
-                                                      'ref'        =>  'edit-contact'),
-                             'delete'       => array( 'title'      => ts('Delete Contact'), 
-                                                      'permission' => "delete contacts",
-                                                      'ref'        =>  'delete-contact'),
-                             'contribution' => array( 'title'      => ts('Record Contribution'), 
-                                                      'permission' => "access CiviContribute",
-                                                      'ref'        =>  'new-contribution'),
-                             'participant'  => array( 'title'      => ts('Register for Event'),
-                                                      'permission' => "access CiviEvent",
-                                                      'ref'        =>  'new-participant'),
-                             'activity'     => array( 'title'      => ts('Record Activity'),
-                                                      'permission' => "access CiviCRM",
-                                                      'ref'        =>  'new-activity'),
-                             'pledge'       => array( 'title'      => ts('Add Pledge'),
-                                                      'permission' => "access CiviPledge",
-                                                      'ref'        =>  'new-pledge'),
-                             'membership'   => array( 'title'      => ts('Enter Membership'),
-                                                      'permission' => "access CiviMember",
-                                                      'ref'        =>  'new-membership'),
-                             'email'        => array( 'title'      => ts('Send an Email'),
-                                                      'permission' => "access CiviCRM",
-                                                      'ref'        =>  'new-email'),
-                             'group'        => array( 'title'      => ts('Add to Group'),
-                                                      'permission' => "edit groups",
-                                                      'ref'        =>  'group-add-contact'),
-                             'tag'          => array( 'title'      => ts('Tag'),
-                                                      'permission' => "access CiviCRM",
-                                                      'ref'        =>  'tag-contact')
-                             );
-        $contextContact   = array( );
-        $enableComponents = array_merge( array( 'CiviCRM', 'delete contacts', 'edit groups' ), $config->enableComponents );
-        foreach( $contextMenu as $key => $value ) {
-            $component = substr( $value['permission'], 0, 6 );
-            $component = ( $component == 'access' ) ? substr( $value['permission'], 7 ) : $value['permission'];
-            if ( CRM_Core_Permission::check( $value['permission'] ) ) {
-                if ( in_array( $component, $enableComponents ) ) {
-                    $this->_contextMenu[$key] = array( 'title' => $value['title'],
-                                                       'ref'   => $value['ref'] );
-                } else if ( substr( $value['permission'], 9 ) == 'contacts' ) {
-                    $contextContact[$key] = array( 'title' => $value['title'],
-                                                   'ref'   => $value['ref'] );
-                }
-            }
-        }
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $menuItems = CRM_Contact_BAO_Contact::contextMenu( );
+        $contextContact     = CRM_Utils_Array::value( 'directlyAccessible', $menuItems ); 
+        $this->_contextMenu = CRM_Utils_Array::value( 'moreActions',        $menuItems );
         $this->assign( 'contextMenu', $contextContact + $this->_contextMenu );
+        
         // CRM_Core_Error::debug( 'f', $this->_formValues );
         // CRM_Core_Error::debug( 'p', $this->_params );
         eval( '$selector =& new ' . $this->_selectorName . 
