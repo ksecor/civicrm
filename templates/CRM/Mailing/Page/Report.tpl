@@ -2,7 +2,7 @@
 <legend>{ts}Delivery Summary{/ts}</legend>
 {if $report.jobs.0.start_date}
   {strip}
-  <table class="form-layout-compressed">
+  <table class="view-layout">
   <tr><td class="label"><a href="{$report.event_totals.links.queue}">{ts}Intended Recipients{/ts}</a></td><td>{$report.jobs.0.queue}</td></tr>
   <tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered} ({$report.jobs.0.delivered_rate|string_format:"%0.2f"}%)</td></tr>
   <tr><td class="label">{ts}Spooled Mails{/ts}</td><td>{$report.jobs.0.spool}</td></tr>
@@ -96,7 +96,7 @@
 <fieldset>
 <legend>{ts}Content / Components{/ts}</legend>
 {strip}
-<table class="form-layout-compressed">
+<table class="view-layout">
 {if $report.mailing.body_text}
 <tr>
   <td class="label nowrap">{ts}Text Message{/ts}</td>
@@ -140,7 +140,7 @@
     {ts}Mailing Settings{/ts}
 </legend>
 {strip}
-<table class="form-layout-compressed">
+<table class="view-layout">
 <tr><td class="label">{ts}Mailing Name{/ts}</td><td>{$report.mailing.name}</td></tr>
 <tr><td class="label">{ts}Subject{/ts}</td><td>{$report.mailing.subject}</td></tr>
 <tr><td class="label">{ts}From{/ts}</td><td>{$report.mailing.from_name} &lt;{$report.mailing.from_email}&gt;</td></tr>
