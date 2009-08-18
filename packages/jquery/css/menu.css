@@ -61,11 +61,12 @@ html>body .innerbox
 
 #civicrm-menu {
     position:absolute;
-	top:0px;
+    top:0px;
     left:0px;
     background:#1B1B1B repeat-x;
     width:100%;
-	z-index:9000;
+    height:26px;
+    z-index:9000;
 }
 
 li.menu-separator.active{
@@ -317,6 +318,7 @@ li.blue {
 
 #civicrm-menu li#crm-qsearch {
     padding: 0 3px 2px 0;
+    height: 20px;
 }
 
 li#crm-qsearch input {
@@ -336,7 +338,7 @@ div.m ul#civicrm-menu {
     position:relative;
     border: none;
     left:0px;
-	padding: 5px 0px 20px 2px;
+    padding: 5px 0px 20px 2px;
 }
 div#submenu-box ul#civicrm-menu, .m ul#civicrm-menu li.menumain{
     background-color:#555555;
