@@ -778,6 +778,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // assigning formated value to related variable
         if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
             $params['target_contact_id'  ] = explode( ',', $params['target_contact_id'] );
+        } else {
+            $params['target_contact_id'] = array( );
         }
 
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
@@ -804,10 +806,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                              $this->_activityId );
                      
         // format target params
-        if ( $this->_single ) {
-            $params['target_contact_id']   = empty($params['target_contact_id']) ?  
-                array( 1 => $this->_currentlyViewedContactId ) : $params['target_contact_id'];
-        } else {
+        if ( !$this->_single ) {
             $params['target_contact_id']   = $this->_contactIds;
         }
 
@@ -865,11 +864,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         // set status message
-        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved. %2. %3', 
+        if ( CRM_Utils_Array::value('subject', $params) ) {
+            $params['subject'] = "'".$params['subject']."'";
+        }
+        
+        CRM_Core_Session::setStatus( ts('Activity %1 has been saved. %2. %3', 
                                         array( 1 => $params['subject'],
                                                2 => $followupStatus,
                                                3 => $mailStatus ) ) );
-
+        
         return array( 'activity' => $activity );
     }
     
