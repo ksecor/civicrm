@@ -66,6 +66,7 @@ function enableDisable( recordID, recordBAO, op ) {
 		title: st,
 		modal: true,
 		bgiframe: true,
+		position: "right",
 		overlay: { 
 			opacity: 0.5, 
 			background: "black" 
@@ -82,6 +83,7 @@ function enableDisable( recordID, recordBAO, op ) {
  			            cj( '#enableDisableStatusMsg' ).show( ).html( statusMessage.status );
        	     		        }
 				if ( statusMessage.show == "noButton" ) {
+   				    cj('#enableDisableStatusMsg').dialog('option', 'position', "centre");
 				    cj('#enableDisableStatusMsg').data("width.dialog", 630);
 				    cj.extend( cj.ui.dialog.prototype, {
 			               	      'removebutton': function(buttonName) {
