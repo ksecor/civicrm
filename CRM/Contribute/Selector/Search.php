@@ -280,6 +280,8 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                               $this->_contributionClause );
         // process the result of the query
         $rows = array( );
+        require_once 'CRM/Event/BAO/Participant.php';
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
 
         //CRM-4418 check for view/edit/delete
         $permissions = array( CRM_Core_Permission::VIEW );
@@ -290,7 +292,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             $permissions[] = CRM_Core_Permission::DELETE;
         }
         $mask = CRM_Core_Action::mask( $permissions );
-        
+
         $componentId = null;
         While ($result->fetch()) {
             $row = array();
@@ -324,11 +326,13 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                'cxt'              => $this->_context
                                );
             
-            $row['action']   = CRM_Core_Action::formLink( self::links( $componentId, $componentAction ), $mask, $actions );
+            $row['action']       = CRM_Core_Action::formLink( self::links( $componentId, $componentAction ), $mask, $actions );
 
+            $row['contact_type'] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
 
-            require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
-            $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+            if ( CRM_Utils_Array::value( 'amount_level', $row ) ) {
+                CRM_Event_BAO_Participant::fixEventLevel( $row['amount_level'] );
+            }
             
             $rows[] = $row;
         }
