@@ -32,4 +32,10 @@
     UPDATE civicrm_address SET city_{$locale} = city;
   {/foreach}
   ALTER TABLE civicrm_address DROP city;
+
+  {foreach from=$locales item=locale}
+    ALTER TABLE civicrm_address ADD name_{$locale} VARCHAR(255);
+    UPDATE civicrm_address SET name_{$locale} = name;
+  {/foreach}
+  ALTER TABLE civicrm_address DROP name;
 {/if}

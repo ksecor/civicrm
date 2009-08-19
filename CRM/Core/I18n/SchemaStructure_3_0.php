@@ -139,6 +139,7 @@ class CRM_Core_I18n_SchemaStructure_3_0
                     'supplemental_address_2' => 'varchar(96)',
                     'supplemental_address_3' => 'varchar(96)',
                     'city' => 'varchar(64)',
+                    'name' => 'varchar(255)',
                 ) ,
                 'civicrm_event' => array(
                     'title' => 'varchar(255)',
