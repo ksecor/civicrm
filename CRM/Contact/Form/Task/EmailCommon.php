@@ -120,12 +120,13 @@ class CRM_Contact_Form_Task_EmailCommon
 			$form->_contactIds = array_unique( $form->_contactIds );
 			require_once 'CRM/Contact/BAO/Contact.php';
 			foreach ( $form->_contactIds as $contactId ) {
-				list($toDisplayName, $toEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
+				list ( $toDisplayName, $toEmail, $toDoNotEmail, $onHold, $isDeceased  ) = 
+                    CRM_Contact_BAO_Contact::getContactDetails($contactId);
 				if ( ! trim( $toDisplayName ) ) {
 					$toDisplayName = $toEmail;
 				}
 
-				if ( $toDoNotEmail || empty( $toEmail ) ) {
+				if ( $toDoNotEmail || empty( $toEmail ) || $isDeceased ) {
 					$suppressedEmails++;
 				} else {
 					$toArray[$contactId] = $toEmail;
