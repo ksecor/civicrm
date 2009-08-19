@@ -187,6 +187,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
             // also set the scheduled_id 
             $session =& CRM_Core_Session::singleton( );
             $mailing->scheduled_id = $session->get( 'userID' );
+            $mailing->created_date = CRM_Utils_Date::isoToMysql( $mailing->created_date );
             $mailing->save( );
             
         }
