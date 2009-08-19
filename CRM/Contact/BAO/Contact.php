@@ -1990,7 +1990,7 @@ UNION
                                                 ),
                        'activity'     => array( 'title'        =>  ts( 'Record Activity' ),
                                                 'ref'          =>  'new-activity',
-                                                'permissions'  =>  array( 'access CiviCRM' )
+                                                'permissions'  =>  array( 'edit all contacts' )
                                                 ),
                        'pledge'       => array( 'title'        =>  ts( 'Add Pledge' ),
                                                 'ref'          =>  'new-pledge',
@@ -2005,7 +2005,7 @@ UNION
                                                 ),
                        'email'        => array( 'title'        =>  ts( 'Send an Email' ),
                                                 'ref'          =>  'new-email',
-                                                'permissions'  =>  array( 'access CiviCRM' ) 
+                                                'permissions'  =>  array( 'view all contacts' ) 
                                                 ),
                        'group'        => array( 'title'        =>  ts( 'Add to Group' ),
                                                 'ref'          =>  'group-add-contact',
@@ -2013,7 +2013,7 @@ UNION
                                                 ),
                        'tag'          => array( 'title'        =>  ts( 'Tag' ),
                                                 'ref'          =>  'tag-contact',
-                                                'permissions'  =>  array( 'access CiviCRM' ) )
+                                                'permissions'  =>  array( 'edit all contacts' ) )
                        );
          
          //1. check for component is active.
