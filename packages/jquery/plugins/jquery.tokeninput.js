@@ -379,14 +379,30 @@ $.TokenList = function (input, settings) {
 
         // Delete this token's id from hidden input
         var str = hidden_input.val()
-        var start = str.indexOf(token_data.id+",");
-        var end = str.indexOf(",", start) + 1;
+        
+// 	var start = str.indexOf(token_data.id+",");
+//         var end = str.indexOf(",", start) + 1;
 
-        if(end >= str.length) {
-            hidden_input.val(str.slice(0, start));
-        } else {
-            hidden_input.val(str.slice(0, start) + str.slice(end, str.length));
-        }
+//         if(end >= str.length) {
+//             hidden_input.val(str.slice(0, start));
+//         } else {
+//             hidden_input.val(str.slice(0, start) + str.slice(end, str.length));
+//         }
+
+	var resultantTokenStr = '';
+	// token string consist of multiple tokens.
+	if ( str.indexOf( ',' ) != -1 ) {
+	    var deleteTokenStr = ',' + token_data.id;
+	    if ( str.indexOf( token_data.id ) == 0 ) {
+		deleteTokenStr =  token_data.id + ',';
+	    }
+	    var start = str.indexOf( deleteTokenStr );
+	    var end   = start + deleteTokenStr.length;
+	    resultantTokenStr = str.slice( 0, start ) + str.slice( end, str.length );
+	}
+
+	hidden_input.val( resultantTokenStr );
+	
     }
 
     // Hide and clear the results dropdown
