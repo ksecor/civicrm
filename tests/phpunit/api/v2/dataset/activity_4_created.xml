@@ -28,37 +28,14 @@
       <value>17</value>                      <!--  source_contact_id  -->
       <null />                              <!--  source_record_id  -->
       <value>5</value>                      <!--  activity_type_id  -->
-      <value>test activity type id</value>  <!--  subject  -->
-      <value>2009-01-23 12:34:56</value>         <!--  activity_date_time  -->
-      <null />  <!--  duration  -->
-      <null />  <!--  location  -->
+      <value>Update Discussion on Apis for v2</value>  <!--  subject  -->
+      <value>2009-10-11T12:34:56</value>                              <!--  activity_date_time  -->
+      <value>120</value  <!--  duration  -->
+      <value>21, Park Avenue</value>  <!--  location  -->
       <null />  <!--  phone_id  -->
       <null />  <!--  phone_number  -->
-      <null />  <!--  details  -->
-      <null />  <!--  status_id  -->
-      <null />  <!--  priority_id  -->
-      <null />  <!--  parent_id  -->
-      <null />  <!--  is_test  -->
-      <null />  <!--  medium_id  -->
-      <null />  <!--  is_auto  -->
-      <null />  <!--  relationship_id  -->
-      <null />   <!--  is_current_revision  -->
-      <null />   <!--  original_id  -->
-      <null />   <!--  is_deleted  -->
-    </row>
-    <row>
-      <value>13</value>                      <!--  id  -->
-      <value>17</value>                      <!--  source_contact_id  -->
-      <null />                              <!--  source_record_id  -->
-      <value>5</value>                      <!--  activity_type_id  -->
-      <value>test activity type id</value>  <!--  subject  -->
-      <null />                              <!--  activity_date_time  -->
-      <null />  <!--  duration  -->
-      <null />  <!--  location  -->
-      <null />  <!--  phone_id  -->
-      <null />  <!--  phone_number  -->
-      <null />  <!--  details  -->
-      <null />  <!--  status_id  -->
+      <value>Lets update Meeting</value>  <!--  details  -->
+      <value>1</value>  <!--  status_id  -->
       <null />  <!--  priority_id  -->
       <null />  <!--  parent_id  -->
       <null />  <!--  is_test  -->

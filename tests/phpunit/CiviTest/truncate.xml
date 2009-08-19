@@ -6,8 +6,11 @@
   <civicrm_acl_cache />
   <civicrm_acl_entity_role />
   <civicrm_activity />
+  <civicrm_activity_target />
   <civicrm_component />
   <civicrm_contact />
+  <civicrm_custom_group />
+  <civicrm_custom_field />
   <civicrm_email />
   <civicrm_entity_tag />
   <civicrm_group />
