@@ -58,7 +58,7 @@ class CRM_Contact_Form_Edit_Address
         
         $form->applyFilter('__ALL__','trim');
    
-		$js = array( 'onChange' => 'checkLocation( this.id );');	       
+        $js = array( 'onChange' => 'checkLocation( this.id );');
         $form->addElement('select',
                           "address[$blockId][location_type_id]",
                           ts( 'Location Type' ),
