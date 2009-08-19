@@ -359,7 +359,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         }
 
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
-            $assineeContacts = explode( ',', substr( $params['assignee_contact_id'], 0, -1 ) );
+            $assineeContacts = explode( ',', $params['assignee_contact_id'] );
             $assineeContacts = array_unique( $assineeContacts );
             unset( $params['assignee_contact_id'] );
         } else {
