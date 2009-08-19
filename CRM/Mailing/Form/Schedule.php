@@ -209,6 +209,10 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
             $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, "force=1&reset=1&ssID={$ssID}" );
             CRM_Utils_System::redirect( $url );
         }
+        
+        $session =& CRM_Core_Session::singleton( );
+        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/mailing/browse/scheduled', 
+                                                             'reset=1&scheduled=true' ) );
     }
     
     /**

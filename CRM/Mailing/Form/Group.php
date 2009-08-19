@@ -59,6 +59,12 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
                 parent::preProcess( );
             }
         }
+        
+        // use previous context unless mailing is not schedule, CRM-4290
+        $session =& CRM_Core_Session::singleton( ); 
+        if ( strpos( $session->readUserContext( ), 'civicrm/mailing' ) === false ) { 
+            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/mailing','reset=1' ) );
+        }
     }
     
     /**
