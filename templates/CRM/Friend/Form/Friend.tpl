@@ -24,11 +24,11 @@
     </div>
     
     <dl>
-    	<dt></dt><dd>{$form.is_active.html}&nbsp;{$form.is_active.label}</dd>
+    	<dt></dt><dd>{$form.tf_is_active.html}&nbsp;{$form.tf_is_active.label}</dd>
     </dl>
     <div id="friendFields">
     <table class="form-layout">
-        <tr><td class="label">{$form.title.label}</td><td>{$form.title.html}</td></tr>   
+        <tr><td class="label">{$form.tf_title.label}</td><td>{$form.tf_title.html}</td></tr>   
         <tr><td class="label">{$form.intro.label}</td><td>{$form.intro.html}<br />
         <span class="description">{ts 1=$enduser}This message is displayed to the %1 at the top of the Tell a Friend form. You may include HTML tags to add formatting or links.{/ts}</span></td></tr>     
         <tr><td class="label">{$form.suggested_message.label}</td><td>{$form.suggested_message.html}<br />
@@ -49,7 +49,7 @@
 
 {literal}
 <script type="text/javascript">
-	var is_act = document.getElementsByName('is_active');
+	var is_act = document.getElementsByName('tf_is_active');
   	if ( ! is_act[0].checked) {
            hide('friendFields');
 	}

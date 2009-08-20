@@ -211,9 +211,9 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      */
     function buildFriendForm( $form )
     {
-        $form->addElement('checkbox', 'is_active', ts( 'Tell a Friend enabled?' ),null,array('onclick' =>"friendBlock(this)") );
+        $form->addElement('checkbox', 'tf_is_active', ts( 'Tell a Friend enabled?' ),null,array('onclick' =>"friendBlock(this)") );
         // name
-        $form->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'title'), true);
+        $form->add('text', 'tf_title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'title'), true);
         
         // intro-text and thank-you text
         $form->addWysiwyg('intro', ts('Introduction'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'intro'), true);

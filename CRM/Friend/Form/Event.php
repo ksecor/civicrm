@@ -68,14 +68,16 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
             $defaults['entity_table'] = 'civicrm_event';            
             $defaults['entity_id']    = $this->_id; 
             CRM_Friend_BAO_Friend::getValues($defaults);
-            $this->_friendId = CRM_Utils_Array::value( 'id', $defaults );
+            $this->_friendId          = CRM_Utils_Array::value( 'id', $defaults );
+            $defaults['tf_title']     = CRM_Utils_Array::value( 'title', $defaults );
+            $defaults['tf_is_active'] = CRM_Utils_Array::value( 'is_active', $defaults );
         } 
        
         if ( !$this->_friendId ) {
             $defaults['intro'] = ts('Help us spread the word about this event. Use the space below to personalize your email message - let your friends know why you\'re attending. Then fill in the name(s) and email address(es) and click \'Send Your Message\'.');
             $defaults['suggested_message'] = ts('Thought you might be interested in checking out this event. I\'m planning on attending.');
             $defaults['thankyou_text'] = ts('Thanks for spreading the word about this event to your friends.');
-            $defaults['title'] = ts('Tell a Friend');
+            $defaults['tf_title'] = ts('Tell a Friend');
             $defaults['thankyou_title'] = ts('Thanks for Spreading the Word');
         }
         
@@ -105,8 +107,10 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );     
         
-        $formValues['entity_table'     ] = 'civicrm_event';
-        $formValues['entity_id'        ] = $this->_id;
+        $formValues['entity_table'] = 'civicrm_event';
+        $formValues['entity_id'   ] = $this->_id;
+        $formValues['title'       ] = $formValues['tf_title'    ];
+        $formValues['is_active'   ] = $formValues['tf_is_active'];
 
         if ( ($this->_action & CRM_Core_Action::UPDATE) && $this->_friendId ) {
             $formValues['id'] = $this->_friendId ;
