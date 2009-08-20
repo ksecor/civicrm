@@ -175,7 +175,8 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             if ($config->userFramework == 'Drupal') {
                 $url = CRM_Utils_System::url( 'user/' . $uid );
             } else if ( $config->userFramework == 'Joomla' ) {
-                $url = $config->userFrameworkBaseURL . 'index2.php?option=com_users&task=editA&hidemainmenu=1&id=' . $uid;
+                $url = $config->userFrameworkBaseURL . 
+                    'index2.php?option=com_users&view=user&task=edit&cid[]=' . $uid;
             } else {
                 $url = null;
             }
