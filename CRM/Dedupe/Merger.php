@@ -56,7 +56,7 @@ class CRM_Dedupe_Merger
             $relTables = array(
                 'rel_table_contributions' => array(
                     'title'  => ts('Contributions'),
-                    'tables' => array('civicrm_contribution', 'civicrm_contribution_recur'),
+                    'tables' => array('civicrm_contribution', 'civicrm_contribution_recur', 'civicrm_contribution_soft'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=contribute'),
                 ),
                 'rel_table_memberships' => array(
@@ -163,6 +163,7 @@ class CRM_Dedupe_Merger
                 'civicrm_contact'                 => array('primary_contact_id'),
                 'civicrm_contribution'            => array('contact_id', 'honor_contact_id'),
                 'civicrm_contribution_recur'      => array('contact_id'),
+                'civicrm_contribution_soft'       => array('contact_id'),
                 'civicrm_entity_tag'              => array('contact_id'),
                 'civicrm_grant'                   => array('contact_id'),
                 'civicrm_group_contact'           => array('contact_id'),
