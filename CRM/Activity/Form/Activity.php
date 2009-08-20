@@ -435,7 +435,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             // since those are jQuery fields, unfortunately we cannot use defaults directly
             $this->_sourceContactId = $this->_currentUserId;
             $this->_targetContactId = $this->_currentlyViewedContactId;
-      
+            $target_contact = array( );
+            
             $defaults['source_contact_id'] = self::_getDisplayNameById( $this->_sourceContactId );
             $defaults['source_contact_qid'] = $this->_sourceContactId;
             if ( $this->_context != 'standalone' && isset( $this->_targetContactId ) ) {

@@ -292,7 +292,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             }
 
             // is this an event template ?
-            if ( $this->_values['event']['is_template'] ) {
+            if ( CRM_Utils_Array::value('is_template', $this->_values['event']) ) {
                 CRM_Core_Error::statusBounce( ts( 'Event templates are not meant to be registered.' ), $infoUrl );
             }
 
