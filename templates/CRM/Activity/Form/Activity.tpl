@@ -117,6 +117,11 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
                 </td>
              {/if}
              </tr>
+
+            {if $activityTypeFile}
+                {include file="CRM/$crmDir/Form/Activity/$activityTypeFile.tpl"}
+            {/if}
+
              <tr>
                 <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
              </tr>

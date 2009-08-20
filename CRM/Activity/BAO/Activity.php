@@ -1408,8 +1408,13 @@ AND cl.modified_id  = c.id
         }
         
         global $civicrm_root;
+        $config   =& CRM_Core_Config::singleton( );
         if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/{$crmDir}/Form/Activity/{$activityTypeFile}.php") ) {
-            return false;
+			if (empty($config->customPHPPathDir)) {
+				return false;
+			} else if (!file_exists(rtrim($config->customPHPPathDir, '/') . "/CRM/{$crmDir}/Form/Activity/{$activityTypeFile}.php") ) {
+            	return false;
+			}
         }
 
         return $activityTypeFile;
