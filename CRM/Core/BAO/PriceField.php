@@ -399,11 +399,11 @@ FROM
         civicrm_option_value option_value,
         civicrm_option_group option_group
 WHERE 
-        option_group.name  = '" . $optionGroupName . "'
+        option_group.name  = %1
     AND option_group.id    = option_value.option_group_id
-    AND option_value.label = '" . $optionLabel . "'";
+    AND option_value.label = %2";
         
-        $dao    =& CRM_Core_DAO::executeQuery( $query );
+        $dao    =& CRM_Core_DAO::executeQuery($query, array(1 => array($optionGroupName, 'String'), 2 => array($optionLabel, 'String')));
         
         while ( $dao->fetch( ) ) {
             return $dao->id;
