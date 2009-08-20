@@ -79,7 +79,7 @@ div.spacer, .spacer {
 
 #crm-container select {
   vertical-align: middle;
-  border: 1px solid #494949;
+  border: 1px solid #999;
   font-weight:bold;
 }
 
@@ -89,7 +89,7 @@ div.spacer, .spacer {
 }
 
 #crm-container input[type="text"], #crm-container input[type="password"] {
-  border: 1px solid #494949;
+  border: 1px solid #999;
   font-size:12px;
   font-size-adjust:none;
   font-stretch:normal;
@@ -101,7 +101,7 @@ div.spacer, .spacer {
 }
 
 #crm-container textarea {
-    border: 1px solid #494949;
+    border: 1px solid #999;
 }
   
 #crm-container .form-submit {
