@@ -338,8 +338,14 @@ div.m ul#civicrm-menu {
     position:relative;
     border: none;
     left:0px;
+    height:0px;
     padding: 5px 0px 20px 2px;
 }
+
+div.m ul#civicrm-menu li#crm-qsearch {
+    height:0px;
+}
+
 div#submenu-box ul#civicrm-menu, .m ul#civicrm-menu li.menumain{
     background-color:#555555;
 }
