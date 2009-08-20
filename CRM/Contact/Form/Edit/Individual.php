@@ -80,7 +80,9 @@ class CRM_Contact_Form_Edit_Individual {
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
       
         // job title
-        $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);
+        // override the size for UI to look better
+        $attributes['job_title']['size'] = 30;
+        $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title'], 'size="30"');
             
         if ( $action & CRM_Core_Action::UPDATE ) {
             $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
