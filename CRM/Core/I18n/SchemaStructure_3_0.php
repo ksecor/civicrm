@@ -133,6 +133,14 @@ class CRM_Core_I18n_SchemaStructure_3_0
                     'help_post' => 'text',
                     'label' => 'varchar(255)',
                 ) ,
+                'civicrm_address' => array(
+                    'street_address' => 'varchar(96)',
+                    'supplemental_address_1' => 'varchar(96)',
+                    'supplemental_address_2' => 'varchar(96)',
+                    'supplemental_address_3' => 'varchar(96)',
+                    'city' => 'varchar(64)',
+                    'name' => 'varchar(255)',
+                ) ,
                 'civicrm_event' => array(
                     'title' => 'varchar(255)',
                     'summary' => 'text',
@@ -224,6 +232,14 @@ class CRM_Core_I18n_SchemaStructure_3_0
                             'custom_group_id',
                         ) ,
                         'unique' => 1,
+                    ) ,
+                ) ,
+                'civicrm_address' => array(
+                    'index_city' => array(
+                        'name' => 'index_city',
+                        'field' => array(
+                            'city',
+                        ) ,
                     ) ,
                 ) ,
             );
