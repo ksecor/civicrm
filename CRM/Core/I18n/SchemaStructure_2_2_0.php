@@ -30,7 +30,7 @@
  * $Id$
  *
  */
-class CRM_Core_I18n_SchemaStructure_2_2
+class CRM_Core_I18n_SchemaStructure_2_2_0
 {
     static function &columns() 
     {

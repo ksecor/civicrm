@@ -237,9 +237,24 @@ class CRM_Core_I18n_Schema
     static function rebuildMultilingualSchema($locales, $version = null)
     {
         if ($version) {
-            list($major, $minor) = explode('.', $version);
-            $class = "CRM_Core_I18n_SchemaStructure_{$major}_{$minor}";
-            require_once "CRM/Core/I18n/SchemaStructure_{$major}_{$minor}.php";
+            // fetch all the SchemaStructure versions we ship and sort by version
+            $schemas = array();
+            foreach (scandir(dirname(__FILE__)) as $file) {
+                $matches = array();
+                if (preg_match('/^SchemaStructure_([0-9a-z_]+)\.php$/', $file, $matches)) {
+                    $schemas[] = str_replace('_', '.', $matches[1]);
+                }
+            }
+            usort($schemas, 'version_compare');
+
+            // find the latest schema structure older than (or equal to) $version
+            do {
+                $latest = array_pop($schemas);
+            } while (version_compare($latest, $version, '>'));
+            $latest = str_replace('.', '_', $latest);
+
+            $class = "CRM_Core_I18n_SchemaStructure_{$latest}";
+            require_once "CRM/Core/I18n/SchemaStructure_{$latest}.php";
         } else {
             $class = 'CRM_Core_I18n_SchemaStructure';
             require_once 'CRM/Core/I18n/SchemaStructure.php';
