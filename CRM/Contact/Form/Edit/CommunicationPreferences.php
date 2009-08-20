@@ -55,14 +55,15 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
      * @access public
      * @static
      */
-    static function buildQuickForm( &$form ) {
+    static function buildQuickForm( &$form ) 
+    {
         // since the pcm - preferred comminication method is logically
         // grouped hence we'll use groups of HTML_QuickForm
 
                
         // checkboxes for DO NOT phone, email, mail
         // we take labels from SelectValues
-        $privacy = array( );
+        $privacy = $commPreff = $commPreference = array( );
         $privacyOptions = CRM_Core_SelectValues::privacy( );
         foreach ( $privacyOptions as $name => $label) {
             $privacy[] = HTML_QuickForm::createElement('advcheckbox', $name, null, $label );
@@ -71,16 +72,21 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
         
         // preferred communication method 
         require_once 'CRM/Core/PseudoConstant.php';
-        $commPreff = array();
         $comm = CRM_Core_PseudoConstant::pcm();
         foreach ( $comm as $value => $title ) {
             $commPreff[] = HTML_QuickForm::createElement('advcheckbox', $value, null, $title );
         }
         $form->addGroup($commPreff, 'preferred_communication_method', ts('Preferred Method(s)'));
+        if ( !empty($privacyOptions) ) {
+            $commPreference['privacy'] = $privacyOptions;
+        }
+        if ( !empty($comm) ) {
+            $commPreference['preferred_communication_method'] = $comm;
+        }
         
         //using for display purpose.
-        $form->assign( 'commPreference', array( 'privacy' => $privacyOptions, 'preferred_communication_method' => $comm ) );
-        
+        $form->assign( 'commPreference', $commPreference );
+
         $form->add('select', 'preferred_mail_format', ts('Email Format'), CRM_Core_SelectValues::pmf());
         $form->add('checkbox', 'is_opt_out', ts( 'NO BULK EMAILS (User Opt Out)' ) );
 
@@ -139,7 +145,8 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
      * @access public
      * @return None
      */
-    function setDefaultValues( &$form, &$defaults ) {
+    function setDefaultValues( &$form, &$defaults ) 
+    {
         //set default from greeting types CRM-4575.
         $greetingTypes = array('addressee'       => 'addressee_id', 
                                'email_greeting'  => 'email_greeting_id', 
@@ -175,7 +182,7 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
      * @access public
      */
      static function getGreetingFields( $contactType ) 
-    {
+     {
         if ( empty(self::$greetings[$contactType]) ) {
             self::$greetings[$contactType] = array( );
             

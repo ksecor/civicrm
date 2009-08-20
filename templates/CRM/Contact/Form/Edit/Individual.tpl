@@ -1,12 +1,12 @@
 {* tpl for building Individual related fields *}
 <table class="form-layout-compressed">
     <tr>
-        <td>
-            {if $form.prefix_id}
+        {if $form.prefix_id}
+	    <td>
                 {$form.prefix_id.label}<br/>
                 {$form.prefix_id.html}
-            {/if}
-        </td>    
+            </td>    
+        {/if}
         <td>
             {$form.first_name.label}<br /> 
             {if $action == 2}
@@ -28,12 +28,12 @@
             {/if}
             {$form.last_name.html}
         </td>
-        <td>
-            {if $form.suffix_id}
+	{if $form.suffix_id}
+            <td>
                 {$form.suffix_id.label}<br/>
                 {$form.suffix_id.html}
-            {/if}
-        </td>
+            </td>
+	{/if}
     </tr>
     
     <tr>
