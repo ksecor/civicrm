@@ -15,7 +15,7 @@
 {/htxt}
 
 {htxt id="id-preferred_communication_method"}
-{ts}Select the preferred method of communicating with this contact.{/ts}
+{ts}Select the preferred method(s) of communicating with this contact.{/ts}
 {/htxt}
 
 {htxt id="id-privacy"}
@@ -24,4 +24,10 @@
 
 {htxt id="id-usehousehold"}
 {ts}Check this option if you want to use a shared household address for this individual. You can either select an existing household.<br /> To create a new one just enter the name of desired household, select the same from drop down and press enter.{/ts}
+{/htxt}
+
+{htxt id="id-greeting"}
+<p>{ts}Use the greeting/address options to determine how you would like the contact's salutation and name displayed for different communication methods. When you send an email or export a list of records to a .csv file for mail merging, the greeting and addressee fields will reflect your preferences.
+{/ts}</p>
+<p>{ts 1='<a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Mail-merge+Tokens+for+Contact+Data" target="_blank">http://wiki.civicrm.org/confluence/display/CRMDOC/Mail-merge+Tokens+for+Contact+Data</a>'}You may also create a customized greeting and use field tokens to insert fields of your choice. For more information on available tokens, see the online documentation (%1).{/ts}</p>
 {/htxt}

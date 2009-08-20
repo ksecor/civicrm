@@ -17,6 +17,7 @@
             {if $form.addressee_id}
                 <td>{$form.addressee_id.label}</td>
             {/if}
+                <td>&nbsp;&nbsp;{help id="id-greeting"}</td>
         </tr>
         <tr>
             {if $form.email_greeting_id}

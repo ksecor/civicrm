@@ -76,7 +76,7 @@ class CRM_Contact_Form_Edit_CommunicationPreferences
         foreach ( $comm as $value => $title ) {
             $commPreff[] = HTML_QuickForm::createElement('advcheckbox', $value, null, $title );
         }
-        $form->addGroup($commPreff, 'preferred_communication_method', ts('Method'));
+        $form->addGroup($commPreff, 'preferred_communication_method', ts('Preferred Method(s)'));
         
         //using for display purpose.
         $form->assign( 'commPreference', array( 'privacy' => $privacyOptions, 'preferred_communication_method' => $comm ) );
