@@ -430,7 +430,7 @@
   <field>
        <name>job_title</name>
        <type>varchar</type>
-       <length>256</length>
+       <length>255</length>
        <import>true</import>
        <headerPattern>/^job|(j(ob\s)?title)$/i</headerPattern>
        <dataPattern>//</dataPattern>
