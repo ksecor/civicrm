@@ -328,6 +328,7 @@ div.spacer, .spacer {
   background-color: #ffff99;
   padding: .25em .5em .25em .5em;
   border: 1px solid #696969;
+  -moz-border-radius: 2px 2px 2px 2px;
 }
 
 #crm-container div.view-data {
@@ -382,6 +383,7 @@ div.spacer, .spacer {
   background-color: #999999;
   font-weight: bold;
   color: #FAFAFA;
+  -moz-border-radius: 2px 2px 2px 2px;
 }
 
 #crm-container div.display-block {
