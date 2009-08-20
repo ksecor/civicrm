@@ -711,8 +711,15 @@ class CRM_Utils_System {
                 $request->addCookie( $name, $value );
             }
         }
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Standalone' ) {
+            session_write_close();
+        }
         $request->sendRequest( );
         $result = $request->getResponseCode( ) == 200 ? true : false;
+        if ( $config->userFramework == 'Standalone' ) {
+            session_start ();
+        }
         CRM_Core_Error::setCallback( );
         return $result;
     }
