@@ -1,5 +1,5 @@
 {if $showDirectly}
-  {assign var=height value="400px"}
+  {assign var=height value="350px"}
   {assign var=width  value="425px"}
 {else}	
   {assign var=height value="600px"}
