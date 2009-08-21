@@ -189,7 +189,7 @@
                                     </span></td>
                                 </tr>
                                 <tr>
-                                    <td class="label">{ts}Method{/ts}</td><td>{$preferred_communication_method_display}</td>
+                                    <td class="label">{ts}Preferred Method(s){/ts}</td><td>{$preferred_communication_method_display}</td>
                                 </tr>
                                 <tr>
                                     <td class="label">{ts}Email Format{/ts}</td><td>{$preferred_mail_format}</td>
