@@ -52,6 +52,7 @@ require_once 'api/v2/utils.php';
  */
 function civicrm_group_organization_get( &$params ) 
 {
+    _civicrm_initialize( );
     if ( ! array_key_exists( 'contact_id', $params ) &&
          ! array_key_exists( 'group_id', $params ) ) {
         return civicrm_create_error( ts( 'at least one of contact_id or group_id is a required field' ) );
