@@ -189,6 +189,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             
             self::logActivityAction( $activity, $logMsg );
         }
+        
+        // delete the recently created Activity
+        require_once 'CRM/Utils/Recent.php';
+        if ( $result ) CRM_Utils_Recent::del( $activity->id );
+        
         $transaction->commit( );
         return $result;
     }

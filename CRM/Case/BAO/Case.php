@@ -314,15 +314,20 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $case     = & new CRM_Case_DAO_Case( );
         $case->id = $caseId; 
         if ( ! $moveToTrash ) {  
-            $case->delete( );
+            $result = $case->delete( );
             $transaction->commit( );
-            return true;
         } else {
-                                    
-            $case->is_deleted = 1;
+            $result = $case->is_deleted = 1;
             $case->save( );
+        }
+        
+        if ( $result ) { 
+            // remove from recent items.
+            require_once 'CRM/Utils/Recent.php';
+            CRM_Utils_Recent::del( $caseId );
             return true;
         }
+        
         return false;
     }
 
