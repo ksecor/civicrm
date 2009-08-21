@@ -69,31 +69,7 @@ class CiviTestCase extends PHPUnit_Framework_Testcase
 
 
     
-    function assertAttributesEqual( &$expectedValues, &$actualValues ) 
-    {
-        foreach( $expectedValues as $paramName => $paramValue ) {
-            if ( isset( $actualValues[$paramName] ) ) {
-                $this->assertEqual( $paramValue, $actualValues[$paramName] );
-            } else {
-                $this->fail( "Attribute $paramName not present in actual array." );
-            }
-        }        
-    }
-    
-    function assertArrayKeyExists( $key, &$list ) {
-        $result = isset( $list[$key] ) ? true : false;
-        $this->assertTrue( $result, ts( "%1 element exists?",
-                                        array( 1 => $key ) ) );
-    }
 
-    function assertArrayValueNotNull( $key, &$list ) {
-        $this->assertArrayKeyExists( $key, $list );
-
-        $value = isset( $list[$key] ) ? $list[$key] : null;
-        $this->assertTrue( $value,
-                           ts( "%1 element not null?",
-                               array( 1 => $key ) ) );
-    }
 
     function getUrlsByLabel($label, $fuzzy = false) {
         if ( ! $fuzzy ) {

@@ -194,7 +194,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
                                     $expectedValue, $message  ) 
     {
         $value = CRM_Core_DAO::getFieldValue( $daoName, $searchValue, $returnColumn, $searchColumn );
-        $this->assertEqual(  $value, $expectedValue, $message );
+        $this->assertEquals(  $value, $expectedValue, $message );
     }
 
     // Compare all values in a single retrieved DB record to an array of expected values
@@ -205,7 +205,34 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         CRM_Core_DAO::commonRetrieve( $daoName, $searchParams, $dbValues );
         
         // compare db values with expected values
-        self::assertAttributesEqual( $expectedValues, $dbValues);
+        self::assertAttributesEquals( $expectedValues, $dbValues);
+    }
+
+
+    function assertAttributesEquals( &$expectedValues, &$actualValues ) 
+    {
+        foreach( $expectedValues as $paramName => $paramValue ) {
+            if ( isset( $actualValues[$paramName] ) ) {
+                $this->assertEquals( $paramValue, $actualValues[$paramName] );
+            } else {
+                $this->fail( "Attribute $paramName not present in actual array." );
+            }
+        }        
+    }
+    
+    function assertArrayKeyExists( $key, &$list ) {
+        $result = isset( $list[$key] ) ? true : false;
+        $this->assertTrue( $result, ts( "%1 element exists?",
+                                        array( 1 => $key ) ) );
+    }
+
+    function assertArrayValueNotNull( $key, &$list ) {
+        $this->assertArrayKeyExists( $key, $list );
+
+        $value = isset( $list[$key] ) ? $list[$key] : null;
+        $this->assertTrue( $value,
+                           ts( "%1 element not null?",
+                               array( 1 => $key ) ) );
     }
     
     /** 
