@@ -174,7 +174,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
             $contact->display_name = trim( $display_name );
         }
 
-        if ( CRM_Utils_Array::value( 'email', $params ) ) {
+        if ( CRM_Utils_Array::value( 'email', $params ) && is_array( $params['email'] ) ) {
             foreach ($params['email'] as $emailBlock) {
                 if ( isset( $emailBlock['is_primary'] ) ) {
                     $email = $emailBlock['email'];
