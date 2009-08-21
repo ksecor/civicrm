@@ -24,10 +24,10 @@
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tableHeader.js"></script>
 
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tablednd.js"></script>
-{if $context eq 'search' || $context eq 'smog'}
-    {*allow select/unselect checkboxes functionality only for search*}
-    <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/checkboxselect.js"></script>
-{/if}
+
+{*allow select/unselect checkboxes functionality only for search*}
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/checkboxselect.js"></script>
+
 {if $defaultWysiwygEditor eq 1}
     <script type="text/javascript" src="{$config->resourceBase}packages/tinymce/jscripts/tiny_mce/jquery.tinymce.js"></script>
 {/if}

@@ -19,6 +19,12 @@ var lastChecked = null;
 
 $(document).ready(function() {
     $('.form-checkbox').click(function(event) {
+	//class selector is present?
+	var isSelector = $(this).parent().parent().parent().parent().attr('class');
+	//if not donot allow
+	if (isSelector != 'selector' ) {
+	    return;
+	}
 	if ( !lastChecked ) {
 	    lastChecked = this;
 	    return;
@@ -58,11 +64,11 @@ $(document).ready(function() {
 	    $('.selector tbody tr td:first-child input:checkbox').each( function() {
 		var oldClass = $(this).parent().parent().attr('class');
 		if ( this.checked ) {
-		    $(this).parent().parent().removeClass().addClass('selected '+ oldClass);
+		    $(this).parent().parent().removeClass().addClass('row-selected '+ oldClass);
 		} else {
 		    var lastClass = $(this).parent().parent().attr('class');
-		    var str       = lastClass.toString().substring(9);
-		    if ( lastClass.substring(0,8) == "selected" && ( str == 'even-row' || str == 'odd-row' ) ) {
+		    var str       = lastClass.toString().substring(12);
+		    if ( lastClass.substring(0,12) == "row-selected" ) {
 			$(this).parent().parent().removeClass().addClass(str);
 		    }
 		}	
