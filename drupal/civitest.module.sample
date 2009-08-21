@@ -520,11 +520,6 @@ function civitest_civicrm_buildForm( $formName, &$form ) {
     if ( ( $formName == 'CRM_Contribute_Form_Contribution_Main' ||
            $formName == 'CRM_Contribute_Form_Contribution_Confirm' ||
            $formName == 'CRM_Contribute_Form_Contribution_ThankYou' ) &&
-         $form->getVar( '_id' ) == 1 ) { // Use Contribution Page ID here
-	 //     // enable tracking feature
-    if ( ( $formName == 'CRM_Contribute_Form_Contribution_Main' ||
-           $formName == 'CRM_Contribute_Form_Contribution_Confirm' ||
-           $formName == 'CRM_Contribute_Form_Contribution_ThankYou' ) &&
          $form->getVar( '_id' ) == 1 ) { // use  CONTRIBUTION PAGE ID here
         // use the custom field ID and custom field label here
         $trackingFields = array( 'custom_4' => 'Campaign',
