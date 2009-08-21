@@ -1,10 +1,10 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
-require_once 'Custom.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
+require_once 'CiviTest/Custom.php';
 
-class BAO_Core_CustomValueTable extends CiviTestCase 
+class CRM_Core_BAO_CustomValueTableTest extends CiviUnitTestCase 
 {
     function get_info( ) 
     {
@@ -236,7 +236,7 @@ class BAO_Core_CustomValueTable extends CiviTestCase
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         $entityValues =  CRM_Core_BAO_CustomValueTable::getEntityValues( $contactID, 'Individual' );
               
-        $this->assertEqual( $entityValues[$customField->id] ,'<p><strong>This is a <u>test</u></p>',
+        $this->assertEquals( $entityValues[$customField->id] ,'<p><strong>This is a <u>test</u></p>',
                             'Checking same for returned value.' );    
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
@@ -265,8 +265,8 @@ class BAO_Core_CustomValueTable extends CiviTestCase
                             'custom_'.$customField->id  => 1 );
         $result = CRM_Core_BAO_CustomValueTable::getValues( $newParams );
         
-        $this->assertEqual( $params['custom_'.$customField->id.'_-1'], $result['custom_'.$customField->id] );
-        $this->assertEqual( $params['entityID'], $result['entityID'] );
+        $this->assertEquals( $params['custom_'.$customField->id.'_-1'], $result['custom_'.$customField->id] );
+        $this->assertEquals( $params['entityID'], $result['entityID'] );
 	
 	Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );

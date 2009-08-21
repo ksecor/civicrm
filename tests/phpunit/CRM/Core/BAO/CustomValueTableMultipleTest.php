@@ -1,10 +1,11 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
-require_once 'Custom.php';
 
-class BAO_Core_CustomValueTableMultiple extends CiviTestCase 
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
+require_once 'CiviTest/Custom.php';
+
+class CRM_Core_BAO_CustomValueTableMultipleTest extends CiviUnitTestCase 
 {
     function get_info( ) 
     {
@@ -40,8 +41,8 @@ class BAO_Core_CustomValueTableMultiple extends CiviTestCase
                             "custom_{$customField->id}" => 1 );
         $result = CRM_Core_BAO_CustomValueTable::getValues( $newParams );
         
-        $this->assertEqual( $params["custom_{$customField->id}_-1"], $result["custom_{$customField->id}_1"] );
-        $this->assertEqual( $params['entityID'], $result['entityID'] );
+        $this->assertEquals( $params["custom_{$customField->id}_-1"], $result["custom_{$customField->id}_1"] );
+        $this->assertEquals( $params['entityID'], $result['entityID'] );
 
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
@@ -69,9 +70,9 @@ class BAO_Core_CustomValueTableMultiple extends CiviTestCase
                             "custom_{$customField->id}" => 1 );
         $result = CRM_Core_BAO_CustomValueTable::getValues( $newParams );
         
-        $this->assertEqual( $params["custom_{$customField->id}_-1"], $result["custom_{$customField->id}_1"] );
-        $this->assertEqual( $params["custom_{$customField->id}_-2"], $result["custom_{$customField->id}_2"] );
-        $this->assertEqual( $params['entityID'], $result['entityID'] );
+        $this->assertEquals( $params["custom_{$customField->id}_-1"], $result["custom_{$customField->id}_1"] );
+        $this->assertEquals( $params["custom_{$customField->id}_-2"], $result["custom_{$customField->id}_2"] );
+        $this->assertEquals( $params['entityID'], $result['entityID'] );
 
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
@@ -105,10 +106,10 @@ class BAO_Core_CustomValueTableMultiple extends CiviTestCase
                             "custom_{$customField->id}" => 1 );
         $result = CRM_Core_BAO_CustomValueTable::getValues( $getParams );
 
-        $this->assertEqual( $newParams["custom_{$customField->id}_1"], $result["custom_{$customField->id}_1"] );
-        $this->assertEqual( $params["custom_{$customField->id}_-2"], $result["custom_{$customField->id}_2"] );
-        $this->assertEqual( $newParams["custom_{$customField->id}_3"], $result["custom_{$customField->id}_3"] );
-        $this->assertEqual( $params['entityID'], $result['entityID'] );
+        $this->assertEquals( $newParams["custom_{$customField->id}_1"], $result["custom_{$customField->id}_1"] );
+        $this->assertEquals( $params["custom_{$customField->id}_-2"], $result["custom_{$customField->id}_2"] );
+        $this->assertEquals( $newParams["custom_{$customField->id}_3"], $result["custom_{$customField->id}_3"] );
+        $this->assertEquals( $params['entityID'], $result['entityID'] );
 
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
@@ -135,8 +136,8 @@ class BAO_Core_CustomValueTableMultiple extends CiviTestCase
                             "custom_{$customField->id}" => 1 );
         $result = CRM_Core_BAO_CustomValueTable::getValues( $newParams );
         
-        $this->assertEqual( $params["custom_{$customField->id}"], $result["custom_{$customField->id}_1"] );
-        $this->assertEqual( $params['entityID'], $result['entityID'] );
+        $this->assertEquals( $params["custom_{$customField->id}"], $result["custom_{$customField->id}_1"] );
+        $this->assertEquals( $params['entityID'], $result['entityID'] );
 
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );

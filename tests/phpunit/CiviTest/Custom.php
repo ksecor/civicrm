@@ -1,5 +1,7 @@
 <?php
-class Custom extends PHPUnit_Framework_Testcase
+
+
+class Custom extends CiviUnitTestCase
 {
     /*
      * Helper function to create Custom Group

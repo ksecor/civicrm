@@ -1,9 +1,10 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
-require_once 'Custom.php';
-class BAO_Core_CustomField extends CiviTestCase 
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
+require_once 'CiviTest/Custom.php';
+
+class CRM_Core_BAO_CustomFieldTest extends CiviUnitTestCase 
 {
       function get_info( ) 
     {
@@ -13,7 +14,11 @@ class BAO_Core_CustomField extends CiviTestCase
                      'group'       => 'CiviCRM BAO Tests',
                      );
     }
-    
+
+    function setUp()
+    {
+        parent::setUp();
+    }    
    
     function testCreateCustomfield()
     {
@@ -69,8 +74,8 @@ class BAO_Core_CustomField extends CiviTestCase
         $getCustomFields=array();
         $getCustomFields = CRM_Core_BAO_CustomField::getFields('Individual', true, true);
         //CRM_Core_Error::debug('fdf',$getCustomFields);
-        //$this->assertEqual( 'testFld1',  $getCustomFields[$customFieldID1][0], 'Confirm First Custom field label' );
-        //$this->assertEqual( 'testFld2',  $getCustomFields[$customFieldID2][0], 'Confirm Second Custom field label' );
+        //$this->assertEquals( 'testFld1',  $getCustomFields[$customFieldID1][0], 'Confirm First Custom field label' );
+        //$this->assertEquals( 'testFld2',  $getCustomFields[$customFieldID2][0], 'Confirm Second Custom field label' );
         
        
         Custom::deleteGroup( $customGroup );
@@ -98,7 +103,7 @@ class BAO_Core_CustomField extends CiviTestCase
                         );
         $display = CRM_Core_BAO_CustomField::getDisplayValue($fields['default_value'], $customFieldID1,$options );
        
-        $this->assertEqual( 'United States',  $display, 'Confirm Country display Name' );
+        $this->assertEquals( 'United States',  $display, 'Confirm Country display Name' );
               
         Custom::deleteGroup( $customGroup );
     }

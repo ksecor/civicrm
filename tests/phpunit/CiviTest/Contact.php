@@ -1,5 +1,7 @@
 <?php
-class Contact extends PHPUnit_Framework_Testcase 
+
+
+class Contact extends CiviUnitTestCase
 {
     /*
      * Helper function to create

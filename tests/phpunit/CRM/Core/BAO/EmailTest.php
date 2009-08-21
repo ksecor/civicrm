@@ -1,9 +1,9 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
 
-class BAO_Core_Email extends CiviTestCase 
+class CRM_Core_BAO_EmailTest extends CiviUnitTestCase 
 {
     function get_info( ) 
     {
@@ -50,7 +50,7 @@ class BAO_Core_Email extends CiviTestCase
         
         $isBulkMail = $this->assertDBNotNull( 'CRM_Core_DAO_Email', $emailId, 'is_bulkmail', 'id',
                                               'Database check on updated email record.' );
-        $this->assertEqual( $isBulkMail, 1, 'Verify bulkmail value is 1.');
+        $this->assertEquals( $isBulkMail, 1, 'Verify bulkmail value is 1.');
 
         Contact::delete( $contactId );
     }
@@ -83,11 +83,11 @@ class BAO_Core_Email extends CiviTestCase
         CRM_Core_BAO_Email::add( $params );
         
         // Use assertDBNotNull to get back value of hold_date and check if it's in the current year.
-        // NOTE: The assertEqual will fail IF this test is run just as the year is changing (low likelihood).
+        // NOTE: The assertEquals will fail IF this test is run just as the year is changing (low likelihood).
         $holdDate = $this->assertDBNotNull( 'CRM_Core_DAO_Email', $emailId, 'hold_date', 'id',
                                            'Retrieve hold_date from the updated email record.' );
         
-        $this->assertEqual( substr( $holdDate, 0, 4 ), substr( date( 'YmdHis' ), 0, 4 ),
+        $this->assertEquals( substr( $holdDate, 0, 4 ), substr( date( 'YmdHis' ), 0, 4 ),
                            'Compare hold_date (' . $holdDate . ') in DB to current year.' );
 
         $this->assertDBCompareValue( 'CRM_Core_DAO_Email', $emailId, 'on_hold', 'id', 1,
@@ -106,11 +106,11 @@ class BAO_Core_Email extends CiviTestCase
                                     'Check if hold_date has been set to empty string.' );
 
         // Use assertDBNotNull to get back value of reset_date and check if it's in the current year.
-        // NOTE: The assertEqual will fail IF this test is run just as the year is changing (low likelihood).
+        // NOTE: The assertEquals will fail IF this test is run just as the year is changing (low likelihood).
         $resetDate = $this->assertDBNotNull( 'CRM_Core_DAO_Email', $emailId, 'reset_date', 'id',
                                            'Retrieve reset_date from the updated email record.' );
         
-        $this->assertEqual( substr( $resetDate, 0, 4 ), substr( date( 'YmdHis' ), 0, 4 ),
+        $this->assertEquals( substr( $resetDate, 0, 4 ), substr( date( 'YmdHis' ), 0, 4 ),
                            'Compare reset_date (' . $resetDate . ') in DB to current year.' );
         
         Contact::delete( $contactId );
@@ -132,12 +132,12 @@ class BAO_Core_Email extends CiviTestCase
         require_once 'CRM/Core/BAO/Email.php';
         $emails = CRM_Core_BAO_Email::allEmails( $contactId );
 
-        $this->assertEqual( count( $emails ) , 3, 'Checking number of returned emails.' );
+        $this->assertEquals( count( $emails ) , 3, 'Checking number of returned emails.' );
         
         $firstEmailValue = array_slice( $emails, 0, 1 );
         
-        $this->assertEqual( 'alan.smith1@example.com',  $firstEmailValue[0]['email'], 'Confirm primary email address value.' ); 
-        $this->assertEqual( 1,  $firstEmailValue[0]['is_primary'], 'Confirm first email address is primary.' ); 
+        $this->assertEquals( 'alan.smith1@example.com',  $firstEmailValue[0]['email'], 'Confirm primary email address value.' ); 
+        $this->assertEquals( 1,  $firstEmailValue[0]['is_primary'], 'Confirm first email address is primary.' ); 
         
         Contact::delete( $contactId );
     }

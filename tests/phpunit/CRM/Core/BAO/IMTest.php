@@ -1,9 +1,9 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
 
-class BAO_Core_IM extends CiviTestCase 
+class CRM_Core_BAO_IMTest extends CiviUnitTestCase 
 {
     function get_info( ) 
     {
@@ -50,9 +50,9 @@ class BAO_Core_IM extends CiviTestCase
         CRM_Core_BAO_IM::add( $params );
         
         $isEditIM = $this->assertDBNotNull( 'CRM_Core_DAO_IM',$imId,'provider_id','id','Database check on updated IM provider_name record.' );
-        $this->assertEqual( $isEditIM, 3, 'Verify IM provider_id value is 3.');
+        $this->assertEquals( $isEditIM, 3, 'Verify IM provider_id value is 3.');
         $isEditIM = $this->assertDBNotNull( 'CRM_Core_DAO_IM',$imId,'name','id','Database check on updated IM name record.' );
-        $this->assertEqual( $isEditIM, 'doe.jane', 'Verify IM provider_id value is doe.jane.');
+        $this->assertEquals( $isEditIM, 'doe.jane', 'Verify IM provider_id value is doe.jane.');
 
         Contact::delete( $contactId );
     }
@@ -77,12 +77,12 @@ class BAO_Core_IM extends CiviTestCase
         require_once 'CRM/Core/BAO/IM.php';
         $IMs = CRM_Core_BAO_IM::allIMs( $contactId );
 
-        $this->assertEqual( count( $IMs ) , 3, 'Checking number of returned IMs.' );
+        $this->assertEquals( count( $IMs ) , 3, 'Checking number of returned IMs.' );
         
         $firstIMValue = array_slice( $IMs, 0, 1 );
                 
-        $this->assertEqual( 'alan1.smith1',  $firstIMValue[0]['name'], 'Confirm primary IM value.' ); 
-        $this->assertEqual( 1,  $firstIMValue[0]['is_primary'], 'Confirm first IM is primary.' ); 
+        $this->assertEquals( 'alan1.smith1',  $firstIMValue[0]['name'], 'Confirm primary IM value.' ); 
+        $this->assertEquals( 1,  $firstIMValue[0]['is_primary'], 'Confirm first IM is primary.' ); 
         
         Contact::delete( $contactId );
     }

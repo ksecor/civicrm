@@ -18,6 +18,8 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
     function setUp( ) 
     {
         parent::setUp();
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
     }
     
     /**
@@ -51,7 +53,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $contact = CRM_Contact_BAO_Contact::add( $params );
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
+        $this->assertType( 'CRM_Contact_DAO_Contact', $contact, 'Check for created object' );
         $this->assertEquals( $firstName, $contact->first_name, 'Check for first name creation.' );
         $this->assertEquals( $lastName, $contact->last_name, 'Check for last name creation.' );
         
@@ -66,7 +68,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $contact = CRM_Contact_BAO_Contact::add( $params );
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
+        $this->assertType( 'CRM_Contact_DAO_Contact', $contact, 'Check for created object' );
         $this->assertEquals( $firstName, $contact->first_name, 'Check for updated first name.' );
         
         $contactId = $contact->id;
@@ -91,7 +93,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $contactId = $contact->id;
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
+        $this->assertType( 'CRM_Contact_DAO_Contact', $contact, 'Check for created object' );
         
         //Now check values of object with params.
         $this->assertEquals( $params['first_name'], $contact->first_name, 'Check for first name creation.' );
@@ -181,7 +183,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $contactId = $contact->id;
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
+        $this->assertType( 'CRM_Contact_DAO_Contact', $contact, 'Check for created object' );
         
         //Now check values of object with params.
         $this->assertEquals( $updateParams['first_name'], $contact->first_name, 'Check for first name creation.' );
@@ -325,7 +327,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $contact = CRM_Contact_BAO_Contact::create( $params );
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
+        $this->assertType( 'CRM_Contact_DAO_Contact', $contact, 'Check for created object' );
         $contactId = $contact->id;
         
         //Now check values of contact object with params.
@@ -431,7 +433,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $contact = CRM_Contact_BAO_Contact::create( $updateParams );
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
+        $this->assertType( 'CRM_Contact_DAO_Contact', $contact, 'Check for created object' );
         $contactId = $contact->id;
         
         //Now check values of contact object with updated params.
@@ -542,7 +544,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         //create the contact with given params.
         $contact = CRM_Contact_BAO_Contact::create( $params );
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
+        $this->assertType( 'CRM_Contact_DAO_Contact', $contact, 'Check for created object' );
         $contactId = $contact->id;
         //create employee of relationship.
         require_once 'CRM/Contact/BAO/Contact/Utils.php';
@@ -557,7 +559,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $retrieveContact = CRM_Contact_BAO_Contact::retrieve( $searchParams, $values );
         
         //Now check $retrieveContact is object of contact DAO..
-        $this->assertIsA( $retrieveContact, 'CRM_Contact_DAO_Contact', 'Check for retrieve object' );
+        $this->assertType( 'CRM_Contact_DAO_Contact', $retrieveContact, 'Check for retrieve object' );
         
         //Now check the ids.
         $this->assertEquals( $contactId, $retrieveContact->id, 'Check for contact id' );

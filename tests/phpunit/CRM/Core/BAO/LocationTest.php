@@ -33,11 +33,11 @@
  *
  */
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
-require_once 'Event.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
+require_once 'CiviTest/Event.php';
 
-class BAO_Core_Location extends CiviTestCase 
+class CRM_Core_BAO_LocationTest extends CiviUnitTestCase 
 {
     
     function get_info( ) 
@@ -433,27 +433,27 @@ class BAO_Core_Location extends CiviTestCase
         CRM_Core_BAO_Location::getValues( $entityBlock, $values );
         
         //Now check values of address
-        $this->assertAttributesEqual( CRM_Utils_Array::value( 'address', $params['location'][1] ),
+        $this->assertAttributesEquals( CRM_Utils_Array::value( 'address', $params['location'][1] ),
                                       CRM_Utils_Array::value( 'address', $values['location'][1] ) );
         
         //Now check values of email
-        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['email'] ),
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['location'][1]['email'] ),
                                       CRM_Utils_Array::value( '1', $values['location'][1]['email'] ) );
         
         //Now check values of phone
-        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['phone'] ),
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['location'][1]['phone'] ),
                                       CRM_Utils_Array::value( '1', $values['location'][1]['phone'] ) );
         
         //Now check values of mobile
-        $this->assertAttributesEqual( CRM_Utils_Array::value( '2', $params['location'][1]['phone'] ),
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '2', $params['location'][1]['phone'] ),
                                       CRM_Utils_Array::value( '2', $values['location'][1]['phone'] ) ); 
         
         //Now check values of openid
-        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['openid'] ),
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['location'][1]['openid'] ),
                                       CRM_Utils_Array::value( '1', $values['location'][1]['openid'] ) );
         
         //Now check values of im
-        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['im'] ),
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['location'][1]['im'] ),
                                       CRM_Utils_Array::value( '1', $values['location'][1]['im'] ) );
         
         //cleanup DB by deleting the contact

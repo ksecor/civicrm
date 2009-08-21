@@ -33,6 +33,7 @@
  *
  */
 
+require_once 'CRM/Core/DAO.php';
 
 /**
  * Business objects for managing custom data values.

@@ -1,9 +1,9 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
 
-class BAO_Core_Address extends CiviTestCase 
+class CRM_Core_BAO_AddressTest extends CiviUnitTestCase 
 {
     function get_info( ) 
     {
@@ -111,13 +111,13 @@ class BAO_Core_Address extends CiviTestCase
         $addParams = $this->assertDBNotNull( 'CRM_Core_DAO_Address', $contactId , 'id', 'contact_id',
                                              'Database check for created contact address.' );
         
-        $this->assertEqual( $addAddress->street_address ,'E 906N Pine Pl W', 'Checking same for returned addresses.' );
-        $this->assertEqual( $addAddress->supplemental_address_1 ,'Editorial Dept', 'Checking same for returned addresses.' );
-        $this->assertEqual( $addAddress->city ,'El Paso', 'Checking same for returned addresses.' );
-        $this->assertEqual( $addAddress->postal_code ,'88575', 'Checking same for returned addresses.' );
-        $this->assertEqual( $addAddress->geo_code_1 ,'31.694842', 'Checking same for returned addresses.' );
-        $this->assertEqual( $addAddress->geo_code_2 ,'-106.29998', 'Checking same for returned addresses.' );
-        $this->assertEqual( $addAddress->country_id ,'1228', 'Checking same for returned addresses.' );          
+        $this->assertEquals( $addAddress->street_address ,'E 906N Pine Pl W', 'Checking same for returned addresses.' );
+        $this->assertEquals( $addAddress->supplemental_address_1 ,'Editorial Dept', 'Checking same for returned addresses.' );
+        $this->assertEquals( $addAddress->city ,'El Paso', 'Checking same for returned addresses.' );
+        $this->assertEquals( $addAddress->postal_code ,'88575', 'Checking same for returned addresses.' );
+        $this->assertEquals( $addAddress->geo_code_1 ,'31.694842', 'Checking same for returned addresses.' );
+        $this->assertEquals( $addAddress->geo_code_2 ,'-106.29998', 'Checking same for returned addresses.' );
+        $this->assertEquals( $addAddress->country_id ,'1228', 'Checking same for returned addresses.' );          
         Contact::delete( $contactId );
     }    
     /**
@@ -175,7 +175,7 @@ class BAO_Core_Address extends CiviTestCase
         require_once 'CRM/Core/BAO/Address.php';
         $allAddress = CRM_Core_BAO_Address::allAddress( $contactId ) ;
                
-        $this->assertEqual( count( $allAddress ) , 2, 'Checking number of returned addresses.' );
+        $this->assertEquals( count( $allAddress ) , 2, 'Checking number of returned addresses.' );
         
         Contact::delete( $contactId );
     }
@@ -214,7 +214,7 @@ class BAO_Core_Address extends CiviTestCase
         require_once 'CRM/Core/BAO/Address.php';
         $allAddress = CRM_Core_BAO_Address::allAddress( $contact_Id ) ;
         
-        $this->assertEqual( $allAddress  , null, 'Checking null for returned addresses.' );
+        $this->assertEquals( $allAddress  , null, 'Checking null for returned addresses.' );
         
         Contact::delete( $contactId );
     }
@@ -256,9 +256,9 @@ class BAO_Core_Address extends CiviTestCase
         
         $entityBlock = array( 'contact_id' => $contactId );
         $address =  CRM_Core_BAO_Address::getValues( $entityBlock );
-        $this->assertEqual( $address[1]['id'], $addressId );
-        $this->assertEqual( $address[1]['contact_id'], $contactId);
-        $this->assertEqual( $address[1]['street_address'], 'Oberoi Garden');
+        $this->assertEquals( $address[1]['id'], $addressId );
+        $this->assertEquals( $address[1]['contact_id'], $contactId);
+        $this->assertEquals( $address[1]['street_address'], 'Oberoi Garden');
 
         Contact::delete( $contactId );
     }

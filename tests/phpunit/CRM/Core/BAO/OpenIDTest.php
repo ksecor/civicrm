@@ -1,9 +1,9 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
 
-class BAO_Core_OpenID extends CiviTestCase 
+class CRM_Core_BAO_OpenIDTest extends CiviUnitTestCase 
 {
     function get_info( ) 
     {
@@ -52,7 +52,7 @@ class BAO_Core_OpenID extends CiviTestCase
         
         $allowedToLogin = $this->assertDBNotNull( 'CRM_Core_DAO_OpenID', $openId, 'allowed_to_login', 'id',
                                                   'Database check on updated OpenID record.' );
-        $this->assertEqual( $allowedToLogin, 1, 'Verify allowed_to_login value is 1.');
+        $this->assertEquals( $allowedToLogin, 1, 'Verify allowed_to_login value is 1.');
         
         Contact::delete( $contactId );
     }
@@ -79,7 +79,7 @@ class BAO_Core_OpenID extends CiviTestCase
                                 'Database check for created OpenID.' );
         
         $allowedToLogin = CRM_Core_BAO_OpenID::isAllowedToLogin( $openIdURL );
-        $this->assertEqual( $allowedToLogin, false, 'Verify allowed_to_login value is 0.');
+        $this->assertEquals( $allowedToLogin, false, 'Verify allowed_to_login value is 0.');
         
         
         // Now call add() to modify an existing open-id record
@@ -93,7 +93,7 @@ class BAO_Core_OpenID extends CiviTestCase
         
         $allowedToLogin = CRM_Core_BAO_OpenID::isAllowedToLogin( $openIdURL );
         
-        $this->assertEqual( $allowedToLogin, true, 'Verify allowed_to_login value is 1.');
+        $this->assertEquals( $allowedToLogin, true, 'Verify allowed_to_login value is 1.');
         Contact::delete( $contactId );
     }
     
@@ -137,19 +137,19 @@ class BAO_Core_OpenID extends CiviTestCase
         $openIds = CRM_Core_BAO_OpenID::allOpenIDs( $contactId );
         
         // check number of openids for the contact
-        $this->assertEqual( count( $openIds ), 2, 'Checking number of returned open-ids.' );
+        $this->assertEquals( count( $openIds ), 2, 'Checking number of returned open-ids.' );
         
         // check first openid values
-        $this->assertEqual( $openIdURLOne,  $openIds[$openIdOne]['openid'], 
+        $this->assertEquals( $openIdURLOne,  $openIds[$openIdOne]['openid'], 
                             'Confirm first openid value.' ); 
-        $this->assertEqual( 1,  $openIds[$openIdOne]['is_primary'],       'Confirm is_primary field value.' ); 
-        $this->assertEqual( 1,  $openIds[$openIdOne]['allowed_to_login'], 'Confirm allowed_to_login field value.' ); 
+        $this->assertEquals( 1,  $openIds[$openIdOne]['is_primary'],       'Confirm is_primary field value.' ); 
+        $this->assertEquals( 1,  $openIds[$openIdOne]['allowed_to_login'], 'Confirm allowed_to_login field value.' ); 
         
         // check second openid values
-        $this->assertEqual( $openIdURLTwo,  $openIds[$openIdTwo]['openid'], 
+        $this->assertEquals( $openIdURLTwo,  $openIds[$openIdTwo]['openid'], 
                             'Confirm second openid value.' ); 
-        $this->assertEqual( 0,  $openIds[$openIdTwo]['is_primary'], 'Confirm is_primary field value for second openid.' ); 
-        $this->assertEqual( 0,  $openIds[$openIdTwo]['allowed_to_login'], 'Confirm allowed_to_login field value for second openid.' ); 
+        $this->assertEquals( 0,  $openIds[$openIdTwo]['is_primary'], 'Confirm is_primary field value for second openid.' ); 
+        $this->assertEquals( 0,  $openIds[$openIdTwo]['allowed_to_login'], 'Confirm allowed_to_login field value for second openid.' ); 
         
         Contact::delete( $contactId );
     }

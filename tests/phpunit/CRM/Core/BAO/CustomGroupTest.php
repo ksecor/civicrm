@@ -1,10 +1,10 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
-require_once 'Custom.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
+require_once 'CiviTest/Custom.php';
 
-class BAO_Core_CustomGroup extends CiviTestCase 
+class CRM_Core_BAO_CustomGroupTest extends CiviUnitTestCase 
 {
     function get_info( ) 
     {
@@ -18,12 +18,14 @@ class BAO_Core_CustomGroup extends CiviTestCase
     function setUp( ) 
     {
         parent::setUp();
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
     }
 
     /**
      * Function to test getTree()
      */
-    function testgetTree()
+    function testGetTree()
     {
         $params      = array( );
         $contactId   = Contact::createIndividual();
@@ -86,9 +88,9 @@ class BAO_Core_CustomGroup extends CiviTestCase
         $dbCustomGroupTitle = $this->assertDBNotNull( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title', 'id',
                                                       'Database check for custom group record.' );
         
-        $this->assertEqual( $customGrouptitle, $dbCustomGroupTitle );
+        $this->assertEquals( $customGrouptitle, $dbCustomGroupTitle );
         //check retieve values
-        $this->assertAttributesEqual( $groupParams, $dafaults ); 
+        $this->assertAttributesEquals( $groupParams, $dafaults ); 
         
         //cleanup DB by deleting customGroup
         Custom::deleteGroup( $customGroup );
@@ -115,7 +117,7 @@ class BAO_Core_CustomGroup extends CiviTestCase
         //update is_active
         $result = CRM_Core_BAO_CustomGroup::setIsActive( $customGroupId, true );
         //check for object update
-        $this->assertEqual( true, $result );
+        $this->assertEquals( true, $result );
         //check for is_active
         $this->assertDBCompareValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'is_active', 'id', true, 
                                      'Database check for custom group is_active field.' );
@@ -161,12 +163,12 @@ class BAO_Core_CustomGroup extends CiviTestCase
                                                       'Database check for custom group record.' );
         //check retieve values of custom group
         unset( $groupParams['is_active'] );
-        $this->assertAttributesEqual( $groupParams, $groupTree[$customGroupId] ); 
+        $this->assertAttributesEquals( $groupParams, $groupTree[$customGroupId] ); 
         
         //check retieve values of custom field
         unset( $fieldParams['is_active'] );
         unset( $fieldParams['custom_group_id'] );
-        $this->assertAttributesEqual( $fieldParams, $groupTree[$customGroupId]['fields'][$customFieldId] ); 
+        $this->assertAttributesEquals( $fieldParams, $groupTree[$customGroupId]['fields'][$customFieldId] ); 
         
         //cleanup DB by deleting customGroup
         Custom::deleteField( $customField ); 
@@ -195,7 +197,7 @@ class BAO_Core_CustomGroup extends CiviTestCase
         $title = CRM_Core_BAO_CustomGroup::getTitle( $customGroupId );
         
         //check for object update
-        $this->assertEqual( $customGrouptitle, $title );
+        $this->assertEquals( $customGrouptitle, $title );
         
         //cleanup DB by deleting customGroup
         Custom::deleteGroup( $customGroup );
@@ -222,14 +224,14 @@ class BAO_Core_CustomGroup extends CiviTestCase
         $dbCustomGroupTitle = $this->assertDBNotNull( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title', 'id',
                                                       'Database check for custom group record.' );
         //check for group title
-        $this->assertEqual( $customGrouptitle, $dbCustomGroupTitle );
+        $this->assertEquals( $customGrouptitle, $dbCustomGroupTitle );
         
         require_once 'CRM/Core/BAO/CustomGroup.php';
         //delete the group
         $isDelete = CRM_Core_BAO_CustomGroup::deleteGroup( $customGroup );
         
         //check for delete
-        $this->assertEqual( true, $isDelete );
+        $this->assertEquals( true, $isDelete );
         
         //check the DB
         $this->assertDBNull( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title', 'id', 
@@ -268,7 +270,7 @@ class BAO_Core_CustomGroup extends CiviTestCase
                                       $tableName,  'Database check for custom group table name.' );
         
         //check for group title
-        $this->assertEqual( $customGrouptitle, $dbCustomGroupTitle );
+        $this->assertEquals( $customGrouptitle, $dbCustomGroupTitle );
         
         //cleanup DB by deleting customGroup
         Custom::deleteGroup( $customGroup );
@@ -310,22 +312,22 @@ class BAO_Core_CustomGroup extends CiviTestCase
         //check db for custom group
         $dbCustomGroupTitle = $this->assertDBNotNull( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title', 'id',
                                                       'Database check for custom group record.' );
-        $this->assertEqual( $customGroupTitle, $dbCustomGroupTitle );
+        $this->assertEquals( $customGroupTitle, $dbCustomGroupTitle );
         
         //check db for custom field
         $dbCustomFieldLabel = $this->assertDBNotNull( 'CRM_Core_DAO_CustomField', $customFieldId, 'label', 'id',
                                                       'Database check for custom field record.' );
-        $this->assertEqual( $customFieldLabel, $dbCustomFieldLabel );
+        $this->assertEquals( $customFieldLabel, $dbCustomFieldLabel );
         
         //check the custom field type.
         $params = array ( 'Individual' );
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $usedFor = CRM_Core_BAO_CustomGroup::checkCustomField( $customFieldId, $params );
-        $this->assertEqual( false, $usedFor );
+        $this->assertEquals( false, $usedFor );
         
         $params = array( 'Contribution', 'Membership', 'Participant' );
         $usedFor = CRM_Core_BAO_CustomGroup::checkCustomField( $customFieldId, $params );
-        $this->assertEqual( true, $usedFor );
+        $this->assertEquals( true, $usedFor );
         
         //cleanup DB by deleting customGroup
         Custom::deleteField( $customField ); 
@@ -351,10 +353,10 @@ class BAO_Core_CustomGroup extends CiviTestCase
         $activeGroup = CRM_Core_BAO_CustomGroup::getActiveGroups('Individual', 'civicrm/contact/view/cd', $contactId );
         foreach ( $activeGroup as $key => $value ) {
             if ( $value['id'] == $customGroup->id ) {
-                $this->assertEqual( $value['path'] ,'civicrm/contact/view/cd' );
-                $this->assertEqual( $value['title'] , $customGrouptitle );
+                $this->assertEquals( $value['path'] ,'civicrm/contact/view/cd' );
+                $this->assertEquals( $value['title'] , $customGrouptitle );
                 $query = 'reset=1&gid='.$customGroup->id.'&cid='.$contactId;
-                $this->assertEqual( $value['query'] , $query );
+                $this->assertEquals( $value['query'] , $query );
             } 
         } 
         
@@ -381,7 +383,7 @@ class BAO_Core_CustomGroup extends CiviTestCase
 
         $dbCustomGroupTitle = $this->assertDBNotNull( 'CRM_Core_DAO_CustomGroup', $customGroup->id, 'title', 'id',
                                                       'Database check for custom group record.' );
-        $this->assertEqual( $params['title'], $dbCustomGroupTitle );
+        $this->assertEquals( $params['title'], $dbCustomGroupTitle );
         Custom::deleteGroup( $customGroup );
     } 
 }

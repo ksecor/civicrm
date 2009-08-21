@@ -1,9 +1,10 @@
 <?php
 
-require_once 'CiviTestCase.php';
-require_once 'Contact.php';
+require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CiviTest/Contact.php';
+require_once 'CiviTest/Custom.php';
 
-class BAO_Core_Phone extends CiviTestCase 
+class CRM_Core_BAO_PhoneTest extends CiviUnitTestCase 
 {
     function get_info( ) 
     {
@@ -74,12 +75,12 @@ class BAO_Core_Phone extends CiviTestCase
         require_once 'CRM/Core/BAO/Phone.php';
         $Phones = CRM_Core_BAO_Phone::allPhones( $contactId );
 
-        $this->assertEqual( count( $Phones ) , 2, 'Checking number of returned Phones.' );
+        $this->assertEquals( count( $Phones ) , 2, 'Checking number of returned Phones.' );
         
         $firstPhoneValue = array_slice( $Phones, 0, 1 );
         
-        $this->assertEqual( '(415) 222-1011 x 221',  $firstPhoneValue[0]['phone'], "Confirm primary Phone value ( {$firstPhoneValue[0]['phone']} )." ); 
-        $this->assertEqual( 1,  $firstPhoneValue[0]['is_primary'], 'Confirm first Phone is primary.' ); 
+        $this->assertEquals( '(415) 222-1011 x 221',  $firstPhoneValue[0]['phone'], "Confirm primary Phone value ( {$firstPhoneValue[0]['phone']} )." ); 
+        $this->assertEquals( 1,  $firstPhoneValue[0]['is_primary'], 'Confirm first Phone is primary.' ); 
         
         Contact::delete( $contactId );
     }
@@ -97,10 +98,10 @@ class BAO_Core_Phone extends CiviTestCase
         require_once 'CRM/Core/BAO/Phone.php';
         $Phones = CRM_Core_BAO_Phone::allEntityPhones( $entityElements );
 
-        $this->assertEqual( count( $Phones ) , 1, 'Checking number of returned Phones.' );
+        $this->assertEquals( count( $Phones ) , 1, 'Checking number of returned Phones.' );
         
         $firstPhoneValue = array_slice( $Phones, 0, 1 );
-        $this->assertEqual( '204 223-1000',  $firstPhoneValue[0]['phone'], "Confirm primary Phone value ( {$firstPhoneValue[0]['phone']} )." ); 
+        $this->assertEquals( '204 223-1000',  $firstPhoneValue[0]['phone'], "Confirm primary Phone value ( {$firstPhoneValue[0]['phone']} )." ); 
     }
     
 }
