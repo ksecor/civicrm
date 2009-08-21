@@ -1,5 +1,5 @@
-  -- CRM-4932
-ALTER TABLE civicrm_contact MODIFY COLUMN job_title varchar(255);
+-- CRM-4932
+   ALTER TABLE civicrm_contact MODIFY COLUMN job_title varchar(255);
 
 -- CRM-4906
 {if $multilingual}
@@ -39,3 +39,13 @@ ALTER TABLE civicrm_contact MODIFY COLUMN job_title varchar(255);
   {/foreach}
   ALTER TABLE civicrm_address DROP name;
 {/if}
+
+-- CRM-4935
+   ALTER TABLE `civicrm_activity` 
+	CHANGE `source_contact_id` `source_contact_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'Contact ID of the person scheduling or logging this Activity. Usually the authenticated user.',
+	DROP FOREIGN KEY `FK_civicrm_activity_source_contact_id`,
+	DROP INDEX `FK_civicrm_activity_source_contact_id`;
+
+   ALTER TABLE `civicrm_activity`
+    	ADD CONSTRAINT `FK_civicrm_activity_source_contact_id` FOREIGN KEY (`source_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
+    
