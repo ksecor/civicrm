@@ -433,6 +433,11 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      }
 
     function getCaseActivityQuery( $type = 'upcoming', $userID = null, $condition = null, $isDeleted = 0 ) {
+        if ( !$userID ) {
+            $session =& CRM_Core_Session::singleton( );
+            $userID = $session->get( 'userID' );
+        }
+        
         $actStatus         = array_flip( CRM_Core_PseudoConstant::activityStatus('name') );
         $scheduledStatusId = $actStatus['Scheduled'];
         
@@ -1596,6 +1601,29 @@ WHERE ca.end_date is null ORDER BY c.display_name
         }
         $dao->free( );
         return $values;
+    }
+    
+    function caseCount( $contactId = null, $excludeDeleted = true ) {
+        $whereConditions = array( );
+        if ( $excludeDeleted ) {
+            $whereConditions[] = "( civicrm_case.is_deleted = 0 OR civicrm_case.is_deleted IS NULL )";
+        }
+        if ( $contactId ) {
+            $whereConditions[] = "civicrm_case_contact.contact_id = {$contactId}";
+        }
+        
+        $whereClause = '';
+        if ( !empty( $whereConditions ) ) {
+            $whereClause = "WHERE " . implode( ' AND ', $whereConditions );
+        }
+        
+        $query = "       
+   SELECT  count( civicrm_case.id )
+     FROM  civicrm_case
+LEFT JOIN  civicrm_case_contact ON ( civicrm_case.id = civicrm_case_contact.case_id )
+           {$whereClause}";
+        
+        return CRM_Core_DAO::singleValueQuery( $query ); 
     }
 }
 

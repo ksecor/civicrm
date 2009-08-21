@@ -1814,10 +1814,8 @@ UNION
             break;
 
         case 'case' :
-            require_once 'CRM/Case/DAO/CaseContact.php';
-            eval( '$object =& new CRM_Case_DAO_CaseContact( );');
-            $object->contact_id = $contactId;
-            break;
+            require_once 'CRM/Case/BAO/Case.php';
+            return CRM_Case_BAO_Case::caseCount( $contactId );
             
         case 'grant' :
             require_once 'CRM/Grant/DAO/Grant.php';
