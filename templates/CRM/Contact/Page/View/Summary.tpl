@@ -186,6 +186,7 @@
                                         {foreach from=$privacy item=privacy key=index}
                                             {if $privacy}{$privacy_values.$index}<br />{/if}
                                         {/foreach}
+					{if $is_opt_out}{ts}No Bulk Emails (User Opt Out){/ts}{/if}
                                     </span></td>
                                 </tr>
                                 <tr>
