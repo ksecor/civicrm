@@ -60,7 +60,7 @@ function civicrm_membership_delete(&$membershipID)
     _civicrm_initialize();
     
     if (empty($membershipID)) {
-        return civicrm_create_error('Invalid value for membershipID');
+        return civicrm_create_error('Membership ID cannot be empty.');
     }
     
     require_once 'CRM/Member/BAO/Membership.php';

@@ -134,8 +134,10 @@ function civicrm_membership_contact_get(&$params)
         } else {
             $activeOnly = false;
         }
-    } else {
+    } elseif( is_integer($params) ) {
         $contactID = $params;
+    } else {
+        return civicrm_create_error( 'Paramers can be only of type array or integer' );
     }
     
     if ( empty($contactID) ) {
