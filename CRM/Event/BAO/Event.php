@@ -443,7 +443,7 @@ LIMIT      0, 10
                                             JOIN civicrm_participant_status_type pst ON (p.status_id = pst.id)
                                             JOIN civicrm_event e ON (p.event_id = e.id)
                                           WHERE e.is_active = 1    
-                                          GROUP BY event_id, status_id');
+                                          GROUP BY event_id, status_id LIMIT 0, 10');
 
         while ($st->fetch()) {
             $eventSummary['events'][$st->event_id]['statuses'][$st->class][] = array(
