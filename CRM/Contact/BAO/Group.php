@@ -358,6 +358,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         // make the group, child of domain/site group by default. 
         require_once 'CRM/Contact/BAO/GroupContactCache.php';
         require_once 'CRM/Core/BAO/Domain.php';
+        require_once 'CRM/Contact/BAO/GroupNesting.php';
         $domainGroupID = CRM_Core_BAO_Domain::getGroupId( );
         if ( CRM_Utils_Array::value( 'no_parent', $params ) !== 1 ) {
             if ( defined( 'CIVICRM_MULTISITE' ) && CIVICRM_MULTISITE && 
@@ -370,7 +371,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
                 $params['parents'] = array( $params['parents'] => 1 );
             }
 
-            require_once 'CRM/Contact/BAO/GroupNesting.php';
             foreach ( $params['parents'] as $parentId => $dnc ) {
                 if ( $parentId && !CRM_Contact_BAO_GroupNesting::isParentChild( $parentId, $group->id ) ) {
                     CRM_Contact_BAO_GroupNesting::add( $parentId, $group->id );
