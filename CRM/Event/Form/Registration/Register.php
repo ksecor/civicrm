@@ -515,7 +515,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
              !CRM_Utils_Array::value( 'bypass_payment', $fields ) &&
              is_numeric( $self->_availableRegistrations ) &&
              CRM_Utils_Array::value( 'additional_participants', $fields ) >= $self->_availableRegistrations ) {
-            $errors['additional_participants'] = ts( "You can only register %1 participant(s).", array( 1=>$self->_availableRegistrations ));
+            $errors['additional_participants'] = ts( "There is only enough space left on this event for %1 participant(s).", array( 1=>$self->_availableRegistrations ));
         }
         
         // during confirmation don't allow to increase additional participants, CRM-4320
