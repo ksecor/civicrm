@@ -145,7 +145,7 @@ showHideSeletorSearch();
 	
 function showHideSeletorSearch()
 {
-    var vsbl= document.getElementById("visibility").options[document.getElementById("visibility").selectedIndex].value;
+    var vsbl= cj("#visibility").val( );
     if ( vsbl == "User and User Admin Only" ){
         hide("is_search_label");
         hide("is_search_html");
@@ -160,12 +160,24 @@ function showHideSeletorSearch()
         show("is_search_html");
         show("is_search_desDt");
         show("is_search_desDd");
-        show("in_selector_label");
-        show("in_selector_html");
-        show("in_selector_desDt");
-        show("in_selector_desDd");
+        var fldName = cj("#field_name\\[1\\]").val();
+        if ( fldName == 'group' || fldName == 'tag' ) { 
+            hide("in_selector_label");
+            hide("in_selector_html");
+            hide("in_selector_desDt");
+            hide("in_selector_desDd");
+        } else {
+            show("in_selector_label");
+            show("in_selector_html");
+            show("in_selector_desDt");
+            show("in_selector_desDd");
+        }
     }	
 }
+
+cj("#field_name\\[1\\]").bind( 'change blur', function( ) {
+    showHideSeletorSearch( );
+}); 
 
 //CRM-4363	
 function mixProfile( ) {
@@ -175,21 +187,25 @@ function mixProfile( ) {
     if ( allMixTypes.indexOf( type ) != -1 || alreadyMixProfile ) {
         if ( document.getElementById("is_searchable").checked ) {
             document.getElementById("is_searchable").checked = false;
-	    if ( alreadyMixProfile ) {
-                alert('Oops. You can not mark fields as Searchable in a profile that contains fields for multiple record types.'); 
-           } else {
-                 alert('Oops. ' 
-                       + type + ' fields can not be marked as Searchable in a profile.'); 
-	   }
+            if ( alreadyMixProfile ) {
+                var message = {/literal}'{ts}Oops. You can not mark fields as Searchable in a profile that contains fields for multiple record types.{/ts}'{literal};
+                alert( message ); 
+            } else {
+                var message = {/literal}{ts}'Oops. '{/ts} 
+                + type + '{ts} fields can not be marked as Searchable in a profile.{/ts}'{literal};
+                alert( message ); 
+            }
         }
         if ( document.getElementById("in_selector").checked ) {
             document.getElementById("in_selector").checked = false;
-	    if ( alreadyMixProfile ) {
-                alert('Oops. You can not mark a field as a Result Column in a profile that contains fields from multiple record types.');     
+            if ( alreadyMixProfile ) {
+                var message = {/literal}'{ts}Oops. You can not mark a field as a Result Column in a profile that contains fields from multiple record types.{/ts}'{literal};
+                alert( message );
             } else {
-                 alert('Oops. ' 
-                       + type + ' can not be used as a Result Column for profile searches.');     
-	    }
+                var message = {/literal}{ts}'Oops. '{/ts} 
+                + type + '{ts} can not be used as a Result Column for profile searches.{/ts}'{literal};
+                alert( message ); 
+            }
         }
     }
 }
@@ -197,12 +213,14 @@ function mixProfile( ) {
 function verify( ) {
     var allMixTypes = ["Participant", "Membership", "Contribution"];
     var type = document.forms.Field['field_name[0]'].value;
-     if ( allMixTypes.indexOf( type ) != -1 ) {
-         var ok = confirm( "Oops. One or more fields in this profile are configured to be Searchable and / or shown in a Results Column, AND you are trying to add a "+type+" field. Profiles with a mixture of field types can not include Searchable or Results Column fields. If you save this field now, the Seachable and Results Column settings will be removed for all fields in this profile. Do you want to continue?" );    
-         if ( !ok ) {
-             return false;
-          }
-     }
+    if ( allMixTypes.indexOf( type ) != -1 ) {
+        var message = {/literal}{ts}'Oops. One or more fields in this profile are configured to be Searchable and / or shown in a Results Column, AND you are trying to add a '{/ts} 
+        + type + '{ts} field. Profiles with a mixture of field types can not include Searchable or Results Column fields. If you save this field now, the Seachable and Results Column settings will be removed for all fields in this profile. Do you want to continue?{/ts}'{literal};
+        var ok = confirm( message );    
+        if ( !ok ) {
+            return false;
+        }
+    }
 }
 
 </script> 
