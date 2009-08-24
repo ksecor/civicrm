@@ -114,7 +114,7 @@ cj(function( ) {
 				break;
 				
 				case 'select-one':
-				if( cj(this).is(':selected') ) {
+				if( cj('select option:selected' ) && cj(this).val() ) {
 					eval( element + ' = true;');
 				}
 				break;		
