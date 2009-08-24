@@ -15,7 +15,7 @@
 	  var tipWidth  = $("#toolTip").outerWidth(true);
 	  var tipHeight = $("#toolTip").outerHeight(true);
 	  if(tipX + tipWidth > $(window).scrollLeft() + $(window).width()) tipX = e.pageX - tipWidth;
-	  if($(window).height()+$(window).scrollTop() < tipY + tipHeight) tipY = e.pageY - tipHeight;
+	  if($(window).height()+$(window).scrollTop() < tipY + tipHeight) tipY = (e.pageY > tipHeight) ? e.pageY - tipHeight : tipY;
 	  $("#toolTip").css("left", tipX).css("top", tipY);
 	  clickedElement = cj(this).children().attr('id');
       }).bind( 'mouseout', function() {
