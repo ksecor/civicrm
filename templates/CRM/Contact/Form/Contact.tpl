@@ -99,28 +99,33 @@ cj(function( ) {
 			var element = cj(this).closest("div.ui-accordion-content").attr("id");
 			eval('var ' + element + ' = "";');
 			switch( cj(this).attr('type') ) {
-				case 'checkbox':
-				case 'radio':
-				if( cj(this).is(':checked') ) {
-					eval( element + ' = true;'); 
-				}
-				break;
-				
-				case 'text':
-				case 'textarea':
-				if( cj(this).val() ) {
-					eval( element + ' = true;');
-				}
-				break;
-				
-				case 'select-one':
-				if( cj('select option:selected' ) && cj(this).val() ) {
-					eval( element + ' = true;');
-				}
-				break;		
+			case 'checkbox':
+			case 'radio':
+			  if( cj(this).is(':checked') ) {
+			    eval( element + ' = true;'); 
+			  }
+			  break;
+			  
+			case 'text':
+			case 'textarea':
+			  if( cj(this).val() ) {
+			    eval( element + ' = true;');
+			  }
+			  break;
+			  
+			case 'select-one':
+			case 'select-multiple':
+			  if( cj('select option:selected' ) && cj(this).val() ) {
+			    eval( element + ' = true;');
+			  }
+			  break;		
+			  
+			case 'file':
+			  if( cj(this).next().html() ) eval( element + ' = true;');
+			  break;
 			}
 			if( eval( element + ';') ) { 
-				cj(this).closest("div.ui-accordion-content").prev().children('a:first').css( 'font-weight', 'bold' );
+			  cj(this).closest("div.ui-accordion-content").prev().children('a:first').css( 'font-weight', 'bold' );
 			}
 		});
 	}
