@@ -109,29 +109,31 @@ function clearAmountOther() {
     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="makeContribution"} 
 
     {if $honor_block_is_active}
-    <fieldset><legend>{$honor_block_title}</legend>
-    {$honor_block_text}
-    <table class="form-layout-compressed">
-	<tr>
-	    <td colspan="3">
-            {$form.honor_type_id.html}
-            &nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('honor_type_id', '{$form.formName}');enableHonorType(); return false;">{ts}unselect{/ts}</a>&nbsp;)<br />
-            <span class="description">{ts}Please include the name, and / or email address of the person you are honoring,{/ts}</span></td>
-	</tr>
-	<tr id="honorType">
-	    <td>{$form.honor_prefix_id.html}</td>
-	    <td>{$form.honor_first_name.html}<br />
-                <span class="description">{$form.honor_first_name.label}</span></td>
-	    <td>{$form.honor_last_name.html}<br />
-                <span class="description">{$form.honor_last_name.label}</span></td>
-	</tr>
-	<tr id="honorTypeEmail">
-	    <td></td>
-	    <td colspan="2">{$form.honor_email.html}<br />
-                <span class="description">{$form.honor_email.label}</td>
-	</tr>
-    </table>
-    </fieldset>
+	<fieldset><legend>{$honor_block_title}</legend>
+	    {$honor_block_text}
+	    <table class="form-layout-compressed">
+		{if $form.honor_type_id.html}
+		    <tr>
+			<td colspan="3">
+			{$form.honor_type_id.html}
+			&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('honor_type_id', '{$form.formName}');enableHonorType(); return false;">{ts}unselect{/ts}</a>&nbsp;)<br />
+			<span class="description">{ts}Please include the name, and / or email address of the person you are honoring,{/ts}</span></td>
+		    </tr>
+		{/if}
+		<tr id="honorType">
+		    <td>{$form.honor_prefix_id.html}</td>
+		    <td>{$form.honor_first_name.html}<br />
+			<span class="description">{$form.honor_first_name.label}</span></td>
+		    <td>{$form.honor_last_name.html}<br />
+			<span class="description">{$form.honor_last_name.label}</span></td>
+		</tr>
+		<tr id="honorTypeEmail">
+		    <td></td>
+		    <td colspan="2">{$form.honor_email.html}<br />
+			<span class="description">{$form.honor_email.label}</td>
+		</tr>
+	    </table>
+	</fieldset>
     {/if} 
 
     {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
@@ -265,14 +267,21 @@ function enablePeriod ( ) {
     }
 }
 
-{/literal}{if $honor_block_is_active}{literal}
+{/literal}{if $honor_block_is_active AND $form.honor_type_id.html}{literal}
     enableHonorType();
 {/literal} {/if}{literal}
 
 function enableHonorType( ) {
-    if ( document.getElementsByName("honor_type_id")[0].checked == true || 
-	 document.getElementsByName("honor_type_id")[1].checked == true) { 
-	show('honorType', 'table-row');	
+    var element = document.getElementsByName("honor_type_id");
+    for (var i = 0; i < element.length; i++ ) {
+	var isHonor = false;	
+	if ( element[i].checked == true ) {
+	    var isHonor = true;
+	    break;
+	}
+    }
+    if ( isHonor ) {
+	show('honorType', 'table-row');
 	show('honorTypeEmail', 'table-row');
     } else {
 	document.getElementById('honor_first_name').value = '';
