@@ -41,6 +41,7 @@ require_once 'PHPUnit/Extensions/Database/DataSet/FlatXmlDataSet.php';
 require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
 require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
 require_once 'tests/phpunit/AllTests.php';
+require_once 'tests/phpunit/Utils.php';
 
 /**
  *  Base class for CiviCRM unit tests
@@ -56,6 +57,11 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      *  @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
      */
     protected $_dbconn;
+
+    /**
+     *  @var Utils instance
+     */
+    public static $utils;
 
     /**
      *  Constructor
@@ -118,6 +124,29 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      *  Common teardown functions for all unit tests
      */
     protected function tearDown() { }
+
+    /**
+     *  FIXME: Maybe a better way to do it
+     */
+    function foreignKeyChecksOff() {
+
+        self::$utils = new Utils( $GLOBALS['mysql_host'],
+                                  $GLOBALS['mysql_user'],
+                                  $GLOBALS['mysql_pass'] );        
+    
+        $query = "USE civicrm_tests_dev;"
+               . "SET foreign_key_checks = 0";
+        if ( self::$utils->do_query($query) === false ) {
+            // fail happens
+            exit;
+        }
+        return true;
+    }
+    
+    function foreignKeyChecksOn() {
+      // FIXME: might not be needed if previous fixme implemented
+    }
+
                                             
     /** 
     * Generic function to compare expected values after an api call to retrieved

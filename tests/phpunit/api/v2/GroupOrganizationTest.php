@@ -68,7 +68,7 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     }
         
     /**
-     * @todo Implement testGetWithEmptyParams().
+     * Test civicrm_group_organization_get witgh empty params.
      */
     public function testGetWithEmptyParams()
     {
