@@ -439,7 +439,10 @@ LIMIT      0, 10
         $statusTypes =& CRM_Event_PseudoConstant::participantStatus();
 
         $st = CRM_Core_DAO::executeQuery('SELECT event_id, status_id, COUNT(*) count, class
-                                          FROM civicrm_participant p JOIN civicrm_participant_status_type pst ON (p.status_id = pst.id)
+                                          FROM civicrm_participant p 
+                                            JOIN civicrm_participant_status_type pst ON (p.status_id = pst.id)
+                                            JOIN civicrm_event e ON (p.event_id = e.id)
+                                          WHERE e.is_active = 1    
                                           GROUP BY event_id, status_id');
 
         while ($st->fetch()) {
