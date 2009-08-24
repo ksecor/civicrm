@@ -443,14 +443,16 @@ LIMIT      0, 10
                                             JOIN civicrm_participant_status_type pst ON (p.status_id = pst.id)
                                             JOIN civicrm_event e ON (p.event_id = e.id)
                                           WHERE e.is_active = 1    
-                                          GROUP BY event_id, status_id LIMIT 0, 10');
+                                          GROUP BY event_id, status_id');
 
         while ($st->fetch()) {
-            $eventSummary['events'][$st->event_id]['statuses'][$st->class][] = array(
-                'url'   => CRM_Utils_System::url('civicrm/event/search', "reset=1&force=1&event=$st->event_id&status=$st->status_id"),
-                'name'  => $statusTypes[$st->status_id],
-                'count' => $st->count,
-            );
+            if ( array_key_exists( $st->event_id, $eventSummary['events'] ) ) {
+                $eventSummary['events'][$st->event_id]['statuses'][$st->class][] = array(
+                    'url'   => CRM_Utils_System::url('civicrm/event/search', "reset=1&force=1&event=$st->event_id&status=$st->status_id"),
+                    'name'  => $statusTypes[$st->status_id],
+                    'count' => $st->count,
+                );
+            }
         }
 
         $statusTypes        = CRM_Event_PseudoConstant::participantStatus(null, 'is_counted = 1');
