@@ -1672,7 +1672,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         if ( ! empty( $groups ) ) {
             $groupIDs = implode( ',',
                                  array_keys( $groups ) );
-            $selectClause = ( $count ) ? 'COUNT(m.id) as count' : 'DISTINCT( m.id ) as id';
+            $selectClause = ( $count ) ? 'COUNT( DISTINCT m.id) as count' : 'DISTINCT( m.id ) as id';
             // get all the mailings that are in this subset of groups
             $query = "
 SELECT $selectClause 
