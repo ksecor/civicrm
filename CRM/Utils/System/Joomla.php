@@ -297,9 +297,12 @@ class CRM_Utils_System_Joomla {
      */
     static function getUFLocale()
     {
-        $conf	=& JFactory::getConfig();
-        $locale	= $conf->getValue('config.language');
-        return str_replace('-', '_', $locale);
+        if ( defined('_JEXEC') ) {
+            $conf	=& JFactory::getConfig();
+            $locale	= $conf->getValue('config.language');
+            return str_replace('-', '_', $locale);
+        }
+        return null;
     }
 }
 
