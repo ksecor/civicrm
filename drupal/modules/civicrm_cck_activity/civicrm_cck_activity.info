@@ -10,6 +10,7 @@ dependencies[] = taxonomy
 dependencies[] = date
 dependencies[] = number
 dependencies[] = userreference
+dependencies[] = upload
 package = CiviCRM
 project = "CiviCRM CCK Activity"
 
