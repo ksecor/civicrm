@@ -2016,9 +2016,14 @@ UNION
          
          //1. check for component is active.
          //2. check for user permissions.
+         //3. check for acls.
          //3. edit and view contact are directly accessible to user.
          
          require_once 'CRM/Core/Permission.php';
+         $aclPermissionedTasks = array( 'view-contact', 'edit-contact', 'new-activity',
+                                        'new-email', 'group-add-contact', 'tag-contact' );
+         $corePermission = CRM_Core_Permission::getPermission( );
+         
          $config =& CRM_Core_Config::singleton( );
          
          $contextMenu = array( );
@@ -2031,20 +2036,40 @@ UNION
              }
              
              // make sure user has all required permissions.
+             $hasAllPermissions = false;
+             
              $permissions = CRM_Utils_Array::value( 'permissions', $values );
-             if ( is_array( $permissions ) ) { 
+             if ( !is_array( $permissions ) || empty( $permissions ) ) {
+                 $hasAllPermissions = true;
+             }
+             
+             // iterate for required permissions in given permissions array.
+             if ( !$hasAllPermissions ) { 
                  $hasPermissions = 0;
                  foreach ( $permissions as $permission ) {
-                     if ( !CRM_Core_Permission::check( $permission ) ) {
-                         continue;
+                     if ( CRM_Core_Permission::check( $permission ) ) {
+                         $hasPermissions++;
                      }
-                     $hasPermissions++;
                  }
                  
-                 if ( count( $permissions ) != $hasPermissions ) {
-                     continue;
+                 if ( count( $permissions ) == $hasPermissions ) {
+                     $hasAllPermissions = true;
+                 }
+                 
+                 // if still user does not have required permissions, check acl.
+                 if ( !$hasAllPermissions ) {
+                     if ( in_array( $values['ref'], $aclPermissionedTasks ) && 
+                          $corePermission == CRM_Core_Permission::EDIT ) {
+                         $hasAllPermissions = true; 
+                     } else if ( in_array( $values['ref'], array( 'new-email' ) ) ) {
+                         // grant permissions for these tasks.
+                         $hasAllPermissions = true;
+                     }
                  }
              }
+             
+             // user does not have necessary permissions.
+             if ( !$hasAllPermissions ) continue;
              
              // build directly accessible action menu.
              if ( in_array( $values['ref'], array( 'view-contact', 'edit-contact' ) ) ) {
