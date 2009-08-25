@@ -25,14 +25,14 @@
 */
 
 require_once 'CiviTest/CiviUnitTestCase.php';
-require_once 'api/v2/GroupOrganization.php';
+require_once 'api/v2/GroupNesting.php';
 
 /**
- * Test class for GroupOrganization API - civicrm_group_organization_*
+ * Test class for GroupNesting API - civicrm_group_nesting_*
  *
  *  @package   CiviCRM
  */
-class api_v2_GroupOrganizationTest extends CiviUnitTestCase
+class api_v2_GroupNestingTest extends CiviUnitTestCase
 {
 
     /**
@@ -44,6 +44,14 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     protected function setUp()
     {
         parent::setUp();
+
+        //  Insert a row in civicrm_group creating option group
+        //  from_email_address group
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/group_admins.xml') );
     }
 
     /**
@@ -56,7 +64,7 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     {
     }
 
-///////////////// civicrm_group_organization_get methods
+///////////////// civicrm_group_nesting_get methods
 
     /**
      * @todo Implement testGet().
@@ -68,39 +76,65 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     }
         
     /**
-     * Test civicrm_group_organization_get witgh empty params.
+     * Test civicrm_group_nesting_get witgh empty params.
      */
     public function testGetWithEmptyParams()
     {
         $params = array( );
-        $result =& civicrm_group_organization_get($params);
+        $result =& civicrm_group_nesting_get($params);
+        $this->assertEquals( $result['is_error'], 1,
+                             "In line " . __LINE__ );
+    }
+    
+    /**
+     * Test civicrm_group_nesting_get with wrong parameters type.
+     */
+    public function testGetWithWrongParams()
+    {
+        $params = 'a string';
+        $result =& civicrm_group_nesting_get($params);
         $this->assertEquals( $result['is_error'], 1,
                              "In line " . __LINE__ );
     }
 
-///////////////// civicrm_group_organization_create methods
+///////////////// civicrm_group_nesting_create methods
 
     /**
-     * @todo Implement testCreate().
+     * Test civicrm_group_nesting_create.
      */
     public function testCreate()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $params = array( 'parent_group_id' => 1 );
+        $result = civicrm_group_nesting_create( $params );
+        var_dump( $result );
+        $this->assertEquals( $result['is_error'], 0 );
     }    
 
     /**
-     * @todo Implement testCreateWithEmptyParams().
+     * Test civicrm_group_nesting_create with empty parameter array.
+     * Error expected.
      */
     public function testCreateWithEmptyParams()
     {
         $params = array( );
-        $result =& civicrm_group_organization_create($params);
+        $result =& civicrm_group_nesting_create($params);
         $this->assertEquals( $result['is_error'], 1,
                              "In line " . __LINE__ );
     }
+    
+    /**
+     * Test civicrm_group_nesting_create with wrong parameter type.
+     * Error expected.
+     */
+    public function testCreateWithWrongParams()
+    {
+        $params = 'a string';
+        $result =& civicrm_group_nesting_create($params);
+        $this->assertEquals( $result['is_error'], 1,
+                             "In line " . __LINE__ );
+    }        
 
-///////////////// civicrm_group_organization_remove methods
+///////////////// civicrm_group_nesting_remove methods
 
     /**
      * @todo Implement testRemove().
@@ -118,7 +152,7 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     public function testRemoveWithEmptyParams()
     {
         $params = array( );
-        $result =& civicrm_group_organization_remove($params);
+        $result =& civicrm_group_nesting_remove($params);
         $this->assertEquals( $result['is_error'], 1,
                              "In line " . __LINE__ );
     }

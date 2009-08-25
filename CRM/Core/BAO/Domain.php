@@ -158,10 +158,10 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     static function getNameAndEmail( ) 
     {
         require_once 'CRM/Core/OptionGroup.php';
-        $formEmailAddress = CRM_Core_OptionGroup::values( 'from_email_address', null, null, null, ' AND is_default = 1' );
-        if ( !empty( $formEmailAddress ) ) {
+        $fromEmailAddress = CRM_Core_OptionGroup::values( 'from_email_address', null, null, null, ' AND is_default = 1' );
+        if ( !empty( $fromEmailAddress ) ) {
             require_once 'CRM/Utils/Mail.php';
-            foreach ( $formEmailAddress as $key => $value ) {
+            foreach ( $fromEmailAddress as $key => $value ) {
                 $email    = CRM_Utils_Mail::pluckEmailFromHeader( $value );
                 $fromName = CRM_Utils_Array::value( 1, explode('"', $value ) );
                 break;

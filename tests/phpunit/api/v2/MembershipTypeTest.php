@@ -81,7 +81,8 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
     {
         $params = array(
                         'name'                 => '60+ Membership',
-                        'description'          => 'people above 60 are given health instructions',                        'contribution_type_id' => $this->_contributionTypeID,
+                        'description'          => 'people above 60 are given health instructions',                        
+                        'contribution_type_id' => $this->_contributionTypeID,
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
                         'duration_interval'    => '10',
@@ -98,7 +99,8 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
     {
       $params = array(
                         'name'                 => '70+ Membership',
-                        'description'          => 'people above 70 are given health instructions',                        'member_of_contact_id' => $this->_contactID,
+                        'description'          => 'people above 70 are given health instructions',                        
+                        'member_of_contact_id' => $this->_contactID,
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
                         'duration_interval'    => '10',
@@ -197,7 +199,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $this->assertEquals( $membershiptype['is_error'], 1 );
     }
 
-    function BROKEN_testMembershipTypeUpdate()
+    function testMembershipTypeUpdate()
     {
         $id = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
         $params = array(

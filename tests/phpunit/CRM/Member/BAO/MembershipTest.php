@@ -1,4 +1,28 @@
 <?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 3.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
 
 require_once 'CiviTest/CiviUnitTestCase.php';
 require_once 'CiviTest/Contact.php';
@@ -6,9 +30,11 @@ require_once 'CiviTest/Custom.php';
 require_once 'CRM/Member/BAO/Membership.php';
 require_once 'CiviTest/ContributionPage.php';
 require_once 'CiviTest/Membership.php';
+require_once 'api/v2/MembershipType.php';
+require_once 'api/v2/MembershipStatus.php';
 require_once 'CRM/Member/BAO/MembershipType.php';
 
-class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase 
+class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
 {
     function get_info( ) 
     {
@@ -22,16 +48,29 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
     function setUp( ) 
     {
         parent::setUp();
+        
+        $this->_contactID           = $this->organizationCreate( ) ;
+        $this->_contactID2          = $this->organizationCreate( ) ;        
+        $this->_contributionTypeID  = $this->contributionTypeCreate();
+        $this->_membershipTypeID    = $this->membershipTypeCreate( $this->_contactID, $this->_contributionTypeID );
+        $this->_membershipTypeID2    = $this->membershipTypeCreate( $this->_contactID2, $this->_contributionTypeID );        
+        
+//        var_dump( $this->_membershipTypeID );
+        
+        $this->_membershipStatusID  = $this->membershipStatusCreate( 'test status' );                
+        
+        
+//        $dontCare = $this->foreignKeyChecksOff();        
     }
 
     function testCreate( )
     {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
+
         $contactId = Contact::createIndividual( );
         
         $params = array(
                         'contact_id'         => $contactId,  
-                        'membership_type_id' => '1',
+                        'membership_type_id' => $this->_membershipTypeID,
                         'join_date'          => '2006-01-21',
                         'start_date'         => '2006-01-21',
                         'end_date'           => '2006-12-21',
@@ -50,7 +89,7 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
         $params = array( );
         $params = array(
                         'contact_id'         => $contactId,  
-                        'membership_type_id' => '2',
+                        'membership_type_id' => $this->_membershipTypeID,
                         'join_date'          => '2006-01-21',
                         'start_date'         => '2006-01-21',
                         'end_date'           => '2006-12-21',
@@ -75,7 +114,6 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
     function testGetValues( )
     {
     
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
         //  Calculate membership dates based on the current date
         $now           = time( );
         $year_from_now = $now + ( 365 * 24 * 60 * 60 );
@@ -128,7 +166,6 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
 
     function testRetrieve ()
     {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );        
         $contactId = Contact::createIndividual( );
         
         $params = array(
@@ -154,7 +191,6 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
 
     function testActiveMembers ()
     {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
         $contactId = Contact::createIndividual( );
         
         $params = array(
@@ -208,7 +244,6 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
     
     function testDeleteMembership ()
     {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
         $contactId = Contact::createIndividual( );
         
         $params = array(
@@ -235,7 +270,6 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
     
     function testGetContactMembership ()
     {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
         $contactId = Contact::createIndividual( );
         
         $params = array(
@@ -267,6 +301,7 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
     function testbuildMembershipBlock ( )
     {
         $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
+
         //create membership type 
         $membershipType     = Membership::createMembershipType( );
         //create contribution page
@@ -276,7 +311,7 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
         
         $getMembershipBlock = CRM_Member_BAO_Membership::getMembershipBlock( $contributionPageID );
         require_once 'CRM/Contribute/Form/Contribution/Main.php';
-        $main =new  CRM_Contribute_Form_Contribution_Main();
+        $main =new CRM_Contribute_Form_Contribution_Main();
         $main->_id = 1;
         $main->_mode = 'test';
         $main->_membershipBlock = array(
@@ -312,7 +347,6 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
 
     function testgetContributionPageId( )  
     {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
         $contactId = Contact::createIndividual( );
                
         $params = array(
@@ -344,7 +378,6 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
 
     function testgetMembershipStarts( ) 
     {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
         $membershipType     = Membership::createMembershipType( );
      
         $contactId = Contact::createIndividual( );
@@ -386,7 +419,6 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
 
     function testGetMembershipCount( ) 
     {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
         $membershipType = Membership::createMembershipType( );
      
         $contactId      = Contact::createIndividual( );

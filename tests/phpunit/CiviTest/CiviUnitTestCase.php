@@ -138,7 +138,8 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
                . "SET foreign_key_checks = 0";
         if ( self::$utils->do_query($query) === false ) {
             // fail happens
-            exit;
+            echo 'Cannot set foreign_key_checks = 0';
+            exit(1);
         }
         return true;
     }
@@ -345,6 +346,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
                          'duration_interval'    => 1,
                          'period_type'          => 'rolling',
                          'member_of_contact_id' => $contactID,
+                         'domain_id'		=> 1,
                          'contribution_type_id' => $contributionTypeID );
         
         $result = civicrm_membership_type_create( $params );

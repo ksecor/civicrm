@@ -25,14 +25,14 @@
 */
 
 require_once 'CiviTest/CiviUnitTestCase.php';
-require_once 'api/v2/GroupOrganization.php';
+require_once 'api/v2/Domain.php';
 
 /**
- * Test class for GroupOrganization API - civicrm_group_organization_*
+ * Test class for Domain API - civicrm_domain_*
  *
  *  @package   CiviCRM
  */
-class api_v2_GroupOrganizationTest extends CiviUnitTestCase
+class api_v2_DomainTest extends CiviUnitTestCase
 {
 
     /**
@@ -44,6 +44,23 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     protected function setUp()
     {
         parent::setUp();
+
+        //  Insert a row in civicrm_option_group creating option group
+        //  from_email_address group
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/option_group_from_email_address.xml') );
+ 
+        //  Insert a row in civicrm_option_value creating
+        //  from email address
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/option_value_from_email_address.xml') );
+
     }
 
     /**
@@ -56,29 +73,30 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     {
     }
 
-///////////////// civicrm_group_organization_get methods
+///////////////// civicrm_domain_get methods
 
     /**
-     * @todo Implement testGet().
+     * Test civicrm_domain_get. Takes no params.
+     * Testing mainly for format.
      */
     public function testGet()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $domain = civicrm_domain_get();
+
+        $this->assertType( 'array', $domain );
+        $this->assertEquals( $domain['from_email'], 'test@email.label.net' );
+        $this->assertEquals( $domain['from_name'],  'Test Label - Domain');
+
+        // checking other important parts of domain information
+        // test will fail if backward incompatible changes happen
+        $this->assertArrayHasKey( 'id', $domain );
+        $this->assertArrayHasKey( 'domain_name', $domain );
+        $this->assertArrayHasKey( 'domain_email', $domain );
+        $this->assertArrayHasKey( 'domain_phone', $domain );
+        $this->assertArrayHasKey( 'domain_address', $domain ); 
     }
         
-    /**
-     * Test civicrm_group_organization_get witgh empty params.
-     */
-    public function testGetWithEmptyParams()
-    {
-        $params = array( );
-        $result =& civicrm_group_organization_get($params);
-        $this->assertEquals( $result['is_error'], 1,
-                             "In line " . __LINE__ );
-    }
-
-///////////////// civicrm_group_organization_create methods
+///////////////// civicrm_domain_create methods
 
     /**
      * @todo Implement testCreate().
@@ -90,37 +108,26 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     }    
 
     /**
-     * @todo Implement testCreateWithEmptyParams().
+     * Test civicrm_domain_create with empty params.
      */
     public function testCreateWithEmptyParams()
     {
         $params = array( );
-        $result =& civicrm_group_organization_create($params);
+        $result =& civicrm_domain_create($params);
         $this->assertEquals( $result['is_error'], 1,
                              "In line " . __LINE__ );
     }
-
-///////////////// civicrm_group_organization_remove methods
-
+    
     /**
-     * @todo Implement testRemove().
+     * @todo Implement testCreateWithEmptyParams().
      */
-    public function testRemove()
+    public function testCreateWithWrongParams()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-
-    /**
-     * Attempt calling _remove with empty params
-     */
-    public function testRemoveWithEmptyParams()
-    {
-        $params = array( );
-        $result =& civicrm_group_organization_remove($params);
+        $params = 'a string';
+        $result =& civicrm_domain_create($params);
         $this->assertEquals( $result['is_error'], 1,
                              "In line " . __LINE__ );
-    }
+    }    
+    
 }
 ?>

@@ -300,7 +300,6 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
     
     function testCustomFieldOptionValueCreate( )
     {
-          $this->fail( 'Needs fixing!' );
         $customGroup = $this->customGroupCreate('Contact', 'select_test_group');
         $params = array ('custom_group_id' => 1,
                          'label'           => 'Country',
