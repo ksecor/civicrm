@@ -150,12 +150,18 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                         'filter', 
                         ts('Regular Expression?'));
         }
-        
-        $this->addWysiwyg( 'description',
-                           ts('Description'),
-                           CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ),
-                           $required );
-        
+        if ( $this->_gName == 'participant_listing' ) {
+            $this->add('text', 
+                       'description', 
+                       ts('Description'), 
+                       CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
+            
+        } else {
+            $this->addWysiwyg( 'description',
+                               ts('Description'),
+                               CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ),
+                               $required );
+        }
         $this->add('text',
                    'weight',
                    ts('Weight'),
