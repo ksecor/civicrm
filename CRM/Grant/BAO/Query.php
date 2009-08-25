@@ -248,6 +248,8 @@ class CRM_Grant_BAO_Query
      */   
     static function buildSearchForm( &$form ) 
     {
+        require_once 'CRM/Utils/Money.php';
+
         require_once 'CRM/Core/OptionGroup.php'; 
         $grantType = CRM_Core_OptionGroup::values( 'grant_type' );
         $form->add('select', 'grant_type_id',  ts( 'Grant Type' ),
@@ -299,10 +301,10 @@ class CRM_Grant_BAO_Query
         $form->addYesNo( 'grant_report_received', ts( 'Grant report received?' ) );
         
         $form->add('text', 'grant_amount_low', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $form->addRule( 'grant_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
+        $form->addRule('grant_amount_low', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('9.99', ' '))), 'money');
         
         $form->add('text', 'grant_amount_high', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $form->addRule( 'grant_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+        $form->addRule('grant_amount_high', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('99.99', ' '))), 'money');
         
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

@@ -557,6 +557,8 @@ class CRM_Contribute_BAO_Query
      */ 
     static function buildSearchForm( &$form ) 
     {
+        require_once 'CRM/Utils/Money.php';
+
         //added contribution source
         $form->addElement('text', 'contribution_source', ts('Contribution Source'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Contribution', 'source') );
         
@@ -568,10 +570,10 @@ class CRM_Contribute_BAO_Query
         $form->addRule('contribution_date_high', ts('Select a valid date.'), 'qfDate'); 
 
         $form->add('text', 'contribution_amount_low', ts('From'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $form->addRule( 'contribution_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
+        $form->addRule('contribution_amount_low', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('9.99', ' '))), 'money');
 
         $form->add('text', 'contribution_amount_high', ts('To'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $form->addRule( 'contribution_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+        $form->addRule('contribution_amount_high', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('99.99', ' '))), 'money');
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $form->add('select', 'contribution_type_id', 
