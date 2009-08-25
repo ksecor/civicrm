@@ -439,19 +439,20 @@ LIMIT      0, 10
         
         $eventIdsClause = '';
         if ( !empty( $eventIds ) ) {
-            $eventIdsClause = " AND e.id IN (" . implode( ',', $eventIds ) . ")";
+            $eventIdsClause = "WHERE p.event_id IN (" . implode( ',', $eventIds ) . ")";
         }
         
         // add participant counts on a per-event, per-status-type basis
         require_once 'CRM/Event/PseudoConstant.php';
         $statusTypes =& CRM_Event_PseudoConstant::participantStatus();
         
-        $st = CRM_Core_DAO::executeQuery("SELECT event_id, status_id, COUNT(*) count, class
-                                          FROM civicrm_participant p 
-                                            JOIN civicrm_participant_status_type pst ON (p.status_id = pst.id)
-                                            JOIN civicrm_event e ON (p.event_id = e.id)
-                                          WHERE e.is_active = 1  {$eventIdsClause}   
-                                          GROUP BY event_id, status_id");
+        $query = "
+  SELECT  event_id, status_id, COUNT(*) count, class
+    FROM  civicrm_participant p 
+    JOIN  civicrm_participant_status_type pst ON ( p.status_id = pst.id )
+          {$eventIdsClause}   
+GROUP BY  event_id, status_id";
+        $st = CRM_Core_DAO::executeQuery( $query );
         
         while ($st->fetch()) {
             $eventSummary['events'][$st->event_id]['statuses'][$st->class][] = 
