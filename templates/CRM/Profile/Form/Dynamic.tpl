@@ -107,7 +107,7 @@
                {$form.$n.html}
                {if ($n eq 'gender') or ($field.html_type eq 'Radio' and $form.formName eq 'Edit')}
                        &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
-               {elseif $field.data_type eq 'Date'}
+               {elseif ($field.data_type eq 'Date') or ($n eq 'birth_date') or ($n eq 'deceased_date') }
 	                {if $element.skip_calendar NEQ true } 
                         <span>
                             {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}

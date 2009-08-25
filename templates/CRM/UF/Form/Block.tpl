@@ -89,7 +89,7 @@
                  </span>
              {elseif $field.html_type eq 'Autocomplete-Select'}
                  {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
-             {elseif $field.data_type eq 'Date'}
+             {elseif ($field.data_type eq 'Date') or ($n eq 'birth_date') or ($n eq 'deceased_date') }
                 {if $element.skip_calendar NEQ true } 
                     <span>
                         {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
