@@ -61,23 +61,23 @@ class CRM_Core_IDS {
     public function check( &$args ) {
 
         // lets bypass a few civicrm urls from this check
-        static $skip = array( 'civicrm/ajax' );
-        $path = implode( '/', $args );
-        if ( in_array( $path, $skip ) ) {
-            return;
-        }
+      static $skip = array( 'civicrm/ajax', 'civicrm/admin/setting/updateConfigBackend' );
+      $path = implode( '/', $args );
+      if ( in_array( $path, $skip ) ) {
+          return;
+      }
 
         #add request url and user agent
-        $_REQUEST['IDS_request_uri'] = $_SERVER['REQUEST_URI'];
-        if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $_REQUEST['IDS_user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-        }
+      $_REQUEST['IDS_request_uri'] = $_SERVER['REQUEST_URI'];
+      if (isset($_SERVER['HTTP_USER_AGENT'])) {
+          $_REQUEST['IDS_user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+      }
+      
+      require_once 'IDS/Init.php';
 
-        require_once 'IDS/Init.php';
-
-        #init the PHPIDS and pass the REQUEST array
-        $config =& CRM_Core_Config::singleton( );
-        $configFile = $config->uploadDir . 'Config.IDS.ini';
+      // init the PHPIDS and pass the REQUEST array
+      $config =& CRM_Core_Config::singleton( );
+      $configFile = $config->uploadDir . 'Config.IDS.ini';
         if ( ! file_exists( $configFile ) ) {
             global $civicrm_root;
             $contents = "
@@ -112,7 +112,11 @@ class CRM_Core_IDS {
     html[]              = confirm_footer_text
     html[]              = confirm_email_text
 ";
-            file_put_contents( $configFile, $contents );
+            if ( file_put_contents( $configFile, $contents ) === false ) {
+                require_once 'CRM/Core/Error.php';
+                CRM_Core_Error::movedSiteError( $configFile );
+            }
+
 
             // also create the .htaccess file so we prevent the reading of the log and ini files
             // via a browser, CRM-3875
@@ -124,7 +128,10 @@ class CRM_Core_IDS {
  Order allow,deny
 </FilesMatch>
 ';
-                file_put_contents( $htaccessFile, $contents );
+                if ( file_put_contents( $htaccessFile, $contents ) === false ) {
+                    require_once 'CRM/Core/Error.php';
+                    CRM_Core_Error::movedSiteError( $htaccessFile );
+                }
             }
         }
 
