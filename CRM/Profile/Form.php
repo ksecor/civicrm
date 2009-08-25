@@ -310,6 +310,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->assign( 'id'          , $this->_id       );
         $this->assign( 'mode'        , $this->_mode     );
         $this->assign( 'action'      , $this->_action   );
+        $this->assign_by_ref( 'fields'      , $this->_fields   );
         $this->assign( 'fieldset'    , (isset($this->_fieldset)) ? $this->_fieldset : "" ); 
         
         // do we need inactive options ?
@@ -350,7 +351,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         $stateCountryMap = array( );
         
         // add the form elements
-        foreach ($this->_fields as $name => &$field ) {
+        foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
             if ( ( ! $admin && $field['visibility'] == 'User and User Admin Only' ) ||
                  CRM_Utils_Array::value( 'is_view', $field ) ) {
@@ -390,7 +391,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->_mail = $name;
             }
         }
-        $this->assign_by_ref( 'fields', $this->_fields );
         
         $setCaptcha = false;
         

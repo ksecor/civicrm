@@ -687,8 +687,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     CRM_Core_Session::setStatus("Some of the profile fields cannot be configured for this page.");
                 }
                 
+                $this->assign( $name, $fields );
+                
                 $addCaptcha = false;
-                foreach($fields as $key => &$field) {
+                foreach($fields as $key => $field) {
                     if ( $viewOnly &&
                          isset( $field['data_type'] ) &&
                          $field['data_type'] == 'File' ) {
@@ -710,8 +712,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                         $addCaptcha = true;
                     }
                 }
-                
-                $this->assign( $name, $fields );
+
                 require_once 'CRM/Core/BAO/Address.php';
                 CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
 
