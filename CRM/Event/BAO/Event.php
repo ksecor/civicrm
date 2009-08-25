@@ -304,7 +304,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      */
     static function getEventSummary( $admin = false )
     {
-        $eventSummary = array( );
+        $eventSummary = $eventIds = array( );
         
         $query = "SELECT count(id) as total_events
                   FROM   civicrm_event e
@@ -432,29 +432,36 @@ LIMIT      0, 10
             // prepare the area for per-status participant counts
             $statusClasses = array('Positive', 'Pending', 'Waiting', 'Negative');
             $eventSummary['events'][$dao->id]['statuses'] = array_fill_keys($statusClasses, array());
-        }
 
+            // get eventIds.
+            if ( !in_array( $dao->id, $eventIds ) ) $eventIds[] = $dao->id;
+        }
+        
+        $eventIdsClause = '';
+        if ( !empty( $eventIds ) ) {
+            $eventIdsClause = " AND e.id IN (" . implode( ',', $eventIds ) . ")";
+        }
+        
         // add participant counts on a per-event, per-status-type basis
         require_once 'CRM/Event/PseudoConstant.php';
         $statusTypes =& CRM_Event_PseudoConstant::participantStatus();
-
-        $st = CRM_Core_DAO::executeQuery('SELECT event_id, status_id, COUNT(*) count, class
+        
+        $st = CRM_Core_DAO::executeQuery("SELECT event_id, status_id, COUNT(*) count, class
                                           FROM civicrm_participant p 
                                             JOIN civicrm_participant_status_type pst ON (p.status_id = pst.id)
                                             JOIN civicrm_event e ON (p.event_id = e.id)
-                                          WHERE e.is_active = 1    
-                                          GROUP BY event_id, status_id');
-
+                                          WHERE e.is_active = 1  {$eventIdsClause}   
+                                          GROUP BY event_id, status_id");
+        
         while ($st->fetch()) {
-            if ( array_key_exists( $st->event_id, $eventSummary['events'] ) ) {
-                $eventSummary['events'][$st->event_id]['statuses'][$st->class][] = array(
-                    'url'   => CRM_Utils_System::url('civicrm/event/search', "reset=1&force=1&event=$st->event_id&status=$st->status_id"),
-                    'name'  => $statusTypes[$st->status_id],
-                    'count' => $st->count,
-                );
-            }
+            $eventSummary['events'][$st->event_id]['statuses'][$st->class][] = 
+                array( 'url'   => CRM_Utils_System::url( 'civicrm/event/search', 
+                                                         "reset=1&force=1&event=$st->event_id&status=$st->status_id"),
+                       'name'  => $statusTypes[$st->status_id],
+                       'count' => $st->count,
+                       );
         }
-
+        
         $statusTypes        = CRM_Event_PseudoConstant::participantStatus(null, 'is_counted = 1');
         $statusTypesPending = CRM_Event_PseudoConstant::participantStatus(null, 'is_counted = 0');
         
