@@ -110,7 +110,7 @@ civicrm_contact.id as contact_id,
 civicrm_contact.sort_name as sort_name,
 civicrm_contact.first_name as first_name,
 civicrm_contact.last_name as last_name,
-civicrm_tag.name as tag_name,
+GROUP_CONCAT(DISTINCT civicrm_tag.name ORDER BY  civicrm_tag.name ASC ) as tag_name,
 sum(civicrm_contribution.total_amount) as amount
 ";
     }
@@ -122,7 +122,7 @@ sum(civicrm_contribution.total_amount) as amount
 SELECT $select
 FROM   $from
 WHERE  $where
-GROUP BY civicrm_contact.id, civicrm_tag.name 
+GROUP BY civicrm_contact.id
 ";
       //for only contact ids ignore order.
       if ( !$onlyIDs ) {
