@@ -377,7 +377,14 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 $value = CRM_Utils_File::addTrailingSlash( $value, '/' );
             } else if ( in_array($key, $dirArray) ) {
                 $value = CRM_Utils_File::addTrailingSlash( $value );
-                CRM_Utils_File::createDir( $value );
+                if ( CRM_Utils_File::createDir( $value, false ) === false ) {
+		  // seems like we could not create the directories
+		  // settings might have changed, lets suppress a message for now
+		  // so we can make some more progress and let the user fix their settings 
+		  // for now we assign it to a know value
+		  // CRM-4949
+		  $value = $this->templateCompileDir;
+		}
             } else if ( $key == 'lcMessages' ) {
                 // reset the templateCompileDir to locale-specific and make sure it exists
                 $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($value);
