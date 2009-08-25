@@ -100,6 +100,7 @@ class CRM_Utils_File {
      * if needed
      * 
      * @param string $path  the path name
+     * @param boolean $abort should we abort or just return an invalid code
      *
      * @return void
      * @access public
@@ -112,14 +113,14 @@ class CRM_Utils_File {
 
         CRM_Utils_File::createDir( dirname( $path ), $abort );
         if ( mkdir( $path, 0777 ) == false ) {
-	  if ( $abort ) {
-            echo "Error: Could not create directory: $path.<p>If you have moved your database from a development install to a production install and the directory paths are different, please set the column config_backend in the civicrm_domain table to NULL. You will need to reinitialize your settings in the production install.<p>";
-            exit( );
-	  } else {
-	    return false;
-	  }
+            if ( $abort ) {
+                echo "Error: Could not create directory: $path.<p>If you have moved your database from a development install to a production install and the directory paths are different, please set the column config_backend in the civicrm_domain table to NULL. You will need to reinitialize your settings in the production install.<p>";
+                exit( );
+            } else {
+                return false;
+            }
         }
-	return true;
+        return true;
     }
 
     /** 
