@@ -2,7 +2,7 @@
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
 {elseif $atypefile }
-   {if $activityTypeFile}{include file="CRM/{$crmDir}/Form/Activity/$activityTypeFile.tpl"}{/if}
+   {if $activityTypeFile}{include file="CRM/$crmDir/Form/Activity/$activityTypeFile.tpl"}{/if}
 {else}
 
 {* added onload javascript for source contact*}
