@@ -1335,8 +1335,10 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             }
             $form->add('text', $name, $title, $attributes, $required );
         } else if ( $fieldName === 'birth_date' ) {  
+            $field['skip_calendar'] = CRM_Utils_Date::checkBrithDateFormat( ) ? true : false;
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ( $fieldName === 'deceased_date' ) {  
+            $field['skip_calendar'] = CRM_Utils_Date::checkBrithDateFormat( ) ? true : false;
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );    
         } else if ( in_array($fieldName, array( "membership_start_date","membership_end_date","join_date")) ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('manual'), $required ); 
