@@ -304,7 +304,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                           CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId,
                                                                                     $this->_rtype,
                                                                                     $this->_relationshipId,
-                                                                                    null, false, 'label', false )
+                                                                                    null, false, 'label' )
                           );
 
         // add a ajax facility for searching contacts
