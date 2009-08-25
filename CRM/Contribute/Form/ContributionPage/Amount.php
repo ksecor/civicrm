@@ -174,6 +174,11 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         if (isset($defaults['max_amount'])) {
             $defaults['max_amount'] = CRM_Utils_Money::format($defaults['max_amount'], null, '%a');
         }
+
+        // CRM-4038: fix value display
+        foreach ($defaults['value'] as &$amount) {
+            $amount = trim(CRM_Utils_Money::format($amount, ' '));
+        }
         
         return $defaults;
     }
