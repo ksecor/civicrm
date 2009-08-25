@@ -30,7 +30,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td id="locUsedMsg" colspan="2">
+				<td id="locUsedMsg" colspan="3">
 				{assign var=locUsedMsgTxt value="<strong>Note:</strong> This location is used by multiple events. Modifying location information will change values for all events."}
 				</td>
 			</tr>
