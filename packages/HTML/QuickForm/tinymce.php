@@ -144,7 +144,6 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
                 $html .= sprintf( '<script type="text/javascript">
 cj( function( ) {
     cj("textarea.tinymce").tinymce({
-        script_url : "'.$config->resourceBase.'packages/tinymce/jscripts/tiny_mce/tiny_mce.js",    
         theme : "advanced",
         editor_selector : "form-TinyMCE",
         plugins : "safari,spellchecker,layer,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,pagebreak",
