@@ -1167,14 +1167,17 @@ WHERE  contribution_id = {$this->_id}
             CRM_Core_Session::setStatus( $statusMsg );
             //Offline Contribution ends.
         }
-        
+
         $buttonName = $this->controller->getButtonName( );
-        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-            if ( $this->_context == 'standalone' ) {
+        if ( $this->_context == 'standalone' ) {
+            if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
                 $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', 'reset=1&action=add&context=standalone') );
             } else {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', "reset=1&action=add&context=contribution&cid={$this->_contactID}") );
-            }            
+                $session->replaceUserContext(CRM_Utils_System::url( 'civicrm/contact/view',
+                                              "reset=1&cid={$this->_contactID}&selectedChild=contribute" ) );
+            }
+        } else if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', "reset=1&action=add&context=contribution&cid={$this->_contactID}") );
         }
     }
     
