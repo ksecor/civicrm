@@ -756,6 +756,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contribParams['address_id']  = CRM_Contribute_BAO_Contribution::createAddress( $params, $form->_bltID );
         }
 
+        // CRM-4038: for non-en_US locales, CRM_Contribute_BAO_Contribution::add() expects localised amounts
+        require_once 'CRM/Utils/Money.php';
+        $contribParams['non_deductible_amount'] = trim(CRM_Utils_Money::format($contribParams['non_deductible_amount'], ' '));
+        $contribParams['total_amount']          = trim(CRM_Utils_Money::format($contribParams['total_amount'], ' '));
+
         //add contribution record
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
