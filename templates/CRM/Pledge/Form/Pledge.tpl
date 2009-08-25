@@ -15,7 +15,7 @@
 </div>
 {/if}
 <div class="form-item">
-<div class="html-adjust">{$form.buttons.html}</div>
+<div class=""crm-submit-buttons">{$form.buttons.html}</div>
 <fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Pledge{/ts}{elseif $action eq 8}{ts}Delete Pledge{/ts}{else}{ts}Edit Pledge{/ts}{/if}</legend> 
    {if $action eq 8} 
       <div class="messages status"> 
@@ -85,6 +85,7 @@
             <span class="description">{ts}Pledges are "Pending" until the first payment is received. Once a payment is received, status is "In Progress" until all scheduled payments are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>
 		<tr><td colspan=2>{include file="CRM/Custom/Form/CustomData.tpl"}</td></tr>
        </table>
+</fieldset>
 {literal}
 <script type="text/javascript">
 var showPane = "";
@@ -142,10 +143,9 @@ function loadPanes( id ) {
 {/if}
 {/foreach}
 {/if} {* not delete mode if*}   
-</fieldset>
 </div> 
-
-<div class="html-adjust">{$form.buttons.html}</div>
+<br />
+<div class="crm-submit-buttons">{$form.buttons.html}</div>
      {literal}
      <script type="text/javascript">
 
