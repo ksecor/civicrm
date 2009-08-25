@@ -52,6 +52,8 @@ require_once 'api/v2/utils.php';
  */
 function civicrm_group_nesting_get( &$params )
 {
+    _civicrm_initialize();
+
     if ( ! array_key_exists( 'child_group_id', $params ) &&
          ! array_key_exists( 'parent_group_id', $params ) ) {
         return civicrm_create_error( ts( 'at least one of child_group_id or parent_group_id is a required field' ) );
