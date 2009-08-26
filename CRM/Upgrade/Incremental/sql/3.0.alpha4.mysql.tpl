@@ -48,4 +48,8 @@
 
    ALTER TABLE `civicrm_activity`
     	ADD CONSTRAINT `FK_civicrm_activity_source_contact_id` FOREIGN KEY (`source_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
+
+--CRM-4605
+  ALTER TABLE `civicrm_preferences` DROP `location_count`;
+
     

@@ -53,14 +53,10 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
 
     function setDefaultValues( ) {
         $defaults = array( );
-
-        $defaults['location_count'] =
-            isset( $this->_config->location_count ) ? $this->_config->location_count : 1;
-
         $defaults['address_standardization_provider'] = $this->_config->address_standardization_provider;
         $defaults['address_standardization_userid'] = $this->_config->address_standardization_userid;
         $defaults['address_standardization_url'] = $this->_config->address_standardization_url;
-
+        
         
         $this->addressSequence = isset($newSequence) ? $newSequence : "";
 
@@ -103,12 +99,6 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
      */
     public function buildQuickForm( ) 
     {
-        $this->add('text',
-                   'location_count',
-                   ts('Number of Locations'),
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Preferences', 'location_count' ) );
-        $this->addRule( 'location_count', ts( 'Location count must be a positive integer (e.g. 1 or 2 or ...).' ), 'positiveInteger' );
-
         // address formatting options
         $this->addElement('textarea','mailing_format', ts('Mailing Label Format'));  
         $this->addElement('textarea','address_format', ts('Display Format'));  

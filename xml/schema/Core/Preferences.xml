@@ -54,6 +54,7 @@
        <type>int unsigned</type>
        <comment>Number of locations to be displayed on edit page?</comment>
        <add>1.8</add>
+       <drop>3.0</drop>
   </field>
   <field>
        <name>contact_view_options</name>
