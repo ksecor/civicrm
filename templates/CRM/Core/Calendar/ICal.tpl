@@ -13,12 +13,11 @@ DESCRIPTION:{$event.description|crmICalText}
 CATEGORIES:{$event.event_type|crmICalText}
 {/if}
 CALSCALE:GREGORIAN
-DTSTAMP;VALUE=DATE-TIME:{$smarty.now|date_format:'%Y-%m-%d %H:%M:%S'|crmICalDate}
 {if $event.start_date}
 DTSTAMP;VALUE=DATE-TIME:{$event.start_date|crmICalDate}
-{/if}
-{if $event.start_date}
 DTSTART;VALUE=DATE-TIME:{$event.start_date|crmICalDate}
+{else}
+DTSTAMP;VALUE=DATE-TIME:{$smarty.now|date_format:'%Y-%m-%d %H:%M:%S'|crmICalDate}
 {/if}
 {if $event.end_date}
 DTEND;VALUE=DATE-TIME:{$event.end_date|crmICalDate}
