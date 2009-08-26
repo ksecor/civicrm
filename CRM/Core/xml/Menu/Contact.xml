@@ -99,7 +99,6 @@
      <title>Edit Related Contact</title>
      <page_callback>CRM_Contact_Form_RelatedContact</page_callback>
      <access_arguments>access Contact Dashboard</access_arguments>
-     <return_url>civicrm/user</return_url>
   </item>
   <item>
      <path>civicrm/contact/merge</path>

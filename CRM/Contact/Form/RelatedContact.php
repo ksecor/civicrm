@@ -78,7 +78,12 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         $this->_action      = CRM_Utils_Request::retrieve( 'action', 'String', 
                                                            $this, false, 'update' );
         $this->_contactId   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
-        
+
+        $rcid = CRM_Utils_Request::retrieve( 'rcid', 'Positive', $this );
+        $rcid = $rcid ? "&id={$rcid}" : '';
+        $session =& CRM_Core_Session::singleton( );
+        $session->pushUserContext(CRM_Utils_System::url( "civicrm/user","reset=1{$rcid}" ));
+
         if ( $this->_contactId ) {
             require_once 'CRM/Contact/BAO/Contact.php';
             $contact =& new CRM_Contact_DAO_Contact( );
