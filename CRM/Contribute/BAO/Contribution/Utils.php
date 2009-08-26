@@ -308,18 +308,20 @@ class CRM_Contribute_BAO_Contribution_Utils {
         } else {
             $transaction =& $params;
         }
-
+        
         $params['contact_type'] = 'Individual';
-        if ( array_key_exists( 'location', $params ) || isset($params['email']) ) {
-            $params['location'][1]['is_primary']        = 1;
-            $params['location'][1]['location_type_id']  = 
-                CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 'Billing', 'id', 'name' );
-            
-            if ( isset($params['email']) ) {
-                $params['location'][1]['email'][1]['email'] = $params['email'];
-            }
+        
+        $billingLocTypeId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 'Billing', 'id', 'name' );
+        if ( !$billingLocTypeId )  $billingLocTypeId = 1;
+        if ( !CRM_Utils_System::isNull( $params['address'] ) ) {
+            $params['address'][1]['is_primary']       = 1;
+            $params['address'][1]['location_type_id'] = $billingLocTypeId;
         }
-
+        if ( !CRM_Utils_System::isNull( $params['email'] ) ) {
+            $params['email'] = array( 1 => array( 'email'            => $params['email'],
+                                                  'location_type_id' => $billingLocTypeId ) );
+        }
+        
         if ( isset( $transaction['trxn_id'] ) ) {
             // set error message if transaction has already been processed.
             require_once 'CRM/Contribute/DAO/Contribution.php';
@@ -373,7 +375,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
                 if ( isset($mapper['contact'][$detail]) ) {
                     $params[$mapper['contact'][$detail]] = $val;
                 } else if ( isset($mapper['location'][$detail]) ) {
-                    $params['location'][1]['address'][$mapper['location'][$detail]] = $val;
+                    $params['address'][1][$mapper['location'][$detail]] = $val;
                 } else if ( isset($mapper['transaction'][$detail]) ) {
                     $transaction[$mapper['transaction'][$detail]] = $val;
                 }
@@ -397,7 +399,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
                 if ( isset($mapper['contact'][$header[$key]]) ) {
                     $params[$mapper['contact'][$header[$key]]] = $val;
                 } else if ( isset($mapper['location'][$header[$key]]) ) {
-                    $params['location'][1]['address'][$mapper['location'][$header[$key]]] = $val;
+                    $params['address'][1][$mapper['location'][$header[$key]]] = $val;
                 } else if ( isset($mapper['transaction'][$header[$key]]) ) {
                     $transaction[$mapper['transaction'][$header[$key]]] = $val;
                 } else {
@@ -430,7 +432,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
             if ( $riskInfo['google-order-number']['VALUE'] == $apiParams[2]['google-order-number']['VALUE'] ) {
                 foreach ( $riskInfo['risk-information']['billing-address'] as $field => $info ) {
                     if ( CRM_Utils_Array::value( $field, $mapper['location'] ) ) {
-                        $params['location'][1]['address'][$mapper['location'][$field]] = $info['VALUE'];
+                        $params['address'][1][$mapper['location'][$field]] = $info['VALUE'];
                     } else if ( CRM_Utils_Array::value( $field, $mapper['contact'] ) ) {
                         $params[$mapper['contact'][$field]] = $info['VALUE'];
                     } else if ( CRM_Utils_Array::value( $field, $mapper['transaction'] ) ) {
