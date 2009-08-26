@@ -51,7 +51,7 @@
      <desc>Component wise listing of all available templates</desc>
      <access_arguments>access CiviReport</access_arguments>
      <adminGroup>CiviReport</adminGroup>
-     <icon>admin/small/Profile.png</icon>
+     <icon>admin/small/report_template.gif</icon>
   </item>
   <item>
      <path>civicrm/admin/report/options/report_template</path>
@@ -68,6 +68,6 @@
      <page_callback>CRM_Report_Page_InstanceList</page_callback>
      <desc>Browse existing report, change report criteria and settings.</desc>
      <adminGroup>CiviReport</adminGroup>
-     <icon>report.gif</icon>
+     <icon>admin/small/report_list.gif</icon>
   </item>
 </menu>
