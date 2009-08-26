@@ -209,8 +209,10 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
         require_once 'CRM/Core/OptionGroup.php';
         $groupTypes = CRM_Core_OptionGroup::values( 'group_type', true );
-        if ( isset( $this->_id ) &&
-             CRM_Utils_Array::value( 'saved_search_id', $this->_groupValues ) ) {
+        $config=& CRM_Core_Config::singleton( );
+        if ( (isset( $this->_id ) &&
+             CRM_Utils_Array::value( 'saved_search_id', $this->_groupValues ) ) 
+             || ( $config->userFramework == 'Joomla' ) ) {
             unset( $groupTypes['Access Control'] );
         }
         

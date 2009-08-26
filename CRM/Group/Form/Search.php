@@ -52,9 +52,15 @@ class CRM_Group_Form_Search extends CRM_Core_Form {
                     CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
 
         require_once 'CRM/Core/OptionGroup.php';
+        $groupTypes = CRM_Core_OptionGroup::values( 'group_type', true );
+        $config=& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Joomla' ) {
+            unset( $groupTypes['Access Control'] );
+        }
+        
         $this->addCheckBox( 'group_type',
                             ts( 'Type' ),
-                            CRM_Core_OptionGroup::values( 'group_type', true ),
+                            $groupTypes,
                             null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
         
         $this->add( 'select', 'visibility', ts('Visibility'        ),
