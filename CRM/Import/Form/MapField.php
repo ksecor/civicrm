@@ -440,6 +440,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                             } else if ( isset($imProvider) ) {
                                 $typeId = $imProvider;
                             }
+                            
+                            // fix for edge cases, CRM-4954
+                            if ( $contactDetails == 'home_url' || $contactDetails == 'image_url' ) {
+                                $contactDetails = str_replace( 'url', 'URL', $contactDetails );
+                            }
+                            
                             $defaults["mapper[$i]"] = array( $relation, $contactDetails, $locationId, $typeId
                                                              );
                             if ( ! $contactDetails ) {
