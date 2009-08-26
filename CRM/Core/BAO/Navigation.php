@@ -267,10 +267,11 @@ ORDER BY parent_id, weight";
                     $navigationString .= '},';
                 }
                 $data = $value['attributes']['label'];
+                $class = '';
                 if ( !$value['attributes']['active'] ) {
-                    $data = "<font class='font-red'>{$value['attributes']['label']}</font>";
+                    $class = ', attributes: {class : "disabled"} ';
                 }
-                $navigationString .= ' { attributes: { id : "node_'.$key.'" }, data: "'. $data. '"';
+                $navigationString .= ' { attributes: { id : "node_'.$key.'"}, data: { title:"'. $data. '"' .$class.'}';
             } else {
                 $name = self::getMenuName( $value, $skipMenuItems );
                 if ( $name ) { 
@@ -308,10 +309,11 @@ ORDER BY parent_id, weight";
                 foreach($value['child'] as $k => $val ) {
                     $appendComma = true; 
                     $data = $val['attributes']['label'];
+                    $class = '';
                     if ( !$val['attributes']['active'] ) {
-                        $data = "<font class='font-red'>{$val['attributes']['label']}</font>";
-                    }                       
-                    $navigationString .= ' { attributes: { id : "node_'.$k.'" }, data: "'. $data .'"';
+                        $class = ', attributes: {class : "disabled"} ';
+                    }                      
+                    $navigationString .= ' { attributes: { id : "node_'.$k.'"}, data: { title:"'. $data. '"' .$class.'}';
                     self::recurseNavigation($val, $navigationString, $json, $skipMenuItems );
                     if ( $appendComma ) {
                         $navigationString .= ' },';
