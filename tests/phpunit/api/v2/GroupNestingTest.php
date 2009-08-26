@@ -106,7 +106,6 @@ class api_v2_GroupNestingTest extends CiviUnitTestCase
     {
         $params = array( 'parent_group_id' => 1 );
         $result = civicrm_group_nesting_create( $params );
-        var_dump( $result );
         $this->assertEquals( $result['is_error'], 0 );
     }    
 
