@@ -51,5 +51,3 @@
 
 --CRM-4605
   ALTER TABLE `civicrm_preferences` DROP `location_count`;
-
-    
