@@ -667,17 +667,18 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         CRM_Core_Session::setStatus( $statusMsg );
         
         $buttonName = $this->controller->getButtonName( );
-        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-            if ( $this->_context == 'standalone' ) {
+        if ( $this->_context == 'standalone' ) {
+            if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
                 $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/pledge', 
                                                                    'reset=1&action=add&context=standalone') );
             } else {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/pledge', 
-                                                                   "reset=1&action=add&context=pledge&cid={$this->_contactID}") );
-            }            
+                $session->replaceUserContext(CRM_Utils_System::url( 'civicrm/contact/view',
+                                                                    "reset=1&cid={$this->_contactID}&selectedChild=pledge" ) );
+            }
+        } else if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/pledge', 
+                                                               "reset=1&action=add&context=pledge&cid={$this->_contactID}") );
         }
     }
-    
-  
 }
 

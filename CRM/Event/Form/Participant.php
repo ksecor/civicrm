@@ -1278,13 +1278,17 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         CRM_Core_Session::setStatus( "{$statusMsg}" );
         
         $buttonName = $this->controller->getButtonName( );
-        if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-            if ( $this->_context == 'standalone' ) {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/participant', 'reset=1&action=add&context=standalone') );
+        if ( $this->_context == 'standalone' ) {
+            if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/participant', 
+                                                                   'reset=1&action=add&context=standalone') );
             } else {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/participant', "reset=1&action=add&context=participant&cid={$this->_contactID}") );
-            }            
-            
+                $session->replaceUserContext(CRM_Utils_System::url( 'civicrm/contact/view',
+                                                                    "reset=1&cid={$this->_contactID}&selectedChild=participant" ) );
+            }
+        } else if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/participant', 
+                                                               "reset=1&action=add&context=participant&cid={$this->_contactID}") );
         }
     }
     
