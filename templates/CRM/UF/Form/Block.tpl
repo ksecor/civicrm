@@ -64,7 +64,7 @@
         </tr> 
     {else} 
         <tr>
-           <td class="label">{$form.$n.label}</td>
+           <td class="label twenty">{$form.$n.label}</td>
            <td class="view-value">
              {if $n|substr:0:3 eq 'im-'}
                {assign var="provider" value=$n|cat:"-provider_id"}

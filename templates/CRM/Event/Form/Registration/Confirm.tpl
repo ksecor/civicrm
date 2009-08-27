@@ -114,7 +114,7 @@
                     <table class="form-layout-compressed">
                         {foreach from=$participant.additionalCustomPre item=value key=field}
                         <tr>
-			    <td class="label">{$field}</td><td class="view-value">{$value}</td>
+			    <td class="label twenty">{$field}</td><td class="view-value">{$value}</td>
                         </tr>
                         {/foreach}
                     </table>
@@ -126,7 +126,7 @@
                     <table class="form-layout-compressed">
                         {foreach from=$participant.additionalCustomPost item=value key=field}
                         <tr>
-			    <td class="label">{$field}</td><td class="view-value">{$value}</td>
+			    <td class="label twenty">{$field}</td><td class="view-value">{$value}</td>
                         </tr>
                         {/foreach}
                     </table>

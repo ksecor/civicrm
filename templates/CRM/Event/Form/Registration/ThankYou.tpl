@@ -173,7 +173,7 @@
                     <table class="form-layout-compressed">	
                     {foreach from=$val item=v key=f}
                         <tr>
-                            <td class="label">{$f}</td><td class="view-value">{$v}</td>
+                            <td class="label twenty">{$f}</td><td class="view-value">{$v}</td>
                         </tr>
                     {/foreach}
                     </table>
