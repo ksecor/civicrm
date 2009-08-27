@@ -159,7 +159,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 }
                 CRM_Utils_System::setTitle( $title );
             }
-            $session->pushUserContext(CRM_Utils_System::url());
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/dashboard', 'reset=1'));
             $this->_contactId = null;
         } else {
             //update mode
