@@ -425,7 +425,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( $this->_mode != self::MODE_SEARCH ) {
             if ( isset($addToGroupId) ) {
                 $this->add('hidden', "group[$addToGroupId]", 1 );
-                $this->assign( 'addToGroupId' , $addToGroupId );
                 $this->_addToGroupID = $addToGroupId;
             }
         }
