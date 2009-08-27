@@ -43,11 +43,17 @@ class CRM_Contact_Page_AJAX
     {
         $name = CRM_Utils_Type::escape( $_GET['s'], 'String' );
         
+        $limit = '10';
+        if ( CRM_Utils_Array::value( 'limit', $_GET) ) {
+            $limit = CRM_Utils_Type::escape( $_GET['limit'], 'Positive' );
+        }
+        
         $query = "
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '%$name%'
 ORDER BY sort_name
+LIMIT 0, {$limit}
 ";
 
         // send query to hook to be modified if needed
@@ -304,18 +310,12 @@ WHERE sort_name LIKE '%$name'
 ORDER BY sort_name ";            
         }
 
-            $start = 0;
-            $end   = 10;
-            
-            if ( isset( $_GET['start'] ) ) {
-                $start = CRM_Utils_Type::escape( $_GET['start'], 'Integer' );
+            $limit   = 10;
+            if ( isset( $_GET['limit'] ) ) {
+                $limit = CRM_Utils_Type::escape( $_GET['limit'], 'Positive' );
             }
             
-            if ( isset( $_GET['count'] ) ) {
-                $end   = CRM_Utils_Type::escape( $_GET['count'], 'Integer' );
-            }
-            
-            $query .= " LIMIT {$start},{$end}";
+            $query .= " LIMIT 0,{$limit}";
 
             $dao = CRM_Core_DAO::executeQuery( $query );
             
