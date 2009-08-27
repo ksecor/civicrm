@@ -46,8 +46,8 @@
         <table class="form-layout">
                 
         {foreach from=$group.fields item=panelItem  key=panelName name=groupLoop}
-            <tr>
-                <td style="vertical-align: top;">
+            <tr class="{cycle values="odd-row,even-row" name=$groupName}">
+                <td style="vertical-align: top; width:24px;">
                     <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} ><img src="{$config->resourceBase}i/
                     {$panelItem.icon}" alt="{$panelItem.title}"/></a>
                 </td>
