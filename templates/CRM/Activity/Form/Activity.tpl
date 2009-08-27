@@ -2,7 +2,6 @@
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
 {else}
-
 {* added onload javascript for source contact*}
 {literal}
 <script type="text/javascript">
@@ -22,6 +21,22 @@ var target_contact = assignee_contact = '';
 {/if}
 {literal}
 
+var target_contact_id = assignee_contact_id = null;
+//loop to set the value of cc and bcc if form rule.
+var toDataUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail' q='id=1&noemail=1' h=0 }{literal}"; {/literal}
+{foreach from=","|explode:"target,assignee" key=key item=element}
+  {assign var=currentElement value=`$element`_contact_id}
+  {if $form.$currentElement.value }
+     {literal} var {/literal}{$currentElement}{literal} = cj.ajax({ url: toDataUrl + "&cid={/literal}{$form.$currentElement.value}{literal}", async: false }).responseText;{/literal}
+  {/if}
+{/foreach}
+{literal}
+if ( target_contact_id ) {
+  eval( 'target_contact = ' + target_contact_id );
+}
+if ( assignee_contact_id ) {
+  eval( 'assignee_contact = ' + assignee_contact_id );
+}
 cj(document).ready( function( ) {
 {/literal}
 {if $source_contact and $admin and $action neq 4} 
