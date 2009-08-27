@@ -135,11 +135,6 @@
 
     {/if}
     {/foreach}
-
-        {if $addToGroupId}
-	        <tr><td class="label">{$form.group[$addToGroupId].label}</td><td>{$form.group[$addToGroupId].html}</td></tr>
-        {/if}
-
     </table>
 
     {if $isCaptcha && ( $mode eq 8 || $mode eq 4 || $mode eq 1 ) }
