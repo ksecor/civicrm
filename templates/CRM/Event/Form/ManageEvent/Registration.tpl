@@ -242,7 +242,7 @@ target_element_type ="block"
 field_type          ="radio"
 invert              = 0
 }
-
+{if $form.requires_approval}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="requires_approval"
     trigger_value       =""
@@ -251,7 +251,7 @@ invert              = 0
     field_type          ="radio"
     invert              = 0
 }
-
+{/if}
 <script type="text/javascript">
     {literal}
     cj("#is_multiple_registrations").change( function( ) {

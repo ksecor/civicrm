@@ -310,7 +310,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Event/BAO/Event.php';
 
         // copy all not explicitely set $params keys from the template (if it should be sourced)
-        if ($params['template_id']) {
+        if ( CRM_Utils_Array::value( 'template_id', $params ) ) {
             $defaults = array();
             $templateParams = array('id' => $params['template_id']);
             CRM_Event_BAO_Event::retrieve($templateParams, $defaults);
@@ -323,7 +323,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $event =  CRM_Event_BAO_Event::create( $params );
 
         // now that we have the event’s id, do some more template-based stuff
-        if ($params['template_id']) {
+        if ( CRM_Utils_Array::value( 'template_id', $params ) ) {
             // copy event fees
             $ogParams = array('name' => "civicrm_event.amount.$event->id");
             $defaults = array();

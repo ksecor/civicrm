@@ -110,7 +110,7 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
         $formValues['entity_table'] = 'civicrm_event';
         $formValues['entity_id'   ] = $this->_id;
         $formValues['title'       ] = $formValues['tf_title'    ];
-        $formValues['is_active'   ] = $formValues['tf_is_active'];
+        $formValues['is_active'   ] = CRM_Utils_Array::value( 'tf_is_active', $formValues, false );
 
         if ( ($this->_action & CRM_Core_Action::UPDATE) && $this->_friendId ) {
             $formValues['id'] = $this->_friendId ;
