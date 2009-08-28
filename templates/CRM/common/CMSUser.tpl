@@ -93,8 +93,8 @@
       if (cmsUserName) {
 	 /*take all messages in javascript variable*/
 	 var check        = "{/literal}{ts}Checking...{/ts}{literal}";
-	 var available    = "{/literal}{ts}Username available to register{/ts}{literal}";
-	 var notavailable = "{/literal}{ts}Username Already exists{/ts}{literal}";
+	 var available    = "{/literal}{ts}This username is currently available.{/ts}{literal}";
+	 var notavailable = "{/literal}{ts}This username is taken.{/ts}{literal}";
          
          //remove all the class add the messagebox classes and start fading
          cj("#msgbox").removeClass().addClass('cmsmessagebox').css({"color":"#000","backgroundColor":"#FFC","border":"1px solid #c93"}).text(check).fadeIn("slow");
