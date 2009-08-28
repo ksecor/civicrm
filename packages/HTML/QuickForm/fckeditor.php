@@ -77,6 +77,10 @@ class HTML_QuickForm_FCKeditor extends HTML_QuickForm_textarea
         HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_type = 'FCKeditor';
+        // set editor height smaller if schema defines rows as 4 or less
+        if ( is_array($attributes) && array_key_exists( 'rows', $attributes ) && $attributes['rows'] <= 4 ) {
+            $this->Height = 200;
+        }
         
         if (is_array($options)) {
             $this->Config = $options;
