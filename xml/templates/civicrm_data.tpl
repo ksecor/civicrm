@@ -894,3 +894,18 @@ INSERT INTO civicrm_participant_status_type
   (10, 'Pending from approval',               '{ts escape="sql"}Pending from approval{/ts}',               'Pending',  1,           0,         1,          10,     2            ),
   (11, 'Rejected',                            '{ts escape="sql"}Rejected{/ts}',                            'Negative', 1,           0,         0,          11,     2            ),
   (12, 'Expired',                             '{ts escape="sql"}Expired{/ts}',                             'Negative', 1,           1,         0,          12,     2            );
+
+INSERT INTO `civicrm_contact_type`
+  (`id`, `name`, `label`, `description`, `image_URL`, `parent_id`, `is_active`)
+ VALUES
+  ( 1, 'Individual'  , '{ts escape="sql"}Individual{/ts}'  , NULL, NULL, NULL, 1),
+  ( 2, 'Household'   , '{ts escape="sql"}Household{/ts}'   , NULL, NULL, NULL, 1),
+  ( 3, 'Organization', '{ts escape="sql"}Organization{/ts}', NULL, NULL, NULL, 1),
+  ( 4, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    1, 1),
+  ( 5, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    2, 1),
+  ( 6, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    3, 1),
+  ( 7, 'Student'     , '{ts escape="sql"}Student{/ts}'     , NULL, NULL,    1, 1),
+  ( 8, 'Parent'      , '{ts escape="sql"}Parent{/ts}'      , NULL, NULL,    1, 1),
+  ( 9, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , NULL, NULL,    1, 1),
+  (10, 'Team'        , '{ts escape="sql"}Team{/ts}'        , NULL, NULL,    3, 1),
+  (11, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , NULL, NULL,    3, 1);
