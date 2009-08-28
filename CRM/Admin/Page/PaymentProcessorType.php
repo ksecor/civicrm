@@ -76,15 +76,15 @@ class CRM_Admin_Page_PaymentProcessorType extends CRM_Core_Page_Basic
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/paymentProcessorType',
-                                                                    'qs'    => 'action=disable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_PaymentProcessorType' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
 
                                                                     'title' => ts('Disable Payment ProcessorType') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/paymentProcessorType',
-                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_PaymentProcessorType' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
                                                                     'title' => ts('Enable Payment ProcessorType') 
                                                                     ),
                                    CRM_Core_Action::DELETE  => array(

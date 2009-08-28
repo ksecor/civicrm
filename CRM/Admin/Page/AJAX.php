@@ -122,7 +122,11 @@ class CRM_Admin_Page_AJAX
             case 'CRM_Core_BAO_PaymentProcessor':
                 $status = ts('Are you sure you want to disable this payment processor?') . ' <br/><br/>' . ts('Users will no longer be able to select this value when adding or editing transaction pages.');
                 break;
-                
+
+            case 'CRM_Core_BAO_PaymentProcessorType':
+                $status = ts('Are you sure you want to disable this payment processor type?');
+                 break;
+    
             case 'CRM_Core_BAO_LocationType':
                 $status = ts('Are you sure you want to disable this location type?') . ' <br/><br/>' . ts('Users will no longer be able to select this value when adding or editing contact locations.');
                 break;
