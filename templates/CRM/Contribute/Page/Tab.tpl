@@ -49,7 +49,9 @@
         
         {if $softCredit}
             <div class="solid-border-top">
-                <br /><label>{ts}Soft credits{/ts}</label> {help id="id-soft_credit"}
+                <br />
+                <div class="label">{ts}Soft credits{/ts} {help id="id-soft_credit"}</div>
+                <div class="spacer"></div>
             </div>
             {include file="CRM/Contribute/Page/ContributionSoft.tpl"}
         {/if}
