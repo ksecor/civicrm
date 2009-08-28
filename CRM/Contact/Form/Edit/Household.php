@@ -87,7 +87,7 @@ class CRM_Contact_Form_Edit_Household
         }
         
         //code for dupe match
-        if ( ! CRM_Utils_Array::value( '_qf_Contact_next_duplicate', $fields )) {
+        if ( ! CRM_Utils_Array::value( '_qf_Contact_upload_duplicate', $fields )) {
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Household');
             $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Household', 'Fuzzy', array($contactId));

@@ -122,7 +122,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $this->_action  = CRM_Utils_Request::retrieve('action', 'String',$this, false, 'add' );
         
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
-        $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
+        $this->_duplicateButtonName = $this->getButtonName( 'upload',  'duplicate' );
         
         $session = & CRM_Core_Session::singleton( );
         if ( $this->_action == CRM_Core_Action::ADD ) {
