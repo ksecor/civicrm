@@ -119,8 +119,11 @@ div.spacer, .spacer {
 
 #crm-container .boxBlock, #crm-container fieldset{
     background-color   : #F7F7F7;
-    border	       : 1px solid #CCCCCC;
-    -moz-border-radius : 4px 4px 4px 4px;	
+    border	           : 1px solid #CCCCCC;
+    border-radius      : 4px;	
+    -moz-border-radius : 4px;	
+    -webkit-border-radius : 4px;	
+    -khtml-border-radius : 4px;	
 }
 
 
@@ -328,7 +331,10 @@ div.spacer, .spacer {
   background-color: #ffff99;
   padding: .25em .5em .25em .5em;
   border: 1px solid #696969;
-  -moz-border-radius: 2px 2px 2px 2px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -khtml-border-radius: 2px;
 }
 
 #crm-container div.view-data {
@@ -383,7 +389,10 @@ div.spacer, .spacer {
   background-color: #999999;
   font-weight: bold;
   color: #FAFAFA;
-  -moz-border-radius: 2px 2px 2px 2px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -khtml-border-radius: 2px;
 }
 
 #crm-container div.display-block {
