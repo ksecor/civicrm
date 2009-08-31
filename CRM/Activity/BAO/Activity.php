@@ -108,7 +108,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
       
             $defaults['assignee_contact_value'] = null;
             foreach( $assignee_contact_names as $key => $name ) {
-                $defaults['assignee_contact_value'] .= $defaults['assignee_contact_value']?",\"$name\"":"\"$name\"";
+                $defaults['assignee_contact_value'] .= $defaults['assignee_contact_value']?"; $name":"$name";
             } 
             
             if ($activity->activity_type_id != CRM_Core_OptionGroup::getValue( 'activity_type', 'Bulk Email', 'name' ) ) {  
@@ -118,7 +118,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 
                 $defaults['target_contact_value'] = null;
                 foreach ( $target_contact_names as $key => $name ) {
-                    $defaults['target_contact_value'] .= $defaults['target_contact_value']?",\"$name\"":"\"$name\"";
+                    $defaults['target_contact_value'] .= $defaults['target_contact_value']?"; $name":"$name";
                 }
             } else if ( CRM_Core_Permission::check('access CiviMail') ) {
                 $defaults['mailingId'] = CRM_Utils_System::url( 'civicrm/mailing/report', 
