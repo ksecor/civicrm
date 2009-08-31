@@ -247,6 +247,10 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         case 'home':
             $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
             break;
+          
+        case 'standalone':
+            $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
+            break;
             
         default:
             if ( $this->_contactId ) {

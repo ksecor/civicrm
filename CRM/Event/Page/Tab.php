@@ -185,6 +185,10 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                           "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
             break;
+
+        case 'standalone':
+            $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
+            break; 
             
         default:
             $cid = null;
