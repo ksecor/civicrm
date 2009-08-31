@@ -130,11 +130,35 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
     }
 
     function setVersion( $version ) {
+        $this->logVersion( );
+
         $query = "
 UPDATE civicrm_domain
 SET    version = '$version'
 ";
         return $this->runQuery( $query );
+    }
+
+    function logVersion( $version = null ) {
+        if ( !$version ) {
+            $version = CRM_Core_BAO_Domain::version();
+        }
+        if ( $version ) {
+            require_once 'CRM/Core/BAO/Log.php';
+            $session   =& CRM_Core_Session::singleton();
+            $logParams = array(
+                               'entity_table'  => 'civicrm_domain',
+                               'entity_id'     => 1,
+                               'data'          => "version,{$version}",
+                               // lets skip 'modified_id' for now, as it causes FK issues And 
+                               // is not very important for now.
+                               'modified_date' => date('YmdHis'),
+                               );
+            CRM_Core_BAO_Log::add( $logParams );
+            return true;
+        }
+
+        return false;
     }
 
     function checkVersion( $version ) {
