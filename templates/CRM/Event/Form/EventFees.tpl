@@ -78,13 +78,14 @@
      	<table class="form-layout" style="width: auto;">
         {if $discount}
             <tr><td class="label">&nbsp;&nbsp;{ts}Discount Set{/ts}</td><td class="view-value">{$discount}</td></tr>
-        {else if $form.discount_id.label}
+        {elseif $form.discount_id.label}
             <tr><td class="label">&nbsp;&nbsp;{$form.discount_id.label}</td><td>{$form.discount_id.html}</td></tr>
         {/if}
         {if $action EQ 2}
             <tr><td class="label">&nbsp;&nbsp;{ts}Event Level{/ts}</td><td class="view-value"><span class="bold">{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</span></td></tr>
+        {else}
+            <tr><td class="label">&nbsp;&nbsp;{$form.amount.label}</td><td>{$form.amount.html}
         {/if}
-        <tr><td class="label">&nbsp;&nbsp;{$form.amount.label}</td><td>{$form.amount.html}
         {if $action EQ 1}
             <br />&nbsp;&nbsp;<span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
         {/if}
