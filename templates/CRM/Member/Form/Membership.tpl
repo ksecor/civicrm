@@ -5,7 +5,7 @@
 {else}
 {if $membershipMode == 'test' }
     {assign var=registerMode value="TEST"}
-{else if $membershipMode == 'live'}
+{elseif $membershipMode == 'live'}
     {assign var=registerMode value="LIVE"}
 {/if}
 {if !$emailExists and $action neq 8 and $context neq 'standalone'}
@@ -80,7 +80,7 @@
     {* Show editable status field when is_override is TRUE *}
         <tr id="memberStatus"><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}<br />
             <span class="description">{ts}If <strong>Status Override</strong> is checked, the selected status will remain in force (it will NOT be modified by the automated status update script).{/ts}</span></td></tr>
-	{else if $membershipMode}
+	{elseif $membershipMode}
         <tr><td colspan="2">
         {include file='CRM/Core/BillingBlock.tpl'}
         </td></tr>

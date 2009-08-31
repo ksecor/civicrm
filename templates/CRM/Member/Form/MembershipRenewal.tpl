@@ -1,7 +1,7 @@
 {* this template is used for renewing memberships for a contact  *}
 {if $membershipMode == 'test' }
     {assign var=registerMode value="TEST"}
-{else if $membershipMode == 'live'}
+{elseif $membershipMode == 'live'}
     {assign var=registerMode value="LIVE"}
 {/if}
 {if !$email}

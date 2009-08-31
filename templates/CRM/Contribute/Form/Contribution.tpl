@@ -6,7 +6,7 @@
 {else}
 {if $contributionMode == 'test' }
     {assign var=contribMode value="TEST"}
-{else if $contributionMode == 'live'}
+{elseif $contributionMode == 'live'}
     {assign var=contribMode value="LIVE"}
 {/if}
 

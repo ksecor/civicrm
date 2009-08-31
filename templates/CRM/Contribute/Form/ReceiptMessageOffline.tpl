@@ -38,7 +38,7 @@
 {/if}
 {/if}
 {/if}
-{else if $module eq 'Event Registration'}
+{elseif $module eq 'Event Registration'}
 {if $receipt_text}
 {$receipt_text}
 {/if}
