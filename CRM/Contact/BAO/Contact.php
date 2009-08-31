@@ -1796,10 +1796,8 @@ UNION
             break;
             
         case 'contribution' :
-            require_once 'CRM/Contribute/DAO/Contribution.php';
-            eval( '$object =& new CRM_Contribute_DAO_Contribution( );');
-            $object->contact_id = $contactId;
-            $object->is_test    = 0;
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            return CRM_Contribute_BAO_Contribution::contributionCount( $contactId );
             break;
             
         case 'membership' :

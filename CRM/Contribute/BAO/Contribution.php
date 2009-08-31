@@ -1483,4 +1483,26 @@ WHERE     c.id = $contributionId";
         return $componentDetails;
     }
     
+    function contributionCount( $contactId, $includeSoftCredit = true, $includeHonoree = true ) {
+        if ( !$contactId ) return 0;
+        
+        $fromClause      = "civicrm_contribution contribution";
+        $whereConditions = array( "contribution.contact_id = {$contactId}" );
+        if ( $includeSoftCredit ) {
+            $fromClause       .= " LEFT JOIN civicrm_contribution_soft softContribution 
+                                             ON ( contribution.id = softContribution.contribution_id )";
+            $whereConditions[] = " softContribution.contact_id = {$contactId}";
+        }
+        if ( $includeHonoree ) {
+            $whereConditions[] = " contribution.honor_contact_id = {$contactId}";
+        }
+        $whereClause = " contribution.is_test = 0 AND ( " . implode( ' OR ', $whereConditions ). " )";
+        
+        $query = "       
+   SELECT  count( contribution.id ) count
+     FROM  {$fromClause}
+    WHERE  {$whereClause}";
+        
+        return CRM_Core_DAO::singleValueQuery( $query );
+    }
 }
