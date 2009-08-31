@@ -835,6 +835,16 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                                                'title' => ts('Current Employer') )
                                                        ));
                 
+                $fields = array_merge( $fields, array( 'current_employer_id' =>
+                                                       array ( 'name'  => 'employer_id',
+								'where' => 'civicrm_contact.employer_id',
+                                                               'title' => ts('Current Employer ID') )
+                                                       ));
+                $fields = array_merge( $fields, array( 'household_id' =>
+                                                       array ( 'name'  => 'household_id',
+								'where' => 'civicrm_contact.mail_to_household_id',
+                                                               'title' => ts('Household ID') )
+                                                       ));
                 $locationType = array( );
                 if ($status) {
                     $locationType['location_type'] = array ('name' => 'location_type',

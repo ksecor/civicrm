@@ -1,10 +1,10 @@
 {* View existing event registration record. *}
 <div class="form-item">  
 <fieldset>
-        <legend>{ts}View Participant{/ts}</legend>
+    <legend>{ts}View Participant{/ts}</legend>
     <table class="view-layout">
         <tr><td class="label">{ts}Name{/ts}</td><td class="bold"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contact_id"}">{$displayName}</a>&nbsp;</td></tr>
-         <tr><td class="label">{ts}Event{/ts}</td><td><a href="{crmURL p='civicrm/admin/event' q="action=update&reset=1&id=$event_id"}">{$event}</a>&nbsp;</td></tr>
+        <tr><td class="label">{ts}Event{/ts}</td><td><a href="{crmURL p='civicrm/admin/event' q="action=update&reset=1&id=$event_id"}" title="{ts}Configure this event{/ts}">{$event}</a>&nbsp;</td></tr>
         <tr><td class="label">{ts}Participant Role{/ts}</td><td>{$role}&nbsp;</td></tr>
         <tr><td class="label">{ts}Registration Date and Time{/ts}</td><td>{$register_date|crmDate}&nbsp;</td></tr>
         <tr><td class="label">{ts}Status{/ts}</td><td>{$status}&nbsp;</td></tr>
@@ -27,12 +27,12 @@
             <tr><td class="label">{ts}Note:{/ts}</td><td>{$rec}</td></tr>
 	    {/if}
         {/foreach}
-</table>         
+    </table>         
         {include file="CRM/Custom/Page/CustomDataView.tpl"}
         {if $accessContribution and $rows.0.contribution_id}
             {include file="CRM/Contribute/Form/Selector.tpl" context="Search"} 
         {/if}
-<table class="form-layout"
+    <table class="form-layout"
         <tr>
            <td>&nbsp;</td>
                 <td>
@@ -45,6 +45,6 @@
                     {/if}
                 </td>
         </tr>
-</table>
+    </table>
 </fieldset>  
 </div>

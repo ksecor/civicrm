@@ -938,22 +938,29 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             break;
         case 'soft_credit':
             //import contribution record according to select contact type
-            require_once 'CRM/Contact/DAO/Contact.php';
-            $contactType =& new CRM_Contact_DAO_Contact();
-            //when insert mode check contact id or external identifire
-            if ( $params['soft_credit']['contact_id'] || $params['soft_credit']['external_identifier'] ) {
-                if ( $params['soft_credit']['contact_id'] ) {
-                    $contactType->id = $params['soft_credit']['contact_id'];
-                } else if( $params['soft_credit']['external_identifier'] ) {
-                    $contactType->external_identifier = $params['soft_credit']['external_identifier'];
+            
+            // validate contact id and external identifier.
+            $contactId  = CRM_Utils_Array::value( 'contact_id',          $params['soft_credit'] );
+            $externalId = CRM_Utils_Array::value( 'external_identifier', $params['soft_credit'] );
+            if ( $contactId || $externalId ) {
+                require_once 'CRM/Contact/DAO/Contact.php';
+                $contact =& new CRM_Contact_DAO_Contact();
+                $contact->id = $contactId;
+                $contact->external_identifier = $externalId;
+                
+                $errorMsg = null;
+                if ( !$contact->find( true ) ) {
+                    $errorMsg = ts( "No match found for specified Soft Credit contact data. Row was skipped." );
+                } else if ( $params['contact_type'] != $contact->contact_type ) {
+                    $errorMsg = ts( "Soft Credit Contact Type is wrong: %1", array( 1 => $contact->contact_type ) );
                 }
-                if ( $contactType->find(true) ) {
-                    if ( $params['contact_type'] != $contactType->contact_type ) {
-                        return civicrm_create_error("Soft Credit Contact Type is wrong: $contactType->contact_type", 'soft_credit' );
-                    } else {
-                        $values['soft_credit_to'] = $contactType->id;
-                    }
+                
+                if ( $errorMsg ) {
+                    return civicrm_create_error( $errorMsg, 'soft_credit' );
                 }
+                
+                // finally get soft credit contact id.
+                $values['soft_credit_to'] = $contact->id;
             } else {
                 // get the contact id from dupicate contact rule, if more than one contact is returned
                 // we should return error, since current interface allows only one-one mapping

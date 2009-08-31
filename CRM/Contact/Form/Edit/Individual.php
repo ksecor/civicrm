@@ -158,7 +158,7 @@ class CRM_Contact_Form_Edit_Individual {
         }
         
         // if this is a forced save, ignore find duplicate rule
-        if ( ! CRM_Utils_Array::value( '_qf_Contact_next_duplicate', $fields ) ) {
+        if ( ! CRM_Utils_Array::value( '_qf_Contact_upload_duplicate', $fields ) ) {
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy', array( $contactId ) );

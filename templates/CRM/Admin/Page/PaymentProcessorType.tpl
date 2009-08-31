@@ -11,6 +11,7 @@
 <p></p>
     <div class="form-item">
         {strip}
+	{include file="CRM/common/enableDisable.tpl"} 
         <table cellpadding="0" cellspacing="0" border="0">
         <tr class="columnheader">
             <th>{ts}Name{/ts}</th>
@@ -21,12 +22,12 @@
             <th></th>
         </tr>
         {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+        <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.title}</td>	
-                <td>{$row.description}</td>
-	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-            <td>{if $row.is_default eq 1}<img src="{$config->resourceBase}/i/check.gif" alt="{ts}Default{/ts}" />{/if}&nbsp;</td>
+               <td>{$row.description}</td>
+	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+               <td>{if $row.is_default eq 1}<img src="{$config->resourceBase}/i/check.gif" alt="{ts}Default{/ts}" />{/if}&nbsp;</td>
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}

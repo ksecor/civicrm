@@ -610,7 +610,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                $this->_contributeMode == 'notify'   ) && 
              ! CRM_Utils_Array::value( 'is_pay_later', $params[0] ) && 
              ! $this->_allowWaitlist && !$this->_requireApproval &&
-             $this->_params['amount'] > 0 ) {
+             $this->_totalAmount > 0 ) {
 
             $primaryParticipant = $this->get ( 'primaryParticipant' );
 

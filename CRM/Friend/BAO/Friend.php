@@ -274,6 +274,11 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $subject = trim( $template->fetch( 'CRM/Friend/Form/SubjectTemplate.tpl' ) );
         $message = $template->fetch( 'CRM/Friend/Form/MessageTemplate.tpl' ); 
 
+        // use contact email, CRM-4963 
+        if ( !CRM_Utils_Array::value( 'email_from', $values ) ) {
+            $values['email_from'] = $email;
+        }
+        
         $emailFrom = '"' . $fromName. ' (via '.$values['domain']. ')'. '" <' . $values['email_from'] . '>';
         
         require_once 'CRM/Utils/Mail.php';        

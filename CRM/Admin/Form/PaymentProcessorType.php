@@ -122,6 +122,12 @@ class CRM_Admin_Form_PaymentProcessorType extends CRM_Admin_Form
      */
     public function buildQuickForm( $check = false ) 
     {
+        parent::buildQuickForm( );
+        
+        if ( $this->_action & CRM_Core_Action::DELETE ) { 
+            return;
+        }
+
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PaymentProcessorType' );
 
         foreach ( $this->_fields as $field ) {
@@ -137,8 +143,6 @@ class CRM_Admin_Form_PaymentProcessorType extends CRM_Admin_Form
         $this->add('checkbox', 'is_active' , ts('Is this Payment Processor Type active?') );
         $this->add('checkbox', 'is_default', ts('Is this Payment Processor Type the default?') );
         $this->add('checkbox', 'is_recur'  , ts('Does this Payment Processor Type support recurring donations?') );
-
-        parent::buildQuickForm( );
     }
 
     function setDefaultValues( ) {
@@ -173,6 +177,11 @@ class CRM_Admin_Form_PaymentProcessorType extends CRM_Admin_Form
      */
     public function postProcess() 
     {
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            CRM_Core_BAO_PaymentProcessorType::del( $this->_id );
+            return;
+        }
+        
         $values = $this->controller->exportValues( $this->_name );
 
         if ( CRM_Utils_Array::value( 'is_default', $values ) ) {

@@ -52,10 +52,8 @@
             {assign var="showTarget" value=0}
             {foreach from=$row.target_contact_name item=targetName key=targetID}
                 {if $showTarget < 5}
-                    {if $contactId NEQ $targetID}
-                        {if $showTarget};&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$targetID`"}" title="{ts}View contact{/ts}">{$targetName}</a>
-                        {assign var="showTarget" value=$showTarget+1}
-                    {/if}
+                    {if $showTarget};&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$targetID`"}" title="{ts}View contact{/ts}">{$targetName}</a>
+                    {assign var="showTarget" value=$showTarget+1}
                 {/if}
             {/foreach}
             {if count($row.target_contact_name) > 5}({ts}more{/ts}){/if}
@@ -71,10 +69,8 @@
             {assign var="showAssignee" value=0}
             {foreach from=$row.assignee_contact_name item=assigneeName key=assigneeID}
                 {if $showAssignee < 5}
-                    {if $contactId NEQ $assigneeID}
-                        {if $showAssignee};&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$assigneeID`"}" title="{ts}View contact{/ts}">{$assigneeName}</a>
-                        {assign var="showAssignee" value=$showAssignee+1}
-                    {/if}
+                    {if $showAssignee};&nbsp;{/if}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$assigneeID`"}" title="{ts}View contact{/ts}">{$assigneeName}</a>
+                    {assign var="showAssignee" value=$showAssignee+1}
                 {/if}
             {/foreach}
             {if count($row.assignee_contact_name) > 5}({ts}more{/ts}){/if}
