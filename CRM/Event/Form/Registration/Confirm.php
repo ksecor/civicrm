@@ -715,7 +715,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         //CRM-4196        
         if ( $isAdditionalAmount ) {
-            $params['amount_level'] = $params['amount_level'].ts(' (multiple participants)');
+            $params['amount_level'] = $params['amount_level'].ts(' (multiple participants)'). CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
         }
 
         $contribParams = array(
