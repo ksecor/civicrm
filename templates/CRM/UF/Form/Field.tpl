@@ -187,6 +187,10 @@ function showLabel( ) {
    }); 
 {/literal}{/if}{literal}
 
+cj( function( ) {
+    cj("#field_name\\[1\\]").addClass( 'huge' );
+});
+
 //CRM-4363	
 function mixProfile( ) {
     var allMixTypes = ["Participant", "Membership", "Contribution"];
