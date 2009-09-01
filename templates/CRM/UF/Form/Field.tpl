@@ -141,43 +141,46 @@ function showLabel( ) {
     });
 } 
 
-showHideSeletorSearch();
-	
-function showHideSeletorSearch()
-{
-    var vsbl= cj("#visibility").val( );
-    if ( vsbl == "User and User Admin Only" ){
-        hide("is_search_label");
-        hide("is_search_html");
-        hide("is_search_desDt");
-        hide("is_search_desDd");
-        hide("in_selector_label");
-        hide("in_selector_html");
-        hide("in_selector_desDt");
-        hide("in_selector_desDd");
-    } else {
-        show("is_search_label");
-        show("is_search_html");
-        show("is_search_desDt");
-        show("is_search_desDd");
-        var fldName = cj("#field_name\\[1\\]").val();
-        if ( fldName == 'group' || fldName == 'tag' ) { 
-            hide("in_selector_label");
-            hide("in_selector_html");
-            hide("in_selector_desDt");
-            hide("in_selector_desDd");
-        } else {
-            show("in_selector_label");
-            show("in_selector_html");
-            show("in_selector_desDt");
-            show("in_selector_desDd");
-        }
-    }	
-}
+{/literal}{if $action neq 8}{literal}
+   showHideSeletorSearch();
 
-cj("#field_name\\[1\\]").bind( 'change blur', function( ) {
-    showHideSeletorSearch( );
-}); 
+	
+   function showHideSeletorSearch()
+   {
+       var vsbl= cj("#visibility").val( );
+       if ( vsbl == "User and User Admin Only" ){
+           hide("is_search_label");
+           hide("is_search_html");
+           hide("is_search_desDt");
+           hide("is_search_desDd");
+           hide("in_selector_label");
+           hide("in_selector_html");
+           hide("in_selector_desDt");
+           hide("in_selector_desDd");
+       } else {
+           show("is_search_label");
+           show("is_search_html");
+           show("is_search_desDt");
+           show("is_search_desDd");
+           var fldName = cj("#field_name\\[1\\]").val();
+           if ( fldName == 'group' || fldName == 'tag' ) { 
+               hide("in_selector_label");
+               hide("in_selector_html");
+               hide("in_selector_desDt");
+               hide("in_selector_desDd");
+           } else {
+               show("in_selector_label");
+               show("in_selector_html");
+               show("in_selector_desDt");
+               show("in_selector_desDd");
+           }
+       }	
+   }
+
+   cj("#field_name\\[1\\]").bind( 'change blur', function( ) {
+       showHideSeletorSearch( );
+   }); 
+{/literal}{/if}{literal}
 
 //CRM-4363	
 function mixProfile( ) {
