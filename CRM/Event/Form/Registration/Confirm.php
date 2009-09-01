@@ -215,11 +215,11 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->assignToTemplate( );
         if( $this->_params[0]['amount'] || $this->_params[0]['amount'] == 0 ) {
             $this->_amount       = array();
-                     
+                        
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
-                    if ( CRM_Utils_Array::value( 'email-{$this->_bltID}', $v ) ) {
-                        $append = $v['email-{$this->_bltID}'];
+                    if ( CRM_Utils_Array::value( "email-{$this->_bltID}", $v ) ) {
+                        $append = $v["email-{$this->_bltID}"];
                     } else {
                         $append = $v['first_name'] .' ' . $v['last_name'];  
                     }
@@ -227,6 +227,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     if ( CRM_Utils_Array::value( 'discountAmount', $v ) ) {
                         $this->_amount[$k]['amount'] -= $v['discountAmount'];
                     }
+                        
                     $this->_amount[$k]['label'] = $v['amount_level'].'  -  '. $append;
                     $this->_totalAmount = $this->_totalAmount + $this->_amount[$k]['amount'];
                     if ( CRM_Utils_Array::value( 'is_primary', $v ) ) {
@@ -234,6 +235,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     }
                 }
             }
+
             $this->assign('amount', $this->_amount);
             $this->assign('totalAmount', $this->_totalAmount);
             $this->set( 'totalAmount', $this->_totalAmount );
