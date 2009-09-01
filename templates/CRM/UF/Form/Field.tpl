@@ -102,6 +102,12 @@ function showLabel( ) {
         labelValue = '';  
     }
 
+    var custom = document.forms.Field['field_name[1]'].value;
+    if ( custom.substring( 0, 7 ) == 'custom_' ) {
+        var customFieldLabel = labelValue.split(' :: ', 2);
+        labelValue = customFieldLabel[0];
+    }
+    
     var input = document.getElementById('label');
     input.value = labelValue;
 
@@ -125,7 +131,6 @@ function showLabel( ) {
     {literal}
 
     /* Code to set Profile Field help, from custom data field help */
-    var custom = document.forms.Field['field_name[1]'].value;
     var fieldId = null;
 
     if ( custom.substring( 0, 7 ) == 'custom_' ) {
