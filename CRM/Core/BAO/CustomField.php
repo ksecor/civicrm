@@ -737,7 +737,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
         
         case 'RichTextEditor':
-            $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray, $search );
+            $element =& $qf->addWysiwyg( $elementName, $label, array( 'rows' => $field->note_rows ), $search );
             break;
                     
         case 'Autocomplete-Select':
