@@ -271,6 +271,9 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         $formatted = array();
         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',$params ) );
         
+        // don't add to recent items, CRM-4399
+        $formatted['skipRecentView'] = true;
+        
         foreach ($params as $key => $val) {
             if( $val ) {
                 switch( $key ) {

@@ -251,7 +251,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $params =& $this->getActiveFieldParams( );            
                 
         $formatted = array( );
-               
+
+        // don't add to recent items, CRM-4399
+        $formatted['skipRecentView'] = true;
+        
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");

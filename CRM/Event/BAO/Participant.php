@@ -278,26 +278,27 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         $params['participant_id'] = $participant->id;
         
         $transaction->commit( );
-        
-        require_once 'CRM/Utils/Recent.php';
-        require_once 'CRM/Event/PseudoConstant.php';
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/participant', 
-               "action=view&reset=1&id={$participant->id}&cid={$participant->contact_id}" );
-               
-        $participantRoles = CRM_Event_PseudoConstant::participantRole();
-        $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $participant->event_id, 'title' );
-        $title = CRM_Contact_BAO_Contact::displayName( $participant->contact_id ) . ' (' . $participantRoles[$participant->role_id] . ' - ' . $eventTitle . ')' ;
 
-//        CRM_Core_Error::debug( 't', $eventTitle);
-        
-        // add the recently created Activity
-        CRM_Utils_Recent::add( $title,
-                               $url,
-                               $participant->id,
-                               'Participant',
-                               $participant->contact_id,
-                               null );
+        // do not add to recent items for import, CRM-4399
+        if ( !CRM_Utils_Array::value( 'skipRecentView', $params ) ) {
+            require_once 'CRM/Utils/Recent.php';
+            require_once 'CRM/Event/PseudoConstant.php';
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/participant', 
+                                          "action=view&reset=1&id={$participant->id}&cid={$participant->contact_id}" );
+            
+            $participantRoles = CRM_Event_PseudoConstant::participantRole();
+            $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $participant->event_id, 'title' );
+            $title = CRM_Contact_BAO_Contact::displayName( $participant->contact_id ) . ' (' . $participantRoles[$participant->role_id] . ' - ' . $eventTitle . ')' ;
+            
+            // add the recently created Activity
+            CRM_Utils_Recent::add( $title,
+                                   $url,
+                                   $participant->id,
+                                   'Participant',
+                                   $participant->contact_id,
+                                   null );
+        }
         
         return $participant;
     }
