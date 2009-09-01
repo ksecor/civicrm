@@ -1300,8 +1300,7 @@ SELECT id
         }
 
         if ( $customFields[$customFieldId]['data_type'] == 'Float' || 
-             $customFields[$customFieldId]['data_type'] == 'Money' || 
-             $customFields[$customFieldId]['data_type'] == 'Int' ) {
+             $customFields[$customFieldId]['data_type'] == 'Money' ) {
             if ( !$value ) {
                 $value = 0;  
             }

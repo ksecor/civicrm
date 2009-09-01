@@ -161,7 +161,14 @@ class CRM_Core_BAO_CustomValueTable
                     case 'Date':
                         $value = CRM_Utils_Date::isoToMysql($value);
                         break;
-                        
+                    
+                    case 'Int':
+                        if ( is_numeric( $value ) ) {
+                           $type  = 'Integer'; 
+                        } else {
+                           $type = 'Timestamp';
+                        }
+                        break;
                     case 'ContactReference':
                         if ( $value == null ) {
                             $type  = 'Timestamp'; 
