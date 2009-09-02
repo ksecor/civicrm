@@ -270,7 +270,7 @@ function selectValue( val ) {
             title       : 'Insert '+element+' Token',
             modal       : true,
             width       : '310px',
-            resizable   : true,
+            resizable   : false,
             bgiframe    : false,
             overlay     : { opacity: 0.5, background: "black" },
             beforeclose : function(event, ui) { cj(this).dialog("destroy"); },

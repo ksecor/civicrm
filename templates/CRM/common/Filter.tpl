@@ -41,6 +41,9 @@ function filter( ob, id ) {
 	for ( i = 0; i < selObj.options.length; i++ ) {
 	    tempArray[selObj.options[i].value] = selObj.options[i].text;
 	}
+	//escape the special character
+	str = str.replace(/([\\"'()\]\[])/g, "\\$1");
+
 	//case-insensitive regexp
 	stregexp = new RegExp( str, "i" );
 
