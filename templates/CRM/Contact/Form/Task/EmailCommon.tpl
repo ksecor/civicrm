@@ -4,9 +4,12 @@
     </table>
     <div class="accordion ui-accordion ui-widget ui-helper-reset">
         <span class="helpIcon" id="helphtml">
-             <a href="#" onClick="return showToken('Html');">{$form.token2.label}</a> 
+             <a href="#" onClick="return showToken('Html', 2);">{$form.token2.label}</a> 
               {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}
-              <div id='tokenHtml' style="display:none">{$form.token2.html}</div>
+              <div id='tokenHtml' style="display:none">
+		 <input style="border:1px solid #999999;" type="text" id="filter2" size="20" name="filter2" onkeyup="filter(this, 2)"/><br />
+		 <span>{ts}Tokens{/ts}&nbsp;<span id="match2"></span></span><br/>
+		 {$form.token2.html}</div>
         </span>
         <h3 class="head"> 
             <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{ts}HTML Format{/ts}</a>
@@ -18,9 +21,12 @@
             {$form.html_message.html}<br />
         </div>
         <span class="helpIcon" id="helptext" style="display:none;">
-            <a href="#" onClick="return showToken('Text');">{$form.token1.label}</a>
+            <a href="#" onClick="return showToken('Text', 1);">{$form.token1.label}</a>
             {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
-            <div id='tokenText' style="display:none">{$form.token1.html}</div>
+            <div id='tokenText' style="display:none">
+		<input  style="border:1px solid #999999;" type="text" id="filter1" size="20" name="filter1" onkeyup="filter(this, 1)"/><br />
+		<span>{ts}Tokens{/ts}&nbsp;<span id="match1"></span></span><br/>
+		{$form.token1.html}</div>
         </span>
         <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='text'></span><a href="#">{ts}Plain-Text Format{/ts}</a></h3>
         <div class='text'>
@@ -259,13 +265,16 @@ function selectValue( val ) {
         cj('span#html').removeClass().addClass('ui-icon ui-icon-triangle-1-s');cj("div.html").show();         
     });
 
-    function showToken(element) {
+    {/literal}{include file="CRM/common/Filter.tpl"}{literal}
+    function showToken(element, id ) {
+	initFilter(id);
+	cj("#token"+id).css({"width":"290px", "size":"8"});
         cj("#token"+element ).show( ).dialog({
             title       : 'Insert '+element+' Token',
             modal       : true,
-            width       : 'auto',
+            width       : '310px',
             resizable   : true,
-            bgiframe    : true,
+            bgiframe    : false,
             overlay     : { opacity: 0.5, background: "black" },
             beforeclose : function(event, ui) { cj(this).dialog("destroy"); },
             buttons     : { 
