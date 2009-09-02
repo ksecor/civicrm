@@ -68,8 +68,6 @@ function loadEditor()
         if ( editor == "fckeditor" ) {
             oEditor = FCKeditorAPI.GetInstance('html_message');
             oEditor.SetHTML( msg );
-        } else if ( editor == "tinymce" ) {
-            cj('#html_message').html( msg );
         }
     }
 }
@@ -233,7 +231,6 @@ function selectValue( val ) {
     {else if $editor eq "tinymce"}
         {literal}
         cj( function( ) {
-            loadEditor( );
             cj("#html_message").keypress( function( ) {
                 verify( );
             });
