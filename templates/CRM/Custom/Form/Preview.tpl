@@ -25,7 +25,7 @@
 	{if $element.options_per_line }
         {*assign var="element_name" value=$element.custom_group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
         {assign var="element_name" value=$element.element_name}      
-        <dt>{$form.$element_name.label} {$element.data_type}</dt>
+        <dt>{$form.$element_name.label}</dt>
         <dd>
             {assign var="count" value="1"}
                 <table class="form-layout-compressed">
