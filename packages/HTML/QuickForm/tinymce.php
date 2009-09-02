@@ -162,7 +162,7 @@ cj( function( ) {
         theme_advanced_resizing : true,
         apply_source_formatting : true,
         spellchecker_languages : "+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv",
-        relative_urls : false,
+        convert_urls : false,
         remove_script_host : false,
         width : "' . $this->Width .'%",
         setup : function(ed) { 
