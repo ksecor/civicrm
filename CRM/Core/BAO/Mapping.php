@@ -624,7 +624,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $js .= "
 for(var i=0;i<nullArray.length;i++) {
   {$formName}['mapper['+nullArray[i][0]+']['+nullArray[i][1]+']['+nullArray[i][2]+']'].style.display = '';
-  {$formName}['mapper['+nullArray[i][0]+']['+nullArray[i][1]+']['+nullArray[i][2]+']'].class = 'huge';
 }
 ";
         }
@@ -644,7 +643,6 @@ for(var i=0;i<nullArray.length;i++) {
             $js .= "
 for(var i=0;i<noneArray.length;i++) {
   {$formName}['mapper['+noneArray[i][0]+']['+noneArray[i][1]+']['+noneArray[i][2]+']'].style.display = 'none';
-  {$formName}['mapper['+noneArray[i][0]+']['+noneArray[i][1]+']['+noneArray[i][2]+']'].class = 'huge';  
 }
 ";
         }
