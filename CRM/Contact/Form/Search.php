@@ -339,7 +339,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked',
                                                                           'onclick' => 'toggleTaskAction( true );') );
         
-        $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName().");toggleTaskAction( true );" ) );
+        $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_', this);toggleTaskAction( true );" ) );
 
         /*
          * add form checkboxes for each row. This is needed out here to conform to QF protocol
@@ -347,7 +347,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
-            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this.form);" ) );
+            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this);" ) );
             foreach ($rows as $row) {
                 $this->addElement( 'checkbox', $row['checkbox'],
                                    null, null,
