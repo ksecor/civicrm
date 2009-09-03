@@ -398,7 +398,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         
         //used to warn for mismatch column count or mismatch mapping      
         $warning = 0;
-        
+        $classjs = '';
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
             $jsSet = false;

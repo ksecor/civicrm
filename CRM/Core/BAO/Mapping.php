@@ -412,10 +412,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key1 ) ) {
                     $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
                     $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
-                    if ( strlen( $customGroupName ) > 13 ) {
-                        $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
-                    }
-                    $mapperFields[$key][$key1] = $customGroupName . ': ' . $value1['title'];
+                    $mapperFields[$key][$key1] = $value1['title'] . ' :: ' . $customGroupName;
                 } else {
                     $mapperFields[$key][$key1] = $value1['title'];
                 }
@@ -627,6 +624,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $js .= "
 for(var i=0;i<nullArray.length;i++) {
   {$formName}['mapper['+nullArray[i][0]+']['+nullArray[i][1]+']['+nullArray[i][2]+']'].style.display = '';
+  {$formName}['mapper['+nullArray[i][0]+']['+nullArray[i][1]+']['+nullArray[i][2]+']'].class = 'huge';
 }
 ";
         }
@@ -645,7 +643,8 @@ for(var i=0;i<nullArray.length;i++) {
             $js .= "]";
             $js .= "
 for(var i=0;i<noneArray.length;i++) {
-  {$formName}['mapper['+noneArray[i][0]+']['+noneArray[i][1]+']['+noneArray[i][2]+']'].style.display = 'none';  
+  {$formName}['mapper['+noneArray[i][0]+']['+noneArray[i][1]+']['+noneArray[i][2]+']'].style.display = 'none';
+  {$formName}['mapper['+noneArray[i][0]+']['+noneArray[i][1]+']['+noneArray[i][2]+']'].class = 'huge';  
 }
 ";
         }

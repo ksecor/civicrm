@@ -271,7 +271,13 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset( $fields['Organization'][$key] );
             }
         }
+        
+        // add current employer for individuals
+        $fields['Contact']['id'] = array( 'name'  => 'id',
+                                          'title' => ts('Internal Contact ID') );
+                                          
         unset( $fields['Contact']['contact_type'] );
+        
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
