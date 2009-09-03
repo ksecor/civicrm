@@ -576,7 +576,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         if ( CRM_Utils_Array::value( 'shared_household_id',$params ) ) {
             $params['shared_household'] = $params['shared_household_id'];
         }
-        if ( is_Numeric ( CRM_Utils_Array::value( 'current_employer_id', $params ) 
+        if ( is_numeric( CRM_Utils_Array::value( 'current_employer_id', $params ) 
 			&& CRM_Utils_Array::value( 'current_employer', $params ) ) ) {
 			$params['current_employer'] = $params['current_employer_id'];
 		}
