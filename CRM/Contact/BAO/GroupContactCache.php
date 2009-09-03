@@ -227,6 +227,7 @@ WHERE  id = %1
                 $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties, null,
                                                     false, false, 1,
                                                     true, true, false );
+                $query->_useGroupBy = false;
                 $searchSQL =& $query->searchQuery( 0, 0, null,
                                                    false, false,
                                                    false, true, true, null );
