@@ -233,7 +233,7 @@ class CRM_Core_Invoke
         if( $properties ) {
             $wrapper->run( $properties['class'], ts('New %1', array(1 => $contact_sub_type)), $action, true );
         } else {
-            $wrapper->run( 'CRM_Contact_Form_Edit', ts( 'New Contact' ), $action, true );
+            $wrapper->run( 'CRM_Contact_Form_Contact', ts( 'New Contact' ), $action, true );
         }
     }
     
