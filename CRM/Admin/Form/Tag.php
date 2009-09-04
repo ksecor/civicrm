@@ -51,7 +51,7 @@ class CRM_Admin_Form_Tag extends CRM_Admin_Form
     {
         if ($this->_action == CRM_Core_Action::DELETE) {
             if ($this->_id && $tag = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Tag', $this->_id, 'name', 'parent_id' ) ) {
-                CRM_Core_Session::setStatus( ts("This tag '%1' cannot be deleted! You must Delete all its child tags prior to deleting this tag.", array(1 => $tag)) );
+                CRM_Core_Session::setStatus( ts("This tag cannot be deleted! You must Delete all its child tags ('%1', etc) prior to deleting this tag.", array(1 => $tag)) );
                 $url = CRM_Utils_System::url( 'civicrm/admin/tag', "reset=1" );
                 CRM_Utils_System::redirect($url);
                 return true;
