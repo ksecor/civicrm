@@ -60,6 +60,7 @@
     		 }
          }
          {/literal}	     
+    cj('Select[id^="mapper[1]"][id$="[1]"]').addClass('huge');
 	</script>
     </div>
 
