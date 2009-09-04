@@ -46,9 +46,6 @@
       {/foreach}
       </div>
       {/if}
-      {if $displayRecent and $recentlyViewed}
-        {include file="CRM/common/recentlyViewed.tpl"}
-      {/if}
     
       <h1 class="title">{$pageTitle}</h1>
       

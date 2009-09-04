@@ -58,12 +58,7 @@
     {if $pageTitle}
         <h1 class="title">{$pageTitle}</h1>
     {/if}
-
-    {if $displayRecent and $recentlyViewed}
-        {include file="CRM/common/recentlyViewed.tpl"}
-    {/if}
-   
-    
+  
 {if $browserPrint}
 {* Javascript window.print link. Used for public pages where we can't do printer-friendly view. *}
 <div id="printer-friendly"><a href="javascript:window.print()" title="{ts}Print this page.{/ts}"><img src="{$config->resourceBase}i/print-icon.png" alt="{ts}Print this page.{/ts}" /></a></div>
