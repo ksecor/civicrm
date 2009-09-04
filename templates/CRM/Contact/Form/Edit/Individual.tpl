@@ -79,13 +79,24 @@ var dataUrl = "{/literal}{$employerDataURL}{literal}";
 var newContactText = "{/literal}({ts}new contact record{/ts}){literal}";
 cj('#current_employer').autocomplete( dataUrl, { width : 250, selectFirst : false, matchCase : true, matchContains: true
 }).result( function(event, data, formatted) {
-    cj( "#current_employer_id" ).val( data[1] );
-    htmlDiv = ( !parseInt (data[1]) ) ? newContactText : data[0].replace( /::/gi, ' ');
+    if ( parseInt( data[1] ) ) {
+       htmlDiv = data[0].replace( /::/gi, ' ');
+       cj( "#current_employer_id" ).val( data[1] );
+    } else {
+       cj( "#current_employer_id" ).val('');
+       htmlDiv = newContactText	
+    }	
     cj('div#employer_address').html(htmlDiv);
 }).bind( 'change blur', function( ) {
     if ( !parseInt ( cj( "#current_employer_id" ).val( ) ) ) {
         cj('div#employer_address').html( newContactText );
     }
 });
+
+// remove current employer id when current employer removed.
+cj("form").submit(function() {
+  if ( !cj('#current_employer').val() ) cj( "#current_employer_id" ).val('');
+});
+
 </script>
 {/literal}
