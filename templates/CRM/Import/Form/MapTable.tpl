@@ -117,6 +117,7 @@
         			document.getElementById("saveMappingDesc").disabled = true;
         		 }
              }
+             cj('select[id^="mapper"][id$="[0]"]').addClass('huge');
              {/literal}	     
 	    </script>
     </div>
