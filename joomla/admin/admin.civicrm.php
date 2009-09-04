@@ -43,6 +43,10 @@ function civicrm_invoke( ) {
     if ( isset( $_GET['task'] ) ) { 
         $args = explode( '/', trim( $_GET['task'] ) );
         CRM_Core_Invoke::invoke( $args );
+    } else {
+        $_GET['task'] = 'civicrm/dashboard';
+        $_GET['reset'] = 1;
+        $args = array( 'civicrm', 'dashboard' ); CRM_Core_Invoke::invoke( $args );
     }
 }
 

@@ -3,6 +3,10 @@
 /*
 ** HTML elements
 */
+div#toolbar-box .icon-48-generic {
+  display: none
+}
+
 fieldset {
   margin-bottom: 1em;
   padding: .5em;
