@@ -27,7 +27,7 @@
         {*Loop on columns parsed from the import data rows*}
         {section name=cols loop=$columnCount}
             {assign var="i" value=$smarty.section.cols.index}
-            <tr style="border-bottom: 1px solid #92B6EC;">
+            <tr style="border: 1px solid #DDDDDD;">
 
                 {if $showColNames}        
                     <td class="even-row labels">{$columnNames[$i]}</td>
