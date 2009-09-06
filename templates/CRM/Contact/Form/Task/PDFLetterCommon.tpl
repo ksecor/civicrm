@@ -218,13 +218,13 @@ tinyMCE.init({
 {/if}
 {literal}
 	function showToken(element) {
+	    var tokenTitle = {/literal}'{ts}Select Token{/ts}'{literal};
         cj("#token"+element ).show( ).dialog({
-            title       : 'Insert '+element+' Token',
+            title       : tokenTitle,
             modal       : true,
-            width       : 425,
-            height      : 200,
-            resizable   : true,
-            bgiframe    : true,
+            width       : '310px',
+            resizable   : false,
+            bgiframe    : false,
             overlay     : { opacity: 0.5, background: "black" },
             beforeclose : function(event, ui) { cj(this).dialog("destroy"); },
             buttons     : { 
