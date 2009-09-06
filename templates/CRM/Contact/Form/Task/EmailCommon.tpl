@@ -8,7 +8,7 @@
               {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}
               <div id='tokenHtml' style="display:none">
 		 <input style="border:1px solid #999999;" type="text" id="filter2" size="20" name="filter2" onkeyup="filter(this, 2)"/><br />
-		 <span>{ts}Tokens{/ts}&nbsp;<span id="match2"></span></span><br/>
+		 <span class="description">{ts}Begin typing to filter list of tokens{/ts}</span><br/>
 		 {$form.token2.html}</div>
         </span>
         <h3 class="head"> 
@@ -25,7 +25,7 @@
             {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
             <div id='tokenText' style="display:none">
 		<input  style="border:1px solid #999999;" type="text" id="filter1" size="20" name="filter1" onkeyup="filter(this, 1)"/><br />
-		<span>{ts}Tokens{/ts}&nbsp;<span id="match1"></span></span><br/>
+		<span class="description">{ts}Begin typing to filter list of tokens{/ts}</span><br/>
 		{$form.token1.html}</div>
         </span>
         <h3 class="head"><span class="ui-icon ui-icon-triangle-1-e" id='text'></span><a href="#">{ts}Plain-Text Format{/ts}</a></h3>
@@ -266,8 +266,9 @@ function selectValue( val ) {
     function showToken(element, id ) {
 	initFilter(id);
 	cj("#token"+id).css({"width":"290px", "size":"8"});
+	    var tokenTitle = {/literal}'{ts}Select Token{/ts}'{literal};
         cj("#token"+element ).show( ).dialog({
-            title       : 'Insert '+element+' Token',
+            title       : tokenTitle,
             modal       : true,
             width       : '310px',
             resizable   : false,
@@ -277,7 +278,6 @@ function selectValue( val ) {
             buttons     : { 
                 "Done": function() { 
                     cj(this).dialog("close");
-
                         //focus on editor/textarea after token selection     
                         if (element == 'Text') {
                             cj('#text_message').focus();
