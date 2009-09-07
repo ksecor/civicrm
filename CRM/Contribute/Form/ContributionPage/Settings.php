@@ -67,6 +67,8 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
      */
     public function buildQuickForm()
     {
+        require_once 'CRM/Utils/Money.php';
+
         $this->_first = true;
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage');
      
@@ -92,7 +94,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
 
         // collect goal amount
         $this->add('text', 'goal_amount', ts('Goal Amount'), array( 'size' => 8, 'maxlength' => 12 ) ); 
-        $this->addRule( 'goal_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+        $this->addRule('goal_amount', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('99.99', ' '))), 'money');
         
         // is this page active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Online Contribution Page Active?') );

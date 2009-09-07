@@ -449,6 +449,8 @@ class CRM_Pledge_BAO_Query
 
     static function buildSearchForm( &$form ) 
     {
+        require_once 'CRM/Utils/Money.php';
+
         // Pledge date selects for date 
         $form->add('date', 'pledge_start_date_low', ts('Payments Start Date - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('pledge_start_date_low', ts('Select a valid date.'), 'qfDate'); 
@@ -478,10 +480,10 @@ class CRM_Pledge_BAO_Query
         $form->addElement( 'checkbox', 'pledge_test' , ts( 'Find Test Pledges?' ) );
 
         $form->add('text', 'pledge_amount_low', ts('From'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $form->addRule( 'pledge_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
+        $form->addRule('pledge_amount_low', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('9.99', ' '))), 'money');
         
         $form->add('text', 'pledge_amount_high', ts('To'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $form->addRule( 'pledge_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+        $form->addRule('pledge_amount_high', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('99.99', ' '))), 'money');
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $statusValues = CRM_Contribute_PseudoConstant::contributionStatus( );

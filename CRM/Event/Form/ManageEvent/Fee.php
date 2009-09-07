@@ -241,6 +241,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     public function buildQuickForm( ) 
     {
+        require_once 'CRM/Utils/Money.php';
+
         $this->addYesNo( 'is_monetary',
                          ts('Paid Event'),
                          null, 
@@ -281,7 +283,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label')); 
             // value 
             $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value')); 
-            $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
+            $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. %1).', array(1 => CRM_Utils_Money::format('99.99', ' '))), 'money');
             
             // default
             $default[] = $this->createElement('radio', null, null, null, $i); 
@@ -500,6 +502,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
 
     public function buildAmountLabel()
     {
+        require_once 'CRM/Utils/Money.php';
+
         $default = array( );
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
@@ -507,8 +511,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             // value 
             for ( $j = 1; $j <= self::NUM_DISCOUNT; $j++ ) {
                 $this->add('text', "discounted_value[$i][$j]", ts('Value'),  array('size' => 10)); 
-                $this->addRule("discounted_value[$i][$j]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 
-                               'money'); 
+                $this->addRule("discounted_value[$i][$j]", ts('Please enter a valid money value for this field (e.g. %1).', array(1 => CRM_Utils_Money::format('99.99', ' '))), 'money');
             }
 
             // default

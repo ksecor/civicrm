@@ -53,13 +53,15 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
      */
     public function buildQuickForm()
     {
+        require_once 'CRM/Utils/Money.php';
+
         // do u want to allow a free form text field for amount 
         $this->addElement('checkbox', 'is_allow_other_amount', ts('Allow other amounts' ), null, array( 'onclick' => "minMax(this);" ) );  
         $this->add('text', 'min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $this->addRule( 'min_amount', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
+        $this->addRule('min_amount', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('9.99', ' '))), 'money');
 
         $this->add('text', 'max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $this->addRule( 'max_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+        $this->addRule('max_amount', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('99.99', ' '))), 'money');
 
         $default = array( );
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
@@ -68,7 +70,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
  
             // value 
             $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value')); 
-            $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
+            $this->addRule("value[$i]", ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('99.99', ' '))), 'money');
 
             // default
             $default[] = $this->createElement('radio', null, null, null, $i); 
@@ -171,6 +173,11 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         }
         if (isset($defaults['max_amount'])) {
             $defaults['max_amount'] = CRM_Utils_Money::format($defaults['max_amount'], null, '%a');
+        }
+
+        // CRM-4038: fix value display
+        foreach ($defaults['value'] as &$amount) {
+            $amount = trim(CRM_Utils_Money::format($amount, ' '));
         }
         
         return $defaults;
