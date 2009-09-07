@@ -81,7 +81,7 @@ class CRM_Contact_Form_Search_Custom_ZipCodeRange
         $selectClause = "
 contact_a.id           as contact_id ,
 contact_a.sort_name    as sort_name  ,
-email.id               as email_id   ,
+email.email            as email   ,
 address.postal_code    as postal_code
 ";
         return $this->sql( $selectClause,
