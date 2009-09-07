@@ -1,18 +1,23 @@
 {*common template for compose mail*}
 <table class="form-layout">
     <tr>
-        <td class="label-left">{$form.template.label}</td><td>{$form.template.html}</td>
+        <td class="label-left">{$form.template.label}</td>
+	<td>{$form.template.html}</td>
     </tr>
     <tr>
         <td colspan="2" class="ui-accordion ui-widget">
-			<span class="helpIcon" id="helphtml">
-             <a href="#" onClick="return showToken('Html');">{$form.token1.label}</a> 
-              {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}
-              <div id='tokenHtml' style="display:none">{$form.token1.html}</div>
-			</span>
-			<h3 class="head ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" style="width: 95%;"> 
-				<a style="text-decoration:none;">{$form.html_message.label}</a>
-			</h3>
+	    <span class="helpIcon" id="helphtml">
+		<a href="#" onClick="return showToken('Html', 1);">{$form.token1.label}</a> 
+		{help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}
+		<div id='tokenHtml' style="display:none">
+		    <input style="border:1px solid #999999;" type="text" id="filter1" size="20" name="filter1" onkeyup="filter(this, 1)"/><br />
+		    <span class="description">{ts}Begin typing to filter list of tokens{/ts}</span><br/>
+		    {$form.token1.html}
+		</div>
+	    </span>
+	    <h3 class="head ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" style="width: 95%;"> 
+		<a style="text-decoration:none;">{$form.html_message.label}</a>
+	    </h3>
             {if $editor EQ 'textarea'}
                 <span class="description">{ts}If you are composing HTML-formatted messages, you may want to enable a WYSIWYG editor (Administer CiviCRM &raquo; Global Settings &raquo; Site Preferences).{/ts}</span><br />
             {/if}
@@ -45,11 +50,11 @@
 <script type="text/javascript" >
 {/literal}
 {if $templateSelected}
-{literal}
-if ( document.getElementsByName("saveTemplate")[0].checked ) {
-   document.getElementById('template').selectedIndex = {/literal}{$templateSelected}{literal};  	
-}
-{/literal}
+    {literal}
+    if ( document.getElementsByName("saveTemplate")[0].checked ) {
+	document.getElementById('template').selectedIndex = "{/literal}{$templateSelected}{literal}";  	
+    }
+    {/literal}
 {/if}
 {literal}
 var editor = {/literal}"{$editor}"{literal};
@@ -81,10 +86,10 @@ function showSaveUpdateChkBox()
 
     if ( document.getElementsByName("saveTemplate")[0].checked && document.getElementsByName("updateTemplate")[0].checked == false  ) {
         document.getElementById("updateDetails").style.display = "none";
-    }else if ( document.getElementsByName("saveTemplate")[0].checked && document.getElementsByName("updateTemplate")[0].checked ){
+    } else if ( document.getElementsByName("saveTemplate")[0].checked && document.getElementsByName("updateTemplate")[0].checked ){
         document.getElementById("editMessageDetails").style.display = "block";	
         document.getElementById("saveDetails").style.display = "block";	
-    }else if ( document.getElementsByName("saveTemplate")[0].checked == false && document.getElementsByName("updateTemplate")[0].checked ){
+    } else if ( document.getElementsByName("saveTemplate")[0].checked == false && document.getElementsByName("updateTemplate")[0].checked ){
         document.getElementById("saveDetails").style.display = "none";
         document.getElementById("editMessageDetails").style.display = "block";
     } else {
@@ -216,35 +221,38 @@ tinyMCE.init({
 
 {/literal}
 {/if}
+{include file="CRM/common/Filter.tpl"}
 {literal}
-	function showToken(element) {
-	    var tokenTitle = {/literal}'{ts}Select Token{/ts}'{literal};
-        cj("#token"+element ).show( ).dialog({
-            title       : tokenTitle,
-            modal       : true,
-            width       : '310px',
-            resizable   : false,
-            bgiframe    : false,
-            overlay     : { opacity: 0.5, background: "black" },
-            beforeclose : function(event, ui) { cj(this).dialog("destroy"); },
-            buttons     : { 
-                "Done": function() { 
-                    cj(this).dialog("close");
+    function showToken(element, id) {
+	initFilter(id);
+	cj("#token"+id).css({"width":"290px", "size":"8"});
+	var tokenTitle = {/literal}'{ts}Select Token{/ts}'{literal};
+	cj("#token"+element ).show( ).dialog({
+	    title       : tokenTitle,
+	    modal       : true,
+	    width       : '310px',
+	    resizable   : false,
+	    bgiframe    : false,
+	    overlay     : { opacity: 0.5, background: "black" },
+	    beforeclose : function(event, ui) { cj(this).dialog("destroy"); },
+	    buttons     : { 
+		"Done": function() { 
+		    cj(this).dialog("close");
 
-                        //focus on editor/textarea after token selection     
-                        if (element == 'Text') {
-                            cj('#text_message').focus();
-                        } else if (element == 'Html' ) {
-                            switch ({/literal}"{$editor}"{literal}) {
-                                case 'fckeditor': { FCKeditorAPI.GetInstance('html_message').Focus(); break;}
-                                case 'tinymce'  : { tinyMCE.get('html_message').focus(); break; } 
-                                default         : { cj("#html_message").focus(); break; } 
-                        }
-                    }
-                }
-            }
-        });
-        return false;
+			//focus on editor/textarea after token selection     
+			if (element == 'Text') {
+			    cj('#text_message').focus();
+			} else if (element == 'Html' ) {
+			    switch ({/literal}"{$editor}"{literal}) {
+				case 'fckeditor': { FCKeditorAPI.GetInstance('html_message').Focus(); break;}
+				case 'tinymce'  : { tinyMCE.get('html_message').focus(); break; } 
+				default         : { cj("#html_message").focus(); break; } 
+			}
+		    }
+		}
+	    }
+	});
+	return false;
     }
 </script>
 {/literal}
