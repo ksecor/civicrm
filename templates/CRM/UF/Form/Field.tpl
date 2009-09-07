@@ -102,6 +102,12 @@ function showLabel( ) {
         labelValue = '';  
     }
 
+    var custom = document.forms.Field['field_name[1]'].value;
+    if ( custom.substring( 0, 7 ) == 'custom_' ) {
+        var customFieldLabel = labelValue.split(' :: ', 2);
+        labelValue = customFieldLabel[0];
+    }
+    
     var input = document.getElementById('label');
     input.value = labelValue;
 
@@ -125,7 +131,6 @@ function showLabel( ) {
     {literal}
 
     /* Code to set Profile Field help, from custom data field help */
-    var custom = document.forms.Field['field_name[1]'].value;
     var fieldId = null;
 
     if ( custom.substring( 0, 7 ) == 'custom_' ) {
@@ -141,43 +146,50 @@ function showLabel( ) {
     });
 } 
 
-showHideSeletorSearch();
-	
-function showHideSeletorSearch()
-{
-    var vsbl= cj("#visibility").val( );
-    if ( vsbl == "User and User Admin Only" ){
-        hide("is_search_label");
-        hide("is_search_html");
-        hide("is_search_desDt");
-        hide("is_search_desDd");
-        hide("in_selector_label");
-        hide("in_selector_html");
-        hide("in_selector_desDt");
-        hide("in_selector_desDd");
-    } else {
-        show("is_search_label");
-        show("is_search_html");
-        show("is_search_desDt");
-        show("is_search_desDd");
-        var fldName = cj("#field_name\\[1\\]").val();
-        if ( fldName == 'group' || fldName == 'tag' ) { 
-            hide("in_selector_label");
-            hide("in_selector_html");
-            hide("in_selector_desDt");
-            hide("in_selector_desDd");
-        } else {
-            show("in_selector_label");
-            show("in_selector_html");
-            show("in_selector_desDt");
-            show("in_selector_desDd");
-        }
-    }	
-}
+{/literal}{if $action neq 8}{literal}
+   showHideSeletorSearch();
 
-cj("#field_name\\[1\\]").bind( 'change blur', function( ) {
-    showHideSeletorSearch( );
-}); 
+	
+   function showHideSeletorSearch()
+   {
+       var vsbl= cj("#visibility").val( );
+       if ( vsbl == "User and User Admin Only" ){
+           hide("is_search_label");
+           hide("is_search_html");
+           hide("is_search_desDt");
+           hide("is_search_desDd");
+           hide("in_selector_label");
+           hide("in_selector_html");
+           hide("in_selector_desDt");
+           hide("in_selector_desDd");
+       } else {
+           show("is_search_label");
+           show("is_search_html");
+           show("is_search_desDt");
+           show("is_search_desDd");
+           var fldName = cj("#field_name\\[1\\]").val();
+           if ( fldName == 'group' || fldName == 'tag' ) { 
+               hide("in_selector_label");
+               hide("in_selector_html");
+               hide("in_selector_desDt");
+               hide("in_selector_desDd");
+           } else {
+               show("in_selector_label");
+               show("in_selector_html");
+               show("in_selector_desDt");
+               show("in_selector_desDd");
+           }
+       }	
+   }
+
+   cj("#field_name\\[1\\]").bind( 'change blur', function( ) {
+       showHideSeletorSearch( );
+   }); 
+{/literal}{/if}{literal}
+
+cj( function( ) {
+    cj("#field_name\\[1\\]").addClass( 'huge' );
+});
 
 //CRM-4363	
 function mixProfile( ) {

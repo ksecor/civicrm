@@ -1,5 +1,5 @@
 <tr>
-    <td> {$form.event_name.label}  <br />{$form.event_name.html} </td>
+    <td> {$form.event_name.label}  <br />{$form.event_name.html|crmReplace:class:huge} </td>
     <td> {$form.event_type.label}<br />{$form.event_type.html} </td>
 </tr>     
  

@@ -17,7 +17,7 @@
 	    <thead class="sticky">
 	        <th>{ts}Parent ID{/ts}</th>
 	        <th>{ts}Tag{/ts}</th>
-            <th>{ts}ID{/ts}</th>
+            	<th>{ts}ID{/ts}</th>
 	        <th>{ts}Description{/ts}</th>
 	        <th></th>
         </thead>

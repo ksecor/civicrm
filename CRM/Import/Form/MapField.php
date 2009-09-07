@@ -398,7 +398,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         
         //used to warn for mismatch column count or mismatch mapping      
         $warning = 0;
-        
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
             $jsSet = false;
@@ -524,9 +523,9 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                                                            );
                 }
             }
-            
             $sel->setOptions(array($sel1, $sel2, $sel3, $sel4));
         }
+        
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
 
@@ -872,10 +871,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 foreach ( $groupTitles as $fId => $values ) {
                     $key = "custom_{$fId}";
                     $groupTitle = $values['groupTitle'];
-                    if ( strlen( $groupTitle ) > 13 ) {
-                        $groupTitle = substr( $groupTitle, 0, 10 ) . '...';
-                    }
-                    $formattedFieldNames[$key] = $groupTitle . ': ' . $fields[$key];
+                    $formattedFieldNames[$key] = $fields[$key] . ' :: ' . $groupTitle;
                 }
             }
         }

@@ -28,6 +28,10 @@
 </div>
 {/if}
 
+{if isset($display_name) and $display_name}
+    <h3 style="margin: .25em;">{$display_name}</h3>
+{/if}
+
 <!-- .tpl file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
 {if $isForm}
     {include file="CRM/Form/$formTpl.tpl"}

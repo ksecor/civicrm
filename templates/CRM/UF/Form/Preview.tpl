@@ -70,30 +70,27 @@
         <tr><td class="label">{$form.$n.label}</td>
 	<td>
            {if $n|substr:0:3 eq 'im-'}
-             {assign var="provider" value=$n|cat:"-provider_id"}
-             {$form.$provider.html}&nbsp;
-           {/if}
-	{if $n eq 'group' && $form.group}
-		<table id="selector" class="selector" style="width:auto;">
-		<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
-		</table>
-    {elseif $n eq 'email_greeting' or  $n eq 'postal_greeting' or $n eq 'addressee'}
-            {include file="CRM/Profile/Form/GreetingType.tpl"}  
-	{else}
-	   {$form.$n.html}
-	   {if $field.is_view eq 0}
-	       {if ( $field.html_type eq 'Radio' or  $n eq 'gender') and $form.formName eq 'Preview'}
-               	   &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
-	       {elseif $field.data_type eq 'Date' AND $element.skip_calendar NEQ true } 
-            <span>
+               {assign var="provider" value=$n|cat:"-provider_id"}
+               {$form.$provider.html}&nbsp;
+	   {elseif $n eq 'group' && $form.group || ( $n eq 'tag' && $form.tag )}
+	       {include file="CRM/Contact/Form/Edit/TagsAndGroups.tpl" type=$n}
+           {elseif $n eq 'email_greeting' or  $n eq 'postal_greeting' or $n eq 'addressee'}
+               {include file="CRM/Profile/Form/GreetingType.tpl"}  
+	   {else}
+	       {$form.$n.html}
+	       {if $field.is_view eq 0}
+	       	   {if ( $field.html_type eq 'Radio' or  $n eq 'gender') and $form.formName eq 'Preview'}
+               	       &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
+	       	   {elseif $field.data_type eq 'Date' AND $element.skip_calendar NEQ true } 
+            	       <span>
 			    {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
-		    	{include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
-		   </span>
-	       {elseif $field.html_type eq 'Autocomplete-Select'}
-                {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
+		    	    {include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
+		       </span>
+	           {elseif $field.html_type eq 'Autocomplete-Select'}
+                       {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
 		   {/if}
+	   	{/if}
 	   {/if}
-	{/if}
         </td>
 	{/if}
         {* Show explanatory text for field if not in 'view' mode *}

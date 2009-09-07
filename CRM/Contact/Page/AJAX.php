@@ -327,15 +327,15 @@ ORDER BY sort_name ";
             } else {  
                 while ( $dao->fetch( ) ) {
                     if( $json ) {
-                    $elements[] = array( 'name' => addslashes( $dao->sort_name ),
+                        $elements[] = array( 'name' => addslashes( $dao->sort_name ),
                                          'id'   => $dao->id );
                     } else {
-                     echo $elements = "$dao->sort_name|$dao->id\n";
+                        echo $elements = "$dao->sort_name|$dao->id\n";
                     }
                 }
                 //for adding new household address / organization
                 if( empty( $elements ) && !$json && ( $hh || $organization )){
-                    echo CRM_Utils_Array::value( 's', $_GET )."|$";
+                    echo CRM_Utils_Array::value( 's', $_GET );
                 }
             }
         }

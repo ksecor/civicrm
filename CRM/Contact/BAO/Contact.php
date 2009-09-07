@@ -835,16 +835,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                                                'title' => ts('Current Employer') )
                                                        ));
                 
-                $fields = array_merge( $fields, array( 'current_employer_id' =>
-                                                       array ( 'name'  => 'employer_id',
-								'where' => 'civicrm_contact.employer_id',
-                                                               'title' => ts('Current Employer ID') )
-                                                       ));
-                $fields = array_merge( $fields, array( 'household_id' =>
-                                                       array ( 'name'  => 'household_id',
-								'where' => 'civicrm_contact.mail_to_household_id',
-                                                               'title' => ts('Household ID') )
-                                                       ));
                 $locationType = array( );
                 if ($status) {
                     $locationType['location_type'] = array ('name' => 'location_type',
@@ -1796,10 +1786,8 @@ UNION
             break;
             
         case 'contribution' :
-            require_once 'CRM/Contribute/DAO/Contribution.php';
-            eval( '$object =& new CRM_Contribute_DAO_Contribution( );');
-            $object->contact_id = $contactId;
-            $object->is_test    = 0;
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            return CRM_Contribute_BAO_Contribution::contributionCount( $contactId );
             break;
             
         case 'membership' :

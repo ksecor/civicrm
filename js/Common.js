@@ -387,20 +387,14 @@ function hide(block_id)
  *
  * @return
  */
-function toggleCheckboxVals(fldPrefix,form) {
-    for( i=0; i < form.elements.length; i++) {
-        fpLen = fldPrefix.length;
-        if (form.elements[i].type == 'checkbox' && form.elements[i].name.slice(0,fpLen) == fldPrefix ) {
-            element = form.elements[i];
-            if (form.toggleSelect.checked == false ) {
-                element.checked = false; 
-            } else {
-                element.checked = true;
-            }
-        }
+function toggleCheckboxVals(fldPrefix,object) {
+    if ( object.id == 'toggleSelect' && cj(object).is(':checked') ) {
+       cj( 'Input[id*="' + fldPrefix + '"],Input[id*="toggleSelect"]').attr('checked', true);
+    } else {
+       cj( 'Input[id*="' + fldPrefix + '"],Input[id*="toggleSelect"]').attr('checked', false);
     }
-    /* function called to change the color of selected rows */
-    on_load_init_checkboxes(form.name); 
+   /* function called to change the color of selected rows */
+   on_load_init_checkboxes(object.form.name); 
 }
 
 function countSelectedCheckboxes(fldPrefix, form) {

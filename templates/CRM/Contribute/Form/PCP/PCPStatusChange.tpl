@@ -30,7 +30,7 @@ your page, tell friends, and update your contact info.{/ts}
 {/if}
 
 {* Rejected message *}
-{else if $pcpStatus eq 'Rejected'}
+{elseif $pcpStatus eq 'Rejected'}
 ============================
 {ts}Your Personal Campaign Page{/ts}
 

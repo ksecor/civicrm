@@ -65,7 +65,7 @@ if( framework != 'Joomla') {
 	   cj('div.sticky-header').css({ 'top' : "23px", position: "fixed" });
 	});
 } else {
-	   cj('div#submenu-box div.m').html(cj("#menu-container").html());
+	   cj('div#toolbar-box div.m').html(cj("#menu-container").html());
 	   cj('#civicrm-menu').ready( function(){ 
 			cj('.outerbox').css({ 'margin-top': '6px'});
 			cj('#root-menu-div .menu-ul li').css({ 'padding-bottom' : '2px', 'margin-top' : '2px' });

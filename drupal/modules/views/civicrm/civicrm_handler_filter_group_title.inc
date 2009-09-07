@@ -16,8 +16,8 @@ class civicrm_handler_filter_group_name extends views_handler_filter_in_operator
         parent::construct();
         if ( ! self::$_groupName ) {
             civicrm_initialize( );
-            require_once 'CRM/Member/PseudoConstant.php';
-            self::$_groupName = CRM_Member_PseudoConstant::allGroup( );
+            require_once 'CRM/Core/PseudoConstant.php';
+            self::$_groupName = CRM_Core_PseudoConstant::allGroup( );
         }
     }
 

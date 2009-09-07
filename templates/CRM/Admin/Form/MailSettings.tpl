@@ -42,7 +42,7 @@
 	<tr><td class="label">&nbsp;</td><td class="description">{ts}Name of the protocol to use for polling.{/ts}</td></tr>
 
 	<tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
-	<tr><td class="label">&nbsp;</td><td class="description">{ts}Folder to poll from when using IMAP (will default to Inbox when empty), path to poll from when using Maildir, etc..{/ts}</td></tr>
+	<tr><td class="label">&nbsp;</td><td class="description">{ts}Folder to poll from when using IMAP (will default to INBOX when empty), path to poll from when using Maildir, etc..{/ts}</td></tr>
 
 	<tr><td class="label">{$form.is_ssl.label}</td><td>{$form.is_ssl.html}</td></tr>
 	<tr><td class="label">&nbsp;</td><td class="description">{ts}Whether to use SSL for IMAP and POP3 or not.{/ts}</td></tr>

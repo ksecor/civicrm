@@ -266,25 +266,27 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         $transaction->commit( );
         
-        require_once 'CRM/Utils/Recent.php';
-        require_once 'CRM/Contribute/PseudoConstant.php';
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution', 
-               "action=view&reset=1&id={$contribution->id}&cid={$contribution->contact_id}" );
-       
-        $contributionTypes = CRM_Contribute_PseudoConstant::contributionType();
-        $title = CRM_Contact_BAO_Contact::displayName( $contribution->contact_id ) . 
-                 ' - (' . CRM_Utils_Money::format( $contribution->total_amount ) . ' ' . 
-                 ' - ' . $contributionTypes[$contribution->contribution_type_id] . ')';
-
-        // add the recently created Activity
-        CRM_Utils_Recent::add( $title,
-                               $url,
-                               $contribution->id,
-                               'Contribution',
-                               $contribution->contact_id,
-                               null );
-        
+        // do not add to recent items for import, CRM-4399
+        if ( !CRM_Utils_Array::value( 'skipRecentView', $params ) ) {
+            require_once 'CRM/Utils/Recent.php';
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution', 
+                                          "action=view&reset=1&id={$contribution->id}&cid={$contribution->contact_id}" );
+            
+            $contributionTypes = CRM_Contribute_PseudoConstant::contributionType();
+            $title = CRM_Contact_BAO_Contact::displayName( $contribution->contact_id ) . 
+                ' - (' . CRM_Utils_Money::format( $contribution->total_amount ) . ' ' . 
+                ' - ' . $contributionTypes[$contribution->contribution_type_id] . ')';
+            
+            // add the recently created Activity
+            CRM_Utils_Recent::add( $title,
+                                   $url,
+                                   $contribution->id,
+                                   'Contribution',
+                                   $contribution->contact_id,
+                                   null );
+        }
         
         return $contribution;
     }
@@ -1483,4 +1485,26 @@ WHERE     c.id = $contributionId";
         return $componentDetails;
     }
     
+    function contributionCount( $contactId, $includeSoftCredit = true, $includeHonoree = true ) {
+        if ( !$contactId ) return 0;
+        
+        $fromClause      = "civicrm_contribution contribution";
+        $whereConditions = array( "contribution.contact_id = {$contactId}" );
+        if ( $includeSoftCredit ) {
+            $fromClause       .= " LEFT JOIN civicrm_contribution_soft softContribution 
+                                             ON ( contribution.id = softContribution.contribution_id )";
+            $whereConditions[] = " softContribution.contact_id = {$contactId}";
+        }
+        if ( $includeHonoree ) {
+            $whereConditions[] = " contribution.honor_contact_id = {$contactId}";
+        }
+        $whereClause = " contribution.is_test = 0 AND ( " . implode( ' OR ', $whereConditions ). " )";
+        
+        $query = "       
+   SELECT  count( contribution.id ) count
+     FROM  {$fromClause}
+    WHERE  {$whereClause}";
+        
+        return CRM_Core_DAO::singleValueQuery( $query );
+    }
 }

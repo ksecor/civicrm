@@ -89,7 +89,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
 
     static function version( ) {
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
-                                            1,
+                                            CRM_Core_Config::domainID( ),
                                             'version' );
     }
 

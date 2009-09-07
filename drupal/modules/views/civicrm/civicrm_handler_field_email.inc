@@ -35,7 +35,7 @@ class civicrm_handler_field_email extends views_handler_field {
     if ($this->options['link_to_user'] == 'mailto') {
       return l($values->{$this->field_alias}, "mailto:" . $values->{$this->field_alias});
     }
-    return $this->render_link(check_plain($values->{$this->field_alias}), $values);
+    return check_plain($values->{$this->field_alias});
   }
 }
 ?>

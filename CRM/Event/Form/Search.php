@@ -241,7 +241,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             require_once 'CRM/Event/BAO/Event.php';
             
             if ( !$this->_single ) {
-                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this);" ) ); 
 
                 foreach ($rows as $row) { 
                     $this->addElement( 'checkbox', $row['checkbox'], 
@@ -289,7 +289,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked') ); 
-            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); toggleTaskAction( true );" ) );
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',this); toggleTaskAction( true );" ) );
         }
         
         // add buttons 

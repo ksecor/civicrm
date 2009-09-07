@@ -74,18 +74,17 @@
     			<td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}{if $event_is_test} {ts}(test){/ts}{/if}</td>
     		</tr>
 
-    		<tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}</td></tr>
-
-    		<tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
+    		<tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}<br />
+                <span class="description">{ts}Source for this registration (if applicable).{/ts}</span></td></tr>
             </table>
 
             {* Fee block (EventFees.tpl) is injected here when an event is selected. *}
             <div id="feeBlock"></div>
 
             <fieldset>
-            <table class="form-layout-compressed">
+            <table class="form-layout">
                 <tr>
-                    <td class="label">&nbsp;</td><td class="label">{$form.note.label}</td><td>{$form.note.html}</td>
+                    <td class="label">{$form.note.label}</td><td>{$form.note.html}</td>
                 </tr>
             </table>
             </fieldset>

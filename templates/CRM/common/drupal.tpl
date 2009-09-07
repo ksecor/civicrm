@@ -3,7 +3,9 @@
 {/if}
 
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
-{if $config->customCSSURL}
+
+{* we should uncomment below code only when we are experimenting with new css for specific pages and comment css inclusion in civicrm.module*}
+{*if $config->customCSSURL}
     <link rel="stylesheet" href="{$config->customCSSURL}" type="text/css" />
 {else}
     {assign var="revamp" value=0}
@@ -18,7 +20,8 @@
     {else}
         <link rel="stylesheet" href="{$config->resourceBase}css/civicrm-new.css" type="text/css" />
     {/if}
-{/if}
+{/if*}
+
 {include file="CRM/common/action.tpl"}
 {if $buildNavigation }
     {include file="CRM/common/Navigation.tpl" }

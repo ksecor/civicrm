@@ -271,7 +271,13 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset( $fields['Organization'][$key] );
             }
         }
+        
+        // add current employer for individuals
+        $fields['Contact']['id'] = array( 'name'  => 'id',
+                                          'title' => ts('Internal Contact ID') );
+                                          
         unset( $fields['Contact']['contact_type'] );
+        
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
@@ -330,10 +336,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key1 ) ) {
                     $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
                     $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
-                    if ( strlen( $customGroupName ) > 13 ) {
-                        $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
-                    }
-                    $this->_mapperFields[$key][$key1] = $customGroupName . ': ' . $value1['title']; 
+                    $this->_mapperFields[$key][$key1] = $value1['title'] . ' :: ' . $customGroupName; 
                 }else {
                     $this->_mapperFields[$key][$key1] = $value1['title'];
                 }

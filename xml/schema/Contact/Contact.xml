@@ -480,8 +480,10 @@
   </field>
   <field>
       <name>mail_to_household_id</name>
+      <title>Mail to Household ID</title>
       <type>int unsigned</type>
       <comment>OPTIONAL FK to civicrm_contact_household record. If NOT NULL, direct mail communications to household rather than individual location.</comment>
+      <export>true</export>
       <add>1.1</add>
   </field>
   <foreignKey>
@@ -561,8 +563,11 @@
   </field>
   <field>
       <name>employer_id</name>
+      <title>Current Employer ID</title>
+      <uniqueName>current_employer_id</uniqueName>
       <type>int unsigned</type>
       <comment>OPTIONAL FK to civicrm_contact record.</comment>
+      <export>true</export>
       <add>2.1</add>
   </field>
   <foreignKey>

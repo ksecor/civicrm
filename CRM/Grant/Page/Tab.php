@@ -153,6 +153,10 @@ class CRM_Grant_Page_Tab extends CRM_Contact_Page_View
             $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=grant&cid=' . $this->_contactId );
             break;
 
+        case 'standalone':
+            $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
+            break;
+
         default:
             $cid = null;
             if ( $this->_contactId ) {

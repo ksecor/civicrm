@@ -5,7 +5,7 @@
         <dl>
         <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-<dt>{$form.parent_id.label}</dt><dd>{$form.parent_id.html}</dd>
+	<dt>{$form.parent_id.label}</dt><dd>{$form.parent_id.html}</dd>
         </dl>
         {if $parent_tags|@count > 0}
         <table class="form-layout-compressed">
@@ -17,7 +17,7 @@
         </table><br />
         {/if}
     {else}
-        <div class="status">{ts 1=$delName}Are you sure you want to delete <b>%1</b> Tag?{/ts}</div>
+        <div class="status">{ts 1=$delName}Are you sure you want to delete <b>%1</b> Tag?{/ts}<br />{ts}This tag will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this tag.{/ts}</div>
     {/if}
     <dl>
     <dt></dt><dd>{$form.buttons.html}</dd>

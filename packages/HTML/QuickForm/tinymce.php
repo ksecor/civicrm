@@ -69,6 +69,9 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
         $this->_persistantFreeze = true;
         $this->_type = 'TinyMCE';
         
+        if ( is_array($attributes) && array_key_exists( 'rows', $attributes ) && $attributes['rows'] <= 4 ) {
+            $this->Height = 200;
+        }
         if (is_array($options)) {
             $this->Config = $options;
         }
@@ -159,8 +162,16 @@ cj( function( ) {
         theme_advanced_resizing : true,
         apply_source_formatting : true,
         spellchecker_languages : "+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv",
-        relative_urls : false,
-        remove_script_host : false 
+        convert_urls : false,
+        remove_script_host : false,
+        width : "' . $this->Width .'%",
+        setup : function(ed) { 
+                 ed.onInit.addToTop( function(){ 
+                    var height = cj("#" + ed.editorId).attr("height");
+                    cj("#" + ed.editorId + "_tbl").css("height", height);
+                    cj("#" + ed.editorId + "_ifr").css("height", height);
+                }); 
+        }
     });    
 });
 </script>' );
@@ -170,6 +181,9 @@ cj( function( ) {
                         
             // include textarea as well (TinyMCE transforms it)
             $html .=  parent::toHTML();
+            $html .= sprintf( '<script type="text/javascript">
+                                 cj("#' . $this->_attributes['id'] .'").attr( "height","'.$this->Height.'px");
+                              </script>' );
             return $html;
         }
     }

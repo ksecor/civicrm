@@ -127,6 +127,8 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $this->assign_by_ref( 'group', $groupValues );
                 CRM_Utils_System::setTitle( ts('Group Settings: %1', array( 1 => $this->_title)));
             }
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/group', 'reset=1'));
         }
 
 		//build custom data

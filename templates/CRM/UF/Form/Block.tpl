@@ -24,7 +24,7 @@
         {if $field.groupHelpPre && $action neq 4 && $action neq 1028} 
             <div class="messages help">{$field.groupHelpPre}</div> 
         {/if} 
-        <table class="form-layout-compressed"> 
+        <table class="{if $action EQ 4}view-layout{else}form-layout-compressed{/if}"> 
     {/if} 
      
     {assign var=n value=$field.name} 
@@ -64,7 +64,7 @@
         </tr> 
     {else} 
         <tr>
-           <td class="label twenty">{$form.$n.label}</td>
+           <td class="label">{$form.$n.label}</td>
            <td class="view-value">
              {if $n|substr:0:3 eq 'im-'}
                {assign var="provider" value=$n|cat:"-provider_id"}

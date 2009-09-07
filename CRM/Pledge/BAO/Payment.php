@@ -272,6 +272,8 @@ WHERE pledge_id = %1
         if ( $payment->find( true ) ) {
             $payment->contribution_id = 'null'; 
             $payment->status_id = array_search( 'Pending', $allStatus );
+            $payment->scheduled_date = NULL;
+            $payment->reminder_date  = NULL;
             $payment->save( );
             
             //update pledge status.
