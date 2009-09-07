@@ -176,7 +176,9 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             // we need to call parent preprocess only when we are viewing / editing / adding participant record
             $this->preProcess( );           
         }        
-        
+
+        $this->setContext( );        
+
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) {
@@ -184,8 +186,6 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         } else if ( $this->_contactId ) {
             $this->browse( );
         }
-
-        $this->setContext( );
 
         return parent::run( );
     }
