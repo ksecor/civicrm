@@ -734,6 +734,10 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
  font-size: .95em;
  font-weight: bold;
  border: 1px solid #999999;
+ border-radius: 4px;
+ -moz-border-radius : 4px;
+ -webkit-border-radius : 4px;
+ -khtml-border-radius : 4px;
 }
 
 #crm-container #search-status ul {
