@@ -775,7 +775,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
       
         require_once 'CRM/Utils/Mail.php';
         if (!$from ) {
-            $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
+            $from = "$fromDisplayName <$fromEmail>";
         }
         
         //create the meta level record first

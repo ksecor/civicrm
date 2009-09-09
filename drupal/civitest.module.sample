@@ -26,7 +26,7 @@ function civitest_civicrm_post( $op, $objectName, $objectId, &$objectRef ) {
 
     $fromName  = 'My Org Administrator';
     $fromEmail = 'from@myorg.org';
-    $from      = CRM_Utils_Mail::encodeAddressHeader( $fromName, $fromEmail );
+    $from      = "$fromName <$fromEmail>";
     
     $toEmail   = $objectRef['email-1'];
     $toName    = "{$objectRef['first_name']} {$objectRef['last_name']}";

@@ -140,7 +140,7 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
                 $headers = array(   
                                  'From'                      => $from,
                                  'To'                        => $to,
-                                 'Subject'                   => CRM_Utils_Mail::encodeSubjectHeader($subject),  
+                                 'Subject'                   => $subject,
                                  );
                 
                 $mailer =& Mail::factory( $mailerName, $params );

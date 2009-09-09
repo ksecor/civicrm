@@ -935,9 +935,6 @@ WHERE civicrm_event.is_active = 1
                 
                 $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
                 $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
-                if (function_exists('mb_encode_mimeheader')) { // try to fix CRM-4631 - ideally should be moved to CRM_Utils_Mail::send()
-                    $values['event']['confirm_from_name'] = mb_encode_mimeheader($values['event']['confirm_from_name'], 'UTF-8', 'Q');
-                }
                 $receiptFrom = '"' . $values['event']['confirm_from_name'] . '" <' . $values['event']['confirm_from_email'] . '>';
                 
                 if ( $returnMessageText ) {

@@ -435,7 +435,7 @@ class CRM_Core_Payment_eWAY extends CRM_Core_Payment
        require_once 'CRM/Core/BAO/Domain.php';
 
        list( $fromName, $fromEmail ) = CRM_Core_BAO_Domain::getNameAndEmail( );
-       $from      = CRM_Utils_Mail::encodeAddressHeader( $fromName, $fromEmail );
+       $from      = "$fromName <$fromEmail>";
        
        $toName    = 'Support at eWAY';
        $toEmail   = 'Support@eWAY.com.au';
