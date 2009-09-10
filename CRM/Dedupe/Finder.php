@@ -209,10 +209,12 @@ class CRM_Dedupe_Finder
             }
         }
 
-        // drop the -digit postfixes (so event registration's $flat['email-5'] becomes $flat['email'])
+        // drop the -digit (and -Primary, for CRM-3902) postfixes (so event registration's $flat['email-5'] becomes $flat['email'])
+        // FIXME: this clobbers all address info; we should split off address fields and match
+        // the -digit to civicrm_address.location_type_id and -Primary to civicrm_address.is_primary
         foreach ($flat as $key => $value) {
             $matches = array();
-            if (preg_match('/(.*)-\d+$/', $key, $matches)) {
+            if (preg_match('/(.*)-(\d+|Primary)$/', $key, $matches)) {
                 $flat[$matches[1]] = $value;
                 unset($flat[$key]);
             }
