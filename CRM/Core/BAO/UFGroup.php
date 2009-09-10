@@ -2226,5 +2226,22 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
         }
         return $reservedProfiles;
     }    
+
+
+    /**
+     * Function to retrieve groups of  profiles
+     * 
+     * @param integer $profileID id of the profile
+     * 
+     * @return array  returns array 
+     * @static
+     */
+
+    static function profileGroups( $profileID )
+    {
+        $profileTypes = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $profileID, 'group_type' );
+        return explode( ',', $profileTypes );
+    }
+
 }
 
