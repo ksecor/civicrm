@@ -416,7 +416,7 @@ class CRM_Contribute_Form_AdditionalInfo
 
         $userID   = $session->get( 'userID' );
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
-        $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+        $receiptFrom = "$userName <$userEmail>";
         $sendReceipt = CRM_Utils_Mail::send( $receiptFrom,
                                              $contributorDisplayName,
                                              $contributorEmail,

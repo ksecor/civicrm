@@ -1096,7 +1096,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
         if ( CRM_Utils_Array::value( 'send_receipt', $params ) ) {
-            $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+            $receiptFrom = "$userName <$userEmail>";
+                        
             $this->assign( 'module', 'Event Registration' );          
             //use of CRM/Event/Form/Registration/ReceiptMessage.tpl requires variables in different format
             $event = $events = array();

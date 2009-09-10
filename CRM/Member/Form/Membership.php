@@ -868,7 +868,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $receiptSend = false;
         if ( CRM_Utils_Array::value( 'send_receipt', $formValues ) ) {
             $receiptSend = true;
-            $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+            $receiptFrom = "$userName <$userEmail>";
+            
             if ( CRM_Utils_Array::value( 'payment_instrument_id', $formValues ) ) {
                 $paymentInstrument    = CRM_Contribute_PseudoConstant::paymentInstrument();
                 $formValues['paidBy'] = $paymentInstrument[$formValues['payment_instrument_id']];

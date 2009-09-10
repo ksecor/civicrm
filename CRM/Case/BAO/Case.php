@@ -1086,11 +1086,9 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $emailTemplate  = 'CRM/Case/Form/ActivityMessage.tpl';
         $result         = array();
 
-        list ($name, $address) = 
-            CRM_Contact_BAO_Contact_Location::getEmailDetails( $session->get( 'userID' ) );
-
-        $receiptFrom = "\"$name\" <$address>";
-            
+        list ($name, $address) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $session->get( 'userID' ) );
+        
+        $receiptFrom = "$name <$address>";   
         $template->assign( 'returnContent', 'subject' );
         $subject = $template->fetch( $emailTemplate );
         

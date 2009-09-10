@@ -935,7 +935,7 @@ WHERE civicrm_event.is_active = 1
                 
                 $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
                 $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
-                $receiptFrom = '"' . $values['event']['confirm_from_name'] . '" <' . $values['event']['confirm_from_email'] . '>';
+                $receiptFrom = $values['event']['confirm_from_name'] . ' <' . $values['event']['confirm_from_email'] . '>';
                 
                 if ( $returnMessageText ) {
                     return array( 'subject' => $subject,
