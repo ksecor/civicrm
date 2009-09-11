@@ -164,7 +164,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
             // execute a dummy query to clear error stack
             mysql_query( 'select 1' );
         } else if ( function_exists( 'mysqli_error' ) ) {
-            $dao  =& new CRM_Core_DAO( );
+            $dao  = new CRM_Core_DAO( );
 
             // we do it this way, since calling the function
             // getDatabaseConnection could potentially result

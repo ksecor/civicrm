@@ -330,7 +330,7 @@ class CRM_Core_PseudoConstant
         }
 
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
-        eval( '$object =& new ' . $name . '( );' );
+        eval( '$object = new ' . $name . '( );' );
         
         $object->selectAdd( );
         $object->selectAdd( "$key, $retrieve" );
@@ -905,7 +905,7 @@ WHERE  id = %1";
              and iterates nested groups in a logical manner for us
             */
             require_once 'CRM/Contact/BAO/GroupNesting.php';
-            self::$groupIterator =& new CRM_Contact_BAO_GroupNesting( $styledLabels );
+            self::$groupIterator = new CRM_Contact_BAO_GroupNesting( $styledLabels );
         }
         return self::$groupIterator;
     }
@@ -1038,7 +1038,7 @@ WHERE  id = %1";
             $column_b_a = "{$valueColumnName}_b_a";
             
             require_once 'CRM/Contact/DAO/RelationshipType.php';
-            $relationshipTypeDAO =& new CRM_Contact_DAO_RelationshipType();
+            $relationshipTypeDAO = new CRM_Contact_DAO_RelationshipType();
             $relationshipTypeDAO->selectAdd();
             $relationshipTypeDAO->selectAdd("id, {$column_a_b}, {$column_b_a}, contact_type_a, contact_type_b");
             $relationshipTypeDAO->is_active = 1;

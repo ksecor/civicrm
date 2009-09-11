@@ -250,7 +250,7 @@ class CRM_Core_I18n
 
         global $tsLocale;
         if (!isset($singleton[$tsLocale])) {
-            $singleton[$tsLocale] =& new CRM_Core_I18n($tsLocale);
+            $singleton[$tsLocale] = new CRM_Core_I18n($tsLocale);
         }
 
         return $singleton[$tsLocale];

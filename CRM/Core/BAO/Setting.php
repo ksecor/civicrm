@@ -53,7 +53,7 @@ class CRM_Core_BAO_Setting
         CRM_Core_BAO_Setting::fixParams($params);
 
         require_once "CRM/Core/DAO/Domain.php";
-        $domain =& new CRM_Core_DAO_Domain();
+        $domain = new CRM_Core_DAO_Domain();
         $domain->id = CRM_Core_Config::domainID( );
         $domain->find(true);
         if ($domain->config_backend) {
@@ -142,7 +142,7 @@ class CRM_Core_BAO_Setting
     static function retrieve(&$defaults) 
     {
         require_once "CRM/Core/DAO/Domain.php";
-        $domain =& new CRM_Core_DAO_Domain();
+        $domain = new CRM_Core_DAO_Domain();
         $domain->selectAdd( );
 
         if ( CRM_Utils_Array::value( 'q', $_GET ) == 'civicrm/upgrade' ) {
@@ -214,7 +214,7 @@ class CRM_Core_BAO_Setting
 
                 if ($lcMessagesRequest) {
                     require_once 'CRM/Core/DAO/UFMatch.php';
-                    $ufm =& new CRM_Core_DAO_UFMatch();
+                    $ufm = new CRM_Core_DAO_UFMatch();
                     $ufm->contact_id = $session->get('userID');
                     if ($ufm->find(true)) {
                         $ufm->language = $lcMessages;
@@ -225,7 +225,7 @@ class CRM_Core_BAO_Setting
                 
                 if (!$lcMessages and $session->get('userID')) {
                     require_once 'CRM/Core/DAO/UFMatch.php';
-                    $ufm =& new CRM_Core_DAO_UFMatch();
+                    $ufm = new CRM_Core_DAO_UFMatch();
                     $ufm->contact_id = $session->get('userID');
                     if ($ufm->find(true) and in_array($ufm->language, array_keys($defaults['languageLimit']))) {
                         $lcMessages = $ufm->language;

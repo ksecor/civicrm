@@ -301,7 +301,7 @@ class CRM_Core_DAO extends DB_DataObject
         }
 
         require_once 'CRM/Core/DAO/Log.php';
-        $dao =& new CRM_Core_DAO_Log( );
+        $dao = new CRM_Core_DAO_Log( );
         $dao->entity_table  = $this->getTableName( );
         $dao->entity_id     = $this->id;
         $dao->modified_id   = $cid;
@@ -858,7 +858,7 @@ FROM   civicrm_domain
         //CRM_Core_Error::debug( 'q', $queryStr );
 
         if ( ! $daoName ) {
-            $dao =& new CRM_Core_DAO( );
+            $dao = new CRM_Core_DAO( );
         } else {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
             eval( '$dao   =& new ' . $daoName . '( );' );

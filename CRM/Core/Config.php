@@ -286,7 +286,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         if ( $this->userFramework == 'Joomla' ) {
             $this->userFrameworkVersion = '1.5';
             if ( class_exists('JVersion') ) {
-                $version =& new JVersion;
+                $version = new JVersion;
                 $this->userFrameworkVersion = $version->getShortVersion();
             }
 
@@ -442,7 +442,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             if ( defined( 'CIVICRM_MAILER_SPOOL' ) &&
                  CIVICRM_MAILER_SPOOL ) {
                 require_once 'CRM/Mailing/BAO/Spool.php';
-                self::$_mail = & new CRM_Mailing_BAO_Spool();
+                self::$_mail = new CRM_Mailing_BAO_Spool();
             } elseif ($mailingInfo['outBound_option'] == 0 ) {
                 if ( $mailingInfo['smtpServer'] == '' ||
                      ! $mailingInfo['smtpServer'] ) {

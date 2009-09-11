@@ -45,7 +45,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
     static private $_mailingPref  = null;
 
-    static function &systemObject( ) {
+    static function systemObject( ) {
         if ( ! self::$_systemObject ) {
             self::$_systemObject =& new CRM_Core_DAO_Preferences( );
             self::$_systemObject->domain_id  = CRM_Core_Config::domainID( );
@@ -56,7 +56,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         return self::$_systemObject;
     }
 
-    static function &mailingPreferences( ) {
+    static function mailingPreferences( ) {
         if ( ! self::$_mailingPref ) {
             $mailingPref =& new CRM_Core_DAO_Preferences( );
             $mailingPref->domain_id  = CRM_Core_Config::domainID( );
@@ -71,7 +71,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
     }
 
 
-    static function &userObject( $userID = null ) {
+    static function userObject( $userID = null ) {
         if ( ! self::$_userObject ) {
             if ( ! $userID ) {
                 $session =& CRM_Core_Session::singleton( );
