@@ -223,9 +223,16 @@ class CRM_Dedupe_Finder
         $params = array();
         $supportedFields = CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype);
         if ( is_array( $supportedFields ) ) {
-            foreach( $supportedFields as $table => $fields) {
-                // for matching on civicrm_address fields, we also need the location_type_id
-                if ($table == 'civicrm_address') $fields['location_type_id'] = '';
+            foreach($supportedFields as $table => $fields) {
+                if ($table == 'civicrm_address') {
+                    // for matching on civicrm_address fields, we also need the location_type_id
+                    $fields['location_type_id'] = '';
+                    // FIXME: we also need to do some hacking for id and name fields, see CRM-3902’s comments
+                    $fixes = array('address_name' => 'name', 'country' => 'country_id', 'state_province' => 'state_province_id');
+                    foreach ($fixes as $orig => $target) {
+                        if (CRM_Utils_Array::value($orig, $flat)) $params[$table][$target] = $flat[$orig];
+                    }
+                }
                 foreach($fields as $field => $title) {
                     if ( CRM_Utils_Array::value( $field, $flat ) ) {
                         $params[$table][$field] = $flat[$field];
