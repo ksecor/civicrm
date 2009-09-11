@@ -3,7 +3,7 @@
 <menu>
   <item>
      <path>civicrm/pledge</path>
-     <title>CiviPledge</title>
+     <title>CiviPledge Dashboard</title>
      <page_callback>CRM_Pledge_Page_DashBoard</page_callback>
      <access_arguments>access CiviPledge</access_arguments>
      <page_type>1</page_type>

@@ -3,7 +3,7 @@
 <menu>
   <item>
      <path>civicrm/grant</path>
-     <title>CiviGrant</title>
+     <title>CiviGrant Dashboard</title>
      <page_callback>CRM_Grant_Page_DashBoard</page_callback>
      <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>

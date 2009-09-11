@@ -254,6 +254,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         if ( $this->_participantId || $this->_contactID || $this->_context == 'standalone') {
             $this->_single = true;
             $this->assign( 'urlPath'   , 'civicrm/contact/view/participant' );
+            if ( !$this->_participantId && !$this->_contactID ) {
+                $breadCrumbs = array( array( 'title' => ts('CiviEvent Dashboard'),
+                                             'url'   => CRM_Utils_System::url('civicrm/event','reset=1') ) );
+                
+                CRM_Utils_System::appendBreadCrumb( $breadCrumbs );
+            }
         } else {
             //set the appropriate action
             $advanced = null;
