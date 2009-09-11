@@ -123,6 +123,10 @@
             if ( val == "bw" || val == "nbw" ) {
                 cj('#' + fldVal ).hide();
                 cj('#' + fldMinMax ).show();
+            } else if (val =="nll") {
+                cj('#' + fldVal).hide() ;
+                cj('#' + field + '_value').val('');
+                cj('#' + fldMinMax ).hide();
             } else {
                 cj('#' + fldVal ).show();
                 cj('#' + fldMinMax ).hide();

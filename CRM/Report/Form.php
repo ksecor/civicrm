@@ -679,6 +679,7 @@ class CRM_Report_Form extends CRM_Core_Form {
                           'gt'  => ts('Is greater than'),
                           'neq' => ts('Is not equal to'), 
                           'nbw' => ts('Is not between'),
+                          'nll' => ts('Is Null'),
                           );
             break;
         case CRM_Report_FORM::OP_SELECT :
@@ -718,6 +719,8 @@ class CRM_Report_Form extends CRM_Core_Form {
             return 'NOT LIKE';
         case 'in':
             return 'IN';
+        case 'nll' :
+            return 'IS NULL';
         default:
             // type is string
             return 'LIKE';
@@ -805,6 +808,11 @@ class CRM_Report_Form extends CRM_Core_Form {
                 $sqlOP  = self::getSQLOperator( $op );
                 $clause = "( {$field['dbAlias']} $sqlOP $value )";
             }
+            break;
+
+        case 'nll':
+            $sqlOP  = self::getSQLOperator( $op );
+            $clause = "( {$field['dbAlias']} $sqlOP )";
             break;
                 
         default:
@@ -1247,6 +1255,8 @@ class CRM_Report_Form extends CRM_Core_Form {
                                 $value     = "{$pair[$op]} " . $val;
                             } else if ( $val ) {
                                 $value = "{$pair[$op]} " . $val;
+                            } else if ( $op == 'nll' ) {
+                                $value = $pair[$op];
                             }
                         }
                         if ( $value ) {
