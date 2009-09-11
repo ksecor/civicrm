@@ -703,6 +703,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         while($dao->fetch()) {
             foreach( $selectorFields as $dc => $field ) {
                 if ( isset($dao->$field ) ) {
+                    $values[$rowCnt][$field] = $dao->$field;
                     if ( $bulkActivityTypeID == $dao->activity_type_id ) {
                         $values[$rowCnt]['recipients'] = ts('(recipients)');
                         if ( $accessCiviMail && in_array( $dao->source_record_id, $mailingIDs ) ) {
@@ -718,8 +719,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                         $fName = substr( $field, 0, -2) ."name";
                         $contactNames = explode( '::', $dao->$fName );
                         $values[$rowCnt][$fName] = array_combine( $contactIDs, $contactNames );
-                    } else {
-                        $values[$rowCnt][$field] = $dao->$field;
                     }
                 }
             }
