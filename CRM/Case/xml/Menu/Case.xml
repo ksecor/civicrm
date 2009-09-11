@@ -11,6 +11,14 @@
      <component>CiviCase</component>
   </item>
   <item>
+     <path>civicrm/case/add</path>
+     <title>Open Case</title>
+     <page_callback>CRM_Case_Page_Tab</page_callback>
+     <access_arguments>access CiviCase</access_arguments>
+     <page_type>1</page_type>
+     <component>CiviCase</component>
+  </item>
+  <item>
      <path>civicrm/case/search</path>
      <title>Find Cases</title>
      <page_callback>CRM_Case_Controller_Search</page_callback>

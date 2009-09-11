@@ -329,7 +329,7 @@ class CRM_Core_Block {
                                                         'name' );
                 if ( $atype ) {
                     $shortCuts = 
-                        array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/case',
+                        array_merge($shortCuts, array( array( 'path'  => 'civicrm/case/add',
                                                               'query' => "reset=1&action=add&atype=$atype&context=standalone",
                                                               'ref'   => 'new-case',
                                                               'title' => ts('Case') ) ) );
@@ -339,14 +339,14 @@ class CRM_Core_Block {
             if ( CRM_Core_Permission::check('access CiviContribute') && 
                  in_array( 'CiviContribute', $config->enableComponents ) ) {
                 $shortCuts = 
-                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/contribution',
+                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/contribute/add',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'ref'   => 'new-contribution',
                                                           'title' => ts('Contribution') ) ));
             }            
 
             // new email (select recipients)
-            $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/activity',
+            $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/activity/add',
                                                                'query' => 'atype=3&action=add&reset=1&context=standalone',
                                                                'ref'   => 'new-email',
                                                                'title' => ts('Email') ) ));
@@ -354,7 +354,7 @@ class CRM_Core_Block {
             if ( CRM_Core_Permission::check('access CiviEvent') && 
                  in_array( 'CiviEvent', $config->enableComponents ) ) {
                 $shortCuts = 
-                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/participant',
+                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/participant/add',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'ref'   => 'new-participant',
                                                           'title' => ts('Event Registration') ) ));
@@ -363,7 +363,7 @@ class CRM_Core_Block {
             if ( CRM_Core_Permission::check('access CiviGrant') && 
                 in_array( 'CiviGrant', $config->enableComponents ) ) {
                 $shortCuts = 
-                array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/grant',
+                array_merge($shortCuts, array( array( 'path'  => 'civicrm/grant/add',
                                                       'query' => "reset=1&action=add&context=standalone",
                                                       'ref'   => 'new-grant',
                                                       'title' => ts('Grant') ) ));
@@ -372,7 +372,7 @@ class CRM_Core_Block {
             if ( CRM_Core_Permission::check('access CiviMember') && 
                 in_array( 'CiviMember', $config->enableComponents ) ) {
                 $shortCuts = 
-                array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/membership',
+                array_merge($shortCuts, array( array( 'path'  => 'civicrm/member/add',
                                                       'query' => "reset=1&action=add&context=standalone",
                                                       'ref'   => 'new-membership',
                                                       'title' => ts('Membership') ) ));
@@ -381,7 +381,7 @@ class CRM_Core_Block {
             if ( CRM_Core_Permission::check('access CiviPledge') && 
                  in_array( 'CiviPledge', $config->enableComponents ) ) {
                 $shortCuts = 
-                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/pledge',
+                    array_merge($shortCuts, array( array( 'path'  => 'civicrm/pledge/add',
                                                           'query' => "reset=1&action=add&context=standalone",
                                                           'ref'   => 'new-pledge',
                                                           'title' => ts('Pledge') ) ));

@@ -988,7 +988,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $buttonName = $this->controller->getButtonName( );
         if ( $this->_context == 'standalone' ) {
             if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/membership', 
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/member/add', 
                                                                    'reset=1&action=add&context=standalone') );
             } else {
                 $session->replaceUserContext(CRM_Utils_System::url( 'civicrm/contact/view',

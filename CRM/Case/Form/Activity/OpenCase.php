@@ -276,7 +276,7 @@ class CRM_Case_Form_Activity_OpenCase
         $session =& CRM_Core_Session::singleton( ); 
         if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
             if ( $this->_context == 'standalone' ) {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/case', 
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/case/add', 
                                                                    'reset=1&action=add&context=standalone') );
             } else {
                 $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/case', 
