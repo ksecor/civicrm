@@ -40,7 +40,10 @@ class CRM_Upgrade_TwoTwo_Form_Step1 extends CRM_Upgrade_Form {
     function verifyPreDBState( &$errorMessage ) {
         // check if log file is writable
         $config =& CRM_Core_Config::singleton( );
-        if ( !is_writable($config->uploadDir . 'CiviCRM.log') ) {
+
+        if ( !is_writable($config->uploadDir . 'CiviCRM.log') && 
+             !is_writable($config->uploadDir . 'CiviCRM.log.' . 
+                          md5($config->dsn . $config->userFrameworkResourceURL)) ) {
             $errorMessage = ts('Log file CiviCRM.log is not writable. Make sure files directory is writable.', 
                                array( 1 => $config->uploadDir ));
             return false;
@@ -50,9 +53,9 @@ class CRM_Upgrade_TwoTwo_Form_Step1 extends CRM_Upgrade_Form {
         $is21db = true;
 
         // abort if partial upgraded db found. 
-        if ( $this->checkVersion( '2.11' ) ||
-             $this->checkVersion( '2.12' ) ||
-             $this->checkVersion( '2.13' ) ) {
+        if ( $this->checkVersion( '2.1.101' ) ||
+             $this->checkVersion( '2.1.102' ) ||
+             $this->checkVersion( '2.1.103' ) ) {
             $errorMessage = ts('Corrupt / Partial Upgraded database found. Looks like upgrade wizard failed to complete all the required steps to convert your database to v2.2. Please fix any errors and start the upgrade process again with a clean v2.1 database.');
             return false;
         }
@@ -180,12 +183,12 @@ class CRM_Upgrade_TwoTwo_Form_Step1 extends CRM_Upgrade_Form {
     }
     
     function upgrade( ) {
-        $this->setVersion( '2.11' );
+        $this->setVersion( '2.1.101' );
     }
     
     function verifyPostDBState( &$errorMessage ) {
         $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '1'));
-        return $this->checkVersion( '2.11' );
+        return $this->checkVersion( '2.1.101' );
     }
 
     function getTitle( ) {

@@ -40,7 +40,7 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
     function verifyPreDBState( &$errorMessage ) {
         $errorMessage = ts('Pre-condition failed for upgrade step %1.', array(1 => '2'));
 
-        return $this->checkVersion( '2.11' );
+        return $this->checkVersion( '2.1.101' );
     }
 
     function upgrade( ) {
@@ -68,7 +68,7 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
             CRM_Core_I18n_Schema::rebuildMultilingualSchema($locales);
         }
 
-        $this->setVersion( '2.12' );
+        $this->setVersion( '2.1.102' );
     }
     
     function verifyPostDBState( &$errorMessage ) {
@@ -104,7 +104,7 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
      
          $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '2'));
 
-         return $this->checkVersion( '2.12' );
+         return $this->checkVersion( '2.1.102' );
     }
 
     function getTitle( ) {

@@ -69,7 +69,7 @@ class CRM_Upgrade_TwoTwo_Form_Step4 extends CRM_Upgrade_Form {
             $errorMessage .= ' Few important fields were found missing in some of the tables.';
             return false;
         }
-        if ( $this->checkVersion( '2.13' ) ) {
+        if ( $this->checkVersion( '2.1.103' ) ) {
             $this->setVersion( '2.2' );
         } else {
             return false;
