@@ -60,10 +60,12 @@
 	<td class="report-label">{$form.parent_id.label} {help id="id-parent" file="CRM/Admin/Form/Navigation.hlp"}</td>
 	<td>{$form.parent_id.html|crmReplace:class:huge}</td>
     </tr>
-    <tr>
-	<td class="report-label" width="20%">{$form.permission.label} {help id="id-report_perms" file="CRM/Report/Form/Settings.hlp"}</td>
-	<td>{$form.permission.html|crmReplace:class:huge}</td>
-    </tr>
+    {if $config->userFramework neq 'Joomla'}
+        <tr>
+            <td class="report-label" width="20%">{$form.permission.label} {help id="id-report_perms" file="CRM/Report/Form/Settings.hlp"}</td>
+            <td>{$form.permission.html|crmReplace:class:huge}</td>
+        </tr>
+    {/if}
 </table>
 
 {include file="CRM/common/showHideByFieldValue.tpl" 

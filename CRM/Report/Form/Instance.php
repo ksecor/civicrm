@@ -78,11 +78,13 @@ class CRM_Report_Form_Instance {
         $form->addElement( 'checkbox', 'is_navigation', ts('Include Report in Navigation Menu?'), null, 
                            array('onclick' =>"return showHideByValue('is_navigation','','navigation_menu','table-row','radio',false);") );
 
-        $form->addElement( 'select',
-                           'permission',
-                           ts( 'Permission' ),
-                           array( '0' => '- Any One -') + CRM_Core_Permission::basicPermissions( ) );
-        
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework != 'Joomla' ) {
+            $form->addElement( 'select',
+                               'permission',
+                               ts( 'Permission' ),
+                               array( '0' => '- Any One -') + CRM_Core_Permission::basicPermissions( ) );
+        }
         //navigation field
         $parentMenu = array( );
         CRM_Core_BAO_Navigation::getNavigationList( $parentMenu );
