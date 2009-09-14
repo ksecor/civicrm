@@ -263,6 +263,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                                     'civicrm_contact',
                                                     $this->_tableID,
                                                     $this->_entityType );
+
+        // reset the group contact cache for this group
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::remove( );
     }
 }
 
