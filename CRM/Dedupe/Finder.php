@@ -97,7 +97,7 @@ class CRM_Dedupe_Finder
         $dao->query($rgBao->thresholdQuery());
         $dupes = array();
         while ($dao->fetch()) {
-            $dupes[] = isset($dao->id) ? $dao->id : NULL;
+            if ( isset( $dao->id ) && $dao->id ) $dupes[] = $dao->id;
         }
         $dao->query($rgBao->tableDropQuery());
 
@@ -228,7 +228,8 @@ class CRM_Dedupe_Finder
                     // for matching on civicrm_address fields, we also need the location_type_id
                     $fields['location_type_id'] = '';
                     // FIXME: we also need to do some hacking for id and name fields, see CRM-3902’s comments
-                    $fixes = array('address_name' => 'name', 'country' => 'country_id', 'state_province' => 'state_province_id');
+                    $fixes = array( 'address_name' => 'name', 'country' => 'country_id', 
+                                    'state_province' => 'state_province_id', 'county' => 'county_id' );
                     foreach ($fixes as $orig => $target) {
                         if (CRM_Utils_Array::value($orig, $flat)) $params[$table][$target] = $flat[$orig];
                     }
