@@ -15,6 +15,7 @@
   <civicrm_entity_tag />
   <civicrm_group />
   <civicrm_group_contact />
+  <civicrm_group_nesting />    
   <civicrm_location_type />
   <civicrm_note />
   <civicrm_openid />

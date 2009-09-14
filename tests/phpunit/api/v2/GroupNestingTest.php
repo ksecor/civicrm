@@ -52,6 +52,23 @@ class api_v2_GroupNestingTest extends CiviUnitTestCase
                       new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
                              dirname(__FILE__)
                              . '/dataset/group_admins.xml') );
+                             
+        //  Insert a row in civicrm_group creating option group
+        //  from_email_address group
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/group_subscribers.xml') );
+
+        //  Insert a row in civicrm_group creating option group
+        //  from_email_address group
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/group_nesting.xml') );
+                             
     }
 
     /**
@@ -67,16 +84,21 @@ class api_v2_GroupNestingTest extends CiviUnitTestCase
 ///////////////// civicrm_group_nesting_get methods
 
     /**
-     * @todo Implement testGet().
+     * Test civicrm_group_nesting_get.
      */
     public function testGet()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        // groups id=1 and id=2 loaded in setUp
+        $params = array( 'parent_group_id' => 1,
+                         'child_group_id' => 2 );
+//        $result =& civicrm_group_nesting_get($params);
+//        $this->assertEquals( $result['is_error'], 0 );
+        $this->fail( 'Something is wrong with civicrm_group_nesting_get' );
     }
         
     /**
-     * Test civicrm_group_nesting_get witgh empty params.
+     * Test civicrm_group_nesting_get with empty params.
+     * Error expected.
      */
     public function testGetWithEmptyParams()
     {
@@ -88,6 +110,7 @@ class api_v2_GroupNestingTest extends CiviUnitTestCase
     
     /**
      * Test civicrm_group_nesting_get with wrong parameters type.
+     * Error expected.
      */
     public function testGetWithWrongParams()
     {
@@ -104,10 +127,13 @@ class api_v2_GroupNestingTest extends CiviUnitTestCase
      */
     public function testCreate()
     {
-        $params = array( 'parent_group_id' => 1 );
+        // groups id=1 and id=2 loaded in setUp
+        $params = array( 'parent_group_id' => 1,
+                         'child_group_id' => 3 );
         $result = civicrm_group_nesting_create( $params );
         $this->assertEquals( $result['is_error'], 0 );
-    }    
+        $this->assertDBState( 'CRM_Contact_DAO_GroupNesting', 3, $params );
+    }
 
     /**
      * Test civicrm_group_nesting_create with empty parameter array.
@@ -131,22 +157,27 @@ class api_v2_GroupNestingTest extends CiviUnitTestCase
         $result =& civicrm_group_nesting_create($params);
         $this->assertEquals( $result['is_error'], 1,
                              "In line " . __LINE__ );
-    }        
+    }
 
 ///////////////// civicrm_group_nesting_remove methods
 
     /**
-     * @todo Implement testRemove().
+     * Test civicrm_group_nesting_remove.
      */
     public function testRemove()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        // groups id=1 and id=2 loaded in setUp
+        $params = array( 'parent_group_id' => 1,
+                         'child_group_id' => 2 );
+        $result =& civicrm_group_nesting_remove($params);
+        $this->assertEquals( $result['is_error'], 0 );
+//        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
 
     /**
-     * Attempt calling _remove with empty params
+     * Test civicrm_group_nesting_remove with empty parameter array.
+     * Error expected.
      */
     public function testRemoveWithEmptyParams()
     {
@@ -155,5 +186,18 @@ class api_v2_GroupNestingTest extends CiviUnitTestCase
         $this->assertEquals( $result['is_error'], 1,
                              "In line " . __LINE__ );
     }
+    
+    /**
+     * Test civicrm_group_nesting_remove with wrong parameter type.
+     * Error expected.
+     */
+    public function testRemoveWithWrongParams()
+    {
+        $params = 'a string';
+        $result =& civicrm_group_nesting_remove($params);
+        $this->assertEquals( $result['is_error'], 1,
+                             "In line " . __LINE__ );
+    }    
+
 }
 ?>
