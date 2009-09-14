@@ -254,6 +254,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         if ( $this->_participantId || $this->_contactID || $this->_context == 'standalone') {
             $this->_single = true;
             $this->assign( 'urlPath'   , 'civicrm/contact/view/participant' );
+            if ( !$this->_participantId && !$this->_contactID ) {
+                $breadCrumbs = array( array( 'title' => ts('CiviEvent Dashboard'),
+                                             'url'   => CRM_Utils_System::url('civicrm/event','reset=1') ) );
+                
+                CRM_Utils_System::appendBreadCrumb( $breadCrumbs );
+            }
         } else {
             //set the appropriate action
             $advanced = null;
@@ -533,11 +539,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
 
         if ( $this->_single ) {
+            $urlPath   = 'civicrm/contact/view/participant';
             $urlParams = "reset=1&cid={$this->_contactID}&context=participant";
             if ( $this->_context == 'standalone' ) {
                 require_once 'CRM/Contact/Form/NewContact.php';
                 CRM_Contact_Form_NewContact::buildQuickForm( $this );
                 $urlParams = "reset=1&context=standalone";
+                $urlPath   = 'civicrm/participant/add';
             }        
 
             if ( $this->_participantId ) {
@@ -553,8 +561,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $urlParams .= "&mode={$this->_mode}";
             }
             
-            $url = CRM_Utils_System::url( 'civicrm/contact/view/participant',
-                                          $urlParams, false, null, false ); 
+            $url = CRM_Utils_System::url( $urlPath, $urlParams, 
+                                          false, null, false ); 
         } else {
             $currentPath = CRM_Utils_System::currentPath( );
 
@@ -1096,7 +1104,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
         if ( CRM_Utils_Array::value( 'send_receipt', $params ) ) {
-            $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+            $receiptFrom = "$userName <$userEmail>";
+                        
             $this->assign( 'module', 'Event Registration' );          
             //use of CRM/Event/Form/Registration/ReceiptMessage.tpl requires variables in different format
             $event = $events = array();
@@ -1280,7 +1289,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $buttonName = $this->controller->getButtonName( );
         if ( $this->_context == 'standalone' ) {
             if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/participant', 
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/participant/add', 
                                                                    'reset=1&action=add&context=standalone') );
             } else {
                 $session->replaceUserContext(CRM_Utils_System::url( 'civicrm/contact/view',

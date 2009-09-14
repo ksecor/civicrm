@@ -50,7 +50,7 @@ function createDir( $dir, $perm = 0755 ) {
     }
 }
 
-$smarty =& new Smarty( );
+$smarty = new Smarty( );
 $smarty->template_dir = './templates';
 
  if ( isset ( $_SERVER['TMPDIR'] ) ) {
@@ -84,7 +84,7 @@ $phpCodePath = '../';
 $tplCodePath = '../templates/';
 
 echo "Parsing input file $file\n";
-$dbXML =& parseInput( $file );
+$dbXML = parseInput( $file );
 //print_r( $dbXML );
 
 echo "Extracting database information\n";
@@ -191,7 +191,7 @@ $sample .= $smarty->fetch('civicrm_acl.tpl');
 file_put_contents($sqlCodePath . 'civicrm_sample.mysql', $sample);
 
 
-$beautifier =& new PHP_Beautifier(); // create a instance
+$beautifier = new PHP_Beautifier(); // create a instance
 $beautifier->addFilter('ArrayNested');
 $beautifier->addFilter('Pear'); // add one or more filters
 $beautifier->addFilter('NewLines', array( 'after' => 'class, public, require, comment' ) ); // add one or more filters

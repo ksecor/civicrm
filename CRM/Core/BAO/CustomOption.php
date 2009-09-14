@@ -59,7 +59,7 @@ class CRM_Core_BAO_CustomOption {
     static function retrieve( &$params, &$defaults )
     {
         require_once 'CRM/Core/DAO/OptionValue.php';
-        $customOption =& new CRM_Core_DAO_OptionValue( );
+        $customOption = new CRM_Core_DAO_OptionValue( );
         $customOption->copyValues( $params );
         if ( $customOption->find( true ) ) {
             CRM_Core_DAO::storeValues( $customOption, $defaults );
@@ -94,7 +94,7 @@ class CRM_Core_BAO_CustomOption {
         }
 
         require_once 'CRM/Core/DAO/OptionValue.php';
-        $dao =& new CRM_Core_DAO_OptionValue();
+        $dao = new CRM_Core_DAO_OptionValue();
         $dao->option_group_id = $optionGroupID;
         if ( ! $inactiveNeeded ) {
             $dao->is_active = 1;
@@ -202,7 +202,7 @@ WHERE  id = %1";
 
     static function updateCustomValues($params) 
     {
-        $optionDAO =& new CRM_Core_DAO_OptionValue();
+        $optionDAO = new CRM_Core_DAO_OptionValue();
         $optionDAO->id = $params['optionId'];
         $optionDAO->find( true );
         $oldValue = $optionDAO->value;

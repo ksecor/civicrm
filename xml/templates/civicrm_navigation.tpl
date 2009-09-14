@@ -60,7 +60,7 @@ VALUES
     ( @domainID, 'civicrm/contact/add&reset=1&ct=Household',                '{ts escape="sql"}New Household{/ts}',      'New Household',        NULL, '',             @contactlastID, '1', NULL,  2 ), 
     ( @domainID, 'civicrm/contact/add&reset=1&ct=Organization',             '{ts escape="sql"}New Organization{/ts}',   'New Organization',     NULL, '',             @contactlastID, '1', 1,     3 ), 
     ( @domainID, 'civicrm/activity&reset=1&action=add&context=standalone',  '{ts escape="sql"}New Activity{/ts}',       'New Activity',         NULL, '',             @contactlastID, '1', NULL,  4 ), 
-    ( @domainID, 'civicrm/contact/view/activity&atype=3&action=add&reset=1&context=standalone', '{ts escape="sql"}New Email{/ts}', 'New Email', NULL, '',             @contactlastID, '1', '1',   5 ), 
+    ( @domainID, 'civicrm/activity/add?atype=3&action=add&reset=1&context=standalone', '{ts escape="sql"}New Email{/ts}', 'New Email', NULL, '',             @contactlastID, '1', '1',   5 ), 
     ( @domainID, 'civicrm/import/contact&reset=1',                          '{ts escape="sql"}Import Contacts{/ts}',    'Import Contacts',      NULL, '',             @contactlastID, '1', NULL,  6 ), 
     ( @domainID, 'civicrm/import/activity&reset=1',                         '{ts escape="sql"}Import Activities{/ts}',  'Import Activities',    NULL, '',             @contactlastID, '1', '1',   7 ), 
     ( @domainID, 'civicrm/group/add&reset=1',                               '{ts escape="sql"}New Group{/ts}',          'New Group',            NULL, '',             @contactlastID, '1', NULL,  8 ), 
@@ -78,7 +78,7 @@ INSERT INTO civicrm_navigation
     ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
 VALUES     
     ( @domainID, 'civicrm/contribute&reset=1',                              '{ts escape="sql"}Dashboard{/ts}',                        'Dashboard',              NULL, '', @contributionlastID, '1', NULL, 1 ), 
-    ( @domainID, 'civicrm/contact/view/contribution&reset=1&action=add&context=standalone', '{ts escape="sql"}New Contribution{/ts}', 'New Contribution',       NULL, '', @contributionlastID, '1', NULL, 2 ), 
+    ( @domainID, 'civicrm/contribute/add&reset=1&action=add&context=standalone', '{ts escape="sql"}New Contribution{/ts}', 'New Contribution',       NULL, '', @contributionlastID, '1', NULL, 2 ), 
     ( @domainID, 'civicrm/contribute/search&reset=1',                       '{ts escape="sql"}Find Contributions{/ts}',               'Find Contributions',     NULL, '', @contributionlastID, '1', NULL, 3 ), 
     ( @domainID, 'civicrm/contribute/import&reset=1',                       '{ts escape="sql"}Import Contributions{/ts}',             'Import Contributions',   NULL, '', @contributionlastID, '1', '1',  4 );
     
@@ -92,7 +92,7 @@ INSERT INTO civicrm_navigation
     ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
 VALUES    
     ( @domainID, 'civicrm/pledge&reset=1',                                  '{ts escape="sql"}Dashboard{/ts}',                  'Dashboard',                 NULL, '',  @pledgelastID,       '1', NULL, 1 ), 
-    ( @domainID, 'civicrm/contact/view/pledge&reset=1&action=add&context=standalone', '{ts escape="sql"}New Pledge{/ts}',       'New Pledge',                NULL, '', @pledgelastID,        '1', NULL, 2 ),
+    ( @domainID, 'civicrm/pledge/add&reset=1&action=add&context=standalone', '{ts escape="sql"}New Pledge{/ts}',       'New Pledge',                NULL, '', @pledgelastID,        '1', NULL, 2 ),
     ( @domainID, 'civicrm/pledge/search&reset=1',                           '{ts escape="sql"}Find Pledges{/ts}',               'Find Pledges',              NULL, '',  @pledgelastID,       '1', NULL, 3 ), 
     ( @domainID, 'civicrm/admin/contribute&reset=1&action=add',             '{ts escape="sql"}New Contribution Page{/ts}',      'New Contribution Page',     NULL, '',  @contributionlastID, '1', NULL, 6 ), 
     ( @domainID, 'civicrm/admin/contribute&reset=1',                        '{ts escape="sql"}Manage Contribution Pages{/ts}',  'Manage Contribution Pages', NULL, '',  @contributionlastID, '1', '1',  7 ), 
@@ -109,7 +109,7 @@ INSERT INTO civicrm_navigation
     ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
 VALUES    
     ( @domainID, 'civicrm/event&reset=1',                                   '{ts escape="sql"}Dashboard{/ts}',          'CiviEvent Dashboard',  NULL, '',    @eventlastID, '1', NULL, 1 ), 
-    ( @domainID, 'civicrm/contact/view/participant&reset=1&action=add&context=standalone', '{ts escape="sql"}Register Event Participant{/ts}', 'Register Event Participant', NULL, '', @eventlastID, '1', NULL, 2 ), 
+    ( @domainID, 'civicrm/participant/add&reset=1&action=add&context=standalone', '{ts escape="sql"}Register Event Participant{/ts}', 'Register Event Participant', NULL, '', @eventlastID, '1', NULL, 2 ), 
     ( @domainID, 'civicrm/event/search&reset=1',                            '{ts escape="sql"}Find Participants{/ts}',  'Find Participants',    NULL, '',    @eventlastID, '1', NULL, 3 ), 
     ( @domainID, 'civicrm/event/import&reset=1',                            '{ts escape="sql"}Import Participants{/ts}','Import Participants',  NULL, '',    @eventlastID, '1', '1',  4 ), 
     ( @domainID, 'civicrm/event/add&reset=1&action=add',                    '{ts escape="sql"}New Event{/ts}',          'New Event',            NULL, '',    @eventlastID, '1', NULL, 5 ), 
@@ -145,7 +145,7 @@ INSERT INTO civicrm_navigation
     ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
 VALUES    
     ( @domainID, 'civicrm/member&reset=1',                              '{ts escape="sql"}Dashboard{/ts}',      'Dashboard',      NULL, '', @memberlastID, '1', NULL, 1 ), 
-    ( @domainID, 'civicrm/contact/view/membership&reset=1&action=add&context=standalone', '{ts escape="sql"}New Membership{/ts}', 'New Membership', NULL, '', @memberlastID, '1', NULL, 2 ), 
+    ( @domainID, 'civicrm/member/add&reset=1&action=add&context=standalone', '{ts escape="sql"}New Membership{/ts}', 'New Membership', NULL, '', @memberlastID, '1', NULL, 2 ), 
     ( @domainID, 'civicrm/member/search&reset=1',                       '{ts escape="sql"}Find Members{/ts}',   'Find Members',   NULL, '', @memberlastID, '1', NULL, 3 ), 
     ( @domainID, 'civicrm/member/import&reset=1',                       '{ts escape="sql"}Import Members{/ts}', 'Import Members', NULL, '', @memberlastID, '1', NULL, 4 );
 
@@ -165,7 +165,7 @@ INSERT INTO civicrm_navigation
     ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
 VALUES    
     ( @domainID, 'civicrm/case&reset=1',        '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '',       @caselastID, '1', NULL, 1 ), 
-    ( @domainID, 'civicrm/contact/view/case&reset=1&action=add&atype=13&context=standalone', '{ts escape="sql"}New Case{/ts}', 'New Case', NULL, '', @caselastID, '1', NULL, 2 ), 
+    ( @domainID, 'civicrm/case/add&reset=1&action=add&atype=13&context=standalone', '{ts escape="sql"}New Case{/ts}', 'New Case', NULL, '', @caselastID, '1', NULL, 2 ), 
     ( @domainID, 'civicrm/case/search&reset=1', '{ts escape="sql"}Find Cases{/ts}', 'Find Cases', NULL, '',     @caselastID, '1', 1, 3 );
     
 INSERT INTO civicrm_navigation
@@ -178,7 +178,7 @@ INSERT INTO civicrm_navigation
     ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
 VALUES        
     ( @domainID, 'civicrm/grant&reset=1',           '{ts escape="sql"}Dashboard{/ts}', 'Dashboard', NULL, '',       @grantlastID, '1', NULL, 1 ), 
-    ( @domainID, 'civicrm/contact/view/grant&reset=1&action=add&context=standalone', '{ts escape="sql"}New Grant{/ts}', 'New Grant', NULL, '', @grantlastID, '1', NULL, 2 ), 
+    ( @domainID, 'civicrm/grant/add&reset=1&action=add&context=standalone', '{ts escape="sql"}New Grant{/ts}', 'New Grant', NULL, '', @grantlastID, '1', NULL, 2 ), 
     ( @domainID, 'civicrm/grant/search&reset=1',    '{ts escape="sql"}Find Grants{/ts}', 'Find Grants', NULL, '',   @grantlastID, '1', 1, 3 );
     
 INSERT INTO civicrm_navigation

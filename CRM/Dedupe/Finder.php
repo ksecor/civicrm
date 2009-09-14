@@ -209,10 +209,12 @@ class CRM_Dedupe_Finder
             }
         }
 
-        // drop the -digit postfixes (so event registration's $flat['email-5'] becomes $flat['email'])
+        // drop the -digit (and -Primary, for CRM-3902) postfixes (so event registration's $flat['email-5'] becomes $flat['email'])
+        // FIXME: CRM-5026 should be fixed here; the below clobbers all address info; we should split off address fields and match
+        // the -digit to civicrm_address.location_type_id and -Primary to civicrm_address.is_primary
         foreach ($flat as $key => $value) {
             $matches = array();
-            if (preg_match('/(.*)-\d+$/', $key, $matches)) {
+            if (preg_match('/(.*)-(\d+|Primary)$/', $key, $matches)) {
                 $flat[$matches[1]] = $value;
                 unset($flat[$key]);
             }
@@ -221,9 +223,16 @@ class CRM_Dedupe_Finder
         $params = array();
         $supportedFields = CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype);
         if ( is_array( $supportedFields ) ) {
-            foreach( $supportedFields as $table => $fields) {
-                // for matching on civicrm_address fields, we also need the location_type_id
-                if ($table == 'civicrm_address') $fields['location_type_id'] = '';
+            foreach($supportedFields as $table => $fields) {
+                if ($table == 'civicrm_address') {
+                    // for matching on civicrm_address fields, we also need the location_type_id
+                    $fields['location_type_id'] = '';
+                    // FIXME: we also need to do some hacking for id and name fields, see CRM-3902’s comments
+                    $fixes = array('address_name' => 'name', 'country' => 'country_id', 'state_province' => 'state_province_id');
+                    foreach ($fixes as $orig => $target) {
+                        if (CRM_Utils_Array::value($orig, $flat)) $params[$table][$target] = $flat[$orig];
+                    }
+                }
                 foreach($fields as $field => $title) {
                     if ( CRM_Utils_Array::value( $field, $flat ) ) {
                         $params[$table][$field] = $flat[$field];

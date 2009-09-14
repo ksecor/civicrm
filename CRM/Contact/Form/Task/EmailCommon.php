@@ -157,8 +157,7 @@ class CRM_Contact_Form_Task_EmailCommon
         
         $form->assign('totalSelectedContacts',count($form->_contactIds));
         
-        require_once 'CRM/Utils/Mail.php';
-        $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
+        $from = "$fromDisplayName <$fromEmail>";
        
         $form->_fromEmails =
             array('0' => $from ) +
@@ -251,13 +250,14 @@ class CRM_Contact_Form_Task_EmailCommon
             $form->_contactIds = explode( ',', $toContacts );
             if ( count($form->_contactIds) == 1 ){
                 list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toContacts );
-                $formValues['to']  = '"'.$toDisplayName.'"< '.$toEmail.' >';
+                $formValues['to'] = "$toDisplayName <$toEmail>";
             }
         } 
         
         $emailAddress = null;
         if ( $form->_single && count($form->_contactIds) == 1 ) {
-            $emailAddress = $formValues['to'];
+            require_once 'CRM/Utils/Mail.php';
+            $emailAddress = CRM_Utils_Mail::pluckEmailFromHeader($formValues['to']);
         }
         $fromEmail = $formValues['fromEmailAddress'];
         $from = CRM_Utils_Array::value( $fromEmail, $form->_fromEmails );

@@ -582,17 +582,17 @@ WHERE  $whereCond
         //check for online pledge.
         $session =& CRM_Core_Session::singleton( );
         if ( CRM_Utils_Array::value('receipt_from_email', $params ) ) {
-            $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name', $params ) . '" <' . 
-                CRM_Utils_Array::value('receipt_from_email', $params ) . '>';
+            $userName  = CRM_Utils_Array::value('receipt_from_name', $params );
+            $userEmail = CRM_Utils_Array::value('receipt_from_email', $params );
         } else if ( $userID = $session->get( 'userID' ) )  {
             //check for loged in user.
             list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
-            $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';  
         } else {
             //set the domain values.
-            $receiptFrom = '"' . CRM_Utils_Array::value('name', $domainValues ) . '" <' . 
-                CRM_Utils_Array::value('email', $domainValues ) . '>';
+            $userName  = CRM_Utils_Array::value('name', $domainValues );
+            $userEmail = CRM_Utils_Array::value('email', $domainValues );
         }
+        $receiptFrom = "$userName <$userEmail>";
         
         $subject = $template->fetch( 'CRM/Pledge/Form/AcknowledgeSubject.tpl' );
         

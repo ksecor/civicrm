@@ -118,28 +118,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
             }
             
-            // if onbehalf-of-organization
-            if ( CRM_Utils_Array::value( 'is_for_organization', $this->_params ) ) {
-                if ( CRM_Utils_Array::value( 'org_option', $this->_params ) && 
-                     CRM_Utils_Array::value( 'organization_id', $this->_params ) ) {
-                    $this->_params['organization_name'] = 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
-                }
-                if ( !empty( $this->_params['address'][1]['country_id'] ) ) {
-                    $this->_params['address'][1]['country'] = 
-                        CRM_Core_PseudoConstant::countryIsoCode( $this->_params['address'][1]['country_id'] ); 
-                }
-                if ( !empty( $this->_params['address'][1]['state_province_id'] ) ) {
-                    $this->_params['address'][1]['state_province'] = 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['address'][1]['state_province_id'] );
-                }
-                // hardcode blocks for now. We might shift to generalized model in 3.1 which uses profiles
-                foreach ( array('phone', 'email', 'address') as $loc ) {
-                    $this->_params['onbehalf_location'][$loc] = $this->_params[$loc];
-                    unset($this->_params[$loc]);
-                }
-            }
-
             if ( isset( $this->_params['credit_card_exp_date'] ) ) {
                 $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
                 $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
@@ -160,6 +138,30 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->_params['currencyID'    ] = $config->defaultCurrency;
             $this->_params['payment_action'] = 'Sale';
         }
+
+        // if onbehalf-of-organization
+        if ( CRM_Utils_Array::value( 'is_for_organization', $this->_params ) ) {
+            if ( CRM_Utils_Array::value( 'org_option', $this->_params ) && 
+                 CRM_Utils_Array::value( 'organization_id', $this->_params ) ) {
+                if ( CRM_Utils_Array::value( 'onbehalfof_id', $this->_params ) ) {
+                    $this->_params['organization_id'] = $this->_params['onbehalfof_id'];
+                }
+            }
+            if ( !empty( $this->_params['address'][1]['country_id'] ) ) {
+                $this->_params['address'][1]['country'] =
+                    CRM_Core_PseudoConstant::countryIsoCode( $this->_params['address'][1]['country_id'] ); 
+            }
+            if ( !empty( $this->_params['address'][1]['state_province_id'] ) ) {
+                $this->_params['address'][1]['state_province'] =
+                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['address'][1]['state_province_id'] );
+            }
+            // hardcode blocks for now. We might shift to generalized model in 3.1 which uses profiles
+            foreach ( array('phone', 'email', 'address') as $loc ) {
+                $this->_params['onbehalf_location'][$loc] = $this->_params[$loc];
+                unset($this->_params[$loc]);
+            }
+        }
+
 
         if ( $this->_pcpId ) { 
             $this->_params['pcp_made_through_id'] = $this-> _pcpInfo['pcp_id'];
@@ -1065,7 +1067,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // don't allow name edit
             unset($behalfOrganization['organization_name']);
         }
-
         // create organization, add location 
         $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
                 

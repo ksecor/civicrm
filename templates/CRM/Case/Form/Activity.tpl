@@ -232,8 +232,8 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
 {/if } {* end of main if block*}
 
 </script>
-   {literal}
-    <script type="text/javascript">
+{literal}
+<script type="text/javascript">
      function verify( ) {
 
          var d = new Date();
@@ -255,12 +255,12 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
 	  var activityStatusId = cj('#status_id').val();
 
 	  if ( activityStatusId == 2 && currentDateTime < activity_date_time ) {
-	       var okMessage = confirm( 'Are you sure? This is a COMPLETED activity with the DATE in the FUTURE. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
+	       var okMessage = confirm( '{/literal}{ts}Are you sure? This is a COMPLETED activity with the DATE in the FUTURE. Click Cancel to change the date / status. Otherwise, click OK to save.{/ts}{literal}' ); 
                if (!okMessage ) {
                     return false;
 	       }
 	  } else if ( activity_date_time && activityStatusId == 1 && currentDateTime >= activity_date_time ) {
-	       var ok = confirm( 'Are you sure? This is a SCHEDULED activity with the DATE in the PAST. Click Cancel to change the date / status. Otherwise, click OK to save.' );    
+	       var ok = confirm( '{/literal}{ts}Are you sure? This is a SCHEDULED activity with the DATE in the PAST. Click Cancel to change the date / status. Otherwise, click OK to save.{/ts}{literal}' ); 
                if (!ok ) {
                     return false;
 	       }

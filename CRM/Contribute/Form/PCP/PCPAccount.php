@@ -211,7 +211,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         $errors = array( );
         require_once "CRM/Utils/Rule.php";
         foreach( $fields as $key => $value ) {
-            if ( strpos($key, 'email-') !== false ) {
+            if ( strpos($key, 'email-') !== false && !empty($value) ) {
                 $ufContactId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFMatch', $value, 'contact_id', 'uf_name' );
                 if ( $ufContactId && $ufContactId != $self->_contactID ) {
                     $errors[$key] = ts( 'There is already an user associated with this email address. Please enter different email address.' );   
@@ -230,23 +230,39 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
     public function postProcess( )  
     {
         $params  = $this->controller->exportValues( $this->getName() );
+       
         if ( ! $this->_contactID && isset( $params['cms_create_account'] ) ) {
             foreach( $params as $key => $value ) {
-                if ( substr( $key , 0,5 ) == 'email' && ! empty( $value ) )  {
-                    $params['email'] = $value;
+                if ( substr( $key , 0,5 ) == 'email' && !empty( $value ) )  {
+                    list($fieldName, $locTypeId) = CRM_Utils_System::explode('-', $key, 2);
+                    $isPrimary = 0;
+                   if ( $locTypeId == 'Primary') {
+                       require_once "CRM/Core/BAO/LocationType.php";
+                       $locTypeId = & CRM_Core_BAO_LocationType::getDefault();
+                       $isPrimary = 1;
+                   }
+
+                   $params['email'] = array( );
+                   $params['email'][1]['email']            = $value;
+                   $params['email'][1]['location_type_id'] = $locTypeId;
+                   $params['email'][1]['is_primary']       = $isPrimary;
                 }
             }
         }
+        
         require_once 'CRM/Dedupe/Finder.php';
-        $params['location']['1']['email']['1']['email'] = $params['email'];
         $dedupeParams = CRM_Dedupe_Finder::formatParams( $params, 'Individual');
         $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Strict' );
-        unset( $params['location'] );
         if ( $ids ) {
             $this->_contactID = $ids['0'];
         }
         $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $this->_fields, $this->_contactID );
         $this->set('contactID', $contactID);
+        
+        if ( !empty($params['email']) ) {
+            $params['email'] = $params['email'][1]['email']; 
+        }
+
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
         CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params, $contactID, 'email' );
     }

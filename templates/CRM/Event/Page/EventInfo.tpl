@@ -81,12 +81,12 @@
                 <tr>
                     <td style="vertical-align:top;"><label>{$event.fee_label}</label></td>
                     <td>
-                        <table class="form-layout-compressed" style="margin-top: -4px;">
+                        <table class="form-layout-compressed">
                             {foreach from=$feeBlock.value name=fees item=value}
                                 {assign var=idx value=$smarty.foreach.fees.iteration}
                                 <tr>
                                     <td>{$feeBlock.label.$idx}</td>
-                                    <td align="right">{$feeBlock.value.$idx|crmMoney}</td>
+                                    <td>{$feeBlock.value.$idx|crmMoney}</td>
                                 </tr>
                             {/foreach}
                         </table>

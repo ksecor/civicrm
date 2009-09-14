@@ -389,7 +389,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         // on 'Scheduled and Sent Mailing' page selector 
         if( $this->_parent->get( 'scheduled' ) ) { 
             $clauses[] = "civicrm_mailing.is_archived = 0";
-            $clauses[] = "civicrm_mailing_job.status IN ('Scheduled', 'Complete')";
+            $clauses[] = "civicrm_mailing_job.status IN ('Scheduled', 'Complete', 'Running')";
         }
             
         if ( $sortBy &&

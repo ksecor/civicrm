@@ -34,88 +34,8 @@
  */
 
 
-class CRM_Utils_Mail {
-
-    /**
-     * encodes an UTF-8 string into an RFC-compliant Subject: header's body
-     *
-     * param string $subject  the subject that should be encoded
-     * return string          the encoded Subject: header load
-     */
-    static function encodeSubjectHeader($subject)
-    {
-        // encode the subject
-        // - if it contains CR, LF or non-US-ASCII
-        // - if it contains the string =?
-        // - if the full header line would be longer than 998 characters
-        if (substr_count($subject, "\r") or substr_count($subject, "\n")
-            or preg_match('/[^\x00-\x7f]/', $subject)
-            or substr_count($subject, '=?')
-            or strlen($subject) > 998 - strlen('Subject: ')) {
-
-            $encoded = base64_encode($subject);
-
-            // the encoded header lines cannot be longer than 76 characters
-            // simply do it like mutt does - first line contains 32 characters
-            // of the encoded payload, each of the subsequent ones the next
-            // 60 characters
-            $lines = array();
-            $lines[] = '=?utf-8?B?' . substr($encoded, 0, 32) . '?=';
-            $rest = substr($encoded, 32);
-            while ($rest != '') {
-                $lines[] = '=?utf-8?B?' . substr($rest, 0, 60) . '?=';
-                $rest = substr($rest, 60);
-            }
-
-            return implode("\n\t", $lines);
-
-        } else {
-            return $subject;
-        }
-    }
-
-
-
-    /**
-     * encodes an UTF-8 name+email pair into an RFC-compliant From:/To: header's body
-     *
-     * go the easy route and either make the header into
-     * "Adressee's Name" <address@example.com>
-     * or (if the above is not possible) base64-encode the name
-     *
-     * param string $name   the name that should be encoded
-     * param string $email  the email that should be encoded
-     * return string        the encoded To: header load
-     */
-    static function encodeAddressHeader($name, $email)
-    {
-        // a 'plain' name can only contain a certain subset of US-ASCII
-        if (preg_match('/[^\x01-\x08\x0b\x0c\x0e-\x7f]/', $name)
-            or substr_count($name, '=?')) {
-
-            $encoded = base64_encode($name);
-
-            // do what mutt does - split the payload into 60-character
-            // parts and separate these with spaces in the final header
-            $parts = array();
-            $rest = $encoded;
-            while ($rest != '') {
-                $parts[] = '=?utf-8?B?' . substr($encoded, 0, 60) . '?=';
-                $rest = substr($rest, 60);
-            }
-
-            return implode(' ', $parts) . " <$email>";
-
-        } else {
-            // it's a 'plain' name - escape any backslashes and double quotes
-            // found and build an "Adressee's Name" <address@example.com>
-            // header
-            $name = str_replace('\\', '\\\\', $name);
-            $name = str_replace('"', '\"', $name);
-            return "\"$name\" <$email>";
-        }
-    }
-
+class CRM_Utils_Mail
+{
     static function send( $from,
                           $toDisplayName,
                           $toEmail,
@@ -133,9 +53,9 @@ class CRM_Utils_Mail {
 
         $headers = array( );  
         $headers['From']                      = $from;
-        $headers['To']                        = self::encodeAddressHeader($toDisplayName, $toEmail);  
+        $headers['To']                        = "$toDisplayName <$toEmail>";
         $headers['Cc']                        = $cc;
-        $headers['Subject']                   = self::encodeSubjectHeader($subject);  
+        $headers['Subject']                   = $subject;
         $headers['Content-Type']              = 'text/plain; charset=utf-8';  
         $headers['Content-Disposition']       = 'inline';  
         $headers['Content-Transfer-Encoding'] = '8bit';  
@@ -151,8 +71,12 @@ class CRM_Utils_Mail {
         if ( $bcc ) {
             $to[] = $bcc;
         }
-        require_once 'Mail/mime.php';
-        $msg = & new Mail_Mime("\n");
+
+        // we need to wrap Mail_mime because PEAR is apparently unable to fix
+        // a six-year-old bug (PEAR bug #30) in Mail_mime::_encodeHeaders()
+        // this fixes CRM-4631
+        require_once 'CRM/Utils/Mail/FixedMailMIME.php';
+        $msg = new CRM_Utils_Mail_FixedMailMIME("\n");
         $msg->setTxtBody( $text_message );
         $msg->setHTMLBody( $html_message );
 

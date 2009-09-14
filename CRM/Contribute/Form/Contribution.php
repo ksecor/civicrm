@@ -1171,7 +1171,7 @@ WHERE  contribution_id = {$this->_id}
         $buttonName = $this->controller->getButtonName( );
         if ( $this->_context == 'standalone' ) {
             if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/contribution', 'reset=1&action=add&context=standalone') );
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contribute/add', 'reset=1&action=add&context=standalone') );
             } else {
                 $session->replaceUserContext(CRM_Utils_System::url( 'civicrm/contact/view',
                                               "reset=1&cid={$this->_contactID}&selectedChild=contribute" ) );

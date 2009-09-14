@@ -79,6 +79,8 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */
     function __construct($name = NULL, array $data = array(), $dataName = '' ) {
         parent::__construct($name, $data, $dataName);
+        
+
     }
 
     /**
@@ -102,6 +104,10 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      *  Common setup functions for all unit tests
      */
     protected function setUp() {
+
+        // "initialize" CiviCRM to avoid problems when running single tests
+//        require_once 'CRM/Core/Config.php';
+//        $config =& CRM_Core_Config::singleton();
 
         //  Get and save a connection to the database
         $this->_dbconn = $this->getConnection();

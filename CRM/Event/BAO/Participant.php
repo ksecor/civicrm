@@ -1168,11 +1168,10 @@ UPDATE  civicrm_participant
             }
             
             //take a receipt from as event else domain.
+            $receiptFrom = $domainValues['name'] . ' <' . $domainValues['email'] . '>';
             if ( CRM_Utils_Array::value('confirm_from_name',  $eventDetails ) && 
                  CRM_Utils_Array::value('confirm_from_email', $eventDetails ) ) {
-                $receiptFrom = '"' . $eventDetails['confirm_from_name'] . '" <' . $eventDetails['confirm_from_email'] . '>';
-            } else {
-                $receiptFrom = '"' . $domainValues['name'] . '" <' . $domainValues['email'] . '>';
+                $receiptFrom = $eventDetails['confirm_from_name'] . ' <' . $eventDetails['confirm_from_email'] . '>';
             }
             
             //send mail to participant.

@@ -232,7 +232,7 @@ ORDER BY parent_id, weight";
         $navigation = CRM_Core_DAO::executeQuery( $query );
         while ( $navigation->fetch() ) { 
             // for each menu get their children
-            $navigationTree[$navigation->id] = array( 'attributes' => array( 'label'      => $navigation->label,
+            $navigationTree[$navigation->id] = array( 'attributes' => array( 'label'      => ts($navigation->label),
                                                                              'url'        => $navigation->url,
                                                                              'permission' => $navigation->permission,
                                                                              'operator'   => $navigation->permission_operator,
@@ -441,26 +441,29 @@ ORDER BY parent_id, weight";
         CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_Preferences', $navParams, $navParams );
         $navigation = array_key_exists('navigation', $navParams) ? $navParams['navigation'] : false;
 
-        if ( ! $navigation ) {
+        $config =& CRM_Core_Config::singleton();
+
+        // FIXME: hack for CRM-5027: we need to prepend the navigation string with
+        // (HTML-commented-out) locale info so that we rebuild menu on locale changes
+        if (!$navigation or substr($navigation, 0, 14) != "<!-- $config->lcMessages -->") {
             //retrieve navigation if it's not cached.       
             require_once 'CRM/Core/BAO/Navigation.php';
             $navigation = self::buildNavigation( );
             
             //add additional navigation items
             $logoutURL       = CRM_Utils_System::url( 'civicrm/logout', 'reset=1');
-            $appendSring     = "<li id='menu-logout' class='menumain'><a href={$logoutURL} title=". ts('Logout') .">". ts('Logout')."</a></li>";
+            $appendSring     = "<li id='menu-logout' class='menumain'><a href='{$logoutURL}'>" . ts('Logout') . "</a></li>";
 
             $homeURL       = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1');
 
-            $config =& CRM_Core_Config::singleton( );
-
             if ( ( $config->userFramework == 'Drupal' ) && module_exists('admin_menu') ) {
-               $prepandString = "<li class='menumain'>". ts('Home')."<ul id='civicrm-home'><li><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('CiviCRM Home')."</a></li><li><a href='#' onclick='cj.Menu.closeAll( );cj(\"#civicrm-menu\").toggle( );' title=". ts('Drupal Menu') .">".ts('Drupal Menu')."</a></li></ul></li>";
+               $prepandString = "<li class='menumain'>" . ts('Home') . "<ul id='civicrm-home'><li><a href='{$homeURL}'>" . ts('CiviCRM Home') . "</a></li><li><a href='#' onclick='cj.Menu.closeAll( );cj(\"#civicrm-menu\").toggle( );'>" . ts('Drupal Menu') . "</a></li></ul></li>";
             } else {
-                $prepandString = "<li class='menumain'><a href={$homeURL} title=". ts('CiviCRM Home') .">". ts('Home')."</a></li>";
+                $prepandString = "<li class='menumain'><a href='{$homeURL}' title='" . ts('CiviCRM Home') . "'>" . ts('Home') . "</a></li>";
             }
 
-            $navigation = $prepandString.$navigation.$appendSring;
+            // prepend the navigation with locale info for CRM-5027
+            $navigation = "<!-- $config->lcMessages -->" . $prepandString . $navigation . $appendSring;
             
             // before inserting check if contact id exists in db
             // this is to handle wierd case when contact id is in session but not in db

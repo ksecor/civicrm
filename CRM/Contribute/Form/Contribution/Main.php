@@ -84,6 +84,33 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->assign( 'footer_text', $this->_values['footer_text'] );
         }
 
+        //CRM-5001
+        if ( $this->_values['is_for_organization'] ) {
+            $msg = ts('Mixed profile not allowed for on behalf of registration/sign up.');
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            if ( $preID = CRM_Utils_Array::value( 'custom_pre_id', $this->_values ) ) {
+                $preProfile = CRM_Core_BAO_UFGroup::profileGroups( $preID );
+                foreach ( array( 'Individual', 'Organization', 'Household' ) as $contactType ) {
+                    if ( in_array( $contactType, $preProfile ) &&
+                         ( in_array( 'Membership', $preProfile ) || 
+                           in_array( 'Contribution', $preProfile ) ) ) {
+                        CRM_Core_Error::fatal( $msg );   
+                    }
+                }
+            }
+
+            if ( $postID = CRM_Utils_Array::value( 'custom_post_id', $this->_values ) ) {
+                $postProfile = CRM_Core_BAO_UFGroup::profileGroups( $postID );
+                foreach ( array( 'Individual', 'Organization', 'Household' ) as $contactType ) {
+                    if ( in_array( $contactType, $postProfile ) &&
+                         ( in_array( 'Membership', $postProfile ) ||
+                           in_array( 'Contribution', $postProfile ) ) ) {
+                        CRM_Core_Error::fatal( $msg );
+                    }
+                }
+            }
+        }
+
     }
 
     function setDefaultValues( ) 

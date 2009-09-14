@@ -315,14 +315,14 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( );
         if ( $this->_context == 'standalone' ) {
             if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/grant', 
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/grant/add', 
                                                                    'reset=1&action=add&context=standalone') );
             } else {
                 $session->replaceUserContext(CRM_Utils_System::url( 'civicrm/contact/view',
                                                                     "reset=1&cid={$this->_contactID}&selectedChild=grant" ) );
             }
         } else if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/membership', 
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/grant', 
                                                                "reset=1&action=add&context=grant&cid={$this->_contactID}") );
         }
     }

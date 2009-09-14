@@ -33,17 +33,36 @@
  *
  */
 
-require_once 'CRM/Contact/DAO/Contact.php';
+// The sole purpose of this class is to fix a six-year-old bug in
+// PEAR which makes Mail_mime wrongly encode email-sporting headers
 
-class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Contact
+require_once 'packages/Mail/mime.php';
+
+class CRM_Utils_Mail_FixedMailMIME extends Mail_mime
 {
-    /**
-     * This is a contructor of the class.
-     */
-    function __construct() 
+    // a wrapper for the original function; this fixes PEAR bug #30 and CRM-4631
+    function _encodeHeaders($input, $params = array())
     {
-        parent::__construct();
-    }
-    
-}
+        // strip any emails from headers
+        $emails = array();
+        foreach ($input as $field => $value) {
+            $matches = array();
+            if (preg_match('/^(.*)<([^<]*)>$/', $value, $matches)) {
+                $input[$field]  = trim($matches[1]);
+                $emails[$field] = $matches[2];
+            }
+        }
 
+        // encode the email-less headers
+        $input = parent::_encodeHeaders($input, $params);
+
+        // add emails back to headers, quoting these headers along the way
+        foreach ($emails as $field => $email) {
+            $input[$field] = str_replace('\\', '\\\\', $input[$field]);
+            $input[$field] = str_replace('"',  '\"',   $input[$field]);
+            $input[$field] = "\"$input[$field]\" <$email>";
+        }
+
+        return $input;
+    }
+}

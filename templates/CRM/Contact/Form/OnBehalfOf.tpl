@@ -206,10 +206,11 @@ cj(document).ready( function( ) { cj( '#organization_id' ).val("{/literal}{$memb
 var dataUrl   = "{/literal}{$employerDataURL}{literal}";
 cj('#organization_id').autocomplete( dataUrl, { width : 180, selectFirst : false, matchContains: true
                             }).result( function(event, data, formatted) {
+					     cj('#organization_name').val( data[0]);
                                              cj('#onbehalfof_id').val( data[1]);
                                              var locationUrl = {/literal}"{$locDataURL}"{literal}+ data[1]; 
                                              cj.ajax({
-                                                	   url         : locationUrl,
+                                                       url         : locationUrl,
                                                        data        : "{}",
                                                        dataType    : "json",
                                                        timeout     : 5000, //Time in milliseconds

@@ -629,10 +629,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                );
             $this->addButtons( $buttons );			
         } else {
-            $js = null;
-            if ( $this->_context == 'caseActivity' ) {
-                $js = array( 'onclick' => "return verify();" ); 
-            }
+            $js = array( 'onclick' => "return verify();" ); 
             $this->addButtons( array(
                                      array ( 'type'      => 'upload',
                                              'name'      => ts('Save'),

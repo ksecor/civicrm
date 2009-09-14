@@ -177,20 +177,34 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             
             //for display profile need to get individual contact id,  
             //hence get it from related_contact if on behalf of org true CRM-3767.
-            $cid = CRM_Utils_Array::value( 'related_contact', $values, $contactID );
-            
-            self::buildCustomDisplay( CRM_Utils_Array::value( 'custom_pre_id',
-                                                              $values ),
-                                      'customPre',
-                                      $cid,
-                                      $template  ,
-                                      $params['custom_pre_id'] );
-            self::buildCustomDisplay( CRM_Utils_Array::value( 'custom_post_id',
-                                                              $values ),
-                                      'customPost',
-                                      $cid,
-                                      $template   ,
-                                      $params['custom_post_id'] );
+                       
+            //CRM-5001 Contribution/Membership:: On Behalf of Organization,
+            //If profile GROUP contain the Individual type then consider the
+            //profile is of Individual ( including the custom data of membership/contribution )
+            //IF Individual type not present in profile then it is consider as Organization data.
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            $userID = $contactID;
+            if ( $preID = CRM_Utils_Array::value( 'custom_pre_id', $values ) ) {
+                if ( CRM_Utils_Array::value( 'related_contact', $values ) ) {
+                    $preProfileTypes = CRM_Core_BAO_UFGroup::profileGroups( $preID );
+                    if ( in_array('Individual', $preProfileTypes ) ) {
+                        //Take Individual contact ID
+                        $userID = CRM_Utils_Array::value( 'related_contact', $values );
+                    }
+                }
+                self::buildCustomDisplay( $preID, 'customPre', $userID, $template, $params['custom_pre_id'] );
+            }
+            $userID = $contactID;    
+            if ( $postID = CRM_Utils_Array::value( 'custom_post_id', $values ) ) {
+                if ( CRM_Utils_Array::value( 'related_contact', $values ) ) {
+                    $postProfileTypes = CRM_Core_BAO_UFGroup::profileGroups( $postID );
+                    if ( in_array('Individual', $postProfileTypes ) ) {
+                        //Take Individual contact ID
+                        $userID = CRM_Utils_Array::value( 'related_contact', $values );
+                    }
+                }
+                self::buildCustomDisplay( $postID, 'customPost', $userID, $template, $params['custom_post_id'] );
+            }
             
             // set email in the template here
             $template->assign( 'email', $email );
@@ -225,11 +239,10 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                               'body'    => $message,
                               'to'      => $displayName );
             }
-
-            $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$values) . '" <' . $values['receipt_from_email'] . '>';
-
+            
+            $receiptFrom = CRM_Utils_Array::value('receipt_from_name',$values) .' <'. $values['receipt_from_email']. '>';
             require_once 'CRM/Utils/Mail.php';
-
+            
             if ( $values['is_email_receipt'] ) {
                 CRM_Utils_Mail::send( $receiptFrom,
                                       $displayName,

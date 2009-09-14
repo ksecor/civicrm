@@ -443,31 +443,30 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         $openIds = array( );
         $primaryID = false;
         foreach ( $blocks as $name => $label ) {
-            $dataExists = $isPrimary = 0;
+            $hasData = $hasPrimary = array( );
             $name = strtolower( $name );
             if ( is_array( $fields[$name] ) ) {
                 foreach ( $fields[$name] as $instance => $blockValues ) {
-                    $dataExists += self::blockDataExists( $blockValues );
+                    $dataExists = self::blockDataExists( $blockValues );
                     if ( !$dataExists && $name == 'address' &&  $instance == 1 ) {
                         $dataExists = CRM_Utils_Array::value( 'use_household_address', $fields );
                     }
                     
-                    if ( CRM_Utils_Array::value( 'is_primary', $blockValues ) ) {
-                        $isPrimary++;
-                        if ( $isPrimary > 1 ) {
-                            $errors["{$name}[$instance][is_primary]"] = ts('Only one %1 can be marked as primary.', 
-                                                                           array( 1 => $label ) );
+                    if ( $dataExists ) {
+                        $hasData[] = $instance;
+                        if ( CRM_Utils_Array::value( 'is_primary', $blockValues ) ) {
+                            $hasPrimary[] = $instance;
+                            if ( !$primaryID && 
+                                 in_array( $name, array( 'email', 'openid' ) ) && 
+                                 CRM_Utils_Array::value( $name, $blockValues ) ) {
+                                $primaryID = $blockValues[$name];
+                            }
                         }
-                    }
-                    
-                    if ( $dataExists && !CRM_Utils_Array::value( 'location_type_id', $blockValues ) ) {
-                        $errors["{$name}[$instance][location_type_id]"] = 
-                            ts('The Location Type should be set if there is  %1 information.', array( 1=> $label ) );
-                    }
-                    
-                    if ( $isPrimary && !$primaryID 
-                         && in_array( $name, array( 'email', 'openid' ) ) && CRM_Utils_Array::value( $name, $blockValues ) ) {
-                        $primaryID = $blockValues[$name];
+                        
+                        if ( !CRM_Utils_Array::value( 'location_type_id', $blockValues ) ) {
+                            $errors["{$name}[$instance][location_type_id]"] = 
+                                ts('The Location Type should be set if there is  %1 information.', array( 1=> $label ) );
+                        }
                     }
                     
                     if ( $name == 'openid' && CRM_Utils_Array::value( $name, $blockValues ) ) {
@@ -481,8 +480,13 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     }
                 }
                 
-                if ( $dataExists && !$isPrimary ) {
+                if ( empty( $hasPrimary ) && !empty( $hasData ) ) {
                     $errors["{$name}[1][is_primary]"] = ts('One %1 should be marked as primary.', array( 1 => $label ) );
+                }
+                
+                if ( count( $hasPrimary ) > 1 ) {
+                    $errors["{$name}[".array_pop($hasPrimary)."][is_primary]"] = ts( 'Only one %1 can be marked as primary.', 
+                                                                                     array( 1 => $label ) );  
                 }
             }
         }
@@ -570,7 +574,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         
         //get the submitted values in an array
-        $params = $this->controller->exportValues( $this->_name );            
+        $params = $this->controller->exportValues( $this->_name );
         
         //get the related id for shared / current employer
         if ( CRM_Utils_Array::value( 'shared_household_id',$params ) ) {

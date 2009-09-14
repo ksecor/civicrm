@@ -145,7 +145,7 @@ class CRM_Core_Permission_Drupal {
                 
                 // foreach group that is potentially a saved search, add the saved search clause
                 foreach ( array_keys( self::$_editPermissionedGroups ) as $id ) {
-                    $group     =& new CRM_Contact_DAO_Group( );
+                    $group     = new CRM_Contact_DAO_Group( );
                     $group->id = $id;
                     if ( $group->find( true ) && $group->saved_search_id ) {
                         require_once 'CRM/Contact/BAO/SavedSearch.php';
@@ -175,7 +175,7 @@ class CRM_Core_Permission_Drupal {
         
                 // foreach group that is potentially a saved search, add the saved search clause
                 foreach ( array_keys( self::$_viewPermissionedGroups ) as $id ) {
-                    $group     =& new CRM_Contact_DAO_Group( );
+                    $group     = new CRM_Contact_DAO_Group( );
                     $group->id = $id;
                     if ( $group->find( true ) && $group->saved_search_id ) {
                         require_once 'CRM/Contact/BAO/SavedSearch.php';

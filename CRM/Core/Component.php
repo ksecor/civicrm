@@ -83,7 +83,7 @@ class CRM_Core_Component
             $_cache = array( );
 
             require_once 'CRM/Core/DAO/Component.php';
-            $cr =& new CRM_Core_DAO_Component();
+            $cr = new CRM_Core_DAO_Component();
             $cr->find( false );
             while ( $cr->fetch( ) ) {
                 $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;

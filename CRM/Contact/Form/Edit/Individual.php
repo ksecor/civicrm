@@ -233,6 +233,9 @@ class CRM_Contact_Form_Edit_Individual {
             }
         }
 		
+        if( $is_billing = $params['address'][1]['is_billing'] ){
+            $values['address'][1]['is_billing']=$is_billing;
+        }
         if( $values['address'][1]['country_id']=="null"){
             $values['address'][1]['country_id']=0;
         }

@@ -82,7 +82,7 @@ table.form-layout td, table.form-layout th {
 #crm-container table.report-layout th {
     padding          : 4px;
     background-color : #DCDCDC;
-//    text-align       : left;
+    /*text-align       : left;*/
     vertical-align   : top;
 }
 

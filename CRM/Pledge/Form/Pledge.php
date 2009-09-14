@@ -669,7 +669,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $buttonName = $this->controller->getButtonName( );
         if ( $this->_context == 'standalone' ) {
             if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
-                $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view/pledge', 
+                $session->replaceUserContext(CRM_Utils_System::url('civicrm/pledge/add', 
                                                                    'reset=1&action=add&context=standalone') );
             } else {
                 $session->replaceUserContext(CRM_Utils_System::url( 'civicrm/contact/view',
