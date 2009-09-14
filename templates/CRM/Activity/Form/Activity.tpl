@@ -1,4 +1,4 @@
-{* this template is used for adding/editing other (custom) activities. *}
+ {* this template is used for adding/editing other (custom) activities. *}
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
 {else}
@@ -317,5 +317,42 @@ function fileOnCase() {
     </script>
     {/literal}
 {/if}
+
+{literal}
+<script type="text/javascript">
+     function verify( ) {
+
+         var d = new Date();
+         var currentDateTime = d.getTime();
+         d.setFullYear(cj("select#activity_date_time\\[Y\\]").val());
+         d.setMonth(cj("select#activity_date_time\\[M\\]").val() - 1);
+         d.setDate(cj("select#activity_date_time\\[d\\]").val());
+         var hours = cj("select#activity_date_time\\[h\\]").val();
+         var ampm = cj("select#activity_date_time\\[A\\]").val();
+         if (ampm == "PM") {
+             // force arithmetic instead of string concatenation
+             hours = hours*1 + 12;
+         }
+         d.setHours(hours);
+         d.setMinutes(cj("select#activity_date_time\\[i\\]").val());
+
+         var activity_date_time = d.getTime();
+
+	  var activityStatusId = cj('#status_id').val();
+
+	  if ( activityStatusId == 2 && currentDateTime < activity_date_time ) {
+	       var okMessage = confirm( '{/literal}{ts}Are you sure? This is a COMPLETED activity with the DATE in the FUTURE. Click Cancel to change the date / status. Otherwise, click OK to save.{/ts}{literal}' ); 
+               if (!okMessage ) {
+                    return false;
+	       }
+	  } else if ( activity_date_time && activityStatusId == 1 && currentDateTime >= activity_date_time ) {
+	       var ok = confirm( '{/literal}{ts}Are you sure? This is a SCHEDULED activity with the DATE in the PAST. Click Cancel to change the date / status. Otherwise, click OK to save.{/ts}{literal}' ); 
+               if (!ok ) {
+                    return false;
+	       }
+          }
+     }
+</script>
+{/literal}
 
 {/if} {* end of snippet if*}	
