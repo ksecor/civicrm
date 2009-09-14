@@ -165,7 +165,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form
             $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value'), true);
         
             // weight
-            $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
+            $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
             $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
             // is active ?
