@@ -59,7 +59,7 @@ div#crm-container {
   height: 2em;
 }
 
-#crm-container .add-remove-link. #crm-container .map-link {
+#crm-container .add-remove-link #crm-container .map-link {
   font-size: .9em;
 }
 
@@ -825,7 +825,7 @@ div.crm-pager a {
 /* Recently Viewed bar */
 .block-civicrm div#recently-viewed ul {
   font-size: .9em;
-  // overflow: hidden;
+  /* overflow: hidden; */
   margin: 0px;
   padding: 0px;
 }
