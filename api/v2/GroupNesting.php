@@ -41,7 +41,7 @@
 require_once 'api/v2/utils.php';
 
 /**
- * Provides group nesting record given parent and child id.
+ * Provides group nesting record(s) given parent and/or child id.
  * 
  * @param  array $params  an array containing at least child_group_id or parent_group_id
  *
@@ -68,8 +68,20 @@ function civicrm_group_nesting_get( &$params )
     if ( array_key_exists( 'parent_group_id', $params ) ) {
         $dao->parent_group_id = $params['parent_group_id'];
     }
-    $values = array( );
-    _civicrm_object_to_array( $dao->find(), $values );
+
+    $values = array();
+
+    if ( $dao->find() ) {
+        while( $dao->fetch( ) ) {
+            $temp = array();
+            _civicrm_object_to_array( $dao, $temp );
+            $values[$dao->id] = $temp;            
+        }
+        $values['is_error' ] = 0;
+    } else {
+        return civicrm_create_error( 'No records found.' );
+    }
+
     return $values;
 }
 

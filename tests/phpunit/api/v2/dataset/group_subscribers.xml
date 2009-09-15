@@ -53,6 +53,24 @@
       <null />  <!--  parents  -->
       <null />  <!--  children  -->
       <value>0</value>  <!--  is_hidden  -->
+    </row>
+    <row>
+      <value>4</value>  <!--  id  -->
+      <value>Super Special Newsletter Subscribers</value>  <!--  name  -->
+      <value>Super Special Newsletter Subscribers</value>  <!--  title  -->
+      <value>Contacts in this group receive super special newsletter.</value>  <!--  description  -->
+      <null />  <!--  source  -->
+      <null />  <!--  saved_search_id  -->
+      <value>1</value>  <!--  is_active  -->
+      <value>User and User Admin Only</value>  <!--  visibility  -->
+      <null />  <!--  where_clause  -->
+      <null />  <!--  select_tables  -->
+      <null />  <!--  where_tables  -->
+      <value>1</value>  <!--  group_type  -->
+      <null />  <!--  cache_date  -->
+      <null />  <!--  parents  -->
+      <null />  <!--  children  -->
+      <value>0</value>  <!--  is_hidden  -->
     </row>    
   </table>
 </dataset>
