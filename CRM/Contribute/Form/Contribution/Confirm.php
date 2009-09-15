@@ -433,13 +433,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( CRM_Utils_Array::value( 'is_for_organization', $this->_values ) ) {
             $behalfOrganization = array();
             foreach ( array('organization_name', 'organization_id', 'org_option') as $fld ) {
-                $behalfOrganization[$fld] = $params[$fld];
-                unset($params[$fld]);
+                if ( array_key_exists( $fld, $params ) ) {
+                    $behalfOrganization[$fld] = $params[$fld];
+                    unset($params[$fld]);
+                }
             }
-            foreach ( $params['onbehalf_location'] as $block => $vals ) {
-                $behalfOrganization[$block] = $vals;
+            if ( array_key_exists( 'onbehalf_location', $params ) && is_array( $params['onbehalf_location'] ) ) {
+                foreach ( $params['onbehalf_location'] as $block => $vals ) {
+                    $behalfOrganization[$block] = $vals;
+                }
+                unset($params['onbehalf_location']);
             }
-            unset($params['onbehalf_location']);
         }
         
         if ( ! isset( $contactID ) ) {
