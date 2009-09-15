@@ -319,7 +319,7 @@ function civicrm_relationship_types_get( $params = null )
     $relationshipTypes = array();
     $relationshipType  = array();
     $relationType      = & new CRM_Contact_DAO_RelationshipType();
-    if ( ! empty( $params ) ) {
+    if ( !empty( $params ) && is_array( $params ) ) {
         $properties = array_keys( $relationType->fields() );
         foreach ($properties as $name) {
             if ( array_key_exists( $name, $params ) ) {

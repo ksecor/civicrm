@@ -186,9 +186,7 @@ class api_v2_RelationshipTypeTest extends CiviUnitTestCase
     function testRelationshipTypeDelete( )
     {
         // create sample relationship type.
-        $this->_relationshipTypeCreate( );
-        
-        $params['id'] = $this->_relTypeID;
+        $params['id'] = $this->_relationshipTypeCreate( );
         
         $result = & civicrm_relationship_type_delete( $params );
         
@@ -225,7 +223,7 @@ class api_v2_RelationshipTypeTest extends CiviUnitTestCase
     function testRelationshipTypeUpdateWithoutcontactType( )
     {
         // create sample relationship type.
-        $this->_relationshipTypeCreate( );
+        $this->_relTypeID = $this->_relationshipTypeCreate( );
         
         $relTypeParams = array(
                                'id'             => $this->_relTypeID,
@@ -253,7 +251,7 @@ class api_v2_RelationshipTypeTest extends CiviUnitTestCase
     function testRelationshipTypeUpdate( )
     {
         // create sample relationship type.
-        $this->_relationshipTypeCreate( );
+        $this->_relTypeID = $this->_relationshipTypeCreate( );
         
         $relTypeParams = array(
                                'id'             => $this->_relTypeID,
@@ -277,20 +275,208 @@ class api_v2_RelationshipTypeTest extends CiviUnitTestCase
     }
     
     /**
+     * check with empty array
+     */    
+    function testRelationshipTypesGetEmptyParams( )
+    {
+        $firstRelTypeParams = array(
+                                    'name_a_b'       => 'Relation 1 for create',
+                                    'name_b_a'       => 'Relation 2 for create',
+                                    'description'    => 'Testing relationship type',
+                                    'contact_type_a' => 'Individual',
+                                    'contact_type_b' => 'Organization',
+                                    'is_reserved'    => 1,
+                                    'is_active'      => 1
+                                    );
+        
+        $secondRelTypeParams = array(
+                                     'name_a_b'       => 'Relation 3 for create',
+                                     'name_b_a'       => 'Relation 4 for create',
+                                     'description'    => 'Testing relationship type second',
+                                     'contact_type_a' => 'Individual',
+                                     'contact_type_b' => 'Organization',
+                                     'is_reserved'    => 0,
+                                     'is_active'      => 1
+                                     );
+        
+        $relTypeIds = array( );
+        // create sample relationship types.
+        foreach ( array( 'firstRelType', 'secondRelType' ) as $relType ) {
+            $params = "{$relType}Params";
+            $relTypeIds["{$relType}Id"] = $this->_relationshipTypeCreate( $$params );
+        }
+        
+        //get relationship types from db.
+        $params = array( );        
+        $results =& civicrm_relationship_types_get( $params );
+        
+        $retrievedRelTypes  = array( );
+        if ( is_array( $results ) ) {
+            foreach ( $results as $relTypeValues ) {
+                if ( ( $relTypeId = CRM_Utils_Array::value( 'id', $relTypeValues ) ) 
+                     && in_array( $relTypeId, $relTypeIds ) ) {
+                    $retrievedRelTypes[$relTypeId] = $relTypeValues;
+                }
+            }
+        }
+        
+        if ( count( $retrievedRelTypes ) < 2 ) {
+            $this->fail( 'Fail to retrieve relationship types.' );  
+        }
+        
+        foreach ( array( 'firstRelType', 'secondRelType' ) as $relType ) {
+            $relTypeId     = $relTypeIds["{$relType}Id"];
+            $relTypeparams = "{$relType}Params";
+            foreach ( $$relTypeparams as $key => $val ) {
+                $this->assertEquals( CRM_Utils_Array::value($key, $retrievedRelTypes[$relTypeId]), 
+                                     $val, "Fail to retrieve {$key}" ); 
+            }
+        }
+        
+        // cleanup db.
+        foreach ( $relTypeIds as $id ) $this->relationshipTypeDelete( $id );
+    }
+    
+    /**
+     * check with params Not Array.
+     */
+    function testRelationshipTypesGetParamsNotArray( )
+    {
+        $firstRelTypeParams = array(
+                                    'name_a_b'       => 'Relation 1 for create',
+                                    'name_b_a'       => 'Relation 2 for create',
+                                    'description'    => 'Testing relationship type',
+                                    'contact_type_a' => 'Individual',
+                                    'contact_type_b' => 'Organization',
+                                    'is_reserved'    => 1,
+                                    'is_active'      => 1
+                                    );
+        
+        $secondRelTypeParams = array(
+                                     'name_a_b'       => 'Relation 3 for create',
+                                     'name_b_a'       => 'Relation 4 for create',
+                                     'description'    => 'Testing relationship type second',
+                                     'contact_type_a' => 'Individual',
+                                     'contact_type_b' => 'Organization',
+                                     'is_reserved'    => 0,
+                                     'is_active'      => 1
+                                     );
+        $relTypeIds = array( );
+        // create sample relationship types.
+        foreach ( array( 'firstRelType', 'secondRelType' ) as $relType ) {
+            $params = "{$relType}Params";
+            $relTypeIds["{$relType}Id"] = $this->_relationshipTypeCreate( $$params );
+        }
+        
+        //get relationship types from db.
+        $params = 'name_a_b = Employee of';        
+        $results =& civicrm_relationship_types_get( $params );
+        
+        $retrievedRelTypes  = array( );
+        if ( is_array( $results ) ) {
+            foreach ( $results as $relTypeValues ) {
+                if ( ( $relTypeId = CRM_Utils_Array::value( 'id', $relTypeValues ) ) 
+                     && in_array( $relTypeId, $relTypeIds ) ) {
+                    $retrievedRelTypes[$relTypeId] = $relTypeValues;
+                }
+            }
+        }
+        
+        if ( count( $retrievedRelTypes ) < 2 ) {
+            $this->fail( 'Fail to retrieve relationship types.' );  
+        }
+        
+        foreach ( array( 'firstRelType', 'secondRelType' ) as $relType ) {
+            $relTypeId     = $relTypeIds["{$relType}Id"];
+            $relTypeparams = "{$relType}Params";
+            foreach ( $$relTypeparams as $key => $val ) {
+                $this->assertEquals( CRM_Utils_Array::value($key, $retrievedRelTypes[$relTypeId]), 
+                                     $val, "Fail to retrieve {$key}" ); 
+            }
+        }
+        
+        // cleanup db.
+        foreach ( $relTypeIds as $id ) $this->relationshipTypeDelete( $id );
+    }
+    
+    /**
+     * check with valid params array.
+     */
+    function testRelationshipTypesGet( )
+    {
+        $firstRelTypeParams = array(
+                                    'name_a_b'       => 'Relation 1 for create',
+                                    'name_b_a'       => 'Relation 2 for create',
+                                    'description'    => 'Testing relationship type',
+                                    'contact_type_a' => 'Individual',
+                                    'contact_type_b' => 'Organization',
+                                    'is_reserved'    => 1,
+                                    'is_active'      => 1
+                                    );
+        
+        $secondRelTypeParams = array(
+                                     'name_a_b'       => 'Relation 3 for create',
+                                     'name_b_a'       => 'Relation 4 for create',
+                                     'description'    => 'Testing relationship type second',
+                                     'contact_type_a' => 'Individual',
+                                     'contact_type_b' => 'Organization',
+                                     'is_reserved'    => 0,
+                                     'is_active'      => 1
+                                     );
+        $relTypeIds = array( );
+        // create sample relationship types.
+        foreach ( array( 'firstRelType', 'secondRelType' ) as $relType ) {
+            $params = "{$relType}Params";
+            $relTypeIds["{$relType}Id"] = $this->_relationshipTypeCreate( $$params );
+        }
+        
+        //get relationship types from db.
+        $params = array( 'name_a_b' => 'Relation 3 for create', 
+                         'name_b_a' => 'Relation 4 for create',
+                         'description'    => 'Testing relationship type second' );        
+        $results =& civicrm_relationship_types_get( $params );
+        
+        $retrievedRelTypes  = array( );
+        if ( is_array( $results ) ) {
+            foreach ( $results as $relTypeValues ) {
+                if ( ( $relTypeId = CRM_Utils_Array::value( 'id', $relTypeValues ) ) 
+                     && in_array( $relTypeId, $relTypeIds ) ) {
+                    $retrievedRelTypes[$relTypeId] = $relTypeValues;
+                }
+            }
+        }
+        
+        if ( count( $retrievedRelTypes ) != 1 ) {
+            $this->fail( 'Fail to retrieve target relationship type.' );  
+        }
+        
+        foreach ( $secondRelTypeParams as $key => $val ) {
+            $this->assertEquals( CRM_Utils_Array::value( $key, $retrievedRelTypes[$relTypeIds['secondRelTypeId']]), 
+                                 $val, "Fail to retrieve {$key}" ); 
+        }
+        
+        // cleanup db.
+        foreach ( $relTypeIds as $id ) $this->relationshipTypeDelete( $id );
+    }
+    
+    /**
      * create relationship type.
      */
-    function _relationshipTypeCreate( )
+    function _relationshipTypeCreate( $params = null )
     {
-        $relTypeParams = array(
-                               'name_a_b'       => 'Relation 1 for create',
-                               'name_b_a'       => 'Relation 2 for create',
-                               'description'    => 'Testing relationship type',
-                               'contact_type_a' => 'Individual',
-                               'contact_type_b' => 'Organization',
-                               'is_reserved'    => 1,
-                               'is_active'      => 1
-                               );
-        $this->_relTypeID = $this->relationshipTypeCreate( $relTypeParams );
+        if ( !is_array( $params ) || empty( $params ) ) {
+            $params = array(
+                            'name_a_b'       => 'Relation 1 for create',
+                            'name_b_a'       => 'Relation 2 for create',
+                            'description'    => 'Testing relationship type',
+                            'contact_type_a' => 'Individual',
+                            'contact_type_b' => 'Organization',
+                            'is_reserved'    => 1,
+                            'is_active'      => 1
+                            );
+        }
+
+        return $this->relationshipTypeCreate( $params );
     }
 }
  
