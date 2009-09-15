@@ -1314,7 +1314,16 @@ SELECT $select
             return 'civicrm_pledge';    
             
         default:
-            CRM_Core_Error::fatal( );
+            $query   = "
+SELECT IF( EXISTS(SELECT name FROM civicrm_contact_type WHERE name like %1), 1, 0 )";
+            $qParams = array( 1 => array( $table, 'String' ) );
+            $result  = CRM_Core_DAO::singleValueQuery( $query, $qParams );
+
+            if ( $result ) {
+                return 'civicrm_contact';
+            } else {
+                CRM_Core_Error::fatal( );
+            }
         }
     }
 

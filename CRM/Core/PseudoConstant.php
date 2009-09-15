@@ -300,6 +300,14 @@ class CRM_Core_PseudoConstant
     private static $greeting = array( );
 
     /**
+     * contact types / subtypes
+     *
+     * @var array
+     * @static
+     */
+    private static $contactSubTypes = array( );
+
+    /**
      * populate the object from the database. generic populate
      * method
      *
@@ -1414,6 +1422,35 @@ ORDER BY name";
 																	$filterCondition, $columnName );
         }
         return self::$greeting[$index];
+    }
+
+    /**
+     * Get all contact sub types.
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all contact types.
+     *
+     */
+    public static function contactSubTypes( )
+    {
+        if ( ! self::$contactSubTypes ) {
+            self::$contactSubTypes = array( );
+
+            $query = "
+SELECT distinct(cct.name) name, cct.label label
+FROM   civicrm_contact_type cct
+WHERE  cct.name IS NOT NULL
+";
+            $dao = CRM_Core_DAO::executeQuery( $query );
+            
+            $result = array( );
+            while ( $dao->fetch( ) ) {
+                self::$contactSubTypes[$dao->name] = $dao->label;
+            }
+        }
+        return self::$contactSubTypes;
     }
 }
 

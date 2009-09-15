@@ -265,6 +265,10 @@ class CRM_Core_SelectValues
                 'Pledge'       => ts('Pledges'),
                 'Grant'        => ts('Grants'),
             );
+
+            require_once 'CRM/Core/PseudoConstant.php';
+            $subTypes =& CRM_Core_PseudoConstant::contactSubTypes( );
+            $customGroupExtends = array_merge($customGroupExtends, $subTypes);
         }
         return $customGroupExtends;
     }
