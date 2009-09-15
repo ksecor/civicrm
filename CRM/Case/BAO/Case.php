@@ -576,6 +576,12 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
 AND civicrm_activity.is_deleted = 0
 AND civicrm_case.is_deleted     = 0";
         
+        if ( $type == 'upcoming' ) {
+            $closedId    = CRM_Core_OptionGroup::getValue( 'case_status', 'Closed', 'name' );
+            $condition .= "
+AND civicrm_case.status_id != $closedId";
+        }
+        
         $query = self::getCaseActivityQuery( $type, $userID, $condition );
  
         $queryParams = array();

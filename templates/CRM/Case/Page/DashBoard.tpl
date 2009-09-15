@@ -69,7 +69,7 @@
     </div>
     {else}
         <div class="messages status">
-	    {ts 1=$findCasesURL}There are no cases with activities scheduled in the next two weeks. Use %1 to expand your search.{/ts}
+	    {ts 1=$findCasesURL}There are no open cases with activities scheduled in the next two weeks. Use %1 to expand your search.{/ts}
         </div>
     {/if}
 
