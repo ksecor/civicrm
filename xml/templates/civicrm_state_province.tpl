@@ -3877,4 +3877,9 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (10008, 1151, "SXM", "St. Maarten"),
 
 -- department of France (CRM-4769)
-(10009, 1076, "39", "Jura");
+(10009, 1076, "39", "Jura"),
+
+-- new Italian provinces, as yet without codes (CRM-5048)
+(10010, 1107, "Bar", "Barletta-Andria-Trani"),
+(10011, 1107, "Fer", "Fermo"),
+(10012, 1107, "Mon", "Monza e Brianza");
