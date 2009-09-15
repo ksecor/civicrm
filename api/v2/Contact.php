@@ -67,7 +67,7 @@ function civicrm_contact_create( &$params ) {
  */
 function civicrm_contact_update( &$params, $create_new = false ) {
     _civicrm_initialize( );
-
+    require_once 'CRM/Utils/Array.php';
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
     if ( $create_new ) {
         // Make sure nothing is screwed up before we create a new contact
