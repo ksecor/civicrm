@@ -271,22 +271,6 @@ function civicrm_group_roles_menu( )
                                                                   'access arguments' => array('access settings'),
                                                                   'type' => MENU_LOCAL_TASK,
                                                                   ); 
-    //     $items['admin/settings/civicrm_group_roles/configure'] = array(
-    //                                                                    'title' => t('Configure'),
-    //                                                                    'page callback' => 'drupal_get_form',
-    //                                                                    'page arguments' => array('civicrm_group_roles_configure'),
-    //                                                                    'access callback' => 'user_access',
-    //                                                                    'access arguments' => array('access settings'),
-    //                                                                    'type' => MENU_LOCAL_TASK,
-    //                                                                    );
-    //     $items['admin/settings/civicrm_group_roles/manual_sync'] = array(
-    //                                                                      'title' => t('Manually Synchronize'),
-    //                                                                      'page callback' => 'drupal_get_form',
-    //                                                                      'page arguments' => array('civicrm_group_roles_manual_sync'),
-    //                                                                      'access callback' => 'user_access',
-    //                                                                      'access arguments' => array('access settings'),
-    //                                                                      'type' => MENU_LOCAL_TASK,
-    //                                                                      );        
     return $items;
 }
 
