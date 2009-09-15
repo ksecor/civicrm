@@ -33,24 +33,24 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->_participantID = $this->participantCreate( array('contactID' => $this->_contactID,'eventID' => $this->_eventID  ));
         $this->_contactID2 = $this->individualCreate( ) ;
         $this->_participantID2 = $this->participantCreate( array('contactID' => $this->_contactID2,'eventID' => $this->_eventID ));
-        $this->_participantID3 = $this->participantCreate( array ('contactID' => $this->_contactID, 'eventID' => $this->_eventID ) );        
+        $this->_participantID3 = $this->participantCreate( array ('contactID' => $this->_contactID, 'eventID' => $this->_eventID ) );
         
         $this->_failureCase = 0;
     }
     
     function tearDown()
     {
-        // Cleanup all created participant records.
+        // Cleanup all created participant records. 
         foreach ( $this->_createdParticipants as $id ) {
-            $result = $this->participantDelete( $this->_participantID );
+            $result = $this->participantDelete( $id );
         }
         // Cleanup test contact
         $result = $this->contactDelete( $this->_contactID ); 
-
-	// Cleanup test event
-	if ( $this->_eventID ) {
-	    $this->eventDelete( $this->_eventID );
-	}
+        
+        // Cleanup test event
+        if ( $this->_eventID ) {
+            $this->eventDelete( $this->_eventID );
+        }
     }
 
     function testParticipantGetParticipantIdOnly()
@@ -196,7 +196,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
             $this->_createdParticipants[] = CRM_Utils_Array::value('result', $participant);
             // Create $match array with DAO Field Names and expected values
             $match = array(
-                           'id'                         => CRM_Utils_Array::value('result', $participant)
+                           'id' => CRM_Utils_Array::value('result', $participant)
                            );
             // assertDBState compares expected values in $match to actual values in the DB              
             $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['result'], $match ); 
@@ -228,6 +228,20 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
             // assertDBState compares expected values in $match to actual values in the DB              
             $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['result'], $match ); 
         }
+    }
+
+    function testParticipantCreateWithEmptyParams()
+    {
+        $params = array( );
+        $result =& civicrm_participant_create($params);
+        $this->assertEquals( $result['is_error'], 1, "In line " . __LINE__ );
+    }
+        
+    function testParticipantCreateWithWrongParams()
+    {
+        $params = 'a string';
+        $result =& civicrm_participant_create($params);
+        $this->assertEquals( $result['is_error'], 1, "In line " . __LINE__ );
     }
 
     function testParticipantUpdateEmptyParams()
@@ -285,7 +299,15 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         // Cleanup created participant records.
         $result = $this->participantDelete( $params['id'] );
     }
-
+    
+    function testParticipantUpdateWithWrongParams()
+    {
+        $params = 'a string';
+        $participant = & civicrm_participant_create($params);
+        $this->assertEquals( $participant['is_error'],1 );
+        $this->assertEquals( $participant['error_message'],'Parameters is not an array' );
+    }
+    
     function testParticipantDelete()
     {
         $params = array(
@@ -308,6 +330,14 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->assertEquals( $participant['is_error'],1 );
         $this->assertNotNull($participant['error_message']);
         $this->_failureCase = 1;
+    }
+
+    function testParticipantDeleteWithWrongParams()
+    {
+        $params = 'a string';
+        $participant = & civicrm_participant_delete($params);
+        $this->assertEquals( $participant['is_error'], 1 );
+        $this->assertNotNull($participant['error_message'], 'Params is not an array');
     }
 
     function testParticipantPaymentCreateWithEmptyParams( )
@@ -374,6 +404,14 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->contributionTypeDelete( $contributionTypeID );
     }
 
+    function testParticipantPaymentCreateWithWrongParams( )
+    {  
+        $params = 'a string';        
+        $participantPayment = & civicrm_participant_payment_create( $params );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
+        $this->assertNotNull($participantPayment['error_message'], 'Params is not an array');
+    }
+
     function testParticipantPaymentUpdateEmpty()
     {
         $params = array();        
@@ -381,6 +419,14 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->assertEquals( $participantPayment['is_error'], 1 );
     }
 
+    function testParticipantPaymentUpdateEmptyWithWrongParams()
+    {
+        $params = array();        
+        $participantPayment = & civicrm_participant_payment_create( $params );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
+        $this->assertNotNull($participantPayment['error_message'], 'Params is not an array');
+    }
+    
     function testParticipantPaymentUpdateMissingParticipantId()
     {
         //WithoutParticipantId
@@ -464,7 +510,13 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->contributionDelete( $contributionID );
         $this->contributionTypeDelete( $contributionTypeID );
     }    
-
     
+    function testParticipantPaymentDeleteWithWrongParams()
+    {
+        $params = 'a string';        
+        $deletePayment = & civicrm_participant_payment_delete( $params ); 
+        $this->assertEquals( $deletePayment['is_error'], 1 );
+        $this->assertEquals( $deletePayment['error_message'], 'Params is not an array' );
+    }
 }
 
