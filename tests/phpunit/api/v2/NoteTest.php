@@ -47,14 +47,40 @@ class api_v2_NoteTest extends CiviUnitTestCase
     }
 
     /**
-     * Note retrieval
+     * check retrieve note with empty params
      */
-    function testRetrieveNote( )
+    function testGetNoteEmptyParams( )
     {
-        throw new PHPUnit_Framework_IncompleteTestError(
-                      "test not implemented" );
+        $params = array( );
+        $note   =& civicrm_note_get( $params );
+        $this->assertEquals( $note['is_error'], 1 );
+        $this->assertEquals( $note['error_message'], 'No input parameters present' );
+    } 
+
+    /**
+     * check retrieve note with missing patrameters
+     */
+    function testGetNoteWithoutEntityId( )
+    {   
+        $params = array( 'entity_table' => 'civicrm_contact' );
+        $note   =& civicrm_note_get( $params );
+        $this->assertEquals( $note['is_error'], 1 ); 
+        $this->assertEquals( $note['error_message'], 'Invalid entity ID' );
     }
 
+    /**
+     * check successful retrieve note 
+     */
+    function testGetNote( )
+    { 
+        $entityId = $this->_note['entity_id'];
+        $params   = array(
+                          'entity_table'  => 'civicrm_contact',
+                          'entity_id'     => $entityId
+                          ); 
+        $result = civicrm_note_get( $params );
+        $this->assertEquals( $result['is_error'], 0 );
+    }
     
     /**
      * Check create with wrong parameter (not Array)
@@ -114,7 +140,6 @@ class api_v2_NoteTest extends CiviUnitTestCase
         $note   = & civicrm_note_create( $params );
         $this->assertEquals( $note['is_error'], 1 );
         $this->assertEquals( $note['error_message'], 'Required parameter missing' );
-        $this->fail( 'Not sure what this test does?' );
     }
 
     /**
@@ -194,6 +219,8 @@ class api_v2_NoteTest extends CiviUnitTestCase
     
     function tearDown( ) 
     {
+        $this->noteDelete( $this->_note );
+        $this->contactDelete( $this->_contactID );
     }
 }
 
