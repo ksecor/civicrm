@@ -16,7 +16,7 @@
        </dl>
       </div>
    {else}
-    <table class="form-layout-compressed">
+    <table class="form-layout-compressed" style="width:95%;">
         <tr>
             <td class="label">{$form.msg_title.label}</td>
             <td>{$form.msg_title.html}
@@ -30,16 +30,47 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2">{$form.msg_text.label}<br />
-                            {$form.msg_text.html|crmReplace:class:huge}<br />
-			    
-                            <span class="description">{ts}Text formatted message.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">{$form.msg_html.label}<br />
-                            {$form.msg_html.html}<br />
-                            <span class="description">{ts}You may optionally create an HTML formatted version of this message. It will be sent to contacts whose Email Format preference is 'HTML' or 'Both'.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
+            <td colspan="2">
+                        <div class="accordion ui-accordion ui-widget ui-helper-reset">
+                            <span class="helpIcon" id="helptext">
+	                          <a href="#" onClick="return showToken('Text', 1);">{$form.token1.label}</a>
+	                          {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
+	                          <div id='tokenText' style="display:none">
+	                            <input  style="border:1px solid #999999;" type="text" id="filter1" size="20" name="filter1" onkeyup="filter(this, 1)"/><br />
+	                            <span class="description">{ts}Begin typing to filter list of tokens{/ts}</span><br/>
+	                              {$form.token1.html}
+	                          </div>
+                            </span>
+                            <h3 class="head"> 
+	                            <span class="ui-icon ui-icon-triangle-1-s" id='text'></span><a href="#">{ts}Text Message{/ts}</a>
+                            </h3>
+                            <div class='text'>
+                              {$form.msg_text.html|crmReplace:class:huge}<br />
+                              <span class="description">{ts}Text formatted message.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
+                            </div>
+                        </div>
+            </td>          
+        </tr>            
+        <tr>               
+            <td colspan="2">
+                        <div class="accordion ui-accordion ui-widget ui-helper-reset">
+                            <span class="helpIcon" id="helphtml">
+	                          <a href="#" onClick="return showToken('Html', 2);">{$form.token2.label}</a> 
+	                          {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}
+	                          <div id='tokenHtml' style="display:none">
+	                            <input style="border:1px solid #999999;" type="text" id="filter2" size="20" name="filter2" onkeyup="filter(this, 2)"/><br />
+	                            <span class="description">{ts}Begin typing to filter list of tokens{/ts}</span><br/>
+	                              {$form.token2.html}
+	                          </div>
+                            </span>
+                            <h3 class="head"> 
+	                            <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{ts}HTML Message{/ts}</a>
+                            </h3>
+                            <div class='html'>
+                                {$form.msg_html.html}<br />
+                                <span class="description">{ts}You may optionally create an HTML formatted version of this message. It will be sent to contacts whose Email Format preference is 'HTML' or 'Both'.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
+                            </div>  
+                        </div>
             </td>
         </tr>
         <tr>
@@ -54,3 +85,4 @@
   <br clear="all" />
 </fieldset>
 </div>
+{include file="CRM/Mailing/Form/InsertTokens.tpl"}
