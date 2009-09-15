@@ -34,7 +34,7 @@
  */
 
 /**
- * This class holds all the Pseudo constants that are specific to Mass mailing. This avoids
+ * This class holds all the Pseudo constants that are specific to the civimember component. This avoids
  * polluting the core class and isolates the mass mailer class
  */
 class CRM_Member_PseudoConstant extends CRM_Core_PseudoConstant {
