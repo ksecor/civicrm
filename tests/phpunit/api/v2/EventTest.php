@@ -43,12 +43,9 @@ class api_v2_EventTest extends CiviUnitTestCase
                         'event_type_id' => 1,
                         'start_date'    => 20081021,
                         );
-        $event = civicrm_event_create($params);
-        
-        $this->_eventId = $event['event_id'];
 
-        $this->_event = $this->eventCreate( );
-
+        $this->_event   = civicrm_event_create($params);
+        $this->_eventId = $this->_event['event_id'];
     }
 
 
@@ -160,9 +157,9 @@ class api_v2_EventTest extends CiviUnitTestCase
     
     function tearDown() 
     {
-	if ( $this->_eventId ) {
-	    $this->eventDelete( $this->_eventId );
-	}        
+        if ( $this->_eventId ) {
+            $this->eventDelete( $this->_eventId );
+        }        
         $this->eventDelete( $this->_event['event_id'] );	
     }
 }
