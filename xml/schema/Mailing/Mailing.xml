@@ -84,12 +84,14 @@
        <type>varchar</type>
        <length>128</length>
        <comment>Mailing Name.</comment>
+       <localizable>true</localizable>
   </field>
   <field>
        <name>from_name</name>
        <type>varchar</type>
        <length>128</length>
        <comment>From Header of mailing</comment>
+       <localizable>true</localizable>
   </field>
   <field>
        <name>from_email</name>
@@ -108,16 +110,19 @@
        <type>varchar</type>
        <length>128</length>
        <comment>Subject of mailing</comment>
+       <localizable>true</localizable>
   </field>
   <field>
        <name>body_text</name>
        <type>longtext</type>
        <comment>Body of the mailing in text format.</comment>
+       <localizable>true</localizable>
   </field>
   <field>
        <name>body_html</name>
        <type>longtext</type>
        <comment>Body of the mailing in html format.</comment>
+       <localizable>true</localizable>
   </field>
   <field>
        <name>url_tracking</name>

@@ -20,6 +20,7 @@
        <type>varchar</type>
        <length>64</length>
        <comment>The name of this component</comment>
+       <localizable>true</localizable>
   </field>  
   <field>
        <name>component_type</name>
@@ -31,6 +32,7 @@
        <name>subject</name>
        <type>varchar</type>
        <length>255</length>
+       <localizable>true</localizable>
   </field>  
   <field>
        <name>body_html</name>
@@ -39,6 +41,7 @@
        <htmlType>textarea</htmlType>
        <rows>8</rows>
        <cols>80</cols>
+       <localizable>true</localizable>
   </field>
   <field>
        <name>body_text</name>
@@ -47,6 +50,7 @@
        <htmlType>textarea</htmlType>
        <rows>8</rows>
        <cols>80</cols>
+       <localizable>true</localizable>
   </field>
   <field>
        <name>is_default</name>
