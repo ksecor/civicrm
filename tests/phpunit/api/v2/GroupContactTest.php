@@ -88,7 +88,11 @@ class api_v2_GroupContactTest extends CiviUnitTestCase
 
     function testGetWithWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $params = 1;
+        $groups = civicrm_group_contact_get( $params );
+
+        $this->assertEquals( $groups['is_error'], 1 );
+        $this->assertEquals( $groups['error_message'], 'input parameter should be an array' );
     }
 
     function testGetWithEmptyParams( ) 
@@ -116,7 +120,11 @@ class api_v2_GroupContactTest extends CiviUnitTestCase
 
     function testCreateWithWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $params  = 1;
+        $groups = civicrm_group_contact_add( $params );
+
+        $this->assertEquals( $groups['is_error'], 1 );
+        $this->assertEquals( $groups['error_message'], 'input parameter should be an array' );
     }
     
     function testCreateWithEmptyParams( ) 
@@ -180,7 +188,11 @@ class api_v2_GroupContactTest extends CiviUnitTestCase
 
     function testRemoveWithWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $params  = 1;
+        $groups = civicrm_group_contact_remove( $params );
+
+        $this->assertEquals( $groups['is_error'], 1 );
+        $this->assertEquals( $groups['error_message'], 'input parameter should be an array' );
     }
     
     function testRemoveWithEmptyParams( ) 

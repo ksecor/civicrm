@@ -96,7 +96,8 @@ if ( !empty( $GLOBALS['mysql_user'] ) ) {
 global $civicrm_root;
 
 $civicrm_root = dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
-define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/Users/kurund/Sites/drupal-6.6/sites/civicrm/files/civicrm/templates_c/' );
+// define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/api.dev.civicrm.org/helper/files/civicrm/templates_c/' );
+define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/Users/lobo/public_html/drupal6/sites/default/files/civicrm/templates_c/' );
 
 /**
  * Site URLs:
