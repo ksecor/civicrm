@@ -68,7 +68,8 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params = array();
         $membershiptype = & civicrm_membership_types_get( $params );
         $this->assertEquals( $membershiptype['is_error'], 1 );
-        $this->assertEquals( $membershiptype['error_message'], 'Params is not an array.' );
+        var_dump($membershiptype);
+        $this->assertEquals( 'Params is not an array.', $membershiptype['error_message'] );
     }
         
     function testGetWithoutId()
