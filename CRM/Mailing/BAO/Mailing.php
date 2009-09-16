@@ -1658,7 +1658,8 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         $mailingIDs =& self::mailingACLIDs( );
         if ( ! empty( $mailingIDs ) ) {
             $mailingIDs = implode( ',', $mailingIDs );
-            $mailingACL = " civicrm_mailing.id IN ( $mailingIDs ) ";
+            $tableName  = self::getTableName( );
+            $mailingACL = " $tableName.id IN ( $mailingIDs ) ";
         }
         return $mailingACL;
     }
