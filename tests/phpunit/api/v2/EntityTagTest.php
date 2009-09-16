@@ -1,16 +1,38 @@
 <?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 3.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
 
 require_once 'api/v2/EntityTag.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
 
 class api_v2_EntityTagTest extends CiviUnitTestCase 
 {
+
     protected $_individualID;
-
     protected $_householdID;
-
     protected $_organizationID;
-
     protected $_tagID;
     
     function get_info( )
@@ -40,16 +62,22 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $this->tagDelete( $this->_tagID );
     }
 
-    function testIndividualEntityTagAddEmptyParams( ) 
+///////////////// civicrm_entity_tag_add methods
+
+    function testAddWrongParamsType()    
+    {
+        $this->markTestIncomplete('Please implement!');
+    }
+
+    function testAddEmptyParams( ) 
     {
         $params = array( );                             
         $individualEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEquals( $individualEntity['is_error'], 1 ); 
         $this->assertEquals( $individualEntity['error_message'], 'contact_id is a required field' );
-       
     }
     
-    function testIndividualEntityTagAddWithoutTagID( ) 
+    function testAddWithoutTagID( )
     {
         $ContactId =  $this->_individualID;
         $params = array('contact_id' =>  $ContactId);              
@@ -57,9 +85,15 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $this->assertEquals( $individualEntity['is_error'], 1 );
         $this->assertEquals( $individualEntity['error_message'], 'tag_id is a required field' );
     }
+
+    function testAddWithoutContactID()
+    {
+        $this->markTestIncomplete('If you\'re testing incomplete parameters scenarios, try to test all of them. Empty params is not the same scenario as lack of one parameters!');
+    }
     
     function testIndividualEntityTagAdd( ) 
     {
+        $this->markTestIncomplete('Please verify if contact subtype is in any way significant - from quick look it is not. If that confirms, please reduce test(*)EntityTagAdd to just one method - testAdd');
         $ContactId = $this->_individualID; 
         $tagID = $this->_tagID ;  
         $params = array(
@@ -71,26 +105,9 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $this->assertEquals( $individualEntity['added'], 1 );
     }
     
-    function testHouseholdEntityTagAddEmptyParams( ) 
-    {
-        $params = array( );
-        $householdEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEquals( $householdEntity['is_error'], 1 );
-        $this->assertEquals( $householdEntity['error_message'], 'contact_id is a required field' );
-    }
-    
-    function testHouseholdEntityTagAddWithoutTagID( ) 
-    {
-        $ContactId = $this->_householdID;
-        $params = array('contact_id' =>  $ContactId);
-        $householdEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEquals( $householdEntity['is_error'], 1 );
-        $this->assertEquals( $householdEntity['error_message'], 'tag_id is a required field' );
-        
-    }
-    
     function testHouseholdEntityTagAdd( ) 
     {
+        $this->markTestIncomplete('Please verify if contact subtype is in any way significant - from quick look it is not. If that confirms, please reduce test(*)EntityTagAdd to just one method - testAdd');
         $ContactId = $this->_householdID;
         $tagID = $this->_tagID;
         $params = array(
@@ -102,25 +119,9 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $this->assertEquals( $householdEntity['added'], 1 );
     }
     
-    function testOrganizationEntityTagAddEmptyParams( ) 
-    {
-        $params = array( );
-        $organizationEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEquals( $organizationEntity['is_error'], 1 );
-        $this->assertEquals( $organizationEntity['error_message'], 'contact_id is a required field' );
-    }
-    
-    function testOrganizationEntityTagAddWithoutTagID( ) 
-    {
-        $ContactId = $this->_organizationID;
-        $params = array('contact_id' =>  $ContactId);
-        $organizationEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEquals( $organizationEntity['is_error'], 1 );
-        $this->assertEquals( $organizationEntity['error_message'], 'tag_id is a required field' );
-    }
-        
     function testOrganizationEntityTagAdd( ) 
     {
+         $this->markTestIncomplete('Please verify if contact subtype is in any way significant - from quick look it is not. If that confirms, please reduce test(*)EntityTagAdd to just one method - testAdd');
         $ContactId = $this->_organizationID;
         $tagID = $this->_tagID;
         $params = array(
@@ -132,7 +133,7 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $this->assertEquals( $organizationEntity['added'], 1 );
     }
     
-    function testEntityTagAddIndividualDouble( ) 
+    function testAddDouble( ) 
     {
         $individualId   = $this->_individualID;
         $organizationId = $this->_organizationID;
@@ -159,6 +160,14 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $this->assertEquals( $result['not_added'], 1 );
     }
 
+
+///////////////// civicrm_entity_tag_get methods
+
+    function testGetWrongParamsType()
+    {
+        $this->markTestIncomplete('Please implement!');
+    }
+
     function testIndividualEntityTagGetWithoutContactID( )
     {
         $paramsEntity = array( );
@@ -168,10 +177,10 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $this->assertEquals( $entity['error_message'], 'contact_id is a required field' );
     }
     
-    function testIndividualEntityTagGet( )
+    function testIndividualEntityTagGet()
     {
-        $ContactId = $this->_individualID; 
-        $tagID     = $this->_tagID ;  
+        $ContactId = $this->_individualID;
+        $tagID     = $this->_tagID;
         $params    = array(
                            'contact_id' =>  $ContactId,
                            'tag_id'     =>  $tagID );
@@ -233,6 +242,8 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $entity =& civicrm_entity_tag_get( $paramsEntity ); 
     }
 
+
+///////////////// civicrm_entity_tag_remove methods
 
     function testEntityTagRemoveNoContactId( )
     {
@@ -329,6 +340,13 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $this->assertEquals( $result['removed'], 1 );
         $this->assertEquals( $result['not_removed'], 1 );
     }
+
+
+///////////////// civicrm_entity_tag_display methods
+
+///////////////// civicrm_tag_entities_get methods
+
+///////////////// civicrm_entity_tag_common methods
     
 }
 
