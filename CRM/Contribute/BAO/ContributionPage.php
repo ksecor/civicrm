@@ -143,7 +143,12 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $billingLocationTypeId = array_search( 'Billing',  $locationTypes );
 
             require_once 'CRM/Contact/BAO/Contact/Location.php';
-            list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $billingLocationTypeId );
+            if ( !array_key_exists('related_contact', $values) ) {
+                list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $billingLocationTypeId );
+            } else {
+                list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+            }
+
             if ( $isTest &&
                  ! empty( $params['custom_pre_id'] ) ) {
                 $params['custom_pre_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
