@@ -53,7 +53,9 @@ function civicrm_tag_create( &$params )
 {
     _civicrm_initialize( );
     
-
+    if ( ! is_array( $params ) ) {
+        return civicrm_create_error( ts( 'Input parameters is not an array' ) );
+    }
 
     if ( empty( $params ) ) {
         return civicrm_create_error( ts( 'No input parameters present' ) );
