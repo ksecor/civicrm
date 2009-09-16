@@ -736,7 +736,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     function locationAdd( $contactID ) 
     {
         $params = array('contact_id'             => $contactID,
-                        'location_type'          => 'Main',
+                        'location_type'          => 'New Location Type',
                         'is_primary'             => 1,
                         'name'                   => 'Saint Helier St',
                         'county'                 => 'Marin',
@@ -754,6 +754,27 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         
         return $result;
     }
+    
+    /** 
+     * Function to add a Location
+     * 
+     * @return int location id of created location
+     */    
+    function locationTypeCreate( ) 
+    {
+        $params = array('name'             => 'New Location Type',
+                        'vcard_name'       => 'New Location Type',
+                        'description'      => 'Location Type for Delete',
+                        'is_active'        => 1,
+                        );
+
+        require_once 'CRM/Core/DAO/LocationType.php';
+        $locationType =& new CRM_Core_DAO_LocationType( );
+        $locationType->copyValues( $params );
+        $locationType->save();
+        return $locationType;
+    }
+
     /** 
      * Function to add a Group
      *

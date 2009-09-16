@@ -3,6 +3,7 @@
 require_once 'api/v2/Contact.php';
 require_once 'api/v2/Location.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
+require_once 'CRM/Core/BAO/LocationType.php';
 
 class api_v2_LocationTest extends CiviUnitTestCase 
 {
@@ -21,16 +22,17 @@ class api_v2_LocationTest extends CiviUnitTestCase
     {
         parent::setUp();
     
-        $this->_contactID = $this->organizationCreate( ) ;
-        $this->_location =& $this->locationAdd($this->_contactId);        
+        $this->_contactID    = $this->organizationCreate( );
+        $this->_locationType = $this->locationTypeCreate( );        
     }
     
     function tearDown() 
     {
         $this->contactDelete( $this->_contactID ) ;
+        CRM_Core_BAO_LocationType::del( $this->_locationType->id );
     }    
    
-    function testAddLocationEmpty()
+    function testAddLocationWithEmptyParams()
     {
         $params = array();        
         $location = & civicrm_location_add($params);
@@ -39,7 +41,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
     }
 
 
-    function testAddLocationEmptyWithoutContactid()
+    function testAddLocationWithoutContactid()
     {
         $params = array('location_type' => 'Home',
                         'is_primary'    => 1,
@@ -51,7 +53,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
     }
 
 
-    function testAddLocationEmptyWithoutLocationid()
+    function testAddLocationWithoutLocationid()
     {
         $params = array('contact_id'    => $this->_contactID,
                         'is_primary'    => 1,
@@ -82,10 +84,10 @@ class api_v2_LocationTest extends CiviUnitTestCase
 //     }
     
 
-    function testAddLocationOrganizationWithoutStreetAddress()
+    function testAddLocationOrganizationWithAddress()
     {
         $params = array('contact_id'             => $this->_contactID,
-                        'location_type'          => 'Work',
+                        'location_type'          => 'New Location Type',
                         'is_primary'             => 1,
                         'name'                   => 'Saint Helier St',
                         'county'                 => 'Marin',
@@ -97,10 +99,10 @@ class api_v2_LocationTest extends CiviUnitTestCase
                         );
         
         $location = & civicrm_location_add($params);
-        
+              
         $match    = array( );
         $match['address'][0] = array( 'contact_id'             => $this->_contactID,
-                                      'location_type_id'       => 2,
+                                      'location_type_id'       => $this->_locationType->id,
                                       'country_id'             => 1101,
                                       'state_province_id'      => 1021,
                                       'street_address'         => 'B 103, Ram Maruti Road',
@@ -110,10 +112,10 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $this->checkResult( $location['result'], $match );
     }
 
-    function testAddLocationOrganizationWithAddress()
+    function testAddLocationOrganizationWithoutStreetAddress()
     {
         $params = array('contact_id'             => $this->_contactID,
-                        'location_type'          => 'Work',
+                        'location_type'          => 'New Location Type',
                         'is_primary'             => 1,
                         'name'                   => 'Saint Helier St',
                         'county'                 => 'Saginaw County',
@@ -127,7 +129,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         
         $match    = array( );
         $match['address'][0] = array( 'contact_id'             => $this->_contactID,
-                                      'location_type_id'       => 2,
+                                      'location_type_id'       => $this->_locationType->id,
                                       'is_primary'             => 1,
                                       'country_id'             => 1228,
                                       'state_province_id'      => 1021,
@@ -177,7 +179,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $email = array($workEmailFirst, $workEmailSecond, $workEmailThird);
         
         $params = array('contact_id'             => $this->_contactID,
-                        'location_type'          => 'Main',
+                        'location_type'          => 'New Location Type',
                         'phone'                  => $phone,
                         'city'                   => 'San Francisco',
                         'state_province'         => 'California',
@@ -193,7 +195,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         
         $match    = array( );
         $match['address'][0] = array( 'contact_id'             => $this->_contactID,
-                                      'location_type_id'       => 3,
+                                      'location_type_id'       => $this->_locationType->id,
                                       'city'                   => 'San Francisco',
                                       'state_province_id'      => 1004,
                                       'country_id'             => 1228,
@@ -216,7 +218,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $match['phone'][0] = array( 'is_primary'       => 1,
                                     'phone'            => '91-20-276048',
                                     'phone_type_id'    => 1,
-                                    'location_type_id' => 3,
+                                    'location_type_id' => $this->_locationType->id,
                                     'contact_id'       => $this->_contactID );
         $match['phone'][1] = array( 'is_primary'       => 0,                               
                                     'phone_type_id'    => 3,
@@ -224,7 +226,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $match['im'][0] = array( 'name'             => 'Hi',
                                  'is_primary'       => 0,
                                  'provider_id'      => 1,
-                                 'location_type_id' => 3);
+                                 'location_type_id' => $this->_locationType->id);
         $match['im'][1] = array( 'name'             => 'Hola',
                                  'is_primary'       => 0,
                                  'provider_id'      => 3);
@@ -261,7 +263,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         
     }
 
-    function testEmptyLocationDelete( )
+    function testLocationDeleteWithEmptyParams( )
     {
         $location = array( );
         $locationDelete =& civicrm_location_delete( $location );
@@ -269,7 +271,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $this->assertEquals( $locationDelete['error_message'], '$contact is not valid contact datatype' );
     }
     
-    function testLocationDeleteError( )
+    function testLocationDeleteWithoutId( )
     {
         $location = "noID";
         
@@ -313,7 +315,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
 
     function testLocationDelete( )
     {
-        $location  = $this->locationAdd(  $this->_contactID ); 
+        $location  = $this->locationAdd(  $this->_contactID );
         
         $params = array(
                         'contact_id'    => $this->_contactID,
@@ -321,11 +323,10 @@ class api_v2_LocationTest extends CiviUnitTestCase
                         );
         $locationDelete =& civicrm_location_delete( $params );
         
-        $this->assertEquals( $locationDelete['is_error'], 0 );
         $this->assertNull( $locationDelete );
     }
 
-    function testGetWithoutProperParams()
+    function testLocationGetWithWrongParams()
     {
         // empty params
         $result =& civicrm_location_get(array());
@@ -338,8 +339,10 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $this->assertEquals($result['is_error'], 1);
     }
 
-    function testGetProper()
+    function testLocationGet()
     {
+        $location  = $this->locationAdd(  $this->_contactID ); 
+        
         $proper = array(
             'country_id'             => 1228,
             'county_id'              => 3,
@@ -357,7 +360,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         }
     }
 
-    function testLocationUpdateEmpty( ) 
+    function testLocationUpdateWithEmptyParams( ) 
     {
         $params = array( );
         $result = civicrm_location_update( $params );
