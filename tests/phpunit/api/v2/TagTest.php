@@ -43,7 +43,10 @@ class api_v2_TagTest extends CiviUnitTestCase
     
     function testCreateWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $params = 'a string';
+        $result =& civicrm_tag_create($params);
+        $this->assertEquals( $result['is_error'], 1,
+                            "In line " . __LINE__ );
     }
 
     function testCreateEmptyParams()
@@ -53,7 +56,7 @@ class api_v2_TagTest extends CiviUnitTestCase
         $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
         $this->assertEquals( $result['error_message'],'No input parameters present' );
     }    
-    
+
     function testCreate()
     {
         $params = array(
@@ -70,7 +73,10 @@ class api_v2_TagTest extends CiviUnitTestCase
 
     function testDeleteWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $tag = array( 'tag_id' => 'incorrect value');
+        $tagDelete =& civicrm_tag_delete( $tag );
+        $this->assertEquals( $tagDelete['is_error'], 1 );
+        $this->assertEquals( $tagDelete['error_message'],'Could not delete tag' );
     }
 
     function testDeleteEmptyParams()
