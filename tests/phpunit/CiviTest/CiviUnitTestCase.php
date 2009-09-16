@@ -976,13 +976,13 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */
     function customFieldDelete( $customFieldID ) 
     {
-          $this->fail( 'civicrm_custom_field_delete seems to be broken!');
-//        $params['result']['customFieldId'] = $customFieldID;
-//        $result = & civicrm_custom_field_delete($params);
-//        if ( civicrm_error( $result ) ) {
-//            CRM_Core_Error::createAPIError( 'Could not delete custom field' );
-//        }
-//        return;
+        //$this->fail( 'civicrm_custom_field_delete seems to be broken!');
+        $params['result']['customFieldId'] = $customFieldID;
+        $result = & civicrm_custom_field_delete($params);
+        if ( civicrm_error( $result ) ) {
+            CRM_Core_Error::createAPIError( 'Could not delete custom field' );
+        }
+        return;
     }
     
     /**
