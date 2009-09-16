@@ -304,10 +304,12 @@ function civicrm_contact_relationship_get( $contact_a, $contact_b = null, $relat
     require_once 'CRM/Core/BAO/CustomGroup.php';
 
     foreach ( $relationships as $relationshipId => $values ) {
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Relationship', $relationshipId, false,
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Relationship', CRM_Core_DAO::$_nullObject, $relationshipId, false,
                                                          $values['civicrm_relationship_type_id'] );
+        $formatTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject );
+        
         $defaults = array( );
-        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
+        CRM_Core_BAO_CustomGroup::setDefaults( $formatTree, $defaults );
         
         if ( !empty( $defaults ) ) {
             foreach ( $defaults as $key => $val ) {
