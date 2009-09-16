@@ -22,7 +22,6 @@ class api_v2_GroupContactTest extends CiviUnitTestCase
     {
         parent::setUp();
         $this->_contactId = $this->individualCreate();
-//        $this->contactGroupCreate( $this->_contactId );        
 
         $this->_groupId1  = $this->groupCreate( );
         $params = array( 'contact_id.1' => $this->_contactId,
@@ -55,13 +54,10 @@ class api_v2_GroupContactTest extends CiviUnitTestCase
     
     function tearDown() 
     {
-//        $this->contactGroupDelete( $this->_contactId );
         $this->contactDelete($this->_contactId);
         if (  $this->_contactId1 ){
-//            $this->contactGroupDelete( $this->_contactId1 );
             $this->contactDelete($this->_contactId1);
         }
-//        $this->contactGroupDelete( $this->_contactId );            
     }
 
     function testGetGroupContactsWithEmptyParams( ) 
@@ -125,12 +121,11 @@ class api_v2_GroupContactTest extends CiviUnitTestCase
                         'contact_id.2' => $this->_contactId1,
                         'group_id'     => 1 );
         
-//        $groups = civicrm_group_contact_add( $params );
-        $this->fail( 'civicrm_group_contact_add throws fatal error' );
+        $groups = civicrm_group_contact_add( $params );
         
         $this->assertEquals( $groups['is_error'], 0 );
-        $this->assertEquals( $groups['not_added'], 0 );
-        $this->assertEquals( $groups['added'], 2 );
+        $this->assertEquals( $groups['not_added'], 1 );
+        $this->assertEquals( $groups['added'], 1 );
         $this->assertEquals( $groups['total_count'], 2 );
         
     }
@@ -165,8 +160,7 @@ class api_v2_GroupContactTest extends CiviUnitTestCase
                         'group_id'     => 1 );
         
         
-//        $groups = civicrm_group_contact_remove( $params );
-        $this->fail( 'civicrm_group_contact_remove throws fatal error' );
+       $groups = civicrm_group_contact_remove( $params );
              
         $this->assertEquals( $groups['is_error'], 0 );
         $this->assertEquals( $groups['removed'], 1 );
