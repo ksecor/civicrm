@@ -63,10 +63,14 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
     }
 
 ///////////////// civicrm_entity_tag_add methods
-
+    
     function testAddWrongParamsType()    
     {
-        $this->markTestIncomplete('Please implement!');
+        $params = "some string";                             
+        $individualEntity = civicrm_entity_tag_add( $params ); 
+        $this->assertEquals( $individualEntity['is_error'], 1,
+                             "In line " . __LINE__  ); 
+        $this->assertEquals( $individualEntity['error_message'], 'contact_id is a required field' );
     }
 
     function testAddEmptyParams( ) 
@@ -88,12 +92,14 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
 
     function testAddWithoutContactID()
     {
-        $this->markTestIncomplete('If you\'re testing incomplete parameters scenarios, try to test all of them. Empty params is not the same scenario as lack of one parameters!');
+        $params = array('tag_id' => $this->_tagID);              
+        $individualEntity = civicrm_entity_tag_add( $params ); 
+        $this->assertEquals( $individualEntity['is_error'], 1 );
+        $this->assertEquals( $individualEntity['error_message'], 'contact_id is a required field' );
     }
     
-    function testIndividualEntityTagAdd( ) 
+    function testContactEntityTagAdd( ) 
     {
-        $this->markTestIncomplete('Please verify if contact subtype is in any way significant - from quick look it is not. If that confirms, please reduce test(*)EntityTagAdd to just one method - testAdd');
         $ContactId = $this->_individualID; 
         $tagID = $this->_tagID ;  
         $params = array(
@@ -103,34 +109,6 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $individualEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEquals( $individualEntity['is_error'], 0 );
         $this->assertEquals( $individualEntity['added'], 1 );
-    }
-    
-    function testHouseholdEntityTagAdd( ) 
-    {
-        $this->markTestIncomplete('Please verify if contact subtype is in any way significant - from quick look it is not. If that confirms, please reduce test(*)EntityTagAdd to just one method - testAdd');
-        $ContactId = $this->_householdID;
-        $tagID = $this->_tagID;
-        $params = array(
-                        'contact_id' =>  $ContactId,
-                        'tag_id'     =>  $tagID );
-                               
-        $householdEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEquals( $householdEntity['is_error'], 0 );
-        $this->assertEquals( $householdEntity['added'], 1 );
-    }
-    
-    function testOrganizationEntityTagAdd( ) 
-    {
-         $this->markTestIncomplete('Please verify if contact subtype is in any way significant - from quick look it is not. If that confirms, please reduce test(*)EntityTagAdd to just one method - testAdd');
-        $ContactId = $this->_organizationID;
-        $tagID = $this->_tagID;
-        $params = array(
-                        'contact_id' =>  $ContactId,
-                        'tag_id'     =>  $tagID );
-        
-        $organizationEntity = civicrm_entity_tag_add( $params ); 
-        $this->assertEquals( $organizationEntity['is_error'], 0 );
-        $this->assertEquals( $organizationEntity['added'], 1 );
     }
     
     function testAddDouble( ) 
@@ -165,7 +143,22 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
 
     function testGetWrongParamsType()
     {
-        $this->markTestIncomplete('Please implement!');
+        $ContactId = $this->_individualID;
+        $tagID     = $this->_tagID;
+        $params    = array(
+                           'contact_id' =>  $ContactId,
+                           'tag_id'     =>  $tagID );
+        
+        $individualEntity = civicrm_entity_tag_add( $params ); 
+        $this->assertEquals( $individualEntity['is_error'], 0 );
+        $this->assertEquals( $individualEntity['added'], 1 );
+        
+        $paramsEntity = "wrong params";
+        $entity = civicrm_entity_tag_get( $paramsEntity );
+        
+        $this->assertEquals( $entity['is_error'], 1,
+                             "In line " . __LINE__  );
+        $this->assertEquals( $entity['error_message'], 'contact_id is a required field' );
     }
 
     function testIndividualEntityTagGetWithoutContactID( )
@@ -203,7 +196,6 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
 
     function testHouseholdEntityGet( )
     {
-       
         $ContactId = $this->_householdID;
         $tagID     = $this->_tagID;
         $params    = array(
@@ -344,6 +336,37 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
 
 ///////////////// civicrm_entity_tag_display methods
 
+    function testEntityTagDisplayNoContactId( )
+    {
+        $entityTagParams = array(
+                                 'contact_id' => $this->_individualID,
+                                 'tag_id'     => $this->_tagID
+                                 );
+        $this->entityTagAdd( $entityTagParams );
+        
+        $params = array(
+                        'tag_id' => $this->_tagID
+                        );
+        
+        $result = civicrm_entity_tag_display( $params );
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'contact_id is a required field' );
+    }
+
+    function testEntityTagDisplayWithContactId( )
+    {
+        $entityTagParams = array(
+                                 'contact_id' => $this->_individualID,
+                                 'tag_id'     => $this->_tagID
+                                 );
+        $this->entityTagAdd( $entityTagParams );
+        
+        $params = array(
+                        'contact_id' => $this->_individualID
+                        );
+        
+        $result = civicrm_entity_tag_display( $params );
+    }
 ///////////////// civicrm_tag_entities_get methods
 
 ///////////////// civicrm_entity_tag_common methods
