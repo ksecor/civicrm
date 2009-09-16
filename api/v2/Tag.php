@@ -53,12 +53,10 @@ function civicrm_tag_create( &$params )
 {
     _civicrm_initialize( );
     
+
+
     if ( empty( $params ) ) {
         return civicrm_create_error( ts( 'No input parameters present' ) );
-    }
-    
-    if ( ! is_array( $params ) ) {
-        return civicrm_create_error( ts( 'Input parameters is not an array' ) );
     }
     
     $error = _civicrm_check_required_fields($params, 'CRM_Core_DAO_Tag');
@@ -96,6 +94,10 @@ function civicrm_tag_create( &$params )
  */
 function civicrm_tag_delete( &$params ) 
 {
+    if ( ! is_array( $params ) ) {
+        return civicrm_create_error( ts( 'Input parameters is not an array' ) );
+    }
+
     $tagID = CRM_Utils_Array::value( 'tag_id', $params );
     if ( ! $tagID ) {
         return civicrm_create_error( ts( 'Could not find tag_id in input parameters' ) );
