@@ -286,7 +286,7 @@ class InstallRequirements {
                     true );
             }
             //check for Config.IDS.ini, file may exist in re-install
-            $configIDSiniDir  = array( $cmsPath ,'standalone', 'files', 'civicrm', 'upload' ,'Config.IDS.ini' );
+            $configIDSiniDir  = array( $crmPath ,'standalone', 'files', 'civicrm', 'upload' ,'Config.IDS.ini' );
         }
 
         if ( $installType == 'drupal' ) {
