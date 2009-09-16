@@ -40,19 +40,27 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         $this->contributionTypeDelete( $this->_contributionTypeID );
     }
 
-    function testMembershipStatusCreateEmpty( ) {
+/// create section
+    function testCreateWithEmptyParams( ) {
         $params = array( );
         $result = civicrm_membership_status_create( $params );
-        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
     }
 
-    function testMembershipStatusCreateMissingRequired( ) {
+    function testCreateWithWrongParamsType()
+    {
+        $params = 'a string';
+        $result = civicrm_membership_status_create($params);
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
+    }
+
+    function testCreateWithMissingRequired( ) {
         $params = array( 'title' => 'Does not make sense' );
         $result = civicrm_membership_status_create( $params );
-        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
     }
 
-    function testMembershipStatusCreate( ) {
+    function testCreate( ) {
         $params = array( 'name' => 'test membership status' );
         $result = civicrm_membership_status_create( $params );
         $this->assertEquals( $result['is_error'], 0 );
@@ -60,21 +68,22 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         $this->membershipStatusDelete( $result['id'] );
     }
 
-    function testMembershipStatusUpdateEmpty( ) 
+///// update section
+    function testUpdateWithEmptyParams( )
     {
         $params = array( );
         $result = civicrm_membership_status_update( $params );
-        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
     }
 
-    function testMembershipStatusUpdateMissingRequired( ) 
+    function testUpdateWithMissingRequired( )
     {
         $params = array( 'title' => 'Does not make sense' );
         $result = civicrm_membership_status_update( $params );
-        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
     }
     
-    function testMembershipStatusUpdate( ) 
+    function testUpdate( ) 
     {
         $membershipStatusID = $this->membershipStatusCreate( );
         $params = array( 'id'   => $membershipStatusID,
@@ -84,24 +93,25 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         $this->assertEquals( $result['is_error'], 0 );
         $this->membershipStatusDelete( $membershipStatusID );
     }
-    
-    function testMembershipStatusCalcEmpty( ) 
+
+/// calculate membership section
+    function testCalculateStatusWithEmptyParams( )
     {
         $calcParams = array( );
         
         $result = civicrm_membership_status_calc( $calcParams );
-        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
     }
     
-    function testMembershipStatusCalcNoMembershipid( ) 
+    function testCalculateStatusWithNoMembershipID( )
     {
         $calcParams = array( 'title' => 'Does not make sense' );
         
         $result = civicrm_membership_status_calc( $calcParams );
-        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
     }
     
-    function testMembershipStatusCalc( ) 
+    function testCalculateStatus( )
     {
         $this->markTestSkipped( 'Mysterious exit happens when executing this test... :-(' );        
         $params = array( 
@@ -112,7 +122,6 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
                         'end_date'    => '2008-06-13'
                         );
         $membershipID = $this->contactMembershipCreate( $params );
-
 
         $membershipStatusID = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership',$membershipID,'status_id');
         
@@ -126,25 +135,31 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         $this->membershipDelete( $membershipID );
     }
 
-    function testMembershipStatusDeleteEmpty( ) {
+//// delete section
+    function testDeleteEmptyParams( ) {
         $params = array( );
         $result = civicrm_membership_status_delete( $params );
-        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
     }
 
-    function testMembershipStatusDeleteMissingRequired( ) {
+    function testDeleteWrongParamsType()
+    {
+        $params = 'incorrect value';
+        $result = civicrm_membership_status_delete( $params );
+        $this->assertEquals( $result['is_error'], 1, "In line " . __LINE__ );
+    }
+
+    function testDeleteWithMissingRequired( ) {
         $params = array( 'title' => 'Does not make sense' );
         $result = civicrm_membership_status_delete( $params );
-        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
     }
 
-    function testMembershipStatusDelete( ) {
+    function testDelete( ) {
         $membershipID = $this->membershipStatusCreate( );
         $params = array( 'id' => $membershipID );
         $result = civicrm_membership_status_delete( $params );
         $this->assertEquals( $result['is_error'], 0 );
-    }    
-
-    
+    }        
 }
 
