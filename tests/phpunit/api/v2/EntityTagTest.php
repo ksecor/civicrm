@@ -165,6 +165,7 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
         $entity       =& civicrm_entity_tag_get( $paramsEntity ); 
         $this->assertEquals( $entity['is_error'], 1 );
         $this->assertNotNull( $entity['error_message'] );
+        $this->assertEquals( $entity['error_message'], 'contact_id is a required field' );
     }
     
     function testIndividualEntityTagGet( )
@@ -236,14 +237,14 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
     function testEntityTagRemoveNoContactId( )
     {
         $entityTagParams = array(
-                                 'contact_id_i' => $this->individualID,
-                                 'contact_id_h' => $this->householdID,
-                                 'tag_id'       => $this->tagID
+                                 'contact_id_i' => $this->_individualID,
+                                 'contact_id_h' => $this->_householdID,
+                                 'tag_id'       => $this->_tagID
                                  );
         $this->entityTagAdd( $entityTagParams );
         
         $params = array(
-                        'tag_id' => $this->tagID
+                        'tag_id' => $this->_tagID
                         );
                 
         $result = civicrm_entity_tag_remove( $params );
@@ -254,15 +255,15 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
     function testEntityTagRemoveNoTagId( )
     {
         $entityTagParams = array(
-                                 'contact_id_i' => $this->individualID,
-                                 'contact_id_h' => $this->householdID,
-                                 'tag_id'       => $this->tagID
+                                 'contact_id_i' => $this->_individualID,
+                                 'contact_id_h' => $this->_householdID,
+                                 'tag_id'       => $this->_tagID
                                  );
         $this->entityTagAdd( $entityTagParams );
         
         $params = array(
-                        'contact_id_i' => $this->individualID,
-                        'contact_id_h' => $this->householdID,
+                        'contact_id_i' => $this->_individualID,
+                        'contact_id_h' => $this->_householdID,
                         );
                 
         $result = civicrm_entity_tag_remove( $params );
@@ -273,19 +274,20 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
     function testEntityTagRemoveINDHH( )
     {
         $entityTagParams = array(
-                                 'contact_id_i' => $this->individualID,
-                                 'contact_id_h' => $this->householdID,
-                                 'tag_id'       => $this->tagID
+                                 'contact_id_i' => $this->_individualID,
+                                 'contact_id_h' => $this->_householdID,
+                                 'tag_id'       => $this->_tagID
                                  );
         $this->entityTagAdd( $entityTagParams );
         
         $params = array(
-                        'contact_id_i' => $this->individualID,
-                        'contact_id_h' => $this->householdID,
-                        'tag_id'       => $this->tagID
+                        'contact_id_i' => $this->_individualID,
+                        'contact_id_h' => $this->_householdID,
+                        'tag_id'       => $this->_tagID
                         );
-                
+        
         $result = civicrm_entity_tag_remove( $params );
+        
         $this->assertEquals( $result['is_error'], 0 );
         $this->assertEquals( $result['removed'], 2 );
     }    
@@ -293,15 +295,15 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
     function testEntityTagRemoveHH( )
     {
         $entityTagParams = array(
-                                 'contact_id_i' => $this->individualID,
-                                 'contact_id_h' => $this->householdID,
-                                 'tag_id'       => $this->tagID
+                                 'contact_id_i' => $this->_individualID,
+                                 'contact_id_h' => $this->_householdID,
+                                 'tag_id'       => $this->_tagID
                                  );
         $this->entityTagAdd( $entityTagParams );
         
         $params = array(
-                        'contact_id_h' => $this->householdID,
-                        'tag_id'       => $this->tagID
+                        'contact_id_h' => $this->_householdID,
+                        'tag_id'       => $this->_tagID
                         );
                 
         $result = civicrm_entity_tag_remove( $params );
@@ -311,16 +313,16 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
     function testEntityTagRemoveHHORG( )
     {
         $entityTagParams = array(
-                                 'contact_id_i' => $this->individualID,
-                                 'contact_id_h' => $this->householdID,
-                                 'tag_id'       => $this->tagID
+                                 'contact_id_i' => $this->_individualID,
+                                 'contact_id_h' => $this->_householdID,
+                                 'tag_id'       => $this->_tagID
                                  );
         $this->entityTagAdd( $entityTagParams );
         
         $params = array(
-                        'contact_id_h' => $this->householdID,
-                        'contact_id_o' => $this->organizationID,
-                        'tag_id'       => $this->tagID
+                        'contact_id_h' => $this->_householdID,
+                        'contact_id_o' => $this->_organizationID,
+                        'tag_id'       => $this->_tagID
                         );
                 
         $result = civicrm_entity_tag_remove( $params );
