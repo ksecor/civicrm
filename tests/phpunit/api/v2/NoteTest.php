@@ -1,4 +1,28 @@
 <?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 3.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
 
 require_once 'api/v2/Note.php';
 require_once 'tests/phpunit/CiviTest/CiviUnitTestCase.php';
@@ -46,6 +70,22 @@ class api_v2_NoteTest extends CiviUnitTestCase
         $this->_noteID    = $this->_note['id'];
     }
 
+    function tearDown( ) 
+    {
+        $this->noteDelete( $this->_note );
+        $this->contactDelete( $this->_contactID );
+    }
+
+///////////////// civicrm_note_get methods
+
+    /**
+     * check retrieve note with wrong params type
+     */
+    function testGetNoteWrongParamsType( )
+    {
+        $this->markTestIncomplete();
+    } 
+
     /**
      * check retrieve note with empty params
      */
@@ -81,6 +121,9 @@ class api_v2_NoteTest extends CiviUnitTestCase
         $result = civicrm_note_get( $params );
         $this->assertEquals( $result['is_error'], 0 );
     }
+
+
+///////////////// civicrm_note_create methods
     
     /**
      * Check create with wrong parameter (not Array)
@@ -91,7 +134,6 @@ class api_v2_NoteTest extends CiviUnitTestCase
         $result = civicrm_note_create( $params );
         
         $this->assertEquals( $result['is_error'], 1 );
-        $this->assertNotEquals( $result['error_message'], 'Required parameter missing' );
         $this->assertEquals( $result['error_message'], 'Params is not an array' );
     }    
 
@@ -128,16 +170,26 @@ class api_v2_NoteTest extends CiviUnitTestCase
         $this->assertEquals( $result['note'], 'Hello!!! m testing Note');
         $this->assertTrue( array_key_exists( 'entity_id', $result ) );
         $this->assertEquals( $result['is_error'], 0 );
-        civicrm_note_delete( $result );
     }
+
+///////////////// civicrm_note_update methods
+
+
+    /**
+     * Check update note with wrong params type.
+     */
+    function testUpdateWrongParamsType( )
+    {
+        $this->markTestIncomplete();
+    } 
 
     /**
      * Check update with empty params
      */
-    function testNoteUpdateEmpty( )
+    function testUpdateEmptyParams( )
     {
         $params = array();        
-        $note   = & civicrm_note_create( $params );
+        $note   = & civicrm_note_update( $params );
         $this->assertEquals( $note['is_error'], 1 );
         $this->assertEquals( $note['error_message'], 'Required parameter missing' );
     }
@@ -145,13 +197,13 @@ class api_v2_NoteTest extends CiviUnitTestCase
     /**
      * Check update with missing contact id
      */
-    function testNoteUpdateMissingContactId( )
+    function testUpdateMissingContactId( )
     {
         $params = array(
                         'entity_id'    => $this->_contactID,
                         'entity_table' => 'civicrm_contact'                
                         );        
-        $note   = & civicrm_note_create( $params );
+        $note   = & civicrm_note_update( $params );
         $this->assertEquals( $note['is_error'], 1 );
         $this->assertEquals( $note['error_message'], 'Required parameter missing' );
     }
@@ -171,17 +223,27 @@ class api_v2_NoteTest extends CiviUnitTestCase
                         );
         
         //Update Note
-        $note = & civicrm_note_create( $params );
+        $note = & civicrm_note_update( $params );
         
         $this->assertEquals( $note['id'],$this->_noteID );
         $this->assertEquals( $note['entity_id'],$this->_contactID );
         $this->assertEquals( $note['entity_table'],'civicrm_contribution' );
     }
 
+///////////////// civicrm_note_delete methods
+
+    /**
+     * Check update note with wrong params type.
+     */
+    function testDeleteWrongParamsType( )
+    {
+        $this->markTestIncomplete();
+    } 
+
     /**
      * Check delete with empty params
      */
-    function testNoteDeleteWithEmptyParams( )
+    function testDeleteWithEmptyParams( )
     {
         $params     = array();        
         $deleteNote = & civicrm_note_delete( $params );
@@ -193,7 +255,7 @@ class api_v2_NoteTest extends CiviUnitTestCase
     /**
      * Check delete with wrong id
      */    
-    function testNoteDeleteWithWrongID( )
+    function testDeleteWithWrongID( )
     {
         $params     = array( 'id' => 0 );        
         $deleteNote = & civicrm_note_delete( $params ); 
@@ -205,7 +267,7 @@ class api_v2_NoteTest extends CiviUnitTestCase
     /**
      * Check successful delete
      */        
-    function testNoteDelete( )
+    function testDelete( )
     {
         $params = array( 'id'        => $this->_noteID,
                          'entity_id' => $this->_note['entity_id']
@@ -217,11 +279,7 @@ class api_v2_NoteTest extends CiviUnitTestCase
         $this->assertEquals( $deleteNote['result'], 1 );
     }
     
-    function tearDown( ) 
-    {
-        $this->noteDelete( $this->_note );
-        $this->contactDelete( $this->_contactID );
-    }
+
 }
 
 
