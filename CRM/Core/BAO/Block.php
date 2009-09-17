@@ -219,28 +219,6 @@ class CRM_Core_BAO_Block
         //get existsing block ids.
         $blockIds  = self::getBlockIds( $blockName, $contactId, $entityElements );
         
-        // make sure we has to have single block as primary.
-        static $primaryLocBlockIds = null;
-        if ( $primaryLocBlockIds === null ) {
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $primaryLocBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $contactId );
-        }
-        $primaryBlockId = null;
-        if ( !empty( $primaryLocBlockIds ) ) {
-            if ( array_key_exists( $blockName, $primaryLocBlockIds ) ) {
-                $primaryBlockId = array_pop( $primaryLocBlockIds[$blockName] ); 
-            }
-        }
-        // check params has primary block.
-        $isPrimaryPresentInParams = false;
-        foreach ( $params[$blockName] as  $count => $value ) {
-            if ( !is_array( $value ) ) continue;
-            if ( CRM_Utils_Array::value( 'is_primary', $value ) ) {
-                $isPrimaryPresentInParams = true; 
-                break;
-            }
-        }
-        
         foreach ( $params[$blockName] as  $count => $value ) {
             if ( !is_array( $value ) ) continue;
             $contactFields = array( 'contact_id'       => $contactId,
@@ -263,23 +241,9 @@ class CRM_Core_BAO_Block
             if ( CRM_Utils_Array::value( 'id', $value ) && !$dataExits ) {
                 //delete the existing record
                 self::blockDelete( $name, array( 'id' => $value['id'] ) );
-                
-                // primary block is deleted.
-                if ( $primaryBlockId == $value['id'] ) $primaryBlockId = null;
                 continue;
             } else if ( !$dataExits ) {
                 continue;
-            }
-            
-            // primary block has been reset.
-            if ( $primaryBlockId == $value['id'] && !$value['is_primary'] ) {
-                $primaryBlockId = null;
-            }
-            
-            // make sure we has to have one primary block.
-            if ( !$primaryBlockId && !$isPrimaryPresentInParams ) {
-                $value['is_primary']      = true;
-                $isPrimaryPresentInParams = true;
             }
             
             if ( $isPrimary && $value['is_primary'] ) {

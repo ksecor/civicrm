@@ -344,16 +344,8 @@ function _civicrm_location_add( &$params, $locationTypeId = null ) {
             return civicrm_create_error( $errorMsg  );  
         }
         
-        $isPrimary = false;
         foreach ( $contact[$name] as $count => &$values ) {
-            // make sure we has to have one primary block.
-            if ( $primaryBlockIndex ) {
-                if ( $count != $primaryBlockIndex ) $values['is_primary'] = false;
-            } else if ( !$isPrimary ) {
-                $isPrimary = true;
-                $values['is_primary'] = true; 
-            }
-            
+            if ( $primaryBlockIndex && ($count != $primaryBlockIndex) ) $values['is_primary'] = false;
             if ( $billingBlockIndex && ($count != $billingBlockIndex) ) $values['is_billing'] = false;
             
             //kill the reference.
@@ -471,16 +463,7 @@ function _civicrm_location_update( $params, $locations ) {
             return civicrm_create_error( $errorMsg  );  
         }
         
-        $isPrimary = false;
         foreach ( $contact[$name] as $count => &$values ) {
-            // make sure we has to have one primary block.
-            if ( $primaryBlockIndex ) {
-                if ( $count != $primaryBlockIndex ) $values['is_primary'] = false;
-            } else if ( !$isPrimary ) {
-                $isPrimary = true;
-                $values['is_primary'] = true; 
-            }
-            
             if ( $primaryBlockIndex && ($count != $primaryBlockIndex) ) $values['is_primary'] = false;
             if ( $billingBlockIndex && ($count != $billingBlockIndex) ) $values['is_billing'] = false;
             // kill the reference.

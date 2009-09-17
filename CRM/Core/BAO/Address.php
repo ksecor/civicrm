@@ -77,28 +77,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             $addresses = self::allEntityAddress( $entityElements );
         }
 
-        // make sure we has to have single block as primary.
-        static $primaryLocBlockIds = null;
-        if ( $primaryLocBlockIds === null ) {
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $primaryLocBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $contactId );
-        }
-        $primaryBlockId = null;
-        if ( !empty( $primaryLocBlockIds ) ) {
-            if ( array_key_exists( 'address', $primaryLocBlockIds ) ) {
-                $primaryBlockId = array_pop( $primaryLocBlockIds['address'] ); 
-            }
-        }
-        // check params has primary block.
-        $isPrimaryPresentInParams = false;
-        foreach ( $params['address'] as  $count => $value ) {
-            if ( !is_array( $value ) ) continue;
-            if ( CRM_Utils_Array::value( 'is_primary', $value ) ) {
-                $isPrimaryPresentInParams = true; 
-                break;
-            }
-        }
-        
         $isPrimary = $isBilling = true;
         $blocks    = array( );
 
@@ -117,22 +95,9 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             if ( isset( $value['id'] ) && !$addressExists ) {
                 //delete the existing record
                 CRM_Core_BAO_Block::blockDelete( 'Address', array( 'id' => $value['id'] ) );
-
-                // primary block is deleted.
-                if ( $primaryBlockId == $value['id'] ) $primaryBlockId = null;
                 continue;
             } else if ( !$addressExists ) {
                 continue;
-            }
-
-            // primary block has been reset.
-            if ( $primaryBlockId == $value['id'] && !$value['is_primary'] ) {
-                $primaryBlockId = null;
-            }
-            // make sure we has to have one primary block.
-            if ( !$primaryBlockId && !$isPrimaryPresentInParams ) {
-                $value['is_primary']      = true;
-                $isPrimaryPresentInParams = true;
             }
             
             if ( $isPrimary && $value['is_primary'] ) {
