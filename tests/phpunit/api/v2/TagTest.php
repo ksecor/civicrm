@@ -59,10 +59,8 @@ class api_v2_TagTest extends CiviUnitTestCase
 
     function testCreate()
     {
-        $params = array(
-                        'name'        => 'New Tag3',
-                        'description' => 'This is description for New Tag 02'
-                        );
+        $params = array( 'name'        => 'New Tag3',
+                         'description' => 'This is description for New Tag 02' );
         
         $tag =& civicrm_tag_create($params); 
         $this->assertEquals($tag['is_error'], 0);
