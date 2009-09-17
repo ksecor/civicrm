@@ -3,8 +3,17 @@
 <fieldset><legend>{ts}Case Summary{/ts}</legend>
     <table class="report">
         <tr>
-            <td class="font-size11pt">
-                <label>{ts}Client{/ts}:</label>&nbsp;{$displayName}
+            <td>
+		<table class="form-layout">
+      	       	   <tr><td class="label-left" style="padding: 0px">{ts}Client{/ts}:</td>
+		       <td class="label-left" style="padding: 0px">{$displayName}</td>
+		   </tr>
+	       	   {if $caseRoles.client.phone}
+		       <tr><td class="label" style="padding: 0px" ></td>
+		       	   <td class="label-left description" style="padding: 0px">{$caseRoles.client.phone}</td>
+		       </tr>
+		   {/if}
+	    	</table>
             </td>
             <td>
                 <label>{ts}Case Type{/ts}:</label>&nbsp;{$caseDetails.case_type}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseTypeId`"}" title="Change case type (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
