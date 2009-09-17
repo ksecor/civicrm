@@ -138,6 +138,20 @@ function civicrm_relationship_delete( &$params ) {
 
 }
 
+/**
+ * Function to update relationship
+ *
+ * @param  array $params   Associative array of property name/value pairs to update the relationship
+ *
+ * @return array Array with relationship information
+ *
+ * @access public
+ *
+ */
+function civicrm_relationship_update( $params ) {
+    return civicrm_relationship_create( $params );
+}
+
 
 /**
  * Function to update relationship type
