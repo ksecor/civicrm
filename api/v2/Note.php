@@ -94,6 +94,21 @@ function &civicrm_note_create(&$params)
 }
 
 /**
+ * Updates an existing note with information
+ * 
+ * @params  array  $params   Params array
+ * 
+ * @return null
+ * @access public
+ *
+ * @todo Probably needs some work
+ */
+function &civicrm_note_update( &$params )
+{
+    return civicrm_note_create( $params );    
+}
+
+/**
  * Deletes an existing note
  * 
  * This API is used for deleting a note
