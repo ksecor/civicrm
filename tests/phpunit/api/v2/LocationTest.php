@@ -28,7 +28,6 @@
 require_once 'api/v2/Contact.php';
 require_once 'api/v2/Location.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
-require_once 'CRM/Core/BAO/LocationType.php';
 
 class api_v2_LocationTest extends CiviUnitTestCase 
 {
@@ -314,6 +313,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $locationDelete =& civicrm_location_delete( $params );
         
         $this->assertNull( $locationDelete );
+        $this->assertDBNull( 'CRM_Core_DAO_Address', $location['result']['address'][0],'contact_id','id', 'Check DB for deleted Location.');
     }
 
 ///////////////// civicrm_location_get methods
