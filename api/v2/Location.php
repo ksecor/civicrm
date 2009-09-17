@@ -91,6 +91,10 @@ function civicrm_location_add( &$params ) {
  */
 function civicrm_location_update( $params ) {
     _civicrm_initialize( );
+
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
     
     if( ! isset( $params['contact_id'] ) ) {
         return civicrm_create_error( ts ('$contact is not valid contact datatype') );
@@ -177,6 +181,10 @@ function civicrm_location_update( $params ) {
  */
 function civicrm_location_delete( &$contact ) {     
     _civicrm_initialize( );
+
+    if ( !is_array( $contact ) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
     
     if( ! isset( $contact['contact_id'] ) ) {
         return civicrm_create_error( ts('$contact is not valid contact datatype') );
@@ -205,6 +213,10 @@ function civicrm_location_delete( &$contact ) {
  */
 function civicrm_location_get( $contact ) {
     _civicrm_initialize( );
+
+    if ( !is_array( $contact ) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
     
     if( ! isset( $contact['contact_id'] ) ) {
         return civicrm_create_error('$contact is not valid contact datatype');
@@ -614,6 +626,10 @@ function &_civicrm_location_object_to_array( $locObject ) {
  * @access public
  */
 function _civicrm_location_check_params( &$params ) {
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
+
     // cannot create a location with empty params
     if ( empty( $params ) ) {
         return civicrm_create_error( 'Input Parameters empty' );
