@@ -1,0 +1,51 @@
+<?php
+
+define( 'CIVICRM_UF'               , 'Drupal'        );
+
+if ( !empty( $GLOBALS['mysql_user'] ) ) {
+    define( 'CIVICRM_DSN'          , "mysql://{$GLOBALS['mysql_user']}:{$GLOBALS['mysql_pass']}@{$GLOBALS['mysql_host']}/civicrm_tests_dev?new_link=true" );
+}
+
+global $civicrm_root;
+
+$civicrm_root = dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
+
+// ADJUST THIS PATH!
+define( 'CIVICRM_TEMPLATE_COMPILEDIR', '' );
+
+define( 'CIVICRM_SITE_KEY', 'phpunit test' );
+
+/**
+ * 
+ * Do not change anything below this line. Keep as is
+ *
+ */
+
+$include_path = '.'        . PATH_SEPARATOR .
+                $civicrm_root . PATH_SEPARATOR . 
+                $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR .
+                get_include_path( );
+set_include_path( $include_path );
+
+if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' ) {
+    define( 'CIVICRM_CLEANURL', 1 );
+} else {
+    define( 'CIVICRM_CLEANURL', 0 );
+}
+
+// force PHP to auto-detect Mac line endings
+ini_set('auto_detect_line_endings', '1');
+
+// make sure the memory_limit is at least 64 MB
+$memLimitString = trim(ini_get('memory_limit'));
+$memLimitUnit   = strtolower(substr($memLimitString, -1));
+$memLimit       = (int) $memLimitString;
+switch ($memLimitUnit) {
+    case 'g': $memLimit *= 1024;
+    case 'm': $memLimit *= 1024;
+    case 'k': $memLimit *= 1024;
+}
+if ($memLimit >= 0 and $memLimit < 67108864) {
+    ini_set('memory_limit', '64M');
+}
+
