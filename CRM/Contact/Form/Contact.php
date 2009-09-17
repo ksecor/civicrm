@@ -139,9 +139,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
             }
             
-            $this->_contactSubType = CRM_Utils_Request::retrieve( 'cst','String', 
-                                                                  CRM_Core_DAO::$_nullObject,
-                                                                  false,null,'GET' );
+            $this->_contactSubType = CRM_Utils_Request::retrieve( 'cst','String', $this );
+
             $this->_gid = CRM_Utils_Request::retrieve( 'gid', 'Integer',
                                                        CRM_Core_DAO::$_nullObject,
                                                        false, null, 'GET' );
@@ -609,6 +608,10 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $params['deceased_date']['Y'] = null;
         }
         
+        if ( $this->_contactSubType && ($this->_action & CRM_Core_Action::ADD) ) {
+            $params['contact_sub_type'] = $this->_contactSubType;
+        }
+
         // action is taken depending upon the mode
         require_once 'CRM/Utils/Hook.php';
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
