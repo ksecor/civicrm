@@ -4,7 +4,7 @@
     <table class="report">
         <tr>
             <td>
-		<table class="form-layout">
+		<table class="form-layout-compressed">
       	       	   <tr><td class="label-left" style="padding: 0px">{ts}Client{/ts}:</td>
 		       <td class="label-left" style="padding: 0px">{$displayName}</td>
 		   </tr>
