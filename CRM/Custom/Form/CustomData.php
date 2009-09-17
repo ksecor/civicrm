@@ -92,7 +92,16 @@ class CRM_Custom_Form_CustomData
                                                          $form->_subName );
 
         // we should use simplified formatted groupTree
-        $form->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, $form->_groupCount, $form );
+        $groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, $form->_groupCount, $form );
+
+        if ( is_array($form->_groupTree) ) {
+            $keys = array_keys($groupTree);
+            foreach ( $keys as $key ) {
+                $form->_groupTree[$key] = $groupTree[$key];
+            }
+        } else {
+            $form->_groupTree = $groupTree;
+        }
     }
 
     static function setDefaultValues( &$form ) 
