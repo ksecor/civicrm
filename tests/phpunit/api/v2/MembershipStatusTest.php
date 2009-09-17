@@ -113,7 +113,6 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
     
     function testCalculateStatus( )
     {
-        $this->markTestSkipped( 'Mysterious exit happens when executing this test... :-(' );        
         $params = array( 
                         'contact_id'         => $this->_contactID, 
                         'membership_type_id' => $this->_membershipTypeID,
@@ -121,17 +120,14 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
                         'start_date'  => '2007-06-14',
                         'end_date'    => '2008-06-13'
                         );
-        $membershipID = $this->contactMembershipCreate( $params );
 
+        $membershipID = $this->contactMembershipCreate( $params );
         $membershipStatusID = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership',$membershipID,'status_id');
-        
         $calcParams = array( 'membership_id' => $membershipID );
         $result = civicrm_membership_status_calc( $calcParams );
-        
         $this->assertEquals( $result['is_error'], 0 );
         $this->assertEquals( $membershipStatusID,$result['id'] );
         $this->assertNotNull( $result['id'] );
-        
         $this->membershipDelete( $membershipID );
     }
 
