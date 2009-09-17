@@ -547,7 +547,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $controller->run( );
                 
                 $template =& CRM_Core_Smarty::singleton( );
-                return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
+
+                $templateFile = "CRM/Profile/Form/{$profileID}/Dynamic.tpl";
+                if ( ! $template->template_exists( $templateFile ) ) {
+                    $templateFile = "CRM/Profile/Form/Dynamic.tpl";
+                }
+                return trim( $template->fetch( $templateFile ) );
             } else {
                 require_once 'CRM/Contact/BAO/Contact/Location.php';
                 $userEmail = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
