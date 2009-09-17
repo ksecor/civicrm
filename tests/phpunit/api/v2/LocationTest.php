@@ -306,12 +306,11 @@ class api_v2_LocationTest extends CiviUnitTestCase
                            'location_type' => 10 
                            );
         $locationDelete =& civicrm_location_delete( $params );
-
+        
         $this->assertEquals( $locationDelete['is_error'], 1 );
         $this->assertEquals( $locationDelete['error_message'], 'invalid location type' );                
-        $this->assertNotNull( $locationDelete );
     }
-
+    
 
     function testLocationDelete( )
     {
@@ -326,14 +325,20 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $this->assertNull( $locationDelete );
     }
 
-    function testLocationGetWithWrongParams()
+    function testLocationGetWithEmptyParams()
     {
         // empty params
         $result =& civicrm_location_get(array());
         $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testLocationGetWithoutContactId() {
         // no contact_id
         $result =& civicrm_location_get(array('location_type' => 'Main'));
         $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testLocationGetWithEmptyLocationType() {
         // location_type an empty array
         $result =& civicrm_location_get(array('contact_id' => $this->_contactId, 'location_type' => array()));
         $this->assertEquals($result['is_error'], 1);
@@ -394,7 +399,6 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $locationUpdate =& civicrm_location_update( $params );
 
         $this->assertEquals( $locationUpdate['is_error'], 1 );
-        $this->assertNotNull( $locationUpdate );
         $this->assertEquals( $locationUpdate['error_message'], 'missing or invalid location_type_id' );        
     }
 
