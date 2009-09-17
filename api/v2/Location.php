@@ -51,14 +51,16 @@ require_once 'api/v2/utils.php';
  */
 function civicrm_location_add( &$params ) {
     _civicrm_initialize( );
+    
     $error = _civicrm_location_check_params( $params );
     
     if ( civicrm_error( $error ) ) {
         return $error;
     }
     
-    $locationTypeId = null;
-    if ( '3.0' != CRM_Utils_Array::value( 'version', $params ) ) {
+    $locationTypeId = CRM_Utils_Array::value( 'location_type_id', $params );
+    if ( !$locationTypeId && 
+         '3.0' != CRM_Utils_Array::value( 'version', $params ) ) {
         require_once 'CRM/Core/DAO/LocationType.php';
         $locationTypeDAO = & new CRM_Core_DAO_LocationType();
         $locationTypeDAO->name      = $params['location_type'];
@@ -330,8 +332,16 @@ function _civicrm_location_add( &$params, $locationTypeId = null ) {
             return civicrm_create_error( $errorMsg  );  
         }
         
+        $isPrimary = false;
         foreach ( $contact[$name] as $count => &$values ) {
-            if ( $primaryBlockIndex && ($count != $primaryBlockIndex) ) $values['is_primary'] = false;
+            // make sure we has to have one primary block.
+            if ( $primaryBlockIndex ) {
+                if ( $count != $primaryBlockIndex ) $values['is_primary'] = false;
+            } else if ( !$isPrimary ) {
+                $isPrimary = true;
+                $values['is_primary'] = true; 
+            }
+            
             if ( $billingBlockIndex && ($count != $billingBlockIndex) ) $values['is_billing'] = false;
             
             //kill the reference.
@@ -345,7 +355,7 @@ function _civicrm_location_add( &$params, $locationTypeId = null ) {
     
     require_once 'CRM/Core/BAO/Location.php';
     $result = CRM_Core_BAO_Location::create( $contact );
-        
+    
     if ( empty( $result ) ) {
         return civicrm_create_error( ts ("Location not created" ) );
     }
@@ -449,7 +459,16 @@ function _civicrm_location_update( $params, $locations ) {
             return civicrm_create_error( $errorMsg  );  
         }
         
+        $isPrimary = false;
         foreach ( $contact[$name] as $count => &$values ) {
+            // make sure we has to have one primary block.
+            if ( $primaryBlockIndex ) {
+                if ( $count != $primaryBlockIndex ) $values['is_primary'] = false;
+            } else if ( !$isPrimary ) {
+                $isPrimary = true;
+                $values['is_primary'] = true; 
+            }
+            
             if ( $primaryBlockIndex && ($count != $primaryBlockIndex) ) $values['is_primary'] = false;
             if ( $billingBlockIndex && ($count != $billingBlockIndex) ) $values['is_billing'] = false;
             // kill the reference.
@@ -595,29 +614,26 @@ function &_civicrm_location_object_to_array( $locObject ) {
  * @access public
  */
 function _civicrm_location_check_params( &$params ) {
-    if ( '3.0' != CRM_Utils_Array::value( 'version', $params ) ) {
-        $required = array( 'contact_id', 'location_type' );
-    } else {
-        $required = array( 'contact_id' );
-    }
-    
     // cannot create a location with empty params
     if ( empty( $params ) ) {
         return civicrm_create_error( 'Input Parameters empty' );
     }
-
-    $valid = true;
-    $error = '';
-    foreach ( $required as $field ) {
-        if ( ! CRM_Utils_Array::value( $field, $params ) ) {
-            $valid = false;
-            $error .= $field;
-            break;
-        }
+    
+    $errorField = null;
+    if ( !CRM_Utils_Array::value( 'contact_id', $params ) ) {
+        $errorField = 'contact_id';  
     }
     
-    if ( ! $valid ) { 
-        return civicrm_create_error( "Required fields not found for location $error" );
+    //lets have user option to send location type id or location type.
+    if ( !$errorField && 
+         '3.0' != CRM_Utils_Array::value( 'version', $params ) &&
+         !CRM_Utils_Array::value( 'location_type_id', $params ) && 
+         !CRM_Utils_Array::value( 'location_type', $params ) ) {
+        $errorField = 'location_type';
+    }
+    
+    if ( $errorField ) {
+        return civicrm_create_error( "Required fields not found for location $errorField" ); 
     }
     
     return array();
