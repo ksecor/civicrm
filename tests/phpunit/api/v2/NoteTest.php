@@ -132,18 +132,6 @@ class api_v2_NoteTest extends CiviUnitTestCase
 ///////////////// civicrm_note_create methods
     
     /**
-     * Check create with wrong parameter (not Array)
-     * Error Expected
-     */
-    function testCreateParamsNotArray( )
-    {
-        $params = null;
-        $result = civicrm_note_create( $params );
-        $this->assertEquals( $result['is_error'], 1 );
-        $this->assertEquals( $result['error_message'], 'Params is not an array' );
-    }    
-
-    /**
      * Check create with wrong parameter
      * Error expected
      */
@@ -153,6 +141,7 @@ class api_v2_NoteTest extends CiviUnitTestCase
         $result =& civicrm_note_create( $params );
         $this->assertEquals( $result['is_error'], 1, 
                              "In line " . __LINE__ );
+        $this->assertEquals( $result['error_message'], 'Params is not an array' );                             
     } 
     
     /**
