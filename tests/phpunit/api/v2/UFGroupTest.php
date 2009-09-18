@@ -161,7 +161,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
             'field_type'       => 'Contact',
             'visibility'       => 'Public Pages and Listings',
             'weight'           => 1,
-            'location_type_id' => 1,
             'label'            => 'Test Country',
             'is_searchable'    => 1,
             'is_active'        => 1,
@@ -175,13 +174,12 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         }
 
         $ufProfile = civicrm_uf_profile_fields_get($this->_ufGroupId);
-        $this->assertEquals($ufProfile['country-1']['field_type'],       $params['field_type']);
-        $this->assertEquals($ufProfile['country-1']['title'],            $params['label']);
-        $this->assertEquals($ufProfile['country-1']['visibility'],       $params['visibility']);
-        $this->assertEquals($ufProfile['country-1']['location_type_id'], $params['location_type_id']);
-        $this->assertEquals($ufProfile['country-1']['group_id'],         $this->_ufGroupId);
-        $this->assertEquals($ufProfile['country-1']['groupTitle'],       'Test Profile');
-        $this->assertEquals($ufProfile['country-1']['groupHelpPre'],     'Profle to Test API');
+        $this->assertEquals($ufProfile['country-Primary']['field_type'],       $params['field_type']);
+        $this->assertEquals($ufProfile['country-Primary']['title'],            $params['label']);
+        $this->assertEquals($ufProfile['country-Primary']['visibility'],       $params['visibility']);
+        $this->assertEquals($ufProfile['country-Primary']['group_id'],         $this->_ufGroupId);
+        $this->assertEquals($ufProfile['country-Primary']['groupTitle'],       'Test Profile');
+        $this->assertEquals($ufProfile['country-Primary']['groupHelpPre'],     'Profle to Test API');
     }
 
 
@@ -236,7 +234,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
             'field_type'       => 'Contact',
             'visibility'       => 'Public Pages and Listings',
             'weight'           => 1,
-            'location_type_id' => 1,
             'label'            => 'Test Country',
             'is_searchable'    => 1,
             'is_active'        => 1,
@@ -283,7 +280,7 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
             $this->assertEquals($ufField[$key], $params[$key]);
         }
         $result = civicrm_uf_field_delete($ufField['id']);
-        $this->assertEquals($result, 1);
+        $this->assertEquals($result, true);
     }
 
 
