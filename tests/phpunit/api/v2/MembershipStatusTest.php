@@ -1,4 +1,30 @@
 <?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 3.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+
 
 require_once 'api/v2/Membership.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
@@ -19,7 +45,7 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
                      );
     }
 
-    function setup( ) 
+    function setUp( ) 
     {
         parent::setUp();
 
@@ -40,7 +66,8 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         $this->contributionTypeDelete( $this->_contributionTypeID );
     }
 
-/// create section
+///////////////// civicrm_membership_status_create methods
+
     function testCreateWithEmptyParams( ) {
         $params = array( );
         $result = civicrm_membership_status_create( $params );
@@ -68,7 +95,14 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         $this->membershipStatusDelete( $result['id'] );
     }
 
-///// update section
+///////////////// civicrm_membership_status_update methods
+
+    function testUpdateWrongParamsType( ) {
+        $params = 1;
+        $result = civicrm_membership_status_update( $params );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
+    }
+
     function testUpdateWithEmptyParams( )
     {
         $params = array( );
@@ -94,7 +128,15 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         $this->membershipStatusDelete( $membershipStatusID );
     }
 
-/// calculate membership section
+///////////////// civicrm_membership_status_calc methods
+
+    function testCalcWrongParamsType()
+    {
+        $params = 'incorrect value';
+        $result = civicrm_membership_status_calc( $params );
+        $this->assertEquals( $result['is_error'], 1, "In line " . __LINE__ );
+    }
+
     function testCalculateStatusWithEmptyParams( )
     {
         $calcParams = array( );
@@ -113,13 +155,11 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
     
     function testCalculateStatus( )
     {
-        $params = array( 
-                        'contact_id'         => $this->_contactID, 
-                        'membership_type_id' => $this->_membershipTypeID,
-                        'join_date'   => '2007-06-14',
-                        'start_date'  => '2007-06-14',
-                        'end_date'    => '2008-06-13'
-                        );
+        $params = array( 'contact_id'         => $this->_contactID, 
+                         'membership_type_id' => $this->_membershipTypeID,
+                         'join_date'   => '2007-06-14',
+                         'start_date'  => '2007-06-14',
+                         'end_date'    => '2008-06-13' );
 
         $membershipID = $this->contactMembershipCreate( $params );
         $membershipStatusID = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership',$membershipID,'status_id');
@@ -131,7 +171,8 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         $this->membershipDelete( $membershipID );
     }
 
-//// delete section
+///////////////// civicrm_membership_status_delete methods
+
     function testDeleteEmptyParams( ) {
         $params = array( );
         $result = civicrm_membership_status_delete( $params );
