@@ -150,7 +150,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 		buttons: { 
 			"Ok": function() { 	    
 				if ( ! cj("#rel_contact").val( ) ) {
-					alert('Select valid contact from the list.');
+					alert('{ts}Select valid contact from the list{/ts}.');
 					return false;
 				}
 
@@ -160,7 +160,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 				var v1 = cj("#rel_contact_id").val( );
 
 				if ( ! v1 ) {
-					alert('Select valid contact from the list.');
+					alert('{ts}Select valid contact from the list{/ts}.');
 					return false;
 				}
 
@@ -343,7 +343,7 @@ function addRole() {
 		buttons: { 
 			"Ok": function() { 	    
 				if ( ! cj("#role_contact").val( ) ) {
-					alert('Select valid contact from the list.');
+					alert('{ts}Select valid contact from the list{/ts}.');
 					return false;
 				}
 
@@ -354,13 +354,13 @@ function addRole() {
 				var v1 = cj("#role_contact_id").val( );
 
 				if ( ! v1 ) {
-					alert('Select valid contact from the list.');
+					alert('{ts}Select valid contact from the list{/ts}.');
 					return false;
 				}
 
 				var v2 = cj("#role_type").val();
 				if ( ! v2 ) {
-					alert('Select valid type from the list.');
+					alert('{ts}Select valid type from the list{/ts}.');
 					return false;
 				}
 				

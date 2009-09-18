@@ -254,7 +254,7 @@ function fileOnCase() {
 			"Ok": function() { 	    
 				var v1 = cj("#case_select").val();
 				if ( ! v1 ) {
-					alert('Please select a case from the list.');
+					alert('{ts}Please select a case from the list{/ts}.');
 					return false;
 				}
 				var v2 = cj("#case_subject").val();
@@ -263,7 +263,7 @@ function fileOnCase() {
  				var activityID = {/literal}"{$entityID}"{literal};
  				var underscore_pos = v1.indexOf('_');
  				if (underscore_pos < 1) {
- 					alert('A problem occurred during case selection.');
+ 					alert('{ts}A problem occurred during case selection{/ts}.');
  					return false;
  				}
  				var case_id = v1.substring(0, underscore_pos);
@@ -278,7 +278,7 @@ function fileOnCase() {
                     		if (data.error_msg == "") {
                             	window.location.href = destUrl + case_id + '&cid=' + contact_id;
                             } else {
-                            	alert("Unable to file on case.\n\n" + data.error_msg);
+                            	alert('{ts}Unable to file on case{/ts}.\n\n" + data.error_msg);
                             	return false;
                             } 
                         }, 'json' 
