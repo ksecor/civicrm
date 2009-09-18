@@ -277,7 +277,31 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                           'title' => ts('Internal Contact ID') );
                                           
         unset( $fields['Contact']['contact_type'] );
-        
+
+        //Contact Sub Type For Profile
+        require_once 'CRM/Core/PseudoConstant.php';
+        $contactSubType = CRM_Core_PseudoConstant::contactSubTypes();
+
+        foreach ( $contactSubType as $val ) {
+            //unset main sub type
+            if ( in_array( $val,  array('Individual', 'Household', 'Organization' ) ) ) {
+                unset($contactSubType[$val]);
+                continue;
+            }
+
+            //custom fields for sub type
+            $subTypeFields[$val] = CRM_Core_BAO_CustomField::getFieldsForImport( $val );
+
+            if ( empty( $subTypeFields[$val] ) ) {
+                //no custom data unset it
+                unset($subTypeFields[$val]);
+                unset($contactSubType[$val]);
+            } else {
+                //add to fields
+                $fields[$val] = $subTypeFields[$val];
+            }
+        }
+
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
@@ -374,7 +398,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
 
         $sel1 = array( '' => '- select -' ) 
             + array( 'Contact' => 'Contacts' ) 
-            + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
+            + CRM_Core_SelectValues::contactType()
+            + $contactSubType;
         
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $sel1['Student'] = 'Students';
