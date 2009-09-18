@@ -102,13 +102,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 CRM_Core_Payment_Form::mapParams( $this->_bltID, $expressParams, $params, false );
                 
                 // fix state and country id if present
-                if ( isset( $params["state_province_id-{$this->_bltID}"] ) ) {
-                    $params["state_province-{$this->_bltID}"] =
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params["state_province_id-{$this->_bltID}"] ); 
+                if ( isset( $params["billing_state_province_id-{$this->_bltID}"] ) ) {
+                    $params["billing_state_province-{$this->_bltID}"] =
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params["billing_state_province_id-{$this->_bltID}"] ); 
                 }
-                if ( isset( $params['country_id'] ) ) {
-                    $params["country-{$this->_bltID}"]        =
-                        CRM_Core_PseudoConstant::countryIsoCode( $params["country_id-{$this->_bltID}"] ); 
+                if ( isset( $params['billing_country_id'] ) ) {
+                    $params["billing_country-{$this->_bltID}"] =
+                        CRM_Core_PseudoConstant::countryIsoCode( $params["billing_country_id-{$this->_bltID}"] ); 
                 }
 
                 // set a few other parameters for PayPal
@@ -147,15 +147,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         } else {
             //process only primary participant params.
             $registerParams = $this->_params[0];
-            if ( isset( $registerParams["state_province_id-{$this->_bltID}"] ) 
-                 && $registerParams["state_province_id-{$this->_bltID}"] ) {
-                $registerParams["state_province-{$this->_bltID}"] =
-                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $registerParams["state_province_id-{$this->_bltID}"] ); 
+            if ( isset( $registerParams["billing_state_province_id-{$this->_bltID}"] ) 
+                 && $registerParams["billing_state_province_id-{$this->_bltID}"] ) {
+                $registerParams["billing_state_province-{$this->_bltID}"] =
+                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $registerParams["billing_state_province_id-{$this->_bltID}"] ); 
             }
             
-            if ( isset( $registerParams["country_id-{$this->_bltID}"] ) && $registerParams["country_id-{$this->_bltID}"] ) {
-                $registerParams["country-{$this->_bltID}"]        =
-                    CRM_Core_PseudoConstant::countryIsoCode( $registerParams["country_id-{$this->_bltID}"] ); 
+            if ( isset( $registerParams["billing_country_id-{$this->_bltID}"] ) && $registerParams["billing_country_id-{$this->_bltID}"] ) {
+                $registerParams["billing_country-{$this->_bltID}"] =
+                    CRM_Core_PseudoConstant::countryIsoCode( $registerParams["billing_country_id-{$this->_bltID}"] ); 
             }
             if ( isset( $registerParams['credit_card_exp_date'] ) ) {
                 $registerParams['year'   ]        = $registerParams['credit_card_exp_date']['Y'];  
@@ -330,8 +330,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $fields[$name] = 1;
             }
         }
-        $fields["state_province-{$this->_bltID}"] =
-            $fields["country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
+        $fields["billing_state_province-{$this->_bltID}"] =
+            $fields["billing_country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
       
         foreach ($fields as $name => $dontCare ) {
             if ( isset($this->_params[0][$name]) ) {
@@ -428,13 +428,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                                         "billing_first_name",
                                         "billing_middle_name",
                                         "billing_last_name",
-                                        "street_address-{$this->_bltID}",
-                                        "city-{$this->_bltID}",
-                                        "state_province-{$this->_bltID}",
-                                        "state_province_id-{$this->_bltID}",
-                                        "postal_code-{$this->_bltID}",
-                                        "country-{$this->_bltID}",
-                                        "country_id-{$this->_bltID}",
+                                        "billing_street_address-{$this->_bltID}",
+                                        "billing_city-{$this->_bltID}",
+                                        "billing_state_province-{$this->_bltID}",
+                                        "billing_state_province_id-{$this->_bltID}",
+                                        "billing_postal_code-{$this->_bltID}",
+                                        "billing_country-{$this->_bltID}",
+                                        "billing_country_id-{$this->_bltID}",
                                         "address_name-{$this->_bltID}"
                                         );
                 foreach( $billingFields as $field ) {
