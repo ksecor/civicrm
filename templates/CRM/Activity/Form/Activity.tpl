@@ -254,7 +254,7 @@ function fileOnCase() {
 			"Ok": function() { 	    
 				var v1 = cj("#case_select").val();
 				if ( ! v1 ) {
-					alert('{ts}Please select a case from the list{/ts}.');
+					alert('{/literal}{ts}Please select a case from the list{/ts}{literal}.');
 					return false;
 				}
 				var v2 = cj("#case_subject").val();

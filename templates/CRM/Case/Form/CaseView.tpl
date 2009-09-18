@@ -150,7 +150,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 		buttons: { 
 			"Ok": function() { 	    
 				if ( ! cj("#rel_contact").val( ) ) {
-					alert('{ts}Select valid contact from the list{/ts}.');
+					alert('{/literal}{ts}Select valid contact from the list{/ts}{literal}.');
 					return false;
 				}
 
@@ -160,7 +160,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 				var v1 = cj("#rel_contact_id").val( );
 
 				if ( ! v1 ) {
-					alert('{ts}Select valid contact from the list{/ts}.');
+					alert('{/literal}{ts}Select valid contact from the list{/ts}{literal}.');
 					return false;
 				}
 
@@ -174,7 +174,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
                         cj('#relName_' + rowNumber ).html( html );
 
                         html = '';
-                        html = '<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">&nbsp;&nbsp; <a href=' + deleteUrl + data.rel_id +' onclick = "if (confirm(\'{ts}Are you sure you want to delete this relationship{/ts}?\') ) this.href +=\'&confirmed=1\'; else return false;"><img title="remove contact from case role" src="' +resourceBase+'i/delete.png"/></a>';
+                        html = '<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">&nbsp;&nbsp; <a href=' + deleteUrl + data.rel_id +' onclick = "if (confirm(\'{/literal}{ts}Are you sure you want to delete this relationship{/ts}{literal}?\') ) this.href +=\'&confirmed=1\'; else return false;"><img title="remove contact from case role" src="' +resourceBase+'i/delete.png"/></a>';
                         cj('#edit_' + rowNumber ).html( html );
 
                         html = '';
@@ -343,7 +343,7 @@ function addRole() {
 		buttons: { 
 			"Ok": function() { 	    
 				if ( ! cj("#role_contact").val( ) ) {
-					alert('{ts}Select valid contact from the list{/ts}.');
+					alert('{/literal}{ts}Select valid contact from the list{/ts}{literal}.');
 					return false;
 				}
 
@@ -354,13 +354,13 @@ function addRole() {
 				var v1 = cj("#role_contact_id").val( );
 
 				if ( ! v1 ) {
-					alert('{ts}Select valid contact from the list{/ts}.');
+					alert('{/literal}{ts}Select valid contact from the list{/ts}{literal}.');
 					return false;
 				}
 
 				var v2 = cj("#role_type").val();
 				if ( ! v2 ) {
-					alert('{ts}Select valid type from the list{/ts}.');
+					alert('{/literal}{ts}Select valid type from the list{/ts}{literal}.');
 					return false;
 				}
 				
@@ -548,7 +548,7 @@ function checkSelection( field ) {
         case '_qf_CaseView_next' :
             validationMessage = 'Please select an activity set from the list.';
             validationField   = 'timeline_id';
-            successAction     = "confirm('{ts}Are you sure you want to add a set of scheduled activities to this case{/ts}?');";
+            successAction     = "confirm('{/literal}{ts}Are you sure you want to add a set of scheduled activities to this case{/ts}{literal}?');";
             break;
 
         case 'new_activity' :

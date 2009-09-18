@@ -87,7 +87,7 @@
                              cj('#name').autocomplete( dataUrl, { width : 180, selectFirst : false, matchContains: true });
                         } else { 
                             cj('#name').unautocomplete( );
-                            cj('#name').click( function() { alert( '{ts}First Select Relationship Type{/ts} ...' );});
+                            cj('#name').click( function() { alert( '{/literal}{ts}First Select Relationship Type{/ts}{literal} ...' );});
                         }
                     }       
 				  </script>
