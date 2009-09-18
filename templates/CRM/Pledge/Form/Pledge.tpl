@@ -153,7 +153,7 @@ function loadPanes( id ) {
        var element = document.getElementsByName("is_acknowledge");
         if ( element[0].checked ) {
             var ackemail = cj("#email-address").html();
-            var ok = confirm( "Click OK to save this Pledge record AND send an acknowledgment to " + ackemail +" now." );    
+            var ok = confirm( '{ts}Click OK to save this Pledge record AND send an acknowledgment to ' + ackemail +' now{/ts}.' );    
             if (!ok ) {
                 return false;
             }
