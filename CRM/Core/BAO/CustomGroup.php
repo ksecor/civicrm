@@ -804,13 +804,23 @@ SELECT $select
         switch($entityType) {
         case 'Contact':
             // if contact, get all related to contact
-            $customGroupDAO->whereAdd("extends IN ('Contact', 'Individual', 'Household', 'Organization')");
+            $extendList      = "'Contact','Individual','Household','Organization'";
+            $contactSubTypes = CRM_Core_PseudoConstant::contactSubTypes( $entityType );
+            if ( !empty($contactSubTypes) ) {
+                $extendList .= ",'" . implode("','", array_keys($contactSubTypes)) . "'";
+            }
+            $customGroupDAO->whereAdd("extends IN ( $extendList )");
             break;
         case 'Individual':
         case 'Household':
         case 'Organization':
             // is I/H/O then get I/H/O and contact
-            $customGroupDAO->whereAdd("extends IN ('Contact', '$entityType')");
+            $extendList      = "'Contact','$entityType'";
+            $contactSubTypes = CRM_Core_PseudoConstant::contactSubTypes( $entityType );
+            if ( !empty($contactSubTypes) ) {
+                $extendList .= ",'" . implode("','", array_keys($contactSubTypes)) . "'";
+            }
+            $customGroupDAO->whereAdd("extends IN ( $extendList )");
             break;
         case 'Location':
         case 'Address':

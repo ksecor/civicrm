@@ -237,10 +237,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         if ( array_key_exists( 'CustomData', $this->_editOptions ) ) {
             //only custom data has preprocess hence directly call it
             CRM_Custom_Form_CustomData::preProcess( $this, null, null, 1, $this->_contactType, $this->_contactId );
-            if ( $this->_contactSubType ) {
-                CRM_Custom_Form_CustomData::preProcess( $this, null, null, 
-                                                        1, $this->_contactSubType, $this->_contactId );
-            }
         }
         
         // this is needed for custom data.

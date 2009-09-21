@@ -1434,24 +1434,49 @@ ORDER BY name";
      * @return array - array reference of all contact types.
      *
      */
-    public static function contactSubTypes( )
+    public static function contactSubTypes( $parents = null, $all = false, $additionalCond = null )
     {
-        if ( ! self::$contactSubTypes ) {
+        $index = $all ? '1' : '0';
+        if ( $parents && !is_array( $parents ) ) {
+            $parents = array( $parents );
+        }
+
+        $parentJOIN = $parentWHERE = '';
+        if ( ! empty($parents) ) {
+            $parentJOIN  = "INNER JOIN  civicrm_contact_type cctp ON cct.parent_id = cctp.id";
+            $parentWHERE = " AND cctp.name IN ('" . implode( "','" , $parents ) . "')" ;
+            $index      .= implode( "_" , $parents );
+        }
+
+        if ( $additionalCond ) {
+            // reset caching for this case
             self::$contactSubTypes = array( );
+        }
+
+        if ( ! array_key_exists($index, self::$contactSubTypes) ) {
+            self::$contactSubTypes[$index] = array( );
 
             $query = "
 SELECT distinct(cct.name) name, cct.label label
-FROM   civicrm_contact_type cct
-WHERE  cct.name IS NOT NULL
+FROM   civicrm_contact_type cct $parentJOIN
+WHERE  cct.name IS NOT NULL $parentWHERE
 ";
+            if ( ! $all ) {
+                $query .= " AND cct.parent_id IS NOT NULL";
+            }
+
+            if ( $additionalCond ) {
+                $query .= " AND ( $additionalCond ) ";
+            }
+
             $dao = CRM_Core_DAO::executeQuery( $query );
             
             $result = array( );
             while ( $dao->fetch( ) ) {
-                self::$contactSubTypes[$dao->name] = $dao->label;
+                self::$contactSubTypes[$index][$dao->name] = $dao->label;
             }
         }
-        return self::$contactSubTypes;
+        return self::$contactSubTypes[$index];
     }
 }
 
