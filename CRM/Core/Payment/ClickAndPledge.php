@@ -31,7 +31,7 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
     function __construct( $mode, &$paymentProcessor ) {
         $this->_mode             = $mode;
         $this->_paymentProcessor = $paymentProcessor;
-        $this->_processorName    = 'Click And Pledge';
+        $this->_processorName    = ts('Click And Pledge');
 
         if ( $this->_paymentProcessor['payment_processor_type'] == 'ClickAndPledge' ) {
             return;

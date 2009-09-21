@@ -50,7 +50,7 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
     function __construct( $mode, &$paymentProcessor ) {
         $this->_mode             = $mode;
         $this->_paymentProcessor = $paymentProcessor;
-        $this->_processorName    = 'Moneris';
+        $this->_processorName    = ts('Moneris');
 
         require_once 'Services/mpgClasses.php'; // require moneris supplied api library
         $config =& CRM_Core_Config::singleton( ); // get merchant data from config
