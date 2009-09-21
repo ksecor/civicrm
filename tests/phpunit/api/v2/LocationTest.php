@@ -1,9 +1,33 @@
 <?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 3.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
 
 require_once 'api/v2/Contact.php';
 require_once 'api/v2/Location.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
-require_once 'CRM/Core/BAO/LocationType.php';
 
 class api_v2_LocationTest extends CiviUnitTestCase 
 {
@@ -28,32 +52,43 @@ class api_v2_LocationTest extends CiviUnitTestCase
     
     function tearDown() 
     {
-        $this->contactDelete( $this->_contactID ) ;
-        CRM_Core_BAO_LocationType::del( $this->_locationType->id );
     }    
+
+///////////////// civicrm_location_add methods
+
+    function testAddWrongParamsType()
+    {
+        $params = 1; 
+        $location = & civicrm_location_add($params);
+
+        $this->assertEquals( $location['is_error'], 1 );
+        $this->assertEquals( 'Params need to be of type array!', $location['error_message'] );
+    }
    
-    function testAddLocationWithEmptyParams()
+    function testAddWithEmptyParams()
     {
         $params = array();        
         $location = & civicrm_location_add($params);
-                    
+
+        $this->assertEquals( $location['is_error'], 1 );                    
         $this->assertEquals( $location['error_message'], 'Input Parameters empty' );
     }
 
 
-    function testAddLocationWithoutContactid()
+    function testAddWithoutContactid()
     {
         $params = array('location_type' => 'Home',
                         'is_primary'    => 1,
                         'name'          => 'Ashbury Terrace'
                         );
         $location = & civicrm_location_add($params);
-        
+ 
+        $this->assertEquals( $location['is_error'], 1 );       
         $this->assertEquals( $location['error_message'], 'Required fields not found for location contact_id' );
     }
 
 
-    function testAddLocationWithoutLocationid()
+    function testAddWithoutLocationid()
     {
         $params = array('contact_id'    => $this->_contactID,
                         'is_primary'    => 1,
@@ -61,30 +96,13 @@ class api_v2_LocationTest extends CiviUnitTestCase
                         );
         
         $location = & civicrm_location_add($params);
-        
+
+        $this->assertEquals( $location['is_error'], 1 );        
         $this->assertEquals( $location['error_message'], 'Required fields not found for location location_type' );
     }
 
-// from v2.0 onward we don't support location add without location blocks.
-//     function testAddLocationOrganizationOnlyLocaitonInfo()
-//     {
-//         $params = array('contact_id'    => $this->_contactID,
-//                         'location_type' => 'Work',
-//                         'is_primary'    => 1,
-//                         'name'          => 'Saint Helier St'
-//                         );
-//        
-//         $location = & civicrm_location_add($params);
-//        
-//         $match    = array( );
-//         $match['address'][0] = array( 'contact_id'             => $this->_contactID,
-//                                       'location_type_id'       => 2,
-//                                       'is_primary'             => 1 );
-//         $this->checkResult( $location['result'], $match );
-//     }
-    
 
-    function testAddLocationOrganizationWithAddress()
+    function testAddOrganizationWithAddress()
     {
         $params = array('contact_id'             => $this->_contactID,
                         'location_type'          => 'New Location Type',
@@ -109,10 +127,10 @@ class api_v2_LocationTest extends CiviUnitTestCase
                                       'supplemental_address_1' => 'Hallmark Ct',
                                       'supplemental_address_2' => 'Jersey Village' );
         
-        $this->checkResult( $location['result'], $match );
+        $this->_checkResult( $location['result'], $match );
     }
 
-    function testAddLocationOrganizationWithoutStreetAddress()
+    function testAddWithoutStreetAddress()
     {
         $params = array('contact_id'             => $this->_contactID,
                         'location_type'          => 'New Location Type',
@@ -136,10 +154,10 @@ class api_v2_LocationTest extends CiviUnitTestCase
                                       'supplemental_address_1' => 'Hallmark Ct',
                                       'supplemental_address_2' => 'Jersey Village' );
         
-        $this->checkResult( $location['result'], $match );
+        $this->_checkResult( $location['result'], $match );
     }
     
-    function testAddLocationOrganizationWithAddressEmail()
+    function testAddWithAddressEmail()
     {
         $workPhone = array( 'phone'         => '91-20-276048',
                             'phone_type_id' => 1,
@@ -234,36 +252,21 @@ class api_v2_LocationTest extends CiviUnitTestCase
                                  'is_primary'       => 1,
                                  'provider_id'      => 5,
                                  'contact_id'       => $this->_contactID );
-        $this->checkResult( $location['result'], $match );
+        $this->_checkResult( $location['result'], $match );
     }
     
-    function checkResult( &$result, &$match )
+///////////////// civicrm_location_delete methods
+
+    function testDeleteWrongParamsType()
     {
-        if ( CRM_Utils_Array::value( 'address', $match ) ) {
-            $this->assertDBState( 'CRM_Core_DAO_Address', $result['address'][0], $match['address'][0] );
-        }
+        $location = 1;
         
-        if ( CRM_Utils_Array::value( 'phone', $match ) ) {
-            for( $i = 0; $i < count( $result['phone'] ); $i++){
-                $this->assertDBState( 'CRM_Core_DAO_Phone', $result['phone'][$i], $match['phone'][$i] );
-            }
-        }
-        
-        if ( CRM_Utils_Array::value( 'email', $match ) ) {
-            for( $i=0; $i < count( $result['email'] ); $i++){
-                $this->assertDBState( 'CRM_Core_DAO_Email', $result['email'][$i], $match['email'][$i] );
-            }
-        }
-        
-        if ( CRM_Utils_Array::value( 'im', $match ) ) {
-            for( $i=0; $i<count( $result['im'] ); $i++){
-                $this->assertDBState( 'CRM_Core_DAO_IM', $result['im'][$i], $match['im'][$i] );
-            }
-        }
-        
+        $locationDelete =& civicrm_location_delete($location);
+        $this->assertEquals( $locationDelete['is_error'], 1 );
+        $this->assertEquals( $locationDelete['error_message'], 'Params need to be of type array!' );        
     }
 
-    function testLocationDeleteWithEmptyParams( )
+    function testDeleteWithEmptyParams( )
     {
         $location = array( );
         $locationDelete =& civicrm_location_delete( $location );
@@ -271,16 +274,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $this->assertEquals( $locationDelete['error_message'], '$contact is not valid contact datatype' );
     }
     
-    function testLocationDeleteWithoutId( )
-    {
-        $location = "noID";
-        
-        $locationDelete =& civicrm_location_delete($location);
-        $this->assertEquals( $locationDelete['is_error'], 1 );
-        $this->assertEquals( $locationDelete['error_message'], 'missing or invalid location' );        
-    }
-
-    function testLocationDeleteWithMissingContactId( )
+    function testDeleteWithMissingContactId( )
     {
         $params = array( 'location_type' => 3 );
         $locationDelete =& civicrm_location_delete( $params );
@@ -289,7 +283,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $this->assertEquals( $locationDelete['error_message'], '$contact is not valid contact datatype' );        
     }
    
-    function testLocationDeleteWithMissingLocationTypeId( )
+    function testDeleteWithMissingLocationTypeId( )
     {
         $params    = array( 'contact_id'    => $this->_contactID );
         $locationDelete =& civicrm_location_delete( $params );
@@ -299,12 +293,10 @@ class api_v2_LocationTest extends CiviUnitTestCase
     }
 
 
-    function testLocationDeleteWithNoMatch( )
+    function testDeleteWithNoMatch( )
     {
-        $params    = array(
-                           'contact_id'    =>  $this->_contactID,
-                           'location_type' => 10 
-                           );
+        $params    = array( 'contact_id'    =>  $this->_contactID,
+                            'location_type' => 10 );
         $locationDelete =& civicrm_location_delete( $params );
         
         $this->assertEquals( $locationDelete['is_error'], 1 );
@@ -312,39 +304,56 @@ class api_v2_LocationTest extends CiviUnitTestCase
     }
     
 
-    function testLocationDelete( )
+    function testDelete( )
     {
         $location  = $this->locationAdd(  $this->_contactID );
         
-        $params = array(
-                        'contact_id'    => $this->_contactID,
-                        'location_type' => $location['result']['location_type_id']
-                        );
+        $params = array( 'contact_id'    => $this->_contactID,
+                         'location_type' => $location['result']['location_type_id'] );
         $locationDelete =& civicrm_location_delete( $params );
         
         $this->assertNull( $locationDelete );
+        $this->assertDBNull( 'CRM_Core_DAO_Address', $location['result']['address'][0],'contact_id','id', 'Check DB for deleted Location.');
     }
 
-    function testLocationGetWithEmptyParams()
+///////////////// civicrm_location_get methods
+
+    function testGetWrongParamsType()
+    {
+        $params = 1;
+
+        $result =& civicrm_location_get( $params );
+        $this->assertEquals($result['is_error'], 1);
+        $this->assertEquals( 'Params need to be of type array!', $result['error_message'] );
+    }
+
+    function testGetWithEmptyParams()
     {
         // empty params
-        $result =& civicrm_location_get(array());
+        $params = array();
+
+        $result =& civicrm_location_get( $params );
         $this->assertEquals($result['is_error'], 1);
     }
 
-    function testLocationGetWithoutContactId() {
+    function testGetWithoutContactId() {
         // no contact_id
-        $result =& civicrm_location_get(array('location_type' => 'Main'));
+        $params = array('location_type' => 'Main');
+        
+        $result =& civicrm_location_get( $params );
         $this->assertEquals($result['is_error'], 1);
     }
 
-    function testLocationGetWithEmptyLocationType() {
+    function testGetWithEmptyLocationType() {
         // location_type an empty array
-        $result =& civicrm_location_get(array('contact_id' => $this->_contactId, 'location_type' => array()));
+        $params = array('contact_id' => $this->_contactId, 
+                        'location_type' => array() );
+        
+        $result =& civicrm_location_get( $params );
         $this->assertEquals($result['is_error'], 1);
     }
 
-    function testLocationGet()
+    function testGet()
     {
         $location  = $this->locationAdd(  $this->_contactID ); 
         
@@ -365,22 +374,25 @@ class api_v2_LocationTest extends CiviUnitTestCase
         }
     }
 
-    function testLocationUpdateWithEmptyParams( ) 
-    {
-        $params = array( );
-        $result = civicrm_location_update( $params );
-        $this->assertEquals( $result['is_error'], 1 );
-    }
+///////////////// civicrm_location_update methods
 
 
-    function testLocationUpdateError( )
+    function testUpdateWrongParamsType( )
     {
-        $location = "noID";
+        $location = 1;
         
         $locationUpdate =& civicrm_location_update($location);
         $this->assertEquals( $locationUpdate['is_error'], 1 );
-        $this->assertEquals( $locationUpdate['error_message'], 'missing or invalid location_type_id' );        
+        $this->assertEquals( 'Params need to be of type array!', $locationUpdate['error_message'] );
         
+    }
+
+    function testLocationUpdateWithEmptyParams( ) 
+    {
+        $params = array( );
+
+        $result = civicrm_location_update( $params );
+        $this->assertEquals( $result['is_error'], 1 );
     }
 
     function testLocationUpdateWithMissingContactId( )
@@ -390,7 +402,6 @@ class api_v2_LocationTest extends CiviUnitTestCase
         
         $this->assertEquals( $locationUpdate['is_error'], 1 );
         $this->assertEquals( $locationUpdate['error_message'], '$contact is not valid contact datatype' );        
-        $this->assertNotNull( $locationUpdate );
     }
    
     function testLocationUpdateWithMissingLocationTypeId( )
@@ -430,6 +441,33 @@ class api_v2_LocationTest extends CiviUnitTestCase
         $this->assertEquals( $locationUpdate['is_error'], 0 );
     }
 
+///////////////// helper methods
+
+    function _checkResult( &$result, &$match )
+    {
+        if ( CRM_Utils_Array::value( 'address', $match ) ) {
+            $this->assertDBState( 'CRM_Core_DAO_Address', $result['address'][0], $match['address'][0] );
+        }
+        
+        if ( CRM_Utils_Array::value( 'phone', $match ) ) {
+            for( $i = 0; $i < count( $result['phone'] ); $i++){
+                $this->assertDBState( 'CRM_Core_DAO_Phone', $result['phone'][$i], $match['phone'][$i] );
+            }
+        }
+        
+        if ( CRM_Utils_Array::value( 'email', $match ) ) {
+            for( $i=0; $i < count( $result['email'] ); $i++){
+                $this->assertDBState( 'CRM_Core_DAO_Email', $result['email'][$i], $match['email'][$i] );
+            }
+        }
+        
+        if ( CRM_Utils_Array::value( 'im', $match ) ) {
+            for( $i=0; $i<count( $result['im'] ); $i++){
+                $this->assertDBState( 'CRM_Core_DAO_IM', $result['im'][$i], $match['im'][$i] );
+            }
+        }
+        
+    }
     
 }
  

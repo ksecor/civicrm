@@ -1830,3 +1830,15 @@ div.grippie {
 #crm-container th.contriTotalLeft {
    border-left: 1px solid #999999;
 }
+
+#crm-container .collapsed {
+   background: url("../i/TreePlus.gif") no-repeat 0 0;
+   padding-left: 19px;
+   cursor:pointer
+}
+
+#crm-container .expanded {
+   background: url("../i/TreeMinus.gif") no-repeat 0 0;
+   padding-left: 19px;
+   cursor:pointer
+}

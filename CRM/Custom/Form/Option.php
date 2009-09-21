@@ -356,8 +356,10 @@ SELECT count(*)
 
         // set values for custom field properties and save
         require_once 'CRM/Core/DAO/OptionValue.php';
+        require_once 'CRM/Utils/String.php';
         $customOption                =& new CRM_Core_DAO_OptionValue();
         $customOption->label         = $params['label'];
+        $customOption->name          = CRM_Utils_String::titleToVar( $params['label'] );
         $customOption->weight        = $params['weight'];
         $customOption->value         = $params['value'];
         $customOption->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );

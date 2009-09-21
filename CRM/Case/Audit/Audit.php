@@ -119,6 +119,7 @@ class Audit
 
                 if ( $printReport ) {
                     $caseActivities[$activityindex] = CRM_Utils_Array::crmArrayMerge($activityStatusType[$activityindex], $caseActivities[$activityindex] );
+                    $caseActivities[$activityindex]['sortValues'] = $sortValues;
                 }
 
 
@@ -165,8 +166,12 @@ class Audit
 					unset($retval[$activityindex]);
 				}
 			}
-			
-			uasort($retval, array(&$this, "compareActivities"));
+
+            if ( $printReport ) {	
+                uasort($caseActivities, array(&$this, "compareActivities"));
+            } else {
+                uasort($retval, array(&$this, "compareActivities"));
+            }
 		}
 		
         if ( $printReport ) {

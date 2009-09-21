@@ -77,8 +77,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             $addresses = self::allEntityAddress( $entityElements );
         }
 
-        $isPrimary = true;
-        $isBilling = true;
+        $isPrimary = $isBilling = true;
         $blocks    = array( );
 
         require_once "CRM/Core/BAO/Block.php";
@@ -100,7 +99,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             } else if ( !$addressExists ) {
                 continue;
             }
-
+            
             if ( $isPrimary && $value['is_primary'] ) {
                 $isPrimary = false;
             } else {

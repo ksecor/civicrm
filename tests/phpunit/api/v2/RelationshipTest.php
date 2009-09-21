@@ -1,4 +1,29 @@
 <?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 3.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
 
 require_once 'api/v2/Relationship.php';
 require_once 'api/v2/CustomGroup.php';
@@ -45,8 +70,13 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
                                );
         $this->_relTypeID = $this->relationshipTypeCreate($relTypeParams );        
     }
+
+    function tearDown() 
+    {
+    }
     
-    ///////////////// civicrm_relationship_create methods
+///////////////// civicrm_relationship_create methods
+
     /**
      * check with empty array
      */
@@ -274,7 +304,8 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
         return $ids;
     }
 
-    ///////////////// civicrm_relationship_delete methods
+///////////////// civicrm_relationship_delete methods
+
     /**
      * check with empty array
      */
@@ -353,7 +384,7 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
         $this->relationshipTypeDelete( $this->_relTypeID ); 
     }
     
-    ///////////////// civicrm_relationship_update methods
+///////////////// civicrm_relationship_update methods
 
     /**
      * check with empty array
@@ -480,7 +511,6 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
                            );
 
         $result = & civicrm_relationship_create( $relParams );
-        $this->assertNotNull( $result['result']['id'] );
         
         //get relationship
         $params = array( 'contact_id' => $this->_cId_b );
@@ -489,11 +519,7 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
     }
     
      
-    function tearDown() 
-    {
-        $this->contactDelete( $this->_cId_a );
-        $this->contactDelete( $this->_cId_b );
-    }
+
 }
  
 ?> 

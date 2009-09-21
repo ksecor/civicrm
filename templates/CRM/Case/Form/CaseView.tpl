@@ -3,8 +3,17 @@
 <fieldset><legend>{ts}Case Summary{/ts}</legend>
     <table class="report">
         <tr>
-            <td class="font-size11pt">
-                <label>{ts}Client{/ts}:</label>&nbsp;{$displayName}
+            <td>
+		<table class="form-layout-compressed">
+      	       	   <tr><td class="label-left" style="padding: 0px">{ts}Client{/ts}:</td>
+		       <td class="label-left" style="padding: 0px">{$displayName}</td>
+		   </tr>
+	       	   {if $caseRoles.client.phone}
+		       <tr><td class="label" style="padding: 0px" ></td>
+		       	   <td class="label-left description" style="padding: 0px">{$caseRoles.client.phone}</td>
+		       </tr>
+		   {/if}
+	    	</table>
             </td>
             <td>
                 <label>{ts}Case Type{/ts}:</label>&nbsp;{$caseDetails.case_type}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseTypeId`"}" title="Change case type (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
@@ -57,7 +66,7 @@
            
             <td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="reset=1&action=add&atype=3&cid=`$row.cid`&caseid=`$caseID`"}" title="{ts}compose and send an email{/ts}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}compose and send an email{/ts}"/></a>&nbsp;{/if}</td>
           {if $relId neq 'client'}
-            <td id ="edit_{$rowNumber}"><img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );">&nbsp;&nbsp;<a href="{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&id=`$relId`&caseID=`$caseID`"}" onclick = "if (confirm('Are you sure you want to remove this person from their case role?') ) this.href+='&confirmed=1'; else return false;"><img title="remove contact from case role" src="{$config->resourceBase}i/delete.png"/></a></td>
+            <td id ="edit_{$rowNumber}"><img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );">&nbsp;&nbsp;<a href="{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&id=`$relId`&caseID=`$caseID`"}" onclick = "if (confirm('{ts}Are you sure you want to remove this person from their case role{/ts}?') ) this.href+='&confirmed=1'; else return false;"><img title="remove contact from case role" src="{$config->resourceBase}i/delete.png"/></a></td>
           {else}
             <td></td>
           {/if}
@@ -141,7 +150,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 		buttons: { 
 			"Ok": function() { 	    
 				if ( ! cj("#rel_contact").val( ) ) {
-					alert('Select valid contact from the list.');
+					alert('{/literal}{ts}Select valid contact from the list{/ts}{literal}.');
 					return false;
 				}
 
@@ -151,7 +160,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 				var v1 = cj("#rel_contact_id").val( );
 
 				if ( ! v1 ) {
-					alert('Select valid contact from the list.');
+					alert('{/literal}{ts}Select valid contact from the list{/ts}{literal}.');
 					return false;
 				}
 
@@ -165,7 +174,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
                         cj('#relName_' + rowNumber ).html( html );
 
                         html = '';
-                        html = '<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">&nbsp;&nbsp; <a href=' + deleteUrl + data.rel_id +' onclick = "if (confirm(\'Are you sure you want to delete this relationship?\') ) this.href +=\'&confirmed=1\'; else return false;"><img title="remove contact from case role" src="' +resourceBase+'i/delete.png"/></a>';
+                        html = '<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">&nbsp;&nbsp; <a href=' + deleteUrl + data.rel_id +' onclick = "if (confirm(\'{/literal}{ts}Are you sure you want to delete this relationship{/ts}{literal}?\') ) this.href +=\'&confirmed=1\'; else return false;"><img title="remove contact from case role" src="' +resourceBase+'i/delete.png"/></a>';
                         cj('#edit_' + rowNumber ).html( html );
 
                         html = '';
@@ -199,6 +208,13 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 
 function showHideSearch( ) {
    cj("#searchOptions").toggle( );
+   if ( cj("#searchFilter").hasClass('collapsed') ) {
+       cj("#searchFilter").removeClass('collapsed');
+       cj("#searchFilter").addClass('expanded');
+   } else {
+       cj("#searchFilter").removeClass('expanded');
+       cj("#searchFilter").addClass('collapsed');
+   }
 }
 
 cj(document).ready(function(){
@@ -338,7 +354,7 @@ function addRole() {
 		buttons: { 
 			"Ok": function() { 	    
 				if ( ! cj("#role_contact").val( ) ) {
-					alert('Select valid contact from the list.');
+					alert('{/literal}{ts}Select valid contact from the list{/ts}{literal}.');
 					return false;
 				}
 
@@ -349,13 +365,13 @@ function addRole() {
 				var v1 = cj("#role_contact_id").val( );
 
 				if ( ! v1 ) {
-					alert('Select valid contact from the list.');
+					alert('{/literal}{ts}Select valid contact from the list{/ts}{literal}.');
 					return false;
 				}
 
 				var v2 = cj("#role_type").val();
 				if ( ! v2 ) {
-					alert('Select valid type from the list.');
+					alert('{/literal}{ts}Select valid type from the list{/ts}{literal}.');
 					return false;
 				}
 				
@@ -404,8 +420,8 @@ curDate = (new Date()).getTime();
 
 <div id="activities" class="section-shown">
 <fieldset>
-  <legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Activities{/ts}</legend>
-  <div><a id="searchFilter" href="javascript:showHideSearch( );">{ts}Search Filters{/ts}</a></div>
+<legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Activities{/ts}</legend>
+  <div><a id="searchFilter" href="javascript:showHideSearch( );" class="collapsed">{ts}Search Filters{/ts}</a></div>
   <table class="no-border form-layout-compressed" id="searchOptions">
     <tr>
         <td><label for="reporter_id">{ts}Reporter/Role{/ts}</label><br />
@@ -417,34 +433,29 @@ curDate = (new Date()).getTime();
 	<td style="vertical-align: bottom;"><input class="form-submit default" name="_qf_Basic_refresh" value="Search" type="button" onclick="search()"; /></td>
     </tr>
     <tr>
-        <td> 
-	            {$form.activity_date_low.label} 
-                <br />
-                {$form.activity_date_low.html}
-                &nbsp;
+        <td>
+	    {$form.activity_date_low.label}<br />
+            {$form.activity_date_low.html}&nbsp;
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_1} 
                 {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_activity_1}
-                
         </td>
         <td> 
-                {$form.activity_date_high.label}
-                <br /> 
-                {$form.activity_date_high.html}
-                &nbsp;
+            {$form.activity_date_high.label}<br /> 
+            {$form.activity_date_high.html}&nbsp;
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_2} 
                 {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_activity_2}
         </td>
     </tr>
-	{if $form.activity_deleted}    
-	<tr>
-		<td>
-			{$form.activity_deleted.html}    
-			{$form.activity_deleted.label}
-		</td>
+    {if $form.activity_deleted}    
+    	<tr>
+	     <td>
+		 {$form.activity_deleted.html}{$form.activity_deleted.label}
+	     </td>
 	</tr>
 	{/if}
   </table>
   <br />
+
   <table id="activities-selector"  class="nestedActivitySelector" style="display:none"></table>
 
 </fieldset>
@@ -533,7 +544,7 @@ function checkSelection( field ) {
         case '_qf_CaseView_next' :
             validationMessage = 'Please select an activity set from the list.';
             validationField   = 'timeline_id';
-            successAction     = "confirm('Are you sure you want to add a set of scheduled activities to this case?');";
+            successAction     = "confirm('{/literal}{ts}Are you sure you want to add a set of scheduled activities to this case{/ts}{literal}?');";
             break;
 
         case 'new_activity' :
@@ -559,7 +570,6 @@ function checkSelection( field ) {
 
 
 function setSelectorClass( ) {
-    
     cj("#activities-selector td:last-child").each( function( ) {
        cj(this).parent().attr( 'class', cj(this).text() );
     });

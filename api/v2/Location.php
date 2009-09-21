@@ -51,14 +51,16 @@ require_once 'api/v2/utils.php';
  */
 function civicrm_location_add( &$params ) {
     _civicrm_initialize( );
+    
     $error = _civicrm_location_check_params( $params );
     
     if ( civicrm_error( $error ) ) {
         return $error;
     }
     
-    $locationTypeId = null;
-    if ( '3.0' != CRM_Utils_Array::value( 'version', $params ) ) {
+    $locationTypeId = CRM_Utils_Array::value( 'location_type_id', $params );
+    if ( !$locationTypeId && 
+         '3.0' != CRM_Utils_Array::value( 'version', $params ) ) {
         require_once 'CRM/Core/DAO/LocationType.php';
         $locationTypeDAO = & new CRM_Core_DAO_LocationType();
         $locationTypeDAO->name      = $params['location_type'];
@@ -89,6 +91,10 @@ function civicrm_location_add( &$params ) {
  */
 function civicrm_location_update( $params ) {
     _civicrm_initialize( );
+
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
     
     if( ! isset( $params['contact_id'] ) ) {
         return civicrm_create_error( ts ('$contact is not valid contact datatype') );
@@ -175,6 +181,10 @@ function civicrm_location_update( $params ) {
  */
 function civicrm_location_delete( &$contact ) {     
     _civicrm_initialize( );
+
+    if ( !is_array( $contact ) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
     
     if( ! isset( $contact['contact_id'] ) ) {
         return civicrm_create_error( ts('$contact is not valid contact datatype') );
@@ -203,6 +213,10 @@ function civicrm_location_delete( &$contact ) {
  */
 function civicrm_location_get( $contact ) {
     _civicrm_initialize( );
+
+    if ( !is_array( $contact ) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
     
     if( ! isset( $contact['contact_id'] ) ) {
         return civicrm_create_error('$contact is not valid contact datatype');
@@ -345,7 +359,7 @@ function _civicrm_location_add( &$params, $locationTypeId = null ) {
     
     require_once 'CRM/Core/BAO/Location.php';
     $result = CRM_Core_BAO_Location::create( $contact );
-        
+    
     if ( empty( $result ) ) {
         return civicrm_create_error( ts ("Location not created" ) );
     }
@@ -595,29 +609,30 @@ function &_civicrm_location_object_to_array( $locObject ) {
  * @access public
  */
 function _civicrm_location_check_params( &$params ) {
-    if ( '3.0' != CRM_Utils_Array::value( 'version', $params ) ) {
-        $required = array( 'contact_id', 'location_type' );
-    } else {
-        $required = array( 'contact_id' );
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
     }
-    
+
     // cannot create a location with empty params
     if ( empty( $params ) ) {
         return civicrm_create_error( 'Input Parameters empty' );
     }
-
-    $valid = true;
-    $error = '';
-    foreach ( $required as $field ) {
-        if ( ! CRM_Utils_Array::value( $field, $params ) ) {
-            $valid = false;
-            $error .= $field;
-            break;
-        }
+    
+    $errorField = null;
+    if ( !CRM_Utils_Array::value( 'contact_id', $params ) ) {
+        $errorField = 'contact_id';  
     }
     
-    if ( ! $valid ) { 
-        return civicrm_create_error( "Required fields not found for location $error" );
+    //lets have user option to send location type id or location type.
+    if ( !$errorField && 
+         '3.0' != CRM_Utils_Array::value( 'version', $params ) &&
+         !CRM_Utils_Array::value( 'location_type_id', $params ) && 
+         !CRM_Utils_Array::value( 'location_type', $params ) ) {
+        $errorField = 'location_type';
+    }
+    
+    if ( $errorField ) {
+        return civicrm_create_error( "Required fields not found for location $errorField" ); 
     }
     
     return array();
