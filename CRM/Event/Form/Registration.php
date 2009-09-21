@@ -524,7 +524,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $addressFields = array( );
         foreach ($addressParts as $part) {
             list( $n, $id ) = explode( '-', $part );
-            if ( isset ( $params[$part] ) ) {
+            if ( isset ( $params['billing_' . $part] ) ) {
                 $addressFields[$n] = CRM_Utils_Array::value( 'billing_' . $part, $params );
             }
         }
