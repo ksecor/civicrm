@@ -353,7 +353,7 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
         $this->relationshipTypeDelete( $this->_relTypeID ); 
     }
     
-    ///////////////// civicrm_relationship_create methods for update
+    ///////////////// civicrm_relationship_update methods
 
     /**
      * check with empty array
@@ -361,7 +361,7 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
     function testRelationshipUpdateEmpty( )
     {
         $params = array( );
-        $result =& civicrm_relationship_create( $params );
+        $result =& civicrm_relationship_update( $params );
         $this->assertEquals( $result['is_error'], 1 );
         $this->assertEquals( $result['error_message'], 'No input parameter present' );
     }
@@ -372,7 +372,7 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
     function testRelationshipUpdateParamsNotArray( )
     {
         $params = 'relationship_type_id = 5';                            
-        $result =& civicrm_relationship_create( $params );
+        $result =& civicrm_relationship_update( $params );
         $this->assertEquals( $result['is_error'], 1 );
         $this->assertEquals( $result['error_message'], 'Input parameter is not an array' );
     }
@@ -388,7 +388,7 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
                         'is_active'  => 1
                         );
         
-        $result =& civicrm_relationship_create( $params );
+        $result =& civicrm_relationship_update( $params );
         $this->assertEquals( $result['is_error'], 1 );
         $this->assertEquals( $result['error_message'], 'Missing required parameters' );
     }  
@@ -422,7 +422,7 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
                         'is_active'            => 0
                         );
         
-        $result = & civicrm_relationship_create( $params );
+        $result = & civicrm_relationship_update( $params );
         
         $this->assertNotNull( $result['result']['id'] );   
         
