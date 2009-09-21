@@ -173,7 +173,12 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             }
 
             require_once 'CRM/Contact/BAO/Contact/Location.php';
-            list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $billingLocationTypeId );
+            if ( !array_key_exists('related_contact', $values) ) {
+                list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $billingLocationTypeId );
+            } else {
+                list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+            }
+
             
             //for display profile need to get individual contact id,  
             //hence get it from related_contact if on behalf of org true CRM-3767.
