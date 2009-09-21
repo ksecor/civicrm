@@ -42,7 +42,7 @@ class CRM_Core_BAO_AddressTest extends CiviUnitTestCase
                                          'is_billing' =>'0' 
                                          );
                                        
-        $params['address']['contact_id'] = $contactId;
+        $params['contact_id'] = $contactId;
         
         
         $fixAddress = true;
@@ -58,7 +58,7 @@ class CRM_Core_BAO_AddressTest extends CiviUnitTestCase
         $params['address']['1'] = array (
                                          
                                          'id' => $addressId,
-                                         'street_address' => 'Oberoi Garden',
+                                         'street_address' => '120 Terminal Road',
                                          'supplemental_address_1' => 'A-wing:3037',
                                          'supplemental_address_2' => 'Bandra',
                                          'city' => 'Athens',
@@ -71,13 +71,16 @@ class CRM_Core_BAO_AddressTest extends CiviUnitTestCase
                                          'is_primary' => '1',
                                          'is_billing' => '0'
                                          );
-        $params['address']['contact_id'] = $contactId;
+        $params['contact_id'] = $contactId;
         
         
         require_once 'CRM/Core/BAO/Address.php';
         $block = CRM_Core_BAO_Address::create( $params, $fixAddress, $entity = null );
-        $addressId = $this->assertDBNotNull( 'CRM_Core_DAO_Address', $contactId, 'id', 'contact_id',
-                                             'Database check for deleted address.' );
+
+        $cid = $this->assertDBNotNull( 'CRM_Core_DAO_Address', $contactId, 'id', 'contact_id',
+                                       'Database check for updated address by contactId.' );
+        $addressId = $this->assertDBNotNull( 'CRM_Core_DAO_Address', '120 Terminal Road' , 'id', 'street_address',
+                                            'Database check for updated address by street_name.' );
         Contact::delete( $contactId );
     }
 
@@ -221,7 +224,7 @@ class CRM_Core_BAO_AddressTest extends CiviUnitTestCase
     
 
     /**
-    * getValues() method (get Adress fields)
+    * getValues() method (get Address fields)
     */
     function testGetValues( )
     {
@@ -243,7 +246,7 @@ class CRM_Core_BAO_AddressTest extends CiviUnitTestCase
                                          'is_billing' =>'0' 
                                          );
         
-        $params['address']['contact_id'] = $contactId;
+        $params['contact_id'] = $contactId;
         
         
         $fixAddress = true;
