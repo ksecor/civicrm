@@ -102,8 +102,9 @@ class CRM_Utils_Mail
                 CRM_Core_Session::setStatus( $message, false );
                 return false;
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     static function errorMessage( $mailer, $result ) {

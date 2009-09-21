@@ -1113,25 +1113,28 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             $activityParams['details']            = $message;
             $activityParams['target_contact_id']  = $info['contact_id'];
             
-            $result[] = CRM_Utils_Mail::send( $receiptFrom,
-                                              $displayName,
-                                              $mail,
-                                              $subject,
-                                              $message,
-                                              null,
-                                              null,
-                                              null,
-                                              null,
-                                              $attachments
-                                              );
-            
-            $activity = CRM_Activity_BAO_Activity::create( $activityParams );
-
-            //create case_activity record if its case activity.
-            if ( $caseId ) {
-                $caseParams = array( 'activity_id' => $activity->id,
-                                     'case_id'     => $caseId   );
-                self::processCaseActivity( $caseParams );
+            $result[$info['contact_id']] = CRM_Utils_Mail::send( $receiptFrom,
+                                                                 $displayName,
+                                                                 $mail,
+                                                                 $subject,
+                                                                 $message,
+                                                                 null,
+                                                                 null,
+                                                                 null,
+                                                                 null,
+                                                                 $attachments
+                                                                 );
+            if ( !empty($result[$info['contact_id']]) ) {            
+                $activity = CRM_Activity_BAO_Activity::create( $activityParams );
+                
+                //create case_activity record if its case activity.
+                if ( $caseId ) {
+                    $caseParams = array( 'activity_id' => $activity->id,
+                                         'case_id'     => $caseId   );
+                    self::processCaseActivity( $caseParams );
+                }
+            } else {
+                unset($result[$info['contact_id']]);  
             }
         }
         return $result;
