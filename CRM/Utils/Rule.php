@@ -44,7 +44,7 @@ class CRM_Utils_Rule
     {
     
         // check length etc
-        if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > $maxLength ) {
+        if ( empty( $str ) || strlen( $str ) > $maxLength ) {
             return false;
         }
     
