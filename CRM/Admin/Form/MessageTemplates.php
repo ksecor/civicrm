@@ -74,7 +74,35 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
         $this->add('text', 'msg_title', ts('Message Title'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MessageTemplates', 'msg_title' ),true );
         
         $this->add('text', 'msg_subject', ts('Message Subject'), 
+
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MessageTemplates', 'msg_subject' ) );
+
+        //get the tokens.
+        $tokens = CRM_Core_SelectValues::contactTokens( );
+        if ( CRM_Utils_System::getClassName( $form )  == 'CRM_Mailing_Form_Upload' ) {
+            $tokens = array_merge( CRM_Core_SelectValues::mailingTokens( ), $tokens );
+        }
+        
+        //sorted in ascending order tokens by ignoring word case
+        natcasesort($tokens);
+        $this->assign('tokens', $tokens);
+        $this->add( 'select', 'token1',  ts( 'Insert Tokens' ), 
+                    $tokens , false, 
+                    array(
+                          'size'     => "5",
+                          'multiple' => true,
+                          'onchange' => "return tokenReplText(this);"
+                          )
+                    );
+        
+        $this->add( 'select', 'token2',  ts( 'Insert Tokens' ), 
+                    $tokens , false,
+                    array(
+                          'size'     => "5",
+                          'multiple' => true,
+                          'onchange' => "return tokenReplHtml(this);"
+                          )
+                    );
         $this->add('textarea', 'msg_text', ts('Text Message'), 
                    "cols=50 rows=6" );
         $this->addWysiwyg( 'msg_html', ts('HTML Message'),

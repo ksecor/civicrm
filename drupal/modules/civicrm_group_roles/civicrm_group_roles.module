@@ -232,7 +232,7 @@ function civicrm_role_granted_by_other_group($contact_id, $rid, $group_id) {
       $grpsuserin = drupal_substr($grpsuserin, 0, -1);       
       
       //do any of them grant this role?
-      $rolecount = db_result(db_query('SELECT count(*) FROM `drup_civicrm_group_roles_rules` WHERE group_id in(%s) AND role_id=%d', $grpsuserin, $rid));
+      $rolecount = db_result(db_query('SELECT count(*) FROM {civicrm_group_roles_rules} WHERE group_id in(%s) AND role_id=%d', $grpsuserin, $rid));
       
       //flip to boolean
       return ($rolecount>0);
@@ -271,22 +271,6 @@ function civicrm_group_roles_menu( )
                                                                   'access arguments' => array('access settings'),
                                                                   'type' => MENU_LOCAL_TASK,
                                                                   ); 
-    //     $items['admin/settings/civicrm_group_roles/configure'] = array(
-    //                                                                    'title' => t('Configure'),
-    //                                                                    'page callback' => 'drupal_get_form',
-    //                                                                    'page arguments' => array('civicrm_group_roles_configure'),
-    //                                                                    'access callback' => 'user_access',
-    //                                                                    'access arguments' => array('access settings'),
-    //                                                                    'type' => MENU_LOCAL_TASK,
-    //                                                                    );
-    //     $items['admin/settings/civicrm_group_roles/manual_sync'] = array(
-    //                                                                      'title' => t('Manually Synchronize'),
-    //                                                                      'page callback' => 'drupal_get_form',
-    //                                                                      'page arguments' => array('civicrm_group_roles_manual_sync'),
-    //                                                                      'access callback' => 'user_access',
-    //                                                                      'access arguments' => array('access settings'),
-    //                                                                      'type' => MENU_LOCAL_TASK,
-    //                                                                      );        
     return $items;
 }
 

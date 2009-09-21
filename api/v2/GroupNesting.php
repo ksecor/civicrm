@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -41,22 +41,23 @@
 require_once 'api/v2/utils.php';
 
 /**
- * This API will give list of the groups for particular contact 
- * Particualr status can be sent in params array
- * If no status mentioned in params, by default 'added' will be used
- * to fetch the records
+ * Provides group nesting record(s) given parent and/or child id.
  * 
- * @param  array $params  name value pair of contact information
+ * @param  array $params  an array containing at least child_group_id or parent_group_id
  *
- * @return  array  list of groups, given contact subsribed to
+ * @return  array  list of group nesting records
  */
 function civicrm_group_nesting_get( &$params )
 {
     _civicrm_initialize();
 
+    if( ! is_array($params) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
+    
     if ( ! array_key_exists( 'child_group_id', $params ) &&
          ! array_key_exists( 'parent_group_id', $params ) ) {
-        return civicrm_create_error( ts( 'at least one of child_group_id or parent_group_id is a required field' ) );
+        return civicrm_create_error( ts( 'At least one of child_group_id or parent_group_id is a required field' ) );
     }
 
     require_once 'CRM/Contact/DAO/GroupNesting.php';
@@ -67,32 +68,83 @@ function civicrm_group_nesting_get( &$params )
     if ( array_key_exists( 'parent_group_id', $params ) ) {
         $dao->parent_group_id = $params['parent_group_id'];
     }
-    $values = array( );
-    _civicrm_object_to_array( $dao->find(), $values );
+
+    $values = array();
+
+    if ( $dao->find() ) {
+        while( $dao->fetch( ) ) {
+            $temp = array();
+            _civicrm_object_to_array( $dao, $temp );
+            $values[$dao->id] = $temp;            
+        }
+        $values['is_error' ] = 0;
+    } else {
+        return civicrm_create_error( 'No records found.' );
+    }
+
     return $values;
 }
 
 /**
+ * Creates group nesting record for given parent and child id.
+ * Parent and child groups need to exist.
+ * 
+ * @param array &$params parameters array - allowed array keys include:
+ * {@schema Contact/GroupNesting.xml}
  *
- * @param <type> $params
- * @return <type>
+ * @return array TBD
+ *
+ * @todo Work out the return value.
  */
 function civicrm_group_nesting_create( &$params )
 {
+
+    if( ! is_array($params) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }    
+    
     require_once 'CRM/Contact/BAO/GroupNesting.php';
-    return CRM_Contact_BAO_GroupNesting::add( $params['parent_group_id'],
-        $params['child_group_id'] );
+
+    if ( ! array_key_exists( 'child_group_id', $params ) &&
+         ! array_key_exists( 'parent_group_id', $params ) ) {
+        return civicrm_create_error( ts( 'You need to define parent_group_id and child_group_id in params.' ) );
+    }
+
+    CRM_Contact_BAO_GroupNesting::add( $params['parent_group_id'], $params['child_group_id'] );
+
+    // FIXME: CRM_Contact_BAO_GroupNesting requires some work
+    $result = array( 'is_error' => 0 );
+    return $result;
 }
 
 /**
- *
- * @param <type> $params
- * @return <type>
+ * Removes specific nesting records.
+ * 
+ * @param array &$params parameters array - allowed array keys include:
+ * {@schema Contact/GroupNesting.xml}
+ * 
+ * @return array TBD
+ * 
+ * @todo Work out the return value.
  */
 function civicrm_group_nesting_remove( &$params )
 {
+
+    if( ! is_array($params) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
+
+    if ( ! array_key_exists( 'child_group_id', $params ) ||
+         ! array_key_exists( 'parent_group_id', $params ) ) {
+        return civicrm_create_error( ts( 'You need to define parent_group_id and child_group_id in params.' ) );
+    }
+
     require_once 'CRM/Contact/DAO/GroupNesting.php';
     $dao = new CRM_Contact_DAO_GroupNesting();
     $dao->copyValues( $params );
-    return $dao->delete( );
+
+    if( $dao->delete( ) ) {
+        $result = array( 'is_error' => 0 );
+    }
+    return $result;    
 }

@@ -15,6 +15,7 @@
   <civicrm_entity_tag />
   <civicrm_group />
   <civicrm_group_contact />
+  <civicrm_group_nesting />    
   <civicrm_location_type />
   <civicrm_note />
   <civicrm_openid />
@@ -23,4 +24,11 @@
   <civicrm_relationship_type />
   <civicrm_saved_search />
   <civicrm_tag />
+  <civicrm_membership />
+  <civicrm_membership_type />
+  <civicrm_membership_status />  
+  <civicrm_membership_block />    
+  <civicrm_membership_log />
+  <civicrm_membership_payment />    
+  <civicrm_contribution_type />
 </dataset>

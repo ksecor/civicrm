@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -91,6 +91,21 @@ function &civicrm_note_create(&$params)
         $note['is_error'] = 0;
     }
     return $note;
+}
+
+/**
+ * Updates an existing note with information
+ * 
+ * @params  array  $params   Params array
+ * 
+ * @return null
+ * @access public
+ *
+ * @todo Probably needs some work
+ */
+function &civicrm_note_update( &$params )
+{
+    return civicrm_note_create( $params );    
 }
 
 /**

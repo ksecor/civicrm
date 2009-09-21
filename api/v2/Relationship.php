@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -139,6 +139,36 @@ function civicrm_relationship_delete( &$params ) {
 }
 
 /**
+ * Function to update relationship
+ *
+ * @param  array $params   Associative array of property name/value pairs to update the relationship
+ *
+ * @return array Array with relationship information
+ *
+ * @access public
+ *
+ */
+function civicrm_relationship_update( $params ) {
+    return civicrm_relationship_create( $params );
+}
+
+
+/**
+ * Function to update relationship type
+ *
+ * @param  array $params   Associative array of property name/value pairs to update the relationship type.
+ *
+ * @return array Array with relationship type information
+ *
+ * @access public
+ *
+ * @todo Requires some work
+ */
+function civicrm_relationship_type_update( $params ) {
+    return civicrm_relationship_type_add( $params );
+}
+
+/**
  * Function to create relationship type
  *
  * @param  array $params   Associative array of property name/value pairs to insert in new relationship type.
@@ -243,6 +273,10 @@ function civicrm_get_relationships( $contact_a, $contact_b = null, $relationship
  */
 function civicrm_contact_relationship_get( $contact_a, $contact_b = null, $relationshipTypes = null, $sort = null ) 
 {
+    if ( ! is_array( $contact_a ) ) {
+        return civicrm_create_error( ts( 'Input parameter is not an array' ) );
+    }
+    
     if ( !isset( $contact_a['contact_id'] ) ) {
         return civicrm_create_error( ts( 'Could not find contact_id in input parameters.' ) );
     }
@@ -288,10 +322,12 @@ function civicrm_contact_relationship_get( $contact_a, $contact_b = null, $relat
     require_once 'CRM/Core/BAO/CustomGroup.php';
 
     foreach ( $relationships as $relationshipId => $values ) {
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Relationship', $relationshipId, false,
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Relationship', CRM_Core_DAO::$_nullObject, $relationshipId, false,
                                                          $values['civicrm_relationship_type_id'] );
+        $formatTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject );
+        
         $defaults = array( );
-        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
+        CRM_Core_BAO_CustomGroup::setDefaults( $formatTree, $defaults );
         
         if ( !empty( $defaults ) ) {
             foreach ( $defaults as $key => $val ) {
@@ -319,7 +355,7 @@ function civicrm_relationship_types_get( $params = null )
     $relationshipTypes = array();
     $relationshipType  = array();
     $relationType      = & new CRM_Contact_DAO_RelationshipType();
-    if ( ! empty( $params ) ) {
+    if ( !empty( $params ) && is_array( $params ) ) {
         $properties = array_keys( $relationType->fields() );
         foreach ($properties as $name) {
             if ( array_key_exists( $name, $params ) ) {
@@ -378,7 +414,7 @@ function _civicrm_relationship_format_params( &$params, &$values ) {
             
         case 'start_date':
         case 'end_date':
-            if (!CRM_Utils_Rule::date($value)) {
+            if (!CRM_Utils_Rule::qfDate($value)) {
                 return civicrm_create_error("$key not a valid date: $value");
             }
             break;

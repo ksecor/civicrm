@@ -197,7 +197,12 @@ class CRM_Core_BAO_Setting
             if ($multiLang) {
                 require_once 'CRM/Utils/Request.php';
                 $lcMessagesRequest = CRM_Utils_Request::retrieve('lcMessages', 'String', $this);
-                if (in_array($lcMessagesRequest, array_keys($defaults['languageLimit']))) {
+                $languageLimit = array( ); 
+                if ( array_key_exists( 'languageLimit', $defaults ) && is_array( $defaults['languageLimit'] ) ) {
+                    $languageLimit = $defaults['languageLimit'];
+                }
+                
+                if ( in_array($lcMessagesRequest, array_keys( $languageLimit ) ) ) {
                     $lcMessages = $lcMessagesRequest;
                 } else {
                     $lcMessagesRequest = null;
@@ -205,7 +210,7 @@ class CRM_Core_BAO_Setting
 
                 if (!$lcMessagesRequest) {
                     $lcMessagesSession = $session->get('lcMessages');
-                    if (in_array($lcMessagesSession, array_keys($defaults['languageLimit']))) {
+                    if ( in_array( $lcMessagesSession, array_keys( $languageLimit ) ) ) {
                         $lcMessages = $lcMessagesSession;
                     } else {
                         $lcMessagesSession = null;
@@ -227,7 +232,8 @@ class CRM_Core_BAO_Setting
                     require_once 'CRM/Core/DAO/UFMatch.php';
                     $ufm = new CRM_Core_DAO_UFMatch();
                     $ufm->contact_id = $session->get('userID');
-                    if ($ufm->find(true) and in_array($ufm->language, array_keys($defaults['languageLimit']))) {
+                    if ( $ufm->find( true ) && 
+                         in_array( $ufm->language, array_keys( $languageLimit ) ) ) {
                         $lcMessages = $ufm->language;
                     }
                     $session->set('lcMessages', $lcMessages);
@@ -243,12 +249,15 @@ class CRM_Core_BAO_Setting
                     $lcMessages = null;
                 }
             }
-
-            // if a single-lang site or the above didn't yield a result, use default
-            if ($lcMessages === null) {
+            
+            if ( $lcMessages ) {
+                // update config lcMessages - CRM-5027 fixed.
+                $defaults['lcMessages'] = $lcMessages;
+            } else {
+                // if a single-lang site or the above didn't yield a result, use default
                 $lcMessages = $defaults['lcMessages'];
             }
-
+            
             // set suffix for table names - use views if more than one language
             global $dbLocale;
             $dbLocale = $multiLang ? "_{$lcMessages}" : '';

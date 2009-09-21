@@ -31,7 +31,12 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
     function tearDown() 
     {
     }
-     
+
+///////////////// civicrm_custom_group_create methods   
+
+    /**
+     * check with empty array
+     */    
     function testCustomGroupCreateNoParam()
     {
         $params = array( );
@@ -39,7 +44,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customGroup['is_error'], 1); 
         $this->assertEquals($customGroup['error_message'],'Params must include either \'class_name\' (string) or \'extends\' (array).');
     }
-    
+
+    /**
+     * check with empty array
+     */
     function testCustomGroupCreateNoExtends()
     {
         $params = array( 'domain_id'        => 1,
@@ -57,7 +65,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customGroup['error_message'],'Params must include either \'class_name\' (string) or \'extends\' (array).');
         $this->assertEquals($customGroup['is_error'],1);
     }
-    
+
+    /**
+     * check with valid array
+     */
     function testCustomGroupCreate()
     {
         $params = array( 'title'            => 'Test_Group_1',
@@ -76,7 +87,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertNotNull($customGroup['id']);
         $this->customGroupDelete($customGroup['id']);
     } 
-    
+
+    /**
+     * check without title
+     */
     function testCustomGroupCreateNoTitle()
     {
         $params = array('extends'          => array('Contact'),
@@ -91,7 +105,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customGroup['error_message'],'Title parameter is required.');
         $this->assertEquals($customGroup['is_error'],1);
 	} 
-    
+
+    /**
+     * check for household without weight
+     */
     function testCustomGroupCreateHouseholdNoWeight()
     { 
         $params = array('title'            => 'Test_Group_3',
@@ -110,6 +127,9 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']);
     }
     
+    /**
+     * check for Contribution Donation
+     */
     function testCustomGroupCreateContributionDonation()
     {
         $params = array('title'            => 'Test_Group_6',
@@ -128,7 +148,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertNotNull($customGroup['id']);
         $this->customGroupDelete($customGroup['id']);
     }
-    
+
+    /**
+     * check with valid array
+     */ 
     function testCustomGroupCreateGroup()
     {
         $params = array('domain_id'        => 1,
@@ -149,6 +172,9 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']);
     }
     
+    /**
+     * check with Activity - Meeting Type
+     */
     function testCustomGroupCreateActivityMeeting()
     {
         $params = array(
@@ -168,7 +194,9 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']);
     }
 
-
+    /**
+     * check without GroupID
+     */
     function testCustomGroupDeleteWithoutGroupID( )
     {
         $params = array( );
@@ -176,7 +204,12 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customGroup['is_error'], 1);
         $this->assertEquals($customGroup['error_message'],'Invalid or no value for Custom group ID');
     }    
-    
+
+///////////////// civicrm_custom_group_delete methods   
+
+    /**
+     * check with valid array
+     */    
     function testCustomGroupDelete( )
     {
         $customGroup = $this->customGroupCreate('Individual', 'test_group'); 
@@ -184,7 +217,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $customGroup =& civicrm_custom_group_delete($params);  
         $this->assertEquals($customGroup['is_error'], 0);
     } 
-
+    
+    /**
+     * check with empty array
+     */ 
     function testCustomFieldCreateNoParam()
     {
         $params = array();
@@ -192,7 +228,13 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customField['is_error'], 1);
         $this->assertEquals( $customField['error_message'],'Missing Required field :custom_group_id' );
     }
-    
+
+
+///////////////// civicrm_custom_field_create methods
+
+    /**
+     * check without groupId
+     */  
     function testCustomFieldCreateWithoutGroupID( )
     {
         $fieldParams = array('name'           => 'test_textfield1',
@@ -210,7 +252,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customField['is_error'], 1);
         $this->assertEquals( $customField['error_message'],'Missing Required field :custom_group_id' );
     }    
-     
+
+    /**
+     * check with data type - Text array
+     */ 
     function testCustomTextFieldCreate( )
     {
         $customGroup = $this->customGroupCreate('Individual','text_test_group');
@@ -232,7 +277,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customFieldDelete($customField['result']['customFieldId']); 
         $this->customGroupDelete($customGroup['id']); 
     } 
-
+    
+    /**
+     * check with data type - Date array
+     */
     function testCustomDateFieldCreate( )
     {
         $customGroup = $this->customGroupCreate('Individual','date_test_group');
@@ -253,7 +301,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
     } 
-    
+
+    /**
+     * check with data type - Country array
+     */
     function testCustomCountryFieldCreate( )
     {
         $customGroup = $this->customGroupCreate('Individual','Country_test_group');
@@ -276,6 +327,9 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']); 
     }
     
+    /**
+     * check with data type - Note array
+     */
     function testCustomNoteFieldCreate( )
     {
         $customGroup = $this->customGroupCreate('Individual','Country2_test_group');
@@ -298,6 +352,9 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']); 
     } 
     
+    /**
+     * check with data type - Options array
+     */
     function testCustomFieldOptionValueCreate( )
     {
         $customGroup = $this->customGroupCreate('Contact', 'select_test_group');
@@ -314,8 +371,8 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                          'option_weight'   => array( 1, 2),
                          'option_status'   => array( 1, 1),
                          );
-        $this->fail( 'Needs fixing!' );      
-//        $customField =& civicrm_custom_field_create($params);  
+
+        $customField =& civicrm_custom_field_create($params);
        
         $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
@@ -323,6 +380,9 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']); 
     } 
     
+    /**
+     * check with data type - Select Option array
+     */
     function testCustomFieldSelectOptionValueCreate( )
     {
         $customGroup = $this->customGroupCreate('Contact', 'select_test_group');
@@ -339,8 +399,7 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                          'option_weight'   => array( 1, 2),
                          'option_status'   => array( 1, 1),
                          );
-        $this->fail( 'Needs fixing!' );                         
-//        $customField =& civicrm_custom_field_create($params);    
+        $customField =& civicrm_custom_field_create($params);    
 
         $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
@@ -348,6 +407,9 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']); 
     }
     
+    /**
+     * check with data type - Checkbox Options array
+     */
     function testCustomFieldCheckBoxOptionValueCreate( )
     { 
         $customGroup = $this->customGroupCreate('Contact','CheckBox_test_group');
@@ -373,7 +435,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
     }   
-    
+
+    /**
+     * check with data type - Radio Options array
+     */
     function testCustomFieldRadioOptionValueCreate( )
     {
         $customGroup = $this->customGroupCreate('Contact', 'Radio_test_group');
@@ -399,6 +464,9 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']); 
     } 
     
+    /**
+     * check with data type - Multi-Select Options array
+     */
     function testCustomFieldMultiSelectOptionValueCreate( )
     {
         $customGroup = $this->customGroupCreate('Contact', 'MultiSelect_test_group');
@@ -424,6 +492,11 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']); 
     }     
 
+///////////////// civicrm_custom_field_delete methods
+
+    /**
+     * check without Field ID
+     */
     function testCustomFieldDeleteWithoutFieldID( )
     {
         $params = array( ); 
@@ -431,7 +504,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customField['is_error'], 1);
         $this->assertEquals($customField['error_message'], 'Invalid or no value for Custom Field ID');
     }    
-    
+
+    /**
+     * check without valid array
+     */
     function testCustomFieldDelete( )
     {
         $customGroup = $this->customGroupCreate('Individual','test_group');
@@ -441,7 +517,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customField['is_error'], 0);
         $this->customGroupDelete($customGroup['id']);
     } 
-    
+
+    /**
+     * check for Option Value
+     */    
     function testCustomFieldOptionValueDelete( )
     {
         $customGroup = $this->customGroupCreate('Contact','ABC' );  

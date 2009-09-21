@@ -43,63 +43,79 @@ class CRM_Core_Payment_Form {
     protected function _setPaymentFields( &$form) {
         $bltID = $form->_bltID;
 
-        $form->_fields['billing_first_name'] = array( 'htmlType'   => 'text', 
-                                                      'name'       => 'billing_first_name', 
-                                                      'title'      => ts('Billing First Name'),
-                                                      'cc_field'   => true,
-                                                      'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ),
-                                                      'is_required'=> true );
+        $form->_fields['billing_first_name'] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => 'billing_first_name', 
+                   'title'      => ts('Billing First Name'),
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ),
+                   'is_required'=> true 
+                   );
         
-        $form->_fields['billing_middle_name'] = array( 'htmlType'   => 'text', 
-                                                       'name'       => 'billing_middle_name', 
-                                                       'title'      => ts('Billing Middle Name'), 
-                                                       'cc_field'   => true,
-                                                       'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
-                                                       'is_required'=> false );
+        $form->_fields['billing_middle_name'] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => 'billing_middle_name', 
+                   'title'      => ts('Billing Middle Name'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
+                   'is_required'=> false 
+                   );
         
-        $form->_fields['billing_last_name'] = array( 'htmlType'   => 'text', 
-                                                     'name'       => 'billing_last_name', 
-                                                     'title'      => ts('Billing Last Name'), 
-                                                     'cc_field'   => true,
-                                                     'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
-                                                     'is_required'=> true );
+        $form->_fields['billing_last_name'] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => 'billing_last_name', 
+                   'title'      => ts('Billing Last Name'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
+                   'is_required'=> true 
+                   );
                                          
-        $form->_fields["street_address-{$bltID}"] = array( 'htmlType'   => 'text', 
-                                                           'name'       => "street_address-{$bltID}",
-                                                           'title'      => ts('Street Address'), 
-                                                           'cc_field'   => true,
-                                                           'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
-                                                           'is_required'=> true );
+        $form->_fields["billing_street_address-{$bltID}"] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => "billing_street_address-{$bltID}",
+                   'title'      => ts('Street Address'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
+                   'is_required'=> true 
+                   );
                                          
-        $form->_fields["city-{$bltID}"] = array( 'htmlType'   => 'text', 
-                                                 'name'       => "city-{$bltID}",
-                                                 'title'      => ts('City'), 
-                                                 'cc_field'   => true,
-                                                 'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
-                                                 'is_required'=> true );
-                                         
-        $form->_fields["state_province_id-{$bltID}"] = array( 'htmlType'   => 'select', 
-                                                              'name'       => "state_province_id-{$bltID}",
-                                                              'title'      => ts('State / Province'), 
-                                                              'cc_field'   => true,
-                                                              'attributes' => array( '' => ts( '- select -' ) ) +
-                                                              CRM_Core_PseudoConstant::stateProvince( ),
-                                                              'is_required'=> true );
-                                         
-        $form->_fields["postal_code-{$bltID}"] = array( 'htmlType'   => 'text', 
-                                                        'name'       => "postal_code-{$bltID}",
-                                                        'title'      => ts('Postal Code'), 
-                                                        'cc_field'   => true,
-                                                        'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
-                                                        'is_required'=> true );
-                                         
-        $form->_fields["country_id-{$bltID}"] = array( 'htmlType'   => 'select', 
-                                                       'name'       => "country_id-{$bltID}", 
-                                                       'title'      => ts('Country'), 
-                                                       'cc_field'   => true,
-                                                       'attributes' => array( '' => ts( '- select -' ) ) + 
-                                                       CRM_Core_PseudoConstant::country( ),
-                                                       'is_required'=> true );
+        $form->_fields["billing_city-{$bltID}"] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => "billing_city-{$bltID}",
+                   'title'      => ts('City'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
+                   'is_required'=> true 
+                   );
+        
+        $form->_fields["billing_state_province_id-{$bltID}"] = 
+            array( 'htmlType'   => 'select', 
+                   'name'       => "billing_state_province_id-{$bltID}",
+                   'title'      => ts('State / Province'), 
+                   'cc_field'   => true,
+                   'attributes' => array( '' => ts( '- select -' ) ) +
+                   CRM_Core_PseudoConstant::stateProvince( ),
+                   'is_required'=> true 
+                   );
+        
+        $form->_fields["billing_postal_code-{$bltID}"] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => "billing_postal_code-{$bltID}",
+                   'title'      => ts('Postal Code'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
+                   'is_required'=> true 
+                   );
+        
+        $form->_fields["billing_country_id-{$bltID}"] = 
+            array( 'htmlType'   => 'select', 
+                   'name'       => "billing_country_id-{$bltID}", 
+                   'title'      => ts('Country'), 
+                   'cc_field'   => true,
+                   'attributes' => array( '' => ts( '- select -' ) ) + 
+                   CRM_Core_PseudoConstant::country( ),
+                   'is_required'=> true 
+                   );
     }
     
     
@@ -112,35 +128,44 @@ class CRM_Core_Payment_Form {
     function setCreditCardFields( &$form ) {
         CRM_Core_Payment_Form::_setPaymentFields( $form );
                              
-        $form->_fields['credit_card_number'] = array( 'htmlType'   => 'text', 
-                                                      'name'       => 'credit_card_number', 
-                                                      'title'      => ts('Card Number'), 
-                                                      'cc_field'   => true,
-                                                      'attributes' => array( 'size' => 20, 'maxlength' => 20, 'autocomplete' => 'off' ), 
-                                                      'is_required'=> true );
+        $form->_fields['credit_card_number'] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => 'credit_card_number', 
+                   'title'      => ts('Card Number'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 20, 'maxlength' => 20, 'autocomplete' => 'off' ), 
+                   'is_required'=> true 
+                   );
                                          
-        $form->_fields['cvv2'] = array( 'htmlType'   => 'text', 
-                                        'name'       => 'cvv2', 
-                                        'title'      => ts('Security Code'), 
-                                        'cc_field'   => true,
-                                        'attributes' => array( 'size' => 5, 'maxlength' => 10, 'autocomplete' => 'off' ), 
-                                        'is_required'=> true );
+        $form->_fields['cvv2'] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => 'cvv2', 
+                   'title'      => ts('Security Code'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 5, 'maxlength' => 10, 'autocomplete' => 'off' ), 
+                   'is_required'=> true 
+                   );
                                          
-        $form->_fields['credit_card_exp_date'] = array( 'htmlType'   => 'date', 
-                                                        'name'       => 'credit_card_exp_date', 
-                                                        'title'      => ts('Expiration Date'), 
-                                                        'cc_field'   => true,
-                                                        'attributes' => CRM_Core_SelectValues::date( 'creditCard' ),
-                                                        'is_required'=> true );
+        $form->_fields['credit_card_exp_date'] = 
+            array( 'htmlType'   => 'date', 
+                   'name'       => 'credit_card_exp_date', 
+                   'title'      => ts('Expiration Date'), 
+                   'cc_field'   => true,
+                   'attributes' => CRM_Core_SelectValues::date( 'creditCard' ),
+                   'is_required'=> true 
+                   );
 
         require_once 'CRM/Contribute/PseudoConstant.php';
-        $creditCardType = array( ''           => '- select -') + CRM_Contribute_PseudoConstant::creditCard( );
-        $form->_fields['credit_card_type'] = array( 'htmlType'   => 'select', 
-                                                    'name'       => 'credit_card_type', 
-                                                    'title'      => ts('Card Type'), 
-                                                    'cc_field'   => true,
-                                                    'attributes' => $creditCardType,
-                                                    'is_required'=> true );
+        $creditCardType = 
+            array( '' => '- select -') + CRM_Contribute_PseudoConstant::creditCard( );
+        $form->_fields['credit_card_type'] = 
+            array( 'htmlType'   => 'select', 
+                   'name'       => 'credit_card_type', 
+                   'title'      => ts('Card Type'), 
+                   'cc_field'   => true,
+                   'attributes' => $creditCardType,
+                   'is_required'=> true 
+                   );
     }
 
     /** create all fields needed for direct debit transaction
@@ -151,35 +176,43 @@ class CRM_Core_Payment_Form {
     function setDirectDebitFields( &$form ) {
         CRM_Core_Payment_Form::_setPaymentFields( $form );
 
-        $form->_fields['account_holder'] = array( 'htmlType'   => 'text', 
-                                                       'name'       => 'account_holder', 
-                                                       'title'      => ts('Account Holder'), 
-                                                       'cc_field'   => true,
-                                                       'attributes' => array( 'size' => 20, 'maxlength' => 34, 'autocomplete' => 'on' ), 
-                                                       'is_required'=> true );
+        $form->_fields['account_holder'] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => 'account_holder', 
+                   'title'      => ts('Account Holder'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 20, 'maxlength' => 34, 'autocomplete' => 'on' ), 
+                   'is_required'=> true 
+                   );
        
         //e.g. IBAN can have maxlength of 34 digits
-        $form->_fields['bank_account_number'] = array( 'htmlType'   => 'text', 
-                                                       'name'       => 'bank_account_number', 
-                                                       'title'      => ts('Bank Account Number'), 
-                                                       'cc_field'   => true,
-                                                       'attributes' => array( 'size' => 20, 'maxlength' => 34, 'autocomplete' => 'off' ), 
-                                                       'is_required'=> true );
+        $form->_fields['bank_account_number'] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => 'bank_account_number', 
+                   'title'      => ts('Bank Account Number'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 20, 'maxlength' => 34, 'autocomplete' => 'off' ), 
+                   'is_required'=> true 
+                   );
          
         //e.g. SWIFT-BIC can have maxlength of 11 digits
-        $form->_fields['bank_identification_number'] = array( 'htmlType'   => 'text', 
-                                                              'name'       => 'bank_identification_number', 
-                                                              'title'      => ts('Bank Identification Number'), 
-                                                              'cc_field'   => true,
-                                                              'attributes' => array( 'size' => 20, 'maxlength' => 11, 'autocomplete' => 'off' ), 
-                                                              'is_required'=> true );
-                        
-         $form->_fields['bank_name'] = array( 'htmlType'   => 'text', 
-                                              'name'       => 'bank_name', 
-                                              'title'      => ts('Bank Name'), 
-                                              'cc_field'   => true,
-                                              'attributes' => array( 'size' => 20, 'maxlength' => 64, 'autocomplete' => 'off' ), 
-                                              'is_required'=> true );
+        $form->_fields['bank_identification_number'] = 
+            array( 'htmlType'   => 'text', 
+                   'name'       => 'bank_identification_number', 
+                   'title'      => ts('Bank Identification Number'), 
+                   'cc_field'   => true,
+                   'attributes' => array( 'size' => 20, 'maxlength' => 11, 'autocomplete' => 'off' ), 
+                   'is_required'=> true 
+                   );
+        
+         $form->_fields['bank_name'] = 
+             array( 'htmlType'   => 'text', 
+                    'name'       => 'bank_name', 
+                    'title'      => ts('Bank Name'), 
+                    'cc_field'   => true,
+                    'attributes' => array( 'size' => 20, 'maxlength' => 64, 'autocomplete' => 'off' ), 
+                    'is_required'=> true 
+                    );
      }
 
     /** 
@@ -213,8 +246,8 @@ class CRM_Core_Payment_Form {
 
             // also take care of state country widget
             require_once 'CRM/Core/BAO/Address.php';
-            $stateCountryMap = array( 1 => array( 'country'        => "country_id-{$form->_bltID}"       ,
-                                                  'state_province' => "state_province_id-{$form->_bltID}" ) );
+            $stateCountryMap = array( 1 => array( 'country'        => "billing_country_id-{$form->_bltID}"       ,
+                                                  'state_province' => "billing_state_province_id-{$form->_bltID}" ) );
             CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
         }
             
@@ -280,12 +313,12 @@ class CRM_Core_Payment_Form {
                           'middle_name'            => 'billing_middle_name'       ,
                           'last_name'              => 'billing_last_name'         ,
                           'email'                  => "email-$id"                 ,
-                          'street_address'         => "street_address-$id"        ,
-                          'supplemental_address_1' => "supplemental_address_1-$id",
-                          'city'                   => "city-$id"                  ,
-                          'state_province'         => "state_province-$id"        ,
-                          'postal_code'            => "postal_code-$id"           ,
-                          'country'                => "country-$id"               ,
+                          'street_address'         => "billing_street_address-$id"        ,
+                          'supplemental_address_1' => "billing_supplemental_address_1-$id",
+                          'city'                   => "billing_city-$id"                  ,
+                          'state_province'         => "billing_state_province-$id"        ,
+                          'postal_code'            => "billing_postal_code-$id"           ,
+                          'country'                => "billing_country-$id"               ,
                           );
         }
         

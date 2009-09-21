@@ -3,8 +3,8 @@
 <style>
 .hit {ldelim}padding-left:10px;{rdelim}
 .tree li {ldelim}padding-left:10px;{rdelim}
-#Tag .tree .collapsable .hit {ldelim}background:url('{$config->resourceBase}/i/collapsable.gif') no-repeat left 3px;cursor:pointer{rdelim}
-#Tag .tree .expandable .hit {ldelim}background:url('{$config->resourceBase}/i/expandable.gif') no-repeat left 3px;cursor:pointer{rdelim}
+#Tag .tree .collapsable .hit {ldelim}background:url('{$config->resourceBase}/i/menu-expanded.png') no-repeat left 8px;padding-left: 9px;cursor:pointer{rdelim}
+#Tag .tree .expandable .hit {ldelim}background:url('{$config->resourceBase}/i/menu-collapsed.png') no-repeat left 6px;padding-left: 9px;cursor:pointer{rdelim}
 #Tag #tagtree .highlighted {ldelim}background-color:lightgrey;{rdelim}
 #restmsg {ldelim}position:absolute;left:200px;z-index:10000;padding:5px;{rdelim}
 #restmsg.msgok {ldelim}display:block;background:#ffff99;border: 1px solid #5A8FDB;{rdelim}

@@ -276,6 +276,7 @@ class InstallRequirements {
             $this->requireFile( $crmPath . DIRECTORY_SEPARATOR . $dir, array("File permissions", "$dir folder exists", "There is no $dir folder" ), true );
         }
 
+        $configIDSiniDir = null;
         if ( $installType == 'standalone' ) {
             // make sure that we can write to standalone and standalone/files
             $writableDirectories = array( 'standalone' );
@@ -284,6 +285,8 @@ class InstallRequirements {
                     array("File permissions", "Is the $dir folder writeable?", null ),
                     true );
             }
+            //check for Config.IDS.ini, file may exist in re-install
+            $configIDSiniDir  = array( $crmPath ,'standalone', 'files', 'civicrm', 'upload' ,'Config.IDS.ini' );
         }
 
         if ( $installType == 'drupal' ) {
@@ -297,6 +300,14 @@ class InstallRequirements {
                 $this->requireWriteable( $cmsPath . DIRECTORY_SEPARATOR . $dir,
                     array("File permissions", "Is the $dir folder writeable?", null ),
                     true );
+            }
+            //check for Config.IDS.ini, file may exist in re-install
+            $configIDSiniDir  = array( $cmsPath ,'sites', $siteDir, 'files', 'civicrm', 'upload' ,'Config.IDS.ini' );
+        }
+        if ( is_array( $configIDSiniDir ) && !empty( $configIDSiniDir ) ) {
+            $configIDSiniFile = implode( DIRECTORY_SEPARATOR, $configIDSiniDir );
+            if ( file_exists( $configIDSiniFile ) ) {
+                unlink($configIDSiniFile);
             }
         }
 

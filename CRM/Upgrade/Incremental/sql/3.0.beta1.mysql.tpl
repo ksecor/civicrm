@@ -43,8 +43,7 @@
 -- CRM-4935
    ALTER TABLE `civicrm_activity` 
 	CHANGE `source_contact_id` `source_contact_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'Contact ID of the person scheduling or logging this Activity. Usually the authenticated user.',
-	DROP FOREIGN KEY `FK_civicrm_activity_source_contact_id`,
-	DROP INDEX `FK_civicrm_activity_source_contact_id`;
+	DROP FOREIGN KEY `FK_civicrm_activity_source_contact_id`;
 
    ALTER TABLE `civicrm_activity`
     	ADD CONSTRAINT `FK_civicrm_activity_source_contact_id` FOREIGN KEY (`source_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;

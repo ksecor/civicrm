@@ -347,13 +347,18 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     
     function membershipTypeCreate( $contactID, $contributionTypeID = 1 ) 
     {
+        $this->contributionTypeCreate();
+
         $params = array( 'name'                 => 'General',
                          'duration_unit'        => 'year',
                          'duration_interval'    => 1,
                          'period_type'          => 'rolling',
                          'member_of_contact_id' => $contactID,
                          'domain_id'		=> 1,
-                         'contribution_type_id' => $contributionTypeID );
+                         // FIXME: I know it's 1, cause it was loaded directly to the db.
+                         // FIXME: when we load all the data, we'll need to address this to
+                         // FIXME: avoid hunting numbers around.
+                         'contribution_type_id' => 1 );
         
         $result = civicrm_membership_type_create( $params );
         
@@ -390,7 +395,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
                 CRM_Core_Error::createAPIError( 'Could not create membership' );
             }
         }
-        
+
         return $result['id'];
     }
     
@@ -501,18 +506,14 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */    
     function contributionTypeCreate() 
     {
-        $params = array(
-                        'name'            => 'Gift',
-                        'description'     => 'For some worthwhile cause',
-                        'accounting_code' => 1004,
-                        'is_deductible'   => 0,
-                        'is_active'       => 1
-                        );
-        
-        $ids = null;
-        require_once "CRM/Contribute/BAO/ContributionType.php";
-        $contributionType = CRM_Contribute_BAO_ContributionType::add($params, $ids);
-        return $contributionType->id;
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/../api/v2/dataset/contribution_types.xml') );
+                             
+        // FIXME: CHEATING LIKE HELL HERE, TO BE FIXED
+        return 1;
     }
     
     /**
@@ -521,6 +522,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */
     function contributionTypeDelete($contributionTypeID) 
     {
+        require_once 'CRM/Contribute/BAO/ContributionType.php';
         $del= CRM_Contribute_BAO_ContributionType::del($contributionTypeID);
     }
     
@@ -736,7 +738,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     function locationAdd( $contactID ) 
     {
         $params = array('contact_id'             => $contactID,
-                        'location_type'          => 'Main',
+                        'location_type'          => 'New Location Type',
                         'is_primary'             => 1,
                         'name'                   => 'Saint Helier St',
                         'county'                 => 'Marin',
@@ -754,6 +756,27 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         
         return $result;
     }
+    
+    /** 
+     * Function to add a Location
+     * 
+     * @return int location id of created location
+     */    
+    function locationTypeCreate( ) 
+    {
+        $params = array('name'             => 'New Location Type',
+                        'vcard_name'       => 'New Location Type',
+                        'description'      => 'Location Type for Delete',
+                        'is_active'        => 1,
+                        );
+
+        require_once 'CRM/Core/DAO/LocationType.php';
+        $locationType =& new CRM_Core_DAO_LocationType( );
+        $locationType->copyValues( $params );
+        $locationType->save();
+        return $locationType;
+    }
+
     /** 
      * Function to add a Group
      *
@@ -976,13 +999,13 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */
     function customFieldDelete( $customFieldID ) 
     {
-          $this->fail( 'civicrm_custom_field_delete seems to be broken!');
-//        $params['result']['customFieldId'] = $customFieldID;
-//        $result = & civicrm_custom_field_delete($params);
-//        if ( civicrm_error( $result ) ) {
-//            CRM_Core_Error::createAPIError( 'Could not delete custom field' );
-//        }
-//        return;
+        //$this->fail( 'civicrm_custom_field_delete seems to be broken!');
+        $params['result']['customFieldId'] = $customFieldID;
+        $result = & civicrm_custom_field_delete($params);
+        if ( civicrm_error( $result ) ) {
+            CRM_Core_Error::createAPIError( 'Could not delete custom field' );
+        }
+        return;
     }
     
     /**

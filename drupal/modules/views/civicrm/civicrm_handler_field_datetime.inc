@@ -22,7 +22,7 @@ class civicrm_handler_field_datetime extends views_handler_field_date {
         $value = $values->{$this->field_alias};
 
         
-        if(is_string($value)) {
+        if(is_string($value) && strpos($value,"-")) {
             $date = new DateTime($value);
             $gmt = $date->getOffset();  //gives me the offset to GMT
             $value = strtotime($value);

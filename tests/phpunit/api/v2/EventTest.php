@@ -1,4 +1,28 @@
 <?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 3.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
 
 require_once 'api/v2/Event.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
@@ -43,12 +67,24 @@ class api_v2_EventTest extends CiviUnitTestCase
                         'event_type_id' => 1,
                         'start_date'    => 20081021,
                         );
-        $event = civicrm_event_create($params);
-        
-        $this->_eventId = $event['event_id'];
 
-        $this->_event = $this->eventCreate( );
+        $this->_event   = civicrm_event_create($params);
+        $this->_eventId = $this->_event['event_id'];
+    }
 
+    function tearDown() 
+    {
+        if ( $this->_eventId ) {
+            $this->eventDelete( $this->_eventId );
+        }        
+        $this->eventDelete( $this->_event['event_id'] );	
+    }
+
+///////////////// civicrm_event_get methods
+
+    function testGetWrongParamsType()
+    {
+        $this->markTestIncomplete();
     }
 
 
@@ -77,13 +113,14 @@ class api_v2_EventTest extends CiviUnitTestCase
         $result = civicrm_event_get( $params );
         $this->assertEquals( $result['id'], $this->_event['event_id'] );
     }
+
+///////////////// civicrm_event_create methods
     
     function testCreateEventParamsNotArray( )
     {
         $params = null;
         $result = civicrm_event_create( $params );
         $this->assertEquals( $result['is_error'], 1 );
-        $this->assertNotEquals( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
         $this->assertEquals( $result['error_message'], 'Params is not an array');
     }    
     
@@ -92,7 +129,6 @@ class api_v2_EventTest extends CiviUnitTestCase
         $params = array( );
         $result = civicrm_event_create( $params );
         $this->assertEquals( $result['is_error'], 1 );
-        $this->assertFalse( array_key_exists( 'event_id', $result ) );
         $this->assertEquals( $result['error_message'], 'Missing require fields ( title, event type id,start date)');
     }
     
@@ -123,22 +159,23 @@ class api_v2_EventTest extends CiviUnitTestCase
     function testCreateEvent( )
     {
         $result = civicrm_event_create( $this->_params );
-        
-        $this->assertNotEquals( $result['is_error'], 1 );
-        $this->assertTrue( array_key_exists( 'event_id', $result ) );
-        
-        civicrm_event_delete( $result );
+
+        $this->assertEquals( 0, $result['is_error'] );
+        $this->assertArrayHasKey( 'event_id', $result );
     }
 
-    function testDeleteWithoutEventId( )
+///////////////// civicrm_event_delete methods
+
+    function testDeleteWrongParamsType()
+    {
+        $this->markTestIncomplete();
+    }
+
+    function testDeleteEmptyParams( )
     {
         $params = array( );
         $result =& civicrm_event_delete($params);
-        $this->assertEquals($result['is_error'], 1);
-        
-        // delete the event created for testing
-        $event  = array( 'event_id' => $this->_eventId );
-        $result = civicrm_event_delete( $event );
+        $this->assertEquals($result['is_error'], 1);        
     }
     
     function testDelete( )
@@ -156,14 +193,6 @@ class api_v2_EventTest extends CiviUnitTestCase
         $params = array('event_id' => $this->_eventId);
         $result =& civicrm_event_delete($params);
         $this->assertEquals($result['is_error'], 1);
-    }
-    
-    function tearDown() 
-    {
-	if ( $this->_eventId ) {
-	    $this->eventDelete( $this->_eventId );
-	}        
-        $this->eventDelete( $this->_event['event_id'] );	
     }
 }
 

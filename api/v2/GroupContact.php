@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -52,6 +52,10 @@ require_once 'api/v2/utils.php';
  */
 function civicrm_group_contact_get( &$params ) 
 {
+    if ( ! is_array( $params ) ) {
+        return civicrm_create_error( ts( 'input parameter should be an array' ) );
+    }
+
     if ( ! array_key_exists( 'contact_id', $params ) ) {
         return civicrm_create_error( ts( 'contact_id is a required field' ) );
     }
@@ -90,6 +94,10 @@ function civicrm_group_contact_remove( &$params )
  */
 function civicrm_group_contact_common( &$params, $op = 'add' ) 
 {
+    if ( ! is_array( $params ) ) {
+        return civicrm_create_error( ts( 'input parameter should be an array' ) );
+    }
+
     $contactIDs = array( );
     $groupIDs = array( );
     foreach ( $params as $n => $v ) {

@@ -154,7 +154,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         
         $this->add('select', 'activity_type_id',  ts( 'New Activity' ), array( '' => ts( '- select activity type -' ) ) + $aTypes );
-        $this->add('select', 'report_id',  ts( 'Report' ), array( '' => ts( '- select report -' ) ) + $reports );
+        $this->add('select', 'report_id',  ts( 'Run QA Audit / Redact' ), array( '' => ts( '- select activity set -' ) ) + $reports );
         $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
         $this->addElement( 'submit', $this->getButtonName('next'), ts('Go'), 
                            array( 'class'   => 'form-submit-inline',

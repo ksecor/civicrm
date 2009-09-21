@@ -236,7 +236,7 @@
      function verify( ) {
        var element = document.getElementsByName("is_email_receipt");
         if ( element[0].checked ) {
-         var ok = confirm( "Click OK to save this contribution record AND send a receipt to the contributor now." );    
+         var ok = confirm( '{/literal}{ts}Click OK to save this contribution record AND send a receipt to the contributor now{/ts}{literal}.' );    
           if (!ok ) {
             return false;
           }

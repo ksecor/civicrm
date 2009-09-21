@@ -432,6 +432,7 @@ class CRM_Core_PseudoConstant
             $componentClause  = " v.component_id IS NULL";
 
             $componentIds = array( );
+            require_once 'CRM/Core/Component.php';
             $compInfo     = CRM_Core_Component::getEnabledComponents( );
             
             // build filter for listing activity types only if their 

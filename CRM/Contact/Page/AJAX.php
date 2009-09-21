@@ -394,6 +394,10 @@ WHERE sort_name LIKE '%$name%'";
 			require_once 'CRM/Contact/BAO/Contact.php';
 			echo CRM_Contact_BAO_Contact::getCountComponent( 'custom_'.$_POST['groupID'], $contactId  );		
 		}
+
+        // reset the group contact cache for this group
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::remove( );
     }
 
     /**

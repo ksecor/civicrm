@@ -166,7 +166,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             $this->addRule('name', ts('Please enter a monetary value for this field.'), 'money');
             
             // weight
-            $this->add('text', 'weight', ts('Weight'), null, true);
+            $this->add('text', 'weight', ts('Order'), null, true);
             $this->addRule('weight', ts('is a numeric field') , 'numeric');
             
             // is active ?

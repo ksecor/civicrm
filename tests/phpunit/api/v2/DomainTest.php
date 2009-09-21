@@ -99,16 +99,22 @@ class api_v2_DomainTest extends CiviUnitTestCase
 ///////////////// civicrm_domain_create methods
 
     /**
-     * @todo Implement testCreate().
+     * Test civicrm_domain_create.
      */
     public function testCreate()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $params = array( 'name' => 'New Domain', 
+                         'description' => 'Description of a new domain'
+                          );
+
+        $result =& civicrm_domain_create($params);
+        $this->assertType( 'array', $result );
+        $this->assertDBState( 'CRM_Core_DAO_Domain', $result['id'], $params );
     }    
 
     /**
      * Test civicrm_domain_create with empty params.
+     * Error expected.
      */
     public function testCreateWithEmptyParams()
     {
@@ -119,11 +125,11 @@ class api_v2_DomainTest extends CiviUnitTestCase
     }
     
     /**
-     * @todo Implement testCreateWithEmptyParams().
+     * Test civicrm_domain_create with wrong parameter type.
      */
     public function testCreateWithWrongParams()
     {
-        $params = 'a string';
+        $params = 1;
         $result =& civicrm_domain_create($params);
         $this->assertEquals( $result['is_error'], 1,
                              "In line " . __LINE__ );

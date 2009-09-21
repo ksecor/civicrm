@@ -51,7 +51,7 @@
             <th>{ts}Option Label{/ts}</th>
             <th>{ts}Option Amount{/ts}</th>
 	    <th>{ts}Default{/ts}</th>
-            <th>{ts}Weight{/ts}</th>
+            <th>{ts}Order{/ts}</th>
 	    <th>{ts}Enabled?{/ts}</th>
             <th>&nbsp;</th>
          </tr>

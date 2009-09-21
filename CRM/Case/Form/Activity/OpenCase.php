@@ -245,8 +245,8 @@ class CRM_Case_Form_Activity_OpenCase
                                );
         CRM_Case_BAO_Case::addCaseToContact( $contactParams );
         //handle time stamp for Opencase
-        $time =  date("His");
-        $params['start_date'] =  $params['start_date'].$time;
+        $time = date("Hi");
+        $params['start_date'] = $params['start_date']. $time. "00";
     
         // 2. initiate xml processor
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );

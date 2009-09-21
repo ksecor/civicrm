@@ -184,17 +184,17 @@
             </tr>
           </table>
           <div id="confirmEmail">
-           <table class= "form-layout-compressed">
+           <table class="form-layout-compressed">
              <tr>
-               <th scope="row" class="label" width="20%">{$form.confirm_email_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='confirm_email_text' id=$eventID}{/if}</td>
+               <th scope="row" class="label" width="20%">{$form.confirm_email_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='confirm_email_text' id=$eventID}{/if}</th>
                <td>{$form.confirm_email_text.html}<br />
-                   <span class="description">{ts}Additional message or instructions to include in confirmation email.{/ts}
+                   <span class="description">{ts}Additional message or instructions to include in confirmation email.{/ts}</span>
                </td>
              </tr>
              <tr>
                <th scope="row" class="label" width="20%">{$form.confirm_from_name.label} <span class="marker">*</span> {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='confirm_from_name' id=$eventID}{/if}</th>
                <td>{$form.confirm_from_name.html}<br />
-                   <span class="description">{ts}FROM name for email.{/ts}
+                   <span class="description">{ts}FROM name for email.{/ts}</span>
                </td>
              </tr>
              <tr>
@@ -223,7 +223,6 @@
  <div class="crm-submit-buttons">
        {$form.buttons.html}
  </div>
-</div> {* End of form-item div *}
 
 {include file="CRM/common/showHide.tpl"}
 {include file="CRM/common/showHideByFieldValue.tpl" 

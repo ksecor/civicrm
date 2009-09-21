@@ -118,7 +118,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         // Show waitlist features or event_full_text if max participants set
         if ( CRM_Utils_Array::value('max_participants', $defaults) ) {
             $this->_showHide->addShow( 'id-waitlist' );
-            if ( $defaults['has_waitlist'] ) {
+            if ( CRM_Utils_Array::value( 'has_waitlist', $defaults ) ) {
                 $this->_showHide->addShow( 'id-waitlist-text' );
                 $this->_showHide->addHide( 'id-event_full' );
             } else {

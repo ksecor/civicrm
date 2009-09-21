@@ -57,11 +57,11 @@
    {
       var cId = {/literal}'{$cId}'{literal};
       if ( cId ) {
-	 alert("You are logged-in user");
+	 alert('{/literal}{ts}You are logged-in user{/ts}{literal});
 	 frm.checked = false;
       } else {
 	 var siteName = {/literal}'{$config->userFrameworkBaseURL}'{literal};
-	 alert("Please login if you have an account on this site with the link " + siteName  );
+	 alert('{/literal}{ts}Please login if you have an account on this site with the link{/ts}{literal} ' + siteName  );
       }
    }
    var lastName = null;
@@ -81,12 +81,12 @@
       var r = new RegExp( "["+spchar+"]", "i");
       /*regular expression \\ matches a single backslash. this becomes r = /\\/ or r = new RegExp("\\\\").*/
       if ( r.exec(cmsUserName) ) {
-	 alert("Your username contains invalid characters");
+	 alert('{/literal}{ts}Your username contains invalid characters{/ts}{literal}');
       	 return;
       } 
       {/literal}{if $config->userFramework == "Joomla"}{literal}
 	 else if ( cmsUserName && cmsUserName.length < 2 ) {
-	    alert("Your username is too short");
+	    alert('{/literal}{ts}Your username is too short{/ts}{lilteral});
 	    return;	
 	 }
       {/literal}{/if}{literal}

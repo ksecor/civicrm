@@ -54,6 +54,7 @@ ifBlank specifies an alternate field to display if the field is blank.
 	<sortByLabels>
 		<label>Actual Date</label> <!-- Sort by this first -->
 		<label>Due Date</label> <!-- Then if equal sort by this -->
+		<label>Date and Time</label> 
 	</sortByLabels>
 
 </regions>

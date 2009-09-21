@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -83,6 +83,15 @@ function civicrm_domain_get( ) {
  */
 function civicrm_domain_create( $params ) {
     require_once 'CRM/Core/BAO/Domain.php';
+    
+    if ( !is_array( $params ) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
+
+    if ( empty( $params ) ) {
+        return civicrm_create_error( 'Params cannot be empty!' );
+    }
+    
     $domain = CRM_Core_BAO_Domain::create( $params );
     $domain_array = array( );
     _civicrm_object_to_array( $domain, $domain_array );

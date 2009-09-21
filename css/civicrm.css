@@ -1819,10 +1819,6 @@ div.grippie {
    border-bottom:1px solid #E2E2E2;
 }
 
-#crm-container a:visited {
-   color : #494949;
-}
-
 #crm-container hr {
    background-color : #B0B0B0;
 }
@@ -1833,4 +1829,16 @@ div.grippie {
 
 #crm-container th.contriTotalLeft {
    border-left: 1px solid #999999;
+}
+
+#crm-container .collapsed {
+   background: url("../i/TreePlus.gif") no-repeat 0 0;
+   padding-left: 19px;
+   cursor:pointer
+}
+
+#crm-container .expanded {
+   background: url("../i/TreeMinus.gif") no-repeat 0 0;
+   padding-left: 19px;
+   cursor:pointer
 }
