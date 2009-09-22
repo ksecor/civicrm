@@ -105,7 +105,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->_oid         = $oid;
         $this->_rgid        = $rgid;
         $this->_contactType = $main['contact_type'];
-        $this->addElement('checkbox', 'toggleSelect', null, null, array('onclick' => "return toggleCheckboxVals('move_',this.form);"));
+        $this->addElement('checkbox', 'toggleSelect', null, null, array('onclick' => "return toggleCheckboxVals('move_',this);"));
 
         require_once "CRM/Contact/DAO/Contact.php";
         $fields =& CRM_Contact_DAO_Contact::fields();
