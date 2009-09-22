@@ -40,20 +40,12 @@ require_once 'CRM/Core/BAO/CustomGroup.php';
  */
 class CRM_Custom_Form_CustomData 
 {
-    static function preProcess( &$form, $subName = null, $subType = null, 
-                                $groupCount = null, $type = null, $entityID = null )
+    static function preProcess( &$form, $subName = null, $subType = null, $groupCount = null, $type = null, $entityID = null )
     {
         if ( $type ) {
             $form->_type = $type;
         } else {
-            $form->_type = CRM_Utils_Request::retrieve( 'type', 'String', $form );
-        }
-
-        // arrangement to consider contact subtypes as well
-        $entityType      = $form->_type;
-        $contactSubTypes = CRM_Core_PseudoConstant::contactSubTypes( $form->_type );
-        if ( !empty($contactSubTypes) ) {
-             $entityType = "'$entityType','" . implode("','", array_keys($contactSubTypes)) . "'";
+            $form->_type     = CRM_Utils_Request::retrieve( 'type', 'String', $form );
         }
 
         if ( isset( $subType ) ) {
@@ -92,7 +84,7 @@ class CRM_Custom_Form_CustomData
 
         $form->_groupID  = CRM_Utils_Request::retrieve( 'groupID', 'Positive', $form );
 
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $entityType,
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type,
                                                          $form,
                                                          $form->_entityId,
                                                          $form->_groupID,

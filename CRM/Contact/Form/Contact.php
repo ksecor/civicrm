@@ -623,19 +623,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                                                                    $this->_contactId,
                                                                    $params['contact_type'],
                                                                    true );
-        // handle custom data for contact sub type
-        if ( $this->_contactSubType ) {
-            $customFields = CRM_Core_BAO_CustomField::getFields( $this->_contactSubType, false, true );
-            $customParams = CRM_Core_BAO_CustomField::postProcess( $params,
-                                                                   $customFields,
-                                                                   $this->_contactId,
-                                                                   $this->_contactSubType,
-                                                                   true );
-            $keys = array_keys($customParams);
-            foreach ( $keys as $key ) {
-                $params['custom'][$key] = $customParams[$key];
-            }
-        }
         
         if ( array_key_exists( 'CommunicationPreferences',  $this->_editOptions ) ) {
             // this is a chekbox, so mark false if we dont get a POST value

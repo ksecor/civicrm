@@ -296,6 +296,13 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
             $in = "'$entityType'";
         }
 
+        // consider subtypes -
+        $entityTypes = preg_split( "/[\s,']+/", $in );
+        $contactSubTypes = CRM_Core_PseudoConstant::contactSubTypes( $entityTypes );
+        if ( !empty($contactSubTypes) ) {
+            $in .= ", '" . implode("','", array_keys($contactSubTypes)) . "'";
+        }
+
         if ( $subType ) {
             $strWhere = "
 WHERE civicrm_custom_group.is_active = 1 

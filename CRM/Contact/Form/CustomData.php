@@ -133,7 +133,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
 		require_once "CRM/Contact/BAO/Contact.php";
 		$this->_contactType = CRM_Contact_BAO_Contact::getContactType($this->_tableID);
-		$this->_contactSubType = CRM_Contact_BAO_Contact::getContactSubType($this->_tableID);
 		$this->assign( 'contact_type', $this->_contactType);
 	
         // when custom data is included in this page
@@ -187,16 +186,14 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             return $customDefaultValue;
         }
 
-        $entityType = $this->_contactSubType ?
-            "'{$this->_contactType}', '{$this->_contactSubType}'" : $this->_contactType;
-		$groupTree =& CRM_Core_BAO_CustomGroup::getTree( $entityType,
+		$groupTree =& CRM_Core_BAO_CustomGroup::getTree( $this->_contactType,
                                                          $this,
                                                          $this->_tableID,
                                                          $this->_groupID );
                                                      
         if ( !CRM_Utils_Array::value( "hidden_custom_group_count", $_POST ) ) { 
             // custom data building in edit mode (required to handle multi-value)
-            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $entityType, $this, $this->_tableID, $this->_groupID);
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $this->_contactType, $this, $this->_tableID, $this->_groupID);
             $customValueCount = CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree, true, $this->_groupID );
         } else {
             $customValueCount = $_POST['hidden_custom_group_count'][$this->_groupID];
