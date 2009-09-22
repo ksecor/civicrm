@@ -91,13 +91,14 @@ require_once 'api/v2/utils.php';
 function civicrm_constant_get($name, $params = array()) 
 {
     require_once 'CRM/Core/PseudoConstant.php';
-    
-    $callable = 'CRM_Core_PseudoConstant' . '::' . $name;    
+    $className = 'CRM_Core_PseudoConstant';
+    $callable  = "$className::$name";
+     
     if (is_callable($callable)) {
         if (empty($params)) {
-            $values = call_user_func($callable);
+            $values = call_user_func( array( $className, $name ) );
         } else {
-            $values = call_user_func_array($callable, $params);
+            $values = call_user_func_array( array( $className, $name ), $params );
         }
         return $values;
     }
