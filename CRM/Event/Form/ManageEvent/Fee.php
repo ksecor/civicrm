@@ -97,6 +97,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         if ( isset( $eventId ) ) {
             require_once 'CRM/Core/BAO/PriceSet.php';
             $price_set_id = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventId );
+
             if ( $price_set_id ) {
                 $defaults['price_set_id'] = $price_set_id;
             } else {
@@ -104,7 +105,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventId}", $defaults );
             }
         }
-        
+
         //check if discounted
         require_once 'CRM/Core/BAO/Discount.php';
         $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup($this->_id, "civicrm_event");
@@ -273,7 +274,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
 
         require_once 'CRM/Core/BAO/PriceSet.php';
         $this->add('select', 'price_set_id', ts( 'Price Set' ),
-                   array( '' => ts( '- none -' )) + CRM_Core_BAO_PriceSet::getAssoc( ),
+                   array( '' => ts( '- none -' )) + CRM_Core_BAO_PriceSet::getAssoc( false, 'Event'),
                    null, array('onchange' => "return showHideByValue('price_set_id', '', 'map-field', 'block', 'select', false);")
                    );
         

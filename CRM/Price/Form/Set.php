@@ -38,8 +38,8 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on Price Sets
  */
-class CRM_Price_Form_Set extends CRM_Core_Form {
-
+class CRM_Price_Form_Set extends CRM_Core_Form 
+{
     /**
      * the set id saved to the session for an update
      *
@@ -132,6 +132,11 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
         $this->add('text', 'title', ts('Set Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'title'), true);
         $this->addRule( 'title', ts('Name already exists in Database.'),
                         'objectExists', array( 'CRM_Core_DAO_PriceSet', $this->_sid, 'title' ) );
+
+        // used for component
+        $extends[] = HTML_QuickForm::createElement('checkbox', 'Contribution', null, 'Contribution');
+        $extends[] = HTML_QuickForm::createElement('checkbox', 'Event', null, 'Event');
+        $this->addGroup( $extends, 'extends', ts('Used For'), '&nbsp;' );
         
         // help text
         $this->add('textarea', 'help_pre',  ts('Pre-form Help'), 
@@ -195,10 +200,10 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
     {
         // get the submitted form values.
         $params              = $this->controller->exportValues('Set');
-        
         $params['name']      = CRM_Utils_String::titleToVar( $params['title'] );
+        $params['extends']   = implode( ',', array_keys( $params['extends'] ) );
         $params['is_active'] = CRM_Utils_Array::value('is_active', $params, false);
-        
+
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $params['id']    = $this->_sid;
         }
