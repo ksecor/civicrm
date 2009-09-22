@@ -227,8 +227,13 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                                      $entityID = null,
                                      $groupID  = null,
                                      $subType  = null,
-                                     $subName  = null )
+                                     $subName  = null,
+                                     $csType   = null )
     {
+        if ( $entityID ) {
+            $entityID = CRM_Utils_Type::escape( $entityID, 'Integer' );
+        }
+
         // create a new tree
         $groupTree = array();
         $strSelect = $strFrom = $strWhere = $orderBy = ''; 
@@ -288,6 +293,10 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
         // if entity is either individual, organization or household pls get custom groups for 'contact' too.
         if ($entityType == "Individual" || $entityType == 'Organization' || $entityType == 'Household') {
             $in = "'$entityType', 'Contact'";
+            if ( !$csType && $entityID ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $csType = CRM_Contact_BAO_Contact::getContactSubType( $entityID );
+            }
         } else if ( strpos( $entityType, "'" ) !== false ) {
             // this allows the calling function to send in multiple entity types
             $in = $entityType;
@@ -296,11 +305,9 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
             $in = "'$entityType'";
         }
 
-        // consider subtypes -
-        $entityTypes = preg_split( "/[\s,']+/", $in );
-        $contactSubTypes = CRM_Core_PseudoConstant::contactSubTypes( $entityTypes );
-        if ( !empty($contactSubTypes) ) {
-            $in .= ", '" . implode("','", array_keys($contactSubTypes)) . "'";
+        // consider subtype if any
+        if ( $csType ) {
+            $in .= ", '$csType'";
         }
 
         if ( $subType ) {
@@ -401,9 +408,6 @@ ORDER BY civicrm_custom_group.weight,
 
         // now that we have all the groups and fields, lets get the values
         // since we need to know the table and field names
-        if ( $entityID ) {
-            $entityID = CRM_Utils_Type::escape( $entityID, 'Integer' );
-        }
 
         // add info to groupTree
         if ( ! empty( $customValueTables ) ) {
@@ -714,7 +718,7 @@ SELECT $select
         $customGroupDAO->whereAdd("is_active = 1");
 
         // add whereAdd for entity type
-        self::_addWhereAdd($customGroupDAO, $entityType);
+        self::_addWhereAdd($customGroupDAO, $entityType, $cidToken);
 
         $groups = array( );
 
@@ -806,27 +810,29 @@ SELECT $select
      * @static
      *
      */
-    private static function _addWhereAdd(&$customGroupDAO, $entityType)
+    private static function _addWhereAdd(&$customGroupDAO, $entityType, $entityID = null)
     {
         switch($entityType) {
         case 'Contact':
             // if contact, get all related to contact
-            $extendList      = "'Contact','Individual','Household','Organization'";
-            $contactSubTypes = CRM_Core_PseudoConstant::contactSubTypes( $entityType );
-            if ( !empty($contactSubTypes) ) {
-                $extendList .= ",'" . implode("','", array_keys($contactSubTypes)) . "'";
-            }
+            $extendList = "'Contact','Individual','Household','Organization'";
+
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $csType     = is_numeric($entityID) ? CRM_Contact_BAO_Contact::getContactSubType($entityID) : false;
+            $extendList = $csType ? $extendList . ", '$csType'" : $extendList; 
+
             $customGroupDAO->whereAdd("extends IN ( $extendList )");
             break;
         case 'Individual':
         case 'Household':
         case 'Organization':
             // is I/H/O then get I/H/O and contact
-            $extendList      = "'Contact','$entityType'";
-            $contactSubTypes = CRM_Core_PseudoConstant::contactSubTypes( $entityType );
-            if ( !empty($contactSubTypes) ) {
-                $extendList .= ",'" . implode("','", array_keys($contactSubTypes)) . "'";
-            }
+            $extendList = "'Contact','$entityType'";
+
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $csType     = is_numeric($entityID) ? CRM_Contact_BAO_Contact::getContactSubType($entityID) : false;
+            $extendList = $csType ? $extendList . ", '$csType'" : $extendList; 
+
             $customGroupDAO->whereAdd("extends IN ( $extendList )");
             break;
         case 'Location':
