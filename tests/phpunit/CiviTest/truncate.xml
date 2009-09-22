@@ -31,4 +31,6 @@
   <civicrm_membership_log />
   <civicrm_membership_payment />    
   <civicrm_contribution_type />
+  <civicrm_event />
+  <civicrm_participant />
 </dataset>
