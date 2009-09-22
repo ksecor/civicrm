@@ -136,7 +136,7 @@ class CRM_Price_Form_Set extends CRM_Core_Form
         // used for component
         $extends[] = HTML_QuickForm::createElement('checkbox', 'Contribution', null, 'Contribution');
         $extends[] = HTML_QuickForm::createElement('checkbox', 'Event', null, 'Event');
-        $this->addGroup( $extends, 'extends', ts('Used For'), '&nbsp;' );
+        $this->addGroup( $extends, 'extends', ts('Used For'), '&nbsp;', true );
         
         // help text
         $this->add('textarea', 'help_pre',  ts('Pre-form Help'), 
@@ -180,6 +180,12 @@ class CRM_Price_Form_Set extends CRM_Core_Form
         if ( isset( $this->_sid ) ) {
             $params = array('id' => $this->_sid);
             CRM_Core_BAO_PriceSet::retrieve($params, $defaults);
+            $extends = explode(',', $defaults['extends'] );
+
+            unset( $defaults['extends']);
+            foreach ($extends as $v){
+                $defaults['extends'][$v] = 1;
+            }
             
         } else {
             $defaults['is_active'] = 1;
