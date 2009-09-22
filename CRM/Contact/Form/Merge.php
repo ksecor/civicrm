@@ -340,8 +340,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                                    'address' => 'Address' );
             
             require_once 'CRM/Contact/BAO/Contact.php';
-            $primaryBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid );
-            $billingBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid, 'is_billing' );
+            $primaryBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid, 'is_primary = 1' );
+            $billingBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid, 'is_billing = 1' );
             
             foreach ( $locBlocks as $name => $block ) {
                 if ( !is_array($block) || CRM_Utils_System::isNull($block) ) continue; 

@@ -1930,7 +1930,7 @@ UNION
       * @return array   $locBlockIds     loc block ids which fullfill condition. 
       * @static
       */
-     static function getLocBlockIds( $contactId, $condFieldName = 'is_primary', $condValue = '1' ) 
+     static function getLocBlockIds( $contactId, $condition = null ) 
      {
          $locBlockIds = array( );
          if ( !$contactId ) {
@@ -1942,9 +1942,12 @@ UNION
              require_once "CRM/Core/DAO/{$block}.php";
              eval("\$blockDAO =& new CRM_Core_DAO_$block();");
              $blockDAO->contact_id = $contactId;
+             if ( $condition ) {
+                 $blockDAO->whereAdd( $condition );
+             }
              $blockDAO->find( );
              while ( $blockDAO->fetch( ) ) {
-                 if ($blockDAO->$condFieldName == $condValue) $locBlockIds[$name][] = $blockDAO->id;
+                 $locBlockIds[$name][] = $blockDAO->id;
              }
          }
          

@@ -84,6 +84,9 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
                                      'entity_id'    => $params['entity_id']);
             
             $location['id'] = self::createLocBlock ( $location, $entityElements );
+        } else {
+            // make sure contact should have only one primary block, CRM-5051 
+            self::checkPrimaryBlocks( CRM_Utils_Array::value( 'contact_id', $params ) );
         }
         
         return $location;
@@ -151,7 +154,7 @@ WHERE e.id = %1";
          return $locBlockId;
     }
     
-     /**
+    /**
      * takes an associative array and adds location block 
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
@@ -391,6 +394,47 @@ WHERE e.id = %1";
                                                     $copyLocationParams );
         return $copyLocation->id;
     }
+    
+    /**
+     * If contact has data for any location block, make sure 
+     * contact should have only one primary block, CRM-5051
+     *
+     * @param  int $contactId - contact id 
+     *
+     * @access public
+     * @static
+     */
+    static function checkPrimaryBlocks( $contactId ) 
+    {
+        if ( !$contactId ) {
+            return;
+        }
+        
+        // get the loc block ids.
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $primaryLocBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $contactId, 'is_primary = 1' );
+        $nonPrimaryBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $contactId, 'is_primary IS NULL OR is_primary = 0' );
+        
+        foreach ( array( 'Email', 'IM', 'Phone', 'Address', 'OpenID' ) as $block ) {
+            $name = strtolower( $block );
+            if ( array_key_exists( $name, $primaryLocBlockIds ) && 
+                 !CRM_Utils_System::isNull( $primaryLocBlockIds[$name] ) ) {
+                if ( count( $primaryLocBlockIds[$name] ) > 1 ) {
+                    // keep only single block as primary.
+                    $primaryId = array_pop( $primaryLocBlockIds[$name] );
+                    $resetIds  = "(" . implode( ',', $primaryLocBlockIds[$name] ) . ")";
+                    // reset all primary except one.
+                    CRM_Core_DAO::executeQuery( "UPDATE civicrm_$name SET is_primary = 0 WHERE id IN $resetIds" );
+                }
+            } else if ( array_key_exists( $name,  $nonPrimaryBlockIds ) && 
+                        !CRM_Utils_System::isNull( $nonPrimaryBlockIds[$name] ) ) {
+                // data exists and no primary block - make one primary.
+                CRM_Core_DAO::setFieldValue( "CRM_Core_DAO_" . $block, 
+                                             array_pop( $nonPrimaryBlockIds[$name] ), 'is_primary', 1 );
+            }
+        }
+    }
+    
 }
 
 
