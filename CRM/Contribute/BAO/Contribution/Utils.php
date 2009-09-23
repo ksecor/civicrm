@@ -153,6 +153,31 @@ class CRM_Contribute_BAO_Contribution_Utils {
                 $result =& $payment->doExpressCheckout( $paymentParams );
             }
         } elseif ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
+           
+            if ( $paymentParams['is_recur']  && $form->_contributeMode == 'direct' ) {
+
+                // For recurring contribution, create Contribution Record first.
+                // Contribution ID, Recurring ID and Contact ID needed 
+                // When we get a callback from the payment processor
+
+                $paymentParams['contactID'] =  $contactID;
+                $contribution = CRM_Contribute_Form_Contribution_Confirm::processContribution(
+                                                                                              $form,
+                                                                                              $paymentParams,
+                                                                                              null,
+                                                                                              $contactID,
+                                                                                              $contributionType, 
+                                                                                              true, true, true );
+                
+                $paymentParams['contributionID'    ] = $contribution->id;
+                $paymentParams['contributionTypeID'] = $contribution->contribution_type_id;
+                $paymentParams['contributionPageID'] = $contribution->contribution_page_id;
+                
+                if ( $form->_values['is_recur'] && $contribution->contribution_recur_id ) {
+                    $paymentParams['contributionRecurID'] = $contribution->contribution_recur_id;
+                }
+            }
+            
             $result =& $payment->doDirectPayment( $paymentParams );
         }
         
@@ -194,13 +219,13 @@ class CRM_Contribute_BAO_Contribution_Utils {
                                          $form->_params ) ) {
                 $pending = true;
             }
-            
-            $contribution =
-                CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
-                                                                               $form->_params, $result,
-                                                                               $contactID, $contributionType,
-                                                                               true, $pending, true );
-            
+            if ( !($paymentParams['is_recur'] && $form->_contributeMode == 'direct') ) {
+                $contribution =
+                    CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
+                                                                                   $form->_params, $result,
+                                                                                   $contactID, $contributionType,
+                                                                                   true, $pending, true );
+            }
             $form->postProcessPremium( $premiumParams, $contribution );
             
             $membershipResult[1] = $contribution;
