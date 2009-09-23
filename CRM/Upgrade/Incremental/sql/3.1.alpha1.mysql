@@ -7,3 +7,8 @@
 -- add table definiton and data for civicrm_contact_type table
 
 -- modify civicrm_custom_group.extends column to varchar(64)
+
+-- make changes for CRM-5100 
+
+ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_a` varchar(64) collate utf8_unicode_ci DEFAULT NULL AFTER `contact_type_b`;
+ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_b` varchar(64) collate utf8_unicode_ci DEFAULT NULL AFTER `contact_sub_type_a`;

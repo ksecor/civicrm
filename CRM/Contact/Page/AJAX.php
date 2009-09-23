@@ -297,6 +297,7 @@ FROM civicrm_contact c, civicrm_relationship_type r
 WHERE c.sort_name LIKE '%$name'
 AND r.id = $relType
 AND ( c.contact_type = r.contact_type_{$rel} OR r.contact_type_{$rel} IS NULL )
+AND ( c.contact_sub_type = r.contact_sub_type_{$rel} OR r.contact_sub_type_{$rel} IS NULL )
     {$whereIdClause} 
 ORDER BY sort_name" ;
                 }
