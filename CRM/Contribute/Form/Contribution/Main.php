@@ -411,9 +411,25 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildAmount( $separateMembershipPayment = false ) 
     {
         $elements = array( );
-
-        // first build the radio boxes
+        if ( isset($this->_priceSetId) ) {
+            $this->addGroup( $elements, 'amount', ts('Contribution Fee(s)'), '<br />' );      
+            $this->add( 'hidden', 'priceSetId', $this->_priceSetId );
+            $this->assign( 'priceSet', $this->_priceSet );
+            
+            require_once 'CRM/Core/BAO/PriceField.php';                       
+            foreach ( $this->_values['fee']['fields'] as $field ) {
+                $fieldId = $field['id'];
+                $elementName = 'price_' . $fieldId;
+                if ( $button == 'skip' ) {
+                    $isRequire = false;
+                } else {
+                    $isRequire = CRM_Utils_Array::value( 'is_required', $field );
+                }
+                CRM_Core_BAO_PriceField::addQuickFormElement( $this, $elementName, $fieldId, false, $isRequire );
+            }
+        } 
         if ( ! empty( $this->_values['amount'] ) ) {
+            // first build the radio boxes
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::buildAmount( 'contribution', $this, $this->_values['amount'] );
             

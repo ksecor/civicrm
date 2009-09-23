@@ -164,6 +164,23 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @public
      */
     public $_membershipId;
+   
+    /**
+     * Price Set ID, if the new price set method is used
+     *
+     * @var int
+     * @protected
+     */
+    public $_priceSetId;
+    
+    /**
+     * Array of fields for the price set
+     *
+     * @var array
+     * @protected
+     */
+    public $_priceSet;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -236,6 +253,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_fields           = $this->get( 'fields' );
         $this->_bltID            = $this->get( 'bltID'  );
         $this->_paymentProcessor = $this->get( 'paymentProcessor' );
+        $this->_priceSetId       = $this->get( 'priceSetId' );
+        $this->_priceSet         = $this->get( 'priceSet' ) ;
 
         if ( ! $this->_values ) {
             // get all the values from the dao object
@@ -290,6 +309,21 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 }
                 $this->_paymentProcessor['processorName'] = $this->_paymentObject->_processorName;
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
+                
+                self::initPriceSet( $this, $this->_id );
+                
+                // get price info
+                require_once 'CRM/Core/BAO/PriceSet.php';
+                $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventID );
+                
+                if ( $priceSetId ) {
+                    $this->_priceSetId = $priceSetId;
+                    $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
+                    $this->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
+                    $this->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
+                    $this->set('priceSetId', $this->_priceSetId);
+                    $this->set('priceSet', $this->_priceSet);
+                }
             }
             
             // this avoids getting E_NOTICE errors in php
@@ -789,6 +823,27 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         if ( !in_array( $pledgeValues['status_id'], $validStatus ) ) {
             CRM_Core_Error::fatal(ts('Oops. You cannot make a payment for this pledge - pledge status is %1.', array(1 => CRM_Utils_Array::value($pledgeValues['status_id'], $allStatus)))); 
         }
+    }
+    
+    static function initPriceSet( &$form, $id ) 
+    {
+        // get price info
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_contribution_page', $id ) ) {
+            if ( $form->_action & CRM_Core_Action::UPDATE ){
+                require_once 'CRM/Event/BAO/Participant.php';
+                //$form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
+                $required = false;
+            } else {
+                $required = true;
+            }
+            $form->_priceSetId = $priceSetId;
+            $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId, $required);
+            $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
+            $form->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
+            $form->set('priceSetId', $form->_priceSetId);
+            $form->set('priceSet', $form->_priceSet);
+        } 
     }
     
 }

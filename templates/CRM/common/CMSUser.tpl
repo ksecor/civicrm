@@ -57,7 +57,7 @@
    {
       var cId = {/literal}'{$cId}'{literal};
       if ( cId ) {
-	 alert('{/literal}{ts}You are logged-in user{/ts}{literal});
+	 alert('{/literal}{ts}You are logged-in user{/ts}{literal}');
 	 frm.checked = false;
       } else {
 	 var siteName = {/literal}'{$config->userFrameworkBaseURL}'{literal};
