@@ -27,17 +27,14 @@ class api_v2_ContributionTest extends CiviUnitTestCase
     
     function tearDown() 
     {
-        //$this->customFieldDelete($this->_customFieldId);
-        //$this->customGroupDelete($this->_customGroupId);
-        $this->contactDelete($this->_individualId);
-        $this->contributionTypeDelete($this->_contributionTypeId);
-        $this->contributionTypeDelete($this->_contributionTypeId);        
     }
 
     function testGetEmptyParamsContribution()
     {
+
         $params = array();
         $contribution =& civicrm_contribution_get($params);
+
         $this->assertEquals( $contribution['is_error'], 1 );
         $this->assertEquals( $contribution['error_message'], 'No input parameters present' );
     }
