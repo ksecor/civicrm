@@ -2003,7 +2003,7 @@ SELECT $selectClause
                           )
                     );
         
-        $this->add( 'select', 'token3',  ts( 'Insert Tokens' ), 
+        $form->add( 'select', 'token3',  ts( 'Insert Tokens' ), 
                     $tokens , false, 
                     array(
                           'size'     => "5",
