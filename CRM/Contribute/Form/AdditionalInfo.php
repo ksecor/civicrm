@@ -339,15 +339,15 @@ class CRM_Contribute_Form_AdditionalInfo
             $this->assign( 'billingName', $name );
             
             //assign the address formatted up for display
-            $addressParts  = array( "street_address-{$form->_bltID}",
-                                    "city-{$form->_bltID}",
-                                    "postal_code-{$form->_bltID}",
-                                    "state_province-{$form->_bltID}",
-                                    "country-{$form->_bltID}");
+            $addressParts  = array( "street_address" => "billing_street_address-{$form->_bltID}",
+                                    "city"           => "billing_city-{$form->_bltID}",
+                                    "postal_code"    => "billing_postal_code-{$form->_bltID}",
+                                    "state_province" => "state_province-{$form->_bltID}",
+                                    "country"        => "country-{$form->_bltID}");
+            
             $addressFields = array( );
-            foreach ( $addressParts as $part) {
-                list( $n, $id ) = explode( '-', $part );
-                $addressFields[$n] = CRM_Utils_Array::value( $part, $params );
+            foreach ( $addressParts as $name => $field ) {
+                $addressFields[$name] = CRM_Utils_Array::value( $field, $params );
             }
             require_once 'CRM/Utils/Address.php';
             $this->assign('address', CRM_Utils_Address::format( $addressFields ) );
