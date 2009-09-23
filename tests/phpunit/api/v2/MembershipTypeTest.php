@@ -46,14 +46,10 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         parent::setUp();
 
         $this->_contactID           = $this->organizationCreate( ) ;
-        $this->_contributionTypeID  = $this->contributionTypeCreate( );
-              
     }
 
     function tearDown() 
     {
-        $this->contactDelete( $this->_contactID ) ;
-        $this->contributionTypeDelete($this->_contributionTypeID);
     }
 
 ///////////////// civicrm_membership_types_get methods
@@ -79,7 +75,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params = array(
                         'name'                 => '60+ Membership',
                         'description'          => 'people above 60 are given health instructions',
-                        'contribution_type_id' => $this->_contributionTypeID ,
+                        'contribution_type_id' => 1 ,
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
                         'duration_interval'    => '10',
@@ -93,13 +89,13 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
 
     function testGet()
     {       
-        $id = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
+        $id = $this->membershipTypeCreate( $this->_contactID  );
         $params = array( 'id'=> $id );        
         $membershiptype = & civicrm_membership_types_get( $params );
                        
-        $this->assertEquals($membershiptype[$id]['name'],'General');
+        $this->assertEquals($membershiptype[$id]['name'],'General', 'In line ' . __LINE__ );
         $this->assertEquals($membershiptype[$id]['member_of_contact_id'],$this->_contactID);
-        $this->assertEquals($membershiptype[$id]['contribution_type_id'],$this->_contributionTypeID);
+        $this->assertEquals($membershiptype[$id]['contribution_type_id'],1);
         $this->assertEquals($membershiptype[$id]['duration_unit'],'year');
         $this->assertEquals($membershiptype[$id]['duration_interval'],'1');
         $this->assertEquals($membershiptype[$id]['period_type'],'rolling');
@@ -130,7 +126,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params = array(
                         'name'                 => '60+ Membership',
                         'description'          => 'people above 60 are given health instructions',                        
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'domain_id'            => '1',
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
@@ -169,7 +165,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params = array(
                         'name'                 => '80+ Membership',
                         'description'          => 'people above 80 are given health instructions',                        'member_of_contact_id' => $this->_contactID,
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'domain_id'            => '1',
                         'minimum_fee'          => '200',
                         'duration_interval'    => '10',                 
@@ -205,7 +201,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params = array(
                         'description'          => 'people above 50 are given health instructions',
                         'member_of_contact_id' => $this->_contactID,
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'domain_id'            => '1',
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
@@ -221,11 +217,13 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
     
     function testCreate()
     {
+        $this->contributionTypeCreate();
+
         $params = array(
                         'name'                 => '40+ Membership',
                         'description'          => 'people above 40 are given health instructions', 
                         'member_of_contact_id' => $this->_contactID,
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'domain_id'            => '1',
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
@@ -235,11 +233,9 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
                         );
 	
         $membershiptype = & civicrm_membership_type_create($params); 
+
         $this->assertEquals( $membershiptype['is_error'], 0 );
-        if ( ! $membershiptype['is_error'] ) {
-            $this->assertNotNull( $membershiptype['id'] );   
-            $this->membershipTypeDelete( $membershiptype['id'] );
-            }
+        $this->assertNotNull( $membershiptype['id'] );   
     }
 
 ///////////////// civicrm_membership_type_update methods
@@ -266,7 +262,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params = array(
                         'name'                 => '60+ Membership',
                         'description'          => 'people above 60 are given health instructions',                        'member_of_contact_id' => $this->_contactID,
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'minimum_fee'          => '1200',
                         'duration_unit'        => 'month',
                         'duration_interval'    => '10',
@@ -281,7 +277,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
 
     function testUpdate()
     {
-        $id = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
+        $id = $this->membershipTypeCreate( $this->_contactID );
         $params = array(
                         'id'                        => $id,
                         'name'                      => 'Updated General',
@@ -299,7 +295,6 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $this->assertEquals($membershiptype['duration_unit'],'month');
         $this->assertEquals($membershiptype['duration_interval'],'10');
         $this->assertEquals($membershiptype['period_type'],'fixed');
-        $this->membershipTypeDelete( $membershiptype['id']);
     }
 
 ///////////////// civicrm_membership_type_delete methods
@@ -337,7 +332,6 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params['id'] = $membershipTypeID;
         $membershiptype = civicrm_membership_type_delete( $params );
         $this->assertEquals( $membershiptype['is_error'], 0 );
-        $this->contactDelete( $orgID );
     }
     
 
