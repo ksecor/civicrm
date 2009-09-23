@@ -2003,6 +2003,15 @@ SELECT $selectClause
                           )
                     );
         
+        $this->add( 'select', 'token3',  ts( 'Insert Tokens' ), 
+                    $tokens , false, 
+                    array(
+                          'size'     => "5",
+                          'multiple' => true,
+                          'onchange' => "return tokenReplText(this);"
+                          )
+                    );
+        
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
         if ( !empty( $form->_templates ) ) {

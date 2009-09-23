@@ -25,8 +25,16 @@
         </tr>
         <tr>
             <td class="label">{$form.msg_subject.label}</td>
-            <td>{$form.msg_subject.html}
-                <br /><span class="description">{ts}Subject for email message.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
+            <td>
+                  {$form.msg_subject.html}
+	              <a href="#" onClick="return showToken('Subject', 1);">{$form.token3.label}</a>
+	              {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
+                  <div id='tokenSubject' style="display:none">
+	                   <input  style="border:1px solid #999999;" type="text" id="filter3" size="20" name="filter3" onkeyup="filter(this, 3)"/><br />
+	                   <span class="description">{ts}Begin typing to filter list of tokens{/ts}</span><br/>
+	                   {$form.token3.html}
+                  </div>
+	           <br /><span class="description">{ts}Subject for email message.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
             </td>
         </tr>
         <tr>

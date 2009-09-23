@@ -180,9 +180,14 @@ function selectValue( val ) {
     {literal}
  }
 
-    function tokenReplText ( )
+    function tokenReplText ( element )
     {
-        var token     = cj("#token1").val( )[0];
+        var token     = cj("#"+element.id).val( )[0];
+        if ( element.id == 'token3' ) {
+           ( isMailing ) ? text_message = "subject" : text_message = "msg_subject"; 
+        }else {
+           ( isMailing ) ? text_message = "text_message" : text_message = "msg_text";
+        }          
         var msg       = cj("#"+ text_message).val( );
         var cursorlen = document.getElementById(text_message).selectionStart;
         var textlen   = msg.length;
@@ -274,6 +279,10 @@ function selectValue( val ) {
                                 case 'tinymce'  : { tinyMCE.get(html_message).focus(); break; } 
                                 default         : { cj("#"+ html_message).focus(); break; } 
                         }
+                    } else if (element == 'Subject') {
+                           var subject = null;
+                           ( isMailing ) ? subject = "subject" : subject = "msg_subject";
+                           cj('#'+subject).focus();       
                     }
                 }
             }

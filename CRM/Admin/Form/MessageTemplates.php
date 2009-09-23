@@ -103,6 +103,16 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
                           'onchange' => "return tokenReplHtml(this);"
                           )
                     );
+
+        $this->add( 'select', 'token3',  ts( 'Insert Tokens' ), 
+                    $tokens , false, 
+                    array(
+                          'size'     => "5",
+                          'multiple' => true,
+                          'onchange' => "return tokenReplText(this);"
+                          )
+                    );
+        
         $this->add('textarea', 'msg_text', ts('Text Message'), 
                    "cols=50 rows=6" );
         $this->addWysiwyg( 'msg_html', ts('HTML Message'),
