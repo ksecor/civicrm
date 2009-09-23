@@ -431,6 +431,17 @@ class CRM_Utils_Rule
         return preg_match( '/(^\d+\.\d?\d?$)|(^\.\d\d?$)/', $value ) ? true : false;
     }
 
+    static function moneySigned($value) 
+    {
+        $value = self::cleanMoney( $value );
+
+        if ( self::integer( $value ) ) {
+            return true;
+        }
+
+        return preg_match( '/(^-?\d+\.\d?\d?$)|(^\.\d\d?$)/', $value ) ? true : false;
+    }
+
     static function string($value, $maxLength = 0) 
     {
         if (is_string($value) &&
