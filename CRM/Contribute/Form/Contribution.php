@@ -385,14 +385,14 @@ WHERE  contribution_id = {$this->_id}
         }
         
         if ( $this->_mode ) {
-            $biilingFields = array( );
+            $billingFields = array( );
             foreach ( $this->_fields as $name => $dontCare ) {
                 if ( strpos( $name, 'billing_' ) === 0 ) {
                     $name = $idName = substr( $name, 8 ); 
                     if ( in_array( $name, array( "state_province_id-$this->_bltID", "country_id-$this->_bltID" ) ) ) {
                         $name = str_replace( '_id', '', $name );
                     }
-                    $biilingFields[$name] = "billing_" . $idName;
+                    $billingFields[$name] = "billing_" . $idName;
                 }
                 $fields[$name] = 1;
             }
@@ -401,7 +401,7 @@ WHERE  contribution_id = {$this->_id}
             if ( $this->_contactID ) {
                 CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
             }
-            foreach ( $biilingFields as $name => $billingName ) {
+            foreach ( $billingFields as $name => $billingName ) {
                 $defaults[$billingName] = $defaults[$name];
             }
         }
