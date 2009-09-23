@@ -1992,6 +1992,18 @@ SELECT $selectClause
     {
         //get the tokens.
         $tokens = CRM_Core_SelectValues::contactTokens( );
+
+        //token selector for subject
+        //CRM-5058
+        $form->add( 'select', 'token3',  ts( 'Insert Tokens' ), 
+                    $tokens , false, 
+                    array(
+                          'size'     => "5",
+                          'multiple' => true,
+                          'onchange' => "return tokenReplText(this);"
+                          )
+                    );
+        
         if ( CRM_Utils_System::getClassName( $form )  == 'CRM_Mailing_Form_Upload' ) {
             $tokens = array_merge( CRM_Core_SelectValues::mailingTokens( ), $tokens );
         }
@@ -2017,15 +2029,7 @@ SELECT $selectClause
                           )
                     );
         
-        $form->add( 'select', 'token3',  ts( 'Insert Tokens' ), 
-                    $tokens , false, 
-                    array(
-                          'size'     => "5",
-                          'multiple' => true,
-                          'onchange' => "return tokenReplText(this);"
-                          )
-                    );
-        
+               
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
         if ( !empty( $form->_templates ) ) {
