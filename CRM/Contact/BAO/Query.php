@@ -3242,7 +3242,9 @@ SELECT COUNT( civicrm_contribution.total_amount ) as total_count,
        AVG(   civicrm_contribution.total_amount ) as total_avg,
        currency                                   as currency";
 
-        $additionalWhere = "civicrm_contribution.cancel_date IS NULL";
+        // make sure contribution is completed - CRM-4989
+        $additionalWhere = "civicrm_contribution.contribution_status_id = 1";
+
         if ( ! empty( $where ) ) {
             $newWhere = "$where AND $additionalWhere";
         } else {
