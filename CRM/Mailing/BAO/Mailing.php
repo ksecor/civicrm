@@ -552,12 +552,12 @@ AND    $mg.mailing_id = {$mailing_id}
     {
         if ( !$this->preparedTemplates ) {
             $patterns['html'] = $this->getPatterns(true);
-            $patterns['text'] = $this->getPatterns();
+            $patterns['subject'] = $patterns['text'] = $this->getPatterns();
             $templates = $this->getTemplates();
             
             $this->preparedTemplates = array();
             
-            foreach (array('html','text') as $key) {
+            foreach (array('html','text', 'subject') as $key) {
                 if (!isset($templates[$key])) {
                     continue;
                 }
@@ -638,6 +638,12 @@ AND    $mg.mailing_id = {$mailing_id}
                   $this->templates['text'] = CRM_Utils_String::htmlToText( $this->templates['html'] );
               }
           }
+
+          if ( $this->subject ) {
+              $template = array();
+              $template[] = $this->subject;
+              $this->templates['subject'] = join("\n",$template);
+          }
       }
       return $this->templates;    
     }
@@ -662,7 +668,7 @@ AND    $mg.mailing_id = {$mailing_id}
     {
         if (!$this->tokens) {
             
-            $this->tokens = array( 'html' => array(), 'text' => array() );
+            $this->tokens = array( 'html' => array(), 'text' => array(), 'subject' => array() );
             
             if ($this->body_html) {
                 $this->_getTokens('html');
@@ -671,7 +677,10 @@ AND    $mg.mailing_id = {$mailing_id}
             if ($this->body_text) {
                 $this->_getTokens('text');
             }
-         
+
+            if ($this->subject) {
+                $this->_getTokens('subject');
+            }
         }
         return $this->tokens;      
     }
@@ -1851,6 +1860,11 @@ SELECT $selectClause
             $properties = array_merge( $properties, $tokens['text']['contact'] );
         }
 
+        if ( isset( $tokens['subject'] ) &&
+             isset( $tokens['subject']['contact'] ) ) {
+            $properties = array_merge( $properties, $tokens['subject']['contact'] );
+        }
+        
         $returnProperties = array( );
         $returnProperties['display_name'] = 
             $returnProperties['contact_id'] = $returnProperties['preferred_mail_format'] = 1;

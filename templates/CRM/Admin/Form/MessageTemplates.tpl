@@ -27,7 +27,7 @@
             <td class="label">{$form.msg_subject.label}</td>
             <td>
                   {$form.msg_subject.html}
-	              <a href="#" onClick="return showToken('Subject', 1);">{$form.token3.label}</a>
+	              <a href="#" onClick="return showToken('Subject', 3);">{$form.token3.label}</a>
 	              {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
                   <div id='tokenSubject' style="display:none">
 	                   <input  style="border:1px solid #999999;" type="text" id="filter3" size="20" name="filter3" onkeyup="filter(this, 3)"/><br />
