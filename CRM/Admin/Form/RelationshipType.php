@@ -160,13 +160,13 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
             if ( ! empty( $params['contact_types_a'][1] ) ) {
                 $params['contact_sub_type_a'] = $params['contact_types_a'][1];
             } else {
-                $params['contact_sub_type_a'] = '';
+                $params['contact_sub_type_a'] = 'NULL';
             }
 
             if ( ! empty( $params['contact_types_b'][1] ) ) {
                 $params['contact_sub_type_b'] = $params['contact_types_b'][1];
             } else {
-                $params['contact_sub_type_b'] = '';
+                $params['contact_sub_type_b'] = 'NULL';
             }
 
             CRM_Contact_BAO_RelationshipType::add($params, $ids);
