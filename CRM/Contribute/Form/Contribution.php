@@ -884,7 +884,7 @@ WHERE  contribution_id = {$this->_id}
             $this->_params["country-{$this->_bltID}"] =
                 CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
             
-            if ( $this->_processors['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_CREDIT_CARD ) {
+            if ( $this->_paymentProcessor['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_CREDIT_CARD ) {
                 $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
                 $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
             }
