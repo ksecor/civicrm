@@ -60,6 +60,23 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
 
         $ufGroup = civicrm_uf_group_create($params);
         $this->_ufGroupId = $ufGroup['id'];
+
+        // FIXME: something NULLs $GLOBALS['_HTML_QuickForm_registered_rules'] when the tests are ran all together
+        $GLOBALS['_HTML_QuickForm_registered_rules'] = array(
+            'required'      => array('html_quickform_rule_required', 'HTML/QuickForm/Rule/Required.php'),
+            'maxlength'     => array('html_quickform_rule_range',    'HTML/QuickForm/Rule/Range.php'),
+            'minlength'     => array('html_quickform_rule_range',    'HTML/QuickForm/Rule/Range.php'),
+            'rangelength'   => array('html_quickform_rule_range',    'HTML/QuickForm/Rule/Range.php'),
+            'email'         => array('html_quickform_rule_email',    'HTML/QuickForm/Rule/Email.php'),
+            'regex'         => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'lettersonly'   => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'alphanumeric'  => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'numeric'       => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'nopunctuation' => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'nonzero'       => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'callback'      => array('html_quickform_rule_callback', 'HTML/QuickForm/Rule/Callback.php'),
+            'compare'       => array('html_quickform_rule_compare',  'HTML/QuickForm/Rule/Compare.php')
+        );
     }
 
 
@@ -113,7 +130,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      */
     public function testGetUFProfileHTMLById()
     {
-        $this->markTestSkipped('Throws Fatal error: Class name must be a valid object or a string');
         $this->_individualID = $this->individualCreate();
         $profileHTML         = civicrm_uf_profile_html_by_id_get($this->_individualID, $this->_ufGroupId);
         $this->assertNotNull($profileHTML);
@@ -125,13 +141,11 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      */
     public function testGetUFProfileCreateHTML()
     {
-        $this->markTestSkipped('Throws Fatal error: Class name must be a valid object or a string');
         $fieldsParams = array(
             'field_name'       => 'first_name',
             'field_type'       => 'Individual',
             'visibility'       => 'Public Pages and Listings',
             'weight'           => 1,
-            'location_type_id' => 1,
             'label'            => 'Test First Name',
             'is_searchable'    => 1,
             'is_active'        => 1,
@@ -289,10 +303,9 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      */
     public function testValidateProfileHTML()
     {
-        $this->markTestSkipped('Throws Fatal error: Class name must be a valid object or a string');
         $this->_individualID = $this->individualCreate();
         $result              = civicrm_profile_html_validate($this->_individualID, 'Test Profile');
-        $this->assertEquals($result, 1);
+        $this->assertEquals($result, true);
     }
 
 
