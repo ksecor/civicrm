@@ -171,7 +171,7 @@ class CRM_Core_I18n_Schema
         }
 
         // update civicrm_domain.locales
-        $domain->locales = '';
+        $domain->locales = 'NULL';
         $domain->save();
     }
 
