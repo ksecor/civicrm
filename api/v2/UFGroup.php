@@ -160,7 +160,10 @@ function civicrm_uf_profile_html_by_id_get($userID, $profileID, $action = null, 
  * @static  
  * @access public  
  */  
-function civicrm_uf_create_html_get ( $gid, $reset = false ) {
+function civicrm_uf_create_html_get($gid, $reset = false)
+{
+    if (!is_int($gid)) return civicrm_create_error('Param needs to be an integer.');
+
     require_once 'CRM/Core/Controller/Simple.php';
     $session =& CRM_Core_Session::singleton( ); 
     $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', '', CRM_Core_Action::ADD ); 

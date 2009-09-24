@@ -221,6 +221,11 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         $this->assertNotNull($profileHTML);
     }
 
+    function testGetUFProfileCreateHTMLWithWrongParam()
+    {
+        $result = civicrm_uf_create_html_get('a string');
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * creating profile fields / fetch profile fields
