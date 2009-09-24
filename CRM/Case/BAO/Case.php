@@ -790,6 +790,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $select = 'SELECT count(ca.id) as ismultiple, ca.id as id, 
                           ca.activity_type_id as type, 
                           cc.sort_name as reporter,
+                          acc.sort_name AS assignee,
                           IF(ca.activity_date_time < NOW() AND ca.status_id=ov.value,
                             ca.activity_date_time,
                             DATE_ADD(NOW(), INTERVAL 1 YEAR)
@@ -800,10 +801,14 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                           ca.is_deleted as deleted,
                           ca.priority_id as priority ';
 
-        $from  = 'FROM civicrm_case_activity cca INNER JOIN civicrm_activity ca ON ca.id = cca.activity_id
+        $from  = 'FROM civicrm_case_activity cca 
+                  INNER JOIN civicrm_activity ca ON ca.id = cca.activity_id
                   INNER JOIN civicrm_contact cc ON cc.id = ca.source_contact_id
                   LEFT OUTER JOIN civicrm_option_group og ON og.name="activity_status"
-                  LEFT OUTER JOIN civicrm_option_value ov ON ov.option_group_id=og.id AND ov.name="Scheduled" '; 
+                  LEFT OUTER JOIN civicrm_option_value ov ON ov.option_group_id=og.id AND ov.name="Scheduled"
+                  LEFT JOIN civicrm_activity_assignment caa 
+                                ON caa.activity_id = ca.id 
+                               LEFT JOIN civicrm_contact acc ON acc.id = caa.assignee_contact_id  '; 
 
         $where = 'WHERE cca.case_id= %1 
                     AND ca.is_current_revision = 1';
@@ -872,7 +877,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $start = (($page-1) * $rp);
         
         $query  = $select . $from . $where . $groupBy . $orderBy;
-		
+				    
         $params = array( 1 => array( $caseID, 'Integer' ) );
         $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
         $params['total'] = $dao->N;
@@ -936,10 +941,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             // add activity assignee to activity selector. CRM-4485.
             if ( isset($dao->assignee) ) {
                 if( $dao->ismultiple == 1 ) {
-                    $values[$dao->id]['reporter'] .= '/ '.$dao->assignee;
+                    $values[$dao->id]['reporter'] .= ' / '.$dao->assignee;
                     $values[$dao->id]['assignee']  = $dao->assignee;
                 } else {
-                    $values[$dao->id]['reporter'] .= ts('/ (multiple)');
+                    $values[$dao->id]['reporter'] .= ' / ' .ts('(multiple)');
                 } 
             }
 
