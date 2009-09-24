@@ -381,9 +381,9 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $contactID = CRM_Contact_BAO_Contact::createProfileContact( $formValues, $fields, $this->_contactID, null, null, $ctype );
             
             // add all the additioanl payment params we need
-            $this->_params["state_province-{$this->_bltID}"] =
+            $this->_params["state_province-{$this->_bltID}"] = $this->_params["billing_state_province-{$this->_bltID}"] =
                 CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["billing_state_province_id-{$this->_bltID}"] );
-            $this->_params["country-{$this->_bltID}"] =
+            $this->_params["country-{$this->_bltID}"] = $this->_params["billing_country-{$this->_bltID}"] =
                 CRM_Core_PseudoConstant::countryIsoCode( $this->_params["billing_country_id-{$this->_bltID}"] );
             
             $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
@@ -572,8 +572,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                 $addressParts  = array( "street_address-{$this->_bltID}",
                                         "city-{$this->_bltID}",
                                         "postal_code-{$this->_bltID}",
-                                        "state_province_id-{$this->_bltID}",
-                                        "country_id-{$this->_bltID}");
+                                        "state_province-{$this->_bltID}",
+                                        "country-{$this->_bltID}");
                 $addressFields = array( );
                 foreach ($addressParts as $part) {
                     list( $n, $id ) = explode( '-', $part );
