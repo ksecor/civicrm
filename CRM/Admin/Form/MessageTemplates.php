@@ -79,10 +79,7 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
 
         //get the tokens.
         $tokens = CRM_Core_SelectValues::contactTokens( );
-        if ( CRM_Utils_System::getClassName( $form )  == 'CRM_Mailing_Form_Upload' ) {
-            $tokens = array_merge( CRM_Core_SelectValues::mailingTokens( ), $tokens );
-        }
-        
+                
         //sorted in ascending order tokens by ignoring word case
         natcasesort($tokens);
         $this->assign('tokens', $tokens);
