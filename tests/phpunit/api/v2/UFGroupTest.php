@@ -165,6 +165,14 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         $this->assertNotNull($profileHTML);
     }
 
+    function testGetUFProfileHTMLWithWrongParams()
+    {
+        $this->_individualID = $this->individualCreate();
+        $result = civicrm_uf_profile_html_get($this->_individualID, 42);
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_profile_html_get('a string', 'Test Profile');
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * fetch profile html by contact id and profile id

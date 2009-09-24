@@ -119,8 +119,13 @@ function civicrm_uf_profile_fields_get($id, $register = false, $action = null, $
  * @static 
  * @access public 
  */ 
-function civicrm_uf_profile_html_get ( $userID, $title, $action = null, $register = false, $reset = false ) {
-    return CRM_Core_BAO_UFGroup::getEditHTML( $userID, $title, $action, $register, $reset );
+function civicrm_uf_profile_html_get($userID, $title, $action = null, $register = false, $reset = false)
+{
+    if (!is_int($userID) or !is_string($title)) {
+        return civicrm_create_error('Params need to be an integer and a string.');
+    } else {
+        return CRM_Core_BAO_UFGroup::getEditHTML($userID, $title, $action, $register, $reset);
+    }
 }
 
 /** 
