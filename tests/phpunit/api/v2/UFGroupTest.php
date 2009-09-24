@@ -141,7 +141,18 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
     {
         $ufProfile = civicrm_uf_profile_title_get($this->_ufGroupId);
         $this->assertEquals($ufProfile, 'Test Profile');
-        $this->assertEquals(count($ufProfile), 1);
+    }
+
+    function testGetUFProfileTitleWithEmptyParam()
+    {
+        $result = civicrm_uf_profile_title_get(array());
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testGetUFProfileTitleWithWrongParam()
+    {
+        $result = civicrm_uf_profile_title_get('a string');
+        $this->assertEquals($result['is_error'], 1);
     }
 
     /**

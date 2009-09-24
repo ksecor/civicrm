@@ -76,8 +76,13 @@ function &civicrm_uf_profile_groups_get( ) {
  * @static 
  * 
  */ 
-function civicrm_uf_profile_title_get ( $id ) {
-    return CRM_Core_BAO_UFGroup::getTitle( $id );
+function civicrm_uf_profile_title_get($id)
+{
+    if (!is_int($id)) {
+        return civicrm_create_error('Param needs to be an integer.');
+    } else {
+        return CRM_Core_BAO_UFGroup::getTitle($id);
+    }
 }
 
 /** 
