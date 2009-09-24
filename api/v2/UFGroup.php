@@ -78,10 +78,10 @@ function &civicrm_uf_profile_groups_get( ) {
  */ 
 function civicrm_uf_profile_title_get($id)
 {
-    if (is_int($id)) {
+    if ((int) $id > 0) {
         return CRM_Core_BAO_UFGroup::getTitle($id);
     } else {
-        return civicrm_create_error('Param needs to be an integer.');
+        return civicrm_create_error('Param needs to be a positive integer.');
     }
 }
 
@@ -99,10 +99,10 @@ function civicrm_uf_profile_title_get($id)
  */ 
 function civicrm_uf_profile_fields_get($id, $register = false, $action = null, $visibility = null)
 {
-    if (is_int($id)) {
+    if ((int) $id > 0) {
         return CRM_Core_BAO_UFGroup::getFields($id, $register, $action, null, $visibility, false, null, true);
     } else {
-        return civicrm_create_error('Param needs to be an integer.');
+        return civicrm_create_error('Param needs to be a positive integer.');
     }
 }
 
@@ -121,10 +121,10 @@ function civicrm_uf_profile_fields_get($id, $register = false, $action = null, $
  */ 
 function civicrm_uf_profile_html_get($userID, $title, $action = null, $register = false, $reset = false)
 {
-    if (is_int($userID) and is_string($title)) {
+    if ((int) $userID > 0 and is_string($title)) {
         return CRM_Core_BAO_UFGroup::getEditHTML($userID, $title, $action, $register, $reset);
     } else {
-        return civicrm_create_error('Params need to be an integer and a string.');
+        return civicrm_create_error('Params need to be a positive integer and a string.');
     }
 }
 
@@ -143,10 +143,10 @@ function civicrm_uf_profile_html_get($userID, $title, $action = null, $register 
  */ 
 function civicrm_uf_profile_html_by_id_get($userID, $profileID, $action = null, $register = false, $reset = false)
 {
-    if (is_int($userID) and is_int($profileID)) {
+    if ((int) $userID > 0 and (int) $profileID > 0) {
         return CRM_Core_BAO_UFGroup::getEditHTML($userID, null, $action, $register, $reset, $profileID);
     } else {
-        return civicrm_create_error('Params need to be integers.');
+        return civicrm_create_error('Params need to be positive integers.');
     }
 }
 
@@ -162,7 +162,7 @@ function civicrm_uf_profile_html_by_id_get($userID, $profileID, $action = null, 
  */  
 function civicrm_uf_create_html_get($gid, $reset = false)
 {
-    if (!is_int($gid)) return civicrm_create_error('Param needs to be an integer.');
+    if ((int) $gid < 1) return civicrm_create_error('Param needs to be a positive integer.');
 
     require_once 'CRM/Core/Controller/Simple.php';
     $session =& CRM_Core_Session::singleton( ); 
