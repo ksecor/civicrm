@@ -231,12 +231,13 @@ function civicrm_uf_id_get($contactID)
  *
  * @access public 
  */
-function civicrm_uf_group_create( $params ) {
-    _civicrm_initialize( );
-    
-    if(! is_array($params) || ! isset($params['title']) ) {
-        return civicrm_create_error("params is not an array or may be empty array ");
+function civicrm_uf_group_create($params)
+{
+    if (!is_array($params) or empty($params) or !isset($params['title'])) {
+        return civicrm_create_error('Params must be an array and have a title field.');
     }
+
+    _civicrm_initialize();
     
     $ids = array();
     require_once 'CRM/Core/BAO/UFGroup.php';

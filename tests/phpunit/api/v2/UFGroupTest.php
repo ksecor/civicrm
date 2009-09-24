@@ -486,4 +486,60 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         $ufProfileGroup = civicrm_uf_profile_groups_get();
         $this->assertGreaterThan(1, count($ufProfileGroup), 'we should ship with more than one group by default');
     }
+
+    function testGroupCreate()
+    {
+        $op = new PHPUnit_Extensions_Database_Operation_Insert;
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_XMLDataSet(dirname(__FILE__) . '/dataset/group_subscribers.xml')
+        );
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
+        );
+        $params = array(
+            'add_captcha'          => 1,
+            'add_contact_to_group' => 2,
+            'cancel_URL'           => 'http://example.org/cancel',
+            'created_date'         => '2009-06-27',
+            'created_id'           => 69,
+            'group'                => 2,
+            'group_type'           => 'Individual,Contact',
+            'help_post'            => 'help post',
+            'help_pre'             => 'help pre',
+            'is_active'            => 0,
+            'is_cms_user'          => 1,
+            'is_edit_link'         => 1,
+            'is_map'               => 1,
+            'is_reserved'          => 1,
+            'is_uf_link'           => 1,
+            'is_update_dupe'       => 1,
+            'name'                 => 'test_group',
+            'notify'               => 'admin@example.org',
+            'post_URL'             => 'http://example.org/post',
+            'title'                => 'Test Group',
+        );
+        $group = civicrm_uf_group_create($params);
+        foreach ($params as $key => $value) {
+            if ($key == 'add_contact_to_group' or $key == 'group') continue;
+            $this->assertEquals($group[$key], $params[$key]);
+        }
+        $this->assertEquals($group['add_to_group_id'],         $params['add_contact_to_group']);
+        $this->assertEquals($group['limit_listings_group_id'], $params['group']);
+    }
+
+    function testGroupCreateWithEmptyParams()
+    {
+        $result = civicrm_uf_group_create(array());
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testGroupCreateWithWrongParams()
+    {
+        $result = civicrm_uf_group_create('a string');
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_group_create(array('name' => 'A title-less group'));
+        $this->assertEquals($result['is_error'], 1);
+    }
 }
