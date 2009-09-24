@@ -335,7 +335,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
 
             //check for atleast one pricefields should be selected
             if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) {
-                $priceField = new CRM_Core_DAO_PriceField( );
+                $priceField = new CRM_Price_DAO_Field( );
                 $priceField->price_set_id = $fields['priceSetId'];
                 $priceField->find( );
                 

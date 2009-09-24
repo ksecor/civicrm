@@ -145,8 +145,8 @@ class CRM_Event_Form_EventFees
             } 
         }
 
-        require_once 'CRM/Core/BAO/PriceSet.php';
-        if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $form->_eventId ) ) {
+        require_once 'CRM/Price/BAO/Set.php';
+        if ( $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_event', $form->_eventId ) ) {
             $fields = $priceOptionValues = array( );
             
             if ( CRM_Utils_Array::value( 'fee_level', $defaults[$form->_pId] ) ) {
@@ -170,7 +170,7 @@ class CRM_Event_Form_EventFees
                             //hack to avoid collision of custom fields
                             //option labels with price set fields labels.
                             if ( strpos( $groupName, 'civicrm_price_field.amount' ) === 0 ) {
-                                $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', 
+                                $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Field', 
                                                                           substr( $groupName, 27 ), 'label') ;
                                 $eventLevel[$id] = array( 'fieldName'   => $fieldName,
                                                           'optionLabel' => $name );
@@ -188,9 +188,9 @@ class CRM_Event_Form_EventFees
                     }       
                 }
                 
-                require_once 'CRM/Core/BAO/PriceField.php';
+                require_once 'CRM/Price/BAO/Field.php';
                 foreach ( $eventLevel as $values ) {
-                    $priceField        = new CRM_Core_BAO_PriceField( );
+                    $priceField        = new CRM_Price_BAO_Field( );
                     $priceField->label = $values['fieldName'];
                     
                     $priceField->find( true );
@@ -201,8 +201,8 @@ class CRM_Event_Form_EventFees
                     if ( $priceField->html_type == 'Text' ) {
                         $defaults[$form->_pId]["price_{$priceField->id}"] = $values['optionLabel'];
                         
-                        require_once 'CRM/Core/BAO/PriceField.php';
-                        $priceOptions = CRM_Core_BAO_PriceField::getOptions( $priceField->id );
+                        require_once 'CRM/Price/BAO/Field.php';
+                        $priceOptions = CRM_Price_BAO_Field::getOptions( $priceField->id );
                         foreach ( $priceOptions as $id => $val ) {
                             $textValue = $val['value'];
                             break;
@@ -211,7 +211,7 @@ class CRM_Event_Form_EventFees
                         continue;
                     }
                     
-                    $optionId = CRM_Core_BAO_PriceField::getOptionId( $values['optionLabel'], $priceField->id );
+                    $optionId = CRM_Price_BAO_Field::getOptionId( $values['optionLabel'], $priceField->id );
                     
                     //get the checked optioned values.
                     $optionValue = null;

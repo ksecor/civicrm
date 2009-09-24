@@ -34,7 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
-//require_once 'CRM/Core/BAO/PriceSet.php';
+//require_once 'CRM/Price/BAO/Set.php';
 //
 //require_once 'CRM/Core/BAO/CustomOption.php';
 /**
@@ -72,14 +72,14 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
         $fieldId  = $this->get('fieldId');
         
         if ($fieldId) {
-            require_once 'CRM/Core/BAO/PriceSet.php';
-            $groupTree = CRM_Core_BAO_PriceSet::getSetDetail($groupId);
+            require_once 'CRM/Price/BAO/Set.php';
+            $groupTree = CRM_Price_BAO_Set::getSetDetail($groupId);
             $this->_groupTree[$groupId]['fields'][$fieldId] = $groupTree[$groupId]['fields'][$fieldId];
             $this->assign('preview_type', 'field');
         } else {
             // group preview
-            require_once 'CRM/Core/BAO/PriceSet.php';
-            $this->_groupTree  = CRM_Core_BAO_PriceSet::getSetDetail($groupId);
+            require_once 'CRM/Price/BAO/Set.php';
+            $this->_groupTree  = CRM_Price_BAO_Set::getSetDetail($groupId);
             $this->assign('preview_type', 'group');
         }
     }
@@ -126,14 +126,14 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
         $this->assign('groupTree', $this->_groupTree);
         
         // add the form elements
-        require_once 'CRM/Core/BAO/PriceField.php';
+        require_once 'CRM/Price/BAO/Field.php';
         
         foreach ($this->_groupTree as $group) {
             if ( is_array( $group['fields'] ) && !empty( $group['fields'] ) ) {
                 foreach ($group['fields'] as $field) {
                     $fieldId = $field['id'];                
                     $elementName = 'price_' . $fieldId;
-                    CRM_Core_BAO_PriceField::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
+                    CRM_Price_BAO_Field::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
                 }
             }
         }

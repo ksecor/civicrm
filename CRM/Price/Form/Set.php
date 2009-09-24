@@ -58,15 +58,15 @@ class CRM_Price_Form_Set extends CRM_Core_Form
      */
     public function preProcess()
     {
-        require_once 'CRM/Core/BAO/PriceSet.php';
+        require_once 'CRM/Price/BAO/Set.php';
         // current set id
         $this->_sid = $this->get('sid');
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            $title = CRM_Core_BAO_PriceSet::getTitle($this->_sid);
+            $title = CRM_Price_BAO_Set::getTitle($this->_sid);
             CRM_Utils_System::setTitle(ts('Edit %1', array(1 => $title)));
         } else if ($this->_action == CRM_Core_Action::VIEW) {
-            $title = CRM_Core_BAO_PriceSet::getTitle($this->_sid);
+            $title = CRM_Price_BAO_Set::getTitle($this->_sid);
             CRM_Utils_System::setTitle(ts('Preview %1', array(1 => $title)));
         } else {
             CRM_Utils_System::setTitle(ts('New Price Set'));
@@ -129,9 +129,9 @@ class CRM_Price_Form_Set extends CRM_Core_Form
         $this->assign( 'sid', $this->_sid );
         
         // title
-        $this->add('text', 'title', ts('Set Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'title'), true);
+        $this->add('text', 'title', ts('Set Name'), CRM_Core_DAO::getAttribute('CRM_Price_DAO_Set', 'title'), true);
         $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Core_DAO_PriceSet', $this->_sid, 'title' ) );
+                        'objectExists', array( 'CRM_Price_DAO_Set', $this->_sid, 'title' ) );
 
         // used for component
         $extends[] = HTML_QuickForm::createElement('checkbox', 'Contribution', null, 'Contribution');
@@ -140,9 +140,9 @@ class CRM_Price_Form_Set extends CRM_Core_Form
         
         // help text
         $this->add('textarea', 'help_pre',  ts('Pre-form Help'), 
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'help_pre') );
+                   CRM_Core_DAO::getAttribute('CRM_Price_DAO_Set', 'help_pre') );
         $this->add('textarea', 'help_post',  ts('Post-form Help'),
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'help_post'));
+                   CRM_Core_DAO::getAttribute('CRM_Price_DAO_Set', 'help_post'));
         
         // is this set active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Price Set active?') );
@@ -179,7 +179,7 @@ class CRM_Price_Form_Set extends CRM_Core_Form
                 
         if ( isset( $this->_sid ) ) {
             $params = array('id' => $this->_sid);
-            CRM_Core_BAO_PriceSet::retrieve($params, $defaults);
+            CRM_Price_BAO_Set::retrieve($params, $defaults);
             $extends = explode(',', $defaults['extends'] );
 
             unset( $defaults['extends']);
@@ -214,8 +214,8 @@ class CRM_Price_Form_Set extends CRM_Core_Form
             $params['id']    = $this->_sid;
         }
         
-        require_once 'CRM/Core/BAO/PriceSet.php';
-        $set = CRM_Core_BAO_PriceSet::create( $params );
+        require_once 'CRM/Price/BAO/Set.php';
+        $set = CRM_Price_BAO_Set::create( $params );
         
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Core_Session::setStatus(ts('The Set \'%1\' has been saved.', array(1 => $set->title)));

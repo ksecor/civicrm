@@ -114,9 +114,9 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                           false );
 
         // add price set fields
-        require_once 'CRM/Core/BAO/PriceSet.php';
+        require_once 'CRM/Price/BAO/Set.php';
         $this->add('select', 'price_set_id', ts( 'Price Set' ),
-                   array( '' => ts( '- none -' )) + CRM_Core_BAO_PriceSet::getAssoc( false, 'Contribution'),
+                   array( '' => ts( '- none -' )) + CRM_Price_BAO_Set::getAssoc( false, 'Contribution'),
                    null, array('onchange' => "return showHideByValue('price_set_id', '', 'amountFields', 'block', 'select', false);")
                    );
         
@@ -157,8 +157,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         CRM_Utils_System::setTitle(ts('Contribution Amounts (%1)', array(1 => $title)));
        
         if ( isset( $this->_id ) ) {
-            require_once 'CRM/Core/BAO/PriceSet.php';
-            $price_set_id = CRM_Core_BAO_PriceSet::getFor( 'civicrm_contribution_page', $eventId );
+            require_once 'CRM/Price/BAO/Set.php';
+            $price_set_id = CRM_Price_BAO_Set::getFor( 'civicrm_contribution_page', $eventId );
 
             if ( $price_set_id ) {
                 $defaults['price_set_id'] = $price_set_id;
@@ -310,17 +310,17 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $params['is_pay_later'] = CRM_Utils_Array::value('is_pay_later', $params, false );
         
         if ( $params['id'] ) {
-            require_once 'CRM/Core/BAO/PriceSet.php';
+            require_once 'CRM/Price/BAO/Set.php';
             // delete all the prior label values
             // and delete a price set if one exists
-            if ( ! CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_contribution_page', $params['id'] ) ) {
+            if ( ! CRM_Price_BAO_Set::removeFrom( 'civicrm_contribution_page', $params['id'] ) ) {
                 require_once 'CRM/Core/OptionGroup.php';
                 CRM_Core_OptionGroup::deleteAssoc( "civicrm_contribution_page.amount.{$params['id']}" );
             }
         }
         
         if ( $params['price_set_id'] ) {
-            CRM_Core_BAO_PriceSet::addTo( 'civicrm_contribution_page', $params['id'], $params['price_set_id'] );
+            CRM_Price_BAO_Set::addTo( 'civicrm_contribution_page', $params['id'], $params['price_set_id'] );
         } else {
             // if there are label / values, create custom options for them
             $labels  = CRM_Utils_Array::value( 'label'  , $params );

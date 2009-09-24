@@ -6,13 +6,13 @@
  *
  */
 
-require_once 'CRM/Core/DAO/PriceSet.php';
+require_once 'CRM/Price/DAO/Set.php';
 
 /**
  * Business object for managing price sets
  *
  */
-class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
+class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
 
     /**
      * class constructor
@@ -27,13 +27,13 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      *
      * @param array $params (reference) an assoc array of name/value pairs
      *
-     * @return object CRM_Core_DAO_PriceSet object 
+     * @return object CRM_Price_DAO_Set object 
      * @access public
      * @static
      */
     static function create(&$params)
     {
-        $priceSetBAO =& new CRM_Core_BAO_PriceSet();
+        $priceSetBAO =& new CRM_Price_BAO_Set();
         $priceSetBAO->copyValues($params);
         return $priceSetBAO->save();
     }
@@ -54,7 +54,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      */
     static function retrieve(&$params, &$defaults)
     {
-        return CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_PriceSet', $params, $defaults );
+        return CRM_Core_DAO::commonRetrieve( 'CRM_Price_DAO_Set', $params, $defaults );
     }
 
     /**
@@ -68,7 +68,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @access public
      */
     static function setIsActive($id, $is_active) {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_PriceSet', $id, 'is_active', $is_active );
+        return CRM_Core_DAO::setFieldValue( 'CRM_Price_DAO_Set', $id, 'is_active', $is_active );
     }
 
     /**
@@ -83,7 +83,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      */
     public static function getTitle( $id )
     {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceSet', $id, 'title' );
+        return CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Set', $id, 'title' );
     }
 
    
@@ -250,8 +250,8 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      */
     public static function hasFields($id)
     {
-        require_once 'CRM/Core/DAO/PriceField.php';
-        $priceField =& new CRM_Core_DAO_PriceField();
+        require_once 'CRM/Price/DAO/Field.php';
+        $priceField =& new CRM_Price_DAO_Field();
         $priceField->price_set_id = $id;
         $numFields = $priceField->count();
 
@@ -272,7 +272,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
     public static function deleteSet( $id )
     {
         // remove from all inactive forms
-        $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id, true, true );
+        $usedBy =& CRM_Price_BAO_Set::getUsedBy( $id, true, true );
         if ( isset( $usedBy['civicrm_event'] ) ) {
             require_once 'CRM/Event/DAO/Event.php';
             foreach ( $usedBy['civicrm_event'] as $eventId => $unused ) {
@@ -280,22 +280,22 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
                 $eventDAO->id = $eventId;
                 $eventDAO->find( );
                 while ( $eventDAO->fetch( ) ) {
-                    CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event', $eventDAO->id );
+                    CRM_Price_BAO_Set::removeFrom( 'civicrm_event', $eventDAO->id );
                 }
             }
         }
         
         // delete price fields
-        require_once 'CRM/Core/DAO/PriceField.php';
-        $priceField =& new CRM_Core_DAO_PriceField( );
+        require_once 'CRM/Price/DAO/Field.php';
+        $priceField =& new CRM_Price_DAO_Field( );
         $priceField->price_set_id = $id;
         $priceField->find( );
         while ( $priceField->fetch( ) ) {
             // delete options first
-            CRM_Core_BAO_PriceField::deleteField( $priceField->id );
+            CRM_Price_BAO_Field::deleteField( $priceField->id );
         }
         
-        $set     =& new CRM_Core_DAO_PriceSet( );
+        $set     =& new CRM_Price_DAO_Set( );
         $set->id = $id;
         return $set->delete( );
     }
@@ -310,15 +310,15 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      */
     public static function addTo( $entityTable, $entityId, $priceSetId ) {
         // verify that the price set exists
-        $dao =& new CRM_Core_DAO_PriceSet( );
+        $dao =& new CRM_Price_DAO_Set( );
         $dao->id = $priceSetId;
         if ( !$dao->find( ) ) {
             return false;
         }
         unset( $dao );
 
-        require_once 'CRM/Core/DAO/PriceSetEntity.php';
-        $dao =& new CRM_Core_DAO_PriceSetEntity( );
+        require_once 'CRM/Price/DAO/SetEntity.php';
+        $dao =& new CRM_Price_DAO_SetEntity( );
         // find if this already exists
         $dao->entity_table = $entityTable;
         $dao->entity_id = $entityId;
@@ -335,8 +335,8 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @param integer $entityId
      */
     public static function removeFrom( $entityTable, $entityId ) {
-        require_once 'CRM/Core/DAO/PriceSetEntity.php';
-        $dao =& new CRM_Core_DAO_PriceSetEntity( );
+        require_once 'CRM/Price/DAO/SetEntity.php';
+        $dao =& new CRM_Price_DAO_SetEntity( );
         $dao->entity_table = $entityTable;
         $dao->entity_id = $entityId;
         return $dao->delete();
@@ -350,8 +350,8 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @return integer|false price_set_id, or false if none found
      */
     public static function getFor( $entityTable, $entityId ) {
-        require_once 'CRM/Core/DAO/PriceSetEntity.php';
-        $dao =& new CRM_Core_DAO_PriceSetEntity( );
+        require_once 'CRM/Price/DAO/SetEntity.php';
+        $dao =& new CRM_Price_DAO_SetEntity( );
         $dao->entity_table = $entityTable;
         $dao->entity_id = $entityId;
         if ( $dao->find( true ) ) {
@@ -390,7 +390,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         }
         
         if ( isset ( $fid ) ) {
-            return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', 
+            return CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Field', 
                                                 $fid, 'price_set_id' );
             
         }
@@ -473,7 +473,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
 
         $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
 
-        require_once 'CRM/Core/BAO/PriceField.php';
+        require_once 'CRM/Price/BAO/Field.php';
         while ( $dao->fetch() ) {
             $fieldID = $dao->id;
 
@@ -485,7 +485,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
                     continue;
                 }
                 $setTree[$setID]['fields'][$fieldID][$field] = $dao->$field;
-                $setTree[$setID]['fields'][$fieldID]['options'] = CRM_Core_BAO_PriceField::getOptions( $fieldID, false );
+                $setTree[$setID]['fields'][$fieldID]['options'] = CRM_Price_BAO_Field::getOptions( $fieldID, false );
             }
         }
 

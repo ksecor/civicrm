@@ -416,7 +416,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->add( 'hidden', 'priceSetId', $this->_priceSetId );
             $this->assign( 'priceSet', $this->_priceSet );
             
-            require_once 'CRM/Core/BAO/PriceField.php';                       
+            require_once 'CRM/Price/BAO/Field.php';                       
             foreach ( $this->_values['fee']['fields'] as $field ) {
                 $fieldId = $field['id'];
                 $elementName = 'price_' . $fieldId;
@@ -425,7 +425,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 } else {
                     $isRequire = CRM_Utils_Array::value( 'is_required', $field );
                 }
-                CRM_Core_BAO_PriceField::addQuickFormElement( $this, $elementName, $fieldId, false, $isRequire );
+                CRM_Price_BAO_Field::addQuickFormElement( $this, $elementName, $fieldId, false, $isRequire );
             }
         } 
         if ( ! empty( $this->_values['amount'] ) ) {

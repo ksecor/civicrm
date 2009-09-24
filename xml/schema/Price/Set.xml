@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Core</base>
-  <class>PriceSet</class>
+  <base>CRM/Price</base>
+  <class>Set</class>
   <name>civicrm_price_set</name>
   <add>1.8</add>
   <field>

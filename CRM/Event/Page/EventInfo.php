@@ -87,9 +87,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $this->assign( 'isShowLocation', CRM_Utils_Array::value( 'is_show_location', $values['event'] ) );
         
         // do not bother with price information if price fields are used
-        require_once 'CRM/Core/BAO/PriceSet.php';
+        require_once 'CRM/Price/BAO/Set.php';
         if ( $this->_id ) {
-            if ( !CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $this->_id ) ) {
+            if ( !CRM_Price_BAO_Set::getFor( 'civicrm_event', $this->_id ) ) {
                 //retrieve event fee block.
                 require_once 'CRM/Core/OptionGroup.php'; 
                 require_once 'CRM/Core/BAO/Discount.php';

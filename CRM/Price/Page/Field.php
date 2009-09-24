@@ -90,13 +90,13 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
-                                                                          'extra' => 'onclick = "enableDisable( %%fid%%,\''. 'CRM_Core_BAO_PriceField' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                          'extra' => 'onclick = "enableDisable( %%fid%%,\''. 'CRM_Price_BAO_Field' . '\',\'' . 'enable-disable' . '\' );"',
                                                                           'ref'   => 'disable-action',
                                                                           'title' => ts('Disable Price') 
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
-                                                                          'extra' => 'onclick = "enableDisable( %%fid%%,\''. 'CRM_Core_BAO_PriceField' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                          'extra' => 'onclick = "enableDisable( %%fid%%,\''. 'CRM_Price_BAO_Field' . '\',\'' . 'disable-enable' . '\' );"',
                                                                           'ref'   => 'enable-action',
                                                                           'title' => ts('Enable Price') 
                                                                           ),
@@ -123,9 +123,9 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
      */
     function browse()
     {
-        require_once 'CRM/Core/BAO/PriceField.php';
+        require_once 'CRM/Price/BAO/Field.php';
         $priceField = array();
-        $priceFieldBAO =& new CRM_Core_BAO_PriceField();
+        $priceFieldBAO =& new CRM_Price_BAO_Field();
         
         // fkey is sid
         $priceFieldBAO->price_set_id = $this->_sid;
@@ -166,8 +166,8 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             }
 
             // need to translate html types from the db
-            require_once 'CRM/Core/BAO/PriceField.php';
-            $htmlTypes = CRM_Core_BAO_PriceField::htmlTypes( );
+            require_once 'CRM/Price/BAO/Field.php';
+            $htmlTypes = CRM_Price_BAO_Field::htmlTypes( );
             $priceField[$priceFieldBAO->id]['html_type'] = $htmlTypes[$priceField[$priceFieldBAO->id]['html_type']];
 
             $priceField[$priceFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
@@ -178,7 +178,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
         $returnURL = CRM_Utils_System::url( 'civicrm/admin/price/field', "reset=1&action=browse&sid={$this->_sid}" );
         $filter    = "price_set_id = {$this->_sid}";
         require_once 'CRM/Utils/Weight.php';
-        CRM_Utils_Weight::addOrder( $priceField, 'CRM_Core_DAO_PriceField',
+        CRM_Utils_Weight::addOrder( $priceField, 'CRM_Price_DAO_Field',
                                     'id', $returnURL, $filter );
         $this->assign('priceField', $priceField);
     }
@@ -222,7 +222,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
      */
     function run( )
     {
-        require_once 'CRM/Core/BAO/PriceSet.php';
+        require_once 'CRM/Price/BAO/Set.php';
         
         // get the group id
         $this->_sid = CRM_Utils_Request::retrieve('sid', 'Positive',
@@ -232,8 +232,8 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
         if ($action & ( CRM_Core_Action::DELETE)) {
-            require_once 'CRM/Core/BAO/PriceSet.php';
-            $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $this->_sid );
+            require_once 'CRM/Price/BAO/Set.php';
+            $usedBy =& CRM_Price_BAO_Set::getUsedBy( $this->_sid );
             if ( empty( $usedBy ) ) {
                 // prompt to delete
                 $session = & CRM_Core_Session::singleton();
@@ -246,17 +246,17 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             }
             else {
                 // add breadcrumb
-                require_once 'CRM/Core/BAO/PriceField.php';
+                require_once 'CRM/Price/BAO/Field.php';
                 $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'reset=1' );
                 CRM_Utils_System::appendBreadCrumb( ts('Price'),
                                                     $url );
-                $this->assign( 'usedPriceSetTitle', CRM_Core_BAO_PriceField::getTitle( $fid ) );
+                $this->assign( 'usedPriceSetTitle', CRM_Price_BAO_Field::getTitle( $fid ) );
                 $this->assign( 'usedBy', $usedBy );
             }
         }
                 
         if ($this->_sid) {
-            $groupTitle = CRM_Core_BAO_PriceSet::getTitle($this->_sid);
+            $groupTitle = CRM_Price_BAO_Set::getTitle($this->_sid);
             $this->assign('sid', $this->_sid);
             $this->assign('groupTitle', $groupTitle);
             CRM_Utils_System::setTitle(ts('%1 - Price Fields', array(1 => $groupTitle)));
@@ -271,7 +271,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
         } else if ($action & CRM_Core_Action::PREVIEW) {
             $this->preview($fid) ;
         } else {
-            require_once 'CRM/Core/BAO/PriceField.php';
+            require_once 'CRM/Price/BAO/Field.php';
             $this->browse();
         }
 

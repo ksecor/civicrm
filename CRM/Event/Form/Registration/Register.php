@@ -443,7 +443,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
             $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
             $form->assign( 'priceSet', $form->_priceSet );
-            require_once 'CRM/Core/BAO/PriceField.php';                       
+            require_once 'CRM/Price/BAO/Field.php';                       
             foreach ( $form->_values['fee']['fields'] as $field ) {
                 $fieldId = $field['id'];
                 $elementName = 'price_' . $fieldId;
@@ -452,7 +452,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 } else {
                     $isRequire = CRM_Utils_Array::value( 'is_required', $field );
                 }
-                CRM_Core_BAO_PriceField::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
+                CRM_Price_BAO_Field::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
             }
         } else if ( ! empty( $form->_values['fee'] ) ) {
             $form->_feeBlock =& $form->_values['fee'];
@@ -546,7 +546,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         } 
         //check for atleast one pricefields should be selected
         if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) {
-            $priceField = new CRM_Core_DAO_PriceField( );
+            $priceField = new CRM_Price_DAO_Field( );
             $priceField->price_set_id = $fields['priceSetId'];
             $priceField->find( );
             
@@ -598,7 +598,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $check = array( );
                 foreach( $fields as $key => $val  )  {
                     if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
-                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
+                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Price_BAO_Field', substr( $key, 6 ) , 'html_type' );
                         if ( is_array( $val) ) {
                             //$keys is the id of the option value
                             foreach( $val as $keys => $vals  )  {
