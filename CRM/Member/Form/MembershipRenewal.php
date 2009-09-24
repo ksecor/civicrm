@@ -192,8 +192,11 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             foreach ( $this->_fields as $name => $dontCare ) {
                 $fields[$name] = 1;
             }
-            
-            $names = array("first_name", "middle_name", "last_name" );
+
+            $names = array( "first_name", "middle_name", "last_name","street_address-{$this->_bltID}",
+                            "city-{$this->_bltID}", "postal_code-{$this->_bltID}","country_id-{$this->_bltID}",
+                            "state_province_id-{$this->_bltID}"
+                            );
             foreach ($names as $name) {
                 $fields[$name] = 1;
             }
@@ -205,22 +208,18 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             
             require_once "CRM/Core/BAO/UFGroup.php";
             CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $this->_defaults );
-            
-            $defaultAddress = array("street_address-5","city-5", "state_province_id-5", "country_id-5","postal_code-5" );
-            foreach ($defaultAddress as $name) {
-                if ( ! empty( $this->_defaults[$name] ) ) {
-                    $defaults[$name] = $this->_defaults[$name];
-                }
-            } 
-            if ( empty( $this->_defaults["email-{$this->_bltID}"] ) && ! empty( $this->_defaults["email-Primary"] ) ) {
+
+            // use primary email address if billing email address is empty
+            if ( empty( $this->_defaults["email-{$this->_bltID}"] ) &&
+                 ! empty( $this->_defaults["email-Primary"] ) ) {
                 $defaults["email-{$this->_bltID}"] = $this->_defaults["email-Primary"];
             }
-            
-            foreach ($names as $name) {
+
+            foreach ( $names as $name) {
                 if ( ! empty( $this->_defaults[$name] ) ) {
                     $defaults["billing_" . $name] = $this->_defaults[$name];
                 }
-            } 
+            }
         }
         return $defaults;
 
@@ -383,9 +382,9 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             
             // add all the additioanl payment params we need
             $this->_params["state_province-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] );
+                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["billing_state_province_id-{$this->_bltID}"] );
             $this->_params["country-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
+                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["billing_country_id-{$this->_bltID}"] );
             
             $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
             $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
@@ -578,8 +577,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                 $addressFields = array( );
                 foreach ($addressParts as $part) {
                     list( $n, $id ) = explode( '-', $part );
-                    if ( isset ( $this->_params[$part] ) ) {
-                        $addressFields[$n] = $this->_params[$part];
+                    if ( isset ( $this->_params['billing_' . $part] ) ) {
+                        $addressFields[$n] = $this->_params['billing_' . $part];
                     }
                 }
                 require_once 'CRM/Utils/Address.php';

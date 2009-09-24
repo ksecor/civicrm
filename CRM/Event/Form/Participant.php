@@ -910,9 +910,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         if ( $this->_mode ) {
             // add all the additioanl payment params we need
             $this->_params["state_province-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] );
+                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["billing_state_province_id-{$this->_bltID}"] );
             $this->_params["country-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
+                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["billing_country_id-{$this->_bltID}"] );
             
             $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
             $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
@@ -1173,11 +1173,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                         "state_province_id-{$this->_bltID}",
                                         "country_id-{$this->_bltID}");
                 $addressFields = array( );
-                foreach ($addressParts as $part) {
+                foreach ( $addressParts as $part ) {
                     list( $n, $id ) = explode( '-', $part );
-                    if ( isset ( $params[$part] ) ) {
-                        $addressFields[$n] = $params[$part];
-                       
+                    if ( isset ( $params['billing_' . $part] ) ) {
+                        $addressFields[$n] = CRM_Utils_Array::value( 'billing_' . $part, $params );
                     }
                 }
                 require_once 'CRM/Utils/Address.php';
