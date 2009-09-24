@@ -97,8 +97,13 @@ function civicrm_uf_profile_title_get($id)
  * @static 
  * @access public 
  */ 
-function civicrm_uf_profile_fields_get ( $id, $register = false, $action = null, $visibility = null ) {
-    return CRM_Core_BAO_UFGroup::getFields( $id, $register, $action, null, $visibility, false, null, true );
+function civicrm_uf_profile_fields_get($id, $register = false, $action = null, $visibility = null)
+{
+    if (!is_int($id)) {
+        return civicrm_create_error('Param needs to be an integer.');
+    } else {
+        return CRM_Core_BAO_UFGroup::getFields($id, $register, $action, null, $visibility, false, null, true);
+    }
 }
 
 /** 

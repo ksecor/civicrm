@@ -237,6 +237,17 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         $this->assertEquals($ufProfile['country-Primary']['groupHelpPre'],     'Profle to Test API');
     }
 
+    function testGetUFProfileFieldsWithEmptyParam()
+    {
+        $result = civicrm_uf_profile_fields_get(array());
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testGetUFProfileFieldsWithWrongParam()
+    {
+        $result = civicrm_uf_profile_fields_get('a string');
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * fetch contact id by uf id
