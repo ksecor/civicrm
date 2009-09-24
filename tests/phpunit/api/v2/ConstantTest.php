@@ -65,6 +65,12 @@ class api_v2_ConstantTest extends CiviUnitTestCase
     {
         //  Connect to the database
         parent::setUp();
+
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/../../CiviTest/truncate-option.xml') );
     }
 
     /**

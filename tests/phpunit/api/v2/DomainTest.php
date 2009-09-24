@@ -45,6 +45,12 @@ class api_v2_DomainTest extends CiviUnitTestCase
     {
         parent::setUp();
 
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/../../CiviTest/truncate-option.xml') );
+
         //  Insert a row in civicrm_option_group creating option group
         //  from_email_address group
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
