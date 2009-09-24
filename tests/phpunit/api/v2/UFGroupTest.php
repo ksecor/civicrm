@@ -184,6 +184,14 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         $this->assertNotNull($profileHTML);
     }
 
+    function testGetUFProfileHTMLByIdWithWrongParams()
+    {
+        $this->_individualID = $this->individualCreate();
+        $result = civicrm_uf_profile_html_by_id_get('a string', $this->_ufGroupId);
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_profile_html_by_id_get($this->_individualID, 'a string');
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * fetch profile html with group id

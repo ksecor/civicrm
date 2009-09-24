@@ -141,12 +141,13 @@ function civicrm_uf_profile_html_get($userID, $title, $action = null, $register 
  * @static 
  * @access public 
  */ 
-function civicrm_uf_profile_html_by_id_get ( $userID,
-                                             $profileID,
-                                             $action = null,
-                                             $register = false,
-                                             $reset = false ) {
-    return CRM_Core_BAO_UFGroup::getEditHTML( $userID, null, $action, $register, $reset, $profileID );
+function civicrm_uf_profile_html_by_id_get($userID, $profileID, $action = null, $register = false, $reset = false)
+{
+    if (is_int($userID) and is_int($profileID)) {
+        return CRM_Core_BAO_UFGroup::getEditHTML($userID, null, $action, $register, $reset, $profileID);
+    } else {
+        return civicrm_create_error('Params need to be integers.');
+    }
 }
 
  
