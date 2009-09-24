@@ -424,6 +424,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
     public function testGetUFProfileGroups()
     {
         $ufProfileGroup = civicrm_uf_profile_groups_get();
-        $this->assertNotNull(count($ufProfileGroup));
+        $this->assertGreaterThan(1, count($ufProfileGroup), 'we should ship with more than one group by default');
     }
 }
