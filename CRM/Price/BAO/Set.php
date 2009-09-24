@@ -12,7 +12,8 @@ require_once 'CRM/Price/DAO/Set.php';
  * Business object for managing price sets
  *
  */
-class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
+class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
+{
 
     /**
      * class constructor
@@ -67,7 +68,8 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
      * @static
      * @access public
      */
-    static function setIsActive($id, $is_active) {
+    static function setIsActive($id, $is_active) 
+    {
         return CRM_Core_DAO::setFieldValue( 'CRM_Price_DAO_Set', $id, 'is_active', $is_active );
     }
 
@@ -85,7 +87,6 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Set', $id, 'title' );
     }
-
    
     /**
      * Check if the price set is in use anywhere.  Returns true in the
@@ -159,7 +160,8 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
      *
      * @return array
      */
-    public static function &getUsedBy( $id, $checkPast = false, $getInactive = false ) {
+    public static function &getUsedBy( $id, $checkPast = false, $getInactive = false ) 
+    {
         $usedBy = array( );
         $today = date('Y-m-d');
         $queryString = "SELECT entity_table, entity_id FROM civicrm_price_set_entity ";
@@ -308,7 +310,8 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
      * @param integer $priceSetId
      * @return bool
      */
-    public static function addTo( $entityTable, $entityId, $priceSetId ) {
+    public static function addTo( $entityTable, $entityId, $priceSetId ) 
+    {
         // verify that the price set exists
         $dao =& new CRM_Price_DAO_Set( );
         $dao->id = $priceSetId;
@@ -334,7 +337,8 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
      * @param string $entityTable
      * @param integer $entityId
      */
-    public static function removeFrom( $entityTable, $entityId ) {
+    public static function removeFrom( $entityTable, $entityId ) 
+    {
         require_once 'CRM/Price/DAO/SetEntity.php';
         $dao =& new CRM_Price_DAO_SetEntity( );
         $dao->entity_table = $entityTable;
@@ -349,7 +353,8 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
      * @param integer $entityId
      * @return integer|false price_set_id, or false if none found
      */
-    public static function getFor( $entityTable, $entityId ) {
+    public static function getFor( $entityTable, $entityId ) 
+    {
         require_once 'CRM/Price/DAO/SetEntity.php';
         $dao =& new CRM_Price_DAO_SetEntity( );
         $dao->entity_table = $entityTable;
@@ -371,7 +376,8 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
       * @static
       * @access public
       */
-    public static function getSetId( &$params ) {
+    public static function getSetId( &$params ) 
+    {
         $fid = null;
         
         require_once 'CRM/Utils/Array.php';
@@ -405,7 +411,8 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
      *
      * @return array associative array of id => name
      */
-    public static function getAssoc( $withInactive = false, $extends = false ) {
+    public static function getAssoc( $withInactive = false, $extends = false ) 
+    {
         $query = "
     SELECT 
        DISTINCT ( price_set_id ) as id, title 
@@ -439,7 +446,8 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set {
      * @param int $setId - price set id whose details are needed
      * @return array $setTree - array consisting of field details
      */
-    public static function getSetDetail($setID, $required = true) {
+    public static function getSetDetail($setID, $required = true) 
+    {
         // create a new tree
         $setTree = array();
         $select = $from = $where = $orderBy = '';
@@ -502,6 +510,31 @@ WHERE  id = %1";
 
         return $setTree;
     }
+
+    static function initSet( &$form, $id, $entityTable = 'civicrm_event' ) 
+    {
+        // get price info
+        require_once 'CRM/Price/BAO/Set.php';
+        if ( $priceSetId = CRM_Price_BAO_Set::getFor( $entityTable, $id ) ) {
+            if ( $form->_action & CRM_Core_Action::UPDATE ){
+                require_once 'CRM/Event/BAO/Participant.php';
+
+                $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
+                $required = false;
+            } else {
+                $required = true;
+            }
+            $form->_priceSetId = $priceSetId;
+            $priceSet = self::getSetDetail($priceSetId, $required);
+            $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
+            $form->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
+            $form->set('priceSetId', $form->_priceSetId);
+            $form->set('priceSet', $form->_priceSet);
+            return $priceSetId;
+        } else {
+            return false;
+        }
+    }    
 }
 
 

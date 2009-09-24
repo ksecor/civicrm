@@ -310,20 +310,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 $this->_paymentProcessor['processorName'] = $this->_paymentObject->_processorName;
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
                 
-                self::initPriceSet( $this, $this->_id );
-                
                 // get price info
                 require_once 'CRM/Price/BAO/Set.php';
-                $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_event', $eventID );
-                
-                if ( $priceSetId ) {
-                    $this->_priceSetId = $priceSetId;
-                    $priceSet = CRM_Price_BAO_Set::getSetDetail($priceSetId);
-                    $this->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
-                    $this->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
-                    $this->set('priceSetId', $this->_priceSetId);
-                    $this->set('priceSet', $this->_priceSet);
-                }
+                CRM_Price_BAO_Set::initSet( $this, $this->_id, 'civicrm_contribution_page' );
             }
             
             // this avoids getting E_NOTICE errors in php
@@ -824,28 +813,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             CRM_Core_Error::fatal(ts('Oops. You cannot make a payment for this pledge - pledge status is %1.', array(1 => CRM_Utils_Array::value($pledgeValues['status_id'], $allStatus)))); 
         }
     }
-    
-    static function initPriceSet( &$form, $id ) 
-    {
-        // get price info
-        require_once 'CRM/Price/BAO/Set.php';
-        if ( $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_contribution_page', $id ) ) {
-            if ( $form->_action & CRM_Core_Action::UPDATE ){
-                require_once 'CRM/Event/BAO/Participant.php';
-                //$form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
-                $required = false;
-            } else {
-                $required = true;
-            }
-            $form->_priceSetId = $priceSetId;
-            $priceSet = CRM_Price_BAO_Set::getSetDetail($priceSetId, $required);
-            $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
-            $form->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
-            $form->set('priceSetId', $form->_priceSetId);
-            $form->set('priceSet', $form->_priceSet);
-        } 
-    }
-    
+
 }
 
 
