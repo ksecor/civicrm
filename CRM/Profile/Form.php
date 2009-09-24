@@ -505,9 +505,16 @@ class CRM_Profile_Form extends CRM_Core_Form
                 // for edit mode we need to allow our own record to be a dupe match!
                 $exceptions = array( $session->get( 'userID' ) );
             }
+
+            // for dialog mode we should always use fuzzy rule.
+            $ruleType = 'Strict';
+            if ( $form->_context == 'dialog' ) {
+                $ruleType = 'Fuzzy';
+            }    
+
             $ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams,
                                                      $ctype, 
-                                                     'Strict', 
+                                                     $ruleType, 
                                                      $exceptions );
             if ( $ids ) {
                 if ( $form->_isUpdateDupe ) {
