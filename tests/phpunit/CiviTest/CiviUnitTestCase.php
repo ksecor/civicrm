@@ -760,7 +760,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     }
     
     /** 
-     * Function to add a Location
+     * Function to add a Location Type
      * 
      * @return int location id of created location
      */    
