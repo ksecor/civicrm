@@ -78,10 +78,10 @@ function &civicrm_uf_profile_groups_get( ) {
  */ 
 function civicrm_uf_profile_title_get($id)
 {
-    if (!is_int($id)) {
-        return civicrm_create_error('Param needs to be an integer.');
-    } else {
+    if (is_int($id)) {
         return CRM_Core_BAO_UFGroup::getTitle($id);
+    } else {
+        return civicrm_create_error('Param needs to be an integer.');
     }
 }
 
@@ -99,10 +99,10 @@ function civicrm_uf_profile_title_get($id)
  */ 
 function civicrm_uf_profile_fields_get($id, $register = false, $action = null, $visibility = null)
 {
-    if (!is_int($id)) {
-        return civicrm_create_error('Param needs to be an integer.');
-    } else {
+    if (is_int($id)) {
         return CRM_Core_BAO_UFGroup::getFields($id, $register, $action, null, $visibility, false, null, true);
+    } else {
+        return civicrm_create_error('Param needs to be an integer.');
     }
 }
 
@@ -121,10 +121,10 @@ function civicrm_uf_profile_fields_get($id, $register = false, $action = null, $
  */ 
 function civicrm_uf_profile_html_get($userID, $title, $action = null, $register = false, $reset = false)
 {
-    if (!is_int($userID) or !is_string($title)) {
-        return civicrm_create_error('Params need to be an integer and a string.');
-    } else {
+    if (is_int($userID) and is_string($title)) {
         return CRM_Core_BAO_UFGroup::getEditHTML($userID, $title, $action, $register, $reset);
+    } else {
+        return civicrm_create_error('Params need to be an integer and a string.');
     }
 }
 
