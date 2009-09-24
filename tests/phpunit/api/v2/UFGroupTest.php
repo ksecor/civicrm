@@ -290,16 +290,24 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         $this->assertEquals($result['is_error'], 1);
     }
 
-
     /**
      * fetch uf id by contact id
      */
     public function testGetUFID()
     {
-        $session    =& CRM_Core_Session::singleton();
-        $userId     = $session->get('userID');
-        $ufIdFetced = civicrm_uf_id_get($userId);
-        $this->assertEquals($ufIdFetced, $session->get('ufID'));
+        $op = new PHPUnit_Extensions_Database_Operation_Insert;
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
+        );
+        $ufIdFetced = civicrm_uf_id_get(69);
+        $this->assertEquals($ufIdFetced, 42);
+    }
+
+    function testGetUFIDWrongParam()
+    {
+        $result = civicrm_uf_id_get('a string');
+        $this->assertEquals($result['is_error'], 1);
     }
 
     /**

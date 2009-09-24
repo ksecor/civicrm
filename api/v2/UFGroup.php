@@ -209,9 +209,14 @@ function civicrm_uf_match_id_get($ufID)
  * @access public     
  * @static  
  */  
-function civicrm_uf_id_get ( $contactID ) { 
-    require_once 'CRM/Core/BAO/UFMatch.php'; 
-    return CRM_Core_BAO_UFMatch::getUFId( $contactID ); 
+function civicrm_uf_id_get($contactID)
+{
+    if ((int) $contactID > 0) {
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        return CRM_Core_BAO_UFMatch::getUFId($contactID);
+    } else {
+        return civicrm_create_error('Param needs to be a positive integer.');
+    }
 } 
 
 /*******************************************************************/
