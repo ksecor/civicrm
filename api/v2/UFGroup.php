@@ -259,17 +259,14 @@ function civicrm_uf_group_create($params)
  *
  * @access public 
  */
-function civicrm_uf_group_update( $params , $groupId) {
+function civicrm_uf_group_update($params, $groupId)
+{
+    if (!is_array($params) or (int) $groupId < 1) {
+        return civicrm_create_error('Params must be an array and a postivie integer.');
+    }
     
     _civicrm_initialize( );
     
-    if(! is_array( $params ) ) {
-        return civicrm_create_error("params is not an array ");
-    }
-    
-    if(! isset( $groupId ) ) {
-        return civicrm_create_error("parameter $groupId  is not set ");
-    }
     $ids = array();
     $ids['ufgroup'] = $groupId;
     
