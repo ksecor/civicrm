@@ -45,7 +45,7 @@
         {strip}
 	{* handle enable/disable actions*} 
 	{include file="CRM/common/enableDisable.tpl"}
-        <table id="options">
+        <table id="options" class="display">
 	       <thead>
 	       <tr>
             {if $showComponent}
