@@ -181,6 +181,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */
     public $_priceSet;
     
+    public $_action;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           

@@ -788,8 +788,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             } else {
                 if ( ! $this->_online ) {
                     $lineItem = array( );
-                    CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['fee']['fields'], 
-                                                                                 $params, $lineItem[0] );
+                    CRM_Price_BAO_Set::processAmount( $this->_values['fee']['fields'], 
+                                                      $params, $lineItem[0] );
                     $this->set( 'lineItem', $lineItem );
                     $this->assign( 'lineItem', $lineItem );
                     $this->_lineItem = $lineItem;

@@ -644,7 +644,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */ 
     static function formRule( &$fields, &$files, &$self ) 
     { 
-        $errors = array( ); 
+        $errors = array( );
         $amount = self::computeAmount( $fields, $self );
 
         $email = $fields["email-{$self->_bltID}"];
@@ -722,7 +722,26 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $amount = $memTypeDetails['minimum_fee'];
             }
         }
-
+        
+        //check for atleast one pricefields should be selected
+        if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) {
+            $priceField = new CRM_Price_DAO_Field( );
+            $priceField->price_set_id = $fields['priceSetId'];
+            $priceField->find( );
+            
+            $check = array( );
+            
+            while ( $priceField->fetch( ) ) {
+                if ( ! empty( $fields["price_{$priceField->id}"] ) ) {
+                    $check[] = $priceField->id; 
+                }
+            }
+            
+            if ( empty( $check ) ) {
+                $errors['_qf_default'] = ts( "Select at least one option from Contribution(s)." );
+            }
+        }
+        
         if ( $self->_values['is_monetary'] ) {
             if ( ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' )
                  || isset( $fields['amount_other'] ) ) {
