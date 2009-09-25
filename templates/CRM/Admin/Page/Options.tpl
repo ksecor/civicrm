@@ -45,8 +45,9 @@
         {strip}
 	{* handle enable/disable actions*} 
 	{include file="CRM/common/enableDisable.tpl"}
-        <table class="selector">
-	       <thead class="sticky">
+        <table id="options">
+	       <thead>
+	       <tr>
             {if $showComponent}
                 <th>{ts}Component{/ts}</th>
             {/if}
@@ -72,9 +73,11 @@
             <th>{ts}Reserved{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
+            </tr>
             </thead>
+            <tbody>
         {foreach from=$rows item=row}
-        <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"}{$row.class}{if NOT $row.is_active} disabled{/if}">
+        <tr id="row_{$row.id}" class="{if NOT $row.is_active} disabled{/if}">
             {if $showComponent}
                 <td>{$row.component_name}</td>
             {/if}
@@ -90,6 +93,7 @@
 	        <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
+        </tbody>
         </table>
         {/strip}
 
@@ -108,3 +112,26 @@
         </dl>
     </div>    
 {/if}
+
+{literal}
+<script type="text/javascript">
+    cj( function( ) {
+        cj('#options').dataTable( {
+            "bPaginate": false,
+    		"bLengthChange": false,
+    		"bFilter": false,
+    		"bInfo": false,
+    		"bAutoWidth": false,
+    		"aoColumns": [
+    		            null,
+    		            null,
+    		            null,
+            			{ "bSortable": false },
+            			null,
+            			null,
+            			{ "bSortable": false }
+            		]
+        } );        
+    });
+</script>
+{/literal}
