@@ -260,6 +260,20 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         require_once 'CRM/Core/BAO/Address.php';
         CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
 
+        if ( $this->_priceSetId ) {
+            foreach( $this->_priceSet['fields'] as $key => $val ) {
+                foreach ( $val['options'] as $keys => $values ) {
+                    if ( $values['is_default'] ) {
+                        if ( $val['html_type'] == 'CheckBox') {
+                            $this->_defaults["price_{$key}"][$keys] = 1;
+                        } else {
+                            $this->_defaults["price_{$key}"] = $keys;
+                        }
+                    }
+                }
+            }
+        }
+
         return $this->_defaults;
     }
 

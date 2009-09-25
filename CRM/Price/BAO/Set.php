@@ -229,6 +229,10 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
                 }
                 break;
 
+            case 'civicrm_contribution_page':
+                //FIXME
+                return;
+                
             default:
                 CRM_Core_Error::fatal( "$table is not supported in PriceSet::usedBy()" );
                 break;
@@ -237,8 +241,6 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
         }
         return $usedBy;
     }
-
-
 
     /**
      * Determine if a price set has fields
@@ -274,7 +276,7 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
     public static function deleteSet( $id )
     {
         // remove from all inactive forms
-        $usedBy =& CRM_Price_BAO_Set::getUsedBy( $id, true, true );
+        $usedBy =& self::getUsedBy( $id, true, true );
         if ( isset( $usedBy['civicrm_event'] ) ) {
             require_once 'CRM/Event/DAO/Event.php';
             foreach ( $usedBy['civicrm_event'] as $eventId => $unused ) {
@@ -282,7 +284,7 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
                 $eventDAO->id = $eventId;
                 $eventDAO->find( );
                 while ( $eventDAO->fetch( ) ) {
-                    CRM_Price_BAO_Set::removeFrom( 'civicrm_event', $eventDAO->id );
+                    self::removeFrom( 'civicrm_event', $eventDAO->id );
                 }
             }
         }
@@ -383,12 +385,12 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
         require_once 'CRM/Utils/Array.php';
         if ( $oid = CRM_Utils_Array::value( 'oid', $params ) ) {
             require_once 'CRM/Core/DAO/OptionGroup.php';
-            $optionGroup       = new CRM_Core_DAO_OptionGroup( );
-            $optionGroup->id   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 
-                                                              $oid, 'option_group_id' );
+            $optionGroup     = new CRM_Core_DAO_OptionGroup( );
+            $optionGroup->id = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 
+                                                            $oid, 'option_group_id' );
             if ( $optionGroup->find( true ) ) {
-                $groupName     = explode( ".", $optionGroup->name );
-                $fid           = $groupName[2];
+                $groupName   = explode( ".", $optionGroup->name );
+                $fid         = $groupName[2];
             }
             
         } else {
@@ -514,8 +516,7 @@ WHERE  id = %1";
     static function initSet( &$form, $id, $entityTable = 'civicrm_event' ) 
     {
         // get price info
-        require_once 'CRM/Price/BAO/Set.php';
-        if ( $priceSetId = CRM_Price_BAO_Set::getFor( $entityTable, $id ) ) {
+        if ( $priceSetId = self::getFor( $entityTable, $id ) ) {
             if ( $form->_action & CRM_Core_Action::UPDATE ){
                 require_once 'CRM/Event/BAO/Participant.php';
                 $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
@@ -556,9 +557,8 @@ WHERE  id = %1";
                 
             case 'Radio':
                 $params["price_{$id}"] = array( $params["price_{$id}"] => 1 );
-                
-                $optionValueId    = CRM_Utils_Array::key( 1, $params["price_{$id}"] );
-                $optionLabel      = $field['options'][$optionValueId]['label'];
+                $optionValueId = CRM_Utils_Array::key( 1, $params["price_{$id}"] );
+                $optionLabel   = $field['options'][$optionValueId]['label'];
                 $params['amount_priceset_level_radio']                = array( );
                 $params['amount_priceset_level_radio'][$optionValueId]= $optionLabel;
                 if( isset( $radioLevel ) ) {
@@ -661,14 +661,13 @@ WHERE  id IN ($optionIDs)
                                            CRM_Core_DAO::$_nullArray );
         $optionValues = array( );
         while ( $dao->fetch( ) ) {
-            $optionValues[$dao->id] = array('gid'   => $dao->option_group_id,
-                                            'label' => $dao->label,
+            $optionValues[$dao->id] = array('gid'         => $dao->option_group_id,
+                                            'label'       => $dao->label,
                                             'description' => $dao->description );
         }
                             
         foreach( $params["price_{$fid}"] as $oid => $qty ) {
             $price        = $fields['options'][$oid]['name'];
-            
             $values[$oid] = array(
                                   'price_field_id'   => $fid,
                                   'option_value_id'  => $oid,
