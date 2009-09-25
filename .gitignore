@@ -80,6 +80,8 @@ packages/.filemap
 packages/.lock
 packages/.registry
 packages/cache
+packages/doc
+packages/temp
 packages/test
 settings_location.php
 sql/civicrm.mysql
