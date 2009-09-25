@@ -167,8 +167,6 @@ class Contact_Vcard_Build extends PEAR
 
         // combined (per note from Daniel Convissor)
         $regex = '(?<!\\\\)([\:\;\,\\n])';
-        // changed as a possible fix for Outlook compatibility [CiviCRM]
-        $regex = '(?<!\\\\)([\;\\n])';
         $text  = preg_replace("/$regex/", '\\\$1', $text);
         
         // fix http(s)\:// to http(s)://
@@ -1954,18 +1952,14 @@ class Contact_Vcard_Build extends PEAR
         }
 
         // fold lines at 75 characters
-// commented out as a possible fix for Outlook compatibility
-//      $regex = "(.{1,75})";
-//      foreach ($lines as $key => $val) {
-//          if (strlen($val) > 75) {
-//              // we trim to drop the last newline, which will be added
-//              // again by the implode function at the end of fetch()
-//              $lines[$key] = trim(preg_replace("/$regex/i", "\\1$newline ", $val));
-//          }
-//      }
-
-        // recode the lines from UTF-8 to lowest covering charset
-        $lines = $this->charsetRecode($lines);
+        $regex = "(.{1,75})";
+        foreach ($lines as $key => $val) {
+            if (strlen($val) > 75) {
+                // we trim to drop the last newline, which will be added
+                // again by the implode function at the end of fetch()
+                $lines[$key] = trim(preg_replace("/$regex/i", "\\1$newline ", $val));
+            }
+        }
 
         // compile the array of lines into a single text block
         // and return (with a trailing newline)
@@ -1995,8 +1989,6 @@ class Contact_Vcard_Build extends PEAR
             'profile="vcard"; ' .
             'charset=' . $charset);
 
-        header('Cache-Control: must-revalidate,post-check=0, pre-check=0');
-        header('Pragma: public');
         header('Content-Length: ' . strlen($vcard));
         header("Content-Disposition: $disposition; filename=\"$filename\"");
 
@@ -2030,65 +2022,6 @@ class Contact_Vcard_Build extends PEAR
         }
 
         return $text;
-    }
-
-    /**
-     * Recode the lines to the 'smallest' encoding and add the charset info
-     *
-     * As, surprise surprise, Microsoft Outlook does not seem to be able to
-     * handle properly tagged UTF-8 vCards, we try to represent the text in
-     * smallest charset 'covering' the text in full (currently the test goes
-     * 'US-ASCII' -> 'ISO-8859-1' -> 'CP1250' and falls back to 'UTF-8')
-     *
-     * @param array $lines  the vCard's lines
-     *
-     * @return array  the recoded and properly tagged lines
-     */
-    function charsetRecode($lines) {
-
-        $charsets = array('US-ASCII', 'ISO-8859-1', 'CP1250');
-
-        if ((function_exists('iconv_strlen') or function_exists('mb_strlen')) and function_exists('iconv')) {
-
-            // for each line, get the character length of the UTF-8 string
-            // and try to recode it to every charset in turn; iconv() returns
-            // truncated strings on recode errors, so if the character length
-            // after the recode equals the one before - we've found a valid
-            // charset
-            foreach ($lines as $number => $line) {
-                $lineCharset = 'UTF-8';
-                if (function_exists('iconv_strlen')) {
-                    $strlen = iconv_strlen($line, 'UTF-8');
-                } else {
-                    $strlen = mb_strlen($line, 'UTF-8');
-                }
-                foreach ($charsets as $charset) {
-                    $iconvd = iconv('UTF-8', $charset, $line);
-                    if (strlen($iconvd) == $strlen) {
-                        $lineCharset = $charset;
-                        $line = $iconvd;
-                        break;
-                    }
-                }
-                // tag the non-US-ASCII-only, recoded lines properly
-                if ($lineCharset != 'US-ASCII') {
-                    $lines[$number] = preg_replace('/:/', ";ENCODING=8BIT;CHARSET=$lineCharset:", $line, 1);
-                }
-            }
-
-        } else {
-
-            // if there's no mb_strings or iconv support,
-            // simply tag the non-US-ASCII-only lines as UTF-8
-            foreach ($lines as $number => $line) {
-                if (preg_match('/[^\x00-\x7f]/', $line)) {
-                    $lines[$number] = preg_replace('/:/', ";ENCODING=8BIT;CHARSET=UTF-8:", $line, 1);
-                }
-            }
-
-        }
-
-        return $lines;
     }
 
     /**
