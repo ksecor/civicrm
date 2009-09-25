@@ -50,10 +50,9 @@
 	<tr><td class ="label">{$form.start_date.label}</td><td>{$form.start_date.html|crmReplace:class:twelve}&nbsp;&nbsp;{$form.start_time.label}&nbsp;&nbsp;{$form.start_time.html|crmReplace:class:six}</td>
     {include file="CRM/common/jcalendar.tpl" trigger=start doTime=1 startDate=currentYear endDate=endYear offset=10 ampm=1}
     </tr>
-	<tr><td class ="label">{$form.end_date.label}</td><td>{$form.end_date.html}
-	{include file="CRM/common/calendar/desc.tpl" trigger=trigger_settings_2 doTime=1}
-	{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_settings_2 ampm=1}</td>
-	</tr>
+	<tr><td class ="label">{$form.end_date.label}</td><td>{$form.end_date.html|crmReplace:class:twelve}&nbsp;&nbsp;{$form.end_time.label}&nbsp;&nbsp;{$form.end_time.html|crmReplace:class:six}</td>
+    {include file="CRM/common/jcalendar.tpl" trigger=end doTime=1 startDate=currentYear endDate=endYear offset=10 ampm=1}
+    </tr>
 	<tr><td>&nbsp;</td><td>{$form.honor_block_is_active.html}{$form.honor_block_is_active.label}<br />
 	    <span class="description">{ts}If you want to allow contributors to specify a person whom they are honoring with their gift, check this box. An optional Honoree section will be included in the form. Honoree information is automatically saved and linked with the contribution record.{/ts}</span></td>
 	</tr>
