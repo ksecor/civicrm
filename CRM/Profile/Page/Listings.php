@@ -122,12 +122,6 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $resetArray = array( 'group', 'tag', 'preferred_communication_method', 'do_not_phone',
                              'do_not_email', 'do_not_mail', 'do_not_sms', 'do_not_trade', 'gender' );
 
-        if (  CRM_Core_Permission::access( 'Kabissa', false ) ) {
-            $resetArray[] = 'kabissa_focus_id';
-            $resetArray[] = 'kabissa_region_id';
-            $resetArray[] = 'kabissa_scope_id';
-        }
-        
         foreach ( $this->_fields as $name => $field ) {
             if ( (substr($name, 0, 6) == 'custom') && CRM_Utils_Array::value( 'is_search_range', $field ) ) {
                 $from = CRM_Utils_Request::retrieve( $name.'_from', 'String',

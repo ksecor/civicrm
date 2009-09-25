@@ -141,11 +141,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $this->_fields = array_merge (CRM_Quest_BAO_Student::exportableFields(), $this->_fields);
         }
 
-        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
-            require_once 'CRM/Kabissa/BAO/Details.php';
-            $this->_fields = array_merge (CRM_Kabissa_BAO_Details::exportableFields(), $this->_fields);
-        }
-
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
             // lets skip note for now since we dont support it
@@ -332,11 +327,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             }
         }
         
-        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
-            require_once 'CRM/Kabissa/BAO/Details.php';
-            $fields['Kabissa']  =& CRM_Kabissa_BAO_Details::exportableFields();
-        }
-        
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             require_once 'CRM/Member/BAO/Membership.php';
             $membershipFields =& CRM_Member_BAO_Membership::getMembershipFields(); 
@@ -407,10 +397,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
             $sel1['Participant'] = 'Participants';
-        }
-        
-        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
-            $sel1['Kabissa'] = 'Kabissa Details';
         }
         
         if ( ! empty( $contribFields ) ) {

@@ -729,11 +729,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         require_once 'CRM/Quest/BAO/Student.php';
                         $processed = CRM_Quest_BAO_Student::buildStudentForm( $this, $field );
                     }
-                    if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
-                        require_once 'CRM/Kabissa/BAO/Kabissa.php';
-                        $processed = 
-                            CRM_Kabissa_BAO_Kabissa::buildProfileView( $values, $field['name'], $index, $details );
-                    }
                     if ( ! $processed ) {
                         if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
                             if ($details->$name) {
@@ -1488,13 +1483,6 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             if ( CRM_Core_Permission::access( 'Quest', false ) ) {
                 require_once 'CRM/Quest/BAO/Student.php';
                 $processed = CRM_Quest_BAO_Student::buildStudentForm( $form, $fieldName, $title, $contactId );
-            }
-            if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
-                require_once 'CRM/Kabissa/BAO/Kabissa.php';
-                $processed = CRM_Kabissa_BAO_Kabissa::buildProfileForm( $form, 
-                                                                        $fieldName, 
-                                                                        $title, 
-                                                                        $contactId );
             }
             if ( ! $processed ) {
                 if ( substr($fieldName, 0, 3) === 'is_' or substr($fieldName, 0, 7) === 'do_not_' ) {
