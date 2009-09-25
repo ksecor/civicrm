@@ -73,6 +73,13 @@ bin/setup.sh
 civicrm-version.txt
 civicrm.config.php
 l10n
+packages/.channels
+packages/.depdb
+packages/.depdblock
+packages/.filemap
+packages/.lock
+packages/.registry
+packages/cache
 settings_location.php
 sql/civicrm.mysql
 sql/civicrm_acl.??_??.mysql
