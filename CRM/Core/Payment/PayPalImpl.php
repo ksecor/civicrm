@@ -229,11 +229,11 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             $args['amt']                = $params['amount'];
             $args['totalbillingcycles'] = $params['installments'];
             $args['version']            = 56.0 ;
-            $args['PROFILEREFERENCE']   = "i=".$params['invoiceID']."&m=".$component."&c=".$params['contactID']."&r=".$params['contributionRecurID']."&b=".$params['contributionID'];
+            $args['PROFILEREFERENCE']   = "i=".$params['invoiceID']."&m=".$component."&c=".$params['contactID']."&r=".$params['contributionRecurID']."&b=".$params['contributionID']."&p=".$params['contributionPageID'];
             
         }
 
-        $result = $this->invokeAPI( $args );
+        $result = $this->invokeAPI( $args );        
 
         $params['recurr_profile_id'] = null;
 
@@ -247,7 +247,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
 
         /* Success */
         $params['trxn_id']        = $result['transactionid'];
-        $params['gross_amount'  ] = $result['amt'];
+        $params['gross_amount'  ] = $result['amt'];        
         return $params;
     }
 

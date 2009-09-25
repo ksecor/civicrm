@@ -233,8 +233,12 @@ class CRM_Contribute_BAO_Contribution_Utils {
         
         if ( $component == 'membership' ) {
             return $membershipResult;
-        }       
-        
+        }
+        //Do not send an email if Recurring contribution is done via Direct Mode
+        //Email will we send once the IPN will receive.
+        if ( $paymentParams['is_recur'] && $form->_contributeMode == 'direct' ) {
+            return true;
+        }
         // finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         $form->_values['contribution_id'] = $contribution->id;

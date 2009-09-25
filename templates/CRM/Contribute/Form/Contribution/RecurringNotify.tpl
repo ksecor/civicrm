@@ -1,7 +1,7 @@
 {* Template for sending notfication email to recurring contribution. *}
 {ts}Dear{/ts} {$displayName}
 
-{if $recur_txnType eq 'subscr_signup'}
+{if $recur_txnType eq 'subscr_signup' || $recur_txnType eq 'recurring_payment_profile_created' }
 
 {ts}Thanks for Recurring Subscription sign-up.{/ts}
 

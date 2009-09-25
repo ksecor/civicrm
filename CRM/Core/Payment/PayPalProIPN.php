@@ -118,6 +118,22 @@ class CRM_Core_Payment_PayPalProIPN extends CRM_Core_Payment_BaseIPN {
             }
         }
         
+        $sendNotification = false;
+
+        //List of Transaction Type
+        /*
+         recurring_payment_profile_created    			RP Profile Created
+         recurring_payment 					RP Sucessful Payment
+         recurring_payment_failed                               RP Failed Payment
+         recurring_payment_profile_cancel     			RP Profile Cancelled
+         recurring_payment_expired 				RP Profile Expired
+         recurring_payment_skipped				RP Profile Skipped
+         recurring_payment_outstanding_payment			RP Sucessful Outstanding Payment
+         recurring_payment_outstanding_payment_failed	        RP Failed Outstanding Payment
+         recurring_payment_suspended				RP Profile Suspended
+         recurring_payment_suspended_due_to_max_failed_payment	RP Profile Suspended due to Max Failed Payment
+        */
+
         //set transaction type
         $txnType = $_POST['txn_type'];
         
@@ -130,6 +146,7 @@ class CRM_Core_Payment_PayPalProIPN extends CRM_Core_Payment_BaseIPN {
             $recur->contribution_status_id = 2;
             $recur->processor_id           = $_POST['recurring_payment_id'];
             $recur->trxn_id                = $recur->processor_id;
+            $sendNotification              = true;
             break;
         
         case 'recurring_payment':
@@ -155,7 +172,14 @@ class CRM_Core_Payment_PayPalProIPN extends CRM_Core_Payment_BaseIPN {
         }
 	
         $recur->save( );
-        
+
+        if ( $sendNotification ) {
+            //send recurring Notification email for user
+            require_once 'CRM/Contribute/BAO/ContributionPage.php';
+            CRM_Contribute_BAO_ContributionPage::recurringNofify( $txnType, $ids['contact'], 
+                                                                  $ids['contributionPage'], $recur );
+        }
+
         if ( $txnType != 'recurring_payment' ) {
             return;
         }
