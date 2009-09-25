@@ -39,6 +39,9 @@
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.tokeninput.js"></script>
 <style type="text/css">@import url({$config->resourceBase}packages/jquery/css/token-input-facebook.css);></style>
 
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.timeentry.pack.js"></script>
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.mousewheel.pack.js"></script>
+
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.toolTip.js"></script>
 
 <style type="text/css">@import url({$config->resourceBase}packages/jquery/css/dataTable.css);></style>

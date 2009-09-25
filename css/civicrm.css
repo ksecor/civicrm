@@ -1842,3 +1842,12 @@ div.grippie {
    padding-left: 19px;
    cursor:pointer
 }
+
+/* TimeEntry styles */
+.timeEntry_control {
+   vertical-align: middle;
+   margin-left: 2px;
+}
+* html .timeEntry_control { /* IE only */
+   margin-top: -4px;
+}

@@ -108,9 +108,8 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $this->add('textarea', 'honor_block_text', ts('Honoree Introductory Message'), $attributes['honor_block_text'] );
 
         // add optional start and end dates
-        $this->add('date', 'start_date',
-                   ts('Start Date'),
-                   CRM_Core_SelectValues::date('datetime') );  
+        $this->add('text', 'start_date', ts('Start Date'), array('READONLY'));
+        $this->add('text', 'start_time', ts('Time'), array('READONLY'));
         $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
 
         $this->add('date', 'end_date',
