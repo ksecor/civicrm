@@ -36,6 +36,7 @@ require_once 'CRM/Core/DAO/Note.php';
 require_once 'CRM/Core/Form.php';
 
 require_once 'CRM/Contact/DAO/Contact.php';
+require_once 'CRM/Contact/BAO/ContactType.php';
 
 require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO/Phone.php';
@@ -658,9 +659,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     /**
      * Get contact sub type for a contact.
      *
-     * @param int $id - id of the contact whose contact type is needed
+     * @param int $id - id of the contact whose contact sub type is needed
      *
-     * @return string contact_type if $id found else null ""
+     * @return string contact_sub_type if $id found else null ""
      *
      * @access public
      *
@@ -670,6 +671,27 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     public static function getContactSubType($id)
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
+    }
+
+    /**
+     * Get pair of contact-type and sub-type for a contact.
+     *
+     * @param int $id - id of the contact whose contact sub/contact type is needed
+     *
+     * @return array 
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    public static function getContactTypeSubType( $id )
+    {
+        $params  = array( 'id' => $id );
+        $contact = CRM_Core_DAO::commonRetrieve( 'CRM_Contact_DAO_Contact', $params,
+                                                 $details, array('contact_type', 'contact_sub_type') );
+        return array( $contact->contact_type, 
+                      $contact->contact_sub_type );
     }
 
     /**
@@ -1410,6 +1432,11 @@ AND    civicrm_contact.id = %1";
                                   );
                 CRM_Contact_BAO_SubscriptionHistory::create($shParams);
             }
+        }
+
+        if ( $ufGroupId ) {
+            $data['contact_sub_type'] = 
+                CRM_Core_BAO_UFField::getProfileSubType( $ufGroupId, $data['contact_type'] );
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';

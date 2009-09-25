@@ -44,7 +44,7 @@ class CRM_Contact_BAO_ContactType extends CRM_Contact_DAO_ContactType {
             $_cache = array( );
         }
 
-        $argString == md5( serialize( func_get_args( ) ) );
+        $argString = md5( serialize( func_get_args( ) ) );
         if ( ! isset( $_cache[$argString] ) ) {
             $_cache[$argString] = array( );
 
@@ -78,7 +78,7 @@ WHERE  parent_id IS NULL
             $_cache = array( );
         }
 
-        $argString == md5( serialize( func_get_args( ) ) );
+        $argString = md5( serialize( func_get_args( ) ) );
         if ( ! isset( $_cache[$argString] ) ) {
             $_cache[$argString] = array( );
 
@@ -112,7 +112,7 @@ WHERE  parent_id = ( SELECT id FROM civicrm_contact_type WHERE name = %1 )
             $_cache = array( );
         }
 
-        $argString == md5( serialize( func_get_args( ) ) );
+        $argString = md5( serialize( func_get_args( ) ) );
         if ( ! isset( $_cache[$argString] ) ) {
             $_cache[$argString] = array( );
 
@@ -162,4 +162,8 @@ AND   ( p.is_active = 1 OR p.id IS NULL )
         return $_cache[$argString];
     }
 
+    static function isaSubType( $subType ) {
+        return in_array( $subType, 
+                         CRM_Core_PseudoConstant::contactSubTypes( null, false, true ) );
+    }
 }

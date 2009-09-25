@@ -1434,7 +1434,8 @@ ORDER BY name";
      * @return array - array reference of all contact types.
      *
      */
-    public static function contactSubTypes( $parents = null, $all = false, $additionalCond = null )
+    public static function contactSubTypes( $parents = null, $all = false, 
+                                            $nameList = false, $additionalCond = null )
     {
         $index = $all ? '1' : '0';
         if ( $parents && !is_array( $parents ) ) {
@@ -1475,6 +1476,10 @@ WHERE  cct.name IS NOT NULL $parentWHERE
             while ( $dao->fetch( ) ) {
                 self::$contactSubTypes[$index][$dao->name] = $dao->label;
             }
+        }
+
+        if ( $nameList ) {
+            return array_keys( self::$contactSubTypes[$index] );
         }
         return self::$contactSubTypes[$index];
     }
