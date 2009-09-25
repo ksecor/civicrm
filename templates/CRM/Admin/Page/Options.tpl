@@ -58,7 +58,7 @@
                     {ts}Label{/ts}
                 {/if}
             </th>
-            <th>
+            <th id="sortable">
                 {if $gName eq "redaction_rule"}
                     {ts}Replacement{/ts}
                 {else}
@@ -116,7 +116,10 @@
 {literal}
 <script type="text/javascript">
     cj( function( ) {
+        var id = count = 0;
+        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
         cj('#options').dataTable( {
+            "aaSorting": [[ id, "asc" ]],
             "bPaginate": false,
     		"bLengthChange": false,
     		"bFilter": false,
@@ -127,7 +130,7 @@
     		            null,
     		            null,
             			{ "bSortable": false },
-            			null,
+            			{ "bSortable": false },
             			null,
             			{ "bSortable": false }
             		]
