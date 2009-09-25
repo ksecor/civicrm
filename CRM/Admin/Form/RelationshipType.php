@@ -75,25 +75,11 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
 
         require_once 'CRM/Contact/BAO/ContactType.php';
 
-        $topLevelTypes = CRM_Contact_BAO_ContactType::getContactType( );
-        $contactTypes = array('' => ts('- select -') );
-        $subTypes     = array('' => ts('- select -') );
-        foreach ( $topLevelTypes as $name => $value ) {
-            $contactTypes[$value['name']] = $value['label'];
-            $subTypes[$value['name']] = array('' => ts('- select -') );
-
-            $secondLevelTypes = CRM_Contact_BAO_ContactType::getSubType( $value['name'] );
-            foreach ( $secondLevelTypes as $sName => $sValue ) {
-                $subTypes[$value['name']][$sValue['name']] = $sValue['label'];
-            }
-        }
+        $contactTypes = CRM_Contact_BAO_ContactType::getSelectElements( );
 
         // add select for contact type
-        $contactTypesA =& $this->add('hierselect', 'contact_types_a', ts('Contact Type A') . ' ');
-        $contactTypesB =& $this->add('hierselect', 'contact_types_b', ts('Contact Type B') . ' ');
-
-        $contactTypesA->setOptions( array( $contactTypes, $subTypes ) );
-        $contactTypesB->setOptions( array( $contactTypes, $subTypes ) );
+        $contactTypesA =& $this->add('select', 'contact_types_a', ts('Contact Type A') . ' ', $contactTypes );
+        $contactTypesB =& $this->add('select', 'contact_types_b', ts('Contact Type B') . ' ', $contactTypes );
 
         $isActive     =& $this->add('checkbox', 'is_active', ts('Enabled?'));
         
@@ -120,11 +106,17 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
             require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
             eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
 
-            $defaults['contact_types_a'] = array( $defaults['contact_type_a'],
-                                                  $defaults['contact_sub_type_a'] );
+            $defaults['contact_types_a'] = $defaults['contact_type_a'];
+            if ( $defaults['contact_sub_type_a'] ) {
+                $defaults['contact_types_a'] .=
+                    CRM_Core_DAO::VALUE_SEPARATOR . $defaults['contact_sub_type_a'];
+            }
 
-            $defaults['contact_types_b'] = array( $defaults['contact_type_b'],
-                                                  $defaults['contact_sub_type_b'] );
+            $defaults['contact_types_b'] = $defaults['contact_type_b'];
+            if ( $defaults['contact_sub_type_b'] ) {
+                $defaults['contact_types_b'] .=
+                    CRM_Core_DAO::VALUE_SEPARATOR . $defaults['contact_sub_type_b'];
+            }
             return $defaults;
         } else {
             return parent::setDefaultValues( );
@@ -154,20 +146,18 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
                 $ids['relationshipType'] = $this->_id;
             }    
 
-            $params['contact_type_a'] = $params['contact_types_a'][0];
-            $params['contact_type_b'] = $params['contact_types_b'][0];
+            $cTypeA = CRM_Utils_System::explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                                 $params['contact_types_a'],
+                                                 2 );
+            $cTypeB = CRM_Utils_System::explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                                 $params['contact_types_b'],
+                                                 2 );
 
-            if ( ! empty( $params['contact_types_a'][1] ) ) {
-                $params['contact_sub_type_a'] = $params['contact_types_a'][1];
-            } else {
-                $params['contact_sub_type_a'] = 'NULL';
-            }
+            $params['contact_type_a'] = $cTypeA[0];
+            $params['contact_type_b'] = $cTypeB[0];
 
-            if ( ! empty( $params['contact_types_b'][1] ) ) {
-                $params['contact_sub_type_b'] = $params['contact_types_b'][1];
-            } else {
-                $params['contact_sub_type_b'] = 'NULL';
-            }
+            $params['contact_sub_type_a'] = $cTypeA[1] ? $cTypeA[1] : 'NULL';
+            $params['contact_sub_type_b'] = $cTypeA[1] ? $cTypeB[1] : 'NULL';
 
             CRM_Contact_BAO_RelationshipType::add($params, $ids);
 

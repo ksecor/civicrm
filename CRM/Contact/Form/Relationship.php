@@ -590,21 +590,22 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $relationshipType->id = $rid;
             if ( $relationshipType->find( true ) ) {
                 if ( $direction == 'a_b' ) {
-                    $type = $relationshipType->contact_type_b;
+                    $type    = $relationshipType->contact_type_b;
+                    $subType = $relationshipType->contact_sub_type_b;
                 } else {
-                    $type = $relationshipType->contact_type_a;
+                    $type    = $relationshipType->contact_type_a;
+                    $subType = $relationshipType->contact_sub_type_a;
                 }
 
                 $this->set( 'contact_type', $type );
-                if ( $type == 'Individual' ) {
-                    $searchValues[] = array( 'contact_type', '=', array( $type => 1 ), 0, 0 );
+                $this->set( 'contact_sub_type', $sub_type );
+                if ( $type == 'Individual' || $type == 'Organization' || $type == 'Household' ) {
+                    $searchValues[] = array( 'contact_type', '=', $type, 0, 0 );
                     $contactTypeAdded = true;
-                } else if ( $type == 'Household' ) {
-                    $searchValues[] = array( 'contact_type', '=', array( $type => 2 ), 0, 0 );
-                    $contactTypeAdded = true;
-                }  else if ( $type == 'Organization' ) {
-                    $searchValues[] = array( 'contact_type', '=', array( $type => 3 ), 0, 0 );
-                    $contactTypeAdded = true;
+                }
+
+                if ( $subType ) {
+                    $searchValues[] = array( 'contact_sub_type', '=', $subType, 0, 0 );
                 }
             }
         }

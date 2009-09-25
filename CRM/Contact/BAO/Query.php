@@ -1099,6 +1099,10 @@ class CRM_Contact_BAO_Query
             $this->contactType( $values );
             return;
 
+        case 'contact_sub_type':
+            $this->contactSubType( $values );
+            return;
+
         case 'group':
             list( $name, $op, $value, $grouping, $wildcard ) = $values;
             $this->group( $values );
@@ -2003,6 +2007,22 @@ class CRM_Contact_BAO_Query
             $this->_where[$grouping][] = 'contact_a.contact_type IN (' . implode( ',', $clause ) . ')';
             $this->_qill [$grouping][]  = ts('Contact Type') . ' - ' . implode( ' ' . ts('or') . ' ', $clause );
         }
+    }
+
+    /**
+     * where / qill clause for contact_sub_type
+     *
+     * @return void
+     * @access public
+     */
+    function contactSubType( &$values ) 
+    {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+
+        $clause = "'" . CRM_Utils_Type::escape( $value, 'String' ) . "'";
+        
+        $this->_where[$grouping][] = "contact_a.contact_sub_type = $clause";
+        $this->_qill [$grouping][]  = ts('Contact Sub Type') . ' - ' . $clause;
     }
 
     /**
