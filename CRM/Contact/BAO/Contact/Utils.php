@@ -510,4 +510,30 @@ UPDATE civicrm_contact
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
     }
 
+    /**
+     * Given an array of contact ids this function will return array with links to view contact page
+     *
+     * @param array $contactIDs associated contact id's
+     *
+     *
+     * @return array $contactViewLinks returns array with links to contact view
+     * @static
+     * @access public
+     */
+     static function formatContactIDSToLinks( $contactIDs, $addViewLink = true, $addEditLink = true ) {
+         $contactViewLinks = $contactEditLinks = array( );
+         
+         // retrieve display names for all contacts
+         $query = 'SELECT id, display_name FROM civicrm_contact WHERE id IN (' . implode( ',', $contactIDs) . ' )';
+         $dao = CRM_Core_DAO::executeQuery( $query );
+         
+         while ( $dao->fetch( ) ) {
+             $contactViewLinks[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->id ) .
+                 '" target="_blank">' . $dao->display_name . '</a>';
+             $contactEditLinks[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $dao->id ) .
+                 '">' . $dao->display_name . '</a>';
+         }
+         return array( $contactViewLinks, $contactEditLinks );
+     }
+     
 }

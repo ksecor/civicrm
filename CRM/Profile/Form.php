@@ -522,7 +522,17 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $form->_id = $ids[0];
                     }
                 } else {
-                    $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+                    if ( $form->_context = 'dialog' ) {
+                        $viewUrls = array( );
+                        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                        list( $viewUrls ) = CRM_Contact_BAO_Contact_Utils::formatContactIDSToLinks( $ids );
+                        $viewUrl  = implode( ', ',  $viewUrls );
+                        $errors['_qf_default']  = ts('One matching contact was found.', array('count' => count($viewUrls), 'plural' => '%count matching contacts were found.'));
+                        $errors['_qf_default'] .= '<br />';
+                        $errors['_qf_default'] .= ts('If you need to verify if this is the same contact, click here - %1 - to VIEW the existing contact in a new tab.', array(1 => $viewUrl, 'count' => count($viewUrls), 'plural' => 'If you need to verify whether one of these is the same contact, click here - %1 - to VIEW the existing contact in a new tab.'));
+                    } else {
+                        $errors['_qf_default'] = ts( 'Record already exists with the same information.' );
+                    }
                 }
             }
         }

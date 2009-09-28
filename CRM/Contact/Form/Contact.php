@@ -545,8 +545,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                           $this->getButtonName( 'next', 'sharedHouseholdDuplicate' ),
                           ts( 'Save With Duplicate Household' ) );
         
-        // make this form an upload since we dont know if the custom data injected dynamically
-        // is of type file etc $uploadNames = $this->get( 'uploadNames' );
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',
                                          'name'      => ts('Save'),
@@ -736,6 +734,41 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         return false;
     }
+    
+    /**
+     * Function to that checks for duplicate contacts
+     *
+     */
+     static function checkDuplicateContacts( &$fields, &$errors, $contactID, $contactType ) {
+         // if this is a forced save, ignore find duplicate rule
+         if ( ! CRM_Utils_Array::value( '_qf_Contact_upload_duplicate', $fields ) ) {
+             require_once 'CRM/Dedupe/Finder.php';
+             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, $contactType);
+             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, $contactType, 'Fuzzy', array( $contactID ) );
+             if ( $ids ) {
+                 $viewUrls = array( );
+                 $editUrls = array( );
+                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                 list( $viewUrls, $editUrls ) = CRM_Contact_BAO_Contact_Utils::formatContactIDSToLinks( $ids );
+                 $viewUrl  = implode( ', ',  $viewUrls );
+                 $editUrl  = implode( ', ',  $editUrls );
+                 $errors['_qf_default']  = ts('One matching contact was found.', array('count' => count($editUrls), 'plural' => '%count matching contacts were found.'));
+                 $errors['_qf_default'] .= '<br />';
+                 $errors['_qf_default'] .= ts('If you need to verify if this is the same contact, click here - %1 - to VIEW the existing contact in a new tab.', array(1 => $viewUrl, 'count' => count($viewUrls), 'plural' => 'If you need to verify whether one of these is the same contact, click here - %1 - to VIEW the existing contact in a new tab.'));
+                 $errors['_qf_default'] .= '<br />';
+                 $errors['_qf_default'] .= ts('If you know the record you are creating is a duplicate, click here - %1 - to EDIT the original record instead.', array(1 => $editUrl));
+                 $errors['_qf_default'] .= '<br />';
+                 $errors['_qf_default'] .= ts('If you are sure this is not a duplicate, click the Save Matching Contact button below.');
+
+                 // let smarty know that there are duplicates
+                 $template =& CRM_Core_Smarty::singleton( );
+                 $template->assign( 'isDuplicate', 1 );
+             } else if ( CRM_Utils_Array::value( '_qf_Contact_refresh_dedupe', $fields ) ) {
+                 // add a session message for no matching contacts
+                 CRM_Core_Session::setStatus( 'No matching contact found.' );
+             }
+         }
+     }   
 }
 
 
