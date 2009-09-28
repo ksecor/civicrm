@@ -29,7 +29,7 @@ HTML_QuickForm                3.2.11     local changes, hierselect.php from a ve
 HTML_QuickForm_advmultiselect 1.5.1      local changes
 HTML_QuickForm_Controller     1.0.9      local changes
 HTML_Template_IT              1.2.1
-HTTP_Request                  1.4.2
+HTTP_Request                  1.4.4
 Image_Text                    0.6.0beta  [beta]
 Log                           1.10.0
 Mail                          1.1.14     local changes
