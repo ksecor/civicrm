@@ -1,8 +1,8 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/display.php,v 1.10 2007/12/30 00:49:04 jon Exp $
+ * $Header$
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 255603 $
  * @package Log
  */
 
@@ -85,6 +85,8 @@ class Log_display extends Log
         /* Lastly, the line ending sequence is also configurable. */
         if (isset($conf['linebreak'])) {
             $this->_lineFormat .= $conf['linebreak'];
+        } else {
+            $this->_lineFormat .= "<br />\n";
         }
 
         /* The user can also change the time format. */
