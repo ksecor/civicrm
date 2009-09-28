@@ -32,7 +32,8 @@ HTML_Template_IT              1.2.1
 HTTP_Request                  1.4.4
 Log                           1.11.5
 Mail                          1.1.14     local changes
-Mail_Mime                     1.5.2
+Mail_Mime                     1.5.2      local changes
+Mail_mimeDecode               1.5.0
 Net_Curl                      1.2.3
 Net_DIME                      0.3        [beta]
 Net_SMTP                      1.2.11     local changes
