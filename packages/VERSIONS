@@ -12,6 +12,15 @@ pear config-set test_dir  packages/test
 pear config-set www_dir   packages/www
 pear install Archive_Tar  # etc., in the main CiviCRM dir
 
+Upgrade procedure
+=================
+1. download old version of upstream and overwrite packages with it (pear install Archive_Tar-1.3.3)
+2. if there are differences, it means we patched the package – do a *reverse* diff and save to a patch file (git diff -R > /tmp/Archive_Tar.diff)
+3. download current version and overwrite
+4. if there were differences, copy any files that we patched in the old version to packages.orig
+5. if there were differences, apply the patch from 2. (patch -p1 < /tmp/Archive_Tar.diff)
+6. update this file and commit
+
 PEAR
 ====
 Archive_Tar                   1.3.3
