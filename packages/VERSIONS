@@ -22,7 +22,7 @@ Contact_Vcard_Build           1.1.2      local changes
 Contact_Vcard_Parse           1.32.0
 Date                          1.4.7
 DB                            1.7.13
-DB_DataObject                 1.8.8      local changes
+DB_DataObject                 1.8.12     local changes
 DB_Table                      1.5.0
 HTML_Common                   1.2.4
 HTML_QuickForm                3.2.10     local changes

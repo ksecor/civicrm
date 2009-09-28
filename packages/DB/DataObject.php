@@ -601,7 +601,8 @@ class DB_DataObject extends DB_DataObject_Overload
         }
         
         if ($cond === false) {
-            $r = $this->_query['condition'];
+            $r = isset( $this->_query['condition'] ) ?
+                $this->_query['condition'] : null;
             $_query['condition'] = '';
             $this->_query = $_query;
             return preg_replace('/^\s+WHERE\s+/','',$r);
@@ -795,7 +796,8 @@ class DB_DataObject extends DB_DataObject_Overload
             return false;
         }
         if ($k === null) {
-            $old = $this->_query['data_select'];
+            $old = isset( $this->_query['data_select'] ) ?
+                $this->_query['data_select'] : null;
             $this->_query['data_select'] = '';
             return $old;
         }
@@ -1006,6 +1008,13 @@ class DB_DataObject extends DB_DataObject_Overload
                     )) . " ";
                 continue;
             }
+
+            if ($v & DB_DATAOBJECT_TXT) {
+                $rightq .= $this->_quote((string) $this->$k ) . ' ';
+                continue;
+            }
+
+
             if (is_numeric($this->$k)) {
                 $rightq .=" {$this->$k} ";
                 continue;
@@ -1259,6 +1268,13 @@ class DB_DataObject extends DB_DataObject_Overload
                     )) . ' ';
                 continue;
             }
+
+            if ($v & DB_DATAOBJECT_TXT) {
+                $settings .= "$kSql = " . $this->_quote((string) $this->$k ) . ' ';
+                continue;
+            }
+
+
             if (is_numeric($this->$k)) {
                 $settings .= "$kSql = {$this->$k} ";
                 continue;
@@ -1315,10 +1331,12 @@ class DB_DataObject extends DB_DataObject_Overload
             return true;
         }
         
-        $this->raiseError(
-            "update: No Data specifed for query $settings , {$this->_query['condition']}", 
-            DB_DATAOBJECT_ERROR_NODATA);
-        return false;
+        // $this->raiseError(
+        //     "update: No Data specifed for query $settings , {$this->_query['condition']}", 
+        //     DB_DATAOBJECT_ERROR_NODATA);
+        // return false;
+        // we allow empty updates always [CiviCRM]
+        return true;
     }
 
     /**
@@ -2272,6 +2290,9 @@ class DB_DataObject extends DB_DataObject_Overload
             
         }
         
+        // change the connection and results charsets to UTF-8 if we're using MySQL 4.1+
+        $civicrmConfig =& CRM_Core_Config::singleton();
+        $this->query("/*!40101 SET NAMES utf8 */");
         
         if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
             $this->debug(serialize($_DB_DATAOBJECT['CONNECTIONS']), "CONNECT",5);
@@ -2316,7 +2337,7 @@ class DB_DataObject extends DB_DataObject_Overload
      */
     function _query($string)
     {
-        global $_DB_DATAOBJECT;
+        global $_DB_DATAOBJECT, $queries, $user;
         $this->_connect();
         
 
@@ -2415,6 +2436,22 @@ class DB_DataObject extends DB_DataObject_Overload
             }
             return $this->raiseError($result);
         }
+
+        /* CRM-3225 */
+        if (function_exists('variable_get') && variable_get('dev_query', 0)) {
+            // this is for drupal devel module
+            // If devel.module query logging is enabled, prepend a comment with the username and calling function
+            // to the SQL string.
+            $bt = debug_backtrace();
+            // t() may not be available yet so we don't wrap 'Anonymous'
+            $name = $user->uid ? $user->name : variable_get('anonymous', 'Anonymous');
+            $query = $bt[3]['function'] ."\n/* ". $name .' */ '. str_replace("\n ", '', $string);
+            list($usec, $sec) = explode(' ', microtime());
+            $stop = (float)$usec + (float)$sec;
+            $diff = $stop - $time;
+            $queries[] = array($query, $diff);
+        }
+
         if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
             $t= explode(' ',microtime());
             $_DB_DATAOBJECT['QUERYENDTIME'] = $t[0]+$t[1];
@@ -4177,6 +4214,13 @@ class DB_DataObject extends DB_DataObject_Overload
     {
         global $_DB_DATAOBJECT;
           
+        if (isset($_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid])) {
+            if ( is_resource( $_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid]->result ) ) {
+                mysql_free_result( $_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid]->result );
+            }
+            unset($_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid]);
+        }
+
         if (isset($_DB_DATAOBJECT['RESULTFIELDS'][$this->_DB_resultid])) {
             unset($_DB_DATAOBJECT['RESULTFIELDS'][$this->_DB_resultid]);
         }
