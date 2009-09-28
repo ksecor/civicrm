@@ -79,7 +79,6 @@ NON-PEAR
 AMFPHP         1.2.6       http://amfphp.org/
 Auth_OpenID    2.1.3       http://openidenabled.com/php-openid/
 Auth_Yadis     2.1.3       http://openidenabled.com/php-openid/
-Dojo           0.4         http://dojotoolkit.org/                                       local changes
 PHP gettext    1.0.7       http://savannah.nongnu.org/projects/php-gettext/
 PayPal SDK     1.1.1.1     https://www.paypal.com/IntegrationCenter/ic_sdk-resource.html PEAR packages upgraded independently (HTTP, Log, Net)
 Selenium       0.1.4       perhaps moved to PEAR's Testing_Selenium package?
