@@ -1010,7 +1010,9 @@ class HTML_QuickForm_advmultiselect extends HTML_QuickForm_select
      */
     function getElementJs($raw = true, $min = false)
     {
-        $js = 'packages/data' . DIRECTORY_SEPARATOR
+        global $civicrm_root;
+        $js = $civicrm_root . DIRECTORY_SEPARATOR
+            . 'packages' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR
             . 'HTML_QuickForm_advmultiselect' . DIRECTORY_SEPARATOR;
 
         if ($min) {
