@@ -54,6 +54,9 @@ $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'] =
             'hiddenselect'  =>array('HTML/QuickForm/hiddenselect.php','HTML_QuickForm_hiddenselect'),
             'text'          =>array('HTML/QuickForm/text.php','HTML_QuickForm_text'),
             'textarea'      =>array('HTML/QuickForm/textarea.php','HTML_QuickForm_textarea'),
+            'fckeditor'     =>array('HTML/QuickForm/fckeditor.php','HTML_QuickForm_FCKEditor'),
+            'tinymce'       =>array('HTML/QuickForm/tinymce.php','HTML_QuickForm_TinyMCE'),
+            'dojoeditor'    =>array('HTML/QuickForm/dojoeditor.php','HTML_QuickForm_dojoeditor'),
             'link'          =>array('HTML/QuickForm/link.php','HTML_QuickForm_link'),
             'advcheckbox'   =>array('HTML/QuickForm/advcheckbox.php','HTML_QuickForm_advcheckbox'),
             'date'          =>array('HTML/QuickForm/date.php','HTML_QuickForm_date'),
@@ -62,7 +65,8 @@ $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'] =
             'html'          =>array('HTML/QuickForm/html.php', 'HTML_QuickForm_html'),
             'hierselect'    =>array('HTML/QuickForm/hierselect.php', 'HTML_QuickForm_hierselect'),
             'autocomplete'  =>array('HTML/QuickForm/autocomplete.php', 'HTML_QuickForm_autocomplete'),
-            'xbutton'       =>array('HTML/QuickForm/xbutton.php','HTML_QuickForm_xbutton')
+            'xbutton'       =>array('HTML/QuickForm/xbutton.php','HTML_QuickForm_xbutton'),
+            'advmultiselect'=>array('HTML/QuickForm/advmultiselect.php','HTML_QuickForm_advmultiselect'),
         );
 
 /**
@@ -285,7 +289,8 @@ class HTML_QuickForm extends HTML_Common
     {
         HTML_Common::HTML_Common($attributes);
         $method = (strtoupper($method) == 'GET') ? 'get' : 'post';
-        $action = ($action == '') ? $_SERVER['PHP_SELF'] : $action;
+        $action = CRM_Utils_System::postURL( $action );
+        // $action = ($action == '') ? $_SERVER['PHP_SELF'] : $action;
         $target = empty($target) ? array() : array('target' => $target);
         $attributes = array('action'=>$action, 'method'=>$method, 'name'=>$formName, 'id'=>$formName) + $target;
         $this->updateAttributes($attributes);
@@ -655,6 +660,13 @@ class HTML_QuickForm extends HTML_Common
         }
         if ($this->_freezeAll) {
             $elementObject->freeze();
+        }
+
+        if ( $elementObject->getType( ) == 'text' ||
+             $elementObject->getType( ) == 'textarea' ) {
+            $this->addRule( $elementName,
+                            ts( 'Illegal characters in input (potential scripting attack)' ),
+                            'xssString' );
         }
 
         return $elementObject;
@@ -1216,14 +1228,15 @@ class HTML_QuickForm extends HTML_Common
     * 
     * @access   public
     * @param    mixed   Callback, either function name or array(&$object, 'method')
+    * @param    string  $format   (optional)Required for extra rule data
     * @throws   HTML_QuickForm_Error
     */
-    function addFormRule($rule)
+    function addFormRule($rule, $format=null)
     {
         if (!is_callable($rule)) {
             return PEAR::raiseError(null, QUICKFORM_INVALID_RULE, null, E_USER_WARNING, 'Callback function does not exist in HTML_QuickForm::addFormRule()', 'HTML_QuickForm_Error', true);
         }
-        $this->_formRules[] = $rule;
+        $this->_formRules[] = array($rule,$format);
     }
     
     // }}}
@@ -1579,8 +1592,9 @@ class HTML_QuickForm extends HTML_Common
         }
 
         // process the global rules now
-        foreach ($this->_formRules as $rule) {
-            if (true !== ($res = call_user_func($rule, $this->_submitValues, $this->_submitFiles))) {
+        foreach ($this->_formRules as $value) {
+            list($rule, $options) = $value;
+            if (true !== ($res = call_user_func($rule, $this->_submitValues, $this->_submitFiles, $options))) {
                 if (is_array($res)) {
                     $this->_errors += $res;
                 } else {

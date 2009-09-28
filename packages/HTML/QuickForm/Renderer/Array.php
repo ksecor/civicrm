@@ -226,12 +226,16 @@ class HTML_QuickForm_Renderer_Array extends HTML_QuickForm_Renderer
     } // end func renderElement
 
 
-    function renderHidden(&$element)
+    function renderHidden(&$element, $required, $error)
     {
         if ($this->_collectHidden) {
+            // add to error array 
+            if (!empty($error)) { 
+                $this->_ary['errors']['hidden'] = $error; 
+            } 
             $this->_ary['hidden'] .= $element->toHtml() . "\n";
         } else {
-            $this->renderElement($element, false, null);
+            $this->renderElement($element, $required, $error);
         }
     } // end func renderHidden
 
@@ -271,6 +275,12 @@ class HTML_QuickForm_Renderer_Array extends HTML_QuickForm_Renderer
             'required'  => $required,
             'error'     => $error
         );
+
+        $id = $element->getAttribute('id');
+        if ( $id ) {
+            $ret['id'] = $id;
+        }
+
         // render label(s)
         $labels = $element->getLabel();
         if (is_array($labels) && $this->_staticLabels) {

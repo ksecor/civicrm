@@ -521,10 +521,12 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
         $value = array();
         if (is_array($this->_values)) {
             foreach ($this->_values as $key => $val) {
-                for ($i = 0, $optCount = count($this->_options); $i < $optCount; $i++) {
-                    if (0 == strcmp($val, $this->_options[$i]['attr']['value'])) {
-                        $value[$key] = $this->_options[$i]['text'];
-                        break;
+                if ( $val || is_numeric($val) ) {
+                    foreach ($this->_options as $oKey => $oVal ) {
+                        if (0 == strcmp($val, $this->_options[$oKey]['attr']['value'])) {
+                            $value[$key] = $oVal['text'];
+                            break;
+                        }
                     }
                 }
             }
@@ -561,7 +563,9 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
     {
         $value = $this->_findValue($submitValues);
         if (is_null($value)) {
-            $value = $this->getValue();
+            // if value is null, default value is set for advselect
+            // fix for CRM-1431 - kurund
+            //$value = $this->getValue();
         } elseif(!is_array($value)) {
             $value = array($value);
         }
@@ -576,10 +580,19 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
                 }
             }
         } else {
-            $cleanValue = $value;
+            //if value is null make it empty array, checked most of
+            // the stuff, value is null for advselect
+            // fix for CRM-1431 - kurund
+            if (is_null($value)) { 
+                $cleanValue = array();
+            } else {
+                $cleanValue = $value;
+            }
         }
         if (is_array($cleanValue) && !$this->getMultiple()) {
-            return $this->_prepareValue($cleanValue[0], $assoc);
+            if ( isset( $cleanValue[0] ) ) {
+                return $this->_prepareValue($cleanValue[0], $assoc);
+            }
         } else {
             return $this->_prepareValue($cleanValue, $assoc);
         }
