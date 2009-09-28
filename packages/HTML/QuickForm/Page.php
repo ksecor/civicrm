@@ -38,7 +38,7 @@ require_once 'HTML/QuickForm.php';
  * @package     HTML_QuickForm_Controller
  * @author      Alexey Borzov <avb@php.net>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 1.0.8
+ * @version     Release: 1.0.9
  */
 class HTML_QuickForm_Page extends HTML_QuickForm
 {

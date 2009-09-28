@@ -31,7 +31,7 @@
  * @category    HTML
  * @package     HTML_QuickForm_Controller
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 1.0.8
+ * @version     Release: 1.0.9
  * @abstract
  */
 class HTML_QuickForm_Action
