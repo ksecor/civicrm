@@ -1,5 +1,5 @@
 <?php
-// $Id: xml_test.php,v 1.23 2007/05/08 22:08:06 lastcraft Exp $
+// $Id: xml_test.php 1509 2007-05-08 22:11:49Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../xml.php');
 Mock::generate('SimpleScorer');

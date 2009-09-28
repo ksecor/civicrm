@@ -1,5 +1,5 @@
 <?php
-// $Id: shell_test.php,v 1.11 2007/06/04 18:33:09 lastcraft Exp $
+// $Id: shell_test.php 1529 2007-06-04 18:33:09Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../shell_tester.php');
 

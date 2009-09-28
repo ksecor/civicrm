@@ -1,13 +1,13 @@
 <?php
 /**
- *	Base include file for SimpleTest
- *	@package	SimpleTest
- *	@subpackage	WebTester
- *	@version	$Id: page.php,v 1.136 2007/07/16 22:28:39 lastcraft Exp $
+ *  Base include file for SimpleTest
+ *  @package    SimpleTest
+ *  @subpackage WebTester
+ *  @version    $Id: page.php 1672 2008-03-02 04:47:34Z edwardzyang $
  */
 
 /**#@+
-    *	include other SimpleTest class files
+    *   include other SimpleTest class files
     */
 require_once(dirname(__FILE__) . '/http.php');
 require_once(dirname(__FILE__) . '/parser.php');
@@ -952,10 +952,10 @@ class SimplePage {
      *    @return boolean                    True if value is valid.
      *    @access public
      */
-    function setField($selector, $value) {
+    function setField($selector, $value, $position=false) {
         $is_set = false;
         for ($i = 0; $i < count($this->_complete_forms); $i++) {
-            if ($this->_complete_forms[$i]->setField($selector, $value)) {
+            if ($this->_complete_forms[$i]->setField($selector, $value, $position)) {
                 $is_set = true;
             }
         }

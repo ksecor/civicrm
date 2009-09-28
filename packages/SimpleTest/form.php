@@ -1,9 +1,9 @@
 <?php
 /**
- *	Base include file for SimpleTest.
- *	@package	SimpleTest
- *	@subpackage	WebTester
- *	@version	$Id: form.php,v 1.41 2007/07/16 22:28:39 lastcraft Exp $
+ *  Base include file for SimpleTest.
+ *  @package    SimpleTest
+ *  @subpackage WebTester
+ *  @version    $Id: form.php 1672 2008-03-02 04:47:34Z edwardzyang $
  */
     
 /**#@+
@@ -228,12 +228,16 @@ class SimpleForm {
      *                                      present, nothing will be set.
      *    @access public
      */
-    function setField($selector, $value) {
+    function setField($selector, $value, $position=false) {
         $success = false;
+        $_position = 0;
         for ($i = 0, $count = count($this->_widgets); $i < $count; $i++) {
             if ($selector->isMatch($this->_widgets[$i])) {
-                if ($this->_widgets[$i]->setValue($value)) {
-                    $success = true;
+                $_position++;
+                if ($position === false or $_position === (int)$position) {
+                    if ($this->_widgets[$i]->setValue($value)) {
+                        $success = true;
+                    }
                 }
             }
         }

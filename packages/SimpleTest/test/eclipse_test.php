@@ -1,5 +1,5 @@
 <?php
-// $Id: eclipse_test.php,v 1.3 2007/04/30 23:39:59 lastcraft Exp $
+// $Id: eclipse_test.php 1505 2007-04-30 23:39:59Z lastcraft $
 
 //To run this from the eclipse plugin...you need to make sure that the 
 //SimpleTest path in the preferences is the same as the location of the 

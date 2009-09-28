@@ -1,5 +1,5 @@
 <?php
-// $Id: page_test.php,v 1.97 2007/07/16 18:13:23 lastcraft Exp $
+// $Id: page_test.php 1559 2007-07-16 18:13:24Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../expectation.php');
 require_once(dirname(__FILE__) . '/../http.php');

@@ -1,5 +1,5 @@
 <?php
-// $Id: tag_test.php,v 1.69 2007/05/08 22:08:06 lastcraft Exp $
+// $Id: tag_test.php 1509 2007-05-08 22:11:49Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../tag.php');
 require_once(dirname(__FILE__) . '/../encoding.php');

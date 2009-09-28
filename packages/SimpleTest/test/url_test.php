@@ -1,5 +1,5 @@
 <?php
-// $Id: url_test.php,v 1.27 2007/07/14 11:48:21 lastcraft Exp $
+// $Id: url_test.php 1598 2007-12-24 10:44:09Z pp11 $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../url.php');
 
@@ -175,6 +175,25 @@ class TestOfUrl extends UnitTestCase {
             'https://host.com/I/am/there/somewhere.php');
     }
     
+    // regression test for #1852413
+    function testHostnameExtractedFromUContainingAtSign() {
+        $url = new SimpleUrl("http://localhost/name@example.com");
+        $this->assertEqual($url->getScheme(), "http");
+        $this->assertEqual($url->getUsername(), "");
+        $this->assertEqual($url->getPassword(), "");
+        $this->assertEqual($url->getHost(), "localhost");
+        $this->assertEqual($url->getPath(), "/name@example.com");
+    }
+
+    function testHostnameInLocalhost() {
+        $url = new SimpleUrl("http://localhost/name/example.com");
+        $this->assertEqual($url->getScheme(), "http");
+        $this->assertEqual($url->getUsername(), "");
+        $this->assertEqual($url->getPassword(), "");
+        $this->assertEqual($url->getHost(), "localhost");
+        $this->assertEqual($url->getPath(), "/name/example.com");
+    }
+
     function testUsernameAndPasswordAreUrlDecoded() {
         $url = new SimpleUrl('http://' . urlencode('test@test') .
                 ':' . urlencode('$!£@*&%') . '@www.lastcraft.com');
@@ -280,6 +299,15 @@ class TestOfUrl extends UnitTestCase {
 
 class TestOfAbsoluteUrls extends UnitTestCase {
     
+	function testDirectoriesAfterFilename() {
+		$string = '../../index.php/foo/bar';
+		$url = new SimpleUrl($string);
+		$this->assertEqual($url->asString(), $string);
+		
+		$absolute = $url->makeAbsolute('http://www.domain.com/some/path/');
+		$this->assertEqual($absolute->asString(), 'http://www.domain.com/index.php/foo/bar');
+	}
+
     function testMakingAbsolute() {
         $url = new SimpleUrl('../there/somewhere.php');
         $this->assertEqual($url->getPath(), '../there/somewhere.php');

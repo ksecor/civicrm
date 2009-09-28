@@ -1,5 +1,5 @@
 <?php
-// $Id: form_test.php,v 1.20 2007/07/16 22:28:39 lastcraft Exp $
+// $Id: form_test.php 1624 2008-01-01 15:00:43Z pp11 $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../url.php');
 require_once(dirname(__FILE__) . '/../form.php');
@@ -206,6 +206,20 @@ class TestOfForm extends UnitTestCase {
         $this->assertEqual(
                 $form->submitButton(new SimpleById(9)),
                 new SimpleGetEncoding(array('go' => 'Go')));
+    }
+    
+    function testMultipleFieldsWithSameNameSubmitted() {
+        $form = &new SimpleForm(new SimpleFormTag(array()), $this->page('htp://host'));
+        $input = &new SimpleTextTag(array('name' => 'elements[]', 'value' => '1'));
+        $form->addWidget($input);
+        $input = &new SimpleTextTag(array('name' => 'elements[]', 'value' => '2'));
+        $form->addWidget($input);
+        $form->setField(new SimpleByLabelOrName('elements[]'), '3', 1);
+        $form->setField(new SimpleByLabelOrName('elements[]'), '4', 2);
+		$submit = $form->submit();
+        $this->assertEqual(count($submit->_request), 2);
+        $this->assertIdentical($submit->_request[0], new SimpleEncodedPair('elements[]', '3'));
+        $this->assertIdentical($submit->_request[1], new SimpleEncodedPair('elements[]', '4'));
     }
     
     function testSingleSelectFieldSubmitted() {

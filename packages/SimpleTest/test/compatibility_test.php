@@ -1,5 +1,5 @@
 <?php
-// $Id: compatibility_test.php,v 1.4 2007/04/30 23:39:59 lastcraft Exp $
+// $Id: compatibility_test.php 1505 2007-04-30 23:39:59Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../compatibility.php');
 

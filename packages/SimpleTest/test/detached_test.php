@@ -1,5 +1,5 @@
 <?php
-// $Id: detached_test.php,v 1.3 2007/04/30 23:39:59 lastcraft Exp $
+// $Id: detached_test.php 1505 2007-04-30 23:39:59Z lastcraft $
 require_once('../detached.php');
 require_once('../reporter.php');
 

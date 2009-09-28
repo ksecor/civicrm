@@ -1,5 +1,5 @@
 <?php
-// $Id: browser_test.php,v 1.117 2007/07/16 18:13:23 lastcraft Exp $
+// $Id: browser_test.php 1624 2008-01-01 15:00:43Z pp11 $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../browser.php');
 require_once(dirname(__FILE__) . '/../user_agent.php');
@@ -217,7 +217,7 @@ class TestOfParsedPageAccess extends UnitTestCase {
 
     function testSettingFieldIsPassedToPage() {
         $page = &new MockSimplePage();
-        $page->expectOnce('setField', array(new SimpleByLabelOrName('key'), 'Value'));
+        $page->expectOnce('setField', array(new SimpleByLabelOrName('key'), 'Value', false));
         $page->setReturnValue('getField', 'Value');
         $browser = &$this->loadPage($page);
         $this->assertEqual($browser->getField('key'), 'Value');

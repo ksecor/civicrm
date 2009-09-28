@@ -1,9 +1,9 @@
 <?php
 /**
- *	base include file for SimpleTest
- *	@package	SimpleTest
- *	@subpackage	MockObjects
- *	@version	$Id: parser.php,v 1.75 2007/07/14 02:04:33 lastcraft Exp $
+ *  base include file for SimpleTest
+ *  @package    SimpleTest
+ *  @subpackage MockObjects
+ *  @version    $Id: parser.php 1723 2008-04-08 00:34:10Z lastcraft $
  */
 
 /**#@+
@@ -691,11 +691,7 @@ class SimpleHtmlSaxParser {
      *    @static
      */
     function decodeHtml($html) {
-        static $translations;
-        if (! isset($translations)) {
-            $translations = array_flip(get_html_translation_table(HTML_ENTITIES));
-        }
-        return strtr($html, $translations);
+        return html_entity_decode($html, ENT_QUOTES);
     }
     
     /**
@@ -709,13 +705,14 @@ class SimpleHtmlSaxParser {
      */
     function normalise($html) {
         $text = preg_replace('|<!--.*?-->|', '', $html);
-        $text = preg_replace('|<img.*?alt\s*=\s*"(.*?)".*?>|', ' \1 ', $text);
-        $text = preg_replace('|<img.*?alt\s*=\s*\'(.*?)\'.*?>|', ' \1 ', $text);
-        $text = preg_replace('|<img.*?alt\s*=\s*([a-zA-Z_]+).*?>|', ' \1 ', $text);
-        $text = preg_replace('|<.*?>|', '', $text);
+        $text = preg_replace('|<script[^>]*>.*?</script>|', '', $text);
+        $text = preg_replace('|<img[^>]*alt\s*=\s*"([^"]*)"[^>]*>|', ' \1 ', $text);
+        $text = preg_replace('|<img[^>]*alt\s*=\s*\'([^\']*)\'[^>]*>|', ' \1 ', $text);
+        $text = preg_replace('|<img[^>]*alt\s*=\s*([a-zA-Z_]+)[^>]*>|', ' \1 ', $text);
+        $text = preg_replace('|<[^>]*>|', '', $text);
         $text = SimpleHtmlSaxParser::decodeHtml($text);
         $text = preg_replace('|\s+|', ' ', $text);
-        return trim($text);
+        return trim(trim($text), "\xA0");        // TODO: The \xAO is a &nbsp;. Add a test for this.
     }
 }
 

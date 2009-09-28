@@ -1,5 +1,5 @@
 <?php
-// $Id: parser_test.php,v 1.59 2007/04/30 23:39:59 lastcraft Exp $
+// $Id: parser_test.php 1608 2007-12-27 09:03:07Z pp11 $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../parser.php');
 Mock::generate('SimpleHtmlSaxParser');
@@ -481,10 +481,41 @@ class TestOfHtmlSaxParser extends UnitTestCase {
 
 class TestOfTextExtraction extends UnitTestCase {
     
+	function testImageSuppressionWhileKeepingParagraphsAndAltText() {
+        $this->assertEqual(
+                SimpleHtmlSaxParser::normalise('<img src="foo.png" /><p>some text</p><img src="bar.png" alt="bar" />'),
+                'some text bar');
+		
+	}
+
     function testSpaceNormalisation() {
         $this->assertEqual(
                 SimpleHtmlSaxParser::normalise("\nOne\tTwo   \nThree\t"),
                 'One Two Three');
+    }
+    
+    function testMultilinesCommentSuppression() {
+        $this->assertEqual(
+                SimpleHtmlSaxParser::normalise('<!--\n Hello \n-->'),
+                '');
+    }
+    
+    function testCommentSuppression() {
+        $this->assertEqual(
+                SimpleHtmlSaxParser::normalise('<!--Hello-->'),
+                '');
+    }
+    
+    function testJavascriptSuppression() {
+        $this->assertEqual(
+                SimpleHtmlSaxParser::normalise('<script attribute="test">\nHello\n</script>'),
+                '');
+        $this->assertEqual(
+                SimpleHtmlSaxParser::normalise('<script attribute="test">Hello</script>'),
+                '');
+        $this->assertEqual(
+                SimpleHtmlSaxParser::normalise('<script>Hello</script>'),
+                '');
     }
     
     function testTagSuppression() {
@@ -513,8 +544,8 @@ class TestOfTextExtraction extends UnitTestCase {
     
     function testHtmlEntityTranslation() {
         $this->assertEqual(
-                SimpleHtmlSaxParser::normalise('&lt;&gt;&quot;&amp;'),
-                '<>"&');
+                SimpleHtmlSaxParser::normalise('&lt;&gt;&quot;&amp;&#039;'),
+                '<>"&\'');
     }
 }
 ?>

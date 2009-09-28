@@ -1,5 +1,5 @@
 <?php
-// $Id: unit_tests.php,v 1.54 2007/05/21 20:14:56 tswicegood Exp $
+// $Id: unit_tests.php 1661 2008-02-26 21:04:31Z pp11 $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../unit_tester.php');
 require_once(dirname(__FILE__) . '/../shell_tester.php');
@@ -16,6 +16,7 @@ class UnitTests extends TestSuite {
         if (version_compare(phpversion(), '5') >= 0) {
             $this->addFile($path . '/exceptions_test.php');
         }
+        $this->addFile($path . '/autorun_test.php');
         $this->addFile($path . '/compatibility_test.php');
         $this->addFile($path . '/simpletest_test.php');
         $this->addFile($path . '/dumper_test.php');

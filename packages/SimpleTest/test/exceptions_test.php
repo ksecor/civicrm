@@ -1,5 +1,5 @@
 <?php
-// $Id: exceptions_test.php,v 1.10 2007/04/30 23:39:59 lastcraft Exp $
+// $Id: exceptions_test.php 1618 2007-12-29 22:52:30Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../exceptions.php');
 require_once(dirname(__FILE__) . '/../expectation.php');
@@ -91,30 +91,63 @@ class TestOfCatchingExceptions extends UnitTestCase {
     }
 }
 
-class Test1Exception extends Exception {}
-class Test2Exception extends Exception {}
-
-class TestOfCallingTearDownWithExceptions extends UnitTestCase {
-    public function setUp() {
-        $GLOBALS['setUp'] = true;
-	}
-
-    public function tearDown() {
-        $GLOBALS['tearDown'] = true;
+class TestOfCallingTearDownAfterExceptions extends UnitTestCase {
+    private $debri = 0;
+    
+    function tearDown() {
+        $this->debri--;
     }
 
-    public function test1() { 
-        $this->assertTrue($GLOBALS['setUp']);
-        $this->assertNull($GLOBALS['tearDown']);
-        $this->expectException('Test1Exception');
-        throw new Test1Exception(__FUNCTION__);
+    function testLeaveSomeDebri() { 
+        $this->debri++;
+        $this->expectException();
+        throw new Exception(__FUNCTION__);
     }
 
-	public function test2() {
-        $this->assertTrue($GLOBALS['setUp']);
-        $this->assertTrue($GLOBALS['tearDown']);
-		$this->expectException('Test2Exception');
-		throw new Test2Exception(__FUNCTION__);
+	function testDebriWasRemovedOnce() {
+        $this->assertEqual($this->debri, 0);
 	}
+}
+
+class TestOfExceptionThrownInSetUpDoesNotRunTestBody extends UnitTestCase {
+
+	function setUp() {
+        $this->expectException();
+        throw new Exception();
+	}
+	
+	function testShouldNotBeRun() {
+        $this->fail('This test body should not be run');
+	}
+
+	function testShouldNotBeRunEither() {
+        $this->fail('This test body should not be run either');
+	}
+}
+
+class TestOfExpectExceptionWithSetUp extends UnitTestCase {
+
+	function setUp() {
+        $this->expectException();
+	}
+	
+	function testThisExceptionShouldBeCaught() {
+        throw new Exception();
+	}
+
+	function testJustThrowingMyTestException() {
+        throw new MyTestException();
+	}
+}
+
+class TestOfThrowingExceptionsInTearDown extends UnitTestCase {
+    
+    function tearDown() {
+        throw new Exception();
+    }
+    
+    function testDoesntFatal() {
+        $this->expectException();
+    }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-// $Id: mock_objects_test.php,v 1.36 2007/07/07 00:31:03 lastcraft Exp $
+// $Id: mock_objects_test.php 1700 2008-03-24 16:17:48Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../expectation.php');
 require_once(dirname(__FILE__) . '/../mock_objects.php');
@@ -75,67 +75,133 @@ class TestOfParametersExpectation extends UnitTestCase {
     }
 }
 
-class TestOfCallMap extends UnitTestCase {
+class TestOfSimpleSignatureMap extends UnitTestCase {
 
     function testEmpty() {
-        $map = new CallMap();
+        $map = new SimpleSignatureMap();
         $this->assertFalse($map->isMatch("any", array()));
-        $this->assertNull($map->findFirstMatch("any", array()));
-    }
-
-    function testExactValue() {
-        $map = new CallMap();
-        $map->addValue(array(0), "Fred");
-        $map->addValue(array(1), "Jim");
-        $map->addValue(array("1"), "Tom");
-        $this->assertTrue($map->isMatch(array(0)));
-        $this->assertEqual($map->findFirstMatch(array(0)), "Fred");
-        $this->assertTrue($map->isMatch(array(1)));
-        $this->assertEqual($map->findFirstMatch(array(1)), "Jim");
-        $this->assertEqual($map->findFirstMatch(array("1")), "Tom");
+        $this->assertNull($map->findFirstAction("any", array()));
     }
 
     function testExactReference() {
-        $map = new CallMap();
+        $map = new SimpleSignatureMap();
         $ref = "Fred";
-        $map->addReference(array(0), $ref);
-        $this->assertEqual($map->findFirstMatch(array(0)), "Fred");
-        $ref2 = &$map->findFirstMatch(array(0));
+        $map->add(array(0), $ref);
+        $this->assertEqual($map->findFirstAction(array(0)), "Fred");
+        $ref2 = &$map->findFirstAction(array(0));
         $this->assertReference($ref2, $ref);
+    }
+    
+    function testDifferentCallSignaturesCanHaveDifferentReferences() {
+        $map = new SimpleSignatureMap();
+        $fred = 'Fred';
+        $jim = 'jim';
+        $map->add(array(0), $fred);
+        $map->add(array('0'), $jim);
+        $this->assertReference($fred, $map->findFirstAction(array(0)));
+        $this->assertReference($jim, $map->findFirstAction(array('0')));
     }
 
     function testWildcard() {
-        $map = new CallMap();
-        $map->addValue(array(new AnythingExpectation(), 1, 3), "Fred");
+        $fred = 'Fred';
+        $map = new SimpleSignatureMap();
+        $map->add(array(new AnythingExpectation(), 1, 3), $fred);
         $this->assertTrue($map->isMatch(array(2, 1, 3)));
-        $this->assertEqual($map->findFirstMatch(array(2, 1, 3)), "Fred");
+        $this->assertReference($map->findFirstAction(array(2, 1, 3)), $fred);
     }
 
     function testAllWildcard() {
-        $map = new CallMap();
+        $fred = 'Fred';
+        $map = new SimpleSignatureMap();
         $this->assertFalse($map->isMatch(array(2, 1, 3)));
-        $map->addValue("", "Fred");
+        $map->add('', $fred);
         $this->assertTrue($map->isMatch(array(2, 1, 3)));
-        $this->assertEqual($map->findFirstMatch(array(2, 1, 3)), "Fred");
+        $this->assertReference($map->findFirstAction(array(2, 1, 3)), $fred);
     }
 
     function testOrdering() {
-        $map = new CallMap();
-        $map->addValue(array(1, 2), "1, 2");
-        $map->addValue(array(1, 3), "1, 3");
-        $map->addValue(array(1), "1");
-        $map->addValue(array(1, 4), "1, 4");
-        $map->addValue(array(new AnythingExpectation()), "Any");
-        $map->addValue(array(2), "2");
-        $map->addValue("", "Default");
-        $map->addValue(array(), "None");
-        $this->assertEqual($map->findFirstMatch(array(1, 2)), "1, 2");
-        $this->assertEqual($map->findFirstMatch(array(1, 3)), "1, 3");
-        $this->assertEqual($map->findFirstMatch(array(1, 4)), "1, 4");
-        $this->assertEqual($map->findFirstMatch(array(1)), "1");
-        $this->assertEqual($map->findFirstMatch(array(2)), "Any");
-        $this->assertEqual($map->findFirstMatch(array(3)), "Any");
-        $this->assertEqual($map->findFirstMatch(array()), "Default");
+        $map = new SimpleSignatureMap();
+        $map->add(array(1, 2), new SimpleByValue("1, 2"));
+        $map->add(array(1, 3), new SimpleByValue("1, 3"));
+        $map->add(array(1), new SimpleByValue("1"));
+        $map->add(array(1, 4), new SimpleByValue("1, 4"));
+        $map->add(array(new AnythingExpectation()), new SimpleByValue("Any"));
+        $map->add(array(2), new SimpleByValue("2"));
+        $map->add("", new SimpleByValue("Default"));
+        $map->add(array(), new SimpleByValue("None"));
+        $this->assertEqual($map->findFirstAction(array(1, 2)), new SimpleByValue("1, 2"));
+        $this->assertEqual($map->findFirstAction(array(1, 3)), new SimpleByValue("1, 3"));
+        $this->assertEqual($map->findFirstAction(array(1, 4)), new SimpleByValue("1, 4"));
+        $this->assertEqual($map->findFirstAction(array(1)), new SimpleByValue("1"));
+        $this->assertEqual($map->findFirstAction(array(2)), new SimpleByValue("Any"));
+        $this->assertEqual($map->findFirstAction(array(3)), new SimpleByValue("Any"));
+        $this->assertEqual($map->findFirstAction(array()), new SimpleByValue("Default"));
+    }
+}
+
+class TestOfCallSchedule extends UnitTestCase {
+    function testCanBeSetToAlwaysReturnTheSameReference() {
+        $a = 5;
+        $schedule = &new SimpleCallSchedule();
+        $schedule->register('aMethod', false, new SimpleByReference($a));
+        $this->assertReference($schedule->respond(0, 'aMethod', array()), $a);
+        $this->assertReference($schedule->respond(1, 'aMethod', array()), $a);
+    }
+
+    function testSpecificSignaturesOverrideTheAlwaysCase() {
+        $any = 'any';
+        $one = 'two';
+        $schedule = &new SimpleCallSchedule();
+        $schedule->register('aMethod', array(1), new SimpleByReference($one));
+        $schedule->register('aMethod', false, new SimpleByReference($any));
+        $this->assertReference($schedule->respond(0, 'aMethod', array(2)), $any);
+        $this->assertReference($schedule->respond(0, 'aMethod', array(1)), $one);
+    }
+    
+    function testReturnsCanBeSetOverTime() {
+        $one = 'one';
+        $two = 'two';
+        $schedule = &new SimpleCallSchedule();
+        $schedule->registerAt(0, 'aMethod', false, new SimpleByReference($one));
+        $schedule->registerAt(1, 'aMethod', false, new SimpleByReference($two));
+        $this->assertReference($schedule->respond(0, 'aMethod', array()), $one);
+        $this->assertReference($schedule->respond(1, 'aMethod', array()), $two);
+    }
+    
+    function testReturnsOverTimecanBeAlteredByTheArguments() {
+        $one = '1';
+        $two = '2';
+        $two_a = '2a';
+        $schedule = &new SimpleCallSchedule();
+        $schedule->registerAt(0, 'aMethod', false, new SimpleByReference($one));
+        $schedule->registerAt(1, 'aMethod', array('a'), new SimpleByReference($two_a));
+        $schedule->registerAt(1, 'aMethod', false, new SimpleByReference($two));
+        $this->assertReference($schedule->respond(0, 'aMethod', array()), $one);
+        $this->assertReference($schedule->respond(1, 'aMethod', array()), $two);
+        $this->assertReference($schedule->respond(1, 'aMethod', array('a')), $two_a);
+    }
+    
+    function testCanReturnByValue() {
+        $a = 5;
+        $schedule = &new SimpleCallSchedule();
+        $schedule->register('aMethod', false, new SimpleByValue($a));
+        $this->assertClone($schedule->respond(0, 'aMethod', array()), $a);
+    }
+    
+    function testCanThrowException() {
+        if (version_compare(phpversion(), '5', '>=')) {
+            $schedule = &new SimpleCallSchedule();
+            $schedule->register('aMethod', false, new SimpleThrower(new Exception('Ouch')));
+            $this->expectException(new Exception('Ouch'));
+            $schedule->respond(0, 'aMethod', array());
+        }
+    }
+    
+    function testCanEmitError() {
+        $schedule = &new SimpleCallSchedule();
+        $schedule->register('aMethod', false, new SimpleErrorThrower('Ouch', E_USER_WARNING));
+        $this->expectError('Ouch');
+        $schedule->respond(0, 'aMethod', array());
     }
 }
 
@@ -602,7 +668,7 @@ Mock::generate('ClassWithSpecialMethods');
 
 class TestOfSpecialMethods extends UnitTestCase {
     function skip() {
-        $this->skipIf(version_compare(phpversion(), '5', '<='), 'Overloading not tested for PHP 4');
+        $this->skipIf(version_compare(phpversion(), '5', '<='), 'Overloading not tested unless PHP 5+');
     }
 
     function testCanMockTheThingAtAll() {
@@ -664,7 +730,7 @@ Mock::generate('WithStaticMethod');
 
 class TestOfMockingClassesWithStaticMethods extends UnitTestCase {
     function skip() {
-        $this->skipUnless(version_compare(phpversion(), '5', '>='));
+        $this->skipUnless(version_compare(phpversion(), '5', '>='), 'Static methods not tested unless PHP 5+');
     }
     
     function testStaticMethodIsMockedAsStatic() {
@@ -672,6 +738,76 @@ class TestOfMockingClassesWithStaticMethods extends UnitTestCase {
         $reflection = new ReflectionClass($mock);
         $method = $reflection->getMethod('aStaticMethod');
         $this->assertTrue($method->isStatic());
+    }
+}
+
+if (version_compare(phpversion(), '5', '>=')) {
+    class MockTestException extends Exception { }
+}
+
+class TestOfThrowingExceptionsFromMocks extends UnitTestCase {
+    function skip() {
+        $this->skipUnless(version_compare(phpversion(), '5', '>='), 'Exception throwing not tested unless PHP 5+');
+    }
+
+    function testCanThrowOnMethodCall() {
+        $mock = new MockDummy();
+        $mock->throwOn('aMethod');
+        $this->expectException();
+        $mock->aMethod();
+    }
+
+    function testCanThrowSpecificExceptionOnMethodCall() {
+        $mock = new MockDummy();
+        $mock->throwOn('aMethod', new MockTestException());
+        $this->expectException();
+        $mock->aMethod();
+    }
+    
+    function testThrowsOnlyWhenCallSignatureMatches() {
+        $mock = new MockDummy();
+        $mock->throwOn('aMethod', new MockTestException(), array(3));
+        $mock->aMethod(1);
+        $mock->aMethod(2);
+        $this->expectException();
+        $mock->aMethod(3);
+    }
+    
+    function testCanThrowOnParticularInvocation() {
+        $mock = new MockDummy();
+        $mock->throwAt(2, 'aMethod', new MockTestException());
+        $mock->aMethod();
+        $mock->aMethod();
+        $this->expectException();
+        $mock->aMethod();
+    }
+}
+
+class TestOfThrowingErrorsFromMocks extends UnitTestCase {
+    
+    function testCanGenerateErrorFromMethodCall() {
+        $mock = new MockDummy();
+        $mock->errorOn('aMethod', 'Ouch!');
+        $this->expectError('Ouch!');
+        $mock->aMethod();
+    }
+    
+    function testGeneratesErrorOnlyWhenCallSignatureMatches() {
+        $mock = new MockDummy();
+        $mock->errorOn('aMethod', 'Ouch!', array(3));
+        $mock->aMethod(1);
+        $mock->aMethod(2);
+        $this->expectError();
+        $mock->aMethod(3);
+    }
+    
+    function testCanGenerateErrorOnParticularInvocation() {
+        $mock = new MockDummy();
+        $mock->errorAt(2, 'aMethod', 'Ouch!');
+        $mock->aMethod();
+        $mock->aMethod();
+        $this->expectError();
+        $mock->aMethod();
     }
 }
 
@@ -740,7 +876,7 @@ class TestOfPHP4StyleSuperClassConstruct extends UnitTestCase {
 
 class TestOfPHP5StaticMethodMocking extends UnitTestCase {
     function skip() {
-        $this->skipIf(version_compare(phpversion(), '5', '<='), 'Static methods not tested in PHP 4');
+        $this->skipIf(version_compare(phpversion(), '5', '<='), 'Static methods not tested unless PHP 5+');
     }
 
     function testCanCreateAMockObjectWithStaticMethodsWithoutError() {
@@ -757,7 +893,7 @@ class TestOfPHP5StaticMethodMocking extends UnitTestCase {
 
 class TestOfPHP5AbstractMethodMocking extends UnitTestCase {
     function skip() {
-        $this->skipIf(version_compare(phpversion(), '5', '<='), 'Abstract class/methods not tested in PHP 4');
+        $this->skipIf(version_compare(phpversion(), '5', '<='), 'Abstract class/methods not tested unless PHP 5+');
     }
 
     function testCanCreateAMockObjectFromAnAbstractWithProperFunctionDeclarations() {
@@ -805,6 +941,8 @@ class TestOfPHP5AbstractMethodMocking extends UnitTestCase {
                 function anAbstractWithParameter($foo){}
                 function anAbstractWithMultipleParameters($foo, $bar){}
             }
+
+            class EvenDeeperEmptyChildClass extends SimpleChildAbstractClassContainingAbstractMethods {}
         ');
 
         Mock::generate('SimpleChildAbstractClassContainingAbstractMethods');
@@ -825,6 +963,28 @@ class TestOfPHP5AbstractMethodMocking extends UnitTestCase {
         $this->assertTrue(
             method_exists(
                 'MockSimpleChildAbstractClassContainingAbstractMethods',
+                'anAbstractWithMultipleParameters'
+            )
+        );
+        
+        Mock::generate('EvenDeeperEmptyChildClass');
+        $this->assertNoErrors();
+
+        $this->assertTrue(
+            method_exists(
+                'MockEvenDeeperEmptyChildClass',
+                'anAbstract'
+            )
+        );
+        $this->assertTrue(
+            method_exists(
+                'MockEvenDeeperEmptyChildClass',
+                'anAbstractWithParameter'
+            )
+        );
+        $this->assertTrue(
+            method_exists(
+                'MockEvenDeeperEmptyChildClass',
                 'anAbstractWithMultipleParameters'
             )
         );

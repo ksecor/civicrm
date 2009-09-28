@@ -1,5 +1,5 @@
 <?php
-// $Id: unit_tester_test.php,v 1.12 2007/05/08 22:08:06 lastcraft Exp $
+// $Id: unit_tester_test.php 1509 2007-05-08 22:11:49Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 
 class ReferenceForTesting {

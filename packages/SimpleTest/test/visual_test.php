@@ -1,5 +1,5 @@
 <?php
-    // $Id: visual_test.php,v 1.46 2007/07/04 00:42:05 lastcraft Exp $
+    // $Id: visual_test.php 1547 2007-07-04 00:42:05Z lastcraft $
 
     // NOTE:
     // Some of these tests are designed to fail! Do not be alarmed.

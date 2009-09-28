@@ -1,5 +1,5 @@
 <?php
-// $Id: interfaces_test.php,v 1.13 2007/04/30 23:39:59 lastcraft Exp $
+// $Id: interfaces_test.php 1699 2008-03-24 16:01:29Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 if (function_exists('spl_classes')) {
     include(dirname(__FILE__) . '/support/spl_examples.php');
@@ -39,7 +39,7 @@ class TestOfMockInterfaces extends UnitTestCase {
 class TestOfSpl extends UnitTestCase {
     
     function skip() {
-        $this->skipUnless(function_exists('spl_classes'));
+        $this->skipUnless(function_exists('spl_classes'), 'No SPL module loaded');
     }
 
     function testCanMockAllSplClasses() {
@@ -47,6 +47,9 @@ class TestOfSpl extends UnitTestCase {
             return;
         }
         foreach(spl_classes() as $class) {
+            if ($class == 'SplHeap') {
+                continue;
+            }
             $mock_class = "Mock$class";
             Mock::generate($class);
             $this->assertIsA(new $mock_class(), $mock_class);

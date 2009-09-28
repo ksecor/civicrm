@@ -1,5 +1,5 @@
 <?php
-// $Id: acceptance_test.php,v 1.101 2007/07/16 22:28:39 lastcraft Exp $
+// $Id: acceptance_test.php 1700 2008-03-24 16:17:48Z lastcraft $
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../compatibility.php');
 require_once(dirname(__FILE__) . '/../browser.php');
@@ -16,7 +16,7 @@ class TestOfLiveBrowser extends UnitTestCase {
     function samples() {
         return SimpleTestAcceptanceTest::samples();
     }
-    
+
     function testGet() {
         $browser = &new SimpleBrowser();
         $browser->addHeader('User-Agent: SimpleTest ' . SimpleTest::getVersion());
@@ -41,6 +41,14 @@ class TestOfLiveBrowser extends UnitTestCase {
         $browser->addHeader('User-Agent: SimpleTest ' . SimpleTest::getVersion());
         $browser->get($this->samples() . 'link_confirm.php');
         $this->assertTrue($browser->clickLink('Absolute'));
+        $this->assertPattern('/target for the SimpleTest/', $browser->getContent());
+    }
+    
+    function testRelativeEncodedeLinkFollowing() {
+        $browser = &new SimpleBrowser();
+        $browser->addHeader('User-Agent: SimpleTest ' . SimpleTest::getVersion());
+        $browser->get($this->samples() . 'link_confirm.php');
+        $this->assertTrue($browser->clickLink("märcêl kiek'eboe"));
         $this->assertPattern('/target for the SimpleTest/', $browser->getContent());
     }
     
@@ -95,11 +103,43 @@ class TestOfLiveBrowser extends UnitTestCase {
     }
 }
 
+class TestRadioFields extends SimpleTestAcceptanceTest {
+	function testSetFieldAsInteger() {
+		$this->get($this->samples() . 'form_with_radio_buttons.html');
+		$this->assertTrue($this->setField('tested_field', 2));
+		$this->clickSubmitByName('send');
+		$this->assertEqual($this->getUrl(), $this->samples() . 'form_with_radio_buttons.html?tested_field=2&send=click+me');
+	}
+
+	function testSetFieldAsString() {
+		$this->get($this->samples() . 'form_with_radio_buttons.html');
+		$this->assertTrue($this->setField('tested_field', '2'));
+		$this->clickSubmitByName('send');
+		$this->assertEqual($this->getUrl(), $this->samples() . 'form_with_radio_buttons.html?tested_field=2&send=click+me');
+	}
+}
+
 class TestOfLiveFetching extends SimpleTestAcceptanceTest {
     function setUp() {
         $this->addHeader('User-Agent: SimpleTest ' . SimpleTest::getVersion());
     }
-    
+ 
+	function testFormWithArrayBasedInputs() {
+		$this->get($this->samples() . 'form_with_array_based_inputs.php');
+		$this->setField('value[]', '3', '1');
+		$this->setField('value[]', '4', '2');
+		$this->clickSubmit('Go');
+        $this->assertPattern('/QUERY_STRING : value%5B%5D=3&value%5B%5D=4&submit=Go/');
+	}
+
+	function testFormWithQuotedValues() {
+		$this->get($this->samples() . 'form_with_quoted_values.php');
+		$this->assertField('a', 'default');
+		$this->assertFieldById('text_field', 'default');
+		$this->clickSubmit('Go');
+        $this->assertPattern('/a=default&submit=Go/');
+	}
+
     function testGet() {
         $this->assertTrue($this->get($this->samples() . 'network_confirm.php'));
         $this->assertEqual($this->getUrl(), $this->samples() . 'network_confirm.php');
@@ -140,7 +180,29 @@ class TestOfLiveFetching extends SimpleTestAcceptanceTest {
         $this->assertPattern('/Request method.*?<dd>POST<\/dd>/');
         $this->assertText('a=[aaa]');
     }
-    
+
+    function testPostWithRecursiveData() {
+        $this->post($this->samples() . 'network_confirm.php', array("a" => "aaa"));
+        $this->assertPattern('/Request method.*?<dd>POST<\/dd>/');
+        $this->assertText('a=[aaa]');
+
+        $this->post($this->samples() . 'network_confirm.php', array("a[aa]" => "aaa"));
+        $this->assertPattern('/Request method.*?<dd>POST<\/dd>/');
+        $this->assertText('a=[aa=[aaa]]');
+
+        $this->post($this->samples() . 'network_confirm.php', array("a[aa][aaa]" => "aaaa"));
+        $this->assertPattern('/Request method.*?<dd>POST<\/dd>/');
+        $this->assertText('a=[aa=[aaa=[aaaa]]]');
+
+        $this->post($this->samples() . 'network_confirm.php', array("a" => array("aa" => "aaa")));
+        $this->assertPattern('/Request method.*?<dd>POST<\/dd>/');
+        $this->assertText('a=[aa=[aaa]]');
+
+        $this->post($this->samples() . 'network_confirm.php', array("a" => array("aa" => array("aaa" => "aaaa"))));
+        $this->assertPattern('/Request method.*?<dd>POST<\/dd>/');
+        $this->assertText('a=[aa=[aaa=[aaaa]]]');
+    }
+
     function testRelativeGet() {
         $this->get($this->samples() . 'link_confirm.php');
         $this->assertTrue($this->get('network_confirm.php'));
@@ -903,7 +965,7 @@ class LiveTestOfForms extends SimpleTestAcceptanceTest {
         $this->assertText('h=[?]');
         $this->assertText('i=[?]');
     }
-    
+
     function testSubmissionOfHtmlEncodedValues() {
         $this->get($this->samples() . 'form_with_tricky_defaults.html');
         $this->assertField('Text A', '&\'"<>');
@@ -1371,7 +1433,7 @@ class TestOfLoadingFrames extends SimpleTestAcceptanceTest {
     function testJumpBackADirectoryLevelReplacesJustThatFrame() {
         $this->get($this->samples() . 'messy_frameset.html');
         $this->clickLink('Down one');
-        $this->assertPattern('/index of \/test/i');
+        $this->assertPattern('/index of .*\/test/i');
         $this->assertPattern('/Count: 1/');
     }
     
@@ -1411,7 +1473,7 @@ class TestOfLoadingFrames extends SimpleTestAcceptanceTest {
     function testSubmitBackADirectoryLevelReplacesJustThatFrame() {
         $this->get($this->samples() . 'messy_frameset.html');
         $this->clickSubmit('Down one');
-        $this->assertPattern('/index of \/test/i');
+        $this->assertPattern('/index of .*\/test/i');
         $this->assertPattern('/Count: 1/');
     }
     
