@@ -17,9 +17,9 @@
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Alexey Borzov <avb@php.net>
- * @copyright   2001-2007 The PHP Group
+ * @copyright   2001-2009 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: QuickForm.php,v 1.164 2007/10/05 19:57:32 avb Exp $
+ * @version     CVS: $Id: QuickForm.php,v 1.166 2009/04/04 21:34:02 avb Exp $
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -54,9 +54,6 @@ $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'] =
             'hiddenselect'  =>array('HTML/QuickForm/hiddenselect.php','HTML_QuickForm_hiddenselect'),
             'text'          =>array('HTML/QuickForm/text.php','HTML_QuickForm_text'),
             'textarea'      =>array('HTML/QuickForm/textarea.php','HTML_QuickForm_textarea'),
-            'fckeditor'     =>array('HTML/QuickForm/fckeditor.php','HTML_QuickForm_FCKEditor'),
-            'tinymce'       =>array('HTML/QuickForm/tinymce.php','HTML_QuickForm_TinyMCE'),
-            'dojoeditor'    =>array('HTML/QuickForm/dojoeditor.php','HTML_QuickForm_dojoeditor'),
             'link'          =>array('HTML/QuickForm/link.php','HTML_QuickForm_link'),
             'advcheckbox'   =>array('HTML/QuickForm/advcheckbox.php','HTML_QuickForm_advcheckbox'),
             'date'          =>array('HTML/QuickForm/date.php','HTML_QuickForm_date'),
@@ -65,8 +62,7 @@ $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'] =
             'html'          =>array('HTML/QuickForm/html.php', 'HTML_QuickForm_html'),
             'hierselect'    =>array('HTML/QuickForm/hierselect.php', 'HTML_QuickForm_hierselect'),
             'autocomplete'  =>array('HTML/QuickForm/autocomplete.php', 'HTML_QuickForm_autocomplete'),
-            'xbutton'       =>array('HTML/QuickForm/xbutton.php','HTML_QuickForm_xbutton'),
-            'advmultiselect'=>array('HTML/QuickForm/advmultiselect.php','HTML_QuickForm_advmultiselect'),
+            'xbutton'       =>array('HTML/QuickForm/xbutton.php','HTML_QuickForm_xbutton')
         );
 
 /**
@@ -123,7 +119,7 @@ define('QUICKFORM_INVALID_DATASOURCE',     -9);
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 3.2.10
+ * @version     Release: 3.2.11
  */
 class HTML_QuickForm extends HTML_Common
 {
@@ -289,8 +285,7 @@ class HTML_QuickForm extends HTML_Common
     {
         HTML_Common::HTML_Common($attributes);
         $method = (strtoupper($method) == 'GET') ? 'get' : 'post';
-        $action = CRM_Utils_System::postURL( $action );
-        // $action = ($action == '') ? $_SERVER['PHP_SELF'] : $action;
+        $action = ($action == '') ? $_SERVER['PHP_SELF'] : $action;
         $target = empty($target) ? array() : array('target' => $target);
         $attributes = array('action'=>$action, 'method'=>$method, 'name'=>$formName, 'id'=>$formName) + $target;
         $this->updateAttributes($attributes);
@@ -660,13 +655,6 @@ class HTML_QuickForm extends HTML_Common
         }
         if ($this->_freezeAll) {
             $elementObject->freeze();
-        }
-
-        if ( $elementObject->getType( ) == 'text' ||
-             $elementObject->getType( ) == 'textarea' ) {
-            $this->addRule( $elementName,
-                            ts( 'Illegal characters in input (potential scripting attack)' ),
-                            'xssString' );
         }
 
         return $elementObject;
@@ -1042,7 +1030,13 @@ class HTML_QuickForm extends HTML_Common
             $this->_elementIndex[$elementName] = array_shift($this->_duplicateIndex[$elementName]);
         }
         if ($removeRules) {
+            $this->_required = array_diff($this->_required, array($elementName));
             unset($this->_rules[$elementName], $this->_errors[$elementName]);
+            if ('group' == $el->getType()) {
+                foreach (array_keys($el->getElements()) as $key) {
+                    unset($this->_rules[$el->getElementName($key)]);
+                }
+            }
         }
         return $el;
     } // end func removeElement
@@ -1222,15 +1216,14 @@ class HTML_QuickForm extends HTML_Common
     * 
     * @access   public
     * @param    mixed   Callback, either function name or array(&$object, 'method')
-    * @param    string  $format   (optional)Required for extra rule data
     * @throws   HTML_QuickForm_Error
     */
-    function addFormRule($rule, $format=null)
+    function addFormRule($rule)
     {
         if (!is_callable($rule)) {
             return PEAR::raiseError(null, QUICKFORM_INVALID_RULE, null, E_USER_WARNING, 'Callback function does not exist in HTML_QuickForm::addFormRule()', 'HTML_QuickForm_Error', true);
         }
-        $this->_formRules[] = array($rule,$format);
+        $this->_formRules[] = $rule;
     }
     
     // }}}
@@ -1586,9 +1579,8 @@ class HTML_QuickForm extends HTML_Common
         }
 
         // process the global rules now
-        foreach ($this->_formRules as $value) {
-            list($rule, $options) = $value;
-            if (true !== ($res = call_user_func($rule, $this->_submitValues, $this->_submitFiles, $options))) {
+        foreach ($this->_formRules as $rule) {
+            if (true !== ($res = call_user_func($rule, $this->_submitValues, $this->_submitFiles))) {
                 if (is_array($res)) {
                     $this->_errors += $res;
                 } else {
@@ -2035,7 +2027,7 @@ class HTML_QuickForm extends HTML_Common
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 3.2.10
+ * @version     Release: 3.2.11
  */
 class HTML_QuickForm_Error extends PEAR_Error {
 
