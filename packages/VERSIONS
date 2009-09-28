@@ -45,7 +45,7 @@ PEAR                          1.9.0
 PHP_Beautifier                0.1.14
 Structures_Graph              1.0.2
 System_Command                1.0.6
-Validate                      0.8.1      [beta]
+Validate                      0.8.2
 Validate_AR                   0.0.1      [alpha]
 Validate_AT                   0.5.1      [alpha]
 Validate_AU                   0.1.0      [alpha]
