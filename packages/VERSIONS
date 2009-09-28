@@ -40,7 +40,7 @@ Net_SMTP                      1.3.3      local changes
 Net_Socket                    1.0.9
 Net_URL                       1.0.15
 Net_UserAgent_Detect          2.5.1
-Pager                         2.4.4
+Pager                         2.4.8
 PEAR                          1.9.0
 PHP_Beautifier                0.1.13     [beta]
 Structures_Graph              1.0.2
