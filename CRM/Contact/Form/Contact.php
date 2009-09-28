@@ -737,7 +737,11 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
     
     /**
      * Function to that checks for duplicate contacts
-     *
+     *  
+     *  @param array  $fields      fields array which are submitted
+     *  @param array  $error       error message array
+     *  @param int    $contactID   contact id
+     *  @param string $contactType contact type  
      */
      static function checkDuplicateContacts( &$fields, &$errors, $contactID, $contactType ) {
          // if this is a forced save, ignore find duplicate rule
