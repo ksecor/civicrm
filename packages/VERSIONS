@@ -23,7 +23,7 @@ Contact_Vcard_Parse           1.32.0
 Date                          1.4.7
 DB                            1.7.13
 DB_DataObject                 1.8.12     local changes
-DB_Table                      1.5.0
+DB_Table                      1.5.6
 HTML_Common                   1.2.4
 HTML_QuickForm                3.2.10     local changes
 HTML_QuickForm_advmultiselect 1.4.0
