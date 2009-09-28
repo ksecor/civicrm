@@ -3,8 +3,8 @@
  * File containing the ezcMail class
  *
  * @package Mail
- * @version 1.6
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @version 1.6.3
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -64,7 +64,7 @@
  * @apichange Remove the support for the deprecated property messageID.
  *
  * @package Mail
- * @version 1.6
+ * @version 1.6.3
  * @mainclass
  */
 class ezcMail extends ezcMailPart
@@ -128,19 +128,29 @@ class ezcMail extends ezcMailPart
         switch ( $name )
         {
             case 'from':
-                $this->properties['from'] = $value;
+            case 'returnPath':
+                if ( $value !== null && !$value instanceof ezcMailAddress )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcMailAddress or null' );
+                }
+                $this->properties[$name] = $value;
                 break;
 
             case 'to':
-                $this->properties['to'] = $value;
-                break;
-
             case 'cc':
-                $this->properties['cc'] = $value;
-                break;
-
             case 'bcc':
-                $this->properties['bcc'] = $value;
+                if ( !is_array( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'array( ezcMailAddress )' );
+                }
+                foreach ( $value as $key => $obj )
+                {
+                    if ( !$obj instanceof ezcMailAddress )
+                    {
+                        throw new ezcBaseValueException( "{$name}[{$key}]", $obj, 'ezcMailAddress' );
+                    }
+                }
+                $this->properties[$name] = $value;
                 break;
 
             case 'subject':
@@ -152,6 +162,10 @@ class ezcMail extends ezcMailPart
                 break;
 
             case 'body':
+                if ( !$value instanceof ezcMailPart )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'ezcMailPart' );
+                }
                 $this->properties['body'] = $value;
                 break;
 
@@ -162,10 +176,6 @@ class ezcMail extends ezcMailPart
 
             case 'timestamp':
                 throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
-                break;
-
-            case 'returnPath':
-                $this->properties['returnPath'] = $value;
                 break;
 
             default:

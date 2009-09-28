@@ -2,9 +2,9 @@
 /**
  * Autoloader definition for the Cache component.
  *
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.4
+ * @version 1.4.1
  * @filesource
  * @package Cache
  */
@@ -14,6 +14,7 @@ return array(
     'ezcCacheApcException'                   => 'Cache/exceptions/apc_exception.php',
     'ezcCacheInvalidDataException'           => 'Cache/exceptions/invalid_data.php',
     'ezcCacheInvalidIdException'             => 'Cache/exceptions/invalid_id.php',
+    'ezcCacheInvalidKeyException'            => 'Cache/exceptions/invalid_key.php',
     'ezcCacheInvalidMetaDataException'       => 'Cache/exceptions/invalid_meta_data.php',
     'ezcCacheInvalidStorageClassException'   => 'Cache/exceptions/invalid_storage_class.php',
     'ezcCacheMemcacheException'              => 'Cache/exceptions/memcache_exception.php',

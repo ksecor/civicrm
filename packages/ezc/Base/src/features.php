@@ -3,8 +3,8 @@
  * File containing the ezcBaseFeatures class.
  *
  * @package Base
- * @version 1.6
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @version 1.7
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -27,33 +27,33 @@
  * </code>
  *
  * @package Base
- * @version 1.6
+ * @version 1.7
  */
 class ezcBaseFeatures
 {
     /**
       * Used to store the path of the ImageMagick convert utility.
-      * 
+      *
       * It is initialized in the {@link getImageConvertExecutable()} function.
-      * 
+      *
       * @var string
       */
     private static $imageConvert = null;
 
     /**
       * Used to store the path of the ImageMagick identify utility.
-      * 
+      *
       * It is initialized in the {@link getImageIdentifyExecutable()} function.
-      * 
+      *
       * @var string
       */
     private static $imageIdentify = null;
 
     /**
       * Used to store the operating system.
-      * 
+      *
       * It is initialized in the {@link os()} function.
-      * 
+      *
       * @var string
       */
     private static $os = null;
@@ -194,7 +194,7 @@ class ezcBaseFeatures
      * Returns if a given class exists.
      * Checks for a given class name and returns if this class exists or not.
      * Catches the ezcBaseAutoloadException and returns false, if it was thrown.
-     * 
+     *
      * @param string $className The class to check for.
      * @param bool $autoload True to use __autoload(), otherwise false.
      * @return bool True if the class exists. Otherwise false.
@@ -271,16 +271,17 @@ class ezcBaseFeatures
     {
         if ( array_key_exists( 'PATH', $_ENV ) )
         {
-            $envPath = $_ENV['PATH'];
-            if ( strlen( trim( $envPath ) ) == 0 )
-            {
-                $envPath = false;
-            }
+            $envPath = trim( $_ENV['PATH'] );
         }
-        else
+        else if ( ( $envPath = getenv( 'PATH' ) ) !== false )
+        {
+            $envPath = trim( $envPath );
+        }
+        if ( is_string( $envPath ) && strlen( trim( $envPath ) ) == 0 )
         {
             $envPath = false;
         }
+
         switch ( self::os() )
         {
             case 'Unix':
@@ -289,18 +290,29 @@ class ezcBaseFeatures
             case 'MacOS':
             case 'Darwin':
             case 'Linux':
+            case 'SunOS':
                 if ( $envPath )
                 {
                     $dirs = explode( ':', $envPath );
                     foreach ( $dirs as $dir )
                     {
+                        // The @-operator is used here mainly to avoid
+                        // open_basedir warnings. If open_basedir (or any other
+                        // circumstance) prevents the desired file from being
+                        // accessed, it is fine for file_exists() to return
+                        // false, since it is useless for use then, anyway.
                         if ( file_exists( "{$dir}/{$fileName}" ) )
                         {
                             return "{$dir}/{$fileName}";
                         }
                     }
                 }
-                elseif ( file_exists( "./{$fileName}" ) )
+                // The @-operator is used here mainly to avoid open_basedir
+                // warnings. If open_basedir (or any other circumstance)
+                // prevents the desired file from being accessed, it is fine
+                // for file_exists() to return false, since it is useless for
+                // use then, anyway.
+                elseif ( @file_exists( "./{$fileName}" ) )
                 {
                     return $fileName;
                 }
@@ -311,19 +323,43 @@ class ezcBaseFeatures
                     $dirs = explode( ';', $envPath );
                     foreach ( $dirs as $dir )
                     {
-                        if ( file_exists( "{$dir}\\{$fileName}.exe" ) )
+                        // The @-operator is used here mainly to avoid
+                        // open_basedir warnings. If open_basedir (or any other
+                        // circumstance) prevents the desired file from being
+                        // accessed, it is fine for file_exists() to return
+                        // false, since it is useless for use then, anyway.
+                        if ( @file_exists( "{$dir}\\{$fileName}.exe" ) )
                         {
                             return "{$dir}\\{$fileName}.exe";
                         }
                     }
                 }
-                elseif ( file_exists( "{$fileName}.exe" ) )
+                // The @-operator is used here mainly to avoid open_basedir
+                // warnings. If open_basedir (or any other circumstance)
+                // prevents the desired file from being accessed, it is fine
+                // for file_exists() to return false, since it is useless for
+                // use then, anyway.
+                elseif ( @file_exists( "{$fileName}.exe" ) )
                 {
                     return "{$fileName}.exe";
                 }
                 break;
         }
         return null;
+    }
+
+    /**
+     * Reset the cached information. 
+     * 
+     * @return void
+     * @access private
+     * @ignore
+     */
+    public static function reset()
+    {
+        self::$imageIdentify = null;
+        self::$imageConvert  = null;
+        self::$os            = null;
     }
 }
 ?>
