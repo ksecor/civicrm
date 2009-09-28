@@ -34,7 +34,7 @@ Log                           1.11.5
 Mail                          1.1.14     local changes
 Mail_Mime                     1.5.2      local changes
 Mail_mimeDecode               1.5.0
-Net_Curl                      1.2.3
+Net_Curl                      1.2.5
 Net_DIME                      0.3        [beta]
 Net_SMTP                      1.2.11     local changes
 Net_Socket                    1.0.9
