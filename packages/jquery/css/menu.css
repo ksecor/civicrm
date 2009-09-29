@@ -312,38 +312,3 @@ li.blue {
 .dp-highlighter .keyword { color: #069; font-weight: bold; background-color: inherit; }
 .dp-highlighter .preprocessor { color: gray; background-color: inherit; }
 
-/** Added by civicrm */
-
-#civicrm-menu li#crm-qsearch {
-    padding: 0 3px 2px 0;
-    height: 20px;
-}
-
-li#crm-qsearch input {
-    background-color:#ffffff;
-    border: 1px solid black;
-}
-
-li#menu-logout {
-    float: right;
-    border-left: 1px solid #5D5D5D;
-}
-
-/** Joomla Admin Menu **/
-
-div.m ul#civicrm-menu {
-    z-index: 0;
-    position:relative;
-    border: none;
-    left:0px;
-    height:0px;
-    padding: 5px 0px 20px 2px;
-    border-radius      : 4px;	
-    -moz-border-radius : 4px;	
-    -webkit-border-radius : 4px;	
-    -khtml-border-radius : 4px;
-}
-
-div.m ul#civicrm-menu li#crm-qsearch {
-    height:0px;
-}
