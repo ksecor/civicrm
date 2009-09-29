@@ -222,8 +222,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         
         
-        $this->assign( 'editOptions', $this->_editOptions );
-        $this->assign( 'contactType', $this->_contactType );
+        $this->assign( 'editOptions',    $this->_editOptions );
+        $this->assign( 'contactType',    $this->_contactType );
+        $this->assign( 'contactSubType', $this->_contactSubType );
         
         // get the location blocks.
         $this->_blocks = $this->get( 'blocks' );
@@ -777,6 +778,17 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
              }
          }
      }   
+
+    function getTemplateFileName() {
+        if ( $this->_contactSubType ) {
+            $templateFile = "CRM/Contact/Form/Edit/{$this->_contactSubType}.tpl";
+            $template     =& CRM_Core_Form::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
+    }
 }
 
 

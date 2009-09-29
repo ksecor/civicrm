@@ -377,6 +377,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $sql = "
 SELECT    civicrm_contact.display_name as display_name,
           civicrm_contact.contact_type as contact_type,
+          civicrm_contact.contact_sub_type as contact_sub_type,
           civicrm_email.email          as email       
 FROM      civicrm_contact
 LEFT JOIN civicrm_email ON civicrm_email.contact_id = civicrm_contact.id
@@ -392,7 +393,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             if ( empty( $dao->display_name ) ) {
                 $dao->display_name = $dao->email;
             }
-            return $type ? array( $dao->display_name, $image, $dao->contact_type ) : array( $dao->display_name, $image );
+            return $type ? array( $dao->display_name, $image, 
+                                  $dao->contact_type, $dao->contact_sub_type ) : array( $dao->display_name, $image );
         }
         return null;
     }
