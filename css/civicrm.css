@@ -92,33 +92,6 @@
 
 
 /*
- ** Many times one needs to add long descriptions within <dd>,
- ** but limited padding-bottom for <dt> causes bottom lines
- ** in <dd> to overflow on left. The below classes for <dt>
- ** handle such situations.
- */
-#crm-container div.form-item dt.extra-long-hundred {
-  padding-bottom: 100px;
-}
-
-#crm-container div.form-item dt.extra-long-eighty {
-  padding-bottom: 80px;
-}
-
-#crm-container div.form-item dt.extra-long-sixty {
-  padding-bottom: 60px;
-}
-
-#crm-container div.form-item dt.extra-long-fourty {
-  padding-bottom: 40px;
-}
-
-#crm-container div.form-item dt.extra-long-twenty {
-  padding-bottom: 20px;
-}
-
-
-/*
 ** Override line-height from style.css
 */
 div#crm-container {
@@ -278,6 +251,7 @@ div.spacer,
 #crm-container div.form-item dd, 
 #crm-container .section-hidden dd {
  	padding: 5px;
+ 	margin-left:23%;
 	}
 
 #crm-container div.form-item dd.html-adjust, #crm-container div.form-item dl.html-adjust dd{
