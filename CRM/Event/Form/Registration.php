@@ -629,7 +629,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                         $stateCountryMap[$index][$prefixName] = $key;
                     }
 
-                    CRM_Core_BAO_UFGroup::buildProfile( $this, $field,CRM_Profile_Form::MODE_CREATE, null, true );
+                    CRM_Core_BAO_UFGroup::buildProfile( $this, $field,CRM_Profile_Form::MODE_CREATE, $contactID, true );
 
                     $this->_fields[$key] = $field;
                 }
