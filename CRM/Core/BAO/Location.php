@@ -412,8 +412,8 @@ WHERE e.id = %1";
         
         // get the loc block ids.
         require_once 'CRM/Contact/BAO/Contact.php';
-        $primaryLocBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $contactId, 'is_primary = 1' );
-        $nonPrimaryBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $contactId, 'is_primary IS NULL OR is_primary = 0' );
+        $primaryLocBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $contactId, array( 'is_primary' => 1 ) );
+        $nonPrimaryBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $contactId, array( 'is_primary' => 0 ) );
         
         foreach ( array( 'Email', 'IM', 'Phone', 'Address', 'OpenID' ) as $block ) {
             $name = strtolower( $block );
