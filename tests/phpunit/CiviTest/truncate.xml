@@ -29,4 +29,6 @@
   <civicrm_contribution_type />
   <civicrm_event />
   <civicrm_participant />
+  <civicrm_phone />
+  <civicrm_location_type />
 </dataset>
