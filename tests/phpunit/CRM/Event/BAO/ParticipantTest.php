@@ -331,11 +331,11 @@ class CRM_Event_BAO_ParticipantTest extends CiviUnitTestCase
         $paramsSet['name']      = CRM_Utils_String::titleToVar( 'Price Set' );
         $paramsSet['is_active'] = CRM_Utils_Array::value('is_active', $params, false);
         
-        require_once 'CRM/Core/BAO/PriceSet.php';
-        $priceset = CRM_Core_BAO_PriceSet::create( $paramsSet );
+        require_once 'CRM/Price/BAO/Set.php';
+        $priceset = CRM_Price_BAO_Set::create( $paramsSet );
 
          //Checking for priceset added in the table.
-        $this->assertDBCompareValue('CRM_Core_BAO_PriceSet', $priceset->id, 'title', 
+        $this->assertDBCompareValue('CRM_Price_BAO_Set', $priceset->id, 'title', 
                                     'id', $paramsSet['title'], 'Check DB for created priceset');        
         $paramsField = array ('label'              => 'Price Field',
                               'name'               => CRM_Utils_String::titleToVar( 'Price Field' ),
@@ -352,11 +352,11 @@ class CRM_Event_BAO_ParticipantTest extends CiviUnitTestCase
                               );
         
         $ids = array();
-        require_once 'CRM/Core/BAO/PriceField.php';
-        $pricefield = CRM_Core_BAO_PriceField::create( $paramsField, $ids );
+        require_once 'CRM/Price/BAO/Field.php';
+        $pricefield = CRM_Price_BAO_Field::create( $paramsField, $ids );
         
         //Checking for priceset added in the table.
-        $this->assertDBCompareValue('CRM_Core_BAO_PriceField', $pricefield->id, 'label', 
+        $this->assertDBCompareValue('CRM_Price_BAO_Field', $pricefield->id, 'label', 
                                     'id', $paramsField['label'], 'Check DB for created pricefield');        
         
         $eventId = $this->_eventId;
@@ -392,12 +392,12 @@ class CRM_Event_BAO_ParticipantTest extends CiviUnitTestCase
             CRM_Event_BAO_Participant::fixEventLevel( $values[$participant->id]['fee_level'] );
         }
 
-        $deletePricefield = CRM_Core_BAO_PriceField::deleteField( $pricefield->id );
-        $this->assertDBNull('CRM_Core_BAO_PriceField', $pricefield->id, 'name', 
+        $deletePricefield = CRM_Price_BAO_Field::delete( $pricefield->id );
+        $this->assertDBNull('CRM_Price_BAO_Field', $pricefield->id, 'name', 
                             'id', 'Check DB for non-existence of Price Field.');
  
-        $deletePriceset = CRM_Core_BAO_PriceSet::deleteSet( $priceset->id );
-        $this->assertDBNull('CRM_Core_BAO_PriceSet', $priceset->id, 'title', 
+        $deletePriceset = CRM_Price_BAO_Set::delete( $priceset->id );
+        $this->assertDBNull('CRM_Price_BAO_Set', $priceset->id, 'title', 
                             'id', 'Check DB for non-existence of Price Set.');
         
         Participant::delete( $participant->id );
