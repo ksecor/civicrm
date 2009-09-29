@@ -156,6 +156,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
         // get all rule groups
         $ruleGroups = array();
         $dao =& new CRM_Dedupe_DAO_RuleGroup();
+        $dao->orderBy('contact_type,level,is_default DESC');
         $dao->find();
         
         while ($dao->fetch()) {

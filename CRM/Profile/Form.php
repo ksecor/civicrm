@@ -147,6 +147,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->_grid     = CRM_Utils_Request::retrieve( 'grid', 'Integer', $this   );
         $this->_context  = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         
+        $this->_duplicateButtonName = $this->getButtonName( 'upload',  'duplicate' );
+        
         if ( ! $this->_gid ) {
             $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this, false, 0, 'GET');
         }  
@@ -429,10 +431,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
             
-	// also do state country js
-	require_once 'CRM/Core/BAO/Address.php';
-	CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap,
-						  $this->_defaults );
+    	// also do state country js
+    	require_once 'CRM/Core/BAO/Address.php';
+    	CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap, $this->_defaults );
         
         $action = CRM_Utils_Request::retrieve('action', 'String',$this, false, null );
         if ( $this->_mode == self::MODE_CREATE  ) { 
@@ -451,6 +452,12 @@ class CRM_Profile_Form extends CRM_Core_Form
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
+        }
+        
+        if ( $this->_context == 'dialog' ) {
+            $this->addElement( 'submit', 
+                               $this->_duplicateButtonName,
+                               ts( 'Save Matching Contact' ) );
         }
     }
     
@@ -486,7 +493,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         } 
         
         // dont check for duplicates during registration validation: CRM-375 
-        if ( ! $register ) { 
+        if ( ! $register && ! CRM_Utils_Array::value( '_qf_Edit_upload_duplicate', $fields ) ) { 
             // fix for CRM-3240
             if ( CRM_Utils_Array::value( 'email-Primary', $fields ) ) {
                 $fields['email'] = CRM_Utils_Array::value( 'email-Primary', $fields );
@@ -505,9 +512,16 @@ class CRM_Profile_Form extends CRM_Core_Form
                 // for edit mode we need to allow our own record to be a dupe match!
                 $exceptions = array( $session->get( 'userID' ) );
             }
+
+            // for dialog mode we should always use fuzzy rule.
+            $ruleType = 'Strict';
+            if ( $form->_context == 'dialog' ) {
+                $ruleType = 'Fuzzy';
+            }    
+
             $ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams,
                                                      $ctype, 
-                                                     'Strict', 
+                                                     $ruleType, 
                                                      $exceptions );
             if ( $ids ) {
                 if ( $form->_isUpdateDupe ) {
@@ -515,7 +529,21 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $form->_id = $ids[0];
                     }
                 } else {
-                    $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+                    if ( $form->_context == 'dialog' ) {
+                        $viewUrls = array( );
+                        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                        list( $viewUrls ) = CRM_Contact_BAO_Contact_Utils::formatContactIDSToLinks( $ids );
+                        $viewUrl  = implode( ', ',  $viewUrls );
+                        $errors['_qf_default']  = ts('One matching contact was found.', array('count' => count($viewUrls), 'plural' => '%count matching contacts were found.'));
+                        $errors['_qf_default'] .= '<br />';
+                        $errors['_qf_default'] .= ts('If you need to verify if this is the same contact, click here - %1 - to VIEW the existing contact in a new tab.', array(1 => $viewUrl, 'count' => count($viewUrls), 'plural' => 'If you need to verify whether one of these is the same contact, click here - %1 - to VIEW the existing contact in a new tab.'));
+                        
+                        // let smarty know that there are duplicates
+                        $template =& CRM_Core_Smarty::singleton( );
+                        $template->assign( 'isDuplicate', 1 );
+                    } else {
+                        $errors['_qf_default'] = ts( 'Record already exists with the same information.' );
+                    }
                 }
             }
         }

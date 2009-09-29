@@ -84,16 +84,19 @@ class api_v2_EventTest extends CiviUnitTestCase
 
     function testGetWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $params = 'Annual CiviCRM meet';
+        $result = civicrm_event_get( $params );
+
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Params is not an array' );
     }
 
 
     function testGetEventEmptyParams( )
     {
         $params = array( );
-        
         $result = civicrm_event_get( $params );
-        
+
         $this->assertEquals( $result['is_error'], 1 );
         $this->assertEquals( $result['error_message'], 'Params is not an array' );
     }
@@ -101,7 +104,6 @@ class api_v2_EventTest extends CiviUnitTestCase
     function testGetEventById( )
     {
         $params = array( 'id' => $this->_event['event_id'] );
-        
         $result = civicrm_event_get( $params );
         $this->assertEquals( $result['event_title'], 'Annual CiviCRM meet' );
     }
@@ -160,7 +162,7 @@ class api_v2_EventTest extends CiviUnitTestCase
     {
         $result = civicrm_event_create( $this->_params );
 
-        $this->assertEquals( 0, $result['is_error'] );
+        $this->assertEquals( $result['is_error'], 0 );
         $this->assertArrayHasKey( 'event_id', $result );
     }
 
@@ -168,7 +170,11 @@ class api_v2_EventTest extends CiviUnitTestCase
 
     function testDeleteWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $params = 'Annual CiviCRM meet';
+        $result =& civicrm_event_delete($params);
+
+        $this->assertEquals($result['is_error'], 1);        
+        $this->assertEquals( $result['error_message'], 'Invalid value for eventID');
     }
 
     function testDeleteEmptyParams( )

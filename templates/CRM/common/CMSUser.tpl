@@ -86,7 +86,7 @@
       } 
       {/literal}{if $config->userFramework == "Joomla"}{literal}
 	 else if ( cmsUserName && cmsUserName.length < 2 ) {
-	    alert('{/literal}{ts}Your username is too short{/ts}{literal});
+	    alert('{/literal}{ts}Your username is too short{/ts}{literal}');
 	    return;	
 	 }
       {/literal}{/if}{literal}

@@ -137,7 +137,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $fields[$name] = 1;
                 }
             }
-            $names = array("first_name", "middle_name", "last_name");
+
+            $names = array( "first_name", "middle_name", "last_name","street_address-{$this->_bltID}","city-{$this->_bltID}",
+                            "postal_code-{$this->_bltID}","country_id-{$this->_bltID}","state_province_id-{$this->_bltID}"
+                            );
+
             foreach ($names as $name) {
                 $fields[$name] = 1;
             }

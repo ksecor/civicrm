@@ -1,6 +1,6 @@
 <?php
 
-define( 'CIVICRM_UF'               , 'Drupal'        );
+define('CIVICRM_UF', 'Standalone');
 
 if ( !empty( $GLOBALS['mysql_user'] ) ) {
     define( 'CIVICRM_DSN'          , "mysql://{$GLOBALS['mysql_user']}:{$GLOBALS['mysql_pass']}@{$GLOBALS['mysql_host']}/civicrm_tests_dev?new_link=true" );

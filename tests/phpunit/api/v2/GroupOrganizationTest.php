@@ -35,6 +35,15 @@ require_once 'api/v2/GroupOrganization.php';
 class api_v2_GroupOrganizationTest extends CiviUnitTestCase
 {
 
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Group Organization',
+                     'description' => 'Test all Group Organization API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
@@ -44,6 +53,10 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     protected function setUp()
     {
         parent::setUp();
+        $this->_groupID = $this->groupCreate();
+
+        $this->_orgID   = $this->organizationCreate( );
+
     }
 
     /**
@@ -56,71 +69,134 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     {
     }
 
-///////////////// civicrm_group_organization_get methods
+    ///////////////// civicrm_group_organization_get methods
 
     /**
-     * @todo Implement testGet().
+     * Test civicrm_group_organization_get with valid params.
      */
-    public function testGet()
+    public function testGroupOrganizationGet()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+
+        $params = array( 'organization_id' => $this->_orgID,
+                         'group_id'        => $this->_groupID
+                         );
+        $result =& civicrm_group_organization_create( $params );
+
+        $paramsGet = array( 'organization_id' => $result['result']['organization_id']  );
+        
+        $result    = civicrm_group_organization_get($paramsGet);
+        $this->assertEquals( $result['is_error'], 0);
     }
         
     /**
-     * Test civicrm_group_organization_get witgh empty params.
+     * Test civicrm_group_organization_get with empty params.
      */
-    public function testGetWithEmptyParams()
+    public function testGroupOrganizationGetWithEmptyParams()
     {
         $params = array( );
         $result =& civicrm_group_organization_get($params);
-        $this->assertEquals( $result['is_error'], 1,
-                             "In line " . __LINE__ );
+
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'No input parameter present' );
     }
 
-///////////////// civicrm_group_organization_create methods
+    /**
+     * Test civicrm_group_organization_get with wrong params.
+     */
+    public function testGroupOrganizationGetWithWrongParams()
+    {
+        $params = 'groupOrg';
+        $result =& civicrm_group_organization_get($params);
+
+        $this->assertEquals( $result['is_error'], 1);
+        $this->assertEquals( $result['error_message'], 'Input parameter is not an array' );
+    }
+
+    ///////////////// civicrm_group_organization_create methods
 
     /**
-     * @todo Implement testCreate().
+     * check with valid params
      */
-    public function testCreate()
+    public function testGroupOrganizationCreate()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $params = array( 'organization_id' => $this->_orgID,
+                         'group_id'        => $this->_groupID
+                         );
+        $result =& civicrm_group_organization_create($params);
+
+        $this->assertEquals( $result['is_error'], 0);
     }    
 
     /**
-     * @todo Implement testCreateWithEmptyParams().
+     * check with empty params array
      */
-    public function testCreateWithEmptyParams()
+    public function testGroupOrganizationCreateWithEmptyParams()
     {
         $params = array( );
         $result =& civicrm_group_organization_create($params);
-        $this->assertEquals( $result['is_error'], 1,
-                             "In line " . __LINE__ );
+
+        $this->assertEquals( $result['is_error'], 1);
+        $this->assertEquals( $result['error_message'], 'No input parameter present' );
     }
 
-///////////////// civicrm_group_organization_remove methods
-
     /**
-     * @todo Implement testRemove().
+     * check with invalid params
      */
-    public function testRemove()
+    public function testGroupOrganizationCreateParamsNotArray()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $params = 'group_org';
+        $result =& civicrm_group_organization_create( $params );
+
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Input parameter is not an array' );
+    }
+
+
+    ///////////////// civicrm_group_organization_remove methods
+
+    /**
+     *  Test civicrm_group_organization_remove with params not an array.
+     */
+    public function testGroupOrganizationRemoveParamsNotArray()
+    {
+        $params = 'delete';
+        $result =& civicrm_group_organization_remove($params);
+        
+        $this->assertEquals( $result['is_error'], 1);
+        $this->assertEquals( $result['error_message'], 'Input parameter is not an array' );
+
     }
 
 
     /**
-     * Attempt calling _remove with empty params
+     * Test civicrm_group_organization_remove with empty params.
      */
-    public function testRemoveWithEmptyParams()
+    public function testGroupOrganizationRemoveWithEmptyParams()
     {
         $params = array( );
         $result =& civicrm_group_organization_remove($params);
-        $this->assertEquals( $result['is_error'], 1,
-                             "In line " . __LINE__ );
+
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'No input parameter present' );
     }
+
+    /**
+     *  Test civicrm_group_organization_remove with valid params.
+     */
+    public function break_testGroupOrganizationRemove()
+    {
+        $params = array( 'organization_id' => $this->_orgID,
+                         'group_id'        => $this->_groupID
+                         );
+        $result =& civicrm_group_organization_create( $params );
+        
+        $paramsDelete = array( 'id' => $result['result']['id']  );
+        $result =& civicrm_group_organization_remove( $paramsDelete );
+
+        $this->assertEquals( $result['is_error'], 0 );
+
+    }
+
+
 }
 ?>

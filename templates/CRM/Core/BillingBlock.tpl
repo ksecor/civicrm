@@ -94,12 +94,12 @@
                         {assign var=n value=billing_country_id-$bltID}
                         <tr>
                             <td class="label">{$form.$n.label}</td>
-                            <td>{$form.$n.html}</td>
+                            <td>{$form.$n.html|crmReplace:class:big}</td>
                         </tr>
                         {assign var=n value=billing_state_province_id-$bltID}
                         <tr>
                             <td class="label">{$form.$n.label}</td>
-                            <td>{$form.$n.html}</td>
+                            <td>{$form.$n.html|crmReplace:class:big}</td>
                         </tr>
                         {assign var=n value=billing_postal_code-$bltID}
                         <tr>

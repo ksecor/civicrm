@@ -909,10 +909,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         if ( $this->_mode ) {
             // add all the additioanl payment params we need
-            $this->_params["state_province-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] );
-            $this->_params["country-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
+            $this->_params["state_province-{$this->_bltID}"] = $this->_params["billing_state_province-{$this->_bltID}"] =
+                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["billing_state_province_id-{$this->_bltID}"] );
+            $this->_params["country-{$this->_bltID}"] = $this->_params["billing_country-{$this->_bltID}"] =
+                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["billing_country_id-{$this->_bltID}"] );
             
             $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
             $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
@@ -1170,18 +1170,18 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $addressParts  = array( "street_address-{$this->_bltID}",
                                         "city-{$this->_bltID}",
                                         "postal_code-{$this->_bltID}",
-                                        "state_province_id-{$this->_bltID}",
-                                        "country_id-{$this->_bltID}");
+                                        "state_province-{$this->_bltID}",
+                                        "country-{$this->_bltID}");
                 $addressFields = array( );
-                foreach ($addressParts as $part) {
+                foreach ( $addressParts as $part ) {
                     list( $n, $id ) = explode( '-', $part );
-                    if ( isset ( $params[$part] ) ) {
-                        $addressFields[$n] = $params[$part];
-                       
-                    }
+                    if ( isset ( $this->_params['billing_' . $part] ) ) {
+                        $addressFields[$n] = $this->_params['billing_' . $part];
+                    }                    
                 }
                 require_once 'CRM/Utils/Address.php';
                 $this->assign('address', CRM_Utils_Address::format( $addressFields ) );
+
                 $date = CRM_Utils_Date::format( $params['credit_card_exp_date'] );
                 $date = CRM_Utils_Date::mysqlToIso( $date );
                 $this->assign( 'credit_card_exp_date', $date );
