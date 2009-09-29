@@ -937,11 +937,34 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->$name = $value;
     }
 
-    function addDate( $name, $label, $attributes = null, $required = null ) {
-        $this->add('text', $name, $label, array('READONLY'));
+    /**
+     *  Function to add date
+     *  @param string $name   name of the element
+     *  @param string $label  label of the element
+     *  @param array  $attributes key / value pair 
+     *                
+     *  $arrtibutes = array ( 'addTime' => true, // if you need time 
+     *                        '24hour'  => false,
+     *                        'formatType' => 'relative' or 'birth' etc check advanced date settings    
+     *                      );            
+     *  @param boolean $required  true if required
+     *
+     */
+    function addDate( $name, $label, $attributes = null, $required = false ) {
+        if ( is_array( $attributes ) ) {
+            $attributes = array_merge( $attributes, array('READONLY') );
+        } else {
+            $attributes = array('READONLY');
+        }
+        
+        $this->add('text', $name, $label, $attributes );
 
         if ( CRM_Utils_Array::value( 'addTime', $attributes ) ) {
-            $this->add('text', $name . '_time', ts('Time') );
+            $timeAttributes['24hour'] = false;
+            if ( CRM_Utils_Array::value( '24hour', $attributes ) ) {
+                $timeAttributes['24hour'] = true;
+            }
+            $this->add('text', $name . '_time', ts('Time'), $timeAttributes );
         }
                 
         if ( $required ) {
@@ -950,10 +973,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                 $this->addRule( $name . '_time', ts('Please select Time'), 'required');
             }
         }
-
     }
     
-    function addDateTime( $name, $label, $attributes = null, $required = null ) {
+    function addDateTime( $name, $label, $attributes = null, $required = false ) {
         $addTime = array( 'addTime' => true );
         if ( is_array( $attributes ) ) {
             $attributes = array_merge( $attributes, $addtime);

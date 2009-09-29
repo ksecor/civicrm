@@ -50,13 +50,13 @@
 	<tr>
 	    <td class ="label">{$form.start_date.label}</td>
 	    <td>
-	        {include file="CRM/common/jcalendar.tpl" elementName=start_date doTime=1 startDate=currentYear endDate=endYear offset=10 ampm=1}
+	        {include file="CRM/common/jcalendar.tpl" elementName=start_date startDate=currentYear endDate=endYear offset=10 }
 	    </td>    
     </tr>
 	<tr>
 	    <td class ="label">{$form.end_date.label}</td>
 	    <td>
-	        {include file="CRM/common/jcalendar.tpl" elementName=end_date doTime=1 startDate=currentYear endDate=endYear offset=10 ampm=1}
+	        {include file="CRM/common/jcalendar.tpl" elementName=end_date startDate=currentYear endDate=endYear offset=10 }
 	    </td>    
     </tr>
 	<tr><td>&nbsp;</td><td>{$form.honor_block_is_active.html}{$form.honor_block_is_active.label}<br />
