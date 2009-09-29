@@ -185,10 +185,9 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
         $eventTypes  = CRM_Core_OptionGroup::values("event_type" );
 
         foreach ( $forms as $table => $entities ) {
-            // currently, the only supported table is 'civicrm_event'.
-            // contribution will be significantly different
             switch ($table) {
             case 'civicrm_event':
+                //FIXME : clean up the code
                 $eventIdList = implode( ',', $entities );
                 $queryString = "SELECT id event_id FROM civicrm_event WHERE";
                 $queryString .= " id IN ($eventIdList)";
@@ -229,9 +228,20 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
                 }
                 break;
 
-            case 'civicrm_contribution_page':
-                //FIXME
-                return;
+            case 'civicrm_contribution_page':                
+                $contributionIds = implode( ',', $entities );
+                $queryString = "SELECT cp.id as id, cp.title as title, cp.start_date as startDate, cp.end_date as endDate,ct.name as type
+                                FROM civicrm_contribution_page cp, civicrm_contribution_type ct
+                                WHERE ct.id = cp.contribution_type_id
+                                AND cp.id IN ($contributionIds);";
+                $crmDAO = CRM_Core_DAO::executeQuery( $queryString );
+                while ( $crmDAO->fetch() ) {
+                    $usedBy[$table][$crmDAO->id]['title']     = $crmDAO->title;
+                    $usedBy[$table][$crmDAO->id]['type']      = $crmDAO->type;
+                    $usedBy[$table][$crmDAO->id]['startDate'] = $crmDAO->startDate;
+                    $usedBy[$table][$crmDAO->id]['endDate']   = $crmDAO->endDate;
+                }
+                break;
                 
             default:
                 CRM_Core_Error::fatal( "$table is not supported in PriceSet::usedBy()" );
@@ -273,7 +283,7 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
      * @access public
      * @static
      */
-    public static function deleteSet( $id )
+    public static function delete( $id )
     {
         // remove from all inactive forms
         $usedBy =& self::getUsedBy( $id, true, true );
@@ -296,7 +306,7 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
         $priceField->find( );
         while ( $priceField->fetch( ) ) {
             // delete options first
-            CRM_Price_BAO_Field::deleteField( $priceField->id );
+            CRM_Price_BAO_Field::delete( $priceField->id );
         }
         
         $set     =& new CRM_Price_DAO_Set( );

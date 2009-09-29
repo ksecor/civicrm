@@ -16,12 +16,17 @@
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
       <dd>
         {if $action eq 8}
-            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' price set - it is currently in use by one or more active events. If you no longer want to use this price set, click the event title below, and modify the fees for that event.{/ts}<br />
-        {/if}
+            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' price set - it is currently in use by one or more active events or contribution pages.{/ts}
+        {/if}<br />
         {if $usedBy.civicrm_event} 
+	    {ts}If you no longer want to use this price set, click the event title below, and modify the fees for that event.{/ts}<br />
 	    {* If and when Price Sets are used by entities other than events, add condition here and change text above. *}
-            {include file="CRM/Price/Page/table.tpl"} 
+            {include file="CRM/Price/Page/table.tpl" context="Event"} 
         {/if}
+	{if $usedBy.civicrm_contribution_page} 
+	    {ts}If you no longer want to use this price set, click the contribution page title below, and modify the amount for that contribution page.{/ts}<br />	    
+	    {include file="CRM/Price/Page/table.tpl" context="Contribution"}
+	{/if}
       </dd>
       </dl>
     </div>
