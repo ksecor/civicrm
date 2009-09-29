@@ -530,7 +530,7 @@ $.fieldValue = function(el, successful) {
 
     if (successful && (!n || el.disabled || t == 'reset' || t == 'button' ||
         (t == 'checkbox' || t == 'radio') && !el.checked ||
-        (t == 'image') && el.form && el.form.clk != el ||
+        (t == 'submit' || t == 'image') && el.form && el.form.clk != el ||
         tag == 'select' && el.selectedIndex == -1))
             return null;
 
