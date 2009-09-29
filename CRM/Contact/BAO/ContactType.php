@@ -105,7 +105,7 @@ WHERE  parent_id = ( SELECT id FROM civicrm_contact_type WHERE name = %1 )
         return $_cache[$argString];
     }
 
-    static function getSelectElements( $all = false ) {
+    static function &getSelectElements( $all = false ) {
         static $_cache = null;
 
         if ( $_cache === null ) {

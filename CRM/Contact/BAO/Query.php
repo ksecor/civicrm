@@ -1992,20 +1992,35 @@ class CRM_Contact_BAO_Query
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
+        $subTypes = array( );
         $clause = array( );
         if ( is_array( $value ) ) {
             foreach ( $value as $k => $v) { 
                 if ($k) { //fix for CRM-771
-                    $clause[] = "'" . CRM_Utils_Type::escape( $k, 'String' ) . "'";
+                    list( $contactType, $subType ) = explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                                              $k, 2 );
+                    if ( ! empty( $subType ) ) {
+                        $subTypes[$subType] = 1;
+                    }
+                    $clause[$contactType] = "'" . CRM_Utils_Type::escape( $contactType, 'String' ) . "'";
                 }
             }
         } else {
-            $clause[] = "'" . CRM_Utils_Type::escape( $value, 'String' ) . "'";
+            list( $contactType, $subType ) = explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                                      $value, 2 );
+            if ( ! empty( $subType ) ) {
+                $subTypes[$subType] = 1;
+            }
+            $clause[$contactType] = "'" . CRM_Utils_Type::escape( $contactType, 'String' ) . "'";
         }
         
         if ( ! empty( $clause ) ) { //fix for CRM-771
             $this->_where[$grouping][] = 'contact_a.contact_type IN (' . implode( ',', $clause ) . ')';
             $this->_qill [$grouping][]  = ts('Contact Type') . ' - ' . implode( ' ' . ts('or') . ' ', $clause );
+            
+            if ( ! empty( $subTypes ) ) {
+                $this->includeContactSubTypes( $subTypes, $grouping );
+            }
         }
     }
 
@@ -2019,10 +2034,28 @@ class CRM_Contact_BAO_Query
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
-        $clause = "'" . CRM_Utils_Type::escape( $value, 'String' ) . "'";
+        $this->includeContactSubTypes( $value, $grouping );
+    }
+
+    function includeContactSubTypes( $value, $grouping ) {
+        if ( ! is_array( $value ) ) {
+            $clause = "'" . CRM_Utils_Type::escape( $value, 'String' ) . "'";
         
-        $this->_where[$grouping][] = "contact_a.contact_sub_type = $clause";
-        $this->_qill [$grouping][]  = ts('Contact Sub Type') . ' - ' . $clause;
+            $this->_where[$grouping][] = "contact_a.contact_sub_type = $clause";
+            $this->_qill [$grouping][]  = ts('Contact Sub Type') . ' - ' . $clause;
+        } else {
+            $clause = array( );
+            foreach ( $value as $k => $v) { 
+                if ( ! empty( $k ) ) {
+                    $clause[$k] = "'" . CRM_Utils_Type::escape( $k, 'String' ) . "'";
+                }
+            }
+            
+            if ( ! empty( $clause ) ) {
+                $this->_where[$grouping][] = 'contact_a.contact_sub_type IN (' . implode( ',', $clause ) . ')';
+                $this->_qill [$grouping][] = ts('Contact Sub Type') . ' - ' . implode( ' ' . ts('or') . ' ', $clause );
+            }
+        }
     }
 
     /**
