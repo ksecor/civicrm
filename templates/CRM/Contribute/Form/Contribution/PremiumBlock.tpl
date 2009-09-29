@@ -44,7 +44,7 @@ function selectPremium(optionField) {
         {assign var="showSelectOptions" value="1"}
     {/if}
     {strip}
-        <table id="premiums-listings" class="no-border">
+        <table id="premiums-listings">
         {foreach from=$products item=row}
         <tr {if $context EQ "makeContribution"}class="odd-row" {/if}valign="top"> 
             {if $showRadioPremium }

@@ -112,7 +112,7 @@ dojo.addOnLoad( function( ) {
 {/if}
 
     {strip}
-	<table class="no-border">
+	<table class="{$form.sort_name.name}">
         <tr>
             <td class="label">{$form.sort_name.label} {$form.sort_name.html}</td>
 {if $form.contact_type}

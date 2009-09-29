@@ -254,8 +254,8 @@ div.spacer,
  	margin-left:23%;
 	}
 
-#crm-container div.form-item dd.html-adjust, #crm-container div.form-item dl.html-adjust dd{
-  float: left;
+#crm-container div.form-item dd.html-adjust, 
+#crm-container div.form-item dl.html-adjust dd{
   width: 57%;
   /*clear: right;*/
 }
@@ -277,7 +277,9 @@ div.spacer,
   text-align: left;
 } 
 
-#crm-container table.form-layout, #crm-container table.control-panel, #crm-container table.no-border {
+#crm-container table.form-layout, 
+#crm-container table.control-panel, 
+#crm-container table.no-border {
   margin: 0em;
   width: 98%;	
   border-collapse: collapse;
@@ -1022,9 +1024,8 @@ div.crm-pager a {
 }
 
 #crm-container div#searchForm table.form-layout {
-  border-collapse: separate;
-  border-spacing: 0;
-}
+  	border-spacing: 0;
+	}
 
 #crm-container div#searchForm table.form-layout td {
   padding: 4px;
@@ -1921,4 +1922,18 @@ div#toolTip {
     padding-left: 24px;
 	color: #ff6655 !important;
  }
+ 
+ 
+ 
+ /* specific, targeted fixes */
+ #crm-container .dashboard-elements,
+ #crm-container #membership-listings,
+ #crm-container #premiums-listings,
+ #crm-container #searchForm table {
+  margin: 0em;
+  width: 98%;	
+  border-collapse: collapse;
+  border: 0px none;
+}
+ 
 
