@@ -1,4 +1,4 @@
-{* Displays event fees when price set is used. *}
+{* Displays contribution/event fees when price set is used. *}
 {foreach from=$lineItem item=value key=priceset}
     {if $value neq 'skip'}
     {if $lineItem|@count GT 1} {* Header for multi participant registration cases. *}
@@ -23,7 +23,14 @@
     </table>
     {/if}
 {/foreach}
-<br /><strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong>
+
+{if $context EQ "Contribution"}
+  <br /><strong>{ts}Contribution Total{/ts}:
+{elseif $context EQ "Event"}
+  <br /><strong>{ts}Event Total{/ts}: 
+{/if}
+{$totalAmount|crmMoney}</strong>
+
 {if $hookDiscount.message}
     <em>({$hookDiscount.message})</em>
 {/if}
