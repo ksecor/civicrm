@@ -87,20 +87,21 @@ class api_v2_DomainTest extends CiviUnitTestCase
      */
     public function testGet()
     {
-        $Domain = civicrm_domain_get();
+        $result = civicrm_domain_get();
 
-        $this->assertType( 'array', $Domain );
-        foreach( $Domain as $domain ) {
-            $this->assertEquals( $domain['from_email'], 'test@email.label.net' );
-            $this->assertEquals( $domain['from_name'],  'Test Label - Domain');
+        $this->assertType( 'array', $result, 'In line' . __LINE__ );
+
+        foreach( $result as $domain ) {
+            $this->assertEquals( 'test@email.label.net', $domain['from_email'], 'In line' . __LINE__ );
+            $this->assertEquals( 'Test Label - Domain', $domain['from_name'], 'In line' . __LINE__);
             
             // checking other important parts of domain information
             // test will fail if backward incompatible changes happen
-            $this->assertArrayHasKey( 'id', $domain );
-            $this->assertArrayHasKey( 'domain_name', $domain );
-            $this->assertArrayHasKey( 'domain_email', $domain );
-            $this->assertArrayHasKey( 'domain_phone', $domain );
-            $this->assertArrayHasKey( 'domain_address', $domain ); 
+            $this->assertArrayHasKey( 'id', $domain, 'In line' . __LINE__ );
+            $this->assertArrayHasKey( 'domain_name', $domain, 'In line' . __LINE__ );
+            $this->assertArrayHasKey( 'domain_email', $domain, 'In line' . __LINE__ );
+            $this->assertArrayHasKey( 'domain_phone', $domain, 'In line' . __LINE__ );
+            $this->assertArrayHasKey( 'domain_address', $domain, 'In line' . __LINE__ ); 
         }
     }
         
