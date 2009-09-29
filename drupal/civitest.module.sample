@@ -718,14 +718,20 @@ function civitest_civicrm_summary( $contactID, &$content, &$contentPlacement ) {
 }
 
 function civitest_civicrm_contactListQuery( &$query, $name, $context, $id ) {
+    // This example limits contacts in my contact reference field lookup to a specific group
+
+    // Connect the hook to your Contact Reference custom field using the field ID (field id is 4 in this case)
     if ( $context == 'customfield' &&
          $id == 4 ) {
+        // Now construct the query to select only the contacts we want
+        // The query must return two columns - contact sort_name, and contact id 
         $query = "
 SELECT c.sort_name, c.id
 FROM civicrm_contact c, civicrm_group_contact cg
 WHERE c.sort_name LIKE '$name%'
 AND   cg.group_id IN ( 4 )
 AND   cg.contact_id = c.id
+AND   cg.status = 'Added'
 ORDER BY c.sort_name ";            
     }
         

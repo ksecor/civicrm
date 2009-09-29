@@ -13,19 +13,7 @@
 	var map     = new GMap2(document.getElementById("google_map"));
 	var span    = new GSize({/literal}{$span.lng},{$span.lat}{literal});
 	var center  = new GLatLng({/literal}{$center.lat},{$center.lng}{literal});
-	{/literal}
-	{if $showDirectly}
-	    {literal}
-	    map.addControl(new GSmallZoomControl());
-	    {/literal}
-	{else}
-	    {literal}
-	    map.addControl(new GLargeMapControl());
-	    map.addControl(new GMapTypeControl());
-	    map.addControl(new GOverviewMapControl());
-	    {/literal}     
-	{/if}
-	{literal}
+	map.setUIToDefault();
 	map.setCenter(new GLatLng( 0, 0 ), 0 );
 	var bounds = new GLatLngBounds( );
 	GEvent.addListener(map, 'resize', function() { map.setCenter(bounds.getCenter()); map.checkResize(); });

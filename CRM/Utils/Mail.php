@@ -56,7 +56,7 @@ class CRM_Utils_Mail
         $headers['To']                        = "$toDisplayName <$toEmail>";
         $headers['Cc']                        = $cc;
         $headers['Subject']                   = $subject;
-        $headers['Content-Type']              = 'text/plain; charset=utf-8';  
+        $headers['Content-Type']              = $html_message ? 'multipart/mixed; charset=utf-8' : 'text/plain; charset=utf-8';
         $headers['Content-Disposition']       = 'inline';  
         $headers['Content-Transfer-Encoding'] = '8bit';  
         $headers['Return-Path']               = $returnPath;
@@ -102,8 +102,9 @@ class CRM_Utils_Mail
                 CRM_Core_Session::setStatus( $message, false );
                 return false;
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     static function errorMessage( $mailer, $result ) {

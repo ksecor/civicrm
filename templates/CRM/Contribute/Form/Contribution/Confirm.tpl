@@ -31,6 +31,9 @@
         {if !$membershipBlock AND $amount }{ts}Contribution Amount{/ts}{else}{ts}Membership Fee{/ts} {/if}
     </div>
     <div class="display-block">
+        {if $lineItem}
+            {include file="CRM/Event/Form/Registration/LineItem.tpl"}
+	{/if}
         {if $is_separate_payment }
             {if $amount AND $minimum_fee}
                 {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong><br />

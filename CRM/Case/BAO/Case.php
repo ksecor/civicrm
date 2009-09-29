@@ -790,6 +790,9 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $select = 'SELECT count(ca.id) as ismultiple, ca.id as id, 
                           ca.activity_type_id as type, 
                           cc.sort_name as reporter,
+                          cc.id as reporter_id,
+                          acc.sort_name AS assignee,
+                          acc.id AS assignee_id,
                           IF(ca.activity_date_time < NOW() AND ca.status_id=ov.value,
                             ca.activity_date_time,
                             DATE_ADD(NOW(), INTERVAL 1 YEAR)
@@ -800,10 +803,14 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                           ca.is_deleted as deleted,
                           ca.priority_id as priority ';
 
-        $from  = 'FROM civicrm_case_activity cca INNER JOIN civicrm_activity ca ON ca.id = cca.activity_id
+        $from  = 'FROM civicrm_case_activity cca 
+                  INNER JOIN civicrm_activity ca ON ca.id = cca.activity_id
                   INNER JOIN civicrm_contact cc ON cc.id = ca.source_contact_id
                   LEFT OUTER JOIN civicrm_option_group og ON og.name="activity_status"
-                  LEFT OUTER JOIN civicrm_option_value ov ON ov.option_group_id=og.id AND ov.name="Scheduled" '; 
+                  LEFT OUTER JOIN civicrm_option_value ov ON ov.option_group_id=og.id AND ov.name="Scheduled"
+                  LEFT JOIN civicrm_activity_assignment caa 
+                                ON caa.activity_id = ca.id 
+                               LEFT JOIN civicrm_contact acc ON acc.id = caa.assignee_contact_id  '; 
 
         $where = 'WHERE cca.case_id= %1 
                     AND ca.is_current_revision = 1';
@@ -872,7 +879,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $start = (($page-1) * $rp);
         
         $query  = $select . $from . $where . $groupBy . $orderBy;
-		
+				    
         $params = array( 1 => array( $caseID, 'Integer' ) );
         $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
         $params['total'] = $dao->N;
@@ -925,10 +932,12 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         require_once 'CRM/Core/Permission.php'; 
         $allowToDeleteActivities = CRM_Core_Permission::check( 'delete activities' );
         
-        while ( $dao->fetch( ) ) { 
+        $contactViewUrl = CRM_Utils_System::url( "civicrm/contact/view",
+                                                 "reset=1&cid=", false, null, false );
+        while ( $dao->fetch( ) ) {                 
             $values[$dao->id]['id']           = $dao->id;
             $values[$dao->id]['type']         = $activityTypes[$dao->type]['label'];
-            $values[$dao->id]['reporter']     = $dao->reporter;
+            $values[$dao->id]['reporter']     = "<a href='{$contactViewUrl}{$dao->reporter_id}'>$dao->reporter</a>";
             $values[$dao->id]['display_date'] = CRM_Utils_Date::customFormat( $dao->display_date );
             $values[$dao->id]['status']       = $activityStatus[$dao->status];
             $values[$dao->id]['subject']      = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
@@ -936,10 +945,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             // add activity assignee to activity selector. CRM-4485.
             if ( isset($dao->assignee) ) {
                 if( $dao->ismultiple == 1 ) {
-                    $values[$dao->id]['reporter'] .= '/ '.$dao->assignee;
+                    $values[$dao->id]['reporter'] .= ' / '."<a href='{$contactViewUrl}{$dao->assignee_id}'>$dao->assignee</a>";
                     $values[$dao->id]['assignee']  = $dao->assignee;
                 } else {
-                    $values[$dao->id]['reporter'] .= ts('/ (multiple)');
+                    $values[$dao->id]['reporter'] .= ' / ' .ts('(multiple)');
                 } 
             }
 
@@ -1113,25 +1122,28 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             $activityParams['details']            = $message;
             $activityParams['target_contact_id']  = $info['contact_id'];
             
-            $result[] = CRM_Utils_Mail::send( $receiptFrom,
-                                              $displayName,
-                                              $mail,
-                                              $subject,
-                                              $message,
-                                              null,
-                                              null,
-                                              null,
-                                              null,
-                                              $attachments
-                                              );
-            
-            $activity = CRM_Activity_BAO_Activity::create( $activityParams );
-
-            //create case_activity record if its case activity.
-            if ( $caseId ) {
-                $caseParams = array( 'activity_id' => $activity->id,
-                                     'case_id'     => $caseId   );
-                self::processCaseActivity( $caseParams );
+            $result[$info['contact_id']] = CRM_Utils_Mail::send( $receiptFrom,
+                                                                 $displayName,
+                                                                 $mail,
+                                                                 $subject,
+                                                                 $message,
+                                                                 null,
+                                                                 null,
+                                                                 null,
+                                                                 null,
+                                                                 $attachments
+                                                                 );
+            if ( !empty($result[$info['contact_id']]) ) {            
+                $activity = CRM_Activity_BAO_Activity::create( $activityParams );
+                
+                //create case_activity record if its case activity.
+                if ( $caseId ) {
+                    $caseParams = array( 'activity_id' => $activity->id,
+                                         'case_id'     => $caseId   );
+                    self::processCaseActivity( $caseParams );
+                }
+            } else {
+                unset($result[$info['contact_id']]);  
             }
         }
         return $result;

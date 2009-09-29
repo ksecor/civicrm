@@ -36,12 +36,14 @@
         <table class="selector">
         <thead class="sticky">
             <th>{ts}Set Title{/ts}</th>
+	    <th>{ts}Used For{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </thead>
         {foreach from=$rows item=row}
 	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
+	    <td>{$row.extends}</td>
 	    <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>

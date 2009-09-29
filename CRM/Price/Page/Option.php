@@ -173,11 +173,11 @@ class CRM_Price_Page_Option extends CRM_Core_Page
         $params=array( );
         if ( $oid ) {
             $params['oid'] = $oid; 
-            require_once 'CRM/Core/BAO/PriceSet.php';
-            $sid = CRM_Core_BAO_PriceSet::getSetId($params);
+            require_once 'CRM/Price/BAO/Set.php';
+            $sid = CRM_Price_BAO_Set::getSetId($params);
             
-            require_once 'CRM/Core/BAO/PriceSet.php';
-            $usedBy  =& CRM_Core_BAO_PriceSet::getUsedBy( $sid );   
+            require_once 'CRM/Price/BAO/Set.php';
+            $usedBy  =& CRM_Price_BAO_Set::getUsedBy( $sid );   
         }
         // set the userContext stack
         $session =& CRM_Core_Session::singleton( );
@@ -215,7 +215,7 @@ class CRM_Price_Page_Option extends CRM_Core_Page
      */
     function run( )
     {
-        require_once 'CRM/Core/BAO/PriceField.php';
+        require_once 'CRM/Price/BAO/Field.php';
        
         // get the field id
         $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
@@ -231,12 +231,12 @@ class CRM_Price_Page_Option extends CRM_Core_Page
         CRM_Utils_System::appendBreadCrumb( $breadcrumb );
         
         if ( $this->_fid ) {
-            $fieldTitle = CRM_Core_BAO_PriceField::getTitle( $this->_fid );
+            $fieldTitle = CRM_Price_BAO_Field::getTitle( $this->_fid );
             $this->assign( 'fid', $this->_fid );
             $this->assign( 'fieldTitle', $fieldTitle );
             CRM_Utils_System::setTitle(ts( '%1 - Price Options', array( 1 => $fieldTitle ) ) );
 
-            $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $this->_fid, 'html_type' );
+            $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Price_BAO_Field', $this->_fid, 'html_type' );
             $this->assign( 'addMoreFields', true );
             //for text price field only single option present
             if ( $htmlType == 'Text' ) {

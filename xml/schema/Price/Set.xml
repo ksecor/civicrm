@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Core</base>
-  <class>PriceSet</class>
+  <base>CRM/Price</base>
+  <class>Set</class>
   <name>civicrm_price_set</name>
   <add>1.8</add>
   <field>
@@ -78,6 +78,14 @@
       <length>64</length>
       <comment>Optional Javascript script function(s) included on the form with this price_set. Can be used for conditional</comment>
       <add>1.8</add>
+  </field>
+  <field>
+      <name>extends</name>
+      <type>varchar</type>
+      <length>255</length>
+      <required>true</required>
+      <comment>Type of object this price set extends (e.g. Events, Contributions etc.).</comment>
+      <add>3.1</add>
   </field>
 </table>
 

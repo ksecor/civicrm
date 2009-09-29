@@ -164,6 +164,25 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @public
      */
     public $_membershipId;
+   
+    /**
+     * Price Set ID, if the new price set method is used
+     *
+     * @var int
+     * @protected
+     */
+    public $_priceSetId;
+    
+    /**
+     * Array of fields for the price set
+     *
+     * @var array
+     * @protected
+     */
+    public $_priceSet;
+    
+    public $_action;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -236,6 +255,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_fields           = $this->get( 'fields' );
         $this->_bltID            = $this->get( 'bltID'  );
         $this->_paymentProcessor = $this->get( 'paymentProcessor' );
+        $this->_priceSetId       = $this->get( 'priceSetId' );
+        $this->_priceSet         = $this->get( 'priceSet' ) ;
 
         if ( ! $this->_values ) {
             // get all the values from the dao object
@@ -290,6 +311,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 }
                 $this->_paymentProcessor['processorName'] = $this->_paymentObject->_processorName;
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
+                
+                // get price info
+                require_once 'CRM/Price/BAO/Set.php';
+                CRM_Price_BAO_Set::initSet( $this, $this->_id, 'civicrm_contribution_page' );
             }
             
             // this avoids getting E_NOTICE errors in php
@@ -705,8 +730,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                         }
                         $stateCountryMap[$index][$prefixName] = $key;
                     }
-            
-                    CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE);
+                
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE, $contactID, true );
                     $this->_fields[$key] = $field;
                     if ( $field['add_captcha'] ) {
                         $addCaptcha = true;
@@ -715,7 +740,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
                 require_once 'CRM/Core/BAO/Address.php';
                 CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
-
 
                 if ( $addCaptcha &&
                      ! $viewOnly ) {
@@ -790,7 +814,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             CRM_Core_Error::fatal(ts('Oops. You cannot make a payment for this pledge - pledge status is %1.', array(1 => CRM_Utils_Array::value($pledgeValues['status_id'], $allStatus)))); 
         }
     }
-    
+
 }
 
 

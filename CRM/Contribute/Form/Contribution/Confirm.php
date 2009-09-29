@@ -51,7 +51,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     {
         $config =& CRM_Core_Config::singleton( );
         parent::preProcess( );
-
+        // lineItem isn't set until Register postProcess
+        $this->_lineItem = $this->get( 'lineItem' );
+        
         if ( $this->_contributeMode == 'express' ) {
             // rfp == redirect from paypal
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
@@ -242,7 +244,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost', true );
         $this->_separateMembershipPayment = $this->get( 'separateMembershipPayment' );
         $this->assign( "is_separate_payment", $this->_separateMembershipPayment );
-        
+        $this->assign( 'lineItem', $this->_lineItem );
+
         if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' 
              && !$this->_params['is_pay_later']) {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
@@ -770,6 +773,20 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         //add contribution record
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
+        // store line items
+        if ( $form->_lineItem ) {
+            require_once 'CRM/Core/BAO/LineItem.php';
+            foreach ( $form->_lineItem as $key => $value ) {
+                if ( $value != 'skip' ) {
+                    foreach( $value as $line ) {
+                        $unused = array();
+                        $line['entity_table'] = 'civicrm_contribution';
+                        $line['entity_id'] = $contribution->id;
+                        CRM_Core_BAO_LineItem::create( $line, $unused );
+                    }
+                }
+            }
+        }
         //add soft contribution due to pcp or Submit Credit / Debit Card Contribution by admin.
         if ( CRM_Utils_Array::value( 'pcp_made_through_id', $params ) || CRM_Utils_Array::value( 'soft_credit_to', $params ) ) { 
             $contribSoftParams['contribution_id'] = $contribution->id;

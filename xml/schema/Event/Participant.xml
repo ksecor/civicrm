@@ -118,8 +118,7 @@
       <uniqueName>participant_fee_level</uniqueName>
       <title>Fee level</title>
       <headerPattern>/^(f(ee\s)?level)$/i</headerPattern>
-      <type>varchar</type>     
-      <length>255</length>  
+      <type>text</type>     
       <import>true</import>
       <comment>Populate with the label (text) associated with a fee level for paid events with multiple levels. Note that we store the label value and not the key</comment>
       <add>1.7</add>     

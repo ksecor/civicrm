@@ -162,6 +162,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
     function setDefaultValues()
     {
         $defaults = array();
+        $config   = CRM_Core_Config::singleton();
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $defaults);
@@ -195,7 +196,14 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         } else {
             $defaults['is_active'] = 1;
         }
-
+        $defaults['start_date'] = CRM_Utils_Date::customformat( $defaults['start_date'], 
+                                                                $config->dateformatQfDate.'::'.$config->dateformatTime );
+        list( $defaults['start_date'], $defaults['start_time'] ) = explode( '::', $defaults['start_date'] );
+        
+        $defaults['end_date'] = CRM_Utils_Date::customformat( $defaults['end_date'], 
+                                                              $config->dateformatQfDate.'::'.$config->dateformatTime );
+        list( $defaults['end_date'], $defaults['end_time'] ) = explode( '::', $defaults['end_date'] );
+        
         // Set start date to now if this is a new contribution page.
         if( !isset ( $this->_id) ) {
             $defaultDate = array( );
