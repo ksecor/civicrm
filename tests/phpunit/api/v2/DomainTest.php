@@ -87,19 +87,21 @@ class api_v2_DomainTest extends CiviUnitTestCase
      */
     public function testGet()
     {
-        $domain = civicrm_domain_get();
+        $Domain = civicrm_domain_get();
 
-        $this->assertType( 'array', $domain );
-        $this->assertEquals( $domain['from_email'], 'test@email.label.net' );
-        $this->assertEquals( $domain['from_name'],  'Test Label - Domain');
-
-        // checking other important parts of domain information
-        // test will fail if backward incompatible changes happen
-        $this->assertArrayHasKey( 'id', $domain );
-        $this->assertArrayHasKey( 'domain_name', $domain );
-        $this->assertArrayHasKey( 'domain_email', $domain );
-        $this->assertArrayHasKey( 'domain_phone', $domain );
-        $this->assertArrayHasKey( 'domain_address', $domain ); 
+        $this->assertType( 'array', $Domain );
+        foreach( $Domain as $domain ) {
+            $this->assertEquals( $domain['from_email'], 'test@email.label.net' );
+            $this->assertEquals( $domain['from_name'],  'Test Label - Domain');
+            
+            // checking other important parts of domain information
+            // test will fail if backward incompatible changes happen
+            $this->assertArrayHasKey( 'id', $domain );
+            $this->assertArrayHasKey( 'domain_name', $domain );
+            $this->assertArrayHasKey( 'domain_email', $domain );
+            $this->assertArrayHasKey( 'domain_phone', $domain );
+            $this->assertArrayHasKey( 'domain_address', $domain ); 
+        }
     }
         
 ///////////////// civicrm_domain_create methods
