@@ -47,11 +47,17 @@
 	<tr><td class ="label">{$form.goal_amount.label}</td><td>{$form.goal_amount.html}<br />
 	    <span class="description">{ts}Enter an optional goal amount for this contribution page (e.g. for this 'campaign'). If you enable a contribution widget for this page, the widget will track progress against this goal. Otherwise, the goal will display as 'no limit'.{/ts}</span></td>
 	</tr>
-	<tr><td class ="label">{$form.start_date.label}</td><td>{$form.start_date.html|crmReplace:class:twelve}&nbsp;&nbsp;{$form.start_time.label}&nbsp;&nbsp;{$form.start_time.html|crmReplace:class:six}</td>
-    {include file="CRM/common/jcalendar.tpl" trigger=start doTime=1 startDate=currentYear endDate=endYear offset=10 ampm=1}
+	<tr>
+	    <td class ="label">{$form.start_date.label}</td>
+	    <td>
+	        {include file="CRM/common/jcalendar.tpl" elementName=start_date doTime=1 startDate=currentYear endDate=endYear offset=10 ampm=1}
+	    </td>    
     </tr>
-	<tr><td class ="label">{$form.end_date.label}</td><td>{$form.end_date.html|crmReplace:class:twelve}&nbsp;&nbsp;{$form.end_time.label}&nbsp;&nbsp;{$form.end_time.html|crmReplace:class:six}</td>
-    {include file="CRM/common/jcalendar.tpl" trigger=end doTime=1 startDate=currentYear endDate=endYear offset=10 ampm=1}
+	<tr>
+	    <td class ="label">{$form.end_date.label}</td>
+	    <td>
+	        {include file="CRM/common/jcalendar.tpl" elementName=end_date doTime=1 startDate=currentYear endDate=endYear offset=10 ampm=1}
+	    </td>    
     </tr>
 	<tr><td>&nbsp;</td><td>{$form.honor_block_is_active.html}{$form.honor_block_is_active.label}<br />
 	    <span class="description">{ts}If you want to allow contributors to specify a person whom they are honoring with their gift, check this box. An optional Honoree section will be included in the form. Honoree information is automatically saved and linked with the contribution record.{/ts}</span></td>

@@ -937,6 +937,31 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->$name = $value;
     }
 
+    function addDate( $name, $label, $attributes = null, $required = null ) {
+        $this->add('text', $name, $label, array('READONLY'));
+
+        if ( CRM_Utils_Array::value( 'addTime', $attributes ) ) {
+            $this->add('text', $name . '_time', ts('Time') );
+        }
+                
+        if ( $required ) {
+            $this->addRule( $name, ts('Please select %1', array(1 => $label)), 'required');
+            if ( CRM_Utils_Array::value( 'addTime', $attributes ) ) {
+                $this->addRule( $name . '_time', ts('Please select Time'), 'required');
+            }
+        }
+
+    }
+    
+    function addDateTime( $name, $label, $attributes = null, $required = null ) {
+        $addTime = array( 'addTime' => true );
+        if ( is_array( $attributes ) ) {
+            $attributes = array_merge( $attributes, $addtime);
+        } else {
+            $attributes = $addTime;
+        }
+        $this->addDate( $name, $label, $attributes, $required );
+    }
 }
 
 

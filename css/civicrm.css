@@ -1851,3 +1851,9 @@ div.grippie {
 * html .timeEntry_control { /* IE only */
    margin-top: -4px;
 }
+
+/* This is the style for the trigger icon. The margin-bottom value causes the icon to shift down to center it. */
+.ui-datepicker-trigger {
+   margin-top: 4px;
+   margin-bottom: -6px;
+}

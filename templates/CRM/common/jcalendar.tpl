@@ -1,8 +1,10 @@
+{assign var="timeElement" value=$elementName|cat:'_time'}
+{$form.$elementName.html|crmReplace:class:twelve}&nbsp;&nbsp;{$form.$timeElement.label}&nbsp;&nbsp;{$form.$timeElement.html|crmReplace:class:six}
 {literal}
 <script type="text/javascript">
 
- var trig_date   = '#'+{/literal}"{$trigger}"{literal}+'_date';
- var trig_time   = '#'+{/literal}"{$trigger}"{literal}+'_time';
+ var trig_date   = '#'+{/literal}"{$elementName}"{literal};
+ var trig_time   = '#'+{/literal}"{$elementName}"{literal}+'_time';
  var cal_img     = {/literal}"{$config->resourceBase}i/cal.gif"{literal};
 // var time_img    = {/literal}"{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png"{literal};
  var curDateTime = new Date();
