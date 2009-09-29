@@ -1949,10 +1949,10 @@ UNION
                  $conditions = array( );
                  foreach( $criteria as $field => $value ) {
                      if ( array_key_exists( $field, $fields ) ) {
-                         $cond = "$field = $value";
+                         $cond = "( $field = $value )";
                          // value might be zero or null.
                          if ( !$value || strtolower( $value ) == 'null' ) {
-                             $cond = "$field = 0 OR $field IS NULL";
+                             $cond = "( $field = 0 OR $field IS NULL )";
                          }
                          $conditions[] = $cond;
                      }
