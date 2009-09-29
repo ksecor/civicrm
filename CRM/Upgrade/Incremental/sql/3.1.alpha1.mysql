@@ -1,0 +1,4 @@
+ -- CRM-4795
+ -- modify type fee_level of civicrm_participant
+
+ALTER TABLE civicrm_participant MODIFY column fee_level text collate utf8_unicode_ci default NULL COMMENT 'Populate with the label (text) associated with a fee level for paid events with multiple levels. Note that we store the label value and not the key'; 
