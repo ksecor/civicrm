@@ -52,10 +52,8 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) {
         
-        $outBoundOption = array( '0' => ts('SMTP'), '1' => ts('Sendmail'), '2' => ts('Disable Outbound Email') );
-        $outBoundOptionExtra = array('onclick' =>"showHideMailOptions();",'onload' =>"showHideMailOptions();");
-        
-        $this->addRadio('outBound_option', ts('Select Mailer'),  $outBoundOption, $outBoundOptionExtra );
+        $outBoundOption = array( '0' => ts('SMTP'), '1' => ts('Sendmail'), '2' => ts('Disable Outbound Email') );        
+        $this->addRadio('outBound_option', ts('Select Mailer'),  $outBoundOption );
 
         CRM_Utils_System::setTitle(ts('Settings - Outbound Mail'));
         $this->add('text','sendmail_path', ts('Sendmail Path'));
