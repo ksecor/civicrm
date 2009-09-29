@@ -137,7 +137,7 @@ function custom_option_html_type( ) {
 	    </dt>
 	    <dd>{$form.label.html}</dd>
 	
-	    <dt class="extra-long-twenty">{$form.data_type.label}</dt>
+	    <dt class="">{$form.data_type.label}</dt>
 	    <dd>{$form.data_type.html}</dd>
 	    {if $action neq 4 and $action neq 2}
 		<dt>&nbsp;</dt>
@@ -204,7 +204,7 @@ function custom_option_html_type( ) {
 	    </dl>
 	    {if $action neq 4}
 		<dl>
-		    <dt class="extra-long-twenty">&nbsp;</dt>
+		    <dt class="">&nbsp;</dt>
 		    <dd class="description">{ts}Can you search on this field in the Advanced and component search forms? NOTE: This feature is available to custom fields used for <strong>Contacts (individuals, organizations and househoulds), Contributions, Pledges, Memberships, Event Participants, Activities, and Relationships</strong>.{/ts}</dd>
 		</dl>
 	    {/if}        

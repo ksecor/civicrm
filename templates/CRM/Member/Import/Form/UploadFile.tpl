@@ -26,7 +26,7 @@
         <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: 'Contact ID', 'Amount').{/ts}
         </dd>
-        <dt class="extra-long-fourty">{$form.contactType.label}</dt><dd>{$form.contactType.html}<br />
+        <dt class="">{$form.contactType.label}</dt><dd>{$form.contactType.html}<br />
             <span class="description">
             {ts}Select 'Individual' if you are importing memberships for individual persons.{/ts}
             {ts}Select 'Organization' or 'Household' if you are importing memberships made by contacts of that type.{/ts}
