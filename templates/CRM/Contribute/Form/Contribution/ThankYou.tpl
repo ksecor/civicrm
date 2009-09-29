@@ -72,6 +72,9 @@
         {if !$membershipBlock AND $amount}{ts}Contribution Information{/ts}{else}{ts}Membership Fee{/ts}{/if}
     </div>
     <div class="display-block">
+    	{if $lineItem}
+            {include file="CRM/Event/Form/Registration/LineItem.tpl"}
+	{/if}
         {if $membership_amount } 
             {$membership_name} {ts}Membership{/ts}: <strong>{$membership_amount|crmMoney}</strong><br />
             {if $amount}
