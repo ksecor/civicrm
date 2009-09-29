@@ -1,5 +1,74 @@
 /* $Id$ */
 
+
+#crm-container label {
+  font-weight: normal;
+  display: inline;
+}
+
+#crm-container .hiddenElement {
+    display   	    : none;
+}
+
+#crm-container .clear {
+    clear 	    : both;
+}
+
+
+/* TABLE STYLING */
+
+#crm-container table {
+  margin: .5em .1em .5em;
+  width: 99%;
+  border-collapse: collapse;
+  border: 1px solid #999999;
+}
+
+#crm-container th {
+  font-weight: normal;
+  font-size: 1em;
+  padding: 4px;
+  border-top: 1px solid #999999;	
+  border-bottom: 1px solid #999999;
+  text-align: left;
+  vertical-align: top;
+}
+
+#crm-container tbody{
+    border-top: none
+}
+
+#crm-container tr {
+  font-size: .95em;
+}
+
+#crm-container td {
+  padding: 4px;
+  vertical-align: top;
+}
+
+#crm-container tr.even-row td, 
+#crm-container tr.odd-row td{
+  border-collapse: collapse;
+  border-top: 1px solid #DDDDDD;
+}
+	#crm-container .odd-row, 
+	tbody.scrollContent {
+	  background-color: #FAFAFA;
+	}
+	#crm-container .even-row, 
+	tbody.scrollContent tr.alternateRow {
+	  background-color: #F5F5F5;
+	}
+
+#crm-container .row-selected {
+  margin: 0px;
+  padding: 3px 0px 3px 0px;
+  clear: none;
+  background-color: #FAFAD2;
+}
+
+
 /*
 ** Size input fields in crm-container by class. Classes are assigned by the
 ** module in relation to the data object max size.
@@ -21,12 +90,57 @@
 #crm-container textarea.nowrap {width: 45em; height: 4.5em; white-space: nowrap; overflow: auto;}
 #crm-container .bigSelect {width: 15em; height: 12em;}
 
+
+/*
+ ** Many times one needs to add long descriptions within <dd>,
+ ** but limited padding-bottom for <dt> causes bottom lines
+ ** in <dd> to overflow on left. The below classes for <dt>
+ ** handle such situations.
+ */
+#crm-container div.form-item dt.extra-long-hundred {
+  padding-bottom: 100px;
+}
+
+#crm-container div.form-item dt.extra-long-eighty {
+  padding-bottom: 80px;
+}
+
+#crm-container div.form-item dt.extra-long-sixty {
+  padding-bottom: 60px;
+}
+
+#crm-container div.form-item dt.extra-long-fourty {
+  padding-bottom: 40px;
+}
+
+#crm-container div.form-item dt.extra-long-twenty {
+  padding-bottom: 20px;
+}
+
+
 /*
 ** Override line-height from style.css
 */
 div#crm-container {
     line-height: 135%;
 }
+
+/* Base #crm-container styles */
+
+#crm-container hr {
+   background-color : #B0B0B0;
+	}
+
+#crm-container select {
+  vertical-align: middle;
+  border: 1px solid #999;
+  font-weight:bold;
+}
+
+#crm-container textarea {
+    border: 1px solid #999;
+}
+
 
 /*
 ** class for hiding the text box; it is used in the OtherActivity template 
@@ -63,25 +177,17 @@ div#crm-container {
   font-size: .9em;
 }
 
-#crm-container .geotag {
-    padding: 2px 0 2px 20px !important;
-    background: url('../i/geotag_16.png') left center no-repeat;
-    font-size: .9em;
-}
 
 /*
 ** CRM form layout classes (from www.realworldstyle.com)
 */
-div.spacer, .spacer {
+div.spacer, 
+.spacer {
   clear: left;
   height: 5px;
   }
 
-#crm-container select {
-  vertical-align: middle;
-  border: 1px solid #999;
-  font-weight:bold;
-}
+
 
 #crm-container td.compressed select, #crm-container td.compressed input {
   font-size: 0.90em;
@@ -100,9 +206,7 @@ div.spacer, .spacer {
   vertical-align:middle;
 }
 
-#crm-container textarea {
-    border: 1px solid #999;
-}
+
   
 #crm-container .form-submit {
   margin: .25em 0.5em 0.25em 0;
@@ -141,8 +245,8 @@ div.spacer, .spacer {
   margin: 0px;
   padding: 3px 0px 5px 0px;
   clear: none;
-  overflow: auto; 
-}
+	 overflow: auto; 
+	}
 
 #crm-container div.form-item dl, #crm-container .section-hidden dl{
  margin: 0;
@@ -170,35 +274,11 @@ div.spacer, .spacer {
   padding: 5px 15px 5px 0px;
 }
 
-/*
- ** Many times one needs to add long descriptions within <dd>,
- ** but limited padding-bottom for <dt> causes bottom lines
- ** in <dd> to overflow on left. The below classes for <dt>
- ** handle such situations.
- */
-#crm-container div.form-item dt.extra-long-hundred {
-  padding-bottom: 100px;
-}
 
-#crm-container div.form-item dt.extra-long-eighty {
-  padding-bottom: 80px;
-}
-
-#crm-container div.form-item dt.extra-long-sixty {
-  padding-bottom: 60px;
-}
-
-#crm-container div.form-item dt.extra-long-fourty {
-  padding-bottom: 40px;
-}
-
-#crm-container div.form-item dt.extra-long-twenty {
-  padding-bottom: 20px;
-}
-
-#crm-container div.form-item dd, #crm-container .section-hidden dd {
-  padding: 5px;
-}
+#crm-container div.form-item dd, 
+#crm-container .section-hidden dd {
+ 	padding: 5px;
+	}
 
 #crm-container div.form-item dd.html-adjust, #crm-container div.form-item dl.html-adjust dd{
   float: left;
@@ -248,9 +328,6 @@ div.spacer, .spacer {
   padding: 10px;
 }
 
-#crm-container tbody{
-    border-top: none
-}
 
 #crm-container .form-layout td {
   vertical-align: top;
@@ -258,11 +335,14 @@ div.spacer, .spacer {
   white-space: normal;
 }
 
-#crm-container .form-layout td.report, #crm-container .form-layout td.description, #crm-container .form-layout-compressed td.description {
+#crm-container .form-layout td.report, 
+#crm-container .form-layout td.description, 
+#crm-container .form-layout-compressed td.description {
   white-space   : normal;
 }
 
-#crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
+#crm-container .form-layout-compressed td, 
+#crm-container .form-layout-compressed th {
   vertical-align: text-top;
   padding: 2px 5px;
 }
@@ -447,9 +527,32 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 .tree-default li a:link { padding:0px 3px 0px 22px; background-position:3px 0px;  }
 
 /* DEFAULT, HOVER, CLICKED, LOADING STATES */
-#crm-container .tree-default li a, .tree-default li span { background-color:transparent; background-repeat:no-repeat; background-position:4px 1px; padding:1px 4px 1px 23px; background-image:url("../packages/jquery/plugins/themes/default/f.png"); border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
-#crm-container .tree-default li a:hover, .tree-default li a.hover { background-color: #e7f4f9; border:1px solid #d8f0fa; padding:0px 3px 0px 22px; background-position:3px 0px;  }
-#crm-container .tree-default li a.clicked, .tree-default li a.clicked:hover, .tree-default li span.clicked { background-color: #beebff; border:1px solid #99defd; padding:0px 3px 0px 22px; background-position:3px 0px;  }
+#crm-container .tree-default li a, 
+.tree-default li span { 
+	background-color:transparent; 
+	background-repeat:no-repeat; 
+	background-position:4px 1px; 
+	padding:1px 4px 1px 23px; 
+	background-image:url("../packages/jquery/plugins/themes/default/f.png"); 
+	border-radius:3px; 
+	-moz-border-radius:3px; 
+	-webkit-border-radius:3px; 
+	}
+#crm-container .tree-default li a:hover, 
+.tree-default li a.hover { 
+	background-color: #e7f4f9; 
+	border:1px solid #d8f0fa; 
+	padding:0px 3px 0px 22px; 
+	background-position:3px 0px;  
+	}
+#crm-container .tree-default li a.clicked, 
+.tree-default li a.clicked:hover, 
+.tree-default li span.clicked { 
+	background-color: #beebff; 
+	border:1px solid #99defd; 
+	padding:0px 3px 0px 22px; 
+	background-position:3px 0px;  
+	}
 #crm-container .tree-default li span.clicked { padding:0px 3px 0px 20px; }
 #crm-container .tree-default li a.loading { background-image:url("../packages/jquery/plugins/themes/default/throbber.gif"); }
 
@@ -465,13 +568,13 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 */
 /* Inline form field 'post-help' */
 #crm-container .description {
-  margin-bottom : 0.5em;
-  padding: 0px 0px 5px;
-  font-size: 0.9em;
-  white-space: normal;
-  width: auto;
-  color: #696969;
-}
+  	margin-bottom : 0.5em;
+  	padding: 0px 0px 5px;
+  	font-size: 0.9em;
+  	white-space: normal;
+  	width: auto;
+  	color: #696969;
+	}
 
 #crm-container .form-layout-compressed td.description {
   padding: 0px 0px 5px 20px;
@@ -483,10 +586,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
-#crm-container label {
-  font-weight: normal;
-  display: inline;
-}
+
 
 #crm-container .notorg {
   font-weight: normal;
@@ -532,25 +632,15 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 /* 
 ** Styles for record browser and report tables, and pager bar
 */
-#crm-container table {
-  margin: .5em .1em .5em;
-  width: 99%;
-  border-collapse: collapse;
-  border: 1px solid #999999;
-}
 
-#crm-container #map-field table, #crm-container table.report, #crm-container table.chart  {
+
+#crm-container #map-field table, 
+#crm-container table.report, 
+#crm-container table.chart  {
     width: auto;
 }
 
-#crm-container tr {
-  font-size: .95em;
-}
 
-#crm-container td {
-  padding: 4px;
-  vertical-align: top;
-}
 
 #crm-container td.enclosingNested {
   padding: 0px;
@@ -560,12 +650,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   white-space: nowrap;
 }
 
-#crm-container .order-icon {
- height: 15px;
- width:  10px;
- padding-top: 4px;
- padding-right: 4px;
-}
+
  
 #crm-container tr.columnheader {
   background-color: #E6E6E6;
@@ -585,15 +670,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   /*border: 1px solid #000000;*/
   border: 1px solid #696969;
 }
-#crm-container th {
-  font-weight: normal;
-  font-size: 1em;
-  padding: 4px;
-  border-top: 1px solid #999999;	
-  border-bottom: 1px solid #999999;
-  text-align: left;
-  vertical-align: top;
-}
+
 
 #crm-container tr.columnheader-dark td, #crm-container tr.columnheader-dark th, #crm-container tr.columnheader td, #crm-container tr.columnfooter td {
   font-size: 1.1em;
@@ -639,23 +716,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   border: 2px solid #999999;
 }
 
-#crm-container .odd-row, tbody.scrollContent {
-  background-color: #FAFAFA;
-}
-#crm-container .even-row, tbody.scrollContent tr.alternateRow {
-  background-color: #F5F5F5;
-}
-#crm-container tr.even-row td, #crm-container tr.odd-row td{
-  border-collapse: collapse;
-  border-top: 1px solid #DDDDDD;
-}
 
-#crm-container .row-selected {
-  margin: 0px;
-  padding: 3px 0px 3px 0px;
-  clear: none;
-  background-color: #FAFAD2;
-}
 
 #crm-container td.yes-no {
   text-align: center;
@@ -751,7 +812,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 div.crm-pager {
-  border: thin solid #696969; 
+  border: 1px solid #696969; 
   background-color: #999999;
   color: #000000;
   position: relative;
@@ -840,42 +901,6 @@ div.crm-pager a {
   overflow: hidden;  
 }
 
-.block-civicrm div#recently-viewed ul li.Activity {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Activity.png");
- }
-.block-civicrm div#recently-viewed ul li.Case {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Case.png");
- }
-.block-civicrm div#recently-viewed ul li.Contribution {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Contribution.png");
- }
-.block-civicrm div#recently-viewed ul li.Grant {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Grant.png");
- }
-.block-civicrm div#recently-viewed ul li.Group {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Group.png");
- }
-.block-civicrm div#recently-viewed ul li.Household {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Household.png");
- }
-.block-civicrm div#recently-viewed ul li.Individual {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Individual.png");
- }
-.block-civicrm div#recently-viewed ul li.Membership {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Membership.png");
- }
-.block-civicrm div#recently-viewed ul li.Note {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Note.png");
- }
-.block-civicrm div#recently-viewed ul li.Organization {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Organization.png");
- }
-.block-civicrm div#recently-viewed ul li.Participant {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Participant.png");
- }
-.block-civicrm div#recently-viewed ul li.Pledge {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Pledge.png");
- }
  
 .block-civicrm div#recently-viewed ul li a {
   margin-left: 20px;
@@ -940,11 +965,7 @@ div.crm-pager a {
  margin: -24px 30px 0px 0px;
 }
 
-#crm-container div#printer-friendly {
- float: right;
- position:relative;
- margin: -24px 0px 0px 0px;
-}
+
 
 /*
 ** Boxes of checkbox elements (e.g. Advanced Search page)
@@ -1076,6 +1097,9 @@ div.crm-pager a {
     width: 100%;
 }
 
+
+/* Buttons CSS */
+
 #crm-container a.button {
     background: transparent url('bg_button_a.gif') no-repeat scroll top right;
     color: #444;
@@ -1120,7 +1144,9 @@ div.crm-pager a {
     border: 1px solid #EDEDED;                            
  }
 
-#location .form-layout table, #location .form-layout td,#crm-container div#location table.form-layout table.inner-table td{
+#location .form-layout table, 
+#location .form-layout td,
+#crm-container div#location table.form-layout table.inner-table td{
    border: 0px;
    vertical-align: top;
    margin-bottom: -5px;
@@ -1289,10 +1315,7 @@ div.crm-pager a {
     border: 1px solid #696969;
 }
 
-.ac_results ul li {background-image:url('');}
-.Individual {background:url('../i/contact_ind.gif') no-repeat;padding-left:20px;}
-.Household {background:url('../i/contact_house.png') no-repeat;padding-left:20px;}
-.Organization {background:url('../i/contact_org.gif') no-repeat;padding-left:20px;}
+
 
 /* Styles for Config Task List */
 #crm-container td.tasklist a {
@@ -1427,14 +1450,6 @@ body .ac_loading {
   background       : white url('../i/loading.gif') no-repeat right center;
 }
 
-.ac_input {
-  background       : white url(../i/magnify.gif) no-repeat scroll right center;
-}
-
-.ac_over {
-	background-color: #999999;
-	color: white;
-}
 
 /*class for CMS user name check used in profile*/
 .cmsmessagebox {
@@ -1444,32 +1459,7 @@ body .ac_loading {
    padding     : 3px;
 }
 
-/* Pop-up help icon - eliminate forced line break */
-div.helpicon {
-	background  : transparent url(../i/quiz.png) no-repeat;
-	padding-left: 12px;
-	display     : inline-block;
-	cursor      : pointer;
-}
 
-div#toolTip {
-	padding   : 10px;
-	background: #FFFFFF url(../i/popupMenuBg.gif) repeat-x scroll left bottom;
-	border    : 1px solid #999999;
-	font-size : small;
-	color     : black;
-	text-align: left;
-	margin    : 1em;
-}
-
-/* Class for tokens and helpicon */
-.helpIcon {
-  float       : right;
-  padding     : 5px;
-  position    : relative;
-  z-index     : 1;
-  margin-right: 45px;
-}
 
 /* class for text area resizer jquery plugin*/
 div.grippie {
@@ -1509,8 +1499,8 @@ div.grippie {
     padding : 0em 1.4em 1em 1em;
 }
 
-#crm-container DIV.contactTopBar {
-	PADDING          : 4px;
+#crm-container div.contactTopBar {
+	padding          : 4px;
 	LINE-HEIGHT      : 1.4em;
 	MARGIN           : 8px 0pt 0px;
 	/*FONT-SIZE: 1.1em;*/
@@ -1518,8 +1508,9 @@ div.grippie {
 	border           : 1px solid #CCCCCC;
 	width            : 100%;
 }
-#crm-container DIV.contact_details, #crm-container DIV#contactTopBar {
-	PADDING          : 4px;
+#crm-container div.contact_details,
+ #crm-container div#contactTopBar {
+	padding          : 4px;
 	LINE-HEIGHT      : 1.4em;
 	MARGIN           : 8px 0pt 0px;
 	/*FONT-SIZE: 1.1em;*/
@@ -1528,33 +1519,34 @@ div.grippie {
 	width            : 100%;
 }
 
-#crm-container DIV.contact_panel, #crm-container DIV#contactTopBar {
+#crm-container div.contact_panel, 
+#crm-container div#contactTopBar {
 	WIDTH   : 100%; 
 	DISPLAY : block
 }
 
-#crm-container DIV.contact_panel * , #crm-container DIV#contactTopBar * {
-	BORDER         : 0px;
-	PADDING-BOTTOM : 0px;
-	MARGIN         : 0px;
-	PADDING-LEFT   : 0px;
-	PADDING-RIGHT  : 0px;
-	PADDING-TOP    : 0px;
-}
+#crm-container div.contact_panel *, 
+#crm-container div#contactTopBar * {
+	padding:0px;
+	margin:0px;
+	border:0px;
+	}
 
-#crm-container DIV.contactCardLeft, #crm-container DIV#Top {
+#crm-container div.contactCardLeft, #crm-container div#Top {
 	WIDTH   : 49%; 
 	DISPLAY : block; 
 	FLOAT   : left;
 }
 
-#crm-container DIV.contactCardRight {
+#crm-container div.contactCardRight {
 	WIDTH   : 49%; 
 	DISPLAY : block; 
 	FLOAT   : right;
 }
 
-#crm-container DIV#contactTopBar .label, #crm-container DIV.contactCardLeft .label, #crm-container DIV.contactCardRight .label {
+#crm-container div#contactTopBar .label, 
+#crm-container div.contactCardLeft .label, 
+#crm-container div.contactCardRight .label {
 	color          : DimGray; 
 	FONT-SIZE      : 0.95em; 
 	VERTICAL-ALIGN : top; 
@@ -1562,7 +1554,8 @@ div.grippie {
 	MARGIN-RIGHT   : 10px;
 }
 
-#crm-container DIV.contactCardLeft .grouplabel, #crm-container DIV.contactCardRight .grouplabel {
+#crm-container div.contactCardLeft .grouplabel, 
+#crm-container div.contactCardRight .grouplabel {
 	BORDER-BOTTOM    : grey 1px solid; 
 	WIDTH            : 100%; 
 	FONT-SIZE        : 0.95em; 
@@ -1570,62 +1563,47 @@ div.grippie {
 	background-color : #ddd;
 }
 
-#crm-container DIV.contact_panel .spacer {
-	PADDING-BOTTOM   : 8px; 
-	PADDING-LEFT     : 8px; 
-	PADDING-RIGHT    : 8px; 
-	PADDING-TOP      : 8px;
+#crm-container div.contact_panel .spacer {
+	padding:8px;
 }
 
-#crm-container DIV.contact_panel TD, #crm-container DIV#contactTopBar TD  {
-	PADDING-BOTTOM      : 4px;
-	PADDING-LEFT        : 4px;
-	PADDING-RIGHT       : 4px;
-	VERTICAL-ALIGN      : top;
-	PADDING-TOP         : 4px;
-	border-bottom-width : 1px;
-	border-bottom-style : solid;
-	border-bottom-color : #E2E2E2;
+#crm-container div.contact_panel td, 
+#crm-container div#contactTopBar td  {
+	padding:4px
+	vertical-align : top;
+	border-bottom: 1px solid #E2E2E2;
 }
 
-#crm-container DIV.contact_panel TD.label, #crm-container DIV#contactTopBar TD.label {
+#crm-container div.contact_panel td.label, 
+#crm-container div#contactTopBar td.label {
 	background-color    : #EEEEEE;
-}
+	}
 
-#crm-container DIV#contactTopBar TD.label {
+#crm-container div#contactTopBar td.label {
     width : 14%;
 }
 
-#crm-container DIV.contact_panel TD.label {
+#crm-container div.contact_panel td.label {
     width : 28%;
 }
 
-#crm-container DIV.contact_panel TD.last {
+#crm-container div.contact_panel td.last {
 	BORDER-BOTTOM: 0px
 }
 
-#crm-container DIV#customFields {
+#crm-container #customFields {
 	width: 100%;
 }
 
-#crm-container DIV#customFields DIV.contact_panel TD {
+#crm-container #customFields div.contact_panel td {
 	BORDER-BOTTOM  : lightgray 1px solid; 
-	PADDING-BOTTOM : 4px; 
-	PADDING-LEFT   : 4px; 
-	PADDING-RIGHT  : 4px; 
-	VERTICAL-ALIGN : top; 
-	PADDING-TOP    : 4px
+	padding: 4px;
+	vertical-align: top;
 }
 
-#crm-container DIV#customFields DIV.contact_panel TD.talabel {
-	BORDER-BOTTOM  : 0px; 
-	BORDER-LEFT    : 0px; 
-	PADDING-BOTTOM : 0pt; 
-	PADDING-LEFT   : 4px; 
-	PADDING-RIGHT  : 0pt; 
-	BORDER-TOP     : 0px; 
-	BORDER-RIGHT   : 0px; 
-	PADDING-TOP    : 4px
+#crm-container #customFields div.contact_panel td.talabel {
+	padding:4px 0 0 4px;
+	border: 0px;
 }
 
 #crm-container #customFields .contact_panel .customFieldGroup {
@@ -1637,43 +1615,39 @@ div.grippie {
 	width            : 100%;
 }
 
-#crm-container div.contact_panel span.email-hold, #crm-container div.contact_panel span.do-not-email, #crm-container div.contact_panel span.do-not-phone {
-    background-position:3px; background-repeat:no-repeat; background-image:url("../i/stop-icon.png");
-    padding-left: 24px;
+
+
+#crm-container span.email-hold a:link, 
+#crm-container span.email-hold a:visited, 		
+#crm-container span.do-not-email a:link, 
+#crm-container span.email-hold a:visited {
 	color: #ff6655 !important
- }
-
-#crm-container span.email-hold a:link, #crm-container span.email-hold a:visited, #crm-container span.do-not-email a:link, #crm-container span.email-hold a:visited {
-	color: #ff6655 !important
-}
+	}
 
 
-#crm-container DIV.buttons {
+#crm-container div.buttons {
 	TEXT-ALIGN       : right;
     margin           : 8px 0 0;
-	PADDING          : 4px 4px 2px;
+	padding          : 4px 4px 2px 0;
 	WIDTH            : 100%;
 	background-color : #fff;
 	border           : none;
 }
 
-#crm-container DIV.buttons INPUT {
+#crm-container div.buttons INPUT,
+#crm-container div.buttons SELECT {
 	FONT-SIZE      : 0.9em; 
 	VERTICAL-ALIGN : top !important
 }
 
-#crm-container DIV.buttons SELECT {
-	FONT-SIZE      : 0.9em; 
-	VERTICAL-ALIGN : top !important
-}
 
-#crm-container DIV.buttons #actions {
+#crm-container div.buttons #actions {
 	TEXT-ALIGN : left; 
 	/*WIDTH: 89%;*/ 
 	FLOAT      : left
 }
 
-#crm-container DIV.buttons #icons {
+#crm-container div.buttons #icons {
 	/*WIDTH: 10%*/
 }
 
@@ -1686,30 +1660,14 @@ div.grippie {
 }
 
 .ui-tabs .ui-tabs-nav LI A {
-	PADDING-BOTTOM : 5px !important; 
-	PADDING-LEFT   : 5px !important; 
-	PADDING-RIGHT  : 5px !important; 
-	PADDING-TOP    : 5px !important;
-}
+	padding: 5px !important; 
+	}
 
 #crm-container .separator {
 	border-bottom  : solid 2px #ccc;
 }
 
-.individual h2 {
-	background   : url("../i/contact_ind.gif") no-repeat 0 50%;
-	padding-left : 20px;
-}
-
-.button {}
-.edit {
-	background   : url("../i/edit.png") transparent no-repeat; 
-	padding-left : 18px;
-}
-.delete {
-	background   : url("../i/delete.png") transparent no-repeat; 
-	padding-left : 18px;
-}
+/* reports */
 
 #crm-container .report-layout {
    background-color : #F7F7F7; 
@@ -1790,13 +1748,7 @@ div.grippie {
   border            : 1px solid #DCDCDC;
 }
 
-#crm-container .hiddenElement {
-    display   	    : none;
-}
 
-#crm-container .clear {
-    clear 	    : both;
-}
 
 #crm-container table.view-layout {
   margin: 0em;
@@ -1819,9 +1771,7 @@ div.grippie {
    border-bottom:1px solid #E2E2E2;
 }
 
-#crm-container hr {
-   background-color : #B0B0B0;
-}
+
 
 #crm-container th.contriTotalRight {
    border-right: 1px solid #999999;
@@ -1832,4 +1782,169 @@ div.grippie {
 }
 
 
+
+
+
+
+/* Set/alter ICONS */
+
+#crm-container div#printer-friendly {
+ float: right;
+ position:relative;
+ margin: -24px 0px 0px 0px;
+}
+
+#crm-container .order-icon {
+ height: 15px;
+ width:  10px;
+ padding-top: 4px;
+ padding-right: 4px;
+}
+
+.block-civicrm div#recently-viewed ul li.Activity {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Activity.png");
+ }
+.block-civicrm div#recently-viewed ul li.Case {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Case.png");
+ }
+.block-civicrm div#recently-viewed ul li.Contribution {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Contribution.png");
+ }
+.block-civicrm div#recently-viewed ul li.Grant {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Grant.png");
+ }
+.block-civicrm div#recently-viewed ul li.Group {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Group.png");
+ }
+.block-civicrm div#recently-viewed ul li.Household {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Household.png");
+ }
+.block-civicrm div#recently-viewed ul li.Individual {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Individual.png");
+ }
+.block-civicrm div#recently-viewed ul li.Membership {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Membership.png");
+ }
+.block-civicrm div#recently-viewed ul li.Note {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Note.png");
+ }
+.block-civicrm div#recently-viewed ul li.Organization {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Organization.png");
+ }
+.block-civicrm div#recently-viewed ul li.Participant {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Participant.png");
+ }
+.block-civicrm div#recently-viewed ul li.Pledge {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Pledge.png");
+ }
+ 
+ .ac_results ul li {background-image:url('');}
+.Individual {background:url('../i/contact_ind.gif') no-repeat;padding-left:20px;}
+.Household {background:url('../i/contact_house.png') no-repeat;padding-left:20px;}
+.Organization {background:url('../i/contact_org.gif') no-repeat;padding-left:20px;}
+
+.individual h2 {
+	background   : url("../i/contact_ind.gif") no-repeat 0 50%;
+	padding-left : 20px;
+}
+
+.button {}
+.edit {
+	background   : url("../i/edit.png") transparent no-repeat; 
+	padding-left : 18px;
+}
+.delete {
+	background   : url("../i/delete.png") transparent no-repeat; 
+	padding-left : 18px;
+}
+
+
+#crm-container .geotag {
+    padding: 2px 0 2px 20px !important;
+    background: url('../i/geotag_16.png') left center no-repeat;
+    font-size: .9em;
+}
+
+
+/* civicrm admin menu */
+
+#civicrm-menu .ac_input {
+	background:white url(../i/magnify.gif) no-repeat scroll right center;
+	padding-right:16px; /* so that text doesn't flow on top of icon */
+	}
+#civicrm-menu #crm-qsearch {
+    padding: 0 3px 2px 0;
+    height: 20px;
+	}
+
+#civicrm-menu #crm-qsearch input {
+    background-color:#ffffff;
+    border: 1px solid black;
+	}
+
+#civicrm-menu #menu-logout {
+    float: right;
+    border-left: 1px solid #5D5D5D;
+	}
+
+/* Joomla Admin Menu alterations */
+
+div.m ul#civicrm-menu {
+    z-index: 0;
+    position:relative;
+    border: none;
+    left:0px;
+    height:0px;
+    padding: 5px 0px 20px 2px;
+    border-radius      : 4px;	
+    -moz-border-radius : 4px;	
+    -webkit-border-radius : 4px;	
+    -khtml-border-radius : 4px;
+	}
+
+div.m ul#civicrm-menu li#crm-qsearch {
+    height:0px;
+	}
+
+
+
+/* Pop-up help icon - eliminate forced line break */
+div.helpicon {
+	background  : transparent url(../i/quiz.png) no-repeat;
+	display     : inline-block;
+	cursor      : pointer;
+	background-position:-48px -144px;
+	background-image:url(../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png);
+	background-color:#CCC;
+	width:16px;
+	height:16px;
+	}
+
+div#toolTip {
+	padding   : 10px;
+	background: #FFFFFF url(../i/popupMenuBg.gif) repeat-x scroll left bottom;
+	border    : 1px solid #999999;
+	font-size : small;
+	color     : black;
+	text-align: left;
+	margin    : 1em;
+}
+
+/* Class for tokens and helpicon */
+.helpIcon {
+  float       : right;
+  padding     : 5px;
+  position    : relative;
+  z-index     : 1;
+  margin-right: 45px;
+}
+
+/* "don't do this" icons */
+#crm-container div.contact_panel span.email-hold, 
+#crm-container div.contact_panel span.do-not-email, 
+#crm-container div.contact_panel span.do-not-phone {
+    background-position:3px; background-repeat:no-repeat; background-image:url("../i/stop-icon.png");
+    padding-left: 24px;
+	color: #ff6655 !important;
+ }
 
