@@ -260,18 +260,21 @@ function _civicrm_activity_update( $params )
 function _civicrm_activity_get( $activityId, $returnCustom = false ) {
     $dao = new CRM_Activity_BAO_Activity();
     $dao->id = $activityId;
-    $dao->find( true );
-    $activity = array();
-    _civicrm_object_to_array( $dao, $activity );
+    if( $dao->find( true ) ) {
+        $activity = array();
+        _civicrm_object_to_array( $dao, $activity );
+
+        //also return custom data if needed.
+        if ( $returnCustom && !empty( $activity ) ) {
+            $customdata = civicrm_activity_custom_get( array( 'activity_id'      => $activityId, 
+                                                              'activity_type_id' => $activity['activity_type_id']  )  );
+            $activity = array_merge( $activity, $customdata );
+        }
     
-    //also return custom data if needed.
-    if ( $returnCustom && !empty( $activity ) ) {
-        $customdata = civicrm_activity_custom_get( array( 'activity_id'      => $activityId, 
-                                                          'activity_type_id' => $activity['activity_type_id']  )  );
-        $activity = array_merge( $activity, $customdata );
+        return $activity;
+    } else {
+        return false;
     }
-    
-    return $activity;
 }
 
 /**
