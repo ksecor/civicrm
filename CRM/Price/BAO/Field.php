@@ -422,7 +422,7 @@ WHERE
      * @static
      *
      */
-    public static function delete( $id ) 
+    public static function deleteField( $id ) 
     {
         $field     = & new CRM_Price_DAO_Field( );
         $field->id = $id;

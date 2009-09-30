@@ -283,7 +283,7 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
      * @access public
      * @static
      */
-    public static function delete( $id )
+    public static function deleteSet( $id )
     {
         // remove from all inactive forms
         $usedBy =& self::getUsedBy( $id, true, true );
@@ -306,7 +306,7 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
         $priceField->find( );
         while ( $priceField->fetch( ) ) {
             // delete options first
-            CRM_Price_BAO_Field::delete( $priceField->id );
+            CRM_Price_BAO_Field::deleteField( $priceField->id );
         }
         
         $set     =& new CRM_Price_DAO_Set( );

@@ -392,11 +392,11 @@ class CRM_Event_BAO_ParticipantTest extends CiviUnitTestCase
             CRM_Event_BAO_Participant::fixEventLevel( $values[$participant->id]['fee_level'] );
         }
 
-        $deletePricefield = CRM_Price_BAO_Field::delete( $pricefield->id );
+        $deletePricefield = CRM_Price_BAO_Field::deleteField( $pricefield->id );
         $this->assertDBNull('CRM_Price_BAO_Field', $pricefield->id, 'name', 
                             'id', 'Check DB for non-existence of Price Field.');
  
-        $deletePriceset = CRM_Price_BAO_Set::delete( $priceset->id );
+        $deletePriceset = CRM_Price_BAO_Set::deleteSet( $priceset->id );
         $this->assertDBNull('CRM_Price_BAO_Set', $priceset->id, 'title', 
                             'id', 'Check DB for non-existence of Price Set.');
         
