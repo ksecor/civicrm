@@ -334,9 +334,9 @@ function verify( ) {
     d.setDate(cj("select#activity_date_time\\[d\\]").val());
     var hours = cj("select#activity_date_time\\[h\\]").val();
     var ampm = cj("select#activity_date_time\\[A\\]").val();
-    if (ampm == "PM") {
+    if (ampm == "PM" && hours != 12) {
         // force arithmetic instead of string concatenation
-        hours = hours*1 + 12;
+        hours = hours + 12;
     }
     d.setHours(hours);
     d.setMinutes(cj("select#activity_date_time\\[i\\]").val());
