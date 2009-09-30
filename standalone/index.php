@@ -9,13 +9,8 @@ function invoke() {
     showError( $session );
     
     $urlVar = $config->userFrameworkURLVar;
-    if ( !isset( $_GET[$urlVar] ) ) {
-        $_GET[$urlVar] = '';
-        print '<link rel="Shortcut Icon" type="image/x-icon" href="../i/widget/favicon.png" />';
-    }
     
     require_once 'CRM/Core/Invoke.php';
-
     if ( $session->get('userID') == null || $session->get('userID') == '' ) {
         if ($_GET[$urlVar] == "") {
             require_once "CRM/Core/BAO/UFMatch.php";
@@ -42,7 +37,6 @@ function invoke() {
             print CRM_Core_Invoke::invoke( array("civicrm","dashboard") );
         } else {
             print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
-            print '<link rel="Shortcut Icon" type="image/x-icon" href="../i/widget/favicon.png" />';
         }
     }
 }
