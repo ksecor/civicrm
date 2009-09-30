@@ -691,6 +691,32 @@ WHERE  id IN ($optionIDs)
                                   );
         }
     }
+    
+    /** 
+     * Function to build the price set form.
+     * 
+     * @return None 
+     * @access public 
+     */ 
+    static function buildPriceSet( &$form )  
+    {
+        if ( $form->_priceSetId ) {
+            
+            // FIXME 
+            $required = false;
+            
+            $priceSet = self::getSetDetail( $form->_priceSetId, $required );
+            $form->_priceSet = CRM_Utils_Array::value( $form->_priceSetId, $priceSet );
+            $form->assign( 'priceSet',  $form->_priceSet );
+            $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
+            require_once 'CRM/Price/BAO/Field.php';                       
+            foreach ( $form->_priceSet['fields'] as $field ) {
+                $fieldId = $field['id'];
+                $elementName = 'price_' . $fieldId;
+                CRM_Price_BAO_Field::addQuickFormElement( $form, $elementName, $fieldId, false, $required );
+            }
+        }
+    }
 }
 
 
