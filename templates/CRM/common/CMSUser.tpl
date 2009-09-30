@@ -57,7 +57,7 @@
    {
       var cId = {/literal}'{$cId}'{literal};
       if ( cId ) {
-	 alert('{/literal}{ts}You are logged-in user{/ts}{literal});
+	 alert('{/literal}{ts}You are logged-in user{/ts}{literal}');
 	 frm.checked = false;
       } else {
 	 var siteName = {/literal}'{$config->userFrameworkBaseURL}'{literal};
@@ -86,7 +86,7 @@
       } 
       {/literal}{if $config->userFramework == "Joomla"}{literal}
 	 else if ( cmsUserName && cmsUserName.length < 2 ) {
-	    alert('{/literal}{ts}Your username is too short{/ts}{literal});
+	    alert('{/literal}{ts}Your username is too short{/ts}{literal}');
 	    return;	
 	 }
       {/literal}{/if}{literal}

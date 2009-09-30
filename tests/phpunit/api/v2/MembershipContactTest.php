@@ -47,24 +47,15 @@ class api_v2_MembershipContactTest extends CiviUnitTestCase {
     protected function setUp( ) 
     {
         parent::setUp();
-
+        $this->individualID = $this->individualCreate( );
+        
         $this->_contactID           = $this->individualCreate( ) ;
-        $this->_membershipTypeID    = $this->membershipTypeCreate( $this->_contactID  );        
+        $this->_contributionTypeID  = $this->contributionTypeCreate();
+        $this->_membershipTypeID    = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
         $this->_membershipStatusID  = $this->membershipStatusCreate( 'test status' );                
 
-        $params = array(
-                        'contact_id'         => $this->_contactID,  
-                        'membership_type_id' => $this->_membershipTypeID,
-                        'join_date'          => '2009-01-21',
-                        'start_date'         => '2009-01-21',
-                        'end_date'           => '2009-12-21',
-                        'source'             => 'Payment',
-                        'is_override'        => 1,
-                        'status_id'          => $this->_membershipStatusID
-                        );
-        
-        $this->_membershipID = $this->contactMembershipCreate( $params );
-        
+        $dontCare = $this->foreignKeyChecksOff();
+
     }
 
     /**
@@ -95,7 +86,7 @@ class api_v2_MembershipContactTest extends CiviUnitTestCase {
      * Test civicrm_contact_memberships_get with params with wrong type.
      * Gets treated as contact_id, memberships expected.
      */
-    function testGetWithWrongParamsType()
+    function testGetWithParamsString()
     {
         $params = 'a string';
         $result = & civicrm_contact_memberships_get( $params );
@@ -110,18 +101,7 @@ class api_v2_MembershipContactTest extends CiviUnitTestCase {
      */
     function testGetWithParamsContactId()
     {
-        $membership =& civicrm_contact_memberships_get( $this->_contactID );
-
-        $result = $membership[$this->_contactID][$this->_membershipID];
-
-        $this->assertEquals($result['contact_id'],         $this->_contactID, "In line " . __LINE__);
-        $this->assertEquals($result['membership_type_id'], $this->_membershipTypeID, "In line " . __LINE__);
-        $this->assertEquals($result['status_id'],          $this->_membershipStatusID, "In line " . __LINE__);
-        $this->assertEquals($result['join_date'],          '2009-01-21', "In line " . __LINE__);
-        $this->assertEquals($result['start_date'],         '2009-01-21', "In line " . __LINE__);
-        $this->assertEquals($result['end_date'],           '2009-12-21', "In line " . __LINE__);
-        $this->assertEquals($result['source'],             'Payment', "In line " . __LINE__);
-        $this->assertEquals($result['is_override'],         1, "In line " . __LINE__);        
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
         
     /**
@@ -130,22 +110,35 @@ class api_v2_MembershipContactTest extends CiviUnitTestCase {
      */
     function testGet()
     {
-        $params = array ( 'contact_id' => $this->_contactID );
-
-        $membership =& civicrm_contact_memberships_get( $params );
-
-        $result = $membership[$this->_contactID][$this->_membershipID];
-
-        $this->assertEquals($result['contact_id'],         $this->_contactID, "In line " . __LINE__);
-        $this->assertEquals($result['membership_type_id'], $this->_membershipTypeID, "In line " . __LINE__);
-        $this->assertEquals($result['status_id'],          $this->_membershipStatusID, "In line " . __LINE__);
-        $this->assertEquals($result['join_date'],          '2009-01-21', "In line " . __LINE__);
-        $this->assertEquals($result['start_date'],         '2009-01-21', "In line " . __LINE__);
-        $this->assertEquals($result['end_date'],           '2009-12-21', "In line " . __LINE__);
-        $this->assertEquals($result['source'],             'Payment', "In line " . __LINE__);
-        $this->assertEquals($result['is_override'],         1, "In line " . __LINE__);        
+        $params = array( 'contact_id'         => $this->_contactID, 
+                         'membership_type_id' => $this->_membershipTypeID, 
+                         'status_id'          => $this->_membershipStatusID, 
+                         'is_override'        => 1
+                         );
+        $id = $this->contactMembershipCreate( $params );
+        
+        $membership =& civicrm_contact_memberships_get( $this->_contactID );
+        
+        $this->assertEquals($membership[$this->_contactID][$id]['contact_id'],         $this->_contactID);
+        $this->assertEquals($membership[$this->_contactID][$id]['membership_type_id'], $this->_membershipTypeID);
+        $this->assertEquals($membership[$this->_contactID][$id]['status_id'],          $this->_membershipStatusID);
+        $this->assertEquals($membership[$this->_contactID][$id]['join_date'],          '2007-01-21');
+        $this->assertEquals($membership[$this->_contactID][$id]['start_date'],         '2007-01-21');
+        $this->assertEquals($membership[$this->_contactID][$id]['end_date'],           '2007-12-21');
+        $this->assertEquals($membership[$this->_contactID][$id]['source'],             'Payment' );
+        
+        $this->membershipDelete( $membership[$this->_contactID][$id]['id'] );
     }
 
+
+    /**
+     * Test civicrm_contact_memberships_get with params not array.
+     * Memberships expected.
+     */
+    function testGetWithIsActiveFalse()
+    {
+        $this->markTestIncomplete('This test has not been implemented yet.');
+    }
 
 ///////////////// civicrm_membership_contact_create methods
 
@@ -190,34 +183,22 @@ class api_v2_MembershipContactTest extends CiviUnitTestCase {
     function testMembershipCreate( ) 
     {
         $params = array(
-                        'contact_id'         => $this->_contactID,  
-                        'membership_type_id' => $this->_membershipTypeID,
+                        'contact_id'         => $this->individualID,  
+                        'membership_type_id' => '1',
                         'join_date'          => '2006-01-21',
                         'start_date'         => '2006-01-21',
                         'end_date'           => '2006-12-21',
                         'source'             => 'Payment',
                         'is_override'        => 1,
-                        'status_id'          => $this->_membershipStatusID                       
+                        'status_id'          => 2                       
                         );
-
         $result = civicrm_contact_membership_create( $params );
         $this->assertEquals( $result['is_error'], 0 );
         $this->assertNotNull( $result['id'] );
+        $this->membershipDelete( $result['id'] );
     }
 
 ///////////////// civicrm_membership_delete methods
-
-    /**
-     * Test civicrm_contact_memberships_delete with params with wrong type.
-     * Error expected.
-     */
-    function testDeleteWithParamsString()
-    {
-        $params = 'a string';
-        $result = & civicrm_contact_membership_create( $params );
-        $this->assertEquals( $result['is_error'], 1,
-                             "In line " . __LINE__ );
-    }
     
     function testMembershipDeleteEmpty( ) 
     {
@@ -226,9 +207,20 @@ class api_v2_MembershipContactTest extends CiviUnitTestCase {
         $this->assertEquals( $result['is_error'], 1 );
     }
 
+    function testMembershipDeleteMissingRequired( ) 
+    {
+        $result = civicrm_membership_delete( $emptyMembershipID );
+        $this->assertEquals( $result['is_error'], 1 );
+    }
+
     function testMembershipDelete( ) 
     {
-        $result = civicrm_membership_delete( $this->_membershipID );
+        $params = array( 'contact_id'         => $this->_contactID, 
+                         'membership_type_id' => $this->_membershipTypeID, 
+                         'status_id'          => $this->_membershipStatusID );
+        $membershipID = $this->contactMembershipCreate( $params );
+        
+        $result = civicrm_membership_delete( $membershipID );
         $this->assertEquals( $result['is_error'], 0 );
     }
     

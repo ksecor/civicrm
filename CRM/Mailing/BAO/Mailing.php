@@ -1042,11 +1042,6 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
 
-        //CRM-5058
-        //token replacement of subject
-        $subjectToken = CRM_Activity_BAO_Activity::getTokens( $headers['Subject'] );
-        $headers['Subject'] = CRM_Utils_Token::replaceContactTokens( $headers['Subject'], $contact, false, $subjectToken );
-
         CRM_Utils_Mail::setMimeParams( $message );
         $message->headers($headers);
         

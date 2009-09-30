@@ -122,7 +122,7 @@
             if( groupSelected ) { 
                 return true;
             }
-            alert('{/literal}{ts}Please select valid Group{/ts}{literal}');
+            alert("Please select valid Group");
             return false;
         }
         {/literal}

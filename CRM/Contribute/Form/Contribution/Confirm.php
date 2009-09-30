@@ -69,13 +69,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_Payment_Form::mapParams( $this->_bltID, $expressParams, $this->_params, false );
 
                 // fix state and country id if present
-                if ( ! empty( $this->_params["billing_state_province_id-{$this->_bltID}"] ) && $this->_params["billing_state_province_id-{$this->_bltID}"] ) {
-                    $this->_params["billing_state_province-{$this->_bltID}"] =
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["billing_state_province_id-{$this->_bltID}"] ); 
+                if ( ! empty( $this->_params["state_province_id-{$this->_bltID}"] ) && $this->_params["state_province_id-{$this->_bltID}"] ) {
+                    $this->_params["state_province-{$this->_bltID}"] =
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
                 }
-                if ( ! empty( $this->_params["billing_country_id-{$this->_bltID}"] ) && $this->_params["billing_country_id-{$this->_bltID}"] ) {
-                    $this->_params["billing_country-{$this->_bltID}"]        =
-                        CRM_Core_PseudoConstant::countryIsoCode( $this->_params["billing_country_id-{$this->_bltID}"] ); 
+                if ( ! empty( $this->_params["country_id-{$this->_bltID}"] ) && $this->_params["country_id-{$this->_bltID}"] ) {
+                    $this->_params["country-{$this->_bltID}"]        =
+                        CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
                 }
 
                 // set a few other parameters for PayPal
@@ -91,11 +91,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 // also merge all the other values from the profile fields
                 $values = $this->controller->exportValues( 'Main' );
                 $skipFields = array( 'amount', 'amount_other',
-                                     "billing_street_address-{$this->_bltID}",
-                                     "billing_city-{$this->_bltID}",
-                                     "billing_state_province_id-{$this->_bltID}",
-                                     "billing_postal_code-{$this->_bltID}",
-                                     "billing_country_id-{$this->_bltID}" );
+                                     "street_address-{$this->_bltID}",
+                                     "city-{$this->_bltID}",
+                                     "state_province_id-{$this->_bltID}",
+                                     "postal_code-{$this->_bltID}",
+                                     "country_id-{$this->_bltID}" );
                 foreach ( $values as $name => $value ) {
                     // skip amount field
                     if ( ! in_array( $name, $skipFields ) ) {
@@ -109,13 +109,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         } else {
             $this->_params = $this->controller->exportValues( 'Main' );
 
-            if ( !empty( $this->_params["billing_state_province_id-{$this->_bltID}"] ) ) {
-                $this->_params["billing_state_province-{$this->_bltID}"] =
-                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["billing_state_province_id-{$this->_bltID}"] ); 
+            if ( !empty( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+                $this->_params["state_province-{$this->_bltID}"] =
+                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
             }
-            if ( ! empty( $this->_params["billing_country_id-{$this->_bltID}"] ) ) {
-                $this->_params["billing_country-{$this->_bltID}"]        =
-                    CRM_Core_PseudoConstant::countryIsoCode( $this->_params["billing_country_id-{$this->_bltID}"] ); 
+            if ( ! empty( $this->_params["country_id-{$this->_bltID}"] ) ) {
+                $this->_params["country-{$this->_bltID}"]        =
+                    CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
             }
             
             if ( isset( $this->_params['credit_card_exp_date'] ) ) {
@@ -286,8 +286,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         foreach ( $this->_fields as $name => $dontCare ) {
             $fields[$name] = 1;
         }
-        $fields["billing_state_province-{$this->_bltID}"] =
-            $fields["billing_country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
+        $fields["state_province-{$this->_bltID}"] =
+            $fields["country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
 
         $contact =  $this->_params;
         foreach ($fields as $name => $dontCare ) {
@@ -411,13 +411,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $billingFields = array( "billing_first_name",
                                     "billing_middle_name",
                                     "billing_last_name",
-                                    "billing_street_address-{$this->_bltID}",
-                                    "billing_city-{$this->_bltID}",
-                                    "billing_state_province-{$this->_bltID}",
-                                    "billing_state_province_id-{$this->_bltID}",
-                                    "billing_postal_code-{$this->_bltID}",
-                                    "billing_country-{$this->_bltID}",
-                                    "billing_country_id-{$this->_bltID}"
+                                    "street_address-{$this->_bltID}",
+                                    "city-{$this->_bltID}",
+                                    "state_province-{$this->_bltID}",
+                                    "state_province_id-{$this->_bltID}",
+                                    "postal_code-{$this->_bltID}",
+                                    "country-{$this->_bltID}",
+                                    "country_id-{$this->_bltID}"
                                     );
 
             foreach( $billingFields as $value ) {

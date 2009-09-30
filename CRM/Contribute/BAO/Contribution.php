@@ -948,7 +948,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         $addressParams['address_name'] = "{$params['billing_first_name']}" . CRM_Core_DAO::VALUE_SEPARATOR . "{$params['billing_middle_name']}" . CRM_Core_DAO::VALUE_SEPARATOR . "{$params['billing_last_name']}";
         
         foreach ( $billingFields as $value ) {
-            $addressParams[$value] = $params["billing_{$value}-{$billingLocationTypeID}"];
+            $addressParams[$value] = $params["{$value}-{$billingLocationTypeID}"];
         }
 
         require_once "CRM/Core/BAO/Address.php";

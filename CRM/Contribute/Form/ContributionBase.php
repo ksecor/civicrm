@@ -575,7 +575,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $addressFields = array( );
         foreach ($addressParts as $part) {
             list( $n, $id ) = explode( '-', $part );
-            $addressFields[$n] = CRM_Utils_Array::value( 'billing_' . $part, $this->_params );
+            $addressFields[$n] = CRM_Utils_Array::value( $part, $this->_params );
         }
 
         require_once 'CRM/Utils/Address.php';

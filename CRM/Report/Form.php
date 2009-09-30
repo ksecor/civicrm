@@ -77,7 +77,7 @@ class CRM_Report_Form extends CRM_Core_Form {
      *
      * @var array
      */
-    protected $_columns = array( );
+    protected $_columns;
 
     /**
      * The set of filters in the report

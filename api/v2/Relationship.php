@@ -138,20 +138,6 @@ function civicrm_relationship_delete( &$params ) {
 
 }
 
-/**
- * Function to update relationship
- *
- * @param  array $params   Associative array of property name/value pairs to update the relationship
- *
- * @return array Array with relationship information
- *
- * @access public
- *
- */
-function civicrm_relationship_update( $params ) {
-    return civicrm_relationship_create( $params );
-}
-
 
 /**
  * Function to update relationship type
@@ -273,10 +259,6 @@ function civicrm_get_relationships( $contact_a, $contact_b = null, $relationship
  */
 function civicrm_contact_relationship_get( $contact_a, $contact_b = null, $relationshipTypes = null, $sort = null ) 
 {
-    if ( ! is_array( $contact_a ) ) {
-        return civicrm_create_error( ts( 'Input parameter is not an array' ) );
-    }
-    
     if ( !isset( $contact_a['contact_id'] ) ) {
         return civicrm_create_error( ts( 'Could not find contact_id in input parameters.' ) );
     }
@@ -414,7 +396,7 @@ function _civicrm_relationship_format_params( &$params, &$values ) {
             
         case 'start_date':
         case 'end_date':
-            if (!CRM_Utils_Rule::qfDate($value)) {
+            if (!CRM_Utils_Rule::date($value)) {
                 return civicrm_create_error("$key not a valid date: $value");
             }
             break;

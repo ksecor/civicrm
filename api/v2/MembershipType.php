@@ -55,12 +55,9 @@ function civicrm_membership_type_create(&$params)
 {
     _civicrm_initialize();
     if ( ! is_array($params) ) {
-        return civicrm_create_error('Params need to be of type array!');
+        return civicrm_create_error('Params is not an array.');
     }
-    if( empty($params) ) {
-        return civicrm_create_error( 'No input parameters present' );
-    }
-
+    
     if ( ! isset( $params['name'] ) ||
          ! isset( $params['duration_unit'] ) ||
          ! isset( $params['duration_interval'] ) ) {
@@ -107,11 +104,9 @@ function civicrm_membership_type_get(&$params)
     _civicrm_initialize();
 
     if ( ! is_array($params) ) {
-        return civicrm_create_error('Params need to be of type array!');
+        return civicrm_create_error('Params is not an array.');
     }
-   if( empty($params) ) {
-        return civicrm_create_error( 'No input parameters present' );
-    } 
+    
     require_once 'CRM/Member/BAO/MembershipType.php';
     $membershipTypeBAO = new CRM_Member_BAO_MembershipType();
     
@@ -149,11 +144,9 @@ function civicrm_membership_type_get(&$params)
  */
 function &civicrm_membership_type_update( &$params ) {
     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params need to be of type array!' );
+        return civicrm_create_error( 'Params is not an array' );
     }
-    if( empty($params) ) {
-        return civicrm_create_error( 'No input parameters present' );
-    }
+    
     if ( !isset($params['id']) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
@@ -190,11 +183,9 @@ function &civicrm_membership_type_update( &$params ) {
  */
 function civicrm_membership_type_delete( &$params ) {
     if ( !is_array( $params ) ) {
-        return civicrm_create_error( 'Params need to be of type array!' );
+        return civicrm_create_error( 'Params is not an array' );
     }
-    if( empty($params) ) {
-        return civicrm_create_error( 'No input parameters present' );
-    }
+    
     if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
         return civicrm_create_error( 'Invalid or no value for membershipTypeID' );
     }

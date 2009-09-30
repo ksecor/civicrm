@@ -240,7 +240,7 @@ class CRM_Core_BAO_Block
             
             if ( CRM_Utils_Array::value( 'id', $value ) && !$dataExits ) {
                 //delete the existing record
-                self::blockDelete( $name, array( 'id' => $value['id'] ) );
+                self::blockDelete( $name, array( 'id' => $value['id'] ) ); 
                 continue;
             } else if ( !$dataExits ) {
                 continue;

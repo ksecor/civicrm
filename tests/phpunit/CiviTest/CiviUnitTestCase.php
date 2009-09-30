@@ -347,18 +347,13 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     
     function membershipTypeCreate( $contactID, $contributionTypeID = 1 ) 
     {
-        $this->contributionTypeCreate();
-
         $params = array( 'name'                 => 'General',
                          'duration_unit'        => 'year',
                          'duration_interval'    => 1,
                          'period_type'          => 'rolling',
                          'member_of_contact_id' => $contactID,
                          'domain_id'		=> 1,
-                         // FIXME: I know it's 1, cause it was loaded directly to the db.
-                         // FIXME: when we load all the data, we'll need to address this to
-                         // FIXME: avoid hunting numbers around.
-                         'contribution_type_id' => 1 );
+                         'contribution_type_id' => $contributionTypeID );
         
         $result = civicrm_membership_type_create( $params );
         
@@ -395,7 +390,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
                 CRM_Core_Error::createAPIError( 'Could not create membership' );
             }
         }
-
+        
         return $result['id'];
     }
     
@@ -506,14 +501,18 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */    
     function contributionTypeCreate() 
     {
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
-                             dirname(__FILE__)
-                             . '/../api/v2/dataset/contribution_types.xml') );
-                             
-        // FIXME: CHEATING LIKE HELL HERE, TO BE FIXED
-        return 1;
+        $params = array(
+                        'name'            => 'Gift',
+                        'description'     => 'For some worthwhile cause',
+                        'accounting_code' => 1004,
+                        'is_deductible'   => 0,
+                        'is_active'       => 1
+                        );
+        
+        $ids = null;
+        require_once "CRM/Contribute/BAO/ContributionType.php";
+        $contributionType = CRM_Contribute_BAO_ContributionType::add($params, $ids);
+        return $contributionType->id;
     }
     
     /**
@@ -522,7 +521,6 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */
     function contributionTypeDelete($contributionTypeID) 
     {
-        require_once 'CRM/Contribute/BAO/ContributionType.php';
         $del= CRM_Contribute_BAO_ContributionType::del($contributionTypeID);
     }
     

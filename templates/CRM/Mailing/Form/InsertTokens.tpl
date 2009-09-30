@@ -90,8 +90,6 @@ function selectValue( val ) {
         if ( data.msg_text ) {      
             cj("#"+text_message).val( data.msg_text );
             cj("div.text").show();
-            cj(".head").find('span').removeClass().addClass('ui-icon ui-icon-triangle-1-s');
-            cj("#helptext").show(); 
         } else {
             cj("#"+text_message).val("");
         }

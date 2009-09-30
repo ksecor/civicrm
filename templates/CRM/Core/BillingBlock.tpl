@@ -81,27 +81,27 @@
                             <td class="label">{$form.billing_last_name.label}</td>
                             <td>{$form.billing_last_name.html}</td>
                         </tr>
-                        {assign var=n value=billing_street_address-$bltID}
+                        {assign var=n value=street_address-$bltID}
                         <tr>
                             <td class="label">{$form.$n.label}</td>
                             <td>{$form.$n.html}</td>
                         </tr>
-                        {assign var=n value=billing_city-$bltID}
+                        {assign var=n value=city-$bltID}
                         <tr>
                             <td class="label">{$form.$n.label}</td>
                             <td>{$form.$n.html}</td>
                         </tr>
-                        {assign var=n value=billing_country_id-$bltID}
+                        {assign var=n value=country_id-$bltID}
                         <tr>
                             <td class="label">{$form.$n.label}</td>
                             <td>{$form.$n.html}</td>
                         </tr>
-                        {assign var=n value=billing_state_province_id-$bltID}
+                        {assign var=n value=state_province_id-$bltID}
                         <tr>
                             <td class="label">{$form.$n.label}</td>
                             <td>{$form.$n.html}</td>
                         </tr>
-                        {assign var=n value=billing_postal_code-$bltID}
+                        {assign var=n value=postal_code-$bltID}
                         <tr>
                             <td class="label">{$form.$n.label}</td>
                             <td>{$form.$n.html}</td>
