@@ -63,8 +63,8 @@ VALUES
     ( @domainID, 'civicrm/activity/add?atype=3&action=add&reset=1&context=standalone', '{ts escape="sql"}New Email{/ts}',   'New Email',            NULL,               '',             @contactlastID, '1', '1',   5 ), 
     ( @domainID, 'civicrm/import/contact&reset=1',                          '{ts escape="sql"}Import Contacts{/ts}',        'Import Contacts',      'import contacts',  '',             @contactlastID, '1', NULL,  6 ), 
     ( @domainID, 'civicrm/import/activity&reset=1',                         '{ts escape="sql"}Import Activities{/ts}',      'Import Activities',    'import contacts',  '',             @contactlastID, '1', '1',   7 ), 
-    ( @domainID, 'civicrm/group/add&reset=1',                               '{ts escape="sql"}New Group{/ts}',              'New Group',            NULL,               '',             @contactlastID, '1', NULL,  8 ), 
-    ( @domainID, 'civicrm/group&reset=1',                                   '{ts escape="sql"}Manage Groups{/ts}',          'Manage Groups',        NULL,               '',             @contactlastID, '1', '1',   9 ), 
+    ( @domainID, 'civicrm/group/add&reset=1',                               '{ts escape="sql"}New Group{/ts}',              'New Group',            'edit groups',      '',             @contactlastID, '1', NULL,  8 ), 
+    ( @domainID, 'civicrm/group&reset=1',                                   '{ts escape="sql"}Manage Groups{/ts}',          'Manage Groups',        'edit groups,administer CiviCRM', 'AND', @contactlastID, '1', '1', 9 ), 
     ( @domainID, 'civicrm/admin/tag&reset=1&action=add',                    '{ts escape="sql"}New Tag{/ts}',                'New Tag',              'administer CiviCRM', '',           @contactlastID, '1', NULL, 10 ), 
     ( @domainID, 'civicrm/admin/tag&reset=1',                               '{ts escape="sql"}Manage Tags (Categories){/ts}', 'Manage Tags (Categories)', 'administer CiviCRM', '',     @contactlastID, '1', NULL, 11 );
 

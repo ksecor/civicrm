@@ -5,6 +5,10 @@
     UPDATE civicrm_navigation SET permission ='import contacts'
         WHERE civicrm_navigation.name IN( 'Import Contacts','Import Activities');
 
+    UPDATE civicrm_navigation SET permission ='edit groups' WHERE civicrm_navigation.name= 'New Group';
+    UPDATE civicrm_navigation SET permission ='edit groups,administer CiviCRM', permission_operator ='AND'
+        WHERE civicrm_navigation.name= 'Manage Groups';
+
     UPDATE civicrm_navigation SET permission ='administer CiviCRM' WHERE civicrm_navigation.name= 'New Tag';
     UPDATE civicrm_navigation SET permission ='administer CiviCRM' WHERE civicrm_navigation.name= 'Manage Tags (Categories)';
     
