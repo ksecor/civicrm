@@ -392,9 +392,9 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
             if ( CRM_Utils_Array::value( 'error_message', $result ) ) {
-                return CRM_Core_Error::createAPIError( $result['error_message'] );
+                throw new Exception( $result['error_message'] );
             } else {
-                return CRM_Core_Error::createAPIError( 'Could not create membership' );
+                throw new Exception( 'Could not create membership' . ' - in line: ' . __LINE__ );
             }
         }
 
@@ -428,6 +428,10 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     function membershipStatusCreate( $name = 'test member status' ) 
     {
         $params['name'] = $name;
+        $params['start_event'] = 'start_date';
+        $params['end_event'] = 'end_date';
+        $params['is_current_member'] = 1;
+        $params['is_active'] = 1;
         $result = civicrm_membership_status_create( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::createAPIError( 'Could not create membership status' );
