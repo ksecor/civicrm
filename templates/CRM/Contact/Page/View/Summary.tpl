@@ -91,38 +91,6 @@
                 <div class="contact_details ui-corner-all">
                     <div class="contact_panel">
                         <div class="contactCardLeft">
-						{if $phone OR $im OR $openid}
-                            <table>
-                                {foreach from=$phone item=item}
-                                    {if $item.phone}
-                                    <tr>
-                                        <td class="label">{$item.location_type}&nbsp;{$item.phone_type}</td>
-                                        <td {if $item.is_primary eq 1}class="primary"{/if}><span {if $privacy.do_not_phone} class="do-not-phone" title={ts}"Privacy flag: Do Not Phone"{/ts} {/if}>{$item.phone}</span></td>
-                                    </tr>
-                                    {/if}
-                                {/foreach}
-                                {foreach from=$im item=item}
-                                    {if $item.name or $item.provider}
-                                    {if $item.name}<tr><td class="label">{$item.provider}&nbsp;({$item.location_type})</td><td {if $item.is_primary eq 1}class="primary"{/if}>{$item.name}</td></tr>{/if}
-                                    {/if}
-                                {/foreach}
-                                {foreach from=$openid item=item}
-                                    {if $item.openid}
-                                        <tr>
-                                            <td class="label">{$item.location_type}&nbsp;{ts}OpenID{/ts}</td>
-                                            <td {if $item.is_primary eq 1}class="primary"{/if}><a href="{$item.openid}">{$item.openid|mb_truncate:40}</a>
-                                                {if $config->userFramework eq "Standalone" AND $item.allowed_to_login eq 1}
-                                                    <br/> <span style="font-size:9px;">{ts}(Allowed to login){/ts}</span>
-                                                {/if}
-                                            </td>
-                                        </tr>
-                                    {/if}
-                                {/foreach}
-                            </table>
-						{/if}
-                        </div><!-- #contactCardLeft -->
-
-                        <div class="contactCardRight">
                             <table>
                                 {foreach from=$email item=item }
                                     {if $item.email}
@@ -145,6 +113,38 @@
                                     </tr>
                                 {/if}
                             </table>
+                        </div><!-- #contactCardLeft -->
+
+                        <div class="contactCardRight">
+                            {if $phone OR $im OR $openid}
+                                <table>
+                                    {foreach from=$phone item=item}
+                                        {if $item.phone}
+                                        <tr>
+                                            <td class="label">{$item.location_type}&nbsp;{$item.phone_type}</td>
+                                            <td {if $item.is_primary eq 1}class="primary"{/if}><span {if $privacy.do_not_phone} class="do-not-phone" title={ts}"Privacy flag: Do Not Phone"{/ts} {/if}>{$item.phone}</span></td>
+                                        </tr>
+                                        {/if}
+                                    {/foreach}
+                                    {foreach from=$im item=item}
+                                        {if $item.name or $item.provider}
+                                        {if $item.name}<tr><td class="label">{$item.provider}&nbsp;({$item.location_type})</td><td {if $item.is_primary eq 1}class="primary"{/if}>{$item.name}</td></tr>{/if}
+                                        {/if}
+                                    {/foreach}
+                                    {foreach from=$openid item=item}
+                                        {if $item.openid}
+                                            <tr>
+                                                <td class="label">{$item.location_type}&nbsp;{ts}OpenID{/ts}</td>
+                                                <td {if $item.is_primary eq 1}class="primary"{/if}><a href="{$item.openid}">{$item.openid|mb_truncate:40}</a>
+                                                    {if $config->userFramework eq "Standalone" AND $item.allowed_to_login eq 1}
+                                                        <br/> <span style="font-size:9px;">{ts}(Allowed to login){/ts}</span>
+                                                    {/if}
+                                                </td>
+                                            </tr>
+                                        {/if}
+                                    {/foreach}
+                                </table>
+    						{/if}
                         </div><!-- #contactCardRight -->
 
                         <div class="clear"></div>

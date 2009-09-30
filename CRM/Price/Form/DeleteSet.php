@@ -34,7 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/BAO/PriceSet.php';
+require_once 'CRM/Price/BAO/Set.php';
 /**
  * This class is to build the form for Deleting Set
  */
@@ -64,7 +64,7 @@ class CRM_Price_Form_DeleteSet extends CRM_Core_Form {
     {
         $this->_sid    = $this->get( 'sid' );
         
-        $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceSet', 
+        $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Set', 
                                                      $this->_sid, 'title' );
     }
     
@@ -95,7 +95,7 @@ class CRM_Price_Form_DeleteSet extends CRM_Core_Form {
      */
     public function postProcess( ) 
     {
-        if (CRM_Core_BAO_PriceSet::deleteSet( $this->_sid)) {
+        if (CRM_Price_BAO_Set::deleteSet( $this->_sid)) {
             CRM_Core_Session::setStatus( ts( 'The Price Set \'%1\' has been deleted.', 
                                              array( 1 => $this->_title ) ) );        
         } else {

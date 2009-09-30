@@ -39,7 +39,7 @@
 		    {/if}
 		</div>
             {/if}
-        {elseif $contributeMode EQ 'notify'}
+        {elseif $contributeMode EQ 'notify' OR ($contributeMode EQ 'direct' && $is_recur) }
             <div>{ts 1=$paymentProcessor.processorName}Your contribution has been submitted to %1 for processing. Please print this page for your records.{/ts}</div>
             {if $is_email_receipt}
                 <div>
@@ -72,6 +72,9 @@
         {if !$membershipBlock AND $amount}{ts}Contribution Information{/ts}{else}{ts}Membership Fee{/ts}{/if}
     </div>
     <div class="display-block">
+    	{if $lineItem}
+            {include file="CRM/Price/Page/LineItem.tpl" context="Contribution"}
+	{/if}
         {if $membership_amount } 
             {$membership_name} {ts}Membership{/ts}: <strong>{$membership_amount|crmMoney}</strong><br />
             {if $amount}

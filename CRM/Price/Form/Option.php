@@ -177,7 +177,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             
             if ( $this->_fid ) {
                 //hide the default checkbox option for text field
-                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $this->_fid, 'html_type' );
+                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Price_BAO_Field', $this->_fid, 'html_type' );
                 $this->assign( 'hideDefaultOption', false );
                 if ( $htmlType == 'Text' ) {
                     $this->assign( 'hideDefaultOption', true );
@@ -222,7 +222,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
     static function formRule( &$fields, &$files, &$form ) 
     {
         $errors       = array( );
-        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $form->_fid, 'html_type' );
+        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Price_BAO_Field', $form->_fid, 'html_type' );
         if ( $htmlType == 'Text' && $fields['name'] <= 0 ) {
             $errors['name'] = ts( 'Amount must be greater than zero When Price Field is of Text type' );  
         } else if ($fields['name'] < 0 ) {
@@ -258,7 +258,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         } else {
             $params = $ids = array( );
             $params = $this->controller->exportValues( 'Option' );
-            $fieldLabel = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', $this->_fid, 'label') ;
+            $fieldLabel = CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Field', $this->_fid, 'label') ;
             $params['description'] = $fieldLabel.' - '.$params['label'] ;
 
             $groupParams = array( 'id' => $this->_ogId );

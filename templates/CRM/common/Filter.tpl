@@ -58,7 +58,7 @@ function filter( ob, id ) {
             //add appropriate item(s)
             //if a removed item matches the new pattern, add it to the list of names
             for ( key in remvdArray) {
-                tempName = remvdArray[key];
+                tempName = remvdArray[key].toString();
                 if ( tempName.match(stregexp) != null ) {
                     tempArray[key] = tempName;
                 }
@@ -79,12 +79,15 @@ function filter( ob, id ) {
 function buildOptions( arrayName ) {
     //clear the select list
     selObj.options.length = 0;
-
+    //to select only valid tokens in tokens list
+    var tokenRegx = new RegExp (/{(\w+\.\w+)}/);
     var i = 0;
     for ( script in arrayName ) {
-        var option = new Option( arrayName[script], script );
-        selObj.options[i] = option;
-        i++;
+        if ( script.match(tokenRegx) != null ) {
+             var option = new Option( arrayName[script], script );
+             selObj.options[i] = option;
+             i++;
+        }
     }
     buildRemvd();
 }
@@ -92,9 +95,12 @@ function buildOptions( arrayName ) {
 function buildRemvd( ) {
     //clear the removed items array
     remvdArray.length = 0;
+    var remToken = null;
     //build the removed items array
     for ( key in filterArray ) {
-        if ( filterArray[key].match(stregexp) == null ) {
+        //for filtering tokens
+        remToken =  filterArray[key].toString();
+        if ( remToken.match(stregexp) == null ) {
             //remember which item was removed
             remvdArray[key] = filterArray[key];
         }

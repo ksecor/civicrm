@@ -77,8 +77,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             $addresses = self::allEntityAddress( $entityElements );
         }
 
-        $isPrimary = true;
-        $isBilling = true;
+        $isPrimary = $isBilling = true;
         $blocks    = array( );
 
         require_once "CRM/Core/BAO/Block.php";
@@ -100,7 +99,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             } else if ( !$addressExists ) {
                 continue;
             }
-
+            
             if ( $isPrimary && $value['is_primary'] ) {
                 $isPrimary = false;
             } else {
@@ -156,6 +155,31 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      */
     static function fixAddress( &$params ) 
     {
+        if ( CRM_Utils_Array::value( 'billing_street_address', $params ) ) {
+            //Check address is comming from online contribution / registration page
+            //Fixed :CRM-5076
+            $billing = array( 'street_address'    => 'billing_street_address',
+                              'city'              => 'billing_city',
+                              'postal_code'       => 'billing_postal_code',
+                              'state_province'    => 'billing_state_province',
+                              'state_province_id' => 'billing_state_province_id',
+                              'country'           => 'billing_country',
+                              'country_id'        => 'billing_country_id'
+                              );
+            
+            foreach ( $billing as $key => $val ) {
+                if ( $value = CRM_Utils_Array::value( $val, $params ) ) {
+                    if ( CRM_Utils_Array::value( $key, $params ) ) {
+                        unset($params[$val]);
+                    } else {
+                        //add new key and removed old
+                        $params[$key] = $value;
+                        unset($params[$val]);
+                    }
+                }
+            }
+        }
+        
         /* Split the zip and +4, if it's in US format */
         if ( CRM_Utils_Array::value( 'postal_code', $params ) &&
              preg_match('/^(\d{4,5})[+-](\d{4})$/',

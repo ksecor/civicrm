@@ -981,6 +981,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function add(&$params, &$ids) 
     {
+        require_once 'CRM/Utils/Array.php';
         $fields = array( 'is_active', 'add_captcha', 'is_map', 'is_update_dupe', 'is_edit_link', 'is_uf_link', 'is_cms_user' );
         foreach( $fields as $field ) {
             $params[$field] = CRM_Utils_Array::value( $field, $params, false );    
@@ -1309,7 +1310,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             return;
         }
         
-        if ($contactId) {
+        if ( $contactId && !$online ) {
             $name = "field[$contactId][$fieldName]";
         } else {
             $name = $fieldName;

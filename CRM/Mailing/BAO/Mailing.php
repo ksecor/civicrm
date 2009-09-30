@@ -552,12 +552,12 @@ AND    $mg.mailing_id = {$mailing_id}
     {
         if ( !$this->preparedTemplates ) {
             $patterns['html'] = $this->getPatterns(true);
-            $patterns['text'] = $this->getPatterns();
+            $patterns['subject'] = $patterns['text'] = $this->getPatterns();
             $templates = $this->getTemplates();
             
             $this->preparedTemplates = array();
             
-            foreach (array('html','text') as $key) {
+            foreach (array('html','text', 'subject') as $key) {
                 if (!isset($templates[$key])) {
                     continue;
                 }
@@ -638,6 +638,12 @@ AND    $mg.mailing_id = {$mailing_id}
                   $this->templates['text'] = CRM_Utils_String::htmlToText( $this->templates['html'] );
               }
           }
+
+          if ( $this->subject ) {
+              $template = array();
+              $template[] = $this->subject;
+              $this->templates['subject'] = join("\n",$template);
+          }
       }
       return $this->templates;    
     }
@@ -662,7 +668,7 @@ AND    $mg.mailing_id = {$mailing_id}
     {
         if (!$this->tokens) {
             
-            $this->tokens = array( 'html' => array(), 'text' => array() );
+            $this->tokens = array( 'html' => array(), 'text' => array(), 'subject' => array() );
             
             if ($this->body_html) {
                 $this->_getTokens('html');
@@ -671,7 +677,10 @@ AND    $mg.mailing_id = {$mailing_id}
             if ($this->body_text) {
                 $this->_getTokens('text');
             }
-         
+
+            if ($this->subject) {
+                $this->_getTokens('subject');
+            }
         }
         return $this->tokens;      
     }
@@ -1041,6 +1050,11 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
 
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
+
+        //CRM-5058
+        //token replacement of subject
+        $subjectToken = CRM_Activity_BAO_Activity::getTokens( $headers['Subject'] );
+        $headers['Subject'] = CRM_Utils_Token::replaceContactTokens( $headers['Subject'], $contact, false, $subjectToken );
 
         CRM_Utils_Mail::setMimeParams( $message );
         $message->headers($headers);
@@ -1846,6 +1860,11 @@ SELECT $selectClause
             $properties = array_merge( $properties, $tokens['text']['contact'] );
         }
 
+        if ( isset( $tokens['subject'] ) &&
+             isset( $tokens['subject']['contact'] ) ) {
+            $properties = array_merge( $properties, $tokens['subject']['contact'] );
+        }
+        
         $returnProperties = array( );
         $returnProperties['display_name'] = 
             $returnProperties['contact_id'] = $returnProperties['preferred_mail_format'] = 1;
@@ -1973,6 +1992,18 @@ SELECT $selectClause
     {
         //get the tokens.
         $tokens = CRM_Core_SelectValues::contactTokens( );
+
+        //token selector for subject
+        //CRM-5058
+        $form->add( 'select', 'token3',  ts( 'Insert Tokens' ), 
+                    $tokens , false, 
+                    array(
+                          'size'     => "5",
+                          'multiple' => true,
+                          'onchange' => "return tokenReplText(this);"
+                          )
+                    );
+        
         if ( CRM_Utils_System::getClassName( $form )  == 'CRM_Mailing_Form_Upload' ) {
             $tokens = array_merge( CRM_Core_SelectValues::mailingTokens( ), $tokens );
         }
@@ -1998,6 +2029,7 @@ SELECT $selectClause
                           )
                     );
         
+               
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
         if ( !empty( $form->_templates ) ) {

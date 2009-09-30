@@ -146,7 +146,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $fields[$name] = 1;
             }
 
-            $names = array("first_name", "middle_name", "last_name");
+            $names = array( "first_name", "middle_name", "last_name","street_address-{$this->_bltID}","city-{$this->_bltID}",
+                            "postal_code-{$this->_bltID}","country_id-{$this->_bltID}","state_province_id-{$this->_bltID}"
+                            );
             foreach ($names as $name) {
                 $fields[$name] = 1;
             }
@@ -259,6 +261,20 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // now fix all state country selectors
         require_once 'CRM/Core/BAO/Address.php';
         CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
+
+        if ( $this->_priceSetId ) {
+            foreach( $this->_priceSet['fields'] as $key => $val ) {
+                foreach ( $val['options'] as $keys => $values ) {
+                    if ( $values['is_default'] ) {
+                        if ( $val['html_type'] == 'CheckBox') {
+                            $this->_defaults["price_{$key}"][$keys] = 1;
+                        } else {
+                            $this->_defaults["price_{$key}"] = $keys;
+                        }
+                    }
+                }
+            }
+        }
 
         return $this->_defaults;
     }
@@ -411,9 +427,25 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildAmount( $separateMembershipPayment = false ) 
     {
         $elements = array( );
-
-        // first build the radio boxes
+        if ( isset($this->_priceSetId) ) {
+            $this->addGroup( $elements, 'amount', ts('Contribution Fee(s)'), '<br />' );      
+            $this->add( 'hidden', 'priceSetId', $this->_priceSetId );
+            $this->assign( 'priceSet', $this->_priceSet );
+            
+            require_once 'CRM/Price/BAO/Field.php';                       
+            foreach ( $this->_values['fee']['fields'] as $field ) {
+                $fieldId = $field['id'];
+                $elementName = 'price_' . $fieldId;
+                if ( $button == 'skip' ) {
+                    $isRequire = false;
+                } else {
+                    $isRequire = CRM_Utils_Array::value( 'is_required', $field );
+                }
+                CRM_Price_BAO_Field::addQuickFormElement( $this, $elementName, $fieldId, false, $isRequire );
+            }
+        } 
         if ( ! empty( $this->_values['amount'] ) ) {
+            // first build the radio boxes
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::buildAmount( 'contribution', $this, $this->_values['amount'] );
             
@@ -628,7 +660,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */ 
     static function formRule( &$fields, &$files, &$self ) 
     { 
-        $errors = array( ); 
+        $errors = array( );
         $amount = self::computeAmount( $fields, $self );
 
         $email = $fields["email-{$self->_bltID}"];
@@ -706,7 +738,26 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $amount = $memTypeDetails['minimum_fee'];
             }
         }
-
+        
+        //check for atleast one pricefields should be selected
+        if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) {
+            $priceField = new CRM_Price_DAO_Field( );
+            $priceField->price_set_id = $fields['priceSetId'];
+            $priceField->find( );
+            
+            $check = array( );
+            
+            while ( $priceField->fetch( ) ) {
+                if ( ! empty( $fields["price_{$priceField->id}"] ) ) {
+                    $check[] = $priceField->id; 
+                }
+            }
+            
+            if ( empty( $check ) ) {
+                $errors['_qf_default'] = ts( "Select at least one option from Contribution(s)." );
+            }
+        }
+        
         if ( $self->_values['is_monetary'] ) {
             if ( ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' )
                  || isset( $fields['amount_other'] ) ) {
@@ -880,6 +931,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name );
+
         if ( CRM_Utils_Array::value( 'onbehalfof_id', $params ) ) {
             $params['organization_id'] = $params['onbehalfof_id'];
         }
@@ -901,6 +953,14 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->set( 'amount_level',  CRM_Utils_Array::value( 'amount_level', $params ) ); 
         }
 
+        if ( !empty( $params['priceSetId'] ) ) {
+            $lineItem = array( );
+            require_once 'CRM/Price/BAO/Set.php';
+            CRM_Price_BAO_Set::processAmount( $this->_values['fee']['fields'], $params, $lineItem );
+            $priceSet   = array();
+            $priceSet[] = $lineItem;
+            $this->set( 'lineItem', $priceSet );
+        }
         $this->set( 'amount', $params['amount'] ); 
         
         // generate and set an invoiceID for this transaction

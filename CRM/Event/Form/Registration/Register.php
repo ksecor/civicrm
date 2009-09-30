@@ -137,7 +137,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $fields[$name] = 1;
                 }
             }
-            $names = array("first_name", "middle_name", "last_name");
+
+            $names = array( "first_name", "middle_name", "last_name","street_address-{$this->_bltID}","city-{$this->_bltID}",
+                            "postal_code-{$this->_bltID}","country_id-{$this->_bltID}","state_province_id-{$this->_bltID}"
+                            );
+
             foreach ($names as $name) {
                 $fields[$name] = 1;
             }
@@ -443,7 +447,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
             $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
             $form->assign( 'priceSet', $form->_priceSet );
-            require_once 'CRM/Core/BAO/PriceField.php';                       
+            require_once 'CRM/Price/BAO/Field.php';                       
             foreach ( $form->_values['fee']['fields'] as $field ) {
                 $fieldId = $field['id'];
                 $elementName = 'price_' . $fieldId;
@@ -452,7 +456,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 } else {
                     $isRequire = CRM_Utils_Array::value( 'is_required', $field );
                 }
-                CRM_Core_BAO_PriceField::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
+                CRM_Price_BAO_Field::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
             }
         } else if ( ! empty( $form->_values['fee'] ) ) {
             $form->_feeBlock =& $form->_values['fee'];
@@ -546,7 +550,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         } 
         //check for atleast one pricefields should be selected
         if ( CRM_Utils_Array::value( 'priceSetId', $fields ) ) {
-            $priceField = new CRM_Core_DAO_PriceField( );
+            $priceField = new CRM_Price_DAO_Field( );
             $priceField->price_set_id = $fields['priceSetId'];
             $priceField->find( );
             
@@ -598,7 +602,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $check = array( );
                 foreach( $fields as $key => $val  )  {
                     if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
-                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
+                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Price_BAO_Field', substr( $key, 6 ) , 'html_type' );
                         if ( is_array( $val) ) {
                             //$keys is the id of the option value
                             foreach( $val as $keys => $vals  )  {
@@ -743,7 +747,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $this->_values['fee'][$params['amount']]['value'];
             } else {
                 $lineItem = array( );
-                self::processPriceSetAmount( $this->_values['fee']['fields'], $params, $lineItem );
+                require_once "CRM/Price/BAO/Set.php";
+                CRM_Price_BAO_Set::processAmount( $this->_values['fee']['fields'], $params, $lineItem );
                 $priceSet   = array();
                 $priceSet[] = $lineItem;
                 $this->set( 'lineItem', $priceSet );
@@ -988,154 +993,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
     }
     
-    static function processPriceSetAmount( &$fields, &$params, &$lineItem ) 
-    {
-        // using price set
-        $totalPrice    = 0;
-        $radioLevel    = $checkboxLevel = $selectLevel = $textLevel = array( );
-        
-        foreach ( $fields as $id => $field ) {
-            if ( empty( $params["price_{$id}"]) && $params["price_{$id}"] == null ) {
-                // skip if nothing was submitted for this field
-                continue;
-            }
-            
-            switch ( $field['html_type'] ) {
-            case 'Text':
-                $params["price_{$id}"] = array( key( $field['options'] ) => $params["price_{$id}"] );
-                self::getLineItem( $id, $params, $field, $lineItem );
-                $totalPrice += $lineItem[key( $field['options'] )]['line_total'];
-                break;
-                
-            case 'Radio':
-                $params["price_{$id}"] = array( $params["price_{$id}"] => 1 );
-                
-                $optionValueId    = CRM_Utils_Array::key( 1, $params["price_{$id}"] );
-                $optionLabel      = $field['options'][$optionValueId]['label'];
-                $params['amount_priceset_level_radio']                = array( );
-                $params['amount_priceset_level_radio'][$optionValueId]= $optionLabel;
-                if( isset( $radioLevel ) ) {
-                    $radioLevel   = array_merge( $radioLevel,
-                                                 array_keys( $params['amount_priceset_level_radio'] ) );   
-                } else {
-                    $radioLevel   = array_keys($params['amount_priceset_level_radio']);
-                }
-                self::getLineItem( $id, $params, $field, $lineItem );
-                $totalPrice += $lineItem[$optionValueId]['line_total'];
-                break;
-
-            case 'Select': 
-                $params["price_{$id}"] = array( $params["price_{$id}"] => 1 );
-                $optionValueId    = CRM_Utils_Array::key( 1, $params["price_{$id}"] );
-                $optionLabel      = $field['options'][$optionValueId]['label'];
-                $params['amount_priceset_level_select']                 = array();
-                $params['amount_priceset_level_select']
-                    [CRM_Utils_Array::key( 1, $params["price_{$id}"] )] = $optionLabel;
-                if( isset( $selectLevel ) ) {
-                    $selectLevel   = array_merge($selectLevel,array_keys($params['amount_priceset_level_select']));   
-                } else {
-                    $selectLevel   = array_keys($params['amount_priceset_level_select']);
-                }
-                self::getLineItem( $id, $params, $field, $lineItem );
-                $totalPrice += $lineItem[$optionValueId]['line_total'];
-                break;
-                
-            case 'CheckBox':
-                $params['amount_priceset_level_checkbox'] = $optionIds = array( );
-                foreach ( $params["price_{$id}"] as $optionId => $option ) {
-                    $optionIds[] = $optionId;
-                    $optionLabel = $field['options'][$optionId]['label'];
-                    $params['amount_priceset_level_checkbox']["{$field['options'][$optionId]['id']}"]= $optionLabel;
-                    if( isset($checkboxLevel) ){
-                        $checkboxLevel=array_unique( 
-                                                    array_merge(
-                                                                $checkboxLevel, 
-                                                                array_keys($params['amount_priceset_level_checkbox'])
-                                                                )
-                                                     );
-                    } else {
-                        $checkboxLevel=array_keys($params['amount_priceset_level_checkbox']);
-                    }
-                }
-                self::getLineItem( $id, $params, $field, $lineItem );
-                foreach( $optionIds as $optionId ) {
-                    $totalPrice += $lineItem[$optionId]['line_total'];
-                }
-                break;
-            }
-        }
-        
-        $amount_level = array( );
-        if ( is_array( $lineItem ) ) {
-            foreach( $lineItem as $values ) {
-                if ( $values['html_type'] == 'Text' ) {
-                    $amount_level[] = $values['label'] . ' - ' . $values['qty'];
-                    continue;
-                }
-                $amount_level[] = $values['label'];
-            }
-        }
-        
-        require_once 'CRM/Core/BAO/CustomOption.php';
-        $params['amount_level'] =
-            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-            implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ) .
-            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR; 
-        $params['amount']       = $totalPrice;
-    }
-    
-    /**
-     * This method will create the lineItem array required for
-     * processPriceSetAmount method
-     *
-     * @param  int   $fid       price set field id
-     * @param  array $params    referance to form values
-     * @param  array $fields    referance to array of fields belonging
-     *                          to the price set used for particular event
-     * @param  array $values    referance to the values array(this is
-     *                          lineItem array)
-     *
-     * @return void
-     * @access static
-     */
-    static function getLineItem( $fid, &$params, &$fields, &$values )
-    {
-        if ( empty( $params["price_{$fid}"] ) ) {
-            return;
-        }
-
-        $optionIDs = implode( ',', array_keys( $params["price_{$fid}"] ) );
-        $sql = "
-SELECT id, option_group_id, label, description
-FROM   civicrm_option_value
-WHERE  id IN ($optionIDs)
-";
-        $dao = CRM_Core_DAO::executeQuery( $sql,
-                                           CRM_Core_DAO::$_nullArray );
-        $optionValues = array( );
-        while ( $dao->fetch( ) ) {
-            $optionValues[$dao->id] = array('gid'   => $dao->option_group_id,
-                                            'label' => $dao->label,
-                                            'description' => $dao->description );
-        }
-                            
-        foreach( $params["price_{$fid}"] as $oid => $qty ) {
-            $price        = $fields['options'][$oid]['name'];
-            
-            $values[$oid] = array(
-                                  'price_field_id'   => $fid,
-                                  'option_value_id'  => $oid,
-                                  'option_group_id'  => $optionValues[$oid]['gid'],
-                                  'label'            => $optionValues[$oid]['label'],
-                                  'description'      => $optionValues[$oid]['description'],
-                                  'qty'              => $qty,
-                                  'unit_price'       => $price,
-                                  'line_total'       => $qty * $fields['options'][$oid]['name'],
-                                  'html_type'        => $fields['html_type']
-                                  );
-        }
-    }
-
     /** 
      * Method to check if the user is already registered for the event   
      * and if result found redirect to the event info page

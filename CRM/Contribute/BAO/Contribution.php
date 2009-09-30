@@ -88,7 +88,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                                    CRM_Utils_Array::value( 'contribution', $ids ) ) ) {
             $error =& CRM_Core_Error::singleton( ); 
             $d = implode( ', ', $duplicates );
-            $error->push( CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', array( $d ), "Duplicate error - existing contribution record(s) have a matching Transaction ID or Invoice ID. Contribution record ID(s) are: $d" );
+            $error->push( CRM_Core_Error::DUPLICATE_CONTRIBUTION,
+                          'Fatal',
+                          array( $d ),
+                          "Duplicate error - existing contribution record(s) have a matching Transaction ID or Invoice ID. Contribution record ID(s) are: $d" );
             return $error;
         }
 
@@ -948,7 +951,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         $addressParams['address_name'] = "{$params['billing_first_name']}" . CRM_Core_DAO::VALUE_SEPARATOR . "{$params['billing_middle_name']}" . CRM_Core_DAO::VALUE_SEPARATOR . "{$params['billing_last_name']}";
         
         foreach ( $billingFields as $value ) {
-            $addressParams[$value] = $params["{$value}-{$billingLocationTypeID}"];
+            $addressParams[$value] = $params["billing_{$value}-{$billingLocationTypeID}"];
         }
 
         require_once "CRM/Core/BAO/Address.php";

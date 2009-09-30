@@ -51,13 +51,13 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
     function __construct( $mode, &$paymentProcessor ) {
         $this->_mode             = $mode;
         $this->_paymentProcessor = $paymentProcessor;
-        $this->_processorName    = "PayPal Pro";
+        $this->_processorName    = ts('PayPal Pro');
 
         if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
-            $this->_processorName = "PayPal Standard";
+            $this->_processorName = ts('PayPal Standard');
             return;
         } else if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Express' ) {
-            $this->_processorName = "PayPal Express";
+            $this->_processorName = ts('PayPal Express');
         }
         
         if ( ! $this->_paymentProcessor['user_name'] ) {
@@ -192,7 +192,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @return array the result in an nice formatted array (or an error object)
      * @public
      */
-    function doDirectPayment( &$params ) {
+    function doDirectPayment( &$params, $component = 'contribute' ) {
         $args = array( );
 
         $this->initialize( $args, 'DoDirectPayment' );
@@ -216,8 +216,30 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $args['zip']            = $params['postal_code'];
         $args['custom']         = CRM_Utils_Array::value( 'accountingCode',
                                                           $params );
+        if ( $params['is_recur'] == 1 ) {
+            $start_time = strtotime(date('m/d/Y'));
+            $start_date = date('Y-m-d\T00:00:00\Z', $start_time );
+            
+            $args['PaymentAction']      = 'Sale';
+            $args['billingperiod']      = ucwords($params['frequency_unit']);
+            $args['billingfrequency']   = $params['frequency_interval'] ;
+            $args['method']             = "CreateRecurringPaymentsProfile" ; 
+            $args['profilestartdate']   = $start_date;
+            $args['desc']               = $params['amount']." Per ".$params['frequency_interval']. " " . $params['frequency_unit'];
+            $args['amt']                = $params['amount'];
+            $args['totalbillingcycles'] = $params['installments'];
+            $args['version']            = 56.0 ;
+            $args['PROFILEREFERENCE']   = "i=".$params['invoiceID']."&m=".$component."&c=".$params['contactID']."&r=".$params['contributionRecurID']."&b=".$params['contributionID']."&p=".$params['contributionPageID'];
+            
+        }
 
-        $result = $this->invokeAPI( $args );
+        $result = $this->invokeAPI( $args );        
+
+        $params['recurr_profile_id'] = null;
+
+        if ( CRM_Utils_Array::value( 'is_recur', $params ) == 1 ) {
+            $params['recurr_profile_id'] = $result['profileid'];
+        }
 
         if ( is_a( $result, 'CRM_Core_Error' ) ) {  
             return $result;  
@@ -225,7 +247,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
 
         /* Success */
         $params['trxn_id']        = $result['transactionid'];
-        $params['gross_amount'  ] = $result['amt'];
+        $params['gross_amount'  ] = $result['amt'];        
         return $params;
     }
 
@@ -262,7 +284,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
     }
 
     function cancelSubscriptionURL( ) {
-        if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
+        if ( CRM_Utils_Array::value( 'is_recur', $this->_paymentProcessor) ) {
             return "{$this->_paymentProcessor['url_site']}cgi-bin/webscr?cmd=_subscr-find&alias=" .
                 urlencode( $this->_paymentProcessor['user_name'] );
         } else {

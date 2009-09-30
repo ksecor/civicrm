@@ -73,6 +73,13 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
      */
     public function testCount( $fv, $count, $ids, $full )
     {
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/../../../../../CiviTest/truncate-option.xml') );
+
+
         //echo "testCount\n";
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
         $op->execute( $this->_dbconn,
@@ -81,6 +88,14 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
                              . '/dataset.xml') );
 
         $obj = new CRM_Contact_Form_Search_Custom_Group( $fv );
+        /*******
+        $sql = $obj->all( );
+        $dao = CRM_Core_DAO::executeQuery( $sql );
+        echo "Count: $count, OBJ: ", $obj->count( ) . ", " . $obj->all( ) . "\n";
+        while ( $dao->fetch( ) ) {
+            echo "{$dao->contact_id}, {$dao->contact_type}, {$dao->sort_name}, {$dao->group_names}\n";
+        }
+        ******/
         $this->assertEquals( $count, $obj->count( ),
                              'In line ' . __LINE__  );
 
@@ -92,6 +107,13 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
      */
     public function testAll( $fv, $count, $ids, $full )
     {
+
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/../../../../../CiviTest/truncate-option.xml') );
+
         // echo "testAll\n";
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
         $op->execute( $this->_dbconn,
@@ -118,6 +140,13 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
      */
     public function testContactIDs( $fv, $count, $ids, $full )
     {
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/../../../../../CiviTest/truncate-option.xml') );
+
+
         // echo "testContactIDs\n";
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
         $op->execute( $this->_dbconn,
@@ -132,7 +161,7 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
         while ( $dao->fetch( ) ) {
             $contacts[] = $dao->contact_id;
         }
-        asort( $contacts );
+        sort( $contacts, SORT_NUMERIC );
         $this->assertEquals( $ids, $contacts, 'In line ' . __LINE__ );
     }
 
@@ -230,7 +259,7 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
         $formValues = array( CRM_Core_Form::CB_PREFIX . '17' => true,
                              CRM_Core_Form::CB_PREFIX . '23' => true);
         $obj = new CRM_Contact_Form_Search_Custom_Group( $formValues );
-        $this->assertEquals( 'contact_a.id IN ( 17, 23 )', $obj->where( true ),
+        $this->assertEquals( ' (1)  AND contact_a.id IN ( 17, 23 )', $obj->where( true ),
                              'In line ' . __LINE__ );
     }
 

@@ -1937,3 +1937,30 @@ div#toolTip {
 }
  
 
+
+#crm-container .collapsed {
+   background: url("../i/TreePlus.gif") no-repeat 0 0;
+   padding-left: 19px;
+   cursor:pointer
+}
+
+#crm-container .expanded {
+   background: url("../i/TreeMinus.gif") no-repeat 0 0;
+   padding-left: 19px;
+   cursor:pointer
+}
+
+/* TimeEntry styles */
+.timeEntry_control {
+   vertical-align: middle;
+   margin-left: 2px;
+}
+* html .timeEntry_control { /* IE only */
+   margin-top: -4px;
+}
+
+/* This is the style for the trigger icon. The margin-bottom value causes the icon to shift down to center it. */
+.ui-datepicker-trigger {
+   margin-top: 4px;
+   margin-bottom: -6px;
+}

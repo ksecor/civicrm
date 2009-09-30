@@ -16,7 +16,7 @@ function pollLoop( ){
 }
 
 function verify( ) {
-    if (! confirm('Are you sure you want to Import now?') ) {
+    if (! confirm('{/literal}{ts}Are you sure you want to Import now{/ts}{literal}?') ) {
         return false;
     }
 	

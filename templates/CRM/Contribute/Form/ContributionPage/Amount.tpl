@@ -1,5 +1,7 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
 {include file="CRM/common/WizardHeader.tpl"}
+{capture assign="adminPriceSets"}{crmURL p='civicrm/admin/price' q="reset=1"}{/capture}
+
 
 <div id="help">
     {ts}Use this form to configure Contribution Amount options. You can give contributors the ability to enter their own contribution amounts - and/or provide a fixed list of amounts. For fixed amounts, you can enter a label for each 'level' of contribution (e.g. Friend, Sustainer, etc.). If you allow people to enter their own dollar amounts, you can also set minimum and maximum values. Depending on your choice of Payment Processor, you may be able to offer a recurring contribution option.{/ts} {docURL page="PayPal Website Payments Standard and Recurring Contributions"}
@@ -46,6 +48,12 @@
         </tr>
     </table>
 
+    <div id="priceSet">
+            <dl>
+            <dt>{$form.price_set_id.label}</dt><dd>{$form.price_set_id.html}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts 1=$adminPriceSets}Select a pre-configured Price Set to offer multiple individually priced options for contributions. Otherwise, select &quot;-none-&quot; and enter one or more fee levels in the table below. Create or edit Price Sets <a href='%1'>here</a>.{/ts}</dd>
+            </dl>
+        </div>
     <div id="amountFields">
         <table class="form-layout-compressed">
             {* handle CiviPledge fields *} 
@@ -201,4 +209,11 @@
     invert              = "false"
 }
 {/if}
-
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="price_set_id"
+    trigger_value       =""
+    target_element_id   ="amountFields" 
+    target_element_type ="block"
+    field_type          ="select"
+    invert              = 0
+}

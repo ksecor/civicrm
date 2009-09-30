@@ -46,30 +46,28 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         parent::setUp();
 
         $this->_contactID           = $this->organizationCreate( ) ;
-        $this->_contributionTypeID  = $this->contributionTypeCreate( );
-              
     }
 
     function tearDown() 
     {
-        $this->contactDelete( $this->_contactID ) ;
-        $this->contributionTypeDelete($this->_contributionTypeID);
     }
 
 ///////////////// civicrm_membership_types_get methods
 
-    function testGetWrongParamsType()
+    function testGetWithWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $params = 'a string';
+        $membershiptype =& civicrm_membership_type_create($params);
+        $this->assertEquals( $membershiptype['is_error'], 1,
+                             "In line " . __LINE__ );
     }
-
-    function testGetEmpty()
+    
+    function testGetWithEmptyParams()
     {
         $params = array();
         $membershiptype = & civicrm_membership_types_get( $params );
         $this->assertEquals( $membershiptype['is_error'], 1 );
-        var_dump($membershiptype);
-        $this->assertEquals( 'Params is not an array.', $membershiptype['error_message'] );
+        $this->assertEquals( $membershiptype['error_message'],'No input parameters present');
     }
         
     function testGetWithoutId()
@@ -77,7 +75,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params = array(
                         'name'                 => '60+ Membership',
                         'description'          => 'people above 60 are given health instructions',
-                        'contribution_type_id' => $this->_contributionTypeID ,
+                        'contribution_type_id' => 1 ,
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
                         'duration_interval'    => '10',
@@ -91,13 +89,13 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
 
     function testGet()
     {       
-        $id = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
+        $id = $this->membershipTypeCreate( $this->_contactID  );
         $params = array( 'id'=> $id );        
         $membershiptype = & civicrm_membership_types_get( $params );
                        
-        $this->assertEquals($membershiptype[$id]['name'],'General');
+        $this->assertEquals($membershiptype[$id]['name'],'General', 'In line ' . __LINE__ );
         $this->assertEquals($membershiptype[$id]['member_of_contact_id'],$this->_contactID);
-        $this->assertEquals($membershiptype[$id]['contribution_type_id'],$this->_contributionTypeID);
+        $this->assertEquals($membershiptype[$id]['contribution_type_id'],1);
         $this->assertEquals($membershiptype[$id]['duration_unit'],'year');
         $this->assertEquals($membershiptype[$id]['duration_interval'],'1');
         $this->assertEquals($membershiptype[$id]['period_type'],'rolling');
@@ -106,21 +104,29 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
 
 ///////////////// civicrm_membership_type_create methods
     
-    function testCreateEmpty()
+    function testCreateWithEmptyParams()
     {
         $params = array();        
         $membershiptype = & civicrm_membership_type_create($params);
         $this->assertEquals( $membershiptype['is_error'], 1 );
-        $this->assertEquals( $membershiptype['error_message'], 'Missing require fileds ( name, duration unit,duration interval)');
+        $this->assertEquals( $membershiptype['error_message'], 'No input parameters present');
 
     }
-          
+      
+    function testCreateWithWrongParamsType()
+    {
+        $params = 'a string';
+        $membershiptype =& civicrm_membership_type_create($params);
+        $this->assertEquals( $membershiptype['is_error'], 1,
+                             "In line " . __LINE__ );
+    }
+    
     function testCreateWithoutMemberOfContactId()
     {
         $params = array(
                         'name'                 => '60+ Membership',
                         'description'          => 'people above 60 are given health instructions',                        
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'domain_id'            => '1',
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
@@ -159,7 +165,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params = array(
                         'name'                 => '80+ Membership',
                         'description'          => 'people above 80 are given health instructions',                        'member_of_contact_id' => $this->_contactID,
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'domain_id'            => '1',
                         'minimum_fee'          => '200',
                         'duration_interval'    => '10',                 
@@ -195,7 +201,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $params = array(
                         'description'          => 'people above 50 are given health instructions',
                         'member_of_contact_id' => $this->_contactID,
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'domain_id'            => '1',
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
@@ -203,19 +209,21 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
                         'period_type'          => 'rolling',
                         'visibility'           => 'public'
                         );
-        
-        $membershiptype = & civicrm_membership_type_create($params);  
+       
+        $membershiptype = & civicrm_membership_type_create($params);   
         $this->assertEquals( $membershiptype['is_error'], 1 );
         $this->assertEquals( $membershiptype['error_message'],'Missing require fileds ( name, duration unit,duration interval)');
     }
     
     function testCreate()
     {
+        $this->contributionTypeCreate();
+
         $params = array(
                         'name'                 => '40+ Membership',
                         'description'          => 'people above 40 are given health instructions', 
                         'member_of_contact_id' => $this->_contactID,
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'domain_id'            => '1',
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
@@ -224,35 +232,37 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
                         'visibility'           => 'public'
                         );
 	
-        $membershiptype = & civicrm_membership_type_create($params);  
+        $membershiptype = & civicrm_membership_type_create($params); 
+
         $this->assertEquals( $membershiptype['is_error'], 0 );
-        if ( ! $membershiptype['is_error'] ) {
-            $this->assertNotNull( $membershiptype['id'] );   
-            $this->membershipTypeDelete( $membershiptype['id'] );
-        }
+        $this->assertNotNull( $membershiptype['id'] );   
     }
 
 ///////////////// civicrm_membership_type_update methods
 
-    function testUpdateWrongParamsType()
+    function testUpdateWithWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $params = 'a string';
+        $membershiptype=& civicrm_membership_type_update($params);
+        $this->assertEquals( $membershiptype['is_error'], 1,
+                             "In line " . __LINE__ );
     }
-
-    function testUpdateEmptyParams()
+        
+    function testUpdateWithEmptyParams()
     {
         $params = array();                        
         $membershiptype = & civicrm_membership_type_update($params);
         $this->assertEquals( $membershiptype['is_error'], 1 );
-        $this->assertEquals( $membershiptype['error_message'],'Required parameter missing');
-    } 
+        $this->assertEquals( $membershiptype['error_message'],'No input parameters present');
+    }
+
 
     function testUpdateWithoutId()
     {
         $params = array(
                         'name'                 => '60+ Membership',
                         'description'          => 'people above 60 are given health instructions',                        'member_of_contact_id' => $this->_contactID,
-                        'contribution_type_id' => $this->_contributionTypeID,
+                        'contribution_type_id' => 1,
                         'minimum_fee'          => '1200',
                         'duration_unit'        => 'month',
                         'duration_interval'    => '10',
@@ -267,7 +277,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
 
     function testUpdate()
     {
-        $id = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
+        $id = $this->membershipTypeCreate( $this->_contactID );
         $params = array(
                         'id'                        => $id,
                         'name'                      => 'Updated General',
@@ -285,37 +295,43 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
         $this->assertEquals($membershiptype['duration_unit'],'month');
         $this->assertEquals($membershiptype['duration_interval'],'10');
         $this->assertEquals($membershiptype['period_type'],'fixed');
-        $this->membershipTypeDelete( $membershiptype['id']);
     }
 
 ///////////////// civicrm_membership_type_delete methods
 
-    function testDeleteWrongParamsType()
+    function testDeleteWithWrongParamsType ( )
     {
-        $this->markTestIncomplete();
+        
+        $params = 'a string';
+        $membershiptype =& civicrm_membership_type_delete($params);
+        $this->assertEquals( $membershiptype['is_error'], 1,
+                             "In line " . __LINE__ );
+        
     }
 
-    function testDeleteEmpty ( ) {
+    function testDeleteWithEmptyParams ( ) 
+    {
         $params = array( );
-        $return = civicrm_membership_type_delete( $params );
-        $this->assertEquals( $return['is_error'], 1 );
-        $this->assertEquals( $return['error_message'],'Invalid or no value for membershipTypeID');
+        $membershiptype = civicrm_membership_type_delete( $params );
+        $this->assertEquals( $membershiptype['is_error'], 1 );
+        $this->assertEquals( $membershiptype['error_message'],'No input parameters present');
     }
 
-    function testDeleteNotExists ( ) {
+    function testDeleteNotExists ( ) 
+    {
         $params = array( 'id' => 'doesNotExist' );
-        $return = civicrm_membership_type_delete( $params );
-        $this->assertEquals( $return['is_error'], 1 );
-        $this->assertEquals( $return['error_message'],'Error while deleting membership type');
+        $membershiptype = civicrm_membership_type_delete( $params );
+        $this->assertEquals( $membershiptype['is_error'], 1 );
+        $this->assertEquals( $membershiptype['error_message'],'Error while deleting membership type');
     }
 
-    function testDelete( ) {
+    function testDelete( ) 
+    {
         $orgID = $this->organizationCreate( );
         $membershipTypeID = $this->membershipTypeCreate( $orgID );
         $params['id'] = $membershipTypeID;
-        $result = civicrm_membership_type_delete( $params );
-        $this->assertEquals( $result['is_error'], 0 );
-        $this->contactDelete( $orgID );
+        $membershiptype = civicrm_membership_type_delete( $params );
+        $this->assertEquals( $membershiptype['is_error'], 0 );
     }
     
 

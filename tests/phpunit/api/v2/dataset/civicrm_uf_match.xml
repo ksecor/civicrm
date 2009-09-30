@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<dataset>
+  <civicrm_contact
+    id = '69'
+  />
+  <civicrm_uf_match
+    contact_id = '69'
+    domain_id  = '1'
+    uf_id      = '42'
+  />
+</dataset>

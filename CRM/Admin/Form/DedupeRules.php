@@ -87,6 +87,7 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
                 }
             }
         }
+        asort($this->_fields);
     }
     
     /**

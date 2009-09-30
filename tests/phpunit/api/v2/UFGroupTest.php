@@ -24,7 +24,7 @@
  +--------------------------------------------------------------------+
 */
 
-require_once 'CiviTest/CiviUnitTestCase.php';    
+require_once 'CiviTest/CiviUnitTestCase.php';
 require_once 'api/v2/UFGroup.php';
 require_once 'api/v2/UFJoin.php';
 
@@ -34,34 +34,81 @@ require_once 'api/v2/UFJoin.php';
  *
  *  @package   CiviCRM
  */
-class api_v2_UFGroupTest extends CiviUnitTestCase 
+class api_v2_UFGroupTest extends CiviUnitTestCase
 {
 
     protected $_ufGroupId;
     protected $_ufFieldId;
     protected $_individualID;
-        
+
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      *
      * @access protected
      */
-    protected function setUp() 
+    protected function setUp()
     {
         parent::setUp();
 
-	$params = array( 
-			'group_type' => 'Contact',
-			'title'      => 'Test Profile',
-			'help_pre'   => 'Profle to Test API',
-			'is_active'  => 1
-			 );
-	
-	$ufGroup = civicrm_uf_group_create ( $params );
-	$this->_ufGroupId = $ufGroup['id'];
+        $params = array(
+            'group_type' => 'Contact',
+            'title'      => 'Test Profile',
+            'help_pre'   => 'Profle to Test API',
+            'is_active'  => 1,
+        );
+
+        $ufGroup = civicrm_uf_group_create($params);
+        $this->_ufGroupId = $ufGroup['id'];
+
+        // FIXME: something NULLs $GLOBALS['_HTML_QuickForm_registered_rules'] when the tests are ran all together
+        $GLOBALS['_HTML_QuickForm_registered_rules'] = array(
+            'required'      => array('html_quickform_rule_required', 'HTML/QuickForm/Rule/Required.php'),
+            'maxlength'     => array('html_quickform_rule_range',    'HTML/QuickForm/Rule/Range.php'),
+            'minlength'     => array('html_quickform_rule_range',    'HTML/QuickForm/Rule/Range.php'),
+            'rangelength'   => array('html_quickform_rule_range',    'HTML/QuickForm/Rule/Range.php'),
+            'email'         => array('html_quickform_rule_email',    'HTML/QuickForm/Rule/Email.php'),
+            'regex'         => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'lettersonly'   => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'alphanumeric'  => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'numeric'       => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'nopunctuation' => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'nonzero'       => array('html_quickform_rule_regex',    'HTML/QuickForm/Rule/Regex.php'),
+            'callback'      => array('html_quickform_rule_callback', 'HTML/QuickForm/Rule/Callback.php'),
+            'compare'       => array('html_quickform_rule_compare',  'HTML/QuickForm/Rule/Compare.php')
+        );
+        // FIXME: …ditto for $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES']
+        $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'] = array(
+            'group'         =>array('HTML/QuickForm/group.php','HTML_QuickForm_group'),
+            'hidden'        =>array('HTML/QuickForm/hidden.php','HTML_QuickForm_hidden'),
+            'reset'         =>array('HTML/QuickForm/reset.php','HTML_QuickForm_reset'),
+            'checkbox'      =>array('HTML/QuickForm/checkbox.php','HTML_QuickForm_checkbox'),
+            'file'          =>array('HTML/QuickForm/file.php','HTML_QuickForm_file'),
+            'image'         =>array('HTML/QuickForm/image.php','HTML_QuickForm_image'),
+            'password'      =>array('HTML/QuickForm/password.php','HTML_QuickForm_password'),
+            'radio'         =>array('HTML/QuickForm/radio.php','HTML_QuickForm_radio'),
+            'button'        =>array('HTML/QuickForm/button.php','HTML_QuickForm_button'),
+            'submit'        =>array('HTML/QuickForm/submit.php','HTML_QuickForm_submit'),
+            'select'        =>array('HTML/QuickForm/select.php','HTML_QuickForm_select'),
+            'hiddenselect'  =>array('HTML/QuickForm/hiddenselect.php','HTML_QuickForm_hiddenselect'),
+            'text'          =>array('HTML/QuickForm/text.php','HTML_QuickForm_text'),
+            'textarea'      =>array('HTML/QuickForm/textarea.php','HTML_QuickForm_textarea'),
+            'fckeditor'     =>array('HTML/QuickForm/fckeditor.php','HTML_QuickForm_FCKEditor'),
+            'tinymce'       =>array('HTML/QuickForm/tinymce.php','HTML_QuickForm_TinyMCE'),
+            'dojoeditor'    =>array('HTML/QuickForm/dojoeditor.php','HTML_QuickForm_dojoeditor'),
+            'link'          =>array('HTML/QuickForm/link.php','HTML_QuickForm_link'),
+            'advcheckbox'   =>array('HTML/QuickForm/advcheckbox.php','HTML_QuickForm_advcheckbox'),
+            'date'          =>array('HTML/QuickForm/date.php','HTML_QuickForm_date'),
+            'static'        =>array('HTML/QuickForm/static.php','HTML_QuickForm_static'),
+            'header'        =>array('HTML/QuickForm/header.php', 'HTML_QuickForm_header'),
+            'html'          =>array('HTML/QuickForm/html.php', 'HTML_QuickForm_html'),
+            'hierselect'    =>array('HTML/QuickForm/hierselect.php', 'HTML_QuickForm_hierselect'),
+            'autocomplete'  =>array('HTML/QuickForm/autocomplete.php', 'HTML_QuickForm_autocomplete'),
+            'xbutton'       =>array('HTML/QuickForm/xbutton.php','HTML_QuickForm_xbutton'),
+            'advmultiselect'=>array('HTML/QuickForm/advmultiselect.php','HTML_QuickForm_advmultiselect'),
+        );
     }
-    
+
 
     /**
      * Tears down the fixture, for example, closes a network connection.
@@ -69,321 +116,486 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      *
      * @access protected
      */
-    protected function tearDown() 
+    protected function tearDown()
     {
-	if ( $this->_ufFieldId ) {
-	    civicrm_uf_field_delete ( $this->_ufFieldId );
-	    $this->_ufFieldId = NULL;    
-	}
-	
-	if ( $this->_ufGroupId ) {
-	    civicrm_uf_group_delete ( $this->_ufGroupId );
-	    $this->_ufGroupId = NULL;
-	}
-	
-	if ( $this->_individualID ) {
-	    $this->contactDelete( $this->_individualID );
-	    $this->_individualID = NULL;
-	}
+        if ($this->_ufFieldId) {
+            civicrm_uf_field_delete($this->_ufFieldId);
+            $this->_ufFieldId = NULL;
+        }
+
+        if ($this->_ufGroupId) {
+            civicrm_uf_group_delete($this->_ufGroupId);
+            $this->_ufGroupId = NULL;
+        }
+
+        if ($this->_individualID) {
+            $this->contactDelete($this->_individualID);
+            $this->_individualID = NULL;
+        }
     }
-    
+
     /**
      * fetch profile title by its id	
      */
-    public function testGetUFProfileTitle( )
+    public function testGetUFProfileTitle()
     {
-	$ufProfile = civicrm_uf_profile_title_get( $this->_ufGroupId );
-	$this->assertEquals( $ufProfile, 'Test Profile' );
-	$this->assertEquals( count($ufProfile), 1 ); 
+        $ufProfile = civicrm_uf_profile_title_get($this->_ufGroupId);
+        $this->assertEquals($ufProfile, 'Test Profile');
+    }
+
+    function testGetUFProfileTitleWithEmptyParam()
+    {
+        $result = civicrm_uf_profile_title_get(array());
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testGetUFProfileTitleWithWrongParam()
+    {
+        $result = civicrm_uf_profile_title_get('a string');
+        $this->assertEquals($result['is_error'], 1);
     }
 
     /**
      * fetch profile html by contact id and profile title
      */
-    public function testGetUFProfileHTML( )
+    public function testGetUFProfileHTML()
     {
-	$this->_individualID = $this->individualCreate( );
-	$profileHTML         = civicrm_uf_profile_html_get( $this->_individualID, 'Test Profile' );
-	$this->assertNotNull( $profileHTML );
+        $this->_individualID = $this->individualCreate();
+        $profileHTML         = civicrm_uf_profile_html_get($this->_individualID, 'Test Profile');
+        $this->assertNotNull($profileHTML);
     }
-    
+
+    function testGetUFProfileHTMLWithWrongParams()
+    {
+        $this->_individualID = $this->individualCreate();
+        $result = civicrm_uf_profile_html_get($this->_individualID, 42);
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_profile_html_get('a string', 'Test Profile');
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * fetch profile html by contact id and profile id
      */
-    public function testGetUFProfileHTMLById( )
+    public function testGetUFProfileHTMLById()
     {
-        $this->markTestSkipped( 'Throws Fatal error: Class name must be a valid object or a string' );
-	$this->_individualID = $this->individualCreate( );
-	$profileHTML         = civicrm_uf_profile_html_by_id_get( $this->_individualID, $this->_ufGroupId );
-	$this->assertNotNull( $profileHTML );
+        $this->_individualID = $this->individualCreate();
+        $profileHTML         = civicrm_uf_profile_html_by_id_get($this->_individualID, $this->_ufGroupId);
+        $this->assertNotNull($profileHTML);
     }
-    
+
+    function testGetUFProfileHTMLByIdWithWrongParams()
+    {
+        $this->_individualID = $this->individualCreate();
+        $result = civicrm_uf_profile_html_by_id_get('a string', $this->_ufGroupId);
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_profile_html_by_id_get($this->_individualID, 'a string');
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * fetch profile html with group id
      */
-    public function testGetUFProfileCreateHTML( )
+    public function testGetUFProfileCreateHTML()
     {
-        $this->markTestSkipped( 'Throws Fatal error: Class name must be a valid object or a string' );    
-	$fieldsParams = array ( 
-			       'field_name'       => 'first_name',
-			       'field_type'       => 'Individual',
-			       'visibility'       => 'Public Pages and Listings',
-			       'weight'           => 1,
-			       'location_type_id' => 1,
-			       'label'            => 'Test First Name',
-			       'is_searchable'    => 1,
-			       'is_active'        => 1
-				);
-	$ufField    = civicrm_uf_field_create( $this->_ufGroupId, $fieldsParams );
-	
-	$joinParams =  array( 
-			     'is_active'   => 1,
-			     'module'      => 'Profile',
-			     'weight'      => 1,
-			     'uf_group_id' => $this->_ufGroupId
-			      );
-	$ufJoin = civicrm_uf_join_edit( $joinParams );
-	
-	$profileHTML = civicrm_uf_create_html_get( $this->_ufGroupId, true );
-	$this->assertNotNull( $profileHTML );
+        $fieldsParams = array(
+            'field_name'       => 'first_name',
+            'field_type'       => 'Individual',
+            'visibility'       => 'Public Pages and Listings',
+            'weight'           => 1,
+            'label'            => 'Test First Name',
+            'is_searchable'    => 1,
+            'is_active'        => 1,
+        );
+        $ufField    = civicrm_uf_field_create($this->_ufGroupId, $fieldsParams);
+
+        $joinParams =  array(
+            'is_active'   => 1,
+            'module'      => 'Profile',
+            'weight'      => 1,
+            'uf_group_id' => $this->_ufGroupId,
+        );
+        $ufJoin = civicrm_uf_join_edit($joinParams);
+
+        $profileHTML = civicrm_uf_create_html_get($this->_ufGroupId, true);
+        $this->assertNotNull($profileHTML);
     }
-    
+
+    function testGetUFProfileCreateHTMLWithWrongParam()
+    {
+        $result = civicrm_uf_create_html_get('a string');
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * creating profile fields / fetch profile fields
      */
-    public function testGetUFProfileFields( )
+    public function testGetUFProfileFields()
     {
-	$params = array ( 
-			 'field_name'       => 'country',
-			 'field_type'       => 'Contact',
-			 'visibility'       => 'Public Pages and Listings',
-			 'weight'           => 1,
-			 'location_type_id' => 1,
-			 'label'            => 'Test Country',
-			 'is_searchable'    => 1,
-			 'is_active'        => 1
-			  );
+        $params = array(
+            'field_name'       => 'country',
+            'field_type'       => 'Contact',
+            'visibility'       => 'Public Pages and Listings',
+            'weight'           => 1,
+            'label'            => 'Test Country',
+            'is_searchable'    => 1,
+            'is_active'        => 1,
+        );
 
-	$ufField          = civicrm_uf_field_create( $this->_ufGroupId , $params );
-	$this->_ufFieldId = $ufField['id'];
+        $ufField          = civicrm_uf_field_create($this->_ufGroupId, $params);
+        $this->_ufFieldId = $ufField['id'];
 
-	foreach ( $params as $key => $value ){
-	    $this->assertEquals($ufField[$key], $params[$key] );
-	}
-	
-	$ufProfile = civicrm_uf_profile_fields_get( $this->_ufGroupId );
-	$this->assertEquals( $ufProfile['country-1']['field_type'      ] , $params['field_type'      ] );
-	$this->assertEquals( $ufProfile['country-1']['title'           ] , $params['label'           ] );
-	$this->assertEquals( $ufProfile['country-1']['visibility'      ] , $params['visibility'      ] );
-	$this->assertEquals( $ufProfile['country-1']['location_type_id'] , $params['location_type_id'] );
-	$this->assertEquals( $ufProfile['country-1']['group_id'        ] , $this->_ufGroupId           );
-	$this->assertEquals( $ufProfile['country-1']['groupTitle'      ] , 'Test Profile'              );
-	$this->assertEquals( $ufProfile['country-1']['groupHelpPre'    ] , 'Profle to Test API'        );
+        foreach ($params as $key => $value) {
+            $this->assertEquals($ufField[$key], $params[$key]);
+        }
+
+        $ufProfile = civicrm_uf_profile_fields_get($this->_ufGroupId);
+        $this->assertEquals($ufProfile['country-Primary']['field_type'],       $params['field_type']);
+        $this->assertEquals($ufProfile['country-Primary']['title'],            $params['label']);
+        $this->assertEquals($ufProfile['country-Primary']['visibility'],       $params['visibility']);
+        $this->assertEquals($ufProfile['country-Primary']['group_id'],         $this->_ufGroupId);
+        $this->assertEquals($ufProfile['country-Primary']['groupTitle'],       'Test Profile');
+        $this->assertEquals($ufProfile['country-Primary']['groupHelpPre'],     'Profle to Test API');
     }
-    
+
+    function testGetUFProfileFieldsWithEmptyParam()
+    {
+        $result = civicrm_uf_profile_fields_get(array());
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testGetUFProfileFieldsWithWrongParam()
+    {
+        $result = civicrm_uf_profile_fields_get('a string');
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * fetch contact id by uf id
      */
-    public function testGetUFMatchID( )
+    public function testGetUFMatchID()
     {
-	$session   =& CRM_Core_Session::singleton( );
-	$ufId      = $session->get('ufID');
-	$ufMatchId = civicrm_uf_match_id_get( $ufId );
-	$this->assertEquals( $ufMatchId, $session->get('userID') );
+        $op = new PHPUnit_Extensions_Database_Operation_Insert;
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
+        );
+        $ufMatchId = civicrm_uf_match_id_get(42);
+        $this->assertEquals($ufMatchId, 69);
     }
 
+    function testGetUFMatchIDWrongParam()
+    {
+        $result = civicrm_uf_match_id_get('a string');
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * fetch uf id by contact id
      */
-    public function testGetUFID( )
+    public function testGetUFID()
     {
-	$session    =& CRM_Core_Session::singleton( );
-	$userId     = $session->get('userID');
-	$ufIdFetced = civicrm_uf_id_get( $userId );
-	$this->assertEquals( $ufIdFetced, $session->get('ufID') );
+        $op = new PHPUnit_Extensions_Database_Operation_Insert;
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
+        );
+        $ufIdFetced = civicrm_uf_id_get(69);
+        $this->assertEquals($ufIdFetced, 42);
     }
-    
+
+    function testGetUFIDWrongParam()
+    {
+        $result = civicrm_uf_id_get('a string');
+        $this->assertEquals($result['is_error'], 1);
+    }
+
     /**
      * updating group
      */
-    public function testUpdateUFGroup( )
+    public function testUpdateUFGroup()
     {
-	$params = array (
-			 'title'     => 'Edited Test Profile',
-			 'help_post' => 'Profile Pro help text.',
-			 'is_active' => 1 
-			 );
-	
-	$updatedGroup = civicrm_uf_group_update( $params , $this->_ufGroupId );
-	foreach ( $params as $key => $value ){
-	    $this->assertEquals($updatedGroup[$key], $params[$key] );
-	}
+        $params = array(
+            'title'     => 'Edited Test Profile',
+            'help_post' => 'Profile Pro help text.',
+            'is_active' => 1,
+        );
+
+        $updatedGroup = civicrm_uf_group_update($params, $this->_ufGroupId);
+        foreach ($params as $key => $value) {
+            $this->assertEquals($updatedGroup[$key], $params[$key]);
+        }
     }
-    
-    
+
+
     /**
      * create / updating field
      */
-    public function testCreateUFField( ) 
+    public function testCreateUFField()
     {
-	$params = array ( 
-			 'field_name'       => 'country',
-			 'field_type'       => 'Contact',
-			 'visibility'       => 'Public Pages and Listings',
-			 'weight'           => 1,
-			 'location_type_id' => 1,
-			 'label'            => 'Test Country',
-			 'is_searchable'    => 1,
-			 'is_active'        => 1
-			  );
-	$ufField          = civicrm_uf_field_create( $this->_ufGroupId , $params );
-	$this->_ufFieldId = $ufField['id'];
-	foreach ( $params as $key => $value ){
-	    $this->assertEquals($ufField[$key], $params[$key] );
-	}
-	
-	$params = array (
-			 'field_name'       => 'country',
-			 'label'            => 'Edited Test Country',
-			 'location_type_id' => 1,
-			 'weight'           => 1,
-			 'is_active'        => 1
-			 );
-	
-	$updatedField = civicrm_uf_field_update( $params ,$ufField['id'] );
-	foreach ( $params as $key => $value ){
-	    $this->assertEquals($updatedField[$key], $params[$key] );
-	}
+        $params = array(
+            'field_name'       => 'country',
+            'field_type'       => 'Contact',
+            'visibility'       => 'Public Pages and Listings',
+            'weight'           => 1,
+            'label'            => 'Test Country',
+            'is_searchable'    => 1,
+            'is_active'        => 1,
+        );
+        $ufField          = civicrm_uf_field_create($this->_ufGroupId, $params);
+        $this->_ufFieldId = $ufField['id'];
+        foreach ($params as $key => $value) {
+            $this->assertEquals($ufField[$key], $params[$key]);
+        }
+
+        $params = array(
+            'field_name'       => 'country',
+            'label'            => 'Edited Test Country',
+            'location_type_id' => 1,
+            'weight'           => 1,
+            'is_active'        => 1,
+        );
+
+        $updatedField = civicrm_uf_field_update($params,$ufField['id']);
+        foreach ($params as $key => $value) {
+            $this->assertEquals($updatedField[$key], $params[$key]);
+        }
     }
-    
+
 
     /**
      * deleting field
      */
-    public function testDeleteUFField( ) 
+    public function testDeleteUFField()
     {
-	$params = array ( 
-			 'field_name'       => 'country',
-			 'field_type'       => 'Contact',
-			 'visibility'       => 'Public Pages and Listings',
-			 'weight'           => 1,
-			 'location_type_id' => 1,
-			 'label'            => 'Test Country',
-			 'is_searchable'    => 1,
-			 'is_active'        => 1
-			  );
-	$ufField          = civicrm_uf_field_create( $this->_ufGroupId , $params );
-	$this->_ufFieldId = $ufField['id'];
-	foreach ( $params as $key => $value ){
-	    $this->assertEquals($ufField[$key], $params[$key] );
-	}
-	$result = civicrm_uf_field_delete( $ufField['id'] );
-	$this->assertEquals( $result, 1 );
+        $params = array(
+            'field_name'       => 'country',
+            'field_type'       => 'Contact',
+            'visibility'       => 'Public Pages and Listings',
+            'weight'           => 1,
+            'location_type_id' => 1,
+            'label'            => 'Test Country',
+            'is_searchable'    => 1,
+            'is_active'        => 1,
+        );
+        $ufField          = civicrm_uf_field_create($this->_ufGroupId, $params);
+        $this->_ufFieldId = $ufField['id'];
+        foreach ($params as $key => $value) {
+            $this->assertEquals($ufField[$key], $params[$key]);
+        }
+        $result = civicrm_uf_field_delete($ufField['id']);
+        $this->assertEquals($result, true);
     }
-    
-    
+
+
     /**
      * validate profile html
      */
-    public function testValidateProfileHTML( ) 
+    public function testValidateProfileHTML()
     {
-        $this->markTestSkipped( 'Throws Fatal error: Class name must be a valid object or a string' );
-	$this->_individualID = $this->individualCreate( );
-	$result              = civicrm_profile_html_validate( $this->_individualID, 'Test Profile' );
-	$this->assertEquals( $result, 1 );
+        $this->_individualID = $this->individualCreate();
+        $result              = civicrm_profile_html_validate($this->_individualID, 'Test Profile');
+        $this->assertEquals($result, true);
     }
-    
-    
+
+
     /**
      * create/update uf join
      */
-    public function testEditUFJoin( )
+    public function testEditUFJoin()
     {
-	$params =  array( 
-			 'module'       => 'CiviContribute',
-			 'entity_table' => 'civicrm_contribution_page',
-			 'entity_id'    => 1,
-			 'weight'       => 1,
-			 'uf_group_id'  => $this->_ufGroupId ,
-			 'is_active'    => 1
-			  );
-	$ufJoin = civicrm_uf_join_edit( $params );
-	foreach ( $params as $key => $value ){
-	    $this->assertEquals($ufJoin[$key], $params[$key] );
-	}
-	$params =  array( 
-			 'id'           => $ufJoin['id'],
-			 'module'       => 'CiviContribute',
-			 'entity_table' => 'civicrm_contribution_page',
-			 'entity_id'    => 1,
-			 'weight'       => 1,
-			 'uf_group_id'  => $this->_ufGroupId ,
-			 'is_active'    => 0
-			  );
-	$ufJoinUpdated = civicrm_uf_join_edit($params);
-	foreach ( $params as $key => $value ){
-	    $this->assertEquals($ufJoinUpdated[$key], $params[$key] );
-	}
+        $params =  array(
+            'module'       => 'CiviContribute',
+            'entity_table' => 'civicrm_contribution_page',
+            'entity_id'    => 1,
+            'weight'       => 1,
+            'uf_group_id'  => $this->_ufGroupId,
+            'is_active'    => 1,
+        );
+        $ufJoin = civicrm_uf_join_edit($params);
+        foreach ($params as $key => $value) {
+            $this->assertEquals($ufJoin[$key], $params[$key]);
+        }
+        $params =  array(
+            'id'           => $ufJoin['id'],
+            'module'       => 'CiviContribute',
+            'entity_table' => 'civicrm_contribution_page',
+            'entity_id'    => 1,
+            'weight'       => 1,
+            'uf_group_id'  => $this->_ufGroupId,
+            'is_active'    => 0,
+        );
+        $ufJoinUpdated = civicrm_uf_join_edit($params);
+        foreach ($params as $key => $value) {
+            $this->assertEquals($ufJoinUpdated[$key], $params[$key]);
+        }
     }
-    
+
 
     /**
      * find uf join id
      */
-    public function testFindUFJoinId( )
+    public function testFindUFJoinId()
     {
-	$params = array( 
-			'module'       => 'CiviContribute',
-			'entity_table' => 'civicrm_contribution_page',
-			'entity_id'    => 1,
-			'weight'       => 1,
-			'uf_group_id'  => $this->_ufGroupId ,
-			 'is_active'    => 1
-			 );
-	$ufJoin       = civicrm_uf_join_add( $params );
-	$searchParams = array( 
-			      'entity_table' => 'civicrm_contribution_page',
-			      'entity_id'    => 1
-			       );
-	$ufJoinId = civicrm_uf_join_id_find( $searchParams );
-	$this->assertEquals( $ufJoinId, $ufJoin['id'] );
+        $params = array(
+            'module'       => 'CiviContribute',
+            'entity_table' => 'civicrm_contribution_page',
+            'entity_id'    => 1,
+            'weight'       => 1,
+            'uf_group_id'  => $this->_ufGroupId,
+            'is_active'    => 1,
+        );
+        $ufJoin       = civicrm_uf_join_add($params);
+        $searchParams = array(
+            'entity_table' => 'civicrm_contribution_page',
+            'entity_id'    => 1,
+        );
+        $ufJoinId = civicrm_uf_join_id_find($searchParams);
+        $this->assertEquals($ufJoinId, $ufJoin['id']);
     }
-    
+
 
     /**
      * find uf join group id
      */
-    public function testFindUFGroupId( )
+    public function testFindUFGroupId()
     {
-	$params =  array( 
-			 'module'       => 'CiviContribute',
-			 'entity_table' => 'civicrm_contribution_page',
-			 'entity_id'    => 1,
-			 'weight'       => 1,
-			 'uf_group_id'  => $this->_ufGroupId ,
-			 'is_active'    => 1
-			  );
-	$ufJoin       = civicrm_uf_join_add( $params );
-	$searchParams = array( 
-			      'entity_table' => 'civicrm_contribution_page',
-			      'entity_id'    => 1
-			       );
-	$ufGroupId = civicrm_uf_join_UFGroupId_find( $searchParams );
-	$this->assertEquals($ufGroupId, $this->_ufGroupId );
+        $params =  array(
+            'module'       => 'CiviContribute',
+            'entity_table' => 'civicrm_contribution_page',
+            'entity_id'    => 1,
+            'weight'       => 1,
+            'uf_group_id'  => $this->_ufGroupId,
+            'is_active'    => 1,
+        );
+        $ufJoin       = civicrm_uf_join_add($params);
+        $searchParams = array(
+            'entity_table' => 'civicrm_contribution_page',
+            'entity_id'    => 1,
+        );
+        $ufGroupId = civicrm_uf_join_UFGroupId_find($searchParams);
+        $this->assertEquals($ufGroupId, $this->_ufGroupId);
     }
-    
+
 
     /**
      * fetch all profiles
      */
-    public function testGetUFProfileGroups( )
+    public function testGetUFProfileGroups()
     {
-	$ufProfileGroup = civicrm_uf_profile_groups_get( );
-	$this->assertNotNull( count( $ufProfileGroup ) );	  
+        $ufProfileGroup = civicrm_uf_profile_groups_get();
+        $this->assertGreaterThan(1, count($ufProfileGroup), 'we should ship with more than one group by default');
     }
-}  
+
+    function testGroupCreate()
+    {
+        $op = new PHPUnit_Extensions_Database_Operation_Insert;
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_XMLDataSet(dirname(__FILE__) . '/dataset/group_subscribers.xml')
+        );
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
+        );
+        $params = array(
+            'add_captcha'          => 1,
+            'add_contact_to_group' => 2,
+            'cancel_URL'           => 'http://example.org/cancel',
+            'created_date'         => '2009-06-27',
+            'created_id'           => 69,
+            'group'                => 2,
+            'group_type'           => 'Individual,Contact',
+            'help_post'            => 'help post',
+            'help_pre'             => 'help pre',
+            'is_active'            => 0,
+            'is_cms_user'          => 1,
+            'is_edit_link'         => 1,
+            'is_map'               => 1,
+            'is_reserved'          => 1,
+            'is_uf_link'           => 1,
+            'is_update_dupe'       => 1,
+            'name'                 => 'test_group',
+            'notify'               => 'admin@example.org',
+            'post_URL'             => 'http://example.org/post',
+            'title'                => 'Test Group',
+        );
+        $group = civicrm_uf_group_create($params);
+        foreach ($params as $key => $value) {
+            if ($key == 'add_contact_to_group' or $key == 'group') continue;
+            $this->assertEquals($group[$key], $params[$key]);
+        }
+        $this->assertEquals($group['add_to_group_id'],         $params['add_contact_to_group']);
+        $this->assertEquals($group['limit_listings_group_id'], $params['group']);
+    }
+
+    function testGroupCreateWithEmptyParams()
+    {
+        $result = civicrm_uf_group_create(array());
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testGroupCreateWithWrongParams()
+    {
+        $result = civicrm_uf_group_create('a string');
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_group_create(array('name' => 'A title-less group'));
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testGroupUpdate()
+    {
+        $op = new PHPUnit_Extensions_Database_Operation_Insert;
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_XMLDataSet(dirname(__FILE__) . '/dataset/group_subscribers.xml')
+        );
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
+        );
+        $params = array(
+            'add_captcha'          => 1,
+            'add_contact_to_group' => 2,
+            'cancel_URL'           => 'http://example.org/cancel',
+            'created_date'         => '2009-06-27',
+            'created_id'           => 69,
+            'group'                => 2,
+            'group_type'           => 'Individual,Contact',
+            'help_post'            => 'help post',
+            'help_pre'             => 'help pre',
+            'is_active'            => 0,
+            'is_cms_user'          => 1,
+            'is_edit_link'         => 1,
+            'is_map'               => 1,
+            'is_reserved'          => 1,
+            'is_uf_link'           => 1,
+            'is_update_dupe'       => 1,
+            'name'                 => 'test_group',
+            'notify'               => 'admin@example.org',
+            'post_URL'             => 'http://example.org/post',
+            'title'                => 'Test Group',
+        );
+        $group = civicrm_uf_group_update($params, $this->_ufGroupId);
+        foreach ($params as $key => $value) {
+            if ($key == 'add_contact_to_group' or $key == 'group') continue;
+            $this->assertEquals($group[$key], $params[$key]);
+        }
+        $this->assertEquals($group['add_to_group_id'],         $params['add_contact_to_group']);
+        $this->assertEquals($group['limit_listings_group_id'], $params['group']);
+    }
+
+    function testGroupUpdateWithEmptyParams()
+    {
+        $result = civicrm_uf_group_update(array(), $this->_ufGroupId);
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testGroupUpdateWithWrongParams()
+    {
+        $result = civicrm_uf_group_update('a string', $this->_ufGroupId);
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_group_update(array('title' => 'Title'), 'a string');
+        $this->assertEquals($result['is_error'], 1);
+    }
+}

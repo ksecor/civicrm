@@ -45,6 +45,12 @@ class api_v2_DomainTest extends CiviUnitTestCase
     {
         parent::setUp();
 
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/../../CiviTest/truncate-option.xml') );
+
         //  Insert a row in civicrm_option_group creating option group
         //  from_email_address group
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
@@ -81,34 +87,42 @@ class api_v2_DomainTest extends CiviUnitTestCase
      */
     public function testGet()
     {
-        $domain = civicrm_domain_get();
+        $Domain = civicrm_domain_get();
 
-        $this->assertType( 'array', $domain );
-        $this->assertEquals( $domain['from_email'], 'test@email.label.net' );
-        $this->assertEquals( $domain['from_name'],  'Test Label - Domain');
-
-        // checking other important parts of domain information
-        // test will fail if backward incompatible changes happen
-        $this->assertArrayHasKey( 'id', $domain );
-        $this->assertArrayHasKey( 'domain_name', $domain );
-        $this->assertArrayHasKey( 'domain_email', $domain );
-        $this->assertArrayHasKey( 'domain_phone', $domain );
-        $this->assertArrayHasKey( 'domain_address', $domain ); 
+        $this->assertType( 'array', $Domain );
+        foreach( $Domain as $domain ) {
+            $this->assertEquals( $domain['from_email'], 'test@email.label.net' );
+            $this->assertEquals( $domain['from_name'],  'Test Label - Domain');
+            
+            // checking other important parts of domain information
+            // test will fail if backward incompatible changes happen
+            $this->assertArrayHasKey( 'id', $domain );
+            $this->assertArrayHasKey( 'domain_name', $domain );
+            $this->assertArrayHasKey( 'domain_email', $domain );
+            $this->assertArrayHasKey( 'domain_phone', $domain );
+            $this->assertArrayHasKey( 'domain_address', $domain ); 
+        }
     }
         
 ///////////////// civicrm_domain_create methods
 
     /**
-     * @todo Implement testCreate().
+     * Test civicrm_domain_create.
      */
     public function testCreate()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $params = array( 'name' => 'New Domain', 
+                         'description' => 'Description of a new domain'
+                          );
+
+        $result =& civicrm_domain_create($params);
+        $this->assertType( 'array', $result );
+        $this->assertDBState( 'CRM_Core_DAO_Domain', $result['id'], $params );
     }    
 
     /**
      * Test civicrm_domain_create with empty params.
+     * Error expected.
      */
     public function testCreateWithEmptyParams()
     {
@@ -119,11 +133,11 @@ class api_v2_DomainTest extends CiviUnitTestCase
     }
     
     /**
-     * @todo Implement testCreateWithEmptyParams().
+     * Test civicrm_domain_create with wrong parameter type.
      */
     public function testCreateWithWrongParams()
     {
-        $params = 'a string';
+        $params = 1;
         $result =& civicrm_domain_create($params);
         $this->assertEquals( $result['is_error'], 1,
                              "In line " . __LINE__ );

@@ -45,8 +45,9 @@
         {strip}
 	{* handle enable/disable actions*} 
 	{include file="CRM/common/enableDisable.tpl"}
-        <table class="selector">
-	       <thead class="sticky">
+        <table id="options" class="display">
+	       <thead>
+	       <tr>
             {if $showComponent}
                 <th>{ts}Component{/ts}</th>
             {/if}
@@ -57,7 +58,7 @@
                     {ts}Label{/ts}
                 {/if}
             </th>
-            <th>
+            <th id="sortable">
                 {if $gName eq "redaction_rule"}
                     {ts}Replacement{/ts}
                 {else}
@@ -72,9 +73,11 @@
             <th>{ts}Reserved{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
+            </tr>
             </thead>
+            <tbody>
         {foreach from=$rows item=row}
-        <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"}{$row.class}{if NOT $row.is_active} disabled{/if}">
+        <tr id="row_{$row.id}" class="{if NOT $row.is_active} disabled{/if}">
             {if $showComponent}
                 <td>{$row.component_name}</td>
             {/if}
@@ -90,6 +93,7 @@
 	        <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
+        </tbody>
         </table>
         {/strip}
 
@@ -108,3 +112,29 @@
         </dl>
     </div>    
 {/if}
+
+{literal}
+<script type="text/javascript">
+    cj( function( ) {
+        var id = count = 0;
+        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
+        cj('#options').dataTable( {
+            "aaSorting": [[ id, "asc" ]],
+            "bPaginate": false,
+    		"bLengthChange": false,
+    		"bFilter": false,
+    		"bInfo": false,
+    		"bAutoWidth": false,
+    		"aoColumns": [
+    		            null,
+    		            null,
+    		            null,
+            			{ "bSortable": false },
+            			{ "bSortable": false },
+            			null,
+            			{ "bSortable": false }
+            		]
+        } );        
+    });
+</script>
+{/literal}

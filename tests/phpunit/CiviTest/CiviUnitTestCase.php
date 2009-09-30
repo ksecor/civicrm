@@ -106,8 +106,9 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     protected function setUp() {
 
         // "initialize" CiviCRM to avoid problems when running single tests
-//        require_once 'CRM/Core/Config.php';
-//        $config =& CRM_Core_Config::singleton();
+        // FIXME: look at it closer in second stage
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton();
 
         //  Get and save a connection to the database
         $this->_dbconn = $this->getConnection();
@@ -130,6 +131,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      *  Common teardown functions for all unit tests
      */
     protected function tearDown() { }
+
 
     /**
      *  FIXME: Maybe a better way to do it
@@ -213,7 +215,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     function assertDBNotNull(  $daoName, $searchValue, $returnColumn, $searchColumn, $message  ) 
     {
         $value = CRM_Core_DAO::getFieldValue( $daoName, $searchValue, $returnColumn, $searchColumn );
-        $this->assertNotNull(  $value, $message );
+        $this->assertNotNull( $value, $message );
         
         return $value;
     }
@@ -347,13 +349,18 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     
     function membershipTypeCreate( $contactID, $contributionTypeID = 1 ) 
     {
+        $this->contributionTypeCreate();
+
         $params = array( 'name'                 => 'General',
                          'duration_unit'        => 'year',
                          'duration_interval'    => 1,
                          'period_type'          => 'rolling',
                          'member_of_contact_id' => $contactID,
                          'domain_id'		=> 1,
-                         'contribution_type_id' => $contributionTypeID );
+                         // FIXME: I know it's 1, cause it was loaded directly to the db.
+                         // FIXME: when we load all the data, we'll need to address this to
+                         // FIXME: avoid hunting numbers around.
+                         'contribution_type_id' => 1 );
         
         $result = civicrm_membership_type_create( $params );
         
@@ -385,12 +392,12 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
             if ( CRM_Utils_Array::value( 'error_message', $result ) ) {
-                CRM_Core_Error::createAPIError( $result['error_message'] );
+                return CRM_Core_Error::createAPIError( $result['error_message'] );
             } else {
-                CRM_Core_Error::createAPIError( 'Could not create membership' );
+                return CRM_Core_Error::createAPIError( 'Could not create membership' );
             }
         }
-        
+
         return $result['id'];
     }
     
@@ -501,18 +508,14 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */    
     function contributionTypeCreate() 
     {
-        $params = array(
-                        'name'            => 'Gift',
-                        'description'     => 'For some worthwhile cause',
-                        'accounting_code' => 1004,
-                        'is_deductible'   => 0,
-                        'is_active'       => 1
-                        );
-        
-        $ids = null;
-        require_once "CRM/Contribute/BAO/ContributionType.php";
-        $contributionType = CRM_Contribute_BAO_ContributionType::add($params, $ids);
-        return $contributionType->id;
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/../api/v2/dataset/contribution_types.xml') );
+                             
+        // FIXME: CHEATING LIKE HELL HERE, TO BE FIXED
+        return 1;
     }
     
     /**
@@ -521,6 +524,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */
     function contributionTypeDelete($contributionTypeID) 
     {
+        require_once 'CRM/Contribute/BAO/ContributionType.php';
         $del= CRM_Contribute_BAO_ContributionType::del($contributionTypeID);
     }
     
@@ -756,7 +760,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     }
     
     /** 
-     * Function to add a Location
+     * Function to add a Location Type
      * 
      * @return int location id of created location
      */    

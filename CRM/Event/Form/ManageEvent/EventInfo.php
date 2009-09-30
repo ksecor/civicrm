@@ -333,10 +333,10 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             }
 
             // copy price sets if any
-            require_once 'CRM/Core/BAO/PriceSet.php';
-            $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $params['template_id'] );
+            require_once 'CRM/Price/BAO/Set.php';
+            $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_event', $params['template_id'] );
             if ( $priceSetId ) {
-                CRM_Core_BAO_PriceSet::addTo( 'civicrm_event', $event->id, $priceSetId );
+                CRM_Price_BAO_Set::addTo( 'civicrm_event', $event->id, $priceSetId );
             }
 
             // link profiles if none linked

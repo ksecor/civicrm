@@ -73,7 +73,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        require_once 'CRM/Core/BAO/PriceField.php';
+        require_once 'CRM/Price/BAO/Field.php';
         
         $this->_sid = CRM_Utils_Request::retrieve('sid', 'Positive', $this);
         $this->_fid = CRM_Utils_Request::retrieve('fid' , 'Positive', $this);
@@ -97,7 +97,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         if (isset($this->_fid)) {
             $params = array('id' => $this->_fid);
             $this->assign('id',$this->_fid);
-            CRM_Core_BAO_PriceField::retrieve($params, $defaults);
+            CRM_Price_BAO_Field::retrieve($params, $defaults);
             $this->_sid = $defaults['price_set_id'];
 
             // if text, retrieve price
@@ -122,7 +122,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         if ($this->_action & CRM_Core_Action::ADD) {
             require_once 'CRM/Utils/Weight.php';
             $fieldValues = array('price_set_id' => $this->_sid);
-            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_PriceField', $fieldValues);
+            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Price_DAO_Field', $fieldValues);
             $defaults['options_per_line'] = 1;
             $defaults['is_display_amounts'] = 1;
         }
@@ -144,13 +144,13 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
         
         // label
-        $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'label'), true);
+        $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Price_DAO_Field', 'label'), true);
         
         // html_type
         $javascript = 'onchange="option_html_type(this.form)";';
 
-        require_once 'CRM/Core/BAO/PriceField.php';
-        $htmlTypes = CRM_Core_BAO_PriceField::htmlTypes( );
+        require_once 'CRM/Price/BAO/Field.php';
+        $htmlTypes = CRM_Price_BAO_Field::htmlTypes( );
         
         $sel = $this->add('select', 'html_type', ts('Input Field Type'), 
                           $htmlTypes, true, $javascript );
@@ -209,7 +209,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $this->add('checkbox', 'is_display_amounts', ts('Display Amount?') );
 
         // weight
-        $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'weight'), true);
+        $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Price_DAO_Field', 'weight'), true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
 
         // checkbox / radio options per line
@@ -218,7 +218,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
 
         // help post, mask, attributes, javascript ?
         $this->add('textarea', 'help_post', ts('Field Help'), 
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'help_post'));        
+                   CRM_Core_DAO::getAttribute('CRM_Price_DAO_Field', 'help_post'));        
 
         // active_on
         $date_options = array(
@@ -293,7 +293,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             }
         }
         //avoid the same price field label in Within PriceSet
-        $priceFieldLabel = new CRM_Core_DAO_PriceField();
+        $priceFieldLabel = new CRM_Price_DAO_Field();
         $priceFieldLabel->label        = $fields['label'] ;
         $priceFieldLabel->price_set_id = $form->_sid;
 
@@ -486,10 +486,10 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             $fieldValues = array( 'price_set_id' => $this->_sid );
             $oldWeight   = null;
             if ( $this->_fid ) {
-                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', $this->_fid, 'weight', 'id' );
+                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Field', $this->_fid, 'weight', 'id' );
             }
             $params['weight'] = 
-                CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_PriceField', $oldWeight, $params['weight'], $fieldValues );
+                CRM_Utils_Weight::updateOtherWeights( 'CRM_Price_DAO_Field', $oldWeight, $params['weight'], $fieldValues );
         }
         
         if ( $params['html_type'] == 'Text' ) {
@@ -523,7 +523,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             $ids['id'] = $this->_fid;
         }
         
-        $priceField = CRM_Core_BAO_PriceField::create( $params, $ids );
+        $priceField = CRM_Price_BAO_Field::create( $params, $ids );
         
         if( ! is_a( $priceField, 'CRM_Core_Error' ) ) {
             CRM_Core_Session::setStatus(ts('Price Field \'%1\' has been saved.', array(1 => $priceField->label)));

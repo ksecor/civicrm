@@ -37,6 +37,11 @@ function clearAmountOther() {
         <p>{$intro_text}</p>
     </div>
 
+{if $priceSet}
+    <fieldset id="priceset"><legend>{ts}Contribution{/ts}</legend>
+    	   {include file="CRM/Price/Form/PriceSet.tpl"}
+     </fieldset>
+{else}
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="makeContribution"}
 
     <table class="form-layout-compressed">
@@ -68,6 +73,7 @@ function clearAmountOther() {
 	    </tr>
 	    {/if} 
 	{/if} 
+{/if}
 	{if $form.is_pay_later}
 	    <tr>
 		<td class="label">&nbsp;</td>

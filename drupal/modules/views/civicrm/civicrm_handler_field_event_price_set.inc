@@ -23,7 +23,7 @@ class civicrm_handler_field_event_price_set extends views_handler_field_prerende
 
      civicrm_initialize( );
       require_once 'CRM/Utils/Money.php';
-      require_once 'CRM/Core/BAO/PriceSet.php';
+      require_once 'CRM/Price/BAO/Set.php';
       require_once 'CRM/Core/OptionGroup.php';
       require_once 'CRM/Core/BAO/Discount.php';
 
@@ -41,7 +41,7 @@ class civicrm_handler_field_event_price_set extends views_handler_field_prerende
 
 
            if ( isset ($eventPageID ) ) {
-            if ( ! CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID ) ) {
+            if ( ! CRM_Price_BAO_Set::getFor( 'civicrm_event_page', $eventPageID ) ) {
                 //retrieve event fees.
                 $discountId = CRM_Core_BAO_Discount::findSet( $eventPageID, 'civicrm_event' );
                 if ( $discountId ) {

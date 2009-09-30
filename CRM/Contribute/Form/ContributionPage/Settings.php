@@ -108,15 +108,8 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $this->add('textarea', 'honor_block_text', ts('Honoree Introductory Message'), $attributes['honor_block_text'] );
 
         // add optional start and end dates
-        $this->add('date', 'start_date',
-                   ts('Start Date'),
-                   CRM_Core_SelectValues::date('datetime') );  
-        $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
-
-        $this->add('date', 'end_date',
-                   ts('End Date / Time'),
-                   CRM_Core_SelectValues::date('datetime') );
-        $this->addRule('end_date', ts('Please select a end valid date.'), 'qfDate');
+        $this->addDateTime( 'start_date', ts('Start Date') );
+        $this->addDateTime( 'end_date', ts('End Date') );
 
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Settings', 'formRule' ) );
         
@@ -154,7 +147,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
     {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
-        
+                
         // we do this in case the user has hit the forward/back button
         if ( $this->_id ) {
             $params['id'] = $this->_id;
@@ -165,16 +158,17 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
             $params['created_id']   = $session->get( 'userID' );
             $params['created_date'] = date('YmdHis');
         }            
-        
+       
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
         $params['honor_block_is_active'] = CRM_Utils_Array::value('honor_block_is_active', $params, false);
         $params['is_for_organization']   = CRM_Utils_Array::value('is_organization', $params ) 
                                            ? CRM_Utils_Array::value('is_for_organization', $params, false) 
                                            : 0;
-        $params['start_date']            = CRM_Utils_Date::format( $params['start_date'] );
-        $params['end_date'  ]            = CRM_Utils_Date::format( $params['end_date'] );
 
+        $params['start_date']            = date( 'YmdHis', strtotime( $params['start_date'] . ' '. $params['start_time']) );
+        $params['end_date'  ]            = date( 'YmdHis', strtotime( $params['end_date'] . ' '. $params['end_time']) );
+        
         $params['goal_amount'] = CRM_Utils_Rule::cleanMoney( $params['goal_amount'] );
 
         if( !$params['honor_block_is_active'] ) {

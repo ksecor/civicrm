@@ -759,7 +759,7 @@ WHERE civicrm_event.is_active = 1
                                                              ( $locBlockId ) ? $locBlockId : null ), 
                                                       $fieldsToPrefix );
         
-        $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_PriceSetEntity', 
+        $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Price_DAO_SetEntity', 
                                                       array( 'entity_id'    => $id,
                                                              'entity_table' => 'civicrm_event'),
                                                       array( 'entity_id'    => $copyEvent->id ) );
@@ -851,10 +851,10 @@ WHERE civicrm_event.is_active = 1
      * hence we cache the values to prevent repeated calls to the db
      */
     static function usesPriceSet( $id ) {
-        require_once 'CRM/Core/BAO/PriceSet.php';
+        require_once 'CRM/Price/BAO/Set.php';
         static $usesPriceSet = array( );
         if ( ! array_key_exists( $id, $usesPriceSet ) ) {
-            $usesPriceSet[$id] = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $id );
+            $usesPriceSet[$id] = CRM_Price_BAO_Set::getFor( 'civicrm_event', $id );
         }
         return $usesPriceSet[$id];
     }
@@ -1067,6 +1067,7 @@ WHERE civicrm_event.is_active = 1
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Profile/Form.php';
+            require_once 'CRM/Event/PseudoConstant.php';
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
             if ( $contactID ) {

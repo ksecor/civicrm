@@ -689,8 +689,7 @@ SELECT   a.operation, a.object_id
 ORDER BY a.object_id
 ";
             
-            $dao =& CRM_Core_DAO::executeQuery( $query,
-                                                CRM_Core_DAO::$_nullArray );
+            $dao =& CRM_Core_DAO::executeQuery( $query );
         
             // do an or of all the where clauses u see
             $ids = array( );
@@ -712,11 +711,11 @@ ORDER BY a.object_id
             if ( ! empty( $ids ) ) {
                 $ids = implode( ',', $ids );
                 $query = "
-SELECT g.where_clause, g.select_tables, g.where_tables
+SELECT g.*
   FROM civicrm_group g
  WHERE g.id IN ( $ids )
 ";
-                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                $dao =& CRM_Core_DAO::executeQuery( $query );
                 while ( $dao->fetch( ) ) {
                     // currently operation is restrcited to VIEW/EDIT
                     if ( $dao->where_clause ) {
@@ -729,6 +728,14 @@ SELECT g.where_clause, g.select_tables, g.where_tables
                             $whereTables = array_merge( $whereTables,
                                                         unserialize( $dao->where_tables ) );
                         }
+                    }
+                    
+                    if ( ( $dao->saved_search_id ||
+                           $dao->children ||
+                           $dao->parents ) &&
+                         $dao->cache_date == null ) {
+                        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+                        CRM_Contact_BAO_GroupContactCache::load( $dao );
                     }
                 }
             }

@@ -33,14 +33,14 @@
  *
  */
 
-require_once 'CRM/Core/DAO/PriceField.php';
+require_once 'CRM/Price/DAO/Field.php';
 
 
 /**
  * Business objects for managing price fields.
  *
  */
-class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField 
+class CRM_Price_BAO_Field extends CRM_Price_DAO_Field 
 {
 
     protected $_options;
@@ -55,13 +55,13 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      * @param array  $params    (reference ) an assoc array of name/value pairs
      * @param array  $ids       the array that holds all the db ids
      *
-     * @return object CRM_Core_BAO_PriceField object
+     * @return object CRM_Price_BAO_Field object
      * @access public
      * @static
      */
     static function &add( &$params, $ids ) 
     {
-        $priceFieldBAO         =& new CRM_Core_BAO_PriceField( );
+        $priceFieldBAO         =& new CRM_Price_BAO_Field( );
         
         $priceFieldBAO->copyValues( $params );
         
@@ -79,7 +79,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      *
      * @param array $params (reference) an assoc array of name/value pairs
      *
-     * @return object CRM_Core_DAO_PriceField object
+     * @return object CRM_Price_DAO_Field object
      * @access public
      * @static
      */
@@ -159,13 +159,13 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_DAO_PriceField object
+     * @return object CRM_Price_DAO_Field object
      * @access public
      * @static
      */
     static function retrieve( &$params, &$defaults )
     {
-        return CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_PriceField', $params, $defaults );
+        return CRM_Core_DAO::commonRetrieve( 'CRM_Price_DAO_Field', $params, $defaults );
     }
 
     /**
@@ -181,7 +181,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      */
     static function setIsActive( $id, $is_active )
     {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_PriceField', $id, 'is_active', $is_active );
+        return CRM_Core_DAO::setFieldValue( 'CRM_Price_DAO_Field', $id, 'is_active', $is_active );
     }
     
     /**
@@ -196,7 +196,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      */
     public static function getTitle( $id )
     {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', $id, 'label' );
+        return CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Field', $id, 'label' );
     }
     
     /**
@@ -213,7 +213,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
     public static function &getFields( $showAll = false ) 
     {
         $priceFieldTable = self::getTableName();
-        $priceSetTable = CRM_Core_DAO_PriceSet::getTableName();
+        $priceSetTable = CRM_Price_DAO_Set::getTableName();
 
         $query = "SELECT $priceFieldTable.id, $priceFieldTable.label,
                          $priceSetTable.title, $priceSetTable.html_type, 
@@ -259,7 +259,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                                                 $label = null ) 
     {
         require_once 'CRM/Utils/Money.php';
-        $field =& new CRM_Core_DAO_PriceField();
+        $field =& new CRM_Price_DAO_Field();
         $field->id = $fieldId;
         if (! $field->find(true)) {
             /* FIXME: failure! */
@@ -276,7 +276,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
 
         switch($field->html_type) {
         case 'Text':
-            $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
+            $customOption = CRM_Price_BAO_Field::getOptions( $field->id, $inactiveNeeded );
             
             // text fields only have one option
             $optionKey = key($customOption);
@@ -298,7 +298,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             
         case 'Radio':
             $choice = array();
-            $customOption = CRM_Core_BAO_PriceField::getOptions($field->id, $inactiveNeeded);
+            $customOption = CRM_Price_BAO_Field::getOptions($field->id, $inactiveNeeded);
             if ( !$field->is_required ) {
                 // add "none" option
                 $choice[] = $qf->createElement('radio', null, '', '-none-', '0', array('price' => $elementName."-0" ));
@@ -320,7 +320,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             break;
             
         case 'Select':
-            $customOption = CRM_Core_BAO_PriceField::getOptions($field->id, $inactiveNeeded);
+            $customOption = CRM_Price_BAO_Field::getOptions($field->id, $inactiveNeeded);
             $selectOption = array();
             $amount = '[{';
             foreach ($customOption as $opt) {
@@ -339,7 +339,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             break;
             
         case 'CheckBox':
-            $customOption = CRM_Core_BAO_PriceField::getOptions($field->id, $inactiveNeeded);
+            $customOption = CRM_Price_BAO_Field::getOptions($field->id, $inactiveNeeded);
             $check = array();
             foreach ($customOption as $opt) {
                 if ($field->is_display_amounts) {
@@ -370,7 +370,8 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      *
      * @return array array of options
      */
-    public static function getOptions( $fieldId, $inactiveNeeded = false, $reset = false ) {
+    public static function getOptions( $fieldId, $inactiveNeeded = false, $reset = false ) 
+    {
         static $options = array();
         
         if ( $reset || empty( $options[$fieldId] ) ) {
@@ -423,7 +424,7 @@ WHERE
      */
     public static function deleteField( $id ) 
     {
-        $field     = & new CRM_Core_DAO_PriceField( );
+        $field     = & new CRM_Price_DAO_Field( );
         $field->id = $id;
         
         if ( $field->find( true ) ) {
@@ -435,7 +436,7 @@ WHERE
             $fieldValues  = array( 'price_set_id' => $field->price_set_id );
             
             require_once 'CRM/Utils/Weight.php';
-            CRM_Utils_Weight::delWeight( 'CRM_Core_DAO_PriceField', $field->id, $fieldValues );
+            CRM_Utils_Weight::delWeight( 'CRM_Price_DAO_Field', $field->id, $fieldValues );
             
             // now delete the field 
             return $field->delete( );
@@ -444,7 +445,8 @@ WHERE
         return null;
     }
 
-    static function &htmlTypes( ) {
+    static function &htmlTypes( ) 
+    {
         static $htmlTypes = null;
         if ( ! $htmlTypes ) {
             $htmlTypes = array(

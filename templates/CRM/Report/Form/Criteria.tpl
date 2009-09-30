@@ -71,6 +71,7 @@
         </table>
     {/if}
   
+    {if $filters}
         <br/>
         <table class="report-layout">
             <tr>
@@ -102,6 +103,7 @@
                 {/foreach}
             {/foreach}
         </table>
+    {/if}
  
     {literal}
     <script type="text/javascript">

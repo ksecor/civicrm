@@ -51,6 +51,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         parent::preProcess( );
 
         $this->_params = $this->get( 'params' );
+        $this->_lineItem = $this->get( 'lineItem' );
         $is_deductible = $this->get('is_deductible');
         $this->assign('is_deductible'        , $is_deductible);
         $this->assign( 'thankyou_title'      , $this->_values['thankyou_title'] );
@@ -95,6 +96,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
         }
 
+        $this->assign( 'lineItem', $this->_lineItem );
         $params = $this->_params;
      
         $honor_block_is_active = $this->get( 'honor_block_is_active'); 
