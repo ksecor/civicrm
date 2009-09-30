@@ -145,6 +145,10 @@ function &civicrm_participant_get( &$params ) {
 
 function &civicrm_participant_search( &$params ) {
 
+    if( ! is_array($params) ) {
+        return civicrm_create_error( 'Params need to be of type array!' );
+    }
+    
     $inputParams      = array( );
     $returnProperties = array( );
     $otherVars = array( 'sort', 'offset', 'rowCount' );
@@ -190,7 +194,7 @@ function &civicrm_participant_search( &$params ) {
         $participant[$dao->participant_id] = $query->store( $dao );
     }
     $dao->free( );
-    
+
     return $participant;
 
 }
@@ -210,8 +214,7 @@ function &civicrm_participant_update(&$params)
 {
     _civicrm_initialize();
     if ( !is_array( $params ) ) {
-        $error = civicrm_create_error( 'Parameters is not an array' );
-        return $error;
+        return civicrm_create_error( 'Parameters is not an array' );
     }
     
     if ( !isset($params['id']) ) {

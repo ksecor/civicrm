@@ -156,7 +156,7 @@
 
 {if $mode eq 4}
 <div class="crm-submit-buttons"> 
-     {$form.buttons.html}
+     {$form.buttons.html}{if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_upload_duplicate.html}{/if}
 </div>
 {/if}
      {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if}
@@ -202,17 +202,9 @@ cj(document).ready(function(){
         beforeSubmit:  showRequest,  // pre-submit callback  
     }; 
     
-   	// bind to the form's submit event 
-    cj('#Edit').submit(function() { 
-        // inside event callbacks 'this' is the DOM element so we first 
-        // wrap it in a jQuery object and then invoke ajaxSubmit 
-        cj(this).ajaxSubmit(options); 
+    // bind form using 'ajaxForm'
+    cj('#Edit').ajaxForm( options );
 
-        // !!! Important !!! 
-        // always return false to prevent standard browser submit and page navigation 
-        return false; 
-    }); 
-   	
    	// pre-submit callback 
     function showRequest(formData, jqForm, options) { 
         // formData is an array; here we use $.param to convert it to a string to display it 

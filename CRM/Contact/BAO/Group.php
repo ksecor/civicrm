@@ -320,7 +320,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         }
 
         // form the name only if missing: CRM-627
-        if( !( CRM_Utils_Array::value( 'id', $params ) ) && ! CRM_Utils_Array::value( 'name', $params ) ) {
+        if( !CRM_Utils_Array::value( 'name', $params ) ) {
             require_once 'CRM/Utils/String.php';
             $params['name'] = CRM_Utils_String::titleToVar( $params['title'] );
         }

@@ -106,8 +106,9 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     protected function setUp() {
 
         // "initialize" CiviCRM to avoid problems when running single tests
-//        require_once 'CRM/Core/Config.php';
-//        $config =& CRM_Core_Config::singleton();
+        // FIXME: look at it closer in second stage
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton();
 
         //  Get and save a connection to the database
         $this->_dbconn = $this->getConnection();
@@ -130,6 +131,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      *  Common teardown functions for all unit tests
      */
     protected function tearDown() { }
+
 
     /**
      *  FIXME: Maybe a better way to do it
@@ -213,7 +215,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     function assertDBNotNull(  $daoName, $searchValue, $returnColumn, $searchColumn, $message  ) 
     {
         $value = CRM_Core_DAO::getFieldValue( $daoName, $searchValue, $returnColumn, $searchColumn );
-        $this->assertNotNull(  $value, $message );
+        $this->assertNotNull( $value, $message );
         
         return $value;
     }
@@ -390,9 +392,9 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
              ! CRM_Utils_Array::value( 'id', $result) ) {
             if ( CRM_Utils_Array::value( 'error_message', $result ) ) {
-                CRM_Core_Error::createAPIError( $result['error_message'] );
+                return CRM_Core_Error::createAPIError( $result['error_message'] );
             } else {
-                CRM_Core_Error::createAPIError( 'Could not create membership' );
+                return CRM_Core_Error::createAPIError( 'Could not create membership' );
             }
         }
 
@@ -758,7 +760,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     }
     
     /** 
-     * Function to add a Location
+     * Function to add a Location Type
      * 
      * @return int location id of created location
      */    

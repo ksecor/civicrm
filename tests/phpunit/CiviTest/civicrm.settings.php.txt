@@ -1,6 +1,6 @@
 <?php
 
-define( 'CIVICRM_UF'               , 'Drupal'        );
+define('CIVICRM_UF', 'UnitTests');
 
 if ( !empty( $GLOBALS['mysql_user'] ) ) {
     define( 'CIVICRM_DSN'          , "mysql://{$GLOBALS['mysql_user']}:{$GLOBALS['mysql_pass']}@{$GLOBALS['mysql_host']}/civicrm_tests_dev?new_link=true" );
@@ -13,7 +13,7 @@ $civicrm_root = dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
 // ADJUST THIS PATH!
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '' );
 
-define( 'CIVICRM_SITE_KEY', 'phpunit test' );
+define( 'CIVICRM_SITE_KEY', 'phpunittestfakekey' );
 
 /**
  * 

@@ -1310,7 +1310,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             return;
         }
         
-        if ($contactId) {
+        if ( $contactId && !$online ) {
             $name = "field[$contactId][$fieldName]";
         } else {
             $name = $fieldName;

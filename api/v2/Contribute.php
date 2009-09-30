@@ -207,7 +207,7 @@ function &civicrm_contribution_search( &$params ) {
         $sql .= " ORDER BY $sort ";
     }
     $sql .= " LIMIT $offset, $rowCount ";
-    $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+    $dao =& CRM_Core_DAO::executeQuery( $sql );
     
     $contribution = array( );
     while ( $dao->fetch( ) ) {

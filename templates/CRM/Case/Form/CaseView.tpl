@@ -206,6 +206,17 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 	});
 }
 
+function showHideSearch( ) {
+   cj("#searchOptions").toggle( );
+   if ( cj("#searchFilter").hasClass('collapsed') ) {
+       cj("#searchFilter").removeClass('collapsed');
+       cj("#searchFilter").addClass('expanded');
+   } else {
+       cj("#searchFilter").removeClass('expanded');
+       cj("#searchFilter").addClass('collapsed');
+   }
+}
+
 cj(document).ready(function(){
    cj("#searchOptions").hide( );
    cj("#view-activity").hide( );
@@ -409,16 +420,9 @@ curDate = (new Date()).getTime();
 
 <div id="activities" class="section-shown">
 <fieldset>
-
-<div id="searchFilter_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('searchFilter_show'); show('searchFilter'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Search Filters{/ts}</label><br />
-</div>
-
-<div id="searchFilter" class="section-shown">
- <fieldset>
-  <legend><a href="#" onclick="hide('searchFilter'); show('searchFilter_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Search Filters{/ts}</legend>
-
-<table class="no-border form-layout-compressed">
+<legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Activities{/ts}</legend>
+  <div><a id="searchFilter" href="javascript:showHideSearch( );" class="collapsed">{ts}Search Filters{/ts}</a></div>
+  <table class="no-border form-layout-compressed" id="searchOptions">
     <tr>
         <td><label for="reporter_id">{ts}Reporter/Role{/ts}</label><br />
             {$form.reporter_id.html}
@@ -451,12 +455,6 @@ curDate = (new Date()).getTime();
 	{/if}
   </table>
   <br />
-</fieldset>
-</div>
-
-  <legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Activities{/ts}</legend>
-
-  <br />
 
   <table id="activities-selector"  class="nestedActivitySelector" style="display:none"></table>
 
@@ -466,8 +464,6 @@ curDate = (new Date()).getTime();
 
 {literal}
 <script type="text/javascript">
-show('searchFilter_show');
-hide('searchFilter');
 cj(document).ready(function(){
 
     var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='}{$caseID}"{literal};
@@ -484,7 +480,7 @@ cj(document).ready(function(){
             {display: 'Date',    name : 'display_date', width : 124,  sortable : true, align: 'left'},
             {display: 'Subject', name : 'subject',     width : 105, sortable : true, align: 'left'},
             {display: 'Type',    name : 'type',        width : 100,  sortable : true, align: 'left'},
-            {display: 'Reporter',name : 'reporter',    width : 100,  sortable : true, align: 'left'},
+            {display: 'Reporter / Assignee',name : 'reporter',    width : 100,  sortable : true, align: 'left'},
             {display: 'Status',  name : 'status',      width : 65,  sortable : true, align: 'left'},
             {display: '',        name : 'links',       width : 70,  align: 'left'},
             {name : 'class', hide: true, width: 1}  // this col is use for applying css classes
@@ -574,7 +570,6 @@ function checkSelection( field ) {
 
 
 function setSelectorClass( ) {
-    
     cj("#activities-selector td:last-child").each( function( ) {
        cj(this).parent().attr( 'class', cj(this).text() );
     });

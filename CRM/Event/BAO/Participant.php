@@ -967,6 +967,10 @@ UPDATE  civicrm_participant
                 $eventParams = array( 'id' => $eventId );
                 CRM_Event_BAO_Event::retrieve( $eventParams, $eventDetails[$eventId] );
                 
+                //get default participant role.
+                $eventDetails[$eventId]['participant_role'] = 
+                    CRM_Utils_Array::value( $eventDetails[$eventId]['default_role_id'], $participantRoles );
+                
                 //get the location info
                 $locParams = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
                 require_once 'CRM/Core/BAO/Location.php';

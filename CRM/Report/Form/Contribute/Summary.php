@@ -181,7 +181,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                                         'options'       => CRM_Core_PseudoConstant::group( ) ), ), ),
                    );
 
-        if ( defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) ) {
+        if ( !defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) || CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA ) {
             // Add contribution custom fields
             $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
             $dao = CRM_Core_DAO::executeQuery( $query );
@@ -377,7 +377,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                      ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_phone']}.contact_id AND 
                         {$this->_aliases['civicrm_phone']}.is_primary = 1)";
 
-        if ( defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) ) {
+        if ( !defined( 'CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA' ) || CIVICRM_REPORT_CONTRIBUTION_CUSTOM_DATA ) {
             // LEFT JOIN on contribution custom data fields
             $query = 'SELECT id, table_name FROM civicrm_custom_group WHERE is_active = 1 AND extends = "Contribution"';
             $dao = CRM_Core_DAO::executeQuery( $query );

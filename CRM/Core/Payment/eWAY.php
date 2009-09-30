@@ -100,7 +100,7 @@ class CRM_Core_Payment_eWAY extends CRM_Core_Payment
        
        $this->_mode             = $mode;             // live or test
        $this->_paymentProcessor = $paymentProcessor;
-       $this->_processorName    = 'eWay';
+       $this->_processorName    = ts('eWay');
    }
 
    /**********************************************************
