@@ -321,7 +321,8 @@ class CRM_Core_Block {
                                                                'ref'   => 'new-activity',
                                                                'title' => ts('Activity') ) ));
                     
-            if ( CRM_Core_Permission::check('access CiviCase') && 
+            if ( CRM_Core_Permission::check('access CiviCase') &&                
+                 CRM_Core_Permission::check('add contacts') &&
                  in_array( 'CiviCase', $config->enableComponents ) ) {
                 require_once 'CRM/Core/OptionGroup.php';
                 $atype = CRM_Core_OptionGroup::getValue('activity_type', 
@@ -336,7 +337,8 @@ class CRM_Core_Block {
                 }
             }
             
-            if ( CRM_Core_Permission::check('access CiviContribute') && 
+            if ( CRM_Core_Permission::check('access CiviContribute') &&
+                 CRM_Core_Permission::check('edit contributions') && 
                  in_array( 'CiviContribute', $config->enableComponents ) ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/contribute/add',
@@ -351,7 +353,8 @@ class CRM_Core_Block {
                                                                'ref'   => 'new-email',
                                                                'title' => ts('Email') ) ));
             
-            if ( CRM_Core_Permission::check('access CiviEvent') && 
+            if ( CRM_Core_Permission::check('access CiviEvent') &&
+                 CRM_Core_Permission::check('edit event participants') && 
                  in_array( 'CiviEvent', $config->enableComponents ) ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/participant/add',
@@ -360,8 +363,9 @@ class CRM_Core_Block {
                                                           'title' => ts('Event Registration') ) ));
             }
 
-            if ( CRM_Core_Permission::check('access CiviGrant') && 
-                in_array( 'CiviGrant', $config->enableComponents ) ) {
+            if ( CRM_Core_Permission::check('access CiviGrant') &&
+                 CRM_Core_Permission::check('edit grants') &&
+                 in_array( 'CiviGrant', $config->enableComponents ) ) {
                 $shortCuts = 
                 array_merge($shortCuts, array( array( 'path'  => 'civicrm/grant/add',
                                                       'query' => "reset=1&action=add&context=standalone",
@@ -369,8 +373,9 @@ class CRM_Core_Block {
                                                       'title' => ts('Grant') ) ));
             }
             
-            if ( CRM_Core_Permission::check('access CiviMember') && 
-                in_array( 'CiviMember', $config->enableComponents ) ) {
+            if ( CRM_Core_Permission::check('access CiviMember') &&
+                 CRM_Core_Permission::check('edit memberships') &&
+                 in_array( 'CiviMember', $config->enableComponents ) ) {
                 $shortCuts = 
                 array_merge($shortCuts, array( array( 'path'  => 'civicrm/member/add',
                                                       'query' => "reset=1&action=add&context=standalone",
@@ -378,7 +383,8 @@ class CRM_Core_Block {
                                                       'title' => ts('Membership') ) ));
             }
             
-            if ( CRM_Core_Permission::check('access CiviPledge') && 
+            if ( CRM_Core_Permission::check('access CiviPledge') &&
+                 CRM_Core_Permission::check('edit pledges') &&
                  in_array( 'CiviPledge', $config->enableComponents ) ) {
                 $shortCuts = 
                     array_merge($shortCuts, array( array( 'path'  => 'civicrm/pledge/add',
