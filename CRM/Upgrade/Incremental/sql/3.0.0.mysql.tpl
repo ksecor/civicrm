@@ -9,20 +9,23 @@
     UPDATE civicrm_navigation SET permission ='administer CiviCRM' WHERE civicrm_navigation.name= 'Manage Tags (Categories)';
     
     UPDATE civicrm_navigation SET permission ='access CiviContribute' WHERE civicrm_navigation.name= 'Dashboard' AND url='civicrm/contribute&reset=1';
-    UPDATE civicrm_navigation SET permission ='access CiviContribute' WHERE civicrm_navigation.name IN ( 'New Contribution','Find Contributions');
+    UPDATE civicrm_navigation SET permission ='access CiviContribute' WHERE civicrm_navigation.name= 'Find Contributions';
         
     UPDATE civicrm_navigation SET permission ='access CiviPledge'  WHERE civicrm_navigation.name= 'Dashboard' AND url='civicrm/pledge&reset=1';
-    UPDATE civicrm_navigation SET permission ='access CiviPledge'  WHERE civicrm_navigation.name IN( 'New Pledge','Find Pledges');
+    UPDATE civicrm_navigation SET permission ='access CiviPledge'  WHERE civicrm_navigation.name= 'Find Pledges';
+    UPDATE civicrm_navigation SET permission ='access CiviPledge,edit pledges', permission_operator ='AND'
+        WHERE civicrm_navigation.name= 'New Pledge';
     
     UPDATE civicrm_navigation SET permission ='access CiviContribute,administer CiviCRM',  permission_operator ='AND'
         WHERE civicrm_navigation.name IN ( 'New Contribution Page','Manage Contribution Pages','Personal Campaign Pages','Premiums',
                                            'Contribution Types', 'Payment Instruments','Accepted Credit Cards' );
     UPDATE civicrm_navigation SET permission ='access CiviContribute,edit contributions',  permission_operator ='AND'                                       
-        WHERE civicrm_navigation.name = 'Import Contributions';
+        WHERE civicrm_navigation.name IN ( 'New Contribution','Import Contributions');
     UPDATE civicrm_navigation SET permission ='access CiviEvent'
-        WHERE civicrm_navigation.name IN( 'CiviEvent Dashboard','Register Event Participant','Find Participants');
+        WHERE civicrm_navigation.name IN( 'CiviEvent Dashboard','Find Participants');
         
-    UPDATE civicrm_navigation SET permission ='access CiviEvent,edit event participants', permission_operator ='AND' WHERE civicrm_navigation.name= 'Import Participants';
+    UPDATE civicrm_navigation SET permission ='access CiviEvent,edit event participants', permission_operator ='AND'
+        WHERE civicrm_navigation.name IN ( 'Register Event Participant','Import Participants');
     
     UPDATE civicrm_navigation SET permission ='access CiviEvent,administer CiviCRM', permission_operator ='AND'
         WHERE civicrm_navigation.name IN( 'New Event','Manage Events','Event Templates','New Price Set', 'Manage Price Sets',
@@ -35,14 +38,19 @@
             WHERE civicrm_navigation.name IN ( 'Headers, Footers, and Automated Messages','Mail Accounts');
                         
     UPDATE civicrm_navigation SET permission ='access CiviMember' WHERE civicrm_navigation.name= 'Dashboard' AND url='civicrm/member&reset=1';
-    UPDATE civicrm_navigation SET permission ='access CiviMember' WHERE civicrm_navigation.name IN ( 'New Membership','Find Members');
-    UPDATE civicrm_navigation SET permission ='access CiviMember,edit memberships', permission_operator ='AND' WHERE civicrm_navigation.name ='Import Members';
+    UPDATE civicrm_navigation SET permission ='access CiviMember' WHERE civicrm_navigation.name= 'Find Members';
+    UPDATE civicrm_navigation SET permission ='access CiviMember,edit memberships', permission_operator ='AND'
+        WHERE civicrm_navigation.name IN ('New Membership','Import Members');
         
     UPDATE civicrm_navigation SET permission ='access CiviCase' WHERE civicrm_navigation.name= 'Dashboard' AND url='civicrm/case&reset=1';
-    UPDATE civicrm_navigation SET permission ='access CiviCase' WHERE civicrm_navigation.name IN ( 'New Case','Find Cases');    
+    UPDATE civicrm_navigation SET permission ='access CiviCase' WHERE civicrm_navigation.name= 'Find Cases';
+    UPDATE civicrm_navigation SET permission ='access CiviCase,add contacts', permission_operator ='AND'
+        WHERE civicrm_navigation.name= 'New Case';
     
     UPDATE civicrm_navigation SET permission ='access CiviGrant' WHERE civicrm_navigation.name= 'Dashboard' AND url='civicrm/grant&reset=1';
-    UPDATE civicrm_navigation SET permission ='access CiviGrant' WHERE civicrm_navigation.name IN ( 'New Grant','Find Grants');
+    UPDATE civicrm_navigation SET permission ='access CiviGrant' WHERE civicrm_navigation.name= 'Find Grants';
+    UPDATE civicrm_navigation SET permission ='access CiviGrant,edit grants', permission_operator ='AND'
+        WHERE civicrm_navigation.name= 'New Grant';
         
     UPDATE civicrm_navigation SET permission ='administer CiviCRM'
         WHERE civicrm_navigation.name IN ( 'Administration Console', 'Customize','Custom Data','CiviCRM Profile','Navigation Menu',
