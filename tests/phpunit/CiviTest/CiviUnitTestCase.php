@@ -242,6 +242,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $dbValues = array( );
         CRM_Core_DAO::commonRetrieve( $daoName, $searchParams, $dbValues );
         
+
         // compare db values with expected values
         self::assertAttributesEquals( $expectedValues, $dbValues);
     }
@@ -253,7 +254,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
             if ( isset( $actualValues[$paramName] ) ) {
                 $this->assertEquals( $paramValue, $actualValues[$paramName] );
             } else {
-                $this->fail( "Attribute $paramName not present in actual array." );
+                $this->fail( "Attribute '$paramName' not present in actual array." );
             }
         }        
     }

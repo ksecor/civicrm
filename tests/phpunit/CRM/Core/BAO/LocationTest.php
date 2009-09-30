@@ -83,46 +83,61 @@ class CRM_Core_BAO_LocationTest extends CiviUnitTestCase
         
         //create various element of location block 
         //like address, phone, email, openid, im.
-        $params['location'][1] = array ( 'location_type_id'                               => 1,
-                                         'is_primary'                                     => 1,
-                                         'address' =>  array ( 
-                                                              'street_address'            => 'Saint Helier St',
-                                                              'supplemental_address_1'    => 'Hallmark Ct',
-                                                              'supplemental_address_2'    => 'Jersey Village',
-                                                              'city'                      => 'Newark',
-                                                              'postal_code'               => '01903',
-                                                              'country_id'                => 1228,
-                                                              'state_province_id'         => 1029,
-                                                              'geo_code_1'                => '18.219023',
-                                                              'geo_code_2'                => '-105.00973',
-                                                              ),
-                                         'email'   => array ( 
-                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
+        $params = array ( 
+                          'address' =>  array ( 
+                                               '1' => array( 'street_address'            => 'Saint Helier St',
+                                                             'supplemental_address_1'    => 'Hallmark Ct',
+                                                             'supplemental_address_2'    => 'Jersey Village',
+                                                             'city'                      => 'Newark',
+                                                             'postal_code'               => '01903',
+                                                             'country_id'                => 1228,
+                                                             'state_province_id'         => 1029,
+                                                             'geo_code_1'                => '18.219023',
+                                                             'geo_code_2'                => '-105.00973',
+                                                             'is_primary'                => 1,
+                                                             'location_type_id'          => 1,
                                                              ),
-                                         'phone'   => array (
-                                                             '1' => array (
-                                                                           'phone_type_id' => 1,
-                                                                           'phone'         => '303443689',
-                                                                           ),
-                                                             '2' => array (
-                                                                           'phone_type_id' => 2,
-                                                                           'phone'         => '9833910234',
-                                                                           ),
+
+                                                ),
+                          'email'   => array ( 
+                                              '1' => array ( 'email'            => 'john.smith@example.org',
+                                                             'is_primary'       => 1,
+                                                             'location_type_id' => 1,
+                                                             ), 
+                                               ),
+                          'phone'   => array (
+                                              '1' => array (
+                                                            'phone_type_id' => 1,
+                                                            'phone'         => '303443689',
+                                                            'is_primary'                => 1,
+                                                            'location_type_id'          => 1,
+                                                            ),
+                                              '2' => array (
+                                                            'phone_type_id' => 2,
+                                                            'phone'         => '9833910234',
+                                                            'location_type_id'          => 1,
+                                                            ),
+                                              ),
+                          'openid'  => array (
+                                              '1' => array ( 'openid'      => 'http://civicrm.org/',
+                                                             'location_type_id'          => 1,
+                                                             'is_primary'              => 1,
                                                              ),
-                                         'openid'  => array (
-                                                             '1' => array ( 'openid'      => 'http://civicrm.org/' ),
+                                              ),
+                          'im'      => array (
+                                              '1' => array ( 'name'        => 'jane.doe',
+                                                             'provider_id' => 1,
+                                                             'location_type_id'          => 1,
+                                                             'is_primary'              => 1,
                                                              ),
-                                         'im'      => array (
-                                                             '1' => array ( 'name'        => 'jane.doe',
-                                                                            'provider_id' => 1
-                                                                            ),
-                                                             ),
-                                         );
+                                              ),
+                          );
         
         $params['contact_id'] = $contactId;
         
         require_once 'CRM/Core/BAO/Location.php';
         $location   = CRM_Core_BAO_Location::create( $params );
+
         $locBlockId = CRM_Utils_Array::value( 'id', $location ); 
         
         //Now check DB for contact
@@ -179,38 +194,56 @@ class CRM_Core_BAO_LocationTest extends CiviUnitTestCase
     {
         //create test event record.
         $eventId = Event::create( );
-        $params['location'][1] = array ( 'location_type_id'                               => 1,
-                                         'is_primary'                                     => 1,
-                                         'address' =>  array ( 
-                                                              'street_address'            => 'Saint Helier St',
-                                                              'supplemental_address_1'    => 'Hallmark Ct',
-                                                              'supplemental_address_2'    => 'Jersey Village',
-                                                              'city'                      => 'Newark',
-                                                              'postal_code'               => '01903',
-                                                              'country_id'                => 1228,
-                                                              'state_province_id'         => 1029,
-                                                              'geo_code_1'                => '18.219023',
-                                                              'geo_code_2'                => '-105.00973',
-                                                              ),
-                                         'email'   => array ( 
-                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
+        $params = array ( 
+                          'address' =>  array ( 
+                                               '1' => array( 'street_address'            => 'Saint Helier St',
+                                                             'supplemental_address_1'    => 'Hallmark Ct',
+                                                             'supplemental_address_2'    => 'Jersey Village',
+                                                             'city'                      => 'Newark',
+                                                             'postal_code'               => '01903',
+                                                             'country_id'                => 1228,
+                                                             'state_province_id'         => 1029,
+                                                             'geo_code_1'                => '18.219023',
+                                                             'geo_code_2'                => '-105.00973',
+                                                             'is_primary'                => 1,
+                                                             'location_type_id'          => 1,
                                                              ),
-                                         'phone'   => array (
-                                                             '1' => array (
-                                                                           'phone_type_id' => 1,
-                                                                           'phone'         => '303443689',
-                                                                           ),
-                                                             '2' => array (
-                                                                           'phone_type_id' => 2,
-                                                                           'phone'         => '9833910234',
-                                                                           ),
+
+                                                ),
+                          'email'   => array ( 
+                                              '1' => array ( 'email'            => 'john.smith@example.org',
+                                                             'is_primary'       => 1,
+                                                             'location_type_id' => 1,
+                                                             ), 
+                                               ),
+                          'phone'   => array (
+                                              '1' => array (
+                                                            'phone_type_id' => 1,
+                                                            'phone'         => '303443689',
+                                                            'is_primary'                => 1,
+                                                            'location_type_id'          => 1,
+                                                            ),
+                                              '2' => array (
+                                                            'phone_type_id' => 2,
+                                                            'phone'         => '9833910234',
+                                                            'location_type_id'          => 1,
+                                                            ),
+                                              ),
+                          'openid'  => array (
+                                              '1' => array ( 'openid'      => 'http://civicrm.org/',
+                                                             'location_type_id'          => 1,
+                                                             'is_primary'                => 1,
                                                              ),
-                                         'im'      => array (
-                                                             '1' => array ( 'name'        => 'jane.doe',
-                                                                            'provider_id' => 1
-                                                                            ),
+                                              ),
+                          'im'      => array (
+                                              '1' => array ( 'name'        => 'jane.doe',
+                                                             'provider_id' => 1,
+                                                             'location_type_id'          => 1,
+                                                             'is_primary'                => 1,
                                                              ),
-                                         );
+                                              ),
+                          );
+        
         $params['entity_id']    = $eventId;
         $params['entity_table'] = 'civicrm_event';
         
@@ -220,6 +253,7 @@ class CRM_Core_BAO_LocationTest extends CiviUnitTestCase
         require_once 'CRM/Core/BAO/Location.php';
         $location   = CRM_Core_BAO_Location::create( $params, null, true );
         $locBlockId = CRM_Utils_Array::value( 'id', $location );
+
         //update event record with location block id
         require_once 'CRM/Event/BAO/Event.php';
         $eventParams = array( 'id'           => $eventId,
@@ -240,6 +274,7 @@ class CRM_Core_BAO_LocationTest extends CiviUnitTestCase
         CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_LocBlock',
                                       $locParams = array( 'id' => $locBlockId ), 
                                       $locElementIds );
+
         //Now check DB for location elements.
         $searchParams = array( 'id'                      => CRM_Utils_Array::value( 'address_id', $locElementIds ), 
                                'location_type_id'        => 1, 
@@ -385,41 +420,55 @@ class CRM_Core_BAO_LocationTest extends CiviUnitTestCase
         
         //create various element of location block 
         //like address, phone, email, openid, im.
-        $params['location'][1] = array ( 'location_type_id'                               => 1,
-                                         'is_primary'                                     => 1,
-                                         'address' =>  array ( 
-                                                              'street_address'            => 'Saint Helier St',
-                                                              'supplemental_address_1'    => 'Hallmark Ct',
-                                                              'supplemental_address_2'    => 'Jersey Village',
-                                                              'city'                      => 'Newark',
-                                                              'postal_code'               => '01903',
-                                                              'country_id'                => 1228,
-                                                              'state_province_id'         => 1029,
-                                                              'geo_code_1'                => '18.219023',
-                                                              'geo_code_2'                => '-105.00973',
-                                                              ),
-                                         'email'   => array ( 
-                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
+        $params = array ( 
+                          'address' =>  array ( 
+                                               '1' => array( 'street_address'            => 'Saint Helier St',
+                                                             'supplemental_address_1'    => 'Hallmark Ct',
+                                                             'supplemental_address_2'    => 'Jersey Village',
+                                                             'city'                      => 'Newark',
+                                                             'postal_code'               => '01903',
+                                                             'country_id'                => 1228,
+                                                             'state_province_id'         => 1029,
+                                                             'geo_code_1'                => '18.219023',
+                                                             'geo_code_2'                => '-105.00973',
+                                                             'is_primary'                => 1,
+                                                             'location_type_id'          => 1,
                                                              ),
-                                         'phone'   => array (
-                                                             '1' => array (
-                                                                           'phone_type_id' => 1,
-                                                                           'phone'         => '303443689',
-                                                                           ),
-                                                             '2' => array (
-                                                                           'phone_type_id' => 2,
-                                                                           'phone'         => '9833910234',
-                                                                           ),
+
+                                                ),
+                          'email'   => array ( 
+                                              '1' => array ( 'email'            => 'john.smith@example.org',
+                                                             'is_primary'       => 1,
+                                                             'location_type_id' => 1,
+                                                             ), 
+                                               ),
+                          'phone'   => array (
+                                              '1' => array (
+                                                            'phone_type_id' => 1,
+                                                            'phone'         => '303443689',
+                                                            'is_primary'                => 1,
+                                                            'location_type_id'          => 1,
+                                                            ),
+                                              '2' => array (
+                                                            'phone_type_id' => 2,
+                                                            'phone'         => '9833910234',
+                                                            'location_type_id'          => 1,
+                                                            ),
+                                              ),
+                          'openid'  => array (
+                                              '1' => array ( 'openid'      => 'http://civicrm.org/',
+                                                             'location_type_id'          => 1,
+                                                             'is_primary'              => 1,
                                                              ),
-                                         'openid'  => array (
-                                                             '1' => array ( 'openid'      => 'http://civicrm.org/' ),
+                                              ),
+                          'im'      => array (
+                                              '1' => array ( 'name'        => 'jane.doe',
+                                                             'provider_id' => 1,
+                                                             'location_type_id'          => 1,
+                                                             'is_primary'              => 1,
                                                              ),
-                                         'im'      => array (
-                                                             '1' => array ( 'name'        => 'jane.doe',
-                                                                            'provider_id' => 1
-                                                                            ),
-                                                             ),
-                                         );
+                                              ),
+                          );
         
         $params['contact_id'] = $contactId;
         
@@ -430,36 +479,34 @@ class CRM_Core_BAO_LocationTest extends CiviUnitTestCase
         //get the values from DB
         $values      = array( );
         $entityBlock = array( 'contact_id' => $contactId );
-        CRM_Core_BAO_Location::getValues( $entityBlock, $values );
-        
+        $values = CRM_Core_BAO_Location::getValues( $entityBlock );
+
         //Now check values of address
-        $this->assertAttributesEquals( CRM_Utils_Array::value( 'address', $params['location'][1] ),
-                                      CRM_Utils_Array::value( 'address', $values['location'][1] ) );
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['address'] ),
+                                      CRM_Utils_Array::value( '1', $values['address'] ) );
         
         //Now check values of email
-        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['location'][1]['email'] ),
-                                      CRM_Utils_Array::value( '1', $values['location'][1]['email'] ) );
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['email'] ),
+                                      CRM_Utils_Array::value( '1', $values['email'] ) );
         
         //Now check values of phone
-        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['location'][1]['phone'] ),
-                                      CRM_Utils_Array::value( '1', $values['location'][1]['phone'] ) );
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['phone'] ),
+                                      CRM_Utils_Array::value( '1', $values['phone'] ) );
         
         //Now check values of mobile
-        $this->assertAttributesEquals( CRM_Utils_Array::value( '2', $params['location'][1]['phone'] ),
-                                      CRM_Utils_Array::value( '2', $values['location'][1]['phone'] ) ); 
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '2', $params['phone'] ),
+                                      CRM_Utils_Array::value( '2', $values['phone'] ) ); 
         
         //Now check values of openid
-        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['location'][1]['openid'] ),
-                                      CRM_Utils_Array::value( '1', $values['location'][1]['openid'] ) );
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['openid'] ),
+                                      CRM_Utils_Array::value( '1', $values['openid'] ) );
         
         //Now check values of im
-        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['location'][1]['im'] ),
-                                      CRM_Utils_Array::value( '1', $values['location'][1]['im'] ) );
+        $this->assertAttributesEquals( CRM_Utils_Array::value( '1', $params['im'] ),
+                                      CRM_Utils_Array::value( '1', $values['im'] ) );
         
         //cleanup DB by deleting the contact
         Contact::delete( $contactId );
     }
     
 }
-
-?>
