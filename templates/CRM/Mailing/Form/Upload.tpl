@@ -12,7 +12,7 @@
         <tr><td class="label">{$form.subject.label}</td>
             <td colspan="2">{$form.subject.html|crmReplace:class:huge}
                             <a href="#" onClick="return showToken('Subject', 3);">{$form.token3.label}</a>
-	                        {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
+	                        {help id="id-token-subject" file="CRM/Contact/Form/Task/Email.hlp"}
                             <div id='tokenSubject' style="display:none">
 	                           <input style="border:1px solid #999999;" type="text" id="filter3" size="20" name="filter3" onkeyup="filter(this, 3)"/><br />
 	                           <span class="description">{ts}Begin typing to filter list of tokens{/ts}</span><br/>

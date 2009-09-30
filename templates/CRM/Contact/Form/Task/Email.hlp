@@ -6,6 +6,10 @@
 {/if}
 {/htxt}
 
+{htxt id="id-token-subject"}
+<p>{ts}Use a token in the Subject when you are sending mail to a number of recipients and want to include their name and / or other values from their contact record automatically in the subject line.{/ts}</p>
+{/htxt}
+
 {htxt id="id-token-text"}
 <p>{ts}Use tokens when you are sending mail to a number of recipients, and want to include their name and / or other values from their contact record automatically within your message.{/ts}</p>
 <p>{ts}EXAMPLE: If you want your message to begin with "Dear " followed by the recipient's first name, you can use the {literal}{contact.first_name} token in your message. <em>Dear {contact.first_name}</em>{/literal}{/ts}</p>
