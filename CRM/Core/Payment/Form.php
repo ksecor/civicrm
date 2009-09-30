@@ -157,7 +157,7 @@ class CRM_Core_Payment_Form {
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $creditCardType = 
-            array( '' => ts('- select -')) + CRM_Contribute_PseudoConstant::creditCard( );
+            array( '' => '- select -') + CRM_Contribute_PseudoConstant::creditCard( );
         $form->_fields['credit_card_type'] = 
             array( 'htmlType'   => 'select', 
                    'name'       => 'credit_card_type', 

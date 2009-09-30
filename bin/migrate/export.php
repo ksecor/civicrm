@@ -76,11 +76,8 @@ class bin_migrate_export {
         $sql = "
 SELECT distinct(g.id), g.*
 FROM   civicrm_option_group g,
-       civicrm_custom_field f,
-       civicrm_custom_group cg
+       civicrm_custom_field f
 WHERE  f.option_group_id = g.id
-AND    f.custom_group_id = cg.id
-AND    cg.is_active = 1
 ";
         $this->fetch( 'optionGroup',
                       'CRM_Core_DAO_OptionGroup',
@@ -91,40 +88,24 @@ AND    cg.is_active = 1
 SELECT v.*
 FROM   civicrm_option_value v,
        civicrm_option_group g,
-       civicrm_custom_field f,
-       civicrm_custom_group cg
+       civicrm_custom_field f
 WHERE  v.option_group_id = g.id
-AND    f.option_group_id = g.id
-AND    f.custom_group_id = cg.id
-AND    cg.is_active = 1
+  AND  f.option_group_id = g.id
 ";
-
         $this->fetch( 'optionValue',
                       'CRM_Core_DAO_OptionValue',
                       $sql,
                       null,
                       array( array( 'optionGroup', 'option_group_id', 'option_group_label' ) ) );
 
-        $sql = "
-SELECT cg.*
-FROM   civicrm_custom_group cg
-WHERE  cg.is_active = 1
-";
         $this->fetch( 'customGroup',
                       'CRM_Core_DAO_CustomGroup',
-                      $sql,
+                      null,
                       array( 'id', 'title' ) );
 
-        $sql = "
-SELECT f.*
-FROM   civicrm_custom_field f,
-       civicrm_custom_group cg
-WHERE  f.custom_group_id = cg.id
-AND    cg.is_active = 1
-";
         $this->fetch( 'customField',
                       'CRM_Core_DAO_CustomField',
-                      $sql,
+                      null,
                       null,
                       array( array( 'optionGroup', 'option_group_id', 'option_group_label' ),
                              array( 'customGroup', 'custom_group_id', 'custom_group_title' ) ) );
@@ -225,7 +206,7 @@ function run( ) {
 
     $export = new bin_migrate_export( );
 
-    //echo "Export Done!";
+    echo "Export Done!";
 
     $export->run( );
 

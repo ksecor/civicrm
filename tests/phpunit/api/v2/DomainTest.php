@@ -45,12 +45,6 @@ class api_v2_DomainTest extends CiviUnitTestCase
     {
         parent::setUp();
 
-        //  Truncate the tables
-        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__) . '/../../CiviTest/truncate-option.xml') );
-
         //  Insert a row in civicrm_option_group creating option group
         //  from_email_address group
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
@@ -87,22 +81,19 @@ class api_v2_DomainTest extends CiviUnitTestCase
      */
     public function testGet()
     {
-        $result = civicrm_domain_get();
+        $domain = civicrm_domain_get();
 
-        $this->assertType( 'array', $result, 'In line' . __LINE__ );
+        $this->assertType( 'array', $domain );
+        $this->assertEquals( $domain['from_email'], 'test@email.label.net' );
+        $this->assertEquals( $domain['from_name'],  'Test Label - Domain');
 
-        foreach( $result as $domain ) {
-            $this->assertEquals( 'test@email.label.net', $domain['from_email'], 'In line' . __LINE__ );
-            $this->assertEquals( 'Test Label - Domain', $domain['from_name'], 'In line' . __LINE__);
-            
-            // checking other important parts of domain information
-            // test will fail if backward incompatible changes happen
-            $this->assertArrayHasKey( 'id', $domain, 'In line' . __LINE__ );
-            $this->assertArrayHasKey( 'domain_name', $domain, 'In line' . __LINE__ );
-            $this->assertArrayHasKey( 'domain_email', $domain, 'In line' . __LINE__ );
-            $this->assertArrayHasKey( 'domain_phone', $domain, 'In line' . __LINE__ );
-            $this->assertArrayHasKey( 'domain_address', $domain, 'In line' . __LINE__ ); 
-        }
+        // checking other important parts of domain information
+        // test will fail if backward incompatible changes happen
+        $this->assertArrayHasKey( 'id', $domain );
+        $this->assertArrayHasKey( 'domain_name', $domain );
+        $this->assertArrayHasKey( 'domain_email', $domain );
+        $this->assertArrayHasKey( 'domain_phone', $domain );
+        $this->assertArrayHasKey( 'domain_address', $domain ); 
     }
         
 ///////////////// civicrm_domain_create methods

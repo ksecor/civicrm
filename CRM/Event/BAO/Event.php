@@ -1067,7 +1067,6 @@ WHERE civicrm_event.is_active = 1
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Profile/Form.php';
-            require_once 'CRM/Event/PseudoConstant.php';
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
             if ( $contactID ) {

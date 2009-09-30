@@ -7,6 +7,7 @@
   <civicrm_acl_entity_role />
   <civicrm_activity />
   <civicrm_activity_target />
+  <civicrm_component />
   <civicrm_contact />
   <civicrm_custom_group />
   <civicrm_custom_field />
@@ -15,8 +16,11 @@
   <civicrm_group />
   <civicrm_group_contact />
   <civicrm_group_nesting />    
+  <civicrm_location_type />
   <civicrm_note />
   <civicrm_openid />
+  <civicrm_option_group />
+  <civicrm_option_value />
   <civicrm_relationship_type />
   <civicrm_saved_search />
   <civicrm_tag />
@@ -27,8 +31,4 @@
   <civicrm_membership_log />
   <civicrm_membership_payment />    
   <civicrm_contribution_type />
-  <civicrm_event />
-  <civicrm_participant />
-  <civicrm_phone />
-  <civicrm_location_type />
 </dataset>

@@ -319,23 +319,23 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         // when custom data is included in this page
-    	if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-    		//custom data of type participant role
-    		CRM_Custom_Form_Customdata::preProcess( $this, $this->_roleCustomDataTypeID, $_POST['role_id'], 1, 'Participant', $this->_participantId );
-    		CRM_Custom_Form_Customdata::buildQuickForm( $this );
-    		CRM_Custom_Form_Customdata::setDefaultValues( $this );
-		
-    		//custom data of type participant event
-    		CRM_Custom_Form_Customdata::preProcess( $this, $this->_eventNameCustomDataTypeID, $_POST['event_id'], 1, 'Participant', $this->_participantId );
-    		CRM_Custom_Form_Customdata::buildQuickForm( $this );
-    		CRM_Custom_Form_Customdata::setDefaultValues( $this );
+		if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+			//custom data of type participant role
+			CRM_Custom_Form_Customdata::preProcess( $this, $this->_roleCustomDataTypeID, $_POST['role_id'], 1, 'Participant', $this->_participantId );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
+			
+			//custom data of type participant event
+			CRM_Custom_Form_Customdata::preProcess( $this, $this->_eventNameCustomDataTypeID, $_POST['event_id'], 1, 'Participant', $this->_participantId );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
 
-    		//custom data of type participant, ( we 'null' to reset subType and subName)
-    		CRM_Custom_Form_Customdata::preProcess( $this, 'null', 'null', 1, 'Participant', $this->_participantId );
-    		CRM_Custom_Form_Customdata::buildQuickForm( $this );
-    		CRM_Custom_Form_Customdata::setDefaultValues( $this );
+			//custom data of type participant, ( we 'null' to reset subType and subName)
+			CRM_Custom_Form_Customdata::preProcess( $this, 'null', 'null', 1, 'Participant', $this->_participantId );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
 
-    	}
+		}
         
         // CRM-4395, get the online pending contribution id.
         $this->_onlinePendingContributionId = null;
@@ -395,34 +395,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         //setting default register date
         if ( $this->_action == CRM_Core_Action::ADD ) {
-            // CRM-5150 this is hack to fix setdefaults, we will remove this code once we migrate to
-            // new date picker plugin in v3.1
-            $config =& CRM_Core_Config::singleton( );
-            $dateFormat  = $config->dateformatQfDatetime;
-            $hour24Format = false;
-            if ( preg_match( '/%H/i', $dateFormat) ) {
-                $hour24Format = true;
-            }
-            
-            $currentDate = getDate();
-            $defaults[$this->_participantId]['register_date']['M'] = $currentDate['mon'];
-            $defaults[$this->_participantId]['register_date']['d'] = $currentDate['mday'];
-            $defaults[$this->_participantId]['register_date']['Y'] = $currentDate['year'];
+            $today_date = getDate();
+            $defaults[$this->_participantId]['register_date']['M'] = $today_date['mon'];
+            $defaults[$this->_participantId]['register_date']['d'] = $today_date['mday'];
+            $defaults[$this->_participantId]['register_date']['Y'] = $today_date['year'];
 
-            if ( !$hour24Format ) {            
-                $defaults[$this->_participantId]['register_date']['A'] = 'AM';
-                $defaults[$this->_participantId]['register_date']['a'] = 'am';
-                if ( $currentDate['hours'] > 12 ) {
-                    $currentDate['hours'] -= 12;
-                    $defaults[$this->_participantId]['register_date']['A'] = 'PM';
-                    $defaults[$this->_participantId]['register_date']['a'] = 'pm';
-                }
-                $defaults[$this->_participantId]['register_date']['h'] = $currentDate['hours'];
-            } else {
-                $defaults[$this->_participantId]['register_date']['H'] = $currentDate['hours'];                
+            $defaults[$this->_participantId]['register_date']['A'] = 'AM';
+            $defaults[$this->_participantId]['register_date']['a'] = 'am';
+            if( $today_date['hours'] > 12 ) {
+                $today_date['hours'] -= 12;
+                $defaults[$this->_participantId]['register_date']['A'] = 'PM';
+                $defaults[$this->_participantId]['register_date']['a'] = 'pm';
             }
             
-            $defaults[$this->_participantId]['register_date']['i'] = $currentDate['minutes'];
+            $defaults[$this->_participantId]['register_date']['h'] = $today_date['hours'];
+            $defaults[$this->_participantId]['register_date']['i'] = (integer)($today_date['minutes']/15) *15;
 
             if ( CRM_Utils_Array::value( 'event_id' , $defaults[$this->_participantId] ) ) {
                 $contributionTypeId =  CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
@@ -432,7 +419,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $defaults[$this->_participantId]['contribution_type_id'] = $contributionTypeId;
                 }
             }
-            
             if ( $this->_mode ) {
                 $fields["email-{$this->_bltID}"         ] = 1;
                 $fields["email-Primary"                 ] = 1;
@@ -923,10 +909,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         if ( $this->_mode ) {
             // add all the additioanl payment params we need
-            $this->_params["state_province-{$this->_bltID}"] = $this->_params["billing_state_province-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["billing_state_province_id-{$this->_bltID}"] );
-            $this->_params["country-{$this->_bltID}"] = $this->_params["billing_country-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["billing_country_id-{$this->_bltID}"] );
+            $this->_params["state_province-{$this->_bltID}"] =
+                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] );
+            $this->_params["country-{$this->_bltID}"] =
+                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
             
             $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
             $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
@@ -1184,18 +1170,18 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $addressParts  = array( "street_address-{$this->_bltID}",
                                         "city-{$this->_bltID}",
                                         "postal_code-{$this->_bltID}",
-                                        "state_province-{$this->_bltID}",
-                                        "country-{$this->_bltID}");
+                                        "state_province_id-{$this->_bltID}",
+                                        "country_id-{$this->_bltID}");
                 $addressFields = array( );
-                foreach ( $addressParts as $part ) {
+                foreach ($addressParts as $part) {
                     list( $n, $id ) = explode( '-', $part );
-                    if ( isset ( $this->_params['billing_' . $part] ) ) {
-                        $addressFields[$n] = $this->_params['billing_' . $part];
-                    }                    
+                    if ( isset ( $params[$part] ) ) {
+                        $addressFields[$n] = $params[$part];
+                       
+                    }
                 }
                 require_once 'CRM/Utils/Address.php';
                 $this->assign('address', CRM_Utils_Address::format( $addressFields ) );
-
                 $date = CRM_Utils_Date::format( $params['credit_card_exp_date'] );
                 $date = CRM_Utils_Date::mysqlToIso( $date );
                 $this->assign( 'credit_card_exp_date', $date );

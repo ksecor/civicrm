@@ -49,10 +49,11 @@ class CRM_Contact_Form_Search_Custom_GroupTestDataProvider
      *  database in dataset.xml
      */
     private $dataset = array(
+
               //  Exclude static group 3
               array( 'fv' => array( 'excludeGroups' => array( '3' ) ),
                      'id' => array( '9', '10', '11', '12', '13', '14',
-                                    '15', '16' )
+                                    '15', '16', '17' )
                      ),
 
               //  Include static group 3
@@ -81,7 +82,7 @@ class CRM_Contact_Form_Search_Custom_GroupTestDataProvider
 
               //  Exclude tag 7
               array( 'fv' => array( 'excludeTags' => array( '7' ) ),
-                     'id' => array( '9', '10', '13', '14', '17', '18', '21', '22' )
+                     'id' => array( '9', '10', '14', '18', '22' )
                      ),
 
               //  Include tag 7
@@ -118,25 +119,25 @@ class CRM_Contact_Form_Search_Custom_GroupTestDataProvider
               //  Include static group 3, exclude tag 7
               array( 'fv' => array( 'includeGroups' => array( '3'),
                                     'excludeTags' => array( '7') ),
-                     'id' => array( '9', '10', '13', '14', '17', '18', '19', '20', '21', '22', '23', '24' )
+                     'id' => array( '17', '18',  '21', '22' )
                      ),
 
               //  Include tag 9, exclude static group 5
               array( 'fv' => array( 'includeTags' => array( '9'),
                                     'excludeGroups' => array( '5') ),
-                     'id' => array( '9', '10', '11', '12', '14', '16', '17', '18', '19', '20', '22', '24' )
+                     'id' => array( '10', '12',  '18', '20' )
                      ),
 
               //  Exclude tag 9, exclude static group 5
               array( 'fv' => array( 'excludeTags' => array( '9'),
                                     'excludeGroups' => array( '5') ),
-                     'id' => array( '9', '10', '11', '12', '13', '15', '17', '18', '19', '20', '21', '23' )
+                     'id' => array( '9', '11', '17', '19' )
                      ),
 
               //  Include smart group 6
               array( 'fv' => array( 'includeGroups' => array( '6') ),
                      'id' => array('9', '10', '11', '12', '13', '14',
-                                   '15', '16' )
+                                   '15', '16', '17' )
                      ),
 
               //  Include smart group 4

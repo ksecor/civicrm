@@ -1,29 +1,4 @@
 <?php
-/*
- +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
- +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2009                                |
- +--------------------------------------------------------------------+
- | This file is a part of CiviCRM.                                    |
- |                                                                    |
- | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the GNU Affero General Public License           |
- | Version 3, 19 November 2007.                                       |
- |                                                                    |
- | CiviCRM is distributed in the hope that it will be useful, but     |
- | WITHOUT ANY WARRANTY; without even the implied warranty of         |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the GNU Affero General Public License for more details.        |
- |                                                                    |
- | You should have received a copy of the GNU Affero General Public   |
- | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org. If you have questions about the        |
- | GNU Affero General Public License or the licensing of CiviCRM,     |
- | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
- +--------------------------------------------------------------------+
-*/
-
 
 require_once 'api/v2/Participant.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
@@ -58,42 +33,32 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->_participantID = $this->participantCreate( array('contactID' => $this->_contactID,'eventID' => $this->_eventID  ));
         $this->_contactID2 = $this->individualCreate( ) ;
         $this->_participantID2 = $this->participantCreate( array('contactID' => $this->_contactID2,'eventID' => $this->_eventID ));
-        $this->_participantID3 = $this->participantCreate( array ('contactID' => $this->_contactID2, 'eventID' => $this->_eventID ) );
+        $this->_participantID3 = $this->participantCreate( array ('contactID' => $this->_contactID, 'eventID' => $this->_eventID ) );
+        
+        $this->_failureCase = 0;
     }
     
     function tearDown()
     {
-      // _participant, _contact and _event tables cleaned up in truncate.xml
+        // Cleanup all created participant records. 
+        foreach ( $this->_createdParticipants as $id ) {
+            $result = $this->participantDelete( $id );
+        }
+        // Cleanup test contact
+        $result = $this->contactDelete( $this->_contactID ); 
+        
+        // Cleanup test event
+        if ( $this->_eventID ) {
+            $this->eventDelete( $this->_eventID );
+        }
     }
 
 ///////////////// civicrm_participant_get methods
-
-    /**
-     * check with wrong params type
-     */    
-    function testGetWrongParamsType()
-    {
-        $params = 'a string';
-        $result = & civicrm_participant_get($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-    }
-
-    /**
-     * Test civicrm_participant_get with empty params
-     */    
-    function testGetEmptyParams()
-    {
-        $params = array();
-        $result = & civicrm_participant_get($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-    }
-
+    
     /**
      * check with participant_id
      */
-    function testGetParticipantIdOnly()
+    function testParticipantGetParticipantIdOnly()
     {
         $params = array(
                         'participant_id'      => $this->_participantID,
@@ -108,28 +73,23 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with contact_id
      */
-    function testGetContactIdOnly()
+    function testParticipantGetContactIdOnly()
     {
         $params = array(
                         'contact_id'      => $this->_contactID,
                         );
         $participant = & civicrm_participant_get($params);
-
-        $this->assertEquals($this->_participantID, $participant['participant_id'], 
-                            "In line " . __LINE__);
-        $this->assertEquals($this->_eventID,       $participant['event_id'], 
-                            "In line " . __LINE__);
-        $this->assertEquals('2007-02-19 00:00:00', $participant['participant_register_date'], 
-                            "In line " . __LINE__);
-        $this->assertEquals('Wimbeldon',          $participant['participant_source'], 
-                            "In line " . __LINE__);
+        $this->assertEquals($participant['participant_id'],$this->_participantID);
+        $this->assertEquals($participant['event_id'], $this->_eventID);
+        $this->assertEquals($participant['participant_register_date'], '2007-02-19 00:00:00');
+        $this->assertEquals($participant['participant_source'],'Wimbeldon');
     }
     
     /**
      * check with event_id
      * fetch first record
      */
-    function testGetMultiMatchReturnFirst()
+    function testParticipantGetMultiMatchReturnFirst()
     {
         $params = array(
                         'event_id'      => $this->_eventID,
@@ -146,7 +106,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
      * check with event_id
      * This should return an error because there will be at least 2 participants. 
      */ 
-    function testGetMultiMatchNoReturnFirst()
+    function testParticipantGetMultiMatchNoReturnFirst()
     {
         $params = array(
                         'event_id'      => $this->_eventID,
@@ -158,35 +118,11 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     }    
 
 ///////////////// civicrm_participant_search methods
-
-    /**
-     * Test civicrm_participant_search with wrong params type
-     */
-    function testSearchWrongParamsType()
-    {
-        $params = 'a string';
-        $result = & civicrm_participant_search($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-    }
-    
-    /**
-     * Test civicrm_participant_search with empty params
-     * In this case all the participant records are returned.
-     */
-    function testSearchEmptyParams()
-    {
-        $params = array();
-        $result = & civicrm_participant_search($params);
-
-        // expecting 3 participant records
-        $this->assertEquals( count( $result ), 3 );
-    }    
     
     /**
      * check with participant_id
      */
-    function testSearchParticipantIdOnly()
+    function testParticipantSearchParticipantIdOnly()
     {
         $params = array(
                         'participant_id'      => $this->_participantID,
@@ -200,21 +136,20 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with contact_id
      */
-    function testSearchContactIdOnly()
+    function testParticipantSearchContactIdOnly()
     {
         // Should get 2 participant records for this contact.
         $params = array(
-                        'contact_id'      => $this->_contactID2,
+                        'contact_id'      => $this->_contactID,
                         );
         $participant = & civicrm_participant_search($params);
-
-        $this->assertEquals( count( $participant ), 2 );
+        $this->assertEquals( count( $participant ), 3 );
     }
     
     /**
      * check with event_id
      */
-    function testSearchByEvent()
+    function testParticipantSearchByEvent()
     {
         // Should get >= 3 participant records for this event. Also testing that last_name and event_title are returned.
         $params = array(
@@ -235,7 +170,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
      * check with event_id
      * fetch with limit
      */
-    function testSearchByEventWithLimit()
+    function testParticipantSearchByEventWithLimit()
     {
         // Should 2 participant records since we're passing rowCount = 2.
         $params = array(
@@ -250,32 +185,9 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
 ///////////////// civicrm_participant_create methods
     
     /**
-     * Test civicrm_participant_create with wrong params type
-     */
-    function testCreateWrongParamsType()
-    {
-        $params = 'a string';
-        $result = & civicrm_participant_create($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-    }
-    
-    
-    /**
-     * Test civicrm_participant_create with empty params
-     */
-    function testCreateEmptyParams()
-    {
-        $params = array();
-        $result = & civicrm_participant_create($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-    }    
-
-    /**
      * check with event_id
      */
-    function testCreateMissingContactID()
+    function testParticipantCreateMissingContactID()
     {
         $params = array(
                         'event_id'      => $this->_eventID,
@@ -292,7 +204,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
      * check with contact_id
      * without event_id
      */
-    function testCreateMissingEventID()
+    function testParticipantCreateMissingEventID()
     {
         $params = array(
                         'contact_id'    => $this->_contactID,
@@ -308,7 +220,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with contact_id & event_id
      */
-    function testCreateEventIdOnly()
+    function testParticipantCreateEventIdOnly()
     {
         $params = array(
                         'contact_id'    => $this->_contactID,
@@ -332,7 +244,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with complete array
      */
-    function testCreateAllParams()
+    function testParticipantCreateAllParams()
     {  
         $params = array(
                         'contact_id'    => $this->_contactID,
@@ -359,24 +271,32 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         }
     }
     
-///////////////// civicrm_participant_update methods
+    /**
+     * check with empty array
+     */
+    function testParticipantCreateWithEmptyParams()
+    {
+        $params = array( );
+        $result =& civicrm_participant_create($params);
+        $this->assertEquals( $result['is_error'], 1, "In line " . __LINE__ );
+    }
 
     /**
-     * Test civicrm_participant_update with wrong params type
-     */
-    function testUpdateWrongParamsType()
+     * check without array
+     */    
+    function testParticipantCreateWithWrongParams()
     {
         $params = 'a string';
-        $result = & civicrm_participant_update($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-        $this->assertEquals( 'Parameters is not an array', $result['error_message'], 'In line ' . __LINE__ );
+        $result =& civicrm_participant_create($params);
+        $this->assertEquals( $result['is_error'], 1, "In line " . __LINE__ );
     }
+    
+///////////////// civicrm_participant_update methods
 
     /**
      * check with empty array
      */
-    function testUpdateEmptyParams()
+    function testParticipantUpdateEmptyParams()
     {
         $params = array();        
         $participant = & civicrm_participant_create($params);  
@@ -387,7 +307,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check without event_id
      */
-    function testUpdateWithoutEventId()
+    function testParticipantUpdateWithoutEventId()
     {  
         $participantId = $this->participantCreate( array ('contactID' => $this->_individualId, 'eventID' => $this->_eventID  ) );
         $params = array(
@@ -408,7 +328,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with complete array
      */
-    function testUpdate()
+    function testParticipantUpdate()
     {  
         $participantId = $this->participantCreate( array ('contactID' => $this->_individualId,'eventID' => $this->_eventID ) );
         $params = array(
@@ -438,31 +358,18 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $result = $this->participantDelete( $params['id'] );
     }
 
-
-
-///////////////// civicrm_participant_delete methods
-
     /**
-     * Test civicrm_participant_delete with wrong params type
+     * check without array
      */
-    function testDeleteWrongParamsType()
+    function testParticipantUpdateWithWrongParams()
     {
         $params = 'a string';
-        $result = & civicrm_participant_delete($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
+        $participant = & civicrm_participant_create($params);
+        $this->assertEquals( $participant['is_error'],1 );
+        $this->assertEquals( $participant['error_message'],'Parameters is not an array' );
     }
-    
-    /**
-     * Test civicrm_participant_delete with empty params
-     */
-    function testDeleteEmptyParams()
-    {
-        $params = array();
-        $result = & civicrm_participant_delete($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-    }    
+
+///////////////// civicrm_participant_delete methods
 
     /**
      * check with participant_id
@@ -491,37 +398,36 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $participant = & civicrm_participant_delete($params);
         $this->assertEquals( $participant['is_error'],1 );
         $this->assertNotNull($participant['error_message']);
+        $this->_failureCase = 1;
     }
     
-///////////////// civicrm_participant_payment_create methods
-
-
     /**
-     * Test civicrm_participant_payment_create with wrong params type
+     * check without array
      */
-    function testPaymentCreateWrongParamsType()
+    function testParticipantDeleteWithWrongParams()
     {
         $params = 'a string';
-        $result = & civicrm_participant_payment_create($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
+        $participant = & civicrm_participant_delete($params);
+        $this->assertEquals( $participant['is_error'], 1 );
+        $this->assertNotNull($participant['error_message'], 'Params is not an array');
     }
-    
+
+///////////////// civicrm_participant_payment_create methods
+
     /**
-     * Test civicrm_participant_payment_create with empty params
+     * check with empty array
      */
-    function testPaymentCreateEmptyParams()
+    function testParticipantPaymentCreateWithEmptyParams( )
     {
-        $params = array();
-        $result = & civicrm_participant_payment_create($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-    }    
+        $params = array();        
+        $participantPayment = & civicrm_participant_payment_create( $params );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
+    }
 
     /**
      * check without participant_id
      */
-    function testPaymentCreateMissingParticipantId( )
+    function testParticipantPaymentCreateMissingParticipantId( )
     {        
         //Create contribution type & get contribution Type ID
         $contributionTypeID = $this->contributionTypeCreate();
@@ -546,7 +452,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check without contribution_id
      */
-    function testPaymentCreateMissingContributionId( )
+    function testParticipantPaymentCreateMissingContributionId( )
     {
         //Without Payment EntityID
         $params = array(
@@ -559,7 +465,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with valid array
      */
-    function testPaymentCreate( )
+    function testParticipantPaymentCreate( )
     {  
         
         //Create contribution type & get contribution Type ID
@@ -584,24 +490,23 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->contributionTypeDelete( $contributionTypeID );
     }
     
-///////////////// civicrm_participant_payment_update methods 
-
     /**
-     * Test civicrm_participant_payment_update with wrong params type
+     * check without array
      */
-    function testPaymentUpdateWrongParamsType()
-    {
-        $params = 'a string';
-        $result = & civicrm_participant_payment_update($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-        $this->assertEquals('Params is not an array', $result['error_message'], 'In line ' . __LINE__);
+    function testParticipantPaymentCreateWithWrongParams( )
+    {  
+        $params = 'a string';        
+        $participantPayment = & civicrm_participant_payment_create( $params );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
+        $this->assertNotNull($participantPayment['error_message'], 'Params is not an array');
     }
+
+///////////////// civicrm_participant_payment_update methods 
     
     /**
      * check with empty array
      */
-    function testPaymentUpdateEmpty()
+    function testParticipantPaymentUpdateEmpty()
     {
         $params = array();        
         $participantPayment = & civicrm_participant_payment_update( $params );
@@ -609,9 +514,20 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     }
 
     /**
+     * check without array
+     */
+    function testParticipantPaymentUpdateEmptyWithWrongParams()
+    {
+        $params = 'a string';        
+        $participantPayment = & civicrm_participant_payment_update( $params );
+        $this->assertEquals( $participantPayment['is_error'], 1 );
+        $this->assertNotNull($participantPayment['error_message'], 'Params is not an array');
+    }
+    
+    /**
      * check with missing participant_id
      */
-    function testPaymentUpdateMissingParticipantId()
+    function testParticipantPaymentUpdateMissingParticipantId()
     {
         //WithoutParticipantId
         $params = array(
@@ -624,7 +540,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with missing contribution_id
      */
-    function testPaymentUpdateMissingContributionId()
+    function testParticipantPaymentUpdateMissingContributionId()
     {
         $params = array(
                         'participant_id' => $this->_participantID,
@@ -636,7 +552,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with complete array
      */
-    function testPaymentUpdate()
+    function testParticipantPaymentUpdate()
     {
         //create contribution type 
         
@@ -668,20 +584,9 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
 ///////////////// civicrm_participant_payment_delete methods 
     
     /**
-     * Test civicrm_participant_payment_delete with wrong params type
-     */
-    function testPaymentDeleteWrongParamsType()
-    {
-        $params = 'a string';
-        $result = & civicrm_participant_payment_delete($params);
-        
-        $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-    }
-
-    /**
      * check with empty array
      */
-    function testPaymentDeleteWithEmptyParams()
+    function testParticipantPaymentDeleteWithEmptyParams()
     {
         $params = array();        
         $deletePayment = & civicrm_participant_payment_delete( $params ); 
@@ -692,7 +597,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with wrong id
      */
-    function testPaymentDeleteWithWrongID()
+    function testParticipantPaymentDeleteWithWrongID()
     {
         $params = array( 'id' => 0 );        
         $deletePayment = & civicrm_participant_payment_delete( $params ); 
@@ -703,7 +608,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     /**
      * check with valid array
      */
-    function testPaymentDelete()
+    function testParticipantPaymentDelete()
     {
         // create contribution type 
         
@@ -722,5 +627,15 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->contributionTypeDelete( $contributionTypeID );
     }    
 
+    /**
+     * check without array
+     */
+    function testParticipantPaymentDeleteWithWrongParams()
+    {
+        $params = 'a string';        
+        $deletePayment = & civicrm_participant_payment_delete( $params ); 
+        $this->assertEquals( $deletePayment['is_error'], 1 );
+        $this->assertEquals( $deletePayment['error_message'], 'Params is not an array' );
+    }
 }
 

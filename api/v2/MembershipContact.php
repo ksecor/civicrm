@@ -78,7 +78,7 @@ function civicrm_membership_contact_create(&$params)
     
     require_once 'CRM/Core/Action.php';
     $action = CRM_Core_Action::ADD;
-
+    
     //for edit membership id should be present
     if ( CRM_Utils_Array::value( 'id', $params ) ) {
         $ids = array( 'membership' => $params['id'],
@@ -91,7 +91,7 @@ function civicrm_membership_contact_create(&$params)
     
     require_once 'CRM/Member/BAO/Membership.php';
     $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids, true);
-
+    
     if ( array_key_exists( 'is_error', $membershipBAO ) ) {
         // In case of no valid status for given dates, $membershipBAO
         // is going to contain 'is_error' => "Error Message"

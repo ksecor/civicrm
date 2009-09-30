@@ -520,7 +520,7 @@ function civicrm_cck_autocomplete_validate($element, &$form_state) {
     $value = $element['#value'][$field_key];
     $nid = NULL;
     if (!empty($value)) {
-        preg_match('/^(?:\s*|(.*) )?\[\s*cid\s*:\s*(\d+)\s*\]$/', $value, $matches);
+        preg_match('/^(?:\s*|(.*) )?\[\s*civi_id\s*:\s*(\d+)\s*\]$/', $value, $matches);
 
         if (!empty($matches)) {
             // Explicit [nid:n].

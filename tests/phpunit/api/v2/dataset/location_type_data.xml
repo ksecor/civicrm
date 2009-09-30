@@ -42,7 +42,7 @@
       <null />                                 <!--  vcard_name  -->
       <value>Other location</value>            <!--  description  -->
       <value>0</value>                         <!--  is_reserved  -->
-      <value>0</value>                         <!--  is_active  -->
+      <value>1</value>                         <!--  is_active  -->
       <null />                                 <!--  is_default  -->
     </row>
     <row>

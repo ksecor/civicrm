@@ -53,12 +53,6 @@ class api_v2_ActivityTest extends CiviUnitTestCase
     {
         //  Connect to the database
         parent::setUp();
-
-        //  Truncate the tables
-        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__) . '/../../CiviTest/truncate-option.xml') );
  
         //  Insert a row in civicrm_contact creating contact 17
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );

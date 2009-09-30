@@ -522,10 +522,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             
             $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_currentlyViewedContactId, 
                                                            $activity->id, $mailToContacts, $attachments, $this->_caseId );
-           
-            if ( empty($result) ) { 
-                $mailStatus = '';
-            }
         } else {
             $mailStatus = '';
         }

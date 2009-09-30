@@ -44,9 +44,8 @@ class CRM_Contact_Form_Search_Custom_Group
 
     protected $_tableName = null;
 
-    protected $_where = ' (1) ';
-
     function __construct( &$formValues ) {
+      
         $this->_formValues = $formValues;
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
                                  ts('Contact Type') => 'contact_type',
@@ -54,10 +53,10 @@ class CRM_Contact_Form_Search_Custom_Group
                                  ts('Group Name')   => 'gname',
                                  ts('Tag Name')     => 'tname' );
         
-        $this->_includeGroups   = CRM_Utils_Array::value( 'includeGroups', $this->_formValues, array( ) );
-        $this->_excludeGroups   = CRM_Utils_Array::value( 'excludeGroups', $this->_formValues, array( ) ); 
-        $this->_includeTags     = CRM_Utils_Array::value( 'includeTags', $this->_formValues  , array( ) ); 
-        $this->_excludeTags     = CRM_Utils_Array::value( 'excludeTags', $this->_formValues  , array( ) );
+        $this->_includeGroups   = CRM_Utils_Array::value( 'includeGroups', $this->_formValues );
+        $this->_excludeGroups   = CRM_Utils_Array::value( 'excludeGroups', $this->_formValues ); 
+        $this->_includeTags     = CRM_Utils_Array::value( 'includeTags', $this->_formValues );
+        $this->_excludeTags     = CRM_Utils_Array::value( 'excludeTags', $this->_formValues );
 
         //define variables
         $this->_allSearch = false; 
@@ -151,9 +150,9 @@ class CRM_Contact_Form_Search_Custom_Group
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false, $justIDs = false ) {
         if ( $justIDs ) {
-            $selectClause = "DISTINCT(contact_a.id)  as contact_id";
+            $selectClause = "contact_a.id  as contact_id";
         } else {
-            $selectClause = "DISTINCT(contact_a.id)  as contact_id,
+            $selectClause = "contact_a.id  as contact_id,
                          contact_a.contact_type as contact_type,
                          contact_a.sort_name    as sort_name";
 
@@ -225,7 +224,7 @@ class CRM_Contact_Form_Search_Custom_Group
                 $iGroups = implode( ',', $this->_includeGroups );
             } else {
                 //if no group selected search for all groups 
-                $iGroups = null;
+                $iGroups = $includedGroups;
             }
             if ( is_array( $this->_excludeGroups ) ) {
                 $xGroups = implode( ',', $this->_excludeGroups );
@@ -273,9 +272,8 @@ class CRM_Contact_Form_Search_Custom_Group
                                                                    group_names varchar(64)) ENGINE=HEAP";
             
             CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-
-            if ( $iGroups ) {
-                $includeGroup = 
+            
+            $includeGroup = 
                 "INSERT INTO Ig_{$this->_tableName} (contact_id, group_names)
                  SELECT              civicrm_contact.id as contact_id, civicrm_group.title as group_name
                  FROM                civicrm_contact
@@ -283,37 +281,24 @@ class CRM_Contact_Form_Search_Custom_Group
                             ON       civicrm_group_contact.contact_id = civicrm_contact.id
                     LEFT JOIN        civicrm_group
                             ON       civicrm_group_contact.group_id = civicrm_group.id";
-            } else {
-                $includeGroup = 
-                "INSERT INTO Ig_{$this->_tableName} (contact_id, group_names)
-                 SELECT              civicrm_contact.id as contact_id, ''
-                 FROM                civicrm_contact";
-            }
-
 
             //used only when exclude group is selected
             if( $xGroups != 0 ) {
                 $includeGroup .= " LEFT JOIN        Xg_{$this->_tableName}
                                           ON       civicrm_contact.id = Xg_{$this->_tableName}.contact_id";
             }
-
-            if ( $iGroups ) {
-                $includeGroup .= " WHERE           
+            $includeGroup .= " WHERE           
                                      civicrm_group_contact.status = 'Added'  AND
                                      civicrm_group_contact.group_id IN($iGroups)";
-            } else {
-                $includeGroup .= " WHERE ( 1 ) ";          
-            }
 
             //used only when exclude group is selected
             if ( $xGroups != 0 ) {
                 $includeGroup .=" AND  Xg_{$this->_tableName}.contact_id IS null";
             }
             
-            CRM_Core_DAO::executeQuery( $includeGroup );
+            CRM_Core_DAO::executeQuery( $includeGroup, CRM_Core_DAO::$_nullArray );
             
             //search for smart group contacts
-
             foreach( $this->_includeGroups as $keys => $values ) {
                 if ( in_array( $values, $smartGroup ) ) {
                     
@@ -333,13 +318,13 @@ class CRM_Contact_Form_Search_Custom_Group
                     $smartGroupQuery = " INSERT IGNORE INTO Ig_{$this->_tableName}(contact_id) 
                                      $smartSql";
                 
-                    CRM_Core_DAO::executeQuery( $smartGroupQuery );
+                    CRM_Core_DAO::executeQuery( $smartGroupQuery, CRM_Core_DAO::$_nullArray );
                     $insertGroupNameQuery = "UPDATE IGNORE Ig_{$this->_tableName}
                                          SET group_names = (SELECT title FROM civicrm_group
                                                             WHERE civicrm_group.id = $values)
                                          WHERE Ig_{$this->_tableName}.contact_id IS NOT NULL 
                                          AND Ig_{$this->_tableName}.group_names IS NULL";
-                    CRM_Core_DAO::executeQuery($insertGroupNameQuery );
+                    CRM_Core_DAO::executeQuery($insertGroupNameQuery, CRM_Core_DAO::$_nullArray );
                 }
             }
         }//group contact search end here;
@@ -360,7 +345,7 @@ class CRM_Contact_Form_Search_Custom_Group
                 $iTags = implode( ',', $this->_includeTags );
             } else {
                 //if no group selected search for all groups 
-                $iTags = null;
+                $iTags = $includedTags;
             }
             if ( is_array( $this->_excludeTags ) ) {
                 $xTags = implode( ',', $this->_excludeTags );
@@ -369,7 +354,7 @@ class CRM_Contact_Form_Search_Custom_Group
             }
                        
             $sql = "CREATE TEMPORARY TABLE Xt_{$this->_tableName} ( contact_id int primary key) ENGINE=HEAP";  
-            CRM_Core_DAO::executeQuery( $sql );
+            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
             
             //used only when exclude group is selected 
             if( $xTags != 0 ) {
@@ -381,17 +366,16 @@ class CRM_Contact_Form_Search_Custom_Group
                      civicrm_contact.id = civicrm_entity_tag.contact_id AND 
                      civicrm_entity_tag.tag_id IN( {$xTags})";
             
-                CRM_Core_DAO::executeQuery( $excludeTag );
+                CRM_Core_DAO::executeQuery( $excludeTag, CRM_Core_DAO::$_nullArray );
             }
         
             $sql = "CREATE TEMPORARY TABLE It_{$this->_tableName} ( id int PRIMARY KEY AUTO_INCREMENT,
                                                                contact_id int,
                                                                tag_names varchar(64)) ENGINE=HEAP";
                        
-            CRM_Core_DAO::executeQuery( $sql );
+            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
             
-            if ( $iTags ) {
-                $includeTag = 
+            $includeTag = 
                 "INSERT INTO It_{$this->_tableName} (contact_id, tag_names)
                  SELECT              civicrm_contact.id as contact_id, civicrm_tag.name as tag_name
                  FROM                civicrm_contact
@@ -399,35 +383,30 @@ class CRM_Contact_Form_Search_Custom_Group
                             ON       civicrm_entity_tag.contact_id = civicrm_contact.id
                     LEFT JOIN        civicrm_tag
                             ON       civicrm_entity_tag.tag_id = civicrm_tag.id";
-            } else {
-                $includeTag = 
-                "INSERT INTO It_{$this->_tableName} (contact_id, tag_names)
-                 SELECT              civicrm_contact.id as contact_id, ''
-                 FROM                civicrm_contact";
-            }
 
             //used only when exclude tag is selected
             if( $xTags != 0 ) {
                 $includeTag .= " LEFT JOIN        Xt_{$this->_tableName}
                                        ON       civicrm_contact.id = Xt_{$this->_tableName}.contact_id";
             }
-            if ( $iTags ) {
-                $includeTag .= " WHERE   civicrm_entity_tag.tag_id IN($iTags)";
-            } else {
-                $includeTag .= " WHERE ( 1 ) ";
-            }
+            $includeTag .= " WHERE   civicrm_entity_tag.tag_id IN($iTags)";
 
             //used only when exclude tag is selected
             if ( $xTags != 0 ) {
                 $includeTag .=" AND  Xt_{$this->_tableName}.contact_id IS null";
             }
             
-            CRM_Core_DAO::executeQuery( $includeTag );
+            CRM_Core_DAO::executeQuery( $includeTag, CRM_Core_DAO::$_nullArray );
             
         }  
 
         $from = " FROM civicrm_contact contact_a";
 
+        $join = ' INNER ';
+
+        if ( $iGroups || $xGroups ) {
+            $join = ' LEFT ';
+        } 
         //condition for group and tag
         if ( $this->_groups && ! $this->_tags ) {
             //use only when tag is not seleted and group is selected
@@ -435,14 +414,12 @@ class CRM_Contact_Form_Search_Custom_Group
             
         } else if ( ! $this->_groups && $this->_tags ) {
             //use only when group is not seleted nad tag is selected 
-            $from .= " INNER JOIN It_{$this->_tableName} temptable2 ON (contact_a.id = temptable2.contact_id)";
+            $from .= " {$join} JOIN It_{$this->_tableName} temptable2 ON (contact_a.id = temptable2.contact_id)";
 
         } else {
             // use only when both are selected or it is blank search
-            $from .= " LEFT JOIN Ig_{$this->_tableName} temptable1 ON (contact_a.id = temptable1.contact_id)";
-            $from .= " LEFT JOIN It_{$this->_tableName} temptable2 ON (contact_a.id = temptable2.contact_id)";
-
-            $this->_where = "( temptable1.contact_id IS NOT NULL OR temptable2.contact_id IS NOT NULL )";
+            $from .= " INNER JOIN Ig_{$this->_tableName} temptable1 ON (contact_a.id = temptable1.contact_id)";
+            $from .= " {$join} JOIN It_{$this->_tableName} temptable2 ON (contact_a.id = temptable2.contact_id)";
         }
 
         $from .= " LEFT JOIN civicrm_email ON ( contact_a.id = civicrm_email.contact_id AND ( civicrm_email.is_primary = 1 OR civicrm_email.is_bulkmail = 1 ) )";
@@ -466,12 +443,10 @@ class CRM_Contact_Form_Search_Custom_Group
                 $contactIDs = implode( ', ', $contactIDs );
                 $clauses[] = "contact_a.id IN ( $contactIDs )";
             }
-            $where = "{$this->_where} AND " . implode( ' AND ', $clauses );
-        } else {
-            $where = $this->_where;
+            return implode( ' AND ', $clauses );
         }
            
-        return $where;
+        return ' (1) ' ;
     }
 
     /* 
@@ -480,7 +455,8 @@ class CRM_Contact_Form_Search_Custom_Group
     function count( ) {
         $sql = $this->all( );
            
-        $dao = CRM_Core_DAO::executeQuery( $sql );
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                             CRM_Core_DAO::$_nullArray );
         return $dao->N;
     }
        

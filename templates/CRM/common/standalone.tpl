@@ -4,7 +4,6 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<link rel="Shortcut Icon" type="image/x-icon" href="{$config->resourceBase}i/widget/favicon.png" />
 {if $config->customCSSURL}
 <link rel="stylesheet" href="{$config->customCSSURL}" type="text/css" />
 {else}

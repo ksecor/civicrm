@@ -5,7 +5,7 @@
       <th>{ts}Date{/ts}</th>
       <th>{ts}Subject{/ts}</th>
       <th>{ts}Type{/ts}</th>
-      <th>{ts}Reporter / Assignee{/ts}</th>
+      <th>{ts}Reporter/ Assignee{/ts}</th>
       <th>{ts}Status{/ts}</th>
       <th></th>
     </tr>

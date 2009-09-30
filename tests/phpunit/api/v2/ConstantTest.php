@@ -65,14 +65,6 @@ class api_v2_ConstantTest extends CiviUnitTestCase
     {
         //  Connect to the database
         parent::setUp();
-
-        //  Truncate the tables
-        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
-                             dirname(__FILE__) . '/../../CiviTest/truncate-option.xml') );
-                             
-
     }
 
     /**
@@ -142,15 +134,12 @@ class api_v2_ConstantTest extends CiviUnitTestCase
         $this->assertTrue( empty( $result['is_error'] ),
                            "In line " . __LINE__  );
     } 
-    
+
     /**
      *  Test civicrm_constant_get( 'locationType' )
      */
     public function testLocationType()
     {
-        // needed to get rid of cached values from previous tests
-        CRM_Core_Pseudoconstant::flush( 'locationType' );
-
         //  Insert default location type values
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
         $op->execute( $this->_dbconn,
@@ -159,103 +148,14 @@ class api_v2_ConstantTest extends CiviUnitTestCase
                              . '/dataset/location_type_data.xml') );
 
         $result = civicrm_constant_get( 'locationType' );
-        
-        $this->assertEquals( 4, count( $result ), "In line " . __LINE__  );
-        $this->assertContains( 'Home', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Work', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Main', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Billing', $result, "In line " . __LINE__  );        
-        $this->assertTrue( empty( $result['is_error'] ),
-                           "In line " . __LINE__  );
-    }
-
-
-    /**
-     *  Test civicrm_constant_get( 'locationType' ) with all=true
-     */
-    public function testLocationTypeAll()
-    {
-        // needed to get rid of cached values from previous tests
-        CRM_Core_Pseudoconstant::flush( 'locationType' );
-
-        //  Insert default location type values
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset/location_type_data.xml') );
-        
-        $result = civicrm_constant_get( 'locationType', array( 'all' => true) );
-        
         $this->assertEquals( 5, count( $result ), "In line " . __LINE__  );
         $this->assertContains( 'Home', $result, "In line " . __LINE__  );
         $this->assertContains( 'Work', $result, "In line " . __LINE__  );
         $this->assertContains( 'Main', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Other', $result, "In line " . __LINE__  );                
-        $this->assertContains( 'Billing', $result, "In line " . __LINE__  );        
-        $this->assertTrue( empty( $result['is_error'] ),
-                           "In line " . __LINE__  );
-    }
-    
-    /**
-     *  Test civicrm_constant_get( 'phoneType' )
-     */
-    public function testPhoneType()
-    {
-        //  Insert 'phone_type' option group
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet( dirname(__FILE__)
-                                                                              . '/dataset/option_group_phone_type.xml') );
-        
-        //  Insert some phone type option values
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet( dirname(__FILE__)
-                                                                          . '/dataset/option_value_phone_type.xml') );
-        
-        $parameters = array( true, false, true );
-        $result = civicrm_constant_get( 'phoneType', $parameters );
-        
-        $this->assertEquals( 5, count( $result ), "In line " . __LINE__  );
-        $this->assertContains( 'Phone', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Mobile', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Fax', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Pager', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Voicemail', $result, "In line " . __LINE__  );
-        
         $this->assertTrue( empty( $result['is_error'] ),
                            "In line " . __LINE__  );
     } 
-    
-    /**
-     *  Test civicrm_constant_get( 'mailProtocol' )
-     */
-    public function testmailProtocol()
-    {
-        //  Insert 'mail_protocol' option group
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet( dirname(__FILE__)
-                                                                              . '/dataset/option_group_mail_protocol.xml') );
-        
-        //  Insert some mail protocol option values
-        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn,
-                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet( dirname(__FILE__)
-                                                                          . '/dataset/option_value_mail_protocol.xml') );
-        
-        $parameters = array( true, false, true );
-        $result = civicrm_constant_get( 'mailProtocol', $parameters );
-        
-        $this->assertEquals( 4, count( $result ), "In line " . __LINE__  );
-        $this->assertContains( 'IMAP', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Maildir', $result, "In line " . __LINE__  );
-        $this->assertContains( 'POP3', $result, "In line " . __LINE__  );
-        $this->assertContains( 'Localdir', $result, "In line " . __LINE__  );
-        $this->assertTrue( empty( $result['is_error'] ),
-                           "In line " . __LINE__  );
-    } 
+
 } // class api_v2_ConstantTest
 
 // -- set Emacs parameters --

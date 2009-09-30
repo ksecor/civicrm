@@ -50,7 +50,7 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
      */ 
     function __construct( $mode, &$paymentProcessor ) {
         $this->_paymentProcessor = $paymentProcessor;
-        $this->_processorName    = ts('IATS');
+        $this->_processorName    = 'IATS';
 
         $config =& CRM_Core_Config::singleton( ); // get merchant data from config
         $this->_profile['mode']      = $mode; // live or test

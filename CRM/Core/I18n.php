@@ -279,7 +279,7 @@ class CRM_Core_I18n
 
 /**
  * Short-named function for string translation, defined in global scope so it's available everywhere.
- * @param  $text   string  string for translating
+ * @param  $text   string  string for trnaslating
  * @param  $params array   an array of additional parameters
  * @return         string  the translated string
  */

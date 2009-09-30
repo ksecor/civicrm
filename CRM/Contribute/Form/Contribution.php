@@ -385,24 +385,25 @@ WHERE  contribution_id = {$this->_id}
         }
         
         if ( $this->_mode ) {
-            $billingFields = array( );
             foreach ( $this->_fields as $name => $dontCare ) {
-                if ( strpos( $name, 'billing_' ) === 0 ) {
-                    $name = $idName = substr( $name, 8 ); 
-                    if ( in_array( $name, array( "state_province_id-$this->_bltID", "country_id-$this->_bltID" ) ) ) {
-                        $name = str_replace( '_id', '', $name );
-                    }
-                    $billingFields[$name] = "billing_" . $idName;
-                }
                 $fields[$name] = 1;
             }
+            $names = array("first_name", "middle_name", "last_name");
+            foreach ($names as $name) {
+                $fields[$name] = 1;
+            }
+            $fields["state_province-{$this->_bltID}"] = 1;
+            $fields["country-{$this->_bltID}"       ] = 1;
             
             require_once "CRM/Core/BAO/UFGroup.php";
             if ( $this->_contactID ) {
                 CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
             }
-            foreach ( $billingFields as $name => $billingName ) {
-                $defaults[$billingName] = $defaults[$name];
+            
+            foreach ($names as $name) {
+                if ( ! empty( $defaults[$name] ) ) {
+                    $defaults["billing_" . $name] = $defaults[$name];
+                }
             }
         }
         
@@ -481,7 +482,7 @@ WHERE  contribution_id = {$this->_id}
         $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
         
         $this->assign( 'currency', CRM_Utils_Array::value( 'currency', $defaults ) );
-              
+        
         return $defaults;
     }
     
@@ -797,7 +798,7 @@ WHERE  contribution_id = {$this->_id}
         
         // get the submitted form values.  
         $submittedValues = $this->controller->exportValues( $this->_name );
-        
+
         if ( CRM_Utils_Array::value('soft_credit_to', $submittedValues) ) {
             $submittedValues['soft_credit_to'] =  $submittedValues['soft_contact_id'];
         }      
@@ -879,11 +880,11 @@ WHERE  contribution_id = {$this->_id}
             
             // add all the additioanl payment params we need
             $this->_params["state_province-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["billing_state_province_id-{$this->_bltID}"] );
+                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] );
             $this->_params["country-{$this->_bltID}"] =
-                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["billing_country_id-{$this->_bltID}"] );
+                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
             
-            if ( $this->_paymentProcessor['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_CREDIT_CARD ) {
+            if ( $this->_processors['payment_type'] & CRM_Core_Payment::PAYMENT_TYPE_CREDIT_CARD ) {
                 $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
                 $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
             }

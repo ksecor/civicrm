@@ -36,36 +36,29 @@
 </fieldset>
 </div>
     <dl>
-        <dt></dt><dd>{$form.buttons.html}&nbsp;&nbsp;&nbsp;&nbsp;{$form._qf_Smtp_refresh_test.html}</dd>
+        <dt></dt><dd>{$form.buttons.html}<span id="idSendTestMail">&nbsp;&nbsp;&nbsp;&nbsp;{$form._qf_Smtp_refresh_test.html}</span></dd>
     </dl>
 </div>
 </fieldset>
 
 {literal}
 <script type="text/javascript">
-
-cj( function( ) {
-    cj("input[name='outBound_option']").click( function( ) {
-        showHideMailOptions();
-    });
-});
-
+window.onload = function() {
+showHideMailOptions();
+}
 function showHideMailOptions()
-{   
+{
     if (document.getElementsByName("outBound_option")[0].checked) {
         show("bySMTP");
         hide("bySendmail");
-        cj("#_qf_Smtp_refresh_test").show( );
     } else if (document.getElementsByName("outBound_option")[1].checked) {
         hide("bySMTP");
         show("bySendmail");
-        cj("#_qf_Smtp_refresh_test").show( );
     } else {
         hide("bySMTP");
         hide("bySendmail");
-        cj("#_qf_Smtp_refresh_test").hide( );
+        hide("idSendTestMail");
     }
 }
-
 </script>
 {/literal}

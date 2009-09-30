@@ -44,7 +44,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
     function __construct( $mode, &$paymentProcessor ) {
         $this->_mode             = $mode;
         $this->_paymentProcessor = $paymentProcessor;
-        $this->_processorName    = ts('Authorized .Net');
+        $this->_processorName    = 'Authorized .Net';
 
         $config =& CRM_Core_Config::singleton();
         $this->_setParam( 'apiLogin'   , $paymentProcessor['user_name'] );

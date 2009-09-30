@@ -84,15 +84,44 @@ class CRM_Contact_Form_Edit_Organization
        
         $errors = array( );
         
-        $primaryID = CRM_Contact_Form_Contact::formRule( $fields, $errors, $contactID );
+        $primaryID = CRM_Contact_Form_Contact::formRule( $fields, $errors, $contactId );
         
         // make sure that organization name is set
         if (! CRM_Utils_Array::value( 'organization_name', $fields ) ) {
             $errors['organization_name'] = 'Organization Name should be set.';
         }
         
-        //check for duplicate - dedupe rules
-        CRM_Contact_Form_Contact::checkDuplicateContacts( $fields, $errors, $contactID, 'Organization' );
+        //code for dupe match
+        if ( ! CRM_Utils_Array::value( '_qf_Contact_upload_duplicate', $fields )) {
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Organization');
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Fuzzy', array($contactId));
+            $viewUrls = array( );
+            $urls     = array( );
+            foreach( $dupeIDs as $id ) {
+                $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                $viewUrls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
+                    '" target="_blank">' . $displayName . '</a>';
+                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
+                    '">' . $displayName . '</a>';
+            }
+            if (!empty($dupeIDs)) {
+                $url = implode( ', ',  $urls );
+                $viewUrl = implode( ', ',  $viewUrls );
+                $errors['_qf_default']  = ts('One matching contact was found.', array('count' => count($urls), 'plural' => '%count matching contacts were found.'));
+                $errors['_qf_default'] .= '<br />';
+                $errors['_qf_default'] .= ts('If you need to verify if this is the same contact, click here - %1 - to VIEW the existing contact in a new tab.', array(1 => $viewUrl, 'count' => count($urls), 'plural' => 'If you need to verify whether one of these is the same contact, click here - %1 - to VIEW the existing contact in a new tab.'));
+                $errors['_qf_default'] .= '<br />';
+                $errors['_qf_default'] .= ts('If you know the record you are creating is a duplicate, click here - %1 - to EDIT the original record instead.', array(1 => $url));
+                $errors['_qf_default'] .= '<br />';
+                $errors['_qf_default'] .= ts('If you are sure this is not a duplicate, click the Save Matching Contact button below.');
+                $template =& CRM_Core_Smarty::singleton( );
+                $template->assign( 'isDuplicate', 1 );
+            } else if ( CRM_Utils_Array::value( '_qf_Contact_refresh_dedupe', $fields ) ) {
+                // add a session message for no matching contacts
+                CRM_Core_Session::setStatus( 'No matching contact found.' );
+            }
+        }
         
         // add code to make sure that the uniqueness criteria is satisfied
         return empty( $errors ) ? true : $errors;

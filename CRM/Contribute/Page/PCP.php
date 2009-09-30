@@ -185,8 +185,6 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
             }
         }
 
-        $approvedId = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );
-
         //check for delete CRM-4418
         require_once 'CRM/Core/Permission.php'; 
         $allowToDelete = CRM_Core_Permission::check( 'delete in CiviContribute' );
@@ -196,7 +194,7 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
         $params['3'] = array( $this->_sortByCharacter . '%', 'String' );        
 
         $query = "
-        SELECT cp.id as id, contact_id , status_id, cp.title as title, contribution_page_id, start_date, end_date, cp.is_active as active
+        SELECT cp.id as id, contact_id , status_id, cp.title as title, contribution_page_id, start_date, end_date
         FROM civicrm_pcp cp, civicrm_contribution_page cpp
         WHERE cp.contribution_page_id = cpp.id $title". $this->get('whereClause') .
         " ORDER BY status_id";
@@ -213,12 +211,6 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
             require_once 'CRM/Contact/BAO/Contact.php';
             $contact = CRM_Contact_BAO_Contact::getDisplayAndImage( $dao->contact_id);
             
-            $class = '';
-            
-            if ( $dao->status_id != $approvedId || $dao->active != 1 ) {
-                $class = "disabled";
-            }
-
             switch ( $dao->status_id ) {
                 
             case 2:                   
@@ -244,7 +236,6 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
             $pcpSummary[$dao->id]['contribution_page_title'] = $contribution_page[$dao->contribution_page_id];
             $pcpSummary[$dao->id]['action']                  = CRM_Core_Action::formLink(self::links(), $action, 
                                                                                          array('id' => $dao->id));
-            $pcpSummary[$dao->id]['class']                   = $class;
         }
 
         $this->search( );   

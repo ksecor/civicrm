@@ -63,7 +63,6 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
         $groupOrganization =& new CRM_Contact_DAO_GroupOrganization( );
         $groupOrganization->copyValues( $formatedValues );
         $groupOrganization->save( );
-        return $groupOrganization;
     }
     /**
      * Format the params
@@ -136,25 +135,5 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
             return true;
         }
         return false;
-    }
-
-    /** 
-     * Function to delete Group Organization
-     * 
-     * @param int $groupOrganizationID group organization id that needs to be deleted 
-     *
-     * @return $results   no of deleted group organization on success, false otherwise
-     * @access public
-     */
-    function delete( $groupOrganizationID ) 
-    {
-        $results = null;           
-        require_once 'CRM/Contact/DAO/GroupOrganization.php';
-        $groupOrganization =& new CRM_Contact_DAO_GroupOrganization( );
-        $groupOrganization->id = $groupOrganizationID;
-
-        $results = $groupOrganization->delete( );
-        
-        return $results;
     }
 }

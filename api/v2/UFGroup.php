@@ -76,13 +76,8 @@ function &civicrm_uf_profile_groups_get( ) {
  * @static 
  * 
  */ 
-function civicrm_uf_profile_title_get($id)
-{
-    if ((int) $id > 0) {
-        return CRM_Core_BAO_UFGroup::getTitle($id);
-    } else {
-        return civicrm_create_error('Param needs to be a positive integer.');
-    }
+function civicrm_uf_profile_title_get ( $id ) {
+    return CRM_Core_BAO_UFGroup::getTitle( $id );
 }
 
 /** 
@@ -97,13 +92,8 @@ function civicrm_uf_profile_title_get($id)
  * @static 
  * @access public 
  */ 
-function civicrm_uf_profile_fields_get($id, $register = false, $action = null, $visibility = null)
-{
-    if ((int) $id > 0) {
-        return CRM_Core_BAO_UFGroup::getFields($id, $register, $action, null, $visibility, false, null, true);
-    } else {
-        return civicrm_create_error('Param needs to be a positive integer.');
-    }
+function civicrm_uf_profile_fields_get ( $id, $register = false, $action = null, $visibility = null ) {
+    return CRM_Core_BAO_UFGroup::getFields( $id, $register, $action, null, $visibility, false, null, true );
 }
 
 /** 
@@ -119,13 +109,8 @@ function civicrm_uf_profile_fields_get($id, $register = false, $action = null, $
  * @static 
  * @access public 
  */ 
-function civicrm_uf_profile_html_get($userID, $title, $action = null, $register = false, $reset = false)
-{
-    if ((int) $userID > 0 and is_string($title)) {
-        return CRM_Core_BAO_UFGroup::getEditHTML($userID, $title, $action, $register, $reset);
-    } else {
-        return civicrm_create_error('Params need to be a positive integer and a string.');
-    }
+function civicrm_uf_profile_html_get ( $userID, $title, $action = null, $register = false, $reset = false ) {
+    return CRM_Core_BAO_UFGroup::getEditHTML( $userID, $title, $action, $register, $reset );
 }
 
 /** 
@@ -141,13 +126,12 @@ function civicrm_uf_profile_html_get($userID, $title, $action = null, $register 
  * @static 
  * @access public 
  */ 
-function civicrm_uf_profile_html_by_id_get($userID, $profileID, $action = null, $register = false, $reset = false)
-{
-    if ((int) $userID > 0 and (int) $profileID > 0) {
-        return CRM_Core_BAO_UFGroup::getEditHTML($userID, null, $action, $register, $reset, $profileID);
-    } else {
-        return civicrm_create_error('Params need to be positive integers.');
-    }
+function civicrm_uf_profile_html_by_id_get ( $userID,
+                                             $profileID,
+                                             $action = null,
+                                             $register = false,
+                                             $reset = false ) {
+    return CRM_Core_BAO_UFGroup::getEditHTML( $userID, null, $action, $register, $reset, $profileID );
 }
 
  
@@ -160,10 +144,7 @@ function civicrm_uf_profile_html_by_id_get($userID, $profileID, $action = null, 
  * @static  
  * @access public  
  */  
-function civicrm_uf_create_html_get($gid, $reset = false)
-{
-    if ((int) $gid < 1) return civicrm_create_error('Param needs to be a positive integer.');
-
+function civicrm_uf_create_html_get ( $gid, $reset = false ) {
     require_once 'CRM/Core/Controller/Simple.php';
     $session =& CRM_Core_Session::singleton( ); 
     $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', '', CRM_Core_Action::ADD ); 
@@ -190,14 +171,9 @@ function civicrm_uf_create_html_get($gid, $reset = false)
  * @access public    
  * @static 
  */ 
-function civicrm_uf_match_id_get($ufID)
-{
-    if ((int) $ufID > 0) {
-        require_once 'CRM/Core/BAO/UFMatch.php';
-        return CRM_Core_BAO_UFMatch::getContactId($ufID);
-    } else {
-        return civicrm_create_error('Param needs to be a positive integer.');
-    }
+function civicrm_uf_match_id_get ( $ufID ) {
+    require_once 'CRM/Core/BAO/UFMatch.php';
+    return CRM_Core_BAO_UFMatch::getContactId( $ufID );
 }
 
 /**  
@@ -209,14 +185,9 @@ function civicrm_uf_match_id_get($ufID)
  * @access public     
  * @static  
  */  
-function civicrm_uf_id_get($contactID)
-{
-    if ((int) $contactID > 0) {
-        require_once 'CRM/Core/BAO/UFMatch.php';
-        return CRM_Core_BAO_UFMatch::getUFId($contactID);
-    } else {
-        return civicrm_create_error('Param needs to be a positive integer.');
-    }
+function civicrm_uf_id_get ( $contactID ) { 
+    require_once 'CRM/Core/BAO/UFMatch.php'; 
+    return CRM_Core_BAO_UFMatch::getUFId( $contactID ); 
 } 
 
 /*******************************************************************/
@@ -231,13 +202,12 @@ function civicrm_uf_id_get($contactID)
  *
  * @access public 
  */
-function civicrm_uf_group_create($params)
-{
-    if (!is_array($params) or empty($params) or !isset($params['title'])) {
-        return civicrm_create_error('Params must be an array and have a title field.');
+function civicrm_uf_group_create( $params ) {
+    _civicrm_initialize( );
+    
+    if(! is_array($params) || ! isset($params['title']) ) {
+        return civicrm_create_error("params is not an array or may be empty array ");
     }
-
-    _civicrm_initialize();
     
     $ids = array();
     require_once 'CRM/Core/BAO/UFGroup.php';
@@ -259,14 +229,17 @@ function civicrm_uf_group_create($params)
  *
  * @access public 
  */
-function civicrm_uf_group_update($params, $groupId)
-{
-    if (!is_array($params) or (int) $groupId < 1) {
-        return civicrm_create_error('Params must be an array and a postivie integer.');
-    }
+function civicrm_uf_group_update( $params , $groupId) {
     
     _civicrm_initialize( );
     
+    if(! is_array( $params ) ) {
+        return civicrm_create_error("params is not an array ");
+    }
+    
+    if(! isset( $groupId ) ) {
+        return civicrm_create_error("parameter $groupId  is not set ");
+    }
     $ids = array();
     $ids['ufgroup'] = $groupId;
     

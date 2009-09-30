@@ -115,11 +115,8 @@ class CRM_Event_Form_EventFees
             foreach ( $form->_fields as $name => $dontCare ) {
                 $fields[$name] = 1;
             }
-
-            $names = array( "first_name", "middle_name", "last_name","street_address-{$form->_bltID}",
-                            "city-{$form->_bltID}", "postal_code-{$form->_bltID}","country_id-{$form->_bltID}",
-                            "state_province_id-{$form->_bltID}"
-                            );
+            
+            $names = array("first_name", "middle_name", "last_name" );
             foreach ($names as $name) {
                 $fields[$name] = 1;
             }
@@ -133,18 +130,19 @@ class CRM_Event_Form_EventFees
             if ( $form->_contactID ) {
                 CRM_Core_BAO_UFGroup::setProfileDefaults( $form->_contactID, $fields, $form->_defaults );
             }
-
-            // use primary email address if billing email address is empty
-            if ( empty( $form->_defaults["email-{$form->_bltID}"] ) &&
-                 ! empty( $form->_defaults["email-Primary"] ) ) {
-                $defaults[$form->_pId]["email-{$form->_bltID}"] = $form->_defaults["email-Primary"];
-            }
             
-            foreach ( $names as $name) {
+            $defaultAddress = array("street_address-5","city-5", "state_province_id-5", "country_id-5","postal_code-5" );
+            foreach ($defaultAddress as $name) {
+                if ( ! empty( $form->_defaults[$name] ) ) {
+                    $defaults[$form->_pId][$name] = $form->_defaults[$name];
+                }
+            } 
+            
+            foreach ($names as $name) {
                 if ( ! empty( $form->_defaults[$name] ) ) {
                     $defaults[$form->_pId]["billing_" . $name] = $form->_defaults[$name];
                 }
-            }
+            } 
         }
 
         require_once 'CRM/Core/BAO/PriceSet.php';

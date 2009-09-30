@@ -25,8 +25,8 @@
 */
 
 
+
 require_once 'api/v2/Membership.php';
-require_once 'api/v2/MembershipStatus.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
 
 class api_v2_MembershipStatusTest extends CiviUnitTestCase {
@@ -50,8 +50,9 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         parent::setUp();
 
         $this->_contactID           = $this->individualCreate( ) ;
+        $this->_contributionTypeID  = $this->contributionTypeCreate();
         
-        $this->_membershipTypeID    = $this->membershipTypeCreate( $this->_contactID  );
+        $this->_membershipTypeID    = $this->membershipTypeCreate( $this->_contactID,$this->_contributionTypeID );
         $this->_membershipStatusID  = $this->membershipStatusCreate( 'test status' );
     }
 
@@ -61,6 +62,8 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
         $this->membershipTypeDelete  ( $this->_membershipTypeID   );
         
         $this->contactDelete         ( $this->_contactID          ) ;
+        
+        $this->contributionTypeDelete( $this->_contributionTypeID );
     }
 
 ///////////////// civicrm_membership_status_create methods
@@ -154,13 +157,11 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
     {
         $params = array( 'contact_id'         => $this->_contactID, 
                          'membership_type_id' => $this->_membershipTypeID,
-                         'membership_status_id' => $this->_membershipStatusID,
                          'join_date'   => '2007-06-14',
                          'start_date'  => '2007-06-14',
                          'end_date'    => '2008-06-13' );
 
         $membershipID = $this->contactMembershipCreate( $params );
-        
         $membershipStatusID = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership',$membershipID,'status_id');
         $calcParams = array( 'membership_id' => $membershipID );
         $result = civicrm_membership_status_calc( $calcParams );

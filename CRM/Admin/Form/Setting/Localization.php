@@ -156,15 +156,6 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         return empty( $errors ) ? true : $errors;
     }
 
-    function setDefaultValues()
-    {
-        parent::setDefaultValues();
-        // CRM-5111: unset these two unconditionally, we don’t want them to stick – ever
-        unset($this->_defaults['makeMultilingual']);
-        unset($this->_defaults['makeSinglelingual']);
-        return $this->_defaults;
-    }
-
     public function postProcess() 
     {
         $values = $this->exportValues();
@@ -181,7 +172,7 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         }
 
         // add a new db locale if the requested language is not yet supported by the db
-        if (!CRM_Utils_Array::value('makeSinglelingual', $values) and CRM_Utils_Array::value('addLanguage', $values)) {
+        if ( CRM_Utils_Array::value( 'addLanguage', $values ) ) {
             require_once 'CRM/Core/DAO/Domain.php';
             $domain =& new CRM_Core_DAO_Domain();
             $domain->find(true);
@@ -193,7 +184,7 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         }
 
         // if we manipulated the language list, return to the localization admin screen
-        $return = (bool) (CRM_Utils_Array::value('makeMultilingual', $values) or CRM_Utils_Array::value('addLanguage', $values) or CRM_Utils_Array::value('makeSinglelingual', $values));
+        $return = (bool) ( CRM_Utils_Array::value( 'makeMultilingual', $values ) or CRM_Utils_Array::value( 'addLanguage', $values ) );
         
         //cache contact fields retaining localized titles
         //though we changed localization, so reseting cache.

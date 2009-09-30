@@ -105,7 +105,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->_oid         = $oid;
         $this->_rgid        = $rgid;
         $this->_contactType = $main['contact_type'];
-        $this->addElement('checkbox', 'toggleSelect', null, null, array('onclick' => "return toggleCheckboxVals('move_',this);"));
+        $this->addElement('checkbox', 'toggleSelect', null, null, array('onclick' => "return toggleCheckboxVals('move_',this.form);"));
 
         require_once "CRM/Contact/DAO/Contact.php";
         $fields =& CRM_Contact_DAO_Contact::fields();
@@ -340,8 +340,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                                    'address' => 'Address' );
             
             require_once 'CRM/Contact/BAO/Contact.php';
-            $primaryBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid, array( 'is_primary' => 1 ) );
-            $billingBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid, array( 'is_billing' => 1 ) );
+            $primaryBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid );
+            $billingBlockIds = CRM_Contact_BAO_Contact::getLocBlockIds( $this->_cid, 'is_billing' );
             
             foreach ( $locBlocks as $name => $block ) {
                 if ( !is_array($block) || CRM_Utils_System::isNull($block) ) continue; 
@@ -525,11 +525,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         // move other's belongings and delete the other contact
         CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid);
         $otherParams = array('contact_id' => $this->_oid);
-        if ( CRM_Core_Permission::check( 'delete contacts' ) ) {
-            civicrm_contact_delete($otherParams);
-        } else {
-            CRM_Core_Session::setStatus(ts('Do not have sufficient permission to delete duplicate contact.'));
-        }
+        civicrm_contact_delete($otherParams);
 
         if (isset($submitted)) {
             $submitted['contact_id'] = $this->_cid;

@@ -705,8 +705,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                         }
                         $stateCountryMap[$index][$prefixName] = $key;
                     }
-                
-                    CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE, $contactID, true );
+            
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE);
                     $this->_fields[$key] = $field;
                     if ( $field['add_captcha'] ) {
                         $addCaptcha = true;
@@ -715,6 +715,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
                 require_once 'CRM/Core/BAO/Address.php';
                 CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
+
 
                 if ( $addCaptcha &&
                      ! $viewOnly ) {

@@ -70,23 +70,12 @@ class CRM_Utils_Address_USPS {
         $request->addQueryString('XML', $XMLQuery);
         
         $response = $request->sendRequest( );
-    
-        $session =& CRM_Core_Session::singleton( );
-
-        $code = $request->getResponseCode();
-        if ($code != 200) {
-            $session->setStatus( ts( 'USPS Address Lookup Failed with HTTP status code: $code' ) );
-            return false;
-        }
         
         $responseBody = $request->getResponseBody( );
         
         $xml = simplexml_load_string( $responseBody );
 
-        if (is_null($xml) || is_null($xml->Address)) {
-            $session->setStatus( ts( 'Your USPS API Lookup has Failed.' ) );
-            return false;
-        }
+        $session =& CRM_Core_Session::singleton( );
 
         if ( $xml->Number == '80040b1a' ) {
             $session->setStatus( ts( 'Your USPS API Authorization has Failed.' ) );

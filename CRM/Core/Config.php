@@ -264,10 +264,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             }
             if ($this->userFramework == 'Drupal' and function_exists('variable_get')) {
                 global $language;
-                if (module_exists('locale') && $mode = variable_get('language_negotiation', LANGUAGE_NEGOTIATION_NONE))
-                    if (isset($language->prefix) and $language->prefix
-                        and ($mode == LANGUAGE_NEGOTIATION_PATH_DEFAULT or $mode == LANGUAGE_NEGOTIATION_PATH)) {
-                        $this->userFrameworkBaseURL .= $language->prefix . '/';
+                $mode = variable_get('language_negotiation', LANGUAGE_NEGOTIATION_NONE);
+                if (isset($language->prefix) and $language->prefix
+                    and ($mode == LANGUAGE_NEGOTIATION_PATH_DEFAULT or $mode == LANGUAGE_NEGOTIATION_PATH)) {
+                    $this->userFrameworkBaseURL .= $language->prefix . '/';
                 }
             }
         }

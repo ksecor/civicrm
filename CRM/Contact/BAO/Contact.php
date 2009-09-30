@@ -1923,15 +1923,14 @@ UNION
      /**
       * Function to retrieve loc block ids w/ given condition.
       *
-      * @param  int    $contactId    contact id.
-      * @param  array  $criteria     key => value pair which should be 
-      *                              fulfill by return record ids. 
-      * @param  string $condOperator operator use for grouping multiple conditions.
+      * @param  int     $contactId       contact id.
+      * @param  string  $condFieldName   dao field name for which condition going to apply.
+      * @param  string  condValue        condition value.
       *
-      * @return array  $locBlockIds  loc block ids which fulfill condition. 
+      * @return array   $locBlockIds     loc block ids which fullfill condition. 
       * @static
       */
-     static function getLocBlockIds( $contactId, $criteria = array( ), $condOperator = "AND" ) 
+     static function getLocBlockIds( $contactId, $condFieldName = 'is_primary', $condValue = '1' ) 
      {
          $locBlockIds = array( );
          if ( !$contactId ) {
@@ -1942,32 +1941,11 @@ UNION
              $name = strtolower( $block );
              require_once "CRM/Core/DAO/{$block}.php";
              eval("\$blockDAO =& new CRM_Core_DAO_$block();");
-             
-             // build the condition.
-             if ( is_array( $criteria ) ) {
-                 eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' ); 
-                 $conditions = array( );
-                 foreach( $criteria as $field => $value ) {
-                     if ( array_key_exists( $field, $fields ) ) {
-                         $cond = "( $field = $value )";
-                         // value might be zero or null.
-                         if ( !$value || strtolower( $value ) == 'null' ) {
-                             $cond = "( $field = 0 OR $field IS NULL )";
-                         }
-                         $conditions[] = $cond;
-                     }
-                 }
-                 if ( !empty( $conditions ) ) {
-                     $blockDAO->whereAdd( implode( " $condOperator ", $conditions ) );
-                 }
-             }
-             
              $blockDAO->contact_id = $contactId;
              $blockDAO->find( );
              while ( $blockDAO->fetch( ) ) {
-                 $locBlockIds[$name][] = $blockDAO->id;
+                 if ($blockDAO->$condFieldName == $condValue) $locBlockIds[$name][] = $blockDAO->id;
              }
-             $blockDAO->free( );
          }
          
          return $locBlockIds;

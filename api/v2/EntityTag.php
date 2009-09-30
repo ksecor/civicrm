@@ -45,7 +45,7 @@ require_once 'api/v2/utils.php';
  * @return <type>
  */
 function civicrm_entity_tag_get( &$params ) {
-    if ( !is_array($params) || ! array_key_exists( 'contact_id', $params ) ) {
+    if ( ! array_key_exists( 'contact_id', $params ) ) {
         return civicrm_create_error( ts( 'contact_id is a required field' ) );
     }
 
@@ -121,13 +121,11 @@ function civicrm_entity_tag_remove( &$params ) {
 function civicrm_entity_tag_common( &$params, $op = 'add' ) {
     $contactIDs = array( );
     $tagsIDs    = array( );
-    if (is_array($params)) {
-        foreach ( $params as $n => $v ) {
-            if ( substr( $n, 0, 10 ) == 'contact_id' ) {
-                $contactIDs[] = $v;
-            } else if ( substr( $n, 0, 6 ) == 'tag_id' ) {
-                $tagIDs[] = $v;
-            }
+    foreach ( $params as $n => $v ) {
+        if ( substr( $n, 0, 10 ) == 'contact_id' ) {
+            $contactIDs[] = $v;
+        } else if ( substr( $n, 0, 6 ) == 'tag_id' ) {
+            $tagIDs[] = $v;
         }
     }
     if ( empty( $contactIDs ) ) {

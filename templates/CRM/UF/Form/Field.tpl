@@ -37,7 +37,7 @@
         {/edit}
         <dt>{$form.is_view.label}</dt><dd>&nbsp;{$form.is_view.html}</dd>
         {edit}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}If checked, users can view but not edit this field.{/ts}<br />&nbsp;{ts}NOTE: View Only fields can not be included in Profile Search forms.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}If checked, users can view but not edit this field.{/ts}</dd>
         {/edit}
         <dt>{$form.visibility.label}</dt><dd>&nbsp;{$form.visibility.html}</dd>
         {edit}
@@ -148,11 +148,12 @@ function showLabel( ) {
 
 {/literal}{if $action neq 8}{literal}
    showHideSeletorSearch();
+
 	
    function showHideSeletorSearch()
    {
        var vsbl= cj("#visibility").val( );
-       if ( vsbl == "User and User Admin Only"){
+       if ( vsbl == "User and User Admin Only" ){
            hide("is_search_label");
            hide("is_search_html");
            hide("is_search_desDt");
@@ -161,14 +162,11 @@ function showLabel( ) {
            hide("in_selector_html");
            hide("in_selector_desDt");
            hide("in_selector_desDd");
-           cj("#is_searchable").attr('checked',false);
        } else {
-           if ( ! cj("#is_view").attr('checked') ) {
-               show("is_search_label");
-               show("is_search_html");
-               show("is_search_desDt");
-               show("is_search_desDd");
-           }
+           show("is_search_label");
+           show("is_search_html");
+           show("is_search_desDt");
+           show("is_search_desDd");
            var fldName = cj("#field_name\\[1\\]").val();
            if ( fldName == 'group' || fldName == 'tag' ) { 
                hide("in_selector_label");
@@ -191,28 +189,7 @@ function showLabel( ) {
 
 cj( function( ) {
     cj("#field_name\\[1\\]").addClass( 'huge' );
-    viewOnlyShowHide( );
-    cj("#is_view").click( function(){
-        viewOnlyShowHide();
-    });
-    
 });
-
-function viewOnlyShowHide( ) {
-    var vsbl= cj("#visibility").val( );
-    if (cj("#is_view").attr('checked')) {
-       hide("is_search_label");
-       hide("is_search_html");
-       hide("is_search_desDt");
-       hide("is_search_desDd");
-       cj("#is_searchable").attr('checked',false);
-    } else if ( vsbl != "User and User Admin Only")  {
-       show("is_search_label");
-       show("is_search_html");
-       show("is_search_desDt");
-       show("is_search_desDd");
-    }
-}
 
 //CRM-4363	
 function mixProfile( ) {
