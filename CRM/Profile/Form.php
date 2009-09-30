@@ -538,7 +538,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $errors['_qf_default'] .= '<br />';
                         $errors['_qf_default'] .= ts('If you need to verify if this is the same contact, click here - %1 - to VIEW the existing contact in a new tab.', array(1 => $viewUrl, 'count' => count($viewUrls), 'plural' => 'If you need to verify whether one of these is the same contact, click here - %1 - to VIEW the existing contact in a new tab.'));
                         $errors['_qf_default'] .= '<br />';
-                        $errors['_qf_default'] .= ts('If this is actually a new contact, click Save Matching Contact to create a new contact record.');
+                        $errors['_qf_default'] .= ts('If you are sure this is NOT a duplicate, click the Save Matching Contact button to create a new contact record.');
                         // let smarty know that there are duplicates
                         $template =& CRM_Core_Smarty::singleton( );
                         $template->assign( 'isDuplicate', 1 );
