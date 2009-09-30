@@ -1312,7 +1312,9 @@ function civicrm_check_contact_dedupe( &$params ) {
 
         require_once "CRM/Core/BAO/LocationType.php";
         $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
-        $defaultLocationId = $defaultLocation->id;
+
+        //set the value to default location id else set to 1
+        if ( !$defaultLocationId = (int)$defaultLocation->id ) $defaultLocationId = 1;
     }
     
     require_once 'CRM/Contact/BAO/Query.php';
