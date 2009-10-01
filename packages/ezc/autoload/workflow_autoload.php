@@ -2,9 +2,9 @@
 /**
  * Autoloader definition for the Workflow component.
  *
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.3
+ * @version 1.3.3
  * @filesource
  * @package Workflow
  */
@@ -84,7 +84,9 @@ return array(
     'ezcWorkflowServiceObject'                    => 'Workflow/interfaces/service_object.php',
     'ezcWorkflowUtil'                             => 'Workflow/util.php',
     'ezcWorkflowVariableHandler'                  => 'Workflow/interfaces/variable_handler.php',
+    'ezcWorkflowVisitorMaxNodeIdFinder'           => 'Workflow/visitors/max_node_id_finder.php',
     'ezcWorkflowVisitorNodeCollector'             => 'Workflow/visitors/node_collector.php',
+    'ezcWorkflowVisitorNodeCounter'               => 'Workflow/visitors/node_counter.php',
     'ezcWorkflowVisitorReset'                     => 'Workflow/visitors/reset.php',
     'ezcWorkflowVisitorVerification'              => 'Workflow/visitors/verification.php',
     'ezcWorkflowVisitorVisualization'             => 'Workflow/visitors/visualization.php',

@@ -5,16 +5,20 @@
  * 
  * Requirements: PHP5, SimpleXML
  *
- * Copyright (c) 2007 PHPIDS group (http://php-ids.org)
+ * Copyright (c) 2008 PHPIDS group (http://php-ids.org)
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 2 of the license.
+ * PHPIDS is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 3 of the License, or 
+ * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>. 
  *
  * PHP version 5.1.6+
  * 
@@ -63,12 +67,12 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
     private $config = null;
 
     /**
-     * Path to memcache timestamp file
-     *
-     * @var string
-     */
-    private $path = null;
-
+     * Flag if the filter storage has been found in memcached 
+     * 
+     * @var boolean 
+     */ 
+    private $isCached = false; 
+    
     /**
      * Memcache object
      *
@@ -87,39 +91,34 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
     /**
      * Constructor
      *
-     * @param string $type   caching type
-     * @param array  $config caching configuration
+     * @param string $type caching type
+     * @param array  $init the IDS_Init object
      * 
      * @throws Exception if necessary files aren't writeable
      * @return void
      */
-    public function __construct($type, $config) 
+    public function __construct($type, $init) 
     {
 
         $this->type   = $type;
-        $this->config = $config;
+        $this->config = $init->config['Caching'];
         
         $this->_connect();
-
-        if (file_exists($this->path) && !is_writable($this->path)) {
-            throw new Exception('Make sure all files in IDS/tmp' . 
-                ' are writeable!');
-        }
     }
 
     /**
      * Returns an instance of this class
      *
-     * @param string $type   caching type
-     * @param array  $config caching configuration
+     * @param string $type caching type
+     * @param array  $init the IDS_Init object
      * 
      * @return object $this
      */
-    public static function getInstance($type, $config) 
+    public static function getInstance($type, $init) 
     {
 
         if (!self::$cachingInstance) {
-            self::$cachingInstance = new IDS_Caching_Memcached($type, $config);
+            self::$cachingInstance = new IDS_Caching_Memcached($type, $init);
         }
 
         return self::$cachingInstance;
@@ -136,19 +135,11 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
     public function setCache(array $data) 
     {
 
-        if (!file_exists($this->path)) {
-            $handle = fopen($this->path, 'w');
-            fclose($handle);
-        }
-
-        if (!is_writable($this->path)) {
-            throw new Exception('Make sure all files in IDS/tmp' . 
-                ' are writeable!');
-        }
-
-        if ((time()-filectime($this->path))>$this->config['expiration_time']) {
-            $this->memcache->set($this->config['key_prefix'] . '.storage',
-                                 $data);
+        if(!$this->isCached) { 
+            $this->memcache->set(
+                $this->config['key_prefix'] . '.storage',
+                $data, false, $this->config['expiration_time']
+            ); 
         }
 
         return $this;
@@ -164,15 +155,14 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
      */
     public function getCache() 
     {
-
-        // make sure filters are parsed again if cache expired
-        if ((time()-filectime($this->path))<$this->config['expiration_time']) {
-            $data = $this->memcache->get($this->config['key_prefix'] . 
-                '.storage');
-            return $data;
-        }
-
-        return false;
+        
+        $data = $this->memcache->get(
+            $this->config['key_prefix'] .  
+            '.storage'
+        ); 
+        $this->isCached = !empty($data); 
+        
+        return $data;
     }
 
     /**
@@ -187,18 +177,21 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
         if ($this->config['host'] && $this->config['port']) {
             // establish the memcache connection
             $this->memcache = new Memcache;
-            $this->memcache->pconnect($this->config['host'], 
-                $this->config['port']);
-            $this->path = $this->config['tmp_path'];
+            $this->memcache->pconnect(
+            	$this->config['host'], 
+                $this->config['port']
+            );
+
         } else {
             throw new Exception('Insufficient connection parameters');
         }
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

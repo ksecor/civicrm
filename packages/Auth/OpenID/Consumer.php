@@ -711,7 +711,9 @@ class Auth_OpenID_GenericConsumer {
             return $this->_completeInvalid($message, $endpoint);
         }
 
-        return new Auth_OpenID_SetupNeededResponse($endpoint);
+        $user_setup_url = $message->getArg(Auth_OpenID_OPENID2_NS,
+                                           'user_setup_url');
+        return new Auth_OpenID_SetupNeededResponse($endpoint, $user_setup_url);
     }
 
     /**
@@ -1293,7 +1295,8 @@ class Auth_OpenID_GenericConsumer {
             Auth_OpenID_OPENID2_NS => array_merge($basic_sig_fields,
                                                   array('response_nonce',
                                                         'claimed_id',
-                                                        'assoc_handle')),
+                                                        'assoc_handle',
+                                                        'op_endpoint')),
             Auth_OpenID_OPENID1_NS => array_merge($basic_sig_fields,
                                                   array('nonce'))
             );

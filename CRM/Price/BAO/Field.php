@@ -370,7 +370,8 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
      *
      * @return array array of options
      */
-    public static function getOptions( $fieldId, $inactiveNeeded = false, $reset = false ) {
+    public static function getOptions( $fieldId, $inactiveNeeded = false, $reset = false ) 
+    {
         static $options = array();
         
         if ( $reset || empty( $options[$fieldId] ) ) {
@@ -444,7 +445,8 @@ WHERE
         return null;
     }
 
-    static function &htmlTypes( ) {
+    static function &htmlTypes( ) 
+    {
         static $htmlTypes = null;
         if ( ! $htmlTypes ) {
             $htmlTypes = array(

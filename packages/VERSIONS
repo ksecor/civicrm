@@ -1,77 +1,117 @@
+PEAR install instructions
+=========================
+pear config-set bin_dir   packages/bin
+pear config-set doc_dir   packages/doc
+pear config-set ext_dir   packages/ext
+pear config-set php_dir   packages
+pear config-set cache_dir packages/cache
+pear config-set cfg_dir   packages/cfg
+pear config-set data_dir  packages/data
+pear config-set temp_dir  packages/temp
+pear config-set test_dir  packages/test
+pear config-set www_dir   packages/www
+pear install Archive_Tar  # etc., in the main CiviCRM dir
+
+
+Upgrade procedure
+=================
+1. download old version of upstream and overwrite packages with it (pear install Archive_Tar-1.3.3)
+2. if there are differences, it means we patched the package – do a *reverse* diff and save to a patch file (git diff -R > /tmp/Archive_Tar.diff)
+3. download current version and overwrite
+4. if there were differences, copy any files that we patched in the old version to packages.orig
+5. if there were differences, apply the patch from 2. (patch -p1 < /tmp/Archive_Tar.diff)
+6. update this file and commit
+
+
 PEAR
 ====
-Archive_Tar                   1.3.2
-Auth_SASL                     1.0.2
+Archive_Tar                   1.3.3
+Auth_SASL                     1.0.3
 Console_Getopt                1.2.3
-Console_Table                 1.0.8
-Contact_Vcard_Build           1.1.1      local changes + moved to Contact/Vcard/Build.php
-Contact_Vcard_Parse           1.31.0     moved to Contact/Vcard/Parse.php
+Console_Table                 1.1.3
+Contact_Vcard_Build           1.1.2      local changes
+Contact_Vcard_Parse           1.32.0
 Date                          1.4.7
 DB                            1.7.13
-DB_DataObject                 1.8.8      local changes
-DB_Table                      1.5.0
-HTML_Common                   1.2.4
-HTML_QuickForm                3.2.10     local changes
-HTML_QuickForm_advmultiselect 1.4.0
-HTML_QuickForm_Controller     1.0.8      local changes
+DB_DataObject                 1.8.12     local changes
+DB_Table                      1.5.6
+HTML_Common                   1.2.5
+HTML_QuickForm                3.2.11     local changes, hierselect.php from a very old version
+HTML_QuickForm_advmultiselect 1.5.1      local changes
+HTML_QuickForm_Controller     1.0.9      local changes
 HTML_Template_IT              1.2.1
-HTTP_Request                  1.4.2
-Image_Text                    0.6.0beta  [beta]
-Log                           1.10.0
+HTTP_Request                  1.4.4
+Log                           1.11.5
 Mail                          1.1.14     local changes
-Mail_Mime                     1.5.2
-Net_Curl                      1.2.3
-Net_DIME                      0.3        [beta]
-Net_SMTP                      1.2.11     local changes
-Net_Socket                    1.0.8
+Mail_Mime                     1.5.2      local changes
+Mail_mimeDecode               1.5.0
+Net_Curl                      1.2.5
+Net_DIME                      1.0.1
+Net_SMTP                      1.3.3      local changes
+Net_Socket                    1.0.9
 Net_URL                       1.0.15
-Net_UserAgent_Detect          2.4.0
-Pager                         2.4.4
-PEAR                          1.7.1
-PHP_Beautifier                0.1.13     [beta]
+Net_UserAgent_Detect          2.5.1
+Pager                         2.4.8
+PEAR                          1.9.0
+PHP_Beautifier                0.1.14
+Services_JSON                 1.0.1
+Structures_Graph              1.0.2
 System_Command                1.0.6
-Text_Password                 1.1.0
-Text_CAPTCHA                  0.3.1      [alpha]
-Validate                      0.8.1      [beta]
-Validate_AR                   0.0.1      [alpha]
-Validate_AT                   0.5.1      [alpha]
-Validate_AU                   0.1.0      [alpha]
-Validate_BE                   0.1.3      [beta]
-Validate_CA                   0.1.2      [alpha]
-Validate_CH                   0.5.1      [alpha]
-Validate_DE                   0.5.1      [alpha]
-Validate_DK                   0.1.1      [alpha]
-Validate_ES                   0.5.1      [alpha]
-Validate_FI                   0.4.0      [beta]
-Validate_Finance              0.5.4      [alpha]
-Validate_Finance_CreditCard   0.5.2      [alpha]
-Validate_FR                   0.5.2      [alpha]
-Validate_IE                   1.0.0
-Validate_IN                   0.1.0      [alpha]
-Validate_IS                   0.2.0      [alpha]
-Validate_ISPN                 0.6.1      [alpha]
-Validate_LV                   1.0.0RC2   [beta]
-Validate_NL                   0.5.1      [alpha]
-Validate_NZ                   0.1.2      [alpha]
-Validate_PL                   0.5.1      [alpha]
-Validate_ptBR                 0.5.4      [alpha]
-Validate_UK                   0.5.3      [alpha]
-Validate_US                   0.5.3      [beta]
-Validate_ZA                   0.2.1      [alpha]
-XML_RPC                       1.5.1
+Validate                      0.8.2
+Validate_AR                   0.1.0
+Validate_AT                   0.5.2
+Validate_AU                   0.1.3
+Validate_BE                   0.1.4
+Validate_CA                   0.1.3
+Validate_CH                   0.6.0
+Validate_DE                   0.5.2
+Validate_DK                   0.1.2
+Validate_ES                   0.5.2
+Validate_FI                   0.4.0
+Validate_Finance              0.5.4
+Validate_Finance_CreditCard   0.5.3      local changes
+Validate_FR                   0.6.0
+Validate_IE                   1.0.2
+Validate_IN                   0.1.0
+Validate_IS                   0.2.0
+Validate_ISPN                 0.6.1
+Validate_LV                   1.0.0RC2
+Validate_NL                   0.5.2
+Validate_NZ                   0.1.2
+Validate_PL                   0.5.2
+Validate_ptBR                 0.5.5
+Validate_UK                   0.5.3
+Validate_US                   0.5.3
+Validate_ZA                   0.2.2
+XML_RPC                       1.5.2
+XML_Util                      1.2.1
+
 
 NON-PEAR
 ========
 AMFPHP         1.2.6       http://amfphp.org/
-Auth_OpenID    2.0.1       http://openidenabled.com/php-openid/                          local changes to support slightly different DB schema than library expects
-Auth_Yadis     2.0.1       http://openidenabled.com/php-openid/
-Dojo           0.4         http://dojotoolkit.org/                                       local changes
+Auth_OpenID    2.1.3       http://openidenabled.com/php-openid/
+Auth_Yadis     2.1.3       http://openidenabled.com/php-openid/
 PHP gettext    1.0.7       http://savannah.nongnu.org/projects/php-gettext/
+PHPIDS         0.6.2       http://php-ids.org/
 PayPal SDK     1.1.1.1     https://www.paypal.com/IntegrationCenter/ic_sdk-resource.html PEAR packages upgraded independently (HTTP, Log, Net)
-Selenium       0.1.4       perhaps moved to PEAR's Testing_Selenium package?
-Services_JSON  CVS 1.31    http://pear.php.net/pepr/pepr-proposal-show.php?id=198
-SimpleTest     1.0.1 beta2 http://www.simpletest.org/
-Smarty         2.6.19      http://smarty.php.net/                                        local changes
+Smarty         2.6.26      http://smarty.php.net/                                        local changes
 Smarty Gettext 1.0b1       http://smarty-gettext.sourceforge.net/
 UFPDF          0.1         http://acko.net/blog/ufpdf    
+dompdf         0.5.1       http://digitaljunkies.ca/dompdf/                              local changes
+eZ Components  2009.1.2    http://ezcomponents.org/                                      local changes
 html2text      1.0.0       http://chuggnutt.com/html2text.php                            local changes
+pChart         1.27d       http://pchart.sourceforge.net/                                local changes
+reCAPTCHA      1.10        http://recaptcha.net/
+
+
+Unknown status
+==============
+Google
+PayJunction
+PaymentExpress
+eWAY
+Facebook
+FCKeditor
+jQuery
+TinyMCE

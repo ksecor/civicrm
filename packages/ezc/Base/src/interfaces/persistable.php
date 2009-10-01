@@ -3,8 +3,8 @@
  * File containing the ezcBasePersistable interface
  *
  * @package Base
- * @version 1.6
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @version 1.7
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
@@ -12,13 +12,13 @@
  * to be used by the PersistentObject and Search components.
  *
  * @package Base
- * @version 1.6
+ * @version 1.7
  */
 interface ezcBasePersistable
 {
     /**
      * The constructor for the object needs to be able to accept no arguments.
-     * 
+     *
      * The data is later set through the setState() method.
      */
     public function __construct();

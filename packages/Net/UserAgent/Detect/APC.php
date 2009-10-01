@@ -1,33 +1,69 @@
 <?php
-// +----------------------------------------------------------------------+
-// | PHP version 4.2                                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Lucas Nealan <lucas@facebook.com>                           |
-// +----------------------------------------------------------------------+
+/**
+ * Net_UserAgent_Detect_APC.php 
+ *
+ * PHP version 4.2
+ *
+ * Copyright (c) 1997-2003 The PHP Group                                
+ *
+ * This source file is subject to version 2.0 of the PHP license,       
+ * that is bundled with this package in the file LICENSE, and is        
+ * available at through the world-wide-web at                           
+ * http://www.php.net/license/2_02.txt.                                 
+ * If you did not receive a copy of the PHP license and are unable to   
+ * obtain it through the world-wide-web, please send a note to          
+ * license@php.net so we can mail you a copy immediately.
+ *
+ * @category Net
+ * @package  Net_UserAgent
+ * @author   Lucas Nealan <lucas@facebook.com> 
+ * @license  http://www.php.net/license/2_02.txt PHP 2.0 Licence
+ * @version  CVS: $Id: APC.php,v 1.3 2009/06/08 04:49:23 clockwerx Exp $
+ * @link     http://pear.php.net/package/Net_UserAgent_Detect
+ */
 
-// $Id: APC.php,v 1.1 2007/09/19 21:35:22 jrust Exp $
+require_once 'Net/UserAgent/Detect.php';
 
-require_once 'Net_UserAgent/detect.php';
-
+/**
+ * Net_UserAgent_Detect_APC
+ *
+ * PHP version 4.2
+ *
+ * Copyright (c) 1997-2003 The PHP Group                                
+ *
+ * This source file is subject to version 2.0 of the PHP license,       
+ * that is bundled with this package in the file LICENSE, and is        
+ * available at through the world-wide-web at                           
+ * http://www.php.net/license/2_02.txt.                                 
+ * If you did not receive a copy of the PHP license and are unable to   
+ * obtain it through the world-wide-web, please send a note to          
+ * license@php.net so we can mail you a copy immediately.
+ *
+ * @category Net
+ * @package  Net_UserAgent
+ * @author   Lucas Nealan <lucas@facebook.com> 
+ * @license  http://www.php.net/license/2_02.txt PHP 2.0 Licence
+ * @link     http://pear.php.net/package/Net_UserAgent_Detect
+ */
 class Net_UserAgent_Detect_APC extends Net_UserAgent_Detect
 {
     var $key = '';
 
-    function Net_UserAgent_Detect_APC($in_userAgent = null, $in_detect = null, $ua_cache_window = 600)
+    /**
+     * Class constructor
+     *
+     * @param string $in_userAgent    (optional) User agent override.  
+     * @param mixed  $in_detect       (optional) The level of checking to do. 
+     * @param mixed  $ua_cache_window Unknown
+     */
+    function Net_UserAgent_Detect_APC($in_userAgent = null, $in_detect = null,
+                                      $ua_cache_window = 600)
     {
-        $data = '';
+        $data     = '';
         $restored = false;
-        $ua_cache_timeout = apc_fetch('useragent:cache_timeout');               // don't cache after time period
+
+        // don't cache after time period
+        $ua_cache_timeout = apc_fetch('useragent:cache_timeout');               
 
         if ($ua_cache_window > 0) {
             if (!$ua_cache_timeout) {
@@ -37,7 +73,8 @@ class Net_UserAgent_Detect_APC extends Net_UserAgent_Detect
                 if (isset($apc_data['start_time'])) {
                     $uptime = $apc_data['start_time'];
 
-                    if (time() - $uptime > $ua_cache_window) { // timeout and disable after 10 minutes of uptime
+                    // timeout and disable after 10 minutes of uptime
+                    if (time() - $uptime > $ua_cache_window) {
                         apc_store('useragent:cache_timeout', true);
                         $ua_cache_timeout = true; // don't cache this one either
                     }
@@ -54,9 +91,10 @@ class Net_UserAgent_Detect_APC extends Net_UserAgent_Detect
 
             if ($data = apc_fetch($this->key)) {
                 $success = null;
-                $data = unserialize($data);
+                $data    = unserialize($data);
+
                 if ($data) {
-                    $restored = $this->cache_restore($data);
+                    $restored = $this->cacheRestore($data);
                 }
             }
         }
@@ -65,11 +103,20 @@ class Net_UserAgent_Detect_APC extends Net_UserAgent_Detect
             $this->detect($in_userAgent, $in_detect);
 
             if ($ua_cache_window > 0 && !$ua_cache_timeout) {
-                $this->cache_save();
+                $this->cacheSave();
             }
         }
     }
 
+    /**
+     * To be used in place of the contructor to return only open instance.
+     *
+     * @param string $in_userAgent (optional) User agent override.  
+     * @param mixed  $in_detect    (optional) The level of checking to do. 
+     *
+     * @access public 
+     * @return object Net_UserAgent_Detect instance
+     */
     function &singleton($in_userAgent = null, $in_detect = null) 
     {
         static $instance;
@@ -81,32 +128,51 @@ class Net_UserAgent_Detect_APC extends Net_UserAgent_Detect
         return $instance;
     }
 
-    function cache_restore($cache) 
+    /**
+     * Restore cached items
+     *
+     * @param mixed[] $cache An array of items to restore
+     *
+     * @return bool
+     */
+    function cacheRestore($cache) 
     {
         if (is_array($cache)) {
-            foreach($cache as $prop => $value) {
+            foreach ($cache as $prop => $value) {
                 $ptr = Net_UserAgent_Detect::_getStaticProperty($prop);
                 $ptr = $value;
             }
+
             return true;
         }
+
         return false;
     }
 
-    function cache_save() 
+    /**
+     * Store items in APC
+     *
+     * @return void
+     */
+    function cacheSave() 
     {
         if ($this->key) {
-            $data = array('browser'           => Net_UserAgent_Detect::_getStaticProperty('browser'),
-                          'features'          => Net_UserAgent_Detect::_getStaticProperty('features'),
-                          'leadingIdentifier' => Net_UserAgent_Detect::_getStaticProperty('leadingIdentifier'),
-                          'majorVersion'      => Net_UserAgent_Detect::_getStaticProperty('majorVersion'),
-                          'options'           => Net_UserAgent_Detect::_getStaticProperty('options'),
-                          'os'                => Net_UserAgent_Detect::_getStaticProperty('os'),
-                          'quirks'            => Net_UserAgent_Detect::_getStaticProperty('quirks'),
-                          'subVersion'        => Net_UserAgent_Detect::_getStaticProperty('subVersion'),
-                          'userAgent'         => Net_UserAgent_Detect::_getStaticProperty('userAgent'),
-                          'version'           => Net_UserAgent_Detect::_getStaticProperty('version'),
-                         );
+            $items = array('browser',
+                          'features',
+                          'leadingIdentifier',
+                          'majorVersion',
+                          'options',
+                          'os',
+                          'quirks',
+                          'subVersion',
+                          'userAgent',
+                          'version');
+
+            $data = array();
+            foreach ($items as $item) {
+                $data[$item] = Net_UserAgent_Detect::_getStaticProperty($item);
+            }
+
             apc_store($this->key, serialize($data));
         }
     }

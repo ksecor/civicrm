@@ -747,6 +747,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $this->_values['fee'][$params['amount']]['value'];
             } else {
                 $lineItem = array( );
+                require_once "CRM/Price/BAO/Set.php";
                 CRM_Price_BAO_Set::processAmount( $this->_values['fee']['fields'], $params, $lineItem );
                 $priceSet   = array();
                 $priceSet[] = $lineItem;

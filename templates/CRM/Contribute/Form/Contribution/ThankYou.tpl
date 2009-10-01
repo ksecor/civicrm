@@ -73,7 +73,7 @@
     </div>
     <div class="display-block">
     	{if $lineItem}
-            {include file="CRM/Event/Form/Registration/LineItem.tpl"}
+            {include file="CRM/Price/Page/LineItem.tpl" context="Contribution"}
 	{/if}
         {if $membership_amount } 
             {$membership_name} {ts}Membership{/ts}: <strong>{$membership_amount|crmMoney}</strong><br />

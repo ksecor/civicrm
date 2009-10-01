@@ -1,6 +1,8 @@
 {* this template is used for adding/editing/deleting contribution *} 
 {if $cdType }
   {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $priceSetId}
+  {include file="CRM/Price/Form/PriceSet.tpl"}
 {elseif $showAdditionalInfo and $formType }
   {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
 {else}
@@ -57,8 +59,13 @@
         {if $is_test}
         {ts}(test){/ts}
         {/if} {help id="id-contribution_type"}
-        </td></tr> 
-        <tr><td class="label">{$form.total_amount.label}</td><td{$valueStyle}>{$form.total_amount.html|crmMoney:$currency} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
+        </td></tr>
+	{if $hasPriceSets}  
+	    <tr><td class="label">{$form.price_set_id.label}</td><td{$valueStyle}>{$form.price_set_id.html}</td></tr>
+	    <tr><td class="label"></td><td><fieldset id="PriceSetFields" style="display:none;"></fieldset></td></tr> 
+        {/if}
+        <tr id="totalAmount"><td class="label">{$form.total_amount.label}</td><td{$valueStyle}>{$form.total_amount.html|crmMoney:$currency} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
+ 
         <tr><td class="label">{$form.source.label}</td><td{$valueStyle}>{$form.source.html} {help id="id-contrib_source"}</td></tr>
 
         {if $contributionMode}
@@ -283,5 +290,24 @@
 }
 {/if} 
 {/if} {* not delete mode if*}      
-{/if}
-{* closing of main custom data if*}
+{/if} {* closing of main custom data if *} 
+
+{literal}
+<script type="text/javascript" >
+function buildAmount( priceSetId ) {
+
+  var fname = '#PriceSetFields';
+  if ( !priceSetId ) {
+   cj( fname ).hide( ); 
+    return;
+  }
+  var dataUrl = {/literal}"{crmURL h=0 q='snippet=4'}"{literal} + '&priceSetId=' + priceSetId;
+
+  var response = cj.ajax({
+		         url: dataUrl,
+			 async: false
+			}).responseText;
+  cj( fname ).show( ).html( response );
+}
+</script>
+{/literal}

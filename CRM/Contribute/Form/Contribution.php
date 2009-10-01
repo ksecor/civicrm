@@ -173,7 +173,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $this->assign('cdType', true);
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
-
+        
+        // get price set id.
+        $this->_priceSetId = CRM_Utils_Array::value( 'priceSetId', $_GET );
+        $this->assign( 'priceSetId', $this->_priceSetId );
+        
         //get the pledge payment id
         $this->_ppID = CRM_Utils_Request::retrieve( 'ppid', 'Positive', $this );
         //get the contact id
@@ -496,7 +500,13 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_cdType ) {
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
-             
+        
+        // build selected price set form.
+        if ( $this->_priceSetId ) {
+            require_once 'CRM/Price/BAO/Set.php';
+            return CRM_Price_BAO_Set::buildPriceSet( $this );
+        }
+        
         $showAdditionalInfo = false;
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         
@@ -695,12 +705,25 @@ WHERE  contribution_id = {$this->_id}
             $element->freeze( );
         }
         
-        $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
-                                $attributes['total_amount'], true );
-        $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
+        require_once 'CRM/Price/BAO/Set.php';
+        $priceSets = CRM_Price_BAO_Set::getAssoc( false, 'Contribution');
+        $hasPriceSets = false;
+        if ( !empty( $priceSets ) && !$this->_ppID ) {
+            $hasPriceSets = true;
+            $element = $this->add( 'select', 'price_set_id', ts( 'Price Set' ),
+                                   array( '' => ts( '- none -' )) + $priceSets,
+                                   null, array('onchange' => "buildAmount( this.value );return showHideByValue('price_set_id', '', 'totalAmount', 'table-row', 'select', false);" ) );
+            $this->add( 'text', 'total_amount', ts('Total Amount'),
+                        $attributes['total_amount'] );
+        } else {
+            $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
+                                    $attributes['total_amount'], true );
+            $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
+        }
         if ( $this->_online || $this->_ppID ) {
             $element->freeze( );
         }
+        $this->assign( 'hasPriceSets', $hasPriceSets );
         
         $element =& $this->add( 'text', 'source', ts('Source'), CRM_Utils_Array::value('source',$attributes) );
         if ( $this->_online ) {

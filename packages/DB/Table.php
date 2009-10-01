@@ -9,14 +9,47 @@
  * and automated creation of QuickForm elements based on the column
  * definitions.
  * 
+ * PHP versions 4 and 5
+ *
+ * LICENSE:
+ * 
+ * Copyright (c) 1997-2007, Paul M. Jones <pmjones@php.net>
+ *                          David C. Morse <morse@php.net>
+ *                          Mark Wiesemann <wiesemann@php.net>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *    * Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *    * Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in the 
+ *      documentation and/or other materials provided with the distribution.
+ *    * The names of the authors may not be used to endorse or promote products 
+ *      derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  * @category Database
- * @package DB_Table
- * @author Paul M. Jones <pmjones@php.net>
- * @author Mark Wiesemann <wiesemann@php.net>
- * 
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
- * 
- * @version $Id: Table.php,v 1.87 2007/06/14 15:07:27 morse Exp $
+ * @package  DB_Table
+ * @author   Paul M. Jones <pmjones@php.net>
+ * @author   David C. Morse <morse@php.net>
+ * @author   Mark Wiesemann <wiesemann@php.net>
+ * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @version  CVS: $Id: Table.php,v 1.90 2008/12/25 19:56:35 wiesemann Exp $
+ * @link     http://pear.php.net/package/DB_Table
  */
 
 /**
@@ -242,6 +275,12 @@ define('DB_TABLE_ERR_ALTER_INDEX_IMPOS', -36);
 define('DB_TABLE_ERR_AUTO_INC_COL', -37);
 
 /**
+ * Error code at instantiation time when both the $table parameter
+ * and the $table class property are missing.
+ */
+define('DB_TABLE_ERR_TABLE_NAME_MISSING', -38);
+
+/**
  * The DB_Table_Base parent class
  */
 require_once 'DB/Table/Base.php';
@@ -449,7 +488,8 @@ $GLOBALS['_DB_TABLE']['default_error'] = array(
     DB_TABLE_ERR_DECLARE_PRIM_SQLITE => 'SQLite does not support primary keys',
     DB_TABLE_ERR_ALTER_TABLE_IMPOS   => 'Alter table failed: changing the field type not possible',
     DB_TABLE_ERR_ALTER_INDEX_IMPOS   => 'Alter table failed: changing the index/constraint not possible',
-    DB_TABLE_ERR_AUTO_INC_COL        => 'Illegal auto-increment column definition'
+    DB_TABLE_ERR_AUTO_INC_COL        => 'Illegal auto-increment column definition',
+    DB_TABLE_ERR_TABLE_NAME_MISSING  => 'Table name missing in constructor and class'
 );
 
 // merge default and user-defined error messages
@@ -462,6 +502,11 @@ foreach ($GLOBALS['_DB_TABLE']['default_error'] as $code => $message) {
     }
 }
 
+// set default value for length check switch
+if (!isset($GLOBALS['_DB_TABLE']['disable_length_check'])) {
+    $GLOBALS['_DB_TABLE']['disable_length_check'] = false;
+}
+
 /**
  * DB_Table is a database API and data type SQL abstraction class.
  * 
@@ -472,12 +517,12 @@ foreach ($GLOBALS['_DB_TABLE']['default_error'] as $code => $message) {
  * definitions.
  * 
  * @category Database
- * @package DB_Table
- * @author Paul M. Jones <pmjones@php.net>
- * @author Mark Wiesemann <wiesemann@php.net>
- * 
- * @version 1.5.0
- *
+ * @package  DB_Table
+ * @author   Paul M. Jones <pmjones@php.net>
+ * @author   David C. Morse <morse@php.net>
+ * @author   Mark Wiesemann <wiesemann@php.net>
+ * @version  Release: 1.5.6
+ * @link     http://pear.php.net/package/DB_Table
  */
 
 class DB_Table extends DB_Table_Base 
@@ -599,8 +644,11 @@ class DB_Table extends DB_Table_Base
      * @return object DB_Table
      * @access public
      */
-    function DB_Table(&$db, $table, $create = false)
+    function DB_Table(&$db, $table = null, $create = false)
     {
+        // Identify the class for error handling by parent class
+        $this->_primary_subclass = 'DB_TABLE';
+
         // is the first argument a DB/MDB2 object?
         $this->backend = null;
         if (is_subclass_of($db, 'db_common')) {
@@ -616,10 +664,15 @@ class DB_Table extends DB_Table_Base
         
         // set the class properties
         $this->db =& $db;
-        $this->table = $table;
-
-        // Identify the class for error handling by parent class
-        $this->_primary_subclass = 'DB_TABLE';
+        if (is_null($table)) {
+            // $table parameter not given => check $table class property
+            if (is_null($this->table)) {
+                $this->error =& DB_Table::throwError(DB_TABLE_ERR_TABLE_NAME_MISSING);
+                return;
+            }
+        } else {
+            $this->table = $table;
+        }
         
         // is the RDBMS supported?
         $phptype = $db->phptype;
@@ -1356,7 +1409,9 @@ class DB_Table extends DB_Table_Base
         // name, so the max length here is less 4 chars. we have to
         // check here because the sequence will be created automatically
         // by PEAR DB/MDB2, which will not check for length on its own.
-        if (strlen($seq_name) > 26) {
+        if (   $GLOBALS['_DB_TABLE']['disable_length_check'] === false
+            && strlen($seq_name) > 26
+           ) {
             return DB_Table::throwError(
                 DB_TABLE_ERR_SEQ_STRLEN,
                 " ('$seq_name')"

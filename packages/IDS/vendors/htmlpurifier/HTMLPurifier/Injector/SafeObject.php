@@ -8,10 +8,10 @@ class HTMLPurifier_Injector_SafeObject extends HTMLPurifier_Injector
 {
     public $name = 'SafeObject';
     public $needed = array('object', 'param');
-    
+
     protected $objectStack = array();
     protected $paramStack  = array();
-    
+
     // Keep this synchronized with AttrTransform/SafeParam.php
     protected $addParam = array(
         'allowScriptAccess' => 'never',
@@ -21,11 +21,11 @@ class HTMLPurifier_Injector_SafeObject extends HTMLPurifier_Injector
         'wmode' => true,
         'movie' => true,
     );
-    
+
     public function prepare($config, $context) {
         parent::prepare($config, $context);
     }
-    
+
     public function handleElement(&$token) {
         if ($token->name == 'object') {
             $this->objectStack[] = $token;
@@ -71,13 +71,17 @@ class HTMLPurifier_Injector_SafeObject extends HTMLPurifier_Injector
             }
         }
     }
-    
-    public function notifyEnd($token) {
+
+    public function handleEnd(&$token) {
+        // This is the WRONG way of handling the object and param stacks;
+        // we should be inserting them directly on the relevant object tokens
+        // so that the global stack handling handles it.
         if ($token->name == 'object') {
             array_pop($this->objectStack);
             array_pop($this->paramStack);
         }
     }
-    
+
 }
 
+// vim: et sw=4 sts=4

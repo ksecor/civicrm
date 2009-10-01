@@ -32,7 +32,7 @@
     </div>
     <div class="display-block">
         {if $lineItem}
-            {include file="CRM/Event/Form/Registration/LineItem.tpl"}
+            {include file="CRM/Price/Page/LineItem.tpl" context="Contribution"}
 	{/if}
         {if $is_separate_payment }
             {if $amount AND $minimum_fee}
