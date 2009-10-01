@@ -289,12 +289,13 @@ function civicrm_uf_group_update($params, $groupId)
  * @access public 
  *
  */
-function civicrm_uf_field_create( $groupId , $params ) {
-    _civicrm_initialize( );
-    
-    if(! isset( $groupId  ) ) {
-        return civicrm_create_error("Group Id is not set.");
+function civicrm_uf_field_create($groupId, $params)
+{
+    if (!is_array($params) or empty($params) or !isset($params['field_name']) or (int) $groupId < 1) {
+        return civicrm_create_error('Params must be a non-empty array and a positive integer.');
     }
+
+    _civicrm_initialize( );
     
     $field_type       = CRM_Utils_Array::value ( 'field_type'       , $params );
     $field_name       = CRM_Utils_Array::value ( 'field_name'       , $params );
@@ -302,10 +303,6 @@ function civicrm_uf_field_create( $groupId , $params ) {
     $phone_type       = CRM_Utils_Array::value ( 'phone_type'       , $params );
     
     $params['field_name'] =  array( $field_type, $field_name, $location_type_id, $phone_type);
-    
-    if(! is_array( $params ) || $params['field_name'][1] == null || $params['weight'] == null ) {
-        return civicrm_create_error("missing required fields ");
-    }
     
     if ( !( CRM_Utils_Array::value('group_id', $params) ) ) {
         $params['group_id'] =  $groupId;

@@ -351,7 +351,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         $params = array(
             'field_name'       => 'country',
             'label'            => 'Edited Test Country',
-            'location_type_id' => 1,
             'weight'           => 1,
             'is_active'        => 1,
         );
@@ -362,6 +361,21 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         }
     }
 
+    function testCreateUFFieldWithEmptyParams()
+    {
+        $result = civicrm_uf_field_create($this->_ufGroupId, array());
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testCreateUFFieldWithWrongParams()
+    {
+        $result = civicrm_uf_field_create('a string', array('field_name' => 'test field'));
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_field_create($this->_ufGroupId, 'a string');
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_field_create($this->_ufGroupId, array('label' => 'name-less field'));
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * deleting field
