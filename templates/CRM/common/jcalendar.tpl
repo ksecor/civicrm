@@ -10,11 +10,11 @@
     // var time_img    = {/literal}"{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png"{literal};
     var curDateTime = new Date();
     var currentYear = curDateTime.getFullYear();    
-    var ampm        = ({/literal}{$ampm}{literal}) ? false : true;
     {/literal}
 
+var doTime  = false;
 {if $timeElement}
-    var doTime  = true;
+    doTime  = true;
 {/if}
 
 {if $offset}

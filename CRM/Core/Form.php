@@ -950,13 +950,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *  @param boolean $required  true if required
      *
      */
-    function addDate( $name, $label, $attributes = null, $required = false ) {
-        if ( is_array( $attributes ) ) {
-            $attributes = array_merge( $attributes, array('READONLY') );
-        } else {
-            $attributes = array('READONLY');
-        }
-        
+    function addDate( $name, $label, $required = false, $attributes = null ) {
         $this->add('text', $name, $label, $attributes );
 
         if ( CRM_Utils_Array::value( 'addTime', $attributes ) ) {
@@ -975,14 +969,14 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
     }
     
-    function addDateTime( $name, $label, $attributes = null, $required = false ) {
+    function addDateTime( $name, $label, $required = false, $attributes = null ) {
         $addTime = array( 'addTime' => true );
         if ( is_array( $attributes ) ) {
             $attributes = array_merge( $attributes, $addtime);
         } else {
             $attributes = $addTime;
         }
-        $this->addDate( $name, $label, $attributes, $required );
+        $this->addDate( $name, $label, $required, $attributes );
     }
 }
 
