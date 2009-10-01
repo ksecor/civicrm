@@ -261,8 +261,8 @@ function civicrm_uf_group_create($params)
  */
 function civicrm_uf_group_update($params, $groupId)
 {
-    if (!is_array($params) or (int) $groupId < 1) {
-        return civicrm_create_error('Params must be an array and a postivie integer.');
+    if (!is_array($params) or empty($params) or (int) $groupId < 1) {
+        return civicrm_create_error('Params must be a non-empty array and a positive integer.');
     }
     
     _civicrm_initialize( );
