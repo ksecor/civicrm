@@ -205,7 +205,7 @@
                                     <td class="label">{ts}Gender{/ts}</td><td>{$gender_display}</td>
                                 </tr>
                                 <tr>
-                                    <td class="label">{ts}Date of Birth{/ts}</td><td>
+                                    <td class="label">{ts}Date of birth{/ts}</td><td>
                                     {if $birthDateViewFormat}	 
                                         {$birth_date|crmDate:$birthDateViewFormat}
                                     {else}
