@@ -5,16 +5,20 @@
  * 
  * Requirements: PHP5, SimpleXML
  *
- * Copyright (c) 2007 PHPIDS group (http://php-ids.org)
+ * Copyright (c) 2008 PHPIDS group (http://php-ids.org)
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 2 of the license.
+ * PHPIDS is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 3 of the License, or 
+ * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>. 
  *
  * PHP version 5.1.6+
  * 
@@ -50,25 +54,30 @@ class IDS_Caching
     /**
      * Factory method
      *
-     * @param array  $config the config array
-     * @param string $type   the caching type
+     * @param array  $init the IDS_Init object
+     * @param string $type the caching type
      * 
      * @return object the caching facility
      */
-    public static function factory($config, $type) 
+    public static function factory($init, $type) 
     {
-        $object  = false;
-        $wrapper = ucfirst($config['caching']);
-        $class   = 'IDS_Caching_' . escapeshellcmd($wrapper);
+        
+    	$object  = false;
+        $wrapper = preg_replace(
+			'/\W+/m', 
+			null, 
+			ucfirst($init->config['Caching']['caching'])
+		);
+        $class   = 'IDS_Caching_' . $wrapper;
         $path    = dirname(__FILE__) . DIRECTORY_SEPARATOR . 
-            escapeshellcmd($wrapper) . '.php';
+            $wrapper . '.php';
 
         if (file_exists($path)) {
             include_once $path;
 
             if (class_exists($class)) {
                 $object = call_user_func(array($class, 'getInstance'), 
-                    $type, $config);
+                    $type, $init);
             }
         }
 
@@ -76,9 +85,10 @@ class IDS_Caching
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

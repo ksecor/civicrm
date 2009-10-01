@@ -32,7 +32,7 @@
 // | Author: Richard Heyes <richard@php.net>                               | 
 // +-----------------------------------------------------------------------+ 
 // 
-// $Id: Anonymous.php,v 1.4 2003/02/21 16:07:17 mj Exp $
+// $Id: Anonymous.php 286825 2009-08-05 06:23:42Z cweiske $
 
 /**
 * Implmentation of ANONYMOUS SASL mechanism

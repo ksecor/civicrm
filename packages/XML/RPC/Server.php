@@ -32,7 +32,7 @@
  * @author     Martin Jansen <mj@php.net>
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1999-2001 Edd Dumbill, 2001-2006 The PHP Group
- * @version    CVS: $Id: Server.php,v 1.37 2006/10/28 16:42:34 danielc Exp $
+ * @version    CVS: $Id: Server.php 222479 2006-10-28 16:42:34Z danielc $
  * @link       http://pear.php.net/package/XML_RPC
  */
 
@@ -270,7 +270,7 @@ function XML_RPC_Server_debugmsg($m)
  * @author     Martin Jansen <mj@php.net>
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1999-2001 Edd Dumbill, 2001-2006 The PHP Group
- * @version    Release: 1.5.1
+ * @version    Release: 1.5.2
  * @link       http://pear.php.net/package/XML_RPC
  */
 class XML_RPC_Server

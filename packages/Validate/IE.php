@@ -18,7 +18,7 @@
  * @author    David Coallier <davidc@php.net>
  * @copyright 1997-2008 Agora Production (http://agoraproduction.com)
  * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version   CVS: $Id: IE.php,v 1.25 2008/01/05 23:48:29 kguest Exp $
+ * @version   CVS: $Id: IE.php,v 1.26 2008/04/09 22:27:26 kguest Exp $
  * @link      http://pear.php.net/package/Validate_IE
  */
 
@@ -151,12 +151,14 @@ class Validate_IE
                                            '85'=>'/^085[0-9]{7}$/',
                                            '86'=>'/^086[0-9]{7}$/',
                                            '87'=>'/^087[0-9]{7}$/',
-                                           '88'=>'/^088[0-9]{7}$/');
+                                           '88'=>'/^088[0-9]{7}$/',
+                                           '89'=>'/^089[0-9]{7}$/');
         static $irishMobileAreasVoiceMail = array('83'=>'/^0835[0-9]{7}$/',
                                            '85'=>'/^0855[0-9]{7}$/',
                                            '86'=>'/^0865[0-9]{7}$/',
                                            '87'=>'/^0875[0-9]{7}$/',
-                                           '88'=>'/^0885[0-9]{7}$/');
+                                           '88'=>'/^0885[0-9]{7}$/',
+                                           '89'=>'/^0895[0-9]{7}$/');
         static $irishOtherRates = array('1800'=>'/^1800[0-9]{6}$/',
                                           '1850'=>'/^1850[0-9]{6}$/',
                                           '1890'=>'/^1890[0-9]{6}$/');

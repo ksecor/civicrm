@@ -5,16 +5,20 @@
  * 
  * Requirements: PHP5, SimpleXML
  *
- * Copyright (c) 2007 PHPIDS group (http://php-ids.org)
+ * Copyright (c) 2008 PHPIDS group (http://php-ids.org)
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 2 of the license.
+ * PHPIDS is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 3 of the License, or 
+ * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>. 
  *
  * PHP version 5.1.6+
  * 
@@ -64,6 +68,19 @@ class IDS_Log_Composite
      */
     public function execute(IDS_Report $data) 
     {
+    	// make sure request uri is set right on IIS
+        if (!isset($_SERVER['REQUEST_URI'])) {
+            $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
+            if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) { 
+                $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING']; 
+            } 
+        } 
+        
+        // make sure server address is set right on IIS
+        if (isset($_SERVER['LOCAL_ADDR'])) {
+            $_SERVER['SERVER_ADDR'] = $_SERVER['LOCAL_ADDR'];
+        } 
+    	
         foreach ($this->loggers as $logger) {
             $logger->execute($data);
         }
@@ -110,9 +127,10 @@ class IDS_Log_Composite
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

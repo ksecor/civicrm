@@ -3,8 +3,8 @@
  * File containing the ezcMailImapSet class.
  *
  * @package Mail
- * @version 1.6
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @version 1.6.3
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -17,7 +17,7 @@
  * correct behaviour.
  *
  * @package Mail
- * @version 1.6
+ * @version 1.6.3
  */
 class ezcMailImapSet implements ezcMailParserSet
 {
@@ -180,6 +180,18 @@ class ezcMailImapSet implements ezcMailParserSet
                     if ( $this->bytesToRead < 0 )
                     {
                         $data = substr( $data, 0, strlen( $data ) + $this->bytesToRead ); //trim( $data, ")\r\n" );
+                    }
+
+                    if ( $this->bytesToRead === 0 )
+                    {
+                        // hack for Microsoft Exchange, which sometimes puts
+                        // FLAGS (\Seen)) at the end of a message instead of before (!)
+                        if ( strlen( trim( $data, ")\r\n" ) !== strlen( $data ) - 3 ) )
+                        {
+                            // if the last line in a mail does not end with ")\r\n"
+                            // then read an extra line and discard it
+                            $extraData = $this->connection->getLine();
+                        }
                     }
 
                     $this->hasMoreMailData = false;

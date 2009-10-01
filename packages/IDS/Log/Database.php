@@ -5,16 +5,20 @@
  * 
  * Requirements: PHP5, SimpleXML
  *
- * Copyright (c) 2007 PHPIDS group (http://php-ids.org)
+ * Copyright (c) 2008 PHPIDS group (http://php-ids.org)
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 2 of the license.
+ * PHPIDS is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 3 of the License, or 
+ * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.  
  *
  * PHP version 5.1.6+
  * 
@@ -42,6 +46,7 @@ require_once 'IDS/Log/Interface.php';
       `page` varchar(255) NOT null,
       `ip` varchar(15) NOT null,
       `impact` int(11) unsigned NOT null,
+      `origin` varchar(15) NOT null,
       `created` datetime NOT null,
       PRIMARY KEY  (`id`)
     ) ENGINE=MyISAM ;
@@ -175,6 +180,7 @@ class IDS_Log_Database implements IDS_Log_Interface
                     page,
                     ip,
                     impact,
+                    origin,
                     created
                 )
                 VALUES (
@@ -183,6 +189,7 @@ class IDS_Log_Database implements IDS_Log_Interface
                     :page,
                     :ip,
                     :impact,
+                    :origin,
                     now()
                 )
             ');
@@ -238,16 +245,27 @@ class IDS_Log_Database implements IDS_Log_Interface
      */
     public function execute(IDS_Report $data) 
     {
+        if (!isset($_SERVER['REQUEST_URI'])) {
+            $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
+            if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) { 
+                $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING']; 
+            } 
+        }     	
 
         foreach ($data as $event) {
             $page = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
             $ip   = $this->ip;
+            
+            $name   = $event->getName();
+            $value  = $event->getValue();
+            $impact = $event->getImpact();
 
-            $this->statement->bindParam('name', $event->getName());
-            $this->statement->bindParam('value', $event->getValue());
+            $this->statement->bindParam('name', $name);
+            $this->statement->bindParam('value', $value);
             $this->statement->bindParam('page', $page);
             $this->statement->bindParam('ip', $ip);
-            $this->statement->bindParam('impact', $data->getImpact());
+            $this->statement->bindParam('impact', $impact);
+            $this->statement->bindParam('origin', $_SERVER['SERVER_ADDR']);
 
             if (!$this->statement->execute()) {
 
@@ -262,9 +280,10 @@ class IDS_Log_Database implements IDS_Log_Interface
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

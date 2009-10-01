@@ -2,9 +2,9 @@
 /**
  * Autoloader definition for the Webdav component.
  *
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.1
+ * @version 1.1.2
  * @filesource
  * @package Webdav
  */
