@@ -700,21 +700,20 @@ WHERE  id IN ($optionIDs)
      */ 
     static function buildPriceSet( &$form )  
     {
-        if ( $form->_priceSetId ) {
-            
-            // FIXME 
-            $required = false;
-            
-            $priceSet = self::getSetDetail( $form->_priceSetId, $required );
-            $form->_priceSet = CRM_Utils_Array::value( $form->_priceSetId, $priceSet );
-            $form->assign( 'priceSet',  $form->_priceSet );
-            $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
-            require_once 'CRM/Price/BAO/Field.php';                       
-            foreach ( $form->_priceSet['fields'] as $field ) {
-                $fieldId = $field['id'];
-                $elementName = 'price_' . $fieldId;
-                CRM_Price_BAO_Field::addQuickFormElement( $form, $elementName, $fieldId, false, $required );
-            }
+        $priceSetId = $form->get( 'priceSetId' ); 
+        if ( !$priceSetId ) return;
+        
+        // FIXME 
+        $required = false;
+        
+        $priceSet = self::getSetDetail( $priceSetId, $required );
+        $form->_priceSet = CRM_Utils_Array::value( $priceSetId, $priceSet );
+        $form->assign( 'priceSet',  $form->_priceSet );
+        require_once 'CRM/Price/BAO/Field.php';                       
+        foreach ( $form->_priceSet['fields'] as $field ) {
+            $fieldId = $field['id'];
+            $elementName = 'price_' . $fieldId;
+            CRM_Price_BAO_Field::addQuickFormElement( $form, $elementName, $fieldId, false, $required );
         }
     }
 }

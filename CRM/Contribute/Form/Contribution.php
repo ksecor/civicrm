@@ -502,9 +502,11 @@ WHERE  contribution_id = {$this->_id}
         }
         
         // build selected price set form.
-        if ( $this->_priceSetId ) {
+        if ( $this->_priceSetId || CRM_Utils_Array::value( 'price_set_id', $_POST ) ) {
             require_once 'CRM/Price/BAO/Set.php';
-            return CRM_Price_BAO_Set::buildPriceSet( $this );
+            if ( $this->_priceSetId ) $this->set( 'priceSetId', $this->_priceSetId );
+            CRM_Price_BAO_Set::buildPriceSet( $this );
+            if ( $this->_priceSetId ) return;
         }
         
         $showAdditionalInfo = false;
@@ -711,8 +713,8 @@ WHERE  contribution_id = {$this->_id}
         if ( !empty( $priceSets ) && !$this->_ppID ) {
             $hasPriceSets = true;
             $element = $this->add( 'select', 'price_set_id', ts( 'Choose your price' ),
-                                   array( '' => ts( '- none -' )) + $priceSets,
-                                   null, array('onchange' => "buildAmount( this.value );return showHideByValue('price_set_id', '', 'totalAmount', 'table-row', 'select', false);" ) );
+                                   array( '' => ts( '- Choose your price -' )) + $priceSets,
+                                   null, array('onchange' => "buildAmount( this.value );" ) );
         }
         $this->assign( 'hasPriceSets', $hasPriceSets );
         $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
