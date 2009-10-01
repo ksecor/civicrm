@@ -1320,6 +1320,7 @@ function civicrm_check_contact_dedupe( &$params ) {
     require_once 'CRM/Contact/BAO/Query.php';
     $locationFields = CRM_Contact_BAO_Query::$_locationSpecificFields;
     
+    $contactFormatted = array( );
     foreach ( $params as $key => $field ) {
         if ($field == null || $field === '') {
             continue;
