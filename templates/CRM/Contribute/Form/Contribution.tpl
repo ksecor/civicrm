@@ -297,8 +297,18 @@
 
 {literal}
 <script type="text/javascript" >
+
+ // load form during form rule.
+ {/literal}
+ {if $buildPriceSet}{literal}buildAmount( );{/literal}
+ {/if}
+ {literal}
+
+
 function buildAmount( priceSetId ) {
 
+  if ( !priceSetId ) priceSetId = cj("#price_set_id").val( );
+ 
   var fname = '#PriceSetFields';
   if ( !priceSetId ) {
       // hide price set fields.

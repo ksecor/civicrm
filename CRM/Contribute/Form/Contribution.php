@@ -501,13 +501,19 @@ WHERE  contribution_id = {$this->_id}
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
         
-        // build selected price set form.
+        // build price set form.
+        $buildPriceSet = false;
         if ( $this->_priceSetId || CRM_Utils_Array::value( 'price_set_id', $_POST ) ) {
+            $buildPriceSet = true;
             require_once 'CRM/Price/BAO/Set.php';
             if ( $this->_priceSetId ) $this->set( 'priceSetId', $this->_priceSetId );
             CRM_Price_BAO_Set::buildPriceSet( $this );
+            
+            // get only price set form elements.
             if ( $this->_priceSetId ) return;
         }
+        // use to build form during form rule.
+        $this->assign( 'buildPriceSet', $buildPriceSet );
         
         $showAdditionalInfo = false;
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
