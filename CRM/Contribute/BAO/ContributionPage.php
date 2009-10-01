@@ -213,6 +213,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             
             // set email in the template here
             $template->assign( 'email', $email );
+            $template->assign( 'receiptFromEmail', $values['receipt_from_email'] );
             $template->assign('contactID',   $contactID);
             $template->assign('contributionID',   $values['contribution_id']);
             if ( CRM_Utils_Array::value( 'membership_id', $values ) ) {
