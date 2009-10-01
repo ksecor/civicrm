@@ -47,6 +47,8 @@
 <style type="text/css">@import url({$config->resourceBase}packages/jquery/css/dataTable.css);></style>
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.dataTables.min.js"></script>
 
+<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.FormNavigate-min.js"></script>
+
 {* temporarily including calendar *}
 <style type="text/css">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>
 <script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script>
