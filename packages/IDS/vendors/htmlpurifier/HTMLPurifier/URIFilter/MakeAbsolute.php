@@ -51,12 +51,18 @@ class HTMLPurifier_URIFilter_MakeAbsolute extends HTMLPurifier_URIFilter
         }
         if ($uri->path === '') {
             $uri->path = $this->base->path;
-        }elseif ($uri->path[0] !== '/') {
+        } elseif ($uri->path[0] !== '/') {
             // relative path, needs more complicated processing
             $stack = explode('/', $uri->path);
             $new_stack = array_merge($this->basePathStack, $stack);
+            if ($new_stack[0] !== '' && !is_null($this->base->host)) {
+                array_unshift($new_stack, '');
+            }
             $new_stack = $this->_collapseStack($new_stack);
             $uri->path = implode('/', $new_stack);
+        } else {
+            // absolute path, but still we should collapse
+            $uri->path = implode('/', $this->_collapseStack(explode('/', $uri->path)));
         }
         // re-combine
         $uri->scheme = $this->base->scheme;
@@ -65,12 +71,13 @@ class HTMLPurifier_URIFilter_MakeAbsolute extends HTMLPurifier_URIFilter
         if (is_null($uri->port))     $uri->port     = $this->base->port;
         return true;
     }
-    
+
     /**
      * Resolve dots and double-dots in a path stack
      */
     private function _collapseStack($stack) {
         $result = array();
+        $is_folder = false;
         for ($i = 0; isset($stack[$i]); $i++) {
             $is_folder = false;
             // absorb an internally duplicated slash
@@ -104,3 +111,4 @@ class HTMLPurifier_URIFilter_MakeAbsolute extends HTMLPurifier_URIFilter
     }
 }
 
+// vim: et sw=4 sts=4

@@ -32,7 +32,7 @@
 // | Author: Richard Heyes <richard@php.net>                               | 
 // +-----------------------------------------------------------------------+ 
 // 
-// $Id: SASL.php,v 1.5 2006/03/22 05:20:11 amistry Exp $
+// $Id: SASL.php 286825 2009-08-05 06:23:42Z cweiske $
 
 /**
 * Client implementation of various SASL mechanisms 
@@ -73,6 +73,11 @@ class Auth_SASL
             case 'plain':
                 $filename  = 'Auth/SASL/Plain.php';
                 $classname = 'Auth_SASL_Plain';
+                break;
+
+            case 'external':
+                $filename  = 'Auth/SASL/External.php';
+                $classname = 'Auth_SASL_External';
                 break;
 
             case 'crammd5':

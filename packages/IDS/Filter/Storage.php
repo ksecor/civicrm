@@ -5,16 +5,20 @@
  * 
  * Requirements: PHP5, SimpleXML
  *
- * Copyright (c) 2007 PHPIDS group (http://php-ids.org)
+ * Copyright (c) 2008 PHPIDS group (http://php-ids.org)
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 2 of the license.
+ * PHPIDS is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 3 of the License, or 
+ * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * PHPIDS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with PHPIDS. If not, see <http://www.gnu.org/licenses/>.  
  *
  * PHP version 5.1.6+
  * 
@@ -93,14 +97,13 @@ class IDS_Filter_Storage
                 $init->config['Caching']['caching'] : 'none';
                 
             $type         = $init->config['General']['filter_type'];
-            $this->source = $init->config['General']['filter_path'];
+            $this->source = $init->getBasePath() 
+                . $init->config['General']['filter_path'];
 
             if ($caching && $caching != 'none') {
                 $this->cacheSettings = $init->config['Caching'];
                 include_once 'IDS/Caching/Factory.php';
-                $this->cache = IDS_Caching::factory($this->cacheSettings,
-                                                    'storage');
-
+                $this->cache = IDS_Caching::factory($init, 'storage');
             }
 
             switch ($type) {
@@ -369,9 +372,10 @@ class IDS_Filter_Storage
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

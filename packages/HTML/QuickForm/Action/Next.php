@@ -32,7 +32,7 @@ require_once 'HTML/QuickForm/Action.php';
  * @category    HTML
  * @package     HTML_QuickForm_Controller
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 1.0.8
+ * @version     Release: 1.0.9
  */
 class HTML_QuickForm_Action_Next extends HTML_QuickForm_Action
 {

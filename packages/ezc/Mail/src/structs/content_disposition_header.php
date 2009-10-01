@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.6
+ * @version 1.6.3
  * @filesource
  * @package Mail
  */
@@ -14,7 +14,7 @@
  * Use it for reading and setting the Content-Disposition header.
  *
  * @package Mail
- * @version 1.6
+ * @version 1.6.3
  */
 class ezcMailContentDispositionHeader extends ezcBaseStruct
 {
