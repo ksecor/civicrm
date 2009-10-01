@@ -51,6 +51,12 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
     {
         parent::setUp();
 
+        $op = new PHPUnit_Extensions_Database_Operation_Insert;
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/uf_group_test.xml')
+        );
+
         $params = array(
             'group_type' => 'Contact',
             'title'      => 'Test Profile',
@@ -275,11 +281,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      */
     public function testGetUFMatchID()
     {
-        $op = new PHPUnit_Extensions_Database_Operation_Insert;
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
-        );
         $ufMatchId = civicrm_uf_match_id_get(42);
         $this->assertEquals($ufMatchId, 69);
     }
@@ -295,11 +296,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      */
     public function testGetUFID()
     {
-        $op = new PHPUnit_Extensions_Database_Operation_Insert;
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
-        );
         $ufIdFetced = civicrm_uf_id_get(69);
         $this->assertEquals($ufIdFetced, 42);
     }
@@ -503,15 +499,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
 
     function testGroupCreate()
     {
-        $op = new PHPUnit_Extensions_Database_Operation_Insert;
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_XMLDataSet(dirname(__FILE__) . '/dataset/group_subscribers.xml')
-        );
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
-        );
         $params = array(
             'add_captcha'          => 1,
             'add_contact_to_group' => 2,
@@ -559,15 +546,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
 
     function testGroupUpdate()
     {
-        $op = new PHPUnit_Extensions_Database_Operation_Insert;
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_XMLDataSet(dirname(__FILE__) . '/dataset/group_subscribers.xml')
-        );
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
-        );
         $params = array(
             'add_captcha'          => 1,
             'add_contact_to_group' => 2,

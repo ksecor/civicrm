@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='utf-8' ?>
+<!-- a clean environment for the api_v2_UFGroupTest class -->
 <dataset>
+  <civicrm_group
+    id = '2'
+  />
   <civicrm_contact
     id = '69'
   />
