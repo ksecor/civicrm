@@ -710,26 +710,23 @@ WHERE  contribution_id = {$this->_id}
         $hasPriceSets = false;
         if ( !empty( $priceSets ) && !$this->_ppID ) {
             $hasPriceSets = true;
-            $element = $this->add( 'select', 'price_set_id', ts( 'Price Set' ),
+            $element = $this->add( 'select', 'price_set_id', ts( 'Choose your price' ),
                                    array( '' => ts( '- none -' )) + $priceSets,
                                    null, array('onchange' => "buildAmount( this.value );return showHideByValue('price_set_id', '', 'totalAmount', 'table-row', 'select', false);" ) );
-            $this->add( 'text', 'total_amount', ts('Total Amount'),
-                        $attributes['total_amount'] );
-        } else {
-            $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
-                                    $attributes['total_amount'], true );
-            $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
         }
+        $this->assign( 'hasPriceSets', $hasPriceSets );
+        $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
+                                $attributes['total_amount'], ($hasPriceSets)?false:true );
+        $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
         if ( $this->_online || $this->_ppID ) {
             $element->freeze( );
         }
-        $this->assign( 'hasPriceSets', $hasPriceSets );
         
         $element =& $this->add( 'text', 'source', ts('Source'), CRM_Utils_Array::value('source',$attributes) );
         if ( $this->_online ) {
             $element->freeze( );
         }
-
+        
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/contactlist",
                                           "reset=1&context=softcredit&id={$this->_id}",
                                           false, null, false );
@@ -740,7 +737,7 @@ WHERE  contribution_id = {$this->_id}
         if ( !$this->_mode ) {
             $js = array( 'onclick' => "return verify( );" );    
         }
-
+        
         require_once "CRM/Core/BAO/Preferences.php";
         $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
         $this->assign( 'outBound_option', $mailingInfo['outBound_option'] );
