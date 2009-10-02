@@ -32,5 +32,7 @@
   <civicrm_participant />
   <civicrm_phone />
   <civicrm_location_type />
+  <civicrm_uf_field />
+  <civicrm_uf_group />
   <civicrm_uf_match />
 </dataset>

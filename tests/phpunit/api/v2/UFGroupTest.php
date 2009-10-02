@@ -107,31 +107,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         );
     }
 
-
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
-    protected function tearDown()
-    {
-        if ($this->_ufFieldId) {
-            civicrm_uf_field_delete($this->_ufFieldId);
-            $this->_ufFieldId = NULL;
-        }
-
-        if ($this->_ufGroupId) {
-            civicrm_uf_group_delete($this->_ufGroupId);
-            $this->_ufGroupId = NULL;
-        }
-
-        if ($this->_individualID) {
-            $this->contactDelete($this->_individualID);
-            $this->_individualID = NULL;
-        }
-    }
-
     /**
      * fetch profile title by its id	
      */
@@ -486,7 +461,7 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
     public function testGetUFProfileGroups()
     {
         $ufProfileGroup = civicrm_uf_profile_groups_get();
-        $this->assertGreaterThan(1, count($ufProfileGroup), 'we should ship with more than one group by default');
+        $this->assertEquals(1, count($ufProfileGroup));
     }
 
     function testGroupCreate()
