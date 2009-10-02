@@ -7,6 +7,13 @@
   <civicrm_contact
     id = '69'
   />
+  <civicrm_uf_group
+    id         = '7'
+    group_type = 'Contact'
+    help_pre   = 'Profle to Test API'
+    is_active  = '1'
+    title      = 'Test Profile'
+  />
   <civicrm_uf_match
     contact_id = '69'
     domain_id  = '1'

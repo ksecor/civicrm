@@ -57,15 +57,7 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
             new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/uf_group_test.xml')
         );
 
-        $params = array(
-            'group_type' => 'Contact',
-            'title'      => 'Test Profile',
-            'help_pre'   => 'Profle to Test API',
-            'is_active'  => 1,
-        );
-
-        $ufGroup = civicrm_uf_group_create($params);
-        $this->_ufGroupId = $ufGroup['id'];
+        $this->_ufGroupId = 7;
 
         // FIXME: something NULLs $GLOBALS['_HTML_QuickForm_registered_rules'] when the tests are ran all together
         $GLOBALS['_HTML_QuickForm_registered_rules'] = array(
