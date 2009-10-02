@@ -291,8 +291,8 @@ function civicrm_uf_group_update($params, $groupId)
  */
 function civicrm_uf_field_create($groupId, $params)
 {
-    if (!is_array($params) or empty($params) or !isset($params['field_name']) or (int) $groupId < 1) {
-        return civicrm_create_error('Params must be a non-empty array and a positive integer.');
+    if (!is_array($params) or !isset($params['field_name']) or (int) $groupId < 1) {
+        return civicrm_create_error('Params must be a field_name-carrying array and a positive integer.');
     }
 
     _civicrm_initialize( );
