@@ -84,12 +84,34 @@ class CRM_Core_Block {
 
         if (!(self::$_properties)) {
             self::$_properties = array(
+                                       self::RECENTLY_VIEWED => array(  'template'   => 'RecentlyViewed.tpl',
+                                                                         'info'       => ts('CiviCRM Recent Items'),
+                                                                         'subject'    => ts('Recent Items'),
+                                                                         'active'     => true,
+                                                                         'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                         'visibility' => 1,
+                                                                         'weight'     => -100,
+                                                                         'status'     => 1,
+                                                                         'pages'      => 'civicrm*',
+                                                                         'region'     => 'left' ),                
                                        self::CREATE_NEW   => array( 'template'   => 'CreateNew.tpl',
                                                                    'info'       => ts('CiviCRM Create New Record'),
                                                                    'subject'    => ts(''),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
+                                                                   'weight'     => -99,
+                                                                   'status'     => 1,
+                                                                   'pages'      => 'civicrm*',
+                                                                   'region'     => 'left' ),
+                                       self::DASHBOARD   => array( 'template'   => 'Dashboard.tpl',
+                                                                   'info'       => ts('CiviCRM Dashboard'),
+                                                                   'subject'    => '',
+                                                                   'active'     => true,
+                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                   'visibility' => 1,
+                                                                   'weight'     => -98,
+                                                                   'status'     => 1,
                                                                    'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
                                        self::ADD         => array( 'template'   => 'Add.tpl',
@@ -98,6 +120,8 @@ class CRM_Core_Block {
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
+                                                                   'weight'     => -97,
+                                                                   'status'     => 1,
                                                                    'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
                                        self::LANGSWITCH  => array( 'template'   => 'LangSwitch.tpl',
@@ -107,6 +131,8 @@ class CRM_Core_Block {
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
+                                                                   'weight'     => -96,
+                                                                   'status'     => 1,
                                                                    'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
                                        self::EVENT      => array( 'template'   => 'Event.tpl',
@@ -116,6 +142,8 @@ class CRM_Core_Block {
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
+                                                                   'weight'     => -95,
+                                                                   'status'     => 0,
                                                                    'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
                                        self::FULLTEXT_SEARCH => array(  'template'   => 'FullTextSearch.tpl',
@@ -124,26 +152,13 @@ class CRM_Core_Block {
                                                                         'active'     => true,
                                                                         'cache'      => BLOCK_CACHE_GLOBAL,
                                                                         'visibility' => 1,
+                                                                        'weight'     => -94,
+                                                                        'status'     => 0,
                                                                         'pages'      => 'civicrm*',
-                                                                        'region'     => 'left' ),
-                                       self::RECENTLY_VIEWED => array(  'template'   => 'RecentlyViewed.tpl',
-                                                                        'info'       => ts('CiviCRM Recent Items'),
-                                                                        'subject'    => ts('Recent Items'),
-                                                                        'active'     => true,
-                                                                        'cache'      => BLOCK_CACHE_GLOBAL,
-                                                                        'visibility' => 1,
-                                                                        'pages'      => 'civicrm*',
-                                                                        'region'     => 'left' ),
-                                       self::DASHBOARD   => array( 'template'   => 'Dashboard.tpl',
-                                                                   'info'       => ts('CiviCRM Dashboard'),
-                                                                   'subject'    => '',
-                                                                   'active'     => true,
-                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
-                                                                   'visibility' => 1,
-                                                                   'pages'      => 'civicrm*',
-                                                                   'region'     => 'left' ),
+                                                                        'region'     => 'left' )
                                        );
-
+        
+            ksort(self::$_properties);
         }
     }
 
@@ -223,6 +238,8 @@ class CRM_Core_Block {
                                      'region'     => $value['region']    ,
                                      'visibility' => $value['visibility'],
                                      'pages'      => $value['pages']     ,
+                                     'status'     => $value['status']    ,
+                                     'weight'     => $value['weight']    
                                      );
             }
         }
