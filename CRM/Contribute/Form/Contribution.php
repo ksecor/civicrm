@@ -718,8 +718,8 @@ WHERE  contribution_id = {$this->_id}
         $hasPriceSets = false;
         if ( !empty( $priceSets ) && !$this->_ppID ) {
             $hasPriceSets = true;
-            $element = $this->add( 'select', 'price_set_id', ts( 'Choose your price' ),
-                                   array( '' => ts( '- Choose your price -' )) + $priceSets,
+            $element = $this->add( 'select', 'price_set_id', ts( 'Choose price set' ),
+                                   array( '' => ts( 'Choose price set' )) + $priceSets,
                                    null, array('onchange' => "buildAmount( this.value );" ) );
         }
         $this->assign( 'hasPriceSets', $hasPriceSets );
