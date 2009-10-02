@@ -36,17 +36,11 @@ require_once 'api/v2/UFJoin.php';
  */
 class api_v2_UFGroupTest extends CiviUnitTestCase
 {
-
-    protected $_ufGroupId;
+    // ids from the uf_group_test.xml fixture
+    protected $_ufGroupId = 7;
     protected $_ufFieldId;
-    protected $_individualID;
+    protected $_contactId = 69;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp()
     {
         parent::setUp();
@@ -56,8 +50,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
             $this->_dbconn,
             new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/uf_group_test.xml')
         );
-
-        $this->_ufGroupId = 7;
 
         // FIXME: something NULLs $GLOBALS['_HTML_QuickForm_registered_rules'] when the tests are ran all together
         $GLOBALS['_HTML_QuickForm_registered_rules'] = array(
@@ -110,7 +102,7 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
     /**
      * fetch profile title by its id	
      */
-    public function testGetUFProfileTitle()
+    function testGetUFProfileTitle()
     {
         $ufProfile = civicrm_uf_profile_title_get($this->_ufGroupId);
         $this->assertEquals($ufProfile, 'Test Profile');
@@ -129,45 +121,43 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
     }
 
     /**
-     * fetch profile html by contact id and profile title
+     * fetch profile HTML by contact id and profile title
      */
-    public function testGetUFProfileHTML()
+    function testGetUFProfileHTML()
     {
-        $this->_individualID = $this->individualCreate();
-        $profileHTML         = civicrm_uf_profile_html_get($this->_individualID, 'Test Profile');
+        $profileHTML = civicrm_uf_profile_html_get($this->_contactId, 'Test Profile');
+        // FIXME: the below does not really test anything
         $this->assertNotNull($profileHTML);
     }
 
     function testGetUFProfileHTMLWithWrongParams()
     {
-        $this->_individualID = $this->individualCreate();
-        $result = civicrm_uf_profile_html_get($this->_individualID, 42);
+        $result = civicrm_uf_profile_html_get($this->_contactId, 42);
         $this->assertEquals($result['is_error'], 1);
         $result = civicrm_uf_profile_html_get('a string', 'Test Profile');
         $this->assertEquals($result['is_error'], 1);
     }
 
     /**
-     * fetch profile html by contact id and profile id
+     * fetch profile HTML by contact id and profile id
      */
-    public function testGetUFProfileHTMLById()
+    function testGetUFProfileHTMLById()
     {
-        $this->_individualID = $this->individualCreate();
-        $profileHTML         = civicrm_uf_profile_html_by_id_get($this->_individualID, $this->_ufGroupId);
+        $profileHTML = civicrm_uf_profile_html_by_id_get($this->_contactId, $this->_ufGroupId);
+        // FIXME: the below does not really test anything
         $this->assertNotNull($profileHTML);
     }
 
     function testGetUFProfileHTMLByIdWithWrongParams()
     {
-        $this->_individualID = $this->individualCreate();
         $result = civicrm_uf_profile_html_by_id_get('a string', $this->_ufGroupId);
         $this->assertEquals($result['is_error'], 1);
-        $result = civicrm_uf_profile_html_by_id_get($this->_individualID, 'a string');
+        $result = civicrm_uf_profile_html_by_id_get($this->_contactId, 'a string');
         $this->assertEquals($result['is_error'], 1);
     }
 
     /**
-     * fetch profile html with group id
+     * fetch profile HTML with group id
      */
     public function testGetUFProfileCreateHTML()
     {
@@ -370,8 +360,7 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      */
     public function testValidateProfileHTML()
     {
-        $this->_individualID = $this->individualCreate();
-        $result              = civicrm_profile_html_validate($this->_individualID, 'Test Profile');
+        $result = civicrm_profile_html_validate($this->_contactId, 'Test Profile');
         $this->assertEquals($result, true);
     }
 
