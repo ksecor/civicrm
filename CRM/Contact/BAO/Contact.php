@@ -1186,6 +1186,8 @@ AND    civicrm_contact.id = %1";
                 //special case to handle profile with only contact fields
                 if ( $data['contact_type'] == 'Contact' ) {
                     $data['contact_type'] = 'Individual';
+                } else if ( CRM_Contact_BAO_ContactType::isaSubType( $data['contact_type'] ) ) {
+                    $data['contact_type'] = CRM_Contact_BAO_ContactType::getBasicType( $data['contact_type'] );
                 }
             } else if ( $ctype ) {
                 $data['contact_type'] = $ctype;

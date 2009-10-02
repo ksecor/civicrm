@@ -166,4 +166,23 @@ AND   ( p.is_active = 1 OR p.id IS NULL )
         return in_array( $subType, 
                          CRM_Core_PseudoConstant::contactSubTypes( null, false, true ) );
     }
+
+    static function getBasicType( $subType ) {
+        static $_cache = null;
+        if ( $_cache === null ) {
+            $_cache = array( );
+        }
+
+        if ( ! array_key_exists( $subType, $_cache ) ) {
+            $sql = "
+SELECT name
+FROM   civicrm_contact_type
+WHERE  id = ( SELECT parent_id FROM civicrm_contact_type WHERE name = %1 )
+";
+            
+            $params = array( 1 => array( $subType, 'String' ) );
+            $_cache[$subType] = CRM_Core_DAO::singleValueQuery( $sql, $params );
+        }
+        return $_cache[$subType];
+    }
 }

@@ -278,12 +278,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $contactSubType = CRM_Core_PseudoConstant::contactSubTypes();
 
         foreach ( $contactSubType as $val ) {
-            //unset main sub type
-            if ( in_array( $val,  array('Individual', 'Household', 'Organization' ) ) ) {
-                unset($contactSubType[$val]);
-                continue;
-            }
-
             //custom fields for sub type
             $subTypeFields[$val] = CRM_Core_BAO_CustomField::getFieldsForImport( $val );
 
