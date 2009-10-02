@@ -353,12 +353,9 @@ function fileOnCase() {
           }
      }
 
-     // detect if form has changed
-     cj( function( ) {
-         cj("#Activity").FormNavigate("Leaving the page will lost in unsaved data!"); 
-     });
-
 </script>
 {/literal}
+
+{include file="CRM/common/formNavigate.tpl"}
 
 {/if} {* end of snippet if*}	
