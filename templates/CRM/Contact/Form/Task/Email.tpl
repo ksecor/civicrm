@@ -105,3 +105,4 @@ cj( "#bcc_id" ).tokenInput( sourceDataUrl, { prePopulate: bccContact, classes: t
 cj( 'ul.token-input-list-facebook, div.token-input-dropdown-facebook' ).css( 'width', '450px' );
 </script>
 {/literal}
+{include file="CRM/common/formNavigate.tpl"}
