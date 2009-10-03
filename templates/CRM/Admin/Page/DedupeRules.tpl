@@ -10,13 +10,15 @@
         <div id="browseValues">
           <div class="form-item">
             {strip}
-              <table>
-                <thead class="sticky">
+              <table id="options" class="display">
+                <thead>
+                <tr>
                   <th>{ts}Name{/ts}</th>
                   <th>{ts}Contact Type{/ts}</th>
-                  <th>{ts}Level{/ts}</th>
+                  <th id="sortable">{ts}Level{/ts}</th>
                   <th>{ts}Default?{/ts}</th>
                   <th></th>
+                </tr>
                 </thead>
                 {foreach from=$rows item=row}
                   <tr class="{cycle values="odd-row,even-row"}">
@@ -43,3 +45,27 @@
         </div>
 
 {/if}
+
+{literal}
+<script type="text/javascript">
+    cj( function( ) {
+        var id = count = 0;
+        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
+        cj('#options').dataTable( {
+            "aaSorting": [[ id, "asc" ]],
+            "bPaginate": false,
+    		"bLengthChange": false,
+    		"bFilter": false,
+    		"bInfo": false,
+    		"bAutoWidth": false,
+    		"aoColumns": [
+    		            { "bSortable": false },
+    		            null,
+    		            null,
+            			{ "bSortable": false },
+            			{ "bSortable": false }
+            		]
+        } );        
+    });
+</script>
+{/literal}

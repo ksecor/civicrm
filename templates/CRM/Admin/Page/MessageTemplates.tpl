@@ -14,12 +14,14 @@
         {strip}
 	{* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
-        <table cellpadding="0" cellspacing="0" border="0">
-        <thead class="sticky">
-            <th>{ts}Message Title{/ts}</th>
+        <table id="options" class="display">
+        <thead>
+        <tr>
+            <th id="sortable">{ts}Message Title{/ts}</th>
             <th>{ts}Message Subject{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
  	        <th></th>	
+        </tr>
         </thead>
         {foreach from=$rows item=row}
         <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
@@ -49,3 +51,26 @@
     </div>    
   {/if}
 {/if}
+
+{literal}
+<script type="text/javascript">
+    cj( function( ) {
+        var id = count = 0;
+        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
+        cj('#options').dataTable( {
+            "aaSorting": [[ id, "asc" ]],
+            "bPaginate": false,
+    		"bLengthChange": false,
+    		"bFilter": false,
+    		"bInfo": false,
+    		"bAutoWidth": false,
+    		"aoColumns": [
+    		            null,
+            			{ "bSortable": false },
+                        null,
+            			{ "bSortable": false }
+            		]
+        } );        
+    });
+</script>
+{/literal}
