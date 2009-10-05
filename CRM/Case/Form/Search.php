@@ -481,8 +481,15 @@ class CRM_Case_Form_Search extends CRM_Core_Form
             $this->_defaults['case_start_date_high'  ] = $date;
         }
 
-        if ( !$all = CRM_Utils_Request::retrieve( 'all', 'Positive', $this ) ) {
+        $session = & CRM_Core_Session::singleton();
+
+        if ( !CRM_Utils_Request::retrieve( 'all', 'Positive', $session ) ) {
             $this->_formValues['case_mycases'] = 0;
+            $this->_formValues['case_owner'] = 0;
+            $this->_defaults['case_owner']   = 0;
+        } else {
+            $this->_formValues['case_owner'] = 1;
+            $this->_defaults['case_owner']   = 1;
         }
 
         $caseOwner = CRM_Utils_Request::retrieve( 'case_owner', 'Boolean',

@@ -36,30 +36,20 @@ require_once 'api/v2/UFJoin.php';
  */
 class api_v2_UFGroupTest extends CiviUnitTestCase
 {
-
-    protected $_ufGroupId;
+    // ids from the uf_group_test.xml fixture
+    protected $_ufGroupId = 7;
     protected $_ufFieldId;
-    protected $_individualID;
+    protected $_contactId = 69;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp()
     {
         parent::setUp();
 
-        $params = array(
-            'group_type' => 'Contact',
-            'title'      => 'Test Profile',
-            'help_pre'   => 'Profle to Test API',
-            'is_active'  => 1,
+        $op = new PHPUnit_Extensions_Database_Operation_Insert;
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/uf_group_test.xml')
         );
-
-        $ufGroup = civicrm_uf_group_create($params);
-        $this->_ufGroupId = $ufGroup['id'];
 
         // FIXME: something NULLs $GLOBALS['_HTML_QuickForm_registered_rules'] when the tests are ran all together
         $GLOBALS['_HTML_QuickForm_registered_rules'] = array(
@@ -109,35 +99,10 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         );
     }
 
-
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
-    protected function tearDown()
-    {
-        if ($this->_ufFieldId) {
-            civicrm_uf_field_delete($this->_ufFieldId);
-            $this->_ufFieldId = NULL;
-        }
-
-        if ($this->_ufGroupId) {
-            civicrm_uf_group_delete($this->_ufGroupId);
-            $this->_ufGroupId = NULL;
-        }
-
-        if ($this->_individualID) {
-            $this->contactDelete($this->_individualID);
-            $this->_individualID = NULL;
-        }
-    }
-
     /**
      * fetch profile title by its id	
      */
-    public function testGetUFProfileTitle()
+    function testGetUFProfileTitle()
     {
         $ufProfile = civicrm_uf_profile_title_get($this->_ufGroupId);
         $this->assertEquals($ufProfile, 'Test Profile');
@@ -156,45 +121,43 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
     }
 
     /**
-     * fetch profile html by contact id and profile title
+     * fetch profile HTML by contact id and profile title
      */
-    public function testGetUFProfileHTML()
+    function testGetUFProfileHTML()
     {
-        $this->_individualID = $this->individualCreate();
-        $profileHTML         = civicrm_uf_profile_html_get($this->_individualID, 'Test Profile');
+        $profileHTML = civicrm_uf_profile_html_get($this->_contactId, 'Test Profile');
+        // FIXME: the below does not really test anything
         $this->assertNotNull($profileHTML);
     }
 
     function testGetUFProfileHTMLWithWrongParams()
     {
-        $this->_individualID = $this->individualCreate();
-        $result = civicrm_uf_profile_html_get($this->_individualID, 42);
+        $result = civicrm_uf_profile_html_get($this->_contactId, 42);
         $this->assertEquals($result['is_error'], 1);
         $result = civicrm_uf_profile_html_get('a string', 'Test Profile');
         $this->assertEquals($result['is_error'], 1);
     }
 
     /**
-     * fetch profile html by contact id and profile id
+     * fetch profile HTML by contact id and profile id
      */
-    public function testGetUFProfileHTMLById()
+    function testGetUFProfileHTMLById()
     {
-        $this->_individualID = $this->individualCreate();
-        $profileHTML         = civicrm_uf_profile_html_by_id_get($this->_individualID, $this->_ufGroupId);
+        $profileHTML = civicrm_uf_profile_html_by_id_get($this->_contactId, $this->_ufGroupId);
+        // FIXME: the below does not really test anything
         $this->assertNotNull($profileHTML);
     }
 
     function testGetUFProfileHTMLByIdWithWrongParams()
     {
-        $this->_individualID = $this->individualCreate();
         $result = civicrm_uf_profile_html_by_id_get('a string', $this->_ufGroupId);
         $this->assertEquals($result['is_error'], 1);
-        $result = civicrm_uf_profile_html_by_id_get($this->_individualID, 'a string');
+        $result = civicrm_uf_profile_html_by_id_get($this->_contactId, 'a string');
         $this->assertEquals($result['is_error'], 1);
     }
 
     /**
-     * fetch profile html with group id
+     * fetch profile HTML with group id
      */
     public function testGetUFProfileCreateHTML()
     {
@@ -275,11 +238,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      */
     public function testGetUFMatchID()
     {
-        $op = new PHPUnit_Extensions_Database_Operation_Insert;
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
-        );
         $ufMatchId = civicrm_uf_match_id_get(42);
         $this->assertEquals($ufMatchId, 69);
     }
@@ -295,11 +253,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      */
     public function testGetUFID()
     {
-        $op = new PHPUnit_Extensions_Database_Operation_Insert;
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
-        );
         $ufIdFetced = civicrm_uf_id_get(69);
         $this->assertEquals($ufIdFetced, 42);
     }
@@ -351,7 +304,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         $params = array(
             'field_name'       => 'country',
             'label'            => 'Edited Test Country',
-            'location_type_id' => 1,
             'weight'           => 1,
             'is_active'        => 1,
         );
@@ -362,6 +314,21 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
         }
     }
 
+    function testCreateUFFieldWithEmptyParams()
+    {
+        $result = civicrm_uf_field_create($this->_ufGroupId, array());
+        $this->assertEquals($result['is_error'], 1);
+    }
+
+    function testCreateUFFieldWithWrongParams()
+    {
+        $result = civicrm_uf_field_create('a string', array('field_name' => 'test field'));
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_field_create($this->_ufGroupId, 'a string');
+        $this->assertEquals($result['is_error'], 1);
+        $result = civicrm_uf_field_create($this->_ufGroupId, array('label' => 'name-less field'));
+        $this->assertEquals($result['is_error'], 1);
+    }
 
     /**
      * deleting field
@@ -393,8 +360,7 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
      */
     public function testValidateProfileHTML()
     {
-        $this->_individualID = $this->individualCreate();
-        $result              = civicrm_profile_html_validate($this->_individualID, 'Test Profile');
+        $result = civicrm_profile_html_validate($this->_contactId, 'Test Profile');
         $this->assertEquals($result, true);
     }
 
@@ -484,20 +450,11 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
     public function testGetUFProfileGroups()
     {
         $ufProfileGroup = civicrm_uf_profile_groups_get();
-        $this->assertGreaterThan(1, count($ufProfileGroup), 'we should ship with more than one group by default');
+        $this->assertEquals(1, count($ufProfileGroup));
     }
 
     function testGroupCreate()
     {
-        $op = new PHPUnit_Extensions_Database_Operation_Insert;
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_XMLDataSet(dirname(__FILE__) . '/dataset/group_subscribers.xml')
-        );
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
-        );
         $params = array(
             'add_captcha'          => 1,
             'add_contact_to_group' => 2,
@@ -545,15 +502,6 @@ class api_v2_UFGroupTest extends CiviUnitTestCase
 
     function testGroupUpdate()
     {
-        $op = new PHPUnit_Extensions_Database_Operation_Insert;
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_XMLDataSet(dirname(__FILE__) . '/dataset/group_subscribers.xml')
-        );
-        $op->execute(
-            $this->_dbconn,
-            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/civicrm_uf_match.xml')
-        );
         $params = array(
             'add_captcha'          => 1,
             'add_contact_to_group' => 2,

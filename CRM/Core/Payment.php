@@ -57,6 +57,15 @@ abstract class CRM_Core_Payment {
         PAYMENT_TYPE_DIRECT_DEBIT = 2;
 
     /**
+     * Subscription / Recurring payment Status
+     * START, END
+     * 
+     */
+    const    
+        RECURRING_PAYMENT_START = 'START',
+        RECURRING_PAYMENT_END   = 'END';
+
+    /**
      * We only need one instance of this object. So we use the singleton
      * pattern and cache the instance in this variable
      *

@@ -488,30 +488,11 @@ abstract class CRM_Activity_Import_Parser
     {
         $params = array( );
         for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
-            if ( isset( $this->_activeFields[$i]->_value ) ) {
-                if (isset( $this->_activeFields[$i]->_hasLocationType)) {
-                    if (! isset($params[$this->_activeFields[$i]->_name])) {
-                        $params[$this->_activeFields[$i]->_name] = array();
-                    }
-                    
-                    $value = array(
-                        $this->_activeFields[$i]->_name => 
-                                $this->_activeFields[$i]->_value,
-                        'location_type_id' => 
-                                $this->_activeFields[$i]->_hasLocationType);
-                    
-                    if (isset( $this->_activeFields[$i]->_phoneType)) {
-                        $value['phone_type'] =
-                            $this->_activeFields[$i]->_phoneType;
-                    }
-                    
-                    $params[$this->_activeFields[$i]->_name][] = $value;
-                }
-                if (!isset($params[$this->_activeFields[$i]->_name])) {
-                    if ( !isset($this->_activeFields[$i]->_related) ) {
-                        $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
-                    }
-                }
+            if ( isset( $this->_activeFields[$i]->_value )
+                 && !isset( $params[$this->_activeFields[$i]->_name] )
+                 && !isset( $this->_activeFields[$i]->_related ) ) {
+                
+                $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
             }
         }
         return $params;

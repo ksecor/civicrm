@@ -652,6 +652,10 @@ class CRM_Core_Payment_BaseIPN {
                                                            $objects['paymentProcessor'] );
             $url = $paymentObject->cancelSubscriptionURL( );
             $template->assign( 'cancelSubscriptionUrl', $url );
+            if ( $objects['paymentProcessor']['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) {
+                //direct mode showing billing block, so use directIPN for temporary
+                $template->assign( 'contributeMode', 'directIPN' );
+            }            
         }
         
         require_once 'CRM/Utils/Address.php';

@@ -70,7 +70,6 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         
         // create location blocks.
         foreach ( self::$blocks as $block ) {
-            $name = ucfirst( $block );
             if ( $block != 'address' ) {
                 eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $params, $entity );');
             } else {

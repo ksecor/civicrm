@@ -57,10 +57,6 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
 
     function tearDown( ) 
     {
-        $this->membershipStatusDelete( $this->_membershipStatusID ); 
-        $this->membershipTypeDelete  ( $this->_membershipTypeID   );
-        
-        $this->contactDelete         ( $this->_contactID          ) ;
     }
 
 ///////////////// civicrm_membership_status_create methods
@@ -152,22 +148,27 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
     
     function testCalculateStatus( )
     {
+        $join_date = new DateTime();
+        $start_date = new DateTime();
+        $end_date = new DateTime();
+        $join_date->modify("-5 months");
+        $start_date->modify("-5 months");
+        $end_date->modify("+7 months");
+
         $params = array( 'contact_id'         => $this->_contactID, 
                          'membership_type_id' => $this->_membershipTypeID,
                          'membership_status_id' => $this->_membershipStatusID,
-                         'join_date'   => '2007-06-14',
-                         'start_date'  => '2007-06-14',
-                         'end_date'    => '2008-06-13' );
-
+                         'join_date'   => $join_date->format('Y-m-d'),
+                         'start_date'  => $start_date->format('Y-m-d'),
+                         'end_date'    => $end_date->format('Y-m-d') );
+                         
         $membershipID = $this->contactMembershipCreate( $params );
-        
         $membershipStatusID = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_Membership',$membershipID,'status_id');
         $calcParams = array( 'membership_id' => $membershipID );
         $result = civicrm_membership_status_calc( $calcParams );
         $this->assertEquals( $result['is_error'], 0 );
         $this->assertEquals( $membershipStatusID,$result['id'] );
         $this->assertNotNull( $result['id'] );
-        $this->membershipDelete( $membershipID );
     }
 
 ///////////////// civicrm_membership_status_delete methods

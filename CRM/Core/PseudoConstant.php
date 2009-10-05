@@ -366,6 +366,21 @@ class CRM_Core_PseudoConstant
     }
 
     /**
+     * Flush given pseudoconstant so it can be reread from db
+     * nex time it's requested.
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $name pseudoconstant to be flushed
+     *
+     */
+    public static function flush( $name )
+    {
+        self::$$name = null;
+    }
+
+    /**
      * Get all location types.
      *
      * The static array locationType is returned

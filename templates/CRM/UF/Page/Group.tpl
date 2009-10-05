@@ -33,12 +33,12 @@
         {strip}
         {* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
-      <table class="selector">
-        <thead class="sticky">
+      <table id="options" class="display">
+        <thead>
           <tr>
             <th>{ts}Profile Title{/ts}</th>
             <th>{ts}Type{/ts}</th>
-            <th>{ts}ID{/ts}</th>
+            <th id="sortable">{ts}ID{/ts}</th>
             <th>{ts}Used For{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th>{ts}Reserved{/ts}</th>
@@ -76,3 +76,29 @@
     {/if}
     {/if}
 {/if}
+
+{literal}
+<script type="text/javascript">
+    cj( function( ) {
+        var id = count = 0;
+        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
+        cj('#options').dataTable( {
+            "aaSorting": [[ id, "asc" ]],
+            "bPaginate": false,
+    		"bLengthChange": false,
+    		"bFilter": false,
+    		"bInfo": false,
+    		"bAutoWidth": false,
+    		"aoColumns": [
+    		            null,
+    		            null,
+    		            null,
+            			{ "bSortable": false },
+                        null,
+            			null,
+            			{ "bSortable": false }
+            		]
+        } );        
+    });
+</script>
+{/literal}
