@@ -406,7 +406,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         // profile types
         $contactTypes = array( 'Contact', 'Individual', 'Household', 'Organization', 'Student' );
         $contactTypes = array_merge( $contactTypes, 
-                                     CRM_Core_PseudoConstant::contactSubTypes( null, false, true ) );
+                                     CRM_Contact_BAO_ContactType::subTypes( ) );
         $components   = array( 'Contribution', 'Participant', 'Membership' );
 
         require_once 'CRM/Core/DAO/UFGroup.php';
@@ -498,7 +498,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $groupType    = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $ufGroupId, 'group_type' );
         $profileTypes = $groupType ? explode( ',',  $groupType ) : array( );
 
-        $subTypes     = CRM_Core_PseudoConstant::contactSubTypes( $contactType, false, true );
+        $subTypes     = CRM_Contact_BAO_ContactType::subTypes( $contactType );
         $profileTypes = array_values( array_intersect($profileTypes, $subTypes) );
 
         if ( $returnMultiple && ! empty( $profileTypes ) ) {

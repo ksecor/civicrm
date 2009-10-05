@@ -168,8 +168,7 @@ SELECT f.id, f.label, f.data_type,
             $extends =& CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $dao->custom_group_id, 'extends' );
             if ( array_key_exists( $extends, self::$extendsMap ) ) { 
                 $extendsTable = self::$extendsMap[$extends];
-            } else if ( in_array( $extends, 
-                                  CRM_Core_PseudoConstant::contactSubTypes( null, false, true ) ) ) {
+            } else if ( in_array( $extends, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
                 // if $extends is a subtype, refer contact table
                 $extendsTable = self::$extendsMap['Contact'];
             }

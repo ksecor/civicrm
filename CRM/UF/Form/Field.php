@@ -275,7 +275,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
 
         //Contact Sub Type For Profile
         require_once 'CRM/Core/PseudoConstant.php';
-        $contactSubType = CRM_Core_PseudoConstant::contactSubTypes();
+        $contactSubType = CRM_Contact_BAO_ContactType::subTypes( );
 
         foreach ( $contactSubType as $val ) {
             //custom fields for sub type

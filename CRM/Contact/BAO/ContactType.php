@@ -67,11 +67,13 @@ WHERE  parent_id IS NULL
                 $_cache[$argString][$dao->name] = $value;
             }
         }
+        CRM_Core_Error::debug( '$argString', $argString );
+        CRM_Core_Error::debug( '$_cache', $_cache );
         return $_cache[$argString];
     }
 
 
-    static function &getSubType( $contactType, $all = false ) {
+    static function &subTypeInfo( $contactType = null, $all = false ) {
         static $_cache = null;
 
         if ( $_cache === null ) {
@@ -82,20 +84,27 @@ WHERE  parent_id IS NULL
         if ( ! isset( $_cache[$argString] ) ) {
             $_cache[$argString] = array( );
 
+            if ( $contactType && !is_array( $contactType ) ) {
+                $contactType = array( $contactType );
+            }
+
+            $ctWHERE = '';
+            if ( ! empty($contactType) ) {
+                $ctWHERE = " AND parent_id IN ( SELECT id FROM civicrm_contact_type WHERE name IN ('" . 
+                    implode( "','" , $contactType ) . "')" ;
+            }
+
             $sql = "
 SELECT *
 FROM   civicrm_contact_type
-WHERE  parent_id = ( SELECT id FROM civicrm_contact_type WHERE name = %1 )
+WHERE  name IS NOT NULL AND parent_id IS NOT NULL {$ctWHERE}
 ";
             if ( $all === false ) {
                 $sql .= " AND is_active = 1";
             }
             
-            $params = array( 1 => array( $contactType, 'String' ) );
-            $dao = CRM_Core_DAO::executeQuery( $sql,
-                                               $params,
-                                               false,
-                                               'CRM_Contact_DAO_ContactType' );
+            $dao = CRM_Core_DAO::executeQuery( $sql, array( ), 
+                                               false, 'CRM_Contact_DAO_ContactType' );
             while ( $dao->fetch( ) ) {
                 $value = array( );
                 CRM_Core_DAO::storeValues( $dao, $value );
@@ -103,6 +112,20 @@ WHERE  parent_id = ( SELECT id FROM civicrm_contact_type WHERE name = %1 )
             }
         }
         return $_cache[$argString];
+    }
+
+    static function subTypes( $contactType = null, $all = false ) {
+        return array_keys( self::subTypeInfo( $contactType, $all ) );
+    }
+
+    static function subTypePairs( $contactType = null, $all = false ) {
+        $subtypes = self::subTypeInfo( $contactType, $all );
+
+        $pairs = array( );
+        foreach ( $subtypes as $name => $info ) {
+            $pairs[$name] = $info['label'];
+        }
+        return $pairs;
     }
 
     static function &getSelectElements( $all = false ) {
@@ -163,8 +186,7 @@ AND   ( p.is_active = 1 OR p.id IS NULL )
     }
 
     static function isaSubType( $subType ) {
-        return in_array( $subType, 
-                         CRM_Core_PseudoConstant::contactSubTypes( null, false, true ) );
+        return in_array( $subType, self::subTypes( ) );
     }
 
     static function getBasicType( $subType ) {
@@ -184,5 +206,14 @@ WHERE  id = ( SELECT parent_id FROM civicrm_contact_type WHERE name = %1 )
             $_cache[$subType] = CRM_Core_DAO::singleValueQuery( $sql, $params );
         }
         return $_cache[$subType];
+    }
+
+    static function suppressSubTypes( &$subTypes ) {
+        $subTypes = array_diff( $subTypes, self::subTypes( ) );
+        return $subTypes;
+    }
+
+    static function isExtendsContactType( $subType, $contactType ) {
+        return in_array( $subType, self::subTypes( $contactType ) );
     }
 }

@@ -374,7 +374,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                         $value = "'" . CRM_Utils_Type::escape($customDataType, 'String') . "'";
                     }
                     // consider subtypes if any
-                    $contactSubTypes = CRM_Core_PseudoConstant::contactSubTypes( $form->_type );
+                    $contactSubTypes = CRM_Contact_BAO_ContactType::subTypes( $form->_type );
                     if ( !empty($contactSubTypes) ) {
                         $value .= ", '" . implode("','", array_keys($contactSubTypes)) . "'";
                     }
