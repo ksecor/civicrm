@@ -189,17 +189,6 @@ class api_v2_RelationshipTest extends CiviUnitTestCase
         $params['id'] = $result['result']['id'] ; 
         $result = & civicrm_relationship_delete( $params );
         $this->relationshipTypeDelete( $this->_relTypeID ); 
-        if ( $this->_customFieldId ) {
-            $this->customFieldDelete( $this->_customFieldId );
-        }
-        
-        if ( $this->_ids ) {
-            //deleting custom fields
-            foreach ( $this->_ids as $id ){
-                $this->customFieldDelete( $id );
-            }
-        }
-        $this->customGroupDelete( $this->_customGroupId );
     }
 
     function createCustomGroup( )

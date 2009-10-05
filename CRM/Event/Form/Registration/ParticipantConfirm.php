@@ -105,7 +105,7 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
         require_once 'CRM/Event/PseudoConstant.php';
         // only pending status class family able to confirm.
         
-        $statusMsg = ts( "Oops, it looks like your registration for %1 has already been cancelled.", array(1 => $values['title']) );
+        $statusMsg = null;
         if ( array_key_exists( $this->_participantStatusId, 
                                CRM_Event_PseudoConstant::participantStatus( null, "class = 'Pending'" ) ) ) {
 
@@ -140,6 +140,10 @@ class CRM_Event_Form_Registration_ParticipantConfirm extends CRM_Event_Form_Regi
             if ( !$statusMsg ) {
                 $statusMsg = ts( 'You can cancel your registration for %1 by clicking "Cancel Registration".' , array(1 => $values['title']) );
             }
+        }
+        if ( !$statusMsg ) {
+            $statusMsg = ts( "Oops, it looks like your registration for %1 has already been cancelled.", 
+                             array(1 => $values['title']) );
         }
         $this->assign( 'statusMsg', $statusMsg );
         

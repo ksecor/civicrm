@@ -1,4 +1,29 @@
 <?php
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 3.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
 
 require_once 'api/v2/Contribute.php';
 require_once 'CiviTest/CiviUnitTestCase.php';
@@ -15,6 +40,24 @@ class api_v2_ContributionTest extends CiviUnitTestCase
     function setUp() 
     {
         parent::setUp();
+
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/../../CiviTest/truncate-option.xml') );
+
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/option_group_contribution_status.xml') );
+                             
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/option_value_contribution_status.xml') );
 
         $this->_contributionTypeId = $this->contributionTypeCreate();  
         $this->_individualId = $this->individualCreate();
@@ -46,24 +89,24 @@ class api_v2_ContributionTest extends CiviUnitTestCase
 
     function testGetContribution()
     {        
-        $params = array(
+        $p = array(
                         'contact_id'             => $this->_individualId,
                         'receive_date'           => date('Ymd'),
                         'total_amount'           => 100.00,
                         'contribution_type_id'   => $this->_contributionTypeId,
-                        'payment_instrument_id'  => 1,
                         'non_deductible_amount'  => 10.00,
                         'fee_amount'             => 51.00,
                         'net_amount'             => 91.00,
                         'trxn_id'                => 23456,
                         'invoice_id'             => 78910,
                         'source'                 => 'SSF',
-                        'contribution_status_id' => 1,
+                        'contribution_status_id' => 1
                         );
         
-        $this->_contribution =& civicrm_contribution_add($params);
+        $this->_contribution =& civicrm_contribution_add($p);
         $params = array('contribution_id'=>$this->_contribution['id']);        
         $contribution =& civicrm_contribution_get($params);
+
         $this->assertEquals($contribution['contact_id'],$this->_individualId); 
         $this->assertEquals($contribution['contribution_type_id'],$this->_contributionTypeId);        
         $this->assertEquals($contribution['total_amount'],100.00);
@@ -76,10 +119,6 @@ class api_v2_ContributionTest extends CiviUnitTestCase
         $this->assertEquals($contribution['contribution_status_id'], 'Completed' );
        
         $params2 = array( 'contribution_id' => $this->_contribution['id'] );
-        $contribution2 =& civicrm_contribution_delete( $params2 );
-        $this->assertEquals($contribution2['is_error'], 0);
-        $this->assertEquals($contribution2['result'], 1);
-        
     }
     
      
@@ -217,8 +256,7 @@ class api_v2_ContributionTest extends CiviUnitTestCase
     function testDeleteContribution()
     {
         $contributionID = $this->contributionCreate( $this->_individualId , $this->_contributionTypeId );
-             
-        $params         = array( 'contribution_id' => $contributionID );                            
+        $params         = array( 'contribution_id' => $contributionID );
         $contribution   = civicrm_contribution_delete( $params );
         $this->assertEquals( $contribution['is_error'], 0 );
         $this->assertEquals( $contribution['result'], 1 );

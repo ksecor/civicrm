@@ -62,20 +62,14 @@ class CRM_Core_BAO_IMTest extends CiviUnitTestCase
      */
     function testAllIMs( )
     {
-        $contactParams = array ( 'first_name'      => 'Alan',
-                                 'last_name'       => 'Smith',
-                                 'im-1'            => 'alan1.smith1',
-                                 'im-2'            => 'alan2.smith2',
-                                 'im-3'            => 'alan3.smith3',
-                                 'im-1-provider_id'=> 1,
-                                 'im-2-provider_id'=> 2,
-                                 'im-3-provider_id'=> 3
-                                 );
+        $op = new PHPUnit_Extensions_Database_Operation_Insert;
+        $op->execute(
+            $this->_dbconn,
+            new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(dirname(__FILE__) . '/dataset/im_test.xml')
+        );
 
-        $contactId = Contact::createIndividual( $contactParams );
-       
         require_once 'CRM/Core/BAO/IM.php';
-        $IMs = CRM_Core_BAO_IM::allIMs( $contactId );
+        $IMs = CRM_Core_BAO_IM::allIMs(69);
 
         $this->assertEquals( count( $IMs ) , 3, 'Checking number of returned IMs.' );
         

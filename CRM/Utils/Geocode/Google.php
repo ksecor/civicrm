@@ -36,7 +36,7 @@
 
  
 /**
- * Class that uses geocoder.us to retrieve the lat/long of an address
+ * Class that uses google geocoder
  */
 class CRM_Utils_Geocode_Google {
     /**

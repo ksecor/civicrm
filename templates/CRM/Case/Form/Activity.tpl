@@ -243,8 +243,8 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
          d.setDate(cj("select#activity_date_time\\[d\\]").val());
          var hours = cj("select#activity_date_time\\[h\\]").val();
          var ampm = cj("select#activity_date_time\\[A\\]").val();
-         if (ampm == "PM") {
-             // force arithmetic instead of string concatenation
+         if (ampm == "PM" && hours != 12) {
+             // force arithmetic instead of string concatenation by multiplying by 1, otherwise something like 06 + 12 ends up as 612.
              hours = hours*1 + 12;
          }
          d.setHours(hours);

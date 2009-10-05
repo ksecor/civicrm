@@ -4,7 +4,17 @@
 ** HTML elements
 */
 div#toolbar-box .icon-48-generic {
-  display: none
+  display: none;
+}
+
+div#toolbar-box {
+  height: 26px;
+}
+
+div#toolbar-box div.t, div#toolbar-box div.t div.t, div#toolbar-box div.t div.t div.t, div#toolbar-box div.m, div#toolbar-box div.b div.b, div#toolbar-box div.b, div#toolbar-box div.b div.b div.b {
+  background-image: none;
+  border-left: 0px;
+  border-right: 0px;
 }
 
 fieldset {

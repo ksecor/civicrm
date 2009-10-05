@@ -60,12 +60,15 @@
         {ts}(test){/ts}
         {/if} {help id="id-contribution_type"}
         </td></tr>
-	{if $hasPriceSets}  
-	    <tr><td class="label">{$form.price_set_id.label}</td><td{$valueStyle}>{$form.price_set_id.html}</td></tr>
-	    <tr><td class="label"></td><td><fieldset id="PriceSetFields" style="display:none;"></fieldset></td></tr> 
-        {/if}
-        <tr id="totalAmount"><td class="label">{$form.total_amount.label}</td><td{$valueStyle}>{$form.total_amount.html|crmMoney:$currency} <span class="description">{ts}Actual amount given by contributor.{/ts}</span></td></tr>
- 
+        <tr id="totalAmount">
+            <td class="label">{$form.total_amount.label}</td><td{$valueStyle}>{$form.total_amount.html|crmMoney:$currency} 
+	    {if $hasPriceSets} {ts}OR{/ts} {$form.price_set_id.html}
+	    <fieldset id="PriceSetFields" style="display:none;"></fieldset>
+	    {/if}
+	    <span class="description">{ts}Actual amount given by contributor.{/ts}</span>
+            </td>
+        </tr>
+        
         <tr><td class="label">{$form.source.label}</td><td{$valueStyle}>{$form.source.html} {help id="id-contrib_source"}</td></tr>
 
         {if $contributionMode}
@@ -294,13 +297,29 @@
 
 {literal}
 <script type="text/javascript" >
+
+ // load form during form rule.
+ {/literal}
+ {if $buildPriceSet}{literal}buildAmount( );{/literal}
+ {/if}
+ {literal}
+
+
 function buildAmount( priceSetId ) {
 
+  if ( !priceSetId ) priceSetId = cj("#price_set_id").val( );
+ 
   var fname = '#PriceSetFields';
   if ( !priceSetId ) {
-   cj( fname ).hide( ); 
-    return;
+      // hide price set fields.
+      cj( fname ).hide( ); 
+
+      // unfreeze total amount text field.
+      cj( "#total_amount").attr( "readonly", false );
+    
+      return;
   }
+
   var dataUrl = {/literal}"{crmURL h=0 q='snippet=4'}"{literal} + '&priceSetId=' + priceSetId;
 
   var response = cj.ajax({
@@ -308,6 +327,10 @@ function buildAmount( priceSetId ) {
 			 async: false
 			}).responseText;
   cj( fname ).show( ).html( response );
+
+  // freeze total amount text field.
+  cj( "#total_amount").val( '' );
+  cj( "#total_amount").attr( "readonly", true );
 }
 </script>
 {/literal}

@@ -261,3 +261,4 @@ invert              = 0
     });
     {/literal}
 </script>
+{include file="CRM/common/formNavigate.tpl"}

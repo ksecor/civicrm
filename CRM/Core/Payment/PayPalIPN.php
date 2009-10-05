@@ -72,7 +72,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         }
 
         $recur =& $objects['contributionRecur'];
-
+        
         // make sure the invoice ids match
         // make sure the invoice is valid and matches what we have in the contribution record
         if ( $recur->invoice_id != $input['invoice'] ) {
@@ -91,7 +91,9 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
                 $recur->$name = CRM_Utils_Date::isoToMysql( $recur->$name );
             }
         }
-        $sendNotification = false;
+        $sendNotification          = false;
+        $subscriptionPaymentStatus = null;
+        require_once 'CRM/Core/Payment.php';
         //set transaction type
         $txnType = $_POST['txn_type'];
         switch ( $txnType ) {
@@ -108,12 +110,14 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
             $recur->processor_id           = $_POST['subscr_id'];
             $recur->trxn_id                = $recur->processor_id;
             $sendNotification              = true;
+            $subscriptionPaymentStatus     = CRM_Core_Payment::RECURRING_PAYMENT_START;
             break;
             
         case 'subscr_eot':
             $recur->contribution_status_id = 1;
             $recur->end_date               = $now;
             $sendNotification              = true;
+            $subscriptionPaymentStatus     = CRM_Core_Payment::RECURRING_PAYMENT_END;
             break;
 
         case 'subscr_cancel':
@@ -151,7 +155,8 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         if ( $sendNotification ) {
             //send recurring Notification email for user
             require_once 'CRM/Contribute/BAO/ContributionPage.php';
-            CRM_Contribute_BAO_ContributionPage::recurringNofify( $txnType, $ids['contact'], $ids['contributionPage'], $recur );
+            CRM_Contribute_BAO_ContributionPage::recurringNofify( $subscriptionPaymentStatus, $ids['contact'],
+                                                                  $ids['contributionPage'], $recur );
         }
 
         if ( $txnType != 'subscr_payment' ) {

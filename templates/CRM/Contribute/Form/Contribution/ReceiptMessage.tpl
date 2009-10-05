@@ -63,9 +63,14 @@
 
 {/if}
 {if $is_recur}
+{if $contributeMode eq 'notify'}
 {ts}This is a recurring contribution. You can modify or cancel future contributions by logging in to your account at:{/ts}
 
 {$cancelSubscriptionUrl}
+{elseif $contributeMode eq 'directIPN' and $receiptFromEmail}
+{ts 1=$receiptFromEmail}This is a recurring contribution. To modify or cancel future contributions please contact us at %1.{/ts}
+
+{/if}
 {/if}
 
 {if $honor_block_is_active }
@@ -101,7 +106,8 @@
 {$onBehalfEmail}
 
 {/if}
-{if $contributeMode ne 'notify' and $is_monetary}
+
+{if !( $contributeMode eq 'notify' OR $contributeMode eq 'directIPN' ) and $is_monetary}
 {if $is_pay_later}
 ===========================================================
 {ts}Registered Email{/ts}

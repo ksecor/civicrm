@@ -269,7 +269,7 @@ class CRM_Case_BAO_Query
             return;
 
         case 'case_owner': 
-        case 'case_mycase'  : 
+        case 'case_mycases'  : 
             if ( $value == 0 ) {
                 $session =& CRM_Core_Session::singleton();
                 $userID  = $session->get('userID');

@@ -213,6 +213,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             
             // set email in the template here
             $template->assign( 'email', $email );
+            $template->assign( 'receiptFromEmail', $values['receipt_from_email'] );
             $template->assign('contactID',   $contactID);
             $template->assign('contributionID',   $values['contribution_id']);
             if ( CRM_Utils_Array::value( 'membership_id', $values ) ) {
@@ -225,7 +226,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             if ( array_key_exists('related_contact', $values) ) {
                 list( $ccDisplayName, $ccEmail ) = 
                     CRM_Contact_BAO_Contact_Location::getEmailDetails( $values['related_contact'] );
-                $ccMailId = '"' . $ccDisplayName . '" <' . $ccEmail . '>';
+                $ccMailId = "{$ccDisplayName} <{$ccEmail}>";
                 
                 $values['cc_receipt'] = CRM_Utils_Array::value( 'cc_receipt' , $values ) ? 
                     ($values['cc_receipt'] . ',' . $ccMailId) : $ccMailId;

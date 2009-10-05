@@ -119,7 +119,7 @@ class CRM_Core_Payment_PayPalProIPN extends CRM_Core_Payment_BaseIPN {
         }
         
         $sendNotification = false;
-
+        $subscriptionPaymentStatus = null;
         //List of Transaction Type
         /*
          recurring_payment_profile_created    			RP Profile Created
@@ -136,7 +136,7 @@ class CRM_Core_Payment_PayPalProIPN extends CRM_Core_Payment_BaseIPN {
 
         //set transaction type
         $txnType = $_POST['txn_type'];
-        
+        require_once 'CRM/Core/Payment.php';
         //Changes for paypal pro recurring payment
         
         switch ( $txnType ) {
@@ -146,6 +146,7 @@ class CRM_Core_Payment_PayPalProIPN extends CRM_Core_Payment_BaseIPN {
             $recur->contribution_status_id = 2;
             $recur->processor_id           = $_POST['recurring_payment_id'];
             $recur->trxn_id                = $recur->processor_id;
+            $subscriptionPaymentStatus     = CRM_Core_Payment::RECURRING_PAYMENT_START;
             $sendNotification              = true;
             break;
         
@@ -160,6 +161,8 @@ class CRM_Core_Payment_PayPalProIPN extends CRM_Core_Payment_BaseIPN {
             if ( $_POST['profile_status'] == 'Expired' ) {
                 $recur->contribution_status_id = 1;
                 $recur->end_date               = $now;
+                $sendNotification              = true;
+                $subscriptionPaymentStatus     = CRM_Core_Payment::RECURRING_PAYMENT_END;
             }
  
             // make sure the contribution status is not done
@@ -176,7 +179,7 @@ class CRM_Core_Payment_PayPalProIPN extends CRM_Core_Payment_BaseIPN {
         if ( $sendNotification ) {
             //send recurring Notification email for user
             require_once 'CRM/Contribute/BAO/ContributionPage.php';
-            CRM_Contribute_BAO_ContributionPage::recurringNofify( $txnType, $ids['contact'], 
+            CRM_Contribute_BAO_ContributionPage::recurringNofify( $subscriptionPaymentStatus, $ids['contact'], 
                                                                   $ids['contributionPage'], $recur );
         }
 

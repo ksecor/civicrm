@@ -89,67 +89,6 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
     }
    
     /**
-     * Check if the price set is in use anywhere.  Returns true in the
-     * case that the group is used by an active form, or by a form which
-     * has any registrations.
-     *
-     * @param int $id id of group
-     * @return bool
-     *
-     * @access public
-     * @static
-     *
-     */
-    //
-    // NOTE: This currently works differently from getUsedBy().
-    //
-    public static function isUsed( $id )
-    {
-        // this could be optimized later.  For now, it's a set of
-        // separate queries.
-
-        // default not used
-        $is_used = false;
-
-        // get events which use this price set
-        $queryString = "SELECT entity_table, entity_id FROM civicrm_price_set_entity ";
-        $queryString .= "WHERE price_set_id = %1";
-        $params = array( 1 => array( $id, 'Integer') );
-        $crmEventDAO = CRM_Core_DAO::executeQuery( $queryString, $params );
-
-        $events = array();
-        while ( $crmEventDAO->fetch( ) ) {
-            $events[ $crmEventDAO->entity_table ][] = $crmEventDAO->entity_id;
-        }
-
-        // check if events are active or have participants
-        foreach ( $events as $table => $entities ) {
-            $entity_list = implode( ',', $entities );
-            // a single match is sufficient.  limit 1 for performance
-            $queryString = "SELECT COUNT(*) AS is_used FROM $table";
-            if ( $table == 'civicrm_event' ) {
-                $queryString .= ", civicrm_event";
-            }
-            $queryString .= " WHERE $table.id IN ( $entity_list )";
-            if ( $table == 'civicrm_event' ) {
-                $now = date( 'Y-m-d H:i:s' );
-                $queryString .= " AND civicrm_event.start_date < '$now' AND civicrm_event.end_date > '$now'";
-            }
-            $queryString .= " LIMIT 1";
-            $params = array();
-            $is_used = (bool)CRM_Core_DAO::singleValueQuery( $queryString, $params );
-            if ( ! $is_used && $table == 'civicrm_event' ) {
-                // check participant table
-                $queryString = "SELECT COUNT(*) AS is_used FROM civicrm_participant ";
-                $queryString .= "WHERE event_id IN ( $entity_list ) LIMIT 1";
-                $is_used = (bool)CRM_Core_DAO::singleValueQuery( $queryString, $params );
-            }
-        }
-
-        return $is_used;
-    }
-
-    /**
      * Return a list of all forms which use this price set.
      *
      * @param int  $id id of price set
@@ -162,69 +101,43 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
      */
     public static function &getUsedBy( $id, $checkPast = false, $getInactive = false ) 
     {
-        $usedBy = array( );
-        $today = date('Y-m-d');
-        $queryString = "SELECT entity_table, entity_id FROM civicrm_price_set_entity ";
-        $queryString .= "WHERE price_set_id = %1";
+        $usedBy = $forms = array( );
+        $queryString = "
+SELECT   entity_table, entity_id 
+FROM     civicrm_price_set_entity
+WHERE    price_set_id = %1";
         $params = array( 1 => array( $id, 'Integer') );
         $crmFormDAO = CRM_Core_DAO::executeQuery( $queryString, $params );
-
-        $forms = array( );
+        
         while ( $crmFormDAO->fetch( ) ) {
             $forms[ $crmFormDAO->entity_table ][] = $crmFormDAO->entity_id;
         }
-
+        
         if ( empty( $forms ) ) {
             return $usedBy;
         }
-
-        require_once 'CRM/Event/DAO/Event.php';
-        require_once 'CRM/Core/OptionGroup.php';
-        require_once 'CRM/Utils/Array.php';
-
-        $eventTypes  = CRM_Core_OptionGroup::values("event_type" );
-
+        
         foreach ( $forms as $table => $entities ) {
             switch ($table) {
             case 'civicrm_event':
-                //FIXME : clean up the code
-                $eventIdList = implode( ',', $entities );
-                $queryString = "SELECT id event_id FROM civicrm_event WHERE";
-                $queryString .= " id IN ($eventIdList)";
+                $eventIds = implode( ',', $entities );
+                $queryString = "SELECT ce.id as id, ce.title as title, ce.is_public as isPublic, ce.start_date as startDate, ce.end_date as endDate, civicrm_option_value.label as eventType
+FROM       civicrm_event ce
+LEFT JOIN  civicrm_option_value ON  
+           ( ce.event_type_id = civicrm_option_value.value )
+LEFT JOIN  civicrm_option_group ON 
+           ( civicrm_option_group.id = civicrm_option_value.option_group_id )
+WHERE      ce.is_active = 1 AND
+	       civicrm_option_group.name = 'event_type' AND
+           ( ce.is_template IS NULL OR ce.is_template = 0) AND 
+           ce.id IN ($eventIds);";
                 $crmDAO = CRM_Core_DAO::executeQuery( $queryString );
-
                 while ( $crmDAO->fetch() ) {
-                    $is_past = false;
-                    $eventInfo = array();
-                    $eventDAO =& new CRM_Event_DAO_Event( );
-                    $eventDAO->id = $crmDAO->event_id;
-                    if ( $eventDAO->find() ) {
-                        $eventDAO->fetch();
-
-                        // we only care about the end date, not time.
-                        // note that in less than 8000 years, dates will be
-                        // longer than 10 characters.
-                        $endDate = substr( $eventDAO->end_date, 0, 10 );
-                        if ( $checkpast && $endDate < $today ) {
-                            $is_past = true;
-                        }
-
-                        // past events count as active
-                        $is_inactive = ! $eventDAO->is_active || $is_past;
-
-                        // ignore active events if searching for inactive
-                        // and ignore inactive events if searching for active
-                        if ( $getInactive xor $is_inactive) {
-                            continue;
-                        }
-
-                        $eventInfo['title'] = $eventDAO->title;
-                        $eventInfo['eventType'] = CRM_Utils_Array::value( $eventDAO->event_type_id, $eventTypes );
-                        $eventInfo['isPublic'] = $eventDAO->is_public;
-                        $eventInfo['startDate'] = substr( $eventDAO->start_date, 0, 10 );
-                        $eventInfo['endDate'] = $endDate;
-                        $usedBy[$table][$eventDAO->id] = $eventInfo;
-                    }
+                    $usedBy[$table][$crmDAO->id]['title']     = $crmDAO->title;
+                    $usedBy[$table][$crmDAO->id]['eventType'] = $crmDAO->eventType;
+                    $usedBy[$table][$crmDAO->id]['startDate'] = $crmDAO->startDate;
+                    $usedBy[$table][$crmDAO->id]['endDate']   = $crmDAO->endDate;
+                    $usedBy[$table][$crmDAO->id]['isPublic']  = $crmDAO->isPublic;
                 }
                 break;
 
@@ -249,6 +162,7 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
 
             }
         }
+
         return $usedBy;
     }
 
@@ -529,7 +443,12 @@ WHERE  id = %1";
         if ( $priceSetId = self::getFor( $entityTable, $id ) ) {
             if ( $form->_action & CRM_Core_Action::UPDATE ){
                 require_once 'CRM/Event/BAO/Participant.php';
-                $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
+                if ( $entityTable == 'civicrm_event' ) {
+                    $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
+                } elseif ( $entityTable == 'civicrm_contribution_page' ) {
+                    //FIXME:
+                    //$form->_values['line_items'] = CRM_Contribute_BAO_Contribution::getLineItems( $form->_id );
+                } 
                 $required = false;
             } else {
                 $required = true;
@@ -700,21 +619,20 @@ WHERE  id IN ($optionIDs)
      */ 
     static function buildPriceSet( &$form )  
     {
-        if ( $form->_priceSetId ) {
-            
-            // FIXME 
-            $required = false;
-            
-            $priceSet = self::getSetDetail( $form->_priceSetId, $required );
-            $form->_priceSet = CRM_Utils_Array::value( $form->_priceSetId, $priceSet );
-            $form->assign( 'priceSet',  $form->_priceSet );
-            $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
-            require_once 'CRM/Price/BAO/Field.php';                       
-            foreach ( $form->_priceSet['fields'] as $field ) {
-                $fieldId = $field['id'];
-                $elementName = 'price_' . $fieldId;
-                CRM_Price_BAO_Field::addQuickFormElement( $form, $elementName, $fieldId, false, $required );
-            }
+        $priceSetId = $form->get( 'priceSetId' ); 
+        if ( !$priceSetId ) return;
+        
+        // FIXME 
+        $required = false;
+        
+        $priceSet = self::getSetDetail( $priceSetId, $required );
+        $form->_priceSet = CRM_Utils_Array::value( $priceSetId, $priceSet );
+        $form->assign( 'priceSet',  $form->_priceSet );
+        require_once 'CRM/Price/BAO/Field.php';                       
+        foreach ( $form->_priceSet['fields'] as $field ) {
+            $fieldId = $field['id'];
+            $elementName = 'price_' . $fieldId;
+            CRM_Price_BAO_Field::addQuickFormElement( $form, $elementName, $fieldId, false, $required );
         }
     }
 }
