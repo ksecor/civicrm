@@ -1995,7 +1995,7 @@ SELECT $selectClause
 
         //token selector for subject
         //CRM-5058
-        $form->add( 'select', 'token3',  ts( 'Insert Tokens' ), 
+        $form->add( 'select', 'token3',  ts( 'Insert Token' ), 
                     $tokens , false, 
                     array(
                           'size'     => "5",

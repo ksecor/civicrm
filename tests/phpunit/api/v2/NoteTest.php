@@ -72,8 +72,6 @@ class api_v2_NoteTest extends CiviUnitTestCase
 
     function tearDown( ) 
     {
-        $this->noteDelete( $this->_note );
-        $this->contactDelete( $this->_contactID );
     }
 
 ///////////////// civicrm_note_get methods

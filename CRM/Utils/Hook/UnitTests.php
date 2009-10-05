@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 /*
  +--------------------------------------------------------------------+
@@ -23,7 +23,7 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
- */
+*/
 
 /**
  *
@@ -33,26 +33,14 @@
  *
  */
 
+require_once 'CRM/Utils/Hook.php';
 
-/**
- * This class build form elements for select exitsing or create new contact widget
- */
-class CRM_Contact_Form_NewContact  
-{
-    function buildQuickForm( &$form ) {
-        // call to build contact autocomplete
-        $attributes = array( 'width' => '200px' );    
-        $form->add('text', "contact", ts('Select Contact'), $attributes );
-        $form->addElement('hidden', "contact_select_id" );
-        
-        if ( CRM_Core_Permission::check( 'edit all contacts' ) ||
-             CRM_Core_Permission::check( 'add contacts' ) ) {            
-            // build select for new contact
-            require_once 'CRM/Core/BAO/UFGroup.php';
-            $contactProfiles = CRM_Core_BAO_UFGroup::getReservedProfiles( );
-            $form->add( 'select', 'profiles', ts('Create New Contact'),
-                        array( '' => ts('- create new contact -') ) + $contactProfiles,
-                        false, array( 'onChange' => "if (this.value) newContact( this.value );") );
-        }
-    }    
+class CRM_Utils_Hook_UnitTests extends CRM_Utils_Hook {
+
+    static function invoke( $numParams,
+                            &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
+                            $fnSuffix ) {
+        return;
+    }
+
 }

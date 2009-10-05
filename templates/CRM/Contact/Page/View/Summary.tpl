@@ -159,7 +159,7 @@
                                 <tr>
                                     <td class="label">{$add.location_type}&nbsp;{ts}Address{/ts}
                                         {if $config->mapAPIKey AND $add.geo_code_1 AND $add.geo_code_2}
-                                            <br /><span class="geotag"><a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$add.location_type_id`"}" title="{ts}Map {$add.location_type} Address{/ts}">{ts}Map{/ts}</a></span>
+                                            <br /><a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=`$contactId`&lid=`$add.location_type_id`"}" title="{ts}Map {$add.location_type} Address{/ts}"><span class="geotag">{ts}Map{/ts}</span></a>
                                         {/if}</td>
                                     <td>
                                         {if $HouseholdName and $locationIndex eq 1}
@@ -205,7 +205,7 @@
                                     <td class="label">{ts}Gender{/ts}</td><td>{$gender_display}</td>
                                 </tr>
                                 <tr>
-                                    <td class="label">{ts}Date of Birth{/ts}</td><td>
+                                    <td class="label">{ts}Date of birth{/ts}</td><td>
                                     {if $birthDateViewFormat}	 
                                         {$birth_date|crmDate:$birthDateViewFormat}
                                     {else}

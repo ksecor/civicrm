@@ -226,7 +226,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             if ( array_key_exists('related_contact', $values) ) {
                 list( $ccDisplayName, $ccEmail ) = 
                     CRM_Contact_BAO_Contact_Location::getEmailDetails( $values['related_contact'] );
-                $ccMailId = '"' . $ccDisplayName . '" <' . $ccEmail . '>';
+                $ccMailId = "{$ccDisplayName} <{$ccEmail}>";
                 
                 $values['cc_receipt'] = CRM_Utils_Array::value( 'cc_receipt' , $values ) ? 
                     ($values['cc_receipt'] . ',' . $ccMailId) : $ccMailId;

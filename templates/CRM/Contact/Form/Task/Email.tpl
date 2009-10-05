@@ -19,11 +19,11 @@
 <tr id="cc" {if ! $form.cc_id.value}style="display:none;"{/if}><td class="label">{$form.cc_id.label}</td><td>{$form.cc_id.html}</td></tr>
 <tr id="bcc" {if ! $form.bcc_id.value}style="display:none;"{/if}><td class="label">{$form.bcc_id.label}</td><td>{$form.bcc_id.html}</td></tr>
 <tr>
-    <td class="label">{$form.subject.label}</td>
+    <td class="label">{$form.subject.label}<br />{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp"}</td>
     <td>
-        {$form.subject.html|crmReplace:class:huge}&nbsp;{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp"}
+        {$form.subject.html|crmReplace:class:huge}&nbsp;
         <a href="#" onClick="return showToken('Subject', 3);">{$form.token3.label}</a>
-	    {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
+	    {help id="id-token-subject" file="CRM/Contact/Form/Task/Email.hlp"}
         <div id='tokenSubject' style="display:none">
 	      <input style="border:1px solid #999999;" type="text" id="filter3" size="20" name="filter3" onkeyup="filter(this, 3)"/><br />
 	      <span class="description">{ts}Begin typing to filter list of tokens{/ts}</span><br/>

@@ -135,6 +135,9 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
         require_once 'CRM/Contact/BAO/Relationship.php';
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, null, true );
+        if ( is_array($relTypeInd) ) {
+            asort($relTypeInd);
+        }
         $memberRel =& $this->add('select', 'relationship_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $relTypeInd);
 
         $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::memberVisibility( ) );

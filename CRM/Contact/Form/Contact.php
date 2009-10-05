@@ -762,7 +762,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                  $errors['_qf_default'] .= '<br />';
                  $errors['_qf_default'] .= ts('If you know the record you are creating is a duplicate, click here - %1 - to EDIT the original record instead.', array(1 => $editUrl));
                  $errors['_qf_default'] .= '<br />';
-                 $errors['_qf_default'] .= ts('If you are sure this is not a duplicate, click the Save Matching Contact button below.');
+                 $errors['_qf_default'] .= ts('If you are sure this is NOT a duplicate, click the &quot;Save Matching Contact&quot; button (this button is located at the bottom of the Contact Details section below).');
 
                  // let smarty know that there are duplicates
                  $template =& CRM_Core_Smarty::singleton( );
