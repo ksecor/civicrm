@@ -426,4 +426,29 @@ class CRM_Contribute_Form_AdditionalInfo
         return $sendReceipt;
     }
     
+    /** 
+     * Function to process line items. 
+     * 
+     * @access public 
+     * @return None 
+     */ 
+    function processLineItem( $lineItem, $contributionId )
+    {
+        // store line items
+        if ( !$contributionId || !is_array( $lineItem ) || 
+             CRM_Utils_system::isNull( $lineItem ) ) {
+            return;
+        }
+        
+        require_once 'CRM/Core/BAO/LineItem.php';
+        foreach ( $lineItem as $key => $values ) {
+            foreach( $values as $line ) {
+                $unused = array();
+                $line['entity_table'] = 'civicrm_contribution';
+                $line['entity_id'] = $contributionId;
+                CRM_Core_BAO_LineItem::create( $line, $unused );
+            }
+        }
+    }
+    
 }

@@ -904,6 +904,16 @@ SELECT  id, name
         // get the submitted form values.  
         $submittedValues = $this->controller->exportValues( $this->_name );
         
+        // process price set and get total amount and line items.
+        $lineItem = array( );
+        if ( CRM_Utils_Array::value( 'price_set_id', $submittedValues ) ) {
+            require_once 'CRM/Price/BAO/Set.php';
+            CRM_Price_BAO_Set::processAmount( $this->_priceSet['fields'], 
+                                              $submittedValues, $lineItem[0] );
+            $this->assign( 'lineItem', $lineItem );
+            $submittedValues['total_amount'] = $submittedValues['amount'];
+        }
+        
         if ( CRM_Utils_Array::value('soft_credit_to', $submittedValues) ) {
             $submittedValues['soft_credit_to'] =  $submittedValues['soft_contact_id'];
         }      
@@ -1106,6 +1116,12 @@ SELECT  id, name
                                                                                   $this->_contactID, 
                                                                                   $contributionType,  
                                                                                   false, false, false );
+
+            // process line items.
+            if ( $contribution->id && !empty( $lineItem ) ) {
+                CRM_Contribute_Form_AdditionalInfo::processLineItem( $lineItem, $contribution->id );
+            }
+            
             //send receipt mail.
             if ( $contribution->id &&
                  CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
@@ -1222,6 +1238,11 @@ SELECT  id, name
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
             
+            // process line items.
+            if ( $contribution->id && !empty( $lineItem ) ) {
+                CRM_Contribute_Form_AdditionalInfo::processLineItem( $lineItem, $contribution->id );
+            }
+            
             // process associated membership / participant, CRM-4395
             $relatedComponentStatusMsg = null;
             if ( $contribution->id && $this->_action & CRM_Core_Action::UPDATE ) {
@@ -1272,7 +1293,7 @@ SELECT  id, name
             CRM_Core_Session::setStatus( $statusMsg );
             //Offline Contribution ends.
         }
-
+        
         $buttonName = $this->controller->getButtonName( );
         if ( $this->_context == 'standalone' ) {
             if ( $buttonName == $this->getButtonName( 'upload', 'new' ) ) {
