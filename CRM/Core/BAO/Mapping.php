@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.2                                                |
+ | CiviCRM version 3.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -564,6 +564,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         foreach ( $locationTypes as $locType => $loc ) {
                             if ( trim($locType) != '' ) {
                                 $sel7[$k][$phonekey]['phone'][$locType] = & $phoneTypes;
+                                $sel7[$k][$phonekey]['im'][$locType]    = & $imProviders;
                             }
                         }
                     }
