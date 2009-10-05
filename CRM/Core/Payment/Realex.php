@@ -18,7 +18,7 @@
 require_once 'CRM/Core/Payment.php';
 
 class CRM_Core_Payment_Realex extends CRM_Core_Payment {
-    const CHARSET       = 'iso-8859-1';
+
     const AUTH_APPROVED = '00';
 
     static protected $_mode   = null;
@@ -278,33 +278,27 @@ class CRM_Core_Payment_Realex extends CRM_Core_Payment {
         list($bills, $pennies) = explode('.', $params['amount']);
         $this->_setParam('amount', 100 * $bills + $pennies);
         
-        switch ($params['credit_card_type']) {
-        case 'MasterCard':
-        case 'Mastercard':
+        switch (strtolower($params['credit_card_type'])) {
+        case 'mastercard':        
             $this->_setParam('card_type', 'MC');
             $this->_setParam('requiresIssueNumber', false);
             break;
-        case 'Visa':
+        case 'visa':
             $this->_setParam('card_type', 'VISA');
             $this->_setParam('requiresIssueNumber', false);
             break;
-        case 'Amex':
+        case 'amex':
             $this->_setParam('card_type', 'AMEX');
             $this->_setParam('requiresIssueNumber', false);
             break;
-        case 'Laser':
+        case 'laser':
             $this->_setParam('card_type', 'LASER');
             $this->_setParam('requiresIssueNumber', false);
             break;
-        case 'Maestro':
-            $this->_setParam('card_type', 'SWITCH');
-            $this->_setParam('requiresIssueNumber', true);
-            break;
-        case 'Switch':
-            $this->_setParam('card_type', 'SWITCH');
-            $this->_setParam('requiresIssueNumber', true);
-            break;
-        case 'Solo':
+        case 'maestro':
+        case 'switch':
+        case 'maestro/switch':
+        case 'solo':
             $this->_setParam('card_type', 'SWITCH');
             $this->_setParam('requiresIssueNumber', true);
             break;
