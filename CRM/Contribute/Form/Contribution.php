@@ -806,6 +806,84 @@ WHERE  contribution_id = {$this->_id}
             }
         }
         
+        // do the amount validations.
+        if ( !$fields['total_amount'] ) {
+            if ( $priceSetId = CRM_Utils_Array::value( 'price_set_id', $fields ) ) {
+                
+                // check for at least one positive 
+                // amount price field should be selected.
+                $priceField = new CRM_Price_DAO_Field( );
+                $priceField->price_set_id = $priceSetId;
+                $priceField->find( );
+                
+                $priceFields = array( );
+                while ( $priceField->fetch( ) ) {
+                    $key = "price_{$priceField->id}";
+                    if ( CRM_Utils_Array::value( $key, $fields ) ) {
+                        $priceFields[$priceField->id] = $fields[$key];
+                    }
+                }
+                
+                if ( !empty( $priceFields ) ) {
+                    // we should has to have positive amount.
+                    $sql = "
+SELECT  id, html_type 
+  FROM  civicrm_price_field 
+ WHERE  id IN (" .implode( ',', array_keys( $priceFields ) ).')';
+                    $fieldDAO  = CRM_Core_DAO::executeQuery( $sql );
+                    $htmlTypes = array( );
+                    while ( $fieldDAO->fetch( ) ) {
+                        $htmlTypes[$fieldDAO->id] = $fieldDAO->html_type;
+                    }
+                    
+                    // all field val present in option value except text.
+                    $setectedAmounts = $amountIds = array( );
+                    foreach ( $htmlTypes as $fieldId => $type ) {
+                        if ( $type == 'Text' ) {
+                            // we are interesting only in single
+                            // amount, so hopefully we'll minimize queries.
+                            if ( $priceFields[$fieldId] > 0 ) {
+                                $setectedAmounts[$fieldId] = $priceFields[$fieldId];
+                            }
+                        } else {
+                            if ( is_array( $priceFields[$fieldId] ) ) {
+                                $amountIds = array_merge( $amountIds, array_keys( $priceFields[$fieldId] ) );
+                            } else {
+                                $amountIds[] = $priceFields[$fieldId];
+                            }
+                        }
+                    }
+                    
+                    if ( empty( $setectedAmounts ) && !empty( $amountIds ) ) {
+                        $sql = "
+SELECT  id, name 
+  FROM  civicrm_option_value 
+ WHERE  id IN (" .implode( ',', $amountIds ).')';
+                        $optionsDAO = CRM_Core_DAO::executeQuery( $sql );
+                        while ( $optionsDAO->fetch( ) ) {
+                            $setectedAmounts[$optionsDAO->id] = $optionsDAO->name;
+                        }
+                    }
+                    
+                    // now we have all selected amount in hand.
+                    $amount = 0;
+                    if ( !empty( $setectedAmounts ) ) {
+                        foreach ( $setectedAmounts as $priceId => $value ) {
+                            if ( $value > 0 ) $amount += $value;  
+                        }
+                    }
+                    
+                    if ( $amount <= 0 ) {
+                        $errors['_qf_default'] = ts( "It looks like sum of your selected Fee Option(s) is zero, Please select at least one positive amount fee option." );
+                    }
+                } else {
+                    $errors['_qf_default'] = ts( "Please select at least one option from contribution price set." );
+                }
+            } else { 
+                $errors['total_amount'] = ts('Please enter a valid amount.');
+            }
+        }
+        
         return $errors;
     }
     

@@ -622,17 +622,13 @@ WHERE  id IN ($optionIDs)
         $priceSetId = $form->get( 'priceSetId' ); 
         if ( !$priceSetId ) return;
         
-        // FIXME 
-        $required = false;
-        
-        $priceSet = self::getSetDetail( $priceSetId, $required );
+        $priceSet = self::getSetDetail( $priceSetId, true );
         $form->_priceSet = CRM_Utils_Array::value( $priceSetId, $priceSet );
         $form->assign( 'priceSet',  $form->_priceSet );
         require_once 'CRM/Price/BAO/Field.php';                       
         foreach ( $form->_priceSet['fields'] as $field ) {
-            $fieldId = $field['id'];
-            $elementName = 'price_' . $fieldId;
-            CRM_Price_BAO_Field::addQuickFormElement( $form, $elementName, $fieldId, false, $required );
+            CRM_Price_BAO_Field::addQuickFormElement( $form, 'price_'.$field['id'], $field['id'], false, 
+                                                      CRM_Utils_Array::value( 'is_required', $field, false ) );
         }
     }
 }
