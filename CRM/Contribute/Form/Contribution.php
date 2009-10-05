@@ -910,9 +910,9 @@ SELECT  id, name
             require_once 'CRM/Price/BAO/Set.php';
             CRM_Price_BAO_Set::processAmount( $this->_priceSet['fields'], 
                                               $submittedValues, $lineItem[0] );
-            $this->assign( 'lineItem', $lineItem );
             $submittedValues['total_amount'] = $submittedValues['amount'];
         }
+        $this->assign( 'lineItem', !empty($lineItem) ? $lineItem : false );
         
         if ( CRM_Utils_Array::value('soft_credit_to', $submittedValues) ) {
             $submittedValues['soft_credit_to'] =  $submittedValues['soft_contact_id'];
