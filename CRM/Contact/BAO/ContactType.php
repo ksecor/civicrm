@@ -67,8 +67,6 @@ WHERE  parent_id IS NULL
                 $_cache[$argString][$dao->name] = $value;
             }
         }
-        CRM_Core_Error::debug( '$argString', $argString );
-        CRM_Core_Error::debug( '$_cache', $_cache );
         return $_cache[$argString];
     }
 
@@ -91,7 +89,7 @@ WHERE  parent_id IS NULL
             $ctWHERE = '';
             if ( ! empty($contactType) ) {
                 $ctWHERE = " AND parent_id IN ( SELECT id FROM civicrm_contact_type WHERE name IN ('" . 
-                    implode( "','" , $contactType ) . "')" ;
+                    implode( "','" , $contactType ) . "') )" ;
             }
 
             $sql = "
