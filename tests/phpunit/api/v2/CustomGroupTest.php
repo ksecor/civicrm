@@ -83,8 +83,9 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                          );
         
         $customGroup =& civicrm_custom_group_create($params);
-        $this->assertEquals($customGroup['is_error'],0);
+        $this->assertEquals($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['id']);
+        $this->assertEquals($customGroup['extends'], 'Individual');
         $this->customGroupDelete($customGroup['id']);
     } 
 
@@ -103,7 +104,7 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         
         $customGroup =& civicrm_custom_group_create($params);
         $this->assertEquals($customGroup['error_message'],'Title parameter is required.');
-        $this->assertEquals($customGroup['is_error'],1);
+        $this->assertEquals($customGroup['is_error'], 1);
 	} 
 
     /**
@@ -122,8 +123,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                         );
         
         $customGroup =& civicrm_custom_group_create($params);
-        $this->assertEquals($customGroup['is_error'],0);
+        $this->assertEquals($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['id']);
+        $this->assertEquals($customGroup['extends'], 'Household');
+        $this->assertEquals($customGroup['style'], 'Tab');
         $this->customGroupDelete($customGroup['id']);
     }
     
@@ -143,9 +146,10 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                         'is_active'        => 1 
                         );
         
-        $customGroup =& civicrm_custom_group_create($params); 
+        $customGroup =& civicrm_custom_group_create($params);
         $this->assertEquals($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['id']);
+        $this->assertEquals($customGroup['extends'], 'Contribution');
         $this->customGroupDelete($customGroup['id']);
     }
 
@@ -169,6 +173,7 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $customGroup =& civicrm_custom_group_create($params); 
         $this->assertEquals($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['id']);
+        $this->assertEquals($customGroup['extends'], 'Group');
         $this->customGroupDelete($customGroup['id']);
     }
     
@@ -188,12 +193,15 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                         'help_post'        => 'This is Post Help For Test Group 10'
                         );
         
-        $customGroup =& civicrm_custom_group_create($params); 
+        $customGroup =& civicrm_custom_group_create($params);
         $this->assertEquals($customGroup['is_error'], 0);
         $this->assertNotNull($customGroup['id']);
+        $this->assertEquals($customGroup['extends'], 'Activity');
         $this->customGroupDelete($customGroup['id']);
     }
 
+///////////////// civicrm_custom_group_delete methods   
+    
     /**
      * check without GroupID
      */
@@ -204,20 +212,7 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customGroup['is_error'], 1);
         $this->assertEquals($customGroup['error_message'],'Invalid or no value for Custom group ID');
     }    
-
-///////////////// civicrm_custom_group_delete methods   
-
-    /**
-     * check with valid array
-     */    
-    function testCustomGroupDelete( )
-    {
-        $customGroup = $this->customGroupCreate('Individual', 'test_group'); 
-        $params = array('id' => $customGroup['id']);                         
-        $customGroup =& civicrm_custom_group_delete($params);  
-        $this->assertEquals($customGroup['is_error'], 0);
-    } 
-    
+   
     /**
      * check with empty array
      */ 
@@ -229,7 +224,17 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals( $customField['error_message'],'Missing Required field :custom_group_id' );
     }
 
-
+    /**
+     * check with valid custom group id
+     */    
+    function testCustomGroupDelete( )
+    {
+        $customGroup = $this->customGroupCreate('Individual', 'test_group'); 
+        $params = array('id' => $customGroup['id']);                         
+        $customGroup =& civicrm_custom_group_delete($params);
+        $this->assertEquals($customGroup['is_error'], 0);
+    } 
+    
 ///////////////// civicrm_custom_field_create methods
 
     /**
@@ -248,7 +253,7 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                              'is_active'      => 1
                              );
                
-        $customField =& civicrm_custom_field_create($fieldParams);     
+        $customField =& civicrm_custom_field_create($fieldParams);
         $this->assertEquals($customField['is_error'], 1);
         $this->assertEquals( $customField['error_message'],'Missing Required field :custom_group_id' );
     }    
@@ -295,7 +300,7 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                         'is_searchable'   => 0,
                         'is_active'       => 1
                         );
-        $customField =& civicrm_custom_field_create($params); 
+        $customField =& civicrm_custom_field_create($params);
         $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
@@ -320,7 +325,7 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                         'is_active'       => 1
                         );
                
-        $customField =& civicrm_custom_field_create($params);  
+        $customField =& civicrm_custom_field_create($params);
         $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
@@ -345,7 +350,7 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                         'is_active'       => 1
                         );
         
-        $customField =& civicrm_custom_field_create($params);  
+        $customField =& civicrm_custom_field_create($params);
         $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
@@ -529,7 +534,5 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customField['is_error'], 0);
         $this->customGroupDelete($customGroup['id']); 
     } 
-
-    
 }
 
