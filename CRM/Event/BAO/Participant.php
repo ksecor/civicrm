@@ -152,40 +152,6 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         return $participants;
     }
 
-    /**
-     * Given a participant id, return contribution/fee line items
-     *
-     * @param $id int|array participant id
-     *
-     * @return array line items
-     */
-    static function getLineItems( $id ) {
-        $lineItems = array();
-        require_once 'CRM/Core/DAO.php';
-        $query = "
-SELECT li.label, li.qty, li.unit_price, li.line_total
-  FROM civicrm_participant AS p,
-       civicrm_participant_payment AS pp,
-       civicrm_line_item AS li
- WHERE p.id = %1
-   AND pp.participant_id = p.id
-   AND li.entity_id = pp.contribution_id
-   AND li.entity_table = 'civicrm_contribution'";
-
-        $params = array( 1 => array( $id, 'Integer' ) );
-
-        $dao = CRM_Core_DAO::executeQuery( $query, $params );
-
-        while ( $dao->fetch() ) {
-            $lineItems[] = array(
-                'label' => $dao->label,
-                'qty' => $dao->qty,
-                'unit_price' => $dao->unit_price,
-                'line_total' => $dao->line_total
-            );
-        }
-        return $lineItems;
-    }
 
     /**
      * takes an associative array and creates a participant object

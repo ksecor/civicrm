@@ -438,13 +438,19 @@ WHERE  id = %1";
         // get price info
         if ( $priceSetId = self::getFor( $entityTable, $id ) ) {
             if ( $form->_action & CRM_Core_Action::UPDATE ){
-                require_once 'CRM/Event/BAO/Participant.php';
+                $entityId = $entity = null;
                 if ( $entityTable == 'civicrm_event' ) {
-                    $form->_values['line_items'] = CRM_Event_BAO_Participant::getLineItems( $form->_participantId );
-                } elseif ( $entityTable == 'civicrm_contribution_page' ) {
-                    //FIXME:
-                    //$form->_values['line_items'] = CRM_Contribute_BAO_Contribution::getLineItems( $form->_id );
+                    $entity   = 'Participant'; 
+                    $entityId = $form->_participantId;
+                } else if ( $entityTable == 'civicrm_contribution_page' ||  
+                            $entityTable == 'civicrm_contribution' ) {
+                    $entityId = $form->_id;
+                    $entity   = 'Contribution';
                 } 
+                if ( $entityId && $entity ) {
+                    require_once 'CRM/Core/BAO/LineItem.php';
+                    $form->_values['line_items'] = CRM_Core_BAO_LineItem::getLineItems( $entityId, $entity );
+                }
                 $required = false;
             } else {
                 $required = true;

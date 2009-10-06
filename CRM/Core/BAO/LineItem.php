@@ -57,6 +57,49 @@ class CRM_Core_BAO_LineItem extends CRM_Core_DAO_LineItem {
         }
         return null;
     }
+    
+    /**
+     * Given a participant id/contribution id, 
+     * return contribution/fee line items
+     *
+     * @param $entityId  int    participant/contribution id
+     * @param $entity    string Participant/Contribution.
+     *
+     * @return array of line items
+     */
+    static function getLineItems( $entityId, $entity = 'Participant' ) 
+    {
+        $whereClause  = $fromCluase = null;
+        $selectClause = "SELECT li.id, li.label, li.qty, li.unit_price, li.line_total";
+        if ( $entity == 'Participant' ) {
+            $fromClause = "
+FROM      civicrm_participant as p 
+LEFT JOIN civicrm_participant_payment pp ON ( pp.participant_id = p.id ) 
+LEFT JOIN civicrm_line_item li ON ( li.entity_id = pp.contribution_id AND li.entity_table = 'civicrm_contribution')";
+            $whereClause = "WHERE p.id = %1";
+        } else if ( $entity == 'Contribution' ) {
+            $fromClause = "
+FROM      civicrm_contribution c
+LEFT JOIN civicrm_line_item li ON ( li.entity_id = c.id AND li.entity_table = 'civicrm_contribution')";
+            $whereClause = "WHERE c.id = %1";
+        }
+        
+        $lineItems = array( );
+        if ( !$entityId || !$entity || !$fromClause ) return $lineItems; 
+        
+        require_once 'CRM/Core/DAO.php';
+        $params = array( 1 => array( $entityId, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( "$selectClause $fromClause $whereClause", $params );
+        while ( $dao->fetch() ) {
+            $lineItems[$dao->id] = array( 'qty'        => $dao->qty,
+                                          'label'      => $dao->label,
+                                          'unit_price' => $dao->unit_price,
+                                          'line_total' => $dao->line_total
+                                          );
+        }
+        
+        return $lineItems;
+    }
 
 }
 

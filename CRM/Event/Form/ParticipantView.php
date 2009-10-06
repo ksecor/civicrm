@@ -74,7 +74,8 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
         $values[$this->get( 'id' )]['note'] = array_values( $noteValue );
         
         // Get Contribution Line Items
-        $values[$this->get( 'id' )]['line_items'] = CRM_Event_BAO_Participant::getLineItems( $this->get( 'id' ) );
+        require_once 'CRM/Core/BAO/LineItem.php';
+        $values[$this->get( 'id' )]['line_items'] = CRM_Core_BAO_LineItem::getLineItems( $this->get( 'id' ) );
         
         // get the option value for custom data type 	
         $roleCustomDataTypeID      = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantRole', 'name' );

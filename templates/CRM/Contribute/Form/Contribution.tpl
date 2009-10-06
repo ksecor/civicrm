@@ -60,6 +60,13 @@
         {ts}(test){/ts}
         {/if} {help id="id-contribution_type"}
         </td></tr>
+	
+	{if $action eq 2 and $line_items}
+	<tr>
+            <td class="label">{ts}Contribution Amount{/ts}</td>
+            <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+        </tr>
+	{else}
         <tr id="totalAmount">
             <td class="label">{$form.total_amount.label}</td><td{$valueStyle}>{$form.total_amount.html|crmMoney:$currency} 
 	    {if $hasPriceSets} {ts}OR{/ts} {$form.price_set_id.html}
@@ -68,7 +75,8 @@
 	    <span class="description">{ts}Actual amount given by contributor.{/ts}</span>
             </td>
         </tr>
-        
+        {/if}
+
         <tr><td class="label">{$form.source.label}</td><td{$valueStyle}>{$form.source.html} {help id="id-contrib_source"}</td></tr>
 
         {if $contributionMode}
