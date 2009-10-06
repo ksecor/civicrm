@@ -88,17 +88,17 @@ WHERE  parent_id IS NULL
 
             $ctWHERE = '';
             if ( ! empty($contactType) ) {
-                $ctWHERE = " AND parent_id IN ( SELECT id FROM civicrm_contact_type WHERE name IN ('" . 
-                    implode( "','" , $contactType ) . "') )" ;
+                $ctWHERE = " AND parent.name IN ('" . implode( "','" , $contactType ) . "')" ;
             }
 
             $sql = "
-SELECT *
-FROM   civicrm_contact_type
-WHERE  name IS NOT NULL AND parent_id IS NOT NULL {$ctWHERE}
+SELECT subtype.*, parent.name as parent
+FROM   civicrm_contact_type subtype
+INNER JOIN civicrm_contact_type parent ON subtype.parent_id = parent.id
+WHERE  subtype.name IS NOT NULL AND subtype.parent_id IS NOT NULL {$ctWHERE}
 ";
             if ( $all === false ) {
-                $sql .= " AND is_active = 1";
+                $sql .= " AND subtype.is_active = 1";
             }
             
             $dao = CRM_Core_DAO::executeQuery( $sql, array( ), 
@@ -106,6 +106,7 @@ WHERE  name IS NOT NULL AND parent_id IS NOT NULL {$ctWHERE}
             while ( $dao->fetch( ) ) {
                 $value = array( );
                 CRM_Core_DAO::storeValues( $dao, $value );
+                $value['parent'] = $dao->parent;
                 $_cache[$argString][$dao->name] = $value;
             }
         }

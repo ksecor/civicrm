@@ -273,23 +273,24 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                           
         unset( $fields['Contact']['contact_type'] );
 
-        //Contact Sub Type For Profile
-        require_once 'CRM/Core/PseudoConstant.php';
-        $contactSubType = CRM_Contact_BAO_ContactType::subTypes( );
-
-        foreach ( $contactSubType as $val ) {
+        // Contact Sub Types For Profile
+        $contactSubTypes = array( );
+        $subTypes = CRM_Contact_BAO_ContactType::subTypeInfo( );
+        foreach ( $subTypes as $name => $val ) {
             //custom fields for sub type
-            $subTypeFields[$val] = CRM_Core_BAO_CustomField::getFieldsForImport( $val );
+            $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $name );
 
-            if ( empty( $subTypeFields[$val] ) ) {
-                //no custom data unset it
-                unset($subTypeFields[$val]);
-                unset($contactSubType[$val]);
-            } else {
-                //add to fields
-                $fields[$val] = $subTypeFields[$val];
+            if ( ! empty( $subTypeFields ) ) {
+                // remove subtype fields from basic contact type entries so that for e.g 
+                // Individual won't have entries for Parent or Student
+                foreach ( $subTypeFields as $fld => $dnc ) {
+                    unset($fields[$val['parent']][$fld]);
+                }
+                $fields[$name] = $fields[$val['parent']] + $subTypeFields;
+                $contactSubTypes[$name] = $val['label'];
             }
         }
+        unset( $subTypes );
 
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
@@ -383,7 +384,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $sel1 = array( '' => '- select -' ) 
             + array( 'Contact' => 'Contacts' ) 
             + CRM_Core_SelectValues::contactType()
-            + $contactSubType;
+            + $contactSubTypes;
         
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $sel1['Student'] = 'Students';
