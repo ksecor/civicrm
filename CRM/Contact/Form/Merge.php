@@ -67,8 +67,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             CRM_Core_Error::fatal( ts( 'You do not have access to this page' ) );
         }
 
-        $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
-        $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
+        $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, true);
+        $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, true);
         $rgid  = CRM_Utils_Request::retrieve('rgid','Positive', $this, false);
 
         // ensure that oid is not the current user, if so refuse to do the merge
@@ -89,8 +89,15 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $mainParams["return.$field"] = $otherParams["return.$field"] = 1;
         }
         $main  =& civicrm_contact_get($mainParams);
+        if ( $main['contact_id'] != $cid ) {
+            CRM_Core_Error::fatal( ts( 'The main contact record does not exist' ) );
+        }
+
         $other =& civicrm_contact_get($otherParams);
-        
+        if ( $other['contact_id'] != $oid ) {
+            CRM_Core_Error::fatal( ts( 'The other contact record does not exist' ) );
+        }
+
         //CRM-4524
         $main  = reset( $main );
         $other = reset( $other );
