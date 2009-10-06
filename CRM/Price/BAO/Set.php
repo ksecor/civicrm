@@ -278,15 +278,14 @@ WHERE     ct.id = cp.contribution_type_id AND
      */
     public static function getFor( $entityTable, $entityId ) 
     {
+        if ( !$entityTable || !$entityId ) return false;  
+        
         require_once 'CRM/Price/DAO/SetEntity.php';
         $dao =& new CRM_Price_DAO_SetEntity( );
         $dao->entity_table = $entityTable;
         $dao->entity_id = $entityId;
-        if ( $dao->find( true ) ) {
-            return $dao->price_set_id;
-        } else {
-            return false;
-        }
+        $dao->find( true );
+        return (isset($dao->price_set_id)) ? $dao->price_set_id:false; 
     }
 
      /**

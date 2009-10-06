@@ -8,6 +8,12 @@
         <td class="label">{ts}Contribution Type{/ts}</td>
     	<td>{$contribution_type}&nbsp; {if $is_test} {ts}(test){/ts} {/if}</td>
     </tr>
+    {if $line_items}
+    <tr>
+        <td class="label">{ts}Contribution Amount{/ts}</td>
+        <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+        </tr>
+    {else}
     <tr>
         <td class="label">{ts}Total Amount{/ts}</td>
         <td><strong>{$total_amount|crmMoney:$currency}</strong>&nbsp; 
@@ -17,6 +23,7 @@
             {/if}
         </td>
     </tr>
+    {/if}
     {if $non_deductible_amount}
         <tr>
 	        <td class="label">{ts}Non-deductible Amount{/ts}</td>

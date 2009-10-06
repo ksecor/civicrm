@@ -91,6 +91,7 @@ LEFT JOIN civicrm_line_item li ON ( li.entity_id = c.id AND li.entity_table = 'c
         $params = array( 1 => array( $entityId, 'Integer' ) );
         $dao = CRM_Core_DAO::executeQuery( "$selectClause $fromClause $whereClause", $params );
         while ( $dao->fetch() ) {
+            if ( !$dao->id ) continue;
             $lineItems[$dao->id] = array( 'qty'        => $dao->qty,
                                           'label'      => $dao->label,
                                           'unit_price' => $dao->unit_price,
