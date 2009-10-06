@@ -557,12 +557,22 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $bulkActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                               'Bulk Email',
                                                               'name' );
+
+        $config =& CRM_Core_Config::singleton( );
         if ( !$admin ) {
-            $clause = " ( source_contact_id = %1 or 
-                          at.target_contact_id = %1 or 
-                          aa.assignee_contact_id = %1 or 
-                          civicrm_case_contact.contact_id = %1 ) ";
+            $clauseArray = array( 'source_contact_id = %1' );
             
+            //if ( $onlyCount ) {
+                $clauseArray = array_merge( $clauseArray, 
+                                            array( 'at.target_contact_id = %1', 
+                                                   'aa.assignee_contact_id = %1' ) ); 
+            //}
+            
+            if ( in_array( 'CiviCase', $config->enableComponents ) ) {
+                $clauseArray = array_merge( $clauseArray, array( 'civicrm_case_contact.contact_id = %1' ) );
+            }
+                        
+            $clause = " ( " . implode( ' OR ', $clauseArray ) ." ) ";
             $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
         }
         
@@ -579,10 +589,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         // Filter on case ID if looking at activities for a specific case
         // or else exclude Inbound Emails that have been filed on a case.
-        if ( $caseId ) {
-            $case = " civicrm_case_activity.case_id = $caseId ";
-        } else {
-        	$case = " ((civicrm_case_activity.case_id Is Null) OR (civicrm_option_value.name <> 'Inbound Email' AND civicrm_option_value.name <> 'Email' AND civicrm_case_activity.case_id Is Not Null)) ";
+        $case = 1;
+        if ( in_array( 'CiviCase', $config->enableComponents ) ) {
+            if ( $caseId ) {
+                $case = " civicrm_case_activity.case_id = $caseId ";
+            } else {
+            	$case = " ((civicrm_case_activity.case_id Is Null) OR (civicrm_option_value.name <> 'Inbound Email' AND civicrm_option_value.name <> 'Email' AND civicrm_case_activity.case_id Is Not Null)) ";
+            }
         }
         
         // Filter on component IDs.
@@ -602,7 +615,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( $onlyCount ) {
             $select = "select COUNT(DISTINCT(civicrm_activity.id)) as count";
         } else {
-            $select ="select DISTINCT(civicrm_activity.id), 
+            $select = "select DISTINCT(civicrm_activity.id), 
                          civicrm_activity.activity_date_time,
                          civicrm_activity.status_id, civicrm_activity.subject,
                          civicrm_activity.source_contact_id,civicrm_activity.source_record_id,
@@ -612,25 +625,32 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                          GROUP_CONCAT( DISTINCT(activity_assignment.assignee_contact_id  ) SEPARATOR '::' ) as assignee_contact_id,
                          GROUP_CONCAT( DISTINCT(assigneeContact.sort_name ) SEPARATOR '::' ) as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
-                         civicrm_option_value.label as activity_type,
-                         civicrm_case_activity.case_id as case_id,
-                         civicrm_case.subject as case_subject ";
+                         civicrm_option_value.label as activity_type ";
+            
+            if ( in_array( 'CiviCase', $config->enableComponents ) ) {             
+                $select .=  " ,civicrm_case_activity.case_id as case_id,
+                               civicrm_case.subject as case_subject ";
+            }
         }
         $join   = "\n 
                     left join civicrm_activity_target at on 
                               civicrm_activity.id = at.activity_id 
                     left join civicrm_activity_assignment aa on 
                               civicrm_activity.id = aa.activity_id 
-                    left join civicrm_case_activity on
-                              civicrm_case_activity.activity_id = civicrm_activity.id
-                    left join civicrm_case on
-                              civicrm_case_activity.case_id = civicrm_case.id
-                    left join civicrm_case_contact on
-                              civicrm_case_contact.case_id = civicrm_case.id
                     left join civicrm_option_value on
                               ( civicrm_activity.activity_type_id = civicrm_option_value.value )
                     left join civicrm_option_group on  
                               civicrm_option_group.id = civicrm_option_value.option_group_id ";
+        
+        if ( in_array( 'CiviCase', $config->enableComponents ) ) { 
+            $join .= "\n 
+                       left join civicrm_case_activity on
+                                 civicrm_case_activity.activity_id = civicrm_activity.id
+                       left join civicrm_case on
+                                 civicrm_case_activity.case_id = civicrm_case.id
+                       left join civicrm_case_contact on
+                                 civicrm_case_contact.case_id = civicrm_case.id ";
+        }
                                
         if ( !$onlyCount ) {                    
             $join .="\n
