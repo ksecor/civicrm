@@ -100,6 +100,7 @@
     DELETE FROM civicrm_option_value WHERE option_group_id = @ps_ogid;
     DELETE FROM civicrm_option_group WHERE              id = @ps_ogid;
  
+    UPDATE civicrm_participant SET status_id = 1 WHERE status_id IS NULL;
     ALTER TABLE `civicrm_participant`
         CHANGE `status_id` `status_id` INT( 10 ) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'Participant status ID. FK to civicrm_participant_status_type. Default of 1 should map to status = Registered.',
         ADD CONSTRAINT FK_civicrm_participant_status_id FOREIGN KEY (status_id) REFERENCES civicrm_participant_status_type (id);

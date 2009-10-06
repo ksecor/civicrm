@@ -127,7 +127,13 @@ class CRM_Contribute_Form_AdditionalInfo
                                 $attributes['invoice_id'] );
         if ( $form->_online ) {
             $element->freeze( );
-        } 
+        } else {
+            $form->addRule( 'invoice_id',
+                            ts( 'This Invoice ID already exists in the database.' ),
+                            'objectExists', 
+                            array( 'CRM_Contribute_DAO_Contribution', $form->_id, 'invoice_id' ) );
+        }
+        
         $form->add('textarea', 'note', ts('Notes'),array("rows"=>4,"cols"=>60) );
         
     }

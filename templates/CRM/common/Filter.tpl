@@ -1,6 +1,5 @@
 {literal}
-d = document;
-stregexp = new RegExp;
+var stregexp = new RegExp;
 
 function initFilter( id ) {
     //build the array
@@ -14,13 +13,13 @@ function initFilter( id ) {
     remvdArray = new Array();
 
     //get select object
-    selObj = d.getElementById("token"+ id);
+    selObj = document.getElementById("token"+ id);
 
     //rebuild the list
     buildOptions(filterArray);
 
     //clear the input box
-    d.getElementById("filter"+id).value = "";
+    document.getElementById("filter"+id).value = "";
 
     //clear the last typed value
     lastVal = "";
@@ -109,9 +108,9 @@ function buildRemvd( ) {
 
 function getMatches(id) {
     if ( selObj.options.length == 1 ) {
-        d.getElementById("match"+id).innerHTML = "{/literal}{ts}1 match{/ts}{literal}";
+        document.getElementById("match"+id).innerHTML = "{/literal}{ts}1 match{/ts}{literal}";
     } else {
-        d.getElementById("match"+id).innerHTML = selObj.options.length +"&nbsp;{/literal}{ts}matches{/ts}{literal}";
+        document.getElementById("match"+id).innerHTML = selObj.options.length +"&nbsp;{/literal}{ts}matches{/ts}{literal}";
     }
 }
 {/literal}
