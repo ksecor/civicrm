@@ -763,7 +763,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                   'at.target_contact_id = %1', 
                                   'aa.assignee_contact_id = %1' ); 
             
-            if ( in_array( 'CiviCase', $config->enableComponents ) ) {
+            if ( in_array( 'CiviCase', $config->enableComponents ) && CRM_Core_Permission::check( 'access ' . $compObj->info['name'] ) ) {
                 $clauseArray = array_merge( $clauseArray, array( 'civicrm_case_contact.contact_id = %1' ) );
             }
                         
