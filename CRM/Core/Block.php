@@ -311,19 +311,8 @@ class CRM_Core_Block {
         
         if (!($shortCuts)) {
             if (CRM_Core_Permission::check('add contacts')) {
-                $shortCuts = array( array( 'path'  => 'civicrm/contact/add',
-                                           'query' => 'ct=Individual&reset=1',
-                                           'ref'   => 'new-individual',
-                                           'title' => ts('Individual') ),
-                                    array( 'path'  => 'civicrm/contact/add',
-                                           'query' => 'ct=Household&reset=1',
-                                           'ref'   => 'new-household',
-                                           'title' => ts('Household') ),
-                                    array( 'path'  => 'civicrm/contact/add',
-                                           'query' => 'ct=Organization&reset=1',
-                                           'ref'   => 'new-organization',
-                                           'title' => ts('Organization') ),
-                                   );
+                require_once 'CRM/Contact/BAO/ContactType.php';
+                $shortCuts = CRM_Contact_BAO_ContactType::getCreateNewList( );
                 if ( CRM_Core_Permission::access( 'Quest' ) ) {
                     $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/quest/search',
                                                                        'query' => 'reset=1',

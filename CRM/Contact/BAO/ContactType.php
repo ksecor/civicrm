@@ -214,4 +214,36 @@ WHERE  id = ( SELECT parent_id FROM civicrm_contact_type WHERE name = %1 )
     static function isExtendsContactType( $subType, $contactType ) {
         return in_array( $subType, self::subTypes( $contactType ) );
     }
+
+    /**
+     *
+     *function to create shortcuts menu for contactTypes
+     *
+     *@return array  of contactTypes
+     *@static
+     *
+     */
+    
+    static  function getCreateNewList ( ) {
+        require_once 'CRM/Core/DAO.php';
+        $shortCuts    = array( );
+        $contactTypes = self::getSelectElements(  ); 
+        foreach( $contactTypes as $key => $value ) {
+            if( $key ) {
+                list( $cType, $csType )    = explode( CRM_Core_DAO::VALUE_SEPARATOR,$key );
+                $typeUrl                   = "ct=$cType";
+                if( $csType ) {
+                    $typeUrl  = "ct=$cType&cst=$csType";
+                }
+                $shortCuts[]  = array(
+                                      'path'  => "civicrm/contact/add",
+                                      'query' => "$typeUrl&reset=1",
+                                      'ref'   => "new-$value",
+                                      'title' => ts( "%1", array( 1=>$value ) )
+                                      );          
+            }
+        }
+        return $shortCuts;
+    }
+    
 }
