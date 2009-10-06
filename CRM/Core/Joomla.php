@@ -55,8 +55,8 @@ class CRM_Core_Joomla {
 
         require_once 'CRM/Core/Block.php';
         $blockIds = array( 
-            CRM_Core_Block::RECENTLY_VIEWED,
             CRM_Core_Block::CREATE_NEW,
+            CRM_Core_Block::RECENTLY_VIEWED,
             CRM_Core_Block::DASHBOARD,
             CRM_Core_Block::ADD,
             CRM_Core_Block::LANGSWITCH,

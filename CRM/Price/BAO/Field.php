@@ -270,7 +270,7 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
         if (!isset($label)) {
             $label = $field->label;
         }
-	if ( isset($qf->_online) ) {
+	if ( isset($qf->_online) && $qf->_online ) {
 	  $useRequired = false;
 	}
 

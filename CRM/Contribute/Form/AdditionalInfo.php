@@ -127,7 +127,13 @@ class CRM_Contribute_Form_AdditionalInfo
                                 $attributes['invoice_id'] );
         if ( $form->_online ) {
             $element->freeze( );
-        } 
+        } else {
+            $form->addRule( 'invoice_id',
+                            ts( 'This Invoice ID already exists in the database.' ),
+                            'objectExists', 
+                            array( 'CRM_Contribute_DAO_Contribution', $form->_id, 'invoice_id' ) );
+        }
+        
         $form->add('textarea', 'note', ts('Notes'),array("rows"=>4,"cols"=>60) );
         
     }
@@ -424,6 +430,31 @@ class CRM_Contribute_Form_AdditionalInfo
                                              $message);
         
         return $sendReceipt;
+    }
+    
+    /** 
+     * Function to process line items. 
+     * 
+     * @access public 
+     * @return None 
+     */ 
+    function processLineItem( $lineItem, $contributionId )
+    {
+        // store line items
+        if ( !$contributionId || !is_array( $lineItem ) || 
+             CRM_Utils_system::isNull( $lineItem ) ) {
+            return;
+        }
+        
+        require_once 'CRM/Core/BAO/LineItem.php';
+        foreach ( $lineItem as $key => $values ) {
+            foreach( $values as $line ) {
+                $unused = array();
+                $line['entity_table'] = 'civicrm_contribution';
+                $line['entity_id'] = $contributionId;
+                CRM_Core_BAO_LineItem::create( $line, $unused );
+            }
+        }
     }
     
 }
