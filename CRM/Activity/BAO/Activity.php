@@ -617,31 +617,35 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                          civicrm_case.subject as case_subject ";
         }
         $join   = "\n 
-                  left join civicrm_activity_target at on 
-                            civicrm_activity.id = at.activity_id 
-                  left join civicrm_activity_assignment aa on 
-                            civicrm_activity.id = aa.activity_id 
-                  left join civicrm_activity_target as activity_target on 
-                            civicrm_activity.id = activity_target.activity_id 
-                  left join civicrm_activity_assignment as activity_assignment on 
-                            civicrm_activity.id = activity_assignment.activity_id                               
-                  left join civicrm_contact sourceContact on 
-                            source_contact_id = sourceContact.id 
-		          left join civicrm_contact targetContact on 
-                            activity_target.target_contact_id = targetContact.id 
-                  left join civicrm_contact assigneeContact on 
-                            activity_assignment.assignee_contact_id = assigneeContact.id
-                  left join civicrm_option_value on
-                            ( civicrm_activity.activity_type_id = civicrm_option_value.value )
-                  left join civicrm_option_group on  
-                            civicrm_option_group.id = civicrm_option_value.option_group_id
-                  left join civicrm_case_activity on
-                            civicrm_case_activity.activity_id = civicrm_activity.id
-                  left join civicrm_case on
-                            civicrm_case_activity.case_id = civicrm_case.id
-                  left join civicrm_case_contact on
-                            civicrm_case_contact.case_id = civicrm_case.id ";
-       
+                    left join civicrm_activity_target at on 
+                              civicrm_activity.id = at.activity_id 
+                    left join civicrm_activity_assignment aa on 
+                              civicrm_activity.id = aa.activity_id 
+                    left join civicrm_case_activity on
+                              civicrm_case_activity.activity_id = civicrm_activity.id
+                    left join civicrm_case on
+                              civicrm_case_activity.case_id = civicrm_case.id
+                    left join civicrm_case_contact on
+                              civicrm_case_contact.case_id = civicrm_case.id
+                    left join civicrm_option_value on
+                              ( civicrm_activity.activity_type_id = civicrm_option_value.value )
+                    left join civicrm_option_group on  
+                              civicrm_option_group.id = civicrm_option_value.option_group_id ";
+                               
+        if ( !$onlyCount ) {                    
+            $join .="\n
+                      left join civicrm_activity_target as activity_target on 
+                                civicrm_activity.id = activity_target.activity_id 
+                      left join civicrm_activity_assignment as activity_assignment on 
+                                civicrm_activity.id = activity_assignment.activity_id                               
+                      left join civicrm_contact sourceContact on 
+                                source_contact_id = sourceContact.id 
+    		          left join civicrm_contact targetContact on 
+                                activity_target.target_contact_id = targetContact.id 
+                      left join civicrm_contact assigneeContact on 
+                                activity_assignment.assignee_contact_id = assigneeContact.id ";
+        }
+                
         $from  = " from civicrm_activity ";
         $where = " where {$clause}
                    and civicrm_option_group.name = 'activity_type'
