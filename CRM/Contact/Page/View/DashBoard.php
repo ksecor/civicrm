@@ -42,10 +42,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  */
 class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View 
 {
-
     protected $_rows = array();
-    protected $_totalCountOpenActivity = array();
-    protected $_totalCountActivity = array();
     protected $_contactIds = array();
     protected $_history = array();
     protected $_displayName = array();
@@ -124,26 +121,13 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
     { 
         $config =& CRM_Core_Config::singleton( );
         if ( ! $config->civiHRD ) { 
-            require_once "CRM/Activity/BAO/Activity.php";
-            require_once 'CRM/Activity/BAO/Activity.php';
-            $data = array( 'contact_id' => $id );
-            $this->_totalCountOpenActivity = CRM_Activity_BAO_Activity::getActivities( $data, 
-                                                                                       null, 
-                                                                                       null, 
-                                                                                       null, 
-                                                                                       'Activity', 
-                                                                                       false, 
-                                                                                       null, 
-                                                                                       'home', 
-                                                                                       true );
-            $this->_contactIds             = $id;
+            $this->_contactIds = $id;
 
             require_once 'CRM/Core/Selector/Controller.php';
-
             $output = CRM_Core_Selector_Controller::SESSION;
 
             require_once 'CRM/Activity/Selector/Activity.php';
-            $selector   =& new CRM_Activity_Selector_Activity( $id, $this->_permission , $admin, 'home' );
+            $selector   =& new CRM_Activity_Selector_Activity( $id, $this->_permission, $admin, 'home' );
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
 

@@ -58,8 +58,8 @@ class CRM_Core_Standalone {
             CRM_Core_Block::DASHBOARD,
             CRM_Core_Block::ADD,
             CRM_Core_Block::LANGSWITCH,
-            CRM_Core_Block::EVENT,
-            CRM_Core_Block::FULLTEXT_SEARCH
+        //    CRM_Core_Block::EVENT,
+        //    CRM_Core_Block::FULLTEXT_SEARCH
         );
 
         $blocks = array( );
