@@ -375,7 +375,8 @@ WHERE  contribution_id = {$this->_id}
         require_once 'CRM/Price/BAO/Set.php';
         $this->_lineItems = array( );
         if ( $this->_id  && 
-             $this->_priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_contribution', $this->_id ) ) {
+             $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_contribution', $this->_id ) ) {
+            $this->_priceSetId = $priceSetId;
             require_once 'CRM/Core/BAO/LineItem.php';
             $this->_lineItems = CRM_Core_BAO_LineItem::getLineItems( $this->_id, 'Contribution' );
         }
@@ -1152,8 +1153,8 @@ SELECT  id, name
                                                                                   $contributionType,  
                                                                                   false, false, false );
 
-            // process line items.
-            if ( !$this->_id && $contribution->id && !empty( $lineItem ) ) {
+            // process line items, until no previous line items.
+            if ( empty( $this->_lineItems ) && $contribution->id && !empty( $lineItem ) ) {
                 CRM_Contribute_Form_AdditionalInfo::processLineItem( $lineItem, $contribution->id );
             }
             
@@ -1273,8 +1274,8 @@ SELECT  id, name
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
             
-            // process line items.
-            if ( !$this->_id && $contribution->id && !empty( $lineItem ) ) {
+            // process line items, until no previous line items.
+            if ( empty( $this->_lineItems )  && $contribution->id && !empty( $lineItem ) ) {
                 CRM_Contribute_Form_AdditionalInfo::processLineItem( $lineItem, $contribution->id );
             }
             
