@@ -434,33 +434,24 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
 
         //Contact Sub Type For export
-        require_once 'CRM/Contact/BAO/ContactType.php';
-        $contactSubType = array ( );
-        foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
-            $subType = CRM_Contact_BAO_ContactType::subTypes( $type );
-            if ( !empty($subType) ) {
-                $subType = array_combine($subType, $subType);
-                foreach ( $subType as $val ) {
-                    //custom fields for sub type
-                    $subTypeFields[$val] = CRM_Core_BAO_CustomField::getFieldsForImport( $val );
-                    
-                    if ( empty( $subTypeFields[$val] ) ) {
-                        //no custom data unset it
-                        unset($subTypeFields[$val]);
-                        unset($subType[$val]);
-                    } else {
-                        //unset from respective parent contact type
-                        foreach ( $subTypeFields[$val] as $customField => $dontcare ) {
-                            unset($fields[$type][$customField]);
-                        }
-                        //add to fields
-                        $fields[$val] = $subTypeFields[$val] + $fields[$type];
-                    }
+        $contactSubTypes = array( );
+        $subTypes = CRM_Contact_BAO_ContactType::subTypeInfo( );
+        foreach ( $subTypes as $subType => $val ) {
+            //custom fields for sub type
+            $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $subType );
+            
+            if ( ! empty( $subTypeFields ) ) {
+                // remove subtype fields from basic contact type entries so that for e.g 
+                // Individual won't have entries for Parent or Student
+                foreach ( $subTypeFields as $fld => $dnc ) {
+                    unset($fields[$val['parent']][$fld]);
                 }
-                $contactSubType =  array_merge($contactSubType, $subType);
-            }            
+                $fields[$subType] = $fields[$val['parent']] + $subTypeFields;
+                $contactSubTypes[$subType] = $val['label'];
+            }
         }
-        
+        unset( $subTypes );
+     
         foreach ($fields as $key => $value) {
            
             foreach ($value as $key1 => $value1) {
@@ -508,7 +499,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         $locationTypes = array (' ' => ts('Primary')) + $locationTypes;
         
-        $sel1 = array('' => ts('- select record type -')) + CRM_Core_SelectValues::contactType() + $compArray + $contactSubType;
+        $sel1 = array('' => ts('- select record type -')) + CRM_Core_SelectValues::contactType() + $compArray + $contactSubTypes;
         
         foreach ( $sel1 as $key => $sel ) {
             if ( $key ) {
