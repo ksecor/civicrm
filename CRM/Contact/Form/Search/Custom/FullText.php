@@ -341,37 +341,45 @@ AND     {$tableValues['id']} IS NOT NULL
 
         $contactSQL[] = "
 SELECT ca.id 
-FROM   civicrm_activity ca, civicrm_contact c, civicrm_email e
+FROM   civicrm_activity ca
+INNER JOIN civicrm_contact c ON ca.source_contact_id = c.id
+LEFT JOIN civicrm_email e ON e.contact_id = c.id
 LEFT JOIN civicrm_option_group og ON og.name = 'activity_type'
 LEFT JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id ) 
-WHERE  ca.source_contact_id = c.id
-AND    ( c.display_name LIKE {$this->_text} OR
-         ( e.email LIKE {$this->_text} AND ca.source_contact_id = e.contact_id AND 
-           ca.activity_type_id = ov.value AND ov.name IN ('Inbound Email', 'Email') ) )
+WHERE  c.display_name LIKE {$this->_text} OR
+       ( e.email LIKE {$this->_text}    AND 
+         ca.activity_type_id = ov.value AND
+         ov.name IN ('Inbound Email', 'Email') )
 ";
 
         $contactSQL[] = "
-SELECT ca.id 
-FROM   civicrm_activity ca, civicrm_activity_target cat, civicrm_contact c, civicrm_email e
-LEFT JOIN civicrm_option_group og ON og.name = 'activity_type'
-LEFT JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id ) 
-WHERE  cat.activity_id = ca.id
-AND    cat.target_contact_id = c.id
-AND    ( c.display_name LIKE {$this->_text} OR
-         ( e.email LIKE {$this->_text} AND cat.target_contact_id = e.contact_id AND 
-           ca.activity_type_id = ov.value AND ov.name IN ('Inbound Email', 'Email') ) )
+SELECT     ca.id 
+FROM       civicrm_activity ca
+INNER JOIN civicrm_activity_target cat ON cat.activity_id = ca.id
+INNER JOIN civicrm_contact c ON cat.target_contact_id = c.id
+LEFT  JOIN civicrm_email e ON cat.target_contact_id = e.contact_id
+LEFT  JOIN civicrm_option_group og ON og.name = 'activity_type'
+LEFT  JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id ) 
+WHERE c.display_name LIKE {$this->_text} OR
+       ( e.email LIKE {$this->_text}    AND 
+         ca.activity_type_id = ov.value AND
+         ov.name IN ('Inbound Email', 'Email') )
 ";
 
         $contactSQL[] = "
-SELECT ca.id 
-FROM   civicrm_activity ca, civicrm_activity_assignment caa, civicrm_contact c, civicrm_email e
-LEFT JOIN civicrm_option_group og ON og.name = 'activity_type'
-LEFT JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id )
+SELECT     ca.id 
+FROM       civicrm_activity ca
+INNER JOIN civicrm_activity_assignment caa ON caa.activity_id = ca.id
+INNER JOIN civicrm_contact c ON caa.assignee_contact_id = c.id
+LEFT  JOIN civicrm_email e ON caa.assignee_contact_id = e.contact_id
+LEFT  JOIN civicrm_option_group og ON og.name = 'activity_type'
+LEFT  JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id )
 WHERE  caa.activity_id = ca.id
 AND    caa.assignee_contact_id = c.id
-AND    ( c.display_name LIKE {$this->_text}  OR
-         ( e.email LIKE {$this->_text} AND caa.assignee_contact_id = e.contact_id AND 
-           ca.activity_type_id = ov.value AND ov.name IN ('Inbound Email', 'Email') ) )
+AND    c.display_name LIKE {$this->_text}  OR
+       ( e.email LIKE {$this->_text} AND
+         ca.activity_type_id = ov.value AND
+         ov.name IN ('Inbound Email', 'Email') )
 ";
         
         $tables = array( 'civicrm_activity' => array( 'id' => 'id',
