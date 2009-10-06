@@ -234,9 +234,7 @@ function fileOnCase() {
 		title: "File on case",
 		modal: true,
 		bgiframe: true,
-		width: 400,
-		height: 300,
-		width: 400,
+		width: 450,
 		height: 300,
 		overlay: { 
 			opacity: 0.5, 
@@ -263,7 +261,7 @@ function fileOnCase() {
  				var activityID = {/literal}"{$entityID}"{literal};
  				var underscore_pos = v1.indexOf('_');
  				if (underscore_pos < 1) {
- 					alert('{ts}A problem occurred during case selection{/ts}.');
+ 					alert('{/literal}{ts}A problem occurred during case selection{/ts}{literal}.');
  					return false;
  				}
  				var case_id = v1.substring(0, underscore_pos);
@@ -278,7 +276,7 @@ function fileOnCase() {
                     		if (data.error_msg == "") {
                             	window.location.href = destUrl + case_id + '&cid=' + contact_id;
                             } else {
-                            	alert('{ts}Unable to file on case{/ts}.\n\n" + data.error_msg);
+                            	alert("{/literal}{ts}Unable to file on case{/ts}{literal}.\n\n" + data.error_msg);
                             	return false;
                             } 
                         }, 'json' 
