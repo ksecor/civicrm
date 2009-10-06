@@ -896,18 +896,35 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
                 $fields = array_merge($fields,
                                       CRM_Contact_DAO_Contact::export( ) );
-
+                
                 if ( $contactType != 'All' ) { 
                     $fields = array_merge($fields,
                                           CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
-                
+
+                    $contactSubType = CRM_Contact_BAO_ContactType::subTypes( $contactType );
+                    if ( !empty($contactSubType) ) {
+                        foreach( $contactSubType as $subTypeName => $subTypeLabel ) {
+                            $fields = array_merge($fields,
+                                                  CRM_Core_BAO_CustomField::getFieldsForImport($subTypeName, $status) );
+                        }
+                    }
+                    
                 } else {
                     foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
                         $fields = array_merge( $fields, 
-                                               CRM_Core_BAO_CustomField::getFieldsForImport($type));                        
+                                               CRM_Core_BAO_CustomField::getFieldsForImport($type));     
+
+                        $contactSubType = CRM_Contact_BAO_ContactType::subTypes( $type );
+                        if ( !empty($contactSubType) ) {
+                            foreach( $contactSubType as $subTypeName => $subTypeLabel ) {
+                                $fields = array_merge($fields,
+                                                      CRM_Core_BAO_CustomField::getFieldsForImport($subTypeName, $status) );
+                            }
+                        }
+                        
                     }
                 }
-            
+                
                 //fix for CRM-791
                 if ( $export ) {
                     $fields = array_merge( $fields, array ( 'groups' => array( 'title' => ts( 'Group(s)' ) ),

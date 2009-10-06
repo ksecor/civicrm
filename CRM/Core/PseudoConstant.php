@@ -300,14 +300,6 @@ class CRM_Core_PseudoConstant
     private static $greeting = array( );
 
     /**
-     * contact types / subtypes
-     *
-     * @var array
-     * @static
-     */
-    private static $contactSubTypes = array( );
-
-    /**
      * populate the object from the database. generic populate
      * method
      *

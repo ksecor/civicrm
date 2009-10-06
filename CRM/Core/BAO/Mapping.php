@@ -403,9 +403,38 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $compArray['Activity'] = ts('Case Activity');
 
                 unset($fields['Case']['case_contact_id']);
+
             }
         }
-       
+
+        //Contact Sub Type For export
+        require_once 'CRM/Contact/BAO/ContactType.php';
+        $contactSubType = array ( );
+        foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
+            $subType = CRM_Contact_BAO_ContactType::subTypes( $type );
+            if ( !empty($subType) ) {
+                $subType = array_combine($subType, $subType);
+                foreach ( $subType as $val ) {
+                    //custom fields for sub type
+                    $subTypeFields[$val] = CRM_Core_BAO_CustomField::getFieldsForImport( $val );
+                    
+                    if ( empty( $subTypeFields[$val] ) ) {
+                        //no custom data unset it
+                        unset($subTypeFields[$val]);
+                        unset($subType[$val]);
+                    } else {
+                        //unset from respective parent contact type
+                        foreach ( $subTypeFields[$val] as $customField => $dontcare ) {
+                            unset($fields[$type][$customField]);
+                        }
+                        //add to fields
+                        $fields[$val] = $subTypeFields[$val] + $fields[$type];
+                    }
+                }
+                $contactSubType =  array_merge($contactSubType, $subType);
+            }            
+        }
+        
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 //CRM-2676, replacing the conflict for same custom field name from different custom group.
@@ -441,7 +470,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         $locationTypes = array (' ' => ts('Primary')) + $locationTypes;
        
-        $sel1 = array('' => ts('- select record type -')) + CRM_Core_SelectValues::contactType() + $compArray; 
+        
+        $sel1 = array('' => ts('- select record type -')) + CRM_Core_SelectValues::contactType() + $compArray + $contactSubType;
         
         foreach($sel1 as $key=>$sel ) {
             if ( $key ) {
