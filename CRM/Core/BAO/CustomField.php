@@ -368,10 +368,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
                 $extends = '';
                 if ( $customDataType ) {
-                    $contactSubTypes = CRM_Contact_BAO_ContactType::subTypes( );
                     if ( in_array( $customDataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
-                        $value = "'" . CRM_Utils_Type::escape($customDataType, 'String') . "', 'Contact' ";
-                    } else if ( in_array( $customDataType, $contactSubTypes )) {
+                        $value = "'" . CRM_Utils_Type::escape( $customDataType, 'String' ) . "', 'Contact' ";
+                        // consider subtypes if any
+                        $contactSubTypes = CRM_Contact_BAO_ContactType::subTypes( $customDataType );
+                        if ( !empty($contactSubTypes) ) {
+                            $value .= ", '" . implode("','", $contactSubTypes) . "'";
+                        }
+                    } else if ( in_array( $customDataType, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
                         // consider subtypes if any
                         $value = "'" . CRM_Utils_Type::escape($customDataType, 'String'). "'";
                     } else {
