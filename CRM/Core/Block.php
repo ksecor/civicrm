@@ -84,6 +84,7 @@ class CRM_Core_Block {
 
         if (!(self::$_properties)) {
             self::$_properties = array(
+            // set status item to 0 to disable block by default (at install)
                                        self::CREATE_NEW   => array( 'template'   => 'CreateNew.tpl',
                                                                    'info'       => ts('CiviCRM Create New Record'),
                                                                    'subject'    => ts(''),
