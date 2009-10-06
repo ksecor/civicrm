@@ -144,7 +144,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         foreach ( $ufGroups as $id => $title ) {
             if ( $ctype ) {
                 $fieldType = CRM_Core_BAO_UFField::getProfileType( $id );
-                if ( ( $fieldType != 'Contact' ) && ( $fieldType != $ctype ) ) {
+                if ( ( $fieldType != 'Contact' ) && 
+                     ( $fieldType != $ctype ) &&
+                     ! CRM_Contact_BAO_ContactType::isExtendsContactType( $fieldType, $ctype ) ) {
                     continue;
                 }
             }

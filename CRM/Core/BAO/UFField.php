@@ -364,6 +364,10 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             }
         }
 
+        // suppress any subtypes if present
+        require_once "CRM/Contact/BAO/ContactType.php";
+        CRM_Contact_BAO_ContactType::suppressSubTypes( $profileTypes );
+
         $contactTypes = array( 'Contact', 'Individual', 'Household', 'Organization' );
         $components   = array( 'Contribution', 'Participant', 'Membership' );
         $fields = array( );
