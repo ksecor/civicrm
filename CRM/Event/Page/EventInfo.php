@@ -160,16 +160,19 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             CRM_Core_Session::setStatus( $statusMessage );
         }
         
-        if ( isset($values['event']['is_online_registration']) ) {
+        if ( CRM_Utils_Array::value( 'is_online_registration', $values['event'] ) ) {
             if ( CRM_Event_BAO_Event::validRegistrationDate( $values['event'], $this->_id ) ) {
                 if ( ! $eventFullMessage ) {
                     $registerText = ts('Register Now');
                     if ( CRM_Utils_Array::value('registration_link_text',$values['event']) ) {
                         $registerText = $values['event']['registration_link_text'];
                     }
+                    //Fixed for CRM-4855
+                    if ( CRM_Event_BAO_Event::showHideRegistrationLink( $values ) ) {
+                        $this->assign( 'allowRegistration', true );
+                    }
                     
                     $this->assign( 'registerText', $registerText );
-                    $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
                 }
                 
                 // we always generate urls for the front end in joomla
