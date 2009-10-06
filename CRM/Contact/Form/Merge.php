@@ -371,7 +371,6 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     require_once "CRM/Core/DAO/{$daoName}.php";
                     eval("\$updateDAO =& new CRM_Core_DAO_$daoName();");
                     $updateDAO->id = $updateBlockId;
-                    $updateDAO->find( true );
                     $updateDAO->contact_id = $this->_cid;
                     $updateDAO->location_type_id = $locTypeId;
                     
