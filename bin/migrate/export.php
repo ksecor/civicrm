@@ -128,7 +128,7 @@ AND    cg.is_active = 1
                       null,
                       array( array( 'optionGroup', 'option_group_id', 'option_group_label' ),
                              array( 'customGroup', 'custom_group_id', 'custom_group_title' ) ) );
-        /***
+
         $this->fetch( 'profileGroup',
                       'CRM_Core_DAO_UFGroup',
                       null,
@@ -140,7 +140,6 @@ AND    cg.is_active = 1
                       null,
                       null,
                       array( array( 'profileGroup', 'uf_group_id', 'profile_group_title' ) ) );
-        ***/
 
         $buffer  = '<?xml version="1.0" encoding="iso-8859-1" ?>';
         $buffer .= "\n\n<CustomData>\n";
