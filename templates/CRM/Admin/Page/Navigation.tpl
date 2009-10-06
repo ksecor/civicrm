@@ -13,7 +13,7 @@
         </span><br/><br/>
     </div>
     <div class="spacer"></div>
-    <div id="navigation-tree" class="navigation-tree" style="height:auto;"></div>
+    <div id="navigation-tree" class="navigation-tree" style="height:auto; border-collapse:separate;"></div>
     <div class="spacer"></div>
     {literal}
     <script type="text/javascript">

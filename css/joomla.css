@@ -89,12 +89,6 @@ td.active {
   padding: 0.2em 0.5em 0 0;
   margin: 0;
 }
-#crm-container li.leaf {
-  list-style-type: square;
-  list-style-image: url(menu-leaf.png);
-  padding: 0.2em 0.5em 0 0;
-  margin: 0;
-}
 #crm-container li a.active {
   color: #000;
 }

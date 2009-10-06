@@ -7,6 +7,7 @@
  */
 
 require_once 'CRM/Price/DAO/Set.php';
+require_once 'CRM/Price/BAO/Field.php';
 
 /**
  * Business object for managing price sets
@@ -99,7 +100,7 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
      *
      * @return array
      */
-    public static function &getUsedBy( $id, $checkPast = false, $getInactive = false ) 
+    public static function &getUsedBy( $id ) 
     {
         $usedBy = $forms = array( );
         $queryString = "
@@ -116,21 +117,21 @@ WHERE    price_set_id = %1";
         if ( empty( $forms ) ) {
             return $usedBy;
         }
+        $ids = implode( ',', $entities );
         
         foreach ( $forms as $table => $entities ) {
             switch ($table) {
             case 'civicrm_event':
-                $eventIds = implode( ',', $entities );
                 $queryString = "SELECT ce.id as id, ce.title as title, ce.is_public as isPublic, ce.start_date as startDate, ce.end_date as endDate, civicrm_option_value.label as eventType
 FROM       civicrm_event ce
 LEFT JOIN  civicrm_option_value ON  
            ( ce.event_type_id = civicrm_option_value.value )
 LEFT JOIN  civicrm_option_group ON 
            ( civicrm_option_group.id = civicrm_option_value.option_group_id )
-WHERE      ce.is_active = 1 AND
+WHERE     
 	       civicrm_option_group.name = 'event_type' AND
            ( ce.is_template IS NULL OR ce.is_template = 0) AND 
-           ce.id IN ($eventIds);";
+           ce.id IN ($ids);";
                 $crmDAO = CRM_Core_DAO::executeQuery( $queryString );
                 while ( $crmDAO->fetch() ) {
                     $usedBy[$table][$crmDAO->id]['title']     = $crmDAO->title;
@@ -142,11 +143,10 @@ WHERE      ce.is_active = 1 AND
                 break;
 
             case 'civicrm_contribution_page':                
-                $contributionIds = implode( ',', $entities );
                 $queryString = "SELECT cp.id as id, cp.title as title, cp.start_date as startDate, cp.end_date as endDate,ct.name as type
-                                FROM civicrm_contribution_page cp, civicrm_contribution_type ct
-                                WHERE ct.id = cp.contribution_type_id
-                                AND cp.id IN ($contributionIds);";
+FROM      civicrm_contribution_page cp, civicrm_contribution_type ct
+WHERE     ct.id = cp.contribution_type_id AND 
+          cp.id IN ($ids);";
                 $crmDAO = CRM_Core_DAO::executeQuery( $queryString );
                 while ( $crmDAO->fetch() ) {
                     $usedBy[$table][$crmDAO->id]['title']     = $crmDAO->title;
@@ -159,7 +159,6 @@ WHERE      ce.is_active = 1 AND
             default:
                 CRM_Core_Error::fatal( "$table is not supported in PriceSet::usedBy()" );
                 break;
-
             }
         }
 
@@ -178,7 +177,6 @@ WHERE      ce.is_active = 1 AND
      */
     public static function hasFields($id)
     {
-        require_once 'CRM/Price/DAO/Field.php';
         $priceField =& new CRM_Price_DAO_Field();
         $priceField->price_set_id = $id;
         $numFields = $priceField->count();
@@ -200,7 +198,7 @@ WHERE      ce.is_active = 1 AND
     public static function deleteSet( $id )
     {
         // remove from all inactive forms
-        $usedBy =& self::getUsedBy( $id, true, true );
+        $usedBy =& self::getUsedBy( $id );
         if ( isset( $usedBy['civicrm_event'] ) ) {
             require_once 'CRM/Event/DAO/Event.php';
             foreach ( $usedBy['civicrm_event'] as $eventId => $unused ) {
@@ -214,7 +212,6 @@ WHERE      ce.is_active = 1 AND
         }
         
         // delete price fields
-        require_once 'CRM/Price/DAO/Field.php';
         $priceField =& new CRM_Price_DAO_Field( );
         $priceField->price_set_id = $id;
         $priceField->find( );
@@ -407,7 +404,6 @@ WHERE      ce.is_active = 1 AND
 
         $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
 
-        require_once 'CRM/Price/BAO/Field.php';
         while ( $dao->fetch() ) {
             $fieldID = $dao->id;
 
@@ -622,17 +618,12 @@ WHERE  id IN ($optionIDs)
         $priceSetId = $form->get( 'priceSetId' ); 
         if ( !$priceSetId ) return;
         
-        // FIXME 
-        $required = false;
-        
-        $priceSet = self::getSetDetail( $priceSetId, $required );
+        $priceSet = self::getSetDetail( $priceSetId, true );
         $form->_priceSet = CRM_Utils_Array::value( $priceSetId, $priceSet );
         $form->assign( 'priceSet',  $form->_priceSet );
-        require_once 'CRM/Price/BAO/Field.php';                       
         foreach ( $form->_priceSet['fields'] as $field ) {
-            $fieldId = $field['id'];
-            $elementName = 'price_' . $fieldId;
-            CRM_Price_BAO_Field::addQuickFormElement( $form, $elementName, $fieldId, false, $required );
+            CRM_Price_BAO_Field::addQuickFormElement( $form, 'price_'.$field['id'], $field['id'], false, 
+                                                      CRM_Utils_Array::value( 'is_required', $field, false ) );
         }
     }
 }

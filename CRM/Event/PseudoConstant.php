@@ -136,7 +136,7 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
             self::$participantStatus[$index] = array( );
             CRM_Core_PseudoConstant::populate( self::$participantStatus[$index],
                                                'CRM_Event_DAO_ParticipantStatusType',
-                                               false, 'name', 'is_active', $cond, 'weight' );
+                                               false, 'label', 'is_active', $cond, 'weight' );
         }
         
         if ( $id ) {

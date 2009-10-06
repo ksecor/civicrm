@@ -265,12 +265,11 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      * @return int Total number of rows 
      * @access public
      */
-    function getTotalCount($action, $case = null )
-    { 
-
+    function getTotalCount($action, $case = null ) { 
         require_once 'CRM/Activity/BAO/Activity.php';
         $data = array( 'contact_id' => $this->_contactId );
-        return CRM_Activity_BAO_Activity::getActivities( $data, null, null, null, 'Activity', false, null, null, true );
+        return CRM_Activity_BAO_Activity::getActivities( $data, null, null, null, 'Activity', 
+                                                         $this->_admin, null, $this->_context, true );
     }
 
 
