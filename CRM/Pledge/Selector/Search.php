@@ -370,8 +370,6 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                                 ),
                                           array(
                                                 'name'      => ts('Balance'),
-                                                'sort'      => 'pledge_balance_amount',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Pledge Made'),
