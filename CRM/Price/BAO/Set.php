@@ -166,25 +166,6 @@ WHERE     ct.id = cp.contribution_type_id AND
     }
 
     /**
-     * Determine if a price set has fields
-     *
-     * @param int id Price Set id
-     *
-     * @return boolean
-     *
-     * @access public
-     * @static
-     */
-    public static function hasFields($id)
-    {
-        $priceField =& new CRM_Price_DAO_Field();
-        $priceField->price_set_id = $id;
-        $numFields = $priceField->count();
-
-        return (bool)$numFields;
-    }
-
-    /**
      * Delete the price set
      *
      * @param int $id Price Set id
@@ -265,7 +246,7 @@ WHERE     ct.id = cp.contribution_type_id AND
         require_once 'CRM/Price/DAO/SetEntity.php';
         $dao =& new CRM_Price_DAO_SetEntity( );
         $dao->entity_table = $entityTable;
-        $dao->entity_id = $entityId;
+        $dao->entity_id    = $entityId;
         return $dao->delete();
     }
 
@@ -630,6 +611,68 @@ WHERE  id IN ($optionIDs)
             CRM_Price_BAO_Field::addQuickFormElement( $form, 'price_'.$field['id'], $field['id'], false, 
                                                       CRM_Utils_Array::value( 'is_required', $field, false ) );
         }
+    }
+
+    /**
+     * Get field ids of a price set
+     *
+     * @param int id Price Set id
+     *
+     * @return array of the field ids
+     *
+     * @access public
+     * @static
+     */
+    public static function getFieldIds($id)
+    {
+        $priceField =& new CRM_Price_DAO_Field();
+        $priceField->price_set_id = $id;
+        $priceField->find( );
+        while ( $priceField->fetch( ) ) {
+            $var[] = $priceField->id;
+        }
+        return $var;
+    }
+    
+    /**
+     * This function is to make a copy of a price set, including
+     * all the fields
+     *
+     * @param int $id the price set id to copy
+     *
+     * @return the copy object 
+     * @access public
+     * @static
+     */
+    static function copy( $id ) 
+    {
+        $maxId = CRM_Core_DAO::singleValueQuery( "SELECT max(id) FROM civicrm_price_set" );
+        $fieldsToPrefix = array( 'title' => $maxId+1 . ts( ' Copy of ' ),
+                                 'name'  => $maxId+1 . '_Copy_of_' );
+        
+        $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Price_DAO_Set', 
+                                            array( 'id' => $id ), 
+                                            null, 
+                                            $fieldsToPrefix );
+        
+        //copying all the blocks pertaining to the price set
+        $copyPriceField =& CRM_Core_DAO::copyGeneric( 'CRM_Price_DAO_Field', 
+                                                      array( 'price_set_id' => $id ),
+                                                      array( 'price_set_id' => $copy->id ) );
+        
+        $price = array_combine( self::getFieldIds( $id ), self::getFieldIds( $copy->id ) );
+        
+        //copy option group and values 
+        require_once "CRM/Core/BAO/OptionGroup.php";
+        foreach ($price as $originalId => $copyId)  {
+            CRM_Core_BAO_OptionGroup::copyValue( 'price', $originalId, $copyId );
+        }
+        
+        $copy->save( );
+        
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::copy( 'Set', $copy );
+        return $copy;
     }
 }
 
