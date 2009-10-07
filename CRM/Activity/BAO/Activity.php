@@ -553,57 +553,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     {
         //step 1: Get the basic activity data
         
-        $params = array( );
-        $clause = 1 ;
         $bulkActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                               'Bulk Email',
                                                               'name' );
 
         $config =& CRM_Core_Config::singleton( );
-        if ( !$admin ) {
-            $clauseArray = array( 'source_contact_id = %1',
-                                  'at.target_contact_id = %1', 
-                                  'aa.assignee_contact_id = %1'); 
-
-            if ( in_array( 'CiviCase', $config->enableComponents ) ) {
-                $clauseArray = array_merge( $clauseArray, array( 'civicrm_case_contact.contact_id = %1' ) );
-            }
-                        
-            $clause = " ( " . implode( ' OR ', $clauseArray ) ." ) ";
-            $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
-        }
-        
-        $statusClause = 1 ;
-        if ( $context == 'home' ) {
-            $statusClause = " civicrm_activity.status_id = 1 "; 
-        }
                
-        // Filter on case ID if looking at activities for a specific case
-        // or else exclude Inbound Emails that have been filed on a case.
-        $case = 1;
-        if ( in_array( 'CiviCase', $config->enableComponents ) ) {
-            if ( $caseId ) {
-                $case = " civicrm_case_activity.case_id = $caseId ";
-            } else {
-            	$case = " ((civicrm_case_activity.case_id Is Null) OR (civicrm_option_value.name <> 'Inbound Email' AND civicrm_option_value.name <> 'Email' AND civicrm_case_activity.case_id Is Not Null)) ";
-            }
-        }
-        
-        // do not include activities of disabled components and also handle permission
-        $componentClause = "civicrm_option_value.component_id IS NULL";
-        $componentsIn    = null;
-        $compInfo        = CRM_Core_Component::getEnabledComponents();
-        
-        foreach ( $compInfo as $compObj ) {
-            if ( $compObj->info['showActivitiesInCore'] && CRM_Core_Permission::check( 'access ' . $compObj->info['name'] ) ) {
-                $componentsIn = $componentsIn ? 
-                    ($componentsIn . ', ' . $compObj->componentID) : $compObj->componentID;
-            }
-        }
-        if ( $componentsIn ) {
-            $componentClause = "($componentClause OR civicrm_option_value.component_id IN ($componentsIn))";
-        }
-
         $randomNum = md5( uniqid( ) );
         $activityTempTable = "civicrm_temp_activity_details_{$randomNum}";
 
@@ -651,33 +606,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $select .= " , null, null ";
         }
         
-        $join   = "\n 
-                    left join civicrm_activity_target at on 
-                              civicrm_activity.id = at.activity_id 
-                    left join civicrm_activity_assignment aa on 
-                              civicrm_activity.id = aa.activity_id 
-                    left join civicrm_contact sourceContact on 
-                              source_contact_id = sourceContact.id 
-                    left join civicrm_option_value on
-                              civicrm_activity.activity_type_id = civicrm_option_value.value
-                    left join civicrm_option_group on  
-                              civicrm_option_group.id = civicrm_option_value.option_group_id ";
-        
-        if ( in_array( 'CiviCase', $config->enableComponents ) ) { 
-            $join .= "\n 
-                       left join civicrm_case_activity on
-                                 civicrm_case_activity.activity_id = civicrm_activity.id
-                       left join civicrm_case on
-                                 civicrm_case_activity.case_id = civicrm_case.id
-                       left join civicrm_case_contact on
-                                 civicrm_case_contact.case_id = civicrm_case.id ";
-        }
-                                               
-        $from  = " from civicrm_activity ";
-        $where = " where {$clause}
-                   and civicrm_option_group.name = 'activity_type'
-                   and {$componentClause}
-                   and is_test = 0 and {$case} and {$statusClause}";
+        list( $sqlClause, $params ) = self::getActivitySQLClause( $data['contact_id'], $admin, $caseId, $context, true );
 
         $order = $limit = $groupBy = '';
         $groupBy = " GROUP BY civicrm_activity.id";
@@ -700,8 +629,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $limit = " LIMIT $offset, $rowCount ";
         }
                     
-        $query = $select. $from.  $join. $where. $groupBy. $order. $limit;
-            
+        $query = $select. $sqlClause . $groupBy. $order. $limit;
+
         CRM_Core_DAO::executeQuery( $query, $params );
 
         // step 2: Get target and assignee contacts for above activities
@@ -822,6 +751,16 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     static function &getActivitiesCount( $contactID, $admin = false, $caseId = null, $context = null ) 
     {
+        list( $sqlClause, $params ) = self::getActivitySQLClause( $contactID, $admin, $caseId, $context, false );
+        $queryString = 
+            "SELECT COUNT(DISTINCT(civicrm_activity.id)) as count" .
+            $sqlClause;
+            
+        return CRM_Core_DAO::singleValueQuery( $queryString, $params );
+    }
+
+    static function getActivitySQLClause( $contactID, $admin = false, $caseId = null, $context = null, $count = false )
+    {
         $params = array( );
         $clause = 1 ;
 
@@ -856,6 +795,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         
         // Filter on component IDs.
+        // do not include activities of disabled components and also handle permission
         $componentClause = "civicrm_option_value.component_id IS NULL";
         $componentsIn    = null;
         $compInfo        = CRM_Core_Component::getEnabledComponents();
@@ -869,8 +809,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $componentClause = "($componentClause OR civicrm_option_value.component_id IN ($componentsIn))";
         }
         
-        $select = "select COUNT(DISTINCT(civicrm_activity.id)) as count";
-        
         $join   = "\n 
                     left join civicrm_activity_target at on 
                               civicrm_activity.id = at.activity_id 
@@ -880,7 +818,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                               ( civicrm_activity.activity_type_id = civicrm_option_value.value )
                     left join civicrm_option_group on  
                               civicrm_option_group.id = civicrm_option_value.option_group_id ";
-        
+
+        if ( $count ) {
+            $join .= "\n
+                      left join civicrm_contact sourceContact on
+                              source_contact_id = sourceContact.id";
+        }
+
         if ( in_array( 'CiviCase', $config->enableComponents ) ) { 
             $join .= "\n 
                        left join civicrm_case_activity on
@@ -897,9 +841,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                    and {$componentClause}
                    and is_test = 0 and {$case} and {$statusClause}";
 
-        $queryString = $select. $from.  $join. $where;
-            
-        return CRM_Core_DAO::singleValueQuery( $queryString, $params );
+        return array( $from.  $join. $where, $params );
     }
 
     /**
