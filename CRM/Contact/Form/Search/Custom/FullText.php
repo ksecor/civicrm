@@ -545,6 +545,9 @@ WHERE      c.display_name LIKE {$this->_text}
     }
     
     function buildForm( &$form ) {
+        require_once 'CRM/Core/Permission.php';
+        $config =& CRM_Core_Config::singleton( );
+
         $form->applyFilter('__ALL__', 'trim');
         $form->add( 'text',
                     'text',
@@ -552,13 +555,26 @@ WHERE      c.display_name LIKE {$this->_text}
                     true );
         
         // also add a select box to allow the search to be constrained
-        $tables = array( ''             => ts( 'All tables' ),
-                         'Contact'      => ts( 'Contacts' ),
-                         'Activity'     => ts( 'Activities' ),
-                         'Case'         => ts( 'Cases' ) ,
-                         'Contribution' => ts( 'Contributions' ),
-                         'Participant'  => ts( 'Participants' ),
-                         'Membership'   => ts( 'Memberships' ));
+        $tables = array( ''             => ts( 'All tables' ) );
+        if (CRM_Core_Permission::check('view all contacts')) {
+          $tables['Contact'] = ts( 'Contacts' );
+        }
+        if (CRM_Core_Permission::check('view all activities')) {
+          $tables['Activity'] = ts( 'Activities' );
+        }
+        if (in_array( 'CiviCase', $config->enableComponents ) ) {
+          $tables['Case'] = ts( 'Cases' );
+        }
+        if (in_array( 'CiviContribute', $config->enableComponents ) ) {
+          $tables['Contribution'] = ts( 'Contributions' );
+        }
+        if (in_array('CiviEvent', $config->enableComponents) && CRM_Core_Permission::check('view event participants')) {
+          $tables['Participant'] = ts( 'Participants' );
+        }
+        if (in_array( 'CiviMember', $config->enableComponents ) ) {
+          $tables['Membership'] = ts( 'Memberships' );
+        }
+
         $form->add( 'select',
                     'table',
                     ts( 'Tables' ),
