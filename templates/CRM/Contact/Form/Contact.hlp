@@ -27,7 +27,8 @@
 {/htxt}
 
 {htxt id="id-greeting"}
+{capture assign=docLink}{docURL page="Mail-merge Tokens for Contact Data"}{/capture}
 <p>{ts}Use the greeting/address options to determine how you would like the contact's salutation and name displayed for different communication methods. When you send an email or export a list of records to a .csv file for mail merging, the greeting and addressee fields will reflect your preferences.
 {/ts}</p>
-<p>{ts 1='<a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Mail-merge+Tokens+for+Contact+Data" target="_blank">http://wiki.civicrm.org/confluence/display/CRMDOC/Mail-merge+Tokens+for+Contact+Data</a>'}You may also create a customized greeting and use field tokens to insert fields of your choice. For more information on available tokens, see the online documentation (%1).{/ts}</p>
+<p>{ts 1=$docLink}You may also create a customized greeting and use field tokens to insert fields of your choice. For more information on available tokens, see the online documentation %1.{/ts}</p>
 {/htxt}

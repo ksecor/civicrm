@@ -196,7 +196,8 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
             } 
         }
 
-        $docURL = '<a href="http://wiki.civicrm.org/confluence/display/CRMUPCOMING/Update+Greetings+and+Address+Data+for+Contacts" style="color: white; text-decoration: underline;" target="_blank">('.ts('read more') .'....).</a>'; 
+        require_once 'CRM/Utils/System.php';
+        $docURL = CRM_Utils_System::docURL2( 'Update Greetings and Address Data for Contacts', false, null, null, 'color: white; text-decoration: underline;');
             
         if ( $addNewAddressee ) {
             //otherwise insert new token in addressee and set as a default
