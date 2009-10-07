@@ -637,40 +637,40 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         // create temp table for target contacts
         $activityTargetContactTempTable = "civicrm_temp_target_contact_{$randomNum}";
         $query = "CREATE TEMPORARY TABLE {$activityTargetContactTempTable} ( 
-                activity_id int unsigned, target_contact_id text, target_contact_name varchar(255) )
+                activity_id int unsigned, target_contact_id int unsigned, target_contact_name varchar(255) )
                 ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci";
         
         CRM_Core_DAO::executeQuery( $query );
         
-        // note that we ignore bulk email targets, since we don't show it in selector
+        // note that we ignore bulk email for targets, since we don't show it in selector
         $query = "INSERT INTO {$activityTargetContactTempTable} ( activity_id, target_contact_id, target_contact_name )
-                  SELECT DISTINCT ( at.activity_id ) , 
-                  GROUP_CONCAT( DISTINCT ( at.target_contact_id ) SEPARATOR '::' ) , 
-                  GROUP_CONCAT( DISTINCT (  c.sort_name ) SEPARATOR '::' )
+                  SELECT at.activity_id, 
+                  at.target_contact_id , 
+                  c.sort_name
                   FROM civicrm_activity_target at
-              INNER JOIN {$activityTempTable} ON ( at.activity_id = {$activityTempTable}.activity_id 
-                  AND {$activityTempTable}.activity_type_id <> {$bulkActivityTypeID} )
-                  INNER JOIN civicrm_contact c ON c.id = at.target_contact_id
-                  GROUP BY at.activity_id";
+                  INNER JOIN {$activityTempTable} ON ( at.activity_id = {$activityTempTable}.activity_id 
+                    AND {$activityTempTable}.activity_type_id <> {$bulkActivityTypeID} )
+                  INNER JOIN civicrm_contact c ON c.id = at.target_contact_id";
         
         CRM_Core_DAO::executeQuery( $query );
         
         // create temp table for assignee contacts
         $activityAssigneetContactTempTable = "civicrm_temp_assignee_contact_{$randomNum}";
         $query = "CREATE TEMPORARY TABLE {$activityAssigneetContactTempTable} ( 
-                activity_id int unsigned, assignee_contact_id text, assignee_contact_name varchar(255) )
+                activity_id int unsigned, assignee_contact_id int unsigned, assignee_contact_name varchar(255) )
                 ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci";
         
         CRM_Core_DAO::executeQuery( $query );
         
+        // note that we ignore bulk email for assignee, since we don't show it in selector
         $query = "INSERT INTO {$activityAssigneetContactTempTable} ( activity_id, assignee_contact_id, assignee_contact_name )
                   SELECT DISTINCT ( aa.activity_id ) , 
-                  GROUP_CONCAT( DISTINCT ( aa.assignee_contact_id ) SEPARATOR '::' ) , 
-                  GROUP_CONCAT( DISTINCT (  c.sort_name ) SEPARATOR '::' )
+                  aa.assignee_contact_id, 
+                  c.sort_name
                   FROM civicrm_activity_assignment aa
-                  INNER JOIN {$activityTempTable} ON aa.activity_id = {$activityTempTable}.activity_id
-                  INNER JOIN civicrm_contact c ON c.id = aa.assignee_contact_id
-                  GROUP BY aa.activity_id";
+                  INNER JOIN {$activityTempTable} ON ( aa.activity_id = {$activityTempTable}.activity_id
+                      AND {$activityTempTable}.activity_type_id <> {$bulkActivityTypeID} )
+                  INNER JOIN civicrm_contact c ON c.id = aa.assignee_contact_id";
         
         CRM_Core_DAO::executeQuery( $query );
         
@@ -686,51 +686,42 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         $dao = CRM_Core_DAO::executeQuery( $query );
                 
-        $selectorFields = array( 'activity_type_id',
-                                 'activity_type',
-                                 'activity_id',
-                                 'activity_date_time',
-                                 'status_id',
-                                 'subject',                                 
-                                 'source_contact_name',
-                                 'source_contact_id',
-                                 'target_contact_id',
-                                 'assignee_contact_id',
-                                 'source_record_id',
-                                 'case_id',
-                                 'case_subject' );
-        
-        $values = array();
-        $rowCnt = 0;
-        
         //CRM-3553, need to check user has access to target groups.
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailingIDs =& CRM_Mailing_BAO_Mailing::mailingACLIDs( );
         $accessCiviMail = CRM_Core_Permission::check('access CiviMail');
         
-        while($dao->fetch()) {
-            foreach( $selectorFields as $dc => $field ) {
-                if ( isset($dao->$field ) ) {
-                    $values[$rowCnt][$field] = $dao->$field;
-                    if ( $bulkActivityTypeID == $dao->activity_type_id ) {
-                        $values[$rowCnt]['recipients'] = ts('(recipients)');
-                        if ( $accessCiviMail && in_array( $dao->source_record_id, $mailingIDs ) ) {
-                            $values[$rowCnt]['mailingId'] = 
-                                CRM_Utils_System::url( 'civicrm/mailing/report', 
-                                                       "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" ); 
-                            $values[$rowCnt]['activity_type_id'] = $dao->activity_type_id;
-                            $values[$rowCnt]['source_record_id'] = $dao->source_record_id;
-                            $values[$rowCnt]['id'] = $dao->id;
-                        }
-                    } else if ( in_array( $field, array( 'target_contact_id', 'assignee_contact_id' ) ) ) {
-                        $contactIDs = explode( '::', $dao->$field );
-                        $fName = substr( $field, 0, -2) ."name";
-                        $contactNames = explode( '::', $dao->$fName );
-                        $values[$rowCnt][$fName] = array_combine( $contactIDs, $contactNames );
-                    }
+        $values = array( );
+        while( $dao->fetch() ) {
+            $activityID = $dao->activity_id;
+            $values[$activityID]['activity_id']         = $dao->activity_id;
+            $values[$activityID]['source_record_id']    = $dao->source_record_id;
+            $values[$activityID]['activity_type_id']    = $dao->activity_type_id;
+            $values[$activityID]['activity_type']       = $dao->activity_type;
+            $values[$activityID]['activity_date_time']  = $dao->activity_date_time;
+            $values[$activityID]['status_id']           = $dao->status_id; 
+            $values[$activityID]['subject']             = $dao->subject; 
+            $values[$activityID]['source_contact_name'] = $dao->source_contact_name;
+            $values[$activityID]['source_contact_id']   = $dao->source_contact_id;
+            
+            if ( $bulkActivityTypeID != $dao->activity_type_id ) {
+                // build array of target / assignee names
+                $values[$activityID]['target_contact_name'][$dao->target_contact_id]     = $dao->target_contact_name;
+                $values[$activityID]['assignee_contact_name'][$dao->assignee_contact_id] = $dao->assignee_contact_name;
+                
+                // case related fields
+                $values[$activityID]['case_id']      = $dao->case_id;
+                $values[$activityID]['case_subject'] = $dao->case_subject;
+            } else {
+                $values[$activityID]['recipients'] = ts('(recipients)');
+                if ( $accessCiviMail && in_array( $dao->source_record_id, $mailingIDs ) ) {
+                    $values[$activityID]['mailingId'] = 
+                        CRM_Utils_System::url( 'civicrm/mailing/report', 
+                                               "mid={$dao->source_record_id}&reset=1&cid={$dao->source_contact_id}&context=activitySelector" ); 
+                    $values[$activityID]['target_contact_name'] = '';
+                    $values[$activityID]['assignee_contact_name'] = '';
                 }
             }
-            $rowCnt++;
         }
         
         return $values;
