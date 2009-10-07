@@ -228,15 +228,14 @@ CREATE TEMPORARY TABLE {$this->_entityIDTableName} (
                              $extends ) {
         
         $sql = "
-SELECT cg.table_name, cf.column_name
-FROM   civicrm_custom_group cg,
-       civicrm_custom_field cf
-WHERE  cf.custom_group_id = cg.id
-AND    cg.extends IN $extends
-AND    cg.is_active = 1
-AND    cf.is_active = 1
-AND    cf.is_searchable = 1
-AND    cf.html_type IN ( 'Text', 'TextArea', 'RichTextEditor' )
+SELECT     cg.table_name, cf.column_name
+FROM       civicrm_custom_group cg
+INNER JOIN civicrm_custom_field cf ON cf.custom_group_id = cg.id
+WHERE      cg.extends IN $extends
+AND        cg.is_active = 1
+AND        cf.is_active = 1
+AND        cf.is_searchable = 1
+AND        cf.html_type IN ( 'Text', 'TextArea', 'RichTextEditor' )
 ";
 
         $dao = CRM_Core_DAO::executeQuery( $sql );
@@ -340,16 +339,16 @@ AND     {$tableValues['id']} IS NOT NULL
         $contactSQL = array( );
 
         $contactSQL[] = "
-SELECT ca.id 
-FROM   civicrm_activity ca
+SELECT     ca.id 
+FROM       civicrm_activity ca
 INNER JOIN civicrm_contact c ON ca.source_contact_id = c.id
-LEFT JOIN civicrm_email e ON e.contact_id = c.id
-LEFT JOIN civicrm_option_group og ON og.name = 'activity_type'
-LEFT JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id ) 
-WHERE  c.display_name LIKE {$this->_text} OR
-       ( e.email LIKE {$this->_text}    AND 
-         ca.activity_type_id = ov.value AND
-         ov.name IN ('Inbound Email', 'Email') )
+LEFT JOIN  civicrm_email e ON e.contact_id = c.id
+LEFT JOIN  civicrm_option_group og ON og.name = 'activity_type'
+LEFT JOIN  civicrm_option_value ov ON ( ov.option_group_id = og.id ) 
+WHERE      c.display_name LIKE {$this->_text} OR
+           ( e.email LIKE {$this->_text}    AND 
+             ca.activity_type_id = ov.value AND
+             ov.name IN ('Inbound Email', 'Email') )
 ";
 
         $contactSQL[] = "
@@ -360,10 +359,10 @@ INNER JOIN civicrm_contact c ON cat.target_contact_id = c.id
 LEFT  JOIN civicrm_email e ON cat.target_contact_id = e.contact_id
 LEFT  JOIN civicrm_option_group og ON og.name = 'activity_type'
 LEFT  JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id ) 
-WHERE c.display_name LIKE {$this->_text} OR
-       ( e.email LIKE {$this->_text}    AND 
-         ca.activity_type_id = ov.value AND
-         ov.name IN ('Inbound Email', 'Email') )
+WHERE      c.display_name LIKE {$this->_text} OR
+           ( e.email LIKE {$this->_text}    AND 
+             ca.activity_type_id = ov.value AND
+             ov.name IN ('Inbound Email', 'Email') )
 ";
 
         $contactSQL[] = "
@@ -374,12 +373,12 @@ INNER JOIN civicrm_contact c ON caa.assignee_contact_id = c.id
 LEFT  JOIN civicrm_email e ON caa.assignee_contact_id = e.contact_id
 LEFT  JOIN civicrm_option_group og ON og.name = 'activity_type'
 LEFT  JOIN civicrm_option_value ov ON ( ov.option_group_id = og.id )
-WHERE  caa.activity_id = ca.id
-AND    caa.assignee_contact_id = c.id
-AND    c.display_name LIKE {$this->_text}  OR
-       ( e.email LIKE {$this->_text} AND
-         ca.activity_type_id = ov.value AND
-         ov.name IN ('Inbound Email', 'Email') )
+WHERE      caa.activity_id = ca.id
+AND        caa.assignee_contact_id = c.id
+AND        c.display_name LIKE {$this->_text}  OR
+           ( e.email LIKE {$this->_text} AND
+             ca.activity_type_id = ov.value AND
+             ov.name IN ('Inbound Email', 'Email') )
 ";
         
         $tables = array( 'civicrm_activity' => array( 'id' => 'id',
@@ -407,7 +406,7 @@ SELECT    'Case', c.id, c.display_name, cc.id, DATE(cc.start_date), DATE(cc.end_
 FROM      civicrm_case cc 
 LEFT JOIN civicrm_case_contact ccc ON cc.id = ccc.case_id
 LEFT JOIN civicrm_contact c ON ccc.contact_id = c.id
-WHERE   c.display_name LIKE {$this->_text}
+WHERE     c.display_name LIKE {$this->_text}
 {$this->_limitClause}
 ";
 
@@ -443,10 +442,10 @@ WHERE     cc.id = {$this->_textID}
     function fillContributionIDs() {
         $contactSQL = array( );
         $contactSQL[] = "
-SELECT cc.id 
-FROM   civicrm_contribution cc, civicrm_contact c
-WHERE  cc.contact_id = c.id
-AND    c.display_name LIKE {$this->_text}
+SELECT     cc.id 
+FROM       civicrm_contribution cc
+INNER JOIN civicrm_contact c ON cc.contact_id = c.id
+WHERE      c.display_name LIKE {$this->_text}
 ";
         $tables = 
             array( 'civicrm_contribution' => array( 'id'     => 'id',
@@ -486,10 +485,10 @@ AND    c.display_name LIKE {$this->_text}
     function fillParticipantIDs() {
         $contactSQL = array( );
         $contactSQL[] = "
-SELECT cp.id 
-FROM   civicrm_participant cp, civicrm_contact c
-WHERE  cp.contact_id = c.id
-AND    c.display_name LIKE {$this->_text}
+SELECT     cp.id 
+FROM       civicrm_participant cp
+INNER JOIN civicrm_contact c ON cp.contact_id = c.id
+WHERE      c.display_name LIKE {$this->_text}
 ";
         $tables = 
             array( 'civicrm_participant' => array( 'id'     => 'id',
@@ -527,10 +526,10 @@ AND    c.display_name LIKE {$this->_text}
     function fillMembershipIDs() {
         $contactSQL = array( );
         $contactSQL[] = "
-SELECT cm.id 
-FROM   civicrm_membership cm, civicrm_contact c
-WHERE  cm.contact_id = c.id
-AND    c.display_name LIKE {$this->_text}
+SELECT     cm.id 
+FROM       civicrm_membership cm
+INNER JOIN civicrm_contact c ON cm.contact_id = c.id
+WHERE      c.display_name LIKE {$this->_text}
 ";
         $tables = 
             array( 'civicrm_membership' => array( 'id'     => 'id',
@@ -669,9 +668,9 @@ FROM
             $sql = "
 INSERT INTO {$this->_tableName}
 ( contact_id, display_name, table_name )
-SELECT  c.id, c.display_name, 'Contact'
-  FROM  civicrm_contact c, {$this->_entityIDTableName} ct
- WHERE  c.id = ct.entity_id
+SELECT     c.id, c.display_name, 'Contact'
+  FROM     civicrm_contact c
+INNER JOIN {$this->_entityIDTableName} ct ON c.id = ct.entity_id
 {$this->_limitClause}
 ";
             break;
@@ -687,14 +686,14 @@ SELECT    'Activity', ca.id, substr(ca.subject, 1, 50), substr(ca.details, 1, 25
            c3.id, c3.display_name,
            ca.activity_type_id,
            cca.case_id
-FROM       {$this->_entityIDTableName} eid, civicrm_activity ca
+FROM       {$this->_entityIDTableName} eid
+INNER JOIN civicrm_activity ca ON ca.id = eid.entity_id
 LEFT JOIN  civicrm_contact c1 ON ca.source_contact_id = c1.id
 LEFT JOIN  civicrm_activity_assignment caa ON caa.activity_id = ca.id
 LEFT JOIN  civicrm_contact c2 ON caa.assignee_contact_id = c2.id
 LEFT JOIN  civicrm_activity_target cat ON cat.activity_id = ca.id
 LEFT JOIN  civicrm_contact c3 ON cat.target_contact_id = c3.id
 LEFT JOIN  civicrm_case_activity cca ON cca.activity_id = ca.id
-WHERE ca.id = eid.entity_id
 {$this->_limitClause}
 ";   
             break;
@@ -706,14 +705,14 @@ INSERT INTO {$this->_tableName}
   contribution_total_amount, contribution_trxn_Id, contribution_source, contribution_status, contribution_check_number )
    SELECT  'Contribution', c.id, c.display_name, cc.id, cct.name, ccp.title, cc.receive_date, 
            cc.total_amount, cc.trxn_id, cc.source, contribution_status.label, cc.check_number 
-     FROM  {$this->_entityIDTableName} ct, civicrm_contribution cc
+     FROM  {$this->_entityIDTableName} ct
+INNER JOIN civicrm_contribution cc ON cc.id = ct.entity_id
 LEFT JOIN  civicrm_contact c ON cc.contact_id = c.id
 LEFT JOIN  civicrm_contribution_type cct ON cct.id = cc.contribution_type_id
 LEFT JOIN  civicrm_contribution_page ccp ON ccp.id = cc.contribution_page_id 
 LEFT JOIN  civicrm_option_group option_group_contributionStatus ON option_group_contributionStatus.name = 'contribution_status'
 LEFT JOIN  civicrm_option_value contribution_status ON 
 ( contribution_status.option_group_id = option_group_contributionStatus.id AND contribution_status.value = cc.contribution_status_id )
-    WHERE  (cc.id = ct.entity_id )
 {$this->_limitClause}
 ";
             break;
@@ -725,14 +724,14 @@ INSERT INTO {$this->_tableName}
 participant_register_date, participant_source, participant_status, participant_role )
    SELECT  'Participant', c.id, c.display_name, cp.id, ce.title, cp.fee_level, cp.fee_amount, cp.register_date, cp.source, 
            participantStatus.label, participant_role.label 
-     FROM  {$this->_entityIDTableName} ct, civicrm_participant cp 
+     FROM  {$this->_entityIDTableName} ct
+INNER JOIN civicrm_participant cp ON cp.id = ct.entity_id
 LEFT JOIN  civicrm_contact c ON cp.contact_id = c.id
 LEFT JOIN  civicrm_event ce ON ce.id = cp.event_id
 LEFT JOIN  civicrm_participant_status_type participantStatus ON participantStatus.id = cp.status_id
 LEFT JOIN  civicrm_option_group option_group_participantRole ON option_group_participantRole.name = 'participant_role'
 LEFT JOIN  civicrm_option_value participant_role 
            ON ( participant_role.option_group_id = option_group_participantRole.id AND participant_role.value = cp.role_id )
-    WHERE  ( cp.id = ct.entity_id )
 {$this->_limitClause}
 ";
             break;
@@ -743,13 +742,13 @@ INSERT INTO {$this->_tableName}
 ( table_name, contact_id, display_name, membership_id, membership_type, membership_fee, membership_start_date, 
 membership_end_date, membership_source, membership_status )
    SELECT  'Membership', c.id, c.display_name, cm.id, cmt.name, cc.total_amount, cm.start_date, cm.end_date, cm.source, cms.name 
-     FROM  {$this->_entityIDTableName} ct, civicrm_membership cm 
+     FROM  {$this->_entityIDTableName} ct
+INNER JOIN civicrm_membership cm ON cm.id = ct.entity_id
 LEFT JOIN  civicrm_contact c ON cm.contact_id = c.id
 LEFT JOIN  civicrm_membership_type cmt ON cmt.id = cm.membership_type_id
 LEFT JOIN  civicrm_membership_payment cmp ON cmp.membership_id = cm.id
 LEFT JOIN  civicrm_contribution cc ON cc.id = cmp.contribution_id
 LEFT JOIN  civicrm_membership_status cms ON cms.id = cm.status_id
-    WHERE  ( cm.id = ct.entity_id )
 {$this->_limitClause}
 "; 
             break;
