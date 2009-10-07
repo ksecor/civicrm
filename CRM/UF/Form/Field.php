@@ -281,12 +281,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $name );
 
             if ( ! empty( $subTypeFields ) ) {
-                // remove subtype fields from basic contact type entries so that for e.g 
-                // Individual won't have entries for Parent or Student
-                foreach ( $subTypeFields as $fld => $dnc ) {
-                    unset($fields[$val['parent']][$fld]);
+                if ( array_key_exists($val['parent'], $fields) ) {
+                    $fields[$name] = $fields[$val['parent']] + $subTypeFields;
+                } else {
+                    $fields[$name] = $subTypeFields;
                 }
-                $fields[$name] = $fields[$val['parent']] + $subTypeFields;
                 $contactSubTypes[$name] = $val['label'];
             }
         }

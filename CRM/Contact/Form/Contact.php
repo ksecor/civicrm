@@ -617,11 +617,17 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         
         require_once 'CRM/Core/BAO/CustomField.php';
-        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, true );
-        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
-                                                                   $customFields,
+        $customFields     = CRM_Core_BAO_CustomField::getFields  ( $params['contact_type'], 
+                                                                   false, 
+                                                                   true,
+                                                                   null, 
+                                                                   null, 
+                                                                   false, 
+                                                                   $this->_contactSubType );
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params, 
+                                                                   $customFields, 
                                                                    $this->_contactId,
-                                                                   $params['contact_type'],
+                                                                   $params['contact_type'], 
                                                                    true );
         
         if ( array_key_exists( 'CommunicationPreferences',  $this->_editOptions ) ) {

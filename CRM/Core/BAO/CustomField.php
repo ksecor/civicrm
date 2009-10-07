@@ -330,7 +330,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                        $inline = false,
                                        $customDataSubType = null,
  									   $customDataSubName = null,
- 									   $onlyParent = false ) 
+ 									   $onlyParent = false,
+                                       $contactSubType = null ) 
     {
         $cacheKey  = $customDataType;
         $cacheKey .= $customDataSubType ? "{$customDataSubType}_" : "_0";
@@ -371,9 +372,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     if ( in_array( $customDataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
                         $value = "'" . CRM_Utils_Type::escape( $customDataType, 'String' ) . "', 'Contact' ";
                         // consider subtypes if any
-                        $contactSubTypes = CRM_Contact_BAO_ContactType::subTypes( $customDataType );
-                        if ( !empty($contactSubTypes) ) {
-                            $value .= ", '" . implode("','", $contactSubTypes) . "'";
+                        if ( $contactSubType ) {
+                            $value .= ", '$contactSubType'";
                         }
                     } else if ( in_array( $customDataType, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
                         // consider subtypes if any
@@ -473,10 +473,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    public static function &getFieldsForImport($contactType = 'Individual', $showAll = false) 
+    public static function &getFieldsForImport( $contactType    = 'Individual', 
+                                                $showAll        = false, 
+                                                $contactSubType = null ) 
     {
-        $fields =& self::getFields($contactType, $showAll);
-        
+        $fields =& self::getFields( $contactType, $showAll, false, 
+                                    null, null, false, $contactSubType );
         $importableFields = array();
         foreach ($fields as $id => $values) {
             // for now we should not allow multiple fields in profile / export etc, hence unsetting
