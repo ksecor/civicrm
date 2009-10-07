@@ -62,15 +62,22 @@ if ( !freeze ) {
 
 
 function showHideStyle()
-{
-	if( document.forms.Group['extends[0]'].value == "Contact"    ||
-        document.forms.Group['extends[0]'].value == "Individual" ||
-        document.forms.Group['extends[0]'].value == "Household"  ||
-        document.forms.Group['extends[0]'].value == "Organization" )
-	{
-		show("style");
+{   	     
+	var isShow  = false;
+	var extends = document.forms.Group['extends[0]'].value;
+        {/literal}
+	 { foreach from = $contactType item = item }
+        {literal}
+            if( extends == {/literal}"{$item}"{literal} ) {
+ 	        var isShow =  true;
+                  }
+        {/literal} 
+        {/foreach}
+        {literal}
+	if( isShow ) {	
+            show("style");
 	} else {
-		hide("style");
+	    hide("style");
 	}
 }
 
