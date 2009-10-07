@@ -700,9 +700,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->_params['contactID'] = $contactID;
             
             $mail = 'email-5';
-            //in case of Pay later option we skipped 'email-5' so we should use 'email-Primary'
+            
+            // we should use primary email for 
+            // 1. free event registration.
+            // 2. pay later participant.
+            // 3. waiting list participant.
+            // 4. require approval participant.
             if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
-                 $this->_allowWaitlist || $this->_requireApproval ) {
+                 $this->_allowWaitlist || $this->_requireApproval ||
+                 !CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] ) ) {
                 $mail = 'email-Primary';
             }
             require_once "CRM/Core/BAO/CMSUser.php";
