@@ -1076,14 +1076,16 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         while ( $cs->fetch( ) ) {
             if ( $cs->amount > 0 ) {
                 $count++;
-                $amount[]  = CRM_Utils_Money::format( $cs->amount , $cs->currency );
-                $average[] = CRM_Utils_Money::format( $cs->average, $cs->currency );
+                $amount[]    = $cs->amount;
+                $average[]   = $cs->average;
+                $currency[]  = $cs->currency;
             }
         }
 
         if ( $count > 0 ) {
             return array( implode( ',&nbsp;', $amount  ),
-                          implode( ',&nbsp;', $average ) 
+                          implode( ',&nbsp;', $average ),
+                          implode( ',&nbsp;', $currency ),
                           );
         }
         return array( 0, 0 );
