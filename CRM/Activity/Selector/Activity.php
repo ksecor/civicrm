@@ -343,7 +343,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['action'] = CRM_Core_Action::formLink( $actionLinks,
                                                             $actionMask,
-                                                            array('id'     => $row['id'],
+                                                            array('id'     => $row['activity_id'],
                                                                   'cid'    => $this->_contactId,
                                                                   'cxt'    => $this->_context,
                                                                   'caseid' => CRM_Utils_Array::value( 'case_id', $row ) 

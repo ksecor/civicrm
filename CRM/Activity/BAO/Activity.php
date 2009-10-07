@@ -551,7 +551,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     static function &getActivities( &$data, $offset = null, $rowCount = null, $sort = null,
                                     $admin = false, $caseId = null, $context = null ) 
     {
-        $dao =& new CRM_Core_DAO();
+        //step 1: Get the basic activity data
+        
         $params = array( );
         $clause = 1 ;
         $bulkActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
@@ -576,13 +577,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( $context == 'home' ) {
             $statusClause = " civicrm_activity.status_id = 1 "; 
         }
-        
-        // Exclude Contribution-related activity records if user doesn't have 'access CiviContribute' permission
-        $contributionFilter = 1;
-        if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
-            $contributionFilter = " civicrm_activity.activity_type_id != 6 ";
-        }
-        
+               
         // Filter on case ID if looking at activities for a specific case
         // or else exclude Inbound Emails that have been filed on a case.
         $case = 1;
@@ -594,7 +589,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
         }
         
-        // Filter on component IDs.
+        // do not include activities of disabled components and also handle permission
         $componentClause = "civicrm_option_value.component_id IS NULL";
         $componentsIn    = null;
         $compInfo        = CRM_Core_Component::getEnabledComponents();
@@ -609,30 +604,62 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $componentClause = "($componentClause OR civicrm_option_value.component_id IN ($componentsIn))";
         }
 
-        $select = "select DISTINCT(civicrm_activity.id), 
+        $randomNum = md5( uniqid( ) );
+        $activityTempTable = "civicrm_temp_activity_details_{$randomNum}";
+
+        $tableFields =
+                    array( 'activity_id'               => 'int unsigned',
+                           'activity_date_time'        => 'datetime',
+                           'status_id'                 => 'int unsigned',
+                           'subject'                   => 'varchar(255)',
+                           'source_contact_id'         => 'int unsigned',
+                           'source_record_id'          => 'int unsigned',
+                           'source_contact_name'       => 'varchar(255)',
+                           'activity_type_id'          => 'int unsigned',
+                           'activity_type'             => 'varchar(128)',
+                           'case_id'                   => 'int unsigned',
+                           'case_subject'              => 'varchar(255)'
+                          );
+
+        $sql = "CREATE TEMPORARY TABLE {$activityTempTable} ( ";
+        $insertValueSQL = array( );
+        foreach ( $tableFields as $name => $desc ) {
+            $sql .= "$name $desc,\n"; 
+            $insertValueSQL[] = $name;
+        }
+
+        $sql .= "
+          PRIMARY KEY ( activity_id )
+        ) ENGINE=HEAP DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci
+        ";
+        
+        CRM_Core_DAO::executeQuery( $sql );
+
+        $insertSQL = "INSERT INTO {$activityTempTable} (". implode( ',', $insertValueSQL ) ." ) ";
+        $select = " {$insertSQL} SELECT DISTINCT(civicrm_activity.id), 
                      civicrm_activity.activity_date_time,
                      civicrm_activity.status_id, civicrm_activity.subject,
                      civicrm_activity.source_contact_id,civicrm_activity.source_record_id,
                      sourceContact.sort_name as source_contact_name,
-                     GROUP_CONCAT( DISTINCT(activity_target.target_contact_id ) SEPARATOR '::') as target_contact_id,
-                     GROUP_CONCAT( DISTINCT(targetContact.sort_name ) SEPARATOR '::') as target_contact_name,
-                     GROUP_CONCAT( DISTINCT(activity_assignment.assignee_contact_id  ) SEPARATOR '::' ) as assignee_contact_id,
-                     GROUP_CONCAT( DISTINCT(assigneeContact.sort_name ) SEPARATOR '::' ) as assignee_contact_name,
                      civicrm_option_value.value as activity_type_id,
                      civicrm_option_value.label as activity_type ";
-        
+
         if ( in_array( 'CiviCase', $config->enableComponents ) ) {             
             $select .=  " ,civicrm_case_activity.case_id as case_id,
                            civicrm_case.subject as case_subject ";
+        } else {
+            $select .= " , null, null ";
         }
-
+        
         $join   = "\n 
                     left join civicrm_activity_target at on 
                               civicrm_activity.id = at.activity_id 
                     left join civicrm_activity_assignment aa on 
                               civicrm_activity.id = aa.activity_id 
+                    left join civicrm_contact sourceContact on 
+                              source_contact_id = sourceContact.id 
                     left join civicrm_option_value on
-                              ( civicrm_activity.activity_type_id = civicrm_option_value.value )
+                              civicrm_activity.activity_type_id = civicrm_option_value.value
                     left join civicrm_option_group on  
                               civicrm_option_group.id = civicrm_option_value.option_group_id ";
         
@@ -645,24 +672,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                        left join civicrm_case_contact on
                                  civicrm_case_contact.case_id = civicrm_case.id ";
         }
-                               
-        $join .="\n
-                  left join civicrm_activity_target as activity_target on 
-                            civicrm_activity.id = activity_target.activity_id 
-                  left join civicrm_activity_assignment as activity_assignment on 
-                            civicrm_activity.id = activity_assignment.activity_id                               
-                  left join civicrm_contact sourceContact on 
-                            source_contact_id = sourceContact.id 
-		          left join civicrm_contact targetContact on 
-                            activity_target.target_contact_id = targetContact.id 
-                  left join civicrm_contact assigneeContact on 
-                            activity_assignment.assignee_contact_id = assigneeContact.id ";
-                
+                                               
         $from  = " from civicrm_activity ";
         $where = " where {$clause}
                    and civicrm_option_group.name = 'activity_type'
                    and {$componentClause}
-                   and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause}";
+                   and is_test = 0 and {$case} and {$statusClause}";
 
         $order = $limit = $groupBy = '';
         $groupBy = " GROUP BY civicrm_activity.id";
@@ -685,13 +700,66 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $limit = " LIMIT $offset, $rowCount ";
         }
                     
-        $queryString = $select. $from.  $join. $where. $groupBy. $order. $limit;
+        $query = $select. $from.  $join. $where. $groupBy. $order. $limit;
             
-        $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
+        CRM_Core_DAO::executeQuery( $query, $params );
 
+        // step 2: Get target and assignee contacts for above activities
+        // create temp table for target contacts
+        $activityTargetContactTempTable = "civicrm_temp_target_contact_{$randomNum}";
+        $query = "CREATE TEMPORARY TABLE {$activityTargetContactTempTable} ( 
+                activity_id int unsigned, target_contact_id text, target_contact_name varchar(255) )
+                ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci";
+        
+        CRM_Core_DAO::executeQuery( $query );
+        
+        // note that we ignore bulk email targets, since we don't show it in selector
+        $query = "INSERT INTO {$activityTargetContactTempTable} ( activity_id, target_contact_id, target_contact_name )
+                  SELECT DISTINCT ( at.activity_id ) , 
+                  GROUP_CONCAT( DISTINCT ( at.target_contact_id ) SEPARATOR '::' ) , 
+                  GROUP_CONCAT( DISTINCT (  c.sort_name ) SEPARATOR '::' )
+                  FROM civicrm_activity_target at
+              INNER JOIN {$activityTempTable} ON ( at.activity_id = {$activityTempTable}.activity_id 
+                  AND {$activityTempTable}.activity_type_id <> {$bulkActivityTypeID} )
+                  INNER JOIN civicrm_contact c ON c.id = at.target_contact_id
+                  GROUP BY at.activity_id";
+        
+        CRM_Core_DAO::executeQuery( $query );
+        
+        // create temp table for assignee contacts
+        $activityAssigneetContactTempTable = "civicrm_temp_assignee_contact_{$randomNum}";
+        $query = "CREATE TEMPORARY TABLE {$activityAssigneetContactTempTable} ( 
+                activity_id int unsigned, assignee_contact_id text, assignee_contact_name varchar(255) )
+                ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci";
+        
+        CRM_Core_DAO::executeQuery( $query );
+        
+        $query = "INSERT INTO {$activityAssigneetContactTempTable} ( activity_id, assignee_contact_id, assignee_contact_name )
+                  SELECT DISTINCT ( aa.activity_id ) , 
+                  GROUP_CONCAT( DISTINCT ( aa.assignee_contact_id ) SEPARATOR '::' ) , 
+                  GROUP_CONCAT( DISTINCT (  c.sort_name ) SEPARATOR '::' )
+                  FROM civicrm_activity_assignment aa
+                  INNER JOIN {$activityTempTable} ON aa.activity_id = {$activityTempTable}.activity_id
+                  INNER JOIN civicrm_contact c ON c.id = aa.assignee_contact_id
+                  GROUP BY aa.activity_id";
+        
+        CRM_Core_DAO::executeQuery( $query );
+        
+        // step 3: Combine all temp tables to get final query for activity selector
+        $query =  " 
+        SELECT {$activityTempTable}.*, 
+               {$activityTargetContactTempTable}.target_contact_id,{$activityTargetContactTempTable}.target_contact_name, 
+               {$activityAssigneetContactTempTable}.assignee_contact_id, {$activityAssigneetContactTempTable}.assignee_contact_name
+        FROM  {$activityTempTable}
+            LEFT JOIN {$activityTargetContactTempTable} on {$activityTempTable}.activity_id = {$activityTargetContactTempTable}.activity_id
+            LEFT JOIN {$activityAssigneetContactTempTable} on {$activityTempTable}.activity_id = {$activityAssigneetContactTempTable}.activity_id                  
+        ";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query );
+                
         $selectorFields = array( 'activity_type_id',
                                  'activity_type',
-                                 'id',
+                                 'activity_id',
                                  'activity_date_time',
                                  'status_id',
                                  'subject',                                 
@@ -702,10 +770,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'source_record_id',
                                  'case_id',
                                  'case_subject' );
-
+        
         $values = array();
         $rowCnt = 0;
-
+        
         //CRM-3553, need to check user has access to target groups.
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailingIDs =& CRM_Mailing_BAO_Mailing::mailingACLIDs( );
