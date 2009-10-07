@@ -462,6 +462,13 @@ class CRM_Export_BAO_Export
                         //Get all relationships type custom fields
                         list( $id , $atype , $btype ) = explode('_',$field);
                         $relCustomData = CRM_Core_BAO_CustomField::getFields( 'Relationship', null, null, $id, null, null );
+                        $tmpArray = array_keys( $relCustomData );
+                        $customIDs = array_flip( $tmpArray);
+                        require_once 'CRM/Core/BAO/CustomQuery.php';
+                        $customQuery = new CRM_Core_BAO_CustomQuery( $customIDs );
+                        $customQuery->query( );
+                        $options      = $customQuery->_options;
+
                         require_once 'CRM/Core/BAO/CustomValueTable.php' ;
                         foreach ( $relCustomData as $id => $customdatavalue ){
                             if ( in_array( $relationkey,$customdatavalue ) ){
@@ -471,9 +478,10 @@ class CRM_Export_BAO_Export
                                         $cid   = $v['id'];
                                         $param = array( 'entityID' => $cid, $customkey => 1 );
                                         //Get custom data values
-                                        $getCustomValue= CRM_Core_BAO_CustomValueTable::getValues( $param ) ;
-                                        if ( !array_key_exists('error_message',$getCustomValue ) ){       
-                                            $customData = $getCustomValue[$customkey] ;
+                                        $getCustomValueRel= CRM_Core_BAO_CustomValueTable::getValues( $param ) ;
+                                        if ( !array_key_exists('error_message',$getCustomValueRel ) ){
+                                            $customData = 
+                                                CRM_Core_BAO_CustomField::getDisplayValue($getCustomValueRel[$customkey], $id, $options );
                                         } else {
                                             $customData = '' ;
                                         }
