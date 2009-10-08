@@ -30,10 +30,10 @@
 	<dt>{$form.is_tellfriend_enabled.label}</dt>
 	<dd>{$form.is_tellfriend_enabled.html} {help id="id-is_tellfriend"}</dd>
 
-	<div id="tflimit">
+	<span id="tflimit">
 	<dt>{$form.tellfriend_limit.label}</dt>
 	<dd>{$form.tellfriend_limit.html|crmReplace:class:four} {help id="id-tellfriend_limit"}</dd>
-	</div>
+	</span>
 	<dt>{$form.link_text.label}</dt>
 	<dd>{$form.link_text.html|crmReplace:class:huge} {help id="id-link_text"}</dd>
 </dl>
