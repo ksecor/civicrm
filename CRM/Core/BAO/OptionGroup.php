@@ -179,6 +179,8 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
             //fix for CRM-3391.
             //as for event we remove 'page' from group name.
             $page = null;
+        } elseif ( $component == 'price' ) {
+            $page = '_field';
         }
 
         $fromGroupName = 'civicrm_' . $component . $page .'.amount.' . $fromId . $discountSuffix;

@@ -22,7 +22,7 @@
             data  : {
                 type  : "json",
                 async : true, 
-                url : {/literal}"{crmURL p='civicrm/ajax/menu' h=0 }"{literal},
+                url : {/literal}"{crmURL p='civicrm/ajax/menu' h=0 }"{literal}
             },
             rules : {
                 droppable : [ "tree-drop" ],

@@ -35,17 +35,18 @@
 
 require_once 'CRM/Upgrade/Form.php';
 require_once 'CRM/Core/OptionGroup.php';
-require_once 'CRM/Core//OptionValue.php';
+require_once 'CRM/Core/OptionValue.php';
 
 class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
+        $latestVer  = CRM_Utils_System::version();
         
-        $errorMessage = ts('Pre-condition failed for upgrade to 3.0.alpha2.');
+        $errorMessage = ts('Pre-condition failed for upgrade to %1.', array( 1 => $latestVer ));
         // check table, if the db is 3.0
         if ( CRM_Core_DAO::checkTableExists( 'civicrm_navigation' ) &&
              CRM_Core_DAO::checkTableExists( 'civicrm_participant_status_type' ) ) {
-            $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v3.0.alpha2) of the database.');
+            $errorMessage =  ts("Database check failed - it looks like you have already upgraded to the latest version (v%1) of the database. OR If you think this message is wrong, it is very likely that this a partially upgraded db and you will need to reload the correct db on which upgrade was never tried.", array( 1 => $latestVer ));
             return false;
         } 
         // check table-column, if the db is 3.0 
@@ -56,7 +57,7 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
              CRM_Core_DAO::checkFieldExists( 'civicrm_contact',  'email_greeting_id' )  &&
              CRM_Core_DAO::checkFieldExists( 'civicrm_payment_processor_type', 'payment_type' ) ) {
             
-            $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v3.0.alpha2) of the database.');
+            $errorMessage =  ts("Database check failed - it looks like you have already upgraded to the latest version (v%1) of the database. OR If you think this message is wrong, it is very likely that this a partially upgraded db and you will need to reload the correct db on which upgrade was never tried.", array( 1 => $latestVer ));
             return false;
         } 
         
@@ -196,7 +197,8 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
             } 
         }
 
-        $docURL = '<a href="http://wiki.civicrm.org/confluence/display/CRMUPCOMING/Update+Greetings+and+Address+Data+for+Contacts" style="color: white; text-decoration: underline;" target="_blank">('.ts('read more') .'....).</a>'; 
+        require_once 'CRM/Utils/System.php';
+        $docURL = CRM_Utils_System::docURL2( 'Update Greetings and Address Data for Contacts', false, null, null, 'color: white; text-decoration: underline;');
             
         if ( $addNewAddressee ) {
             //otherwise insert new token in addressee and set as a default

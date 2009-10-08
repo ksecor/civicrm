@@ -153,6 +153,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     
     public $_context;
     
+    /*
+     * Store the line items if price set used.
+     */
+    protected $_lineItems;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -175,7 +180,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         
         // get price set id.
-        $this->_priceSetId = CRM_Utils_Array::value( 'priceSetId', $_GET );
+        $this->_priceSetId  = CRM_Utils_Array::value( 'priceSetId', $_GET );
+        $this->set( 'priceSetId',  $this->_priceSetId );
         $this->assign( 'priceSetId', $this->_priceSetId );
         
         //get the pledge payment id
@@ -365,6 +371,16 @@ WHERE  contribution_id = {$this->_id}
             CRM_Custom_Form_Customdata::buildQuickForm( $this );
             CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
+        
+        require_once 'CRM/Price/BAO/Set.php';
+        $this->_lineItems = array( );
+        if ( $this->_id  && 
+             $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_contribution', $this->_id ) ) {
+            $this->_priceSetId = $priceSetId;
+            require_once 'CRM/Core/BAO/LineItem.php';
+            $this->_lineItems = CRM_Core_BAO_LineItem::getLineItems( $this->_id, 'Contribution' );
+        }
+        $this->assign( 'line_items', empty( $this->_lineItems ) ? false : $this->_lineItems );
     }
 
     function setDefaultValues( ) 
@@ -503,14 +519,21 @@ WHERE  contribution_id = {$this->_id}
         
         // build price set form.
         $buildPriceSet = false;
-        if ( $this->_priceSetId || CRM_Utils_Array::value( 'price_set_id', $_POST ) ) {
+        if ( empty( $this->_lineItems ) && 
+             ($this->_priceSetId || CRM_Utils_Array::value( 'price_set_id', $_POST ) ) ) {
             $buildPriceSet = true;
+            $getOnlyPriceSetElements = true;
+            if ( !$this->_priceSetId ) { 
+                $this->_priceSetId = $_POST['price_set_id'];
+                $getOnlyPriceSetElements = false;
+            }
+            
+            $this->set( 'priceSetId', $this->_priceSetId );
             require_once 'CRM/Price/BAO/Set.php';
-            if ( $this->_priceSetId ) $this->set( 'priceSetId', $this->_priceSetId );
             CRM_Price_BAO_Set::buildPriceSet( $this );
             
             // get only price set form elements.
-            if ( $this->_priceSetId ) return;
+            if ( $getOnlyPriceSetElements ) return;
         }
         // use to build form during form rule.
         $this->assign( 'buildPriceSet', $buildPriceSet );
@@ -721,21 +744,23 @@ WHERE  contribution_id = {$this->_id}
             $element->freeze( );
         }
         
-        require_once 'CRM/Price/BAO/Set.php';
-        $priceSets = CRM_Price_BAO_Set::getAssoc( false, 'Contribution');
-        $hasPriceSets = false;
-        if ( !empty( $priceSets ) && !$this->_ppID ) {
-            $hasPriceSets = true;
-            $element = $this->add( 'select', 'price_set_id', ts( 'Choose price set' ),
-                                   array( '' => ts( 'Choose price set' )) + $priceSets,
-                                   null, array('onchange' => "buildAmount( this.value );" ) );
-        }
-        $this->assign( 'hasPriceSets', $hasPriceSets );
-        $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
-                                $attributes['total_amount'], ($hasPriceSets)?false:true );
-        $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
-        if ( $this->_online || $this->_ppID ) {
-            $element->freeze( );
+        if ( empty( $this->_lineItems ) ) {
+            require_once 'CRM/Price/BAO/Set.php';
+            $priceSets = CRM_Price_BAO_Set::getAssoc( false, 'Contribution');
+            $hasPriceSets = false;
+            if ( !empty( $priceSets ) && !$this->_ppID ) {
+                $hasPriceSets = true;
+                $element = $this->add( 'select', 'price_set_id', ts( 'Choose price set' ),
+                                       array( '' => ts( 'Choose price set' )) + $priceSets,
+                                       null, array('onchange' => "buildAmount( this.value );" ) );
+            }
+            $this->assign( 'hasPriceSets', $hasPriceSets );
+            $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
+                                    $attributes['total_amount'], ($hasPriceSets)?false:true );
+            $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
+            if ( $this->_online || $this->_ppID ) {
+                $element->freeze( );
+            }
         }
         
         $element =& $this->add( 'text', 'source', ts('Source'), CRM_Utils_Array::value('source',$attributes) );
@@ -815,7 +840,7 @@ WHERE  contribution_id = {$this->_id}
         }
         
         // do the amount validations.
-        if ( !$fields['total_amount'] ) {
+        if ( !CRM_Utils_Array::value( 'total_amount', $fields ) && empty( $self->_lineItems ) ) {
             if ( $priceSetId = CRM_Utils_Array::value( 'price_set_id', $fields ) ) {
                 
                 // check for at least one positive 
@@ -914,11 +939,14 @@ SELECT  id, name
         
         // process price set and get total amount and line items.
         $lineItem = array( );
-        if ( CRM_Utils_Array::value( 'price_set_id', $submittedValues ) ) {
+        if ( $priceSetId = CRM_Utils_Array::value( 'price_set_id', $submittedValues ) ) {
             require_once 'CRM/Price/BAO/Set.php';
             CRM_Price_BAO_Set::processAmount( $this->_priceSet['fields'], 
-                                              $submittedValues, $lineItem[0] );
+                                              $submittedValues, $lineItem[$priceSetId] );
             $submittedValues['total_amount'] = $submittedValues['amount'];
+        } 
+        if ( !CRM_Utils_Array::value( 'total_amount', $submittedValues ) ) {
+            $submittedValues['total_amount'] = $this->_values['total_amount']; 
         }
         $this->assign( 'lineItem', !empty($lineItem) ? $lineItem : false );
         
@@ -1125,8 +1153,8 @@ SELECT  id, name
                                                                                   $contributionType,  
                                                                                   false, false, false );
 
-            // process line items.
-            if ( $contribution->id && !empty( $lineItem ) ) {
+            // process line items, until no previous line items.
+            if ( empty( $this->_lineItems ) && $contribution->id && !empty( $lineItem ) ) {
                 CRM_Contribute_Form_AdditionalInfo::processLineItem( $lineItem, $contribution->id );
             }
             
@@ -1246,8 +1274,8 @@ SELECT  id, name
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
             
-            // process line items.
-            if ( $contribution->id && !empty( $lineItem ) ) {
+            // process line items, until no previous line items.
+            if ( empty( $this->_lineItems )  && $contribution->id && !empty( $lineItem ) ) {
                 CRM_Contribute_Form_AdditionalInfo::processLineItem( $lineItem, $contribution->id );
             }
             

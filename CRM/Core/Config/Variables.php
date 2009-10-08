@@ -271,6 +271,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $userFrameworkBaseURL        = null;
     public $userFrameworkResourceURL    = null;
     public $userFrameworkFrontend       = false;
+    public $userFrameworkLogging        = false;
 
     /**
      * the handle for import file size 

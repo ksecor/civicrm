@@ -406,7 +406,30 @@ class CRM_Contribute_BAO_Contribution_Utils {
                 } else if ( isset($mapper['location'][$detail]) ) {
                     $params['address'][1][$mapper['location'][$detail]] = $val;
                 } else if ( isset($mapper['transaction'][$detail]) ) {
-                    $transaction[$mapper['transaction'][$detail]] = $val;
+                    switch ( $detail ) { 
+                        case 'l_period2':
+                            // Sadly, PayPal seems to send two distinct data elements in a single field,
+                            // so we break them out here.  This is somewhat ugly and tragic.
+                            $freqUnits = array (
+                                'D' => 'day',
+                                'W' => 'week',
+                                'M' => 'month',
+                                'Y' => 'year'
+                            );
+                            list($frequency_interval, $frequency_unit) = split(' ', $val);
+                            $transaction['frequency_interval'] = $frequency_interval;
+                            $transaction['frequency_unit'] = $freqUnits[$frequency_unit];
+                            break;
+                        case 'subscriptiondate':
+                        case 'timestamp':
+                            // PayPal dates are in  ISO-8601 format.  We need a format that
+                            // MySQL likes
+                            $unix_timestamp = strtotime($val);
+                            $transaction[$mapper['transaction'][$detail]] = date('YmdHis', $unix_timestamp);
+                            break;
+                        default:
+                            $transaction[$mapper['transaction'][$detail]] = $val;
+                    }
                 }
             }
 
@@ -539,6 +562,19 @@ class CRM_Contribute_BAO_Contribution_Utils {
                                                    CRM_Utils_Array::value( 'id', $params, null ),
                                                    'Contribution' );
         // create contribution
+        
+        // if this is a recurring contribution then process it first
+        if ( $params['trxn_type'] == 'subscrpayment' ) {
+            require_once 'CRM/Contribute/BAO/ContributionRecur.php';
+            $recurring =& CRM_Contribute_BAO_ContributionRecur::add( $params,
+                                                                     CRM_Core_DAO::$_nullArray );
+            if ( is_a( $recurring, 'CRM_Core_Error' ) ) {
+                return false;
+            } else {
+                $params['contribution_recur_id'] = $recurring->id;
+            }
+        }
+
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params,
                                                                   CRM_Core_DAO::$_nullArray );

@@ -131,6 +131,14 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
             $values = array_merge( $values, $softContribution );
         } 
         
+        require_once 'CRM/Price/BAO/Set.php';
+        $lineItems = array( );
+        if ( $id && CRM_Price_BAO_Set::getFor( 'civicrm_contribution', $id ) ) {
+            require_once 'CRM/Core/BAO/LineItem.php';
+            $lineItems = CRM_Core_BAO_LineItem::getLineItems( $id, 'Contribution' );
+        }
+        $this->assign( 'line_items', empty( $lineItems ) ? false : $lineItems );
+        
 		// assign values to the template
         $this->assign( $values ); 
     }

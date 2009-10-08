@@ -127,7 +127,7 @@
 }
 
 #crm-container table.display td {
-	padding: 3px 10px;
+       border-right:1px solid #DDDDDD;
 }
 
 #crm-container table.display td.center {

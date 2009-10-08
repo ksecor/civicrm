@@ -75,7 +75,7 @@ class CRM_Contact_Form_Edit_Household
      * @static
      * @public
      */
-    static function formRule( &$fields ,&$files, $contactId = null ) 
+    static function formRule( &$fields ,&$files, $contactID = null ) 
     {
         $errors = array( );
         

@@ -90,9 +90,9 @@ class CRM_Contact_Form_Edit_TagsandGroups
                 $ids = '= '.$groupID;
             } else {
                 if ( $visibility ) {
-                    $group  =& CRM_Core_PseudoConstant::allGroup( );
+                    $group  =& CRM_Core_PseudoConstant::allGroup( 'Mailing' );
                 } else {
-                    $group  =& CRM_Core_PseudoConstant::group( );
+                    $group  =& CRM_Core_PseudoConstant::group( 'Mailing' );
                 }
                 $ids = implode( ',', array_keys( $group ) );
                 $ids = 'IN ('.$ids.')';

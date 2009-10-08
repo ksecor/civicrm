@@ -89,19 +89,19 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $mainParams["return.$field"] = $otherParams["return.$field"] = 1;
         }
         $main  =& civicrm_contact_get($mainParams);
+        //CRM-4524
+        $main  = reset( $main );
         if ( $main['contact_id'] != $cid ) {
             CRM_Core_Error::fatal( ts( 'The main contact record does not exist' ) );
         }
 
         $other =& civicrm_contact_get($otherParams);
+        //CRM-4524
+        $other = reset( $other );
         if ( $other['contact_id'] != $oid ) {
             CRM_Core_Error::fatal( ts( 'The other contact record does not exist' ) );
         }
 
-        //CRM-4524
-        $main  = reset( $main );
-        $other = reset( $other );
-        
         $this->assign('contact_type', $main['contact_type']);
         $this->assign('main_name',    $main['display_name']);
         $this->assign('other_name',   $other['display_name']);
@@ -371,7 +371,6 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     require_once "CRM/Core/DAO/{$daoName}.php";
                     eval("\$updateDAO =& new CRM_Core_DAO_$daoName();");
                     $updateDAO->id = $updateBlockId;
-                    $updateDAO->find( true );
                     $updateDAO->contact_id = $this->_cid;
                     $updateDAO->location_type_id = $locTypeId;
                     
@@ -543,7 +542,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             CRM_Contact_BAO_Contact::createProfileContact($submitted, CRM_Core_DAO::$_nullArray, $this->_cid);
         }
         CRM_Core_Session::setStatus(ts('The contacts have been merged.'));
-        $url = CRM_Utils_System::url( 'civicrm/admin/dedupefind', "reset=1&action=update&rgid={$this->_rgid}" );
+        $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid={$this->_cid}" );
         CRM_Utils_System::redirect($url);
     }
 }

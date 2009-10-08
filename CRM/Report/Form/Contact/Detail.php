@@ -176,10 +176,10 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                                        'default'    => true ,
                                        ),
                                 'relationship_type_id' => 
-                                array( 'title'   => ts('Retaionship Type'),
+                                array( 'title'   => ts('Relationship Type'),
                                        'default' => true ),
                                 'contact_id_b' => 
-                                array( 'title'      => ts('Retaionship With'),
+                                array( 'title'      => ts('Relationship With'),
                                        'default'    => true ),
                                 'start_date' => 
                                 array( 'title'   => 'Start Date ',

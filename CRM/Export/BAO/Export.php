@@ -141,11 +141,11 @@ class CRM_Export_BAO_Export
                 if ( $relationField ) {
                     if ( in_array ( $relationField, $locationTypeFields ) ) {
                         if ( $relPhoneTypeId ) {                            
-                            $returnProperties[$relationshipTypes][$relationField]['location'][$locationTypes[$relLocTypeId]]['phone-' .$relPhoneTypeId] = 1;
+                            $returnProperties[$relationshipTypes]['location'][$locationTypes[$relLocTypeId]]['phone-' .$relPhoneTypeId] = 1;
                         } else if ( $relIMProviderId ) {                            
-                            $returnProperties[$relationshipTypes][$relationField]['location'][$locationTypes[$relLocTypeId]]['im-' .$relIMProviderId] = 1;
+                            $returnProperties[$relationshipTypes]['location'][$locationTypes[$relLocTypeId]]['im-' .$relIMProviderId] = 1;
                         } else {
-                            $returnProperties[$relationshipTypes][$relationField]['location'][$locationTypes[$relLocTypeId]][$relationField] = 1;
+                            $returnProperties[$relationshipTypes]['location'][$locationTypes[$relLocTypeId]][$relationField] = 1;
                         } 
                         $relPhoneTypeId = $relIMProviderId = null;                       
                     } else {
@@ -348,35 +348,38 @@ class CRM_Export_BAO_Export
                             $headerRows[] = $query->_fields['activity'][$field]['title'];
                         }
                     } else if ( array_key_exists( $field, $contactRelationshipTypes ) ) {
-                        foreach ( $value as $relationKey => $relationValue ) {
+                        foreach ( $value as $relationField => $relationValue ) {
                             if ( is_array( $relationValue ) ) {
-                                foreach ( $relationValue as $rrkey => $rrvalue ) {
-                                    if ( $rrkey == 'location' ) {
-                                        foreach ( $rrvalue as $kkey => $vvalue ) {
-                                            list ( $serviceProvider, $serviceProviderID ) = 
-                                                explode( '-', key((array)$vvalue) );
-                                            
+                                foreach ( $relationValue as $locType => $locValue ) {
+                                    if ( $relationField == 'location' ) {
+                                        foreach ( $locValue as $locKey => $dont ) {
+                                            list ( $serviceProvider, $serviceProviderID ) =  explode( '-', $locKey );
                                             if ( $serviceProvider == 'phone' ) {
-                                                foreach ( $vvalue as $pkkey => $pvvalue ) {
-                                                    list ( $pphone, $pphoneId ) = explode( '-', $pkkey );
-                                                    $headerRows[] = $contactRelationshipTypes[$field].' : '.$kkey.' - '.CRM_Utils_Array::value( $pphoneId, $phoneTypes );
-                                                }
+                                                $headerRows[] = 
+                                                    $contactRelationshipTypes[$field] .' : '.
+                                                    $locType . ' - '.
+                                                    $serviceProvider . ' - ' . 
+                                                    CRM_Utils_Array::value( $serviceProviderID, $phoneTypes, 'Primary' );
                                             } else if ( $serviceProvider == 'im' ) {
-                                                foreach ( $vvalue as $ikkey => $ivvalue ) {
-                                                    list ( $im, $imId ) = explode( '-', $ikkey );
-                                                    $headerRows[] = $contactRelationshipTypes[$field].' : '.$kkey.' - '.CRM_Utils_Array::value( $imId, $imProviders );
-                                                }
+                                                $headerRows[] = 
+                                                    $contactRelationshipTypes[$field] .' : '. 
+                                                    $locType . ' - '.
+                                                    $serviceProvider . ' - ' . 
+                                                    CRM_Utils_Array::value( $serviceProviderID, $imProviders, 'Primary' );
                                             } else {
-                                                $headerRows[] = $contactRelationshipTypes[$field].' : '.$kkey.' - '.$query->_fields[key((array)$vvalue)]['title'];
+                                                $headerRows[] = $contactRelationshipTypes[$field] . ' : '. 
+                                                    $locType . ' - '.
+                                                    $query->_fields[$locKey]['title'];
                                             }
                                         }
                                     }
                                 }
 
-                            } else if( $query->_fields[$relationKey]['title'] ) {
-                                $headerRows[] = $contactRelationshipTypes[$field].' : '.$query->_fields[$relationKey]['title'];
+                            } else if( $query->_fields[$relationField]['title'] ) {
+                                $headerRows[] = $contactRelationshipTypes[$field] . ' : ' . 
+                                    $query->_fields[$relationField]['title'];
                             } else {
-                                $headerRows[] = $contactRelationshipTypes[$field].' : '.$relationKey;
+                                $headerRows[] = $contactRelationshipTypes[$field] . ' : ' . $relationField;
                             }
                         }
                     } else {
@@ -420,6 +423,8 @@ class CRM_Export_BAO_Export
                 } else if ( array_key_exists( $field, $contactRelationshipTypes ) ) {
                     require_once 'api/v2/Relationship.php';
                     require_once 'CRM/Contact/BAO/Contact.php';
+                    require_once 'CRM/Core/BAO/CustomValueTable.php';
+                    require_once 'CRM/Core/BAO/CustomQuery.php';
                     $params['relationship_type_id'] = $contactRelationshipTypes[$field];
                     $contact_id['contact_id']       = $dao->contact_id;  
                     
@@ -437,18 +442,29 @@ class CRM_Export_BAO_Export
                             $is_valid = true;
                         }
                     }
+
+                    $relCustomIDs = array();
                     foreach ( $value as $relationkey => $relationvalue ) {
 
                         if ( $val['result'] &&  $cfID = CRM_Core_BAO_CustomField::getKeyID( $relationkey )){
-                            require_once 'CRM/Core/BAO/CustomValueTable.php' ;
                             foreach ( $val['result'] as $k1 => $v1 ){
                                 $contID         = $v1['cid'] ;
-                                $param1         = array('entityID' => $contID,$relationkey => 1);
+                                $param1         = array('entityID' => $contID, $relationkey => 1);
                                 $getcustomValue = CRM_Core_BAO_CustomValueTable::getValues($param1) ;
-                                $getcustomValue = $getcustomValue[$relationkey];
-                                $custom_ID = CRM_Core_BAO_CustomField::getKeyID( $relationkey ) ;
-                                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $relationkey )){
-                                    $custom_data = CRM_Core_BAO_CustomField::getDisplayValue($getcustomValue , $cfID, $query->_options );
+                                $custom_ID      = CRM_Core_BAO_CustomField::getKeyID( $relationkey ) ;
+                                
+                                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $relationkey ) ) {
+                                    if ( empty( $query->_options ) ) {
+                                        $relCustomIDs[$cfID] = array();
+                                        $relQuery = new CRM_Core_BAO_CustomQuery( $relCustomIDs );
+                                        $relQuery->query( );
+                                        $relOptions = $relQuery->_options;
+                                    } else {
+                                        $relOptions = $query->_options;
+                                    }
+                                    
+                                    $custom_data = CRM_Core_BAO_CustomField::getDisplayValue( $getcustomValue[$relationkey],
+                                                                                              $cfID, $relOptions );
                                 } else {
                                     $custom_data = '';
                                 }
@@ -458,7 +474,16 @@ class CRM_Export_BAO_Export
                         //Get all relationships type custom fields
                         list( $id , $atype , $btype ) = explode('_',$field);
                         $relCustomData = CRM_Core_BAO_CustomField::getFields( 'Relationship', null, null, $id, null, null );
-                        require_once 'CRM/Core/BAO/CustomValueTable.php' ;
+                        $tmpArray      = array_keys( $relCustomData );
+                        $customIDs     = array();
+                        foreach ( $tmpArray as $customID ) {
+                            $customIDs[$customID] = array(); 
+                        }
+                        require_once 'CRM/Core/BAO/CustomQuery.php';
+                        $customQuery = new CRM_Core_BAO_CustomQuery( $customIDs );
+                        $customQuery->query( );
+                        $options      = $customQuery->_options;
+
                         foreach ( $relCustomData as $id => $customdatavalue ){
                             if ( in_array( $relationkey,$customdatavalue ) ){
                                 $customkey = "custom_$id" ;
@@ -467,9 +492,10 @@ class CRM_Export_BAO_Export
                                         $cid   = $v['id'];
                                         $param = array( 'entityID' => $cid, $customkey => 1 );
                                         //Get custom data values
-                                        $getCustomValue= CRM_Core_BAO_CustomValueTable::getValues( $param ) ;
-                                        if ( !array_key_exists('error_message',$getCustomValue ) ){       
-                                            $customData = $getCustomValue[$customkey] ;
+                                        $getCustomValueRel= CRM_Core_BAO_CustomValueTable::getValues( $param ) ;
+                                        if ( !array_key_exists('error_message',$getCustomValueRel ) ){
+                                            $customData = 
+                                                CRM_Core_BAO_CustomField::getDisplayValue($getCustomValueRel[$customkey], $id, $options );
                                         } else {
                                             $customData = '' ;
                                         }
@@ -482,23 +508,30 @@ class CRM_Export_BAO_Export
                         }
 
                         if ( is_array( $relationvalue ) ) {
-                            if ( array_key_exists ( 'location', $relationvalue ) )  {
-                                foreach ( $relationvalue['location'] as $columnkey => $columnvalue ) {
+                            if ( array_key_exists ( 'location', $value ) )  {
+                                foreach ( $value['location'] as $columnkey => $columnvalue ) {
                                     foreach ( $columnvalue as $colkey => $colvalue ) {
 
                                         list ( $serviceProvider, $serviceProviderID ) = explode( '-', $colkey );
+                                        if ( in_array($serviceProvider,
+                                                      array( 'street_address','supplemental_address_1',
+                                                             'supplemental_address_2','city','postal_code',
+                                                             'postal_code_suffix','state_province','country' )) ) {
 
+                                            $serviceProvider = 'address';  
+                                        }
+                                        
                                         $output = null;
                                         foreach ( (array)$data->$serviceProvider as $datakey => $datavalue ) {
-
-                                            if ( $columnkey == 'Primary'){
+                                            
+                                            if ( $columnkey == 'Primary' ) {
                                                 $columnkey = $locationTypes[$datavalue['location_type_id']];
                                             }
                                             if ( $locationTypes[$datavalue['location_type_id']] == $columnkey ) {
-                                                if ( array_key_exists( $colkey, $datavalue['address'] ) ) {
-                                                    $output = $datavalue['address'][$colkey];
+                                                if ( array_key_exists( $colkey, $datavalue ) ) {
+                                                    $output = $datavalue[$colkey];
                                                 } else if ( $colkey == 'country' ) {
-                                                    $countryId = $datavalue['address']['country_id'] ;
+                                                    $countryId = $datavalue['country_id'];
                                                     if ( $countryId ) {
                                                         require_once 'CRM/Core/PseudoConstant.php';
                                                         $country = & CRM_Core_PseudoConstant::country( $countryId );
@@ -507,7 +540,7 @@ class CRM_Export_BAO_Export
                                                     }
                                                     $output = $country;
                                                 } else if ( $colkey == 'state_province' ) {
-                                                    $stateProvinceId = $datavalue['address']['state_province_id'] ;
+                                                    $stateProvinceId = $datavalue['state_province_id'];
                                                     if ( $stateProvinceId ) {
                                                         $stateProvince = & CRM_Core_PseudoConstant::stateProvince( $stateProvinceId );
                                                     } else {
@@ -550,7 +583,7 @@ class CRM_Export_BAO_Export
                                     }
                                 }
                             }
-                        } else if( $cfID = CRM_Core_BAO_CustomField::getKeyID( $relationkey )&& $is_valid){
+                        } else if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $relationkey )&& $is_valid){
                             $row[] = $custom_data;
                         } else if ( $query->_fields[$relationkey]['name'] && $is_valid ) {
                             if ( ($query->_fields[$relationkey]['name'] == 'gender')  ) {

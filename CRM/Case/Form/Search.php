@@ -481,24 +481,6 @@ class CRM_Case_Form_Search extends CRM_Core_Form
             $this->_defaults['case_start_date_high'  ] = $date;
         }
 
-        $session = & CRM_Core_Session::singleton();
-
-        if ( !CRM_Utils_Request::retrieve( 'all', 'Positive', $session ) ) {
-            $this->_formValues['case_mycases'] = 0;
-            $this->_formValues['case_owner'] = 0;
-            $this->_defaults['case_owner']   = 0;
-        } else {
-            $this->_formValues['case_owner'] = 1;
-            $this->_defaults['case_owner']   = 1;
-        }
-
-        $caseOwner = CRM_Utils_Request::retrieve( 'case_owner', 'Boolean',
-                                                   CRM_Core_DAO::$_nullObject );
-        if ( $caseOwner ) {
-            $this->_formValues['case_owner'] = 0;
-            $this->_defaults['case_owner'] = 0;
-        }
-                                                   
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
@@ -510,6 +492,24 @@ class CRM_Case_Form_Search extends CRM_Core_Form
                                                                              'sort_name' );
                 // also assign individual mode to the template
                 $this->_single = true;
+            }
+        } else {
+            $session = & CRM_Core_Session::singleton();
+            
+            if ( !CRM_Utils_Request::retrieve( 'all', 'Positive', $session ) ) {
+                $this->_formValues['case_mycases'] = 0;
+                $this->_formValues['case_owner'] = 0;
+                $this->_defaults['case_owner']   = 0;
+            } else {
+                $this->_formValues['case_owner'] = 1;
+                $this->_defaults['case_owner']   = 1;
+            }
+            
+            $caseOwner = CRM_Utils_Request::retrieve( 'case_owner', 'Boolean',
+                                                      CRM_Core_DAO::$_nullObject );
+            if ( $caseOwner ) {
+                $this->_formValues['case_owner'] = 0;
+                $this->_defaults['case_owner'] = 0;
             }
         }
     }
