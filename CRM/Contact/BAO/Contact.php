@@ -1211,7 +1211,10 @@ AND    civicrm_contact.id = %1";
         //fix contact sub type CRM-5125
         if ( $subType = CRM_Utils_Array::value('contact_sub_type', $params) ) {
             $data['contact_sub_type'] = $subType;
-        } 
+        } else if ( $ufGroupId ) {
+            $data['contact_sub_type'] = 
+                CRM_Core_BAO_UFField::getProfileSubType( $ufGroupId, $data['contact_type'] );
+        }
         
         if ( $ctype == "Organization" ) {
             $data["organization_name"] = $contactDetails["organization_name"];
@@ -1369,14 +1372,16 @@ AND    civicrm_contact.id = %1";
                     if ( isset ( $params[$key. '_id'] ) ) {
                         $value = $params[$key. '_id'];
                     }
+                    $cTypes = $data['contact_type'];
+                    if ( CRM_Utils_Array::value( 'contact_sub_type', $data ) ) {
+                        $cTypes = array( $data['contact_type'], $data['contact_sub_type'] );
+                    } 
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
                                                                  $data['custom'], 
                                                                  $value,
-                                                                 $data['contact_type'],
+                                                                 $cTypes,
                                                                  null,
-                                                                 $contactID,
-                                                                 false,
-                                                                 CRM_Utils_Array::value('contact_sub_type', $data) );
+                                                                 $contactID );
                 } else if ($key == 'edit') {
                     continue;
                 } else {
@@ -1455,11 +1460,6 @@ AND    civicrm_contact.id = %1";
                                   );
                 CRM_Contact_BAO_SubscriptionHistory::create($shParams);
             }
-        }
-
-        if ( !CRM_Utils_Array::value('contact_sub_type', $data) && $ufGroupId ) {
-            $data['contact_sub_type'] = 
-                CRM_Core_BAO_UFField::getProfileSubType( $ufGroupId, $data['contact_type'] );
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
