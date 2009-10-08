@@ -80,7 +80,7 @@ class CRM_Contact_Form_Edit_Organization
 			array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
     }
 
-    static function formRule( &$fields ,&$files, $contactId = null ) {
+    static function formRule( &$fields ,&$files, $contactID = null ) {
        
         $errors = array( );
         

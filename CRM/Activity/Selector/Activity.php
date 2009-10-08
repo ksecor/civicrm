@@ -267,9 +267,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      */
     function getTotalCount($action, $case = null ) { 
         require_once 'CRM/Activity/BAO/Activity.php';
-        $data = array( 'contact_id' => $this->_contactId );
-        return CRM_Activity_BAO_Activity::getActivities( $data, null, null, null, 'Activity', 
-                                                         $this->_admin, null, $this->_context, true );
+        return CRM_Activity_BAO_Activity::getActivitiesCount( $this->_contactId, $this->_admin, $case, $this->_context );
     }
 
 
@@ -288,8 +286,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
     {
         $params['contact_id'] = $this->_contactId;
         $config = CRM_Core_Config::singleton();
-        $rows =& CRM_Activity_BAO_Activity::getActivities($params, $offset, $rowCount, $sort,
-                                                              'Activity', $this->_admin, $case, $this->_context );
+        $rows =& CRM_Activity_BAO_Activity::getActivities( $params, $offset, $rowCount, $sort, 
+                                                           $this->_admin, $case, $this->_context );
         
         if ( empty( $rows ) ) {
             return $rows;
@@ -345,7 +343,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['action'] = CRM_Core_Action::formLink( $actionLinks,
                                                             $actionMask,
-                                                            array('id'     => $row['id'],
+                                                            array('id'     => $row['activity_id'],
                                                                   'cid'    => $this->_contactId,
                                                                   'cxt'    => $this->_context,
                                                                   'caseid' => CRM_Utils_Array::value( 'case_id', $row ) 
@@ -397,14 +395,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                 'sort'      => 'source_contact_name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name'      => ts('With'),
-                                                'sort'      => 'target_contact_name',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array('name'      => ts('Assigned To'),
-                                                'sort'      => 'assignee_contact_name',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
+                                          array('name'      => ts('With') ),
+                                          array('name'      => ts('Assigned To') ),
                                           array(
                                                 'name'      => ts('Date'),
                                                 'sort'      => 'activity_date_time',
