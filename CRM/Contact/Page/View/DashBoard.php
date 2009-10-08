@@ -42,7 +42,6 @@ require_once 'CRM/Contact/BAO/Contact.php';
  */
 class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View 
 {
-    protected $_rows = array();
     protected $_contactIds = array();
     protected $_history = array();
     protected $_displayName = array();
@@ -129,18 +128,16 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
             require_once 'CRM/Activity/Selector/Activity.php';
             $selector   =& new CRM_Activity_Selector_Activity( $id, $this->_permission, $admin, 'home' );
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                               $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
 
             $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
                                                         $sortID, CRM_Core_Action::VIEW, $this, $output);
             $controller->setEmbedded(true);
             $controller->run();
-            $this->_rows = $controller->getRows($controller);
             $controller->moveFromSessionToTemplate( );
 
             $this->_displayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
 
-            $this->assign( 'rows',         $this->_rows);
             $this->assign( 'contactId',    $this->_contactIds);
             $this->assign( 'display_name', $this->_displayName);
             $this->assign( 'context',      'home');
