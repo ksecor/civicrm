@@ -35,6 +35,7 @@
       <legend>{ts}Import Options{/ts}</legend>
       <dl>
         <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>
+        <dt>{$form.subType.label}</dt><dd>{$form.subType.html} {help id='contact-sub-type'}</dd>
         <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
         
         {include file="CRM/Core/Date.tpl"}
@@ -68,6 +69,7 @@
       cj(document).ready(function() {    
          //build data source form block
          buildDataSourceFormBlock();
+         buildSubTypes(1);
       });
       
       function buildDataSourceFormBlock(dataSource)
@@ -87,7 +89,26 @@
 
         cj("#data-source-form-block").load( dataUrl );
       }
-      
+
+      function buildSubTypes( element )
+      {
+        var postUrl = {/literal}"{crmURL p='civicrm/ajax/subtype' h=0 }"{literal};
+        cj.post( postUrl, { parentId: element },
+                 function( data ) {
+                                     cj("#subType").empty();                                   
+                                     cj("#subType").append("<option value=''>-Select-</option>");  
+                                     for (var i = 0; i < data.length; i++)
+                                     {
+                                      // stick these new options in the subtype select 
+                                      cj("#subType").append("<option value="+data[i]+">"+data[i]+" </option>");  
+                                     }
+                                  
+                                                  
+                                  },'json' 
+               );
+     
+      }
+
     </script>
   {/literal}
 {/if}
