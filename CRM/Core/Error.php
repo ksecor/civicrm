@@ -381,6 +381,13 @@ class CRM_Core_Error extends PEAR_ErrorStack {
             echo $str;
         }
         $file_log->close( );
+
+        if ($config->userFrameworkLogging) {
+            if ($config->userFramework == 'Drupal' and function_exists('watchdog')) {
+                watchdog('civicrm', $message, NULL, WATCHDOG_DEBUG);
+            }
+        }
+
         return $str;
     }
 
