@@ -42,10 +42,6 @@ require_once 'CRM/Contact/BAO/Contact.php';
  */
 class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View 
 {
-    protected $_contactIds = array();
-    protected $_history = array();
-    protected $_displayName = array();
-
     /*
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
@@ -116,17 +112,15 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
      *
      * @access public
      */
-    function browse($id, $admin)
+    function browse($contactId, $admin)
     { 
         $config =& CRM_Core_Config::singleton( );
         if ( ! $config->civiHRD ) { 
-            $this->_contactIds = $id;
-
             require_once 'CRM/Core/Selector/Controller.php';
             $output = CRM_Core_Selector_Controller::SESSION;
 
             require_once 'CRM/Activity/Selector/Activity.php';
-            $selector   =& new CRM_Activity_Selector_Activity( $id, $this->_permission, $admin, 'home' );
+            $selector   =& new CRM_Activity_Selector_Activity( $contactId, $this->_permission, $admin, 'home' );
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
 
@@ -136,10 +130,10 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
             $controller->run();
             $controller->moveFromSessionToTemplate( );
 
-            $this->_displayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
+            $displayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $contactId, 'display_name');
 
-            $this->assign( 'contactId',    $this->_contactIds);
-            $this->assign( 'display_name', $this->_displayName);
+            $this->assign( 'contactId',    $contactId);
+            $this->assign( 'display_name', $displayName);
             $this->assign( 'context',      'home');
 
             // check if case is enabled
@@ -170,13 +164,13 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
 
         //Get the id of Logged in User
         $session =& CRM_Core_Session::singleton( );
-        $id  = $session->get( 'userID' );
+        $contactId  = $session->get( 'userID' );
         
         $admin = 
             CRM_Core_Permission::check( 'view all activities' ) ||
             CRM_Core_Permission::check( 'administer CiviCRM' );
 
-        $this->browse( $id, $admin );
+        $this->browse( $contactId, $admin );
       
         return parent::run( );
     }
