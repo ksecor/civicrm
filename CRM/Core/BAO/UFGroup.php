@@ -1799,12 +1799,11 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
      */
     static function copy( $id ) 
     {
-        $fieldsToPrefix = array( 'title' => ts( 'Copy of' ) . ' ' );
-        
+        $fieldsFix = array ( 'prefix' => array( 'title' => ts( 'Copy of ' ) ) );
         $copy        =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFGroup', 
                                                    array( 'id' => $id ), 
                                                    null, 
-                                                   $fieldsToPrefix );
+                                                   $fieldsFix );
 
         $copyUFJoin  =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin', 
                                                    array( 'uf_group_id' => $id ), 

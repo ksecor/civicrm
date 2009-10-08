@@ -647,13 +647,17 @@ WHERE  id IN ($optionIDs)
     static function copy( $id ) 
     {
         $maxId = CRM_Core_DAO::singleValueQuery( "SELECT max(id) FROM civicrm_price_set" );
-        $fieldsToPrefix = array( 'title' => $maxId+1 . ts( ' Copy of ' ),
-                                 'name'  => $maxId+1 . '_Copy_of_' );
+                
+        $title = ts('[Copy id %1]', array(1 => $maxId+1));
+        $fieldsFix = array ( 'suffix' => array( 'title' => ' '. $title,
+                                                'name'  => '__Copy_id_'. ($maxId+1). '_'
+                                                ) 
+                             );
         
         $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Price_DAO_Set', 
                                             array( 'id' => $id ), 
                                             null, 
-                                            $fieldsToPrefix );
+                                            $fieldsFix );
         
         //copying all the blocks pertaining to the price set
         $copyPriceField =& CRM_Core_DAO::copyGeneric( 'CRM_Price_DAO_Field', 
