@@ -355,17 +355,17 @@ class CRM_Export_BAO_Export
                                         foreach ( $locValue as $locKey => $dont ) {
                                             list ( $serviceProvider, $serviceProviderID ) =  explode( '-', $locKey );
                                             if ( $serviceProvider == 'phone' ) {
-                                                list ( $pphone, $pphoneId ) = explode( '-', $pkkey );
                                                 $headerRows[] = 
-                                                    $contactRelationshipTypes[$field] .' : '. 
+                                                    $contactRelationshipTypes[$field] .' : '.
+                                                    $locType . ' - '.
                                                     $serviceProvider . ' - ' . 
-                                                    CRM_Utils_Array::value( $serviceProviderID, $phoneTypes );
+                                                    CRM_Utils_Array::value( $serviceProviderID, $phoneTypes, 'Primary' );
                                             } else if ( $serviceProvider == 'im' ) {
-                                                list ( $im, $imId ) = explode( '-', $ikkey );
                                                 $headerRows[] = 
                                                     $contactRelationshipTypes[$field] .' : '. 
+                                                    $locType . ' - '.
                                                     $serviceProvider . ' - ' . 
-                                                    CRM_Utils_Array::value( $serviceProviderID, $imProviders );
+                                                    CRM_Utils_Array::value( $serviceProviderID, $imProviders, 'Primary' );
                                             } else {
                                                 $headerRows[] = $contactRelationshipTypes[$field] . ' : '. 
                                                     $locType . ' - '.
@@ -524,6 +524,9 @@ class CRM_Export_BAO_Export
                                         $output = null;
                                         foreach ( (array)$data->$serviceProvider as $datakey => $datavalue ) {
                                             
+                                            if ( $columnkey == 'Primary' ) {
+                                                $columnkey = $locationTypes[$datavalue['location_type_id']];
+                                            }
                                             if ( $locationTypes[$datavalue['location_type_id']] == $columnkey ) {
                                                 if ( array_key_exists( $colkey, $datavalue ) ) {
                                                     $output = $datavalue[$colkey];
