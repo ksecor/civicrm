@@ -162,7 +162,7 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
 
         $this->addGroup($contactOptions, 'contactType', 
                         ts('Contact Type'));
-
+        
         $this->setDefaults(array('contactType' =>
                                  CRM_Import_Parser::CONTACT_INDIVIDUAL));
         
@@ -229,13 +229,15 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
             // Setup the params array 
             $this->_params = $this->controller->exportValues( $this->_name );
             
-            $onDuplicate  = $this->exportValue('onDuplicate');
-            $contactType  = $this->exportValue('contactType');
-            $dateFormats  = $this->exportValue('dateFormats');
-            $savedMapping = $this->exportValue('savedMapping');
-
+            $onDuplicate     = $this->exportValue('onDuplicate');
+            $contactType     = $this->exportValue('contactType');
+            $dateFormats     = $this->exportValue('dateFormats');
+            $savedMapping    = $this->exportValue('savedMapping');
+            $contactSubType  = $this->exportValue('subType');
+                    
             $this->set('onDuplicate', $onDuplicate);
             $this->set('contactType', $contactType);
+            $this->set('contactSubType', $contactSubType);
             $this->set('dateFormats', $dateFormats);
             $this->set('savedMapping', $savedMapping);
             $this->set('dataSource', $this->_params['dataSource'] );
@@ -266,7 +268,8 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
             $parser->setMaxLinesToProcess( 100 );
             $parser->run( $importTableName, $mapper,
                           CRM_Import_Parser::MODE_MAPFIELD, $contactType,
-                          $fieldNames['pk'], $fieldNames['status']);
+                          $fieldNames['pk'], $fieldNames['status'], 
+                          DUPLICATE_SKIP, null, null, false, CRM_Import_Parser::DEFAULT_TIMEOUT, $contactSubType );
                           
             // add all the necessary variables to the form
             $parser->set( $this );

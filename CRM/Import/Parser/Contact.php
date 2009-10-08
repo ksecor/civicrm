@@ -122,7 +122,20 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     {
         require_once 'CRM/Contact/BAO/Contact.php';
         $fields =& CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
-
+        
+        //CRM-5125
+        //supporting import for contact subtypes
+        if ( !empty($this->_contactSubType) ) { 
+            //custom fields for sub type
+            $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $this->_contactSubType );
+            
+            if ( !empty($subTypeFields) ) {
+                foreach($subTypeFields as $customSubTypeField => $details ) {
+                    $fields[$customSubTypeField] = $details;
+                }   
+            }
+        }
+       
         //Relationship importables
         $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $this->_contactType );
         asort($relations);
@@ -435,7 +448,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
             }
         }
-
+     
+        if ( !empty($this->_contactSubType) ) {
+            $params['contact_sub_type'] = $this->_contactSubType;
+        }
+       
         if ( $subType = CRM_utils_Array::value('contact_sub_type', $params) ) {
             if ( !CRM_Contact_BAO_ContactType::isExtendsContactType($subType, $this->_contactType) ) {
                 $message = "Mismatched or Invalid Contact SubType.";
@@ -890,7 +907,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     {
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
-        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
+        //CRM-5125
+        //add custom fields for contact sub type
+        if ( empty($this->_contactSubType) ) {
+            $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
+        } else {
+            $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, false, null, null, false, $this->_contactSubType );
+        }
+              
         foreach ($params as $key => $value) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                 /* check if it's a valid custom field id */
@@ -1487,7 +1511,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     function formatCommonData( $params, &$formatted, &$contactFields )
     {
         //take contact cutom fields.
-        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type', $formatted ) );
+        if ( empty($this->_contactSubType) ) {
+            $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type', $formatted ) );
+        } else {
+            $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value('contact_type', $formatted), false, 
+                                                                 false, null, null, false, $this->_contactSubType );
+        }
         //if a Custom Email Greeting, Custom Postal Greeting or Custom Addressee is mapped, and no "Greeting / Addressee Type ID" is provided, then automatically set the type = Customized, CRM-4575
         $elements = array( 'email_greeting_custom' => 'email_greeting', 
                            'postal_greeting_custom' => 'postal_greeting', 

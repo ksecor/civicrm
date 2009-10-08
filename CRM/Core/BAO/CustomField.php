@@ -334,12 +334,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                        $contactSubType = null ) 
     {
         $cacheKey  = $customDataType;
+      
         $cacheKey .= $customDataSubType ? "{$customDataSubType}_" : "_0";
 		$cacheKey .= $customDataSubName ? "{$customDataSubName}_" : "_0";
         $cacheKey .= $showAll ? "_1" : "_0";
         $cacheKey .= $inline  ? "_1_" : "_0_";
 		$cacheKey .= $onlyParent  ? "_1_" : "_0_";
-
+        $cacheKey .= $contactSubType ? "{$contactSubType}_" : "_0";
+        
         $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
         // also get the permission stuff here
@@ -372,7 +374,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     if ( in_array( $customDataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
                         $value = "'" . CRM_Utils_Type::escape( $customDataType, 'String' ) . "', 'Contact' ";
                         // consider subtypes if any
-                        if ( $contactSubType ) {
+                        if ( $contactSubType ) { 
                             $value .= ", '$contactSubType'";
                         }
                     } else if ( in_array( $customDataType, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
@@ -1216,10 +1218,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     static function formatCustomField( $customFieldId, &$customFormatted, $value, 
                                        $customFieldExtend, $customValueId = null,
                                        $entityId = null, 
-                                       $inline = false ) 
+                                       $inline = false, $contactSubType = null ) 
     {
         //get the custom fields for the entity
-        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend, false, $inline );
+        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend, false, $inline, null, null, false, $contactSubType );
        
         if ( ! array_key_exists( $customFieldId, $customFields )) {
             return;

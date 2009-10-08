@@ -441,11 +441,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $subType );
             
             if ( ! empty( $subTypeFields ) ) {
-                // remove subtype fields from basic contact type entries so that for e.g 
-                // Individual won't have entries for Parent or Student
-                foreach ( $subTypeFields as $fld => $dnc ) {
-                    unset($fields[$val['parent']][$fld]);
-                }
                 $fields[$subType] = $fields[$val['parent']] + $subTypeFields;
                 $contactSubTypes[$subType] = $val['label'];
             }

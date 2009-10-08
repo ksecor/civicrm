@@ -264,8 +264,9 @@ abstract class CRM_Import_Parser {
                   $statusID = null,
                   $totalRowCount = null,
                   $doGeocodeAddress = false,
-                  $timeout = CRM_Import_Parser::DEFAULT_TIMEOUT ) {
-
+                  $timeout = CRM_Import_Parser::DEFAULT_TIMEOUT,
+                  $contactSubType = null ) {
+        
         // TODO: Make the timeout actually work
         $this->_onDuplicate = $onDuplicate;
         
@@ -280,6 +281,8 @@ abstract class CRM_Import_Parser {
             $this->_contactType = 'Organization';
         }
 
+        $this->_contactSubType = $contactSubType;
+        
         $this->init();
 
         $this->_rowCount  = $this->_warningCount   = 0;
