@@ -423,6 +423,8 @@ class CRM_Export_BAO_Export
                 } else if ( array_key_exists( $field, $contactRelationshipTypes ) ) {
                     require_once 'api/v2/Relationship.php';
                     require_once 'CRM/Contact/BAO/Contact.php';
+                    require_once 'CRM/Core/BAO/CustomValueTable.php';
+                    require_once 'CRM/Core/BAO/CustomQuery.php';
                     $params['relationship_type_id'] = $contactRelationshipTypes[$field];
                     $contact_id['contact_id']       = $dao->contact_id;  
                     
@@ -441,18 +443,28 @@ class CRM_Export_BAO_Export
                         }
                     }
 
+                    $relCustomIDs = array();
                     foreach ( $value as $relationkey => $relationvalue ) {
 
                         if ( $val['result'] &&  $cfID = CRM_Core_BAO_CustomField::getKeyID( $relationkey )){
-                            require_once 'CRM/Core/BAO/CustomValueTable.php' ;
                             foreach ( $val['result'] as $k1 => $v1 ){
                                 $contID         = $v1['cid'] ;
-                                $param1         = array('entityID' => $contID,$relationkey => 1);
+                                $param1         = array('entityID' => $contID, $relationkey => 1);
                                 $getcustomValue = CRM_Core_BAO_CustomValueTable::getValues($param1) ;
-                                $getcustomValue = $getcustomValue[$relationkey];
-                                $custom_ID = CRM_Core_BAO_CustomField::getKeyID( $relationkey ) ;
-                                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $relationkey )){
-                                    $custom_data = CRM_Core_BAO_CustomField::getDisplayValue($getcustomValue , $cfID, $query->_options );
+                                $custom_ID      = CRM_Core_BAO_CustomField::getKeyID( $relationkey ) ;
+                                
+                                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $relationkey ) ) {
+                                    if ( empty( $query->_options ) ) {
+                                        $relCustomIDs[$cfID] = array();
+                                        $relQuery = new CRM_Core_BAO_CustomQuery( $relCustomIDs );
+                                        $relQuery->query( );
+                                        $relOptions = $relQuery->_options;
+                                    } else {
+                                        $relOptions = $query->_options;
+                                    }
+                                    
+                                    $custom_data = CRM_Core_BAO_CustomField::getDisplayValue( $getcustomValue[$relationkey],
+                                                                                              $cfID, $relOptions );
                                 } else {
                                     $custom_data = '';
                                 }
@@ -462,14 +474,16 @@ class CRM_Export_BAO_Export
                         //Get all relationships type custom fields
                         list( $id , $atype , $btype ) = explode('_',$field);
                         $relCustomData = CRM_Core_BAO_CustomField::getFields( 'Relationship', null, null, $id, null, null );
-                        $tmpArray = array_keys( $relCustomData );
-                        $customIDs = array_flip( $tmpArray);
+                        $tmpArray      = array_keys( $relCustomData );
+                        $customIDs     = array();
+                        foreach ( $tmpArray as $customID ) {
+                            $customIDs[$customID] = array(); 
+                        }
                         require_once 'CRM/Core/BAO/CustomQuery.php';
                         $customQuery = new CRM_Core_BAO_CustomQuery( $customIDs );
                         $customQuery->query( );
                         $options      = $customQuery->_options;
 
-                        require_once 'CRM/Core/BAO/CustomValueTable.php' ;
                         foreach ( $relCustomData as $id => $customdatavalue ){
                             if ( in_array( $relationkey,$customdatavalue ) ){
                                 $customkey = "custom_$id" ;
