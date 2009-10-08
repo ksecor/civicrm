@@ -436,8 +436,13 @@ ORDER BY parent_id, weight";
             return;
         }
         
-        $navParams = array( 'contact_id' => $contactID,
-                            'domain_id'  => CRM_Core_Config::domainID( ) );
+        $navParams = array( 'contact_id' => $contactID );
+        if ( CRM_Core_DAO::checkFieldExists('civicrm_preferences', 'domain_id') ) {
+            // FIXME: if() condition check was required especially for upgrade 
+            // cases (2.2.x -> 3.0.x), CRM-5203
+            $navParams['domain_id'] = CRM_Core_Config::domainID( );
+        }
+
         CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_Preferences', $navParams, $navParams );
         $navigation = array_key_exists('navigation', $navParams) ? $navParams['navigation'] : false;
 
