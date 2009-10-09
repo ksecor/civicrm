@@ -907,14 +907,15 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     {
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
+        $csType = array( $params['contact_type'] );
         //CRM-5125
         //add custom fields for contact sub type
-        if ( empty($this->_contactSubType) ) {
-            $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
-        } else {
-            $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, false, null, null, false, $this->_contactSubType );
+        if ( !empty($this->_contactSubType) ) {
+            $csType[] =  $this->_contactSubType;
         }
-              
+        
+        $customFields = CRM_Core_BAO_CustomField::getFields( $csType );
+        
         foreach ($params as $key => $value) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                 /* check if it's a valid custom field id */
@@ -1511,12 +1512,15 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     function formatCommonData( $params, &$formatted, &$contactFields )
     {
         //take contact cutom fields.
-        if ( empty($this->_contactSubType) ) {
-            $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type', $formatted ) );
-        } else {
-            $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value('contact_type', $formatted), false, 
-                                                                 false, null, null, false, $this->_contactSubType );
+        $csType = array( CRM_Utils_Array::value('contact_type', $formatted) );
+
+        //CRM-5125
+        //add custom fields for contact sub type
+        if ( !empty($this->_contactSubType) ) {
+            $csType[] = $this->_contactSubType;
         }
+        $customFields = CRM_Core_BAO_CustomField::getFields( $csType );
+        
         //if a Custom Email Greeting, Custom Postal Greeting or Custom Addressee is mapped, and no "Greeting / Addressee Type ID" is provided, then automatically set the type = Customized, CRM-4575
         $elements = array( 'email_greeting_custom' => 'email_greeting', 
                            'postal_greeting_custom' => 'postal_greeting', 
