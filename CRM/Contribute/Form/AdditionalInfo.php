@@ -433,23 +433,21 @@ class CRM_Contribute_Form_AdditionalInfo
     }
     
     /** 
-     * Function to process line items. 
+     * Function to process price set and line items. 
      * 
      * @access public 
      * @return None 
      */ 
-    function processLineItem( $lineItem, $contributionId )
+    function processPriceSet( $priceSetId, $contributionId, $lineItem )
     {
-        // store line items
-        if ( !$contributionId || !is_array( $lineItem ) || 
-             CRM_Utils_system::isNull( $lineItem ) ) {
+        if ( !$contributionId || !$priceSetId || 
+             !is_array( $lineItem ) || CRM_Utils_system::isNull( $lineItem ) ) {
             return;
         }
         
         require_once 'CRM/Price/BAO/Set.php';
         require_once 'CRM/Core/BAO/LineItem.php';
-        foreach ( $lineItem as $priceSetId => $values ) {
-            if ( !$priceSetId ) continue;
+        foreach ( $lineItem as $values ) {
             foreach( $values as $line ) {
                 $unused = array();
                 $line['entity_table'] = 'civicrm_contribution';
