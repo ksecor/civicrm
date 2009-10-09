@@ -384,7 +384,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             if ( count( $profileTypes ) > 1 ) {
                 return true;
             }
-        } else {
+        } else if ( count( $profileTypes ) == 1 ) {
+            // note for subtype case count would be zero
             $profileTypes = array_values( $profileTypes );
             if ( !in_array( $profileTypes[0], $contactTypes ) ) {
                 return true;
