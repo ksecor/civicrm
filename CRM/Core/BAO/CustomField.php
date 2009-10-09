@@ -380,18 +380,22 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $extends = '';
                 if ( is_array( $customDataType ) ) {
                     foreach ( $customDataType as $dataType ) {
-                        if ( in_array( $dataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
-                            $val = "'" . CRM_Utils_Type::escape( $dataType, 'String' ) . "', 'Contact' ";
-                        } else if ( in_array( $dataType, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
-                            // consider subtypes if any
-                            $val = "'" . CRM_Utils_Type::escape($dataType, 'String'). "'";
-                        } else {
-                            $val = "'" . CRM_Utils_Type::escape($dataType, 'String') . "'";
+                        if ( in_array ( $dataType, 
+                                        array_keys(CRM_Core_SelectValues::customGroupExtends()) ) ) {
+                            if ( in_array( $dataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
+                                $val = "'" . CRM_Utils_Type::escape( $dataType, 'String' ) . "', 'Contact' ";
+                            } else if ( in_array( $dataType, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
+                                // consider subtypes if any
+                                $val = "'" . CRM_Utils_Type::escape($dataType, 'String'). "'";
+                            } else {
+                                $val = "'" . CRM_Utils_Type::escape($dataType, 'String') . "'";
+                            }
+                            $value = $value ? $value . ", {$val}" : $val;
                         }
-                        $value = $value ? $value . ", {$val}" : $val;
                     }
-                    
-                    $extends = "AND   $cgTable.extends IN ( $value ) ";
+                    if ( $value ) {
+                        $extends = "AND   $cgTable.extends IN ( $value ) ";
+                    }
                 }
                 if ( $onlyParent ) {
                     $extends .= " AND $cgTable.extends_entity_column_value IS NULL AND $cgTable.extends_entity_column_id IS NULL ";
@@ -481,12 +485,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    public static function &getFieldsForImport( $contactType    = 'Individual', 
-                                                $showAll        = false, 
-                                                $contactSubType = null ) 
+    public static function &getFieldsForImport( $contactType = 'Individual', $showAll = false ) 
     {
-        $fields =& self::getFields( $contactType, $showAll, false, 
-                                    null, null, false, $contactSubType );
+        $fields =& self::getFields( $contactType, $showAll );
+
         $importableFields = array();
         foreach ($fields as $id => $values) {
             // for now we should not allow multiple fields in profile / export etc, hence unsetting
