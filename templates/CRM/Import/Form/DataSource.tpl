@@ -34,11 +34,9 @@
     <fieldset>
       <legend>{ts}Import Options{/ts}</legend>
       <dl>
-        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>
-        <div id="contact-subtype">
-         <dt>{$form.subType.label}</dt><dd>{$form.subType.html} {help id='contact-sub-type'}</dd>
-        </div>
-         <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
+        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}&nbsp;&nbsp;&nbsp;
+            <span id="contact-subtype">{$form.subType.label}&nbsp;&nbsp;&nbsp;{$form.subType.html} {help id='contact-sub-type'}</span></dd>
+        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
         
         {include file="CRM/Core/Date.tpl"}
         <dt>&nbsp;</dt>
