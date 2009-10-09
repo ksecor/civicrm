@@ -35,8 +35,10 @@
       <legend>{ts}Import Options{/ts}</legend>
       <dl>
         <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>
-        <dt>{$form.subType.label}</dt><dd>{$form.subType.html} {help id='contact-sub-type'}</dd>
-        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
+        <div id="contact-subtype">
+         <dt>{$form.subType.label}</dt><dd>{$form.subType.html} {help id='contact-sub-type'}</dd>
+        </div>
+         <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
         
         {include file="CRM/Core/Date.tpl"}
         <dt>&nbsp;</dt>
@@ -93,20 +95,28 @@
       function buildSubTypes( element )
       {
         var postUrl = {/literal}"{crmURL p='civicrm/ajax/subtype' h=0 }"{literal};
-        cj.post( postUrl, { parentId: element },
-                 function( data ) {
-                                     cj("#subType").empty();                                   
-                                     cj("#subType").append("<option value=''>-Select-</option>");  
-                                     for (var i = 0; i < data.length; i++)
-                                     {
-                                      // stick these new options in the subtype select 
-                                      cj("#subType").append("<option value="+data[i]+">"+data[i]+" </option>");  
-                                     }
-                                  
-                                                  
-                                  },'json' 
-               );
-     
+        var param = 'parentId='+ element;
+        cj.ajax({ type: "POST", url: postUrl, data: param, async: false, dataType: 'json',
+
+                        success: function(subtype){
+                                                   if ( subtype.length == 0 ) {
+                                                      cj("#subType").empty(); 
+                                                      cj("#contact-subtype").hide();
+                                                   } else {       
+                                                       cj("#contact-subtype").show();   
+                                                       cj("#subType").empty();                                   
+
+                                                       cj("#subType").append("<option value=''>-Select-</option>");  
+                                                       for (var i = 0; i < subtype.length; i++) {
+                                                           // stick these new options in the subtype select 
+                                                           cj("#subType").append("<option value="+subtype[i]+">"+subtype[i]+" </option>");  
+                                                       }
+                                                   } 
+                                       
+
+                                                 }
+  });
+       
       }
 
     </script>
