@@ -945,13 +945,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->set( 'amount_level',  CRM_Utils_Array::value( 'amount_level', $params ) ); 
         }
 
-        if ( !empty( $params['priceSetId'] ) ) {
+        if ( $priceSetId = CRM_Utils_Array::value( 'priceSetId', $params ) ) {
             $lineItem = array( );
             require_once 'CRM/Price/BAO/Set.php';
-            CRM_Price_BAO_Set::processAmount( $this->_values['fee']['fields'], $params, $lineItem );
-            $priceSet   = array();
-            $priceSet[] = $lineItem;
-            $this->set( 'lineItem', $priceSet );
+            CRM_Price_BAO_Set::processAmount( $this->_values['fee']['fields'], $params, $lineItem[$priceSetId] );
+            $this->set( 'lineItem', $lineItem );
         }
         $this->set( 'amount', $params['amount'] ); 
         

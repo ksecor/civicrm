@@ -776,7 +776,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // process price set, CRM-5095
         if ( $contribution->id && $form->_priceSetId ) {
             require_once 'CRM/Contribute/Form/AdditionalInfo.php';
-            CRM_Contribute_Form_AdditionalInfo::processPriceSet( $form->_priceSetId, $contribution->id, $form->_lineItem );
+            CRM_Contribute_Form_AdditionalInfo::processPriceSet( $contribution->id, $form->_lineItem );
         }
         
         //add soft contribution due to pcp or Submit Credit / Debit Card Contribution by admin.

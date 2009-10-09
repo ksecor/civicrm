@@ -1156,7 +1156,7 @@ SELECT  id, name
 
             // process line items, until no previous line items.
             if ( empty( $this->_lineItems ) && $contribution->id && !empty( $lineItem ) ) {
-                CRM_Contribute_Form_AdditionalInfo::processPriceSet( $priceSetId, $contribution->id, $lineItem );
+                CRM_Contribute_Form_AdditionalInfo::processPriceSet( $contribution->id, $lineItem );
             }
             
             //send receipt mail.
@@ -1277,7 +1277,7 @@ SELECT  id, name
             
             // process line items, until no previous line items.
             if ( empty( $this->_lineItems )  && $contribution->id && !empty( $lineItem ) ) {
-                CRM_Contribute_Form_AdditionalInfo::processPriceSet( $priceSetId, $contribution->id, $lineItem );
+                CRM_Contribute_Form_AdditionalInfo::processPriceSet( $contribution->id, $lineItem );
             }
             
             // process associated membership / participant, CRM-4395
