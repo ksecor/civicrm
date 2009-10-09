@@ -86,12 +86,30 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         
         $this->assign( 'isShowLocation', CRM_Utils_Array::value( 'is_show_location', $values['event'] ) );
         
-        // do not bother with price information if price fields are used
+        // show event fees.
         require_once 'CRM/Price/BAO/Set.php';
-        if ( $this->_id ) {
-            if ( !CRM_Price_BAO_Set::getFor( 'civicrm_event', $this->_id ) ) {
+        if ( $this->_id && CRM_Utils_Array::value( 'is_monetary', $values['event'] ) ) {
+            // get price set options, - CRM-5209
+            if ( $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_event', $this->_id ) ) {
+                $setDetails = CRM_Price_BAO_Set::getSetDetail( $priceSetId );
+                eval("\$priceSetFields = \$setDetails[$priceSetId][fields];" );
+                if ( is_array( $priceSetFields ) ) {
+                    $fieldCnt = 1;
+                    foreach ( $priceSetFields as $fid => $fieldValues ) {
+                        if ( !is_array( $fieldValues['options'] ) || 
+                             empty( $fieldValues['options'] ) ) {
+                            continue;
+                        }
+                        foreach ( $fieldValues['options'] as $optionId => $optionVal ) {
+                            $values['feeBlock']['value'][$fieldCnt] = $optionVal['value'];
+                            $values['feeBlock']['label'][$fieldCnt] = $optionVal['label'];
+                            $fieldCnt++;
+                        }
+                    }
+                }
+            } else {
                 //retrieve event fee block.
-                require_once 'CRM/Core/OptionGroup.php'; 
+                require_once 'CRM/Core/OptionGroup.php';
                 require_once 'CRM/Core/BAO/Discount.php';
                 $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
                 if ( $discountId ) {
