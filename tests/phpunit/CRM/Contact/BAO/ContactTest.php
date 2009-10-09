@@ -339,44 +339,46 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $searchParams  = array( 'contact_id'             => $contactId, 
                                 'location_type_id'       => 1, 
                                 'is_primary'             => 1 );
-        $compareParams = array( 'street_address'         => CRM_Utils_Array::value( 'street_address', $params['location'][1]['address']),
+        $compareParams = array( 'street_address'         => CRM_Utils_Array::value( 'street_address', $params['address'][1]),
                                 'supplemental_address_1' => CRM_Utils_Array::value( 'supplemental_address_1', 
-                                                                                    $params['location'][1]['address'] ),
+                                                                                    $params['address'][1] ),
                                 'supplemental_address_2' => CRM_Utils_Array::value( 'supplemental_address_2', 
-                                                                                    $params['location'][1]['address'] ),
-                                'city'                   => CRM_Utils_Array::value( 'city', $params['location'][1]['address'] ),
-                                'postal_code'            => CRM_Utils_Array::value( 'postal_code', $params['location'][1]['address'] ),
-                                'country_id'             => CRM_Utils_Array::value( 'country_id', $params['location'][1]['address'] ),
+                                                                                    $params['address'][1] ),
+                                'city'                   => CRM_Utils_Array::value( 'city', $params['address'][1] ),
+                                'postal_code'            => CRM_Utils_Array::value( 'postal_code', $params['address'][1] ),
+                                'country_id'             => CRM_Utils_Array::value( 'country_id', $params['address'][1] ),
                                 'state_province_id'      => CRM_Utils_Array::value( 'state_province_id', 
-                                                                                    $params['location'][1]['address'] ),
-                                'geo_code_1'             => CRM_Utils_Array::value( 'geo_code_1', $params['location'][1]['address'] ),
-                                'geo_code_2'             => CRM_Utils_Array::value( 'geo_code_2', $params['location'][1]['address']) );
+                                                                                    $params['address'][1] ),
+                                'geo_code_1'             => CRM_Utils_Array::value( 'geo_code_1', $params['address'][1] ),
+                                'geo_code_2'             => CRM_Utils_Array::value( 'geo_code_2', $params['address'][1]) );
         $this->assertDBCompareValues( 'CRM_Core_DAO_Address', $searchParams, $compareParams );
+
         //Now check DB for Email
-        $compareParams = array( 'email'                  => CRM_Utils_Array::value( 'email', $params['location'][1]['email'][1] ) );
+        $compareParams = array( 'email'                  => CRM_Utils_Array::value( 'email', $params['email'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Email', $searchParams, $compareParams );
+
         //Now check DB for openid
-        $compareParams = array ( 'openid'                => CRM_Utils_Array::value( 'openid', $params['location'][1]['openid'][1] ) );
+        $compareParams = array ( 'openid'                => CRM_Utils_Array::value( 'openid', $params['openid'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_OpenID', $searchParams, $compareParams );
         
         //Now check DB for IM
-        $compareParams = array( 'name'                   => CRM_Utils_Array::value( 'name', $params['location'][1]['im'][1] ),
-                                'provider_id'            => CRM_Utils_Array::value( 'provider_id', $params['location'][1]['im'][1] ) );
+        $compareParams = array( 'name'                   => CRM_Utils_Array::value( 'name', $params['im'][1] ),
+                                'provider_id'            => CRM_Utils_Array::value( 'provider_id', $params['im'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_IM', $searchParams, $compareParams );
         
         //Now check DB for Phone
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
                                'is_primary'              => 1,
-                               'phone_type_id'           => CRM_Utils_Array::value( 'phone_type_id', $params['location'][1]['phone'][1] ) );
-        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][1] ) );
+                               'phone_type_id'           => CRM_Utils_Array::value( 'phone_type_id', $params['phone'][1] ) );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['phone'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
         //Now check DB for Mobile
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
-                               'phone_type_id'           => CRM_Utils_Array::value( 'phone_type_id', $params['location'][1]['phone'][2] ) );
-        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][2] ) );
+                               'phone_type_id'           => CRM_Utils_Array::value( 'phone_type_id', $params['phone'][2] ) );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['phone'][2] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
 
         //Now check DB for Note
@@ -392,41 +394,36 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
                               'contact_type' => 'Individual',
                               'note'         => 'new test note',
                               );
-        $updateParams['location'][1] = array ( 'location_type_id'                               => 1,
-                                               'is_primary'                                     => 1,
-                                               'address' =>  array ( 
-                                                                    'street_address'            => 'Oberoi Garden',
-                                                                    'supplemental_address_1'    => 'A-wing:3037',
-                                                                    'supplemental_address_2'    => 'Andhery',
-                                                                    'city'                      => 'Mumbai',
-                                                                    'postal_code'               => '12345',
-                                                                    'country_id'                => 1228,
-                                                                    'state_province_id'         => 1004,
-                                                                    'geo_code_1'                => '31.694842',
-                                                                    'geo_code_2'                => '-106.29998',
-                                                                    ),
-                                               'email'   => array ( 
-                                                                   '1' => array ( 'email'       => 'john.doe@example.org' ), 
-                                                                   ),
-                                               'phone'   => array (
-                                                                   '1' => array (
-                                                                                 'phone_type_id' => 1,
-                                                                                 'phone'         => '02115245336',
-                                                                                 ),
-                                                                   '2' => array (
-                                                                                 'phone_type_id' => 2,
-                                                                                 'phone'         => '9766323895',
-                                                                                 ),
-                                                                   ),
-                                               'openid'  => array (
-                                                                   '1' => array ( 'openid'      => 'http://openid.civicrm.org' ),
-                                                                   ),
-                                               'im'      => array (
-                                                                   '1' => array ( 'name'        => 'john.doe',
-                                                                                  'provider_id' => 1
-                                                                                  ),
-                                                                   ),
-                                               );
+        $updateParams['address'][1] = array ( 'location_type_id'                               => 1,
+                                              'is_primary'                                     => 1,
+                                              'street_address'            => 'Oberoi Garden',
+                                              'supplemental_address_1'    => 'A-wing:3037',
+                                              'supplemental_address_2'    => 'Andhery',
+                                              'city'                      => 'Mumbai',
+                                              'postal_code'               => '12345',
+                                              'country_id'                => 1228,
+                                              'state_province_id'         => 1004,
+                                              'geo_code_1'                => '31.694842',
+                                              'geo_code_2'                => '-106.29998',
+                                              );
+        $updateParams['email'][1] = array(
+                                          'location_type_id'          => 1,
+                                          'is_primary'                => 1,
+                                          'email'       => 'john.doe@example.org'
+                                          );
+
+        $updateParams['phone'][1] = array(
+                                          'location_type_id'        => 1, 
+                                          'is_primary'              => 1,
+                                          'phone_type_id' => 1,
+                                          'phone'         => '02115245336',
+                                    );
+        $updateParams['phone'][2] = array(
+                                          'location_type_id'        => 1, 
+                                          'phone_type_id' => 2,
+                                          'phone'         => '9766323895',
+                                          );
+
         $updateParams['contact_id'] = $contactId;
         require_once 'CRM/Contact/BAO/Contact.php';
         //create the contact with given params.
@@ -455,16 +452,11 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
                                 'geo_code_1'             => '31.694842',
                                 'geo_code_2'             => '-106.29998' );
         $this->assertDBCompareValues( 'CRM_Core_DAO_Address', $searchParams, $compareParams );
+
         //Now check DB for updated Email
         $compareParams = array( 'email'                  => 'john.doe@example.org' );
         $this->assertDBCompareValues('CRM_Core_DAO_Email', $searchParams, $compareParams );
-        //Now check DB for updated openid
-        $compareParams = array ( 'openid'                => 'http://openid.civicrm.org/' );
-        $this->assertDBCompareValues('CRM_Core_DAO_OpenID', $searchParams, $compareParams );
-        //Now check DB for updated IM
-        $compareParams = array( 'name'                   => 'john.doe',
-                                'provider_id'            => 1 );
-        $this->assertDBCompareValues('CRM_Core_DAO_IM', $searchParams, $compareParams );
+
         //Now check DB for updated Phone
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
@@ -1091,27 +1083,6 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
     }
     
     /**
-     * test case for getContactLocations( )
-     */
-    function testGetContactLocations( )
-    {
-        //get the contact params
-        $params = $this->contactParams( );
-        $params['location'][2] = $params['location'][1];
-        $params['location'][2]['location_type_id'] = 2;
-        unset( $params['location'][2]['is_primary'] );
-        
-        //create contact
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $contact = CRM_Contact_BAO_Contact::create( $params );
-        $contactId = $contact->id;
-        $locationCount = CRM_Contact_BAO_Contact::getContactLocations( $contactId );
-        $this->assertEquals( 2, $locationCount, 'Check the Location Count' );
-        //cleanup DB by deleting the contact
-        Contact::delete( $contactId );
-    }
-    
-    /**
      * test case for getContactDetails( )
      */
     function testGetContactDetails( )
@@ -1126,37 +1097,15 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         
         //get the contact details
         $contactDetails = CRM_Contact_BAO_Contact::getContactDetails( $contactId );
+
         $compareParams = array( $params['first_name'] . ' ' .$params['last_name'],  
-                                CRM_Utils_Array::value( 'email', $params['location'][1]['email'][1]),
+                                CRM_Utils_Array::value( 'email', $params['email'][1] ),
                                 $params['privacy']['do_not_email'] );
         //Now check the contact details
         $this->assertAttributesEquals( $compareParams, $contactDetails );
         
         //cleanup DB by deleting the contact
         Contact::delete( $contactId );
-    }
-    
-    /**
-     * test case for getPrimaryLocationType( )
-     */
-    function testGetPrimaryLocationType( )
-    {
-        //get the contact params
-        $params = $this->contactParams( );
-        $params['location'][2] = $params['location'][1];
-        $params['location'][2]['location_type_id'] = 2;
-        unset( $params['location'][1]['is_primary'] );
-        
-        //create contact
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $contact = CRM_Contact_BAO_Contact::create( $params );
-        $contactId = $contact->id;
-        $primaryLocation = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId );
-        //Now check the Primary Location Type
-        $this->assertEquals( 2, $primaryLocation, 'Check Primary Location Type' );
-        
-        //cleanup DB by deleting the contact
-        Contact::delete( $contactId ); 
     }
     
     /**
@@ -1195,10 +1144,9 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
     {
         //get the contact params
         $params = $this->contactParams( );
-        $params['location'][2] = $params['location'][1];
-        $params['location'][2]['location_type_id'] = 2;
-        $params['location'][2]['email'][1]['email'] = 'primarymail@example.org';
-        unset( $params['location'][1]['is_primary'] );
+        $params['email'][2] = $params['email'][1];
+        $params['email'][2]['email'] = 'primarymail@example.org';
+        unset( $params['email'][1]['is_primary'] );
         
         //create contact
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -1207,7 +1155,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         //get the primary email.
         $email = CRM_Contact_BAO_Contact::getPrimaryEmail( $contactId );
         //Now check the primary email
-        $this->assertEquals( $email, CRM_Utils_Array::value( 'email', $params['location'][2]['email'][1] ), 'Check Primary Email' );
+        $this->assertEquals( $email, CRM_Utils_Array::value( 'email', $params['email'][2] ), 'Check Primary Email' );
         
         //cleanup DB by deleting the contact
         Contact::delete( $contactId );
@@ -1221,10 +1169,10 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
     {
         //get the contact params
         $params = $this->contactParams( );
-        $params['location'][2] = $params['location'][1];
-        $params['location'][2]['location_type_id'] = 2;
-        $params['location'][2]['openid'][1]['openid'] = 'http://primaryOpenID.org/';
-        unset( $params['location'][1]['is_primary'] );
+        $params['openid'][2] = $params['openid'][1];
+        $params['openid'][2]['location_type_id'] = 2;
+        $params['openid'][2]['openid'] = 'http://primaryOpenID.org/';
+        unset( $params['openid'][1]['is_primary'] );
         
         //create contact
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -1234,7 +1182,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $openID = CRM_Contact_BAO_Contact::getPrimaryOpenId( $contactId );
         
         //Now check the primary openid
-        $this->assertEquals( $openID, strtolower( $params['location'][2]['openid'][1]['openid'] ), 'Check Primary OpenID' );
+        $this->assertEquals( $openID, strtolower( $params['openid'][2]['openid'] ), 'Check Primary OpenID' );
         
         //cleanup DB by deleting the contact
         Contact::delete( $contactId );
@@ -1254,7 +1202,7 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
         $contactId = $contact->id;
         
         //get the matching contact.
-        $match= CRM_Contact_BAO_Contact::matchContactOnEmail( CRM_Utils_Array::value( 'email', $params['location'][1]['email'][1] ), 
+        $match= CRM_Contact_BAO_Contact::matchContactOnEmail( CRM_Utils_Array::value( 'email', $params['email'][1] ),
                                                               'Individual' );
         $this->assertEquals( $contactId, $match->contact_id, 'Check For Matching Contact' );
         
@@ -1400,6 +1348,8 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
      */
     private function contactParams( ) 
     {
+        require_once 'CRM/Core/OptionGroup.php';
+
         $params = array(
                         'first_name'            => 'john',
                         'last_name'             => 'smith',
@@ -1443,41 +1393,58 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
                                                                    '5'            => 1,
                                                                    ),
                         );
-        $params['location'][1] = array ( 'location_type_id'                               => 1,
-                                         'is_primary'                                     => 1,
-                                         'address' =>  array ( 
-                                                              'street_address'            => 'Saint Helier St',
-                                                              'supplemental_address_1'    => 'Hallmark Ct',
-                                                              'supplemental_address_2'    => 'Jersey Village',
-                                                              'city'                      => 'Newark',
-                                                              'postal_code'               => '01903',
-                                                              'country_id'                => 1228,
-                                                              'state_province_id'         => 1029,
-                                                              'geo_code_1'                => '18.219023',
-                                                              'geo_code_2'                => '-105.00973',
-                                                              ),
-                                         'email'   => array ( 
-                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
-                                                             ),
-                                         'phone'   => array (
-                                                             '1' => array (
-									   'phone_type_id' => 1,
-                                                                           'phone'         => '303443689',
-									   ),
-                                                             '2' => array (
-									   'phone_type_id' => 2,
-                                                                           'phone'         => '9833910234',
-                                                                           ),
-                                                             ),
-                                         'openid'  => array (
-                                                             '1' => array ( 'openid'      => 'http://civicrm.org/' ),
-                                                             ),
-                                         'im'      => array (
-                                                             '1' => array ( 'name'        => 'john.smith',
-                                                                            'provider_id' => 1
-                                                                            ),
-                                                             ),
-                                         );
+
+        $params['address'] = array( );
+        $params['address'][1] = array (
+                                       'location_type_id'          => 1,
+                                       'is_primary'                => 1,
+                                       'street_address'            => 'Saint Helier St',
+                                       'supplemental_address_1'    => 'Hallmark Ct',
+                                       'supplemental_address_2'    => 'Jersey Village',
+                                       'city'                      => 'Newark',
+                                       'postal_code'               => '01903',
+                                       'country_id'                => 1228,
+                                       'state_province_id'         => 1029,
+                                       'geo_code_1'                => '18.219023',
+                                       'geo_code_2'                => '-105.00973',
+                                       );
+
+        $params['email'] = array( );
+        $params['email'][1] = array(
+                                    'location_type_id'          => 1,
+                                    'is_primary'                => 1,
+                                    'email'       => 'john.smith@example.org'
+                                    );
+
+
+        $params['phone'] = array( );
+        $params['phone'][1] = array(
+                                    'location_type_id'          => 1,
+                                    'is_primary'                => 1,
+                                    'phone_type_id' => 1,
+                                    'phone'         => '303443689',
+                                    );
+        $params['phone'][2] = array(
+                                    'location_type_id'          => 1,
+                                    'phone_type_id' => 2,
+                                    'phone'         => '9833910234',
+                                    );
+
+        $params['openid'] = array( );
+        $params['openid'][1] = array(
+                                    'location_type_id'          => 1,
+                                    'is_primary'                => 1,
+                                    'openid'      => 'http://civicrm.org/'
+                                    );
+
+        $params['im'] = array( );
+        $params['im'][1] = array(
+                                    'location_type_id'          => 1,
+                                    'is_primary'                => 1,
+                                    'name'        => 'john.smith',
+                                    'provider_id' => 1 
+                                 );
+
         return $params;
     }
     
