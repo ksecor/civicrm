@@ -34,7 +34,8 @@
     <fieldset>
       <legend>{ts}Import Options{/ts}</legend>
       <dl>
-        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>
+        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}&nbsp;&nbsp;&nbsp;
+            <span id="contact-subtype">{$form.subType.label}&nbsp;&nbsp;&nbsp;{$form.subType.html} {help id='contact-sub-type'}</span></dd>
         <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
         
         {include file="CRM/Core/Date.tpl"}
@@ -68,6 +69,7 @@
       cj(document).ready(function() {    
          //build data source form block
          buildDataSourceFormBlock();
+         buildSubTypes(1);
       });
       
       function buildDataSourceFormBlock(dataSource)
@@ -87,7 +89,34 @@
 
         cj("#data-source-form-block").load( dataUrl );
       }
-      
+
+      function buildSubTypes( element )
+      {
+        var postUrl = {/literal}"{crmURL p='civicrm/ajax/subtype' h=0 }"{literal};
+        var param = 'parentId='+ element;
+        cj.ajax({ type: "POST", url: postUrl, data: param, async: false, dataType: 'json',
+
+                        success: function(subtype){
+                                                   if ( subtype.length == 0 ) {
+                                                      cj("#subType").empty(); 
+                                                      cj("#contact-subtype").hide();
+                                                   } else {       
+                                                       cj("#contact-subtype").show();   
+                                                       cj("#subType").empty();                                   
+
+                                                       cj("#subType").append("<option value=''>-Select-</option>");  
+                                                       for (var i = 0; i < subtype.length; i++) {
+                                                           // stick these new options in the subtype select 
+                                                           cj("#subType").append("<option value="+subtype[i]+">"+subtype[i]+" </option>");  
+                                                       }
+                                                   } 
+                                       
+
+                                                 }
+  });
+       
+      }
+
     </script>
   {/literal}
 {/if}

@@ -4,7 +4,7 @@
   <base>CRM/Contact</base>
   <class>Contact</class>
   <name>civicrm_contact</name>
-  <comment>Three types of contacts are defined: Individual, Organization and Household. Contact objects are defined by a civicrm_contact record plus a related civicrm_contact_type record.</comment>
+  <comment>Contact objects are defined by a civicrm_contact record plus a related civicrm_contact_type record.</comment>
   <add>1.1</add>
   <log>true</log>
  <field>
@@ -24,11 +24,12 @@
   <field>
        <name>contact_type</name>
        <title>Contact Type</title>
-       <type>enum</type>
-       <values>Individual, Organization, Household</values>
+       <type>varchar</type>
+       <length>64</length>
        <comment>Type of Contact.</comment>
        <export>true</export>
-      <add>1.1</add>
+       <add>1.1</add>
+       <change>3.1</change>
   </field>
   <index>
        <name>index_contact_type</name>
@@ -40,6 +41,7 @@
        <type>varchar</type>
        <length>64</length>
        <export>true</export>
+       <import>true</import>
        <headerPattern>/C(ontact )?(sub-type|sub type)/i</headerPattern>
        <comment>May be used to over-ride contact view and edit templates.</comment>
        <add>1.5</add>

@@ -32,8 +32,8 @@
         <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td> {$row.label_a_b} </td>	
             <td> {$row.label_b_a} </td>	
-            <td> {if $row.contact_type_a_display} {$row.contact_type_a_display} {else}  {ts}All Contacts{/ts} {/if} </td>	
-            <td> {if $row.contact_type_b_display} {$row.contact_type_b_display} {else}  {ts}All Contacts{/ts} {/if} </td>	
+            <td> {if $row.contact_type_a_display} {$row.contact_type_a_display}{if $row.contact_sub_type_a} - {$row.contact_sub_type_a}{/if}{else}  {ts}All Contacts{/ts} {/if} </td>	
+            <td> {if $row.contact_type_b_display} {$row.contact_type_b_display}{if $row.contact_sub_type_b} - {$row.contact_sub_type_b}{/if} {else}  {ts}All Contacts{/ts} {/if} </td>	
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}

@@ -141,11 +141,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $this->_fields = array_merge (CRM_Quest_BAO_Student::exportableFields(), $this->_fields);
         }
 
-        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
-            require_once 'CRM/Kabissa/BAO/Details.php';
-            $this->_fields = array_merge (CRM_Kabissa_BAO_Details::exportableFields(), $this->_fields);
-        }
-
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
             // lets skip note for now since we dont support it
@@ -277,7 +272,25 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                           'title' => ts('Internal Contact ID') );
                                           
         unset( $fields['Contact']['contact_type'] );
-        
+
+        // Contact Sub Types For Profile
+        $contactSubTypes = array( );
+        $subTypes = CRM_Contact_BAO_ContactType::subTypeInfo( );
+        foreach ( $subTypes as $name => $val ) {
+            //custom fields for sub type
+            $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $name );
+
+            if ( ! empty( $subTypeFields ) ) {
+                if ( array_key_exists($val['parent'], $fields) ) {
+                    $fields[$name] = $fields[$val['parent']] + $subTypeFields;
+                } else {
+                    $fields[$name] = $subTypeFields;
+                }
+                $contactSubTypes[$name] = $val['label'];
+            }
+        }
+        unset( $subTypes );
+
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
@@ -306,11 +319,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset($participantFields['participant_is_pay_later']);
                 $fields['Participant'] =& $participantFields;
             }
-        }
-        
-        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
-            require_once 'CRM/Kabissa/BAO/Details.php';
-            $fields['Kabissa']  =& CRM_Kabissa_BAO_Details::exportableFields();
         }
         
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
@@ -374,7 +382,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
 
         $sel1 = array( '' => '- select -' ) 
             + array( 'Contact' => 'Contacts' ) 
-            + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
+            + CRM_Core_SelectValues::contactType()
+            + $contactSubTypes;
         
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $sel1['Student'] = 'Students';
@@ -382,10 +391,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
             $sel1['Participant'] = 'Participants';
-        }
-        
-        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
-            $sel1['Kabissa'] = 'Kabissa Details';
         }
         
         if ( ! empty( $contribFields ) ) {

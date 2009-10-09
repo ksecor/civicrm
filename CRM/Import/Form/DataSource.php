@@ -150,18 +150,20 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
 
         $this->setDefaults(array('onDuplicate' =>
                                     CRM_Import_Parser::DUPLICATE_SKIP));
-            
+        $js = array('onClick' => "buildSubTypes(this.value);");    
         // contact types option
         $contactOptions = array();        
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Individual'), CRM_Import_Parser::CONTACT_INDIVIDUAL);
+            null, null, ts('Individual'), CRM_Import_Parser::CONTACT_INDIVIDUAL, $js);
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Household'), CRM_Import_Parser::CONTACT_HOUSEHOLD);
+            null, null, ts('Household'), CRM_Import_Parser::CONTACT_HOUSEHOLD, $js);
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Organization'), CRM_Import_Parser::CONTACT_ORGANIZATION);
+            null, null, ts('Organization'), CRM_Import_Parser::CONTACT_ORGANIZATION, $js);
 
         $this->addGroup($contactOptions, 'contactType', 
                         ts('Contact Type'));
+        
+        $this->addElement('select','subType', ts('Contact SubType'));
 
         $this->setDefaults(array('contactType' =>
                                  CRM_Import_Parser::CONTACT_INDIVIDUAL));
@@ -228,14 +230,16 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         if ($this->_dataSourceIsValid) {
             // Setup the params array 
             $this->_params = $this->controller->exportValues( $this->_name );
-            
-            $onDuplicate  = $this->exportValue('onDuplicate');
-            $contactType  = $this->exportValue('contactType');
-            $dateFormats  = $this->exportValue('dateFormats');
-            $savedMapping = $this->exportValue('savedMapping');
-
+                       
+            $onDuplicate     = $this->exportValue('onDuplicate');
+            $contactType     = $this->exportValue('contactType');
+            $dateFormats     = $this->exportValue('dateFormats');
+            $savedMapping    = $this->exportValue('savedMapping');
+            $contactSubType  = $this->exportValue('subType');
+                              
             $this->set('onDuplicate', $onDuplicate);
             $this->set('contactType', $contactType);
+            $this->set('contactSubType', $contactSubType);
             $this->set('dateFormats', $dateFormats);
             $this->set('savedMapping', $savedMapping);
             $this->set('dataSource', $this->_params['dataSource'] );
@@ -266,7 +270,8 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
             $parser->setMaxLinesToProcess( 100 );
             $parser->run( $importTableName, $mapper,
                           CRM_Import_Parser::MODE_MAPFIELD, $contactType,
-                          $fieldNames['pk'], $fieldNames['status']);
+                          $fieldNames['pk'], $fieldNames['status'], 
+                          DUPLICATE_SKIP, null, null, false, CRM_Import_Parser::DEFAULT_TIMEOUT, $contactSubType );
                           
             // add all the necessary variables to the form
             $parser->set( $this );

@@ -166,7 +166,12 @@ SELECT f.id, f.label, f.data_type,
         while ( $dao->fetch( ) ) {
             // get the group dao to figure which class this custom field extends
             $extends =& CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $dao->custom_group_id, 'extends' );
-            $extendsTable = self::$extendsMap[$extends];
+            if ( array_key_exists( $extends, self::$extendsMap ) ) { 
+                $extendsTable = self::$extendsMap[$extends];
+            } else if ( in_array( $extends, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
+                // if $extends is a subtype, refer contact table
+                $extendsTable = self::$extendsMap['Contact'];
+            }
             $this->_fields[$dao->id] = array( 'id'              => $dao->id,
                                               'label'           => $dao->label,
                                               'extends'         => $extendsTable,

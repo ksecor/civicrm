@@ -58,7 +58,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
      *
      * @var string
      */
-    protected $_contactSubType;
+    public $_contactSubType;
     
     /**
      * The contact id, used when editing the form
@@ -139,9 +139,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                 CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
             }
             
-            $this->_contactSubType = CRM_Utils_Request::retrieve( 'cst','String', 
-                                                                  CRM_Core_DAO::$_nullObject,
-                                                                  false,null,'GET' );
+            $this->_contactSubType = CRM_Utils_Request::retrieve( 'cst','String', $this );
+
             $this->_gid = CRM_Utils_Request::retrieve( 'gid', 'Integer',
                                                        CRM_Core_DAO::$_nullObject,
                                                        false, null, 'GET' );
@@ -223,8 +222,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         
         
-        $this->assign( 'editOptions', $this->_editOptions );
-        $this->assign( 'contactType', $this->_contactType );
+        $this->assign( 'editOptions',    $this->_editOptions );
+        $this->assign( 'contactType',    $this->_contactType );
+        $this->assign( 'contactSubType', $this->_contactSubType );
         
         // get the location blocks.
         $this->_blocks = $this->get( 'blocks' );
@@ -237,7 +237,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         if ( array_key_exists( 'CustomData', $this->_editOptions ) ) {
             //only custom data has preprocess hence directly call it
-            CRM_Custom_Form_CustomData::preProcess( $this, null, null, 1, $this->_contactType, $this->_contactId );
+            CRM_Custom_Form_CustomData::preProcess( $this, null, null, 1, $this->_contactType, 
+                                                    $this->_contactId, $this->_contactSubType );
         }
         
         // this is needed for custom data.
@@ -603,6 +604,10 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $params['deceased_date']['Y'] = null;
         }
         
+        if ( $this->_contactSubType && ($this->_action & CRM_Core_Action::ADD) ) {
+            $params['contact_sub_type'] = $this->_contactSubType;
+        }
+
         // action is taken depending upon the mode
         require_once 'CRM/Utils/Hook.php';
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
@@ -612,11 +617,14 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         }
         
         require_once 'CRM/Core/BAO/CustomField.php';
-        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, true );
-        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
-                                                                   $customFields,
+        $customFields     = 
+            CRM_Core_BAO_CustomField::getFields( array($params['contact_type'], 
+                                                       $this->_contactSubType), false, true );
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params, 
+                                                                   $customFields, 
                                                                    $this->_contactId,
-                                                                   $params['contact_type'],
+                                                                   array($params['contact_type'], 
+                                                                         $this->_contactSubType), 
                                                                    true );
         
         if ( array_key_exists( 'CommunicationPreferences',  $this->_editOptions ) ) {
@@ -773,6 +781,17 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
              }
          }
      }   
+
+    function getTemplateFileName() {
+        if ( $this->_contactSubType ) {
+            $templateFile = "CRM/Contact/Form/Edit/{$this->_contactSubType}.tpl";
+            $template     =& CRM_Core_Form::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
+    }
 }
 
 

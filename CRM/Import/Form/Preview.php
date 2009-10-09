@@ -214,6 +214,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             'mapper'            => $this->controller->exportValue( 'MapField', 'mapper' ),
             'mapFields'         => $this->get('fields'),
             'contactType'       => $this->get('contactType'),
+            'contactSubType'    => $this->get('contactSubType'),
             'primaryKeyName'    => $this->get('primaryKeyName'),
             'statusFieldName'   => $this->get('statusFieldName'),
             'statusID'          => $this->get('statusID'),
@@ -380,7 +381,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                       $onDuplicate,
                       $this->get( 'statusID' ),
                       $this->get( 'totalRowCount' ),
-                      $doGeocodeAddress );
+                      $doGeocodeAddress,
+                      CRM_Import_Parser::DEFAULT_TIMEOUT, 
+                      $this->get('contactSubType') );
         
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();

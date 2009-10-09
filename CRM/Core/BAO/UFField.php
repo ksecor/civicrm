@@ -364,6 +364,10 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             }
         }
 
+        // suppress any subtypes if present
+        require_once "CRM/Contact/BAO/ContactType.php";
+        CRM_Contact_BAO_ContactType::suppressSubTypes( $profileTypes );
+
         $contactTypes = array( 'Contact', 'Individual', 'Household', 'Organization' );
         $components   = array( 'Contribution', 'Participant', 'Membership' );
         $fields = array( );
@@ -380,7 +384,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             if ( count( $profileTypes ) > 1 ) {
                 return true;
             }
-        } else {
+        } else if ( count( $profileTypes ) == 1 ) {
+            // note for subtype case count would be zero
             $profileTypes = array_values( $profileTypes );
             if ( !in_array( $profileTypes[0], $contactTypes ) ) {
                 return true;
@@ -405,6 +410,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     {
         // profile types
         $contactTypes = array( 'Contact', 'Individual', 'Household', 'Organization', 'Student' );
+        $contactTypes = array_merge( $contactTypes, 
+                                     CRM_Contact_BAO_ContactType::subTypes( ) );
         $components   = array( 'Contribution', 'Participant', 'Membership' );
 
         require_once 'CRM/Core/DAO/UFGroup.php';
@@ -477,6 +484,35 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         } else {
             return $profileType;
         }
+    }
+
+    /**
+     * function to get the profile sub type (eg: staff/student/team ..)
+     *
+     * @param int      $ufGroupId      uf group id 
+     * @param boolean  $contactType    basic contact type, the subtypes should to be limited
+     * @param boolean  $returnMultiple true if multiple subtypes be returned, 
+     *                                 otherwise the first valid subtype is returned
+     *
+     * @return  profile sub_type
+     * @acess public
+     * @static
+     */
+    static function getProfileSubType( $ufGroupId, $contactType = null, $returnMultiple = false ) 
+    {
+        $groupType    = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $ufGroupId, 'group_type' );
+        $profileTypes = $groupType ? explode( ',',  $groupType ) : array( );
+
+        $subTypes     = CRM_Contact_BAO_ContactType::subTypes( $contactType );
+        $profileTypes = array_values( array_intersect($profileTypes, $subTypes) );
+
+        if ( $returnMultiple && ! empty( $profileTypes ) ) {
+            return implode( ',', $profileTypes );
+        }
+        if ( array_key_exists( 0, $profileTypes ) ) {
+            return $profileTypes[0];
+        }
+        return null;
     }
 
     /**
