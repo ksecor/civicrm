@@ -124,10 +124,12 @@ class CRM_Profile_Page_View extends CRM_Core_Page
         if ( $sortName ) {
             require_once 'CRM/Core/Permission.php';
             require_once 'CRM/Contact/BAO/Contact/Permission.php';
-            $session   =& CRM_Core_Session::singleton( );
+            $session   = CRM_Core_Session::singleton( );
+            $config    = CRM_Core_Config::singleton( );
             if ( $session->get( 'userID' ) && 
                  CRM_Core_Permission::check('access CiviCRM') &&
-                 CRM_Contact_BAO_Contact_Permission::allow( $session->get( 'userID' ), CRM_Core_Permission::VIEW ) ) {
+                 CRM_Contact_BAO_Contact_Permission::allow( $session->get( 'userID' ), CRM_Core_Permission::VIEW ) &&
+                 !$config->userFrameworkFrontend ) {
                 $sortNameUrl = CRM_Utils_System::url('civicrm/contact/view', "action=view&reset=1&cid={$this->_id}", true);
                 $sortName = "<a href=\"$sortNameUrl\">{$sortName}</a>";
             } 
