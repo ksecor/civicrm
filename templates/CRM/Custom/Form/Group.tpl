@@ -64,16 +64,13 @@ if ( !freeze ) {
 function showHideStyle()
 {   	     
 	var isShow  = false;
-	var extends = document.forms.Group['extends[0]'].value;
-        {/literal}
-	 { foreach from = $contactType item = item }
-        {literal}
-            if( extends == {/literal}"{$item}"{literal} ) {
- 	        var isShow =  true;
-                  }
-        {/literal} 
-        {/foreach}
-        {literal}
+	var extends = document.getElementById('extends[0]').value;
+        var contactTypes  = {/literal}'{$contactTypes}'{literal};
+
+        contactTypes = eval('(' + contactTypes + ')');
+        if ( contactTypes.indexOf(extends) >= 0 ) {
+            isShow  = true;
+        }
 	if( isShow ) {	
             show("style");
 	} else {

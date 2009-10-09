@@ -166,10 +166,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         require_once "CRM/Contact/BAO/Relationship.php";
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Contact/BAO/ContactType.php';
-        $contactTypes   = array_merge( CRM_Core_SelectValues::contactType( ),
-                                       CRM_Contact_BAO_ContactType::subTypePairs( ),
-                                       array( 'contact'=>ts('Contact') ) );
-        $this->assign( 'contactType',$contactTypes  );
+        $contactTypes = array_merge( array( 'Contact', 'Individual', 'Household', 'Organization' ),
+                                     CRM_Contact_BAO_ContactType::subTypes( ) );
+        $this->assign( 'contactTypes', json_encode($contactTypes) );
               
         $sel1 = array( "" => "- select -" ) + CRM_Core_SelectValues::customGroupExtends( );
         $sel2 = array( );
