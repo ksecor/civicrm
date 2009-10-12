@@ -155,7 +155,7 @@
 	}
 	var amount_block = document.getElementsByName('amount_block_is_active');
   	if ( ! amount_block[0].checked) {
-	   hide('amountFields');
+	   hide('amountFields', 'block');
         }
 	var pay_later = document.getElementsByName('is_pay_later');
   	if ( ! pay_later[0].checked) {
@@ -172,6 +172,12 @@
 	  }
 	}
 	
+	function activateAmountBlock( chkbox ) {
+            if ( chkbox.checked ) {
+	       cj("#amount_block_is_active").attr( 'checked', true );	
+	    }	    
+	}
+		
 	function amountBlock(chkbox) {
            if (chkbox.checked) {
 	       show('amountFields', 'block');
@@ -187,6 +193,7 @@
 	       hide('payLaterFields',  'table-row');
 	   }
         }
+   
 </script>
 {/literal}
 {if $form.is_recur}
@@ -209,6 +216,7 @@
     invert              = "false"
 }
 {/if}
+{if $priceSetID}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="price_set_id"
     trigger_value       =""
@@ -217,3 +225,4 @@
     field_type          ="select"
     invert              = 0
 }
+{/if}

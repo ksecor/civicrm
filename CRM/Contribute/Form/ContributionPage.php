@@ -75,6 +75,15 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
     protected $_first = false;
 
     /**
+     * store price set id.
+     *
+     * @var int 
+     * @access protected  
+     */  
+    protected $_priceSetID = null;
+    
+
+    /**
      * Function to set variables up before form is built
      *
      * @return void
@@ -193,6 +202,11 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
             if (isset($defaults['goal_amount'])) {
                 $defaults['goal_amount'] = CRM_Utils_Money::format($defaults['goal_amount'], null, '%a');
             }
+            
+            // get price set id.
+            require_once 'CRM/Price/BAO/Set.php';
+            $this->_priceSetID = CRM_Price_BAO_Set::getFor( 'civicrm_contribution_page', $this->_id );
+            if ( $this->_priceSetID ) $defaults['price_set_id'] = $this->_priceSetID;
         } else {
             $defaults['is_active'] = 1;
         }

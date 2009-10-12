@@ -223,13 +223,14 @@ WHERE     ct.id = cp.contribution_type_id AND
             return false;
         }
         unset( $dao );
-
+        
         require_once 'CRM/Price/DAO/SetEntity.php';
         $dao =& new CRM_Price_DAO_SetEntity( );
         // find if this already exists
+        $dao->entity_id    = $entityId;
         $dao->entity_table = $entityTable;
-        $dao->entity_id = $entityId;
-        $dao->find( );
+        $dao->find( true );
+        
         // add or update price_set_id
         $dao->price_set_id = $priceSetId;
         return $dao->save( );
