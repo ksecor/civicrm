@@ -189,24 +189,33 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $this->_mapperFields    = $this->get( 'fields' );
         $this->_importTableName = $this->get( 'importTableName' );        
         $this->_onDuplicate     = $this->get( 'onDuplicate' );
-
+        $highlightedFields   = array();
+        $highlightedFields[] = 'email';
+        $highlightedFields[] = 'external_identifier';
         //format custom field names, CRM-2676
         switch ( $this->get( 'contactType' ) ) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
             $contactType = 'Individual';
+            $highlightedFields[] = 'first_name';
+            $highlightedFields[] = 'last_name';
             break;
         case CRM_Import_Parser::CONTACT_HOUSEHOLD :
             $contactType = 'Household';
+            $highlightedFields[] = 'household_name'; 
             break;
         case CRM_Import_Parser::CONTACT_ORGANIZATION :
             $contactType = 'Organization';
+            $highlightedFields[] = 'organization_name'; 
             break;
         }
         
         if ( $this->_onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP ) {
             unset($this->_mapperFields['id']);  
+        } else {
+            $highlightedFields[] = 'id';            
         }
 
+        $this->assign( 'highlightedFields', $highlightedFields );
         $this->_formattedFieldNames[$contactType] = $this->_mapperFields =
             array_merge( $this->_mapperFields, $this->formatCustomFieldName( $this->_mapperFields ) );
         
