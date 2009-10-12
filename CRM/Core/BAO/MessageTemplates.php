@@ -281,15 +281,25 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
      */
     static function getSubjectTextHTML($group, $value, $tplParams)
     {
+        // fetch the three elements from the db based on option_group and option_value names
         $query = 'SELECT msg_subject subject, msg_text text, msg_html html
                   FROM civicrm_msg_template mt
                   JOIN civicrm_option_value ov ON workflow_id = ov.id
                   JOIN civicrm_option_group og ON ov.option_group_id = og.id
                   WHERE og.name = %1 AND ov.name = %2 AND mt.is_default = 1';
         $params = array(1 => array($group, 'String'), 2 => array($value, 'String'));
-
         $dao = CRM_Core_DAO::executeQuery($query, $params);
         $dao->fetch();
+
+        // TODO: replace tokens in the three elements
+
+        // parse the three elements with Smarty
+        require_once 'CRM/Core/Smarty/resources/String.php';
+        civicrm_smarty_register_string_resource();
+        $smarty =& CRM_Core_Smarty::singleton();
+        foreach (array('subject', 'text', 'html') as $elem) {
+            $dao->$elem = $smarty->fetch("string:{$dao->$elem}");
+        }
 
         return array('subject' => $dao->subject, 'text' => $dao->text, 'html' => $dao->html);
     }
