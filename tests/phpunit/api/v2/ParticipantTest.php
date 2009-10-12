@@ -523,8 +523,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
      */
     function testPaymentCreateMissingParticipantId( )
     {        
-        //Create contribution type & get contribution Type ID
-        $contributionTypeID = $this->contributionTypeCreate();
+        $contributionTypeID = 1;
         
         //Create Contribution & get entity ID
         $contributionID = $this->contributionCreate( $this->_contactID , $contributionTypeID );
@@ -562,8 +561,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     function testPaymentCreate( )
     {  
         
-        //Create contribution type & get contribution Type ID
-        $contributionTypeID = $this->contributionTypeCreate();
+        $contributionTypeID = 1;
         
         //Create Contribution & get contribution ID
         $contributionID = $this->contributionCreate( $this->_contactID , $contributionTypeID );
@@ -638,9 +636,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
      */
     function testPaymentUpdate()
     {
-        //create contribution type 
-        
-        $contributionTypeID = $this->contributionTypeCreate();
+        $contributionTypeID = 1;
         
         // create contribution
         $contributionID     = $this->contributionCreate( $this->_contactID , $contributionTypeID );
@@ -705,9 +701,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
      */
     function testPaymentDelete()
     {
-        // create contribution type 
-        
-        $contributionTypeID = $this->contributionTypeCreate();
+        $contributionTypeID = 1;
         
         // create contribution
         $contributionID     = $this->contributionCreate( $this->_contactID , $contributionTypeID );
@@ -718,8 +712,6 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $deletePayment = & civicrm_participant_payment_delete( $params );   
         $this->assertEquals( $deletePayment['is_error'], 0 );
         
-        $this->contributionDelete( $contributionID );
-        $this->contributionTypeDelete( $contributionTypeID );
     }    
 
 }

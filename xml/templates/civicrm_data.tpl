@@ -21,7 +21,7 @@ SELECT @addId := id from civicrm_address where street_address = 'S 15S El Camino
 
 INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_billing, on_hold, hold_date, reset_date)
       VALUES
-      (NULL, 1, 'domainemail@example.org', 0, 0, 0, NULL, NULL);
+      (NULL, 1, '"Domain Email" <domainemail@example.org>', 0, 0, 0, NULL, NULL);
 
 SELECT @emailId := id from civicrm_email where email = 'domainemail@example.org';
 

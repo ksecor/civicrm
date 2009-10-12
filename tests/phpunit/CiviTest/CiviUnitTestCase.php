@@ -79,7 +79,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
      */
     function __construct($name = NULL, array $data = array(), $dataName = '' ) {
         parent::__construct($name, $data, $dataName);
-        
+
 
     }
 
@@ -109,10 +109,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         // FIXME: look at it closer in second stage
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton();
-
-        //  Get and save a connection to the database
-        $this->_dbconn = $this->getConnection();
-
+ 
         //  Use a temporary file for STDIN
         $GLOBALS['stdin'] = tmpfile( );
         if ( $GLOBALS['stdin'] === false ) {
@@ -120,11 +117,36 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
             exit(1);
         }
 
+        //  Get and save a connection to the database
+        $this->_dbconn = $this->getConnection();
+
         //  Truncate the tables
         $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__) . '/truncate.xml') );
+
+        $query1 = "USE civicrm_tests_dev; SET foreign_key_checks = 0;";
+        
+        if ( AllTests::$utils->do_query($query1) === false ) {
+            //  failed to initialze test database
+            echo "Cannot set FK";
+            exit;
+        }        
+
+
+        // Load clean db state
+        $sql_file = dirname( dirname( dirname( __FILE__ ) ) )
+                              . "/../sql/civicrm_data.mysql";
+
+        $query = file_get_contents( $sql_file );
+
+        if ( AllTests::$utils->do_query($query) === false ) {
+            //  failed to initialze test database
+            echo "Cannot load civicrm_data.mysql";
+            exit;
+        }                             
+
     }
 
     /**
@@ -350,8 +372,6 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
     
     function membershipTypeCreate( $contactID, $contributionTypeID = 1 ) 
     {
-        $this->contributionTypeCreate();
-
         $params = array( 'name'                 => 'General',
                          'duration_unit'        => 'year',
                          'duration_interval'    => 1,

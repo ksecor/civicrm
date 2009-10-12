@@ -35,6 +35,7 @@
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'Utils.php';
 require_once 'CiviTest/civicrm.settings.php';
+require_once 'CiviTest/CiviTestSuite.php';
 
 /**
  *  Class containing all test suites
@@ -58,7 +59,7 @@ class AllTests
      */
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('CiviCRM');
+        $suite = new CiviTestSuite('CiviCRM');
         $dir_name = dirname( __FILE__ );
         $dir = opendir( $dir_name );
         while( false !== ( $file = readdir( $dir ) ) ) {
