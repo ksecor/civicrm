@@ -277,7 +277,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
      * @param string $value      option value name
      * @param array  $tplParams  template variables
      *
-     * @return array  a subject-, text- and html-keyed array with the templates (evaluated)
+     * @return array  a subject-, text- and html-carrying array with the templates (evaluated)
      */
     static function getSubjectTextHTML($group, $value, $tplParams)
     {
@@ -297,10 +297,16 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         require_once 'CRM/Core/Smarty/resources/String.php';
         civicrm_smarty_register_string_resource();
         $smarty =& CRM_Core_Smarty::singleton();
+        // FIXME: we should clear the template variables, but this would break 
+        // way too much existing code (and require a lot of code duplication)
+        // $smarty->clear_all_assign();
+        foreach ($tplParams as $name => $value) {
+            $smarty->assign($name, $value);
+        }
         foreach (array('subject', 'text', 'html') as $elem) {
             $dao->$elem = $smarty->fetch("string:{$dao->$elem}");
         }
 
-        return array('subject' => $dao->subject, 'text' => $dao->text, 'html' => $dao->html);
+        return array(trim($dao->subject), $dao->text, $dao->html);
     }
 }
