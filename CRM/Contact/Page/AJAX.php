@@ -41,17 +41,45 @@ class CRM_Contact_Page_AJAX
 {
     static function getContactList( &$config ) 
     {
-        $name = CRM_Utils_Type::escape( $_GET['s'], 'String' );
-        
-        $limit = '10';
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $name   = CRM_Utils_Type::escape( $_GET['s'], 'String' );
+        $limit  = '10';
+        $list   = array_keys( CRM_Core_BAO_Preferences::valueOptions( 'autocomplete_contact_search_options' ), '1' );
+        $select = array( );
+        foreach( $list as $value ) {
+            switch( $value ) {
+
+            case 'country':
+                $select[] = 'ct.name';
+                $from    .= ' LEFT JOIN civicrm_country ct ON ca.country_id = ct.id';
+                break;
+
+            case 'state_province':
+                $select[] = 'csp.name';
+                $from    .= ' LEFT JOIN civicrm_state_province csp ON ca.state_province_id = csp.id';
+                break;
+
+            case 'phone':                
+                $select[] = 'phone';
+                $from    .= ' LEFT JOIN civicrm_phone cp ON cc.id = cp.contact_id';
+                break;
+            default:
+                $select[] = $value;
+                break;
+            }
+        }
+        $select = implode( ',', $select );
         if ( CRM_Utils_Array::value( 'limit', $_GET) ) {
             $limit = CRM_Utils_Type::escape( $_GET['limit'], 'Positive' );
         }
         
         $query = "
-SELECT sort_name, id
-FROM civicrm_contact
-WHERE sort_name LIKE '%$name%'
+SELECT CONCAT_WS( '::',{$select}) as data, cc.id as id
+FROM civicrm_contact cc 
+LEFT JOIN civicrm_address ca ON cc.id = ca.contact_id 
+LEFT JOIN civicrm_email ce ON cc.id = ce.contact_id
+{$from}
+WHERE sort_name LIKE '%$name%' AND ca.is_primary = 1
 ORDER BY sort_name
 LIMIT 0, {$limit}
 ";
@@ -66,7 +94,7 @@ LIMIT 0, {$limit}
         $dao = CRM_Core_DAO::executeQuery( $query );
         $contactList = null;
         while ( $dao->fetch( ) ) {
-            echo $contactList = "$dao->sort_name|$dao->id\n";
+            echo $contactList = "$dao->data|$dao->id\n";
         }
         exit();
     } 
