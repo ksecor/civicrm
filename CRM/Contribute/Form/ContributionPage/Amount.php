@@ -363,6 +363,12 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $contributionPage   = CRM_Contribute_BAO_ContributionPage::create( $params );
         $contributionPageID = $contributionPage->id;
         
+        // prepare for data cleanup.
+        $deleteAmountBlk = $deletePledgeBlk = $deletePriceSet = false;
+        if ( $this->_priceSetID    )         $deletePriceSet  = true;
+        if ( $this->_pledgeBlockID )         $deletePledgeBlk = true;
+        if ( !empty( $this->_amountBlock ) ) $deleteAmountBlk = true;
+        
         if ( $contributionPageID ) {
             require_once 'CRM/Price/BAO/Set.php';
             require_once 'CRM/Core/OptionGroup.php';
@@ -371,18 +377,12 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             // handle price set.
             if ( $priceSetID ) {
                 // add/update price set.
+                $deletePriceSet = false;
                 CRM_Price_BAO_Set::addTo( 'civicrm_contribution_page', $contributionPageID, $priceSetID );
+            } else if ( CRM_Utils_Array::value('amount_block_is_active', $params ) ) {
+                // process contribution amount block
+                $deleteAmountBlk = false; 
                 
-                // delete contribution amounts.
-                if ( !empty( $this->_amountBlock ) ) {
-                    CRM_Core_OptionGroup::deleteAssoc( "civicrm_contribution_page.amount.{$contributionPageID}" );
-                }
-                
-                // delete the pledge block.
-                if (  $this->_pledgeBlockID ) {
-                    CRM_Pledge_BAO_PledgeBlock::deletePledgeBlock( $this->_pledgeBlockID );
-                }
-            } else {
                 $labels  = CRM_Utils_Array::value( 'label', $params );
                 $values  = CRM_Utils_Array::value( 'value', $params );
                 $default = CRM_Utils_Array::value( 'default', $params ); 
@@ -403,12 +403,12 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                                                    $params['default_amount_id'] );
                 if ( $params['default_amount_id'] ) {
                     CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_ContributionPage', 
-                                                 $contributionPageID, 'default_amount_id', $params['default_amount_id'] );
+                                                 $contributionPageID, 'default_amount_id', 
+                                                 $params['default_amount_id'] );
                 }
                 
-                //create pledge block.
-                if ( CRM_Utils_Array::value('is_pledge_active', $params )  &&
-                     CRM_Utils_Array::value('amount_block_is_active', $params ) ) {
+                if ( CRM_Utils_Array::value('is_pledge_active', $params ) ) {
+                    $deletePledgeBlk = false; 
                     $pledgeBlockParams = array( 'entity_id'    => $contributionPageID,
                                                 'entity_table' => ts( 'civicrm_contribution_page' ) );
                     if ( $this->_pledgeBlockID ) {
@@ -421,20 +421,25 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                     }
                     $pledgeBlockParams['is_pledge_interval'] = CRM_Utils_Array::value( 'is_pledge_interval', 
                                                                                        $params, false );
+                    // create pledge block.
                     require_once 'CRM/Pledge/BAO/PledgeBlock.php';
                     CRM_Pledge_BAO_PledgeBlock::create( $pledgeBlockParams );
-                } else if ( $this->_pledgeBlockID && 
-                            ( !CRM_Utils_Array::value('is_pledge_active', $params ) || 
-                              !CRM_Utils_Array::value('amount_block_is_active', $params ) ) ) { 
-                    //delete the pledge block.
-                    require_once 'CRM/Pledge/BAO/PledgeBlock.php';
-                    CRM_Pledge_BAO_PledgeBlock::deletePledgeBlock( $this->_pledgeBlockID );
                 }
-                
-                // delete previous price set.
-                if ( $this->_priceSetID ) {
-                    CRM_Price_BAO_Set::removeFrom( 'civicrm_contribution_page', $contributionPageID ); 
-                }
+            }
+            
+            // delete pledge block.
+            if ( $deletePledgeBlk ) {
+                CRM_Pledge_BAO_PledgeBlock::deletePledgeBlock( $this->_pledgeBlockID );
+            }
+            
+            // delete previous price set.
+            if ( $deletePriceSet ) {
+                CRM_Price_BAO_Set::removeFrom( 'civicrm_contribution_page', $contributionPageID ); 
+            }
+            
+            // delete amount block.
+            if ( $deleteAmountBlk ) {
+                CRM_Core_OptionGroup::deleteAssoc( "civicrm_contribution_page.amount.{$contributionPageID}" );
             }
         }
     }
