@@ -70,6 +70,7 @@ CRM/Pledge/DAO
 CRM/Price/DAO
 CRM/Project/DAO
 CRM/Report/DAO
+CRM/Standalone/OpenID/DAO
 bin/setup.sh
 civicrm-version.txt
 civicrm.config.php
