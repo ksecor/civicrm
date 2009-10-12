@@ -67,6 +67,7 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
             $deleteExtra = ts('Are you sure you want to delete this price set?');
+            $copyExtra = ts('Are you sure you want to make a copy of this price set?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::BROWSE  => array(
                                                                           'name'  => ts('View and Edit Price Fields'),
@@ -105,6 +106,13 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
                                                                           'title' => ts('Delete Price Set'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"'
                                                                           ),
+                                        CRM_Core_Action::COPY    => array(
+                                                                          'name'  => ts('Copy Price Set'),
+                                                                          'url'   => CRM_Utils_System::currentPath( ),           
+                                                                          'qs'    => 'action=copy&sid=%%sid%%',
+                                                                          'title' => ts('Make a Copy of Price Set'),
+                                                                          'extra' => 'onclick = "return confirm(\'' . $copyExtra . '\');"',
+                                                                          ),
                                         );
         }
         return self::$_actionLinks;
@@ -139,6 +147,10 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
             $this->edit($sid, $action) ;
         } else if ($action & CRM_Core_Action::PREVIEW) {
             $this->preview($sid) ;
+        } else if ($action & CRM_Core_Action::COPY) {
+            $session =& CRM_Core_Session::singleton();
+            CRM_Core_Session::setStatus("A copy of the price set has been created" );
+            $this->copy( );
         } else {
             require_once 'CRM/Price/BAO/Set.php';
             require_once 'CRM/Price/BAO/Field.php';
@@ -253,6 +265,24 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
                                                                       array('sid' => $dao->id) );
         }
         $this->assign('rows', $priceSet);
+    }
+    
+    /**
+     * This function is to make a copy of a price set, including
+     * all the fields in the page
+     *
+     * @return void
+     * @access public
+     */
+    function copy( ) 
+    {
+        $id = CRM_Utils_Request::retrieve('sid', 'Positive',
+                                           $this, true, 0, 'GET');
+
+        require_once 'CRM/Price/BAO/Set.php';
+        CRM_Price_BAO_Set::copy( $id );
+
+        CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' ) );
     }
 }
 

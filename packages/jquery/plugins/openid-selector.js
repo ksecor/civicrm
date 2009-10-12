@@ -8,7 +8,7 @@
 			Flickr     : "flickr.com",
 			Google     : "google.com/accounts/o8/id",
 			LiveJournal: "yourname.livejournal.com",
-			MyOpenID   : "yourname.myopenid.com",
+			MyOpenID   : "yourname.myopenid.com/",
 			Technorati : "technorati.com/people/technorati/yourname",
 			Verisign   : "yourname.pip.verisignlabs.com",
 			Vidoop     : "yourname.myvidoop.com",

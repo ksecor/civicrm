@@ -9,6 +9,7 @@
 {/if}
 
 {if $rows}
+{include file="CRM/common/jsortable.tpl"}
 <div id="cat">
 <p></p>
     <div class="form-item">
@@ -19,7 +20,7 @@
 	        <th>{ts}Parent ID{/ts}</th>
 	        <th>{ts}Tag{/ts}</th>
             <th id="sortable">{ts}ID{/ts}</th>
-	        <th>{ts}Description{/ts}</th>
+	        <th id="nosort">{ts}Description{/ts}</th>
 	        <th></th>
         </tr>
         </thead>
@@ -51,27 +52,3 @@
         </dl>
     </div>    
 {/if}
-
-{literal}
-<script type="text/javascript">
-    cj( function( ) {
-        var id = count = 0;
-        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
-        cj('#options').dataTable( {
-            "aaSorting": [[ id, "asc" ]],
-            "bPaginate": false,
-    		"bLengthChange": false,
-    		"bFilter": false,
-    		"bInfo": false,
-    		"bAutoWidth": false,
-    		"aoColumns": [
-    		            null,
-    		            null,
-    		            null,
-            			{ "bSortable": false },
-            			{ "bSortable": false }
-            		]
-        } );        
-    });
-</script>
-{/literal}

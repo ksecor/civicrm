@@ -212,11 +212,13 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     {
         $displayName = $this->get( 'displayName' );
              
-        list( $displayName, $contactImage, $contactType ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId, true );
+        list( $displayName, $contactImage, $contactType, $contactSubType ) = 
+            CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId, true );
 
-        $this->set( 'displayName' , $displayName );
-        $this->set( 'contactImage', $contactImage );
-        $this->set( 'contactType', $contactType );
+        $this->set( 'displayName' ,   $displayName    );
+        $this->set( 'contactImage',   $contactImage   );
+        $this->set( 'contactType',    $contactType    );
+        $this->set( 'contactSubType', $contactSubType );
     }
 
     function getSearchURL( ) {

@@ -117,7 +117,7 @@ class CRM_Core_Smarty extends Smarty {
         $buildNavigation = CRM_Core_Permission::check( 'access CiviCRM' );
         $this->assign('buildNavigation', $buildNavigation );
         
-        if ( $buildNavigation ) {
+        if ( !CRM_Core_Config::isUpgradeMode() && $buildNavigation ) {
             require_once 'CRM/Core/BAO/Navigation.php';
             $contactID = $session->get('userID');
             if ( $contactID ) {

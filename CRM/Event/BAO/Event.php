@@ -747,17 +747,16 @@ WHERE civicrm_event.is_active = 1
         // since the location is sharable, lets use the same loc_block_id.
         $locBlockId     = CRM_Utils_Array::value( 'loc_block_id', $eventValues );
         
-        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
-        
+        $fieldsFix = array ( 'prefix' => array( 'title' => ts( 'Copy of ' ) ) );
         if ( !CRM_Utils_Array::value( 'is_show_location', $eventValues ) ) {
-            $fieldsToPrefix['is_show_location'] = 0;
+            $fieldsFix['prefix']['is_show_location'] = 0;
         }
         
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
                                                       array( 'id' => $id ), 
                                                       array( 'loc_block_id' => 
                                                              ( $locBlockId ) ? $locBlockId : null ), 
-                                                      $fieldsToPrefix );
+                                                      $fieldsFix );
         
         $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Price_DAO_SetEntity', 
                                                       array( 'entity_id'    => $id,
@@ -1412,6 +1411,42 @@ WHERE  ce.loc_block_id = $locBlockId";
                                                      $contactID );
 
         return $validDate && $hasPermission;
+    }
+ 
+    /* Function to Show - Hide the Registration Link.
+     *
+     * @param  array   $values key/value event info     
+     * @return boolean true if allow registration otherwise false
+     * @access public
+     */
+    static function ShowHideRegistrationLink( $values ) {
+
+        $session   =& CRM_Core_Session::singleton( );
+        $contactID = $session->get( 'userID' );
+        $alreadyRegistered = false;
+        
+        if ( $contactID ) {
+            require_once 'CRM/Event/PseudoConstant.php';
+            require_once 'CRM/Event/DAO/Participant.php';
+            $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "is_counted = 1" );
+            
+            $participant =& new CRM_Event_DAO_Participant();
+            $participant->contact_id = $contactID;
+            $participant->event_id   = $values['event']['id'];
+            $participant->role_id    = $values['event']['default_role_id'];
+            $participant->is_test    = 0;
+            $participant->selectAdd();
+            $participant->selectAdd('status_id');
+            if ( $participant->find( true ) && array_key_exists ( $participant->status_id, $statusTypes ) ) {
+                $alreadyRegistered = true;
+            }
+        }
+        
+        if ( CRM_Utils_Array::value( 'allow_same_participant_emails', $values['event'] ) ||
+             !$alreadyRegistered ) {
+            return true;
+        }
+        return false;
     }
 
 }

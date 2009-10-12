@@ -392,12 +392,11 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
      */
     static function copy( $id ) 
     {
-        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
-
+        $fieldsFix = array ( 'prefix' => array( 'title' => ts( 'Copy of ' ) ) );
         $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Contribute_DAO_ContributionPage', 
                                             array( 'id' => $id ), 
                                             null, 
-                                            $fieldsToPrefix );
+                                            $fieldsFix );
         
         //copying all the blocks pertaining to the contribution page
         $copyPledgeBlock =& CRM_Core_DAO::copyGeneric( 'CRM_Pledge_DAO_PledgeBlock', 

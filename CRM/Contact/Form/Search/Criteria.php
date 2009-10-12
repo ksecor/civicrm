@@ -41,7 +41,9 @@ class CRM_Contact_Form_Search_Criteria {
         if ( $form->_searchOptions['contactType'] ) {
             // add checkboxes for contact type
             $contact_type = array( );
-            foreach (CRM_Core_SelectValues::contactType() as $k => $v) {
+            require_once 'CRM/Contact/BAO/ContactType.php';
+            $contactTypes = CRM_Contact_BAO_ContactType::getSelectElements( );
+            foreach ($contactTypes as $k => $v) {
                 if ( ! empty( $k ) ) {
                     $contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
                 }

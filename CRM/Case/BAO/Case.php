@@ -932,6 +932,13 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         require_once 'CRM/Core/Permission.php'; 
         $allowToDeleteActivities = CRM_Core_Permission::check( 'delete activities' );
         
+        // define statuses which are handled like Completed status (others are assumed to be handled like Scheduled status)
+        $compStatusValues = array();
+        $compStatusNames = array('Completed', 'Left Message', 'Cancelled', 'Unreachable', 'Not Required');
+        foreach($compStatusNames as $name) {
+            $compStatusValues[] = CRM_Core_OptionGroup::getValue( 'activity_status', $name, 'name' );
+        }
+        
         $contactViewUrl = CRM_Utils_System::url( "civicrm/contact/view",
                                                  "reset=1&cid=", false, null, false );
         while ( $dao->fetch( ) ) {                 
@@ -984,19 +991,13 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                 }
             }
             
-            if ( $dao->status == CRM_Core_OptionGroup::getValue( 'activity_status', 'Completed', 'name' ) ) {
+            if ( CRM_Utils_Array::crmInArray( $dao->status, $compStatusValues ) ) {
                 $values[$dao->id]['class'] = $values[$dao->id]['class']." status-completed";
-            } elseif ( $dao->status == CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' ) ) {
-                if ( CRM_Utils_Date::overdue( $dao->display_date ) ) {
-                    $values[$dao->id]['class'] = $values[$dao->id]['class']." status-overdue";  
-                } else {
-                    $values[$dao->id]['class'] = $values[$dao->id]['class']." status-scheduled";
-                }    
             } else {
                 if ( CRM_Utils_Date::overdue( $dao->display_date ) ) {
                     $values[$dao->id]['class'] = $values[$dao->id]['class']." status-overdue";  
                 } else {
-                    $values[$dao->id]['class'] = $values[$dao->id]['class']." status-completed";    
+                    $values[$dao->id]['class'] = $values[$dao->id]['class']." status-scheduled";    
                 } 
             }
         }

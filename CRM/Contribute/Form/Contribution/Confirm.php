@@ -772,21 +772,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         //add contribution record
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-
-        // store line items
-        if ( $form->_lineItem ) {
-            require_once 'CRM/Core/BAO/LineItem.php';
-            foreach ( $form->_lineItem as $key => $value ) {
-                if ( $value != 'skip' ) {
-                    foreach( $value as $line ) {
-                        $unused = array();
-                        $line['entity_table'] = 'civicrm_contribution';
-                        $line['entity_id'] = $contribution->id;
-                        CRM_Core_BAO_LineItem::create( $line, $unused );
-                    }
-                }
-            }
+        
+        // process price set, CRM-5095
+        if ( $contribution->id && $form->_priceSetId ) {
+            require_once 'CRM/Contribute/Form/AdditionalInfo.php';
+            CRM_Contribute_Form_AdditionalInfo::processPriceSet( $contribution->id, $form->_lineItem );
         }
+        
         //add soft contribution due to pcp or Submit Credit / Debit Card Contribution by admin.
         if ( CRM_Utils_Array::value( 'pcp_made_through_id', $params ) || CRM_Utils_Array::value( 'soft_credit_to', $params ) ) { 
             $contribSoftParams['contribution_id'] = $contribution->id;

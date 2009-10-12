@@ -57,8 +57,6 @@
                 {/if}
             {/foreach}
             {if count($row.target_contact_name) > 5}({ts}more{/ts}){/if}
-        {else}
-          {$row.target_contact_name}
         {/if}
         </td>
 
@@ -74,8 +72,6 @@
                 {/if}
             {/foreach}
             {if count($row.assignee_contact_name) > 5}({ts}more{/ts}){/if}
-        {else}
-            {$row.assignee_contact_name}
         {/if}	
         </td>
 

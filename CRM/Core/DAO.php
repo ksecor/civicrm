@@ -982,7 +982,7 @@ FROM   civicrm_domain
      *                                        on which basis to copy
      * @param array  $newData                 array of all the fields & values 
      *                                        to be copied besides the other fields
-     * @param string $fieldsToPrefix          fields that you want to prefix
+     * @param string $fieldsFix               array of fields that you want to prefix/suffix
      * @param string $blockCopyOfDependencies fields that you want to block from
      *                                        getting copied
      * 
@@ -990,8 +990,8 @@ FROM   civicrm_domain
      * @return (reference )                   the newly created copy of the object
      * @access public
      */
-    static function &copyGeneric( $daoName, $criteria , $newData = null, $fieldsToPrefix = null, $blockCopyOfDependencies = null ) 
-        { 
+    static function &copyGeneric( $daoName, $criteria , $newData = null, $fieldsFix = null, $blockCopyOfDependencies = null ) 
+    { 
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object   =& new ' . $daoName . '( );' );
         if ( ! $newData ) {
@@ -1015,23 +1015,31 @@ FROM   civicrm_domain
             eval( '$newObject   =& new ' . $daoName . '( );' );
             
             $fields =& $object->fields( );
-            if ( ! is_array( $fieldsToPrefix ) ) {
+            if ( ! is_array( $fieldsFix ) ) {
                 $fieldsToPrefix = array( );
+                $fieldsToSuffix = array( );
             }
-            
+            if ($fieldsFix['prefix']) {
+                $fieldsToPrefix = $fieldsFix['prefix'];
+            }
+            if ($fieldsFix['suffix']) {
+                $fieldsToSuffix = $fieldsFix['suffix'];
+            }
+
             foreach ( $fields as $name => $value ) {
                 if ( $name == 'id' ) {
                     // copy everything but the id!
                     continue;
                 }
                 
-                
                 $dbName = $value['name'];
+                $newObject->$dbName = $object->$dbName;
                 if ( isset( $fieldsToPrefix[$dbName] ) ) {
-                    $newObject->$dbName = $fieldsToPrefix[$dbName] . $object->$dbName;
-                } else {
-                    $newObject->$dbName = $object->$dbName;
-                }
+                    $newObject->$dbName = $fieldsToPrefix[$dbName] . $newObject->$dbName;
+                } 
+                if ( isset( $fieldsToSuffix[$dbName] ) ) {
+                    $newObject->$dbName .= $fieldsToSuffix[$dbName];
+                } 
                 
                 if( substr($name , -5) == '_date') {
                     $newObject->$dbName = CRM_Utils_Date::isoToMysql($object->$dbName);

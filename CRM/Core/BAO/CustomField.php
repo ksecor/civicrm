@@ -332,13 +332,24 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
  									   $customDataSubName = null,
  									   $onlyParent = false ) 
     {
-        $cacheKey  = $customDataType;
+        if ( $customDataType && 
+             !is_array( $customDataType ) &&
+             in_array ( $customDataType, 
+                        array_keys(CRM_Core_SelectValues::customGroupExtends()) ) ) {
+            $customDataType = array( $customDataType );
+        }
+
+        if ( is_array( $customDataType ) ) {
+            $cacheKey  = implode( '_', $customDataType );
+        } else {
+            $cacheKey  = $customDataType;
+        }
         $cacheKey .= $customDataSubType ? "{$customDataSubType}_" : "_0";
 		$cacheKey .= $customDataSubName ? "{$customDataSubName}_" : "_0";
         $cacheKey .= $showAll ? "_1" : "_0";
         $cacheKey .= $inline  ? "_1_" : "_0_";
 		$cacheKey .= $onlyParent  ? "_1_" : "_0_";
-
+        
         $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
         // also get the permission stuff here
@@ -367,17 +378,27 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $cfTable = self::getTableName();
 
                 $extends = '';
-                if ( $customDataType ) {
-                    if ( in_array( $customDataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
-                        $value = "'" . CRM_Utils_Type::escape($customDataType, 'String') . "', 'Contact' ";
-                    } else {
-                        $value = "'" . CRM_Utils_Type::escape($customDataType, 'String') . "'";
+                if ( is_array( $customDataType ) ) {
+                    foreach ( $customDataType as $dataType ) {
+                        if ( in_array ( $dataType, 
+                                        array_keys(CRM_Core_SelectValues::customGroupExtends()) ) ) {
+                            if ( in_array( $dataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
+                                $val = "'" . CRM_Utils_Type::escape( $dataType, 'String' ) . "', 'Contact' ";
+                            } else if ( in_array( $dataType, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
+                                // consider subtypes if any
+                                $val = "'" . CRM_Utils_Type::escape($dataType, 'String'). "'";
+                            } else {
+                                $val = "'" . CRM_Utils_Type::escape($dataType, 'String') . "'";
+                            }
+                            $value = $value ? $value . ", {$val}" : $val;
+                        }
                     }
-                    $extends = "AND   $cgTable.extends IN ( $value ) ";
-
-					if ( $onlyParent ) {
-						$extends .= " AND $cgTable.extends_entity_column_value IS NULL AND $cgTable.extends_entity_column_id IS NULL ";
-					}
+                    if ( $value ) {
+                        $extends = "AND   $cgTable.extends IN ( $value ) ";
+                    }
+                }
+                if ( $onlyParent ) {
+                    $extends .= " AND $cgTable.extends_entity_column_value IS NULL AND $cgTable.extends_entity_column_id IS NULL ";
                 }
                 
                 $query ="SELECT $cfTable.id, $cfTable.label,
@@ -464,10 +485,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    public static function &getFieldsForImport($contactType = 'Individual', $showAll = false) 
+    public static function &getFieldsForImport( $contactType = 'Individual', $showAll = false ) 
     {
-        $fields =& self::getFields($contactType, $showAll);
-        
+        $fields =& self::getFields( $contactType, $showAll );
+
         $importableFields = array();
         foreach ($fields as $id => $values) {
             // for now we should not allow multiple fields in profile / export etc, hence unsetting
@@ -1221,6 +1242,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
         list( $tableName, $columnName, $groupID ) = self::getTableColumnGroup( $customFieldId );
         
+        if ( is_array( $customFieldExtend ) ) {
+            $customFieldExtend = $customFieldExtend[0];
+        }
+
         if ( ! $customValueId &&
              ! $customFields[$customFieldId]['is_multiple'] && // we always create new entites for is_multiple unless specified
              $entityId ) {

@@ -200,45 +200,6 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
     }
     
     /**
-     * Store and return an array of all active price fields.
-     *
-     * @param string      $contactType   Contact type
-     * @param boolean     $showAll       If true returns all fields (includes disabled fields)
-     *
-     * @return array      $fields - an array of active price fields.
-     *
-     * @access public
-     * @static
-     */
-    public static function &getFields( $showAll = false ) 
-    {
-        $priceFieldTable = self::getTableName();
-        $priceSetTable = CRM_Price_DAO_Set::getTableName();
-
-        $query = "SELECT $priceFieldTable.id, $priceFieldTable.label,
-                         $priceSetTable.title, $priceSetTable.html_type, 
-                         $priceFieldTable.options_per_line
-                  FROM $priceFieldTable
-                  INNER JOIN $priceSetTable
-                  ON $priceFieldTable.price_set_id = $priceFieldGroup.id";
-        
-        if (! $showAll) {
-            $query .= " WHERE $priceFieldTable.is_active = 1 AND $priceSetTable.is_active = 1";
-        }
-
-        $query .= " ORDER BY $priceSetTable.title, $priceFieldTable.weight, $priceFieldTable.label";
-     
-        $crmDAO =& CRM_Core_DAO::executeQuery( $query );
-        $result = $crmDAO->getDatabaseResult();
-    
-        $fields = array( );
-        while (($row = $result->fetchRow()) != null) {
-            $id = array_shift($row);
-            $fields[$id] = $row;
-        }
-    }
-
-    /**
      * This function for building custom fields
      * 
      * @param object  $qf             form object (reference)

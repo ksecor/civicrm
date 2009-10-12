@@ -1099,6 +1099,10 @@ class CRM_Contact_BAO_Query
             $this->contactType( $values );
             return;
 
+        case 'contact_sub_type':
+            $this->contactSubType( $values );
+            return;
+
         case 'group':
             list( $name, $op, $value, $grouping, $wildcard ) = $values;
             $this->group( $values );
@@ -1988,20 +1992,69 @@ class CRM_Contact_BAO_Query
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
+        $subTypes = array( );
         $clause = array( );
         if ( is_array( $value ) ) {
             foreach ( $value as $k => $v) { 
                 if ($k) { //fix for CRM-771
-                    $clause[] = "'" . CRM_Utils_Type::escape( $k, 'String' ) . "'";
+                    list( $contactType, $subType ) = explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                                              $k, 2 );
+                    if ( ! empty( $subType ) ) {
+                        $subTypes[$subType] = 1;
+                    }
+                    $clause[$contactType] = "'" . CRM_Utils_Type::escape( $contactType, 'String' ) . "'";
                 }
             }
         } else {
-            $clause[] = "'" . CRM_Utils_Type::escape( $value, 'String' ) . "'";
+            list( $contactType, $subType ) = explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                                      $value, 2 );
+            if ( ! empty( $subType ) ) {
+                $subTypes[$subType] = 1;
+            }
+            $clause[$contactType] = "'" . CRM_Utils_Type::escape( $contactType, 'String' ) . "'";
         }
         
         if ( ! empty( $clause ) ) { //fix for CRM-771
             $this->_where[$grouping][] = 'contact_a.contact_type IN (' . implode( ',', $clause ) . ')';
             $this->_qill [$grouping][]  = ts('Contact Type') . ' - ' . implode( ' ' . ts('or') . ' ', $clause );
+            
+            if ( ! empty( $subTypes ) ) {
+                $this->includeContactSubTypes( $subTypes, $grouping );
+            }
+        }
+    }
+
+    /**
+     * where / qill clause for contact_sub_type
+     *
+     * @return void
+     * @access public
+     */
+    function contactSubType( &$values ) 
+    {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+
+        $this->includeContactSubTypes( $value, $grouping );
+    }
+
+    function includeContactSubTypes( $value, $grouping ) {
+        if ( ! is_array( $value ) ) {
+            $clause = "'" . CRM_Utils_Type::escape( $value, 'String' ) . "'";
+        
+            $this->_where[$grouping][] = "contact_a.contact_sub_type = $clause";
+            $this->_qill [$grouping][]  = ts('Contact Sub Type') . ' - ' . $clause;
+        } else {
+            $clause = array( );
+            foreach ( $value as $k => $v) { 
+                if ( ! empty( $k ) ) {
+                    $clause[$k] = "'" . CRM_Utils_Type::escape( $k, 'String' ) . "'";
+                }
+            }
+            
+            if ( ! empty( $clause ) ) {
+                $this->_where[$grouping][] = 'contact_a.contact_sub_type IN (' . implode( ',', $clause ) . ')';
+                $this->_qill [$grouping][] = ts('Contact Sub Type') . ' - ' . implode( ' ' . ts('or') . ' ', $clause );
+            }
         }
     }
 
@@ -3242,7 +3295,9 @@ SELECT COUNT( civicrm_contribution.total_amount ) as total_count,
        AVG(   civicrm_contribution.total_amount ) as total_avg,
        currency                                   as currency";
 
-        $additionalWhere = "civicrm_contribution.cancel_date IS NULL";
+        // make sure contribution is completed - CRM-4989
+        $additionalWhere = "civicrm_contribution.contribution_status_id = 1";
+
         if ( ! empty( $where ) ) {
             $newWhere = "$where AND $additionalWhere";
         } else {

@@ -14,6 +14,7 @@
         {strip}
 	{* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
+    {include file="CRM/common/jsortable.tpl"}
         <table id="options" class="display">
         <thead>
         <tr>
@@ -51,26 +52,3 @@
     </div>    
   {/if}
 {/if}
-
-{literal}
-<script type="text/javascript">
-    cj( function( ) {
-        var id = count = 0;
-        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
-        cj('#options').dataTable( {
-            "aaSorting": [[ id, "asc" ]],
-            "bPaginate": false,
-    		"bLengthChange": false,
-    		"bFilter": false,
-    		"bInfo": false,
-    		"bAutoWidth": false,
-    		"aoColumns": [
-    		            null,
-            			{ "bSortable": false },
-                        null,
-            			{ "bSortable": false }
-            		]
-        } );        
-    });
-</script>
-{/literal}

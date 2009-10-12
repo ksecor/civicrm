@@ -187,7 +187,6 @@ function showLabel( ) {
    cj("#field_name\\[1\\]").bind( 'change blur', function( ) {
        showHideSeletorSearch( );
    }); 
-{/literal}{/if}{literal}
 
 cj( function( ) {
     cj("#field_name\\[1\\]").addClass( 'huge' );
@@ -197,6 +196,7 @@ cj( function( ) {
     });
     
 });
+{/literal}{/if}{literal}
 
 function viewOnlyShowHide( ) {
     var vsbl= cj("#visibility").val( );

@@ -313,9 +313,18 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
         }
-
-        if ( CRM_Utils_Array::value( 'amount_block_is_active', $this->_values ) 
-             && ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
+        
+        // If we configured price set for contribution page
+        // we are not allow membership signup as well as any
+        // other contribution amount field, CRM-5095
+        if ( isset($this->_priceSetId) && $this->_priceSetId ) {
+            $this->add( 'hidden', 'priceSetId', $this->_priceSetId );
+            // build price set form.
+            $this->set( 'priceSetId', $this->_priceSetId );
+            require_once 'CRM/Price/BAO/Set.php';
+            CRM_Price_BAO_Set::buildPriceSet( $this );
+        } else if ( CRM_Utils_Array::value( 'amount_block_is_active', $this->_values ) 
+                    && ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             $this->buildAmount( $this->_separateMembershipPayment );
             
             if ( $this->_values['is_monetary'] &&
@@ -427,23 +436,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildAmount( $separateMembershipPayment = false ) 
     {
         $elements = array( );
-        if ( isset($this->_priceSetId) ) {
-            $this->addGroup( $elements, 'amount', ts('Contribution Fee(s)'), '<br />' );      
-            $this->add( 'hidden', 'priceSetId', $this->_priceSetId );
-            $this->assign( 'priceSet', $this->_priceSet );
-            
-            require_once 'CRM/Price/BAO/Field.php';                       
-            foreach ( $this->_values['fee']['fields'] as $field ) {
-                $fieldId = $field['id'];
-                $elementName = 'price_' . $fieldId;
-                if ( $button == 'skip' ) {
-                    $isRequire = false;
-                } else {
-                    $isRequire = CRM_Utils_Array::value( 'is_required', $field );
-                }
-                CRM_Price_BAO_Field::addQuickFormElement( $this, $elementName, $fieldId, false, $isRequire );
-            }
-        } 
         if ( ! empty( $this->_values['amount'] ) ) {
             // first build the radio boxes
             require_once 'CRM/Utils/Hook.php';
@@ -953,13 +945,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->set( 'amount_level',  CRM_Utils_Array::value( 'amount_level', $params ) ); 
         }
 
-        if ( !empty( $params['priceSetId'] ) ) {
+        if ( $priceSetId = CRM_Utils_Array::value( 'priceSetId', $params ) ) {
             $lineItem = array( );
             require_once 'CRM/Price/BAO/Set.php';
-            CRM_Price_BAO_Set::processAmount( $this->_values['fee']['fields'], $params, $lineItem );
-            $priceSet   = array();
-            $priceSet[] = $lineItem;
-            $this->set( 'lineItem', $priceSet );
+            CRM_Price_BAO_Set::processAmount( $this->_values['fee']['fields'], $params, $lineItem[$priceSetId] );
+            $this->set( 'lineItem', $lineItem );
         }
         $this->set( 'amount', $params['amount'] ); 
         

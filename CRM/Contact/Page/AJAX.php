@@ -297,6 +297,7 @@ FROM civicrm_contact c, civicrm_relationship_type r
 WHERE c.sort_name LIKE '%$name'
 AND r.id = $relType
 AND ( c.contact_type = r.contact_type_{$rel} OR r.contact_type_{$rel} IS NULL )
+AND ( c.contact_sub_type = r.contact_sub_type_{$rel} OR r.contact_sub_type_{$rel} IS NULL )
     {$whereIdClause} 
 ORDER BY sort_name" ;
                 }
@@ -518,4 +519,28 @@ WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.is_deceased = 0 AND cc.do_not_
         exit();    
     } 
    
+    static function buildSubTypes( ) 
+    {
+       $parent = CRM_Utils_Array::value( 'parentId', $_POST );
+
+       switch ( $parent ) {
+       
+            case 1:
+                $contactType = 'Individual';
+                break;
+            case 2:
+                $contactType = 'Household';
+                break;
+            case 4:
+                $contactType = 'Organization';
+                break;
+       }
+ 
+       require_once 'CRM/Contact/BAO/ContactType.php';
+       $subTypes = CRM_Contact_BAO_ContactType::subTypes( $contactType );
+       sort($subTypes);
+       echo json_encode( $subTypes );
+       exit;
+    }
+
 }

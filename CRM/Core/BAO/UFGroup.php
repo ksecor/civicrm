@@ -144,7 +144,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         foreach ( $ufGroups as $id => $title ) {
             if ( $ctype ) {
                 $fieldType = CRM_Core_BAO_UFField::getProfileType( $id );
-                if ( ( $fieldType != 'Contact' ) && ( $fieldType != $ctype ) ) {
+                if ( ( $fieldType != 'Contact' ) && 
+                     ( $fieldType != $ctype ) &&
+                     ! CRM_Contact_BAO_ContactType::isExtendsContactType( $fieldType, $ctype ) ) {
                     continue;
                 }
             }
@@ -728,11 +730,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     if ( CRM_Core_Permission::access( 'Quest', false ) ) {
                         require_once 'CRM/Quest/BAO/Student.php';
                         $processed = CRM_Quest_BAO_Student::buildStudentForm( $this, $field );
-                    }
-                    if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
-                        require_once 'CRM/Kabissa/BAO/Kabissa.php';
-                        $processed = 
-                            CRM_Kabissa_BAO_Kabissa::buildProfileView( $values, $field['name'], $index, $details );
                     }
                     if ( ! $processed ) {
                         if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
@@ -1489,13 +1486,6 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                 require_once 'CRM/Quest/BAO/Student.php';
                 $processed = CRM_Quest_BAO_Student::buildStudentForm( $form, $fieldName, $title, $contactId );
             }
-            if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
-                require_once 'CRM/Kabissa/BAO/Kabissa.php';
-                $processed = CRM_Kabissa_BAO_Kabissa::buildProfileForm( $form, 
-                                                                        $fieldName, 
-                                                                        $title, 
-                                                                        $contactId );
-            }
             if ( ! $processed ) {
                 if ( substr($fieldName, 0, 3) === 'is_' or substr($fieldName, 0, 7) === 'do_not_' ) {
                     $form->add('checkbox', $name, $title, $attributes, $required );
@@ -1799,12 +1789,11 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
      */
     static function copy( $id ) 
     {
-        $fieldsToPrefix = array( 'title' => ts( 'Copy of' ) . ' ' );
-        
+        $fieldsFix = array ( 'prefix' => array( 'title' => ts( 'Copy of ' ) ) );
         $copy        =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFGroup', 
                                                    array( 'id' => $id ), 
                                                    null, 
-                                                   $fieldsToPrefix );
+                                                   $fieldsFix );
 
         $copyUFJoin  =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin', 
                                                    array( 'uf_group_id' => $id ), 

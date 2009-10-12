@@ -11,18 +11,21 @@
     {strip}
 	{* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
- 	<table class="selector">
-        <thead class="sticky">
-            <th>{ts}Membership{/ts}</th>
+    {include file="CRM/common/jsortable.tpl"}
+ 	<table id="options" class="display">
+        <thead>
+        <tr>
+            <th id="sortable">{ts}Membership{/ts}</th>
             <th>{ts}Period{/ts}</th>
             <th>{ts}Fixed Start{/ts}</th>
             <th>{ts}Minimum Fee{/ts}</th>
             <th>{ts}Duration{/ts}</th>
             <th>{ts}Relationship Type{/ts}</th>   
             <th>{ts}Visibility{/ts}</th>
-            <th>{ts}Order{/ts}</th>
+            <th id="nosort">{ts}Order{/ts}</th>
  	        <th>{ts}Enabled?{/ts}</th>
             <th></th>
+        </tr>
         </thead>
         {foreach from=$rows item=row}
            <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
@@ -30,7 +33,7 @@
 	        <td>{$row.period_type}</td>
 	        <td>{$row.fixed_period_start_day}</td>
 	        <td>{$row.minimum_fee}</td>
-		<td>{$row.duration_interval} {$row.duration_unit}</td>
+		    <td>{$row.duration_interval} {$row.duration_unit}</td>
                 <td>{$row.relationshipTypeName}</td> 
                 <td>{$row.visibility}</td>
                 <td class="nowrap">{$row.weight}</td>

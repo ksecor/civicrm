@@ -55,14 +55,21 @@ class CiviContributeProcessor {
                                      'countrycode'   => 'country',
                                      ),
               'transaction' => array(
-                                     'amt'           => 'total_amount',
-                                     'feeamt'        => 'fee_amount',
-                                     'transactionid' => 'trxn_id',
-                                     'currencycode'  => 'currencyID',
-                                     'l_name0'       => 'source',
-                                     'ordertime'     => 'receive_date',
-                                     'note'          => 'note',
-                                     'is_test'       => 'is_test',
+                                     'amt'              => 'total_amount',
+                                     'feeamt'           => 'fee_amount',
+                                     'transactionid'    => 'trxn_id',
+                                     'currencycode'     => 'currencyID',
+                                     'l_name0'          => 'source',
+                                     'ordertime'        => 'receive_date',
+                                     'note'             => 'note',
+                                     'is_test'          => 'is_test',
+                                     'transactiontype'  => 'trxn_type',
+                                     'recurrences'      => 'installments',
+                                     'l_amt2'           => 'amount',
+                                     'l_period2'        => 'lol',
+                                     'invnum'           => 'invoice_id',
+                                     'subscriptiondate' => 'start_date',
+                                     'timestamp'        => 'modified_date',
                                      ),
               );
 
@@ -142,6 +149,13 @@ class CiviContributeProcessor {
         $keyArgs['method'] = 'GetTransactionDetails';
         foreach ( $result as $name => $value ) {
             if ( substr( $name, 0, 15 ) == 'l_transactionid' ) {
+
+                // We don't/can't process subscription notifications, which appear
+                // to be identified by transaction ids beginning with S-
+                if ( substr( $value, 0, 2 ) == 'S-' )  {
+                    continue;
+                }
+            
                 $keyArgs['transactionid'] = $value;
                 $trxnDetails = CRM_Core_Payment_PayPalImpl::invokeAPI( $keyArgs, $url );
                 if ( is_a( $trxnDetails, 'CRM_Core_Error' ) ) {

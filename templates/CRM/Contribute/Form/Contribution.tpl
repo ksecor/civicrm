@@ -60,15 +60,27 @@
         {ts}(test){/ts}
         {/if} {help id="id-contribution_type"}
         </td></tr>
-        <tr id="totalAmount">
-            <td class="label">{$form.total_amount.label}</td><td{$valueStyle}>{$form.total_amount.html|crmMoney:$currency} 
-	    {if $hasPriceSets} {ts}OR{/ts} {$form.price_set_id.html}
+	
+	{if $action eq 2 and $line_items}
+	<tr>
+            <td class="label">{ts}Contribution Amount{/ts}</td>
+            <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+        </tr>
+	{else}
+        <tr>
+            <td class="label">{$form.total_amount.label}</td>
+	    <td {$valueStyle}>
+	    <span id='totalAmount'>{$form.total_amount.html|crmMoney:$currency}</span> 
+	    {if $hasPriceSets}
+	    <span id='totalAmountORPriceSet'> {ts}OR{/ts}</span>
+	    <span id='selectPriceSet'>{$form.price_set_id.html}</span>
 	    <fieldset id="PriceSetFields" style="display:none;"></fieldset>
 	    {/if}
 	    <span class="description">{ts}Actual amount given by contributor.{/ts}</span>
             </td>
         </tr>
-        
+        {/if}
+
         <tr><td class="label">{$form.source.label}</td><td{$valueStyle}>{$form.source.html} {help id="id-contrib_source"}</td></tr>
 
         {if $contributionMode}
@@ -308,7 +320,7 @@
 function buildAmount( priceSetId ) {
 
   if ( !priceSetId ) priceSetId = cj("#price_set_id").val( );
- 
+
   var fname = '#PriceSetFields';
   if ( !priceSetId ) {
       // hide price set fields.
@@ -317,6 +329,10 @@ function buildAmount( priceSetId ) {
       // unfreeze total amount text field.
       cj( "#total_amount").attr( "readonly", false );
     
+      // show/hide price set amount and total amount.
+      cj( "#totalAmountORPriceSet" ).show( );
+      cj( "#totalAmount").show( );
+
       return;
   }
 
@@ -331,6 +347,10 @@ function buildAmount( priceSetId ) {
   // freeze total amount text field.
   cj( "#total_amount").val( '' );
   cj( "#total_amount").attr( "readonly", true );
+
+  cj( "#totalAmountORPriceSet" ).hide( );
+  cj( "#totalAmount").hide( );
+  
 }
 </script>
 {/literal}

@@ -17,6 +17,7 @@
         {strip}
 	{* handle enable/disable actions*}
 	{include file="CRM/common/enableDisable.tpl"}
+    {include file="CRM/common/jsortable.tpl"}
         <table id="options" class="display">
         <thead>
         <tr>
@@ -31,8 +32,8 @@
         <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td> {$row.label_a_b} </td>	
             <td> {$row.label_b_a} </td>	
-            <td> {if $row.contact_type_a_display} {$row.contact_type_a_display} {else}  {ts}All Contacts{/ts} {/if} </td>	
-            <td> {if $row.contact_type_b_display} {$row.contact_type_b_display} {else}  {ts}All Contacts{/ts} {/if} </td>	
+            <td> {if $row.contact_type_a_display} {$row.contact_type_a_display}{if $row.contact_sub_type_a} - {$row.contact_sub_type_a}{/if}{else}  {ts}All Contacts{/ts} {/if} </td>	
+            <td> {if $row.contact_type_b_display} {$row.contact_type_b_display}{if $row.contact_sub_type_b} - {$row.contact_sub_type_b}{/if} {else}  {ts}All Contacts{/ts} {/if} </td>	
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
@@ -55,28 +56,3 @@
     </dl>
     </div>    
 {/if}
-
-
-{literal}
-<script type="text/javascript">
-    cj( function( ) {
-        var id = count = 0;
-        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
-        cj('#options').dataTable( {
-            "aaSorting": [[ id, "asc" ]],
-            "bPaginate": false,
-    		"bLengthChange": false,
-    		"bFilter": false,
-    		"bInfo": false,
-    		"bAutoWidth": false,
-    		"aoColumns": [
-    		            null,
-    		            null,
-    		            null,
-                        null,
-            			{ "bSortable": false }
-            		]
-        } );        
-    });
-</script>
-{/literal}

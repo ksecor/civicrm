@@ -144,9 +144,12 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
                
         if( !empty( $softCreditList ) ) {
             $softCreditTotals = array();
+            
             list( $softCreditTotals['amount'],
-                  $softCreditTotals['avg'] ) =
-                CRM_Contribute_BAO_Contribution::getSoftContributionTotals( $this->_contactId, $isTest );        
+                  $softCreditTotals['avg'],
+                  $softCreditTotals['currency'] ) =
+                  CRM_Contribute_BAO_Contribution::getSoftContributionTotals( $this->_contactId, $isTest );        
+                
             $this->assign('softCredit', true);
             $this->assign('softCreditRows', $softCreditList );
             $this->assign('softCreditTotals', $softCreditTotals );
