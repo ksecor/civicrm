@@ -368,7 +368,11 @@ SELECT label, value
                                                 $grouping );
                         } else {
                             if ( $field['html_type'] == 'Autocomplete-Select' ) {
+                                $wildcard = false;
                                 $val = array_search( $value, $this->_options[$field['id']] );
+                            } else if ( in_array( $field['html_type'],  array( 'Select', 'Radio' ) ) ) {
+                                $wildcard = false; 
+                                $val = CRM_Utils_Type::escape( $value, 'String' );
                             } else {
                                 $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
                             }

@@ -21,27 +21,34 @@ class CRM_Core_BAO_CustomValueTableSetGetTest extends CiviUnitTestCase
     }
 
     /*
-     * Test setValues() method with custom Date field
-     * Using sample custom field 'Marriage Date'
+     * Test setValues() and GetValues() methods with custom Date field
      *
      */
-    function testSetValuesDate()
+    function testSetGetValuesDate()
     {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
-
         $params      = array();
         $contactID   = Contact::createIndividual();
 
-        // Retrieve the field ID for sample custom field 'Marriage Date'
-        $params = array( );
-        $params = array( 'label'   => 'Marriage Date');
+	//create Custom Group
+	$customGroup = Custom::createGroup( $params ,'Individual', true );
+      
+	//create Custom Field of data type Date
+	$fields      = array (
+			      'groupId'  => $customGroup->id,
+			      'dataType' => 'Date',
+			      'htmlType' => 'Select Date'
+			      );
+	$customField = Custom::createField( $params, $fields );
+
+        // Retrieve the field ID for sample custom field 'test_Date'
+        $params = array( 'label'   => 'test_Date');
         $field  = array( );
         
         require_once 'CRM/Core/BAO/CustomField.php';
         CRM_Core_BAO_CustomField::retrieve( $params, $field );
         $fieldID = $field['id'];
 
-        // Set Marriage Date to a valid date value
+        // Set test_Date to a valid date value
         $date = '20080608000000';
         $params = array( 'entityID'           => $contactID,
                          'custom_' . $fieldID => $date );
@@ -49,21 +56,17 @@ class CRM_Core_BAO_CustomValueTableSetGetTest extends CiviUnitTestCase
         $result = CRM_Core_BAO_CustomValueTable::setValues( $params );
         $this->assertEquals( $result['is_error'], 0, 'Verify that is_error = 0 (success).');
 
-        // CRM_Core_Error::debug('r1',$result);
-
-        // Check that the date value is stored
+	// Check that the date value is stored
         $values = array( );
         $params = array( 'entityID'           => $contactID,
                          'custom_' . $fieldID => 1);
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
 
-        // CRM_Core_Error::debug('v1',$values);
-
-        $this->assertEquals( $values['is_error'], 0, 'Verify that is_error = 0 (success).');
+	$this->assertEquals( $values['is_error'], 0, 'Verify that is_error = 0 (success).');
         require_once 'CRM/Utils/Date.php';
-        $this->assertEquals( $values['custom_' . $fieldID], CRM_Utils_Date::mysqlToIso($date), 'Verify that the date value is stored for contact ' . $contactID);
+        $this->assertEquals( $values['custom_' . $fieldID . '_1'], CRM_Utils_Date::mysqlToIso($date), 'Verify that the date value is stored for contact ' . $contactID);
 
-        // Now set Marriage Date to an invalid date value and try to reset
+        // Now set test_Date to an invalid date value and try to reset
         $badDate = '20080631000000';
         $params   = array( 'entityID'           => $contactID,
                            'custom_' . $fieldID => $badDate );
@@ -72,34 +75,100 @@ class CRM_Core_BAO_CustomValueTableSetGetTest extends CiviUnitTestCase
         
         // Check that the error flag is set AND that custom date value has not been modified
         $this->assertEquals( $result['is_error'], 1, 'Verify that is_error = 1 when bad date is passed.');
-        
-        // CRM_Core_Error::debug('r2-bad date',$result);
-                
+                      
         $params = array( 'entityID'               => $contactID,
                          'custom_' . $fieldID => 1);
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
-        $this->assertEquals( $values['custom_' . $fieldID], CRM_Utils_Date::mysqlToIso($date), 'Verify that the date value has NOT been updated for contact ' . $contactID);
+        $this->assertEquals( $values['custom_' . $fieldID .'_1'], CRM_Utils_Date::mysqlToIso($date), 'Verify that the date value has NOT been updated for contact ' . $contactID);
         
-        // CRM_Core_Error::debug('v2',$values);
-
-        // Test setting Marriage Date to null
+	// Test setting test_Date to null
         $params = array( 'entityID'           => $contactID,
                          'custom_' . $fieldID => null );
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         $result = CRM_Core_BAO_CustomValueTable::setValues( $params );
 
-        // CRM_Core_Error::debug('r3',$result);
-
         // Check that the date value is empty
         $params = array( 'entityID'           => $contactID,
                          'custom_' . $fieldID => 1);
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
-        $this->assertEquals( $values['custom_' . $fieldID], '', 'Verify that the date value is empty for contact ' . $contactID);
-        $this->assertEquals( $values['is_error'], 0, 'Verify that is_error = 0 (success).');
+	$this->assertEquals( $values['is_error'], 0, 'Verify that is_error = 0 (success).');
 
-        // CRM_Core_Error::debug('v3-empty date',$values);
-
-        // Cleanup our contact
+        
+        // Cleanup 
+	Custom::deleteField( $customField );        
+	Custom::deleteGroup( $customGroup );
         Contact::delete( $contactID );
     }
+
+     /*
+     * Test setValues() and getValues() methods with custom field YesNo(Boolean) Radio
+     *
+     */
+    function testSetGetValuesYesNoRadio()
+    {
+      $params      = array();
+      $contactID   = Contact::createIndividual();
+      
+      //create Custom Group
+      $customGroup = Custom::createGroup( $params ,'Individual', true );
+      
+      //create Custom Field of type YesNo(Boolean) Radio
+      $fields      = array (
+			    'groupId'  => $customGroup->id,
+			    'dataType' => 'Boolean',
+			    'htmlType' => 'Radio'
+			    );
+      $customField = Custom::createField( $params, $fields );
+
+      // Retrieve the field ID for sample custom field 'test_Boolean'
+      $params = array( 'label'   => 'test_Boolean');
+      $field  = array( );
+      
+      //get field Id
+      require_once 'CRM/Core/BAO/CustomField.php';
+      CRM_Core_BAO_CustomField::retrieve( $params, $field );
+      
+      $fieldID = $field['id'];
+      
+      // valid boolean value '1' for Boolean Radio
+      $yesNo = '1';
+      $params = array( 'entityID'           => $contactID,
+		       'custom_' . $fieldID => $yesNo );
+      require_once 'CRM/Core/BAO/CustomValueTable.php';
+      $result = CRM_Core_BAO_CustomValueTable::setValues( $params );
+	
+      $this->assertEquals( $result['is_error'], 0, 'Verify that is_error = 0 (success).');
+      
+      // Check that the YesNo radio value is stored
+      $values = array( );
+      $params = array( 'entityID'           => $contactID,
+		       'custom_' . $fieldID => 1);
+      $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
+      
+      $this->assertEquals( $values['is_error'], 0, 'Verify that is_error = 0 (success).');      
+      $this->assertEquals( $values['custom_1_1'], $yesNo, 'Verify that the date value is stored for contact ' . $contactID);
+      
+      
+      // Now set YesNo radio to an invalid boolean value and try to reset
+      $badYesNo = '20';
+      $params   = array( 'entityID'           => $contactID,
+			 'custom_' . $fieldID => $badYesNo );
+      require_once 'CRM/Core/BAO/CustomValueTable.php';
+      $result = CRM_Core_BAO_CustomValueTable::setValues( $params );
+      
+      // Check that the error flag is set AND that custom date value has not been modified
+      $this->assertEquals( $result['is_error'], $yesNo, 'Verify that is_error = 1 when bad boolen value is passed.');
+      
+      $params = array( 'entityID'               => $contactID,
+		       'custom_' . $fieldID     => 1);
+      $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
+      
+      $this->assertEquals( $values['custom_1_1'], $yesNo, 'Verify that the date value has NOT been updated for contact ' . $contactID);
+      
+	
+      // Cleanup 
+      Custom::deleteField( $customField );        
+      Custom::deleteGroup( $customGroup );
+      Contact::delete( $contactID );
+    }    
 }

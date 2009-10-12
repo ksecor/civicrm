@@ -165,8 +165,8 @@ class CRM_Core_BAO_CustomValueTest extends CiviUnitTestCase
     {
         $params = array ( );
         require_once 'CRM/Core/BAO/CustomValue.php';
-        CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $params );
-        $this->assertEquals( $params, null, 'Checking the returned value of type Memo.');  
+        $result = CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $params );
+        $this->assertEquals( $result, null, 'Checking the returned value of type Memo.');  
     }
 
 }

@@ -552,7 +552,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                     $admin = false, $caseId = null, $context = null ) 
     {
         //step 1: Get the basic activity data
-        
+        require_once 'CRM/Core/OptionGroup.php';
         $bulkActivityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                               'Bulk Email',
                                                               'name' );
@@ -746,7 +746,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $queryString = 
             "SELECT COUNT(DISTINCT(civicrm_activity.id)) as count" .
             $sqlClause;
-            
         return CRM_Core_DAO::singleValueQuery( $queryString, $params );
     }
 
