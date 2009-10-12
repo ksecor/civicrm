@@ -930,8 +930,8 @@ INSERT INTO civicrm_option_value
   (option_group_id, name,            label) VALUES
   (@tpl_ogid,       'event_receipt', '{ts escape="sql"}Event Receipt{/ts}');
 
-SELECT @tpl_ovid := MAX(id) FROM civicrm_option_value WHERE id = @tpl_ogid AND name = 'event_receipt';
+SELECT @tpl_ovid := MAX(id) FROM civicrm_option_value WHERE option_group_id = @tpl_ogid AND name = 'event_receipt';
 
 INSERT INTO civicrm_msg_template
   (msg_title,                             msg_subject,                             msg_text,                                msg_html,                                workflow_id) VALUES
-  ('{ts escape="sql"}Event Receipt{/ts}', '{$event_receipt_subj|escape:"quotes"}', '{$event_receipt_text|escape:"quotes"}', '{$event_receipt_html|escape:"quotes"}', @tpl_ovid_pcm);
+  ('{ts escape="sql"}Event Receipt{/ts}', '{$event_receipt_subj|escape:"quotes"}', '{$event_receipt_text|escape:"quotes"}', '{$event_receipt_html|escape:"quotes"}', @tpl_ovid);
