@@ -268,5 +268,29 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         
         return $result;
     }
-}
 
+    /**
+     * Fetch subject, text and HTML templates based on option
+     * group, option value and an array of template parameters
+     *
+     * @param string $group      option group name
+     * @param string $value      option value name
+     * @param array  $tplParams  template variables
+     *
+     * @return array  a subject-, text- and html-keyed array with the templates (evaluated)
+     */
+    static function getSubjectTextHTML($group, $value, $tplParams)
+    {
+        $query = 'SELECT msg_subject subject, msg_text text, msg_html html
+                  FROM civicrm_msg_template mt
+                  JOIN civicrm_option_value ov ON workflow_id = ov.id
+                  JOIN civicrm_option_group og ON ov.option_group_id = og.id
+                  WHERE og.name = %1 AND ov.name = %2 AND mt.is_default = 1';
+        $params = array(1 => array($group, 'String'), 2 => array($value, 'String'));
+
+        $dao = CRM_Core_DAO::executeQuery($query, $params);
+        $dao->fetch();
+
+        return array('subject' => $dao->subject, 'text' => $dao->text, 'html' => $dao->html);
+    }
+}
