@@ -5,7 +5,6 @@ ALTER TABLE civicrm_participant MODIFY column fee_level text collate utf8_unicod
 
 ALTER TABLE civicrm_contribution MODIFY column amount_level text collate utf8_unicode_ci default NULL;
 
-
 -- subtype upgrade TODOs: 
 
 -- make changes for CRM-4970
@@ -20,3 +19,9 @@ ALTER TABLE civicrm_contribution MODIFY column amount_level text collate utf8_un
 
 ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_a` varchar(64) collate utf8_unicode_ci DEFAULT NULL AFTER `contact_type_b`;
 ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_b` varchar(64) collate utf8_unicode_ci DEFAULT NULL AFTER `contact_sub_type_a`;
+
+
+
+-- CRM-3507
+ALTER TABLE civicrm_msg_template ADD workflow_id INT UNSIGNED COMMENT 'a pseudo-FK to civicrm_option_value';
+ALTER TABLE civicrm_msg_template ADD is_default  TINYINT      COMMENT 'is this the default message template for the workflow referenced by workflow_id?';
