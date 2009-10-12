@@ -126,13 +126,13 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__) . '/truncate.xml') );
 
-        $query1 = "USE civicrm_tests_dev; SET foreign_key_checks = 0;";
+//        $query1 = "USE civicrm_tests_dev; SET foreign_key_checks = 0;";
         
-        if ( AllTests::$utils->do_query($query1) === false ) {
-            //  failed to initialze test database
-            echo "Cannot set FK";
-            exit;
-        }        
+//        if ( AllTests::$utils->do_query($query1) === false ) {
+//            //  failed to initialze test database
+//            echo "Cannot set FK";
+//            exit;
+//        }        
 
 
         // Load clean db state
@@ -165,7 +165,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
                                   $GLOBALS['mysql_pass'] );        
     
         $query = "USE civicrm_tests_dev;"
-               . "SET foreign_key_checks = 0";
+               . "SET foreign_key_checks = 1";
         if ( self::$utils->do_query($query) === false ) {
             // fail happens
             echo 'Cannot set foreign_key_checks = 0';

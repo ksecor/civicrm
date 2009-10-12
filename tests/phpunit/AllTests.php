@@ -92,7 +92,7 @@ class AllTests
                    . "CREATE DATABASE civicrm_tests_dev DEFAULT"
                    . " CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
                    . "USE civicrm_tests_dev;"
-                   . "SET foreign_key_checks = 0";
+                   . "SET foreign_key_checks = 1";
             if ( self::$utils->do_query($query) === false ) {
 
                 //  failed to create test database
