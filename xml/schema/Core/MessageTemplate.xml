@@ -25,14 +25,14 @@
       <add>1.6</add>
   </field>
   <field>
-      <name>msg_subject </name>
+      <name>msg_subject</name>
       <type>varchar</type>
       <length>255</length>
       <comment>Subject for email message.</comment>
       <add>1.6</add>
   </field>
   <field>
-      <name>msg_text </name>
+      <name>msg_text</name>
       <type>text</type>
       <rows>10</rows>
       <cols>75</cols>
