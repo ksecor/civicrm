@@ -400,7 +400,7 @@ class api_v2_ContactTest extends CiviUnitTestCase
                          'last_name'  => 'Contact',
                          'email'      => 'TestContact@example.com',
                          'contact_type' => 'Individual' );
-        $contact =& civicrm_contact_check_params($params, true, true );        
+        $contact =& civicrm_contact_check_params($params, true, true );
         $this->assertEquals( 1, $contact['is_error'] );
         $this->assertRegexp( "/matching contacts.*17/s",
                              $contact['error_message']['message'] );
