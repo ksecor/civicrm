@@ -768,6 +768,34 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                     ts( 'Cannot add or update profile field type Membership with combination of Participant or Contribution or Household or Organization'); 
             }  
             break;
+        default:
+            $cType  = CRM_Contact_BAO_ContactType::getBasicType( $fieldType );
+            if($cType) {
+                $csType = CRM_Contact_BAO_ContactType::subTypes( );
+                if( !in_array ( $fieldType, $groupType ) ) {
+                    foreach( $groupType as $value ) {
+                        if( in_array( $value ,$csType ) ) {
+                            //make sure that new subtype extends the same basictype which
+                            //profile already extends. 
+                            $vType = CRM_Contact_BAO_ContactType::getBasicType( $value );
+                            if( $vType != $cType ) {
+                                $errors['field_name'] = 
+                                    ts( 'Cannot add or update profile field type "%1".'
+                                        ,array( 1=>$fieldType ) );
+                                break;
+                            }
+                        } else if ( $cType != $value ) {
+                            //make sure that basictype which profile already
+                            //extends is same as new basictype. 
+                            $errors['field_name'] = 
+                                ts( 'Cannot add or update profile field type "%1".'
+                                    ,array( 1=>$fieldType ) ); 
+                            break;
+                        }
+                        
+                    }  
+                }
+            }  
         }
         
         return empty($errors) ? true : $errors;
