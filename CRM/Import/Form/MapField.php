@@ -341,7 +341,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             //build array for IM service provider type for contact
             $sel3['im'][$key]    =& $imProviders;
         }
-
+        
         $sel4 = null;
 
         // store and cache all relationship types
@@ -349,10 +349,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $contactRelation->find( );
         while ( $contactRelation->fetch( ) ) {
             $contactRelationCache[$contactRelation->id] = array( );
-            $contactRelationCache[$contactRelation->id]['contact_type_a'] = $contactRelation->contact_type_a;
-            $contactRelationCache[$contactRelation->id]['contact_type_b'] = $contactRelation->contact_type_b;
+            $contactRelationCache[$contactRelation->id]['contact_type_a']     = $contactRelation->contact_type_a;
+            $contactRelationCache[$contactRelation->id]['contact_sub_type_a'] = $contactRelation->contact_sub_type_a;
+            $contactRelationCache[$contactRelation->id]['contact_type_b']     = $contactRelation->contact_type_b;
+            $contactRelationCache[$contactRelation->id]['contact_sub_type_b'] = $contactRelation->contact_sub_type_b;
         }
-
+        
         foreach ($mapperKeys as $key) {
             // check if there is a _a_b or _b_a in the key
             if ( strpos( $key, '_a_b' ) || strpos( $key, '_b_a' ) ) {
@@ -362,6 +364,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             }
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                 $cType = $contactRelationCache[$id]["contact_type_{$second}"];
+                
+                //CRM-5125 for contact subtype specific relationshiptypes
+                $cSubType = null;
+                if ( CRM_Utils_Array::value("contact_sub_type_{$second}", $contactRelationCache[$id]) ) {
+                    $cSubType =  $contactRelationCache[$id]["contact_sub_type_{$second}"];   
+                }
 
                 if ( ! $cType ) {
                     $cType = 'All';
@@ -386,6 +394,19 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                     $this->_formattedFieldNames[$cType] = $this->formatCustomFieldName( $values );
                 }
                 $sel2[$key] = $this->_formattedFieldNames[$cType] = array_merge( $values, $this->_formattedFieldNames[$cType] );
+
+                if ( !empty($cSubType) ) { 
+                    //custom fields for sub type
+                    $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $cSubType );
+                                        
+                    if ( !empty($subTypeFields) ) {
+                       
+                        foreach($subTypeFields as $customSubTypeField => $details ) {
+                            $subType[$customSubTypeField] = $details['title'];
+                            $sel2[$key] =  $this->_formattedFieldNames[$cType] = array_merge( $sel2[$key], $this->formatCustomFieldName($subType) );
+                        }  
+                    }
+                }
                 
                 foreach ($this->_location_types as $k => $value) {
                     $sel4[$key]['phone'][$k] =& $phoneTypes;

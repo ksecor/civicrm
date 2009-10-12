@@ -150,7 +150,7 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
 
         $this->setDefaults(array('onDuplicate' =>
                                     CRM_Import_Parser::DUPLICATE_SKIP));
-        $js = array('onClick' => "buildSubTypes(this.value);");    
+        $js = array('onClick' => "buildSubTypes();");    
         // contact types option
         $contactOptions = array();        
         $contactOptions[] = HTML_QuickForm::createElement('radio',

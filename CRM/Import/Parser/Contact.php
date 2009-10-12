@@ -50,6 +50,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     protected $_mapperRelatedContactType;
     protected $_mapperRelatedContactDetails;
     protected $_mapperRelatedContactEmailType;
+    protected $_relationships;
 
     protected $_emailIndex;
     protected $_firstNameIndex;
@@ -137,7 +138,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
        
         //Relationship importables
-        $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $this->_contactType );
+        $this->_relationships = $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $this->_contactType, 
+                                                                                                       false, 'label', true, $this->_contactSubType );
         asort($relations);
 
         foreach ($relations as $key => $var) {
@@ -914,6 +916,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $csType[] =  $this->_contactSubType;
         }
         
+        if ( CRM_Utils_Array::value('contact_sub_type', $params) ) {
+            $csType[] = CRM_Utils_Array::value('contact_sub_type', $params);
+        }
+        
         $customFields = CRM_Core_BAO_CustomField::getFields( $csType );
         
         foreach ($params as $key => $value) {
@@ -1030,7 +1036,28 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                 }
             } else if ( is_array($params[$key]) &&
-                        isset( $params[$key]["contact_type"] ) ) {
+                        isset( $params[$key]["contact_type"] ) ) { 
+                //CRM-5125
+                //supporting custom data of related contact subtypes
+                if ( array_key_exists($key, $this->_relationships) ) {
+                    $relation = $key;
+                }else if ( CRM_Utils_Array::key($key, $this->_relationships) ) {
+                    $relation = CRM_Utils_Array::key($key, $this->_relationships);
+                }  
+                if ( !empty($relation) ) {
+                    list($id, $first, $second) = CRM_Utils_System::explode('_', $relation, 3);
+                    $direction = "contact_sub_type_$second";
+                    require_once 'CRM/Contact/BAO/RelationshipType.php';
+                    $relationshipType =& new CRM_Contact_BAO_RelationshipType( ); 
+                    $relationshipType->id = $id;
+                    if ( $relationshipType->find( true ) ) {
+                        if ( $relationshipType->$direction ) {
+                         $params[$key]['contact_sub_type'] = $relationshipType->$direction;
+                        } 
+                    }
+                    $relationshipType->free( );  
+                }
+                
                 self::isErrorInCustomData( $params[$key] ,$errorMessage );
             }
         }
