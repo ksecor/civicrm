@@ -64,7 +64,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         require_once 'CRM/Utils/Money.php';
 
         // do u want to allow a free form text field for amount 
-        $this->addElement('checkbox', 'is_allow_other_amount', ts('Allow other amounts' ), null, array( 'onclick' => "minMax(this);activateAmountBlock( this );" ) );  
+        $this->addElement('checkbox', 'is_allow_other_amount', ts('Allow other amounts' ), null, array( 'onclick' => "minMax(this);showHideAmountBlock( this, 'is_allow_other_amount' );" ) );  
         $this->add('text', 'min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $this->addRule('min_amount', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('9.99', ' '))), 'money');
 
@@ -86,8 +86,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         $this->addGroup( $default, 'default' );
         
-        $this->assign( 'hasAmountBlock', empty( $this->_amountBlock ) ? false : true );
-        $this->addElement('checkbox', 'amount_block_is_active', ts('Contribution Amounts section enabled'), null, array( 'onclick' => "amountBlock(this);" ) );
+        
+        $this->addElement('checkbox', 'amount_block_is_active', ts('Contribution Amounts section enabled'), null, array( 'onclick' => "showHideAmountBlock( this, 'amount_block_is_active' );" ) );
 
         $this->addElement('checkbox', 'is_monetary', ts('Execute real-time monetary transactions') );
         
@@ -126,9 +126,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         require_once 'CRM/Price/BAO/Set.php';
         $this->add('select', 'price_set_id', ts( 'Price Set' ),
                    array( '' => ts( '- none -' )) + CRM_Price_BAO_Set::getAssoc( false, 'Contribution'),
-                   null, array('onchange' => "return showHideByValue('price_set_id', '', 'amountFields', 'block', 'select', false);")
+                   null, array('onchange' => "showHideAmountBlock( this.value, 'price_set_id' );")
                    );
-        $this->assign( 'priceSetID', $this->_priceSetID );
         
         //CiviPledge fields.
         $config =& CRM_Core_Config::singleton( );
@@ -136,7 +135,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             $this->assign('civiPledge', true );
             require_once 'CRM/Core/OptionGroup.php';
             $this->addElement( 'checkbox', 'is_pledge_active', ts('Pledges') , 
-                               null, array('onclick' => "activateAmountBlock(this); return showHideByValue('is_pledge_active',true,'pledgeFields','table-row','radio',false);") );
+                               null, array('onclick' => "showHideAmountBlock( this, 'is_pledge_active' ); return showHideByValue('is_pledge_active',true,'pledgeFields','table-row','radio',false);") );
             $this->addCheckBox( 'pledge_frequency_unit', ts( 'Supported pledge frequencies' ), 
                                 CRM_Core_OptionGroup::values( "recur_frequency_units", false, false, false, null, 'name' ),
                                 null, null, null, null,
@@ -170,12 +169,18 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             $defaults['pay_later_text'] = ts( 'I will send payment by check' );
         }
         
+        $this->assign( 'priceSetID', $this->_priceSetID );
         if ( $this->_priceSetID ) return $defaults;
         
         if ( CRM_Utils_Array::value( 'amount_block_is_active', $defaults ) ) {
             require_once 'CRM/Core/OptionGroup.php'; 
             CRM_Core_OptionGroup::getAssoc( "civicrm_contribution_page.amount.{$this->_id}", $this->_amountBlock );
-            if ( !empty( $this->_amountBlock ) ) $defaults = array_merge( $defaults, $this->_amountBlock ); 
+            $hasAmountBlock = false;
+            if ( !empty( $this->_amountBlock ) ) {
+                $hasAmountBlock = true;
+                $defaults = array_merge( $defaults, $this->_amountBlock );
+            }
+            $this->assign( 'hasAmountBlock', $hasAmountBlock );
             
             if ( CRM_Utils_Array::value( 'value', $defaults ) && is_array( $defaults['value'] ) ) { 
                 if ( CRM_Utils_Array::value( 'default_amount_id', $defaults ) && 
