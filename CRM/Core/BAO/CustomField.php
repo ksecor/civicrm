@@ -1643,7 +1643,8 @@ ORDER BY html_type";
                $field['html_type'] == 'Radio'    ||
                $field['html_type'] == 'Select'   ||
                $field['html_type'] == 'AdvMulti-Select'   ||
-               $field['html_type'] == 'Multi-Select' ) ) {
+               $field['html_type'] == 'Multi-Select' ||
+               ( $field['html_type'] == 'Autocomplete-Select' && $field['data_type'] != 'ContactReference' ) ) ) {
             if ( $field['option_group_id'] ) {
                 $optionGroupID = $field['option_group_id'];
             } else if ( $field['data_type'] != 'Boolean' ) {
