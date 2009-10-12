@@ -922,12 +922,16 @@ INSERT INTO civicrm_option_group
 
 SELECT @tpl_ogid := MAX(id) FROM civicrm_option_group WHERE name = 'msg_tpl_workflow_event';
 
+{capture assign=event_receipt_subj}{fetch file="../xml/templates/message_templates/event_receipt_subj.tpl"}{/capture}
+{capture assign=event_receipt_text}{fetch file="../xml/templates/message_templates/event_receipt_text.tpl"}{/capture}
+{capture assign=event_receipt_html}{fetch file="../xml/templates/message_templates/event_receipt_html.tpl"}{/capture} {* FIXME: make it an actual HTML template *}
+
 INSERT INTO civicrm_option_value
   (option_group_id, name,            label) VALUES
   (@tpl_ogid,       'event_receipt', '{ts escape="sql"}Event Receipt{/ts}');
 
-SELECT @tpl_ovid := MAX(id) FROM civicrm_option_value WHERE id = @tpl_ogid AND name = 'event-receipt';
+SELECT @tpl_ovid := MAX(id) FROM civicrm_option_value WHERE id = @tpl_ogid AND name = 'event_receipt';
 
 INSERT INTO civicrm_msg_template
-  (msg_title,                             msg_subject,                    msg_text,                    msg_html,                    workflow_id) VALUES
-  ('{ts escape="sql"}Event Receipt{/ts}', 'FIXME: Event Receipt Subject', 'FIXME: Event Receipt Text', 'FIXME: Event Receipt HTML', @tpl_ovid_pcm);
+  (msg_title,                             msg_subject,                             msg_text,                                msg_html,                                workflow_id) VALUES
+  ('{ts escape="sql"}Event Receipt{/ts}', '{$event_receipt_subj|escape:"quotes"}', '{$event_receipt_text|escape:"quotes"}', '{$event_receipt_html|escape:"quotes"}', @tpl_ovid_pcm);
