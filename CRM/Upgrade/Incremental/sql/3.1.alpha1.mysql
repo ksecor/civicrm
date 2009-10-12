@@ -25,3 +25,6 @@ ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_b` varchar(64) col
 -- CRM-3507
 ALTER TABLE civicrm_msg_template ADD workflow_id INT UNSIGNED COMMENT 'a pseudo-FK to civicrm_option_value';
 ALTER TABLE civicrm_msg_template ADD is_default  TINYINT      COMMENT 'is this the default message template for the workflow referenced by workflow_id?';
+
+INSERT INTO civicrm_option_group (name,                        {localize field='label'}label{/localize},         is_reserved, is_active) VALUES 
+                                 ('message_template_workflow', {localize}'Message Template Workflow'{/localize}, 0,           1);

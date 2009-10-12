@@ -150,7 +150,8 @@ VALUES
    ('report_template'               , '{ts escape="sql"}Report Template{/ts}'                    , 0, 1),
    ('email_greeting'                , '{ts escape="sql"}Email Greeting Type{/ts}'                , 0, 1),
    ('postal_greeting'               , '{ts escape="sql"}Postal Greeting Type{/ts}'               , 0, 1),
-   ('addressee'                     , '{ts escape="sql"}Addressee Type{/ts}'                     , 0, 1);
+   ('addressee'                     , '{ts escape="sql"}Addressee Type{/ts}'                     , 0, 1),
+   ('message_template_workflow'     , '{ts escape="sql"}Message Template Workflow{/ts}'          , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
