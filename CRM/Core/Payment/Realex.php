@@ -406,11 +406,11 @@ class CRM_Core_Payment_Realex extends CRM_Core_Payment {
             } elseif ( $errorCode == '509') {
                 $display_error = $errorMessage;
             } else {
-                $display_error = 'We were unable to process your payment at theis time. Please try again later.';
+                $display_error = 'We were unable to process your payment at this time. Please try again later.';
             }
             $e->push( $errorCode, 0, null, $display_error );
         } else {
-            $e->push( 9001, 0, null, 'We were unable to process your payment at theis time. Please try again later.' );
+            $e->push( 9001, 0, null, 'We were unable to process your payment at this time. Please try again later.' );
         }
         return $e;
     }
