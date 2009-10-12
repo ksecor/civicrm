@@ -39,21 +39,6 @@ require_once 'CRM/Core/DAO/MessageTemplates.php';
 
 class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates 
 {
-
-    /**
-     * static holder for the default LT
-     */
-    static $_defaultMessageTemplates = null;
-    
-
-    /**
-     * class constructor
-     */
-    function __construct( ) 
-    {
-        parent::__construct( );
-    }
-    
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
@@ -146,7 +131,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
     }
     
     /**
-     * function to delete the Message Templates
+     * function to get the Message Templates
      *
      * @access public
      * @static 
