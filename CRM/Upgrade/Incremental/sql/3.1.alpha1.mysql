@@ -26,5 +26,17 @@ ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_b` varchar(64) col
 ALTER TABLE civicrm_msg_template ADD workflow_id INT UNSIGNED           COMMENT 'a pseudo-FK to civicrm_option_value';
 ALTER TABLE civicrm_msg_template ADD is_default  TINYINT      DEFAULT 1 COMMENT 'is this the default message template for the workflow referenced by workflow_id?';
 
-INSERT INTO civicrm_option_group (name,                        {localize field='label'}label{/localize},         is_reserved, is_active) VALUES 
-                                 ('message_template_workflow', {localize}'Message Template Workflow'{/localize}, 0,           1);
+INSERT INTO civicrm_option_group (name,                     {localize field='label'}label{/localize},                    is_reserved, is_active) VALUES 
+                                 ('msg_tpl_workflow_event', {localize}'Message Template Workflow for Events'{/localize}, 0,           1);
+
+SELECT @tpl_ogid := MAX(id) FROM civicrm_option_group WHERE name = 'msg_tpl_workflow_event';
+
+INSERT INTO civicrm_option_value
+  (option_group_id, name,            {localize field='label'}label{/localize}) VALUES
+  (@tpl_ogid,       'event_receipt', {localize}'Event Receipt'{/localize});
+
+SELECT @tpl_ovid := MAX(id) FROM civicrm_option_value WHERE id = @tpl_ogid AND name = 'event-receipt';
+
+INSERT INTO civicrm_msg_template
+  (msg_title,       msg_subject,                    msg_text,                    msg_html,                    workflow_id) VALUES
+  ('Event Receipt', 'FIXME: Event Receipt Subject', 'FIXME: Event Receipt Text', 'FIXME: Event Receipt HTML', @tpl_ovid_pcm);

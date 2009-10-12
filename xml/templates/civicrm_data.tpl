@@ -150,8 +150,7 @@ VALUES
    ('report_template'               , '{ts escape="sql"}Report Template{/ts}'                    , 0, 1),
    ('email_greeting'                , '{ts escape="sql"}Email Greeting Type{/ts}'                , 0, 1),
    ('postal_greeting'               , '{ts escape="sql"}Postal Greeting Type{/ts}'               , 0, 1),
-   ('addressee'                     , '{ts escape="sql"}Addressee Type{/ts}'                     , 0, 1),
-   ('message_template_workflow'     , '{ts escape="sql"}Message Template Workflow{/ts}'          , 0, 1);
+   ('addressee'                     , '{ts escape="sql"}Addressee Type{/ts}'                     , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -911,3 +910,24 @@ INSERT INTO `civicrm_contact_type`
   ( 9, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , NULL, NULL,    1, 1),
   (10, 'Team'        , '{ts escape="sql"}Team{/ts}'        , NULL, NULL,    3, 1),
   (11, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , NULL, NULL,    3, 1);
+
+
+-- message templates, CRM-3507
+
+INSERT INTO civicrm_option_group
+  (name,                     description,                                                  is_reserved, is_active) VALUES
+  ('msg_tpl_workflow_event', '{ts escape="sql"}Message Template Workflow for Events{/ts}', 0,           1);
+
+-- event templates
+
+SELECT @tpl_ogid := MAX(id) FROM civicrm_option_group WHERE name = 'msg_tpl_workflow_event';
+
+INSERT INTO civicrm_option_value
+  (option_group_id, name,            label) VALUES
+  (@tpl_ogid,       'event_receipt', '{ts escape="sql"}Event Receipt{/ts}');
+
+SELECT @tpl_ovid := MAX(id) FROM civicrm_option_value WHERE id = @tpl_ogid AND name = 'event-receipt';
+
+INSERT INTO civicrm_msg_template
+  (msg_title,                             msg_subject,                    msg_text,                    msg_html,                    workflow_id) VALUES
+  ('{ts escape="sql"}Event Receipt{/ts}', 'FIXME: Event Receipt Subject', 'FIXME: Event Receipt Text', 'FIXME: Event Receipt HTML', @tpl_ovid_pcm);
