@@ -935,6 +935,9 @@ WHERE civicrm_event.is_active = 1
                 $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
                 $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
                 $receiptFrom = $values['event']['confirm_from_name'] . ' <' . $values['event']['confirm_from_email'] . '>';
+
+                require_once 'CRM/Core/BAO/MessageTemplates.php';
+                list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML('msg_tpl_workflow_event', 'event_receipt', array());
                 
                 if ( $returnMessageText ) {
                     return array( 'subject' => $subject,
