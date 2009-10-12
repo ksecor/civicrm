@@ -268,4 +268,9 @@
      <page_callback>CRM_Contact_Page_AJAX::autocomplete</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
 </item>
+<item>
+     <path>civicrm/ajax/subtype</path>
+     <page_callback>CRM_Contact_Page_AJAX::buildSubTypes</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+</item>
 </menu>

@@ -12,5 +12,6 @@
 <xi:include href="Relationship.xml"         parse="xml" />
 <xi:include href="RelationshipType.xml"     parse="xml" />
 <xi:include href="SavedSearch.xml"          parse="xml" />
+<xi:include href="ContactType.xml"          parse="xml" />
 
 </tables>

@@ -254,7 +254,9 @@ class CRM_Import_ImportJob {
                       $this->_onDuplicate,
                       $this->_statusID,
                       $this->_totalRowCount,
-                      $this->_doGeocodeAddress );
+                      $this->_doGeocodeAddress,
+                      CRM_Import_Parser::DEFAULT_TIMEOUT, 
+                      $this->_contactSubType );
                       
         $contactIds = $this->_parser->getImportedContacts( );
         

@@ -15,6 +15,11 @@
 <p>{ts}Select <strong>Organization</strong> or <strong>Household</strong> if each record in your file represents a contact of that type.{/ts}</p>
 {/htxt}
 
+{htxt id='contact-sub-type'}
+<p>{ts}Select Contact SubType <strong>Student</strong> for Contact Type Individual if each record in your file represents and individual person of type student - even if the file also contains related Organization data (e.g. Employer Name, Employer Address, etc.).{/ts}</p>
+<p>{ts}Select SubTypes for <strong>Organization</strong> or <strong>Household</strong> if each record in your file represents a contact of that type.{/ts}</p>
+{/htxt}
+
 {htxt id='dupes'}
         <p>
             {ts}If a contact in the import file appears to be a duplicate of an existing CiviCRM contact...{/ts}

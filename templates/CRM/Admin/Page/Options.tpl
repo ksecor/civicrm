@@ -45,6 +45,7 @@
         {strip}
 	{* handle enable/disable actions*} 
 	{include file="CRM/common/enableDisable.tpl"}
+    {include file="CRM/common/jsortable.tpl"}
         <table id="options" class="display">
 	       <thead>
 	       <tr>
@@ -68,7 +69,7 @@
             {if $showCounted}<th>{ts}Counted?{/ts}</th>{/if}
             {if $showVisibility}<th>{ts}Visibility{/ts}</th>{/if}
             <th>{ts}Description{/ts}</th>
-            <th>{ts}Order{/ts}</th>
+            <th id="nosort">{ts}Order{/ts}</th>
 	        {if $showIsDefault}<th>{ts}Default{/ts}</th>{/if}
             <th>{ts}Reserved{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
@@ -112,29 +113,3 @@
         </dl>
     </div>    
 {/if}
-
-{literal}
-<script type="text/javascript">
-    cj( function( ) {
-        var id = count = 0;
-        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
-        cj('#options').dataTable( {
-            "aaSorting": [[ id, "asc" ]],
-            "bPaginate": false,
-    		"bLengthChange": false,
-    		"bFilter": false,
-    		"bInfo": false,
-    		"bAutoWidth": false,
-    		"aoColumns": [
-    		            null,
-    		            null,
-    		            null,
-            			{ "bSortable": false },
-            			{ "bSortable": false },
-            			null,
-            			{ "bSortable": false }
-            		]
-        } );        
-    });
-</script>
-{/literal}

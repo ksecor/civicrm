@@ -747,17 +747,16 @@ WHERE civicrm_event.is_active = 1
         // since the location is sharable, lets use the same loc_block_id.
         $locBlockId     = CRM_Utils_Array::value( 'loc_block_id', $eventValues );
         
-        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
-        
+        $fieldsFix = array ( 'prefix' => array( 'title' => ts( 'Copy of ' ) ) );
         if ( !CRM_Utils_Array::value( 'is_show_location', $eventValues ) ) {
-            $fieldsToPrefix['is_show_location'] = 0;
+            $fieldsFix['prefix']['is_show_location'] = 0;
         }
         
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
                                                       array( 'id' => $id ), 
                                                       array( 'loc_block_id' => 
                                                              ( $locBlockId ) ? $locBlockId : null ), 
-                                                      $fieldsToPrefix );
+                                                      $fieldsFix );
         
         $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Price_DAO_SetEntity', 
                                                       array( 'entity_id'    => $id,

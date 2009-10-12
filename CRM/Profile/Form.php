@@ -283,7 +283,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( $this->_id ) {
                 $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                             $this->_id, 'contact_type' );
-                if ( ( $profileType != 'Contact' ) && ( $contactType != $profileType ) ) {
+                if ( ( $profileType != 'Contact' ) && 
+                     ( $contactType != $profileType ) && 
+                     ! CRM_Contact_BAO_ContactType::isaSubType( $profileType ) ) {
                     $return = true;
                     if ( !$statusMessage ) {
                         $statusMessage =  ts('This profile is not configured for "%1" contact type.', array( 1 => $contactType ) );

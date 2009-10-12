@@ -152,6 +152,14 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
     {
         $errors = array( );
         if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
+            
+            // don't allow price set w/ membership signup, CRM-5095 
+            require_once 'CRM/Price/BAO/Set.php';
+            if ( $contributionPageId && CRM_Price_BAO_Set::getFor( 'civicrm_contribution_page', $contributionPageId ) ) {
+                $errors['is_active'] = ts( 'You cannot enable both Membership Signup and Price Set on the same online contribution page.' );  
+                return $errors;
+            }
+            
             if ( !  isset ( $params['membership_type'] ) ||
                  ( ! is_array( $params['membership_type'] ) ) ) {
                 $errors['membership_type'] = ts( 'Please select at least one Membership Type to include in the Membership section of this page.' );

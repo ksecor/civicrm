@@ -7,6 +7,7 @@
         {ts}Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed.{/ts} {help id="id-dedupe-intro"}
     </div>
     {if $rows}
+        {include file="CRM/common/jsortable.tpl"}
         <div id="browseValues">
           <div class="form-item">
             {strip}
@@ -45,27 +46,3 @@
         </div>
 
 {/if}
-
-{literal}
-<script type="text/javascript">
-    cj( function( ) {
-        var id = count = 0;
-        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
-        cj('#options').dataTable( {
-            "aaSorting": [[ id, "asc" ]],
-            "bPaginate": false,
-    		"bLengthChange": false,
-    		"bFilter": false,
-    		"bInfo": false,
-    		"bAutoWidth": false,
-    		"aoColumns": [
-    		            { "bSortable": false },
-    		            null,
-    		            null,
-            			{ "bSortable": false },
-            			{ "bSortable": false }
-            		]
-        } );        
-    });
-</script>
-{/literal}

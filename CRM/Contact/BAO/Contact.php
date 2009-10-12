@@ -36,6 +36,7 @@ require_once 'CRM/Core/DAO/Note.php';
 require_once 'CRM/Core/Form.php';
 
 require_once 'CRM/Contact/DAO/Contact.php';
+require_once 'CRM/Contact/BAO/ContactType.php';
 
 require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO/Phone.php';
@@ -376,6 +377,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $sql = "
 SELECT    civicrm_contact.display_name as display_name,
           civicrm_contact.contact_type as contact_type,
+          civicrm_contact.contact_sub_type as contact_sub_type,
           civicrm_email.email          as email       
 FROM      civicrm_contact
 LEFT JOIN civicrm_email ON civicrm_email.contact_id = civicrm_contact.id
@@ -391,7 +393,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             if ( empty( $dao->display_name ) ) {
                 $dao->display_name = $dao->email;
             }
-            return $type ? array( $dao->display_name, $image, $dao->contact_type ) : array( $dao->display_name, $image );
+            return $type ? array( $dao->display_name, $image, 
+                                  $dao->contact_type, $dao->contact_sub_type ) : array( $dao->display_name, $image );
         }
         return null;
     }
@@ -658,9 +661,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     /**
      * Get contact sub type for a contact.
      *
-     * @param int $id - id of the contact whose contact type is needed
+     * @param int $id - id of the contact whose contact sub type is needed
      *
-     * @return string contact_type if $id found else null ""
+     * @return string contact_sub_type if $id found else null ""
      *
      * @access public
      *
@@ -670,6 +673,27 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     public static function getContactSubType($id)
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
+    }
+
+    /**
+     * Get pair of contact-type and sub-type for a contact.
+     *
+     * @param int $id - id of the contact whose contact sub/contact type is needed
+     *
+     * @return array 
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    public static function getContactTypeSubType( $id )
+    {
+        $params  = array( 'id' => $id );
+        $contact = CRM_Core_DAO::commonRetrieve( 'CRM_Contact_DAO_Contact', $params,
+                                                 $details, array('contact_type', 'contact_sub_type') );
+        return array( $contact->contact_type, 
+                      $contact->contact_sub_type );
     }
 
     /**
@@ -753,6 +777,12 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 } else {
                     foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
                         $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($type, $showAll));
+
+                        $contactSubType = CRM_Contact_BAO_ContactType::subTypes( $type );
+                        foreach( $contactSubType as $subTypeName => $subTypeLabel ) {
+                            $fields = array_merge($fields,
+                                                  CRM_Core_BAO_CustomField::getFieldsForImport($subTypeName, $showAll) );
+                        }
                     }
                 }
                 
@@ -872,18 +902,24 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
                 $fields = array_merge($fields,
                                       CRM_Contact_DAO_Contact::export( ) );
-
+                
                 if ( $contactType != 'All' ) { 
                     $fields = array_merge($fields,
                                           CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
-                
+                    
                 } else {
                     foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
                         $fields = array_merge( $fields, 
-                                               CRM_Core_BAO_CustomField::getFieldsForImport($type));                        
+                                               CRM_Core_BAO_CustomField::getFieldsForImport($type));     
+                        
+                        $contactSubType = CRM_Contact_BAO_ContactType::subTypes( $type );
+                        foreach( $contactSubType as $subTypeName => $subTypeLabel ) {
+                            $fields = array_merge($fields,
+                                                  CRM_Core_BAO_CustomField::getFieldsForImport($subTypeName) );
+                        }
                     }
                 }
-            
+                
                 //fix for CRM-791
                 if ( $export ) {
                     $fields = array_merge( $fields, array ( 'groups' => array( 'title' => ts( 'Group(s)' ) ),
@@ -1162,6 +1198,8 @@ AND    civicrm_contact.id = %1";
                 //special case to handle profile with only contact fields
                 if ( $data['contact_type'] == 'Contact' ) {
                     $data['contact_type'] = 'Individual';
+                } else if ( CRM_Contact_BAO_ContactType::isaSubType( $data['contact_type'] ) ) {
+                    $data['contact_type'] = CRM_Contact_BAO_ContactType::getBasicType( $data['contact_type'] );
                 }
             } else if ( $ctype ) {
                 $data['contact_type'] = $ctype;
@@ -1170,6 +1208,14 @@ AND    civicrm_contact.id = %1";
             }
         }
 
+        //fix contact sub type CRM-5125
+        if ( $subType = CRM_Utils_Array::value('contact_sub_type', $params) ) {
+            $data['contact_sub_type'] = $subType;
+        } else if ( $ufGroupId ) {
+            $data['contact_sub_type'] = 
+                CRM_Core_BAO_UFField::getProfileSubType( $ufGroupId, $data['contact_type'] );
+        }
+        
         if ( $ctype == "Organization" ) {
             $data["organization_name"] = $contactDetails["organization_name"];
         } else if ( $ctype == "Household" ) {
@@ -1329,7 +1375,9 @@ AND    civicrm_contact.id = %1";
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
                                                                  $data['custom'], 
                                                                  $value,
-                                                                 $data['contact_type'],
+                                                                 array( $data['contact_type'],
+                                                                        CRM_Utils_Array::value( 'contact_sub_type', 
+                                                                                                $data ) ),
                                                                  null,
                                                                  $contactID );
                 } else if ($key == 'edit') {

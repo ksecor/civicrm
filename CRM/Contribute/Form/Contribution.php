@@ -939,6 +939,7 @@ SELECT  id, name
         
         // process price set and get total amount and line items.
         $lineItem = array( );
+        $priceSetId = null;
         if ( $priceSetId = CRM_Utils_Array::value( 'price_set_id', $submittedValues ) ) {
             require_once 'CRM/Price/BAO/Set.php';
             CRM_Price_BAO_Set::processAmount( $this->_priceSet['fields'], 
@@ -1155,7 +1156,7 @@ SELECT  id, name
 
             // process line items, until no previous line items.
             if ( empty( $this->_lineItems ) && $contribution->id && !empty( $lineItem ) ) {
-                CRM_Contribute_Form_AdditionalInfo::processLineItem( $lineItem, $contribution->id );
+                CRM_Contribute_Form_AdditionalInfo::processPriceSet( $contribution->id, $lineItem );
             }
             
             //send receipt mail.
@@ -1276,7 +1277,7 @@ SELECT  id, name
             
             // process line items, until no previous line items.
             if ( empty( $this->_lineItems )  && $contribution->id && !empty( $lineItem ) ) {
-                CRM_Contribute_Form_AdditionalInfo::processLineItem( $lineItem, $contribution->id );
+                CRM_Contribute_Form_AdditionalInfo::processPriceSet( $contribution->id, $lineItem );
             }
             
             // process associated membership / participant, CRM-4395

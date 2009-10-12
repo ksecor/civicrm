@@ -229,11 +229,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                             'title' => ts('Map'),
                                                             );
             }
-
-            if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
-                require_once 'CRM/Kabissa/BAO/Kabissa.php';
-                CRM_Kabissa_BAO_Kabissa::buildProfileSearchRowLinks( self::$_links );
-            }
         }
         return self::$_links;
     } //end of function
@@ -458,10 +453,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             require_once 'CRM/Quest/BAO/Student.php';
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
-        if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
-            require_once 'CRM/Kabissa/BAO/Kabissa.php';
-            $accessKabissa = true;
-        }
 
         if ( $this->_linkToUF ) {
             require_once 'api/UFGroup.php';
@@ -518,8 +509,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     } else {
                         $row[] = '';
                     }
-                } elseif ( (substr( $name, 0, 8 ) == 'kabissa_') && $accessKabissa ) {
-                    $row[] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing($name, $result, false);
                 } elseif ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting')) ) {
                     $dname = $name . '_display';
                     $row[] = $result->$dname;

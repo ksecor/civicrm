@@ -233,7 +233,33 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 $errors['pay_later_receipt'] = ts( 'Please enter the instructions to be sent to the contributor when they choose to \'pay later\'.' );
             }
         }
-        if ( !$fields['price_set_id'] ) {
+        
+        //as for separate membership payment we has to have
+        //contribution amount section enabled, hence to disable it need to
+        //check if separate membership payment enabled, 
+        //if so disable first separate membership payment option  
+        //then disable contribution amount section. CRM-3801,
+        
+        require_once 'CRM/Member/DAO/MembershipBlock.php';
+        $membershipBlock =& new CRM_Member_DAO_MembershipBlock( );
+        $membershipBlock->entity_table = 'civicrm_contribution_page';
+        $membershipBlock->entity_id = $self->_id;
+        $membershipBlock->is_active = 1;
+        $hasMembershipBlk = false;
+        if ( $membershipBlock->find( true ) ) {
+            $hasMembershipBlk = true;
+            if ( $membershipBlock->is_separate_payment && !$fields['amount_block_is_active'] ) {
+                $errors['amount_block_is_active'] = ts( 'To disable Contribution Amounts section you need to first disable Separate Membership Payment option from Membership Settings.' );
+            }
+        }
+        
+        // don't allow price set w/ membership signup, CRM-5095
+        if ( $priceSetId = CRM_Utils_Array::value( 'price_set_id', $fields ) ) {
+            // don't allow price set w/ membership.
+            if ( $hasMembershipBlk ) {
+                $errors['price_set_id'] = ts( 'You cannot enable both Price Set and Membership Signup on the same online contribution page.' );  
+            }
+        } else {
             if ( isset( $fields['is_recur'] ) ) {
                 if ( empty( $fields['recur_frequency_unit'] ) ) {
                     $errors['recur_frequency_unit'] = ts( 'At least one recurring frequency option needs to be checked.' );
@@ -272,23 +298,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 }
             }
         }
-        //as for separate membership payment we has to have
-        //contribution amount section enabled, hence to disable it need to
-        //check if separate membership payment enabled, 
-        //if so disable first separate membership payment option  
-        //then disable contribution amount section. CRM-3801,
-        
-        require_once 'CRM/Member/DAO/MembershipBlock.php';
-        $membershipBlock =& new CRM_Member_DAO_MembershipBlock( );
-        $membershipBlock->entity_table = 'civicrm_contribution_page';
-        $membershipBlock->entity_id = $self->_id;
-        $membershipBlock->is_active = 1;
-        if ( $membershipBlock->find( true ) ) {
-            if ( $membershipBlock->is_separate_payment && !$fields['amount_block_is_active'] ) {
-                $errors['amount_block_is_active'] = ts( 'To disable Contribution Amounts section you need to first disable Separate Membership Payment option from Membership Settings.' );
-            }
-        }
-        
+      
         return $errors;
     }
  

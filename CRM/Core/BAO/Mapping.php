@@ -431,7 +431,21 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 unset($fields['Case']['case_contact_id']);
             }
         }
-        
+
+        //Contact Sub Type For export
+        $contactSubTypes = array( );
+        $subTypes = CRM_Contact_BAO_ContactType::subTypeInfo( );
+        foreach ( $subTypes as $subType => $val ) {
+            //custom fields for sub type
+            $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $subType );
+            
+            if ( ! empty( $subTypeFields ) ) {
+                $fields[$subType] = $fields[$val['parent']] + $subTypeFields;
+                $contactSubTypes[$subType] = $val['label'];
+            }
+        }
+        unset( $subTypes );
+     
         foreach ($fields as $key => $value) {
            
             foreach ($value as $key1 => $value1) {
@@ -479,7 +493,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         $locationTypes = array (' ' => ts('Primary')) + $locationTypes;
         
-        $sel1 = array('' => ts('- select record type -')) + CRM_Core_SelectValues::contactType() + $compArray;
+        $sel1 = array('' => ts('- select record type -')) + 
+            CRM_Core_SelectValues::contactType() + $compArray + $contactSubTypes;
         
         foreach ( $sel1 as $key => $sel ) {
             if ( $key ) {
