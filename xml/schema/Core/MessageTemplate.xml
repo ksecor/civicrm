@@ -63,6 +63,7 @@
   <field>
       <name>is_default</name>
       <type>boolean</type>
+      <default>1</default>
       <comment>is this the default message template for the workflow referenced by workflow_id?</comment>
       <add>3.1</add>
   </field>
