@@ -231,10 +231,10 @@ WHERE  id = ( SELECT parent_id FROM civicrm_contact_type WHERE name = %1 )
         $contactTypes = self::getSelectElements(  ); 
         foreach( $contactTypes as $key => $value ) {
             if( $key ) {
-                list( $cType, $csType )    = explode( CRM_Core_DAO::VALUE_SEPARATOR,$key );
-                $typeUrl                   = "ct=$cType";
-                if( $csType ) {
-                    $typeUrl  = "ct=$cType&cst=$csType";
+                $typeValue = explode( CRM_Core_DAO::VALUE_SEPARATOR, $key );
+                $typeUrl   = "ct=" . CRM_Utils_Array::value( '0', $typeValue );
+                if( $csType = CRM_Utils_Array::value( '1', $typeValue ) ) { 
+                    $typeUrl .= "&cst=$csType";
                 }
                 $shortCuts[]  = array(
                                       'path'  => "civicrm/contact/add",
