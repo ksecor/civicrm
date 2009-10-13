@@ -173,4 +173,7 @@ if( employerId ) {
 {* include common additional blocks tpl *}
 {include file="CRM/common/additionalBlocks.tpl"}
 
+{* include jscript to warn if unsaved form field changes *}
+{include file="CRM/common/formNavigate.tpl"}
+
 {/if}
