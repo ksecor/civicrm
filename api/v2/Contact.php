@@ -496,6 +496,7 @@ function civicrm_contact_format_create( &$params ) {
     }
 
     //get the prefix id etc if exists
+    require_once 'CRM/Contact/BAO/Contact.php';
     CRM_Contact_BAO_Contact::resolveDefaults($params, true);
 
     require_once 'CRM/Import/Parser.php';

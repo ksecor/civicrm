@@ -120,19 +120,19 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         //  Get and save a connection to the database
         $this->_dbconn = $this->getConnection();
 
+        $query1 = "USE civicrm_tests_dev; SET foreign_key_checks = 0;";
+        
+        if ( AllTests::$utils->do_query($query1) === false ) {
+            //  failed to initialze test database
+            echo "Cannot set FK";
+            exit;
+        }        
+
         //  Truncate the tables
         $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
         $op->execute( $this->_dbconn,
                       new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                              dirname(__FILE__) . '/truncate.xml') );
-
-//        $query1 = "USE civicrm_tests_dev; SET foreign_key_checks = 0;";
-        
-//        if ( AllTests::$utils->do_query($query1) === false ) {
-//            //  failed to initialze test database
-//            echo "Cannot set FK";
-//            exit;
-//        }        
 
 
         // Load clean db state

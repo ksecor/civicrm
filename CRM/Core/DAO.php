@@ -956,6 +956,10 @@ FROM   civicrm_domain
         ***/
 
         if ( ! $ids ) {
+            if ( ! $_DB_DATAOBJECT ||
+                 ! isset( $_DB_DATAOBJECT['RESULTS'] ) ) {
+                return;
+            }
             $ids = array_keys( $_DB_DATAOBJECT['RESULTS'] );
         }
 
