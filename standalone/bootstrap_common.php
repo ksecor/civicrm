@@ -15,4 +15,3 @@ if ($session->get('error')) {
     $session->set('error',null);
     $gotError = true;
 }
-?>

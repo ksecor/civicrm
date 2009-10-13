@@ -121,4 +121,3 @@ function getUrlPort() {
     
     return $urlPort;
 }
-?>
