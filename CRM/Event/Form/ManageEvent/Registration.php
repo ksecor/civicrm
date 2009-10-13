@@ -92,14 +92,13 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                 $ufJoin = new CRM_Core_DAO_UFJoin;
                 $ufJoin->module       = 'CiviEvent_Additional';
                 $ufJoin->entity_table = 'civicrm_event';
-                $ufJoin->entity_id    = $this->_eventId;
+                $ufJoin->entity_id    = $eventId;
                 $ufJoin->orderBy('weight');
                 $ufJoin->find();
-                if ($ufJoin->fetch()) {
-                    $defaults['additional_custom_pre_id']  = $ufJoin->is_active ? $ufJoin->uf_group_id : 'none';
-                }
-                if ($ufJoin->fetch()) {
-                    $defaults['additional_custom_post_id'] = $ufJoin->is_active ? $ufJoin->uf_group_id : 'none';
+                $custom = array( 1 => 'additional_custom_pre_id',
+                                 2 => 'additional_custom_post_id' );
+                while ($ufJoin->fetch()) {
+                    $defaults[$custom[$ufJoin->weight]] = $ufJoin->is_active ? $ufJoin->uf_group_id : 'none';
                 }
             }
         } else {
