@@ -4,7 +4,6 @@ require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Utils/Array.php';
-require_once 'extern/stubs.php';
 
 $config   =& CRM_Core_Config::singleton();
 $queue_id =  CRM_Utils_Array::value( 'q', $_GET );

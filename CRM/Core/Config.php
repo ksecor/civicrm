@@ -82,6 +82,8 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      */
     public $templateCompileDir  = './templates_c/en_US/';
 
+    public $configAndLogDir = null;
+
     // END: BASE SYSTEM PROPERTIES (CIVICRM.SETTINGS.PHP)
 
     ///
@@ -237,8 +239,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($this->lcMessages);
             }
 
-            // make sure this directory exists
-            CRM_Utils_File::createDir( $this->templateCompileDir );
+            // also make sure we create the config directory within this directory
+            // the below statement will create both the templates directory and the config and log directory
+            $this->configAndLogDir = $this->templateCompileDir . 'ConfigAndLog' . DIRECTORY_SEPARATOR;
+            CRM_Utils_File::createDir( $this->configAndLogDir );
         }
 
 
