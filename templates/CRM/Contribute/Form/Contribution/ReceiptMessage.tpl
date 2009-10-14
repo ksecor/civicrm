@@ -41,6 +41,21 @@
 {/if}
 -------------------------------------------
 {ts}Total{/ts}: {$amount+$membership_amount|crmMoney}
+{elseif $lineItem and $priceSetID}
+{foreach from=$lineItem item=value key=priceset}
+---------------------------------------------------------
+{capture assign="ts_item}{ts}Item{/ts}{/capture}
+{capture assign="ts_qty}{ts}Qty{/ts}{/capture}
+{capture assign="ts_each}{ts}Each{/ts}{/capture}
+{capture assign="ts_total}{ts}Total{/ts}{/capture}
+{$ts_item|string_format:"%-30s"} {$ts_qty|string_format:"%5s"} {$ts_each|string_format:"%10s"} {$ts_total|string_format:"%10s"}
+----------------------------------------------------------
+{foreach from=$value item=line}
+{$line.label|truncate:30:"..."|string_format:"%-30s"} {$line.qty|string_format:"%5s"} {$line.unit_price|crmMoney|string_format:"%10s"} {$line.line_total|crmMoney|string_format:"%10s"}
+{/foreach}
+{/foreach}
+
+{ts}Total Amount{/ts}: {$amount|crmMoney}
 {else}
 {ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}

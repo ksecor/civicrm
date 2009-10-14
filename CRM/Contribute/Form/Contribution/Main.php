@@ -748,6 +748,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             if ( empty( $check ) ) {
                 $errors['_qf_default'] = ts( "Select at least one option from Contribution(s)." );
             }
+            
+            require_once 'CRM/Price/BAO/Set.php';
+            CRM_Price_BAO_Set::processAmount( $self->_priceSet['fields'], 
+                                              $fields, $lineItem );
+            $amount = $fields['amount'];
         }
         
         if ( $self->_values['is_monetary'] ) {
