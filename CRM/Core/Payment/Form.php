@@ -226,8 +226,8 @@ class CRM_Core_Payment_Form {
 
         // CRM-2462
         if ( ! $useRequired &&
-             $form->_paymentProcessor['payment_processor_type'] != 'PayPal_Express' &&
-             $form->_paymentProcessor['payment_processor_type'] != 'PayPal' ) {
+             ! in_array( $form->_paymentProcessor['payment_processor_type'], 
+                         array( 'PayPal_Express', 'PayPal', 'Dummy' ) ) ) {
             // this is only set for paypal's case where we need to not throw an error if someone
             // clicks paypal express
             $useRequired = true;
