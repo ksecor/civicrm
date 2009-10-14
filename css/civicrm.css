@@ -1857,3 +1857,7 @@ div.grippie {
    margin-top: 4px;
    margin-bottom: -6px;
 }
+
+#crm-container .cke_editor {
+    border: 0px none;
+}

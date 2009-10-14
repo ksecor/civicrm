@@ -31,6 +31,8 @@
 {if $defaultWysiwygEditor eq 1}
     <script type="text/javascript" src="{$config->resourceBase}packages/tinymce/jscripts/tiny_mce/jquery.tinymce.js"></script>
     <script type="text/javascript" src="{$config->resourceBase}packages/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+{else}
+    <script type="text/javascript" src="{$config->resourceBase}packages/ckeditor/ckeditor.js"></script>
 {/if}
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.textarearesizer.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.progressbar.js"></script>
