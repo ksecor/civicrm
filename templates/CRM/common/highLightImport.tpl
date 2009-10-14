@@ -17,7 +17,7 @@ for ( i = 0; i < selObj.options.length; i++ ) {
     if (selObj.options[i].value in paramsArray) {
         //change background Color of all element whose ids start with mapper and end with [0];
         cj('select[id^="mapper"][id$="[0]"]').each( function( ) {
-            cj(this.options[i]).css({"backgroundColor":"#FF9966"});
+            cj(this.options[i]).append(' *').css({"color":"#FF0000"});
             });
     }
 }
