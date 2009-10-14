@@ -46,40 +46,42 @@ class CRM_Contact_Page_AJAX
         $limit  = '10';
         $list   = array_keys( CRM_Core_BAO_Preferences::valueOptions( 'autocomplete_contact_search_options' ), '1' );
         $select = array( );
+        $where  = '';
         foreach( $list as $value ) {
+            $suffix = "c" . substr( $value, 0, 1 ) . substr( $value, -1 );
             switch( $value ) {
 
-            case 'country':
-                $select[] = 'ct.name';
-                $from    .= ' LEFT JOIN civicrm_country ct ON ca.country_id = ct.id';
-                break;
-
-            case 'state_province':
-                $select[] = 'csp.name';
-                $from    .= ' LEFT JOIN civicrm_state_province csp ON ca.state_province_id = csp.id';
-                break;
-
+            case 'street_address':
+                $value = "address";
             case 'phone':                
-                $select[] = 'phone';
-                $from    .= ' LEFT JOIN civicrm_phone cp ON cc.id = cp.contact_id';
+            case 'email':
+                $select[] = ( $value == 'address' ) ? 'street_address' : $value;
+                $from    .= " LEFT JOIN civicrm_{$value} {$suffix} ON cc.id = {$suffix}.contact_id";
+                $where   .= " AND {$suffix}.is_primary = 1";
                 break;
-            default:
-                $select[] = $value;
+
+            case 'country':
+            case 'state_province':
+                $select[] = "{$suffix}.name";
+                if( ! in_array( 'street_address', $select ) ) 
+                    $from .= ' LEFT JOIN civicrm_address css ON cc.id = css.contact_id ';
+                $from     .= " LEFT JOIN civicrm_{$value} {$suffix} ON css.{$value}_id = {$suffix}.id";
+                break;
+
+            case 'sort_name':
+                array_unshift( $select, $value );
                 break;
             }
         }
-        $select = implode( ',', $select );
+        $select = implode( ', ', $select );
         if ( CRM_Utils_Array::value( 'limit', $_GET) ) {
             $limit = CRM_Utils_Type::escape( $_GET['limit'], 'Positive' );
         }
         
         $query = "
-SELECT CONCAT_WS( '::',{$select}) as data, cc.id as id
-FROM civicrm_contact cc 
-LEFT JOIN civicrm_address ca ON cc.id = ca.contact_id 
-LEFT JOIN civicrm_email ce ON cc.id = ce.contact_id
-{$from}
-WHERE sort_name LIKE '%$name%' AND ca.is_primary = 1
+SELECT CONCAT_WS( ' :: ', {$select} ) as data, cc.id as id
+FROM civicrm_contact cc {$from}
+WHERE sort_name LIKE '%$name%' {$where} 
 ORDER BY sort_name
 LIMIT 0, {$limit}
 ";
