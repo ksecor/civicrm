@@ -181,7 +181,8 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         } else {
             $this->assign( 'rowDisplayCount', 2 );
         }
-        
+        $highlightedFields   = array();
+        $highlightedFields[] = 'contribution_type';
         //CRM-2219 removing other required fields since for updation only
         //invoice id or trxn id or contribution id is required.
         if ( $this->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
@@ -193,10 +194,17 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             //modify field title only for update mode. CRM-3245
             foreach ( array( 'contribution_id', 'invoice_id', 'trxn_id' ) as $key ) {
                 $this->_mapperFields[$key] .= " (match to contribution record)";
+                $highlightedFields[] = $key;
             }
+            
         } else if ( $this->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_SKIP ) {
             unset( $this->_mapperFields['contribution_id'] );
+            $highlightedFieldsArray = array( 'contribution_contact_id', 'email', 'first_name', 'last_name', 'external_identifier','total_amount' );
+            foreach ( $highlightedFieldsArray as $name ) {
+                $highlightedFields[] = $name;
+            }            
         }
+        $this->assign( 'highlightedFields', $highlightedFields );
     }
 
     /**

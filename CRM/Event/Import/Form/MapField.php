@@ -175,7 +175,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
 
         $skipColumnHeader   = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
         $this->_onDuplicate = $this->get('onDuplicate');
-    
+        $highlightedFields  = array();    
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
@@ -189,10 +189,19 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             foreach( $remove as $value ) {
                 unset( $this->_mapperFields[$value] );
             }
+            $highlightedFieldsArray = array( 'participant_id', 'event_id', 'event_title', 'participant_status_id' );
+            foreach ( $highlightedFieldsArray as $name ) {
+                $highlightedFields[] = $name;
+            } 
         } else if ( $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP ||
                     $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_NOCHECK ) {
             unset( $this->_mapperFields['participant_id'] );
+            $highlightedFieldsArray = array( 'participant_contact_id', 'event_id', 'email', 'first_name', 'last_name', 'external_identifier', 'participant_status_id' );
+            foreach ( $highlightedFieldsArray as $name ) {
+                $highlightedFields[] = $name;
+            } 
         }
+        $this->assign( 'highlightedFields', $highlightedFields );
     }
 
     /**
