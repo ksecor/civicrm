@@ -457,8 +457,9 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 $params['port'] = $mailingInfo['smtpPort'] ? $mailingInfo['smtpPort'] : 25;
                 
                 if ($mailingInfo['smtpAuth']) {
+                    require_once 'CRM/Utils/Crypt.php';
                     $params['username'] = $mailingInfo['smtpUsername'];
-                    $params['password'] = $mailingInfo['smtpPassword'];
+                    $params['password'] = CRM_Utils_Crypt::decrypt( $mailingInfo['smtpPassword'] );
                     $params['auth']     = true;
                 } else {
                     $params['auth']     = false;
