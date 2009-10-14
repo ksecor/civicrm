@@ -30,9 +30,9 @@
             <th>{ts}City{/ts}</th>
             <th>{ts}State/Province{/ts}</th>
             <th>{ts}Public?{/ts}</th>
-            <th>{ts}Starts{/ts}</th>
+            <th id="sortable">{ts}Starts{/ts}</th>
             <th>{ts}Ends{/ts}</th>
-	        <th id="sortable">{ts}Active?{/ts}</th>
+	        <th>{ts}Active?{/ts}</th>
 	        <th></th>
          </tr>
          </thead>

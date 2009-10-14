@@ -18,18 +18,21 @@
     </div>
     {/if}
     <h3>{ts}Event Summary{/ts}  {help id="id-event-intro"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$htmlFeed}" title="{ts}HTML listing of current and future public events.{/ts}"><img src="{$config->resourceBase}i/applications-internet.png" alt="{ts}HTML listing of current and future public events.{/ts}" /></a>&nbsp;&nbsp;<a href="{$rssFeed}" title="{ts}Get RSS 2.0 feed for current and future public events.{/ts}"><img src="{$config->resourceBase}i/feed-icon.png" alt="{ts}Get RSS 2.0 feed for current and future public events.{/ts}" /></a>&nbsp;&nbsp;<a href="{$icalFile}" title="{ts}Download iCalendar file for current and future public events.{/ts}"><img src="{$config->resourceBase}i/office-calendar.png" alt="{ts}Download iCalendar file for current and future public events.{/ts}" /></a>&nbsp;&nbsp;<a href="{$icalFeed}" title="{ts}Get iCalendar feed for current and future public events.{/ts}"><img src="{$config->resourceBase}i/ical_feed.gif" alt="{ts}Get iCalendar feed for current and future public events.{/ts}" /></a></h3>
-    <table class="report">
-    <tr class="columnheader-dark">
-        <th scope="col">{ts}Event{/ts}</th>
-        <th scope="col">{ts}ID{/ts}</th>
-        <th scope="col">{ts}Type{/ts}</th>
-        <th scope="col">{ts}Public{/ts}</th>
-        <th scope="col">{ts}Date(s){/ts}</th>
-        <th scope="col">{ts}Participants{/ts}</th>
+    {include file="CRM/common/jsortable.tpl"}
+    <table id="options" class="display">
+    <thead>
+    <tr>
+        <th>{ts}Event{/ts}</th>
+        <th id="sortable">{ts}ID{/ts}</th>
+        <th>{ts}Type{/ts}</th>
+        <th id="nosort">{ts}Public{/ts}</th>
+        <th id="nosort">{ts}Date(s){/ts}</th>
+        <th id="nosort">{ts}Participants{/ts}</th>
         {if $eventAdmin or $eventMap}
             <th></th>
         {/if}
     </tr>
+    </thead>
     {foreach from=$eventSummary.events item=values key=id}
     <tr>
         <td><a href="{crmURL p="civicrm/event/info" q="reset=1&id=`$id`"}" title="{ts}View event info page"{/ts}>{$values.eventTitle}</a></td>
