@@ -20,9 +20,9 @@
 		<th>{ts}Page Title{/ts}</th>
 		<th>{ts}Supporter{/ts}</th>
 		<th>{ts}Contribution Page{/ts}</th>
-		<th>{ts}Starts{/ts}</th>
+		<th id="sortable">{ts}Starts{/ts}</th>
 		<th>{ts}Ends{/ts}</th>
-		<th id="sortable">{ts}Status{/ts}</th>
+		<th>{ts}Status{/ts}</th>
 		<th></th>
     </tr>
 	</thead>
@@ -62,7 +62,7 @@
         var id = count = 0;
         cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
         cj('#options').dataTable( {
-            "aaSorting": [[ id, "asc" ]],
+            "aaSorting": [[ id, "asc" ],[ 5, "asc" ]],
             "bPaginate": false,
     		"bLengthChange": true,
     		"bFilter": false,

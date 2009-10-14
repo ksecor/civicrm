@@ -27,7 +27,7 @@
             <th>{ts}SKU{/ts}</th>
             <th>{ts}Market Value{/ts}</th>
             <th>{ts}Min Contribution{/ts}</th>
-            <th id="sortable">{ts}Active?{/ts}</th>
+            <th>{ts}Active?{/ts}</th>
             <th></th>
            </tr>
           </thead>

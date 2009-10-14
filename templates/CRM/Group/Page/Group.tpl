@@ -20,11 +20,13 @@
    {strip}
    {* handle enable/disable actions*}
    {include file="CRM/common/enableDisable.tpl"}
-   <table cellpadding="0" cellspacing="0" border="0">
-      <tr class="columnheader">
+   {include file="CRM/common/jsortable.tpl"}
+   <table id="options" class="display">
+    <thead>
+      <tr>
       <th>{ts}Name{/ts}</th>
-      <th>{ts}ID{/ts}</th>
-      <th>{ts}Description{/ts}</th>
+      <th id="sortable">{ts}ID{/ts}</th>
+      <th id="nosort">{ts}Description{/ts}</th>
       <th>{ts}Group Type{/ts}</th>
       <th>{ts}Visibility{/ts}</th>
       {if $groupOrg}
@@ -32,6 +34,7 @@
       {/if}
       <th></th>
      </tr>
+    </thead>
    {foreach from=$rows item=row}
    <tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
         <td>{$row.title}</td>	

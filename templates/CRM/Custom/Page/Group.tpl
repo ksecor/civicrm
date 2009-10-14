@@ -23,7 +23,7 @@
                 <th>{ts}Enabled?{/ts}</th>
                 <th>{ts}Used For{/ts}</th>
                 <th>{ts}Type{/ts}</th>
-                <th id="sortable">{ts}Order{/ts}</th>
+                <th id="nosort">{ts}Order{/ts}</th>
                 <th>{ts}Style{/ts}</th>
                 <th></th>
             </tr>

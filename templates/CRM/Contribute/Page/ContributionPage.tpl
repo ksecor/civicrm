@@ -28,7 +28,7 @@
             <th>{ts}Title{/ts}</th>
             <th id="sortable">{ts}ID{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
-            <th>&nbsp;</th>
+            <th></th>
           </tr>
           </thead>
           {foreach from=$rows item=row}

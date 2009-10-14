@@ -50,8 +50,10 @@
         {strip}
 	{* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
-         <table class="selector">
-         <tr class="columnheader">
+    {include file="CRM/common/jsortable.tpl"}
+         <table id="options" class="display">
+         <thead>
+         <tr>
             <th>{ts}Field Label{/ts}</th>
             <th>{ts}Field Type{/ts}</th>
             <th>{ts}Order{/ts}</th>
@@ -62,8 +64,9 @@
             <th>{ts}Expire On{/ts}</th>
 *}
             <th>{ts}Price{/ts}</th>
-            <th>&nbsp;</th>
+            <th></th>
         </tr>
+        </thead>
         {foreach from=$priceField key=fid item=row}
 	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
