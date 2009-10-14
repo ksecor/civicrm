@@ -163,7 +163,8 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                       
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
-            $this->addRule('name', ts('Please enter a monetary value for this field.'), 'money');
+            $this->registerRule( 'name', 'callback', 'moneySigned', 'CRM_Utils_Rule' );
+            $this->addRule('name', ts('Please enter a monetary value for this field.'), 'moneySigned');
             
             // weight
             $this->add('text', 'weight', ts('Order'), null, true);
@@ -221,14 +222,8 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
 
     static function formRule( &$fields, &$files, &$form ) 
     {
-        $errors       = array( );
-        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Price_BAO_Field', $form->_fid, 'html_type' );
-        if ( $htmlType == 'Text' && $fields['name'] <= 0 ) {
-            $errors['name'] = ts( 'Amount must be greater than zero When Price Field is of Text type' );  
-        } else if ($fields['name'] < 0 ) {
-            $errors['name'] = ts( 'Amount must be greater than zero' ); 
-        }
-        
+        $errors = array( );
+
         return empty($errors) ? true : $errors;
     }
     

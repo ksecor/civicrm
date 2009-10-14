@@ -752,6 +752,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             require_once 'CRM/Price/BAO/Set.php';
             CRM_Price_BAO_Set::processAmount( $self->_priceSet['fields'], 
                                               $fields, $lineItem );
+            if ($fields['amount'] < 0) {
+                $errors['_qf_default'] = ts( "Contribution can not be less than zero. Please select the options accordingly" );
+            }
             $amount = $fields['amount'];
         }
         

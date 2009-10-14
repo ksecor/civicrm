@@ -513,7 +513,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
-       
         //check for availability of registrations.
         if ( !$self->_allowConfirmation &&
              !CRM_Utils_Array::value( 'bypass_payment', $fields ) &&
@@ -564,6 +563,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             
             if ( empty( $check ) ) {
                 $errors['_qf_default'] = ts( "Select at least one option from Event Fee(s)." );
+            }
+
+            $lineItem = array( );
+            require_once "CRM/Price/BAO/Set.php";
+            CRM_Price_BAO_Set::processAmount( $self->_values['fee']['fields'], $fields, $lineItem );
+            if ($fields['amount'] < 0) {
+                $errors['_qf_default'] = ts( "Event Fee(s) can not be less than zero. Please select the options accordingly" );
             }
         }
                 

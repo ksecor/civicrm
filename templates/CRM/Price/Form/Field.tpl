@@ -45,7 +45,7 @@
     <div class="form-item">
         <dl class="html-adjust">
         <dt>{$form.label.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_price_field' field='label' id=$id}{/if}</dt><dd>{$form.label.html}</dd>
-        <dt>{$form.html_type.label}</dt><dd>{$form.html_type.html}</dd>
+        <dt>{$form.html_type.label}</dt><dd>{$form.html_type.html} {help id="id-negative"}</dd>
         {if $action neq 4 and $action neq 2}
             <dt>&nbsp;</dt><dd class="description">{ts}Select the html type used to offer options for this field{/ts}</dd>
         {/if}
