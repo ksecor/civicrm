@@ -224,6 +224,15 @@ class CRM_Core_Payment_Form {
     function buildCreditCard( &$form, $useRequired = false ) {
         require_once 'CRM/Core/Payment.php';
 
+        // CRM-2462
+        if ( ! $useRequired &&
+             $form->_paymentProcessor['payment_processor_type'] != 'PayPal_Express' &&
+             $form->_paymentProcessor['payment_processor_type'] != 'PayPal' ) {
+            // this is only set for paypal's case where we need to not throw an error if someone
+            // clicks paypal express
+            $useRequired = true;
+        }
+
         if ( $form->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM) {
             foreach ( $form->_fields as $name => $field ) {
                 if ( isset( $field['cc_field'] ) &&
