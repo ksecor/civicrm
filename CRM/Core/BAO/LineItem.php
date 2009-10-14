@@ -101,6 +101,34 @@ LEFT JOIN civicrm_line_item li ON ( li.entity_id = c.id AND li.entity_table = 'c
         
         return $lineItems;
     }
-
+    
+    /**
+     * Delete line items for given entity.
+     *
+     * @param int $entityId
+     * @param int $entityTable
+     *
+     * @access public
+     * @static
+     */
+    public static function deleteLineItems( $entityId, $entityTable )
+    {
+        $result = false;
+        if ( !$entityId || !$entityTable ) {
+            return $result;
+        }
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        require_once 'CRM/Core/DAO/LineItem.php';
+        $lineItem = new CRM_Core_DAO_LineItem( );
+        $lineItem->entity_id    = $entityId;
+        $lineItem->entity_table = $entityTable;
+        $result = $lineItem->delete( );
+        
+        $transaction->commit( );
+        
+        return $result;
+    }
 }
 

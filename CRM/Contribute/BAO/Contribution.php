@@ -537,6 +537,15 @@ GROUP BY currency
         require_once 'CRM/Pledge/BAO/Payment.php';
         CRM_Pledge_BAO_Payment::resetPledgePayment( $id );
         
+        // remove entry from civicrm_price_set_entity, CRM-5095
+        require_once 'CRM/Price/BAO/Set.php';
+        if ( CRM_Price_BAO_Set::getFor( 'civicrm_contribution', $id ) ) {
+            CRM_Price_BAO_Set::removeFrom( 'civicrm_contribution', $id );
+        }
+        // cleanup line items.
+        require_once 'CRM/Core/BAO/LineItem.php';
+        CRM_Core_BAO_LineItem::deleteLineItems( $id, 'civicrm_contribution' );
+        
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
              

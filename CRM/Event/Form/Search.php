@@ -251,8 +251,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                     
                     if ( CRM_Event_BAO_Event::usesPriceSet( $row['event_id'] ) ) {
                         // add line item details if applicable
-                        $participant_id = $row['participant_id'];
-                        $lineItems[$participant_id] = CRM_Event_BAO_Participant::getLineItems( $participant_id );
+                        require_once 'CRM/Core/BAO/LineItem.php';
+                        $lineItems[$participant_id] = CRM_Core_BAO_LineItem::getLineItems( $row['participant_id'] );
                     }
                 }
             }
