@@ -142,7 +142,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         require_once 'CRM/Core/BAO/UFGroup.php';
         require_once "CRM/Core/BAO/UFField.php";
         
-        $this->_id       = $this->get( 'id'  ); 
+        $this->_id       = $this->get( 'id'  );
         $this->_gid      = $this->get( 'gid' ); 
         $this->_grid     = CRM_Utils_Request::retrieve( 'grid', 'Integer', $this   );
         $this->_context  = CRM_Utils_Request::retrieve( 'context', 'String', $this );
@@ -281,14 +281,24 @@ class CRM_Profile_Form extends CRM_Core_Form
             $profileType = CRM_Core_BAO_UFField::getProfileType( $this->_gid );
             
             if ( $this->_id ) {
-                $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                            $this->_id, 'contact_type' );
+                list( $contactType, $contactSubType ) = 
+                    CRM_Contact_BAO_Contact::getContactTypes( $this->_id );
                 if ( ( $profileType != 'Contact' ) && 
                      ( $contactType != $profileType ) && 
                      ! CRM_Contact_BAO_ContactType::isaSubType( $profileType ) ) {
                     $return = true;
                     if ( !$statusMessage ) {
-                        $statusMessage =  ts('This profile is not configured for "%1" contact type.', array( 1 => $contactType ) );
+                        $statusMessage =  ts('This profile is not configured for "%1" contact type.', 
+                                             array( 1 => $contactType ) );
+                    }
+                }
+                if ( $contactSubType && 
+                     CRM_Contact_BAO_ContactType::isaSubType( $profileType ) && 
+                     ( $profileType != $contactSubType ) ) {
+                    $return = true;
+                    if ( !$statusMessage ) {
+                        $statusMessage =  ts('This profile is not configured for "%1" contact subtype.', 
+                                             array( 1 => $contactSubType ) );
                     }
                 }
             }
