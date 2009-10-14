@@ -170,7 +170,10 @@ cj( function( ) {
                     var height = cj("#" + ed.editorId).attr("height");
                     cj("#" + ed.editorId + "_tbl").css("height", height);
                     cj("#" + ed.editorId + "_ifr").css("height", height);
-                }); 
+                });
+                ed.onChange.add(function(ed, l) {
+                    global_formNavigate = false;
+                });
         }
     });    
 });
