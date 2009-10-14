@@ -15,7 +15,8 @@
                     {$membership_status_val.html}
                     </div>
                     {/foreach}
-                </div><br />
+                </div><div class="spacer"></div>
+                {$form.member_is_primary.html}&nbsp;{$form.member_is_primary.label}
     </td>
 </tr>
 

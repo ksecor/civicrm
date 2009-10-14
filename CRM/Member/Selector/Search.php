@@ -79,7 +79,8 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                  'membership_end_date',
                                  'membership_source',
                                  'status_id',
-                                 'member_is_test'
+                                 'member_is_test',
+                                 'owner_membership_id'
                                  );
 
     /** 
@@ -312,7 +313,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                false, false, 
                                                false, 
                                                $this->_memberClause );
-
+                                               
          // process the result of the query
          $rows = array( );
          
@@ -328,11 +329,12 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
          
          while ($result->fetch()) {
              $row = array();
+
              // the columns we are interested in
-             foreach (self::$_properties as $property) {
+             foreach (self::$_properties as $property) {             
                  $row[$property] = $result->$property;
              }
-
+             
              if ( $row['member_is_test'] ) {
                  $row['membership_type'] = $row['membership_type'] . " (test)";
              }

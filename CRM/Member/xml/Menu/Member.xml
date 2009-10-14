@@ -44,6 +44,13 @@
      <weight>2</weight>
   </item>
   <item>
+     <path>civicrm/membership/view</path>
+     <title>Memberships</title>
+     <page_callback>CRM_Member_Form_MembershipView</page_callback>
+     <access_arguments>access CiviMember</access_arguments>
+     <weight>390</weight>
+  </item>
+  <item>
      <path>civicrm/member/search</path>
      <title>Find Members</title>
      <page_callback>CRM_Member_Controller_Search</page_callback>

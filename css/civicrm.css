@@ -59,7 +59,7 @@ div#crm-container {
   height: 2em;
 }
 
-#crm-container .add-remove-link #crm-container .map-link {
+#crm-container .add-remove-link, #crm-container .map-link, #crm-container .font-small {
   font-size: .9em;
 }
 

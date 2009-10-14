@@ -50,13 +50,24 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
     public function preProcess( ) {
         require_once 'CRM/Member/BAO/Membership.php';
         require_once 'CRM/Member/BAO/MembershipType.php';
+        require_once 'CRM/Core/BAO/CustomGroup.php';
 
         $values = array( ); 
-        $id = $this->get( 'id' );
+        $id = CRM_Utils_Request::retrieve('id', 'Positive', $this );
+        
+        // Make sure context is assigned to template for condition where we come here view civicrm/membership/view
+        $context    = CRM_Utils_Request::retrieve('context', 'String', $this );
+        $this->assign( 'context', $context );
+        
         if ( $id ) {
             $params = array( 'id' => $id ); 
             
             CRM_Member_BAO_Membership::retrieve( $params, $values );
+
+            // build associated contributions
+            require_once 'CRM/Member/Page/Tab.php';
+            CRM_Member_Page_Tab::associatedContribution( $values['contact_id'] );
+
 
             //Provide information about membership source when it is the result of a relationship (CRM-1901)
             $values['owner_membership_id']       = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', 
@@ -83,7 +94,15 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
                                                                                 'id');
             }
 
+            $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                         $values['contact_id'], 
+                                                          'display_name' );
+            $this->assign( 'displayName', $displayName );
+            
+            CRM_Member_Page_Tab::setContext($values['contact_id']);
+
             $memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$id,"membership_type_id");
+            
             $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership',$this, $id,0,$memType);
 			CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
         }

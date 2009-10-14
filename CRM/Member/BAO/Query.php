@@ -237,6 +237,15 @@ class CRM_Member_BAO_Query
             $query->_where[$grouping][] = " civicrm_membership.id $op $value";
             $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
             return;
+            
+        case 'member_is_primary':
+            $query->_where[$grouping][] = " civicrm_membership.owner_membership_id IS NULL";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Primary Members Only";
+            }
+            $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
+            return;
+
         }
     }
 
@@ -313,6 +322,10 @@ class CRM_Member_BAO_Query
         foreach (CRM_Member_PseudoConstant::membershipType( ) as $id => $Name) {
             $form->_membershipType =& $form->addElement('checkbox', "member_membership_type_id[$id]", null,$Name);
         }
+
+        // Option to exclude inherited memberships from search results (e.g. exclude rows where owner_membership_id is NOT NULL)
+        $form->addElement( 'checkbox', 'member_is_primary' , ts( 'Primary Members Only' ) );
+
         foreach (CRM_Member_PseudoConstant::membershipStatus( ) as $sId => $sName) {
             $form->_membershipStatus =& $form->addElement('checkbox', "member_status_id[$sId]", null,$sName);
         }
