@@ -912,11 +912,8 @@ INSERT INTO `civicrm_contact_type`
   ( 1, 'Individual'  , '{ts escape="sql"}Individual{/ts}'  , NULL, NULL, NULL, 1),
   ( 2, 'Household'   , '{ts escape="sql"}Household{/ts}'   , NULL, NULL, NULL, 1),
   ( 3, 'Organization', '{ts escape="sql"}Organization{/ts}', NULL, NULL, NULL, 1),
-  ( 4, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    1, 1),
-  ( 5, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    2, 1),
-  ( 6, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    3, 1),
-  ( 7, 'Student'     , '{ts escape="sql"}Student{/ts}'     , NULL, NULL,    1, 1),
-  ( 8, 'Parent'      , '{ts escape="sql"}Parent{/ts}'      , NULL, NULL,    1, 1),
-  ( 9, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , NULL, NULL,    1, 1),
-  (10, 'Team'        , '{ts escape="sql"}Team{/ts}'        , NULL, NULL,    3, 1),
-  (11, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , NULL, NULL,    3, 1);
+  ( 4, 'Student'     , '{ts escape="sql"}Student{/ts}'     , NULL, NULL,    1, 1),
+  ( 5, 'Parent'      , '{ts escape="sql"}Parent{/ts}'      , NULL, NULL,    1, 1),
+  ( 6, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , NULL, NULL,    1, 1),
+  ( 7, 'Team'        , '{ts escape="sql"}Team{/ts}'        , NULL, NULL,    3, 1),
+  ( 8, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , NULL, NULL,    3, 1);

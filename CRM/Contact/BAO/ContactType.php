@@ -52,8 +52,8 @@ class CRM_Contact_BAO_ContactType extends CRM_Contact_DAO_ContactType {
             $_cache = array( );
         }
 
-        $argString = md5( serialize( func_get_args( ) ) );
-        if ( ! isset( $_cache[$argString] ) ) {
+        $argString = $all ? '1' : '0';
+        if ( ! array_key_exists( $argString, $_cache ) ) {
             $_cache[$argString] = array( );
 
             $sql = "
@@ -120,14 +120,17 @@ WHERE  parent_id IS NULL
         if ( $_cache === null ) {
             $_cache = array( );
         }
+        if ( $contactType && !is_array( $contactType ) ) {
+            $contactType = array( $contactType );
+        }
 
-        $argString = md5( serialize( func_get_args( ) ) );
-        if ( ! isset( $_cache[$argString] ) ) {
+        $argString = $all ? '1_' : '0_';
+        if ( ! empty( $contactType ) ) {
+            $argString .= implode( "_" , $contactType );
+        }
+
+        if ( ! array_key_exists( $argString, $_cache ) ) {
             $_cache[$argString] = array( );
-
-            if ( $contactType && !is_array( $contactType ) ) {
-                $contactType = array( $contactType );
-            }
 
             $ctWHERE = '';
             if ( ! empty($contactType) ) {
@@ -199,8 +202,8 @@ WHERE  subtype.name IS NOT NULL AND subtype.parent_id IS NOT NULL {$ctWHERE}
             $_cache = array( );
         }
 
-        $argString = md5( serialize( func_get_args( ) ) );
-        if ( ! isset( $_cache[$argString] ) ) {
+        $argString = $all ? '1' : '0';
+        if ( ! array_key_exists( $argString, $_cache ) ) {
             $_cache[$argString] = array( );
 
             $sql = "
@@ -278,15 +281,16 @@ AND   ( p.is_active = 1 OR p.id IS NULL )
             $_cache = array( );
         }
         
-        $argString = md5( serialize( func_get_args( ) ) );
-        if ( ! isset( $_cache[$argString] ) ) {
+        $isArray = true;
+        if ( $subType && !is_array( $subType ) ) {
+            $subType = array( $subType );
+            $isArray = false;
+        }
+        $argString = implode( "_" , $subType );
+
+        if ( ! array_key_exists( $argString, $_cache ) ) {
             $_cache[$argString] = array( );
             
-            $isArray = true;
-            if ( $subType && !is_array( $subType ) ) {
-                $subType = array( $subType );
-                $isArray = false;
-            }
             $sql = "
 SELECT subtype.name as contact_subtype, type.name as contact_type 
 FROM   civicrm_contact_type subtype
