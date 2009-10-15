@@ -70,8 +70,13 @@
 	 <div id='notice'>
 	    <dl>		
     	    <dt>{$form.receipt_text_renewal.label}</dt>
-            <dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: 'Thanks for supporting our organization with your membership.'{/ts}</span>
+            <dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt (text part). EXAMPLE: 'Thanks for supporting our organization with your membership.'{/ts}</span>
             {$form.receipt_text_renewal.html|crmReplace:class:huge}</dd> 
+	    </dl>
+	    <dl>
+            <dt>{$form.receipt_html_renewal.label}</dt>
+            <dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt (HTML part).{/ts}</span>
+            {$form.receipt_html_renewal.html|crmReplace:class:huge}</dd>
 	    </dl>
 	 </div>
      {/if}

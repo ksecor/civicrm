@@ -129,8 +129,13 @@
     {/if}    
         <tr id='notice' style="display:none;">
             <td class="label">{$form.receipt_text_signup.label}</td>
-            <td class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: 'Thanks for supporting our organization with your membership.'{/ts}</span>
+            <td class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt (text part). EXAMPLE: 'Thanks for supporting our organization with your membership.'{/ts}</span>
                  {$form.receipt_text_signup.html|crmReplace:class:huge}</td>
+        </tr>
+        <tr id='notice' style="display:none;">
+            <td class="label">{$form.receipt_html_signup.label}</td>
+            <td class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt (HTML part).'{/ts}</span>
+                 {$form.receipt_html_signup.html|crmReplace:class:huge}</td>
         </tr>
     </table>
     
