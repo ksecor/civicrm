@@ -23,8 +23,22 @@ ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_b` varchar(64) col
 
 
 -- CRM-3507
-ALTER TABLE civicrm_msg_template ADD workflow_id INT UNSIGNED           COMMENT 'a pseudo-FK to civicrm_option_value';
-ALTER TABLE civicrm_msg_template ADD is_default  TINYINT      DEFAULT 1 COMMENT 'is this the default message template for the workflow referenced by workflow_id?';
+
+ALTER TABLE civicrm_msg_template
+  ADD workflow_id INT UNSIGNED           COMMENT 'a pseudo-FK to civicrm_option_value',
+  ADD is_default  TINYINT      DEFAULT 1 COMMENT 'is this the default message template for the workflow referenced by workflow_id?';
+
+ALTER TABLE civicrm_contribution_page
+  ADD {localize field='pay_later_receipt_html'}pay_later_receipt_html TEXT COMMENT 'receipt sent to the user instead of the normal receipt (HTML part)'{/localize},
+  ADD {localize field='receipt_html'}receipt_html                     TEXT COMMENT 'text to include above standard receipt info on receipt email (HTML part)'{/localize};
+
+ALTER TABLE civicrm_event
+  ADD {localize field='pay_later_receipt_html'}pay_later_receipt_html TEXT COMMENT 'receipt sent to the user instead of the normal receipt (HTML part)'{/localize};
+
+ALTER TABLE civicrm_membership_type
+  ADD receipt_html_signup  VARCHAR(255) COMMENT 'Receipt HTML for membership signup',
+  ADD receipt_html_renewal VARCHAR(255) COMMENT 'Receipt HTML for membership renewal';
+
 
 INSERT INTO civicrm_option_group (name,                     {localize field='label'}label{/localize},                    is_reserved, is_active) VALUES 
                                  ('msg_tpl_workflow_event', {localize}'Message Template Workflow for Events'{/localize}, 0,           1);

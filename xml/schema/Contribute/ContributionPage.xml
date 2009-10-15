@@ -112,8 +112,15 @@
       <name>pay_later_receipt</name>   
       <type>text</type>                   
       <localizable>true</localizable>
-      <comment>The receipt sent to the user instead of the normal receipt text</comment>   
+      <comment>receipt sent to the user instead of the normal receipt (text part)</comment>
       <add>2.0</add>   
+  </field>
+  <field>
+      <name>pay_later_receipt_html</name>
+      <type>text</type>
+      <localizable>true</localizable>
+      <comment>receipt sent to the user instead of the normal receipt (HTML part)</comment>
+      <add>3.1</add>
   </field>
   <field>   
       <name>is_allow_other_amount</name>   
@@ -238,9 +245,19 @@
        <rows>6</rows>
        <cols>50</cols>
        <localizable>true</localizable>
-       <comment>text to include above standard receipt info on receipt email. emails are text-only, so do not allow html for now</comment>
+       <comment>text to include above standard receipt info on receipt email (text part)</comment>
        <add>1.3</add>  
   </field>  
+  <field>
+       <name>receipt_html</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>6</rows>
+       <cols>50</cols>
+       <localizable>true</localizable>
+       <comment>text to include above standard receipt info on receipt email (HTML part)</comment>
+       <add>3.1</add>
+  </field>
   <field>
        <name>is_active</name>
        <type>boolean</type>

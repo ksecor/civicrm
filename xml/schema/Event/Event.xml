@@ -413,8 +413,15 @@
       <name>pay_later_receipt</name>   
       <type>text</type>                   
       <localizable>true</localizable>
-      <comment>The receipt sent to the user instead of the normal receipt text</comment>   
+      <comment>receipt sent to the user instead of the normal receipt (text part)</comment>
       <add>2.0</add>   
+  </field>
+  <field>
+      <name>pay_later_receipt_html</name>
+      <type>text</type>
+      <localizable>true</localizable>
+      <comment>receipt sent to the user instead of the normal receipt (HTML part)</comment>
+      <add>3.1</add>
   </field>
   <field>   
       <name>is_multiple_registrations</name>   

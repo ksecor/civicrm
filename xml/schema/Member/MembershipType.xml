@@ -175,6 +175,16 @@
       <add>2.0</add>
   </field>
   <field>
+      <name>receipt_html_signup</name>
+      <type>varchar</type>
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
+      <length>255</length>
+      <comment>Receipt HTML for membership signup</comment>
+      <add>3.1</add>
+  </field>
+  <field>
       <name>receipt_text_renewal</name>
       <type>varchar</type>
       <htmlType>textarea</htmlType>
@@ -183,6 +193,16 @@
       <length>255</length>
       <comment>Receipt Text for membership renewal</comment>
       <add>2.0</add>
+  </field>
+  <field>
+      <name>receipt_html_renewal</name>
+      <type>varchar</type>
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
+      <length>255</length>
+      <comment>Receipt HTML for membership renewal</comment>
+      <add>3.1</add>
   </field>
   <field> 
       <name>is_active</name>     
