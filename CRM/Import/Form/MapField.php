@@ -223,7 +223,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                                 );
             require_once 'CRM/Dedupe/BAO/Rule.php';
             $fieldsArray       = CRM_Dedupe_BAO_Rule::dedupeRuleFields( $ruleParams );
-            $highlightedFields = array_merge( $highlightedFields, $fieldsArray );
+            //$highlightedFields = array_merge( $highlightedFields, $fieldsArray );
 
             //Modify mapper fields title if fields are present in dedupe rule
             foreach ( $fieldsArray as $val ) {
