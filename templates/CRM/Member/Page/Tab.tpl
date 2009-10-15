@@ -37,13 +37,14 @@
            </dl>
       </div>
     {/if}
-
+    {include file="CRM/common/jsortable.tpl"}
     {if $activeMembers}
     <div id="memberships">
         <div><label>{ts}Active Memberships{/ts}</label></div>
         {strip}
-        <table class="selector">
-            <tr class="columnheader">
+        <table id="options" class="display">
+            <thead>
+            <tr>
                 <th>{ts}Membership{/ts}</th>
                 <th>{ts}Start Date{/ts}</th>
                 <th>{ts}End Date{/ts}</th>
@@ -51,6 +52,7 @@
                 <th>{ts}Source{/ts}</th>
                 <th></th>
             </tr>
+            </thead>
             {foreach from=$activeMembers item=activeMember}
             <tr class="{cycle values="odd-row,even-row"} {$activeMember.class}">
                 <td>
@@ -79,8 +81,9 @@
         <p></p>
         <div class="label font-red">{ts}Pending and Inactive Memberships{/ts}</div>
         {strip}
-        <table class="selector">
-            <tr class="columnheader">
+        <table id="options" class="display">
+           <thead>
+            <tr>
                 <th>{ts}Membership{/ts}</th>
                 <th>{ts}Start Date{/ts}</th>
                 <th>{ts}End Date{/ts}</th>
@@ -88,6 +91,7 @@
                 <th>{ts}Source{/ts}</th>
                 <th></th>
             </tr>
+            </thead>
             {foreach from=$inActiveMembers item=inActiveMember}
             <tr class="{cycle values="odd-row,even-row"} {$inActiveMember.class}">
                 <td>{$inActiveMember.membership_type}</td>

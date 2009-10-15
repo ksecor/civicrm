@@ -46,20 +46,23 @@
         {strip}
 	{* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
-        <table class="selector">
-         <tr class="columnheader">
+ 	{include file="CRM/common/jsortable.tpl"}
+        <table id="options" class="display">
+        <thead>
+         <tr>
             <th>{ts}Option Label{/ts}</th>
             <th>{ts}Option Amount{/ts}</th>
-	    <th>{ts}Default{/ts}</th>
-            <th>{ts}Order{/ts}</th>
-	    <th>{ts}Enabled?{/ts}</th>
-            <th>&nbsp;</th>
+    	    <th>{ts}Default{/ts}</th>
+            <th id="nosort">{ts}Order{/ts}</th>
+	        <th>{ts}Enabled?{/ts}</th>
+            <th></th>
          </tr>
+        </thead>
         {foreach from=$customOption item=row}
-	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+    	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
             <td>{$row.name|crmMoney}</td>
-	    <td>{$row.is_default}</td>
+	        <td>{$row.is_default}</td>
             <td class="nowrap">{$row.weight}</td>
             <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{$row.action}</td>
