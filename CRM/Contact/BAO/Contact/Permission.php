@@ -51,17 +51,17 @@ class CRM_Contact_BAO_Contact_Permission {
     static function allow( $id, $type = CRM_Core_Permission::VIEW ) 
     {
         $tables     = array( );
-        $temp       = array( );
+        $whereTables       = array( );
        
         //check permission based on relationship, CRM-2963
         if ( self::relationship( $id ) ) {
             return true;
         } else {
             require_once 'CRM/ACL/API.php';
-            $permission = CRM_ACL_API::whereClause( $type, $tables, $temp );
+            $permission = CRM_ACL_API::whereClause( $type, $tables, $whereTables );
         }
         require_once "CRM/Contact/BAO/Query.php";
-        $from       = CRM_Contact_BAO_Query::fromClause( $tables );
+        $from       = CRM_Contact_BAO_Query::fromClause( $whereTables );
 
         $query = "
 SELECT count(DISTINCT contact_a.id) 
