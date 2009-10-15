@@ -103,19 +103,24 @@ WHERE  ( contact_id_a = %1 AND contact_id_b = %2 AND is_permission_a_b = 1 ) OR
         }
     }
 
+
+    static function validateOnlyChecksum( $contactID, &$form ) {
+        // check if this is of the format cs=XXX
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        if ( !  CRM_Contact_BAO_Contact_Utils::validChecksum( $contactID,
+                                                              CRM_Utils_Request::retrieve( 'cs', 'String' , $form, false ) ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            CRM_Core_Error::statusBounce( ts( 'You do not have permission to edit this contact record. Contact the site administrator if you need assistance.' ),
+                                          $config->userFrameworkBaseURL );
+        }
+    }
+
     static function validateChecksumContact( $contactID, &$form ) {
         if ( ! self::allow( $contactID, CRM_Core_Permission::EDIT ) ) {
             // check if this is of the format cs=XXX
-            require_once 'CRM/Contact/BAO/Contact/Utils.php';
-            $cs = CRM_Utils_Request::retrieve( 'cs', 'String' , $form, false );
-            if ( ! CRM_Contact_BAO_Contact_Utils::validChecksum( $contactID, $cs ) ) {
-                $config =& CRM_Core_Config::singleton( );
-                CRM_Core_Error::statusBounce( ts( 'You do not have permission to edit this contact record. Contact the site administrator if you need assistance.' ),
-                                              $config->userFrameworkBaseURL );
-            }
-            return true;
+            self::validateOnlyChecksum( $contactID, $form ) ) {
         }
-        return false;
+        return;
     }
 
 }
