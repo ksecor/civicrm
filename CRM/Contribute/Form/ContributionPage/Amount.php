@@ -118,8 +118,11 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $this->addElement('textarea', 'pay_later_text', ts( 'Pay later label' ),  
                           CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_text' ),
                           false );
-        $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay later instructions' ),  
+        $this->addElement('textarea', 'pay_later_receipt', ts('Pay later instructions (text part)'),
                           CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_receipt' ),
+                          false );
+        $this->addElement('textarea', 'pay_later_receipt_html', ts('Pay later instructions (HTML part)'),
+                          CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'pay_later_receipt_html'),
                           false );
 
         // add price set fields

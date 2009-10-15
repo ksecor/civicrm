@@ -655,6 +655,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         if ( $this->_params['is_pay_later'] ) {
             $this->assign( 'pay_later_text'   , $this->_values['pay_later_text']    );
             $this->assign( 'pay_later_receipt', $this->_values['pay_later_receipt'] );
+            $this->assign('pay_later_receipt_html', $this->_values['pay_later_receipt_html']);
         }
     }
 
