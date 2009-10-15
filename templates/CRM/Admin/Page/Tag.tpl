@@ -11,25 +11,23 @@
 {if $rows}
 {include file="CRM/common/jsortable.tpl"}
 <div id="cat">
-<p></p>
-    <div class="form-item">
         {strip}
         <table id="options" class="display">
 	    <thead>
         <tr>
-	        <th>{ts}Parent ID{/ts}</th>
-	        <th>{ts}Tag{/ts}</th>
-            <th id="sortable">{ts}ID{/ts}</th>
+	        <th id="sortable">{ts}Tag{/ts}</th>
+            <th>{ts}ID{/ts}</th>
 	        <th id="nosort">{ts}Description{/ts}</th>
+	        <th>{ts}Parent ID{/ts}</th>
 	        <th></th>
         </tr>
         </thead>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-            <td>{$row.parent_id}</td>
             <td>{$row.name}</td>
             <td>{$row.id}</td>	
             <td>{$row.description} </td>
+            <td>{$row.parent_id}</td>
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
@@ -41,7 +39,6 @@
         <a href="{crmURL q="action=add&reset=1"}" id="newTag" class="button"><span>&raquo; {ts}New Tag{/ts}</span></a>
         </div>
         {/if}
-    </div>
 </div>
 {else}
     <div class="messages status">

@@ -12,7 +12,6 @@
 <p></p>
 {include file="CRM/common/pager.tpl" location="top"}
 {include file="CRM/common/pagerAToZ.tpl}
-<div class="form-item">
 {strip}
 <table id="options" class="display">
 	<thead>
@@ -26,6 +25,7 @@
 		<th></th>
     </tr>
 	</thead>
+	<tbody>
 	{foreach from=$rows item=row}
 	<tr class="{cycle values="odd-row,even-row"} {$row.class}">
 		<td><a href="{crmURL p='civicrm/contribute/pcp/info' q="reset=1&id=`$row.id` "}" title="{ts}View Personal Campaign Page{/ts}">{$row.title}</a></td>
@@ -39,9 +39,9 @@
 		<td style="display:none;">{if $row.end_date}{$row.end_date|truncate:10:''|crmDate}{else}({ts}ongoing{/ts}){/if}</td>
 	</tr>
 	{/foreach}
+	</tbody>
 </table>
 {/strip}
-</div>
 </div>
 {else}
 <div class="messages status">
