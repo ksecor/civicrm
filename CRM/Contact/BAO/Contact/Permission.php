@@ -35,6 +35,9 @@
 
 class CRM_Contact_BAO_Contact_Permission {
 
+    const
+        NUM_CONTACTS_TO_INSERT = 200;
+
     /**
      * check if the logged in user has permissions for the operation type
      *
@@ -67,6 +70,83 @@ WHERE contact_a.id = %1 AND $permission";
         $params = array( 1 => array( $id, 'Integer' ) );
 
         return ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) ? true : false;
+    }
+
+    /**
+     * fill the acl contact cache for this contact id if empty
+     *
+     * @param int     $id     contact id
+     * @param string  $type   the type of operation (view|edit)
+     * @param boolean $force  should we force a recompute
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function cache( $userID, $type = CRM_Core_Permission::VIEW, $force = false )
+    {
+        static $_processed = array( );
+
+        if ( $type = CRM_Core_Permission::VIEW ) {
+            $operationClause = " operation IN ( 'Edit', 'View' ) ";
+            $operation       = 'View';
+        } else {
+            $operationClause = " operation = 'Edit' ";
+            $operation       = 'Edit';
+        }
+
+        if ( ! $force ) {
+            if ( CRM_Utils_Array::value( $userID, $_processed ) ) {
+                return;
+            }
+
+            // run a query to see if the cache is filled
+            $sql = "
+SELECT count(id)
+FROM   civicrm_acl_contact_cache
+WHERE  user_id = %1
+AND    $operationClause
+";
+            $params = array( 1 => array( $userID, 'Integer' ) );
+            $count = CRM_Core_DAO::singleValueQuery( $sql, $params );
+            if ( $count > 0 ) {
+                $_processed[$userID] = 1;
+                return;
+            }
+        }
+
+        $tables      = array( );
+        $whereTables = array( );
+
+        require_once 'CRM/ACL/API.php';
+        $permission = CRM_ACL_API::whereClause( $type, $tables, $whereTables, $userID );
+
+        require_once "CRM/Contact/BAO/Query.php";
+        $from       = CRM_Contact_BAO_Query::fromClause( $whereTables );
+
+        $query = "
+SELECT DISTINCT(contact_a.id) as id
+       $from
+WHERE $permission
+";
+
+        $values = array( );
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            $values[] = "( {$userID}, {$dao->id}, '{$operation}' )";
+        }
+
+        // now store this in the table
+        while ( ! empty( $values ) ) {
+            $processed = true;
+            $input = array_splice( $values, 0, self::NUM_CONTACTS_TO_INSERT );
+            $str   = implode( ',', $input );
+            $sql = "REPLACE INTO civicrm_acl_contact_cache ( user_id, contact_id, operation ) VALUES $str;";
+            CRM_Core_DAO::executeQuery( $sql );
+        }
+
+        $_processed[$userID] = 1;
+        return;
     }
 
     /**

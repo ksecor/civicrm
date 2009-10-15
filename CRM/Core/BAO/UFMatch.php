@@ -190,9 +190,23 @@ WHERE     openid = %1";
             require_once 'CRM/Core/Transaction.php';
             $transaction = new CRM_Core_Transaction( );
 
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $uniqId, $ctype );
-            
+            if ( ! empty( $_POST ) ) {
+                $params = $_POST;
+                $params['email'] = $uniqId;
+
+                require_once 'CRM/Dedupe/Finder.php';
+                $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
+                $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
+
+                if ( ! empty( $ids ) ) {
+                    $dao = new CRM_Core_DAO( );
+                    $dao->contact_id = $ids[0];
+                }
+            } else {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $uniqId, $ctype );
+            }
+
             if ( ! $dao && ( $uf == 'Standalone' ) ) {
                 $dao =& CRM_Contact_BAO_Contact::matchContactOnOpenId( $uniqId, $ctype );
             }

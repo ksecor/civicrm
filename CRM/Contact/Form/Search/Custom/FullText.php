@@ -193,7 +193,7 @@ CREATE TEMPORARY TABLE {$this->_entityIDTableName} (
         $config =& CRM_Core_Config::singleton( );
        
         if ( ( ! $this->_table ||
-               $this->_table == 'Contact') && CRM_Core_Permission::check('view all contacts') ) {
+               $this->_table == 'Contact') ) {
             $this->fillContact( );
         }
 
@@ -222,7 +222,33 @@ CREATE TEMPORARY TABLE {$this->_entityIDTableName} (
                $this->_table == 'Membership') && in_array( 'CiviMember', $config->enableComponents ) ) {
             $this->fillMembership( );
         }
+
+        $this->filterACLContacts( );
     }
+
+    function filterACLContacts( ) {
+        if ( CRM_Core_Permission::check( 'view all contacts' ) ) {
+            return;
+        }
+
+        $session = CRM_Core_Session::singleton( );
+        $contactID =  $session->get( 'userID' );
+        if ( ! $contactID ) {
+            $contactID = 0;
+        }
+
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
+        CRM_Contact_BAO_Contact_Permission::cache( $contactID );
+
+        $sql = "
+DELETE     t.*
+FROM       {$this->_tableName} t
+WHERE      NOT EXISTS ( SELECT c.id FROM civicrm_acl_contact_cache c WHERE c.user_id = %1 AND ( t.contact_id = c.contact_id OR t.target_contact_id = c.contact_id ) )
+";
+        $params = array( 1 => array( $contactID, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $sql, $params );
+    }
+
 
     function fillCustomInfo( &$tables,
                              $extends ) {
@@ -774,6 +800,7 @@ LEFT JOIN  civicrm_membership_status cms ON cms.id = cm.status_id
             CRM_Core_DAO::executeQuery( $sql );
         }
     }
+
 
 }
 
