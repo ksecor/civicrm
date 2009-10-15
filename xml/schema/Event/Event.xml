@@ -317,9 +317,20 @@
       <rows>4</rows>
       <cols>50</cols>
       <localizable>true</localizable>
-      <comment>text to include above standard event info on confirmation email. emails are text-only, so do not allow html for now</comment>
+      <comment>text to include above standard event info on confirmation email (text part)</comment>
       <add>1.7</add>     
   </field> 
+ <field>
+      <name>confirm_email_html</name>
+      <type>text</type>
+      <title>Confirmation Email HTML</title>
+      <htmlType>textarea</htmlType>
+      <rows>4</rows>
+      <cols>50</cols>
+      <localizable>true</localizable>
+      <comment>text to include above standard event info on confirmation email (HTML part)</comment>
+      <add>3.1</add>
+  </field>
  <field>        
       <name>confirm_from_name</name>     
       <type>varchar</type>     

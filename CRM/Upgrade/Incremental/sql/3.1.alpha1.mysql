@@ -33,6 +33,7 @@ ALTER TABLE civicrm_contribution_page
   ADD {localize field='receipt_html'}receipt_html                     TEXT COMMENT 'text to include above standard receipt info on receipt email (HTML part)'{/localize};
 
 ALTER TABLE civicrm_event
+  ADD {localize field='confirm_email_html'}confirm_email_html         TEXT COMMENT 'text to include above standard event info on confirmation email (HTML part)'{/localize},
   ADD {localize field='pay_later_receipt_html'}pay_later_receipt_html TEXT COMMENT 'receipt sent to the user instead of the normal receipt (HTML part)'{/localize};
 
 ALTER TABLE civicrm_membership_type
