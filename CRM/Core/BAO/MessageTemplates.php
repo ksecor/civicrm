@@ -298,7 +298,10 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         civicrm_smarty_register_string_resource();
         $smarty =& CRM_Core_Smarty::singleton();
         // FIXME: we should clear the template variables, but this would break 
-        // way too much existing code (and require a lot of code duplication)
+        // way too much existing code which shares the singleton Smarty object 
+        // for both web and email templates; clearing assigns here would mean 
+        // things like CRM_Event_BAO_Event::buildCustomDisplay() would need to 
+        // set template variables *and* set array keys for $tplParams
         // $smarty->clear_all_assign();
         foreach ($tplParams as $name => $value) {
             $smarty->assign($name, $value);
