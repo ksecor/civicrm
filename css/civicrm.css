@@ -533,11 +533,52 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 #crm-container .tree-default li a.loading { background-image:url("../packages/jquery/plugins/themes/default/throbber.gif"); }
 
 /* CONTEXT MENU */
-.tree-default-context { width:160px; background:#F0F0F0 url("../packages/jquery/plugins/themes/default/context.gif") 22px 0 repeat-y; border:1px solid silver; position:absolute; }
-.tree-context a, .tree-default-context a, .tree-default-context a.disabled:hover { display:block; text-decoration:none; color:black; line-height:20px; background-repeat: no-repeat; background-position:2px center; padding:1px 0 1px 25px !important; background-color:transparent; border:1px solid #f0f0f0; border-width:0 1px; margin:0; }
-.tree-default-context a:hover { background-color:#e7f4f9; border:1px solid #d8f0fa; padding:0 0 0 25px; margin:0; }
-.tree-default-context a.disabled, .tree-default-context a.disabled:hover { color:silver; opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50); zoom:1; }
-.tree-context span.separator, .tree-default-context .separator { background:#FFFFFF;border-top:1px solid #E0E0E0;font-size:1px;height:1px;line-height:1px;margin:0 2px 0 24px;min-height:1px;display:block; }
+.tree-default-context { 
+	width:160px; 
+	background:#F0F0F0 url("../packages/jquery/plugins/themes/default/context.gif") 22px 0 repeat-y; 
+	border:1px solid silver; 
+	position:absolute; 
+	}
+	
+.tree-context a, 
+.tree-default-context a, 
+.tree-default-context a.disabled:hover { 
+	display:block; 
+	text-decoration:none; 
+	color:black; 
+	line-height:20px; 
+	background-repeat: no-repeat; 
+	background-position:2px center; 
+	padding:1px 0 1px 25px !important; 
+	background-color:transparent; 
+	border:1px solid #f0f0f0; 
+	border-width:0 1px; 
+	margin:0; 
+	}
+.tree-default-context a:hover { 
+	background-color:#e7f4f9; 
+	border:1px solid #d8f0fa; 
+	padding:0 0 0 25px; 
+	margin:0; 
+	}
+.tree-default-context a.disabled, 
+.tree-default-context a.disabled:hover { 
+	color:silver; 
+	opacity:0.5; -ms-filter:'alpha(opacity=50)'; 
+	filter:alpha(opacity=50); 
+	zoom:1; 
+	}
+.tree-context span.separator, 
+.tree-default-context .separator { 
+	background:#FFFFFF;
+	border-top:1px solid #E0E0E0;
+	font-size:1px;
+	height:1px;
+	line-height:1px;
+	margin:0 2px 0 24px;
+	min-height:1px;
+	display:block; 
+	}
 
 /*
 ** Styles for formatting text
@@ -616,8 +657,6 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
     width: auto;
 }
 
-
-
 #crm-container td.enclosingNested {
   padding: 0px;
 }
@@ -692,28 +731,34 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   border: 2px solid #999999;
 }
 
-
-
 #crm-container td.yes-no {
   text-align: center;
 }
 
-#crm-container .font-red, #crm-container .status-removed, #crm-container .disabled, #crm-container .status-overdue, #crm-container .status-hold {
-  color: #FF0105;
-}
+#crm-container .font-red, 
+#crm-container .status-removed, 
+#crm-container .disabled, #
+crm-container .status-overdue, 
+#crm-container .status-hold {
+  	color: #FF0105;
+	}
 
 /* this fixes the sloppy vertical mis-alignments in selectors and keeps sort icons aligned with sort header text */
-#crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none {
+#crm-container a.sort-ascending, 
+#crm-container a.sort-descending, 
+#crm-container a.sort-none {
    white-space: nowrap;
 }
 
-#crm-container a.sort-ascending:before, #crm-container thead th.selectedDown:before {
+#crm-container a.sort-ascending:before, 
+#crm-container thead th.selectedDown:before {
    content: url(sort-asc.png);
    margin-right: 5px;
    vertical-align: middle;
 }
 
-#crm-container a.sort-descending:before, #crm-container thead th.selectedUp:before {
+#crm-container a.sort-descending:before, 
+#crm-container thead th.selectedUp:before {
    content: url(sort-desc.png);
    margin-right: 5px;
    vertical-align: middle;
@@ -1039,7 +1084,8 @@ div.crm-pager a {
 	left: 1%;
 	top: 1%;
 	position: relative;
-}
+	}
+	
 #crm-container .label-pane {
     margin: 0.25em 0em 0em;
     padding: 0.25em;
@@ -1047,14 +1093,15 @@ div.crm-pager a {
 	cursor: pointer;
     color: #213245;
 	font-weight: bold;
-}
+	}
+	
 #crm-container .label-pane :hover {
 	cursor: pointer;
-}
+	}
 
 #crm-container .content-pane {
-  overflow: auto;
-}
+  	overflow: auto;
+	}
 
 /*
  editor specific classes
@@ -1065,7 +1112,7 @@ div.crm-pager a {
    float: left;
    vertical-align:top;
    width: 58em;
-}
+	}
 
 #crm-container.clear { /* generic container (i.e. div) for floating buttons */
     overflow: hidden;
@@ -1129,12 +1176,15 @@ div.crm-pager a {
 }
 /* class for personal campaign info page */
 
-#crm-container table.campaign th, table.campaign td, #crm-container table.campaign,#crm-container table.campaign table.form-layout td{ 
-  font-size: 9pt;
-  border: 0px;
-  width: auto;
-  vertical-align: top;
- }
+#crm-container table.campaign th, 
+table.campaign td, 
+#crm-container table.campaign,
+#crm-container table.campaign table.form-layout td{ 
+  	font-size: 9pt;
+  	border: 0px;
+  	width: auto;
+  	vertical-align: top;
+ 	}
 
 #crm-container table.campaign table{ 
   background: #F7F7F7;
@@ -1434,8 +1484,6 @@ body .ac_loading {
    padding     : 3px;
 }
 
-
-
 /* class for text area resizer jquery plugin*/
 div.grippie {
     background   : #EEEEEE url('../i/grippie.png') no-repeat scroll center 2px;
@@ -1453,7 +1501,9 @@ div.grippie {
     height        : 20%;
 }
 
-.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+.ui-tabs .ui-tabs-nav li a, 
+.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a,
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a {
    font-size: 0.9em;
 }
 
@@ -1492,12 +1542,6 @@ div.grippie {
 	background-color : #F7F7F7;
 	border           : 1px solid #CCCCCC;
 	width            : 100%;
-}
-
-#crm-container div.contact_panel, 
-#crm-container div#contactTopBar {
-	WIDTH   : 100%; 
-	DISPLAY : block
 }
 
 #crm-container div.contact_panel *, 
@@ -1604,7 +1648,6 @@ div.grippie {
 	TEXT-ALIGN       : right;
     margin           : 8px 0 0;
 	padding          : 4px 4px 2px 0;
-	WIDTH            : 100%;
 	background-color : #fff;
 	border           : none;
 }
@@ -1625,18 +1668,6 @@ div.grippie {
 #crm-container div.buttons #icons {
 	/*WIDTH: 10%*/
 }
-
-.ui-tabs .ui-tabs-nav LI A {
-	FONT-SIZE  : 0.9em
-}
-
-.ui-tabs-collapsible.ui-tabs .ui-tabs-nav LI.ui-tabs-selected A {
-	FONT-SIZE  : 0.9em
-}
-
-.ui-tabs .ui-tabs-nav LI A {
-	padding: 5px !important; 
-	}
 
 #crm-container .separator {
 	border-bottom  : solid 2px #ccc;
@@ -1776,42 +1807,37 @@ div.grippie {
  padding-right: 4px;
 }
 
-.block-civicrm div#recently-viewed ul li.Activity {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Activity.png");
- }
-.block-civicrm div#recently-viewed ul li.Case {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Case.png");
- }
-.block-civicrm div#recently-viewed ul li.Contribution {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Contribution.png");
- }
-.block-civicrm div#recently-viewed ul li.Grant {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Grant.png");
- }
-.block-civicrm div#recently-viewed ul li.Group {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Group.png");
- }
-.block-civicrm div#recently-viewed ul li.Household {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Household.png");
- }
-.block-civicrm div#recently-viewed ul li.Individual {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Individual.png");
- }
-.block-civicrm div#recently-viewed ul li.Membership {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Membership.png");
- }
-.block-civicrm div#recently-viewed ul li.Note {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Note.png");
- }
-.block-civicrm div#recently-viewed ul li.Organization {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Organization.png");
- }
-.block-civicrm div#recently-viewed ul li.Participant {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Participant.png");
- }
+/* setup for icons */
+
+.block-civicrm div#recently-viewed ul li.Activity,
+.block-civicrm div#recently-viewed ul li.Case ,
+.block-civicrm div#recently-viewed ul li.Contribution,
+.block-civicrm div#recently-viewed ul li.Grant,
+.block-civicrm div#recently-viewed ul li.Group,
+.block-civicrm div#recently-viewed ul li.Household,
+.block-civicrm div#recently-viewed ul li.Individual,
+.block-civicrm div#recently-viewed ul li.Membership,
+.block-civicrm div#recently-viewed ul li.Note,
+.block-civicrm div#recently-viewed ul li.Organization,
+.block-civicrm div#recently-viewed ul li.Participant,
 .block-civicrm div#recently-viewed ul li.Pledge {
-  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Pledge.png");
- }
+	background-position:3px;
+	background-repeat: no-repeat;
+	}
+ 
+ /* icon images - also can be used to override specific settings for indiviudual icons */
+.block-civicrm div#recently-viewed ul li.Activity { background-image:url("../i/recent/Activity.png"); }
+.block-civicrm div#recently-viewed ul li.Case { background-image:url("../i/recent/Case.png"); }
+.block-civicrm div#recently-viewed ul li.Contribution { background-image:url("../i/recent/Contribution.png"); }
+.block-civicrm div#recently-viewed ul li.Grant { background-image:url("../i/recent/Grant.png"); }
+.block-civicrm div#recently-viewed ul li.Group { background-image:url("../i/recent/Group.png"); }
+.block-civicrm div#recently-viewed ul li.Household { background-image:url("../i/recent/Household.png"); }
+.block-civicrm div#recently-viewed ul li.Individual { background-image:url("../i/recent/Individual.png"); }
+.block-civicrm div#recently-viewed ul li.Membership { background-image:url("../i/recent/Membership.png"); }
+.block-civicrm div#recently-viewed ul li.Note { background-image:url("../i/recent/Note.png"); }
+.block-civicrm div#recently-viewed ul li.Organization { background-image:url("../i/recent/Organization.png");  }
+.block-civicrm div#recently-viewed ul li.Participant { background-image:url("../i/recent/Participant.png"); }
+.block-civicrm div#recently-viewed ul li.Pledge { background-image:url("../i/recent/Pledge.png"); }
  
  .ac_results ul li {background-image:url('');}
 .Individual {background:url('../i/contact_ind.gif') no-repeat;padding-left:20px;}
@@ -1823,7 +1849,6 @@ div.grippie {
 	padding-left : 20px;
 }
 
-.button {}
 .edit {
 	background   : url("../i/edit.png") transparent no-repeat; 
 	padding-left : 18px;
@@ -1919,6 +1944,20 @@ div.helpicon {
 	height:16px;
 	}
 
+div.statusicon {
+	background  : transparent url(../i/quiz.png) no-repeat;
+	display     : inline-block;
+	cursor      : pointer;
+	background-position:-48px -144px;
+	background-image:url(../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png);
+	background-color:#CCC;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+	text-indent: -10000;
+	}
+
+
 div#toolTip {
 	padding   : 10px;
 	background: #FFFFFF url(../i/popupMenuBg.gif) repeat-x scroll left bottom;
@@ -1942,10 +1981,12 @@ div#toolTip {
 #crm-container div.contact_panel span.email-hold, 
 #crm-container div.contact_panel span.do-not-email, 
 #crm-container div.contact_panel span.do-not-phone {
-    background-position:3px; background-repeat:no-repeat; background-image:url("../i/stop-icon.png");
+    background-position:3px; 
+    background-repeat:no-repeat; 
+    background-image:url("../i/stop-icon.png");
     padding-left: 24px;
 	color: #ff6655 !important;
- }
+ 	}
  
  
  
@@ -1958,9 +1999,7 @@ div#toolTip {
   width: 98%;	
   border-collapse: collapse;
   border: 0px none;
-}
- 
-
+} 
 
 #crm-container .collapsed {
    background: url("../i/TreePlus.gif") no-repeat 0 0;
