@@ -924,20 +924,17 @@ WHERE civicrm_event.is_active = 1
                 
                 self::buildCustomDisplay( $preProfileID, 'customPre' , $contactID, $template, $participantId, $isTest );
                 self::buildCustomDisplay( $postProfileID, 'customPost', $contactID, $template, $participantId, $isTest );
-                
-                // set confirm_text and contact email address for display in the template here
-                $template->assign( 'email', $email );
-                $template->assign( 'confirm_email_text', CRM_Utils_Array::value( 'confirm_email_text', $values['event'] ) );
-                
-                $isShowLocation = CRM_Utils_Array::value('is_show_location',$values['event']);
-                $template->assign( 'isShowLocation', $isShowLocation );
-                
-                $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
-                $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
-                $receiptFrom = $values['event']['confirm_from_name'] . ' <' . $values['event']['confirm_from_email'] . '>';
 
                 require_once 'CRM/Core/BAO/MessageTemplates.php';
-                list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML('msg_tpl_workflow_event', 'event_receipt', array());
+                list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                    'msg_tpl_workflow_event',
+                    'event_receipt',
+                    array(
+                        'email'              => $email,
+                        'confirm_email_text' => CRM_Utils_Array::value('confirm_email_text', $values['event']),
+                        'isShowLocation'     => CRM_Utils_Array::value('is_show_location',   $values['event']),
+                    )
+                );
                 
                 if ( $returnMessageText ) {
                     return array( 'subject' => $subject,
@@ -945,6 +942,8 @@ WHERE civicrm_event.is_active = 1
                                   'to'      => $displayName );
                 }
                 
+                $receiptFrom = "{$values['event']['confirm_from_name']} <{$values['event']['confirm_from_email']}>";
+
                 require_once 'CRM/Utils/Mail.php';
                 CRM_Utils_Mail::send( $receiptFrom,
                                       $displayName,
