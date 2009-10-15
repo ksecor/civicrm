@@ -238,6 +238,10 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                 $template->assign('onBehalfEmail',   $email);
             }
             
+            // CRM-5095
+            $template->assign( 'lineItem', CRM_Utils_Array::value( 'lineItem', $values ) );
+            $template->assign( 'priceSetID', CRM_Utils_Array::value( 'priceSetID', $values ) );
+            
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
             if ( $returnMessageText ) {

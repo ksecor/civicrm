@@ -159,6 +159,13 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             $values = unserialize( $mailingDomain->mailing_backend );
             CRM_Core_BAO_Setting::formatParams( $formValues, $values );
         }
+
+        // if password is present, encrypt it
+        if ( isset( $formValues['smtpPassword'] ) ) {
+            require_once 'CRM/Utils/Crypt.php';
+            $formValues['smtpPassword'] = CRM_Utils_Crypt::encrypt( $formValues['smtpPassword'] );
+        }
+        
         $mailingDomain->mailing_backend = serialize( $formValues );
         $mailingDomain->save();
     }
@@ -218,7 +225,12 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             $mailingDomain =& new CRM_Core_DAO_Preferences();
             $mailingDomain->find(true);
             if ( $mailingDomain->mailing_backend ) {
-                $this->_defaults = unserialize( $mailingDomain->mailing_backend );     
+                $this->_defaults = unserialize( $mailingDomain->mailing_backend );
+
+                if ( isset( $this->_defaults['smtpPassword'] ) ) {
+                    require_once 'CRM/Utils/Crypt.php';
+                    $this->_defaults['smtpPassword'] = CRM_Utils_Crypt::decrypt( $this->_defaults['smtpPassword'] );
+                }
             } else {
                 if ( ! isset( $this->_defaults['smtpServer'] ) ) {
                     $this->_defaults['smtpServer'] = 'localhost';

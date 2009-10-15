@@ -173,7 +173,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                                'domain','numberOfDigit',
                                'date', 'qfDate', 'currentDate',
                                'asciiFile', 'htmlFile', 'utf8File',
-                               'objectExists', 'optionExists', 'postalCode', 'money','positiveInteger',
+                               'objectExists', 'optionExists', 'postalCode', 'money', 'moneySigned', 'positiveInteger',
                                'xssString', 'fileExists', 'qfBirthDate', 'autocomplete', 'validContact' );
 
         foreach ( $rules as $rule ) {
@@ -765,7 +765,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         
     function addWysiwyg( $name, $label, $attributes, $forceTextarea = false ) 
     {
-        // 1. Get configuration option for editor (tinymce, fckeditor, pure textarea)
+        // 1. Get configuration option for editor (tinymce, ckeditor, pure textarea)
         // 2. Based on the option, initialise proper editor
         require_once 'CRM/Core/BAO/Preferences.php';
         $editor = strtolower( CRM_Utils_Array::value( CRM_Core_BAO_Preferences::value( 'editor_id' ),
@@ -794,8 +794,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         if( $required ) {
             $this->addRule($name . '_id', ts('Please select %1', array(1 => $label)), 'required');
         }
-
-        
     }
 
     function buildAddressBlock( $locationId, $title, $phone,

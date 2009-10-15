@@ -22,6 +22,8 @@
         {$form.buttons.html}
     </div>
     </fieldset>
+    {* include jscript to warn if unsaved form field changes *}
+    {include file="CRM/common/formNavigate.tpl"}
 {/if}
 {if ($action eq 8)}
 <fieldset><legend>{ts}Delete Note{/ts}</legend>

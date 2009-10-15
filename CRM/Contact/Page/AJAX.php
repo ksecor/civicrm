@@ -41,17 +41,47 @@ class CRM_Contact_Page_AJAX
 {
     static function getContactList( &$config ) 
     {
-        $name = CRM_Utils_Type::escape( $_GET['s'], 'String' );
-        
-        $limit = '10';
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $name   = CRM_Utils_Type::escape( $_GET['s'], 'String' );
+        $limit  = '10';
+        $list   = array_keys( CRM_Core_BAO_Preferences::valueOptions( 'autocomplete_contact_search_options' ), '1' );
+        $select = array( );
+        $where  = '';
+        foreach( $list as $value ) {
+            $suffix = "c" . substr( $value, 0, 1 ) . substr( $value, -1 );
+            switch( $value ) {
+
+            case 'street_address':
+                $value = "address";
+            case 'phone':                
+            case 'email':
+                $select[] = ( $value == 'address' ) ? 'street_address' : $value;
+                $from    .= " LEFT JOIN civicrm_{$value} {$suffix} ON cc.id = {$suffix}.contact_id";
+                $where   .= " AND {$suffix}.is_primary = 1";
+                break;
+
+            case 'country':
+            case 'state_province':
+                $select[] = "{$suffix}.name";
+                if( ! in_array( 'street_address', $select ) ) 
+                    $from .= ' LEFT JOIN civicrm_address css ON cc.id = css.contact_id ';
+                $from     .= " LEFT JOIN civicrm_{$value} {$suffix} ON css.{$value}_id = {$suffix}.id";
+                break;
+
+            case 'sort_name':
+                array_unshift( $select, $value );
+                break;
+            }
+        }
+        $select = implode( ', ', $select );
         if ( CRM_Utils_Array::value( 'limit', $_GET) ) {
             $limit = CRM_Utils_Type::escape( $_GET['limit'], 'Positive' );
         }
         
         $query = "
-SELECT sort_name, id
-FROM civicrm_contact
-WHERE sort_name LIKE '%$name%'
+SELECT CONCAT_WS( ' :: ', {$select} ) as data, cc.id as id
+FROM civicrm_contact cc {$from}
+WHERE sort_name LIKE '%$name%' {$where} 
 ORDER BY sort_name
 LIMIT 0, {$limit}
 ";
@@ -66,7 +96,7 @@ LIMIT 0, {$limit}
         $dao = CRM_Core_DAO::executeQuery( $query );
         $contactList = null;
         while ( $dao->fetch( ) ) {
-            echo $contactList = "$dao->sort_name|$dao->id\n";
+            echo $contactList = "$dao->data|$dao->id\n";
         }
         exit();
     } 

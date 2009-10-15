@@ -52,6 +52,8 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                           array( 'display_name'      => 
                                  array( 'title'      => ts( 'Contact Name' ),
                                         'no_repeat'  => true ),
+                                 'postal_greeting_display' =>
+                                 array( 'title'      => ts( 'Postal Greeting' ) ),
                                  'id'           => 
                                  array( 'no_display' => true,
                                         'required'  => true, ), ),
@@ -332,7 +334,7 @@ class CRM_Report_Form_Contribute_Summary extends CRM_Report_Form {
                     foreach ( $table['fields'] as $fieldName => $field ) {
                         if ( CRM_Utils_Array::value( $field['name'], $fields['fields'] ) && 
                              $fields['fields'][$field['name']] && 
-                             in_array( $field['name'], array( 'display_name', 'contribution_source', 'contribution_type' ) ) ) {
+                             in_array( $field['name'], array( 'display_name', 'postal_greeting_display', 'contribution_source', 'contribution_type' ) ) ) {
                             $grouping[] = $field['title'];
                         }
                     }

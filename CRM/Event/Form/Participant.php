@@ -750,7 +750,15 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
               array_search( 'Failed', CRM_Contribute_PseudoConstant::contributionStatus(null, 'name'))) ) {
             $errorMsg['contribution_status_id'] = ts( "Please select a valid payment status before updating." );
         }
-        
+        if ( CRM_Utils_Array::value( 'priceSetId', $values ) ) {
+            $lineItem = array( );
+            require_once "CRM/Price/BAO/Set.php";
+            CRM_Price_BAO_Set::processAmount( $self->_values['fee']['fields'], $values, $lineItem );
+            if ($values['amount'] < 0) {
+                $errorMsg['_qf_default'] = ts( "Event Fee(s) can not be less than zero. Please select the options accordingly" );
+            }
+        }
+   
         return empty( $errorMsg ) ? true : $errorMsg;
     }    
     

@@ -21,7 +21,20 @@
 {literal}
     cj( function() {
         var tabIndex = cj('#tab_' + selectedTab).prevAll().length
-        cj("#mainTabContainer").tabs( {selected: tabIndex} );        
+        cj("#mainTabContainer").tabs( {
+            selected: tabIndex,
+            select: function(event, ui) {
+                if ( !global_formNavigate ) {
+                    var message = '{/literal}{ts}Confirm\n\nAre you sure you want to navigate away from this tab?\n\nYou have unsaved changes.\n\nPress OK to continue, or Cancel to stay on the current tab.{/ts}{literal}';
+                    if ( !confirm( message ) ) {
+                        return false;
+                    } else {
+                        global_formNavigate = true;
+                    }
+                }
+                return true;
+            }
+        });        
     });
 {/literal}
 </script>

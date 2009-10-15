@@ -79,6 +79,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
             $group->extends = $params['extends'][0];
         }
 
+        if ( is_array($params['extends'][1]) && !empty($params['extends'][1]) ) {
+            $params['extends'][1] = implode ( CRM_Core_DAO::VALUE_SEPARATOR, $params['extends'][1] );
+        }
+
         $group->extends_entity_column_id = null;
         if ( ($params['extends'][0] == 'Relationship') && !empty($params['extends'][1])) {
             $group->extends_entity_column_value = str_replace( array('_a_b', '_b_a'), array('', ''), $params['extends'][1]);
@@ -93,6 +97,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
             } 
         }
         
+        if ( $group->extends_entity_column_value ) {
+            $group->extends_entity_column_value = CRM_Core_DAO::VALUE_SEPARATOR . 
+                $group->extends_entity_column_value . CRM_Core_DAO::VALUE_SEPARATOR;
+        }
+
         if ( isset( $params['id'] ) ) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'weight', 'id' );
         } else {
@@ -311,11 +320,12 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
         }
 
         if ( $subType ) {
+            $subType  = CRM_Core_DAO::VALUE_SEPARATOR . $subType . CRM_Core_DAO::VALUE_SEPARATOR;
             $strWhere = "
 WHERE civicrm_custom_group.is_active = 1 
   AND civicrm_custom_field.is_active = 1 
   AND civicrm_custom_group.extends IN ($in)
-  AND ( civicrm_custom_group.extends_entity_column_value = '$subType'
+  AND ( civicrm_custom_group.extends_entity_column_value LIKE '%$subType%'
    OR   civicrm_custom_group.extends_entity_column_value IS NULL )
 ";
             if ( $subName ) {

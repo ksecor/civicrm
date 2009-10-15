@@ -20,6 +20,10 @@ ALTER TABLE civicrm_contribution MODIFY column amount_level text collate utf8_un
 ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_a` varchar(64) collate utf8_unicode_ci DEFAULT NULL AFTER `contact_type_b`;
 ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_b` varchar(64) collate utf8_unicode_ci DEFAULT NULL AFTER `contact_sub_type_a`;
 
+-- Upgrade FCKEditor to CKEditor CRM-5226
+
+UPDATE civicrm_option_value SET label = 'CKEditor' WHERE label = 'FCKEditor';
+
 
 
 -- CRM-3507

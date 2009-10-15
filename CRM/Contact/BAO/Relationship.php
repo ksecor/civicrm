@@ -234,7 +234,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @return array - array reference of all relationship types with context to current contact.
      */
     function getContactRelationshipType( $contactId = null, $contactSuffix, $relationshipId, 
-                                         $contactType = null, $all = false, $column = 'label', $biDirectional = true )
+                                         $contactType = null, $all = false, $column = 'label', $biDirectional = true, $contatSubType = null )
     {
         $allRelationshipType = array( );
         $relationshipType    = array( );
@@ -249,6 +249,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 $contact->id = ( $relationship->contact_id_a === $contactId ) ? $relationship->contact_id_b : $relationship->contact_id_a;
                 if ($contact->find(true)) {
                     $otherContactType = $contact->contact_type;
+                    //CRM-5125 for contact subtype specific relationshiptypes
+                    if ( $contact->contact_sub_type ) {
+                        $otherContactSubType = $contact->contact_sub_type; 
+                    }
+
                 }
             }
         }
@@ -258,6 +263,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $contact->id = $contactId;
             if ( $contact->find(true) ) {
                 $contactType = $contact->contact_type;
+                if ( $contact->contact_sub_type ) {
+                    $contatSubType = $contact->contact_sub_type;
+                }
             } 
         }
 
@@ -265,12 +273,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             // the contact type is required or matches
             if ( ( ( ! $value['contact_type_a'] ) || $value['contact_type_a'] == $contactType ) &&
                  // the other contact type is required or present or matches
-                 ( ( ! $value['contact_type_b'] ) || ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
+                 ( ( ! $value['contact_type_b'] ) || ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) &&
+                 ( ( ! $value['contact_sub_type_b'] || ( $value['contact_sub_type_a'] == $contatSubType ) ))) {
                 $relationshipType[ $key . '_a_b' ] =  $value[ "{$column}_a_b" ];
+            
             } 
             
             if ( ( ( ! $value['contact_type_b'] ) || $value['contact_type_b'] == $contactType ) &&
-                 ( ( ! $value['contact_type_a'] ) || ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) ) {
+                 ( ( ! $value['contact_type_a'] ) || ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) &&
+                 ( ! $value['contact_sub_type_a'] || ( $value['contact_sub_type_b'] == $contatSubType ))) {
                 $relationshipType[ $key . '_b_a' ] = $value[ "{$column}_b_a" ];
             }
             

@@ -155,7 +155,7 @@
 	}
 	var amount_block = document.getElementsByName('amount_block_is_active');
   	if ( ! amount_block[0].checked) {
-	   hide('amountFields');
+	   hide('amountFields', 'block');
         }
 	var pay_later = document.getElementsByName('is_pay_later');
   	if ( ! pay_later[0].checked) {
@@ -171,15 +171,7 @@
 		 document.getElementById("max_amount").value = '';
 	  }
 	}
-	
-	function amountBlock(chkbox) {
-           if (chkbox.checked) {
-	       show('amountFields', 'block');
-           } else {
-	       hide('amountFields', 'block');
-           }
-        }
-	
+		
 	function payLater(chkbox) {
            if (chkbox.checked) {
 	       show('payLaterFields',  'table-row');
@@ -187,6 +179,76 @@
 	       hide('payLaterFields',  'table-row');
 	   }
         }
+
+	function showHideAmountBlock( element, elementName ) 
+        {
+	   // show / hide when amount section is active check/uncheck.
+	   if ( elementName == 'amount_block_is_active' ) {
+	   
+	        var priceSetID = {/literal}'{$priceSetID}'{literal};
+	        if ( element.checked ) {
+                     
+                     if ( cj( "#price_set_id" ).val( ) ) {
+		        // check for price set enable and give msg to user.
+		        var message = {/literal}'{ts}Oops. You cannot enable both Price Set and Contribution Amounts section on the same online contribution page. Do you want to continue?{/ts}'{literal};	     	
+	     	        var ok = confirm( message );
+		     	if ( ok ) {
+			   show('amountFields', 'block'); 
+		           cj( "#price_set_id" ).val( '' );
+			} else {
+			   cj("#amount_block_is_active").attr( 'checked', false ); 
+			}
+		     } else {
+		        show('amountFields', 'block'); 
+		     }
+	        } else {
+	             hide('amountFields', 'block');
+
+ 		     //check for price set id exist.
+		     var priceSetID = {/literal}'{$priceSetID}'{literal};
+		     if ( priceSetID ) {
+		        cj( "#price_set_id" ).val( priceSetID );
+		     }
+	        }
+	   }
+	  
+	   // show / hide when pledge or other amount check/uncheck.
+	   if ( elementName == 'is_pledge_active' || elementName == 'is_allow_other_amount' ) {
+	        if ( element.checked ) {
+	             cj("#amount_block_is_active").attr( 'checked', true );
+		     show('amountFields', 'block');
+	        }
+	   }
+	  
+	   // show/hide when price set change.
+	   if ( elementName == 'price_set_id' ) {
+	        var hasAmountSection = false;
+	        {/literal}{if $hasAmountBlock}{literal}
+	          hasAmountSection = true;
+	        {/literal}{/if}{literal} 
+	  
+	        if ( element ) {
+ 		     var resetAmountSection = true;
+		     if ( hasAmountSection || cj("#amount_block_is_active").attr('checked') ) {
+		          var message = {/literal}'{ts}Oops. You cannot enable both Price Set and Contribution Amounts section on the same online contribution page. Do you want to continue?{/ts}'{literal};	     	
+	     	          var ok = confirm( message );
+                          if ( !ok ) {
+		             resetAmountSection = false;
+		             cj( "#price_set_id" ).val( '' );
+		          }		
+		     }
+		
+		     if ( resetAmountSection ) {
+		          hide('amountFields', 'block');		  
+                          cj("#amount_block_is_active").attr( 'checked', false );
+		     }	
+	        } else if ( hasAmountSection ) {
+		       cj("#amount_block_is_active").attr( 'checked', true );
+                       show('amountFields', 'block');
+	        }
+	    }
+ 	}
+
 </script>
 {/literal}
 {if $form.is_recur}
@@ -209,11 +271,7 @@
     invert              = "false"
 }
 {/if}
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="price_set_id"
-    trigger_value       =""
-    target_element_id   ="amountFields" 
-    target_element_type ="block"
-    field_type          ="select"
-    invert              = 0
-}
+
+{* include jscript to warn if unsaved form field changes *}
+{include file="CRM/common/formNavigate.tpl"}
+

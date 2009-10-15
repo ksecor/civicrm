@@ -28,8 +28,6 @@
 
     {if $rows}
     <div id="uf_profile">
-    <p></p>
-        <div class="form-item">
         {strip}
         {* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
@@ -46,8 +44,9 @@
             <th></th>
           </tr>
         </thead> 
+        <tbody>
         {foreach from=$rows item=row}
-	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+	    <tr id="row_{$row.id}"class="{$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
             <td>{$row.group_type}</td>
             <td>{$row.id}</td>
@@ -57,16 +56,15 @@
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
+        </tbody>
         </table>
         
         {if NOT ($action eq 1 or $action eq 2)}
-        <p></p>
         <div class="action-link">
         <a href="{crmURL p='civicrm/admin/uf/group' q="action=add&reset=1"}" id="newCiviCRMProfile" class="button"><span>&raquo; {ts}New CiviCRM Profile{/ts}</span></a>
         </div>
         {/if}
          {/strip}
-        </div>
     </div>
     {else}
     {if $action ne 1} {* When we are adding an item, we should not display this message *}

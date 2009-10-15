@@ -492,8 +492,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_membershipBlock = $this->get( 'membershipBlock' );
 
         if ( ! $this->_values['amount_block_is_active'] &&
-             ! $this->_membershipBlock['is_active'] ) {
-            CRM_Core_Error::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
+             ! $this->_membershipBlock['is_active'] &&
+             ! $this->_priceSetId ) {
+            CRM_Core_Error::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section or Price Set. Please check with the site administrator for assistance.' ) );
         }
 
         if ( $this->_values['amount_block_is_active'] ) {

@@ -136,9 +136,6 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
      */ 
     function view( ) 
     {
-        // build associated contributions
-        $this->associatedContribution( );
-
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_MembershipView', 'View Membership',  
                                                        $this->_action ); 
         $controller->setEmbedded( true );  
@@ -197,7 +194,9 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
             $this->assign('action', $this->_action );     
         } else {
             // we should call contact view, preprocess only for membership in contact summary
-            $this->preProcess( );           
+            if ( $this->_action != CRM_Core_Action::VIEW ) {
+                $this->preProcess( );
+            }           
         }        
 
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit memberships' ) ) {
@@ -224,23 +223,27 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
             $this->assign( 'accessContribution', false );
         }
                
-        $this->setContext( );
-        
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             $this->view( ); 
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) { 
+            $this->setContext( );
             $this->edit( ); 
         } else {
+            $this->setContext( );
             $this->browse( );
         }
 
         return parent::run( );
     }
 
-    function setContext( ) {
+    function setContext( $contactId = null ) {
         $context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                 $this, false, 'search' );
 
+        if ( ! $contactId ) {
+            $contactId = $this->_contactId;
+        }
+        
         switch ( $context ) {
 
         case 'dashboard':
@@ -250,7 +253,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
 
         case 'membership':
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=member" );
+                                          "reset=1&force=1&cid={$contactId}&selectedChild=member" );
             break;
 
         case 'search':
@@ -263,7 +266,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
 
         case 'activity':
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
+                                          "reset=1&force=1&cid={$contactId}&selectedChild=activity" );
             break;
 
         case 'standalone':
@@ -272,8 +275,8 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
             
         default:
             $cid = null;
-            if ( $this->_contactId ) {
-                $cid = '&cid=' . $this->_contactId;
+            if ( $contactId ) {
+                $cid = '&cid=' . $contactId;
             }
             $url = CRM_Utils_System::url( 'civicrm/member/search', 
                                           'force=1' . $cid );
@@ -376,15 +379,19 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
      * return null 
      * @access public 
      */ 
-    function associatedContribution( )
+    function associatedContribution( $contactId = null )
     {
+        if ( ! $contactId ) {
+            $contactId = $this->_contactId;
+        }
+
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $this->assign( 'accessContribution', true );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), null );  
             $controller->setEmbedded( true );                           
             $controller->reset( );  
             $controller->set( 'force', 1 );
-            $controller->set( 'cid'  , $this->_contactId );
+            $controller->set( 'cid'  , $contactId );
             $controller->set( 'memberId'  , $this->_id );
             $controller->set( 'context', 'contribution' ); 
             $controller->process( );  

@@ -28,16 +28,26 @@
           {assign var=cbName value=$row.checkbox}
           <td>{$form.$cbName.html}</td> 
        {/if}
-       <td>{$row.contact_type}</td>	
-       <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
+       <td>{$row.contact_type}</td>
+       <td>
+            <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact record{/ts}">{$row.sort_name}</a>
+        </td> 
     {/if}
-    <td>{$row.membership_type_id}</td>
+    <td>
+        {$row.membership_type_id}
+        {if $row.owner_membership_id}<br />({ts}by relationship{/ts}){/if}
+    </td>
     <td>{$row.join_date|truncate:10:''|crmDate}</td>
     <td>{$row.membership_start_date|truncate:10:''|crmDate}</td>
     <td>{$row.membership_end_date|truncate:10:''|crmDate}</td>
     <td>{$row.membership_source}</td>
     <td>{$row.status_id}</td>
-    <td>{$row.action|replace:'xx':$row.membership_id}</td>
+    <td>
+        {$row.action|replace:'xx':$row.membership_id}
+        {if $row.owner_membership_id}
+            &nbsp;|&nbsp;<a href="{crmURL p='civicrm/membership/view' q="reset=1&id=`$row.owner_membership_id`&action=view&context=search"}" title="{ts}View Primary member record{/ts}">{ts}View Primary{/ts}</a>
+        {/if}
+    </td>
    </tr>
   {/foreach}
 {* Link to "View all memberships" for Contact Summary selector display *}

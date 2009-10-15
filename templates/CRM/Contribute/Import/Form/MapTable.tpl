@@ -84,6 +84,7 @@
         		 }
              }
              {/literal}	     
+	     {include file="CRM/common/highLightImport.tpl"}
 	    </script>
     </div>
     {/if}

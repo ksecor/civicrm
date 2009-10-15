@@ -231,7 +231,12 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
                                  'name'    => 'extends[0]'),
                            true);
         $sel->setOptions( array( $sel1, $sel2 ) );
-       
+        if ( is_a($sel->_elements[1], 'HTML_QuickForm_select') ) {
+            // make second selector a multi-select -
+            $sel->_elements[1]->setMultiple(true);
+            $sel->_elements[1]->setSize(5);
+        }
+
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $sel->freeze();
             $this->assign('gid', $this->_id);

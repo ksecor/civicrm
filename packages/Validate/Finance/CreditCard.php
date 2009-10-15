@@ -211,6 +211,9 @@ class Validate_Finance_CreditCard
             $regex = '(6334[5-9]{1}[0-9]{1}|6767[0-9]{2}|3528[0-9]{2})([0-9]{10}|[0-9]{12}|[0-9]{13})';
             break;
         case 'SWITCH':
+        case 'MAESTRO':
+        case 'SWITCH/MAESTRO':
+        case 'MAESTRO/SWITCH':
             $regex = '(49030[2-9]{1}|49033[5-9]{1}|49110[1-2]{1}|49117[4-9]{1}|49118[0-2]{1}|4936[0-9]{2}|564182|6333[1-4]{1}[0-9]{1}|6331[1-4]{1}[0-9]{1}|6759[0-9]{2})([0-9]{10}|[0-9]{12}|[0-9]{13})';
             break;
         default:
@@ -265,6 +268,9 @@ class Validate_Finance_CreditCard
         case 'DISCOVER':
         case 'LASER':
         case 'SWITCH':
+        case 'MAESTRO':
+        case 'SWITCH/MAESTRO':
+        case 'MAESTRO/SWITCH':
         case 'SOLO':
             $digits = 3;
             break;

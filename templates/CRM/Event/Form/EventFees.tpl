@@ -68,7 +68,7 @@
 </tr>
 <tr><td></td>
     <td align="left">
-      {include file="CRM/Event/Form/CalculatePriceset.tpl"} 
+      {include file="CRM/Price/Form/Calculate.tpl"} 
     </td>
 </tr>
     {/if}	

@@ -1372,6 +1372,10 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             $gId =$form->get('gid');
             require_once 'CRM/Core/BAO/UFField.php';
             $profileType = CRM_Core_BAO_UFField::getProfileType( $gId);
+	    require_once 'CRM/Contact/BAO/ContactType.php';
+	    if ( CRM_Contact_BAO_ContactType::isaSubType( $profileType ) ) {
+	      $profileType = CRM_Contact_BAO_ContactType::getBasicType( $profileType );
+	    }
             if ( $fieldName == 'email_greeting') {
                 $emailGreeting = array( 'contact_type'  => $profileType, 
                                         'greeting_type' => 'email_greeting');

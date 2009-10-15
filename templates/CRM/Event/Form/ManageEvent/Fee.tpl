@@ -229,3 +229,7 @@ function warnDiscountDel( ) {
     field_type          ="radio"
     invert              = 0
 }
+
+{* include jscript to warn if unsaved form field changes *}
+{include file="CRM/common/formNavigate.tpl"}
+

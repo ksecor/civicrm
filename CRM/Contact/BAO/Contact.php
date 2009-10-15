@@ -687,7 +687,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @static
      *
      */
-    public static function getContactTypeSubType( $id )
+    public static function getContactTypes( $id )
     {
         $params  = array( 'id' => $id );
         $contact = CRM_Core_DAO::commonRetrieve( 'CRM_Contact_DAO_Contact', $params,

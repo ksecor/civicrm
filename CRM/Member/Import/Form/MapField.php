@@ -188,6 +188,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
         $this->_onDuplicate = $this->get('onDuplicate',isset($onDuplicate) ? $onDuplicate : "");
 
+        $highlightedFields  = array();
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
@@ -204,11 +205,19 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             foreach( $remove as $value ) {
                 unset( $this->_mapperFields[$value] );
             }
+            $highlightedFieldsArray = array( 'membership_id','membership_start_date','membership_type_id' );
+            foreach ( $highlightedFieldsArray as $name ) {
+                $highlightedFields[] = $name;
+            }
         } else if( $this->_onDuplicate == CRM_Member_Import_Parser::DUPLICATE_SKIP ) {
             unset( $this->_mapperFields['membership_id'] );
+            $highlightedFieldsArray = array('membership_contact_id','email', 'external_identifier', 'membership_start_date','membership_type_id');
+            foreach ( $highlightedFieldsArray as $name ) {
+                $highlightedFields[] = $name;
+            }
         }    
         self::$_contactType = $this->get('contactType');
-        
+        $this->assign( 'highlightedFields', $highlightedFields );
     }
     
     /**

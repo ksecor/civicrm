@@ -117,9 +117,10 @@
         			document.getElementById("saveMappingDesc").disabled = true;
         		 }
              }
-             cj('select[id^="mapper"][id$="[0]"]').addClass('huge');
-             {/literal}	     
-	    </script>
+            cj('select[id^="mapper"][id$="[0]"]').addClass('huge');
+            {/literal}
+	    {include file="CRM/common/highLightImport.tpl"}
+	</script>
     </div>
     {/if}
  </div>

@@ -7,7 +7,7 @@
     {include file="CRM/Member/Form/MembershipRenewal.tpl"}
 {elseif $action eq 16} {* Browse memberships for a contact *}
     {if $permission EQ 'edit'}{capture assign=newURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}{/if}
-     
+
     {if $action ne 1 and $action ne 2 and $permission EQ 'edit'}
         <div id="help">
             {ts 1=$newURL}Current and inactive memberships for {$displayName} are listed below.{/ts}
@@ -53,12 +53,20 @@
             </tr>
             {foreach from=$activeMembers item=activeMember}
             <tr class="{cycle values="odd-row,even-row"} {$activeMember.class}">
-                <td>{$activeMember.membership_type}</td>
+                <td>
+                    {$activeMember.membership_type}
+                    {if $activeMember.owner_membership_id}<br />({ts}by relationship{/ts}){/if}
+                </td>
                 <td>{$activeMember.start_date|crmDate}</td>
                 <td>{$activeMember.end_date|crmDate}</td>
                 <td>{$activeMember.status}</td>
                 <td>{$activeMember.source}</td>
-                <td>{$activeMember.action}</td>
+                <td>
+                    {$activeMember.action}
+                    {if $activeMember.owner_membership_id}
+                        &nbsp;|&nbsp;<a href="{crmURL p='civicrm/membership/view' q="reset=1&id=`$activeMember.owner_membership_id`&action=view&context=membership&selectedChild=member"}" title="{ts}View Primary member record{/ts}">{ts}View Primary{/ts}</a>
+                    {/if}
+                </td>
             </tr>
             {/foreach}
         </table>

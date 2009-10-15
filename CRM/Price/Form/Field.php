@@ -157,7 +157,8 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         // price (for text inputs)
         $this->add( 'text', 'price', ts('Price') );
-        $this->addRule( 'price', ts('must be a monetary value'), 'money' );
+        $this->registerRule( 'price', 'callback', 'moneySigned', 'CRM_Utils_Rule' );
+        $this->addRule( 'price', ts('must be a monetary value'), 'moneySigned' );
         
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('html_type');
@@ -188,7 +189,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             $this->add('text', 'option_name['.$i.']', ts('Name'), $nameAttribute);
             
             // Below rule is uncommented for CRM-1313
-            $this->addRule('option_name['.$i.']' , ts('Please enter a valid amount for this field.'), 'money');
+            $this->addRule('option_name['.$i.']' , ts('Please enter a valid amount for this field.'), 'moneySigned');
             
             // weight
             $this->add('text', 'option_weight['.$i.']', ts('Order'), $weightAttribute);
@@ -285,12 +286,8 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
          *  Incomplete row checking is also required.
          */
         if ( ( $form->_action & CRM_Core_Action::ADD || $form->_action & CRM_Core_Action::UPDATE ) &&
-             $fields['html_type'] == 'Text' ) {
-            if( $fields['price'] ==  NULL ) {
-                $errors['price'] =   ts( 'Price is a required field' );
-            } else if ( $fields['price'] <=  0 ) {
-                $errors['price'] =   ts( 'Price must greater than zero (0).' );
-            }
+             $fields['html_type'] == 'Text' && $fields['price'] ==  NULL ) {
+            $errors['price'] = ts( 'Price is a required field' );
         }
         //avoid the same price field label in Within PriceSet
         $priceFieldLabel = new CRM_Price_DAO_Field();
@@ -410,7 +407,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                         $errors['option_label]['.$idx.']'] = ts( 'Option label cannot be empty' );
                     }
                     // all fields are money fields
-                    if ( ! CRM_Utils_Rule::money( $fields['option_name'][$idx] ) ) {
+                    if ( ! CRM_Utils_Rule::moneySigned( $fields['option_name'][$idx] ) ) {
                         $_flagOption = 1;
                         $errors['option_name['.$idx.']'] = ts( 'Please enter a valid money value.' );
                         

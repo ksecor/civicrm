@@ -139,6 +139,13 @@ class CRM_Contribute_BAO_Contribution_Utils {
                         if( isset( $paymentParams['contribution_source'] ) ) {
                             $form->_params['source'] = $paymentParams['contribution_source'];
                         }
+                        
+                        // get the price set values for receipt.
+                        if ( $form->_priceSetId && $form->_lineItem ) {
+                            $form->_values['lineItem']   = $form->_lineItem;
+                            $form->_values['priceSetID'] = $form->_priceSetId;
+                        }
+                        
                         require_once "CRM/Contribute/BAO/ContributionPage.php";
                         $form->_values['contribution_id'] = $contribution->id;
                         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
@@ -239,6 +246,13 @@ class CRM_Contribute_BAO_Contribution_Utils {
         if ( $paymentParams['is_recur'] && $form->_contributeMode == 'direct' ) {
             return true;
         }
+        
+        // get the price set values for receipt.
+        if ( $form->_priceSetId && $form->_lineItem ) {
+            $form->_values['lineItem']   = $form->_lineItem;
+            $form->_values['priceSetID'] = $form->_priceSetId;
+        }
+        
         // finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         $form->_values['contribution_id'] = $contribution->id;

@@ -12,7 +12,6 @@
 <p></p>
 {include file="CRM/common/pager.tpl" location="top"}
 {include file="CRM/common/pagerAToZ.tpl}
-<div class="form-item">
 {strip}
 <table id="options" class="display">
 	<thead>
@@ -20,12 +19,13 @@
 		<th>{ts}Page Title{/ts}</th>
 		<th>{ts}Supporter{/ts}</th>
 		<th>{ts}Contribution Page{/ts}</th>
-		<th>{ts}Starts{/ts}</th>
+		<th id="sortable">{ts}Starts{/ts}</th>
 		<th>{ts}Ends{/ts}</th>
-		<th id="sortable">{ts}Status{/ts}</th>
+		<th>{ts}Status{/ts}</th>
 		<th></th>
     </tr>
 	</thead>
+	<tbody>
 	{foreach from=$rows item=row}
 	<tr class="{cycle values="odd-row,even-row"} {$row.class}">
 		<td><a href="{crmURL p='civicrm/contribute/pcp/info' q="reset=1&id=`$row.id` "}" title="{ts}View Personal Campaign Page{/ts}">{$row.title}</a></td>
@@ -39,9 +39,9 @@
 		<td style="display:none;">{if $row.end_date}{$row.end_date|truncate:10:''|crmDate}{else}({ts}ongoing{/ts}){/if}</td>
 	</tr>
 	{/foreach}
+	</tbody>
 </table>
 {/strip}
-</div>
 </div>
 {else}
 <div class="messages status">
@@ -62,7 +62,7 @@
         var id = count = 0;
         cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
         cj('#options').dataTable( {
-            "aaSorting": [[ id, "asc" ]],
+            "aaSorting": [[ id, "asc" ],[ 5, "asc" ]],
             "bPaginate": false,
     		"bLengthChange": true,
     		"bFilter": false,

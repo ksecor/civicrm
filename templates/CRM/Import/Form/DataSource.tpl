@@ -69,7 +69,7 @@
       cj(document).ready(function() {    
          //build data source form block
          buildDataSourceFormBlock();
-         buildSubTypes(1);
+         buildSubTypes();
       });
       
       function buildDataSourceFormBlock(dataSource)
@@ -90,8 +90,9 @@
         cj("#data-source-form-block").load( dataUrl );
       }
 
-      function buildSubTypes( element )
+      function buildSubTypes( )
       {
+        element = cj("'input[name=contactType]:checked'").val();
         var postUrl = {/literal}"{crmURL p='civicrm/ajax/subtype' h=0 }"{literal};
         var param = 'parentId='+ element;
         cj.ajax({ type: "POST", url: postUrl, data: param, async: false, dataType: 'json',

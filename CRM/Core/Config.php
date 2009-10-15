@@ -82,6 +82,8 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      */
     public $templateCompileDir  = './templates_c/en_US/';
 
+    public $configAndLogDir = null;
+
     // END: BASE SYSTEM PROPERTIES (CIVICRM.SETTINGS.PHP)
 
     ///
@@ -237,8 +239,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($this->lcMessages);
             }
 
-            // make sure this directory exists
-            CRM_Utils_File::createDir( $this->templateCompileDir );
+            // also make sure we create the config directory within this directory
+            // the below statement will create both the templates directory and the config and log directory
+            $this->configAndLogDir = $this->templateCompileDir . 'ConfigAndLog' . DIRECTORY_SEPARATOR;
+            CRM_Utils_File::createDir( $this->configAndLogDir );
         }
 
 
@@ -453,8 +457,9 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 $params['port'] = $mailingInfo['smtpPort'] ? $mailingInfo['smtpPort'] : 25;
                 
                 if ($mailingInfo['smtpAuth']) {
+                    require_once 'CRM/Utils/Crypt.php';
                     $params['username'] = $mailingInfo['smtpUsername'];
-                    $params['password'] = $mailingInfo['smtpPassword'];
+                    $params['password'] = CRM_Utils_Crypt::decrypt( $mailingInfo['smtpPassword'] );
                     $params['auth']     = true;
                 } else {
                     $params['auth']     = false;

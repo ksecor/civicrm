@@ -52,3 +52,7 @@
      } 
  {/literal} 
 </script>
+
+{* include jscript to warn if unsaved form field changes *}
+{include file="CRM/common/formNavigate.tpl"}
+

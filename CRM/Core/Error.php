@@ -371,10 +371,11 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     static function debug_log_message( $message, $out = false )
     {
         $config =& CRM_Core_Config::singleton( );
-        $file_log = Log::singleton('file',
-                                   $config->uploadDir . 
-                                   'CiviCRM.log.' . 
-                                   md5( $config->dsn . $config->userFrameworkResourceURL ) );
+        $file_log = Log::singleton( 'file',
+                                    "{$config->configAndLogDir}CiviCRM." . 
+                                    md5( $config->dsn . $config->userFrameworkResourceURL ) .
+                                    ".log"
+                                    );
         $file_log->log("$message\n");
         $str = "<p/><code>$message</code>";
         if ( $out ) {

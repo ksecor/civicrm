@@ -578,8 +578,15 @@ class CRM_Core_Block {
             return null;
         }
 
-
         self::setTemplateValues( $id );
+
+        // Suppress Recent Items block if it's empty - CRM-5188
+        if ($id == self::RECENTLY_VIEWED){
+            $recent = self::getProperty( $id, 'templateValues' );
+            if ( CRM_Utils_Array::crmIsEmptyArray( $recent ) ){
+                return null;
+            }
+        }
 
         $block = array( );
         $block['name'   ] = 'block-civicrm';

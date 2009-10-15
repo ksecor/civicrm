@@ -77,7 +77,7 @@ class CRM_Core_IDS {
 
       // init the PHPIDS and pass the REQUEST array
       $config =& CRM_Core_Config::singleton( );
-      $configFile = $config->uploadDir . 'Config.IDS.ini';
+      $configFile = $config->configAndLogDir . 'Config.IDS.ini';
         if ( ! file_exists( $configFile ) ) {
             global $civicrm_root;
             $contents = "
@@ -120,7 +120,7 @@ class CRM_Core_IDS {
 
             // also create the .htaccess file so we prevent the reading of the log and ini files
             // via a browser, CRM-3875
-            $htaccessFile = $config->uploadDir . '.htaccess';
+            $htaccessFile = $config->configAndLogDir . '.htaccess';
             if ( ! file_exists( $htaccessFile ) ) {
                 $contents = '
 # Protect files and directories from prying eyes.

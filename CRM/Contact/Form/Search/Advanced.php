@@ -79,7 +79,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
 
         //check if there are any custom data searchable fields
         $groupDetails = array( );
-        $extends      = array( 'Contact', 'Individual', 'Household', 'Organization' );
+        $extends      = array_merge( array( 'Contact', 'Individual', 'Household', 'Organization' ),
+                                     CRM_Contact_BAO_ContactType::subTypes( ) );
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true,
                                                                   $extends );
         // if no searchable fields unset panel

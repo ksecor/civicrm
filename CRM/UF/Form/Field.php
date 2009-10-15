@@ -646,6 +646,39 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $session->set( 'showBestResult', $showBestResult );
         }
     }
+    /**
+     * validation rule for subtype. 
+     *
+     * @param array $groupType contains all groupTypes.
+     *
+     * @param  string  $fieldType type of field.
+     *
+     * @param array $errors 
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRuleSubType( $fieldType, $groupType, &$errors )
+    { 
+        if( in_array( $fieldType, array('Participant','Contribution','Membership') ) ) {
+            $individualSubTypes  = CRM_Contact_BAO_ContactType::subTypes( 'Individual' );
+            foreach( $groupType as $value ) {
+                if ( !in_array( $value, $individualSubTypes ) ) {
+                    $errors['field_name'] = 
+                        ts( 'Cannot add or update profile field "%1" with combination of  Household or Organization or any subtypes of Household or Organisation.',array( 1=>$fieldType ) );
+                    break;
+                }
+            }  
+        } else {
+            $basicTypes  = CRM_Contact_BAO_ContactType::getBasicType( $groupType );
+            if( !in_array( $fieldType, $basicTypes ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type "%1" with combination of subtype other than "%1".',array( 1=> $fieldType ) ); 
+            }
+        }
+    }
+    
     
     /**
      * global validation rules for the form
@@ -733,41 +766,81 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             if ( in_array( 'Household', $groupType ) || in_array( 'Organization', $groupType ) ) {
                 $errors['field_name'] = 
                     ts( 'Cannot add or update profile field type Individual with combination of Household or Organization'); 
+            } else {
+                self::formRuleSubType( $fieldType, $groupType, $errors );
             }
             break;
         case 'Household' :
             if ( in_array( 'Individual', $groupType ) || in_array( 'Organization', $groupType ) ) {
                 $errors['field_name'] = 
                     ts( 'Cannot add or update profile field type Household with combination of Individual or Organization'); 
+            } else {
+                self::formRuleSubType( $fieldType, $groupType, $errors );
             }
             break;
         case 'Organization' :
             if ( in_array( 'Household', $groupType ) || in_array( 'Individual', $groupType ) ) {
                 $errors['field_name'] = 
                     ts( 'Cannot add or update profile field type Organization with combination of Household or Individual'); 
-            } 
+            } else {
+                self::formRuleSubType( $fieldType, $groupType, $errors );
+            }
             break;
         case 'Participant' :
             if ( in_array( 'Membership', $groupType ) || in_array( 'Contribution', $groupType )
-                || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
+                 || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
                 $errors['field_name'] = 
                     ts( 'Cannot add or update profile field type Participant with combination of Membership or Contribution or Household or Organization'); 
-            } 
+            } else {
+                self::formRuleSubType( $fieldType, $groupType, $errors );
+            }
             break;
         case 'Contribution' :
             if ( in_array( 'Participant', $groupType ) || in_array( 'Membership', $groupType ) 
                  || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
                 $errors['field_name'] = 
                     ts( 'Cannot add or update profile field type Contribution with combination of Membership or Participant or Household or Organization'); 
-            }  
+            }  else { 
+                self::formRuleSubType( $fieldType, $groupType, $errors );
+            }
             break;
         case 'Membership' :
             if ( in_array( 'Participant', $groupType ) || in_array( 'Contribution', $groupType )
-                || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
+                 || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
                 $errors['field_name'] = 
                     ts( 'Cannot add or update profile field type Membership with combination of Participant or Contribution or Household or Organization'); 
-            }  
+            } else {
+                self::formRuleSubType( $fieldType, $groupType ,$errors );
+            } 
             break;
+        default:
+            $cType  = CRM_Contact_BAO_ContactType::getBasicType( $fieldType );
+            if($cType) {
+                $csType = CRM_Contact_BAO_ContactType::subTypes( );
+                if( !in_array ( $fieldType, $groupType ) ) {
+                    foreach( $groupType as $value ) {
+                        if( in_array( $value ,$csType ) ) {
+                            //make sure that new subtype extends the same basictype which
+                            //profile already extends. 
+                            $vType = CRM_Contact_BAO_ContactType::getBasicType( $value );
+                            if( $vType != $cType ) {
+                                $errors['field_name'] = 
+                                    ts( 'Cannot add or update profile field type "%1".'
+                                        ,array( 1=>$fieldType ) );
+                                break;
+                            }
+                        } else if ( $cType != $value ) {
+                            //make sure that basictype which profile already
+                            //extends is same as new basictype. 
+                            $errors['field_name'] = 
+                                ts( 'Cannot add or update profile field type "%1".'
+                                    ,array( 1=>$fieldType ) ); 
+                            break;
+                        }
+                        
+                    }  
+                }
+            }  
         }
         
         return empty($errors) ? true : $errors;

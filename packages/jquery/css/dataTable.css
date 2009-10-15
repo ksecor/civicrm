@@ -32,8 +32,6 @@
 
 .dataTables_wrapper {
 	position: relative;
-	min-height: 302px;
-	_height: 302px;
 	clear: both;
 }
 
@@ -106,6 +104,8 @@
 	margin: 0 auto;
 	width: 100%;
 	clear: both;
+	margin-bottom: 8px;
+	margin-top: 8px;
 }
 
 #crm-container table.display thead th {
@@ -152,67 +152,23 @@
 }
 
 
-
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables row classes
  */
-table.display tr.odd.gradeA {
-	background-color: #ddffdd;
+
+#crm-container tr.odd {
+	background-color: #FAFAFA;
 }
 
-table.display tr.even.gradeA {
-	background-color: #eeffee;
+#crm-container tr.even {
+	background-color: #F5F5F5;
 }
 
-
-
-
-table.display tr.odd.gradeA {
-	background-color: #ddffdd;
+#crm-container tr.even td, #crm-container tr.odd td {
+    border-collapse: collapse;
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
 }
-
-table.display tr.even.gradeA {
-	background-color: #eeffee;
-}
-
-table.display tr.odd.gradeC {
-	background-color: #ddddff;
-}
-
-table.display tr.even.gradeC {
-	background-color: #eeeeff;
-}
-
-table.display tr.odd.gradeX {
-	background-color: #ffdddd;
-}
-
-table.display tr.even.gradeX {
-	background-color: #ffeeee;
-}
-
-table.display tr.odd.gradeU {
-	background-color: #ddd;
-}
-
-table.display tr.even.gradeU {
-	background-color: #eee;
-}
-
-
-tr.odd {
-	background-color: #E2E4FF;
-}
-
-tr.even {
-	background-color: white;
-}
-
-
-
-
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Misc
  */

@@ -178,4 +178,11 @@
        <comment>Store navigation for the Contact</comment>
        <add>3.0</add>
   </field>
+  <field>
+       <name>autocomplete_contact_search_options</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>What Autocomplete has to return</comment>
+       <add>3.1</add>
+  </field>
 </table>

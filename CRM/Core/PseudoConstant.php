@@ -1056,16 +1056,18 @@ WHERE  id = %1";
             require_once 'CRM/Contact/DAO/RelationshipType.php';
             $relationshipTypeDAO = new CRM_Contact_DAO_RelationshipType();
             $relationshipTypeDAO->selectAdd();
-            $relationshipTypeDAO->selectAdd("id, {$column_a_b}, {$column_b_a}, contact_type_a, contact_type_b");
+            $relationshipTypeDAO->selectAdd("id, {$column_a_b}, {$column_b_a}, contact_type_a, contact_type_b, contact_sub_type_a, contact_sub_type_b");
             $relationshipTypeDAO->is_active = 1;
             $relationshipTypeDAO->find();
             while($relationshipTypeDAO->fetch()) {
                 
                 self::$relationshipType[$valueColumnName][$relationshipTypeDAO->id] 
-                    = array( $column_a_b      => $relationshipTypeDAO->$column_a_b,
-                             $column_b_a      => $relationshipTypeDAO->$column_b_a,
-                             'contact_type_a' => "$relationshipTypeDAO->contact_type_a",
-                             'contact_type_b' => "$relationshipTypeDAO->contact_type_b" );
+                    = array( $column_a_b          => $relationshipTypeDAO->$column_a_b,
+                             $column_b_a          => $relationshipTypeDAO->$column_b_a,
+                             'contact_type_a'     => "$relationshipTypeDAO->contact_type_a",
+                             'contact_type_b'     => "$relationshipTypeDAO->contact_type_b",
+                             'contact_sub_type_a' => "$relationshipTypeDAO->contact_sub_type_a",
+                             'contact_sub_type_b' => "$relationshipTypeDAO->contact_sub_type_b" );
             }
         }
         

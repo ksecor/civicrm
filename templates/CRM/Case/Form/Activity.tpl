@@ -229,6 +229,10 @@ cj( "#source_contact_id").autocomplete( sourceDataUrl, { width : 180, selectFirs
 
         </script>
     {/if}
+    
+    {* include jscript to warn if unsaved form field changes *}
+    {include file="CRM/common/formNavigate.tpl"}
+
 {/if } {* end of main if block*}
 
 </script>

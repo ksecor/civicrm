@@ -128,6 +128,12 @@ class CRM_Core_BAO_CMSUser
 
         if ( $isDrupal ) {
             $ufID = self::createDrupalUser( $params, $mail );
+            if ( (variable_get('user_register', TRUE ) == 1) && !variable_get('user_email_verification', TRUE ) ) {
+                $contact = array('email' => $params[$mail] );
+                if ( self::userExists( $contact ) ) {
+                    return $ufID;
+                }
+            }
         } elseif ( $isJoomla ) {            
             $ufID = self::createJoomlaUser( $params, $mail );           
         }
@@ -182,7 +188,7 @@ class CRM_Core_BAO_CMSUser
         // if cms is drupal having version greater than equal to 5.1
         // we also need email verification enabled, else we dont do it
         // then showCMS will true
-        if ( ( $isDrupal  && variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {
+        if ( $isDrupal OR $isJoomla ) {
             if ( $gid ) {                                        
                 $isCMSUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
             } 
@@ -455,9 +461,8 @@ SELECT count(*)
                                     'op'   => 'Create new account'
                                     );
         if ( !variable_get('user_email_verification', TRUE )) {
-            $values['values']['pass1']   =  $params['cms_pass'];
-            $values['values']['pass2'] =  $params['cms_confirm_pass'];
-            
+            $values['values']['pass']['pass1'] = $params['cms_pass'];
+            $values['values']['pass']['pass2'] = $params['cms_pass'];
         }
 
         $config =& CRM_Core_Config::singleton( );

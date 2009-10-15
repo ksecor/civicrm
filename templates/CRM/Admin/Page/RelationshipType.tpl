@@ -12,9 +12,8 @@
 {if $rows}
 
 <div id="ltype">
-<p></p>
-    <div class="form-item">
-        {strip}
+
+    {strip}
 	{* handle enable/disable actions*}
 	{include file="CRM/common/enableDisable.tpl"}
     {include file="CRM/common/jsortable.tpl"}
@@ -45,7 +44,6 @@
     	<a href="{crmURL q="action=add&reset=1"}" id="newRelationshipType" class="button"><span>&raquo; {ts}New Relationship Type{/ts}</span></a>
         </div>
         {/if}
-    </div>
 </div>
 {else}
     <div class="messages status">

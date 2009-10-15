@@ -362,7 +362,8 @@ class CRM_Contact_Form_Search_Criteria {
      */
     static function custom( &$form ) {
         $form->add( 'hidden', 'hidden_custom', 1 ); 
-        $extends      = array( 'Contact', 'Individual', 'Household', 'Organization' );
+        $extends      = array_merge( array( 'Contact', 'Individual', 'Household', 'Organization' ),
+                                     CRM_Contact_BAO_ContactType::subTypes( ) );
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true,
                                                                   $extends );
 
