@@ -23,7 +23,7 @@
     <thead>
     <tr>
         <th>{ts}Event{/ts}</th>
-        <th id="sortable">{ts}ID{/ts}</th>
+        <th>{ts}ID{/ts}</th>
         <th>{ts}Type{/ts}</th>
         <th id="nosort">{ts}Public{/ts}</th>
         <th id="nosort">{ts}Date(s){/ts}</th>
@@ -33,6 +33,7 @@
         {/if}
     </tr>
     </thead>
+    <tbody>
     {foreach from=$eventSummary.events item=values key=id}
     <tr>
         <td><a href="{crmURL p="civicrm/event/info" q="reset=1&id=`$id`"}" title="{ts}View event info page"{/ts}>{$values.eventTitle}</a></td>
@@ -70,6 +71,7 @@
             <td colspan="7"><a href="{crmURL p='civicrm/admin/event' q='reset=1'}">&raquo; {ts}Browse more events{/ts}...</a></td>
         </tr>
     {/if}
+    </tbody>
     </table>
 {else}
     <br />
@@ -87,6 +89,7 @@
 {/if}
 
 {if $pager->_totalItems}
+    <br/>
     <h3>{ts}Recent Registrations{/ts}</h3>
     <div class="form-item">
         {include file="CRM/Event/Form/Selector.tpl" context="event_dashboard"}
