@@ -65,8 +65,11 @@ class HTML_QuickForm_CKeditor extends HTML_QuickForm_textarea
             $name = $this->getAttribute('name');
             $html = parent::toHtml() . "<script type='text/javascript'>
                 cj( function( ) {
+                    if ( CKEDITOR.instances['{$name}'] ) {
+                        CKEDITOR.remove(CKEDITOR.instances['{$name}']);
+                    }
                     CKEDITOR.replace( '{$name}' );
-                    var editor = CKEDITOR.instances.{$name};
+                    var editor = CKEDITOR.instances['{$name}'];
                     editor.on( 'key', function( evt ){
                         global_formNavigate = false;
                     } );
