@@ -2,6 +2,7 @@ CRM/ACL/DAO
 CRM/Activity/DAO
 CRM/Auction/DAO
 CRM/Case/DAO
+CRM/Contact/DAO/ACLContactCache.php
 CRM/Contact/DAO/Contact.php
 CRM/Contact/DAO/ContactType.php
 CRM/Contact/DAO/Group.php
