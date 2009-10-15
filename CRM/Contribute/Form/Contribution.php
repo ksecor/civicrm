@@ -737,9 +737,9 @@ WHERE  contribution_id = {$this->_id}
         
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
         
-        $element =& $this->add( 'select', 'payment_processor_id',
-                                ts( 'Payment Processor' ),
-                                $this->_processors );
+        $element = $this->add( 'select', 'payment_processor_id',
+                               ts( 'Payment Processor' ),
+                               $this->_processors );
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -753,6 +753,7 @@ WHERE  contribution_id = {$this->_id}
                 $element = $this->add( 'select', 'price_set_id', ts( 'Choose price set' ),
                                        array( '' => ts( 'Choose price set' )) + $priceSets,
                                        null, array('onchange' => "buildAmount( this.value );" ) );
+                if ( $this->_online ) $element->freeze( );
             }
             $this->assign( 'hasPriceSets', $hasPriceSets );
             $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
