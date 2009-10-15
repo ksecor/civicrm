@@ -72,7 +72,9 @@ class CRM_Utils_PDF_Utils {
     }
 
     static function html2pdf( $text,
-                              $fileName = 'civicrm.pdf' ) {
+                              $fileName = 'civicrm.pdf',
+                              $orientation = 'landscape',
+                              $paperSize   = 'a3' ) {
         require_once 'packages/dompdf/dompdf_config.inc.php';
         spl_autoload_register('DOMPDF_autoload');
         $dompdf = new DOMPDF( );
@@ -96,7 +98,7 @@ class CRM_Utils_PDF_Utils {
             $html .= "{$value}\n";
         }
         $dompdf->load_html( $html );
-        $dompdf->set_paper ('a3', 'landscape');
+        $dompdf->set_paper ($paperSize, $orientation);
         $dompdf->render( );
         $dompdf->stream( $fileName );
     }
