@@ -755,8 +755,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             require_once "CRM/Price/BAO/Set.php";
             CRM_Price_BAO_Set::processAmount( $self->_values['fee']['fields'], $values, $lineItem );
             if ($values['amount'] < 0) {
-                $errorsMsg['_qf_default'] = ts( "Event Fee(s) can not be less than zero. Please select the options accordingly" );
-                
+                $errorMsg['_qf_default'] = ts( "Event Fee(s) can not be less than zero. Please select the options accordingly" );
             }
         }
    

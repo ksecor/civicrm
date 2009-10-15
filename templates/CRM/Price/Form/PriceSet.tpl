@@ -40,7 +40,7 @@
     {/foreach}
     <div class="form-item">
 	<dt></dt>
-	<dd>{include file="CRM/Event/Form/CalculatePriceset.tpl"}</dd>
+	<dd>{include file="CRM/Price/Form/Calculate.tpl"}</dd>
     </div> 
     {if $priceSet.help_post}
 	<dt>&nbsp;</dt>
