@@ -275,11 +275,12 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
      *
      * @param string $group      option group name
      * @param string $value      option value name
+     * @param int    $cid        contact_id of the target recipient
      * @param array  $tplParams  template variables
      *
      * @return array  a subject-, text- and html-carrying array with the templates (evaluated)
      */
-    static function getSubjectTextHTML($group, $value, $tplParams)
+    static function getSubjectTextHTML($group, $value, $cid, $tplParams)
     {
         // fetch the three elements from the db based on option_group and option_value names
         $query = 'SELECT msg_subject subject, msg_text text, msg_html html
@@ -291,7 +292,27 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         $dao = CRM_Core_DAO::executeQuery($query, $params);
         $dao->fetch();
 
-        // TODO: replace tokens in the three elements
+        // replace tokens in the three elements
+        require_once 'CRM/Utils/Token.php';
+        require_once 'CRM/Core/BAO/Domain.php';
+        require_once 'api/v2/Contact.php';
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+
+        $domain = CRM_Core_BAO_Domain::getDomain();
+        $params = array('contact_id' => $cid);
+        $contact =& civicrm_contact_get($params);
+
+        foreach(array('text', 'html') as $type) {
+            $dummy_mail = new CRM_Mailing_BAO_Mailing;
+            $bodyType = "body_{$type}";
+            $dummy_mail->$bodyType = $dao->$type;
+            $tokens = $dummy_mail->getTokens();
+
+            if ($dao->$type) {
+                $dao->$type = CRM_Utils_Token::replaceDomainTokens($dao->$type,  $domain,  true,  $tokens[$type]);
+                $dao->$type = CRM_Utils_Token::replaceContactTokens($dao->$type, $contact, false, $tokens[$type]);
+            }
+        }
 
         // parse the three elements with Smarty
         require_once 'CRM/Core/Smarty/resources/String.php';

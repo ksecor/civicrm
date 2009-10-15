@@ -929,6 +929,7 @@ WHERE civicrm_event.is_active = 1
                 list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
                     'msg_tpl_workflow_event',
                     'event_receipt',
+                    $contactID,
                     array(
                         'email'              => $email,
                         'confirm_email_text' => CRM_Utils_Array::value('confirm_email_text', $values['event']),
