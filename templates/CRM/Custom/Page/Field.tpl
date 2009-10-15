@@ -8,9 +8,8 @@
     {if $customField}
     
     <div id="field_page">
-     <p></p>
         {strip}
-	{* handle enable/disable actions*}
+	    {* handle enable/disable actions*}
         {include file="CRM/common/enableDisable.tpl"}   
          <table class="selector">
          <thead class="sticky">
@@ -22,6 +21,7 @@
             <th>{ts}Enabled?{/ts}</th>
             <th>&nbsp;</th>
         </thead>
+        <tbody>
         {foreach from=$customField item=row}
         <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
@@ -33,6 +33,7 @@
             <td>{$row.action|replace:'xx':$row.id}</td>
         </tr>
         {/foreach}
+        </tbody>
         </table>
         {/strip}
         
