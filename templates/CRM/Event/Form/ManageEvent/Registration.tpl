@@ -188,7 +188,13 @@
              <tr>
                <th scope="row" class="label" width="20%">{$form.confirm_email_text.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='confirm_email_text' id=$eventID}{/if}</th>
                <td>{$form.confirm_email_text.html}<br />
-                   <span class="description">{ts}Additional message or instructions to include in confirmation email.{/ts}</span>
+                   <span class="description">{ts}Additional message or instructions to include in confirmation email (text part).{/ts}</span>
+               </td>
+             </tr>
+             <tr>
+               <th scope="row" class="label" width="20%">{$form.confirm_email_html.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_event' field='confirm_email_html' id=$eventID}{/if}</th>
+               <td>{$form.confirm_email_html.html}<br />
+                   <span class="description">{ts}Additional message or instructions to include in confirmation email (HTML part).{/ts}</span>
                </td>
              </tr>
              <tr>
