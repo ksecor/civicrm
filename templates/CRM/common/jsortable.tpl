@@ -30,11 +30,10 @@ cj( function( ) {
 
     //build default sorting
     var sortColumn = '';
-    console.log(id);
 	if ( id >= 0 ) {
 	    sortColumn = '[ id, "asc" ]';
 	}
-	console.log( sortColumn );
+
 	eval('sortColumn =[' + sortColumn + ']');
 
 	cj('#options').dataTable({
