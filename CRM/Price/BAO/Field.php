@@ -123,8 +123,8 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
                 $description = $params['label'] . " - " . trim($params['option_label'][$index]);
             }
             
-            if ( ( ! empty( $params['option_label'][$index] ) ) &&
-                 ( ! empty( $params['option_value'][$index] ) ) ) {
+            if ( CRM_Utils_Array::value( $index, $params['option_label'] ) &&
+                 !CRM_Utils_System::isNull( $params['option_value'][$index] ) ) {
                 $options[] = array( 'label'       => trim( $params['option_label'][$index] ),
                                     'name'        => CRM_Utils_Rule::cleanMoney( trim( $params['option_name'][$index] ) ),
                                     'value'       => trim( $params['option_value'][$index] ),
