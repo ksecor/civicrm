@@ -39,7 +39,7 @@ class CRM_Member_BAO_Query
     static function &getFields( ) 
     {
         require_once 'CRM/Member/BAO/Membership.php';
-        $fields =& CRM_Member_BAO_Membership::importableFields( );
+        $fields =& CRM_Member_BAO_Membership::exportableFields( );
         return $fields;
     }
     
