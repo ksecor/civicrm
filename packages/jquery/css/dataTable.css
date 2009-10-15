@@ -167,6 +167,7 @@
 #crm-container tr.even td, #crm-container tr.odd td {
     border-collapse: collapse;
     border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Misc
