@@ -103,7 +103,7 @@ class CRM_Event_Form_EventFees
             if ( $form->_eventId ) {
                 //set receipt text
                 $defaults[$form->_pId]['receipt_text'] = $details[$form->_eventId]['confirm_email_text'];
-                $defaults[$form->_pId]['receipt_text_html'] = $details[$form->_eventId]['confirm_email_html'];
+                $defaults[$form->_pId]['receipt_html'] = $details[$form->_eventId]['confirm_email_html'];
             }
             $today_date = getDate();
             $defaults[$form->_pId]['receive_date']['M'] = $today_date['mon'];
@@ -498,7 +498,8 @@ class CRM_Event_Form_EventFees
                           'send_receipt', 
                           ts('Send Confirmation?'), null, 
                           array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
-        $form->add('textarea', 'receipt_text', ts('Confirmation Message') );
+        $form->add('textarea', 'receipt_text', ts('Confirmation Message (Text Part)'));
+        $form->add('textarea', 'receipt_html', ts('Confirmation Message (HTML Part)'));
         
         // Retrieve the name and email of the contact - form will be the TO for receipt email ( only if context is not standalone)        
         if ( $form->_context != 'standalone' ) {    
