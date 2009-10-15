@@ -118,7 +118,7 @@ WHERE  ( contact_id_a = %1 AND contact_id_b = %2 AND is_permission_a_b = 1 ) OR
     static function validateChecksumContact( $contactID, &$form ) {
         if ( ! self::allow( $contactID, CRM_Core_Permission::EDIT ) ) {
             // check if this is of the format cs=XXX
-            self::validateOnlyChecksum( $contactID, $form ) ) {
+            self::validateOnlyChecksum( $contactID, $form );
         }
         return;
     }
