@@ -32,7 +32,7 @@
 	        <td>{$row.name}</td>	
 	        <td>{$row.period_type}</td>
 	        <td>{$row.fixed_period_start_day}</td>
-	        <td>{$row.minimum_fee}</td>
+	        <td align="right">{$row.minimum_fee|crmMoney}</td>
 		    <td>{$row.duration_interval} {$row.duration_unit}</td>
                 <td>{$row.relationshipTypeName}</td> 
                 <td>{$row.visibility}</td>
