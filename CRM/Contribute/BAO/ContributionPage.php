@@ -212,13 +212,15 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             }
             
             // set email in the template here
-            $template->assign( 'email', $email );
-            $template->assign( 'receiptFromEmail', $values['receipt_from_email'] );
-            $template->assign('contactID',   $contactID);
-            $template->assign('contributionID',   $values['contribution_id']);
-            if ( CRM_Utils_Array::value( 'membership_id', $values ) ) {
-                $template->assign('membershipID',   $values['membership_id']);
-            }
+            $tplParams = array(
+                'email'            => $email,
+                'receiptFromEmail' => $values['receipt_from_email'],
+                'contactID'        => $contactID,
+                'contributionID'   => $values['contribution_id'],
+                'membershipID'     => CRM_Utils_Array::value('membership_id', $values),
+                'lineItem'         => CRM_Utils_Array::value('lineItem',      $values), // CRM-5095
+                'priceSetID'       => CRM_Utils_Array::value('priceSetID',    $values), // CRM-5095
+            );
 
             // cc to related contacts of contributor OR the one who
             // signs up. Is used for cases like - on behalf of
@@ -232,18 +234,20 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                     ($values['cc_receipt'] . ',' . $ccMailId) : $ccMailId;
                 
                 // reset primary-email in the template
-                $template->assign( 'email', $ccEmail );
-                
-                $template->assign('onBehalfName',    $displayName);
-                $template->assign('onBehalfEmail',   $email);
+                $tplParams['email'] = $ccEmail;
+
+                $tplParams['onBehalfName']  = $displayName;
+                $tplParams['onBehalfEmail'] = $email;
             }
             
-            // CRM-5095
-            $template->assign( 'lineItem', CRM_Utils_Array::value( 'lineItem', $values ) );
-            $template->assign( 'priceSetID', CRM_Utils_Array::value( 'priceSetID', $values ) );
-            
-            $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
-            $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                'msg_tpl_workflow_contribution',
+                'contribution_receipt',
+                $contactID,
+                $tplParams
+            );
+
             if ( $returnMessageText ) {
                 return array( 'subject' => $subject,
                               'body'    => $message,
