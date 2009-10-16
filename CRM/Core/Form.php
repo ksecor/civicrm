@@ -948,15 +948,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *
      */
     function addDate( $name, $label, $required = false, $attributes = null ) {
-        //set the offsets for date range
-        if ( !CRM_Utils_Array::value( 'startOffset', $attributes ) ) {
-            $attributes['startOffset'] = 10; 
-        }
-        
-        if ( !CRM_Utils_Array::value( 'endOffset', $attributes ) ) {
-            $attributes['endOffset'] = 10; 
-        }
-
         if ( CRM_Utils_Array::value( 'formatType', $attributes ) ) {
             // get actual format
             $params = array( 'name' => $attributes['formatType'] );
@@ -966,6 +957,11 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $attributes['formatType']  = $values['format'];
             $attributes['startOffset'] = $values['start']; 
             $attributes['endOffset']   = $values['end'];  
+        } else {
+            $config =& CRM_Core_Config::singleton( );
+            $attributes['formatType']  = $config->dateInputFormat;
+            $attributes['startOffset'] = 10; 
+            $attributes['endOffset']   = 10; 
         }
         
         $this->add('text', $name, $label, $attributes );

@@ -698,7 +698,10 @@ class CRM_Core_SelectValues
     		                        "d M, y"       => ts('Short - d M, yy'),
     		                        "d MM, y"      => ts('Medium - d MM, yy'),
     		                        "DD, d MM, yy" => ts('Full - DD, d MM, yy'),
-    		                        "'day' d 'of' MM 'in the year' yy" => ts('With text - "day" d "of" MM "in the year" yy')
+    		                        "'day' d 'of' MM 'in the year' yy" => ts('With text - "day" d "of" MM "in the year" yy'),
+    		                        "mm/dd"        => ts('mm/dd'),
+    		                        "dd/mm"        => ts('dd/mm')
+    		                        
                             );
         
         return $dateInputFormats;

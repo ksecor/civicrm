@@ -2,28 +2,22 @@
 {$form.$elementName.html|crmReplace:class:twelve}&nbsp;&nbsp;{$form.$timeElement.label}&nbsp;&nbsp;{$form.$timeElement.html|crmReplace:class:six}
 
 <script type="text/javascript">
-    {literal}
-    var element_date   = '#'+{/literal}"{$elementName}"{literal};
-    var element_time   = '#'+{/literal}"{$elementName}"{literal}+'_time';
-    var cal_img        = {/literal}"{$config->resourceBase}i/cal.gif"{literal};
-    var date_format    = {/literal}"{$config->dateInputFormat}"{literal};
-    if ( cj( element_date).attr('formatType') ) {
-        date_format =  cj( element_date).attr('formatType');
-    }
-    
-    // var time_img    = {/literal}"{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png"{literal};
-    {/literal}
+    var element_date   = "#{$elementName}";
+    var cal_img        = "{$config->resourceBase}i/cal.gif";    
 
     {if $timeElement}
+        var element_time   = "#{$elementName}_time";
+        {*var time_img    = "{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png";*}
         var time_format = {$config->timeInputFormat};
         {literal}
             cj(element_time).timeEntry({ show24Hours : time_format });
         {/literal}
     {/if}
 
-    var startYear = cj( element_date ).attr('startOffset');
-    var endYear   = cj( element_date ).attr('endOffset');
-    
+    var date_format = cj( element_date ).attr('formatType');
+    var startYear   = cj( element_date ).attr('startOffset');
+    var endYear     = cj( element_date ).attr('endOffset');
+
     {literal} 
     cj(element_date).datepicker({
                                     showOn            : 'both',
@@ -36,6 +30,20 @@
                                     yearRange         : '-'+startYear+':+'+endYear,
                                     showButtonPanel   : true
                                 });
+    
+    cj(element_date).click( function( ) {
+        hideYear( );
+    });  
+    cj('.ui-datepicker-trigger').click( function( ) {
+        hideYear( );
+    });  
+    
+    function hideYear( ) {
+        var format = cj( element_date ).attr('formatType');
+        if ( format == 'dd/mm' || format == 'mm/dd' ) {
+            cj(".ui-datepicker-year").css( 'display', 'none' );
+        }
+    }
     {/literal}
 </script>
 
