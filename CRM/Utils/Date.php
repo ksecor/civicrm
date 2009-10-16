@@ -1522,6 +1522,37 @@ class CRM_Utils_Date
         }       
         return $fy;
     }
+    
+    /**
+     *  Function to process date, convert to mysql format
+     *
+     *  @param string $date date string
+     *  @param string $time time string
+     *
+     *  @return string $mysqlDate date format that is excepted by mysql
+     */
+    static function processDate( $date, $time = null ) {
+        $mysqlDate = date( 'YmdHis', strtotime( $date . ' '. $time ) );
+        return $mysqlDate;
+    }
+    
+    /**
+     *  Function to convert mysql to date plugin format
+     *
+     *  @param string $mysqlDate date string
+     *
+     *  @return array $date and time 
+     */
+    static function setDateDefaults( $mysqlDate = null ) {
+        // neet to get format from config 
+        $format = "m/d/Y";
+        
+        $date = date( $format, strtotime( $mysqlDate) );
+        
+         // neet to get format from config 
+        $format = "H:iA";
+        $time = date( $format, strtotime( $mysqlDate) );
+        
+        return array( $date, $time );
+    }
 }
-
-

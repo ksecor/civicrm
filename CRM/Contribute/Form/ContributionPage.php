@@ -210,13 +210,9 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         } else {
             $defaults['is_active'] = 1;
         }
-        $defaults['start_date'] = CRM_Utils_Date::customformat( $defaults['start_date'], 
-                                                                $config->dateformatQfDate.'::'.$config->dateformatTime );
-        list( $defaults['start_date'], $defaults['start_time'] ) = explode( '::', $defaults['start_date'] );
-        
-        $defaults['end_date'] = CRM_Utils_Date::customformat( $defaults['end_date'], 
-                                                              $config->dateformatQfDate.'::'.$config->dateformatTime );
-        list( $defaults['end_date'], $defaults['end_time'] ) = explode( '::', $defaults['end_date'] );
+
+        list( $defaults['start_date'], $defaults['start_date_time'] ) = CRM_Utils_Date::setDateDefaults( $defaults['start_date'] );
+        list( $defaults['end_date'], $defaults['end_date_time'] )     = CRM_Utils_Date::setDateDefaults( $defaults['end_date'] );
         
         // Set start date to now if this is a new contribution page.
         if( !isset ( $this->_id) ) {
