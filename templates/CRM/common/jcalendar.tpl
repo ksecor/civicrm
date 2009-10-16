@@ -33,7 +33,8 @@
                                     dateFormat        : date_format,
                                     changeMonth       : true,
                                     changeYear        : true,
-                                    yearRange         : '-'+startYear+':+'+endYear
+                                    yearRange         : '-'+startYear+':+'+endYear,
+                                    showButtonPanel   : true
                                 });
     {/literal}
 </script>
