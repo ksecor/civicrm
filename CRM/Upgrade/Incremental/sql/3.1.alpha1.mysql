@@ -44,4 +44,4 @@ ALTER TABLE civicrm_membership_type
   ADD receipt_html_signup  VARCHAR(255) COMMENT 'Receipt HTML for membership signup',
   ADD receipt_html_renewal VARCHAR(255) COMMENT 'Receipt HTML for membership renewal';
 
--- FIXME: factor out the message templates part from xml/templates/civicrm_data.tpl and include it here
+-- FIXME: include xml/templates/civicrm_msg_template.tpl here (after changning it so it works with multilingual dbs)
