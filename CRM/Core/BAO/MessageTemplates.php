@@ -302,16 +302,14 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         $params = array('contact_id' => $cid);
         $contact =& civicrm_contact_get($params);
 
-        foreach(array('text', 'html') as $type) {
+        // replace tokens in subject as if it was the text body
+        foreach(array('subject' => 'text', 'text' => 'text', 'html' => 'html') as $type => $tokenType) {
+            $bodyType = "body_$tokenType";
             $dummy_mail = new CRM_Mailing_BAO_Mailing;
-            $bodyType = "body_{$type}";
             $dummy_mail->$bodyType = $dao->$type;
             $tokens = $dummy_mail->getTokens();
-
-            if ($dao->$type) {
-                $dao->$type = CRM_Utils_Token::replaceDomainTokens($dao->$type,  $domain,  true,  $tokens[$type]);
-                $dao->$type = CRM_Utils_Token::replaceContactTokens($dao->$type, $contact, false, $tokens[$type]);
-            }
+            $dao->$type = CRM_Utils_Token::replaceDomainTokens($dao->$type,  $domain,  true,  $tokens[$tokenType]);
+            $dao->$type = CRM_Utils_Token::replaceContactTokens($dao->$type, $contact, false, $tokens[$tokenType]);
         }
 
         // parse the three elements with Smarty
