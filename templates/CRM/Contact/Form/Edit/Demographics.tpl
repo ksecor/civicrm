@@ -14,7 +14,7 @@
   </div>
   <div class="form-item">
         <span class="labels">{$form.birth_date.label}</span>
-        <span class="fields">{include file="CRM/common/jcalendar.tpl" elementName=birth_date startDate=currentYear endDate=endYear offset=10 }
+        <span class="fields">{include file="CRM/common/jcalendar.tpl" elementName=birth_date}
         </span>
   </div>
   <div class="form-item">

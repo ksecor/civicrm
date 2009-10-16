@@ -12,28 +12,19 @@
     }
     
     // var time_img    = {/literal}"{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png"{literal};
-    var curDateTime = new Date();
-    var currentYear = curDateTime.getFullYear();    
     {/literal}
 
-var doTime  = false;
-{if $timeElement}
-    doTime  = true;
-{/if}
+    {if $timeElement}
+        var time_format = {$config->timeInputFormat};
+        {literal}
+            cj(element_time).timeEntry({ show24Hours : time_format });
+        {/literal}
+    {/if}
 
-{if $offset}
+    var startYear = cj( element_date ).attr('startOffset');
+    var endYear   = cj( element_date ).attr('endOffset');
+    
     {literal} 
-          startYear = endYear = {/literal}{$offset}{literal};
-    {/literal}
-
-{else}
-    {literal} 
-          var startYear = currentYear - {/literal}{$startDate}{literal};
-          var endYear   = ({/literal}{$endDate}{literal}) ? {/literal}{$endDate}{literal} - currentYear : 0 ;
-    {/literal}
-{/if}
-
-    {literal}
     cj(element_date).datepicker({
                                     showOn            : 'both',
                                     closeAtTop        : true, 
@@ -44,12 +35,6 @@ var doTime  = false;
                                     changeYear        : true,
                                     yearRange         : '-'+startYear+':+'+endYear
                                 });
-
-    if ( doTime ) {
-        var time_format = {/literal}{$config->timeInputFormat}{literal};
-        cj(element_time).timeEntry({ show24Hours : time_format });
-    }
-
     {/literal}
 </script>
 
