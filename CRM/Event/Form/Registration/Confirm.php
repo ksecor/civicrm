@@ -528,7 +528,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $value['participant_register_date'] = $this->_values['participant']['register_date'];
                 }
                 
-                if ( $value['amount'] != 0 && CRM_Utils_Array::value( 'is_primary', $value ) &&
+                $createContrib = ( $value['amount'] != 0 ) ? true : false;
+                // force to create zero amount contribution, CRM-5095
+                if ( ! $createContrib && ($value['amount'] == 0) 
+                     && $this->_priceSetId && $this->_lineItem ) {
+                    $createContrib = true;
+                }
+                
+                if ( $createContrib && CRM_Utils_Array::value( 'is_primary', $value ) &&
                      !$this->_allowWaitlist && !$this->_requireApproval ) {
                     // if paid event add a contribution record
                     //if primary participant contributing additional amount

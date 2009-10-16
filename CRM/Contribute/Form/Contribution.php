@@ -908,8 +908,9 @@ SELECT  id, name
                     // now we have all selected amount in hand.
                     $totalAmount = array_sum( $setectedAmounts );
                     
-                    if ( $totalAmount <= 0 ) {
-                        $errors['_qf_default'] = ts( "Contribution can not be less than or equal to zero. Please select the options accordingly." );
+                    if ( $totalAmount < 0 ) {
+                        $errors['_qf_default'] 
+                            = ts( "Contribution can not be less than zero. Please select the options accordingly." );
                     }
                 } else {
                     $errors['_qf_default'] = ts( "Please select at least one option from contribution price set." );

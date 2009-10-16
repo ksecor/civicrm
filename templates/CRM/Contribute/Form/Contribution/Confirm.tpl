@@ -26,15 +26,16 @@
     
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="confirmContribution"}
 
-    {if $amount GT 0 OR $minimum_fee GT 0}
+    {if $amount GT 0 OR $minimum_fee GT 0 OR ( $priceSetID and $lineItem ) }
     <div class="header-dark">
-        {if !$membershipBlock AND $amount }{ts}Contribution Amount{/ts}{else}{ts}Membership Fee{/ts} {/if}
+        {if !$membershipBlock AND $amount OR ( $priceSetID and $lineItem ) }{ts}Contribution Amount{/ts}{else}{ts}Membership Fee{/ts} {/if}
     </div>
     <div class="display-block">
-        {if $lineItem}
+        {if $lineItem and $priceSetID}
+	    {if !$amount}{assign var="amount" value=0}{/if}
+	    {assign var="totalAmount" value=$amount}
             {include file="CRM/Price/Page/LineItem.tpl" context="Contribution"}
-	{/if}
-        {if $is_separate_payment }
+        {elseif $is_separate_payment }
             {if $amount AND $minimum_fee}
                 {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong><br />
                 {ts}Additional Contribution{/ts}: <strong>{$amount|crmMoney}</strong><br />

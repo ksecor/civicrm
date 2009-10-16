@@ -331,9 +331,6 @@ function buildAmount( priceSetId ) {
       // hide price set fields.
       cj( fname ).hide( ); 
 
-      // unfreeze total amount text field.
-      cj( "#total_amount").attr( "readonly", false );
-    
       // show/hide price set amount and total amount.
       cj( "#totalAmountORPriceSet" ).show( );
       cj( "#totalAmount").show( );
@@ -351,7 +348,6 @@ function buildAmount( priceSetId ) {
 
   // freeze total amount text field.
   cj( "#total_amount").val( '' );
-  cj( "#total_amount").attr( "readonly", true );
 
   cj( "#totalAmountORPriceSet" ).hide( );
   cj( "#totalAmount").hide( );
