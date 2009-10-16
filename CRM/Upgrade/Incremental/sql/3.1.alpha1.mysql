@@ -44,18 +44,4 @@ ALTER TABLE civicrm_membership_type
   ADD receipt_html_signup  VARCHAR(255) COMMENT 'Receipt HTML for membership signup',
   ADD receipt_html_renewal VARCHAR(255) COMMENT 'Receipt HTML for membership renewal';
 
-
-INSERT INTO civicrm_option_group (name,                     {localize field='label'}label{/localize},                    is_reserved, is_active) VALUES 
-                                 ('msg_tpl_workflow_event', {localize}'Message Template Workflow for Events'{/localize}, 0,           1);
-
-SELECT @tpl_ogid := MAX(id) FROM civicrm_option_group WHERE name = 'msg_tpl_workflow_event';
-
-INSERT INTO civicrm_option_value
-  (option_group_id, name,            {localize field='label'}label{/localize}) VALUES
-  (@tpl_ogid,       'event_receipt', {localize}'Event Receipt'{/localize});
-
-SELECT @tpl_ovid := MAX(id) FROM civicrm_option_value WHERE id = @tpl_ogid AND name = 'event-receipt';
-
-INSERT INTO civicrm_msg_template
-  (msg_title,       msg_subject,                    msg_text,                    msg_html,                    workflow_id) VALUES
-  ('Event Receipt', 'FIXME: Event Receipt Subject', 'FIXME: Event Receipt Text', 'FIXME: Event Receipt HTML', @tpl_ovid_pcm);
+-- FIXME: factor out the message templates part from xml/templates/civicrm_data.tpl and include it here
