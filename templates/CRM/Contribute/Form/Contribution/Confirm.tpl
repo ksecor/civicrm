@@ -185,8 +185,8 @@
     {if $contributeMode NEQ 'notify' and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) } {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
-        {if $is_pay_later}
-            {ts}Your contribution will not be completed until you click the <strong>Continue</strong> button. Please click the button one time only.{/ts}
+        {if $is_pay_later OR $amount LE 0.0}
+            {ts}Your transaction will not be completed until you click the <strong>Continue</strong> button. Please click the button one time only.{/ts}
         {else}
             {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
         {/if}

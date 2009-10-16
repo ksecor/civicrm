@@ -264,7 +264,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         } else {
             if ( $this->_contributeMode == 'notify' || !$this->_values['is_monetary'] || 
                  $this->_amount <= 0.0              || $this->_params['is_pay_later'] ||
-                 $this->_separateMembershipPayment ) {
+                 ( $this->_separateMembershipPayment && $this->_amount <= 0.0 ) ) {
                 $contribButton = ts('Continue >>');
             } else {
                 $contribButton = ts('Make Contribution');
