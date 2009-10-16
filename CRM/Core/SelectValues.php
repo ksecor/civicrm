@@ -687,6 +687,37 @@ class CRM_Core_SelectValues
         
         return $qfDatePartsMapping;
     }
+    
+    /**
+     *  CiviCRM supported date input formats
+     */
+    static function getDatePluginInputFormats( ) {
+        $dateInputFormats = array( 
+                                    "mm/dd/yy"     => ts('mm/dd/yy'),
+    		                        "yy-mm-dd"     => ts('ISO 8601 - yy-mm-dd'),
+    		                        "d M, y"       => ts('Short - d M, yy'),
+    		                        "d MM, y"      => ts('Medium - d MM, yy'),
+    		                        "DD, d MM, yy" => ts('Full - DD, d MM, yy'),
+    		                        "'day' d 'of' MM 'in the year' yy" => ts('With text - "day" d "of" MM "in the year" yy')
+                            );
+        
+        return $dateInputFormats;
+    }
+    
+    /**
+     * Map date plugin and actual format that is used by PHP 
+     */
+    static function datePluginToPHPFormats ( ) {
+        $dateInputFormats = array( "mm/dd/yy"     => 'm/d/Y' );
+        return $dateInputFormats;
+    }
+    
+    /**
+     * Time formats
+     */
+    static function getTimeFormats( ) {
+        $timeFormats = array( '0' => ts( '12 Hours' ),
+                              '1' => ts( '24 Hours' ) );
+        return $timeFormats;
+    }
 }
-
-

@@ -6,7 +6,7 @@
     var element_date   = '#'+{/literal}"{$elementName}"{literal};
     var element_time   = '#'+{/literal}"{$elementName}"{literal}+'_time';
     var cal_img     = {/literal}"{$config->resourceBase}i/cal.gif"{literal};
-    //var date_format = 'MM d, yy';
+    var date_format = {/literal}"{$config->dateInputFormat}"{literal};
     // var time_img    = {/literal}"{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png"{literal};
     var curDateTime = new Date();
     var currentYear = curDateTime.getFullYear();    
@@ -35,14 +35,15 @@ var doTime  = false;
                                     closeAtTop        : true, 
                                     buttonImage       : cal_img, 
                                     buttonImageOnly   : true, 
-                                    //dateFormat        : date_format,
+                                    dateFormat        : date_format,
                                     changeMonth       : true,
                                     changeYear        : true,
                                     yearRange         : '-'+startYear+':+'+endYear
                                 });
 
     if ( doTime ) {
-        cj(element_time).timeEntry({ show24Hours : cj(element_time).attr('24hour') });
+        var time_format = {/literal}{$config->timeInputFormat}{literal};
+        cj(element_time).timeEntry({ show24Hours : time_format });
     }
 
     {/literal}

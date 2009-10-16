@@ -942,7 +942,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *  @param array  $attributes key / value pair 
      *                
      *  $arrtibutes = array ( 'addTime' => true, // if you need time 
-     *                        '24hour'  => false,
      *                        'formatType' => 'relative' or 'birth' etc check advanced date settings    
      *                      );            
      *  @param boolean $required  true if required
@@ -952,11 +951,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->add('text', $name, $label, $attributes );
 
         if ( CRM_Utils_Array::value( 'addTime', $attributes ) ) {
-            $timeAttributes['24hour'] = false;
-            if ( CRM_Utils_Array::value( '24hour', $attributes ) ) {
-                $timeAttributes['24hour'] = true;
-            }
-            $this->add('text', $name . '_time', ts('Time'), $timeAttributes );
+            $this->add('text', $name . '_time', ts('Time') );
         }
                 
         if ( $required ) {
@@ -967,6 +962,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
     }
     
+    /**
+     *  Function that will add date and time
+     */
     function addDateTime( $name, $label, $required = false, $attributes = null ) {
         $addTime = array( 'addTime' => true );
         if ( is_array( $attributes ) ) {

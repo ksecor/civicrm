@@ -898,7 +898,7 @@ class CRM_Utils_Date
      * 
      * @param  date  $startDate  start date for the range 
      * @param  date  $endDate    end date for the range 
-     
+     *
      * @return true              todays date is in the given date range
      * @static
      */
@@ -1543,15 +1543,29 @@ class CRM_Utils_Date
      *
      *  @return array $date and time 
      */
-    static function setDateDefaults( $mysqlDate = null ) {
-        // neet to get format from config 
-        $format = "m/d/Y";
+    static function setDateDefaults( $mysqlDate = null ) {        
+        // if date is not passed assume it as today
+        if ( !$mysqlDate ) {
+            $mysqlDate = date( 'Y-m-d G:i:s' ) ;
+        }
+
+        $config =& CRM_Core_Config::singleton();
+        $actualPHPFormats = CRM_Core_SelectValues::datePluginToPHPFormats( );
+        $dateFormat       = $actualPHPFormats[$config->dateInputFormat];
         
-        $date = date( $format, strtotime( $mysqlDate) );
+        $date = date( $dateFormat, strtotime( $mysqlDate) );
         
-         // neet to get format from config 
-        $format = "H:iA";
-        $time = date( $format, strtotime( $mysqlDate) );
+        $timeFormat = "g:iA";
+
+        if ( $config->timeInputFormat ) {
+            $timeFormat = "G:i";
+        }
+        
+        $time = date( $timeFormat, strtotime( $mysqlDate) );
+        // need to append for hours < 10
+        if ( strlen( $time) < 5 ) {
+            $time = '0' . $time;
+        }
         
         return array( $date, $time );
     }
