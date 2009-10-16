@@ -149,6 +149,25 @@ WHERE $permission
         return;
     }
 
+    static function cacheClause( $contactAlias = 'contact_a', $contactID = null ) {
+        if ( CRM_Core_Permission::check( 'view all contacts' ) ) {
+            return array( null, null );
+        }
+
+        $session = CRM_Core_Session::singleton( );
+        $contactID =  $session->get( 'userID' );
+        if ( ! $contactID ) {
+            $contactID = 0;
+        }
+        $contactID = CRM_Utils_Type::escape( $contactID, 'Integer' );
+
+        self::cache( $contactID );
+
+        return array( " INNER JOIN civicrm_acl_contact_cache aclContactCache ON {$contactAlias}.id = aclContactCache.contact_id ",
+                      " aclContactCache.user_id = $contactID " );
+    }
+
+
     /**
       * Function to get the permission base on its relationship
       * 

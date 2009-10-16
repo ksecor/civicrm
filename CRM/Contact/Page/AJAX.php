@@ -78,10 +78,19 @@ class CRM_Contact_Page_AJAX
         if ( CRM_Utils_Array::value( 'limit', $_GET) ) {
             $limit = CRM_Utils_Type::escape( $_GET['limit'], 'Positive' );
         }
-        
+
+        // add acl clause here
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
+        list( $aclClause, $aclWhere ) = CRM_Contact_BAO_Contact_Permission::cacheClause( 'cc' );
+
+        if ( $aclWhere ) {
+            $where .= " AND $aclWhere ";
+        }
+
         $query = "
-SELECT CONCAT_WS( ' :: ', {$select} ) as data, cc.id as id
+SELECT DISTINCT(cc.id) as id, CONCAT_WS( ' :: ', {$select} ) as data
 FROM civicrm_contact cc {$from}
+{$aclClause}
 WHERE sort_name LIKE '%$name%' {$where} 
 ORDER BY sort_name
 LIMIT 0, {$limit}

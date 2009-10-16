@@ -162,7 +162,7 @@ class CRM_Contact_Form_Search_Custom_FullText
                   );
                   
         $sql = "
-CREATE TEMPORARY TABLE {$this->_tableName} (
+CREATE TABLE {$this->_tableName} (
 ";
 
         foreach ( $this->_tableFields as $name => $desc ) {
@@ -240,12 +240,35 @@ CREATE TEMPORARY TABLE {$this->_entityIDTableName} (
         require_once 'CRM/Contact/BAO/Contact/Permission.php';
         CRM_Contact_BAO_Contact_Permission::cache( $contactID );
 
+        $params = array( 1 => array( $contactID, 'Integer' ) );
+
         $sql = "
 DELETE     t.*
 FROM       {$this->_tableName} t
-WHERE      NOT EXISTS ( SELECT c.id FROM civicrm_acl_contact_cache c WHERE c.user_id = %1 AND ( t.contact_id = c.contact_id OR t.target_contact_id = c.contact_id ) )
+WHERE      NOT EXISTS ( SELECT c.id 
+                        FROM civicrm_acl_contact_cache c
+                        WHERE c.user_id = %1 AND t.contact_id = c.contact_id )
 ";
-        $params = array( 1 => array( $contactID, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $sql, $params );
+
+        $sql = "
+DELETE     t.*
+FROM       {$this->_tableName} t
+WHERE      t.table_name = 'Activity' AND
+           NOT EXISTS ( SELECT c.id 
+                        FROM civicrm_acl_contact_cache c
+                        WHERE c.user_id = %1 AND ( t.target_contact_id = c.contact_id OR t.target_contact_id IS NULL ) )
+";
+        CRM_Core_DAO::executeQuery( $sql, $params );
+
+        $sql = "
+DELETE     t.*
+FROM       {$this->_tableName} t
+WHERE      t.table_name = 'Activity' AND
+           NOT EXISTS ( SELECT c.id 
+                        FROM civicrm_acl_contact_cache c
+                        WHERE c.user_id = %1 AND ( t.assignee_contact_id = c.contact_id OR t.assignee_contact_id IS NULL ) )
+";
         CRM_Core_DAO::executeQuery( $sql, $params );
     }
 
