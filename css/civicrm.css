@@ -60,6 +60,7 @@
 #crm-container table.display td {
   border-collapse: collapse;
   border-top: 1px solid #DDDDDD;
+  border-right: 1px solid #DDDDDD;
 }
 	#crm-container .odd-row, 
 	tbody.scrollContent {
@@ -860,7 +861,7 @@ crm-container .status-overdue,
 	}
 
 .crm-pager-nav {
-
+	padding-left:5px;
 }
 
 #crm-container .section-hidden, #crm-container div.view-content {
@@ -1371,7 +1372,12 @@ table.campaign td,
   color: green;
 }
 
-/* Styles for  Action Link pop-up */
+/* Styles for Action Items &  Action Link pop-up */
+
+#crm-container .action-item {
+	padding:0px 5px;
+	border-right:1px solid #CCC;
+	}
 
 #panel, 
 .panel {
@@ -1401,24 +1407,30 @@ table.campaign td,
 }
 
 .btn-slide {
-  text-align: left;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;  
-  position: relative;
-}
+  	text-align: left;
+  	text-decoration: none;
+  	border: none;
+  	cursor: pointer;  
+  	position: relative;
+  	padding:0px 14px 0 5px;
+  	background: url("../i/TreePlus.gif") no-repeat right 1px;
+	}
 
 #crm-container .panel li a {
-  text-decoration : none;
+  text-decoration: none;
   padding: 4px;
-  color           : #333333;
-  display         : block;
+  color: #333333;
+  display: block;
+  border-right:none;
 }
 
 #crm-container .panel li a:hover { 
   background-color: #999999;
   color: #FFFFFF;
 }
+
+
+
 
 /*Styles for Context menu */
 

@@ -224,11 +224,11 @@ class CRM_Core_Action {
                     $ref = "class = {$link['ref']}";
                 }
                 if ( $urlPath ) {                      
-                    $url[] = sprintf('<a href="%s" title="%s" %s ' . $extra . '>%s</a>',
+                    $url[] = sprintf('<a href="%s" class="action-item" title="%s" %s ' . $extra . '>%s</a>',
                                        $urlPath,
                                        $link['title'], $ref, $link['name'] );
                 } else {
-                    $url[] = sprintf('<a title="%s" %s ' . $extra . '>%s</a>',
+                    $url[] = sprintf('<a title="%s" class="action-item" %s ' . $extra . '>%s</a>',
                                        $link['title'], $ref, $link['name'] );
                 }
             }
@@ -242,12 +242,12 @@ class CRM_Core_Action {
             $actionLink = array_slice ( $url, 0, 2 );
             $showDiv = true;
         }
-        CRM_Utils_String::append( $resultLink, '&nbsp;|&nbsp;', $actionLink );
+        CRM_Utils_String::append( $resultLink, '', $actionLink );
         if ( $showDiv ) {
             CRM_Utils_String::append( $resultDiv, '</li><li>', $actionDiv );
-            $resultDiv = "| <img src='{$config->resourceBase}i/menu-collapsed.png' title='".ts('more')."'/> ".ts('more')."<ul id='panel_xx' class='panel'><li>{$resultDiv}</li></ul>";
+            $resultDiv = ts('more')."<ul id='panel_xx' class='panel'><li>{$resultDiv}</li></ul>";
         }
-        $result = "<span>{$resultLink} &nbsp;</span><span class='btn-slide' id=xx>{$resultDiv}</span>";
+        $result = "<span>{$resultLink}</span><span class='btn-slide' id=xx>{$resultDiv}</span>";
         return $result;
     }
     
