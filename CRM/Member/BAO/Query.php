@@ -239,9 +239,21 @@ class CRM_Member_BAO_Query
             return;
             
         case 'member_is_primary':
-            $query->_where[$grouping][] = " civicrm_membership.owner_membership_id IS NULL";
-            if ( $value ) {
+            switch( $value ) {
+                case 1:
+                $query->_qill[$grouping][]  = "Primary AND Related Members";
+                break;
+
+                case 2:
+                $query->_where[$grouping][] = " civicrm_membership.owner_membership_id IS NULL";
                 $query->_qill[$grouping][]  = "Primary Members Only";
+                break;
+
+                case 3:
+                $query->_where[$grouping][] = " civicrm_membership.owner_membership_id IS NOT NULL";
+                $query->_qill[$grouping][]  = "Related Members Only";
+                break;
+
             }
             $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
             return;
@@ -323,9 +335,11 @@ class CRM_Member_BAO_Query
             $form->_membershipType =& $form->addElement('checkbox', "member_membership_type_id[$id]", null,$Name);
         }
 
-        // Option to exclude inherited memberships from search results (e.g. exclude rows where owner_membership_id is NOT NULL)
-        $form->addElement( 'checkbox', 'member_is_primary' , ts( 'Primary Members Only' ) );
-
+        // Option to include / exclude inherited memberships from search results (e.g. rows where owner_membership_id is NOT NULL)
+        $primaryValues = array( 1 => ts('All Members'), 2 => ts('Primary Members Only'), 3 => ts('Related Members Only') );
+        $form->addRadio( 'member_is_primary', '', $primaryValues );
+        $form->setDefaults( array( 'member_is_primary' => 1 ) );
+        
         foreach (CRM_Member_PseudoConstant::membershipStatus( ) as $sId => $sName) {
             $form->_membershipStatus =& $form->addElement('checkbox', "member_status_id[$sId]", null,$sName);
         }
