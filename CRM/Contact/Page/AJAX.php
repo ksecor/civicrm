@@ -81,7 +81,7 @@ class CRM_Contact_Page_AJAX
 
         // add acl clause here
         require_once 'CRM/Contact/BAO/Contact/Permission.php';
-        list( $aclClause, $aclWhere ) = CRM_Contact_BAO_Contact_Permission::cacheClause( 'cc' );
+        list( $aclFrom, $aclWhere ) = CRM_Contact_BAO_Contact_Permission::cacheClause( 'cc' );
 
         if ( $aclWhere ) {
             $where .= " AND $aclWhere ";
@@ -90,7 +90,7 @@ class CRM_Contact_Page_AJAX
         $query = "
 SELECT DISTINCT(cc.id) as id, CONCAT_WS( ' :: ', {$select} ) as data
 FROM civicrm_contact cc {$from}
-{$aclClause}
+{$aclFrom}
 WHERE sort_name LIKE '%$name%' {$where} 
 ORDER BY sort_name
 LIMIT 0, {$limit}

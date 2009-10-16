@@ -167,7 +167,7 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
 
     function from( ) {
         $this->_from = "
-        FROM civicrm_contact {$this->_aliases['civicrm_contact']}
+        FROM civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
             LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} 
                    ON ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
                       {$this->_aliases['civicrm_address']}.is_primary = 1 ) ";
@@ -218,9 +218,12 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
         if ( empty( $clauses ) ) {
             $this->_where = "WHERE ( 1 ) ";
         } else {
-             
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
+
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }            
         
     }
 
@@ -231,6 +234,9 @@ class CRM_Report_Form_Contact_Summary extends CRM_Report_Form {
     function postProcess( ) {
 
         $this->beginPostProcess( );
+
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
 
         $sql  = $this->buildQuery( true );
              
