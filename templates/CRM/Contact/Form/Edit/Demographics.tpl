@@ -14,12 +14,7 @@
   </div>
   <div class="form-item">
         <span class="labels">{$form.birth_date.label}</span>
-        <span class="fields">{$form.birth_date.html} &nbsp;
-
-        {if $showCalender}          
-        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_1}
-        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear trigger=trigger_demographics_1 }
-        {/if}
+        <span class="fields">{include file="CRM/common/jcalendar.tpl" elementName=birth_date startDate=currentYear endDate=endYear offset=10 }
         </span>
   </div>
   <div class="form-item">

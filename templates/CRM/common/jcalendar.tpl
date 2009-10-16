@@ -5,8 +5,12 @@
     {literal}
     var element_date   = '#'+{/literal}"{$elementName}"{literal};
     var element_time   = '#'+{/literal}"{$elementName}"{literal}+'_time';
-    var cal_img     = {/literal}"{$config->resourceBase}i/cal.gif"{literal};
-    var date_format = {/literal}"{$config->dateInputFormat}"{literal};
+    var cal_img        = {/literal}"{$config->resourceBase}i/cal.gif"{literal};
+    var date_format    = {/literal}"{$config->dateInputFormat}"{literal};
+    if ( cj( element_date).attr('formatType') ) {
+        date_format =  cj( element_date).attr('formatType');
+    }
+    
     // var time_img    = {/literal}"{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png"{literal};
     var curDateTime = new Date();
     var currentYear = curDateTime.getFullYear();    

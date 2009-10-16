@@ -948,6 +948,14 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *
      */
     function addDate( $name, $label, $required = false, $attributes = null ) {
+        
+        if ( CRM_Utils_Array::value( 'formatType', $attributes ) ) {
+            // get actual format
+            $format = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
+                                                  $attributes['formatType'], 'format', 'name' );
+            $attributes['formatType'] = $format;
+        }
+        
         $this->add('text', $name, $label, $attributes );
 
         if ( CRM_Utils_Array::value( 'addTime', $attributes ) ) {
