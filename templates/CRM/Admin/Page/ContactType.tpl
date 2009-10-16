@@ -14,12 +14,12 @@
     <thead>
     <tr>
         <th>{ts}Contact SubTypes{/ts}</th>
-        <th>{ts}Extends Basic Type{/ts}</th>
+        <th>{ts}Extends{/ts}</th>
         <th id="nosort">{ts}Description{/ts}</th>
     </tr>
     </thead>
     {foreach from=$rows item=row}
-        <td>{$row.subtype}</td>
+        <td>{$row.name}</td>
         <td>{$row.parent}</td>
         <td>{$row.description}</td>
         <td>{$row.action}</td>

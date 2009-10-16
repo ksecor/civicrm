@@ -54,18 +54,15 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
             return;
         }
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('SubType Name'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'name' ),true );
-        $this->addRule( 'name',  ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Contact_DAO_ContactType', $this->_id ) );
-        
-        $this->add('text', 'label', ts('label'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'label' ) );
-        $this->add( 'select', 'parent_id', ts('Basic Contact Type'),array('1'=>'Individual','2'=>'Household','3'=>'Organization'),'required');
-        $this->add('text', 'description', ts('Description'),   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'description' ) );
-        
+        $this->add('text', 'label', ts('Name'), 
+                         CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'label' ),
+                         true );
+        $this->add( 'select', 'parent_id', ts('Basic Contact Type'),
+                    array('1'=>'Individual','2'=>'Household','3'=>'Organization'),'required');
+        $this->add('text', 'description', ts('Description'),   
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'description' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }
-    
     
     /**
      * Function to process the form
@@ -73,30 +70,23 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
      * @access public
      * @return None
      */
-    public function postProcess() {
+    public function postProcess( ) {
         if( $this->_action & CRM_Core_Action::DELETE ) {
             CRM_Contact_BAO_ContactType::del( $this->_id );
             CRM_Core_Session::setStatus( ts('Selected Contact type has been deleted.') );
             return;
         }
-        
         // store the submitted values in an array
         $params = $this->exportValues();
-        $ContactType               =& new CRM_Contact_DAO_ContactType( );
-        $ContactType->name         = $params['name'];
-        $ContactType->label        = $params['label'];
-        $ContactType->parent_id    = $params['parent_id'];
-        $ContactType->description  = $params['description'];
-        $ContactType->is_active    = $params['is_active'];
-        
         if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $ContactType->id = $this->_id;
+            $params['id'] = $this->_id;
+        }  
+        if ( $this->_action & CRM_Core_Action::ADD ){
+            $params['name'] = ucfirst($params['label']);
         }
-        
-        $ContactType->save( );
-        
+        $ContactType = CRM_Contact_BAO_ContactType::add( $params );
         CRM_Core_Session::setStatus( ts('The Contact type \'%1\' has been saved.',
-                                        array( 1 => $ContactType->name )) );
+                                        array( 1 => $ContactType->label )) );
     }     
 }
 

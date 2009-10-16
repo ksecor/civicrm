@@ -12,7 +12,6 @@
  </div>
 {else}
   <dl>
-    <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
     <dt>{$form.parent_id.label}</dt><dd>&nbsp;{$form.parent_id.html}</dd>
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>

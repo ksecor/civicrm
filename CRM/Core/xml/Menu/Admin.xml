@@ -471,10 +471,8 @@
   <item>
      <path>civicrm/admin/ContactType</path>
      <title>Contact SubTypes</title>
-     <desc>Create new  contactSubTypes.</desc>
      <page_callback>CRM_Admin_Page_ContactType</page_callback>
      <adminGroup>Option Lists</adminGroup>
      <icon>admin/small/13.png</icon>
-    
   </item>
 </menu>

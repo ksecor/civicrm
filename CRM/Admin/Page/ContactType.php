@@ -102,26 +102,11 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
         parent::run();    
     }
     function browse()
-    {
-        $sql = "SELECT `id` ,`name`,`description`,`is_active`,`parent_id` FROM civicrm_contact_type";
-        $dao  = CRM_Core_DAO::executeQuery( $sql );
-        $rows = array( );
-        $contact = array( );
-        while( $dao->fetch( ) ) {
-            $contact[$dao->id] = $dao->name;
-            if( $dao->parent_id ) {
-                $row = array( );
-                $row['subtype']     = $dao->name;
-                $row['parent_id']   = $dao->parent_id; 
-                $row['description'] = $dao->description;
-                $row['is_active']   = $dao->is_active;
-                $row['action']      = CRM_Core_Action::formLink( self::links(),
-                                                                 null,   array('id' =>$dao->id ) );
-                $rows[$dao->id]  = $row;
-            }
-        }
-        foreach( $rows as $id =>  $sbType ) {  
-            $rows[$id]['parent'] = $contact[$sbType['parent_id']];
+    {   
+        $rows = CRM_Contact_BAO_ContactType::subTypeInfo( );
+        foreach( $rows  as $key=>$value ) {
+            $rows[$key]['action'] = CRM_Core_Action::formLink( self::links(), null, 
+                                                               array('id' =>$value['id'] ) );
         }
         $this->assign( 'rows' ,$rows);
     }
