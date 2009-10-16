@@ -453,7 +453,7 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
 
     function relationshipTypeCreate( &$params ) 
     {  
-
+        require_once 'api/v2/Relationship.php';
         $result= civicrm_relationship_type_add($params);
         
         if ( civicrm_error( $params ) ) {
