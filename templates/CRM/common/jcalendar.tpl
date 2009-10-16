@@ -32,14 +32,14 @@
                                 });
     
     cj(element_date).click( function( ) {
-        hideYear( );
+        hideYear( this );
     });  
     cj('.ui-datepicker-trigger').click( function( ) {
-        hideYear( );
+        hideYear( cj(this).prev() );
     });  
     
-    function hideYear( ) {
-        var format = cj( element_date ).attr('formatType');
+    function hideYear( element ) {
+        var format = cj( element ).attr('formatType');
         if ( format == 'dd/mm' || format == 'mm/dd' ) {
             cj(".ui-datepicker-year").css( 'display', 'none' );
         }
