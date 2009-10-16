@@ -270,19 +270,17 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
             // send duplicate alert, if dupe match found during on-behalf-of processing.
             if ( CRM_Utils_Array::value( 'onbehalf_dupe_alert', $values ) ) {
-                $systemFrom = '"Automatically Generated" <' . $values['receipt_from_email'] . '>';
-                $template->assign('onBehalfID', $contactID);
-                
-                $emailTemplate  = 'CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl';
-                
-                $template->assign( 'returnContent', 'subject' );
-                $subject = $template->fetch( $emailTemplate );
-                
-                $template->assign( 'receiptMessage', $message );
+                $tplParams['onBehalfID']     = $contactID;
+                $tplParams['receiptMessage'] = $message;
 
-                $template->assign( 'returnContent', 'textMessage' );
-                $message = $template->fetch( $emailTemplate );
+                list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                    'msg_tpl_workflow_contribution',
+                    'contribution_dupalert',
+                    $contactID,
+                    $tplParams
+                );
                 
+                $systemFrom = ts('Automatically Generated') . " <{$values['receipt_from_email']}>";
                 CRM_Utils_Mail::send( $systemFrom,
                                       CRM_Utils_Array::value('receipt_from_name',$values),
                                       $values['receipt_from_email'],
