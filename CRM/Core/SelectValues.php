@@ -711,7 +711,9 @@ class CRM_Core_SelectValues
      * Map date plugin and actual format that is used by PHP 
      */
     static function datePluginToPHPFormats ( ) {
-        $dateInputFormats = array( "mm/dd/yy"     => 'm/d/Y' );
+        $dateInputFormats = array( "mm/dd/yy"     => 'm/d/Y',
+                                   "mm/dd"        =>  'm/d',
+                                   "dd/mm"        =>  'd/m' );
         return $dateInputFormats;
     }
     

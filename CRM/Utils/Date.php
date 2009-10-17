@@ -1543,15 +1543,23 @@ class CRM_Utils_Date
      *
      *  @return array $date and time 
      */
-    static function setDateDefaults( $mysqlDate = null ) {        
+    static function setDateDefaults( $mysqlDate = null, $formatType = null ) {        
         // if date is not passed assume it as today
         if ( !$mysqlDate ) {
             $mysqlDate = date( 'Y-m-d G:i:s' ) ;
         }
 
-        $config =& CRM_Core_Config::singleton();
+        if ( !$formatType ) {
+            $config =& CRM_Core_Config::singleton();
+            $formatType = $config->dateInputFormat;
+        } else {
+            $formatType = CRM_Core_Dao::getFieldValue( 'CRM_Core_DAO_PreferencesDate', 
+                                                        $formatType, 'format', 'name' );
+        }
+
+        // get actual format
         $actualPHPFormats = CRM_Core_SelectValues::datePluginToPHPFormats( );
-        $dateFormat       = $actualPHPFormats[$config->dateInputFormat];
+        $dateFormat       = $actualPHPFormats[$formatType];
         
         $date = date( $dateFormat, strtotime( $mysqlDate) );
         
