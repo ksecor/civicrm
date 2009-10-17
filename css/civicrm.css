@@ -115,10 +115,9 @@ div#crm-container {
 	}
 
 #crm-container select {
-  vertical-align: middle;
-  border: 1px solid #999;
-  font-weight:bold;
-}
+  	vertical-align: middle;
+  	border: 1px solid #999;
+	}
 
 #crm-container textarea {
     border: 1px solid #999;
@@ -750,8 +749,8 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 
 #crm-container .font-red, 
 #crm-container .status-removed, 
-#crm-container .disabled, #
-crm-container .status-overdue, 
+#crm-container .disabled,
+#crm-container .status-overdue, 
 #crm-container .status-hold {
   	color: #FF0105;
 	}
@@ -1679,7 +1678,13 @@ div.grippie {
 	TEXT-ALIGN : left; 
 	/*WIDTH: 89%;*/ 
 	FLOAT      : left
-}
+	}
+	#crm-container div.buttons #actions li {
+		float:left;
+		padding:0px;
+		margin:0 5px 0 0;
+		}
+	
 
 #crm-container div.buttons #icons {
 	/*WIDTH: 10%*/
@@ -1830,14 +1835,23 @@ div.grippie {
 	padding-left : 20px;
 }
 
-.edit {
-	background   : url("../i/edit.png") transparent no-repeat; 
-	padding-left : 18px;
-}
-.delete {
-	background   : url("../i/delete.png") transparent no-repeat; 
-	padding-left : 18px;
-}
+
+.icon { height:16px;width:16px;}
+
+#crm-container a.button .icon { float:left; }
+
+.button:hover {
+	color:#333;
+	}
+
+.edit-icon { background:transparent url(../i/actions_sprite.png) no-repeat scroll -3px -1px; }
+	.button:hover .edit-icon {background-position: -3px -33px;}
+		
+.delete-icon { background   : url("../i/actions_sprite.png") transparent no-repeat -3px -65px; }
+	.button:hover .delete-icon {background-position: -3px -97px;}
+
+.dashboard-icon { background   : url("../i/actions_sprite.png") transparent no-repeat -3px -131px; }
+	.button:hover .dashboard-icon {background-position: -3px -163px;}
 
 
 #crm-container .geotag {
