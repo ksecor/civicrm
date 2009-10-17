@@ -74,8 +74,10 @@
         <div class="honor_roll">
             <marquee behavior="scroll" direction="up" id="pcp_roll"	scrolldelay="200" bgcolor="#fafafa"> 
               {foreach from = $honor item = v} 
-              {$v.nickname}<br />{$v.total_amount}
-              <br /><br /><br />
+              <div class="pcp_honor_roll_entry">
+                  <strong>{$v.nickname}</strong><br />{$v.total_amount}<br />
+                  {$v.personal_note}<br /><br />
+	      </div>
               {/foreach} 
             </marquee>
         </div>	

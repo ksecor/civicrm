@@ -98,7 +98,12 @@
                 {if $pcp_is_anonymous}
                     <strong>{ts}anonymously{/ts}.</strong>
                 {else}
-                    {ts}and my name{/ts}: <strong>{$pcp_roll_nickname}</strong>
+		    {ts}under the name{/ts}: <strong>{$pcp_roll_nickname}</strong><br/>
+                    {if $pcp_personal_note}
+                        {ts}With the personal note{/ts}: <strong>{$pcp_personal_note}</strong>
+                    {else}
+                     <strong>{ts}With no personal note{/ts}</strong>
+                     {/if}
                 {/if}
             {else}
                 {ts}Don't list my contribution in the honor roll.{/ts}

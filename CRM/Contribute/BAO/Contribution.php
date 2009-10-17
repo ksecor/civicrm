@@ -1024,6 +1024,9 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         $query = "SELECT ccs.id, ccs.amount as amount,
                          ccs.contribution_id, 
                          ccs.pcp_id,
+                         ccs.pcp_display_in_roll,
+                         ccs.pcp_roll_nickname,
+                         ccs.pcp_personal_note,
                          cc.receive_date,
                          cc.contact_id as contributor_id,
                          cc.contribution_status_id as contribution_status_id,
@@ -1055,6 +1058,9 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
             $result[$cs->id]['receive_date']      = $cs->receive_date;
             $result[$cs->id]['pcp_id']            = $cs->pcp_id;
             $result[$cs->id]['pcp_title']         = $cs->pcp_title;
+            $result[$cs->id]['pcp_display_in_roll'] = $cs->pcp_display_in_roll;
+            $result[$cs->id]['pcp_roll_nickname'] = $cs->pcp_roll_nickname;
+            $result[$cs->id]['pcp_personal_note'] = $cs->pcp_personal_note;
             $result[$cs->id]['contribution_status'] = CRM_Utils_Array::value($cs->contribution_status_id, $contributionStatus );
 
             if ( $isTest ) {

@@ -164,10 +164,11 @@ function clearAmountOther() {
 		<span class="description">{ts}Enter the name you want listed with this contribution. You can use a nick name like 'The Jones Family' or 'Sarah and Sam'.{/ts}</span>
 	    </td>
 	</tr>
-	<!--tr>
-		<td style="vertical-align: top">{$form.pcp_personal_note.label}</td>
-		<td>{$form.pcp_personal_note.html}</td>
-	</tr-->
+	<tr id="personalNoteID">
+	    <td style="vertical-align: top">{$form.pcp_personal_note.label}</td>
+	    <td>{$form.pcp_personal_note.html}</td><br />
+                <span class="description">{ts}Enter a message to accompany this contribution.'.{/ts}</span>
+	</tr>
     </table>
     </fieldset>
     {/if} 
@@ -299,7 +300,6 @@ function enableHonorType( ) {
     }
 }
 
-
 function pcpAnonymous( ) {
     // clear nickname field if anonymous is true
     if ( document.getElementsByName("pcp_is_anonymous")[1].checked ) { 
@@ -308,13 +308,16 @@ function pcpAnonymous( ) {
     if ( ! document.getElementsByName("pcp_display_in_roll")[0].checked ) { 
         hide('nickID', 'table-row');
         hide('nameID', 'table-row');
+	hide('personalNoteID', 'table-row');
     } else {
         if ( document.getElementsByName("pcp_is_anonymous")[0].checked ) {
             show('nameID', 'table-row');
             show('nickID', 'table-row');
+	    show('personalNoteID', 'table-row');
         } else {
             show('nameID', 'table-row');
             hide('nickID', 'table-row');
+	    hide('personalNoteID', 'table-row');
         }
     }
 }
