@@ -6,8 +6,9 @@
   );
   $ovNames = array(
     'contribution' => array(
-      'contribution_dupalert' => 'Contribution Duplicate Organization Alert',
-      'contribution_receipt'  => 'Contribution Receipt',
+      'contribution_dupalert'        => 'Contribution Duplicate Organization Alert',
+      'contribution_offline_receipt' => 'Contribution Offline Receipt',
+      'contribution_receipt'         => 'Contribution Receipt',
     ),
     'event' => array(
       'event_receipt' => 'Event Receipt',
