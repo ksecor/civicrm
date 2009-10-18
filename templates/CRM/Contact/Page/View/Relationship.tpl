@@ -36,7 +36,7 @@
             <th>{ts}Phone{/ts}</th>
             <th></th>
         </tr>
-        <thead>
+        </thead>
         {foreach from=$currentRelationships item=rel}
             {*assign var = "rtype" value = "" }
             {if $rel.contact_a eq $contactId }
