@@ -26,10 +26,10 @@
   </field>
   <field>
       <name>msg_subject</name>
-      <type>varchar</type>
-      <length>255</length>
+      <type>text</type>
       <comment>Subject for email message.</comment>
       <add>1.6</add>
+      <!-- type changed from VARCHAR(255) to TEXT in 3.1 -->
   </field>
   <field>
       <name>msg_text</name>

@@ -29,8 +29,9 @@ UPDATE civicrm_option_value SET label = 'CKEditor' WHERE label = 'FCKEditor';
 -- CRM-3507
 
 ALTER TABLE civicrm_msg_template
-  ADD workflow_id INT UNSIGNED           COMMENT 'a pseudo-FK to civicrm_option_value',
-  ADD is_default  TINYINT      DEFAULT 1 COMMENT 'is this the default message template for the workflow referenced by workflow_id?';
+  MODIFY msg_subject TEXT,
+  ADD    workflow_id INT UNSIGNED           COMMENT 'a pseudo-FK to civicrm_option_value',
+  ADD    is_default  TINYINT      DEFAULT 1 COMMENT 'is this the default message template for the workflow referenced by workflow_id?';
 
 ALTER TABLE civicrm_contribution_page
   ADD {localize field='pay_later_receipt_html'}pay_later_receipt_html TEXT COMMENT 'receipt sent to the user instead of the normal receipt (HTML part)'{/localize},
