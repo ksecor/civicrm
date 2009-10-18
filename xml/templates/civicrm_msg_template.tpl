@@ -33,7 +33,7 @@ INSERT INTO civicrm_option_value
   (option_group_id,        name,                    label) VALUES
   {foreach from=$ovNames key=gName item=ovs name=for_groups}
     {foreach from=$ovs key=vName item=label name=for_values}
-      (@tpl_ogid_{$gName}, 'contribution_{$vName}', '{$label|ts}') {if $smarty.foreach.for_groups.last and $smarty.foreach.for_values.last};{else},{/if}
+      (@tpl_ogid_{$gName}, '{$vName}', '{$label|ts}') {if $smarty.foreach.for_groups.last and $smarty.foreach.for_values.last};{else},{/if}
     {/foreach}
   {/foreach}
 
