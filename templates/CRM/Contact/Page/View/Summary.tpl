@@ -48,11 +48,15 @@
                     {include file="CRM/Contact/Page/View/SummaryHook.tpl"}
                 {/if}
                 
-                {if $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name OR $contactTag OR $source}
+                {if $contact_sub_type OR $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name OR $contactTag OR $source}
                 <div id="contactTopBar" class="ui-corner-all">
                     <table>
-                        {if $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name}
+                        {if $contact_sub_type OR $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name}
                         <tr>
+                            {if $contact_sub_type}
+                            <td class="label">{ts}Subtype{/ts}</td>
+                            <td>{$contact_sub_type}</td>
+                            {/if}
                             {if $current_employer_id}
                             <td class="label">{ts}Employer{/ts}</td>
                             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$current_employer_id`"}" title="{ts}view current employer{/ts}">{$current_employer}</a></td>
@@ -68,7 +72,7 @@
                             <td class="label">{ts}SIC Code{/ts}</td>
                             <td>{$sic_code}</td>
                             {/if}
-                            {else}
+                            {elseif $nick_name}
                             <td class="label">{ts}Nickname{/ts}</td>
                             <td>{$nick_name}</td>
                             {/if}
