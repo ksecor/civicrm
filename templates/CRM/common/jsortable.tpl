@@ -1,16 +1,23 @@
 {literal}
 <script type="text/javascript">
+cj( function( ) {
 var tableId = '';
+var count   = 1;
+
+//rename id of table with sequence
+//and create the object for navigation
 cj('table.display').each(function(){
-    tableId += this.id.substring(6) + ','; 
+    cj(this).attr('id','option' + count);
+    tableId += count + ',';
+    count++; 
 });
+
+//remove last comma
 tableId = tableId.substring(0, tableId.length - 1 );
-if(!tableId) tableId = 0;
 eval('tableId =[' + tableId + ']');
 
-cj( function( ) {
   cj.each(tableId, function(i,n){
-    tabId = (!n) ? '#options' : '#option' + n;
+    tabId = '#option' + n;
     var id = -1; var count = 0; var columns='';
     //build columns array for sorting or not sorting
     cj(tabId + ' th').each( function( ) {

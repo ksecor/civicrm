@@ -23,7 +23,7 @@
          <div><label>{ts}Current Relationships{/ts}</label></div>
         {/if}
         {strip}
-        <table id="option1" class="display">
+        <table id="options" class="display">
         <thead>
         <tr>
             <th>{ts}Relationship{/ts}</th>
@@ -97,7 +97,7 @@
         <div class="label font-red">{ts}Inactive Relationships{/ts}</div>
         <div class="description">{ts}These relationships are Disabled OR have a past End Date.{/ts}</div>
         {strip}
-        <table id="option2" class="display">
+        <table id="options" class="display">
         <thead>
         <tr>
             <th>{ts}Relationship{/ts}</th>
