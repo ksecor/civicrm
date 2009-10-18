@@ -20,9 +20,9 @@
 {* FIXME: all ts calls below should SQL-escape the output *}
 
 INSERT INTO civicrm_option_group
-  (name,                          description,        is_reserved, is_active) VALUES
+  (name,                         label,               description,         is_reserved, is_active) VALUES
   {foreach from=$ogNames key=name item=description name=for_groups}
-    ('msg_tpl_workflow_{$name}', '{$description|ts}', 0,           1) {if $smarty.foreach.for_groups.last};{else},{/if}
+    ('msg_tpl_workflow_{$name}', '{$description|ts}', '{$description|ts}', 0,           1) {if $smarty.foreach.for_groups.last};{else},{/if}
   {/foreach}
 
 {foreach from=$ogNames key=name item=description}
