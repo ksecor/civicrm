@@ -605,9 +605,14 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                     $this->assign( 'action', '1024') ;
                 }
             }
-            $template =& CRM_Core_Smarty::singleton( );
-            $message = $template->fetch( 'CRM/Contribute/Form/ReceiptMessageOffline.tpl' );
-            $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
+
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                    'msg_tpl_workflow_contribution',
+                    'contribution_offline_receipt',
+                    $this->_contactID,
+                    array()
+            );
             
             require_once 'CRM/Utils/Mail.php';
             $mailSend = CRM_Utils_Mail::send( $receiptFrom,
