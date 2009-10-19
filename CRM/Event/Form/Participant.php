@@ -1131,7 +1131,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $receiptFrom = "$userName <$userEmail>";
                         
             $this->assign( 'module', 'Event Registration' );          
-            //use of CRM/Event/Form/Registration/ReceiptMessage.tpl requires variables in different format
+            //use of the message template below requires variables in different format
             $event = $events = array();
             $returnProperties = array( 'fee_label', 'start_date', 'end_date', 'is_show_location', 'title' );
             
@@ -1262,8 +1262,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $this->assign( 'amount', $eventAmount );
                 }
 
-                $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubjectOffline.tpl' ) );
-                $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
+                require_once 'CRM/Core/BAO/MessageTemplates.php';
+                list($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                    'msg_tpl_workflow_event',
+                    'event_offline_receipt',
+                    $contactID,
+                    array()
+                );
               
                 //Do not try to send emails if emailID is not present
                 //or doNotEmail option is checked for that contact 

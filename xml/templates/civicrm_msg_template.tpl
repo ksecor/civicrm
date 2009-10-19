@@ -11,7 +11,8 @@
       'contribution_receipt'         => 'Contribution Receipt',
     ),
     'event' => array(
-      'event_receipt' => 'Event Receipt',
+      'event_offline_receipt' => 'Event Offline Receipt',
+      'event_receipt'         => 'Event Receipt',
     ),
   );
   $this->assign('ogNames',  $ogNames);
