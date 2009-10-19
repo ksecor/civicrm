@@ -3,6 +3,7 @@
   $ogNames = array(
     'contribution' => 'Message Template Workflow for Contributions',
     'event'        => 'Message Template Workflow for Events',
+    'pledge'       => 'Message Template Workflow for Pledges',
   );
   $ovNames = array(
     'contribution' => array(
@@ -14,6 +15,9 @@
     'event' => array(
       'event_offline_receipt' => 'Event Offline Receipt',
       'event_receipt'         => 'Event Receipt',
+    ),
+    'pledge' => array(
+      'pledge_acknowledge' => 'Pledge Acknowledge',
     ),
   );
   $this->assign('ogNames',  $ogNames);

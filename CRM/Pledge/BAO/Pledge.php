@@ -576,9 +576,7 @@ WHERE  $whereCond
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $pledgerDisplayName, 
               $pledgerEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );
-        $template =& CRM_Core_Smarty::singleton( );
-        $message = $template->fetch( 'CRM/Pledge/Form/AcknowledgeMessage.tpl' );
-        
+
         //check for online pledge.
         $session =& CRM_Core_Session::singleton( );
         if ( CRM_Utils_Array::value('receipt_from_email', $params ) ) {
@@ -593,9 +591,15 @@ WHERE  $whereCond
             $userEmail = CRM_Utils_Array::value('email', $domainValues );
         }
         $receiptFrom = "$userName <$userEmail>";
-        
-        $subject = $template->fetch( 'CRM/Pledge/Form/AcknowledgeSubject.tpl' );
-        
+
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+            'msg_tpl_workflow_pledge',
+            'pledge_acknowledge',
+            $params['contact_id'],
+            array()
+        );
+
         require_once 'CRM/Utils/Mail.php';
         CRM_Utils_Mail::send( $receiptFrom,
                               $pledgerDisplayName,
