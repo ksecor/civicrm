@@ -225,8 +225,8 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
         $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
         $this->_returnProperties =& $this->returnProperties( );
         
-        //CRM_Core_Error::debug( 'f', $this->_formValues );
-        //CRM_Core_Error::debug( 'p', $this->_params );
+        // CRM_Core_Error::debug( 'f', $this->_formValues );
+        // CRM_Core_Error::debug( 'p', $this->_params );
         parent::postProcess( );
     }
 
