@@ -254,8 +254,6 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      */
     static function sendMail( $contactID, &$values )
     {   
-        $template =& CRM_Core_Smarty::singleton( );
-        
         require_once 'CRM/Contact/BAO/Contact.php';
         list( $fromName, $email ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
         // if no $fromName (only email collected from originating contact) - list returns single space
@@ -263,16 +261,20 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
             $fromName = $email;
         }
 
-        // set details in the template here
-        $template->assign( $values['module']  , $values['module'] );
-        $template->assign( 'senderContactName', $fromName ); 
-        $template->assign( 'title',             $values['title'] );
-        $template->assign( 'generalLink',       $values['general_link'] );
-        $template->assign( 'pageURL',           $values['page_url'] );
-        $template->assign( 'senderMessage',     $values['message'] );
-                
-        $subject = trim( $template->fetch( 'CRM/Friend/Form/SubjectTemplate.tpl' ) );
-        $message = $template->fetch( 'CRM/Friend/Form/MessageTemplate.tpl' ); 
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+            'msg_tpl_workflow_friend',
+            'friend',
+            $contactID,
+            array(
+                $values['module']   => $values['module'],
+                'senderContactName' => $fromName,
+                'title'             => $values['title'],
+                'generalLink'       => $values['general_link'],
+                'pageURL'           => $values['page_url'],
+                'senderMessage'     => $values['message'],
+            )
+        );
 
         // use contact email, CRM-4963 
         if ( !CRM_Utils_Array::value( 'email_from', $values ) ) {

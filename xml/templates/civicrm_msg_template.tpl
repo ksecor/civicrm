@@ -3,6 +3,7 @@
   $ogNames = array(
     'contribution' => 'Message Template Workflow for Contributions',
     'event'        => 'Message Template Workflow for Events',
+    'friend'       => 'Message Template Workflow for Tell-a-Friend',
     'pledge'       => 'Message Template Workflow for Pledges',
     'uf'           => 'Message Template Workflow for UF',
   );
@@ -16,6 +17,9 @@
     'event' => array(
       'event_offline_receipt' => 'Event Offline Receipt',
       'event_receipt'         => 'Event Receipt',
+    ),
+    'friend' => array(
+      'friend' => 'Tell-a-Friend',
     ),
     'pledge' => array(
       'pledge_acknowledge' => 'Pledge Acknowledge',
