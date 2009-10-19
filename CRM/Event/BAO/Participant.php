@@ -1073,44 +1073,6 @@ UPDATE  civicrm_participant
             $contactId       = $participantValues['contact_id'];
             $participantName = $contactDetails['display_name'];
             
-            //assign contact value to templates.
-            $template =& CRM_Core_Smarty::singleton( );
-            $template->assign( 'contact', $contactDetails );
-            
-            //assign values to template.
-            $template =& CRM_Core_Smarty::singleton( );
-            
-            // assign domain values to template
-            $template->assign( 'domain', $domainValues );
-            
-            //assign participant values to templates.
-            $template->assign( 'participant', $participantValues );
-            
-            //assign event values to templates.
-            $template->assign( 'event', $eventDetails );
-            
-            //is it paid event
-            $template->assign( 'paidEvent', CRM_Utils_Array::value( 'is_monetary', $eventDetails ) );
-            
-            //is show location
-            $template->assign( 'isShowLocation', CRM_Utils_Array::value( 'is_show_location', $eventDetails ) );
-            
-            //is it primary participant.
-            $template->assign( 'isAdditional', $participantValues['registered_by_id'] );
-            
-            //is expiraed registration mail
-            $isExpiredMail = false;
-            if ( $mailType == 'Expired' ) {
-                $isExpiredMail = true;
-            }
-            $template->assign( 'isExpired', $isExpiredMail );
-            
-            //is it confirm mail.
-            $isConfirmMail = false;
-            if ( $mailType == 'Confirm' ) {
-                $template->assign( 'isConfirm', $isConfirmMail );
-            }
-            
             //calculate the checksum value.
             $checksumValue = null;
             if ( $mailType == 'Confirm' && !$participantValues['registered_by_id'] ) {
@@ -1122,20 +1084,25 @@ UPDATE  civicrm_participant
                 }
                 $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contactId, null, $checksumLife );
             }
-            $template->assign( 'checksumValue', $checksumValue );
-            
-            //support different templates for different mails.
-            $subject = $message = '';
-            if ( $mailType == 'Expired' ) {
-                $subject = $template->fetch( 'CRM/Event/Form/ParticipantExpiredSubject.tpl' );
-                $message = $template->fetch( 'CRM/Event/Form/ParticipantExpiredMessage.tpl' );
-            } else if ( $mailType == 'Confirm' )  {
-                $subject = $template->fetch( 'CRM/Event/Form/ParticipantConfirmSubject.tpl' );
-                $message = $template->fetch( 'CRM/Event/Form/ParticipantConfirmMessage.tpl' );
-            } else if ( 'Cancelled' ) {
-                $subject = $template->fetch( 'CRM/Event/Form/ParticipantCancelledSubject.tpl' );
-                $message = $template->fetch( 'CRM/Event/Form/ParticipantCancelledMessage.tpl' );
-            }
+
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                'msg_tpl_workflow_event',
+                'participant_' . strtolower($mailType),
+                $contactId,
+                array(
+                    'contact'        => $contactDetails,
+                    'domain'         => $domainValues,
+                    'participant'    => $participantValues,
+                    'event'          => $eventDetails,
+                    'paidEvent'      => CRM_Utils_Array::value('is_monetary',      $eventDetails),
+                    'isShowLocation' => CRM_Utils_Array::value('is_show_location', $eventDetails),
+                    'isAdditional'   => $participantValues['registered_by_id'],
+                    'isExpired'      => $mailType == 'Expired',
+                    'isConfirm'      => $mailType == 'Confirm',
+                    'checksumValue'  => $checksumValue,
+                )
+            );
             
             //take a receipt from as event else domain.
             $receiptFrom = $domainValues['name'] . ' <' . $domainValues['email'] . '>';

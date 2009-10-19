@@ -21,6 +21,9 @@
     'event' => array(
       'event_offline_receipt' => 'Event Offline Receipt',
       'event_receipt'         => 'Event Receipt',
+      'participant_cancelled' => 'Participant Cancelled',
+      'participant_confirm'   => 'Participant Confirm',
+      'participant_expired'   => 'Participant Expired',
     ),
     'friend' => array(
       'friend' => 'Tell-a-Friend',
