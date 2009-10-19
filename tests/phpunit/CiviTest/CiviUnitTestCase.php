@@ -107,6 +107,9 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
 
         // "initialize" CiviCRM to avoid problems when running single tests
         // FIXME: look at it closer in second stage
+        if (isset( $config ) ) {
+            unset( $config );
+        }
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton();
  
@@ -119,14 +122,6 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
 
         //  Get and save a connection to the database
         $this->_dbconn = $this->getConnection();
-
-        $query1 = "USE civicrm_tests_dev; SET foreign_key_checks = 0;";
-        
-        if ( AllTests::$utils->do_query($query1) === false ) {
-            //  failed to initialze test database
-            echo "Cannot set FK";
-            exit;
-        }        
 
         //  Truncate the tables
         $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
@@ -365,7 +360,8 @@ class CiviUnitTestCase extends PHPUnit_Extensions_Database_TestCase {
         $params['contact_id'] = $contactID;
         $result = civicrm_contact_delete( $params );
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            throw new Exception( 'Could not delete contact' );
+            var_dump( $result );
+            throw new Exception( 'Could not delete contact: ' . $result['error_message'] );
         }
         return;
     }
