@@ -247,10 +247,13 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                                                     true );
             $this->assign( 'managePCPUrl', $managePCPUrl );
             
-            $subject = ts('Personal Campaign Page Notification');
-            
-            $template =& CRM_Core_Smarty::singleton( );
-            $message  = $template->fetch( 'CRM/Contribute/Form/PCPNotify.tpl' );
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                'msg_tpl_workflow_contribution',
+                'pcp_notify',
+                $contactID,
+                array()
+            );
           
             //get the default domain email address.
             require_once 'CRM/Core/BAO/Domain.php';

@@ -18,6 +18,7 @@
       'contribution_offline_receipt'  => 'Contribution Offline Receipt',
       'contribution_receipt'          => 'Contribution Receipt',
       'contribution_recurring_notify' => 'Contribution Recurring Notify',
+      'pcp_notify'                    => 'PCP Notify',
       'pcp_status_change'             => 'PCP Status Change',
       'pcp_supporter_notify'          => 'PCP Supporter Notify',
     ),
