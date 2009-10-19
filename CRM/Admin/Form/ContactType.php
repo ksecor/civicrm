@@ -73,7 +73,7 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
     public function postProcess( ) {
         if( $this->_action & CRM_Core_Action::DELETE ) {
             CRM_Contact_BAO_ContactType::del( $this->_id );
-            CRM_Core_Session::setStatus( ts('Selected Contact type has been deleted.') );
+            CRM_Core_Session::setStatus( ts('Selected Contact subtype has been deleted.') );
             return;
         }
         // store the submitted values in an array
@@ -82,11 +82,11 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
             $params['id'] = $this->_id;
         }  
         if ( $this->_action & CRM_Core_Action::ADD ){
-            $params['name'] = ucfirst($params['label']);
+            $params['name'] = ucfirst( CRM_Utils_String::munge($params['label'] ) );
         }
-        $ContactType = CRM_Contact_BAO_ContactType::add( $params );
-        CRM_Core_Session::setStatus( ts('The Contact type \'%1\' has been saved.',
-                                        array( 1 => $ContactType->label )) );
+        $contactType = CRM_Contact_BAO_ContactType::add( $params );
+        CRM_Core_Session::setStatus( ts("The Contact subtype '%1' has been saved.",
+                                        array( 1 => $contactType->label )) );
     }     
 }
 

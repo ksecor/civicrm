@@ -1,5 +1,5 @@
 <div id="help">
-    {ts}Contact Subtypes provide convenient labels to differentiate contacts'. Administrators may define as many additional types as appropriate for your constituents (examples might be Student,Parent...).{/ts}
+    {ts}Contact subtypes provide convenient labels to further differentiate contacts. Administrators may define as many additional types as appropriate for your constituents (examples might be Student,Parent...).{/ts}
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}
@@ -13,13 +13,13 @@
     <table id="options" class="display">
     <thead>
     <tr>
-        <th>{ts}Contact SubTypes{/ts}</th>
+        <th>{ts}Subtypes{/ts}</th>
         <th>{ts}Extends{/ts}</th>
         <th id="nosort">{ts}Description{/ts}</th>
     </tr>
     </thead>
     {foreach from=$rows item=row}
-        <td>{$row.name}</td>
+        <td>{$row.label}</td>
         <td>{$row.parent}</td>
         <td>{$row.description}</td>
         <td>{$row.action}</td>

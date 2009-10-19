@@ -407,6 +407,12 @@
      <weight>415</weight>
   </item>
   <item>
+     <path>civicrm/admin/options/subtype</path>
+     <title>Contact Subtypes</title>
+     <page_callback>CRM_Admin_Page_ContactType</page_callback>
+     <adminGroup>Option Lists</adminGroup>
+  </item>
+  <item>
      <path>civicrm/admin/dedupefind</path>
      <title>Find and Merge Duplicate Contacts</title>
      <page_callback>CRM_Admin_Page_DedupeFind</page_callback>
@@ -467,12 +473,5 @@
      <path>civicrm/ajax/statusmsg</path>
      <page_callback>CRM_Admin_Page_AJAX::getStatusMsg</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
-  </item>
-  <item>
-     <path>civicrm/admin/ContactType</path>
-     <title>Contact SubTypes</title>
-     <page_callback>CRM_Admin_Page_ContactType</page_callback>
-     <adminGroup>Option Lists</adminGroup>
-     <icon>admin/small/13.png</icon>
   </item>
 </menu>

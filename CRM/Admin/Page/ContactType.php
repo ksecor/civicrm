@@ -74,7 +74,7 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
                           CRM_Core_Action::UPDATE  => 
                           array(
                                 'name'  => ts('Edit'),
-                                'url'   => 'civicrm/admin/ContactType',
+                                'url'   => 'civicrm/admin/options/subtype',
                                 'qs'    => 'action=update&id=%%id%%&reset=1',
                                 'title' => ts('Edit Contact SubType') 
                                 ),
@@ -82,7 +82,7 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
                           CRM_Core_Action::DELETE  => 
                           array(
                                 'name'  => ts('Delete'),
-                                'url'   => 'civicrm/admin/ContactType',
+                                'url'   => 'civicrm/admin/options/subtype',
                                 'qs'    => 'action=delete&id=%%id%%',
                                 'title' => ts('Delete Contact SubType') 
                                 )
@@ -138,7 +138,7 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/admin/ContactType';
+        return 'civicrm/admin/options/subtype';
     }
 }
 
