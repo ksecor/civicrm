@@ -1,6 +1,7 @@
 {* not sure how to define the below in Smarty, so doing it in PHP instead *}
 {php}
   $ogNames = array(
+    'case'         => 'Message Template Workflow for Cases',
     'contribution' => 'Message Template Workflow for Contributions',
     'event'        => 'Message Template Workflow for Events',
     'friend'       => 'Message Template Workflow for Tell-a-Friend',
@@ -8,6 +9,9 @@
     'uf'           => 'Message Template Workflow for UF',
   );
   $ovNames = array(
+    'case' => array(
+      'case_activity' => 'Case Activity',
+    ),
     'contribution' => array(
       'contribution_additional_info' => 'Contribution Additional Information',
       'contribution_dupalert'        => 'Contribution Duplicate Organization Alert',

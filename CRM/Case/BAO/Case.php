@@ -1065,13 +1065,13 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
 
         require_once 'CRM/Utils/Mail.php';
         require_once 'CRM/Contact/BAO/Contact/Location.php';        
-        $template =& CRM_Core_Smarty::singleton( );
+        $tplParams = array();
 
         $activityInfo   = array( );
         //if its a case activity
         if ( $caseId ) {
             $anyActivity = false; 
-            $template->assign('isCaseActivity', 1 );
+            $tplParams['isCaseActivity'] = 1;
         } else {
             $anyActivity = true;
         }
@@ -1079,7 +1079,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
         $activityInfo = $xmlProcessor->getActivityInfo($clientId, $activityId, $anyActivity );
-        $template->assign('activity', $activityInfo );
+        $tplParams['activity'] = $activityInfo;
 
         $activitySubject = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $activityId, 'subject' );
         $session =& CRM_Core_Session::singleton( );
@@ -1097,28 +1097,31 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $activityParams['case_id']            = $caseId;
         $activityParams['is_auto']            = 0;
         
-        $template->assign('activitySubject', $activitySubject);
+        $tplParams['activitySubject'] = $activitySubject;
 
-        $emailTemplate  = 'CRM/Case/Form/ActivityMessage.tpl';
         $result         = array();
 
         list ($name, $address) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $session->get( 'userID' ) );
         
         $receiptFrom = "$name <$address>";   
-        $template->assign( 'returnContent', 'subject' );
-        $subject = $template->fetch( $emailTemplate );
         
         foreach ( $contacts as  $mail => $info ) {
-            $template->assign( 'contact', $info );
-            $template->assign( 'returnContent', 'textMessage' );
-            $message = $template->fetch( $emailTemplate );
+            $tplParams['contact'] = $info;
             
             if ( !CRM_Utils_Array::value('sort_name', $info) ) {
                 $info['sort_name'] = $info['display_name'];   
             }
             
             $displayName = $info['sort_name'];
-                       
+
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                'msg_tpl_workflow_case',
+                'case_activity',
+                $info['contact_id'],
+                $tplParams
+            );
+
             $activityParams['subject']            = $activitySubject.' - copy sent to '.$displayName;
             $activityParams['details']            = $message;
             $activityParams['target_contact_id']  = $info['contact_id'];
