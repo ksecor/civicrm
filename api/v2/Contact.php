@@ -162,11 +162,13 @@ function &civicrm_contact_add( &$params ) {
     _civicrm_initialize( );
 
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
+    
     if ( !empty($contactID) ) {
-        return civicrm_contact_update($params);
+        $result = civicrm_contact_update($params);
     } else {
-        return civicrm_contact_create($params);
+        $result = civicrm_contact_create($params);
     }
+    return $result;
 }
 
 /**

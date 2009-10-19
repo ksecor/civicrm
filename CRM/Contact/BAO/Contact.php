@@ -421,15 +421,15 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
         
         //lookup value of email/postal greeting, addressee, CRM-4575
-        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+        $filterCondition = array( 'contact_type'  => CRM_Utils_Array::value( 'contact_type', $defaults ),
                                   'greeting_type' => 'email_greeting' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'email_greeting', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
-        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+        $filterCondition = array( 'contact_type'  => CRM_Utils_Array::value( 'contact_type', $defaults ),
                                   'greeting_type' => 'postal_greeting' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'postal_greeting', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
-        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+        $filterCondition = array( 'contact_type'  => CRM_Utils_Array::value( 'contact_type', $defaults ),
                                   'greeting_type' => 'addressee' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'addressee', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
