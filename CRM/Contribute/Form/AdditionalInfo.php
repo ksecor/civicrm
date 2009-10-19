@@ -415,11 +415,16 @@ class CRM_Contribute_Form_AdditionalInfo
               $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );
         $this->assign( 'contactID', $params['contact_id'] );
         $this->assign( 'contributionID', $params['contribution_id'] );
-        $template =& CRM_Core_Smarty::singleton( );
-        $session  =& CRM_Core_Session::singleton( );
-        $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
-        $message  = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
 
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                'msg_tpl_workflow_contribution',
+                'contribution_additional_info',
+                $params['contact_id'],
+                array()
+        );
+
+        $session  =& CRM_Core_Session::singleton( );
         $userID   = $session->get( 'userID' );
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
         $receiptFrom = "$userName <$userEmail>";

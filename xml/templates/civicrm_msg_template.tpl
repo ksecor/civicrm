@@ -6,6 +6,7 @@
   );
   $ovNames = array(
     'contribution' => array(
+      'contribution_additional_info' => 'Contribution Additional Information',
       'contribution_dupalert'        => 'Contribution Duplicate Organization Alert',
       'contribution_offline_receipt' => 'Contribution Offline Receipt',
       'contribution_receipt'         => 'Contribution Receipt',
