@@ -1858,16 +1858,17 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                                               "reset=1&cid=$contactID",
                                               true, null, false );
           
-        // set details in the template here
-        $template->assign( 'displayName',
-                           $displayName );            
-        $template->assign( 'currentDate',
-                           date('r') );
-        $template->assign( 'contactLink',
-                           $contactLink );
-        
-        $subject = trim( $template->fetch( 'CRM/UF/Form/NotifySubject.tpl' ) );
-        $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+            'msg_tpl_workflow_uf',
+            'uf_notify',
+            $contactID,
+            array(
+                'displayName' => $displayName,
+                'currentDate' => date('r'),
+                'contactLink' => $contactLink,
+            )
+        );
         
         //get the default domain email address.
         require_once 'CRM/Core/BAO/Domain.php';

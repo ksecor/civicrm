@@ -4,6 +4,7 @@
     'contribution' => 'Message Template Workflow for Contributions',
     'event'        => 'Message Template Workflow for Events',
     'pledge'       => 'Message Template Workflow for Pledges',
+    'uf'           => 'Message Template Workflow for UF',
   );
   $ovNames = array(
     'contribution' => array(
@@ -18,6 +19,9 @@
     ),
     'pledge' => array(
       'pledge_acknowledge' => 'Pledge Acknowledge',
+    ),
+    'uf' => array(
+      'uf_notify' => 'UF Notify',
     ),
   );
   $this->assign('ogNames',  $ogNames);
