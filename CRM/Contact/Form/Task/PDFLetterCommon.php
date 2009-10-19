@@ -180,8 +180,8 @@ class CRM_Contact_Form_Task_PDFLetterCommon
                 continue;
             }
 	
-			$tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html_message, $contact[$contactId], true , $messageToken);
-            $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
+			$tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html_message, $contact[$contactId], true       , $messageToken);
+            $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact[$contactId]   , $categories, true         );
             
             if ( $first == TRUE ) {
               $first = FALSE;
