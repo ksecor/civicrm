@@ -13,10 +13,11 @@
       'case_activity' => 'Case Activity',
     ),
     'contribution' => array(
-      'contribution_additional_info' => 'Contribution Additional Information',
-      'contribution_dupalert'        => 'Contribution Duplicate Organization Alert',
-      'contribution_offline_receipt' => 'Contribution Offline Receipt',
-      'contribution_receipt'         => 'Contribution Receipt',
+      'contribution_additional_info'  => 'Contribution Additional Information',
+      'contribution_dupalert'         => 'Contribution Duplicate Organization Alert',
+      'contribution_offline_receipt'  => 'Contribution Offline Receipt',
+      'contribution_receipt'          => 'Contribution Receipt',
+      'contribution_recurring_notify' => 'Contribution Recurring Notify',
     ),
     'event' => array(
       'event_offline_receipt' => 'Event Offline Receipt',

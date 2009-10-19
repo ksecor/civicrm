@@ -313,21 +313,25 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$value[$pageID]) . '" <' . $value[$pageID]['receipt_from_email'] . '>';
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false );
-            $subject  = ts('Recurring Subscription Notification');
-            
-            $template =& CRM_Core_Smarty::singleton( );
-            $template->assign('recur_frequency_interval', $recur->frequency_interval );
-            $template->assign('recur_frequency_unit',     $recur->frequency_unit );
-            $template->assign('recur_installments',       $recur->installments );
-            $template->assign('recur_start_date',         $recur->start_date );
-            $template->assign('recur_end_date',           $recur->end_date );
-            $template->assign('recur_amount',             $recur->amount);
-            $template->assign('recur_txnType',            $type );
-            $template->assign('displayName',              $displayName );
-            $template->assign('receipt_from_name',        $value[$pageID]['receipt_from_name'] );
-            $template->assign('receipt_from_email',       $value[$pageID]['receipt_from_email'] );
-            
-            $message  = $template->fetch( 'CRM/Contribute/Form/Contribution/RecurringNotify.tpl' );
+
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                'msg_tpl_workflow_contribution',
+                'contribution_recurring_notify',
+                $contactID,
+                array(
+                    'recur_frequency_interval' => $recur->frequency_interval,
+                    'recur_frequency_unit'     => $recur->frequency_unit,
+                    'recur_installments'       => $recur->installments,
+                    'recur_start_date'         => $recur->start_date,
+                    'recur_end_date'           => $recur->end_date,
+                    'recur_amount'             => $recur->amount,
+                    'recur_txnType'            => $type,
+                    'displayName'              => $displayName,
+                    'receipt_from_name'        => $value[$pageID]['receipt_from_name'],
+                    'receipt_from_email'       => $value[$pageID]['receipt_from_email'],
+                )
+            );
             
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
