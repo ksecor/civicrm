@@ -197,10 +197,6 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name);
             $this->normalizeFormValues( );
-	
-            // also reset the sort by character
-            $this->_sortByCharacter = null;
-            $this->set( 'sortByCharacter', null );
         }
 
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
