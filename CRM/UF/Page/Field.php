@@ -166,7 +166,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
                 $action -= CRM_Core_Action::DISABLE;
                 $action -= CRM_Core_Action::DELETE;
             }
-            
+            $ufField[$ufFieldBAO->id]['order']  = $ufField[$ufFieldBAO->id]['weight'];
             $ufField[$ufFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                             array('id'  => $ufFieldBAO->id,
                                                                                   'gid' => $this->_gid));
