@@ -94,6 +94,7 @@ function civicrm_activity_type_create( $params ) {
  * @access public
  */
 function civicrm_activity_type_delete( $activityTypeId ) {
-    require_once 'CRM/Core/BAO/OptionGroup.php';
+    require_once 'CRM/Core/BAO/OptionValue.php';
+
     return CRM_Core_BAO_OptionValue::del( $activityTypeId );
 }
