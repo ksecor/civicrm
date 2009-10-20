@@ -69,7 +69,7 @@
             {if $showCounted}<th>{ts}Counted?{/ts}</th>{/if}
             {if $showVisibility}<th>{ts}Visibility{/ts}</th>{/if}
             <th>{ts}Description{/ts}</th>
-            <th id="nosort">{ts}Order{/ts}</th>
+            <th id="order">{ts}Order{/ts}</th>
 	        {if $showIsDefault}<th>{ts}Default{/ts}</th>{/if}
             <th>{ts}Reserved{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
@@ -87,11 +87,12 @@
 	        {if $showCounted}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}
             {if $showVisibility}<td>{$row.visibility_label}</td>{/if}
 	        <td>{$row.description}</td>	
-	        <td class="nowrap">{$row.weight}</td>
+	        <td class="nowrap">{$row.order}</td>
             {if $showIsDefault}<td align="center">{if $row.is_default eq 1}<img src="{$config->resourceBase}/i/check.gif" alt="{ts}Default{/ts}" />{/if}&nbsp;</td>{/if}
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action|replace:'xx':$row.id}</td>
+	        <td class="order hiddenElement">{$row.weight}</td>
         </tr>
         {/foreach}
         </tbody>
