@@ -2081,6 +2081,12 @@ div#toolTip {
 
 
 /*  DataTables sorting */
+th.sorting,
+th.sorting_asc,
+th.sorting_desc {
+	padding-right:14px !important;
+	}
+
 
 .sorting_asc { background: url('../i/dataTable/sort_sprites.png') no-repeat right -28px; }
 
