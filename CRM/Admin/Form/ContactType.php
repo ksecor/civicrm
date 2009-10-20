@@ -55,8 +55,12 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
         }
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'label', ts('Name'), 
-                         CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'label' ),
-                         true );
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'label' ),
+                   true );
+        $this->addRule( 'label',
+                        ts('Name already exists in Database.'),
+                        'objectExists',
+                        array( 'CRM_Contact_DAO_ContactType', $this->_id ) );
         $this->add( 'select', 'parent_id', ts('Basic Contact Type'),
                     array('1'=>'Individual','2'=>'Household','3'=>'Organization'),'required');
         $this->add('text', 'description', ts('Description'),   

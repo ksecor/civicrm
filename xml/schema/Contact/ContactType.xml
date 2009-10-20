@@ -24,6 +24,12 @@
        <comment>Internal name of Contact Type (or Subtype).</comment>
        <add>3.1</add>
   </field>
+  <index>
+    <name>contact_type</name>
+    <fieldName>name</fieldName>
+    <unique>true</unique>
+    <add>3.1</add>
+  </index>
   <field>
        <name>label</name>
        <type>varchar</type>
