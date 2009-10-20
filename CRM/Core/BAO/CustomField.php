@@ -429,7 +429,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 //get the custom fields for specific type in
                 //combination with fields those support any type.
                 if ( $customDataSubType ) {
-                    $query .= " AND ( $cgTable.extends_entity_column_value = $customDataSubType 
+                    $customDataSubType = 
+                        CRM_Core_DAO::VALUE_SEPARATOR . $customDataSubType . CRM_Core_DAO::VALUE_SEPARATOR;
+                    $query .= " AND ( $cgTable.extends_entity_column_value LIKE '%$customDataSubType%' 
                                       OR $cgTable.extends_entity_column_value IS NULL )";
                 }
                 
