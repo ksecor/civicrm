@@ -435,23 +435,45 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         //Contact Sub Type For export
         $contactSubTypes = array( );
         $subTypes = CRM_Contact_BAO_ContactType::subTypeInfo( );
+      
         foreach ( $subTypes as $subType => $val ) {
+            //adding subtype specific relationships CRM-5256
+            $csRelationships = array ( );
+            $subTypeRelationshipTypes = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $val['parent'], 
+                                                                                                  false, 'label', true, $subType );
+
+            foreach ( $subTypeRelationshipTypes as $key => $var) {
+                if ( !array_key_exists($key, $fields[$val['parent']]) ) {
+                    list( $type ) = explode( '_', $key );
+                    
+                    $csRelationships[$key]['title']                = $var;
+                    $csRelationships[$key]['headerPattern']        = '/' . preg_quote( $var, '/' ) . '/';
+                    $csRelationships[$key]['export']               = true;
+                    $csRelationships[$key]['relationship_type_id'] = $type;
+                    $csRelationships[$key]['related']              = true;
+                    $csRelationships[$key]['hasRelationType']      = 1;
+                }
+            }
+
+            $fields[$subType] = $fields[$val['parent']] + $csRelationships;
+            
             //custom fields for sub type
             $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $subType );
-            
-            if ( ! empty( $subTypeFields ) ) {
-                $fields[$subType] = $fields[$val['parent']] + $subTypeFields;
+            $fields[$subType] +=  $subTypeFields;
+
+            if ( !empty($subTypeFields) || !empty($csRelationships) ) {
                 $contactSubTypes[$subType] = $val['label'];
             }
         }
+
         unset( $subTypes );
-     
+      
         foreach ($fields as $key => $value) {
            
             foreach ($value as $key1 => $value1) {
                 //CRM-2676, replacing the conflict for same custom field name from different custom group.
                 $customGroupName = self::getCustomGroupName($key1) ;
-
+              
                 if ( $customGroupName ){
                     $relatedMapperFields[$key][$key1] = $mapperFields[$key][$key1] = 
                         $customGroupName . ': ' . $value1['title'];
@@ -534,9 +556,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         //Array for core fields and relationship custom data  
         
         $relationshipTypes = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, null, true );
-            
-        require_once 'CRM/Contact/BAO/RelationshipType.php';        
-
+        
         if ( $mappingType == 'Export' ) {
             foreach ( $sel1 as $k => $sel ) {
                 if ( $k ) {
@@ -545,18 +565,27 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                             list( $id, $first, $second ) = explode( '_', $field );
                             $relationshipCustomFields    = self::getRelationTypeCustomGroupData( $id );
                             asort( $relationshipCustomFields ) ;
-                            $target_type      = 'contact_type_'.$second;
-
-                            $relTypeData      =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_RelationshipType', 
-                                                                              $id, $target_type);
-                          
-                            $relatedFields    = array_merge($relatedMapperFields[$relTypeData], $relationshipCustomFields);
+                            
+                            require_once 'CRM/Contact/BAO/RelationshipType.php';
+                            $relationshipType =& new CRM_Contact_BAO_RelationshipType( ); 
+                            $relationshipType->id = $id;
+                            if ( $relationshipType->find( true ) ) {
+                                $direction = "contact_sub_type_$second";
+                                if ( isset($relationshipType->$direction) ) {  
+                                    $relatedFields    = array_merge($relatedMapperFields[$relationshipType->$direction], $relationshipCustomFields);
+                                } else {
+                                    $target_type      = 'contact_type_'.$second;
+                                    $relatedFields    = array_merge($relatedMapperFields[$relationshipType->$target_type], $relationshipCustomFields);  
+                                }
+                            }
+                            $relationshipType->free( );
+                            
                             $sel5[$k][$field] = $relatedFields;
                         } 
                     }
                 }
             }
-            
+         
             //Location Type for relationship fields
             
             foreach ( $sel5 as $k => $v ) { 
