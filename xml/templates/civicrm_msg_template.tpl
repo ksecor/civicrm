@@ -34,6 +34,7 @@
     ),
     'pledge' => array(
       'pledge_acknowledge' => 'Pledge Acknowledge',
+      'pledge_reminder'    => 'Pledge Reminder',
     ),
     'uf' => array(
       'uf_notify' => 'UF Notify',

@@ -214,10 +214,15 @@ class CRM_UpdatePledgeRecord
                         $template->assign( 'scheduled_payment_date' , $details['scheduled_date'       ] );            
                         $template->assign( 'amount'                 , $details['amount'               ] );            
                         $template->assign( 'create_date'            , $details['create_date'          ] );   
-                        
-                        $message      = $template->fetch( 'CRM/Pledge/Form/ReminderMessage.tpl' );
-                        $subject      = $template->fetch( 'CRM/Pledge/Form/ReminderSubject.tpl' );
-                        
+
+                        require_once 'CRM/Core/BAO/MessageTemplates.php';
+                        list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                            'msg_tpl_workflow_pledge',
+                            'pledge_reminder',
+                            $contactId,
+                            array()
+                        );
+
                         //send mail to pledger
                         require_once 'CRM/Utils/Mail.php';
                         $mailSent = CRM_Utils_Mail::send( $receiptFrom,
