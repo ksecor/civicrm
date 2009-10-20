@@ -245,6 +245,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->_separateMembershipPayment = $this->get( 'separateMembershipPayment' );
         $this->assign( "is_separate_payment", $this->_separateMembershipPayment );
         $this->assign( 'lineItem', $this->_lineItem );
+        $this->assign( 'priceSetID', $this->_priceSetId );
+        
 
         if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' 
              && !$this->_params['is_pay_later']) {
@@ -262,7 +264,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         } else {
             if ( $this->_contributeMode == 'notify' || !$this->_values['is_monetary'] || 
                  $this->_amount <= 0.0              || $this->_params['is_pay_later'] ||
-                 $this->_separateMembershipPayment ) {
+                 ( $this->_separateMembershipPayment && $this->_amount <= 0.0 ) ) {
                 $contribButton = ts('Continue >>');
             } else {
                 $contribButton = ts('Make Contribution');

@@ -18,8 +18,6 @@ class CRM_Contact_BAO_ContactTest extends CiviUnitTestCase
     function setUp( ) 
     {
         parent::setUp();
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton( );
     }
     
     /**

@@ -737,9 +737,9 @@ WHERE  contribution_id = {$this->_id}
         
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
         
-        $element =& $this->add( 'select', 'payment_processor_id',
-                                ts( 'Payment Processor' ),
-                                $this->_processors );
+        $element = $this->add( 'select', 'payment_processor_id',
+                               ts( 'Payment Processor' ),
+                               $this->_processors );
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -753,6 +753,7 @@ WHERE  contribution_id = {$this->_id}
                 $element = $this->add( 'select', 'price_set_id', ts( 'Choose price set' ),
                                        array( '' => ts( 'Choose price set' )) + $priceSets,
                                        null, array('onchange' => "buildAmount( this.value );" ) );
+                if ( $this->_online ) $element->freeze( );
             }
             $this->assign( 'hasPriceSets', $hasPriceSets );
             $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
@@ -850,6 +851,7 @@ WHERE  contribution_id = {$this->_id}
                 $priceField->find( );
                 
                 $priceFields = array( );
+                
                 while ( $priceField->fetch( ) ) {
                     $key = "price_{$priceField->id}";
                     if ( CRM_Utils_Array::value( $key, $fields ) ) {
@@ -873,10 +875,15 @@ SELECT  id, html_type
                     $setectedAmounts = $amountIds = array( );
                     foreach ( $htmlTypes as $fieldId => $type ) {
                         if ( $type == 'Text' ) {
-                            // we are interesting only in single
-                            // amount, so hopefully we'll minimize queries.
-                            if ( $priceFields[$fieldId] > 0 ) {
-                                $setectedAmounts[$fieldId] = $priceFields[$fieldId];
+                            $sql = "
+   SELECT val.id, val.name 
+     FROM civicrm_option_value val
+LEFT JOIN civicrm_option_group grp ON ( grp.id = val.option_group_id )
+    WHERE grp.name = 'civicrm_price_field.amount.$fieldId'";
+                            $textValue = CRM_Core_DAO::executeQuery( $sql );
+                            while( $textValue->fetch( ) ) {
+                                // calculate text price field amount here itself.
+                                $setectedAmounts[$textValue->id] = $priceFields[$fieldId]*$textValue->name;
                             }
                         } else {
                             if ( is_array( $priceFields[$fieldId] ) ) {
@@ -887,9 +894,9 @@ SELECT  id, html_type
                         }
                     }
                     
-                    if ( empty( $setectedAmounts ) && !empty( $amountIds ) ) {
+                    if ( !empty( $amountIds ) ) {
                         $sql = "
-SELECT  id, name 
+SELECT  id, name
   FROM  civicrm_option_value 
  WHERE  id IN (" .implode( ',', $amountIds ).')';
                         $optionsDAO = CRM_Core_DAO::executeQuery( $sql );
@@ -899,15 +906,11 @@ SELECT  id, name
                     }
                     
                     // now we have all selected amount in hand.
-                    $amount = 0;
-                    if ( !empty( $setectedAmounts ) ) {
-                        foreach ( $setectedAmounts as $priceId => $value ) {
-                            if ( $value > 0 ) $amount += $value;  
-                        }
-                    }
+                    $totalAmount = array_sum( $setectedAmounts );
                     
-                    if ( $amount <= 0 ) {
-                        $errors['_qf_default'] = ts( "It looks like sum of your selected Fee Option(s) is zero, Please select at least one positive amount fee option." );
+                    if ( $totalAmount < 0 ) {
+                        $errors['_qf_default'] 
+                            = ts( "Contribution can not be less than zero. Please select the options accordingly." );
                     }
                 } else {
                     $errors['_qf_default'] = ts( "Please select at least one option from contribution price set." );

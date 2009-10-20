@@ -14,18 +14,21 @@
         {strip}
         {* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
-        <table id="drag-handle" class="selector">
-            <thead class="sticky">
+ 	{include file="CRM/common/jsortable.tpl"}
+        <table id="options" class="display">
+            <thead>
+            <tr>
                 <th>{ts}CiviCRM Field Name{/ts}</th>
                 <th>{ts}Visibility{/ts}</th>
                 <th>{ts}Searchable?{/ts}</th>
                 <th>{ts}In Selector?{/ts}</th>
-                <th>{ts}Order{/ts}</th>
+                <th id="nosort">{ts}Order{/ts}</th>
                 <th>{ts}Active{/ts}</th>	
                 <th>{ts}Required{/ts}</th>	
                 <th>{ts}View Only{/ts}</th>	
                 <th>{ts}Reserved{/ts}</th>
-                <th>&nbsp;</th>
+                <th></th>
+            </tr>
             </thead>
             {foreach from=$ufField item=row}
             <tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">

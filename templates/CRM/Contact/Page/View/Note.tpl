@@ -44,14 +44,17 @@
     {* show browse table for any action *}
 <div id="notes">
     {strip}
-        <table class="selector">
-        <tr class="columnheader">
-	        <th scope="col">{ts}Note{/ts}</th>
-	        <th scope="col">{ts}Subject{/ts}</th>
-	        <th scope="col">{ts}Date{/ts}</th>
-	        <th scope="col">{ts}Created By{/ts}</th>
-	        <th scope="col" title="Action Links"></th>
+    {include file="CRM/common/jsortable.tpl"}
+        <table id="options" class="display">
+        <thead>
+        <tr>
+	        <th>{ts}Note{/ts}</th>
+	        <th>{ts}Subject{/ts}</th>
+	        <th>{ts}Date{/ts}</th>
+	        <th>{ts}Created By{/ts}</th>
+	        <th></th>
         </tr>
+        </thead>
         {foreach from=$notes item=note}
         <tr class="{cycle values="odd-row,even-row"}">
             <td>

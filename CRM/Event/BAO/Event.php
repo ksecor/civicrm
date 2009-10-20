@@ -590,28 +590,39 @@ WHERE civicrm_address.geo_code_1 IS NOT NULL
     }
 
     /**
-     * function to get the complete information of an event
+     * function to get the complete information for one or more events
      *
-     * @param  date    $start    the start date for the event
-     * @param  integer $type     the type id for the event 
+     * @param  date    $start    get events with start date >= this date
+     * @param  integer $type     get events on the a specific event type (by event_type_id) 
+     * @param  integer $eventId  return a single event - by event id 
+     * @param  date    $end      also get events with end date >= this date
      *
      * @return  array  $all      array of all the events that are searched
      * @static
      * @access public
      */      
-    static function &getCompleteInfo( $start = null, $type = null, $eventId = null ) 
+    static function &getCompleteInfo( $start = null, $type = null, $eventId = null, $end = null ) 
     {
-       
+       // if start and end date are NOT passed, return all events with start_date OR end_date >= today CRM-5133
         if ( $start ) {
             // get events with start_date >= requested start
-            $condition =  CRM_Utils_Type::escape( $start, 'Date' );
+            $startDate =  CRM_Utils_Type::escape( $start, 'Date' );
         } else {
             // get events with start date >= today
-            $condition =  date("Ymd");
+            $startDate =  date("Ymd");
         }
+        if ( $end ){
+            // also get events with end_date >= requested end
+            $endDate =  CRM_Utils_Type::escape( $end, 'Date' );
+        } else {
+            // OR also get events with end date >= today
+            $endDate =  date("Ymd");            
+        }
+        $dateCondition = "AND (civicrm_event.start_date >= {$startDate} OR civicrm_event.end_date >= {$endDate})";
+        
+        
         if ( $type ) {
-            $condition = $condition . " AND civicrm_event.event_type_id = " . CRM_Utils_Type::escape( $type, 'Integer' ); 
-
+            $typeCondition = " AND civicrm_event.event_type_id = " . CRM_Utils_Type::escape( $type, 'Integer' ); 
         }
 
         // Get the Id of Option Group for Event Types
@@ -657,9 +668,13 @@ LEFT JOIN civicrm_option_value ON (
                                     civicrm_event.event_type_id = civicrm_option_value.value AND
                                     civicrm_option_value.option_group_id = %1 )
 WHERE civicrm_event.is_active = 1 
-      AND civicrm_event.is_public = 1 
-      AND civicrm_event.start_date >= {$condition}"; 
-    
+      AND civicrm_event.is_public = 1
+      {$dateCondition}";
+      
+        if( isset( $typeCondition ) ) {
+            $query .= $typeCondition;
+        }
+            
         if(isset( $eventId )) {
             $query .= " AND civicrm_event.id =$eventId ";
         }

@@ -43,7 +43,7 @@
   </item>
   <item>
      <path>civicrm/event/ical</path>
-     <title>Upcoming Events</title>
+     <title>Current and Upcoming Events</title>
      <page_callback>CRM_Event_Page_ICalendar</page_callback>
      <access_arguments>view event info</access_arguments>
      <is_public>true</is_public>

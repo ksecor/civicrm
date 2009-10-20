@@ -711,6 +711,7 @@ function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId = null ) {
     $blocks = array( 'Email', 'Phone', 'IM', 'OpenID' );
     
     // format params array.
+    $firstBlockCount = null;
     foreach ( $blocks as $block ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
         eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );

@@ -151,6 +151,9 @@
     {if $pcp_roll_nickname}
         <td>{ts}Honor Roll Name{/ts}</td><td>{$pcp_roll_nickname}</td>
     {/if}
+    {if $pcp_personal_note}
+        <td>{ts}Honor Roll Note{/ts}</td><td>{$pcp_personal_note}</td>
+    {/if}
 </table>
 </fieldset>
 {/if}

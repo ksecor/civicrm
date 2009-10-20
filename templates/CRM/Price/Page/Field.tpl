@@ -56,14 +56,14 @@
          <tr>
             <th>{ts}Field Label{/ts}</th>
             <th>{ts}Field Type{/ts}</th>
-            <th>{ts}Order{/ts}</th>
+            <th id="nosort">{ts}Order{/ts}</th>
             <th>{ts}Req?{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
 {*
             <th>{ts}Active On{/ts}</th>
             <th>{ts}Expire On{/ts}</th>
 *}
-            <th>{ts}Price{/ts}</th>
+            <th id="nosort">{ts}Price{/ts}</th>
             <th></th>
         </tr>
         </thead>

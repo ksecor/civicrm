@@ -195,21 +195,22 @@ WHERE     openid = %1";
                 $params['email'] = $uniqId;
 
                 require_once 'CRM/Dedupe/Finder.php';
-                $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
-                $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
-
+                $dedupeParams = CRM_Dedupe_Finder::formatParams ( $params      , 'Individual' );
+                $ids          = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual' );
+                
                 if ( ! empty( $ids ) ) {
                     $dao = new CRM_Core_DAO( );
                     $dao->contact_id = $ids[0];
                 }
             } else {
                 require_once 'CRM/Contact/BAO/Contact.php';
-                $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $uniqId, $ctype );
+                if ( $uf == 'Standalone' ) {
+                    $dao =& CRM_Contact_BAO_Contact::matchContactOnOpenId( $uniqId, $ctype );
+                } else {
+                    $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $uniqId, $ctype );
+                }
             }
 
-            if ( ! $dao && ( $uf == 'Standalone' ) ) {
-                $dao =& CRM_Contact_BAO_Contact::matchContactOnOpenId( $uniqId, $ctype );
-            }
             if ( $dao ) {
                 //print "Found contact with uniqId $uniqId<br/>";
                 $ufmatch->contact_id     = $dao->contact_id;

@@ -273,6 +273,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     $defaults['tag'][$this->_tid] = 1;
                 }
             }
+            if ( $this->_contactSubType ) {
+                $defaults['contact_sub_type'] = $this->_contactSubType;
+            }
         } else {
             if ( isset( $this->_elementIndex[ "shared_household" ] ) ) {
                 $sharedHousehold = $this->getElementValue( "shared_household" );
@@ -522,6 +525,17 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_Edit_' . $this->_contactType . '::buildQuickForm( $this, $this->_action );' );
         
+        // subtype is a common field. lets keep it here
+        require_once 'CRM/Contact/BAO/ContactType.php';
+        $subtypes = CRM_Contact_BAO_ContactType::subTypePairs( $this->_contactType );
+        if ( ! empty($subtypes) ) {
+            $subtypeElem =& $this->addElement( 'select', 'contact_sub_type', 
+                                               ts('Subtype'), array( '' => '' ) + $subtypes );
+            if ( ($this->_action & CRM_Core_Action::ADD) && $this->_contactSubType ) {
+                $subtypeElem->freeze( );
+            }
+        }
+
         // build edit blocks ( custom data, demographics, communication preference, notes, tags and groups )
         foreach( $this->_editOptions as $name => $label ) {                
             if ( $name == 'Address' ) {
@@ -604,10 +618,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $params['deceased_date']['Y'] = null;
         }
         
-        if ( $this->_contactSubType && ($this->_action & CRM_Core_Action::ADD) ) {
-            $params['contact_sub_type'] = $this->_contactSubType;
-        }
-
         // action is taken depending upon the mode
         require_once 'CRM/Utils/Hook.php';
         if ( $this->_action & CRM_Core_Action::UPDATE ) {

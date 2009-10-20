@@ -72,6 +72,9 @@ class CRM_Contact_Form_Search_Custom_Proximity
         $this->_earthRadiusSemiMinor = $this->_earthRadiusSemiMajor * ( 1.0 - $this->_earthFlattening );
         $this->_earthEccentricitySQ  = 2 * $this->_earthFlattening - pow ( $this->_earthFlattening, 2 );
 
+        // unset search profile if set
+        unset( $this->_formValues['uf_group_id'] );
+
         if ( ! empty( $this->_formValues ) ) {
             // add the country and state
             if ( CRM_Utils_Array::value( 'country_id', $this->_formValues ) ) {
@@ -392,7 +395,7 @@ AND t.tag_id = {$this->_tag}
     	$countryDefault = $config->defaultContactCountry;
     	
     	if ($countryDefault) {
-    		return array( 'country_id' => $countryDefault );
+    		return array( 'country_id' => $countryDefault, 'state_province_id' => 1004 );
     	}
     	return null;     
     }

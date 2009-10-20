@@ -898,7 +898,7 @@ class CRM_Utils_Date
      * 
      * @param  date  $startDate  start date for the range 
      * @param  date  $endDate    end date for the range 
-     
+     *
      * @return true              todays date is in the given date range
      * @static
      */
@@ -1522,6 +1522,59 @@ class CRM_Utils_Date
         }       
         return $fy;
     }
+    
+    /**
+     *  Function to process date, convert to mysql format
+     *
+     *  @param string $date date string
+     *  @param string $time time string
+     *
+     *  @return string $mysqlDate date format that is excepted by mysql
+     */
+    static function processDate( $date, $time = null ) {
+        $mysqlDate = date( 'YmdHis', strtotime( $date . ' '. $time ) );
+        return $mysqlDate;
+    }
+    
+    /**
+     *  Function to convert mysql to date plugin format
+     *
+     *  @param string $mysqlDate date string
+     *
+     *  @return array $date and time 
+     */
+    static function setDateDefaults( $mysqlDate = null, $formatType = null ) {        
+        // if date is not passed assume it as today
+        if ( !$mysqlDate ) {
+            $mysqlDate = date( 'Y-m-d G:i:s' ) ;
+        }
+
+        if ( !$formatType ) {
+            $config =& CRM_Core_Config::singleton();
+            $formatType = $config->dateInputFormat;
+        } else {
+            $formatType = CRM_Core_Dao::getFieldValue( 'CRM_Core_DAO_PreferencesDate', 
+                                                        $formatType, 'format', 'name' );
+        }
+
+        // get actual format
+        $actualPHPFormats = CRM_Core_SelectValues::datePluginToPHPFormats( );
+        $dateFormat       = $actualPHPFormats[$formatType];
+        
+        $date = date( $dateFormat, strtotime( $mysqlDate) );
+        
+        $timeFormat = "g:iA";
+
+        if ( $config->timeInputFormat ) {
+            $timeFormat = "G:i";
+        }
+        
+        $time = date( $timeFormat, strtotime( $mysqlDate) );
+        // need to append for hours < 10
+        if ( strlen( $time) < 5 ) {
+            $time = '0' . $time;
+        }
+        
+        return array( $date, $time );
+    }
 }
-
-

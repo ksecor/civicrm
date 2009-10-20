@@ -1,4 +1,4 @@
-<table class="no-border">
+<table class="dashboard-elements">
 {if $showGroup}
     <tr>
         <td>

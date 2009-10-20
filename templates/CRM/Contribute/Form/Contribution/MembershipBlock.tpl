@@ -43,7 +43,7 @@
     {/if}
    
     {strip}
-        <table id="membership-listings" class="no-border">
+        <table id="membership-listings">
         {foreach from=$membershipTypes item=row }
         <tr {if $context EQ "makeContribution" OR $context EQ "thankContribution" }class="odd-row" {/if}valign="top">
             {if $showRadio }

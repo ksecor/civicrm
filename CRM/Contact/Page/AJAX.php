@@ -45,31 +45,32 @@ class CRM_Contact_Page_AJAX
         $name   = CRM_Utils_Type::escape( $_GET['s'], 'String' );
         $limit  = '10';
         $list   = array_keys( CRM_Core_BAO_Preferences::valueOptions( 'autocomplete_contact_search_options' ), '1' );
-        $select = array( );
+        $select = array( 'sort_name' );
         $where  = '';
+        $address = false;
         foreach( $list as $value ) {
-            $suffix = "c" . substr( $value, 0, 1 ) . substr( $value, -1 );
+            $suffix = substr( $value, 0, 2 ) . substr( $value, -1 );
             switch( $value ) {
-
+                
             case 'street_address':
-                $value = "address";
+            case 'city':
+                $selectText = $value;
+                $value      = "address";
             case 'phone':                
             case 'email':
-                $select[] = ( $value == 'address' ) ? 'street_address' : $value;
+                $select[] = ( $value == 'address' ) ? $selectText : $value;
+                if( $value == 'address' && $address ) break;
                 $from    .= " LEFT JOIN civicrm_{$value} {$suffix} ON cc.id = {$suffix}.contact_id";
                 $where   .= " AND {$suffix}.is_primary = 1";
+                if( $value == 'address' )  $address = true;
                 break;
-
+                
             case 'country':
             case 'state_province':
                 $select[] = "{$suffix}.name";
                 if( ! in_array( 'street_address', $select ) ) 
-                    $from .= ' LEFT JOIN civicrm_address css ON cc.id = css.contact_id ';
-                $from     .= " LEFT JOIN civicrm_{$value} {$suffix} ON css.{$value}_id = {$suffix}.id";
-                break;
-
-            case 'sort_name':
-                array_unshift( $select, $value );
+                    $from .= ' LEFT JOIN civicrm_address sts ON cc.id = sts.contact_id ';
+                $from     .= " LEFT JOIN civicrm_{$value} {$suffix} ON sts.{$value}_id = {$suffix}.id";
                 break;
             }
         }
@@ -77,10 +78,19 @@ class CRM_Contact_Page_AJAX
         if ( CRM_Utils_Array::value( 'limit', $_GET) ) {
             $limit = CRM_Utils_Type::escape( $_GET['limit'], 'Positive' );
         }
-        
+
+        // add acl clause here
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
+        list( $aclFrom, $aclWhere ) = CRM_Contact_BAO_Contact_Permission::cacheClause( 'cc' );
+
+        if ( $aclWhere ) {
+            $where .= " AND $aclWhere ";
+        }
+
         $query = "
-SELECT CONCAT_WS( ' :: ', {$select} ) as data, cc.id as id
+SELECT DISTINCT(cc.id) as id, CONCAT_WS( ' :: ', {$select} ) as data
 FROM civicrm_contact cc {$from}
+{$aclFrom}
 WHERE sort_name LIKE '%$name%' {$where} 
 ORDER BY sort_name
 LIMIT 0, {$limit}
