@@ -1881,7 +1881,11 @@ div.grippie {
 }
 
 
-.icon { height:16px;width:16px;}
+.icon { 
+	height:16px;
+	width:16px;
+	background:transparent url("../packages/jquery/themes/smoothness/images/ui-icons_888888_256x240.png") no-repeat top right;
+	}
 
 #crm-container a.button .icon { float:left; }
 
@@ -1889,14 +1893,14 @@ div.grippie {
 	color:#333;
 	}
 
-.edit-icon { background:transparent url(../i/actions_sprite.png) no-repeat scroll -3px -1px; }
-	.button:hover .edit-icon {background-position: -3px -33px;}
+.edit-icon { background-position: -66px -114px;}
+	.button:hover .edit-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png"); }
 		
-.delete-icon { background   : url("../i/actions_sprite.png") transparent no-repeat -3px -65px; }
-	.button:hover .delete-icon {background-position: -3px -97px;}
+.delete-icon { background-position: -179px -99px;}
+	.button:hover .delete-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_cd0a0a_256x240.png");}
 
-.dashboard-icon { background   : url("../i/actions_sprite.png") transparent no-repeat -3px -131px; }
-	.button:hover .dashboard-icon {background-position: -3px -163px;}
+.dashboard-icon { background-position: -193px -130px; }
+	.button:hover .dashboard-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png");}
 
 
 #crm-container .geotag {
