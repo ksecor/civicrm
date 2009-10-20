@@ -247,7 +247,12 @@ class CRM_Core_Action {
             CRM_Utils_String::append( $resultDiv, '</li><li>', $actionDiv );
             $resultDiv = ts('more')."<ul id='panel_xx' class='panel'><li>{$resultDiv}</li></ul>";
         }
-        $result = "<span>{$resultLink}</span><span class='btn-slide' id=xx>{$resultDiv}</span>";
+        
+        if ($resultDiv) {
+        	$result = "<span>{$resultLink}</span><span class='btn-slide' id=xx>{$resultDiv}</span>";
+        } else {
+        	$result = "<span>{$resultLink}</span>";
+        }
         return $result;
     }
     
