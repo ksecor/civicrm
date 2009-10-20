@@ -634,13 +634,18 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     if ( !($first == 'a' && $second == 'b') && !($first == 'b' && $second == 'a') ) {
                         continue;
                     }
-                    
+                 
                     $relationType     = new CRM_Contact_DAO_RelationshipType();
                     $relationType->id = $id;
                     $relationType->find(true);
-                    $name_a_b         = $relationType->name_a_b;
+                    $direction  = "contact_sub_type_$second";
                     
                     $formatting   = array('contact_type' => $params[$key]['contact_type']);
+                    
+                    //set subtype for related contact CRM-5125
+                    if ( isset($relationType->$direction) ) {
+                        $formatting['contact_sub_type'] =  $relationType->$direction; 
+                    }
                     
                     $contactFields = null;
                     $contactFields = CRM_Contact_DAO_Contact::import( );
@@ -1051,7 +1056,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $relationshipType =& new CRM_Contact_BAO_RelationshipType( ); 
                     $relationshipType->id = $id;
                     if ( $relationshipType->find( true ) ) {
-                        if ( $relationshipType->$direction ) {
+                        if ( isset($relationshipType->$direction) ) {
                          $params[$key]['contact_sub_type'] = $relationshipType->$direction;
                         } 
                     }
@@ -1546,6 +1551,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( !empty($this->_contactSubType) ) {
             $csType[] = $this->_contactSubType;
         }
+
+        if ( $relCsType = CRM_Utils_Array::value('contact_sub_type', $formatted) ) {
+            $csType[] = $relCsType;
+        }
+        
         $customFields = CRM_Core_BAO_CustomField::getFields( $csType );
         
         //if a Custom Email Greeting, Custom Postal Greeting or Custom Addressee is mapped, and no "Greeting / Addressee Type ID" is provided, then automatically set the type = Customized, CRM-4575
