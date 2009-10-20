@@ -144,7 +144,22 @@
         <tr><td class="label">{$form.soft_credit_to.label}</td>
             <td>{$form.soft_credit_to.html} {help id="id-soft_credit"}</td>
         </tr>
-
+	{if $action eq 2 and $form.pcp_made_through_id.value[0]}
+	<tr>
+        <tr><td class="label">{$form.pcp_made_through_id.label}</td><td>{$form.pcp_made_through_id.html}</td></tr>
+        <tr><td class="label">{$form.pcp_display_in_roll.label}</td><td>{$form.pcp_display_in_roll.html} 
+			      <span class="description">{ts}Display nickname and personal message in Honor Roll?{/ts}</span></td></tr>
+        
+	{* Soft credit fields are hidden unless display is set to true *}
+	<tr id="softCreditInfo"> 
+	    <td>&nbsp;</td> 
+	    <td><fieldset><legend>{ts}Honor Roll Information{/ts}</legend>
+	    <table class="form-layout-compressed">
+	        <tr id="softCreditNicknameID"><td class="label" style="vertical-align: top;">{$form.pcp_roll_nickname.label}</td><td>{$form.pcp_roll_nickname.html|crmReplace:class:huge}</td></tr>
+            <tr id="softCreditPersonalNoteID"><td class="label" style="vertical-align: top;">{$form.pcp_personal_note.label}</td><td>{$form.pcp_personal_note.html}</td></tr>
+             </table></fieldset></td>
+	</tr>
+      {/if}	
       </table>
 
     <div id="customData"></div>
@@ -293,6 +308,14 @@
     target_element_id   ="cancelInfo" 
     target_element_type ="table-row"
     field_type          ="select"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="pcp_display_in_roll"
+    trigger_value       =""
+    target_element_id   ="softCreditInfo" 
+    target_element_type ="table-row"
+    field_type          ="radio"
     invert              = 0
 }
 {include file="CRM/common/showHideByFieldValue.tpl" 

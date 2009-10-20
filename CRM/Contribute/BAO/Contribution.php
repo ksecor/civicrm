@@ -254,10 +254,15 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
 
         if ( CRM_Utils_Array::value( 'soft_credit_to', $params ) ) {
-
             $csParams = array();
             if ( $id = CRM_Utils_Array::value( 'softID', $params ) ) {
                 $csParams['id'] = $params['softID'];
+            }
+            $csParams['pcp_display_in_roll'] = $params['pcp_display_in_roll']? 1 : 0;
+            foreach ( array ( 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+                if ( CRM_Utils_Array::value( $val, $params ) ) {
+                    $csParams[$val] = $params[$val];
+                }
             }
             $csParams['contribution_id'] = $contribution->id;
             $csParams['contact_id'] = $params['soft_credit_to'];
@@ -1004,12 +1009,11 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                 foreach ( array ('pcp_id','pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $key=>$val ) {
                     $softContribution[$val] = $cs->$val;
                 }
-                return $softContribution;
-            }else {
-                return array( 'soft_credit_to' => $cs->contact_id, 'soft_credit_id' => $cs->id );
             }
+            $softContribution['soft_credit_to'] = $cs->contact_id;
+            $softContribution['soft_credit_id'] = $cs->id;
         }
-        return null;
+        return $softContribution;
     }
     
     /**
