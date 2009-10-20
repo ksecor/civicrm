@@ -650,7 +650,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                       "checkCancelled( this.value, {$cancelledparticipantStatusId},{$cancelledContributionStatusId});");
         }
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
-                    array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( ),
+                    array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( null, null, 'label' ),
                     true, 
                     $checkCancelledJs );
         

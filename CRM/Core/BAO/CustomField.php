@@ -1457,17 +1457,26 @@ SELECT $columnName
 
     static function createField( $field, $operation, $indexExist = false ) {
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        $params = array( 'table_name' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                                      $field->custom_group_id,
-                                                                      'table_name' ),
+        $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                  $field->custom_group_id,
+                                                  'table_name' );
+        
+        $params = array( 'table_name' => $tableName,
                          'operation'  => $operation,
                          'name'       => $field->column_name,
                          'type'       => CRM_Core_BAO_CustomValueTable::fieldToSQLType( $field->data_type,
                                                                                         $field->text_length ),
                          'required'   => $field->is_required,
                          'searchable' => $field->is_searchable,
-                        );
-        
+                         );
+                
+        if ( $operation == 'delete') {
+            $fkName = "{$tableName}_{$field->column_name}";
+            if ( strlen( $fkName ) >= 48) {
+                $fkName = substr( $fkName, 0, 32 ) . "_" . substr( md5( $fkName ), 0, 16 );
+            } 
+            $params['fkName'] = $fkName;
+        }
         if ( $field->data_type == 'Country' && $field->html_type == 'Select Country' ) {
             $params['fk_table_name'] = 'civicrm_country';
             $params['fk_field_name'] = 'id';
@@ -1492,7 +1501,7 @@ SELECT $columnName
         if ( $field->default_value ) {
             $params['default'] = "'{$field->default_value}'";
         }
-
+        
         require_once 'CRM/Core/BAO/SchemaHandler.php';
         CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params, $indexExist );
     }
@@ -1669,7 +1678,8 @@ ORDER BY html_type";
                $field['html_type'] == 'Radio'    ||
                $field['html_type'] == 'Select'   ||
                $field['html_type'] == 'AdvMulti-Select'   ||
-               $field['html_type'] == 'Multi-Select' ) ) {
+               $field['html_type'] == 'Multi-Select' ||
+               ( $field['html_type'] == 'Autocomplete-Select' && $field['data_type'] != 'ContactReference' ) ) ) {
             if ( $field['option_group_id'] ) {
                 $optionGroupID = $field['option_group_id'];
             } else if ( $field['data_type'] != 'Boolean' ) {

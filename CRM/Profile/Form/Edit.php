@@ -82,15 +82,14 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
             if ( $id != $userID ) {
 
-                // do not allow edit for anon users in joomla frontend, CRM-4668
+                // do not allow edit for anon users in joomla frontend, CRM-4668, unless u have checksum CRM-5228
+                require_once 'CRM/Contact/BAO/Contact/Permission.php';
                 $config =& CRM_Core_Config::singleton( );
                 if ( $config->userFrameworkFrontend ) {
-                    CRM_Core_Error::statusBounce( ts( 'You do not have permission to edit this contact record. Contact the site administrator if you need assistance.' ),
-                                                  $config->userFrameworkBaseURL );
+                    CRM_Contact_BAO_Contact_Permission::validateOnlyChecksum( $id, $this );
+                } else {
+                    CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $id, $this );
                 }
-
-                require_once 'CRM/Contact/BAO/Contact/Permission.php';
-                CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $id, $this );
             }
         }
 
