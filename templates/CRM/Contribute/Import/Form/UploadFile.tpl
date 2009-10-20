@@ -22,7 +22,7 @@
         <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: 'Contact ID', 'Amount').{/ts}
         </dd>
-        <dt class="extra-long-fourty">{$form.contactType.label}</dt><dd>{$form.contactType.html}<br />
+        <dt class="{$form.contactType.name}">{$form.contactType.label}</dt><dd class="{$form.contactType.name}">{$form.contactType.html}<br />
             <span class="description">
                 {ts}Select 'Individual' if you are importing contributions made by individual persons.{/ts}
                 {ts}Select 'Organization' or 'Household' if you are importing contributions made by contacts of that type.{/ts}

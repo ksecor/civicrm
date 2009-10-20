@@ -22,8 +22,10 @@
     {/foreach}
 
     {if $revamp eq 0}
+        <link rel="stylesheet" href="{$config->resourceBase}css/deprecate.css" type="text/css" />
         <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
     {else}
+        <link rel="stylesheet" href="{$config->resourceBase}css/deprecate.css" type="text/css" />
         <link rel="stylesheet" href="{$config->resourceBase}css/civicrm-new.css" type="text/css" />
     {/if}
 {/if}

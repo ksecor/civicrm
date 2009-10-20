@@ -13,31 +13,53 @@
         <div title="Summary" id="contact-summary" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
             {if $hookContentPlacement neq 3}
                 <div class="buttons ui-corner-all">
-                    <span id="actions">
+                    <ul id="actions">
                         {if $permission EQ 'edit'}
-                        <input type="button" class="edit button" accesskey="E" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
+                        <li>
+                        <a href="{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}" class="edit button" title="{ts}Edit{/ts}">
+                        <span><div class="icon edit-icon"></div>{ts}Edit{/ts}</span>
+                        </a>
+                        </li>
                         {/if}
 
                         {* CRM-4418 *}
                         {if call_user_func(array('CRM_Core_Permission','check'), 'delete contacts')}
-                        <input type="button" class="delete button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
+                        <li>
+                        <a href="{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}" class="delete button" title="{ts}Delete{/ts}">
+                        <span><div class="icon delete-icon"></div>{ts}Delete{/ts}</span>
+                        </a>
+                        </li>
                         {/if}
 
                         {* Include links to enter Activities if session has 'edit' permission *}
                         {if $permission EQ 'edit'}
+                        <li>
                             {include file="CRM/Activity/Form/ActivityLinks.tpl"}
+                        </li>
                         {/if}
-                        &nbsp;&nbsp; <span class="label">Go to:</span>
+                        <li><span class="label">Go to:</span></li>
                         {if $dashboardURL }
-                        <input type="button" onclick="window.location='{$dashboardURL}'" value="{ts}Dashboard{/ts}"/>
+                        <li>
+                        <a href="{$dashboardURL}" class="dashboard button" title="{ts}dashboard{/ts}">
+                        	<span><div class="icon dashboard-icon"></div>{ts}Dashboard{/ts}</span>
+                        </a>
+                        </li>
                         {/if}
                         {if $url }
-                        <input type="button" onclick="window.location='{$url}'" value="{ts}User Record{/ts}"/>
+                        <li>
+                        <a href="{$dashboardURL}" class="user-record button" title="{ts}User Record{/ts}">
+                        <span><div class="icon user-recordd-icon"></div>{ts}User Record{/ts}</span>
+                        </a>
+                        </li>
                         {/if}
                         {if $groupOrganizationUrl}
-                            <input type="button" onclick="window.location='{$groupOrganizationUrl}'" value="{ts}Associated Multi-Org Group{/ts}"/>   
+                        <li>
+                        <a href="{$groupOrganizationUrl}" class="associated-groups button" title="{ts}Associated Multi-Org Group{/ts}">
+                        <span><div class="icon associated-groups-icon"></div>{ts}Associated Multi-Org Group{/ts}</span>
+                        </a>   
+                        </li>
                         {/if}
-                    </span> 
+                    </ul> 
                     <span id="icons">
                         <a title="vCard record for this contact." href='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}' title="{ts}vCard{/ts}"> <img src="{$config->resourceBase}i/vcard-icon.png" alt="vCard record for this contact." /></a>
                         <a title="Printer-friendly view of this page." href='{crmURL p='civicrm/contact/view/print' q="reset=1&print=1&cid=$contactId"}' title="{ts}Print{/ts}"> <img src="{$config->resourceBase}i/print-icon.png" alt="Printer-friendly view of this page." /></a>
