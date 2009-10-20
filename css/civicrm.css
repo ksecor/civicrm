@@ -1557,8 +1557,16 @@ div.grippie {
 	MARGIN           : 8px 0pt 0px;
 	/*FONT-SIZE: 1.1em;*/
 	background-color : #F7F7F7;
-	width            : 100%;
+	width: 100%;
+	clear:both;
 }
+
+#crm-container div.contact_panel, 
+#crm-container div#contactTopBar {
+	display:block;
+	width:100%;
+	}
+
 
 #crm-container div.contact_panel *, 
 #crm-container div#contactTopBar * {
