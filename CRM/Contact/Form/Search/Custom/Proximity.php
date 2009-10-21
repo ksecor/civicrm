@@ -267,6 +267,8 @@ IFNULL( ACOS( $cosLat * COS( RADIANS( $latitude ) ) *
 
     function buildForm( &$form ) {
 
+        $config         =& CRM_Core_Config::singleton( );
+        $countryDefault = $config->defaultContactCountry; 
         $tag =
             array('' => ts('- any tag -')) +
             CRM_Core_PseudoConstant::tag( );
@@ -288,17 +290,26 @@ IFNULL( ACOS( $cosLat * COS( RADIANS( $latitude ) ) *
                     'postal_code',
                     ts( 'Postal Code' ) );
 
-        $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
+        $stateCountryMap   = array( );
+        $stateCountryMap[] = array( 'state_province' => 'state_province_id',
+                                    'country'        => 'country_id' );
+        $defaults = array( ); 
+        if ( $countryDefault ) {
+            $stateProvince = array( '' => ts('- select -') ) + CRM_Core_PseudoConstant::stateProvinceForCountry( $countryDefault );
+            $defaults['country_id'] = $countryDefault;
+        } else {
+            $stateProvince = array( '' => ts('- select -') ) + CRM_Core_PseudoConstant::stateProvince( );
+        }
         $form->addElement('select', 'state_province_id', ts('State/Province'), $stateProvince);        
         
-        $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
-        $form->addElement('select', 'country_id', ts('Country'), $country);
-        $form->addRule('country_id', ts('Country is required'), 'required');
+        $country = array( '' => ts('- select -') ) + CRM_Core_PseudoConstant::country( );
+        $form->add( 'select', 'country_id', ts('Country'), $country, true );
         
-        $form->add( 'text',
-                    'distance',
-                    ts( 'Radius for Proximity Search (in km)' ));
-        $form->addRule('distance', ts('Radius is required'), 'required');
+        $form->add( 'text', 'distance', ts( 'Radius for Proximity Search (in km)' ), null, true );
+        // state country js, CRM-5233
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap ); 
+        CRM_Core_BAO_Address::fixAllStateSelects( &$form, $defaults );
         
 
         /**
@@ -314,8 +325,8 @@ IFNULL( ACOS( $cosLat * COS( RADIANS( $latitude ) ) *
                                           'street_address',
                                           'city',
                                           'postal_code',
-                                          'state_province_id',
                                           'country_id',
+                                          'state_province_id',
                                           'distance' ) );
     }
 
@@ -395,7 +406,7 @@ AND t.tag_id = {$this->_tag}
     	$countryDefault = $config->defaultContactCountry;
     	
     	if ($countryDefault) {
-    		return array( 'country_id' => $countryDefault, 'state_province_id' => 1004 );
+    		return array( 'country_id' => $countryDefault );
     	}
     	return null;     
     }
