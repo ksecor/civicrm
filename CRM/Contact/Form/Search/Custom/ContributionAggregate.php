@@ -143,6 +143,10 @@ $having
                 $sql .= "ORDER BY donation_amount desc";
             }
         }
+
+        if ( $rowcount > 0 && $offset >= 0 ) {
+            $sql .= " LIMIT $offset, $rowcount ";
+        }
         return $sql;
     }
     
@@ -216,7 +220,7 @@ civicrm_contact AS contact_a
            $sql = $this->all( );
            
            $dao = CRM_Core_DAO::executeQuery( $sql,
-                                             CRM_Core_DAO::$_nullArray );
+                                              CRM_Core_DAO::$_nullArray );
            return $dao->N;
     }
        
