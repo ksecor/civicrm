@@ -940,38 +940,32 @@ WHERE civicrm_event.is_active = 1
                 self::buildCustomDisplay( $preProfileID, 'customPre' , $contactID, $template, $participantId, $isTest );
                 self::buildCustomDisplay( $postProfileID, 'customPost', $contactID, $template, $participantId, $isTest );
 
-                require_once 'CRM/Core/BAO/MessageTemplates.php';
-                list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                    array(
-                        'groupName' => 'msg_tpl_workflow_event',
-                        'valueName' => 'event_receipt',
-                        'contactId' => $contactID,
-                        'tplParams' => array(
-                            'email'              => $email,
-                            'confirm_email_text' => CRM_Utils_Array::value('confirm_email_text', $values['event']),
-                            'confirm_email_html' => CRM_Utils_Array::value('confirm_email_html', $values['event']),
-                            'isShowLocation'     => CRM_Utils_Array::value('is_show_location',   $values['event']),
-                        ),
-                    )
+                $sendTemplateParams = array(
+                    'groupName' => 'msg_tpl_workflow_event',
+                    'valueName' => 'event_receipt',
+                    'contactId' => $contactID,
+                    'tplParams' => array(
+                        'email'              => $email,
+                        'confirm_email_text' => CRM_Utils_Array::value('confirm_email_text', $values['event']),
+                        'confirm_email_html' => CRM_Utils_Array::value('confirm_email_html', $values['event']),
+                        'isShowLocation'     => CRM_Utils_Array::value('is_show_location',   $values['event']),
+                    ),
                 );
-                
+
+                require_once 'CRM/Core/BAO/MessageTemplates.php';
                 if ( $returnMessageText ) {
+                    list ($sent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate($sendTemplateParams);
                     return array( 'subject' => $subject,
                                   'body'    => $message,
                                   'to'      => $displayName );
+                } else {
+                    $sendTemplateParams['from']    = "{$values['event']['confirm_from_name']} <{$values['event']['confirm_from_email']}>";
+                    $sendTemplateParams['toName']  = $displayName;
+                    $sendTemplateParams['toEmail'] = $email;
+                    $sendTemplateParams['cc']      = CRM_Utils_Array::value('cc_confirm',  $values['event']);
+                    $sendTemplateParams['bcc']     = CRM_Utils_Array::value('bcc_confirm', $values['event']);
+                    CRM_Core_BAO_MessageTemplates::sendTemplate($sendTemplateParams);
                 }
-                
-                $receiptFrom = "{$values['event']['confirm_from_name']} <{$values['event']['confirm_from_email']}>";
-
-                require_once 'CRM/Utils/Mail.php';
-                CRM_Utils_Mail::send( $receiptFrom,
-                                      $displayName,
-                                      $email,
-                                      $subject,
-                                      $message,
-                                      CRM_Utils_Array::value( 'cc_confirm', $values['event'] ),
-                                      CRM_Utils_Array::value( 'bcc_confirm', $values['event'] )
-                                      );
             }
         }
     }

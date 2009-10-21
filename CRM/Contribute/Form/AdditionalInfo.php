@@ -416,25 +416,22 @@ class CRM_Contribute_Form_AdditionalInfo
         $this->assign( 'contactID', $params['contact_id'] );
         $this->assign( 'contributionID', $params['contribution_id'] );
 
+        $session  =& CRM_Core_Session::singleton( );
+        $userID   = $session->get( 'userID' );
+        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
+
         require_once 'CRM/Core/BAO/MessageTemplates.php';
-        list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+        list ($sendReceipt, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate(
             array(
                 'groupName' => 'msg_tpl_workflow_contribution',
                 'valueName' => 'contribution_additional_info',
                 'contactId' => $params['contact_id'],
+                'from'      => "$userName <$userEmail>",
+                'toName'    => $contributorDisplayName,
+                'toEmail'   => $contributorEmail,
             )
         );
 
-        $session  =& CRM_Core_Session::singleton( );
-        $userID   = $session->get( 'userID' );
-        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
-        $receiptFrom = "$userName <$userEmail>";
-        $sendReceipt = CRM_Utils_Mail::send( $receiptFrom,
-                                             $contributorDisplayName,
-                                             $contributorEmail,
-                                             $subject,
-                                             $message);
-        
         return $sendReceipt;
     }
     

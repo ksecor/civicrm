@@ -216,23 +216,17 @@ class CRM_UpdatePledgeRecord
                         $template->assign( 'create_date'            , $details['create_date'          ] );   
 
                         require_once 'CRM/Core/BAO/MessageTemplates.php';
-                        list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+                        list ($mailSent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate(
                             array(
                                 'groupName' => 'msg_tpl_workflow_pledge',
                                 'valueName' => 'pledge_reminder',
                                 'contactId' => $contactId,
+                                'from'      => $receiptFrom,
+                                'toName'    => $pledgerName,
+                                'toEmail'   => $toEmail,
                             )
                         );
 
-                        //send mail to pledger
-                        require_once 'CRM/Utils/Mail.php';
-                        $mailSent = CRM_Utils_Mail::send( $receiptFrom,
-                                                          $pledgerName,
-                                                          $toEmail,
-                                                          $subject,
-                                                          $message
-                                                          );
-                        
                         // 3. update pledge payment details                                                                     
                         if ( $mailSent ) {
                             CRM_Pledge_BAO_Payment::updateReminderDetails( $paymentId );

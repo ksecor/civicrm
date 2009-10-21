@@ -261,42 +261,34 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
             $fromName = $email;
         }
 
-        require_once 'CRM/Core/BAO/MessageTemplates.php';
-        list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-            array(
-                'groupName' => 'msg_tpl_workflow_friend',
-                'valueName' => 'friend',
-                'contactId' => $contactID,
-                'tplParams' => array(
-                    $values['module']   => $values['module'],
-                    'senderContactName' => $fromName,
-                    'title'             => $values['title'],
-                    'generalLink'       => $values['general_link'],
-                    'pageURL'           => $values['page_url'],
-                    'senderMessage'     => $values['message'],
-                ),
-            )
-        );
-
         // use contact email, CRM-4963 
         if ( !CRM_Utils_Array::value( 'email_from', $values ) ) {
             $values['email_from'] = $email;
         }
-        
-        $emailFrom = '"' . $fromName. ' (via '.$values['domain']. ')'. '" <' . $values['email_from'] . '>';
-        
-        require_once 'CRM/Utils/Mail.php';        
-        foreach ( $values['email'] as $displayName => $emailTo ) {
-            if ( $emailTo ) {
-                CRM_Utils_Mail::send( $emailFrom,
-                                      $displayName,
-                                      $emailTo,
-                                      $subject,
-                                      $message,
-                                      null,
-                                      null,
-                                      $email
-                                      );
+
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        foreach ($values['email'] as $displayName => $emailTo) {
+            if ($emailTo) {
+                // FIXME: factor the below out of the foreach loop
+                CRM_Core_BAO_MessageTemplates::sendTemplate(
+                    array(
+                        'groupName' => 'msg_tpl_workflow_friend',
+                        'valueName' => 'friend',
+                        'contactId' => $contactID,
+                        'tplParams' => array(
+                            $values['module']   => $values['module'],
+                            'senderContactName' => $fromName,
+                            'title'             => $values['title'],
+                            'generalLink'       => $values['general_link'],
+                            'pageURL'           => $values['page_url'],
+                            'senderMessage'     => $values['message'],
+                        ),
+                        'from'    => "$fromName (via {$values['domain']}) <{$values['email_from']}>",
+                        'toName'  => $displayName,
+                        'toEmail' => $emailTo,
+                        'replyTo' => $email,
+                    )
+                );
             }
         }            
     }

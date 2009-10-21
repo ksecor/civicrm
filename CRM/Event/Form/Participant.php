@@ -1264,33 +1264,29 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $this->assign( 'amount', $eventAmount );
                 }
 
-                require_once 'CRM/Core/BAO/MessageTemplates.php';
-                list($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                    array(
+                $sendTemplateParams = array(
                         'groupName' => 'msg_tpl_workflow_event',
                         'valueName' => 'event_offline_receipt',
                         'contactId' => $contactID,
-                    )
                 );
-              
-                //Do not try to send emails if emailID is not present
-                //or doNotEmail option is checked for that contact 
-                if( empty($this->_contributorEmail) or $this->_toDoNotEmail ) {
-                    $notSent[] = $contactID;
+
+                // try to send emails only if email id is present
+                // and the do-not-email option is not checked for that contact 
+                if($this->_contributorEmail and !$this->_toDoNotEmail) {
+                    $sendTemplateParams['from']    = $receiptFrom;
+                    $sendTemplateParams['toName']  = $this->_contributorDisplayName;
+                    $sendTemplateParams['toEmail'] = $this->_contributorEmail;
+                }
+
+                require_once 'CRM/Core/BAO/MessageTemplates.php';
+                list ($mailSent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate($sendTemplateParams);
+
+                if ($mailSent) {
+                    $sent[] = $contactID;
                 } else {
-                    require_once 'CRM/Utils/Mail.php';
-                    if ( CRM_Utils_Mail::send( $receiptFrom,
-                                               $this->_contributorDisplayName,
-                                               $this->_contributorEmail,
-                                               $subject,
-                                               $message) ) {
-                        $sent[] = $contactID;
-                    } else {
-                        $notSent[] = $contactID;
-                    }
+                    $notSent[] = $contactID;
                 }
             }
-            
         }
         
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {

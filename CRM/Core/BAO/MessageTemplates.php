@@ -270,20 +270,26 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
     }
 
     /**
-     * Fetch subject, text and HTML templates based on option
-     * group, option value and an array of template parameters
+     * Send an email from the specified template based on an array of params
      *
      * @param array $params  a string-keyed array of function params, see function body for details
      *
-     * @return array  a subject-, text- and html-carrying array with the templates (evaluated)
+     * @return array  of four parameters: a boolean whether the email was sent, and the subject, text and HTML templates
      */
-    static function getSubjectTextHTML($params)
+    static function sendTemplate($params)
     {
         $defaults = array(
-            'groupName' => null,    // option group name of the template
-            'valueName' => null,    // option value name of the template
-            'contactId' => null,    // contact id if contact tokens are to be replaced
-            'tplParams' => array(), // additional template params (other than the ones already set in the template singleton)
+            'groupName'   => null,    // option group name of the template
+            'valueName'   => null,    // option value name of the template
+            'contactId'   => null,    // contact id if contact tokens are to be replaced
+            'tplParams'   => array(), // additional template params (other than the ones already set in the template singleton)
+            'from'        => null,    // the From: header
+            'toName'      => null,    // the recipient’s name
+            'toEmail'     => null,    // the recipient’s email
+            'cc'          => null,    // the Cc: header
+            'bcc'         => null,    // the Bcc: header
+            'replyTo'     => null,    // the Reply-To: header
+            'attachments' => null,    // email attachments
         );
         $params = array_merge($defaults, $params);
 
@@ -317,6 +323,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
 
         // replace tokens in subject as if it was the text body
         foreach(array('subject' => 'text', 'text' => 'text', 'html' => 'html') as $type => $tokenType) {
+            if (!$dao->$type) continue; // skip all of the below if the given part is missing
             $bodyType = "body_$tokenType";
             $mailing = new CRM_Mailing_BAO_Mailing;
             $mailing->$bodyType = $dao->$type;
@@ -344,6 +351,13 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $dao->$elem = $smarty->fetch("string:{$dao->$elem}");
         }
 
-        return array(trim($dao->subject), $dao->text, $dao->html);
+        // send the template
+        $sent = false;
+        if ($params['toEmail']) {
+            require_once 'CRM/Utils/Mail.php';
+            $sent = CRM_Utils_Mail::send($params['from'], $params['toName'], $params['toEmail'], $dao->subject, $dao->text, $params['cc'], $params['bcc'], $params['replyTo'], $dao->html, $params['attachments']);
+        }
+
+        return array($sent, trim($dao->subject), $dao->text, $dao->html);
     }
 }

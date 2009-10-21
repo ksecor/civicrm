@@ -1115,12 +1115,16 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             $displayName = $info['sort_name'];
 
             require_once 'CRM/Core/BAO/MessageTemplates.php';
-            list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+            list ($result[$info['contact_id']], $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate(
                 array(
-                    'groupName' => 'msg_tpl_workflow_case',
-                    'valueName' => 'case_activity',
-                    'contactId' => $info['contact_id'],
-                    'tplParams' => $tplParams,
+                    'groupName'   => 'msg_tpl_workflow_case',
+                    'valueName'   => 'case_activity',
+                    'contactId'   => $info['contact_id'],
+                    'tplParams'   => $tplParams,
+                    'from'        => $receiptFrom,
+                    'toName'      => $displayName,
+                    'toEmail'     => $mail,
+                    'attachments' => $attachments,
                 )
             );
 
@@ -1128,18 +1132,12 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             $activityParams['details']            = $message;
             $activityParams['target_contact_id']  = $info['contact_id'];
             
-            $result[$info['contact_id']] = CRM_Utils_Mail::send( $receiptFrom,
-                                                                 $displayName,
-                                                                 $mail,
-                                                                 $subject,
-                                                                 $message,
-                                                                 null,
-                                                                 null,
-                                                                 null,
-                                                                 null,
-                                                                 $attachments
-                                                                 );
-            if ( !empty($result[$info['contact_id']]) ) {            
+            // FIXME: the below was originally
+            // if (!empty($result[$info['contact_id']]))
+            // (with $result[$info['contact_id']] being unconditionally set to 
+            // either true or false), which – with false being empty in PHP – 
+            // always equls the boolean value; check why it was set so
+            if ($result[$info['contact_id']]) {
                 $activity = CRM_Activity_BAO_Activity::create( $activityParams );
                 
                 //create case_activity record if its case activity.

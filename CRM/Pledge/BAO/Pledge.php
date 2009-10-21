@@ -593,21 +593,17 @@ WHERE  $whereCond
         $receiptFrom = "$userName <$userEmail>";
 
         require_once 'CRM/Core/BAO/MessageTemplates.php';
-        list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+        list ($sent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate(
             array(
                 'groupName' => 'msg_tpl_workflow_pledge',
                 'valueName' => 'pledge_acknowledge',
                 'contactId' => $params['contact_id'],
+                'from'      => $receiptFrom,
+                'toName'    => $pledgerDisplayName,
+                'toEmail'   => $pledgerEmail,
             )
         );
 
-        require_once 'CRM/Utils/Mail.php';
-        CRM_Utils_Mail::send( $receiptFrom,
-                              $pledgerDisplayName,
-                              $pledgerEmail,
-                              $subject,
-                              $message);
-        
         //check if activity record exist for this pledge
         //Acknowledgment, if exist do not add activity.
         require_once "CRM/Activity/DAO/Activity.php";

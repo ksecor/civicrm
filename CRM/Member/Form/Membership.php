@@ -953,20 +953,16 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->assign( 'customValues', $customValues );
 
             require_once 'CRM/Core/BAO/MessageTemplates.php';
-            list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+            list ($mailSend, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate(
                 array(
                     'groupName' => 'msg_tpl_workflow_contribution',
                     'valueName' => 'contribution_offline_receipt',
                     'contactId' => $this->_contactID,
+                    'from'      => $receiptFrom,
+                    'toName'    => $this->_contributorDisplayName,
+                    'toEmail'   => $this->_contributorEmail,
                 )
             );
-
-            require_once 'CRM/Utils/Mail.php';
-            $mailSend = CRM_Utils_Mail::send( $receiptFrom,
-                                              $this->_contributorDisplayName,
-                                              $this->_contributorEmail,
-                                              $subject,
-                                              $message);
         }
         
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {

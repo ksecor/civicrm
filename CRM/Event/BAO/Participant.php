@@ -1085,8 +1085,15 @@ UPDATE  civicrm_participant
                 $checksumValue = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contactId, null, $checksumLife );
             }
 
+            //take a receipt from as event else domain.
+            $receiptFrom = $domainValues['name'] . ' <' . $domainValues['email'] . '>';
+            if ( CRM_Utils_Array::value('confirm_from_name',  $eventDetails ) && 
+                 CRM_Utils_Array::value('confirm_from_email', $eventDetails ) ) {
+                $receiptFrom = $eventDetails['confirm_from_name'] . ' <' . $eventDetails['confirm_from_email'] . '>';
+            }
+
             require_once 'CRM/Core/BAO/MessageTemplates.php';
-            list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
+            list ($mailSent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate(
                 array(
                     'groupName' => 'msg_tpl_workflow_event',
                     'valueName' => 'participant_' . strtolower($mailType),
@@ -1103,26 +1110,13 @@ UPDATE  civicrm_participant
                         'isConfirm'      => $mailType == 'Confirm',
                         'checksumValue'  => $checksumValue,
                     ),
+                    'from'    => $receiptFrom,
+                    'toName'  => $participantName,
+                    'toEmail' => $toEmail,
+                    'cc'      => CRM_Utils_Array::value('cc_confirm',  $eventDetails),
+                    'bcc'     => CRM_Utils_Array::value('bcc_confirm', $eventDetails),
                 )
             );
-            
-            //take a receipt from as event else domain.
-            $receiptFrom = $domainValues['name'] . ' <' . $domainValues['email'] . '>';
-            if ( CRM_Utils_Array::value('confirm_from_name',  $eventDetails ) && 
-                 CRM_Utils_Array::value('confirm_from_email', $eventDetails ) ) {
-                $receiptFrom = $eventDetails['confirm_from_name'] . ' <' . $eventDetails['confirm_from_email'] . '>';
-            }
-            
-            //send mail to participant.
-            require_once 'CRM/Utils/Mail.php';
-            $mailSent = CRM_Utils_Mail::send( $receiptFrom,
-                                              $participantName,
-                                              $toEmail,
-                                              $subject,
-                                              $message,
-                                              CRM_Utils_Array::value( 'cc_confirm',  $eventDetails ), 
-                                              CRM_Utils_Array::value( 'bcc_confirm', $eventDetails ) 
-                                              );
             
             // 3. create activity record.
             if ( $mailSent ) {
