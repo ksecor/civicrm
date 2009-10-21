@@ -369,7 +369,7 @@ class CRM_Core_SelectValues
         if (!$_date) {
             require_once 'CRM/Utils/Date.php';
             $_date = array(
-                'format'           => CRM_Utils_Date::posixToPhp( $config->dateformatQfDate ),
+                'format'           => 'M d Y',
                 'addEmptyOption'   => true,
                 'emptyOptionText'  => ts('- select -'),
                 'emptyOptionValue' => ''
