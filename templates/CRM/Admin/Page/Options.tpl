@@ -59,7 +59,7 @@
                     {ts}Label{/ts}
                 {/if}
             </th>
-            <th id="sortable">
+            <th>
                 {if $gName eq "redaction_rule"}
                     {ts}Replacement{/ts}
                 {else}
@@ -68,7 +68,7 @@
             </th>
             {if $showCounted}<th>{ts}Counted?{/ts}</th>{/if}
             {if $showVisibility}<th>{ts}Visibility{/ts}</th>{/if}
-            <th>{ts}Description{/ts}</th>
+            <th id="nosort">{ts}Description{/ts}</th>
             <th id="order">{ts}Order{/ts}</th>
 	        {if $showIsDefault}<th>{ts}Default{/ts}</th>{/if}
             <th>{ts}Reserved{/ts}</th>
