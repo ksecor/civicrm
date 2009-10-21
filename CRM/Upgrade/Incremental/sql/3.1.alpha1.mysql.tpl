@@ -57,3 +57,29 @@
 -- Upgrade FCKEditor to CKEditor CRM-5226
 
    UPDATE civicrm_option_value SET label = 'CKEditor' WHERE label = 'FCKEditor';
+
+-- CRM-5106
+-- Added Autocomplete search options in civicrm_preferences 'Admin Search Settings' form
+
+   ALTER TABLE `civicrm_preferences` ADD `autocomplete_contact_search_options` VARCHAR( 255 ) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'What Autocomplete has to return';
+
+-- Added default value checked for sort_name and email
+   UPDATE `civicrm_preferences` SET `autocomplete_contact_search_options` = '12' WHERE `civicrm_preferences`.`id` =1 LIMIT 1;
+
+-- Insert values for option group
+   INSERT INTO 
+    `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) 
+   VALUES 
+    ('autocomplete_contact_search_options', 'Autocomplete Contact Search'   , 0, 1);
+   
+   SELECT @option_group_id_acsOpt := max(id) from civicrm_option_group where name = 'autocomplete_contact_search_options';
+
+   INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+   VALUES
+    (@option_group_id_acsOpt, 'Email Address'  , 2, 'email', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, 'Phone'          , 3, 'phone', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, 'Street Address' , 4, 'street_address', NULL, 4, NULL, 0, NULL, 0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, 'City'           , 5, 'city', NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, 'State/Province' , 6, 'state_province', NULL, 6, NULL, 0, NULL, 0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, 'Country'        , 7, 'country', NULL, 0, NULL, 7, NULL, 0, 0, 1, NULL, NULL);

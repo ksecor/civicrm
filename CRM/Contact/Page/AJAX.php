@@ -46,7 +46,7 @@ class CRM_Contact_Page_AJAX
         $limit  = '10';
         $list   = array_keys( CRM_Core_BAO_Preferences::valueOptions( 'autocomplete_contact_search_options' ), '1' );
         $select = array( 'sort_name' );
-        $where  = '';
+        $where  = $from = '';
         $address = false;
         foreach( $list as $value ) {
             $suffix = substr( $value, 0, 2 ) . substr( $value, -1 );
@@ -56,6 +56,7 @@ class CRM_Contact_Page_AJAX
             case 'city':
                 $selectText = $value;
                 $value      = "address";
+                $suffix     = 'sts';
             case 'phone':                
             case 'email':
                 $select[] = ( $value == 'address' ) ? $selectText : $value;
@@ -68,7 +69,7 @@ class CRM_Contact_Page_AJAX
             case 'country':
             case 'state_province':
                 $select[] = "{$suffix}.name";
-                if( ! in_array( 'street_address', $select ) ) 
+                if( ! in_array( 'street_address', $select ) && ! in_array( 'city', $select ) ) 
                     $from .= ' LEFT JOIN civicrm_address sts ON cc.id = sts.contact_id ';
                 $from     .= " LEFT JOIN civicrm_{$value} {$suffix} ON sts.{$value}_id = {$suffix}.id";
                 break;
