@@ -288,8 +288,8 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
                   JOIN civicrm_option_value ov ON workflow_id = ov.id
                   JOIN civicrm_option_group og ON ov.option_group_id = og.id
                   WHERE og.name = %1 AND ov.name = %2 AND mt.is_default = 1';
-        $params = array(1 => array($group, 'String'), 2 => array($value, 'String'));
-        $dao = CRM_Core_DAO::executeQuery($query, $params);
+        $sqlParams = array(1 => array($group, 'String'), 2 => array($value, 'String'));
+        $dao = CRM_Core_DAO::executeQuery($query, $sqlParams);
         $dao->fetch();
 
         // replace tokens in the three elements
@@ -299,15 +299,15 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         require_once 'CRM/Mailing/BAO/Mailing.php';
 
         $domain = CRM_Core_BAO_Domain::getDomain();
-        $params = array('contact_id' => $cid);
-        $contact =& civicrm_contact_get($params);
+        $contactParams = array('contact_id' => $cid);
+        $contact =& civicrm_contact_get($contactParams);
 
         // replace tokens in subject as if it was the text body
         foreach(array('subject' => 'text', 'text' => 'text', 'html' => 'html') as $type => $tokenType) {
             $bodyType = "body_$tokenType";
-            $dummy_mail = new CRM_Mailing_BAO_Mailing;
-            $dummy_mail->$bodyType = $dao->$type;
-            $tokens = $dummy_mail->getTokens();
+            $mailing = new CRM_Mailing_BAO_Mailing;
+            $mailing->$bodyType = $dao->$type;
+            $tokens = $mailing->getTokens();
             $dao->$type = CRM_Utils_Token::replaceDomainTokens($dao->$type,  $domain,  true,  $tokens[$tokenType]);
             $dao->$type = CRM_Utils_Token::replaceContactTokens($dao->$type, $contact, false, $tokens[$tokenType]);
         }
