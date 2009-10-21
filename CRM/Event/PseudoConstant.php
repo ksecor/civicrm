@@ -171,19 +171,26 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      * @return array - array reference of all participant roles if any
      * @static
      */
-    public static function &participantRole( $id = null )
+    public static function &participantRole( $id = null, $cond = null )
     {
-        if ( ! self::$participantRole ) {
-            self::$participantRole = array( );
+        $index = $cond ? $cond : 'No Condition';
+        if ( ! CRM_Utils_Array::value( $index, self::$participantRole ) ) {
+            self::$participantRole[$index] = array( );
             require_once "CRM/Core/OptionGroup.php";
-            self::$participantRole = CRM_Core_OptionGroup::values("participant_role");
+            $condition = null;
+            
+            if ( $cond ) {
+                $condition = "AND $cond";
+            }
+            
+            self::$participantRole[$index] = CRM_Core_OptionGroup::values( "participant_role",  false, false, 
+                                                                           false, $condition );
         }
         
-        If( $id ) {
-            return self::$participantRole[$id];
-        }
-        
-        return self::$participantRole;
+        if ( $id ) {
+            return self::$participantRole[$index][$id];
+        }        
+        return self::$participantRole[$index];
     }
 
     /**

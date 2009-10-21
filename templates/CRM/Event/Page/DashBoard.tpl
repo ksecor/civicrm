@@ -42,8 +42,10 @@
         <td>{$values.isPublic}</td>
         <td class="nowrap">{$values.startDate}&nbsp;{if $values.endDate}to{/if}&nbsp;{$values.endDate}</td>
         <td class="right">
-           {if $values.participants_url and $values.participants}<a href="{$values.participants_url}" title="{ts 1=$eventSummary.statusDisplay}List %1 participants{/ts}">{ts}Counted{/ts}:&nbsp;{$values.participants}</a>{else}{$eventSummary.statusDisplay}:&nbsp;{$values.participants}{/if}
+           {if $values.participants_url and $values.participants}<a href="{$values.participants_url}" title="{ts 1=$eventSummary.statusDisplay}List %1 participants{/ts}">{ts}Counted{/ts}:&nbsp;{$values.participants}</a>{else}{$eventSummary.statusDisplay}:&nbsp;{$values.participants}{/if}	   	   
            {if $values.pending_url and $values.pending}<a href="{$values.pending_url}" title="{ts 1=$eventSummary.statusDisplayPending}List %1 participants{/ts}">{ts}Not&nbsp;counted{/ts}:&nbsp;{$values.pending}</a><hr />{else}{$eventSummary.statusDisplayPending}:&nbsp;{$values.pending}<hr />{/if}
+	   {if $values.rolesActive_url and $values.rolesActive}<a href="{$values.rolesActive_url}">{ts}Role Counted{/ts}:&nbsp;{$values.rolesActive}</a>{if !$values.rolesinActive}<hr />{/if}{/if}
+	   {if $values.rolesinActive_url and $values.rolesinActive}<br /><a href="{$values.rolesinActive_url}">{ts}Role Not Counted{/ts}:&nbsp;{$values.rolesinActive}</a><hr />{/if}
            {foreach from=$values.statuses item=class}
              {if $class}
                {foreach from=$class item=status}
