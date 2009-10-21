@@ -1,7 +1,0 @@
-{htxt id="id-member_is_primary"}
-{ts}Indicate whether you want the search results to include:
-<ul><li>all members, regardless of whether they are the direct member or inherit it through a relationship,</li>
-<li>only primary members (those contacts who have a membership directly attached to their record), or</li>
-<li>only related records (those who inherit membership through a relationship as defined in the membership type configuration).</li></ul>
-{/ts}
-{/htxt}

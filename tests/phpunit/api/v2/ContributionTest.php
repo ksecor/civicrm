@@ -41,7 +41,25 @@ class api_v2_ContributionTest extends CiviUnitTestCase
     {
         parent::setUp();
 
-        $this->_contributionTypeId = 1;
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/../../CiviTest/truncate-option.xml') );
+
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/option_group_contribution_status.xml') );
+                             
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/option_value_contribution_status.xml') );
+
+        $this->_contributionTypeId = $this->contributionTypeCreate();  
         $this->_individualId = $this->individualCreate();
     }
     

@@ -130,10 +130,10 @@ class CRM_Event_BAO_ParticipantTest extends CiviUnitTestCase
     
     /**
      * getValues() method (checking for behavior when params are empty )
-     * @todo FIXME: Fixing this test requires fixing the CRM_Event_BAO_Participant::getValues method. Currently that method allows you to pass in an empty array for $params. This is not expected usage - so the BAO should return an error in this case. Once that change is made - we can fix this test to check for the expected error result. DGG
      */
-    function SKIPPED_testgetValuesWithoutValidParams( ) 
+    function testgetValuesWithoutValidParams( ) 
     {
+        $this->markTestSkipped( 'FIXME: Fixing this test requires fixing the CRM_Event_BAO_Participant::getValues method. Currently that method allows you to pass in an empty array for $params. This is not expected usage - so the BAO should return an error in this case. Once that change is made - we can fix this test to check for the expected error result. DGG' );
         $params = array( );
         $participantId = Participant::create( $this->_contactId, $this->_eventId);
 

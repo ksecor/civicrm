@@ -215,24 +215,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             $highlightedFields[] = 'id';            
         }
 
-        if ( $this->_onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK ) {
-            //Mark Dedupe Rule Fields as required, since it's used in matching contact
-            $ruleParams = array(
-                                'contact_type' => $contactType,
-                                'level'        => 'Strict'
-                                );
-            require_once 'CRM/Dedupe/BAO/Rule.php';
-            $fieldsArray       = CRM_Dedupe_BAO_Rule::dedupeRuleFields( $ruleParams );
-            //$highlightedFields = array_merge( $highlightedFields, $fieldsArray );
-
-            //Modify mapper fields title if fields are present in dedupe rule
-            foreach ( $fieldsArray as $val ) {
-                if ( $valTitle = CRM_Utils_Array::value( $val, $this->_mapperFields ) ) {
-                    $this->_mapperFields[$val]  = $valTitle . ' (match to contact)';
-                }
-            }
-        }
-
         $this->assign( 'highlightedFields', $highlightedFields );
         $this->_formattedFieldNames[$contactType] = $this->_mapperFields =
             array_merge( $this->_mapperFields, $this->formatCustomFieldName( $this->_mapperFields ) );
@@ -465,15 +447,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                             case CRM_Import_Parser::CONTACT_ORGANIZATION :
                                 $contactType = 'Organization';
                             }
-                            //CRM-5125
-                            $contactSubType = null;
-                            if ( $this->get('contactSubType') ) {
-                                $contactSubType = $this->get('contactSubType');
-                            }
-                            
-                            $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $contactType, 
-                                                                                                   false, 'label', true, $contactSubType );
-                            
+
+                            $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $contactType );
                             foreach ($relations as $key => $var) {
                                 if ( $key == $mappingRelation[$i]) {
                                     $relation = $key;

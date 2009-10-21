@@ -36,30 +36,6 @@ require_once 'CRM/Contact/DAO/ContactType.php';
 
 class CRM_Contact_BAO_ContactType extends CRM_Contact_DAO_ContactType {
 
-    /**
-     * Takes a bunch of params that are needed to match certain criteria and
-     * retrieves the relevant objects. Typically the valid params are only
-     * contact_id. We'll tweak this function to be more full featured over a period
-     * of time. This is the inverse function of create. It also stores all the retrieved
-     * values in the default array
-     *
-     * @param array $params   (reference ) an assoc array of name/value pairs
-     * @param array $defaults (reference ) an assoc array to hold the flattened values
-     *
-     * @return object CRM_Contact_BAO_ContactType object on success, null otherwise
-     * @access public
-     * @static
-     */  
-    static function retrieve( &$params, &$defaults ) {
-        $ContactType =& new CRM_Contact_DAO_ContactType( );
-        $ContactType->copyValues( $params );
-        if ( $ContactType->find( true ) ) {
-            CRM_Core_DAO::storeValues( $ContactType, $defaults );
-            return $ContactType;
-        }
-        return null;
-    } 
-    
      /**
      *
      *function to retrieve basic contact type information.
@@ -76,8 +52,8 @@ class CRM_Contact_BAO_ContactType extends CRM_Contact_DAO_ContactType {
             $_cache = array( );
         }
 
-        $argString = $all ? '1' : '0';
-        if ( ! array_key_exists( $argString, $_cache ) ) {
+        $argString = md5( serialize( func_get_args( ) ) );
+        if ( ! isset( $_cache[$argString] ) ) {
             $_cache[$argString] = array( );
 
             $sql = "
@@ -144,17 +120,14 @@ WHERE  parent_id IS NULL
         if ( $_cache === null ) {
             $_cache = array( );
         }
-        if ( $contactType && !is_array( $contactType ) ) {
-            $contactType = array( $contactType );
-        }
 
-        $argString = $all ? '1_' : '0_';
-        if ( ! empty( $contactType ) ) {
-            $argString .= implode( "_" , $contactType );
-        }
-
-        if ( ! array_key_exists( $argString, $_cache ) ) {
+        $argString = md5( serialize( func_get_args( ) ) );
+        if ( ! isset( $_cache[$argString] ) ) {
             $_cache[$argString] = array( );
+
+            if ( $contactType && !is_array( $contactType ) ) {
+                $contactType = array( $contactType );
+            }
 
             $ctWHERE = '';
             if ( ! empty($contactType) ) {
@@ -165,11 +138,12 @@ WHERE  parent_id IS NULL
 SELECT subtype.*, parent.name as parent
 FROM   civicrm_contact_type subtype
 INNER JOIN civicrm_contact_type parent ON subtype.parent_id = parent.id
-WHERE  subtype.name IS NOT NULL AND subtype.parent_id IS NOT NULL {$ctWHERE} 
+WHERE  subtype.name IS NOT NULL AND subtype.parent_id IS NOT NULL {$ctWHERE}
 ";
             if ( $all === false ) {
-                $sql .= " AND subtype.is_active = 1 ORDER BY parent.id";
+                $sql .= " AND subtype.is_active = 1";
             }
+            
             $dao = CRM_Core_DAO::executeQuery( $sql, array( ), 
                                                false, 'CRM_Contact_DAO_ContactType' );
             while ( $dao->fetch( ) ) {
@@ -181,7 +155,7 @@ WHERE  subtype.name IS NOT NULL AND subtype.parent_id IS NOT NULL {$ctWHERE}
         }
         return $_cache[$argString];
     }
-     
+
     /**
      *
      *function to  retrieve all subtypes
@@ -225,8 +199,8 @@ WHERE  subtype.name IS NOT NULL AND subtype.parent_id IS NOT NULL {$ctWHERE}
             $_cache = array( );
         }
 
-        $argString = $all ? '1' : '0';
-        if ( ! array_key_exists( $argString, $_cache ) ) {
+        $argString = md5( serialize( func_get_args( ) ) );
+        if ( ! isset( $_cache[$argString] ) ) {
             $_cache[$argString] = array( );
 
             $sql = "
@@ -250,7 +224,7 @@ AND   ( p.is_active = 1 OR p.id IS NULL )
             while ( $dao->fetch( ) ) {
                 if ( ! empty( $dao->parent_id ) ) {
                     $key   = $dao->parent_name . CRM_Core_DAO::VALUE_SEPARATOR . $dao->child_name;
-                    $label = "&nbsp;&nbsp;{$dao->child_label}";
+                    $label = "  -- {$dao->child_name}";
                     $pName = $dao->parent_name;
                 } else {
                     $key   = $dao->child_name;
@@ -304,16 +278,15 @@ AND   ( p.is_active = 1 OR p.id IS NULL )
             $_cache = array( );
         }
         
-        $isArray = true;
-        if ( $subType && !is_array( $subType ) ) {
-            $subType = array( $subType );
-            $isArray = false;
-        }
-        $argString = implode( "_" , $subType );
-
-        if ( ! array_key_exists( $argString, $_cache ) ) {
+        $argString = md5( serialize( func_get_args( ) ) );
+        if ( ! isset( $_cache[$argString] ) ) {
             $_cache[$argString] = array( );
             
+            $isArray = true;
+            if ( $subType && !is_array( $subType ) ) {
+                $subType = array( $subType );
+                $isArray = false;
+            }
             $sql = "
 SELECT subtype.name as contact_subtype, type.name as contact_type 
 FROM   civicrm_contact_type subtype
@@ -391,32 +364,4 @@ WHERE  subtype.name IN ('".implode("','",$subType)."' )";
         return $shortCuts;
     }
     
-    /**
-     * Function to delete Contact SubTypes 
-     * 
-     * @param  int  $ContactTypeId     ID of the Contact Subtype to be deleted.
-     * 
-     * @access public
-     * @static
-     */
-    static function del( $ContactTypeId ) { 
-        $ContactType = & new CRM_Contact_DAO_ContactType( );
-        $ContactType->id = $ContactTypeId;
-        $ContactType->delete( );
-    }
-    /**
-     * Function to add or update Contact SubTypes 
-     * 
-     * @param  array $params  an assoc array of name/value pairs
-     * @return object  
-     * @access public
-     * @static
-     */
-    static function add( $params ) {
-        $ContactType = & new CRM_Contact_DAO_ContactType( );
-        $ContactType->copyValues( $params );
-        $ContactType->id = CRM_Utils_Array::value( 'id', $params );
-        $ContactType->save( );
-        return $ContactType;
-    }
 }

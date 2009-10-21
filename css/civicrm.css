@@ -1,84 +1,5 @@
 /* $Id$ */
 
-
-#crm-container label {
-  font-weight: normal;
-  display: inline;
-}
-
-#crm-container .hiddenElement {
-    display   	    : none;
-}
-
-contact#crm-container .clear {
-    clear 	    : both;
-}
-
-
-/* TABLE STYLING */
-
-#crm-container table {
-  margin: .5em .1em .5em;
-  width: 99%;
-  border-collapse: collapse;
-  border: 1px solid #DDD;
-}
-
-#crm-container th,
-#crm-container table.display thead th {
-  	font-weight: normal;
-  	font-size: 1em;
-  	padding: 4px;
-  	border:1px solid #CCC;	
-  	text-align: left;
-  	vertical-align: top;
-  	background-color: #E6E6E6;
-	}
-
-#crm-container tbody{
-    border-top: none
-}
-
-#crm-container tr {
-  font-size: .95em;
-}
-
-#crm-container td {
-  padding: 4px;
-  vertical-align: top;
-}
-
-#crm-container tr.even, 
-#crm-container tr.odd, 
-#crm-container tbody th {
-	border-color:#DDD;
-	}
-
-
-#crm-container tr.even-row td, 
-#crm-container tr.odd-row td,
-#crm-container table.display td {
-  border-collapse: collapse;
-  border-top: 1px solid #DDDDDD;
-  border-right: 1px solid #DDDDDD;
-}
-	#crm-container .odd-row, 
-	tbody.scrollContent {
-	  background-color: #FAFAFA;
-	}
-	#crm-container .even-row, 
-	tbody.scrollContent tr.alternateRow {
-	  background-color: #F5F5F5;
-	}
-
-#crm-container .row-selected {
-  margin: 0px;
-  padding: 3px 0px 3px 0px;
-  clear: none;
-  background-color: #FAFAD2;
-}
-
-
 /*
 ** Size input fields in crm-container by class. Classes are assigned by the
 ** module in relation to the data object max size.
@@ -100,29 +21,12 @@ contact#crm-container .clear {
 #crm-container textarea.nowrap {width: 45em; height: 4.5em; white-space: nowrap; overflow: auto;}
 #crm-container .bigSelect {width: 15em; height: 12em;}
 
-
 /*
 ** Override line-height from style.css
 */
 div#crm-container {
     line-height: 135%;
 }
-
-/* Base #crm-container styles */
-
-#crm-container hr {
-   background-color : #B0B0B0;
-	}
-
-#crm-container select {
-  	vertical-align: middle;
-  	border: 1px solid #999;
-	}
-
-#crm-container textarea {
-    border: 1px solid #999;
-}
-
 
 /*
 ** class for hiding the text box; it is used in the OtherActivity template 
@@ -159,17 +63,25 @@ div#crm-container {
   font-size: .9em;
 }
 
+#crm-container .geotag {
+    padding: 2px 0 2px 20px !important;
+    background: url('../i/geotag_16.png') left center no-repeat;
+    font-size: .9em;
+}
 
 /*
 ** CRM form layout classes (from www.realworldstyle.com)
 */
-div.spacer, 
-.spacer {
+div.spacer, .spacer {
   clear: left;
   height: 5px;
   }
 
-
+#crm-container select {
+  vertical-align: middle;
+  border: 1px solid #999;
+  font-weight:bold;
+}
 
 #crm-container td.compressed select, #crm-container td.compressed input {
   font-size: 0.90em;
@@ -188,7 +100,9 @@ div.spacer,
   vertical-align:middle;
 }
 
-
+#crm-container textarea {
+    border: 1px solid #999;
+}
   
 #crm-container .form-submit {
   margin: .25em 0.5em 0.25em 0;
@@ -227,8 +141,8 @@ div.spacer,
   margin: 0px;
   padding: 3px 0px 5px 0px;
   clear: none;
-	 overflow: auto; 
-	}
+  overflow: auto; 
+}
 
 #crm-container div.form-item dl, #crm-container .section-hidden dl{
  margin: 0;
@@ -256,15 +170,38 @@ div.spacer,
   padding: 5px 15px 5px 0px;
 }
 
+/*
+ ** Many times one needs to add long descriptions within <dd>,
+ ** but limited padding-bottom for <dt> causes bottom lines
+ ** in <dd> to overflow on left. The below classes for <dt>
+ ** handle such situations.
+ */
+#crm-container div.form-item dt.extra-long-hundred {
+  padding-bottom: 100px;
+}
 
-#crm-container div.form-item dd, 
-#crm-container .section-hidden dd {
- 	padding: 5px;
- 	margin-left:23%;
-	}
+#crm-container div.form-item dt.extra-long-eighty {
+  padding-bottom: 80px;
+}
 
-#crm-container div.form-item dd.html-adjust, 
-#crm-container div.form-item dl.html-adjust dd{
+#crm-container div.form-item dt.extra-long-sixty {
+  padding-bottom: 60px;
+}
+
+#crm-container div.form-item dt.extra-long-fourty {
+  padding-bottom: 40px;
+}
+
+#crm-container div.form-item dt.extra-long-twenty {
+  padding-bottom: 20px;
+}
+
+#crm-container div.form-item dd, #crm-container .section-hidden dd {
+  padding: 5px;
+}
+
+#crm-container div.form-item dd.html-adjust, #crm-container div.form-item dl.html-adjust dd{
+  float: left;
   width: 57%;
   /*clear: right;*/
 }
@@ -286,9 +223,7 @@ div.spacer,
   text-align: left;
 } 
 
-#crm-container table.form-layout, 
-#crm-container table.control-panel, 
-#crm-container table.no-border {
+#crm-container table.form-layout, #crm-container table.control-panel, #crm-container table.no-border {
   margin: 0em;
   width: 98%;	
   border-collapse: collapse;
@@ -313,6 +248,9 @@ div.spacer,
   padding: 10px;
 }
 
+#crm-container tbody{
+    border-top: none
+}
 
 #crm-container .form-layout td {
   vertical-align: top;
@@ -320,14 +258,11 @@ div.spacer,
   white-space: normal;
 }
 
-#crm-container .form-layout td.report, 
-#crm-container .form-layout td.description, 
-#crm-container .form-layout-compressed td.description {
+#crm-container .form-layout td.report, #crm-container .form-layout td.description, #crm-container .form-layout-compressed td.description {
   white-space   : normal;
 }
 
-#crm-container .form-layout-compressed td, 
-#crm-container .form-layout-compressed th {
+#crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
   vertical-align: text-top;
   padding: 2px 5px;
 }
@@ -342,7 +277,7 @@ div.spacer,
 
 #crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label, #crm-container .selector td.label, #crm-container .form-layout-compressed th.label {
   text-align: right;
-  padding: 0.5em 0.5em 0.5em 0.75em;
+  padding: 0.5em 0.50em 0em 0.75em;
   border: 0px none;
   vertical-align: top;
 }
@@ -512,95 +447,31 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 .tree-default li a:link { padding:0px 3px 0px 22px; background-position:3px 0px;  }
 
 /* DEFAULT, HOVER, CLICKED, LOADING STATES */
-#crm-container .tree-default li a, 
-.tree-default li span { 
-	background-color:transparent; 
-	background-repeat:no-repeat; 
-	background-position:4px 1px; 
-	padding:1px 4px 1px 23px; 
-	background-image:url("../packages/jquery/plugins/themes/default/f.png"); 
-	border-radius:3px; 
-	-moz-border-radius:3px; 
-	-webkit-border-radius:3px; 
-	}
-#crm-container .tree-default li a:hover, 
-.tree-default li a.hover { 
-	background-color: #e7f4f9; 
-	border:1px solid #d8f0fa; 
-	padding:0px 3px 0px 22px; 
-	background-position:3px 0px;  
-	}
-#crm-container .tree-default li a.clicked, 
-.tree-default li a.clicked:hover, 
-.tree-default li span.clicked { 
-	background-color: #beebff; 
-	border:1px solid #99defd; 
-	padding:0px 3px 0px 22px; 
-	background-position:3px 0px;  
-	}
+#crm-container .tree-default li a, .tree-default li span { background-color:transparent; background-repeat:no-repeat; background-position:4px 1px; padding:1px 4px 1px 23px; background-image:url("../packages/jquery/plugins/themes/default/f.png"); border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
+#crm-container .tree-default li a:hover, .tree-default li a.hover { background-color: #e7f4f9; border:1px solid #d8f0fa; padding:0px 3px 0px 22px; background-position:3px 0px;  }
+#crm-container .tree-default li a.clicked, .tree-default li a.clicked:hover, .tree-default li span.clicked { background-color: #beebff; border:1px solid #99defd; padding:0px 3px 0px 22px; background-position:3px 0px;  }
 #crm-container .tree-default li span.clicked { padding:0px 3px 0px 20px; }
 #crm-container .tree-default li a.loading { background-image:url("../packages/jquery/plugins/themes/default/throbber.gif"); }
 
 /* CONTEXT MENU */
-.tree-default-context { 
-	width:160px; 
-	background:#F0F0F0 url("../packages/jquery/plugins/themes/default/context.gif") 22px 0 repeat-y; 
-	border:1px solid silver; 
-	position:absolute; 
-	}
-	
-.tree-context a, 
-.tree-default-context a, 
-.tree-default-context a.disabled:hover { 
-	display:block; 
-	text-decoration:none; 
-	color:black; 
-	line-height:20px; 
-	background-repeat: no-repeat; 
-	background-position:2px center; 
-	padding:1px 0 1px 25px !important; 
-	background-color:transparent; 
-	border:1px solid #f0f0f0; 
-	border-width:0 1px; 
-	margin:0; 
-	}
-.tree-default-context a:hover { 
-	background-color:#e7f4f9; 
-	border:1px solid #d8f0fa; 
-	padding:0 0 0 25px; 
-	margin:0; 
-	}
-.tree-default-context a.disabled, 
-.tree-default-context a.disabled:hover { 
-	color:silver; 
-	opacity:0.5; -ms-filter:'alpha(opacity=50)'; 
-	filter:alpha(opacity=50); 
-	zoom:1; 
-	}
-.tree-context span.separator, 
-.tree-default-context .separator { 
-	background:#FFFFFF;
-	border-top:1px solid #E0E0E0;
-	font-size:1px;
-	height:1px;
-	line-height:1px;
-	margin:0 2px 0 24px;
-	min-height:1px;
-	display:block; 
-	}
+.tree-default-context { width:160px; background:#F0F0F0 url("../packages/jquery/plugins/themes/default/context.gif") 22px 0 repeat-y; border:1px solid silver; position:absolute; }
+.tree-context a, .tree-default-context a, .tree-default-context a.disabled:hover { display:block; text-decoration:none; color:black; line-height:20px; background-repeat: no-repeat; background-position:2px center; padding:1px 0 1px 25px !important; background-color:transparent; border:1px solid #f0f0f0; border-width:0 1px; margin:0; }
+.tree-default-context a:hover { background-color:#e7f4f9; border:1px solid #d8f0fa; padding:0 0 0 25px; margin:0; }
+.tree-default-context a.disabled, .tree-default-context a.disabled:hover { color:silver; opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50); zoom:1; }
+.tree-context span.separator, .tree-default-context .separator { background:#FFFFFF;border-top:1px solid #E0E0E0;font-size:1px;height:1px;line-height:1px;margin:0 2px 0 24px;min-height:1px;display:block; }
 
 /*
 ** Styles for formatting text
 */
 /* Inline form field 'post-help' */
 #crm-container .description {
-  	margin-bottom : 0.5em;
-  	padding: 0px 0px 5px;
-  	font-size: 0.9em;
-  	white-space: normal;
-  	width: auto;
-  	color: #696969;
-	}
+  margin-bottom : 0.5em;
+  padding: 0px 0px 5px;
+  font-size: 0.9em;
+  white-space: normal;
+  width: auto;
+  color: #696969;
+}
 
 #crm-container .form-layout-compressed td.description {
   padding: 0px 0px 5px 20px;
@@ -612,7 +483,10 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
-
+#crm-container label {
+  font-weight: normal;
+  display: inline;
+}
 
 #crm-container .notorg {
   font-weight: normal;
@@ -658,12 +532,24 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 /* 
 ** Styles for record browser and report tables, and pager bar
 */
+#crm-container table {
+  margin: .5em .1em .5em;
+  width: 99%;
+  border-collapse: collapse;
+  border: 1px solid #999999;
+}
 
-
-#crm-container #map-field table, 
-#crm-container table.report, 
-#crm-container table.chart  {
+#crm-container #map-field table, #crm-container table.report, #crm-container table.chart  {
     width: auto;
+}
+
+#crm-container tr {
+  font-size: .95em;
+}
+
+#crm-container td {
+  padding: 4px;
+  vertical-align: top;
 }
 
 #crm-container td.enclosingNested {
@@ -674,19 +560,24 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   white-space: nowrap;
 }
 
-
+#crm-container .order-icon {
+ height: 15px;
+ width:  10px;
+ padding-top: 4px;
+ padding-right: 4px;
+}
  
 #crm-container tr.columnheader {
   background-color: #E6E6E6;
   color: #000000;
-  border: 1px solid #DDD;
+  border: 1px solid #999999;
 }
 #crm-container tr.columnheader a {
   color: #000;
   text-decoration: none;
   vertical-align: top;
 }
-#crm-container tr.columnheader-dark th {
+#crm-container tr.columnheader-dark {
   /*background-color: #B0B0B0;*/
   background-color: #999999;
   /*color: #FFFFFF;*/
@@ -694,12 +585,17 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   /*border: 1px solid #000000;*/
   border: 1px solid #696969;
 }
+#crm-container th {
+  font-weight: normal;
+  font-size: 1em;
+  padding: 4px;
+  border-top: 1px solid #999999;	
+  border-bottom: 1px solid #999999;
+  text-align: left;
+  vertical-align: top;
+}
 
-
-#crm-container tr.columnheader-dark td, 
-#crm-container tr.columnheader-dark th, 
-#crm-container tr.columnheader td, 
-#crm-container tr.columnfooter td {
+#crm-container tr.columnheader-dark td, #crm-container tr.columnheader-dark th, #crm-container tr.columnheader td, #crm-container tr.columnfooter td {
   font-size: 1.1em;
   font-weight: bold;
 }
@@ -743,34 +639,44 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   border: 2px solid #999999;
 }
 
+#crm-container .odd-row, tbody.scrollContent {
+  background-color: #FAFAFA;
+}
+#crm-container .even-row, tbody.scrollContent tr.alternateRow {
+  background-color: #F5F5F5;
+}
+#crm-container tr.even-row td, #crm-container tr.odd-row td{
+  border-collapse: collapse;
+  border-top: 1px solid #DDDDDD;
+}
+
+#crm-container .row-selected {
+  margin: 0px;
+  padding: 3px 0px 3px 0px;
+  clear: none;
+  background-color: #FAFAD2;
+}
+
 #crm-container td.yes-no {
   text-align: center;
 }
 
-#crm-container .font-red, 
-#crm-container .status-removed, 
-#crm-container .disabled,
-#crm-container .status-overdue, 
-#crm-container .status-hold {
-  	color: #FF0105;
-	}
+#crm-container .font-red, #crm-container .status-removed, #crm-container .disabled, #crm-container .status-overdue, #crm-container .status-hold {
+  color: #FF0105;
+}
 
 /* this fixes the sloppy vertical mis-alignments in selectors and keeps sort icons aligned with sort header text */
-#crm-container a.sort-ascending, 
-#crm-container a.sort-descending, 
-#crm-container a.sort-none {
+#crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none {
    white-space: nowrap;
 }
 
-#crm-container a.sort-ascending:before, 
-#crm-container thead th.selectedDown:before {
+#crm-container a.sort-ascending:before, #crm-container thead th.selectedDown:before {
    content: url(sort-asc.png);
    margin-right: 5px;
    vertical-align: middle;
 }
 
-#crm-container a.sort-descending:before, 
-#crm-container thead th.selectedUp:before {
+#crm-container a.sort-descending:before, #crm-container thead th.selectedUp:before {
    content: url(sort-desc.png);
    margin-right: 5px;
    vertical-align: middle;
@@ -822,13 +728,17 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 */
 #crm-container #search-status {
- 	padding: 0.25em;
- 	/*background-color: #ccc;*/
- 	background-color: #E6E6E6;
- 	font-size: .95em;
- 	font-weight: bold;
- 	border: 1px solid #CCC;
-	}
+ padding: 0.25em;
+ /*background-color: #ccc;*/
+ background-color: #E6E6E6;
+ font-size: .95em;
+ font-weight: bold;
+ border: 1px solid #999999;
+ border-radius: 4px;
+ -moz-border-radius : 4px;
+ -webkit-border-radius : 4px;
+ -khtml-border-radius : 4px;
+}
 
 #crm-container #search-status ul {
  margin: 0em 0em 0em -2.0em;
@@ -840,27 +750,24 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
  list-style-position: inside;
 }
 
-.crm-pager {
-  border: 1px solid #CCC; 
-  background-color: #E6E6E6;
+div.crm-pager {
+  border: thin solid #696969; 
+  background-color: #999999;
   color: #000000;
   position: relative;
   height: 25px;
+  margin-left: -1px;
   padding-top: 5px;
-  width:99%;
 }
 
-.crm-pager a {
+div.crm-pager a {
   /*color: #FFFFFF;*/
   color: #FAFAFA;/*#BADAFF;*/
 }
 
-.crm-pager input {
-	text-align: center;
-	}
-
 .crm-pager-nav {
-	padding-left:5px;
+  height: 25px;
+  padding-left: 100px;
 }
 
 #crm-container .section-hidden, #crm-container div.view-content {
@@ -933,6 +840,42 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
   overflow: hidden;  
 }
 
+.block-civicrm div#recently-viewed ul li.Activity {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Activity.png");
+ }
+.block-civicrm div#recently-viewed ul li.Case {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Case.png");
+ }
+.block-civicrm div#recently-viewed ul li.Contribution {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Contribution.png");
+ }
+.block-civicrm div#recently-viewed ul li.Grant {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Grant.png");
+ }
+.block-civicrm div#recently-viewed ul li.Group {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Group.png");
+ }
+.block-civicrm div#recently-viewed ul li.Household {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Household.png");
+ }
+.block-civicrm div#recently-viewed ul li.Individual {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Individual.png");
+ }
+.block-civicrm div#recently-viewed ul li.Membership {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Membership.png");
+ }
+.block-civicrm div#recently-viewed ul li.Note {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Note.png");
+ }
+.block-civicrm div#recently-viewed ul li.Organization {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Organization.png");
+ }
+.block-civicrm div#recently-viewed ul li.Participant {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Participant.png");
+ }
+.block-civicrm div#recently-viewed ul li.Pledge {
+  background-position:3px; background-repeat:no-repeat; background-image:url("../i/recent/Pledge.png");
+ }
  
 .block-civicrm div#recently-viewed ul li a {
   margin-left: 20px;
@@ -997,7 +940,11 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
  margin: -24px 30px 0px 0px;
 }
 
-
+#crm-container div#printer-friendly {
+ float: right;
+ position:relative;
+ margin: -24px 0px 0px 0px;
+}
 
 /*
 ** Boxes of checkbox elements (e.g. Advanced Search page)
@@ -1080,8 +1027,9 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 #crm-container div#searchForm table.form-layout {
-  	border-spacing: 0;
-	}
+  border-collapse: separate;
+  border-spacing: 0;
+}
 
 #crm-container div#searchForm table.form-layout td {
   padding: 4px;
@@ -1095,8 +1043,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 	left: 1%;
 	top: 1%;
 	position: relative;
-	}
-	
+}
 #crm-container .label-pane {
     margin: 0.25em 0em 0em;
     padding: 0.25em;
@@ -1104,15 +1051,14 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 	cursor: pointer;
     color: #213245;
 	font-weight: bold;
-	}
-	
+}
 #crm-container .label-pane :hover {
 	cursor: pointer;
-	}
+}
 
 #crm-container .content-pane {
-  	overflow: auto;
-	}
+  overflow: auto;
+}
 
 /*
  editor specific classes
@@ -1123,15 +1069,12 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
    float: left;
    vertical-align:top;
    width: 58em;
-	}
+}
 
 #crm-container.clear { /* generic container (i.e. div) for floating buttons */
     overflow: hidden;
     width: 100%;
 }
-
-
-/* Buttons CSS */
 
 #crm-container a.button {
     background: transparent url('bg_button_a.gif') no-repeat scroll top right;
@@ -1177,9 +1120,7 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
     border: 1px solid #EDEDED;                            
  }
 
-#location .form-layout table, 
-#location .form-layout td,
-#crm-container div#location table.form-layout table.inner-table td{
+#location .form-layout table, #location .form-layout td,#crm-container div#location table.form-layout table.inner-table td{
    border: 0px;
    vertical-align: top;
    margin-bottom: -5px;
@@ -1187,15 +1128,12 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 /* class for personal campaign info page */
 
-#crm-container table.campaign th, 
-table.campaign td, 
-#crm-container table.campaign,
-#crm-container table.campaign table.form-layout td{ 
-  	font-size: 9pt;
-  	border: 0px;
-  	width: auto;
-  	vertical-align: top;
- 	}
+#crm-container table.campaign th, table.campaign td, #crm-container table.campaign,#crm-container table.campaign table.form-layout td{ 
+  font-size: 9pt;
+  border: 0px;
+  width: auto;
+  vertical-align: top;
+ }
 
 #crm-container table.campaign table{ 
   background: #F7F7F7;
@@ -1240,7 +1178,7 @@ table.campaign td,
 #crm-container table.nestedSelector {
     margin: 0px;
     width: 100%;
-    border-bottom:0px;
+    border: 1px solid #999999;
 }
 
 #crm-container table.nestedSelector tr.columnheader th {
@@ -1351,7 +1289,10 @@ table.campaign td,
     border: 1px solid #696969;
 }
 
-
+.ac_results ul li {background-image:url('');}
+.Individual {background:url('../i/contact_ind.gif') no-repeat;padding-left:20px;}
+.Household {background:url('../i/contact_house.png') no-repeat;padding-left:20px;}
+.Organization {background:url('../i/contact_org.gif') no-repeat;padding-left:20px;}
 
 /* Styles for Config Task List */
 #crm-container td.tasklist a {
@@ -1371,65 +1312,51 @@ table.campaign td,
   color: green;
 }
 
-/* Styles for Action Items &  Action Link pop-up */
+/* Styles for  Action Link pop-up */
 
-#crm-container .action-item {
-	padding:0px 5px;
-	border-right:1px solid #CCC;
-	}
-
-#crm-container #panel, 
-#crm-container .panel {
-  	display  : none;
-  	z-index  : 1;
-  	position : absolute;
-  	border   : 1px solid #CCCCCC;
-  	border-bottom:0px;
-  	background-color: #EEEEEE;
-	
-	}
+#panel, .panel {
+  display  : none;
+  z-index  : 1;
+  position : absolute;
+  border   : 1px solid #CCCCCC;
+  background-color: #EEEEEE;
+}
 
 #crm-container td ul.panel {
-  margin  :0px;
+  margin  :-20px 0px 0px 55px;
   padding : 0;
-  top:15px;
-  right:0px;
 }
 
 #crm-container td ul.panel li {
-  margin: 0px;
-  padding: 0px;
-  list-style: none;
+  padding : 5px 15px 0px 5px;
+  margin  : 0px;
+  list-style : none;
   background-image: none;
   border-bottom: 1px solid #CCCCCC;
-  width:80px;
 }
 
 .btn-slide {
-  	text-align: left;
-  	text-decoration: none;
-  	border: none;
-  	cursor: pointer;  
-  	position: relative;
-  	padding:0px 14px 0 5px;
-  	background: url("../i/TreePlus.gif") no-repeat right 1px;
-	}
+  text-align      : left;
+  text-decoration : none;
+  border          : none;
+  cursor          : pointer;  
+}
 
 #crm-container .panel li a {
-  text-decoration: none;
-  padding: 4px;
-  color: #333333;
-  display: block;
-  border-right:none;
+  text-decoration : none;
+  color           : #333333;
+  display         : block;
+}
+
+#crm-container .panel li:hover { 
+  background-color: #999999;
+  text-color: #FFFFFF;
 }
 
 #crm-container .panel li a:hover { 
   background-color: #999999;
   color: #FFFFFF;
 }
-
-
-
 
 /*Styles for Context menu */
 
@@ -1479,6 +1406,13 @@ table.campaign td,
   background-color : #E6E6E6;
   font-size        : 1em;
   height           : 15px;
+  border-bottom    : 1px solid #999999;
+}
+
+#crm-container thead.sticky {
+  background-color : #E6E6E6;
+  color            : #000000;
+  border           : 1px solid #999999;
 }
 
 #crm-container thead.sticky a {
@@ -1493,6 +1427,14 @@ body .ac_loading {
   background       : white url('../i/loading.gif') no-repeat right center;
 }
 
+.ac_input {
+  background       : white url(../i/magnify.gif) no-repeat scroll right center;
+}
+
+.ac_over {
+	background-color: #999999;
+	color: white;
+}
 
 /*class for CMS user name check used in profile*/
 .cmsmessagebox {
@@ -1500,6 +1442,33 @@ body .ac_loading {
    width       : auto;
    margin-left : 10px;
    padding     : 3px;
+}
+
+/* Pop-up help icon - eliminate forced line break */
+div.helpicon {
+	background  : transparent url(../i/quiz.png) no-repeat;
+	padding-left: 12px;
+	display     : inline-block;
+	cursor      : pointer;
+}
+
+div#toolTip {
+	padding   : 10px;
+	background: #FFFFFF url(../i/popupMenuBg.gif) repeat-x scroll left bottom;
+	border    : 1px solid #999999;
+	font-size : small;
+	color     : black;
+	text-align: left;
+	margin    : 1em;
+}
+
+/* Class for tokens and helpicon */
+.helpIcon {
+  float       : right;
+  padding     : 5px;
+  position    : relative;
+  z-index     : 1;
+  margin-right: 45px;
 }
 
 /* class for text area resizer jquery plugin*/
@@ -1519,9 +1488,7 @@ div.grippie {
     height        : 20%;
 }
 
-.ui-tabs .ui-tabs-nav li a, 
-.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a,
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected a {
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
    font-size: 0.9em;
 }
 
@@ -1542,52 +1509,52 @@ div.grippie {
     padding : 0em 1.4em 1em 1em;
 }
 
-#crm-container div.contactTopBar {
-	padding          : 4px;
+#crm-container DIV.contactTopBar {
+	PADDING          : 4px;
 	LINE-HEIGHT      : 1.4em;
 	MARGIN           : 8px 0pt 0px;
 	/*FONT-SIZE: 1.1em;*/
 	background-color : #eee;
+	border           : 1px solid #CCCCCC;
 	width            : 100%;
 }
-#crm-container div.contact_details,
- #crm-container div#contactTopBar {
-	padding          : 4px;
+#crm-container DIV.contact_details, #crm-container DIV#contactTopBar {
+	PADDING          : 4px;
 	LINE-HEIGHT      : 1.4em;
 	MARGIN           : 8px 0pt 0px;
 	/*FONT-SIZE: 1.1em;*/
 	background-color : #F7F7F7;
-	width: 100%;
-	clear:both;
+	border           : 1px solid #CCCCCC;
+	width            : 100%;
 }
 
-#crm-container div.contact_panel, 
-#crm-container div#contactTopBar {
-	display:block;
-	width:100%;
-	}
+#crm-container DIV.contact_panel, #crm-container DIV#contactTopBar {
+	WIDTH   : 100%; 
+	DISPLAY : block
+}
 
+#crm-container DIV.contact_panel * , #crm-container DIV#contactTopBar * {
+	BORDER         : 0px;
+	PADDING-BOTTOM : 0px;
+	MARGIN         : 0px;
+	PADDING-LEFT   : 0px;
+	PADDING-RIGHT  : 0px;
+	PADDING-TOP    : 0px;
+}
 
-#crm-container div.contact_panel *, 
-#crm-container div#contactTopBar * {
-	border:0px;
-	}
-
-#crm-container div.contactCardLeft, #crm-container div#Top {
+#crm-container DIV.contactCardLeft, #crm-container DIV#Top {
 	WIDTH   : 49%; 
 	DISPLAY : block; 
 	FLOAT   : left;
 }
 
-#crm-container div.contactCardRight {
+#crm-container DIV.contactCardRight {
 	WIDTH   : 49%; 
 	DISPLAY : block; 
 	FLOAT   : right;
 }
 
-#crm-container div#contactTopBar .label, 
-#crm-container div.contactCardLeft .label, 
-#crm-container div.contactCardRight .label {
+#crm-container DIV#contactTopBar .label, #crm-container DIV.contactCardLeft .label, #crm-container DIV.contactCardRight .label {
 	color          : DimGray; 
 	FONT-SIZE      : 0.95em; 
 	VERTICAL-ALIGN : top; 
@@ -1595,8 +1562,7 @@ div.grippie {
 	MARGIN-RIGHT   : 10px;
 }
 
-#crm-container div.contactCardLeft .grouplabel, 
-#crm-container div.contactCardRight .grouplabel {
+#crm-container DIV.contactCardLeft .grouplabel, #crm-container DIV.contactCardRight .grouplabel {
 	BORDER-BOTTOM    : grey 1px solid; 
 	WIDTH            : 100%; 
 	FONT-SIZE        : 0.95em; 
@@ -1604,107 +1570,156 @@ div.grippie {
 	background-color : #ddd;
 }
 
-#crm-container div.contact_panel .spacer {
-	padding:8px;
+#crm-container DIV.contact_panel .spacer {
+	PADDING-BOTTOM   : 8px; 
+	PADDING-LEFT     : 8px; 
+	PADDING-RIGHT    : 8px; 
+	PADDING-TOP      : 8px;
 }
 
-#crm-container div.contact_panel td, 
-#crm-container div#contactTopBar td  {
-	padding:4px
-	vertical-align : top;
-	border-bottom: 1px solid #E2E2E2;
+#crm-container DIV.contact_panel TD, #crm-container DIV#contactTopBar TD  {
+	PADDING-BOTTOM      : 4px;
+	PADDING-LEFT        : 4px;
+	PADDING-RIGHT       : 4px;
+	VERTICAL-ALIGN      : top;
+	PADDING-TOP         : 4px;
+	border-bottom-width : 1px;
+	border-bottom-style : solid;
+	border-bottom-color : #E2E2E2;
 }
 
-#crm-container div.contact_panel td.label, 
-#crm-container div#contactTopBar td.label {
+#crm-container DIV.contact_panel TD.label, #crm-container DIV#contactTopBar TD.label {
 	background-color    : #EEEEEE;
-	}
+}
 
-#crm-container div#contactTopBar td.label {
+#crm-container DIV#contactTopBar TD.label {
     width : 14%;
 }
 
-#crm-container div.contact_panel td.label {
+#crm-container DIV.contact_panel TD.label {
     width : 28%;
 }
 
-#crm-container div.contact_panel td.last {
+#crm-container DIV.contact_panel TD.last {
 	BORDER-BOTTOM: 0px
 }
 
-#crm-container #customFields {
+#crm-container DIV#customFields {
 	width: 100%;
 }
 
-#crm-container #customFields div.contact_panel td {
+#crm-container DIV#customFields DIV.contact_panel TD {
 	BORDER-BOTTOM  : lightgray 1px solid; 
-	padding: 4px;
-	vertical-align: top;
+	PADDING-BOTTOM : 4px; 
+	PADDING-LEFT   : 4px; 
+	PADDING-RIGHT  : 4px; 
+	VERTICAL-ALIGN : top; 
+	PADDING-TOP    : 4px
 }
 
-#crm-container #customFields div.contact_panel td.talabel {
-	padding:4px 0 0 4px;
-	border: 0px;
+#crm-container DIV#customFields DIV.contact_panel TD.talabel {
+	BORDER-BOTTOM  : 0px; 
+	BORDER-LEFT    : 0px; 
+	PADDING-BOTTOM : 0pt; 
+	PADDING-LEFT   : 4px; 
+	PADDING-RIGHT  : 0pt; 
+	BORDER-TOP     : 0px; 
+	BORDER-RIGHT   : 0px; 
+	PADDING-TOP    : 4px
 }
 
 #crm-container #customFields .contact_panel .customFieldGroup {
 	background-color : #F7F7F7;
+	border           : 1px solid #CCCCCC;
 	line-height      : 1.4em;
 	margin           : 8px 0 0;
 	padding          : 4px;
 	width            : 100%;
 }
 
-
-
-#crm-container span.email-hold a:link, 
-#crm-container span.email-hold a:visited, 		
-#crm-container span.do-not-email a:link, 
-#crm-container span.email-hold a:visited {
+#crm-container div.contact_panel span.email-hold, #crm-container div.contact_panel span.do-not-email, #crm-container div.contact_panel span.do-not-phone {
+    background-position:3px; background-repeat:no-repeat; background-image:url("../i/stop-icon.png");
+    padding-left: 24px;
 	color: #ff6655 !important
-	}
+ }
+
+#crm-container span.email-hold a:link, #crm-container span.email-hold a:visited, #crm-container span.do-not-email a:link, #crm-container span.email-hold a:visited {
+	color: #ff6655 !important
+}
 
 
-#crm-container div.buttons {
+#crm-container DIV.buttons {
 	TEXT-ALIGN       : right;
     margin           : 8px 0 0;
-	padding          : 4px 4px 2px 0;
+	PADDING          : 4px 4px 2px;
+	WIDTH            : 100%;
 	background-color : #fff;
 	border           : none;
 }
 
-#crm-container div.buttons INPUT,
-#crm-container div.buttons SELECT {
+#crm-container DIV.buttons INPUT {
 	FONT-SIZE      : 0.9em; 
 	VERTICAL-ALIGN : top !important
 }
 
+#crm-container DIV.buttons SELECT {
+	FONT-SIZE      : 0.9em; 
+	VERTICAL-ALIGN : top !important
+}
 
-#crm-container div.buttons #actions {
+#crm-container DIV.buttons #actions {
 	TEXT-ALIGN : left; 
 	/*WIDTH: 89%;*/ 
 	FLOAT      : left
-	}
-	#crm-container div.buttons #actions li {
-		float:left;
-		padding:0px;
-		margin:0 5px 0 0;
-		}
-	
+}
 
-#crm-container div.buttons #icons {
+#crm-container DIV.buttons #icons {
 	/*WIDTH: 10%*/
+}
+
+.ui-tabs .ui-tabs-nav LI A {
+	FONT-SIZE  : 0.9em
+}
+
+.ui-tabs-collapsible.ui-tabs .ui-tabs-nav LI.ui-tabs-selected A {
+	FONT-SIZE  : 0.9em
+}
+
+.ui-tabs .ui-tabs-nav LI A {
+	PADDING-BOTTOM : 5px !important; 
+	PADDING-LEFT   : 5px !important; 
+	PADDING-RIGHT  : 5px !important; 
+	PADDING-TOP    : 5px !important;
 }
 
 #crm-container .separator {
 	border-bottom  : solid 2px #ccc;
 }
 
-/* reports */
+.individual h2 {
+	background   : url("../i/contact_ind.gif") no-repeat 0 50%;
+	padding-left : 20px;
+}
+
+.button {}
+.edit {
+	background   : url("../i/edit.png") transparent no-repeat; 
+	padding-left : 18px;
+}
+.delete {
+	background   : url("../i/delete.png") transparent no-repeat; 
+	padding-left : 18px;
+}
 
 #crm-container .report-layout {
    background-color : #F7F7F7; 
    border           : none;
+}
+
+#crm-container .reports-header {
+   background-color : #DCDCDC;
+   border           : 1px solid #DCDCDC;
+   color            : #000000;
 }
 
 #crm-container .reports-header-right {
@@ -1742,6 +1757,13 @@ div.grippie {
   font-weight       : bold;
 }
 
+#crm-container table.report-layout th {
+   background-color : #DCDCDC;
+   border           : 1px solid #DCDCDC;
+   color            : #000000;
+   padding          : 4px;
+}
+
 #crm-container table.report-layout th.report-contents {
    background-color : #F5F5F5;	       
 
@@ -1753,10 +1775,14 @@ div.grippie {
 }
 
 /*override default pager for report*/
-.report-pager .crm-pager { width: 99%; }
-
+.report-pager .crm-pager {
+    background-color: #DCDCDC;
+    border          : thin solid #999999;
+    margin-left	    : 0.1em;
+    width           : 99%;
+}
 .report-pager .crm-pager-nav a {
-    color: #000000;
+    color           : #000000;
 }
 
 #crm-container .report-layout .sticky-header {
@@ -1764,7 +1790,13 @@ div.grippie {
   border            : 1px solid #DCDCDC;
 }
 
+#crm-container .hiddenElement {
+    display   	    : none;
+}
 
+#crm-container .clear {
+    clear 	    : both;
+}
 
 #crm-container table.view-layout {
   margin: 0em;
@@ -1781,6 +1813,14 @@ div.grippie {
 	MARGIN-RIGHT   : 10px;
 	background-color:#EEEEEE;
 	width: 20%;
+}
+
+#crm-container table.view-layout td {
+   border-bottom:1px solid #E2E2E2;
+}
+
+#crm-container hr {
+   background-color : #B0B0B0;
 }
 
 #crm-container th.contriTotalRight {
@@ -1821,277 +1861,3 @@ div.grippie {
 #crm-container .cke_editor {
     border: 0px none;
 }
-
-
-/* Set/alter ICONS */
-
-#crm-container div#printer-friendly {
- float: right;
- position:relative;
- margin: -24px 0px 0px 0px;
-}
-
-#crm-container .order-icon {
- height: 15px;
- width:  10px;
- padding-top: 4px;
- padding-right: 4px;
-}
-
-/* setup for icons */
-
-.block-civicrm div#recently-viewed ul li.Activity,
-.block-civicrm div#recently-viewed ul li.Case ,
-.block-civicrm div#recently-viewed ul li.Contribution,
-.block-civicrm div#recently-viewed ul li.Grant,
-.block-civicrm div#recently-viewed ul li.Group,
-.block-civicrm div#recently-viewed ul li.Household,
-.block-civicrm div#recently-viewed ul li.Individual,
-.block-civicrm div#recently-viewed ul li.Membership,
-.block-civicrm div#recently-viewed ul li.Note,
-.block-civicrm div#recently-viewed ul li.Organization,
-.block-civicrm div#recently-viewed ul li.Participant,
-.block-civicrm div#recently-viewed ul li.Pledge {
-	background-position:3px;
-	background-repeat: no-repeat;
-	}
- 
- /* icon images - also can be used to override specific settings for indiviudual icons */
-.block-civicrm div#recently-viewed ul li.Activity { background-image:url("../i/recent/Activity.png"); }
-.block-civicrm div#recently-viewed ul li.Case { background-image:url("../i/recent/Case.png"); }
-.block-civicrm div#recently-viewed ul li.Contribution { background-image:url("../i/recent/Contribution.png"); }
-.block-civicrm div#recently-viewed ul li.Grant { background-image:url("../i/recent/Grant.png"); }
-.block-civicrm div#recently-viewed ul li.Group { background-image:url("../i/recent/Group.png"); }
-.block-civicrm div#recently-viewed ul li.Household { background-image:url("../i/recent/Household.png"); }
-.block-civicrm div#recently-viewed ul li.Individual { background-image:url("../i/recent/Individual.png"); }
-.block-civicrm div#recently-viewed ul li.Membership { background-image:url("../i/recent/Membership.png"); }
-.block-civicrm div#recently-viewed ul li.Note { background-image:url("../i/recent/Note.png"); }
-.block-civicrm div#recently-viewed ul li.Organization { background-image:url("../i/recent/Organization.png");  }
-.block-civicrm div#recently-viewed ul li.Participant { background-image:url("../i/recent/Participant.png"); }
-.block-civicrm div#recently-viewed ul li.Pledge { background-image:url("../i/recent/Pledge.png"); }
- 
- .ac_results ul li {background-image:url('');}
-.Individual {background:url('../i/contact_ind.gif') no-repeat;padding-left:20px;}
-.Household {background:url('../i/contact_house.png') no-repeat;padding-left:20px;}
-.Organization {background:url('../i/contact_org.gif') no-repeat;padding-left:20px;}
-
-.individual h2 {
-	background   : url("../i/contact_ind.gif") no-repeat 0 50%;
-	padding-left : 20px;
-}
-
-
-.icon { 
-	height:16px;
-	width:16px;
-	background:transparent url("../packages/jquery/themes/smoothness/images/ui-icons_888888_256x240.png") no-repeat top right;
-	}
-
-#crm-container a.button .icon { float:left; }
-
-.button:hover {
-	color:#333;
-	}
-
-.edit-icon { background-position: -66px -114px;}
-	.button:hover .edit-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png"); }
-		
-.delete-icon { background-position: -179px -99px;}
-	.button:hover .delete-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_cd0a0a_256x240.png");}
-
-.dashboard-icon { background-position: -193px -130px; }
-	.button:hover .dashboard-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png");}
-
-
-#crm-container .geotag {
-    padding: 2px 0 2px 20px !important;
-    background: url('../i/geotag_16.png') left center no-repeat;
-    font-size: .9em;
-}
-
-
-/* civicrm admin menu */
-
-#civicrm-menu .ac_input {
-	background:white url(../i/magnify.gif) no-repeat scroll right center;
-	padding-right:16px; /* so that text doesn't flow on top of icon */
-	}
-#civicrm-menu #crm-qsearch {
-    padding: 1px 3px 1px 2px;
-    height: 20px;
-	}
-
-#civicrm-menu #crm-qsearch input {
-    background-color:#ffffff;
-    border: 1px solid black;
-	}
-
-#civicrm-menu #menu-logout {
-    float: right;
-    border-left: 1px solid #5D5D5D;
-	}
-
-
-/* fix autocomplete colors/styles */
-
-
-.ac_even{ background-color:#F5F5F5; }
-.ac_odd { background-color:#FAFAFA; }
-
-.ac_over { 
-	background-color:#999;
-	color:white;
-	}
-
-.ac_results li strong {
-	color: #000;
-	font-weight: normal;
-	}
-
-/* Joomla Admin Menu alterations */
-
-div.m ul#civicrm-menu {
-    z-index: 0;
-    position:relative;
-    border: none;
-    left:0px;
-    height:0px;
-    padding: 5px 0px 20px 2px;
-    border-radius      : 4px;	
-    -moz-border-radius : 4px;	
-    -webkit-border-radius : 4px;	
-    -khtml-border-radius : 4px;
-	}
-
-div.m ul#civicrm-menu {
-    z-index: 1;
-    position:relative;
-    border: none;
-    left:0px;
-    height:0px;
-    padding: 5px 0px 20px 2px;
-    padding-bottom:20px !important; /*moz bottom */
-    padding-bottom:2px; /*ie bottom */
-    border-radius      : 4px;  
-    -moz-border-radius : 4px;  
-    -webkit-border-radius : 4px; 
-    -khtml-border-radius : 4px;
-	}
-
-
-div#toolbar-box div.m{ 
- padding: 0px 8px !important;
-}
-
-div#toolbar-box, div#toolbar-box div.m{
-  height: auto;
-}
-
-div.m ul#civicrm-menu li#crm-qsearch {
-    height:0px;
-	}
-
-
-
-/* Pop-up help icon - eliminate forced line break */
-div.helpicon {
-	background  : transparent url(../i/quiz.png) no-repeat;
-	display     : inline-block;
-	cursor      : pointer;
-	background-position:-48px -144px;
-	background-image:url(../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png);
-	background-color:#DDD;
-	width:16px;
-	height:16px;
-	}
-
-div.statusicon {
-	background  : transparent url(../i/quiz.png) no-repeat;
-	display     : inline-block;
-	cursor      : pointer;
-	background-position:-48px -144px;
-	background-image:url(../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png);
-	background-color:#CCC;
-	width:16px;
-	height:16px;
-	overflow:hidden;
-	text-indent: -10000;
-	}
-
-
-div#toolTip {
-	padding   : 10px;
-	background: #FFFFFF url(../i/popupMenuBg.gif) repeat-x scroll left bottom;
-	border    : 1px solid #999999;
-	font-size : small;
-	color     : black;
-	text-align: left;
-	margin    : 1em;
-}
-
-/* Class for tokens and helpicon */
-.helpIcon {
-  float       : right;
-  padding     : 5px;
-  position    : relative;
-  z-index     : 1;
-  margin-right: 45px;
-}
-
-/* "don't do this" icons */
-#crm-container div.contact_panel span.email-hold, 
-#crm-container div.contact_panel span.do-not-email, 
-#crm-container div.contact_panel span.do-not-phone {
-    background-position:3px; 
-    background-repeat:no-repeat; 
-    background-image:url("../i/stop-icon.png");
-    padding-left: 24px;
-	color: #ff6655 !important;
- 	}
- 
- 
- 
- /* specific, targeted fixes */
- #crm-container .dashboard-elements,
- #crm-container #membership-listings,
- #crm-container #premiums-listings,
- #crm-container #searchForm table {
-  margin: 0em;
-  width: 98%;	
-  border-collapse: collapse;
-  border: 0px none;
-} 
-
-/* This is the style for the trigger icon. The margin-bottom value causes the icon to shift down to center it. */
-.ui-datepicker-trigger {
-  margin-top: 4px;
-  margin-bottom: -6px;
-}
-
-#activity-content table {width:100%!important;}	
-
-.ui-state-default, 
-.ui-widget-content .ui-state-default,
-.ui-widget-content  {
-	border:1px solid #CCC;
-}	
-
-#Tag .tree .collapsable .hit,
-#Tag .tree .expandable .hit { padding-left:16px; }
-
-
-/*  DataTables sorting */
-th.sorting,
-th.sorting_asc,
-th.sorting_desc {
-	padding-right:14px !important;
-	}
-
-
-.sorting_asc { background: url('../i/dataTable/sort_sprites.png') no-repeat right -28px; }
-
-.sorting_desc { background: url('../i/dataTable/sort_sprites.png') no-repeat right -60px; }
-
-.sorting { background: url('../i/dataTable/sort_sprites.png') no-repeat right 4px; }
-
-/*  DataTables fixes */

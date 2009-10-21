@@ -27,7 +27,7 @@
 				{$form.email_name.label} {help id="from-name"}<br />
 				{$form.email_name.html}
 			</td>
-			<td class="">
+			<td class="extra-long-fourty">
 				{$form.email_address.label} {help id="from-email"}<br />
 				{$form.email_address.html} 
 				   <br /><span class="description">(info@example.org)</span>

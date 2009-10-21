@@ -9,9 +9,5 @@
 
        <td>{$form.nick_name.label}<br/>
        {$form.nick_name.html|crmReplace:class:big}</td>
-
-       <td>{$form.contact_sub_type.label}<br />
-       {$form.contact_sub_type.html}
-       </td>
      </tr>
 </table>

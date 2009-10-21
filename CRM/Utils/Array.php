@@ -330,7 +330,6 @@ class CRM_Utils_Array {
      *  @static
      */
     static function crmIsEmptyArray( $array = array( ) ) {
-        if ( !is_array( $array ) ) return true;
         foreach ( $array as $element ) {
             if ( is_array( $element ) ) {
                 if ( !self::crmIsEmptyArray($element) ) {

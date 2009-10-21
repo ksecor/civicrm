@@ -21,7 +21,7 @@ SELECT @addId := id from civicrm_address where street_address = 'S 15S El Camino
 
 INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_billing, on_hold, hold_date, reset_date)
       VALUES
-      (NULL, 1, '"Domain Email" <domainemail@example.org>', 0, 0, 0, NULL, NULL);
+      (NULL, 1, 'domainemail@example.org', 0, 0, 0, NULL, NULL);
 
 SELECT @emailId := id from civicrm_email where email = 'domainemail@example.org';
 
@@ -358,6 +358,7 @@ VALUES
   (@option_group_id_udOpt, '{ts escape="sql"}Pledges{/ts}'                    , 7, 'CiviPledge', NULL, 0, NULL, 7, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}Personal Campaign Pages{/ts}'    , 8, 'PCP', NULL, 0, NULL, 8, NULL, 0, 0, 1, NULL, NULL),
 
+  (@option_group_id_acsOpt, '{ts escape="sql"}Contact Name{/ts}'    , 1, 'sort_name', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_acsOpt, '{ts escape="sql"}Email Address{/ts}'   , 2, 'email', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_acsOpt, '{ts escape="sql"}Phone{/ts}'           , 3, 'phone', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_acsOpt, '{ts escape="sql"}Street Address{/ts}'  , 4, 'street_address', NULL, 4, NULL, 0, NULL, 0, 0, 1, NULL, NULL),
@@ -911,10 +912,13 @@ INSERT INTO `civicrm_contact_type`
   ( 1, 'Individual'  , '{ts escape="sql"}Individual{/ts}'  , NULL, NULL, NULL, 1),
   ( 2, 'Household'   , '{ts escape="sql"}Household{/ts}'   , NULL, NULL, NULL, 1),
   ( 3, 'Organization', '{ts escape="sql"}Organization{/ts}', NULL, NULL, NULL, 1),
-  ( 4, 'Student'     , '{ts escape="sql"}Student{/ts}'     , NULL, NULL,    1, 1),
-  ( 5, 'Parent'      , '{ts escape="sql"}Parent{/ts}'      , NULL, NULL,    1, 1),
-  ( 6, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , NULL, NULL,    1, 1),
-  ( 7, 'Team'        , '{ts escape="sql"}Team{/ts}'        , NULL, NULL,    3, 1),
-  ( 8, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , NULL, NULL,    3, 1);
+  ( 4, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    1, 1),
+  ( 5, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    2, 1),
+  ( 6, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    3, 1),
+  ( 7, 'Student'     , '{ts escape="sql"}Student{/ts}'     , NULL, NULL,    1, 1),
+  ( 8, 'Parent'      , '{ts escape="sql"}Parent{/ts}'      , NULL, NULL,    1, 1),
+  ( 9, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , NULL, NULL,    1, 1),
+  (10, 'Team'        , '{ts escape="sql"}Team{/ts}'        , NULL, NULL,    3, 1),
+  (11, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , NULL, NULL,    3, 1);
 
 {include file='civicrm_msg_template.tpl'}

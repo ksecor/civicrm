@@ -55,13 +55,16 @@ class CRM_Contact_Form_Edit_Demographics
             $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
         }
         $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
-                
-        $form->addDate('birth_date', ts('Date of birth'), false, array( 'formatType' => 'birth') );
         
         $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
-        $form->addDate('deceased_date', ts('Deceased date'), false, array( 'formatType' => 'birth') );
+        
+        $form->addElement('date', 'deceased_date', ts('Deceased date'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('deceased_date', ts('Select a valid date.'), 'qfBirthDate');
+        
+        $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('birth_date', ts('Select a valid date.'), 'qfBirthDate');
 		
-        //$form->assign( 'showCalender', CRM_Utils_Date::checkBrithDateFormat( )?false:true );
+        $form->assign( 'showCalender', CRM_Utils_Date::checkBrithDateFormat( )?false:true );
     }
     
     /**

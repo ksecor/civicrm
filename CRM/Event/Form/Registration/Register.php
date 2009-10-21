@@ -612,7 +612,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                         if ( is_array( $val) ) {
                             //$keys is the id of the option value
                             foreach( $val as $keys => $vals  )  {
-                                if ( !$keys ) continue;
                                 $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'name');
                             }
                         } else if( $htmlType == 'Text') {

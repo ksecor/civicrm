@@ -45,6 +45,28 @@ class api_v2_DomainTest extends CiviUnitTestCase
     {
         parent::setUp();
 
+        //  Truncate the tables
+        $op = new PHPUnit_Extensions_Database_Operation_Truncate( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__) . '/../../CiviTest/truncate-option.xml') );
+
+        //  Insert a row in civicrm_option_group creating option group
+        //  from_email_address group
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/option_group_from_email_address.xml') );
+ 
+        //  Insert a row in civicrm_option_value creating
+        //  from email address
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/option_value_from_email_address.xml') );
+
     }
 
     /**
@@ -70,8 +92,8 @@ class api_v2_DomainTest extends CiviUnitTestCase
         $this->assertType( 'array', $result, 'In line' . __LINE__ );
 
         foreach( $result as $domain ) {
-            $this->assertEquals( 'info@FIXME.ORG', $domain['from_email'], 'In line' . __LINE__ );
-            $this->assertEquals( 'FIXME', $domain['from_name'], 'In line' . __LINE__);
+            $this->assertEquals( 'test@email.label.net', $domain['from_email'], 'In line' . __LINE__ );
+            $this->assertEquals( 'Test Label - Domain', $domain['from_name'], 'In line' . __LINE__);
             
             // checking other important parts of domain information
             // test will fail if backward incompatible changes happen

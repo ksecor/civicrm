@@ -26,16 +26,15 @@
     
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="confirmContribution"}
 
-    {if $amount GT 0 OR $minimum_fee GT 0 OR ( $priceSetID and $lineItem ) }
+    {if $amount GT 0 OR $minimum_fee GT 0}
     <div class="header-dark">
-        {if !$membershipBlock AND $amount OR ( $priceSetID and $lineItem ) }{ts}Contribution Amount{/ts}{else}{ts}Membership Fee{/ts} {/if}
+        {if !$membershipBlock AND $amount }{ts}Contribution Amount{/ts}{else}{ts}Membership Fee{/ts} {/if}
     </div>
     <div class="display-block">
-        {if $lineItem and $priceSetID}
-	    {if !$amount}{assign var="amount" value=0}{/if}
-	    {assign var="totalAmount" value=$amount}
+        {if $lineItem}
             {include file="CRM/Price/Page/LineItem.tpl" context="Contribution"}
-        {elseif $is_separate_payment }
+	{/if}
+        {if $is_separate_payment }
             {if $amount AND $minimum_fee}
                 {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong><br />
                 {ts}Additional Contribution{/ts}: <strong>{$amount|crmMoney}</strong><br />
@@ -98,12 +97,7 @@
                 {if $pcp_is_anonymous}
                     <strong>{ts}anonymously{/ts}.</strong>
                 {else}
-		    {ts}under the name{/ts}: <strong>{$pcp_roll_nickname}</strong><br/>
-                    {if $pcp_personal_note}
-                        {ts}With the personal note{/ts}: <strong>{$pcp_personal_note}</strong>
-                    {else}
-                     <strong>{ts}With no personal note{/ts}</strong>
-                     {/if}
+                    {ts}and my name{/ts}: <strong>{$pcp_roll_nickname}</strong>
                 {/if}
             {else}
                 {ts}Don't list my contribution in the honor roll.{/ts}
@@ -190,8 +184,8 @@
     {if $contributeMode NEQ 'notify' and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) } {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
-        {if $is_pay_later OR $amount LE 0.0}
-            {ts}Your transaction will not be completed until you click the <strong>Continue</strong> button. Please click the button one time only.{/ts}
+        {if $is_pay_later}
+            {ts}Your contribution will not be completed until you click the <strong>Continue</strong> button. Please click the button one time only.{/ts}
         {else}
             {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
         {/if}

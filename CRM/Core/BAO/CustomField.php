@@ -33,7 +33,6 @@
  *
  */
 require_once 'CRM/Core/OptionGroup.php';
-require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/DAO/CustomField.php';
 require_once 'CRM/Core/DAO/CustomGroup.php';
 require_once 'CRM/Core/BAO/CustomOption.php';
@@ -429,9 +428,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 //get the custom fields for specific type in
                 //combination with fields those support any type.
                 if ( $customDataSubType ) {
-                    $customDataSubType = 
-                        CRM_Core_DAO::VALUE_SEPARATOR . $customDataSubType . CRM_Core_DAO::VALUE_SEPARATOR;
-                    $query .= " AND ( $cgTable.extends_entity_column_value LIKE '%$customDataSubType%' 
+                    $query .= " AND ( $cgTable.extends_entity_column_value = $customDataSubType 
                                       OR $cgTable.extends_entity_column_value IS NULL )";
                 }
                 
@@ -1459,26 +1456,17 @@ SELECT $columnName
 
     static function createField( $field, $operation, $indexExist = false ) {
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                  $field->custom_group_id,
-                                                  'table_name' );
-        
-        $params = array( 'table_name' => $tableName,
+        $params = array( 'table_name' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                                      $field->custom_group_id,
+                                                                      'table_name' ),
                          'operation'  => $operation,
                          'name'       => $field->column_name,
                          'type'       => CRM_Core_BAO_CustomValueTable::fieldToSQLType( $field->data_type,
                                                                                         $field->text_length ),
                          'required'   => $field->is_required,
                          'searchable' => $field->is_searchable,
-                         );
-                
-        if ( $operation == 'delete') {
-            $fkName = "{$tableName}_{$field->column_name}";
-            if ( strlen( $fkName ) >= 48) {
-                $fkName = substr( $fkName, 0, 32 ) . "_" . substr( md5( $fkName ), 0, 16 );
-            } 
-            $params['fkName'] = $fkName;
-        }
+                        );
+        
         if ( $field->data_type == 'Country' && $field->html_type == 'Select Country' ) {
             $params['fk_table_name'] = 'civicrm_country';
             $params['fk_field_name'] = 'id';
@@ -1503,7 +1491,7 @@ SELECT $columnName
         if ( $field->default_value ) {
             $params['default'] = "'{$field->default_value}'";
         }
-        
+
         require_once 'CRM/Core/BAO/SchemaHandler.php';
         CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params, $indexExist );
     }
@@ -1680,8 +1668,7 @@ ORDER BY html_type";
                $field['html_type'] == 'Radio'    ||
                $field['html_type'] == 'Select'   ||
                $field['html_type'] == 'AdvMulti-Select'   ||
-               $field['html_type'] == 'Multi-Select' ||
-               ( $field['html_type'] == 'Autocomplete-Select' && $field['data_type'] != 'ContactReference' ) ) ) {
+               $field['html_type'] == 'Multi-Select' ) ) {
             if ( $field['option_group_id'] ) {
                 $optionGroupID = $field['option_group_id'];
             } else if ( $field['data_type'] != 'Boolean' ) {

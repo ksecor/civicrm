@@ -32,9 +32,9 @@ function loadEditor()
 {
     var msg =  {/literal}"{$htmlContent}"{literal};
     if (msg) {
-        if ( editor == "ckeditor" ) {
-            oEditor = CKEDITOR.instances[html_message];
-            oEditor.setData( msg );
+        if ( editor == "fckeditor" ) {
+            oEditor = FCKeditorAPI.GetInstance(html_message);
+            oEditor.SetHTML( msg );
         }
     }
 }
@@ -71,9 +71,9 @@ function selectValue( val ) {
     if ( !val ) {
         document.getElementById(text_message).value ="";
         document.getElementById("subject").value ="";
-        if ( editor == "ckeditor" ) {
-            oEditor = CKEDITOR.instances[html_message];
-            oEditor.SetData('');
+        if ( editor == "fckeditor" ) {
+            oEditor = FCKeditorAPI.GetInstance(html_message);
+            oEditor.SetHTML('');
         } else if ( editor == "tinymce" ) {
             cj('#' + html_message).html('');
         } else {	
@@ -101,9 +101,9 @@ function selectValue( val ) {
             html_body = data.msg_html;
         }
 
-        if ( editor == "ckeditor" ) {
-            oEditor = CKEDITOR.instances[html_message];
-            oEditor.setData( html_body );
+        if ( editor == "fckeditor" ) {
+            oEditor = FCKeditorAPI.GetInstance(html_message);
+            oEditor.SetHTML( html_body );
         } else if ( editor == "tinymce" ) {
             cj('#'+ html_message).html( html_body );
         } else {	
@@ -152,12 +152,12 @@ function selectValue( val ) {
     showSaveUpdateChkBox();
 
     {/literal}
-    {if $editor eq "ckeditor"}
+    {if $editor eq "fckeditor"}
         {literal}
-        function CKeditor_OnComplete( editorInstance )
+        function FCKeditor_OnComplete( editorInstance )
         {
-            oEditor = CKEDITOR.instances[html_message];
-            oEditor.setData( {/literal}'{$message_html}'{literal});
+            oEditor = FCKeditorAPI.GetInstance(html_message);
+            oEditor.SetHTML( {/literal}'{$message_html}'{literal});
             oEditor.BaseHref = '' ;
             oEditor.UserFilesPath = '' ; 
             loadEditor();
@@ -204,12 +204,12 @@ function selectValue( val ) {
     function tokenReplHtml ( )
     {
         var token2     = cj("#token2").val( )[0];
-        var editor     = {/literal}"{$editor}"{literal};
+        var editor = {/literal}"{$editor}"{literal};
         if ( editor == "tinymce" ) {
             cj('#'+ html_message).tinymce().execCommand('mceInsertContent',false, token2);
-        } else if ( editor == "ckeditor" ) {
-            oEditor = CKEDITOR.instances[html_message];
-            oEditor.setData( oEditor.getData() + token2.toString() );
+        } else if ( editor == "fckeditor" ) {
+            oEditor = FCKeditorAPI.GetInstance(html_message);
+            oEditor.InsertHtml( token2.toString() );
         } else {
             var msg       = document.getElementById(html_message).value;
             var cursorlen = document.getElementById(html_message).selectionStart;
@@ -275,7 +275,7 @@ function selectValue( val ) {
                             cj('#' + text_message).focus();
                         } else if (element == 'Html' ) {
                             switch ({/literal}"{$editor}"{literal}) {
-                                case 'ckeditor': { oEditor = CKEDITOR.instances[html_message]; oEditor.focus(); break;}
+                                case 'fckeditor': { FCKeditorAPI.GetInstance(html_message).Focus(); break;}
                                 case 'tinymce'  : { tinyMCE.get(html_message).focus(); break; } 
                                 default         : { cj("#"+ html_message).focus(); break; } 
                         }

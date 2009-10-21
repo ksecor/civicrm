@@ -8,7 +8,6 @@
 {if $config->customCSSURL}
 <link rel="stylesheet" href="{$config->customCSSURL}" type="text/css" />
 {else}
-<link rel="stylesheet" href="{$config->resourceBase}css/deprecate.css" type="text/css" />
 <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
 {/if}
 <link rel="stylesheet" href="{$config->resourceBase}css/standalone.css" type="text/css" />

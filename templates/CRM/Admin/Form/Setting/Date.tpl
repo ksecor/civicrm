@@ -13,8 +13,8 @@
 </fieldset>
 <fieldset><legend>{ts}Date Input Fields{/ts}</legend>
      <dl>
-      <dt>{$form.dateInputFormat.label}</dt><dd>{$form.dateInputFormat.html}</dd>
-      <dt>{$form.timeInputFormat.label}</dt><dd>{$form.timeInputFormat.html}</dd>
+      <dt>{$form.dateformatQfDate.label}</dt><dd>{$form.dateformatQfDate.html}</dd>
+      <dt>{$form.dateformatQfDatetime.label}</dt><dd>{$form.dateformatQfDatetime.html}</dd>
     </dl>
     <div class="action-link">
     	<a href="{crmURL p="civicrm/admin/setting/preferences/date" q="reset=1"}" id="advDateSetting" title="{ts}Manage available date ranges and input formats for different types of date fields.{/ts}">&raquo; {ts}Advanced Date Input Settings{/ts}</a>

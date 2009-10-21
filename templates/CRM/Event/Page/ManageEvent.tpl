@@ -23,7 +23,6 @@
         {include file="CRM/common/pagerAToZ.tpl"}
         {* handle enable/disable actions*}
         {include file="CRM/common/enableDisable.tpl"}         
-        {include file="CRM/common/jsortable.tpl"}         
         <table id="options" class="display">
          <thead>
          <tr>
@@ -31,8 +30,8 @@
             <th>{ts}City{/ts}</th>
             <th>{ts}State/Province{/ts}</th>
             <th>{ts}Public?{/ts}</th>
-            <th id="start_date">{ts}Starts{/ts}</th>
-            <th id="end_date">{ts}Ends{/ts}</th>
+            <th id="sortable">{ts}Starts{/ts}</th>
+            <th>{ts}Ends{/ts}</th>
 	        <th>{ts}Active?{/ts}</th>
 	        <th></th>
          </tr>
@@ -47,8 +46,8 @@
             <td>{$row.end_date|crmDate:"%b %d, %Y %l:%M %P"}</td>
 	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
     	    <td>{$row.action|replace:'xx':$row.id}</td>
-            <td class="start_date hiddenElement">{$row.start_date|crmDate}</td>
-            <td class="end_date hiddenElement">{$row.end_date|crmDate}</td>
+            <td style="display:none">{$row.start_date|crmDate}</td>
+            <td style="display:none">{$row.end_date|crmDate}</td>
           </tr>
         {/foreach}    
         </table>
@@ -82,3 +81,35 @@
     </div>    
    {/if}
 {/if}
+
+{literal}
+<script type="text/javascript">
+    cj( function( ) {
+        var id = count = 0;
+        cj('#options th').each(function(){ if( cj(this).attr('id') == 'sortable') { id = count; } count++; });
+        cj('#options').dataTable( {
+            "aaSorting": [[ id, "asc" ]],
+            "bPaginate": false,
+    		"bLengthChange": false,
+    		"bFilter": false,
+    		"bInfo": false,
+    		"bAutoWidth": false,
+    		"aoColumns": [
+    		            null,
+    		            null,
+    		            null,
+    		            null,
+            		    { "sType": 'date',
+                          "fnRender": function ( oObj ) { return oObj.aData[8]; }, 
+                          "bUseRendered": false},
+                        { "sType": 'date',
+                          "fnRender": function ( oObj ) { return oObj.aData[9]; }, 
+                          "bUseRendered": false},
+    		            null,
+            			{ "bSortable": false },
+            			{ "bSortable": false }
+            		]
+        } );        
+    });
+</script>
+{/literal}

@@ -931,7 +931,6 @@ AND civicrm_membership.is_test = %2";
         
         $memBlockDetails    = CRM_Member_BAO_Membership::getMembershipBlock( $form->_id );
         if ( $memBlockDetails['is_separate_payment']  && ! $paymentDone ) {
-            require_once 'CRM/Contribute/DAO/ContributionType.php';
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
             $contributionType->id = $membershipDetails['contribution_type_id']; 
             if ( ! $contributionType->find( true ) ) {

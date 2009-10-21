@@ -23,7 +23,7 @@
         <div id="paymentProcessor">
             <dl>
               <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
-              <dt class="">&nbsp;</dt>
+              <dt class="extra-long-fourty">&nbsp;</dt>
               <dd class="description">
                 {ts}If this is a paid event and you want users to be able to register and pay online, select a payment processor to use.{/ts}
                 {ts}NOTE: Alternatively, you can enable the <strong>Pay Later</strong> feature below without setting up a payment processor. All users will then be asked to submit payment offline (e.g. mail in a check, call in a credit card, etc.).{/ts} {docURL page="CiviContribute Payment Processor Configuration"}

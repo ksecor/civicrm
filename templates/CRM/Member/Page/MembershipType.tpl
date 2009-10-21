@@ -22,24 +22,23 @@
             <th>{ts}Duration{/ts}</th>
             <th>{ts}Relationship Type{/ts}</th>   
             <th>{ts}Visibility{/ts}</th>
-            <th id="order">{ts}Order{/ts}</th>
+            <th id="nosort">{ts}Order{/ts}</th>
  	        <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>
         </thead>
         {foreach from=$rows item=row}
            <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-    	        <td>{$row.name}</td>	
-	            <td>{$row.period_type}</td>
-	            <td>{$row.fixed_period_start_day}</td>
-    	        <td align="right">{$row.minimum_fee|crmMoney}</td>
-    		    <td>{$row.duration_interval} {$row.duration_unit}</td>
+	        <td>{$row.name}</td>	
+	        <td>{$row.period_type}</td>
+	        <td>{$row.fixed_period_start_day}</td>
+	        <td align="right">{$row.minimum_fee|crmMoney}</td>
+		    <td>{$row.duration_interval} {$row.duration_unit}</td>
                 <td>{$row.relationshipTypeName}</td> 
                 <td>{$row.visibility}</td>
-                <td class="nowrap">{$row.order}</td>
-    	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-    	        <td>{$row.action|replace:'xx':$row.id}</td>
-                <td class="order hiddenElement">{$row.weight}</td>
+                <td class="nowrap">{$row.weight}</td>
+	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	        <td>{$row.action|replace:'xx':$row.id}</td>
            </tr>
         {/foreach}
     </table>

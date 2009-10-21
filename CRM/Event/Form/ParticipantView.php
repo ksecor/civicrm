@@ -92,25 +92,6 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
         
         CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
         $this->assign( $values[$this->get( 'id' )] );
-        
-        // add viewed participant to recent items list
-        require_once 'CRM/Utils/Recent.php';
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/participant', 
-                                      "action=view&reset=1&id={$values[$this->get( 'id' )]['id']}&cid={$values[$this->get( 'id' )]['contact_id']}" );
-        
-        $participantRoles = CRM_Event_PseudoConstant::participantRole();
-        $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $values[$this->get( 'id' )]['event_id'], 'title' );
-        $title = CRM_Contact_BAO_Contact::displayName( $values[$this->get( 'id' )]['contact_id'] ) . ' (' . $participantRoles[$values[$this->get( 'id' )]['role_id']] . ' - ' . $eventTitle . ')' ;
-        
-        // add the recently created Activity
-        CRM_Utils_Recent::add( $title,
-                               $url,
-                               $values[$this->get( 'id' )]['id'],
-                               'Participant',
-                               $values[$this->get( 'id' )]['contact_id'],
-                               null );
-        
     }
 
     /**

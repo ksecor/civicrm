@@ -1077,8 +1077,8 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             require_once 'CRM/Pledge/BAO/Payment.php';
             $pledgePaymentDetails = CRM_Pledge_BAO_Payment::getOldestPledgePayment( $values['pledge_id'] );
             
-            if ( $pledgePaymentDetails['amount'] == $totalAmount ) {
-                $values['pledge_payment_id'] = $pledgePaymentDetails['id'];
+            if ( $pledgePaymentDetails[0]['amount'] == $totalAmount ) {
+                $values['pledge_payment_id'] = $pledgePaymentDetails[0]['id'];
             } else {
                 return civicrm_create_error( 'Contribution and Pledge Payment amount mismatch for this record. Contribution row was skipped.', 'pledge_payment' );
             }

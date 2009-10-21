@@ -151,17 +151,12 @@ class api_v2_ConstantTest extends CiviUnitTestCase
         // needed to get rid of cached values from previous tests
         CRM_Core_Pseudoconstant::flush( 'locationType' );
 
-        $dataset = new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
-                             dirname(__FILE__)
-                             . '/dataset/location_type_data.xml');
-
-        //  We don't want default set, we want our own, so clean up first
-        $tr = new PHPUnit_Extensions_Database_Operation_Truncate( );
-        $tr->execute( $this->_dbconn, $dataset );
-
         //  Insert default location type values
         $op = new PHPUnit_Extensions_Database_Operation_Insert( );
-        $op->execute( $this->_dbconn, $dataset );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/location_type_data.xml') );
 
         $result = civicrm_constant_get( 'locationType' );
         
@@ -183,7 +178,12 @@ class api_v2_ConstantTest extends CiviUnitTestCase
         // needed to get rid of cached values from previous tests
         CRM_Core_Pseudoconstant::flush( 'locationType' );
 
-        //  Testing on default set provided by civicrm_data.mysql
+        //  Insert default location type values
+        $op = new PHPUnit_Extensions_Database_Operation_Insert( );
+        $op->execute( $this->_dbconn,
+                      new PHPUnit_Extensions_Database_DataSet_XMLDataSet(
+                             dirname(__FILE__)
+                             . '/dataset/location_type_data.xml') );
         
         $result = civicrm_constant_get( 'locationType', array( 'all' => true) );
         

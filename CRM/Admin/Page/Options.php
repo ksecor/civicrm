@@ -117,10 +117,6 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
             $this->assign( 'showCounted', true );
             $this->assign( 'showVisibility', true );
         }
-
-        if ( self::$_gName == 'participant_role' ) {
-            $this->assign( 'showCounted', true );
-        }
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton( );
         if ( in_array("CiviCase", $config->enableComponents) && self::$_gName == 'activity_type' ) {

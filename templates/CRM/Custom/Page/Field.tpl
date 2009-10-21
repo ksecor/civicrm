@@ -10,19 +10,16 @@
     <div id="field_page">
         {strip}
 	    {* handle enable/disable actions*}
-        {include file="CRM/common/enableDisable.tpl"} 
-        {include file="CRM/common/jsortable.tpl"} 
-         <table id="options" class="display">
-         <thead>
-         <tr>
+        {include file="CRM/common/enableDisable.tpl"}   
+         <table class="selector">
+         <thead class="sticky">
             <th>{ts}Field Label{/ts}</th>
             <th>{ts}Data Type{/ts}</th>
             <th>{ts}Field Type{/ts}</th>
-            <th id="order">{ts}Order{/ts}</th>
+            <th>{ts}Order{/ts}</th>
             <th>{ts}Req?{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
-            <th></th>
-        </tr>
+            <th>&nbsp;</th>
         </thead>
         <tbody>
         {foreach from=$customField item=row}
@@ -30,11 +27,10 @@
             <td>{$row.label}</td>
             <td>{$row.data_type}</td>
             <td>{$row.html_type}</td>
-            <td class="nowrap">{$row.order}</td>
+            <td class="nowrap">{$row.weight}</td>
             <td>{if $row.is_required eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-    	    <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	    <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{$row.action|replace:'xx':$row.id}</td>
-            <td class="order hiddenElement">{$row.weight}</td>
         </tr>
         {/foreach}
         </tbody>

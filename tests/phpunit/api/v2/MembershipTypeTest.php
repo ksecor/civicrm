@@ -217,6 +217,8 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
     
     function testCreate()
     {
+        $this->contributionTypeCreate();
+
         $params = array(
                         'name'                 => '40+ Membership',
                         'description'          => 'people above 40 are given health instructions', 

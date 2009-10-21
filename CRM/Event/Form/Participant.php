@@ -650,7 +650,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                       "checkCancelled( this.value, {$cancelledparticipantStatusId},{$cancelledContributionStatusId});");
         }
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
-                    array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( null, null, 'label' ),
+                    array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( ),
                     true, 
                     $checkCancelledJs );
         
@@ -750,9 +750,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
               array_search( 'Failed', CRM_Contribute_PseudoConstant::contributionStatus(null, 'name'))) ) {
             $errorMsg['contribution_status_id'] = ts( "Please select a valid payment status before updating." );
         }
-        if ( $self->_mode && 
-             CRM_Utils_Array::value( 'priceSetId', $values ) &&
-             !CRM_Utils_System::isNull( $self->_values['fee']['fields'] ) ) {
+        if ( CRM_Utils_Array::value( 'priceSetId', $values ) ) {
             $lineItem = array( );
             require_once "CRM/Price/BAO/Set.php";
             CRM_Price_BAO_Set::processAmount( $self->_values['fee']['fields'], $values, $lineItem );

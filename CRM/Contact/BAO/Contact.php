@@ -424,15 +424,15 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
         
         //lookup value of email/postal greeting, addressee, CRM-4575
-        $filterCondition = array( 'contact_type'  => CRM_Utils_Array::value( 'contact_type', $defaults ),
+        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
                                   'greeting_type' => 'email_greeting' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'email_greeting', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
-        $filterCondition = array( 'contact_type'  => CRM_Utils_Array::value( 'contact_type', $defaults ),
+        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
                                   'greeting_type' => 'postal_greeting' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'postal_greeting', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
-        $filterCondition = array( 'contact_type'  => CRM_Utils_Array::value( 'contact_type', $defaults ),
+        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
                                   'greeting_type' => 'addressee' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'addressee', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
@@ -526,7 +526,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         }
 
         $contact = self::_getValues( $params, $defaults );
-        
         unset($params['id']);
         
         //get the block information for this contact
@@ -1788,14 +1787,8 @@ UNION
                     $values['age']['y'] = CRM_Utils_Array::value('years',$age);
                     $values['age']['m'] = CRM_Utils_Array::value('months',$age);
                  }
-                 
-                 list( $values['birth_date'] ) = CRM_Utils_Date::setDateDefaults( $contact->birth_date, 'birth' );
             }
-            
-            if ( $contact->deceased_date ) {
-                list( $values['deceased_date'] ) = CRM_Utils_Date::setDateDefaults( $contact->deceased_date, 'birth' );
-            }
-            
+
             $contact->contact_id = $contact->id;
             
             return $contact;

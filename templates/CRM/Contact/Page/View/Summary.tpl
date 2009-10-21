@@ -13,53 +13,31 @@
         <div title="Summary" id="contact-summary" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
             {if $hookContentPlacement neq 3}
                 <div class="buttons ui-corner-all">
-                    <ul id="actions">
+                    <span id="actions">
                         {if $permission EQ 'edit'}
-                        <li>
-                        <a href="{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}" class="edit button" title="{ts}Edit{/ts}">
-                        <span><div class="icon edit-icon"></div>{ts}Edit{/ts}</span>
-                        </a>
-                        </li>
+                        <input type="button" class="edit button" accesskey="E" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
                         {/if}
 
                         {* CRM-4418 *}
                         {if call_user_func(array('CRM_Core_Permission','check'), 'delete contacts')}
-                        <li>
-                        <a href="{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}" class="delete button" title="{ts}Delete{/ts}">
-                        <span><div class="icon delete-icon"></div>{ts}Delete{/ts}</span>
-                        </a>
-                        </li>
+                        <input type="button" class="delete button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
                         {/if}
 
                         {* Include links to enter Activities if session has 'edit' permission *}
                         {if $permission EQ 'edit'}
-                        <li>
                             {include file="CRM/Activity/Form/ActivityLinks.tpl"}
-                        </li>
                         {/if}
-                        <li><span class="label">Go to:</span></li>
+                        &nbsp;&nbsp; <span class="label">Go to:</span>
                         {if $dashboardURL }
-                        <li>
-                        <a href="{$dashboardURL}" class="dashboard button" title="{ts}dashboard{/ts}">
-                        	<span><div class="icon dashboard-icon"></div>{ts}Dashboard{/ts}</span>
-                        </a>
-                        </li>
+                        <input type="button" onclick="window.location='{$dashboardURL}'" value="{ts}Dashboard{/ts}"/>
                         {/if}
                         {if $url }
-                        <li>
-                        <a href="{$dashboardURL}" class="user-record button" title="{ts}User Record{/ts}">
-                        <span><div class="icon user-recordd-icon"></div>{ts}User Record{/ts}</span>
-                        </a>
-                        </li>
+                        <input type="button" onclick="window.location='{$url}'" value="{ts}User Record{/ts}"/>
                         {/if}
                         {if $groupOrganizationUrl}
-                        <li>
-                        <a href="{$groupOrganizationUrl}" class="associated-groups button" title="{ts}Associated Multi-Org Group{/ts}">
-                        <span><div class="icon associated-groups-icon"></div>{ts}Associated Multi-Org Group{/ts}</span>
-                        </a>   
-                        </li>
+                            <input type="button" onclick="window.location='{$groupOrganizationUrl}'" value="{ts}Associated Multi-Org Group{/ts}"/>   
                         {/if}
-                    </ul> 
+                    </span> 
                     <span id="icons">
                         <a title="vCard record for this contact." href='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}' title="{ts}vCard{/ts}"> <img src="{$config->resourceBase}i/vcard-icon.png" alt="vCard record for this contact." /></a>
                         <a title="Printer-friendly view of this page." href='{crmURL p='civicrm/contact/view/print' q="reset=1&print=1&cid=$contactId"}' title="{ts}Print{/ts}"> <img src="{$config->resourceBase}i/print-icon.png" alt="Printer-friendly view of this page." /></a>
@@ -70,15 +48,11 @@
                     {include file="CRM/Contact/Page/View/SummaryHook.tpl"}
                 {/if}
                 
-                {if $contact_sub_type OR $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name OR $contactTag OR $source}
+                {if $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name OR $contactTag OR $source}
                 <div id="contactTopBar" class="ui-corner-all">
                     <table>
-                        {if $contact_sub_type OR $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name}
+                        {if $current_employer_id OR $job_title OR $legal_name OR $sic_code OR $nick_name}
                         <tr>
-                            {if $contact_sub_type}
-                            <td class="label">{ts}Subtype{/ts}</td>
-                            <td>{$contact_sub_type}</td>
-                            {/if}
                             {if $current_employer_id}
                             <td class="label">{ts}Employer{/ts}</td>
                             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$current_employer_id`"}" title="{ts}view current employer{/ts}">{$current_employer}</a></td>
@@ -94,7 +68,7 @@
                             <td class="label">{ts}SIC Code{/ts}</td>
                             <td>{$sic_code}</td>
                             {/if}
-                            {elseif $nick_name}
+                            {else}
                             <td class="label">{ts}Nickname{/ts}</td>
                             <td>{$nick_name}</td>
                             {/if}

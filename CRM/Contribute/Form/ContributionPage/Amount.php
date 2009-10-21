@@ -344,7 +344,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                          'is_pay_later'           => false,
                          'is_recur_interval'      => "null",
                          'recur_frequency_unit'   => "null",
-                         'default_amount_id'      => "null",
+                         'default_amount_id'      => null,
                          'is_allow_other_amount'  => false,
                          'amount_block_is_active' => false
                          );

@@ -300,7 +300,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         $waitingStatuses    = CRM_Event_PseudoConstant::participantStatus( null, "class = 'Waiting'" );
         $countedStatusIds   = implode( ',', array_keys( $countedStatuses ) );
         $onWaitlistStatusId = array_search( 'On waitlist', $waitingStatuses );
-
+        
         if ( !$countedStatusIds ) {
             $countedStatusIds = 0;
         }
@@ -335,13 +335,7 @@ Group By  waiting.event_id
                 }
             }
         }
-
-        $roleSQL = '';
-        if ( $countedRoles =
-             implode( ',', array_keys( CRM_Event_PseudoConstant::participantRole( null, 'filter = 1' ) ) ) ) {
-            $roleSQL = " AND counted.role_id IN ({$countedRoles})";
-        }
-
+        
         // participant has to have is_counted true for event to be full
         $query = " 
   SELECT  count(counted.id) as counted_participants,
@@ -352,7 +346,6 @@ Group By  waiting.event_id
      AND  counted.status_id IN ( {$countedStatusIds} )
      AND  counted.is_test = 0
      AND  counted.event_id = {$eventId}
-     {$roleSQL}
 GROUP BY  counted.event_id
 ";
         $counted =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );

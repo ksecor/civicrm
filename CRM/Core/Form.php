@@ -942,32 +942,21 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *  @param array  $attributes key / value pair 
      *                
      *  $arrtibutes = array ( 'addTime' => true, // if you need time 
+     *                        '24hour'  => false,
      *                        'formatType' => 'relative' or 'birth' etc check advanced date settings    
      *                      );            
      *  @param boolean $required  true if required
      *
      */
     function addDate( $name, $label, $required = false, $attributes = null ) {
-        if ( CRM_Utils_Array::value( 'formatType', $attributes ) ) {
-            // get actual format
-            $params = array( 'name' => $attributes['formatType'] );
-            $values = array( );
-            CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_PreferencesDate', $params, $values );
-            
-            $attributes['formatType']  = $values['format'];
-            $attributes['startOffset'] = $values['start']; 
-            $attributes['endOffset']   = $values['end'];  
-        } else {
-            $config =& CRM_Core_Config::singleton( );
-            $attributes['formatType']  = $config->dateInputFormat;
-            $attributes['startOffset'] = 10; 
-            $attributes['endOffset']   = 10; 
-        }
-        
         $this->add('text', $name, $label, $attributes );
 
         if ( CRM_Utils_Array::value( 'addTime', $attributes ) ) {
-            $this->add('text', $name . '_time', ts('Time') );
+            $timeAttributes['24hour'] = false;
+            if ( CRM_Utils_Array::value( '24hour', $attributes ) ) {
+                $timeAttributes['24hour'] = true;
+            }
+            $this->add('text', $name . '_time', ts('Time'), $timeAttributes );
         }
                 
         if ( $required ) {
@@ -978,9 +967,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
     }
     
-    /**
-     *  Function that will add date and time
-     */
     function addDateTime( $name, $label, $required = false, $attributes = null ) {
         $addTime = array( 'addTime' => true );
         if ( is_array( $attributes ) ) {

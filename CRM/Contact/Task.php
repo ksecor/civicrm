@@ -223,7 +223,6 @@ class CRM_Contact_Task {
      * @access public
      */
     static function &permissionedTaskTitles( $permission ) {
-        $tasks = array( );
         if ( $permission == CRM_Core_Permission::EDIT ) {
             $tasks = self::taskTitles( );
         } else {

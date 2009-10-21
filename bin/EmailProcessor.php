@@ -45,16 +45,6 @@ class EmailProcessor {
      * @return void
      */
     static function process( $civiMail = true ) {
-        require_once 'CRM/Core/OptionGroup.php';
-        $emailActivityTypeId = 
-            ( defined('EMAIL_ACTIVITY_TYPE_ID') && EMAIL_ACTIVITY_TYPE_ID )  ? 
-            EMAIL_ACTIVITY_TYPE_ID : CRM_Core_OptionGroup::getValue( 'activity_type', 
-                                                                     'Inbound Email 2', 
-                                                                     'name' );
-        if ( ! $emailActivityTypeId ) {
-            CRM_Core_Error::fatal( ts( 'Could not find a valid Activity Type ID for Inbound Email' ) );
-        }
-
 
         require_once 'CRM/Core/DAO/MailSettings.php';
         $dao = new CRM_Core_DAO_MailSettings;
@@ -97,6 +87,12 @@ class EmailProcessor {
                         }
                     } else {
                         // if its the activities that needs to be processed ..
+
+                        $emailActivityTypeId = 
+                            ( defined('EMAIL_ACTIVITY_TYPE_ID') && EMAIL_ACTIVITY_TYPE_ID )  ? 
+                            EMAIL_ACTIVITY_TYPE_ID : CRM_Core_OptionGroup::getValue( 'activity_type', 
+                                                                                     'Inbound Email', 
+                                                                                     'name' );
                         require_once 'CRM/Utils/Mail/Incoming.php';
                         $mailParams = CRM_Utils_Mail_Incoming::parseMailingObject( $mail );
 

@@ -13,7 +13,7 @@
     <column>hold_date</column>
     <column>reset_date</column>
     <row>
-      <value>100</value>  <!--  id  -->
+      <value>1</value>  <!--  id  -->
       <value>17</value> <!--  contact_id  -->
       <value>1</value>  <!--  location_type_id  -->
       <value>TestContact@example.com</value>  <!--  email  -->

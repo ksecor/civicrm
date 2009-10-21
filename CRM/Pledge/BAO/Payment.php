@@ -461,10 +461,10 @@ LIMIT 0, 1
 
         $params[1] = array( $pledgeID, 'Integer' );
         $payment = CRM_Core_DAO::executeQuery( $query, $params );
-        $paymentDetails = null;
-        if ( $payment->fetch( ) ) {
-            $paymentDetails = array( 'id'     => $payment->id,
-                                     'amount' => $payment->amount);
+        $paymentDetails = array( );
+        while ( $payment->fetch( ) ) {
+            $paymentDetails[] = array( 'id'     => $payment->id,
+                                       'amount' => $payment->amount);
         }
 
         return $paymentDetails;

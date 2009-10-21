@@ -33,8 +33,6 @@
  *
  */
 
-define( 'THROTTLE_REQUESTS', 0 );
-
 function run( ) {
     session_start( );                               
 
@@ -146,11 +144,6 @@ ORDER BY a.id
 
         $maxTries = 5;
         do {
-            if ( defined( 'THROTTLE_REQUESTS' ) &&
-                 THROTTLE_REQUESTS ) {
-                usleep( 50000 );
-            }
-
             eval( $config->geocodeMethod . '::format( $params, true );' );
             array_shift( $params );
             $maxTries--;

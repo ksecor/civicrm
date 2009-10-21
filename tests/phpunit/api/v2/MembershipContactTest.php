@@ -49,7 +49,7 @@ class api_v2_MembershipContactTest extends CiviUnitTestCase {
         parent::setUp();
 
         $this->_contactID           = $this->individualCreate( ) ;
-        $this->_membershipTypeID    = $this->membershipTypeCreate( $this->_contactID  );
+        $this->_membershipTypeID    = $this->membershipTypeCreate( $this->_contactID  );        
         $this->_membershipStatusID  = $this->membershipStatusCreate( 'test status' );                
 
         $params = array(

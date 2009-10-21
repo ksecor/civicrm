@@ -15,7 +15,8 @@
                     {$membership_status_val.html}
                     </div>
                     {/foreach}
-                </div>
+                </div><div class="spacer"></div>
+                {$form.member_is_primary.html}&nbsp;{$form.member_is_primary.label}
     </td>
 </tr>
 
@@ -25,7 +26,6 @@
      <br />{$form.member_source.html}
     </td>
     <td>
-     {$form.member_is_primary.html} {help id="id-member_is_primary" file="CRM/Member/Form/Search.hlp"}<br />
      {$form.member_pay_later.html}&nbsp;{$form.member_pay_later.label}<br />
      {$form.member_test.html}&nbsp;{$form.member_test.label}
     </td> 

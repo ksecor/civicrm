@@ -255,12 +255,12 @@ class CRM_Core_BAO_SchemaHandler
                 $sql .= ", DROP PRIMARY KEY";
             }
             if ( CRM_Utils_Array::value( 'fk_table_name', $params ) ) {
-                $sql .= ", DROP FOREIGN KEY FK_{$params['fkName']}";
+                $sql .= ", DROP FOREIGN KEY FK_{$params['table_name']}_{$params['name']}";
             }
             break;
             
         }
-
+        
         $dao =& CRM_Core_DAO::executeQuery( $sql );
         $dao->free();
         

@@ -9,19 +9,17 @@
     </dl>
   </div>
  {/if}
-    {include file="CRM/common/jsortable.tpl"}
+
   	{if $groupIn }
 	<div><label>{ts}Current Groups{/ts}</label></div>
 	{strip}
-    <table id="options" class="display">
-    <thead>
-        <tr>
+	<table class="selector">
+        <tr class="columnheader">
 		<th>{ts}Group{/ts}</th>
 		<th>{ts}Status{/ts}</th>
 		<th>{ts}Date Added{/ts}</th>
 		<th></th>
 	</tr>
-    </thead>
        	{foreach from=$groupIn item=row}
         <tr class="{cycle values="odd-row,even-row"}">
         	<td class="bold"><a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">{$row.title}</a></td>
@@ -43,15 +41,13 @@
         <div class="label status-pending">{ts}Pending{/ts}</div> 
         <div class="description">{ts}Joining these group(s) is pending confirmation by this contact.{/ts}</div>	
 	{strip}
-    <table id="options" class="display">
-    <thead>
-	<tr>
+	<table class="selector">
+	<tr class="columnheader">
 		<th>{ts}Group{/ts}</th>
 		<th>{ts}Status{/ts}</th>
 		<th>{ts}Date Pending{/ts}</th>
 		<th></th>
 	</tr>
-    </thead>
    	{foreach from=$groupPending item=row}
         <tr class="{cycle values="odd-row,even-row"}">
             <td class="bold"><a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">{$row.title}</a></td>
@@ -68,16 +64,14 @@
 	<div class="label status-removed">{ts}Past Groups{/ts}</div>
     <div class="description">{ts 1=$displayName}%1 is no longer part of these group(s).{/ts}</div>
     {strip}
-    <table id="options" class="display">
-    <thead>
-	<tr>
+	<table class="selector">
+	<tr class="columnheader">
 		<th>{ts}Group{/ts}</th>
 		<th>{ts}Status{/ts}</th>
         <th>{ts}Date Added{/ts}</th>
 		<th>{ts}Date Removed{/ts}</th>
 		<th></th>
 	</tr>
-    </thead>
     {foreach from=$groupOut item=row}
         <tr class="{cycle values="odd-row,even-row"}">
             <td class="bold"><a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">{$row.title}</a></td>

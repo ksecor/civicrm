@@ -249,7 +249,7 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
     static function honorRoll( $pcpId )
     {
         $query = "
-            SELECT cc.id, cs.pcp_roll_nickname, cs.pcp_personal_note,
+            SELECT cc.id, cs.pcp_roll_nickname, 
                    cc.total_amount, cc.currency
             FROM civicrm_contribution cc 
                  LEFT JOIN civicrm_contribution_soft cs ON cc.id = cs.contribution_id
@@ -263,7 +263,6 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
         while( $dao->fetch() ) {
             $honor[$dao->id]['nickname']     = ucwords($dao->pcp_roll_nickname);
             $honor[$dao->id]['total_amount'] = CRM_Utils_Money::format( $dao->total_amount, $dao->currency );
-            $honor[$dao->id]['personal_note'] = $dao->pcp_personal_note;
         }
         return $honor;
     }

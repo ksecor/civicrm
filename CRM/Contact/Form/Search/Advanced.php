@@ -233,6 +233,10 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
             } else {
                 $this->set( 'id', '' );
             }
+            
+            // also reset the sort by character 
+            $this->_sortByCharacter = null;
+            $this->set( 'sortByCharacter', null );
         }
 
         // retrieve ssID values only if formValues is null, i.e. form has never been posted

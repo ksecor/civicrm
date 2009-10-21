@@ -279,7 +279,7 @@ class CRM_Activity_BAO_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                         new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                             dirname(__FILE__)
-                            . '/activities_for_dashboard_count.xml') );
+                            . '/dataset.xml') );
 
         require_once 'CRM/Activity/BAO/Activity.php';
         $activityCount = CRM_Activity_BAO_Activity::getActivitiesCount( null, true, null, 'home' );
@@ -298,7 +298,7 @@ class CRM_Activity_BAO_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                         new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                             dirname(__FILE__)
-                            . '/activities_for_dashboard_count.xml') );
+                            . '/dataset.xml') );
 
         $contactID = 9;
         require_once 'CRM/Activity/BAO/Activity.php';
@@ -318,7 +318,7 @@ class CRM_Activity_BAO_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
         new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
             dirname(__FILE__)
-            . '/activities_for_dashboard_count.xml') );
+            . '/dataset.xml') );
 
         $contactID = 9;
         require_once 'CRM/Activity/BAO/Activity.php';
@@ -338,7 +338,7 @@ class CRM_Activity_BAO_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
         new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
             dirname(__FILE__)
-            . '/activities_for_dashboard_count.xml') );
+            . '/dataset.xml') );
 
         $contactID = 17;
         require_once 'CRM/Activity/BAO/Activity.php';
@@ -357,7 +357,7 @@ class CRM_Activity_BAO_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                         new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                             dirname(__FILE__)
-                            . '/activities_for_dashboard_count.xml') );
+                            . '/dataset.xml') );
 
         require_once 'CRM/Activity/BAO/Activity.php';
         $data = array( );
@@ -383,7 +383,7 @@ class CRM_Activity_BAO_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
                         new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
                             dirname(__FILE__)
-                            . '/activities_for_dashboard_count.xml') );
+                            . '/dataset.xml') );
 
         require_once 'CRM/Activity/BAO/Activity.php';
         $contactID = 9;
@@ -416,7 +416,7 @@ class CRM_Activity_BAO_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
         new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
             dirname(__FILE__)
-            . '/activities_for_dashboard_count.xml') );
+            . '/dataset.xml') );
 
         require_once 'CRM/Activity/BAO/Activity.php';
         $contactID = 9;
@@ -459,7 +459,7 @@ class CRM_Activity_BAO_ActivityTest extends CiviUnitTestCase
         $op->execute( $this->_dbconn,
         new PHPUnit_Extensions_Database_DataSet_FlatXMLDataSet(
             dirname(__FILE__)
-            . '/activities_for_dashboard_count.xml') );
+            . '/dataset.xml') );
 
         require_once 'CRM/Activity/BAO/Activity.php';
         $contactID = 17;

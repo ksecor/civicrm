@@ -154,12 +154,6 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
         }
 
-        if ( CRM_Utils_Array::value( 'contact_sub_type',  $defaults ) ) {
-            $defaults['contact_sub_type'] = 
-                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_ContactType', 
-                                             $defaults['contact_sub_type'], 'label', 'name' );
-        }
-
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();
 

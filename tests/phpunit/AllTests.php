@@ -35,7 +35,6 @@
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'Utils.php';
 require_once 'CiviTest/civicrm.settings.php';
-require_once 'CiviTest/CiviTestSuite.php';
 
 /**
  *  Class containing all test suites
@@ -59,7 +58,7 @@ class AllTests
      */
     public static function suite()
     {
-        $suite = new CiviTestSuite('CiviCRM');
+        $suite = new PHPUnit_Framework_TestSuite('CiviCRM');
         $dir_name = dirname( __FILE__ );
         $dir = opendir( $dir_name );
         while( false !== ( $file = readdir( $dir ) ) ) {
@@ -92,8 +91,7 @@ class AllTests
                    . "CREATE DATABASE civicrm_tests_dev DEFAULT"
                    . " CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
                    . "USE civicrm_tests_dev;"
-                   . "SET SQL_MODE='STRICT_ALL_TABLES';"
-                   . "SET foreign_key_checks = 1";
+                   . "SET foreign_key_checks = 0";
             if ( self::$utils->do_query($query) === false ) {
 
                 //  failed to create test database

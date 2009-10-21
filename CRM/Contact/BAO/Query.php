@@ -2464,7 +2464,7 @@ WHERE  id IN ( $groupIDs )
         $name = trim( $value );
         $cond = " contact_a.sort_name LIKE '" . strtolower(CRM_Core_DAO::escapeString($name)) . "%'"; 
         $this->_where[$grouping][] = $cond;
-        $this->_qill[$grouping][]  = ts( 'Showing only Contacts starting with: \'%1\'', array( 1 => $name ) );
+        $this->_qill[$grouping][]  = ts( 'Restricted to Contacts starting with: \'%1\'', array( 1 => $name ) );
     }
 
     /**

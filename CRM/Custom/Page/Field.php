@@ -174,7 +174,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page
             $customFieldDataType = CRM_Core_BAO_CustomField::dataType();
             $customField[$customFieldBAO->id]['data_type'] =
                 $customFieldDataType[$customField[$customFieldBAO->id]['data_type']];
-            $customField[$customFieldBAO->id]['order']  = $customField[$customFieldBAO->id]['weight'];
+
             $customField[$customFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('id'  => $customFieldBAO->id,
                                                                                           'gid' => $this->_gid ));

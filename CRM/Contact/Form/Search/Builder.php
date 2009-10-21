@@ -323,6 +323,10 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
             } else {
                 $this->set( 'id', '' ); 
             }
+            
+            // also reset the sort by character 
+            $this->_sortByCharacter = null; 
+            $this->set( 'sortByCharacter', null ); 
         }
 
         // we dont want to store the sortByCharacter in the formValue, it is more like 

@@ -84,25 +84,6 @@ class CRM_Grant_Form_GrantView extends CRM_Core_Form
             $this->assign( 'note', CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' ) );
         }
 
-
-        // add Grant to Recent Items
-        require_once 'CRM/Utils/Recent.php';
-        require_once 'CRM/Contact/BAO/Contact.php';
-        require_once 'CRM/Utils/Money.php';
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/grant', 
-               "action=view&reset=1&id={$values['id']}&cid={$values['contact_id']}" );
-       
-        $title = CRM_Contact_BAO_Contact::displayName($values['contact_id'] ) . ' - ' . ts('Grant') . ': ' .
-                 CRM_Utils_Money::format( $values['amount_total'] ) . ' (' . 
-                 $grantType[$values['grant_type_id']] . ')';
-
-        CRM_Utils_Recent::add( $title,
-                               $url,
-                               $values['id'],
-                               'Grant',
-                               $values['contact_id'],
-                               null );
-
         require_once 'CRM/Core/BAO/File.php';
         $attachment = CRM_Core_BAO_File::attachmentInfo( 'civicrm_grant',
                                                          $this->_id );

@@ -56,6 +56,10 @@ class api_v2_EntityTagTest extends CiviUnitTestCase
     
     function tearDown( ) 
     {
+        $this->contactDelete( $this->_individualID );
+        $this->contactDelete( $this->_householdID );
+        $this->contactDelete( $this->_organizationID );
+        $this->tagDelete( $this->_tagID );
     }
 
     ///////////////// civicrm_entity_tag_add methods

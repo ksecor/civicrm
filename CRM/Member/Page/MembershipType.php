@@ -176,7 +176,6 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
                 } else {
                     $action -= CRM_Core_Action::DISABLE;
                 }
-                $membershipType[$dao->id]['order']  = $membershipType[$dao->id]['weight'];
                 $membershipType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                                 array('id' => $dao->id));
             }            

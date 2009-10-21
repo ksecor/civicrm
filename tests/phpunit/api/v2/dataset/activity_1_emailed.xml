@@ -38,7 +38,7 @@
 This is a test activity
 </value>  <!--  details  -->
       <value>2</value>  <!--  status_id  -->
-      <value>2</value>  <!--  priority_id  -->
+      <value>0</value>  <!--  priority_id  -->
       <null />  <!--  parent_id  -->
       <value>0</value>  <!--  is_test  -->
       <null />  <!--  medium_id  -->

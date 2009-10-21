@@ -171,12 +171,6 @@ class CRM_Report_Form extends CRM_Core_Form {
                                          'YEAR'     => 'Year'  );
     
     /**
-     * Variables to hold the acl inner join and where clause
-     */
-    protected $_aclFrom  = null;
-    protected $_aclWhere = null;
-
-    /**
      * 
      */
     function __construct( ) {
@@ -1410,10 +1404,4 @@ class CRM_Report_Form extends CRM_Core_Form {
                           WHERE {$clause} AND {$this->_aliases['civicrm_group']}.status = 'Added' 
                           {$smartGroupQuery} ) ";
     }
-
-    function buildACLClause( $tableAlias = 'contact_a' ) {
-        require_once 'CRM/Contact/BAO/Contact/Permission.php';
-        list( $this->_aclFrom, $this->_aclWhere ) = CRM_Contact_BAO_Contact_Permission::cacheClause( $tableAlias );
-    }
-
 }

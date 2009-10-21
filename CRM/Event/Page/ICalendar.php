@@ -57,14 +57,13 @@ class CRM_Event_Page_ICalendar extends CRM_Core_Page
         $id       = CRM_Utils_Request::retrieve('id'   , 'Positive', $this, false, null, 'GET' );
         $type     = CRM_Utils_Request::retrieve('type' , 'Positive', $this, false, 0);
         $start    = CRM_Utils_Request::retrieve('start', 'Positive', $this, false, 0);
-        $end      = CRM_Utils_Request::retrieve('end'  , 'Positive', $this, false, 0);
         $iCalPage = CRM_Utils_Request::retrieve('page' , 'Positive', $this, false, 0);
         $gData    = CRM_Utils_Request::retrieve('gData', 'Positive', $this, false, 0);
         $html     = CRM_Utils_Request::retrieve('html' , 'Positive', $this, false, 0);
         $rss      = CRM_Utils_Request::retrieve('rss'  , 'Positive', $this, false, 0);
        
         require_once "CRM/Event/BAO/Event.php";
-        $info = CRM_Event_BAO_Event::getCompleteInfo( $start, $type, $id, $end );
+        $info = CRM_Event_BAO_Event::getCompleteInfo( $start, $type, $id );
         $this->assign( 'events', $info );
         
         // Send data to the correct template for formatting (iCal vs. gData)

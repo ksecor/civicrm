@@ -207,14 +207,24 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
             require_once 'CRM/Price/BAO/Set.php';
             $this->_priceSetID = CRM_Price_BAO_Set::getFor( 'civicrm_contribution_page', $this->_id );
             if ( $this->_priceSetID ) $defaults['price_set_id'] = $this->_priceSetID;
-            
-            list( $defaults['end_date'], $defaults['end_date_time'] )     = CRM_Utils_Date::setDateDefaults( $defaults['end_date'] );
         } else {
             $defaults['is_active'] = 1;
         }
+        $defaults['start_date'] = CRM_Utils_Date::customformat( $defaults['start_date'], 
+                                                                $config->dateformatQfDate.'::'.$config->dateformatTime );
+        list( $defaults['start_date'], $defaults['start_time'] ) = explode( '::', $defaults['start_date'] );
         
-        list( $defaults['start_date'], $defaults['start_date_time'] ) = CRM_Utils_Date::setDateDefaults( 
-                                                                        CRM_Utils_Array::value( 'start_date' , $defaults ) );
+        $defaults['end_date'] = CRM_Utils_Date::customformat( $defaults['end_date'], 
+                                                              $config->dateformatQfDate.'::'.$config->dateformatTime );
+        list( $defaults['end_date'], $defaults['end_time'] ) = explode( '::', $defaults['end_date'] );
+        
+        // Set start date to now if this is a new contribution page.
+        if( !isset ( $this->_id) ) {
+            $defaultDate = array( );
+            CRM_Utils_Date::getAllDefaultValues( $defaultDate );
+            $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
+            $defaults['start_date'] = $defaultDate;
+        }
 
         if (! isset($defaults['for_organization'])) {
             $defaults['for_organization'] = ts('I am contributing on behalf of an organization.');

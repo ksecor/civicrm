@@ -34,7 +34,6 @@
  */
 
 require_once 'CRM/Core/DAO/OptionValue.php';
-require_once 'CRM/Core/DAO/OptionGroup.php';
 
 class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue 
 {
@@ -138,7 +137,7 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
     {
         $optionValue =& new CRM_Core_DAO_OptionValue( );
         $optionValue->id = $optionValueId;
-	require_once 'CRM/Core/Action.php';
+
         if ( self::updateRecords($optionValueId, CRM_Core_Action::DELETE) ){
             return $optionValue->delete();        
         }

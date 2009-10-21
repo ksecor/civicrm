@@ -230,7 +230,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
-            $customGroup[$dao->id]['order']  = $customGroup[$dao->id]['weight'];
+            
             $customGroup[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('id' => $dao->id));
         }
@@ -275,32 +275,23 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
 
         $subTypes['Contact']  =  $contactSubTypes;
         foreach ($customGroup as $key => $values ) {
-            $subValue = CRM_Utils_Array::value( 'extends_entity_column_value', $customGroup[$key] );
+            $sub      = CRM_Utils_Array::value( 'extends_entity_column_value', $customGroup[$key] );
 			$subName  = CRM_Utils_Array::value( 'extends_entity_column_id', $customGroup[$key] );
-            $type     = CRM_Utils_Array::value( 'extends', $customGroup[$key] );
-            if ( $subValue ) {
-                $subValue = explode( CRM_Core_DAO::VALUE_SEPARATOR, $subValue );
-                $colValue = null;
-                foreach ( $subValue as $sub ) {
-                    if ( $sub ) {
-                        if ( $type == 'Relationship') {
-                            $sub = $sub . '_a_b';
-                        } 
-                        if ( $type == 'Participant') {
-                            if ( $subName == 1 ) {
-                                $colValue = $colValue ? $colValue . ', ' . 
-                                    $subTypes['ParticipantRole'][$sub] : $subTypes['ParticipantRole'][$sub];
-                            } elseif ( $subName == 2 ) {
-                                $colValue = $colValue ? $colValue . ', ' .  
-                                    $subTypes['ParticipantEventName'][$sub] : $subTypes['ParticipantEventName'][$sub];
-                            }
-                        } else {
-                            $colValue = $colValue ? $colValue . ', ' . 
-                                $subTypes[$type][$sub] : $subTypes[$type][$sub];
-                        }
-                    }
-                }
-                $customGroup[$key]["extends_entity_column_value"] = $colValue;
+            if ( $customGroup[$key]['extends'] == 'Relationship' && CRM_Utils_Array::value('extends_entity_column_value', $customGroup[$key] ) ) {
+                $sub = $sub.'_a_b';
+            }
+            $type = CRM_Utils_Array::value( 'extends', $customGroup[$key] );
+                        
+            if ( $sub ) {
+				if ( $type == 'Participant') {
+					if ( $subName == 1 ) {
+						$customGroup[$key]["extends_entity_column_value"] = $subTypes['ParticipantRole'][$sub];
+					} elseif ( $subName == 2 ) {
+						$customGroup[$key]["extends_entity_column_value"] = $subTypes['ParticipantEventName'][$sub];
+					}
+				} else {
+					$customGroup[$key]["extends_entity_column_value"] = $subTypes[$type][$sub];
+				}
             } else {
                 if ( is_array( CRM_Utils_Array::value( $type, $subTypes ) ) ) {
                     $customGroup[$key]["extends_entity_column_value"] = ts("Any");

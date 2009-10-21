@@ -20,7 +20,8 @@
   <field>
       <name>user_id</name>
       <type>int unsigned</type>
-      <comment>FK to civicrm_contact (could be null for anon user)</comment>
+      <required>true</required>
+      <comment>FK to civicrm_contact</comment>
        <add>3.1</add>
   </field>
   <foreignKey>

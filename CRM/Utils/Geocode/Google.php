@@ -127,14 +127,7 @@ class CRM_Utils_Geocode_Google {
         $request->sendRequest( );
         $string = $request->getResponseBody( );
 
-        libxml_use_internal_errors( true );
-        $xml = @simplexml_load_string( $string );
-        if ( $xml === false ) {
-            // account blocked maybe?
-            return false;
-        }
-
-
+        $xml = simplexml_load_string( $string );
         $ret = array( );
         $val = array( );
         if ( is_a($xml->Response->Placemark->Point, 'SimpleXMLElement') ) {

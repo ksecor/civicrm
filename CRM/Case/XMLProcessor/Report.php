@@ -478,7 +478,7 @@ FROM   civicrm_custom_group cg,
        civicrm_custom_field cf
 WHERE  cf.custom_group_id = cg.id
 AND    cg.extends = 'Activity'
-AND    cg.extends_entity_column_value LIKE '" . CRM_Core_DAO::VALUE_SEPARATOR . "%1" . CRM_Core_DAO::VALUE_SEPARATOR . "'
+AND    cg.extends_entity_column_value = %1
 ";
             $params = array( 1 => array( $activityTypeID,
                                          'Integer' ) );

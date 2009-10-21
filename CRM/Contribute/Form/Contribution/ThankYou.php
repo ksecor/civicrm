@@ -95,9 +95,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             require_once 'CRM/Contribute/BAO/Premium.php';  
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
         }
-        
+
         $this->assign( 'lineItem', $this->_lineItem );
-        $this->assign( 'priceSetID', $this->_priceSetId );
         $params = $this->_params;
      
         $honor_block_is_active = $this->get( 'honor_block_is_active'); 

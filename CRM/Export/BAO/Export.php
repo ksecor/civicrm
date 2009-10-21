@@ -430,23 +430,16 @@ class CRM_Export_BAO_Export
                     
                     //Get relationships
                     $val = civicrm_contact_relationship_get($contact_id,null,$params);
-                    if ( !empty($val) ) {
-                        asort($val['result']);
-                    }
-                    
+
                     $is_valid = null ;
                     if ( $val['result'] ){
                         foreach( $val['result'] as $k => $v ){
-                            //consider only active relationships
-                            if ( $v['is_active'] ) {  
-                                $cID['contact_id'] = $v['cid'];
-                                if ( $cID ) {
-                                    //Get Contact Details
-                                    $data = CRM_Contact_BAO_Contact::retrieve($cID ,$defaults );
-                                }
-                                $is_valid = true;
-                                break;
+                            $cID['contact_id'] = $v['cid'];
+                            if ( $cID ) {
+                                //Get Contact Details
+                                $data = CRM_Contact_BAO_Contact::retrieve($cID ,$defaults );
                             }
+                            $is_valid = true;
                         }
                     }
 

@@ -343,22 +343,17 @@ WHERE  contribution_id = {$this->_id}
             $this->_contributionType = $this->_values['contribution_type_id'];
             
             $csParams = array( 'contribution_id' => $this->_id );
-            $softCredit = CRM_Contribute_BAO_Contribution::getSoftContribution( $csParams, true );
+            $softCredit = CRM_Contribute_BAO_Contribution::getSoftContribution( $csParams );
            
-            if ( CRM_Utils_Array::value( 'soft_credit_to', $softCredit ) ) {
-                $softCredit['sort_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                                        $softCredit['soft_credit_to'], 'sort_name' );
-                
+            if ( $softCredit ) {
+                require_once 'CRM/Core/DAO.php';
+                $softCredit['sort_name']           = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                                                  $softCredit['soft_credit_to'], 'sort_name' );
+                $this->_values['soft_credit_to'  ] = $softCredit['sort_name'     ];
+                $this->_values['softID'          ] = $softCredit['soft_credit_id'];
+                $this->_values['soft_contact_id' ] = $softCredit['soft_credit_to'];
             }
-            $this->_values['soft_credit_to' ] = $softCredit['sort_name'     ];
-            $this->_values['softID'         ] = $softCredit['soft_credit_id'];
-            $this->_values['soft_contact_id'] = $softCredit['soft_credit_to'];
-            
-            $this->_values['pcp_made_through_id']  = $softCredit['pcp_id'];
-            $this->_values['pcp_display_in_roll' ] = $softCredit['pcp_display_in_roll'];
-            $this->_values['pcp_roll_nickname' ]   = $softCredit['pcp_roll_nickname'];
-            $this->_values['pcp_personal_note' ]   = $softCredit['pcp_personal_note'];
-            
+
             //display check number field only if its having value or its offline mode.
             if ( CRM_Utils_Array::value( 'payment_instrument_id', $this->_values ) == CRM_Core_OptionGroup::getValue( 'payment_instrument', 'Check', 'name' ) 
                  || CRM_Utils_Array::value( 'check_number', $this->_values ) ) {
@@ -506,13 +501,7 @@ WHERE  contribution_id = {$this->_id}
         $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
         
         $this->assign( 'currency', CRM_Utils_Array::value( 'currency', $defaults ) );
-        if ( CRM_Utils_Array::value( 'pcp_display_in_roll', $defaults ) == 1 ) {
-            if ( $defaults['pcp_roll_nickname'] == ts('Anonymous') ) {
-                $defaults['pcp_is_anonymous'] = 1;
-            } else {
-                $defaults['pcp_is_anonymous'] = 0;
-            }
-        }
+              
         return $defaults;
     }
     
@@ -748,9 +737,9 @@ WHERE  contribution_id = {$this->_id}
         
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
         
-        $element = $this->add( 'select', 'payment_processor_id',
-                               ts( 'Payment Processor' ),
-                               $this->_processors );
+        $element =& $this->add( 'select', 'payment_processor_id',
+                                ts( 'Payment Processor' ),
+                                $this->_processors );
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -764,7 +753,6 @@ WHERE  contribution_id = {$this->_id}
                 $element = $this->add( 'select', 'price_set_id', ts( 'Choose price set' ),
                                        array( '' => ts( 'Choose price set' )) + $priceSets,
                                        null, array('onchange' => "buildAmount( this.value );" ) );
-                if ( $this->_online ) $element->freeze( );
             }
             $this->assign( 'hasPriceSets', $hasPriceSets );
             $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
@@ -786,27 +774,6 @@ WHERE  contribution_id = {$this->_id}
         $this->assign('dataUrl',$dataUrl );                                          
         $this->addElement( 'text', 'soft_credit_to', ts('Soft Credit To') );
         $this->addElement( 'hidden', 'soft_contact_id', '', array( 'id' => 'soft_contact_id' ) );
-        if ( CRM_Utils_Array::value( 'pcp_made_through_id', $defaults ) &&
-             $this->_action & CRM_Core_Action::UPDATE ) {
-            $this->assign( 'pcp', true );
-            $ele = $this->addElement('select', 'pcp_made_through_id', 
-                                     ts( 'Personal Campaign Page' ),
-                                     array( '' => ts( '- select -' ) ) +
-                                     CRM_Contribute_PseudoConstant::pcPage( ) );
-            $ele->freeze();
-            $this->add( 'checkbox', 'pcp_display_in_roll', ts('Show my contribution in the public honor roll'), null, null,
-                        array('onclick' => "showHideByValue('pcp_display_in_roll','','nameID|nickID|personalNoteID','table-row','radio',false); pcpAnonymous( );")
-                        );
-            $extraOption = array('onclick' =>"return pcpAnonymous( );");
-            $elements = array( );
-            $elements[] =& $this->createElement('radio', null, '', ts( 'Include my name and message'), 0, $extraOption );
-            $elements[] =& $this->createElement('radio', null, '', ts( 'List my contribution anonymously'), 1, $extraOption );
-            $this->addGroup( $elements, 'pcp_is_anonymous', null, '&nbsp;&nbsp;&nbsp;' );
-            
-            $this->add( 'text', 'pcp_roll_nickname', ts('Name'), array( 'size' => 25, 'maxlength' => 20 ) );
-            $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 4, 'coloums' => 80 ) );
-        }
-
         $js = null;
         if ( !$this->_mode ) {
             $js = array( 'onclick' => "return verify( );" );    
@@ -883,7 +850,6 @@ WHERE  contribution_id = {$this->_id}
                 $priceField->find( );
                 
                 $priceFields = array( );
-                
                 while ( $priceField->fetch( ) ) {
                     $key = "price_{$priceField->id}";
                     if ( CRM_Utils_Array::value( $key, $fields ) ) {
@@ -907,15 +873,10 @@ SELECT  id, html_type
                     $setectedAmounts = $amountIds = array( );
                     foreach ( $htmlTypes as $fieldId => $type ) {
                         if ( $type == 'Text' ) {
-                            $sql = "
-   SELECT val.id, val.name 
-     FROM civicrm_option_value val
-LEFT JOIN civicrm_option_group grp ON ( grp.id = val.option_group_id )
-    WHERE grp.name = 'civicrm_price_field.amount.$fieldId'";
-                            $textValue = CRM_Core_DAO::executeQuery( $sql );
-                            while( $textValue->fetch( ) ) {
-                                // calculate text price field amount here itself.
-                                $setectedAmounts[$textValue->id] = $priceFields[$fieldId]*$textValue->name;
+                            // we are interesting only in single
+                            // amount, so hopefully we'll minimize queries.
+                            if ( $priceFields[$fieldId] > 0 ) {
+                                $setectedAmounts[$fieldId] = $priceFields[$fieldId];
                             }
                         } else {
                             if ( is_array( $priceFields[$fieldId] ) ) {
@@ -926,9 +887,9 @@ LEFT JOIN civicrm_option_group grp ON ( grp.id = val.option_group_id )
                         }
                     }
                     
-                    if ( !empty( $amountIds ) ) {
+                    if ( empty( $setectedAmounts ) && !empty( $amountIds ) ) {
                         $sql = "
-SELECT  id, name
+SELECT  id, name 
   FROM  civicrm_option_value 
  WHERE  id IN (" .implode( ',', $amountIds ).')';
                         $optionsDAO = CRM_Core_DAO::executeQuery( $sql );
@@ -938,11 +899,15 @@ SELECT  id, name
                     }
                     
                     // now we have all selected amount in hand.
-                    $totalAmount = array_sum( $setectedAmounts );
+                    $amount = 0;
+                    if ( !empty( $setectedAmounts ) ) {
+                        foreach ( $setectedAmounts as $priceId => $value ) {
+                            if ( $value > 0 ) $amount += $value;  
+                        }
+                    }
                     
-                    if ( $totalAmount < 0 ) {
-                        $errors['_qf_default'] 
-                            = ts( "Contribution can not be less than zero. Please select the options accordingly." );
+                    if ( $amount <= 0 ) {
+                        $errors['_qf_default'] = ts( "It looks like sum of your selected Fee Option(s) is zero, Please select at least one positive amount fee option." );
                     }
                 } else {
                     $errors['_qf_default'] = ts( "Please select at least one option from contribution price set." );
@@ -971,7 +936,7 @@ SELECT  id, name
         
         // get the submitted form values.  
         $submittedValues = $this->controller->exportValues( $this->_name );
-
+        
         // process price set and get total amount and line items.
         $lineItem = array( );
         $priceSetId = null;
@@ -1010,7 +975,7 @@ SELECT  id, name
             
             //Get the rquire fields value only.
             $params = $this->_params = $submittedValues;
-
+                    
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
             $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_params['payment_processor_id'],
                                                                                   $this->_mode );
@@ -1082,19 +1047,8 @@ SELECT  id, name
             $this->_params['payment_action'] = 'Sale';
                        
             if ( CRM_Utils_Array::value('soft_credit_to', $params) ) {
-                $this->_params['soft_credit_to'] = $params['soft_credit_to'];
-                $this->_params['pcp_made_through_id'] = $params['pcp_made_through_id'];
+                $this->_params['soft_credit_to'] =  $params['soft_credit_to'];
             } 
-            
-            $this->_params['pcp_display_in_roll'] = $params['pcp_display_in_roll'];
-            $this->_params['pcp_roll_nickname'] = $params['pcp_roll_nickname'];
-            $this->_params['pcp_personal_note'] = $params['pcp_personal_note'];
-
-            if ( CRM_Utils_Array::value( 'pcp_is_anonymous', $params ) == 1) {
-                $this->_params['pcp_roll_nickname'] = ts('Anonymous');
-                $this->_params['pcp_personal_note'] = 'null';
-            }
-            
             //Add common data to formatted params
             CRM_Contribute_Form_AdditionalInfo::postProcessCommon( $params, $this->_params );
             
@@ -1276,21 +1230,13 @@ SELECT  id, name
                              'cancel_reason',
                              'source',
                              'check_number',
-                             'soft_credit_to',
-                             'pcp_is_anonymous',
-                             'pcp_made_through_id',
-                             'pcp_display_in_roll',
-                             'pcp_roll_nickname',
-                             'pcp_personal_note',
+                             'soft_credit_to'
                              );
             
             foreach ( $fields as $f ) {
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
-            if ( CRM_Utils_Array::value( 'pcp_is_anonymous', $params ) == 1 ) {
-                $params['pcp_roll_nickname'] = ts('Anonymous');
-                $params['pcp_personal_note'] = 'null';
-            }  
+           
             if ( $softID = CRM_Utils_Array::value( 'softID', $this->_values ) ){
                 $params['softID'] = $softID;
             }

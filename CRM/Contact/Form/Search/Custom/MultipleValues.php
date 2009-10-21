@@ -190,11 +190,8 @@ contact_a.sort_name    as sort_name,
         foreach ( $this->_options as $fieldID => $values ) {
             $customVal = $valueSeparatedArray = array();
             if ( in_array( $values['attributes']['html_type'],
-                           array( 'Radio', 'Select', 'Autocomplete-Select' ) ) ) {
-                if ( $values['attributes']['data_type'] == 'ContactReference' && $row["custom_{$fieldID}"] ) {
-                    $row["custom_{$fieldID}"] =
-                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', (int)$row["custom_{$fieldID}"], 'display_name' );
-                } else if ( $row["custom_{$fieldID}"] &&
+                           array( 'Radio', 'Select' ) ) ) {
+                if ( $row["custom_{$fieldID}"] &&
                      array_key_exists( $row["custom_{$fieldID}"],
                                        $values ) ) {
                     $row["custom_{$fieldID}"] = $values[$row["custom_{$fieldID}"]];

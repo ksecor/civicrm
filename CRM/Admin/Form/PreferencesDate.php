@@ -72,8 +72,8 @@ class CRM_Admin_Form_PreferencesDate extends CRM_Admin_Form
         $this->add('text', 'start'           , ts('Start Offset'    ), $attribute , true  );
         $this->add('text', 'end'             , ts('End Offset'      ), $attribute , true  );
         $this->add('text', 'minute_increment', ts('Minute Increment'), $attribute , false );
-        $this->add('select', 'format'        , ts('Format'), CRM_Core_SelectValues::getDatePluginInputFormats( ) );
-        
+        $this->add('text', 'format'          , ts('Format')          , $formatAttr, false );
+
         $this->addRule( 'start'           , ts( 'Value should be a positive number' ) , 'positiveInteger');
         $this->addRule( 'end'             , ts( 'Value should be a positive number' ) , 'positiveInteger');
         $this->addRule( 'minute_increment', ts( 'Value should be a positive number' ) , 'positiveInteger');

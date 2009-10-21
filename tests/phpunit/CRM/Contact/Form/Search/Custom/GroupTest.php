@@ -170,8 +170,9 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
      *  Test something
      *  @todo write this test
      */
-    public function SKIPPED_testBuildForms()
+    public function testBuildForms()
     {
+        throw new PHPUnit_Framework_IncompleteTestError("test not implemented");
     }
 
     /**
@@ -194,8 +195,9 @@ class CRM_Contact_Form_Search_Custom_GroupTest extends CiviUnitTestCase
      *  Test CRM_Contact_Form_Search_Custom_Group::from()
      *  @todo write this test
      */
-    public function SKIPPED_testFrom()
+    public function testFrom()
     {
+        throw new PHPUnit_Framework_IncompleteTestError("test not implemented");
     }
 
     /**

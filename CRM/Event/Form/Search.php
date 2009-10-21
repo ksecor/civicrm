@@ -490,26 +490,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             }
             $this->_formValues['participant_status_id'] = $status;    
         }
-
-        $role = CRM_Utils_Request::retrieve( 'role', 'String',
-                                             CRM_Core_DAO::$_nullObject );
-        
-        if ( isset ( $role ) ) {
-            require_once 'CRM/Event/PseudoConstant.php';
-            if ( $role === 'true' ) {
-                $roleTypes = CRM_Event_PseudoConstant::participantRole( null, "filter = 1" );
-            } elseif ( $role === 'false' ) {
-                $roleTypes = CRM_Event_PseudoConstant::participantRole( null, "filter = 0" );
-            } elseif (is_numeric($role)) {
-                $role      = (int) $role;
-                $roleTypes = array( $role => CRM_Event_PseudoConstant::participantRole($role));
-            }
-            $role = array( );
-            foreach ( $roleTypes as $key => $value) {
-                $role[$key] = 1;
-            }
-            $this->_formValues['participant_role_id'] = $role;
-        }
         
         $type = CRM_Utils_Request::retrieve( 'type', 'Positive',
                                              CRM_Core_DAO::$_nullObject );
