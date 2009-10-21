@@ -1378,8 +1378,8 @@ table.campaign td,
 	border-right:1px solid #CCC;
 	}
 
-#panel, 
-.panel {
+#crm-container #panel, 
+#crm-container .panel {
   	display  : none;
   	z-index  : 1;
   	position : absolute;
