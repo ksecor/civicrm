@@ -506,7 +506,13 @@ WHERE  contribution_id = {$this->_id}
         $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
         
         $this->assign( 'currency', CRM_Utils_Array::value( 'currency', $defaults ) );
-              
+        if ( CRM_Utils_Array::value( 'pcp_display_in_roll', $defaults ) == 1 ) {
+            if ( $defaults['pcp_roll_nickname'] == ts('Anonymous') ) {
+                $defaults['pcp_is_anonymous'] = 1;
+            } else {
+                $defaults['pcp_is_anonymous'] = 0;
+            }
+        }
         return $defaults;
     }
     
@@ -782,15 +788,23 @@ WHERE  contribution_id = {$this->_id}
         $this->addElement( 'hidden', 'soft_contact_id', '', array( 'id' => 'soft_contact_id' ) );
         if ( CRM_Utils_Array::value( 'pcp_made_through_id', $defaults ) &&
              $this->_action & CRM_Core_Action::UPDATE ) {
+            $this->assign( 'pcp', true );
             $ele = $this->addElement('select', 'pcp_made_through_id', 
                                      ts( 'Personal Campaign Page' ),
                                      array( '' => ts( '- select -' ) ) +
                                      CRM_Contribute_PseudoConstant::pcPage( ) );
             $ele->freeze();
-            $this->addElement('checkbox','pcp_display_in_roll', ts('Honor Roll?'), null, 
-                              array('onclick' =>"return showHideByValue('pcp_display_in_roll','','softCreditInfo','table-row','radio',false);") );
-            $this->addElement('text', 'pcp_roll_nickname', ts('Nickname') );
-            $this->addElement('textarea', 'pcp_personal_note', ts('Personal Note'));
+            $this->add( 'checkbox', 'pcp_display_in_roll', ts('Show my contribution in the public honor roll'), null, null,
+                        array('onclick' => "showHideByValue('pcp_display_in_roll','','nameID|nickID|personalNoteID','table-row','radio',false); pcpAnonymous( );")
+                        );
+            $extraOption = array('onclick' =>"return pcpAnonymous( );");
+            $elements = array( );
+            $elements[] =& $this->createElement('radio', null, '', ts( 'Include my name and message'), 0, $extraOption );
+            $elements[] =& $this->createElement('radio', null, '', ts( 'List my contribution anonymously'), 1, $extraOption );
+            $this->addGroup( $elements, 'pcp_is_anonymous', null, '&nbsp;&nbsp;&nbsp;' );
+            
+            $this->add( 'text', 'pcp_roll_nickname', ts('Name'), array( 'size' => 25, 'maxlength' => 20 ) );
+            $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 4, 'coloums' => 80 ) );
         }
 
         $js = null;
@@ -996,7 +1010,7 @@ SELECT  id, name
             
             //Get the rquire fields value only.
             $params = $this->_params = $submittedValues;
-                    
+
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
             $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_params['payment_processor_id'],
                                                                                   $this->_mode );
@@ -1075,6 +1089,11 @@ SELECT  id, name
             $this->_params['pcp_display_in_roll'] = $params['pcp_display_in_roll'];
             $this->_params['pcp_roll_nickname'] = $params['pcp_roll_nickname'];
             $this->_params['pcp_personal_note'] = $params['pcp_personal_note'];
+
+            if ( CRM_Utils_Array::value( 'pcp_is_anonymous', $params ) == 1) {
+                $this->_params['pcp_roll_nickname'] = ts('Anonymous');
+                $this->_params['pcp_personal_note'] = 'null';
+            }
             
             //Add common data to formatted params
             CRM_Contribute_Form_AdditionalInfo::postProcessCommon( $params, $this->_params );
@@ -1258,6 +1277,7 @@ SELECT  id, name
                              'source',
                              'check_number',
                              'soft_credit_to',
+                             'pcp_is_anonymous',
                              'pcp_made_through_id',
                              'pcp_display_in_roll',
                              'pcp_roll_nickname',
@@ -1267,7 +1287,10 @@ SELECT  id, name
             foreach ( $fields as $f ) {
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
-
+            if ( CRM_Utils_Array::value( 'pcp_is_anonymous', $params ) == 1 ) {
+                $params['pcp_roll_nickname'] = ts('Anonymous');
+                $params['pcp_personal_note'] = 'null';
+            }  
             if ( $softID = CRM_Utils_Array::value( 'softID', $this->_values ) ){
                 $params['softID'] = $softID;
             }

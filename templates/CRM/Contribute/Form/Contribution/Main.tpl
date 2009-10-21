@@ -166,8 +166,9 @@ function clearAmountOther() {
 	</tr>
 	<tr id="personalNoteID">
 	    <td style="vertical-align: top">{$form.pcp_personal_note.label}</td>
-	    <td>{$form.pcp_personal_note.html}</td><br />
-                <span class="description">{ts}Enter a message to accompany this contribution.'.{/ts}</span>
+	    <td>{$form.pcp_personal_note.html}
+                <span class="description">{ts}Enter a message to accompany this contribution.{/ts}</span>
+	    </td>
 	</tr>
     </table>
     </fieldset>

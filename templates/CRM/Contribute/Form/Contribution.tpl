@@ -145,21 +145,25 @@
             <td>{$form.soft_credit_to.html} {help id="id-soft_credit"}</td>
         </tr>
 	{if $action eq 2 and $form.pcp_made_through_id.value[0]}
-	<tr>
-        <tr><td class="label">{$form.pcp_made_through_id.label}</td><td>{$form.pcp_made_through_id.html}</td></tr>
-        <tr><td class="label">{$form.pcp_display_in_roll.label}</td><td>{$form.pcp_display_in_roll.html} 
-			      <span class="description">{ts}Display nickname and personal message in Honor Roll?{/ts}</span></td></tr>
-        
-	{* Soft credit fields are hidden unless display is set to true *}
-	<tr id="softCreditInfo"> 
-	    <td>&nbsp;</td> 
-	    <td><fieldset><legend>{ts}Honor Roll Information{/ts}</legend>
-	    <table class="form-layout-compressed">
-	        <tr id="softCreditNicknameID"><td class="label" style="vertical-align: top;">{$form.pcp_roll_nickname.label}</td><td>{$form.pcp_roll_nickname.html|crmReplace:class:huge}</td></tr>
-            <tr id="softCreditPersonalNoteID"><td class="label" style="vertical-align: top;">{$form.pcp_personal_note.label}</td><td>{$form.pcp_personal_note.html}</td></tr>
-             </table></fieldset></td>
-	</tr>
-      {/if}	
+	    <tr><td class="label">{$form.pcp_display_in_roll.label}</td>
+	        <td>{$form.pcp_display_in_roll.html}</td>
+	    </tr>
+	    <tr id="nameID">
+	        <td></td>
+	        <td>{$form.pcp_is_anonymous.html}</td>
+	    </tr>
+	    <tr id="nickID">
+	        <td>{$form.pcp_roll_nickname.label}</td>
+	        <td>{$form.pcp_roll_nickname.html}<br />
+		<span class="description">{ts}Enter the name you want listed with this contribution. You can use a nick name like 'The Jones Family' or 'Sarah and Sam'.{/ts}</span></td>
+	    </tr>
+	    <tr id="personalNoteID">
+	        <td style="vertical-align: top">{$form.pcp_personal_note.label}</td>
+	        <td>{$form.pcp_personal_note.html}
+                <span class="description">{ts}Enter a message to accompany this contribution.{/ts}</span>
+		</td>
+	    </tr>
+        {/if}	
       </table>
 
     <div id="customData"></div>
@@ -313,7 +317,7 @@
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="pcp_display_in_roll"
     trigger_value       =""
-    target_element_id   ="softCreditInfo" 
+    target_element_id   ="nameID|nickID" 
     target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
@@ -337,13 +341,37 @@
 
 {literal}
 <script type="text/javascript" >
+{/literal}
+
+ {if $pcp}{literal}pcpAnonymous();{/literal}{/if}
 
  // load form during form rule.
- {/literal}
  {if $buildPriceSet}{literal}buildAmount( );{/literal}
  {/if}
  {literal}
 
+function pcpAnonymous( ) {
+    // clear nickname field if anonymous is true
+    if ( document.getElementsByName("pcp_is_anonymous")[1].checked ) { 
+        document.getElementById('pcp_roll_nickname').value = '';
+	document.getElementById('pcp_personal_note').value = '';
+    }
+    if ( ! document.getElementsByName("pcp_display_in_roll")[0].checked ) { 
+        hide('nickID', 'table-row');
+        hide('nameID', 'table-row');
+	hide('personalNoteID', 'table-row');
+    } else {
+        if ( document.getElementsByName("pcp_is_anonymous")[0].checked ) {
+            show('nameID', 'table-row');
+            show('nickID', 'table-row');
+	    show('personalNoteID', 'table-row');
+        } else {
+            show('nameID', 'table-row');
+            hide('nickID', 'table-row');
+	    hide('personalNoteID', 'table-row');
+        }
+    }
+}
 
 function buildAmount( priceSetId ) {
 
