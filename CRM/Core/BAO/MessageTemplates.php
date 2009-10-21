@@ -285,7 +285,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             'tplParams'   => array(), // additional template params (other than the ones already set in the template singleton)
             'from'        => null,    // the From: header
             'toName'      => null,    // the recipient’s name
-            'toEmail'     => null,    // the recipient’s email
+            'toEmail'     => null,    // the recipient’s email - mail is sent only if set
             'cc'          => null,    // the Cc: header
             'bcc'         => null,    // the Bcc: header
             'replyTo'     => null,    // the Reply-To: header
@@ -293,10 +293,8 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         );
         $params = array_merge($defaults, $params);
 
-        // FIXME: this should ideally check both params against what actually 
-        // exists in the db, but I’m not sure it’s worth the roundtrip
         if (!$params['groupName'] or !$params['valueName']) {
-            CRM_Core_Error::fatal(ts('Wrong (or no) message template.'));
+            CRM_Core_Error::fatal(ts("Message template's option group and/or option value missing."));
         }
 
         // fetch the three elements from the db based on option_group and option_value names
@@ -308,6 +306,10 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         $sqlParams = array(1 => array($params['groupName'], 'String'), 2 => array($params['valueName'], 'String'));
         $dao = CRM_Core_DAO::executeQuery($query, $sqlParams);
         $dao->fetch();
+
+        if (!$dao->N) {
+            CRM_Core_Error::fatal(ts('No such message template: option group %1, option value %2.', array(1 => $params['groupName'], 2 => $params['valueName'])));
+        }
 
         // replace tokens in the three elements
         require_once 'CRM/Utils/Token.php';
@@ -328,7 +330,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $mailing = new CRM_Mailing_BAO_Mailing;
             $mailing->$bodyType = $dao->$type;
             $tokens = $mailing->getTokens();
-            $dao->$type = CRM_Utils_Token::replaceDomainTokens($dao->$type,  $domain,  true,  $tokens[$tokenType]);
+            $dao->$type = CRM_Utils_Token::replaceDomainTokens($dao->$type, $domain, true, $tokens[$tokenType]);
             if ($params['contactId']) {
                 $dao->$type = CRM_Utils_Token::replaceContactTokens($dao->$type, $contact, false, $tokens[$tokenType]);
             }
@@ -351,6 +353,9 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $dao->$elem = $smarty->fetch("string:{$dao->$elem}");
         }
 
+        // in most cases leading/trailing whitespace in the subject is unwanted
+        $dao->subject = trim($dao->subject);
+
         // send the template
         $sent = false;
         if ($params['toEmail']) {
@@ -358,6 +363,6 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $sent = CRM_Utils_Mail::send($params['from'], $params['toName'], $params['toEmail'], $dao->subject, $dao->text, $params['cc'], $params['bcc'], $params['replyTo'], $dao->html, $params['attachments']);
         }
 
-        return array($sent, trim($dao->subject), $dao->text, $dao->html);
+        return array($sent, $dao->subject, $dao->text, $dao->html);
     }
 }
