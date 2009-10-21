@@ -954,10 +954,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
             require_once 'CRM/Core/BAO/MessageTemplates.php';
             list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                    'msg_tpl_workflow_contribution',
-                    'contribution_offline_receipt',
-                    $this->_contactID,
-                    array()
+                array(
+                    'groupName' => 'msg_tpl_workflow_contribution',
+                    'valueName' => 'contribution_offline_receipt',
+                    'contactId' => $this->_contactID,
+                )
             );
 
             require_once 'CRM/Utils/Mail.php';

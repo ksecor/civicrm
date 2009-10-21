@@ -273,22 +273,33 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
      * Fetch subject, text and HTML templates based on option
      * group, option value and an array of template parameters
      *
-     * @param string $group      option group name
-     * @param string $value      option value name
-     * @param int    $cid        contact_id of the target recipient
-     * @param array  $tplParams  template variables
+     * @param array $params  a string-keyed array of function params, see function body for details
      *
      * @return array  a subject-, text- and html-carrying array with the templates (evaluated)
      */
-    static function getSubjectTextHTML($group, $value, $cid, $tplParams)
+    static function getSubjectTextHTML($params)
     {
+        $defaults = array(
+            'groupName' => null,    // option group name of the template
+            'valueName' => null,    // option value name of the template
+            'contactId' => null,    // contact id if contact tokens are to be replaced
+            'tplParams' => array(), // additional template params (other than the ones already set in the template singleton)
+        );
+        $params = array_merge($defaults, $params);
+
+        // FIXME: this should ideally check both params against what actually 
+        // exists in the db, but I’m not sure it’s worth the roundtrip
+        if (!$params['groupName'] or !$params['valueName']) {
+            CRM_Core_Error::fatal(ts('Wrong (or no) message template.'));
+        }
+
         // fetch the three elements from the db based on option_group and option_value names
         $query = 'SELECT msg_subject subject, msg_text text, msg_html html
                   FROM civicrm_msg_template mt
                   JOIN civicrm_option_value ov ON workflow_id = ov.id
                   JOIN civicrm_option_group og ON ov.option_group_id = og.id
                   WHERE og.name = %1 AND ov.name = %2 AND mt.is_default = 1';
-        $sqlParams = array(1 => array($group, 'String'), 2 => array($value, 'String'));
+        $sqlParams = array(1 => array($params['groupName'], 'String'), 2 => array($params['valueName'], 'String'));
         $dao = CRM_Core_DAO::executeQuery($query, $sqlParams);
         $dao->fetch();
 
@@ -299,8 +310,10 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         require_once 'CRM/Mailing/BAO/Mailing.php';
 
         $domain = CRM_Core_BAO_Domain::getDomain();
-        $contactParams = array('contact_id' => $cid);
-        $contact =& civicrm_contact_get($contactParams);
+        if ($params['contactId']) {
+            $contactParams = array('contact_id' => $params['contactId']);
+            $contact =& civicrm_contact_get($contactParams);
+        }
 
         // replace tokens in subject as if it was the text body
         foreach(array('subject' => 'text', 'text' => 'text', 'html' => 'html') as $type => $tokenType) {
@@ -309,7 +322,9 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $mailing->$bodyType = $dao->$type;
             $tokens = $mailing->getTokens();
             $dao->$type = CRM_Utils_Token::replaceDomainTokens($dao->$type,  $domain,  true,  $tokens[$tokenType]);
-            $dao->$type = CRM_Utils_Token::replaceContactTokens($dao->$type, $contact, false, $tokens[$tokenType]);
+            if ($params['contactId']) {
+                $dao->$type = CRM_Utils_Token::replaceContactTokens($dao->$type, $contact, false, $tokens[$tokenType]);
+            }
         }
 
         // parse the three elements with Smarty
@@ -322,7 +337,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         // things like CRM_Event_BAO_Event::buildCustomDisplay() would need to 
         // set template variables *and* set array keys for $tplParams
         // $smarty->clear_all_assign();
-        foreach ($tplParams as $name => $value) {
+        foreach ($params['tplParams'] as $name => $value) {
             $smarty->assign($name, $value);
         }
         foreach (array('subject', 'text', 'html') as $elem) {

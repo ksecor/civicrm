@@ -249,10 +249,11 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             
             require_once 'CRM/Core/BAO/MessageTemplates.php';
             list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                'msg_tpl_workflow_contribution',
-                'pcp_notify',
-                $contactID,
-                array()
+                array(
+                    'groupName' => 'msg_tpl_workflow_contribution',
+                    'valueName' => 'pcp_notify',
+                    'contactId' => $contactID,
+                )
             );
           
             //get the default domain email address.

@@ -1116,10 +1116,12 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
 
             require_once 'CRM/Core/BAO/MessageTemplates.php';
             list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                'msg_tpl_workflow_case',
-                'case_activity',
-                $info['contact_id'],
-                $tplParams
+                array(
+                    'groupName' => 'msg_tpl_workflow_case',
+                    'valueName' => 'case_activity',
+                    'contactId' => $info['contact_id'],
+                    'tplParams' => $tplParams,
+                )
             );
 
             $activityParams['subject']            = $activitySubject.' - copy sent to '.$displayName;

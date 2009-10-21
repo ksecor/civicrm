@@ -594,10 +594,11 @@ WHERE  $whereCond
 
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-            'msg_tpl_workflow_pledge',
-            'pledge_acknowledge',
-            $params['contact_id'],
-            array()
+            array(
+                'groupName' => 'msg_tpl_workflow_pledge',
+                'valueName' => 'pledge_acknowledge',
+                'contactId' => $params['contact_id'],
+            )
         );
 
         require_once 'CRM/Utils/Mail.php';

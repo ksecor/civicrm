@@ -242,10 +242,12 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             
             require_once 'CRM/Core/BAO/MessageTemplates.php';
             list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                'msg_tpl_workflow_contribution',
-                'contribution_receipt',
-                $contactID,
-                $tplParams
+                array(
+                    'groupName' => 'msg_tpl_workflow_contribution',
+                    'valueName' => 'contribution_receipt',
+                    'contactId' => $contactID,
+                    'tplParams' => $tplParams,
+                )
             );
 
             if ( $returnMessageText ) {

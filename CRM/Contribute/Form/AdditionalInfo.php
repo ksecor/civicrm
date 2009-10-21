@@ -418,10 +418,11 @@ class CRM_Contribute_Form_AdditionalInfo
 
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                'msg_tpl_workflow_contribution',
-                'contribution_additional_info',
-                $params['contact_id'],
-                array()
+            array(
+                'groupName' => 'msg_tpl_workflow_contribution',
+                'valueName' => 'contribution_additional_info',
+                'contactId' => $params['contact_id'],
+            )
         );
 
         $session  =& CRM_Core_Session::singleton( );

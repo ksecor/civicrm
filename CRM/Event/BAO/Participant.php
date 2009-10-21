@@ -1087,20 +1087,22 @@ UPDATE  civicrm_participant
 
             require_once 'CRM/Core/BAO/MessageTemplates.php';
             list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                'msg_tpl_workflow_event',
-                'participant_' . strtolower($mailType),
-                $contactId,
                 array(
-                    'contact'        => $contactDetails,
-                    'domain'         => $domainValues,
-                    'participant'    => $participantValues,
-                    'event'          => $eventDetails,
-                    'paidEvent'      => CRM_Utils_Array::value('is_monetary',      $eventDetails),
-                    'isShowLocation' => CRM_Utils_Array::value('is_show_location', $eventDetails),
-                    'isAdditional'   => $participantValues['registered_by_id'],
-                    'isExpired'      => $mailType == 'Expired',
-                    'isConfirm'      => $mailType == 'Confirm',
-                    'checksumValue'  => $checksumValue,
+                    'groupName' => 'msg_tpl_workflow_event',
+                    'valueName' => 'participant_' . strtolower($mailType),
+                    'contactId' => $contactId,
+                    'tplParams' => array(
+                        'contact'        => $contactDetails,
+                        'domain'         => $domainValues,
+                        'participant'    => $participantValues,
+                        'event'          => $eventDetails,
+                        'paidEvent'      => CRM_Utils_Array::value('is_monetary',      $eventDetails),
+                        'isShowLocation' => CRM_Utils_Array::value('is_show_location', $eventDetails),
+                        'isAdditional'   => $participantValues['registered_by_id'],
+                        'isExpired'      => $mailType == 'Expired',
+                        'isConfirm'      => $mailType == 'Confirm',
+                        'checksumValue'  => $checksumValue,
+                    ),
                 )
             );
             

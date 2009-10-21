@@ -1266,10 +1266,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
                 require_once 'CRM/Core/BAO/MessageTemplates.php';
                 list($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                    'msg_tpl_workflow_event',
-                    'event_offline_receipt',
-                    $contactID,
-                    array()
+                    array(
+                        'groupName' => 'msg_tpl_workflow_event',
+                        'valueName' => 'event_offline_receipt',
+                        'contactId' => $contactID,
+                    )
                 );
               
                 //Do not try to send emails if emailID is not present

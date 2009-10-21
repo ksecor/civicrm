@@ -1860,13 +1860,15 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
           
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-            'msg_tpl_workflow_uf',
-            'uf_notify',
-            $contactID,
             array(
-                'displayName' => $displayName,
-                'currentDate' => date('r'),
-                'contactLink' => $contactLink,
+                'groupName' => 'msg_tpl_workflow_uf',
+                'valueName' => 'uf_notify',
+                'contactId' => $contactID,
+                'tplParams' => array(
+                    'displayName' => $displayName,
+                    'currentDate' => date('r'),
+                    'contactLink' => $contactLink,
+                ),
             )
         );
         

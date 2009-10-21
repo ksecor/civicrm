@@ -263,16 +263,18 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
 
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-            'msg_tpl_workflow_friend',
-            'friend',
-            $contactID,
             array(
-                $values['module']   => $values['module'],
-                'senderContactName' => $fromName,
-                'title'             => $values['title'],
-                'generalLink'       => $values['general_link'],
-                'pageURL'           => $values['page_url'],
-                'senderMessage'     => $values['message'],
+                'groupName' => 'msg_tpl_workflow_friend',
+                'valueName' => 'friend',
+                'contactId' => $contactID,
+                'tplParams' => array(
+                    $values['module']   => $values['module'],
+                    'senderContactName' => $fromName,
+                    'title'             => $values['title'],
+                    'generalLink'       => $values['general_link'],
+                    'pageURL'           => $values['page_url'],
+                    'senderMessage'     => $values['message'],
+                ),
             )
         );
 

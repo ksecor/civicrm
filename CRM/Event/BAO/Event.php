@@ -942,14 +942,16 @@ WHERE civicrm_event.is_active = 1
 
                 require_once 'CRM/Core/BAO/MessageTemplates.php';
                 list ($subject, $message, $html) = CRM_Core_BAO_MessageTemplates::getSubjectTextHTML(
-                    'msg_tpl_workflow_event',
-                    'event_receipt',
-                    $contactID,
                     array(
-                        'email'              => $email,
-                        'confirm_email_text' => CRM_Utils_Array::value('confirm_email_text', $values['event']),
-                        'confirm_email_html' => CRM_Utils_Array::value('confirm_email_html', $values['event']),
-                        'isShowLocation'     => CRM_Utils_Array::value('is_show_location',   $values['event']),
+                        'groupName' => 'msg_tpl_workflow_event',
+                        'valueName' => 'event_receipt',
+                        'contactId' => $contactID,
+                        'tplParams' => array(
+                            'email'              => $email,
+                            'confirm_email_text' => CRM_Utils_Array::value('confirm_email_text', $values['event']),
+                            'confirm_email_html' => CRM_Utils_Array::value('confirm_email_html', $values['event']),
+                            'isShowLocation'     => CRM_Utils_Array::value('is_show_location',   $values['event']),
+                        ),
                     )
                 );
                 
