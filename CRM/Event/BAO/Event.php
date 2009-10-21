@@ -305,11 +305,12 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
     static function getEventSummary( $admin = false )
     {
         $eventSummary = $eventIds = array( );
-        
+        // We're fetching recent and upcoming events (where start date is 7 days ago OR later)
         $query = "SELECT count(id) as total_events
                   FROM   civicrm_event e
                   WHERE  e.is_active=1 AND
-                        ( e.is_template IS NULL OR e.is_template = 0)";
+                        ( e.is_template IS NULL OR e.is_template = 0) AND
+                        e.start_date >= DATE_SUB( NOW(), INTERVAL 7 day );";
         
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
@@ -341,9 +342,10 @@ LEFT JOIN  civicrm_option_value ON (
            civicrm_event.event_type_id = civicrm_option_value.value AND
            civicrm_option_value.option_group_id = %1 )
 WHERE      civicrm_event.is_active = 1 AND
-           ( civicrm_event.is_template IS NULL OR civicrm_event.is_template = 0)
+           ( civicrm_event.is_template IS NULL OR civicrm_event.is_template = 0) AND
+           civicrm_event.start_date >= DATE_SUB( NOW(), INTERVAL 7 day )
 GROUP BY   civicrm_event.id
-ORDER BY   civicrm_event.end_date DESC
+ORDER BY   civicrm_event.start_date ASC
 LIMIT      0, 10
 ";
 
