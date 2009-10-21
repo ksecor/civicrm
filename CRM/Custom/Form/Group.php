@@ -189,6 +189,15 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);        
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
 
+        //adding subtype specific relationships CRM-5256
+        $subTypes = CRM_Contact_BAO_ContactType::subTypeInfo( );
+        
+        foreach ( $subTypes as $subType => $val ) {
+            $subTypeRelationshipTypes = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $val['parent'], 
+                                                                                                  false, 'label', true, $subType );
+            $allRelationshipType = array_merge( $allRelationshipType, $subTypeRelationshipTypes);
+        }
+
         $sel2['Event']                = $eventType;
         $sel2['Activity']             = $activityType;
         $sel2['Membership']           = $membershipType;
