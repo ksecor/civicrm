@@ -146,8 +146,9 @@ function civicrm_event_search( &$params )
     $otherVars              = array( 'sort', 'offset', 'rowCount' );
 
     $sort     = false;
-    $offset   = $params['return.offset'] ? $params['return.offset'] : 0;
-    $rowCount = $params['return.max_results'] ? $params['return.max_results'] : 25;
+    // don't check if empty, more meaningful error for API user instead of siletn defaults
+    $offset   = array_key_exists( 'return.offset', $params ) ? $params['return.offset'] : 0;
+    $rowCount = array_key_exists( 'return.max_results', $params ) ? $params['return.max_results'] : 25;
     
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
