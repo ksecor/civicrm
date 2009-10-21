@@ -200,5 +200,41 @@ class api_v2_EventTest extends CiviUnitTestCase
         $result =& civicrm_event_delete($params);
         $this->assertEquals($result['is_error'], 1);
     }
+
+///////////////// civicrm_event_search methods
+
+    /**
+     *  Test civicrm_event_search with wrong params type
+     */
+    function testSearchWrongParamsType()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     *  Test civicrm_event_search with empty params
+     */
+     function testSearchEmptyParams()
+     {
+         $this->markTestIncomplete();
+     }
+
+    /**
+     *  Test civicrm_event_search. Success expected.
+     */
+     function testSearch()
+     {
+         $this->markTestIncomplete();
+     }
+
+    /**
+     *  Test civicrm_event_search. Success expected.
+     *  return.offset and return.max_results test (CRM-5266)
+     */
+     function testSearchEmptyParams()
+     {
+         $this->markTestIncomplete();
+     }
+
 }
 

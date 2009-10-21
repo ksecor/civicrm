@@ -146,8 +146,8 @@ function civicrm_event_search( &$params )
     $otherVars              = array( 'sort', 'offset', 'rowCount' );
 
     $sort     = false;
-    $offset   = 0;
-    $rowCount = 25;
+    $offset   = $params['return.offset'] ? $params['return.offset'] : 0;
+    $rowCount = $params['return.max_results'] ? $params['return.max_results'] : 25;
     
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
