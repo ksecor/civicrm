@@ -56,27 +56,29 @@ class CRM_Admin_Form_PreferencesDate extends CRM_Admin_Form
             return;
         }
         
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PreferencesDate' );
+        
         $this->applyFilter('__ALL__', 'trim');
         $name =& $this->add('text',
                             'name',
                             ts('Name'),
-                            CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PreferencesDate', 'name' ),
+                            $attributes['name'],
                             true );
         $name->freeze( );
         
-        $attribute  = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PreferencesDate', 'start' );
-        $formatAttr = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PreferencesDate', 'format' );
-        $descAttr = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PreferencesDate', 'description' );
-
-        $this->add('text', 'description'     , ts('Description'     ), $descAttr  , false );
-        $this->add('text', 'start'           , ts('Start Offset'    ), $attribute , true  );
-        $this->add('text', 'end'             , ts('End Offset'      ), $attribute , true  );
-        $this->add('text', 'minute_increment', ts('Minute Increment'), $attribute , false );
-        $this->add('select', 'format'        , ts('Format'), CRM_Core_SelectValues::getDatePluginInputFormats( ) );
+        $this->add('text', 'description'     , ts('Description'     ), $attributes['description']  , false );
+        $this->add('text', 'start'           , ts('Start Offset'    ), $attributes['start'] , true  );
+        $this->add('text', 'end'             , ts('End Offset'      ), $attributes['end'] , true  );
         
+        $formatType = CRM_Core_Dao::getFieldValue( 'CRM_Core_DAO_PreferencesDate', $this->_id, 'name' );
+
+        if ( $formatType  == 'creditCard' ) {
+            $this->add('text', 'format', ts('Format'), $attributes['format'] , true  );
+        } else {
+            $this->add('select', 'format'        , ts('Format'), CRM_Core_SelectValues::getDatePluginInputFormats( ) );
+        }
         $this->addRule( 'start'           , ts( 'Value should be a positive number' ) , 'positiveInteger');
         $this->addRule( 'end'             , ts( 'Value should be a positive number' ) , 'positiveInteger');
-        $this->addRule( 'minute_increment', ts( 'Value should be a positive number' ) , 'positiveInteger');
     }
 
        

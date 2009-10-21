@@ -391,7 +391,7 @@ class CRM_Core_SelectValues
             
             // support for birthdate format, CRM-3090 
             $format = trim( $dao->format );
-            $birthDateFormat = CRM_Utils_Date::checkBrithDateFormat( $format );
+            $birthDateFormat = CRM_Utils_Date::checkBirthDateFormat( $format );
             if ( $birthDateFormat ) {
                 $formatParts = $birthDateFormat['dateParts'];
                 if ( in_array( 'M', $formatParts ) ) {

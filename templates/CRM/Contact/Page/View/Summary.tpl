@@ -233,9 +233,9 @@
                                 <tr>
                                     <td class="label">{ts}Date of birth{/ts}</td><td>
                                     {if $birthDateViewFormat}	 
-                                        {$birth_date|crmDate:$birthDateViewFormat}
+                                        {$birth_date_display|crmDate:$birthDateViewFormat}
                                     {else}
-										{$birth_date|crmDate}</td>
+                                        {$birth_date_display|crmDate}</td>
                                     {/if} 
                                 </tr>
                                 <tr>
@@ -243,9 +243,9 @@
                                         {if $deceased_date}<td class="label">{ts}Date Deceased{/ts}</td>
                                            <td>
 											{if $birthDateViewFormat}          
-												{$deceased_date|crmDate:$birthDateViewFormat}
+												{$deceased_date_display|crmDate:$birthDateViewFormat}
 											{else}
-												{$deceased_date|crmDate}
+												{$deceased_date_display|crmDate}
 											{/if}
                                            </td>
                                         {else}<td class="label" colspan=2><span class="font-red upper">{ts}Contact is Deceased{/ts}</span></td>

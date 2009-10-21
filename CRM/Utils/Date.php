@@ -1104,41 +1104,42 @@ class CRM_Utils_Date
      * @param $format given format ( eg 'M Y', 'Y M' ) 
      * return array of qfMapping and date parts for date format.
      */
-    function checkBrithDateFormat( $format = null )
+    function checkBirthDateFormat( $format = null )
     {
+        $birthDateFormat = null;
         if ( !$format ) {
-            $format = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
+            $birthDateFormat = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
                                                   'birth', 'format', 'name' );
         }
         
-        //get complete qf mapping to all date parts
-        $allMapping = CRM_Core_SelectValues::qfDatePartsMapping( );
         
-        $dateFormat = null;
-        $formatMapping = array( );
-        for ( $i = 0; $i <= strlen( $format ); $i++ ) {
-            if ( $char = trim( $format[$i] ) ) {
-                if ( in_array( $char, $allMapping ) ) {
-                    $dateFormat .= $char;
-                    $formatMapping[] = $char;
-                }
-            }
-        }
+        // crm_core_error::debug( '$birthDateFormat', $birthDateFormat );
+        // exit( );
         
+        // //get complete qf mapping to all date parts
+        // $allMapping = CRM_Core_SelectValues::qfDatePartsMapping( );
+        // 
+        // $dateFormat = null;
+        // $formatMapping = array( );
+        // for ( $i = 0; $i <= strlen( $format ); $i++ ) {
+        //     if ( $char = trim( $format[$i] ) ) {
+        //         if ( in_array( $char, $allMapping ) ) {
+        //             $dateFormat .= $char;
+        //             $formatMapping[] = $char;
+        //         }
+        //     }
+        // }
+        // 
         $supportableFormats = array(
-                                    'MY'   => '%B %Y',
-                                    'YM'   => '%Y %B',
-                                    'Md'   => '%B %E%f',
-                                    'dM'   => '%E%f %B',
-                                    'Y'    => '%Y'
+                                    'mm/dd'   => '%B %E%f',
+                                    'dd/mm'   => '%E%f %B'
                                     );
         
-        $birthDateFormat = null;
-        if ( array_key_exists( $dateFormat, $supportableFormats ) ) {
-            $birthDateFormat = array( 'qfMapping' => $supportableFormats[$dateFormat],
+        if ( array_key_exists( $birthDateFormat, $supportableFormats ) ) {
+            $birthDateFormat = array( 'qfMapping' => $supportableFormats[$birthDateFormat],
                                       'dateParts' => $formatMapping );
         }
-        
+                
         return $birthDateFormat;
     }
 

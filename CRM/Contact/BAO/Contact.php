@@ -1790,10 +1790,12 @@ UNION
                  }
                  
                  list( $values['birth_date'] ) = CRM_Utils_Date::setDateDefaults( $contact->birth_date, 'birth' );
+                 $values['birth_date_display'] = $contact->birth_date;
             }
             
             if ( $contact->deceased_date ) {
                 list( $values['deceased_date'] ) = CRM_Utils_Date::setDateDefaults( $contact->deceased_date, 'birth' );
+                $values['deceased_date_display'] = $contact->deceased_date;
             }
             
             $contact->contact_id = $contact->id;
