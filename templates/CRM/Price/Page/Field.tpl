@@ -56,7 +56,7 @@
          <tr>
             <th>{ts}Field Label{/ts}</th>
             <th>{ts}Field Type{/ts}</th>
-            <th id="nosort">{ts}Order{/ts}</th>
+            <th id="order">{ts}Order{/ts}</th>
             <th>{ts}Req?{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
 {*
@@ -68,10 +68,10 @@
         </tr>
         </thead>
         {foreach from=$priceField key=fid item=row}
-	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+	    <tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
             <td>{$row.html_type}</td>
-            <td class="nowrap">{$row.weight}</td>
+            <td class="nowrap">{$row.order}</td>
             <td>{if $row.is_required eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 {*
@@ -80,6 +80,7 @@
 *}
             <td>{if $row.html_type eq "Text"}{$row.price|crmMoney}{else}<a href="{crmURL p="civicrm/admin/price/field/option" q="action=browse&reset=1&sid=$sid&fid=$fid"}">{ts}Edit Price Options{/ts}</a>{/if}</td>
             <td>{$row.action|replace:'xx':$row.id}</td>
+            <td class="order hiddenElement">{$row.weight}</td>
         </tr>
         {/foreach}
         </table>

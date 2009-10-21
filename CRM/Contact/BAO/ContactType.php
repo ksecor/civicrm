@@ -250,7 +250,7 @@ AND   ( p.is_active = 1 OR p.id IS NULL )
             while ( $dao->fetch( ) ) {
                 if ( ! empty( $dao->parent_id ) ) {
                     $key   = $dao->parent_name . CRM_Core_DAO::VALUE_SEPARATOR . $dao->child_name;
-                    $label = "  -- {$dao->child_label}";
+                    $label = "&nbsp;&nbsp;{$dao->child_label}";
                     $pName = $dao->parent_name;
                 } else {
                     $key   = $dao->child_name;

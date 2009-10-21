@@ -701,7 +701,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                                    $this->_contactType,
                                    $contact->id,
                                    $displayName );
-            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', 'reset=1&ct=' . $contact->contact_type ) );
+            $resetStr  = "reset=1&ct={$contact->contact_type}";
+            $resetStr .= $this->_contactSubType ? "&cst={$this->_contactSubType}" : '';
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', $resetStr ) );
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
         }

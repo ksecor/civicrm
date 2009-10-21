@@ -465,8 +465,15 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                             case CRM_Import_Parser::CONTACT_ORGANIZATION :
                                 $contactType = 'Organization';
                             }
-
-                            $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $contactType );
+                            //CRM-5125
+                            $contactSubType = null;
+                            if ( $this->get('contactSubType') ) {
+                                $contactSubType = $this->get('contactSubType');
+                            }
+                            
+                            $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $contactType, 
+                                                                                                   false, 'label', true, $contactSubType );
+                            
                             foreach ($relations as $key => $var) {
                                 if ( $key == $mappingRelation[$i]) {
                                     $relation = $key;

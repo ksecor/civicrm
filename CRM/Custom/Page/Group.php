@@ -230,7 +230,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
-            
+            $customGroup[$dao->id]['order']  = $customGroup[$dao->id]['weight'];
             $customGroup[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('id' => $dao->id));
         }

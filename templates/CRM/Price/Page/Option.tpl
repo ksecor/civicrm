@@ -53,7 +53,7 @@
             <th>{ts}Option Label{/ts}</th>
             <th>{ts}Option Amount{/ts}</th>
     	    <th>{ts}Default{/ts}</th>
-            <th id="nosort">{ts}Order{/ts}</th>
+            <th id="order">{ts}Order{/ts}</th>
 	        <th>{ts}Enabled?{/ts}</th>
             <th></th>
          </tr>
@@ -63,9 +63,10 @@
             <td>{$row.label}</td>
             <td>{$row.name|crmMoney}</td>
 	        <td>{$row.is_default}</td>
-            <td class="nowrap">{$row.weight}</td>
+            <td class="nowrap">{$row.order}</td>
             <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{$row.action}</td>
+            <td class="order hiddenElement">{$row.weight}</td>
         </tr>
         {/foreach}
         </tbody>
