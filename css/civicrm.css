@@ -1314,7 +1314,7 @@ div.crm-pager a {
 
 /* Styles for  Action Link pop-up */
 
-#panel, .panel {
+#crm-container #panel, #crm-container .panel {
   display  : none;
   z-index  : 1;
   position : absolute;
