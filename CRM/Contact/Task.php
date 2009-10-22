@@ -203,7 +203,8 @@ class CRM_Contact_Task {
 
         require_once 'CRM/Utils/Mail.php';
         if ( !CRM_Utils_Mail::validOutBoundMail() ) { 
-            unset( $titles[6] );
+            unset( $titles[6 ] );
+            unset( $titles[20] );
         }
         
         if ( ! in_array( 'CiviSMS', $config->enableComponents ) ) {
