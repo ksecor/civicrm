@@ -88,7 +88,7 @@ class CRM_Contact_Page_AJAX
             $where .= " AND $aclWhere ";
         }
 
-        echo $query = "
+        $query = "
 SELECT DISTINCT(cc.id) as id, CONCAT_WS( ' :: ', {$select} ) as data
 FROM civicrm_contact cc {$from}
 {$aclFrom}
