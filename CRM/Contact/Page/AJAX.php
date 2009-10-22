@@ -60,20 +60,20 @@ class CRM_Contact_Page_AJAX
             case 'phone':                
             case 'email':
                 $select[] = ( $value == 'address' ) ? $selectText : $value;
-                $from[$value] = "LEFT JOIN civicrm_{$value} {$suffix} ON cc.id = {$suffix}.contact_id";
-                $where   .= " AND {$suffix}.is_primary = 1";
+                $from[$value] = "LEFT JOIN civicrm_{$value} {$suffix} ON ( cc.id = {$suffix}.contact_id AND {$suffix}.is_primary = 1 ) ";
                 break;
                 
             case 'country':
             case 'state_province':
                 $select[] = "{$suffix}.name";
-                if( ! in_array( 'address', $from ) ) 
+                if ( ! in_array( 'address', $from ) ) {
                     $from ['address'] = 'LEFT JOIN civicrm_address sts ON cc.id = sts.contact_id ';
-                $from[$value] = " LEFT JOIN civicrm_{$value} {$suffix} ON sts.{$value}_id = {$suffix}.id";
-                $where   .= " AND sts.is_primary = 1";
+                }
+                $from[$value] = " LEFT JOIN civicrm_{$value} {$suffix} ON sts.{$value}_id = {$suffix}.id AND sts.is_primary = 1 ) ";
                 break;
             }
         }
+        
         $select = implode( ', ', $select );
         $from   = implode( ' ' , $from   );
         if ( CRM_Utils_Array::value( 'limit', $_GET) ) {
