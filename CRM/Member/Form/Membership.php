@@ -169,7 +169,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $defaults =& parent::setDefaultValues( );
         
         //setting default join date and receive date
-        $now = date("Y-m-d");
+        list( $now ) = CRM_Utils_Date::setDateDefaults( );
         if ($this->_action == CRM_Core_Action::ADD) {
             $defaults['receive_date'] = $now;
         }
@@ -275,6 +275,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 }
             }
         }
+                
+        $dates = array( 'join_date', 'start_date', 'end_date' );
+        foreach( $dates as $key ) {
+            if ( CRM_Utils_Array::value( $key, $defaults ) ) {
+                list( $defaults[$key] ) = CRM_Utils_Date::setDateDefaults( CRM_Utils_Array::value( $key, $defaults ) );
+            }
+        }
         
         //setting default join date if there is no join date
         if ( !CRM_Utils_Array::value('join_date', $defaults ) ) {
@@ -361,12 +368,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $this->applyFilter('__ALL__', 'trim');
         
-        $this->add('date', 'join_date', ts('Join Date'), CRM_Core_SelectValues::date('activityDate'), false );         
-        $this->addRule('join_date', ts('Select a valid date.'), 'qfDate');
-        $this->add('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date('activityDate'), false );         
-        $this->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-        $this->add('date', 'end_date', ts('End Date'), CRM_Core_SelectValues::date('activityDate'), false );         
-        $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
+        $this->addDate( 'join_date', ts('Join Date'), false, array( 'formatType' => 'activityDate') );
+        $this->addDate( 'start_date', ts('Start Date'), false, array( 'formatType' => 'activityDate') );
+        $this->addDate( 'end_date', ts('End Date'), false, array( 'formatType' => 'activityDate') );
         
         $this->add('text', 'source', ts('Source'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_Membership', 'source' ) );
@@ -388,9 +392,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
             $this->add('text', 'total_amount', ts('Amount'));
             $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
-            
-            $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
-            $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+
+            $this->addDate( 'receive_date', ts('Received'), false, array( 'formatType' => 'activityDate') );
+
             $this->add('select', 'payment_instrument_id', 
                        ts( 'Paid By' ), 
                        array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ),
@@ -481,12 +485,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
         
-        $joinDate = CRM_Utils_Date::format( $params['join_date'] );
+        $joinDate = CRM_Utils_Date::processDate( $params['join_date'] );
+        
         if ( $joinDate ) {
             require_once 'CRM/Member/BAO/MembershipType.php';
             $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $params['membership_type_id'][1] );
             
-            $startDate = CRM_Utils_Date::format( $params['start_date'] );
+            $startDate = CRM_Utils_Date::processDate( $params['start_date'] );
             if ( $startDate && $membershipDetails['period_type'] == 'rolling' ) {
                 if ( $startDate < $joinDate ) {
                     $errors['start_date'] = ts( 'Start date must be the same or later than join date.' );
@@ -497,7 +502,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             // and that end date is later than start date
             // If selected membership type has duration unit as 'lifetime'
             // and end date is set, then give error
-            $endDate = CRM_Utils_Date::format( $params['end_date'] );
+            $endDate = CRM_Utils_Date::processDate( $params['end_date'] );
             if ( $endDate ) {
                 if ( $membershipDetails['duration_unit'] == 'lifetime' ) {
                     $errors['end_date'] = ts('The selected Membership Type has a lifetime duration. You cannot specify an End Date for lifetime memberships. Please clear the End Date OR select a different Membership Type.');
@@ -618,11 +623,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $params['membership_type_id'] = $formValues['membership_type_id'][1];
         
-        $joinDate  = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
-        $startDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['start_date'] ));
-        $endDate   = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['end_date'] ));
-        
-       
+        $joinDate  = CRM_Utils_Date::processDate( $formValues['join_date'] );
+        $startDate = CRM_Utils_Date::processDate( $formValues['start_date'] );
+        $endDate   = CRM_Utils_Date::processDate( $formValues['end_date'] );
+               
         $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['membership_type_id'],
                                                                               $joinDate, $startDate, $endDate);
         
@@ -636,9 +640,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         foreach ( $dates as $d ) {
             if ( isset( $formValues[$d] ) &&
                  ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
-                $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
+                $params[$d] = CRM_Utils_Date::processDate( $formValues[$d] );
             } else if ( isset( $calcDates[$d] ) ) {
-                $params[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
+                $params[$d] = CRM_Utils_Date::processDate($calcDates[$d]);
             }
         }
         
