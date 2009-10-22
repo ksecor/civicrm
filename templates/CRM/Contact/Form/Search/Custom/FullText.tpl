@@ -12,7 +12,7 @@
     </div>
 </fieldset>
 </div>
-
+{include file="CRM/common/jsortable.tpl"}
 {if $rowsEmpty}
     {include file="CRM/Contact/Form/Search/Custom/EmptyResults.tpl"}
 {/if}
@@ -23,14 +23,13 @@
         <legend>{ts}Contacts{/ts}</legend>
         {* This section displays the rows along and includes the paging controls *}
             {strip}
-            <table class="selector" summary="{ts}Contact listings.{/ts}">
-                <tr class="columnheader">
-                    <th scope="col">
-                        {ts}Name{/ts}
-                    </th>
-                    <th>&nbsp;</th>
+            <table id="contact_listing" class="display" class="selector" summary="{ts}Contact listings.{/ts}">
+                <thead>
+                <tr>
+                    <th>{ts}Name{/ts}</th>
+                    <th></th>
                 </tr>
-
+                </thead>
                 {foreach from=$summary.Contact item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact details{/ts}">{$row.display_name}</a></td>
@@ -50,17 +49,18 @@
         <legend>{ts}Activities{/ts}</legend>
         {* This section displays the rows along and includes the paging controls *}
             {strip}
-            <table class="selector" summary="{ts}Contact listings.{/ts}">
-                <tr class="columnheader">
-                    <th scope="col">{ts}Type{/ts}</th>
-                    <th scope="col">{ts}Subject{/ts}</th>
-                    <th scope="col">{ts}Details{/ts}</th>
-                    <th scope="col">{ts}Added By{/ts}</th>
-                    <th scope="col">{ts}With{/ts}</th>
-                    <th scope="col">{ts}Assignee{/ts}</th>
-                    <th>&nbsp;</th>
+            <table id="activity_listing" class="display" summary="{ts}Activity listings.{/ts}">
+                <thead>
+                <tr>
+                    <th>{ts}Type{/ts}</th>
+                    <th>{ts}Subject{/ts}</th>
+                    <th>{ts}Details{/ts}</th>
+                    <th>{ts}Added By{/ts}</th>
+                    <th>{ts}With{/ts}</th>
+                    <th>{ts}Assignee{/ts}</th>
+                    <th></th>
                 </tr>
-
+                </thead>
                 {foreach from=$summary.Activity item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td>{$row.activity_type}</td>
@@ -92,22 +92,25 @@
         <legend>{ts}Cases{/ts}</legend>
         {* This section displays the rows along and includes the paging controls *}
             {strip}
-            <table class="selector" summary="{ts}Case listings.{/ts}">
-                <tr class="columnheader">
-                    <th scope="col">{ts}Client Name{/ts}</th>
-                    <th>{ts}Start Date{/ts}</th>
-                    <th>{ts}End Date{/ts}</th>
+            <table id="case_listing" class="display" summary="{ts}Case listings.{/ts}">
+                <thead>
+                <tr>
+                    <th>{ts}Client Name{/ts}</th>
+                    <th id="start_date">{ts}Start Date{/ts}</th>
+                    <th id="end_date">{ts}End Date{/ts}</th>
                     <th>{ts}Case ID{/ts}</th>
-                    <th>&nbsp;</th>
+                    <th></th>
                 </tr>
-
+                </thead>
                 {foreach from=$summary.Case item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact details{/ts}">{$row.display_name}</a></td>
-                        <td>{$row.case_start_date|crmDate}</td>
-                        <td>{$row.case_end_date|crmDate}</td>
+                        <td>{$row.case_start_date|crmDate:"%b %d, %Y %l:%M %P"}</td>
+                        <td>{$row.case_end_date|crmDate:"%b %d, %Y %l:%M %P"}</td>
                         <td>{$row.case_id}</td>
                         <td><a href="{crmURL p='civicrm/contact/view/case' q="reset=1&id=`$row.case_id`&cid=`$row.contact_id`&action=view"}">{ts}Manage Case{/ts}</a></td>
+                        <td class="start_date hiddenElement">{$row.case_start_date|crmDate}</td>
+                        <td class="end_date hiddenElement">{$row.case_end_date|crmDate}</td>
                     </tr>
                 {/foreach}
             </table>
@@ -123,26 +126,28 @@
         <legend>{ts}Contributions{/ts}</legend>
         {* This section displays the rows along and includes the paging controls *}
             {strip}
-            <table summary="{ts}Contribution listings.{/ts}">
-                <tr class="columnheader">
-                    <th scope="col">{ts}Contributor's Name{/ts}</th>
-                    <th scope="col">{ts}Amount{/ts}</th>
-                    <th scope="col">{ts}Contribution Type{/ts}</th>
-                    <th scope="col">{ts}Source{/ts}</th>
-                    <th scope="col">{ts}Received{/ts}</th>
-                    <th scope="col">{ts}Status{/ts}</th>
-                    <th>&nbsp;</th>
+            <table id="contribute_listing" class="display" summary="{ts}Contribution listings.{/ts}">
+                <thead>
+                <tr>
+                    <th>{ts}Contributor's Name{/ts}</th>
+                    <th id="currency">{ts}Amount{/ts}</th>
+                    <th>{ts}Contribution Type{/ts}</th>
+                    <th>{ts}Source{/ts}</th>
+                    <th id="received_date">{ts}Received{/ts}</th>
+                    <th>{ts}Status{/ts}</th>
+                    <th></th>
                 </tr>
-
+                </thead>
                 {foreach from=$summary.Contribution item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact details{/ts}">{$row.display_name}</a></td>
                         <td>{$row.contribution_total_amount|crmMoney}</td>
                         <td>{$row.contribution_type}</td>
                         <td>{$row.contribution_source}</td>
-                        <td>{$row.contribution_receive_date|crmDate}</td>
+                        <td>{$row.contribution_receive_date|crmDate:"%b %d, %Y %l:%M %P"}</td>
                         <td>{$row.contribution_status}</td>
                         <td><a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&id=`$row.contribution_id`&cid=`$row.contact_id`&action=view"}">{ts}View{/ts}</a></td>
+                        <td class="received_date hiddenElement">{$row.contribution_receive_date|crmDate}</td>
                     </tr>
                 {/foreach}
             </table>
@@ -158,30 +163,32 @@
         <legend>{ts}Event Participants{/ts}</legend>
         {* This section displays the rows along and includes the paging controls *}
             {strip}
-            <table summary="{ts}Participant listings.{/ts}">
-                <tr class="columnheader">
-                    <th scope="col">{ts}Participant's Name{/ts}</th>
-                    <th scope="col">{ts}Event{/ts}</th>
-                    <th scope="col">{ts}Fee Level{/ts}</th>
-                    <th scope="col">{ts}Fee Amount{/ts}</th>
-                    <th scope="col">{ts}Register Date{/ts}</th>
-                    <th scope="col">{ts}Source{/ts}</th>
-                    <th scope="col">{ts}Status{/ts}</th>
-                    <th scope="col">{ts}Role{/ts}</th>
-                    <th>&nbsp;</th>
+            <table id="participant_listing" class="display" summary="{ts}Participant listings.{/ts}">
+                <thead>
+                <tr>
+                    <th>{ts}Participant's Name{/ts}</th>
+                    <th>{ts}Event{/ts}</th>
+                    <th>{ts}Fee Level{/ts}</th>
+                    <th id="currency">{ts}Fee Amount{/ts}</th>
+                    <th id="register_date">{ts}Register Date{/ts}</th>
+                    <th>{ts}Source{/ts}</th>
+                    <th>{ts}Status{/ts}</th>
+                    <th>{ts}Role{/ts}</th>
+                    <th></th>
                 </tr>
-
+                </thead>
                 {foreach from=$summary.Participant item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact details{/ts}">{$row.display_name}</a></td>
                         <td>{$row.event_title}</td>
                         <td>{$row.participant_fee_level}</td>
                         <td>{$row.participant_fee_amount|crmMoney}</td>
-                        <td>{$row.participant_register_date|crmDate}</td>
+                        <td>{$row.participant_register_date|crmDate:"%b %d, %Y %l:%M %P"}</td>
                         <td>{$row.participant_source}</td>
                         <td>{$row.participant_status}</td>
                         <td>{$row.participant_role}</td>
                         <td><a href="{crmURL p='civicrm/contact/view/participant' q="reset=1&id=`$row.participant_id`&cid=`$row.contact_id`&action=view"}">{ts}View{/ts}</a></td>
+                        <td class="register_date hiddenElement">{$row.participant_register_date|crmDate}</td>
                     </tr>
                 {/foreach}
             </table>
@@ -197,28 +204,31 @@
         <legend>{ts}Memberships{/ts}</legend>
         {* This section displays the rows along and includes the paging controls *}
             {strip}
-            <table summary="{ts}Membership listings.{/ts}">
-                <tr class="columnheader">
-                    <th scope="col">{ts}Member's Name{/ts}</th>
-                    <th scope="col">{ts}Membership Type{/ts}</th>
-                    <th scope="col">{ts}Membership Fee{/ts}</th>      
-                    <th scope="col">{ts}Membership Start Date{/ts}</th>
-                    <th scope="col">{ts}Membership End Date{/ts}</th>
-                    <th scope="col">{ts}Source{/ts}</th>
-                    <th scope="col">{ts}Status{/ts}</th>
-                    <th>&nbsp;</th>
+            <table id="membership_listing" class="display" summary="{ts}Membership listings.{/ts}">
+                <thead>
+                <tr>
+                    <th>{ts}Member's Name{/ts}</th>
+                    <th>{ts}Membership Type{/ts}</th>
+                    <th id="currency">{ts}Membership Fee{/ts}</th>      
+                    <th id="start_date">{ts}Membership Start Date{/ts}</th>
+                    <th id="end_date">{ts}Membership End Date{/ts}</th>
+                    <th>{ts}Source{/ts}</th>
+                    <th>{ts}Status{/ts}</th>
+                    <th></th>
                 </tr>
-
+                </thead>
                 {foreach from=$summary.Membership item=row}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact details{/ts}">{$row.display_name}</a></td>
                         <td>{$row.membership_type}</td>
                         <td>{$row.membership_fee|crmMoney}</td>
-                        <td>{$row.membership_start_date|crmDate}</td>
-                        <td>{$row.membership_end_date|crmDate}</td>
+                        <td>{$row.membership_start_date|crmDate:"%b %d, %Y %l:%M %P"}</td>
+                        <td>{$row.membership_end_date|crmDate:"%b %d, %Y %l:%M %P"}</td>
                         <td>{$row.membership_source}</td>
                         <td>{$row.membership_status}</td>
                         <td><a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&id=`$row.membership_id`&cid=`$row.contact_id`&action=view"}">{ts}View{/ts}</a></td>
+                        <td class="start_date hiddenElement">{$row.membership_start_date|crmDate}</td>
+                        <td class="end_date hiddenElement">{$row.membership_end_date|crmDate}</td>
                     </tr>
                 {/foreach}
             </table>
