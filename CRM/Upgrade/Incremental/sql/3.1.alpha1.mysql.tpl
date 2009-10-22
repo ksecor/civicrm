@@ -88,3 +88,7 @@
    ALTER TABLE `civicrm_price_set` ADD `extends` VARCHAR( 255 ) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Type of object this price set extends (e.g. Events, Contributions etc.).';
 
    UPDATE `civicrm_price_set` SET extends = 'Event';
+
+-- CRM-4160
+   ALTER TABLE `civicrm_acl`
+      MODIFY `operation` enum('All', 'View', 'Edit', 'Create', 'Delete', 'Grant', 'Revoke', 'Search') COLLATE utf8_unicode_ci NOT NULL   COMMENT 'What operation does this ACL entry control?';
