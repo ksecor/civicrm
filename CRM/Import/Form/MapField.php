@@ -114,6 +114,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
      * @var int
      */
     public $_onDuplicate;
+
+    protected $_dedupeFields;
         
     /**
      * Attempt to resolve a column name with our mapper fields
@@ -208,7 +210,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             $highlightedFields[] = 'organization_name'; 
             break;
         }
-        
+        $this->_contactType = $contactType;
         if ( $this->_onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP ) {
             unset($this->_mapperFields['id']);  
         } else {
@@ -217,16 +219,17 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
 
         if ( $this->_onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK ) {
             //Mark Dedupe Rule Fields as required, since it's used in matching contact
-            $ruleParams = array(
-                                'contact_type' => $contactType,
-                                'level'        => 'Strict'
-                                );
             require_once 'CRM/Dedupe/BAO/Rule.php';
-            $fieldsArray       = CRM_Dedupe_BAO_Rule::dedupeRuleFields( $ruleParams );
-            //$highlightedFields = array_merge( $highlightedFields, $fieldsArray );
+            foreach ( array( 'Individual','Household','Organization' ) as $cType ) {
+                $ruleParams = array(
+                                    'contact_type' => $cType,
+                                    'level'        => 'Strict'
+                                    );
+                $this->_dedupeFields[$cType] = CRM_Dedupe_BAO_Rule::dedupeRuleFields( $ruleParams );
+            }
 
             //Modify mapper fields title if fields are present in dedupe rule
-            foreach ( $fieldsArray as $val ) {
+            foreach ( $this->_dedupeFields[$contactType] as $val ) {
                 if ( $valTitle = CRM_Utils_Array::value( $val, $this->_mapperFields ) ) {
                     $this->_mapperFields[$val]  = $valTitle . ' (match to contact)';
                 }
@@ -372,7 +375,15 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             $contactRelationCache[$contactRelation->id]['contact_type_b']     = $contactRelation->contact_type_b;
             $contactRelationCache[$contactRelation->id]['contact_sub_type_b'] = $contactRelation->contact_sub_type_b;
         }
+        $highlightedFields = $highlightedRelFields = array();
         
+        $highlightedFields['email']               = 'All';
+        $highlightedFields['external_identifier'] = 'All';
+        $highlightedFields['first_name']          = 'Individual';
+        $highlightedFields['last_name']           = 'Individual';
+        $highlightedFields['household_name']      = 'Household';
+        $highlightedFields['organization_name']   = 'Organization'; 
+
         foreach ($mapperKeys as $key) {
             // check if there is a _a_b or _b_a in the key
             if ( strpos( $key, '_a_b' ) || strpos( $key, '_b_a' ) ) {
@@ -411,7 +422,28 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 if ( !CRM_Utils_Array::value( $cType, $this->_formattedFieldNames ) ) {
                     $this->_formattedFieldNames[$cType] = $this->formatCustomFieldName( $values );
                 }
-                $sel2[$key] = $this->_formattedFieldNames[$cType] = array_merge( $values, $this->_formattedFieldNames[$cType] );
+
+                $this->_formattedFieldNames[$cType] = array_merge( $values, $this->_formattedFieldNames[$cType] );
+
+                //Modified the Relationship fields if the fields are
+                //present in dedupe rule
+                static $cTypeArray = array();
+                if ( $cType != $this->_contactType && !in_array( $cType, $cTypeArray ) ) {
+                    foreach ( $this->_dedupeFields[$cType] as $val ) {
+                        if ( $valTitle = CRM_Utils_Array::value( $val, $this->_formattedFieldNames[$cType] ) ) {
+                            $this->_formattedFieldNames[$cType][$val]  = $valTitle . ' (match to contact)';
+                        }
+                    }
+                    $cTypeArray[] = $cType;
+                }
+
+                foreach ($highlightedFields as $k => $v ) {
+                    if ( $v == $cType || $v == 'All' ) {
+                        $highlightedRelFields[$key][] = $k;
+                    }
+                }
+                $this->assign( 'highlightedRelFields', $highlightedRelFields );
+                $sel2[$key] = $this->_formattedFieldNames[$cType];
 
                 if ( !empty($cSubType) ) { 
                     //custom fields for sub type
