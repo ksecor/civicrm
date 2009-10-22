@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <base href="{$config->resourceBase}" />
   <style type="text/css" media="screen">@import url({$config->resourceBase}css/civicrm.css);</style>
-  <style type="text/css" media="screen">@import url({$config->resourceBase}css/instance.css);</style>
+  <style type="text/css" media="screen">@import url({$config->resourceBase}css/extras.css);</style>
 </head>
 
 <body>
