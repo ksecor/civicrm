@@ -192,6 +192,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     function setDefaultValues( ) 
     {   
         $defaults = $this->_values;
+        
         $fields   = array( );
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return $defaults;
@@ -202,10 +203,14 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         } 
         
         if ( $this->_id ) {
-            $start_date =  CRM_Utils_Array::value( 'start_date', $this->_values );
-            $create_date =  CRM_Utils_Array::value( 'start_date', $this->_values );
+            $startDate  =  CRM_Utils_Array::value( 'start_date', $this->_values );
+            $createDate =  CRM_Utils_Array::value( 'create_date', $this->_values );
+            list( $defaults['start_date' ] ) = CRM_Utils_Date::setDateDefaults( $startDate );
+            list( $defaults['create_date'] ) = CRM_Utils_Date::setDateDefaults( $createDate );
+            
             if ( $this->_values['acknowledge_date'] ) {
-                $defaults['acknowledge_date'] = CRM_Utils_Array::value( 'acknowledge_date', $this->_values );
+                list( $defaults['acknowledge_date'] ) = CRM_Utils_Date::setDateDefaults( 
+                                                        CRM_Utils_Array::value( 'acknowledge_date', $this->_values ) );
             }
             
             //check is this pledge pending 
@@ -215,8 +220,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                 $defaults['eachPaymentAmount'] = $this->_values['amount'] / $this->_values['installments'];
                 $defaults['eachPaymentAmount'] = CRM_Utils_Money::format($defaults['eachPaymentAmount'], null, '%a');
             } else {
-                $this->assign( 'start_date', $start_date );
-                $this->assign( 'create_date', $create_date );
+                $this->assign( 'start_date',  $startDate );
+                $this->assign( 'create_date', $createDate );
             }
             // fix the display of the monetary value, CRM-4038
             if (isset( $this->_values['amount'])) {
@@ -225,9 +230,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             
         } else {
             //default values.
-            $now = date("Y-m-d");
-            list( $defaults['create_date'] )     = CRM_Utils_Date::setDateDefaults( $now );
-            $defaults['start_date']              = $defaults['create_date'];
+            list( $now ) = CRM_Utils_Date::setDateDefaults( );
+            $defaults['create_date']             = $now;
+            $defaults['start_date']              = $now;
             $defaults['installments']            = 12;
             $defaults['frequency_interval']      = 1;
             $defaults['frequency_day']           = 1;
