@@ -34,8 +34,8 @@
  */
 
 require_once 'CRM/Report/Form.php';
-require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Contact/BAO/Relationship.php';
+require_once 'CRM/Contact/BAO/ContactType.php';
 
 class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     
@@ -44,10 +44,9 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
     protected $_emailField_b  = false;
     
     function __construct( ) {
-        
-        $contact_type = CRM_Core_SelectValues::contactType();
-        unset($contact_type[""]);
-        
+
+        $contact_type = CRM_Contact_BAO_ContactType::getSelectElements( false, '_' );
+         
         $this->_columns = 
             array(
                   'civicrm_contact' =>
@@ -275,7 +274,104 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                             {$this->_aliases['civicrm_email_b']}.is_primary = 1 )";
        }
     }
-    
+
+    function where( ) {
+        $whereClauses = $havingClauses = array( );
+        foreach ( $this->_columns as $tableName => $table ) {
+            if ( array_key_exists('filters', $table) ) {
+                foreach ( $table['filters'] as $fieldName => $field ) {
+
+                    $clause = null;
+                    if ( CRM_Utils_Array::value( 'type', $field ) & CRM_Utils_Type::T_DATE ) {
+                        $relative = CRM_Utils_Array::value( "{$fieldName}_relative", $this->_params );
+                        $from     = CRM_Utils_Array::value( "{$fieldName}_from"    , $this->_params );
+                        $to       = CRM_Utils_Array::value( "{$fieldName}_to"      , $this->_params );
+                        
+                        $clause = $this->dateClause( $field['name'], $relative, $from, $to );
+                    } else {
+                        $op = CRM_Utils_Array::value( "{$fieldName}_op", $this->_params );
+                        if ( $op ) {
+                            
+                            if( $tableName == 'civicrm_relationship_type' && ($fieldName== 'contact_type_a' || $fieldName== 'contact_type_b') ) {
+                                $cTypes = CRM_Utils_Array::value( "{$fieldName}_value", $this->_params );
+                                $contactTypes    = array( );
+                                $contactSubTypes = array( );
+                                foreach( $cTypes as $ctype ) {
+                                    $getTypes =  CRM_Utils_System::explode( '_', $ctype, 2 );
+                                    if( $getTypes[1] && !in_array($getTypes[1],$contactSubTypes ) ) {
+                                        $contactSubTypes[] = $getTypes[1];
+                                        
+                                    } elseif( $getTypes[0] && !in_array($getTypes[0],$contactTypes ) ) {
+                                        $contactTypes[] = $getTypes[0];
+                                    }
+                                }
+                                
+                            if( !empty($contactTypes) ) {
+                            $clause = 
+                                $this->whereClause( $field,
+                                                    $op,
+                                                    $contactTypes,
+                                                    CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                    CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                            }
+                            
+                            if( !empty($contactSubTypes) ) {
+                                if( $fieldName == 'contact_type_a' ) {
+                                    $field['name'] = 'contact_sub_type_a';
+                                } else {
+                                    $field['name'] = 'contact_sub_type_b';
+                                }
+                                $field['dbAlias'] = $field['alias'].'.'.$field['name']; 
+                                $subTypeClause =  $this->whereClause( $field,
+                                                               $op,
+                                                               $contactSubTypes,
+                                                               CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                               CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                                if( $clause ) {
+                                    $clause = '('.$clause.' OR '.$subTypeClause.')';
+                                } else {
+                                    $clause = $subTypeClause;
+                                }
+                            }
+
+                            } else {
+                                
+                                $clause = 
+                                    $this->whereClause( $field,
+                                                    $op,
+                                                        CRM_Utils_Array::value( "{$fieldName}_value", $this->_params ),
+                                                        CRM_Utils_Array::value( "{$fieldName}_min", $this->_params ),
+                                                        CRM_Utils_Array::value( "{$fieldName}_max", $this->_params ) );
+                            }
+                        }
+                    }
+                    
+                    if ( ! empty( $clause ) ) {
+                        if ( CRM_Utils_Array::value( 'group', $field ) ) {
+                            $whereClauses[] = $this->whereGroupClause( $clause );
+                        } else if ( CRM_Utils_Array::value( 'having', $field ) ) {
+                            $havingClauses[] = $clause;
+                        } else {
+                            $whereClauses[] = $clause;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ( empty( $whereClauses ) ) {
+            $this->_where = "WHERE ( 1 ) ";
+            $this->_having = "";
+        } else {
+            $this->_where = "WHERE " . implode( ' AND ', $whereClauses );
+        }
+
+        if ( !empty( $havingClauses ) ) {
+            // use this clause to construct group by clause.
+            $this->_having = "HAVING " . implode( ' AND ', $havingClauses );
+        }
+    }
+
     function statistics( &$rows ) {
         $statistics = parent::statistics( $rows );
         
@@ -331,9 +427,10 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
 
         $this->relationType = null;
         if ( CRM_Utils_Array::value( 'relationship_type_id_value', $this->_params ) ) {
-               
-            $this->relationType = substr($this->_params['relationship_type_id_value'], 2 );
-            $this->_params['relationship_type_id_value'] = intval( substr($this->_params['relationship_type_id_value'],0,1) );
+            $relType = explode('_',  $this->_params['relationship_type_id_value']);
+            
+            $this->relationType = $relType[1].'_'.$relType[2];
+            $this->_params['relationship_type_id_value'] = intval( $relType[0] );
         }
         
         $sql = $this->buildQuery( );

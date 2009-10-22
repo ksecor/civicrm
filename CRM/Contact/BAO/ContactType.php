@@ -218,7 +218,7 @@ WHERE  subtype.name IS NOT NULL AND subtype.parent_id IS NOT NULL {$ctWHERE}
         return $pairs;
     }
     
-    static function &getSelectElements( $all = false ) {
+    static function &getSelectElements( $all = false , $seperator = CRM_Core_DAO::VALUE_SEPARATOR ) {
         static $_cache = null;
 
         if ( $_cache === null ) {
@@ -249,7 +249,7 @@ AND   ( p.is_active = 1 OR p.id IS NULL )
             $dao = CRM_Core_DAO::executeQuery( $sql );
             while ( $dao->fetch( ) ) {
                 if ( ! empty( $dao->parent_id ) ) {
-                    $key   = $dao->parent_name . CRM_Core_DAO::VALUE_SEPARATOR . $dao->child_name;
+                    $key   = $dao->parent_name . $seperator . $dao->child_name;
                     $label = "&nbsp;&nbsp;{$dao->child_label}";
                     $pName = $dao->parent_name;
                 } else {
@@ -264,7 +264,7 @@ AND   ( p.is_active = 1 OR p.id IS NULL )
                 $values[$pName][] = array( 'key' => $key, 'label' => $label );
             }
 
-            $selectElements = array('' => ts('- select -') );
+            $selectElements = array( );
             foreach ( $values as $pName => $elements ) {
                 foreach ( $elements as $element ) {
                     $selectElements[$element['key']] = $element['label'];
