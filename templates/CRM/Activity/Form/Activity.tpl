@@ -143,15 +143,11 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
              </tr> 
              <tr>
                 <td class="label">{$form.activity_date_time.label}</td>
-                <td class="view-value">{$form.activity_date_time.html | crmDate }</br>
-                    {if $action neq 4}
-                      <span class="description">
-                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity doTime=1}
-                      {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_time startDate=currentYear 
-                                      endDate=endYear offset=10 doTime=1 trigger=trigger_activity ampm=1}
-                      </span>
-                   {/if}  
-                </td>
+                {if $action neq 4}
+                    <td class="view-value">{include file="CRM/common/jcalendar.tpl" elementName=activity_date_time}</td>
+                {else}
+                    <td class="view-value">{$form.activity_date_time.html|crmDate}</td>
+                {/if}
              </tr>
              <tr>
                 <td class="label">{$form.duration.label}</td>

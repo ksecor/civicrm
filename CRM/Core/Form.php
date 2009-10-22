@@ -984,10 +984,11 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     function addDateTime( $name, $label, $required = false, $attributes = null ) {
         $addTime = array( 'addTime' => true );
         if ( is_array( $attributes ) ) {
-            $attributes = array_merge( $attributes, $addtime);
+            $attributes = array_merge( $attributes, $addTime );
         } else {
             $attributes = $addTime;
         }
+        
         $this->addDate( $name, $label, $required, $attributes );
     }
 }

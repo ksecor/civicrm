@@ -118,12 +118,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                         'attributes'  => CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
                                                                                                     'subject' ),
                                                         ),
-                  'activity_date_time'      =>  array( 'type'        => 'date',
-                                                       'label'       => ts('Date and Time'),
-                                                       'attributes'  => 
-                                                       CRM_Core_SelectValues::date('activityDatetime'),
-                                                       'required'    => true,
-                                                       ),
                   'duration'                 =>  array( 'type'        => 'text',
                                                         'label'       => ts('Duration'),
                                                         'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
@@ -403,8 +397,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             }
             
             if ( !CRM_Utils_Array::value('activity_date_time', $defaults) ) {
-                $defaults['activity_date_time'] = array( );
-                CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
+                $defaults['activity_date_time'] = CRM_Utils_Date::setDateDefaults( );
+            } else {
+                list( $defaults['activity_date_time'], 
+                      $defaults['activity_date_time_time'] ) = CRM_Utils_Date::setDateDefaults( $defaults['activity_date_time'] );
             }
 
             //set the assigneed contact count to template
@@ -443,8 +439,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $target_contact[$this->_targetContactId] = self::_getDisplayNameById( $this->_targetContactId );
             }
             $this->assign( 'target_contact', $target_contact ); 
-            $defaults['activity_date_time'] = array( );
-            CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
+            list( $defaults['activity_date_time'], $defaults['activity_date_time_time'] ) = CRM_Utils_Date::setDateDefaults( );
         }
 
         if (  $this->_activityTypeId ) {
@@ -538,10 +533,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->addRule('duration', 
                        ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
         
-        $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
-        
         $this->addRule('interval', ts('Please enter the follow-up interval as a number (integers only).'), 
-                       'positiveInteger');  
+                       'positiveInteger');
+
+        $this->addDateTime( 'activity_date_time', ts('Date'), true, array( 'formatType' => 'activityDate') );  
         
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "reset=1",
@@ -771,7 +766,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         // store the date with proper format
-        $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
+        $params['activity_date_time'] = CRM_Utils_Date::processDate( $params['activity_date_time'], $params['activity_date_time_time'] );
 
         // assigning formated value to related variable
         if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
