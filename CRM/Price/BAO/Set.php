@@ -117,7 +117,6 @@ WHERE    price_set_id = %1";
         if ( empty( $forms ) ) {
             return $usedBy;
         }        
-        
         foreach ( $forms as $table => $entities ) {
             switch ($table) {
             case 'civicrm_event':
@@ -157,7 +156,8 @@ WHERE     ct.id = cp.contribution_type_id AND
                 }
                 break;
 
-            case 'civicrm_contribution':  
+            case 'civicrm_contribution':
+                $usedBy[$table] = 1;
                 break;
                 
             default:
