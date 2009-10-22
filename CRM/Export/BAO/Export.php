@@ -430,7 +430,7 @@ class CRM_Export_BAO_Export
                     
                     //Get relationships
                     $val = civicrm_contact_relationship_get($contact_id,null,$params);
-                    if ( !empty($val) ) {
+                    if ( is_array($val['result']) ) {
                         asort($val['result']);
                     }
                     
