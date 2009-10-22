@@ -104,11 +104,10 @@ class CRM_Event_Form_EventFees
                 //set receipt text
                 $defaults[$form->_pId]['receipt_text'] = $details[$form->_eventId]['confirm_email_text'];
             }
-            $today_date = getDate();
-            $defaults[$form->_pId]['receive_date']['M'] = $today_date['mon'];
-            $defaults[$form->_pId]['receive_date']['d'] = $today_date['mday'];
-            $defaults[$form->_pId]['receive_date']['Y'] = $today_date['year'];
+
+            list( $defaults[$form->_pId]['receive_date'] ) = CRM_Utils_Date::setDateDefaults( );
         }
+
         if ( $form->_mode ) {
             $fields = array( );
             
@@ -451,8 +450,7 @@ class CRM_Event_Form_EventFees
                            ts( 'Contribution Type' ), 
                            array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
                 
-                $form->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
-                $form->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+                $form->addDate( 'receive_date', ts('Received'), false, array( 'formatType' => 'activityDate') );
                 
                 $form->add('select', 'payment_instrument_id', 
                            ts( 'Paid By' ), 

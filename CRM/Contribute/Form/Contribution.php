@@ -784,8 +784,7 @@ WHERE  contribution_id = {$this->_id}
 
         // add various dates
         $this->addDate( 'receive_date', ts('Received'), false, array( 'formatType' => 'activityDate') );
-        
-        
+                
         if ( $this->_online ) {
             $this->assign("hideCalender" , true );
         }

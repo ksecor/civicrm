@@ -394,38 +394,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         //setting default register date
-        if ( $this->_action == CRM_Core_Action::ADD ) {
-            // CRM-5150 this is hack to fix setdefaults, we will remove this code once we migrate to
-            // new date picker plugin in v3.1
-            $config =& CRM_Core_Config::singleton( );
-            $dateFormat  = $config->dateformatQfDatetime;
-            $hour24Format = false;
-            if ( preg_match( '/%H/i', $dateFormat) ) {
-                $hour24Format = true;
-            }
-            
-            $currentDate = getDate();
-            $defaults[$this->_participantId]['register_date']['M'] = $currentDate['mon'];
-            $defaults[$this->_participantId]['register_date']['d'] = $currentDate['mday'];
-            $defaults[$this->_participantId]['register_date']['Y'] = $currentDate['year'];
-
-            if ( !$hour24Format ) {            
-                $defaults[$this->_participantId]['register_date']['A'] = 'AM';
-                $defaults[$this->_participantId]['register_date']['a'] = 'am';
-                if ( $currentDate['hours'] >= 12 ) {
-                    if ( $currentDate['hours'] != 12) {
-                        $currentDate['hours'] -= 12;                        
-                    }
-                    $defaults[$this->_participantId]['register_date']['A'] = 'PM';
-                    $defaults[$this->_participantId]['register_date']['a'] = 'pm';
-                }
-                $defaults[$this->_participantId]['register_date']['h'] = $currentDate['hours'];
-            } else {
-                $defaults[$this->_participantId]['register_date']['H'] = $currentDate['hours'];                
-            }
-            
-            $defaults[$this->_participantId]['register_date']['i'] = $currentDate['minutes'];
-
+        if ( $this->_action == CRM_Core_Action::ADD ) {            
             if ( CRM_Utils_Array::value( 'event_id' , $defaults[$this->_participantId] ) ) {
                 $contributionTypeId =  CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                     $defaults[$this->_participantId]['event_id'], 
@@ -459,9 +428,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 				$eventID  = $submittedEvent[0];
 			}
         } else {
-            $defaults[$this->_participantId]['register_date'] = CRM_Utils_Date::unformat($defaults[$this->_participantId]['register_date']);
-            $defaults[$this->_participantId]['register_date']['i']  = (integer)($defaults[$this->_participantId]['register_date']['i']/15)*15;
-           
             $defaults[$this->_participantId]['record_contribution'] = 0;
             $recordContribution = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                                $defaults[$this->_participantId]['id'], 
@@ -488,6 +454,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->set( 'discountId', $this->_discountId );
             }
         }
+        
+        list( $defaults[$this->_participantId]['register_date'], 
+              $defaults[$this->_participantId]['register_date_time'] ) = CRM_Utils_Date::setDateDefaults( 
+                                                                         CRM_Utils_Array::value( 'register_date' , $defaults[$this->_participantId] ) );
         
 		//assign event and role id, this is needed for Custom data building
 		if ( isset( $_POST['role_id'] ) ) {
@@ -626,11 +596,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
         }
        
-        $this->add( 'date', 'register_date', ts('Registration Date and Time'),
-                    CRM_Core_SelectValues::date('activityDatetime' ),
-                    true);   
-        $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
-
+        $this->addDateTime( 'register_date', ts('Registration Date'), true );
+        
 		if ( $this->_participantId ) {
 			$this->assign( 'entityID', $this->_participantId );
 		}
@@ -825,15 +792,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $params['fee_level']                = $params['amount_level'];
             $contributionParams                 = array( );
             $contributionParams['total_amount'] = $params['amount'];
-           
         }
        
         //fix for CRM-3086
         $params['fee_amount'] = $params['amount'];
         $this->_params = $params;
         unset($params['amount']);
-        $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
-        $params['receive_date' ] = CRM_Utils_Date::format(CRM_Utils_Array::value( 'receive_date', $params ));
+        $params['register_date'] = CRM_Utils_Date::processDate( $params['register_date'], $params['register_date_time'] );
+        $params['receive_date' ] = CRM_Utils_Date::processDate( CRM_Utils_Array::value( 'receive_date', $params ) );
         $params['contact_id'   ] = $this->_contactID;
         if ( $this->_participantId ) {
             $params['id'] = $this->_participantId;
@@ -984,7 +950,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->set( 'params', $this->_params );
             $this->assign( 'trxn_id', $result['trxn_id'] );
             $this->assign( 'receive_date',
-                           CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+                           CRM_Utils_Date::processDate( $this->_params['receive_date']) );
             // set source if not set 
             
             $this->_params['description'] = ts( 'Submit Credit Card for Event Registration by: %1', array( 1 => $userName ) );
