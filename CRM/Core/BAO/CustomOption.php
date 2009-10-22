@@ -115,46 +115,44 @@ class CRM_Core_BAO_CustomOption {
         return $options;
     }
 
-    static function getOptionLabel($fieldId, $value, $fieldType = null, $dataType = null, $entityTable = 'civicrm_custom_field')
+    static function getOptionLabel($fieldId, $value, $htmlType = null, $dataType = null )
     {
-        switch ($fieldType) {
+        if ( ! $htmlType || ! $dataType ) {
+            $sql = "
+SELECT html_type, data_type
+FROM   civicrm_custom_field
+WHERE  id = %1
+";
+            $params = array( 1 => array( $fieldId, 'Integer' ) );
+            $dao = CRM_Core_DAO::executeQuery( $sql, $params );
+            if ( $dao->fetch( ) ) {
+                $htmlType = $dao->html_type;
+                $dataType  = $dao->data_type;
+            } else {
+                CRM_Core_Error::fatal( );
+            }
+        }
 
-        case null:
+        switch ($htmlType) {
         case 'CheckBox':
         case 'Multi-Select':
         case 'AdvMulti-Select':
         case 'Radio':
         case 'Select':
             $options =& self::valuesByID( $fieldId );
-            $label   =  CRM_Utils_Array::value( $value, $options );
-            break;
-            
-        case 'Multi-Select Country':
-        case 'Select Country':
-            $label =& CRM_Core_PseudoConstant::country($value);
-            break;
-
-        case 'Select Date':
-            $label = CRM_Utils_Date::customFormat($value);
-            break;
-        case 'Multi-Select State/Province':
-        case 'Select State/Province':
-            $label = CRM_Core_PseudoConstant::stateProvince($value);
             break;
 
         default:
-            $label = $value;
-            break;
+            $options = null;
 
         }
 
-        if ( $dataType == 'Boolean' ) {
-            $label = $value ? ts('Yes') : ts('No');
-        }
-
-        return $label;
+        require_once 'CRM/Core/BAO/CustomField.php';
+        return CRM_Core_BAO_CustomField::getDisplayValueCommon( $value,
+                                                                $options,
+                                                                $fieldyType,
+                                                                $dataType );
     }
-
 
     /**
      * Function to delete Option

@@ -898,8 +898,23 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $attributes =& $option['attributes'];
         $html_type  =  $attributes['html_type'];
         $data_type  =  $attributes['data_type'];
-        $index      =  $attributes['label'];
+        $format     =  CRM_Utils_Array::value( 'format', $attributes );
 
+        return self::getDisplayValueCommon( $value,
+                                            $option,
+                                            $html_type,
+                                            $data_type,
+                                            $format,
+                                            $contactID );
+    }
+
+    static function getDisplayValueCommon( $value,
+                                           &$option,
+                                           $html_type,
+                                           $data_type,
+                                           $format = null,
+                                           $contactID = null )
+    {
         $display = $value;
         
         switch ( $html_type ) {
@@ -962,11 +977,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case "Select Date":
-            $dao = & new CRM_Core_DAO_CustomField();
-            $dao->id = $id;
-            $dao->find(true);
-            $parts   = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $dao->date_parts);
-            $format  = CRM_Utils_Array::value( 'format', $attributes ); 
+            $dateParts = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                      $id,
+                                                      'date_parts' );
+            $parts   = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $dateParts);
             $display = CRM_Utils_Date::customFormat($value, $format, $parts);
             break;
 
@@ -977,6 +991,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $display = CRM_Core_PseudoConstant::stateProvince($value);
             }
             break;
+
         case 'Multi-Select State/Province':
             if ( is_array( $value ) ) {    
                 $checkedData = $value;
@@ -1057,7 +1072,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $option     =& $options[$id]; 
         $attributes =& $option['attributes']; 
         $html_type  =  $attributes['html_type']; 
-        $index      =  $attributes['label'];
 
         $default = $value;
 
