@@ -379,10 +379,14 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
      * return null 
      * @access public 
      */ 
-    function associatedContribution( $contactId = null )
+    function associatedContribution( $contactId = null, $membershipId = null )
     {
         if ( ! $contactId ) {
             $contactId = $this->_contactId;
+        }
+        
+        if ( !$membershipId ) {
+            $membershipId = $this->_id;
         }
 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
@@ -392,7 +396,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
             $controller->reset( );  
             $controller->set( 'force', 1 );
             $controller->set( 'cid'  , $contactId );
-            $controller->set( 'memberId'  , $this->_id );
+            $controller->set( 'memberId', $membershipId );
             $controller->set( 'context', 'contribution' ); 
             $controller->process( );  
             $controller->run( );
