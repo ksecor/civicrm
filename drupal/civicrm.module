@@ -49,6 +49,7 @@ function civicrm_html_head()
     } else {
         drupal_add_css(drupal_get_path('module', 'civicrm') . '/../css/deprecate.css'); 
         drupal_add_css(drupal_get_path('module', 'civicrm') . '/../css/civicrm.css'); 
+        drupal_add_css(drupal_get_path('module', 'civicrm') . '/../css/instance.css'); 
     }
     
     // include the below files ONLY if needed, since they are heavy weight ( i.e only for civicrm pages)
