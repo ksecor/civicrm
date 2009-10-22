@@ -11,7 +11,7 @@
 {/htxt}
 
 {htxt id="id-onhold"}
-{ts}This option can be used to keep this email ID on hold to avoid an overflowing mailbox.{/ts}
+{ts}This flag is most commonly used to mark an email address that is bouncing. If you are using the CiviMail component, emails that bounce excessively are automatically placed on hold and mailings are not sent to this address as long as it is marked hold. You can also set (or unset) this option manually - but remember that emails will not be sent to this address as long as it is marked 'On Hold'.{/ts}
 {/htxt}
 
 {htxt id="id-preferred_communication_method"}
