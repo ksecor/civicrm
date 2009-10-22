@@ -14,176 +14,75 @@
 
     <!-- BEGIN CONTENT -->
 
-    {if $module eq 'Membership'}
-      <tr>
-        <td>
-          {if $formValues.receipt_html_signup}
-            <p>{$formValues.receipt_html_signup}</p>
-          {elseif $formValues.receipt_html_renewal}
-            <p>{$formValues.receipt_html_renewal}</p>
-          {else}
-            <p>{ts}Thanks for your support.{/ts}</p>
-          {/if}
+    <tr>
+      <td>
+        {if $formValues.receipt_html_signup}
+          <p>{$formValues.receipt_html_signup}</p>
+        {elseif $formValues.receipt_html_renewal}
+          <p>{$formValues.receipt_html_renewal}</p>
+        {else}
+          <p>{ts}Thanks for your support.{/ts}</p>
+        {/if}
+        {if ! $cancelled}
+          <p>{ts}Please print this receipt for your records.{/ts}</p>
+        {/if}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table style="border: 1px solid #999; margin: 1em 0em 1em; border-collapse: collapse; width:100%;">
+          <tr>
+            <th {$headerStyle}>
+              {ts}Membership Information{/ts}
+            </th>
+          </tr>
+          <tr>
+            <td {$labelStyle}>
+              {ts}Membership Type{/ts}
+            </td>
+            <td {$valueStyle}>
+              {$membership_name}
+            </td>
+          </tr>
           {if ! $cancelled}
-            <p>{ts}Please print this receipt for your records.{/ts}</p>
-          {/if}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <table style="border: 1px solid #999; margin: 1em 0em 1em; border-collapse: collapse; width:100%;">
-            <tr>
-              <th {$headerStyle}>
-                {ts}Membership Information{/ts}
-              </th>
-            </tr>
             <tr>
               <td {$labelStyle}>
-                {ts}Membership Type{/ts}
+                {ts}Membership Start Date{/ts}
               </td>
               <td {$valueStyle}>
-                {$membership_name}
-              </td>
-            </tr>
-            {if ! $cancelled}
-              <tr>
-                <td {$labelStyle}>
-                  {ts}Membership Start Date{/ts}
-                </td>
-                <td {$valueStyle}>
-                  {$mem_start_date}
-                </td>
-              </tr>
-              <tr>
-                <td {$labelStyle}>
-                  {ts}Membership End Date{/ts}
-                </td>
-                <td {$valueStyle}>
-                  {$mem_end_date}
-                </td>
-              </tr>
-              {if $formValues.total_amount}
-                <tr>
-                  <th {$headerStyle}>
-                    {ts}Membership Fee{/ts}
-                  </th>
-                </tr>
-                {if $formValues.contributionType_name}
-                  <tr>
-                    <td {$labelStyle}>
-                      {ts}Contribution Type{/ts}
-                    </td>
-                    <td {$valueStyle}>
-                      {$formValues.contributionType_name}
-                    </td>
-                  </tr>
-                {/if}
-                <tr>
-                  <td {$labelStyle}>
-                    {ts}Amount{/ts}
-                  </td>
-                  <td {$valueStyle}>
-                    {$formValues.total_amount|crmMoney}
-                  </td>
-                </tr>
-                {if $receive_date}
-                  <tr>
-                    <td {$labelStyle}>
-                      {ts}Received Date{/ts}
-                    </td>
-                    <td {$valueStyle}>
-                      {$receive_date|truncate:10:''|crmDate}
-                    </td>
-                  </tr>
-                {/if}
-                {if $formValues.paidBy}
-                  <tr>
-                    <td {$labelStyle}>
-                      {ts}Paid By{/ts}
-                    </td>
-                    <td {$valueStyle}>
-                      {$formValues.paidBy}
-                    </td>
-                  </tr>
-                  {if $formValues.check_number}
-                    <tr>
-                      <td {$labelStyle}>
-                        {ts}Check Number{/ts}
-                      </td>
-                      <td {$valueStyle}>
-                        {$formValues.check_number} 
-                      </td>
-                    </tr>
-                  {/if}
-                {/if}
-              {/if}
-            {/if}
-          </table>
-        </td>
-      </tr>
-    {elseif $module eq 'Event Registration'}
-      <tr>
-        <td>
-          {if $receipt_text}
-            <p>{$receipt_text}</p>
-          {/if}
-          <p>{ts}Please print this confirmation for your records.{/ts}</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <table style="border: 1px solid #999; margin: 1em 0em 1em; border-collapse: collapse; width:100%;">
-            <tr>
-              <th {$headerStyle}>
-                {ts}Event Information{/ts}
-              </th>
-            </tr>
-            <tr>
-              <td {$labelStyle}>
-                {ts}Event{/ts}
-              </td>
-              <td {$valueStyle}>
-                {$event}
-              </td>
-            </tr>
-            {if $role neq 'Attendee'}
-              <tr>
-                <td {$labelStyle}>
-                  {ts}Role{/ts}
-                </td>
-                <td {$valueStyle}>
-                  {$role}
-                </td>
-              </tr>
-            {/if}
-            <tr>
-              <td {$labelStyle}>
-                {ts}Registration Date{/ts}
-              </td>
-              <td {$valueStyle}>
-                {$register_date|crmDate}
+                {$mem_start_date}
               </td>
             </tr>
             <tr>
               <td {$labelStyle}>
-                {ts}Participant Status{/ts}
+                {ts}Membership End Date{/ts}
               </td>
               <td {$valueStyle}>
-                {$status}
+                {$mem_end_date}
               </td>
             </tr>
-            {if $paid}
+            {if $formValues.total_amount}
               <tr>
                 <th {$headerStyle}>
-                  {ts}Registration Fee{/ts}
+                  {ts}Membership Fee{/ts}
                 </th>
               </tr>
+              {if $formValues.contributionType_name}
+                <tr>
+                  <td {$labelStyle}>
+                    {ts}Contribution Type{/ts}
+                  </td>
+                  <td {$valueStyle}>
+                    {$formValues.contributionType_name}
+                  </td>
+                </tr>
+              {/if}
               <tr>
                 <td {$labelStyle}>
                   {ts}Amount{/ts}
                 </td>
                 <td {$valueStyle}>
-                  {$total_amount|crmMoney}
+                  {$formValues.total_amount|crmMoney}
                 </td>
               </tr>
               {if $receive_date}
@@ -196,21 +95,31 @@
                   </td>
                 </tr>
               {/if}
-              {if $paidBy}
+              {if $formValues.paidBy}
                 <tr>
                   <td {$labelStyle}>
                     {ts}Paid By{/ts}
                   </td>
                   <td {$valueStyle}>
-                    {$paidBy}
+                    {$formValues.paidBy}
                   </td>
                 </tr>
+                {if $formValues.check_number}
+                  <tr>
+                    <td {$labelStyle}>
+                      {ts}Check Number{/ts}
+                    </td>
+                    <td {$valueStyle}>
+                      {$formValues.check_number}
+                    </td>
+                  </tr>
+                {/if}
               {/if}
             {/if}
-          </table>
-        </td>
-      </tr>
-    {/if}
+          {/if}
+        </table>
+      </td>
+    </tr>
 
     {if $isPrimary}
       <tr>
@@ -264,7 +173,7 @@
           <table style="border: 1px solid #999; margin: 1em 0em 1em; border-collapse: collapse; width:100%;">
             <tr>
               <th {$headerStyle}>
-                {$module} {ts}Options{/ts}
+                {ts}Membership Options{/ts}
               </th>
             </tr>
             {foreach from=$customValues item=value key=customName}
