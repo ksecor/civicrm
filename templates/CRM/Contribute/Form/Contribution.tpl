@@ -90,19 +90,17 @@
             {elseif $context eq 'standalone' and $outBound_option != 2 }
                 <tr id="email-receipt" style="display:none;"><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html} <span class="description">{ts}Automatically email a receipt for this contribution to {/ts}<span id="email-address"></span>?</span></td></tr>
             {/if}
-            <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
-            <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
+            <tr id="receiptDate">
+                <td class="label">{$form.receipt_date.label}</td>
+                <td>{include file="CRM/common/jcalendar.tpl" elementName=receipt_date}<br />
+                <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
         {/if}
         {if !$contributionMode}
-            <tr><td class="label">{$form.receive_date.label}</td>
-                <td{$valueStyle}>{if $hideCalender neq true}{$form.receive_date.html}{else}{$receive_date|truncate:10:''|crmDate}{/if}
-            {if $hideCalender neq true}
-                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
-                 {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_1}
-            {/if}
-            </td></tr>
+            <tr>
+                <td class="label">{$form.receive_date.label}</td>
+                <td{$valueStyle}>{if $hideCalender neq true}{include file="CRM/common/jcalendar.tpl" elementName=receive_date}{else}{$receive_date|truncate:10:''|crmDate}{/if}
+                </td>
+            </tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
             <tr><td class="label">{$form.payment_instrument_id.label}</td><td{$valueStyle}>{$form.payment_instrument_id.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Leave blank for non-monetary contributions.{/ts}</td></tr>
@@ -115,9 +113,9 @@
             {elseif $context eq 'standalone' and $outBound_option != 2 }
                 <tr id="email-receipt" style="display:none;"><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html} <span class="description">{ts}Automatically email a receipt for this contribution to {/ts}<span id="email-address"></span>?</span></td></tr>
             {/if}
-            <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
+            <tr id="receiptDate">
+                <td class="label">{$form.receipt_date.label}</td>
+                <td>{include file="CRM/common/jcalendar.tpl" elementName=receipt_date}<br />
             <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
             <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}
             {if $contribution_status_id eq 2}{if $is_pay_later }: {ts}Pay Later{/ts} {else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td></tr>
@@ -127,12 +125,16 @@
                 <td>&nbsp;</td> 
                 <td><fieldset><legend>{ts}Cancellation Information{/ts}</legend>
                 <table class="form-layout-compressed">
-                  <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
-                   {if $hideCalendar neq true}
-                     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
-                     {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_4}
-                   {/if}
-                   </td></tr>
+                  <tr id="cancelDate">
+                    <td class="label">{$form.cancel_date.label}</td>
+                    <td>
+                        {if $hideCalendar neq true}
+                            {include file="CRM/common/jcalendar.tpl" elementName=cancel_date}
+                        {else}
+                            {$form.cancel_date.html|crmDate}
+                        {/if}
+                   </td>
+                  </tr>
                   <tr id="cancelDescription"><td class="label">&nbsp;</td><td class="description">{ts}Enter the cancellation date, or you can skip this field and the cancellation date will be automatically set to TODAY.{/ts}</td></tr>
                   <tr id="cancelReason"><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
                </table>

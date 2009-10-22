@@ -483,8 +483,7 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_id ) {
             $this->_contactID = $defaults['contact_id'];
         } else {
-            $now = date("Y-m-d");
-            $defaults['receive_date'] = $now;
+            list( $defaults['receive_date'] ) = CRM_Utils_Date::setDateDefaults( );
         }
 
         require_once 'CRM/Utils/Money.php';
@@ -541,7 +540,7 @@ WHERE  contribution_id = {$this->_id}
             } else {
                 $defaults['product_name']   = array ( $this->_productDAO->product_id);
             }
-            $defaults['fulfilled_date'] = $this->_productDAO->fulfilled_date;
+            list( $defaults['fulfilled_date'] ) = CRM_Utils_Date::setDateDefaults( $this->_productDAO->fulfilled_date );
         }
         
         if ( isset($this->userEmail) ) {
@@ -552,8 +551,16 @@ WHERE  contribution_id = {$this->_id}
             $this->assign( 'is_pay_later', true ); 
         }
         $this->assign( 'contribution_status_id', CRM_Utils_Array::value( 'contribution_status_id',$defaults ) );
-        $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
         
+        $dates = array( 'receive_date', 'receipt_date', 'cancel_date', 'thankyou_date' );
+        foreach( $dates as $key ) {
+            if ( CRM_Utils_Array::value( $key, $defaults ) ) {
+                list( $defaults[$key] ) = CRM_Utils_Date::setDateDefaults( CRM_Utils_Array::value( $key, $defaults ) );
+            }
+        }
+
+        $this->assign( 'receive_date', $defaults['receive_date'] );
+
         $this->assign( 'currency', CRM_Utils_Array::value( 'currency', $defaults ) );
               
         return $defaults;
@@ -772,9 +779,10 @@ WHERE  contribution_id = {$this->_id}
                    false, array(
                                 'onClick' => "if (this.value != 3) status(); else return false",
                                 'onChange' => "return showHideByValue('contribution_status_id','3','cancelInfo','table-row','select',false);"));
+
         // add various dates
-        $element =& $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
-        $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+        $this->addDate( 'receive_date', ts('Received'), false, array( 'formatType' => 'activityDate') );
+        
         
         if ( $this->_online ) {
             $this->assign("hideCalender" , true );
@@ -784,11 +792,8 @@ WHERE  contribution_id = {$this->_id}
             $element->freeze( );
         }
         
-        $this->addElement('date', 'receipt_date', ts('Receipt Date'), CRM_Core_SelectValues::date('activityDate')); 
-        $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');
-        
-        $this->addElement('date', 'cancel_date', ts('Cancelled Date'), CRM_Core_SelectValues::date('activityDate')); 
-        $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
+        $this->addDate( 'receipt_date', ts('Receipt Date'), false, array( 'formatType' => 'activityDate') );
+        $this->addDate( 'cancel_date', ts('Cancelled Date'), false, array( 'formatType' => 'activityDate') );
         
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
         
@@ -1183,10 +1188,7 @@ SELECT  id, name
                 $this->_params['receipt_date'] = $now;
             } else {
                 if ( ! CRM_Utils_System::isNull( $this->_params[ 'receipt_date' ] ) ) {
-                    $this->_params['receipt_date']['H'] = '00';
-                    $this->_params['receipt_date']['i'] = '00';
-                    $this->_params['receipt_date']['s'] = '00';
-                    $this->_params['receipt_date'] = CRM_Utils_Date::format( $this->_params['receipt_date'] );
+                    $this->_params['receipt_date'] = CRM_Utils_Date::processDate( $this->_params['receipt_date'] );
                 } else{
                     $this->_params['receipt_date'] = 'null';
                 }
@@ -1195,7 +1197,7 @@ SELECT  id, name
             $this->set( 'params', $this->_params );
             $this->assign( 'trxn_id', $result['trxn_id'] );
             $this->assign( 'receive_date',
-                           CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+                           CRM_Utils_Date::processDate( $this->_params['receive_date']) );
             
             // result has all the stuff we need
             // lets archive it to a financial transaction
@@ -1327,10 +1329,7 @@ SELECT  id, name
             
             foreach ( $dates as $d ) {
                 if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
-                    $formValues[$d]['H'] = '00';
-                    $formValues[$d]['i'] = '00';
-                    $formValues[$d]['s'] = '00';
-                    $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
+                    $params[$d] = CRM_Utils_Date::processDate( $formValues[$d] );
                 } else if ( array_key_exists( $d, $formValues ) ) {
                     $params[$d] = 'null';
                 }

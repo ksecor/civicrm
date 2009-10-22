@@ -397,7 +397,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             }
             
             if ( !CRM_Utils_Array::value('activity_date_time', $defaults) ) {
-                $defaults['activity_date_time'] = CRM_Utils_Date::setDateDefaults( );
+                list( $defaults['activity_date_time'], $defaults['activity_date_time_time'] ) = CRM_Utils_Date::setDateDefaults( );
             } else {
                 list( $defaults['activity_date_time'], 
                       $defaults['activity_date_time_time'] ) = CRM_Utils_Date::setDateDefaults( $defaults['activity_date_time'] );

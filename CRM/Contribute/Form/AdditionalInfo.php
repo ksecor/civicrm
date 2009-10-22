@@ -81,11 +81,9 @@ class CRM_Contribute_Form_AdditionalInfo
         $sel->setOptions(array($sel1, $sel2 ));
         $js .= "</script>\n";
         $form->assign('initHideBoxes', $js);
-        $form->addElement('date', 'fulfilled_date', ts('Fulfilled'), CRM_Core_SelectValues::date('activityDate'));
-        $form->addRule( 'fulfilled_date', ts('Select a valid date.'), 'qfDate'); 
         
+        $this->addDate( 'fulfilled_date', ts('Fulfilled'), false, array( 'formatType' => 'activityDate') );
         $form->addElement('text', 'min_amount', ts('Minimum Contribution Amount'));
-        
     }
     
     /** 
@@ -101,8 +99,8 @@ class CRM_Contribute_Form_AdditionalInfo
         
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
         
-        $form->addElement('date', 'thankyou_date', ts('Thank-you Sent'), CRM_Core_SelectValues::date('activityDate')); 
-        $form->addRule('thankyou_date', ts('Select a valid date.'), 'qfDate');
+        $this->addDate( 'thankyou_date', ts('Thank-you Sent'), false, array( 'formatType' => 'activityDate') );
+        
         // add various amounts
         $element =& $form->add( 'text', 'non_deductible_amount', ts('Non-deductible Amount'),
                                 $attributes['non_deductible_amount'] );
@@ -191,7 +189,7 @@ class CRM_Contribute_Form_AdditionalInfo
         $dao = & new CRM_Contribute_DAO_ContributionProduct();
         $dao->contribution_id = $contributionID;
         $dao->product_id      = $params['product_name'][0];
-        $dao->fulfilled_date  = CRM_Utils_Date::format($params['fulfilled_date']);
+        $dao->fulfilled_date  = CRM_Utils_Date::processDate( $params['fulfilled_date'] );
         if ( CRM_Utils_Array::value( $params['product_name'][0], $options ) ) {
             $dao->product_option  = $options[$params['product_name'][0]][$params['product_name'][1]];
         }
@@ -255,10 +253,7 @@ class CRM_Contribute_Form_AdditionalInfo
         }
         
         if ( CRM_Utils_Array::value('thankyou_date', $params ) && ! CRM_Utils_System::isNull( $params['thankyou_date'] ) ) {
-            $formatted['thankyou_date']['H'] = '00';
-            $formatted['thankyou_date']['i'] = '00';
-            $formatted['thankyou_date']['s'] = '00';
-            $formatted['thankyou_date'] = CRM_Utils_Date::format( $params['thankyou_date'] );
+            $formatted['thankyou_date'] = CRM_Utils_Date::processDate( $params['thankyou_date'] );
         } else {
             $formatted['thankyou_date'] = 'null';
         }
@@ -330,7 +325,7 @@ class CRM_Contribute_Form_AdditionalInfo
                 $params['product_name'] = $productDAO->name;
                 $params['product_sku']  = $productDAO->sku;
             }
-            $this->assign('fulfilled_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['fulfilled_date'])));
+            $this->assign('fulfilled_date', CRM_Utils_Date::processDate( $params['fulfilled_date'] ) );
         }
         
         $this->assign( 'ccContribution', $ccContribution );
@@ -370,17 +365,16 @@ class CRM_Contribute_Form_AdditionalInfo
             $params['receipt_from_name'] = $form->userDisplayName;
             $params['receipt_from_email']= $form->userEmail;
             // assigned various dates to the templates
-            $form->assign('receive_date',  CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receive_date'] )));
-            $form->assign('receipt_date',  CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receipt_date'] )));
-            $form->assign('cancel_date',   CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['cancel_date']  )));
+            $form->assign('receive_date',  CRM_Utils_Date::processDate( $params['receive_date'] ) );
+            $form->assign('receipt_date',  CRM_Utils_Date::processDate( $params['receipt_date'] ) );
+            $form->assign('cancel_date',   CRM_Utils_Date::processDate( $params['cancel_date']  ) );
             if ( CRM_Utils_Array::value( 'thankyou_date', $params ) ) {
-                $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['thankyou_date'])));
+                $form->assign('thankyou_date', CRM_Utils_Date::processDate( $params['thankyou_date'] ) );
             }
         }
         
         //handle custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
-            
             $contribParams = array( array( 'contribution_id', '=', $params['contribution_id'], 0, 0 ) );
             if ( $form->_mode == 'test' ) {
                 $contribParams[] = array( 'contribution_test', '=', 1, 0, 0 );
