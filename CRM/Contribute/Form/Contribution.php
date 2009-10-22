@@ -239,7 +239,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->assign_by_ref( 'paymentProcessor', $paymentProcessor );
         $this->assign( 'hidePayPalExpress', true );           
         
-        if ( $this->_contactID ) {    
+        if ( $this->_contactID ) {
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $this->userDisplayName, 
                 $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
@@ -271,28 +271,77 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return;
         }
         
-        //get the payment values associated with given pledge payment id. 
-        $this->_pledgeValues = array( );
-        if ( $this->_ppID ) {
-            $payParams = array( 'id' => $this->_ppID );
-            require_once "CRM/Pledge/BAO/Payment.php";
-            CRM_Pledge_BAO_Payment::retrieve( $payParams, $this->_pledgeValues['pledgePayment'] );
-            $this->_pledgeID = CRM_Utils_Array::value( 'pledge_id', $this->_pledgeValues['pledgePayment'] );
-            $paymentStatusID = CRM_Utils_Array::value( 'status_id', $this->_pledgeValues['pledgePayment'] );
-            $this->_id = CRM_Utils_Array::value( 'contribution_id', $this->_pledgeValues['pledgePayment'] );
+        $config =& CRM_Core_Config::singleton( );
+        if ( in_array("CiviPledge", $config->enableComponents) ) {
+    
+            //get the payment values associated with given pledge payment id OR check for payments due. 
+            $this->_pledgeValues = array( );
+            if ( $this->_ppID ) {
+                $payParams = array( 'id' => $this->_ppID );
+                require_once "CRM/Pledge/BAO/Payment.php";
+                CRM_Pledge_BAO_Payment::retrieve( $payParams, $this->_pledgeValues['pledgePayment'] );
+                $this->_pledgeID = CRM_Utils_Array::value( 'pledge_id', $this->_pledgeValues['pledgePayment'] );
+                $paymentStatusID = CRM_Utils_Array::value( 'status_id', $this->_pledgeValues['pledgePayment'] );
+                $this->_id = CRM_Utils_Array::value( 'contribution_id', $this->_pledgeValues['pledgePayment'] );
+        
+                //get all status
+                $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+                if ( !( $paymentStatusID == array_search( 'Pending', $allStatus ) ||
+                        $paymentStatusID == array_search( 'Overdue', $allStatus ) ) ) {
+                    CRM_Core_Error::fatal( ts( "Pledge payment status should be 'Pending' or  'Overdue'.") );
+                }
+        
+                //get the pledge values associated with given pledge payment.
+                require_once 'CRM/Pledge/BAO/Pledge.php';
+                $ids = array( );
+                $pledgeParams = array( 'id' => $this->_pledgeID );
+                CRM_Pledge_BAO_Pledge::getValues( $pledgeParams, $this->_pledgeValues, $ids );
+            } else {
+                // Not making a pledge payment, so check if pledge payment(s) are due for this contact so we can alert the user. CRM-5206
+                if (isset( $this->_contactID )) {
+                    require_once "CRM/Pledge/BAO/Pledge.php";
+                    $contactPledges = array();
+                    $contactPledges = CRM_Pledge_BAO_Pledge::getContactPledges($this->_contactID);
+    
+                    if ( ! empty( $contactPledges ) ) {
+                        $paymentsDue = null;
+                        $multipleDue = false;
+                        require_once "CRM/Pledge/BAO/Payment.php";
+                        foreach ( $contactPledges as $key => $pledgeId ) {
+                            $payments = CRM_Pledge_BAO_Payment::getOldestPledgePayment( $pledgeId );
+                            if ( $payments ) {
+                                if ( $paymentsDue ) {
+                                    $multipleDue = true;
+                                    break;
+                                } else {
+                                    $paymentsDue = $payments;
+                                }                         
+                            }
+                        }
+                        if ( $multipleDue ) {
+                            // Show link to pledge tab since more than one pledge has a payment due
+                            $pledgeTab = CRM_Utils_System::url( 'civicrm/contact/view',
+                                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
+                            CRM_Core_Session::setStatus( ts('This contact has pending or overdue pledge payments. <a href="%1">Click here to view their Pledges tab</a> and verify whether this contribution should be applied as a pledge payment.', array( 1 => $pledgeTab ) ) );
+                        } else {
+                            // Show user link to oldest Pending or Overdue pledge payment
+                            require_once 'CRM/Utils/Date.php';
+                            require_once 'CRM/Utils/Money.php';
+                            $ppAmountDue = CRM_Utils_Money::format($payments['amount']);
+                            $ppSchedDate = CRM_Utils_Date::customFormat( CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $payments['id'], 'scheduled_date' ) );
+                            if ( $this->_mode ) {
+                                $ppUrl = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                                         "reset=1&action=add&cid={$this->_contactID}&ppid={$payments['id']}&context=pledge&mode=live" );
+                            } else {
+                                $ppUrl = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                                         "reset=1&action=add&cid={$this->_contactID}&ppid={$payments['id']}&context=pledge" );
+                            }
+                            CRM_Core_Session::setStatus( ts('This contact has a pending or overdue pledge payment of %2 which is scheduled for %3. <a href="%1">Click here to apply this contribution as a pledge payment<a/>.', array( 1 => $ppUrl, 2 => $ppAmountDue, 3 => $ppSchedDate ) ) );
+                        }                    
+                    }
             
-            //get all status
-            $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
-            if ( !( $paymentStatusID == array_search( 'Pending', $allStatus ) ||
-                    $paymentStatusID == array_search( 'Overdue', $allStatus ) ) ) {
-                CRM_Core_Error::fatal( ts( "Pledge payment status should be 'Pending' or  'Overdue'.") );
+                }
             }
-            
-            //get the pledge values associated with given pledge payment.
-            require_once 'CRM/Pledge/BAO/Pledge.php';
-            $ids = array( );
-            $pledgeParams = array( 'id' => $this->_pledgeID );
-            CRM_Pledge_BAO_Pledge::getValues( $pledgeParams, $this->_pledgeValues, $ids );
         }
         
         $this->_values = array( );
@@ -506,13 +555,7 @@ WHERE  contribution_id = {$this->_id}
         $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
         
         $this->assign( 'currency', CRM_Utils_Array::value( 'currency', $defaults ) );
-        if ( CRM_Utils_Array::value( 'pcp_display_in_roll', $defaults ) == 1 ) {
-            if ( $defaults['pcp_roll_nickname'] == ts('Anonymous') ) {
-                $defaults['pcp_is_anonymous'] = 1;
-            } else {
-                $defaults['pcp_is_anonymous'] = 0;
-            }
-        }
+              
         return $defaults;
     }
     
@@ -732,6 +775,7 @@ WHERE  contribution_id = {$this->_id}
         // add various dates
         $element =& $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+        
         if ( $this->_online ) {
             $this->assign("hideCalender" , true );
         }
@@ -788,23 +832,15 @@ WHERE  contribution_id = {$this->_id}
         $this->addElement( 'hidden', 'soft_contact_id', '', array( 'id' => 'soft_contact_id' ) );
         if ( CRM_Utils_Array::value( 'pcp_made_through_id', $defaults ) &&
              $this->_action & CRM_Core_Action::UPDATE ) {
-            $this->assign( 'pcp', true );
             $ele = $this->addElement('select', 'pcp_made_through_id', 
                                      ts( 'Personal Campaign Page' ),
                                      array( '' => ts( '- select -' ) ) +
                                      CRM_Contribute_PseudoConstant::pcPage( ) );
             $ele->freeze();
-            $this->add( 'checkbox', 'pcp_display_in_roll', ts('Show my contribution in the public honor roll'), null, null,
-                        array('onclick' => "showHideByValue('pcp_display_in_roll','','nameID|nickID|personalNoteID','table-row','radio',false); pcpAnonymous( );")
-                        );
-            $extraOption = array('onclick' =>"return pcpAnonymous( );");
-            $elements = array( );
-            $elements[] =& $this->createElement('radio', null, '', ts( 'Include my name and message'), 0, $extraOption );
-            $elements[] =& $this->createElement('radio', null, '', ts( 'List my contribution anonymously'), 1, $extraOption );
-            $this->addGroup( $elements, 'pcp_is_anonymous', null, '&nbsp;&nbsp;&nbsp;' );
-            
-            $this->add( 'text', 'pcp_roll_nickname', ts('Name'), array( 'size' => 25, 'maxlength' => 20 ) );
-            $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 4, 'coloums' => 80 ) );
+            $this->addElement('checkbox','pcp_display_in_roll', ts('Honor Roll?'), null, 
+                              array('onclick' =>"return showHideByValue('pcp_display_in_roll','','softCreditInfo','table-row','radio',false);") );
+            $this->addElement('text', 'pcp_roll_nickname', ts('Nickname') );
+            $this->addElement('textarea', 'pcp_personal_note', ts('Personal Note'));
         }
 
         $js = null;
@@ -1010,7 +1046,7 @@ SELECT  id, name
             
             //Get the rquire fields value only.
             $params = $this->_params = $submittedValues;
-
+                    
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
             $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_params['payment_processor_id'],
                                                                                   $this->_mode );
@@ -1089,11 +1125,6 @@ SELECT  id, name
             $this->_params['pcp_display_in_roll'] = $params['pcp_display_in_roll'];
             $this->_params['pcp_roll_nickname'] = $params['pcp_roll_nickname'];
             $this->_params['pcp_personal_note'] = $params['pcp_personal_note'];
-
-            if ( CRM_Utils_Array::value( 'pcp_is_anonymous', $params ) == 1) {
-                $this->_params['pcp_roll_nickname'] = ts('Anonymous');
-                $this->_params['pcp_personal_note'] = 'null';
-            }
             
             //Add common data to formatted params
             CRM_Contribute_Form_AdditionalInfo::postProcessCommon( $params, $this->_params );
@@ -1277,7 +1308,6 @@ SELECT  id, name
                              'source',
                              'check_number',
                              'soft_credit_to',
-                             'pcp_is_anonymous',
                              'pcp_made_through_id',
                              'pcp_display_in_roll',
                              'pcp_roll_nickname',
@@ -1287,10 +1317,7 @@ SELECT  id, name
             foreach ( $fields as $f ) {
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
-            if ( CRM_Utils_Array::value( 'pcp_is_anonymous', $params ) == 1 ) {
-                $params['pcp_roll_nickname'] = ts('Anonymous');
-                $params['pcp_personal_note'] = 'null';
-            }  
+
             if ( $softID = CRM_Utils_Array::value( 'softID', $this->_values ) ){
                 $params['softID'] = $softID;
             }
