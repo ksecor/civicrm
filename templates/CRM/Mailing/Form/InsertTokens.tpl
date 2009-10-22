@@ -209,7 +209,7 @@ function selectValue( val ) {
             cj('#'+ html_message).tinymce().execCommand('mceInsertContent',false, token2);
         } else if ( editor == "ckeditor" ) {
             oEditor = CKEDITOR.instances[html_message];
-            oEditor.setData( oEditor.getData() + token2.toString() );
+            oEditor.insertHtml(token2.toString() );
         } else {
             var msg       = document.getElementById(html_message).value;
             var cursorlen = document.getElementById(html_message).selectionStart;
