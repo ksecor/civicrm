@@ -296,6 +296,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $ids = array( );
                 $pledgeParams = array( 'id' => $this->_pledgeID );
                 CRM_Pledge_BAO_Pledge::getValues( $pledgeParams, $this->_pledgeValues, $ids );
+                $this->assign('ppID', $this->_ppID );
             } else {
                 // Not making a pledge payment, so check if pledge payment(s) are due for this contact so we can alert the user. CRM-5206
                 if (isset( $this->_contactID )) {
@@ -304,6 +305,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                     $contactPledges = CRM_Pledge_BAO_Pledge::getContactPledges($this->_contactID);
     
                     if ( ! empty( $contactPledges ) ) {
+                        $payments = null;
                         $paymentsDue = null;
                         $multipleDue = false;
                         require_once "CRM/Pledge/BAO/Payment.php";
@@ -323,7 +325,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                             $pledgeTab = CRM_Utils_System::url( 'civicrm/contact/view',
                                                           "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
                             CRM_Core_Session::setStatus( ts('This contact has pending or overdue pledge payments. <a href="%1">Click here to view their Pledges tab</a> and verify whether this contribution should be applied as a pledge payment.', array( 1 => $pledgeTab ) ) );
-                        } else {
+                        } else if ( $paymentsDue ) {
                             // Show user link to oldest Pending or Overdue pledge payment
                             require_once 'CRM/Utils/Date.php';
                             require_once 'CRM/Utils/Money.php';

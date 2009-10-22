@@ -27,10 +27,10 @@
     {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
 </div>
 <div class="crm-submit-buttons">{$form.buttons.html}</div>
-<fieldset><legend>{ts}Credit Card Contribution{/ts}</legend>
+<fieldset><legend>{if $ppID}{ts}Credit Card Pledge Payment{/ts}{else}{ts}Credit Card Contribution{/ts}{/if}</legend>
 {else}
 <div class="crm-submit-buttons">{$form.buttons.html}</div>
-<fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
+<fieldset><legend>{if $action eq 1 or $action eq 1024}{if $ppID}{ts}Pledge Payment{/ts}{else}{ts}New Contribution{/ts}{/if}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
 {/if}
    {if $action eq 8} 
       <div class="messages status"> 
@@ -62,7 +62,7 @@
         </td></tr>
 	
 	{if $action eq 2 and $line_items}
-	<tr>
+	    <tr>
             <td class="label">{ts}Contribution Amount{/ts}</td>
             <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
         </tr>
