@@ -61,9 +61,13 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
                         ts('Name already exists in Database.'),
                         'objectExists',
                         array( 'CRM_Contact_DAO_ContactType', $this->_id ) );
-        $this->add( 'select', 'parent_id', ts('Basic Contact Type'),
-                    array('1'=>'Individual','2'=>'Household','3'=>'Organization'),'required');
-        $this->add('text', 'description', ts('Description'),   
+        $contactType = $this->add( 'select', 'parent_id', ts('Basic Contact Type'),
+                                   array('1'=>'Individual','2'=>'Household','3'=>'Organization'),
+                                   'required');
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
+            $contactType->freeze( );   
+        }
+        $this->add('text', 'description', ts('Description'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'description' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }

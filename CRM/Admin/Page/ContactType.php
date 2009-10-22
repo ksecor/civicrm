@@ -78,7 +78,24 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
                                 'qs'    => 'action=update&id=%%id%%&reset=1',
                                 'title' => ts('Edit Contact SubType') 
                                 ),
-                          
+                          CRM_Core_Action::DISABLE => 
+                          array(
+                                'name'  => ts('Disable'),
+                                'extra' => 'onclick = "enableDisable( %%id%%,\''. 
+                                'CRM_Contact_BAO_ContactType' . '\',\'' . 'enable-disable' . 
+                                '\' );"',
+                                'ref'   => 'disable-action',
+                                'title' => ts('Disable Contact SubType') 
+                                ),
+                          CRM_Core_Action::ENABLE  => 
+                          array(
+                                'name'  => ts('Enable'),
+                                'extra' => 'onclick = "enableDisable( %%id%%,\''. 
+                                'CRM_Contact_BAO_ContactType' . '\',\'' . 'disable-enable' .
+                                '\' );"',
+                                'ref'   => 'enable-action',
+                                'title' => ts('Enable Contact SubType') 
+                                ),
                           CRM_Core_Action::DELETE  => 
                           array(
                                 'name'  => ts('Delete'),
@@ -102,9 +119,9 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
         parent::run();    
     }
     function browse()
-    {   
-        $rows = CRM_Contact_BAO_ContactType::subTypeInfo( );
-        foreach( $rows  as $key=>$value ) {
+    {  
+        $rows = CRM_Contact_BAO_ContactType::subTypeInfo( null , true );
+        foreach( $rows  as $key=>$value ) { 
             $rows[$key]['action'] = CRM_Core_Action::formLink( self::links(), null, 
                                                                array('id' =>$value['id'] ) );
         }

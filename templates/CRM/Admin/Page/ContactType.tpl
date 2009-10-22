@@ -9,6 +9,8 @@
 {if $rows}
 <div>
     {strip}
+    {* handle enable/disable actions*}	
+    {include file="CRM/common/enableDisable.tpl"}
     {include file="CRM/common/jsortable.tpl"}
     <table id="options" class="display">
     <thead>
@@ -19,10 +21,11 @@
     </tr>
     </thead>
     {foreach from=$rows item=row}
+    	<tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
         <td>{$row.label}</td>
         <td>{$row.parent}</td>
         <td>{$row.description}</td>
-        <td>{$row.action}</td>
+        <td>{$row.action|replace:'xx':$row.id}</td>
     </tr>
     {/foreach}
     </table>
