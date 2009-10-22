@@ -141,6 +141,11 @@
  * DataTables sorting
  */
 
+#crm-container table.display thead th.sorting_asc,
+#crm-container table.display thead th.sorting_desc {
+	background-color: #D9D9D9;
+	}
+
 .sorting_asc {
 	background: url('images/dataTable/sort_asc.gif') no-repeat center right;
 }
@@ -257,27 +262,27 @@ table.display tr.odd.row_selected td {
  */
 /* For the standard odd/even */
 tr.odd td.sorting_1 {
-	background-color: #C9CFC9;
+	background-color: #F1F1F1;
 }
 
 tr.odd td.sorting_2 {
-	background-color: #DADCFF;
+	background-color: #F1F1F1;
 }
 
 tr.odd td.sorting_3 {
-	background-color: #E0E2FF;
+	background-color: #F1F1F1;
 }
 
 tr.even td.sorting_1 {
-	background-color: #F6F9F9;
+	background-color: #E9E9E9;
 }
 
 tr.even td.sorting_2 {
-	background-color: #F2F3FF;
+	background-color: #E9E9E9;
 }
 
 tr.even td.sorting_3 {
-	background-color: #F9F9FF;
+	background-color: #E9E9E9;
 }
 
 
