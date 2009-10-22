@@ -1,27 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title></title>
-</head>
-<body>
+{* FIXME: move this to a separate template and auto-include here *}
+{if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}{/if}
+
+{capture assign=headerStyle}colspan="2" style="text-align: left; padding: 4px; border-bottom: 1px solid #999; background-color: #eee;"{/capture}
+{capture assign=labelStyle }style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;"{/capture}
+{capture assign=valueStyle }style="padding: 4px; border-bottom: 1px solid #999;"{/capture}
+
 <center>
   <table width="620" border="0" cellpadding="0" cellspacing="0" id="crm-event_receipt" style="font-family: Arial, Verdana, sans-serif; text-align: left;">
-    {* FIXME: move this to a separate template and auto-include here *}
-    {if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}{/if}
 
     <!-- BEGIN HEADER -->
     <!-- You can add table row(s) here with logo or other header elements -->
     <!-- BEGIN HEADER -->
 
     <!-- BEGIN CONTENT -->
+
     {if $module eq 'Membership'}
       <tr>
         <td>
-          {if $formValues.receipt_text_signup}
-            <p>{$formValues.receipt_text_signup}</p>
-          {elseif $formValues.receipt_text_renewal}
-            <p>{$formValues.receipt_text_renewal}</p>
+          {if $formValues.receipt_html_signup}
+            <p>{$formValues.receipt_html_signup}</p>
+          {elseif $formValues.receipt_html_renewal}
+            <p>{$formValues.receipt_html_renewal}</p>
           {else}
             <p>{ts}Thanks for your support.{/ts}</p>
           {/if}
@@ -34,84 +33,84 @@
         <td>
           <table style="border: 1px solid #999; margin: 1em 0em 1em; border-collapse: collapse; width:100%;">
             <tr>
-              <th colspan="2" style="text-align: left; padding: 4px; border-bottom: 1px solid #999; background-color: #eee;">
+              <th {$headerStyle}>
                 {ts}Membership Information{/ts}
               </th>
             </tr>
             <tr>
-              <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+              <td {$labelStyle}>
                 {ts}Membership Type{/ts}
               </td>
-              <td style="padding: 4px; border-bottom: 1px solid #999;">
+              <td {$valueStyle}>
                 {$membership_name}
               </td>
             </tr>
             {if ! $cancelled}
               <tr>
-                <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                <td {$labelStyle}>
                   {ts}Membership Start Date{/ts}
                 </td>
-                <td style="padding: 4px; border-bottom: 1px solid #999;">
+                <td {$valueStyle}>
                   {$mem_start_date}
                 </td>
               </tr>
               <tr>
-                <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                <td {$labelStyle}>
                   {ts}Membership End Date{/ts}
                 </td>
-                <td style="padding: 4px; border-bottom: 1px solid #999;">
+                <td {$valueStyle}>
                   {$mem_end_date}
                 </td>
               </tr>
               {if $formValues.total_amount}
                 <tr>
-                  <th colspan="2" style="text-align: left; padding: 4px; border-bottom: 1px solid #999; background-color: #eee;">
+                  <th {$headerStyle}>
                     {ts}Membership Fee{/ts}
                   </th>
                 </tr>
                 {if $formValues.contributionType_name}
                   <tr>
-                    <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                    <td {$labelStyle}>
                       {ts}Contribution Type{/ts}
                     </td>
-                    <td style="padding: 4px; border-bottom: 1px solid #999;">
+                    <td {$valueStyle}>
                       {$formValues.contributionType_name}
                     </td>
                   </tr>
                 {/if}
                 <tr>
-                  <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                  <td {$labelStyle}>
                     {ts}Amount{/ts}
                   </td>
-                  <td style="padding: 4px; border-bottom: 1px solid #999;">
+                  <td {$valueStyle}>
                     {$formValues.total_amount|crmMoney}
                   </td>
                 </tr>
                 {if $receive_date}
                   <tr>
-                    <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                    <td {$labelStyle}>
                       {ts}Received Date{/ts}
                     </td>
-                    <td style="padding: 4px; border-bottom: 1px solid #999;">
+                    <td {$valueStyle}>
                       {$receive_date|truncate:10:''|crmDate}
                     </td>
                   </tr>
                 {/if}
                 {if $formValues.paidBy}
                   <tr>
-                    <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                    <td {$labelStyle}>
                       {ts}Paid By{/ts}
                     </td>
-                    <td style="padding: 4px; border-bottom: 1px solid #999;">
+                    <td {$valueStyle}>
                       {$formValues.paidBy}
                     </td>
                   </tr>
                   {if $formValues.check_number}
                     <tr>
-                      <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                      <td {$labelStyle}>
                         {ts}Check Number{/ts}
                       </td>
-                      <td style="padding: 4px; border-bottom: 1px solid #999;">
+                      <td {$valueStyle}>
                         {$formValues.check_number} 
                       </td>
                     </tr>
@@ -135,74 +134,74 @@
         <td>
           <table style="border: 1px solid #999; margin: 1em 0em 1em; border-collapse: collapse; width:100%;">
             <tr>
-              <th colspan="2" style="text-align: left; padding: 4px; border-bottom: 1px solid #999; background-color: #eee;">
+              <th {$headerStyle}>
                 {ts}Event Information{/ts}
               </th>
             </tr>
             <tr>
-              <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+              <td {$labelStyle}>
                 {ts}Event{/ts}
               </td>
-              <td style="padding: 4px; border-bottom: 1px solid #999;">
+              <td {$valueStyle}>
                 {$event}
               </td>
             </tr>
             {if $role neq 'Attendee'}
               <tr>
-                <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                <td {$labelStyle}>
                   {ts}Role{/ts}
                 </td>
-                <td style="padding: 4px; border-bottom: 1px solid #999;">
+                <td {$valueStyle}>
                   {$role}
                 </td>
               </tr>
             {/if}
             <tr>
-              <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+              <td {$labelStyle}>
                 {ts}Registration Date{/ts}
               </td>
-              <td style="padding: 4px; border-bottom: 1px solid #999;">
+              <td {$valueStyle}>
                 {$register_date|crmDate}
               </td>
             </tr>
             <tr>
-              <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+              <td {$labelStyle}>
                 {ts}Participant Status{/ts}
               </td>
-              <td style="padding: 4px; border-bottom: 1px solid #999;">
+              <td {$valueStyle}>
                 {$status}
               </td>
             </tr>
             {if $paid}
               <tr>
-                <th colspan="2" style="text-align: left; padding: 4px; border-bottom: 1px solid #999; background-color: #eee;">
+                <th {$headerStyle}>
                   {ts}Registration Fee{/ts}
                 </th>
               </tr>
               <tr>
-                <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                <td {$labelStyle}>
                   {ts}Amount{/ts}
                 </td>
-                <td style="padding: 4px; border-bottom: 1px solid #999;">
+                <td {$valueStyle}>
                   {$total_amount|crmMoney}
                 </td>
               </tr>
               {if $receive_date}
                 <tr>
-                  <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                  <td {$labelStyle}>
                     {ts}Received Date{/ts}
                   </td>
-                  <td style="padding: 4px; border-bottom: 1px solid #999;">
+                  <td {$valueStyle}>
                     {$receive_date|truncate:10:''|crmDate}
                   </td>
                 </tr>
               {/if}
               {if $paidBy}
                 <tr>
-                  <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                  <td {$labelStyle}>
                     {ts}Paid By{/ts}
                   </td>
-                  <td style="padding: 4px; border-bottom: 1px solid #999;">
+                  <td {$valueStyle}>
                     {$paidBy}
                   </td>
                 </tr>
@@ -220,13 +219,13 @@
 
             {if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
               <tr>
-                <th colspan="2" style="text-align: left; padding: 4px; border-bottom: 1px solid #999; background-color: #eee;">
+                <th {$headerStyle}>
                   {ts}Billing Name and Address{/ts}
                 </th>
               </tr>
               <tr>
-                <td style="padding: 4px; border-bottom: 1px solid #999999;" colspan="2">
-                  {$billingName}
+                <td {$labelStyle}>
+                  {$billingName}<br />
                   {$address}
                 </td>
               </tr>
@@ -234,21 +233,21 @@
 
             {if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later}
               <tr>
-                <th colspan="2" style="text-align: left; padding: 4px; border-bottom: 1px solid #999; background-color: #eee;">
+                <th {$headerStyle}>
                   {ts}Credit Card Information{/ts}
                 </th>
               </tr>
               <tr>
-                <td style="padding: 4px; border-bottom: 1px solid #999999;" colspan="2">
-                  {$credit_card_type}
+                <td {$valueStyle}>
+                  {$credit_card_type}<br />
                   {$credit_card_number}
                 </td>
               </tr>
               <tr>
-                <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                <td {$labelStyle}>
                   {ts}Expires{/ts}
                 </td>
-                <td style="padding: 4px; border-bottom: 1px solid #999;">
+                <td {$valueStyle}>
                   {$credit_card_exp_date|truncate:7:''|crmDate}
                 </td>
               </tr>
@@ -264,16 +263,16 @@
         <td>
           <table style="border: 1px solid #999; margin: 1em 0em 1em; border-collapse: collapse; width:100%;">
             <tr>
-              <th colspan="2" style="text-align: left; padding: 4px; border-bottom: 1px solid #999; background-color: #eee;">
+              <th {$headerStyle}>
                 {$module} {ts}Options{/ts}
               </th>
             </tr>
             {foreach from=$customValues item=value key=customName}
               <tr>
-                <td style="padding: 4px; border-bottom: 1px solid #999; background-color: #f7f7f7;">
+                <td {$labelStyle}>
                   {$customName}
                 </td>
-                <td style="padding: 4px; border-bottom: 1px solid #999;">
+                <td {$valueStyle}>
                   {$value}
                 </td>
               </tr>
@@ -285,5 +284,3 @@
 
   </table>
 </center>
-</body>
-</html>
