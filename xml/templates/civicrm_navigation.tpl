@@ -238,7 +238,7 @@ VALUES
     ( @domainID, 'civicrm/admin/setting/search&reset=1',                '{ts escape="sql"}Search Settings{/ts}',    'Search Settings',  'administer CiviCRM', '',    @globalSettinglastID, '1', NULL, 10 ), 
     ( @domainID, 'civicrm/admin/setting/date&reset=1',                  '{ts escape="sql"}Date Formats{/ts}',       'Date Formats',     'administer CiviCRM', '',       @globalSettinglastID, '1', NULL, 11 ), 
     ( @domainID, 'civicrm/admin/setting/uf&reset=1',                    '{ts escape="sql"}CMS Integration{/ts}',    'CMS Integration',  'administer CiviCRM', '',    @globalSettinglastID, '1', NULL, 12 ), 
-    ( @domainID, 'civicrm/admin/setting/misc&reset=1',                  '{ts escape="sql"}Miscellaneous (version check, search, reCAPTCHA...){/ts}', 'Miscellaneous', 'administer CiviCRM', '', @globalSettinglastID, '1', NULL, 13 ), 
+    ( @domainID, 'civicrm/admin/setting/misc&reset=1',                  '{ts escape="sql"}Miscellaneous (version check, reCAPTCHA...){/ts}', 'Miscellaneous', 'administer CiviCRM', '', @globalSettinglastID, '1', NULL, 13 ), 
     ( @domainID, 'civicrm/admin/options/safe_file_extension&group=safe_file_extension&reset=1', '{ts escape="sql"}Safe File Extensions{/ts}', 'Safe File Extensions', 'administer CiviCRM', '', @globalSettinglastID, '1', NULL, 14 ), 
     ( @domainID, 'civicrm/admin/setting/debug&reset=1',                 '{ts escape="sql"}Debugging{/ts}',      'Debugging', 'administer CiviCRM', '',              @globalSettinglastID, '1', NULL, 15 ), 
     
