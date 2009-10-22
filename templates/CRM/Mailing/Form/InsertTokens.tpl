@@ -73,7 +73,7 @@ function selectValue( val ) {
         document.getElementById("subject").value ="";
         if ( editor == "ckeditor" ) {
             oEditor = CKEDITOR.instances[html_message];
-            oEditor.SetData('');
+            oEditor.setData('');
         } else if ( editor == "tinymce" ) {
             cj('#' + html_message).html('');
         } else {	
