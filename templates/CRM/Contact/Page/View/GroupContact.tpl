@@ -13,7 +13,7 @@
   	{if $groupIn }
 	<div><label>{ts}Current Groups{/ts}</label></div>
 	{strip}
-    <table id="options" class="display">
+    <table id="current_group" class="display">
     <thead>
         <tr>
 		<th>{ts}Group{/ts}</th>
@@ -43,7 +43,7 @@
         <div class="label status-pending">{ts}Pending{/ts}</div> 
         <div class="description">{ts}Joining these group(s) is pending confirmation by this contact.{/ts}</div>	
 	{strip}
-    <table id="options" class="display">
+    <table id="pending_group" class="display">
     <thead>
 	<tr>
 		<th>{ts}Group{/ts}</th>
@@ -68,7 +68,7 @@
 	<div class="label status-removed">{ts}Past Groups{/ts}</div>
     <div class="description">{ts 1=$displayName}%1 is no longer part of these group(s).{/ts}</div>
     {strip}
-    <table id="options" class="display">
+    <table id="past_group" class="display">
     <thead>
 	<tr>
 		<th>{ts}Group{/ts}</th>

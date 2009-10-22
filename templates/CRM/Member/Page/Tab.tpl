@@ -42,7 +42,7 @@
     <div id="memberships">
         <div><label>{ts}Active Memberships{/ts}</label></div>
         {strip}
-        <table id="options" class="display">
+        <table id="active_membership" class="display">
             <thead>
             <tr>
                 <th>{ts}Membership{/ts}</th>
@@ -81,7 +81,7 @@
         <p></p>
         <div class="label font-red">{ts}Pending and Inactive Memberships{/ts}</div>
         {strip}
-        <table id="options" class="display">
+        <table id="pending_membership" class="display">
            <thead>
             <tr>
                 <th>{ts}Membership{/ts}</th>
@@ -115,7 +115,7 @@
             {ts}The following Membership Types are associated with this organization. Click <strong>Members</strong> for a listing of all contacts who have memberships of that type. Click <strong>Edit</strong> to modify the settings for that type.{/ts}
         <div class="form-item">
             {strip}
-            <table id="options" class="display">
+            <table id="membership_type" class="display">
             <thead>
             <tr>
                 <th>{ts}Name{/ts}</th>
