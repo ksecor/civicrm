@@ -114,7 +114,7 @@ class AllTests
             if ( self::$utils->do_query($query1) === false ) {
                 //  failed to initialze test database
                 exit;
-            }            
+            }
             
             $dbInit = true;
         }

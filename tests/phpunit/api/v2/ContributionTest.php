@@ -49,6 +49,8 @@ class api_v2_ContributionTest extends CiviUnitTestCase
     {
     }
 
+///////////////// civicrm_contribution_get methods
+
     function testGetEmptyParamsContribution()
     {
 
@@ -102,7 +104,8 @@ class api_v2_ContributionTest extends CiviUnitTestCase
        
         $params2 = array( 'contribution_id' => $this->_contribution['id'] );
     }
-    
+
+///////////////// civicrm_contribution_add
      
     function testCreateEmptyParamsContribution()
     {
@@ -208,6 +211,8 @@ class api_v2_ContributionTest extends CiviUnitTestCase
         $this->assertEquals( $contribution['result'], 1 );
     }
 
+///////////////// civicrm_contribution_delete methods
+
     function testDeleteEmptyParamsContribution()
     {
         $params = array( );
@@ -243,6 +248,40 @@ class api_v2_ContributionTest extends CiviUnitTestCase
         $this->assertEquals( $contribution['is_error'], 0 );
         $this->assertEquals( $contribution['result'], 1 );
     }
+
+///////////////// civicrm_contribution_search methods
+
+///////////////// civicrm_event_search methods
+
+    /**
+     *  Test civicrm_event_search with wrong params type
+     */
+    function testSearchWrongParamsType()
+    {
+        $params = 'a string';
+        $result =& civicrm_event_search($params);
+
+        $this->assertEquals( $result['is_error'], 1, 'In line ' . __LINE__ );
+        $this->assertEquals( $result['error_message'], 'Params need to be an array', 'In line ' . __LINE__ );
+    }
+
+    /**
+     *  Test civicrm_event_search with empty params
+     */
+     function testSearchEmptyParams()
+     {
+        $params = array();
+        $result =& civicrm_event_search($params);
+        $this->markTestIncomplete();
+     }
+
+    /**
+     *  Test civicrm_event_search. Success expected.
+     */
+     function testSearch()
+     {
+         $this->markTestIncomplete();
+     }
    
 }
 

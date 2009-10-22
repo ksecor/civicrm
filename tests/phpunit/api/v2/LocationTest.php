@@ -374,6 +374,11 @@ class api_v2_LocationTest extends CiviUnitTestCase
         }
     }
 
+    function testGetTwoSeriesCompliance()
+    {
+        $this->markTestIncomplete();
+    }
+
 ///////////////// civicrm_location_update methods
 
 
@@ -440,6 +445,7 @@ class api_v2_LocationTest extends CiviUnitTestCase
         
         $this->assertEquals( $locationUpdate['is_error'], 0 );
     }
+
 
 ///////////////// helper methods
 

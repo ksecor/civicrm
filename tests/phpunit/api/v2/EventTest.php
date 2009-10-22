@@ -208,7 +208,11 @@ class api_v2_EventTest extends CiviUnitTestCase
      */
     function testSearchWrongParamsType()
     {
-        $this->markTestIncomplete();
+        $params = 'a string';
+        $result =& civicrm_event_search($params);
+
+        $this->assertEquals( $result['is_error'], 1, 'In line ' . __LINE__ );
+        $this->assertEquals( $result['error_message'], 'Params need to be an array', 'In line ' . __LINE__ );
     }
 
     /**
@@ -216,7 +220,11 @@ class api_v2_EventTest extends CiviUnitTestCase
      */
      function testSearchEmptyParams()
      {
-         $this->markTestIncomplete();
+        $params = array();
+        $result =& civicrm_event_search($params);
+
+        $this->assertEquals( $result['is_error'], 1, 'In line ' . __LINE__ );
+        $this->assertEquals( $result['error_message'], 'No input parameters present', 'In line ' . __LINE__ );
      }
 
     /**
@@ -231,7 +239,7 @@ class api_v2_EventTest extends CiviUnitTestCase
      *  Test civicrm_event_search. Success expected.
      *  return.offset and return.max_results test (CRM-5266)
      */
-     function testSearchEmptyParams()
+     function testSearchWithOffsetAndMaxResults()
      {
          $this->markTestIncomplete();
      }

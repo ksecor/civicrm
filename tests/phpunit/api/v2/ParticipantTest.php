@@ -492,6 +492,11 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->assertEquals( $participant['is_error'],1 );
         $this->assertNotNull($participant['error_message']);
     }
+
+///////////////// civicrm_create_participant_formatted methods
+
+
+
     
 ///////////////// civicrm_participant_payment_create methods
 
