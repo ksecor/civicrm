@@ -111,10 +111,6 @@ define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
  * $value = $json->decode($input);
  * </code>
  */
-
-// CRM-5255
-if ( ! class_exists( 'Services_JSON' ) ) {
-
 class Services_JSON
 {
    /**
@@ -836,12 +832,6 @@ class Services_JSON
     }
 }
 
- }
-
-// CRM-5255
-
-if ( ! class_exists( 'Services_JSON_Error' ) ) {
-
 if (class_exists('PEAR_Error')) {
 
     class Services_JSON_Error extends PEAR_Error
@@ -866,8 +856,6 @@ if (class_exists('PEAR_Error')) {
 
         }
     }
-
-}
 
 }
    
