@@ -242,7 +242,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
                     CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
                     
                     // populate action links
-                    self::action( $object, $action, $values[$object->id], $links, $permission );
+                    $this->action( $object, $action, $values[$object->id], $links, $permission );
                     
                     if ( isset( $object->mapping_type_id ) ) {
                         require_once 'CRM/Core/PseudoConstant.php';
