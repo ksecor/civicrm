@@ -441,6 +441,10 @@ div.spacer,
   width: 30px;
 }
 
+#crm-container div.status dd {
+  margin-left: 45px;
+}
+
 #crm-container .messages {
   margin: 1.0em 0em 1.0em;
   border: 1px solid #CCCCCC;
