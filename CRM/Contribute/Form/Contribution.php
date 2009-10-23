@@ -157,7 +157,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * Store the line items if price set used.
      */
     protected $_lineItems;
-    
+
+    protected $_formType;
+    protected $_cdType;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -179,6 +182,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
         
+        $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
+
         // get price set id.
         $this->_priceSetId  = CRM_Utils_Array::value( 'priceSetId', $_GET );
         $this->set( 'priceSetId',  $this->_priceSetId );
@@ -275,7 +280,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         
         $config =& CRM_Core_Config::singleton( );
-        if ( in_array("CiviPledge", $config->enableComponents) ) {
+        if ( in_array("CiviPledge", $config->enableComponents) &&
+             ! $this->_formType ) {
     
             //get the payment values associated with given pledge payment id OR check for payments due. 
             $this->_pledgeValues = array( );
@@ -605,7 +611,6 @@ WHERE  contribution_id = {$this->_id}
         $this->assign( 'buildPriceSet', $buildPriceSet );
         
         $showAdditionalInfo = false;
-        $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         
         require_once 'CRM/Contribute/Form/AdditionalInfo.php';
         
