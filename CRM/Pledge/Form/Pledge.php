@@ -565,7 +565,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                 if ( $d == 'start_date' ) {
                     $params['scheduled_date'] = CRM_Utils_Date::processDate( $this->_values[$d] );
                 }
-                $params[$d] = CRM_Utils_Date::isoToMysql( $this->_values[$d]);
+                $params[$d] = CRM_Utils_Date::processDate( $this->_values[$d]);
             } else if ( CRM_Utils_Array::value( $d, $formValues ) && !CRM_Utils_System::isNull( $formValues[$d] ) ) {
                 if ( $d == 'start_date' ) {
                     $params['scheduled_date'] =  CRM_Utils_Date::processDate( $formValues[$d] );
@@ -613,7 +613,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         //handle pending pledge.
         $params['is_pledge_pending'] = $this->_isPending;
-        
+                
         //create pledge record.
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $pledge =& CRM_Pledge_BAO_Pledge::create( $params );
