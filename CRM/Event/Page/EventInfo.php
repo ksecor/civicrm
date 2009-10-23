@@ -101,7 +101,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                             continue;
                         }
                         foreach ( $fieldValues['options'] as $optionId => $optionVal ) {
-                            $values['feeBlock']['value'][$fieldCnt] = $optionVal['value'];
+                            $values['feeBlock']['value'][$fieldCnt] = $optionVal['name'];
                             $values['feeBlock']['label'][$fieldCnt] = $optionVal['label'];
                             $fieldCnt++;
                         }
@@ -113,14 +113,16 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                 require_once 'CRM/Core/BAO/Discount.php';
                 $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
                 if ( $discountId ) {
-                    CRM_Core_OptionGroup::getAssoc( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $discountId, 'option_group_id' ),
+                    CRM_Core_OptionGroup::getAssoc( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', 
+                                                                                 $discountId, 
+                                                                                 'option_group_id' ),
                                                     $values['feeBlock'], false, 'id' );
                 } else {
                     CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$this->_id}", $values['feeBlock'] );
                 }
             }
         }
-        
+
         $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
         $values['location'] = CRM_Core_BAO_Location::getValues( $params, true );
