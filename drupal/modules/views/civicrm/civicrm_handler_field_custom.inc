@@ -15,7 +15,6 @@ class civicrm_handler_field_custom extends views_handler_field {
         if ( ! is_null( $value ) ) {
             // extract the field id from the name
             if ( preg_match('/_(\d+)$/', $this->real_field, $match ) ) {
-                CRM_Core_Error::debug( $match );
                 require_once 'CRM/Core/BAO/CustomOption.php';
                 return CRM_Core_BAO_CustomOption::getOptionLabel($match[1], $value);
             }
