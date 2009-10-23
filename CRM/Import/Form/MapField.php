@@ -421,7 +421,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 }
                 
                 //fix to append custom group name to field name, CRM-2676
-                if ( !CRM_Utils_Array::value( $cType, $this->_formattedFieldNames ) ) {
+                if ( !CRM_Utils_Array::value( $cType, $this->_formattedFieldNames ) || $cType == $this->_contactType ) {
                     $this->_formattedFieldNames[$cType] = $this->formatCustomFieldName( $values );
                 }
 
