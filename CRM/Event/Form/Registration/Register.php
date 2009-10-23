@@ -814,6 +814,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                                   $urlArgs,
                                                                   true, null, false ); 
                     $params['invoiceID' ] = $invoiceID;
+
+                    //default action is Sale
+                    $params['payment_action'] = 'Sale';
                     
                     $token = $payment->setExpressCheckout( $params ); 
                     if ( is_a( $token, 'CRM_Core_Error' ) ) { 
