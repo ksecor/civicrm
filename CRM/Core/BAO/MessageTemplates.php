@@ -270,6 +270,38 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
     }
 
     /**
+     * Revert a message template to its default subject+text+HTML state
+     *
+     * @param integer id  id of the template
+     *
+     * @return void
+     */
+    static function revert($id)
+    {
+        $diverted = new self;
+        $diverted->id = (int) $id;
+        $diverted->find(1);
+
+        if ($diverted->N != 1) {
+            CRM_Core_Error::fatal(ts('Did not find a message template with id of %1.', array(1 => $id)));
+        }
+
+        $orig = new self;
+        $orig->workflow_id = $diverted->workflow_id;
+        $orig->is_reserved = 1;
+        $orig->find(1);
+
+        if ($orig->N != 1) {
+            CRM_Core_Error::fatal(ts('Message template with id of %1 does not have a default to revert to.', array(1 => $id)));
+        }
+
+        $diverted->msg_subject = $orig->msg_subject;
+        $diverted->msg_text    = $orig->msg_text;
+        $diverted->msg_html    = $orig->msg_html;
+        $diverted->save();
+    }
+
+    /**
      * Send an email from the specified template based on an array of params
      *
      * @param array $params  a string-keyed array of function params, see function body for details
