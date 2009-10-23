@@ -148,7 +148,10 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                         }
                     } else if ( array_key_exists( $dbName, $params ) ) {
                         $temp = $$vals;
-                        $$phpName = CRM_Utils_Array::value( $params[$dbName], $temp );
+                        // CRM-5278
+                        if ( ! empty( $params[$dbName] ) ) {
+                            $$phpName = CRM_Utils_Array::value( $params[$dbName], $temp );
+                        }
                     } else if ( $value ) {
                         $temp = $$vals;
                         $$phpName = $temp[$value];
