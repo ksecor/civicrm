@@ -7,7 +7,7 @@
     </div>
 {/if}
 
-{if $rows}
+{if $rows and $action ne 2}
 <div id="ltype">
 <p></p>
     <div class="form-item" id=message_status_id>
@@ -46,7 +46,7 @@
     </div>
 </div>
 {else}
-  {if $action ne 1}
+  {if $action ne 1 and $action ne 2}
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
