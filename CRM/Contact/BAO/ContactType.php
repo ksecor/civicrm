@@ -399,10 +399,31 @@ WHERE  subtype.name IN ('".implode("','",$subType)."' )";
      * @access public
      * @static
      */
-    static function del( $ContactTypeId ) { 
+    static function del( $ContactTypeId ) {
+        require_once 'CRM/Core/DAO/CustomGroup.php';
+        require_once 'CRM/Contact/DAO/Contact.php';
+        $sql = "
+SELECT name from civicrm_contact_type  
+WHERE id = %1
+AND parent_id IS NOT NULL";
+        $params = array( 1 => array( $ContactTypeId , 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $sql, $params );
+        if( $dao->fetch( ) ) {
+            $name = $dao->name;       
+        }
+        $custom = & new CRM_Core_DAO_CustomGroup ( );
+        $custom->extends = $name;  
+        if( $custom->find( ) ) {
+            return false;
+        }
+        $sql = "
+UPDATE civicrm_contact SET contact_sub_type = NULL 
+WHERE contact_sub_type = '$name'";
+        CRM_Core_DAO::executeQuery( $sql );
         $ContactType = & new CRM_Contact_DAO_ContactType( );
         $ContactType->id = $ContactTypeId;
         $ContactType->delete( );
+        return true; 
     }
     /**
      * Function to add or update Contact SubTypes 

@@ -79,9 +79,15 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
      * @return None
      */
     public function postProcess( ) {
-        if( $this->_action & CRM_Core_Action::DELETE ) {
-            CRM_Contact_BAO_ContactType::del( $this->_id );
-            CRM_Core_Session::setStatus( ts('Selected Contact subtype has been deleted.') );
+        if( $this->_action & CRM_Core_Action::DELETE ) { 
+            $isDelete = CRM_Contact_BAO_ContactType::del( $this->_id );
+            if ( $isDelete ) {
+                CRM_Core_Session::setStatus( ts('Selected Contact Subtype has been deleted.') );
+            } else {
+                CRM_Core_Session::setStatus( ts('Selected Contact Subtype can not be  deleted.')
+                                             .'<br/>'. ts('If you want to delete Contact  Subtype
+                                            ,first delete all custom data related to Subtype. '));
+            }
             return;
         }
         // store the submitted values in an array
