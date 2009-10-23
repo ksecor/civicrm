@@ -48,6 +48,31 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
      */
     static $_links = null;
 
+    // ids of templates which diverted from the default ones and can be reverted
+    private $_revertible = array();
+
+    function __construct($title = null, $mode = null) {
+        // fetch the ids of templates which diverted from defaults and can be reverted –
+        // these templates have the same workflow_id as the defaults; defaults are reserved
+        $sql = '
+            SELECT diverted.id
+            FROM civicrm_msg_template diverted JOIN civicrm_msg_template orig ON (
+                diverted.workflow_id = orig.workflow_id AND
+                orig.is_reserved = 1                    AND (
+                    diverted.msg_subject != orig.msg_subject OR
+                    diverted.msg_text    != orig.msg_text    OR
+                    diverted.msg_html    != orig.msg_html
+                )
+            )
+        ';
+        $dao =& CRM_Core_DAO::executeQuery($sql);
+        while ($dao->fetch()) {
+            $this->_revertible[] = $dao->id;
+        }
+
+        parent::__construct($title, $mode);
+    }
+
     /**
      * Get BAO Name
      *
@@ -91,6 +116,7 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'title' => ts('Delete Message Templates') 
                                                                     ),
+                                  // FIXME: maybe a new action for reverting should be introduced?
                                   CRM_Core_Action::RENEW   => array(
                                                                     'name'  => ts('Revert'),
                                                                     'url'   => 'civicrm/admin/messageTemplates',
@@ -100,6 +126,17 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                   );
         }
         return self::$_links;
+    }
+
+    function action(&$object, $action, &$values, &$links, $permission)
+    {
+        parent::action($object, $action, $values, $links, $permission);
+
+        // do not expose action link for reverting to default if the template did not diverge
+        if (!in_array($object->id, $this->_revertible)) {
+            $action & ~CRM_Core_Action::RENEW;
+            $values['action'] = CRM_Core_Action::formLink($links, $action, array('id' => $object->id));
+        }
     }
 
     /**
