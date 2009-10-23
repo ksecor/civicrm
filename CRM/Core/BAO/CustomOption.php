@@ -137,18 +137,16 @@ WHERE  id = %1
             }
         }
 
+        $options = null;
         switch ($htmlType) {
         case 'CheckBox':
         case 'Multi-Select':
         case 'AdvMulti-Select':
-        case 'Radio':
         case 'Select':
-            $options =& self::valuesByID( $fieldId );
-            break;
-
-        default:
-            $options = null;
-
+        case 'Radio':
+            if ( $dataType != 'Boolean' ) {
+                $options =& self::valuesByID( $fieldId );
+            }
         }
 
         require_once 'CRM/Core/BAO/CustomField.php';
