@@ -130,13 +130,12 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
 
     function action(&$object, $action, &$values, &$links, $permission)
     {
-        parent::action($object, $action, $values, $links, $permission);
-
         // do not expose action link for reverting to default if the template did not diverge
         if (!in_array($object->id, $this->_revertible)) {
-            $action & ~CRM_Core_Action::RENEW;
-            $values['action'] = CRM_Core_Action::formLink($links, $action, array('id' => $object->id));
+            $action &= ~CRM_Core_Action::RENEW;
         }
+
+        parent::action($object, $action, $values, $links, $permission);
     }
 
     /**
