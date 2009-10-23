@@ -82,11 +82,11 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
         if( $this->_action & CRM_Core_Action::DELETE ) { 
             $isDelete = CRM_Contact_BAO_ContactType::del( $this->_id );
             if ( $isDelete ) {
-                CRM_Core_Session::setStatus( ts('Selected Contact Subtype has been deleted.') );
+                CRM_Core_Session::setStatus( ts('Selected Contact Type has been deleted.') );
             } else {
-                CRM_Core_Session::setStatus( ts('Selected Contact Subtype can not be  deleted.')
-                                             .'<br/>'. ts('If you want to delete Contact  Subtype
-                                            ,first delete all custom data related to Subtype. '));
+                CRM_Core_Session::setStatus( ts('Selected Contact Type can not be  deleted.')
+                                             .'<br/>'. ts('If you want to delete Contact  Type
+                                            ,first delete all custom data related to Type. '));
             }
             return;
         }
@@ -99,7 +99,7 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
             $params['name'] = ucfirst( CRM_Utils_String::munge($params['label'] ) );
         }
         $contactType = CRM_Contact_BAO_ContactType::add( $params );
-        CRM_Core_Session::setStatus( ts("The Contact subtype '%1' has been saved.",
+        CRM_Core_Session::setStatus( ts("The Contact Type '%1' has been saved.",
                                         array( 1 => $contactType->label )) );
     }     
 }

@@ -408,7 +408,7 @@
   </item>
   <item>
      <path>civicrm/admin/options/subtype</path>
-     <title>Contact Subtypes</title>
+     <title>Contact Types</title>
      <page_callback>CRM_Admin_Page_ContactType</page_callback>
      <adminGroup>Option Lists</adminGroup>
   </item>

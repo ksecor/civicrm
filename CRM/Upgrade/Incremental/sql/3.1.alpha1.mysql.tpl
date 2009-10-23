@@ -41,14 +41,14 @@
    ALTER TABLE  `civicrm_custom_group` MODIFY column extends varchar(64) collate utf8_unicode_ci DEFAULT 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).'; 
     
 -- CRM-5218
--- added menu for contact Subtypes in navigation
+-- added menu for contact Types in navigation
    SELECT @domain_id := min(id) FROM civicrm_domain;
    SELECT @nav_ol    := id FROM civicrm_navigation WHERE name = 'Option Lists';
    SELECT @nav_ol_wt := max(weight) from civicrm_navigation WHERE parent_id = @nav_ol;
    INSERT INTO `civicrm_navigation`
        ( domain_id, url, label, name,permission, permission_operator, parent_id, is_active, has_separator, weight ) 
    VALUES
-       (  @domain_id,'civicrm/admin/options/subtype&reset=1', 'Contact Subtypes', 'Contact Subtypes', 'administer CiviCRM', '', @nav_ol, '1', NULL, @nav_ol_wt+1 ); 
+       (  @domain_id,'civicrm/admin/options/subtype&reset=1', 'Contact Types', 'Contact Types', 'administer CiviCRM', '', @nav_ol, '1', NULL, @nav_ol_wt+1 ); 
 
 -- make changes for CRM-5100 
    ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_a` varchar(64) collate utf8_unicode_ci DEFAULT NULL AFTER `contact_type_b`;

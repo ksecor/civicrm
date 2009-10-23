@@ -1,6 +1,6 @@
-{* this template is used for adding/editing Contact Subtype  *}
+{* this template is used for adding/editing Contact Type  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Contact SubType{/ts}{elseif $action eq 2}{ts}Edit Contact SubType{/ts}{else}{ts}Delete Contact SubType{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Contact Type{/ts}{elseif $action eq 2}{ts}Edit Contact Type{/ts}{else}{ts}Delete Contact Type{/ts}{/if}</legend>
 {if $action eq 8}
   <div class="messages status">
     <dl>

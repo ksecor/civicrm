@@ -284,7 +284,7 @@ VALUES
     ( @domainID, 'civicrm/admin/options/mobile_provider&group=mobile_provider&reset=1',                                '{ts escape="sql"}Mobile Phone Providers{/ts}', 'Mobile Phone Providers',                   'administer CiviCRM', '',   @optionListlastID, '1', NULL, 12 ), 
     ( @domainID, 'civicrm/admin/options/phone_type&group=phone_type&reset=1',                                          '{ts escape="sql"}Phone Types{/ts}',            'Phone Types',                              'administer CiviCRM', '',   @optionListlastID, '1', NULL, 13 ), 
     ( @domainID, 'civicrm/admin/options/preferred_communication_method&group=preferred_communication_method&reset=1','{ts escape="sql"}Preferred Communication Methods{/ts}', 'Preferred Communication Methods',   'administer CiviCRM', '',   @optionListlastID, '1', NULL, 14 ),
-    ( @domainID, 'civicrm/admin/options/subtype&reset=1',                                                              '{ts escape="sql"}Contact Subtypes{/ts}',       'Contact Subtypes',                         'administer CiviCRM', '',   @optionListlastID, '1', NULL, 15 ); 
+    ( @domainID, 'civicrm/admin/options/subtype&reset=1',                                                              '{ts escape="sql"}Contact Types{/ts}',       'Contact Types',                         'administer CiviCRM', '',   @optionListlastID, '1', NULL, 15 ); 
 
 INSERT INTO civicrm_navigation
     ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )

@@ -76,7 +76,7 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
                                 'name'  => ts('Edit'),
                                 'url'   => 'civicrm/admin/options/subtype',
                                 'qs'    => 'action=update&id=%%id%%&reset=1',
-                                'title' => ts('Edit Contact SubType') 
+                                'title' => ts('Edit Contact Type') 
                                 ),
                           CRM_Core_Action::DISABLE => 
                           array(
@@ -85,7 +85,7 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
                                 'CRM_Contact_BAO_ContactType' . '\',\'' . 'enable-disable' . 
                                 '\' );"',
                                 'ref'   => 'disable-action',
-                                'title' => ts('Disable Contact SubType') 
+                                'title' => ts('Disable Contact Type') 
                                 ),
                           CRM_Core_Action::ENABLE  => 
                           array(
@@ -94,14 +94,14 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
                                 'CRM_Contact_BAO_ContactType' . '\',\'' . 'disable-enable' .
                                 '\' );"',
                                 'ref'   => 'enable-action',
-                                'title' => ts('Enable Contact SubType') 
+                                'title' => ts('Enable Contact Type') 
                                 ),
                           CRM_Core_Action::DELETE  => 
                           array(
                                 'name'  => ts('Delete'),
                                 'url'   => 'civicrm/admin/options/subtype',
                                 'qs'    => 'action=delete&id=%%id%%',
-                                'title' => ts('Delete Contact SubType') 
+                                'title' => ts('Delete Contact Type') 
                                 )
                           );
             }

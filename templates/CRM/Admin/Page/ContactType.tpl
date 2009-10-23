@@ -1,5 +1,5 @@
 <div id="help">
-    {ts}Contact subtypes provide convenient labels to further differentiate contacts. Administrators may define as many additional types as appropriate for your constituents (examples might be Student,Parent...).{/ts}
+    {ts}Contact Types provide convenient labels to further differentiate contacts. Administrators may define as many additional types as appropriate for your constituents (examples might be Student,Parent...).{/ts}
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}
@@ -15,7 +15,7 @@
     <table id="options" class="display">
     <thead>
     <tr>
-        <th>{ts}Subtypes{/ts}</th>
+        <th>{ts}Types{/ts}</th>
         <th>{ts}Extends{/ts}</th>
         <th id="nosort">{ts}Description{/ts}</th>
     </tr>
@@ -32,7 +32,7 @@
     {/strip}
     {if $action ne 1 and $action ne 2}
     <div class="action-link">
-	<a href="{crmURL q="action=add&reset=1"}" class="button"><span>&raquo; {ts}New Contact SubType{/ts}</span></a>
+	<a href="{crmURL q="action=add&reset=1"}" class="button"><span>&raquo; {ts}New Contact Type{/ts}</span></a>
     </div>
     {/if}
 </div>
