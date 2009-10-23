@@ -26,7 +26,7 @@
         <tr>
             <td class="label">{$form.msg_subject.label}</td>
             <td>
-                  {$form.msg_subject.html}
+                  {$form.msg_subject.html|crmReplace:class:huge}
 	              <a href="#" onClick="return showToken('Subject', 3);">{$form.token3.label}</a>
 	              {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
                   <div id='tokenSubject' style="display:none">
