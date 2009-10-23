@@ -1852,9 +1852,8 @@ div.grippie {
 	height:16px;
 	width:16px;
 	background:transparent url("../packages/jquery/themes/smoothness/images/ui-icons_888888_256x240.png") no-repeat top right;
+	float:left;
 	}
-
-#crm-container a.button .icon { float:left; }
 
 .button:hover {
 	color:#333;
@@ -1881,7 +1880,6 @@ div.grippie {
 
 .block-civicrm #recently-viewed .icon {
 	background-image: url('../i/item_sprites.png');
-	float:left;
 	margin:2px 4px 0 0;
 	}
 
@@ -1890,6 +1888,11 @@ div.grippie {
 .Individual-icon { background-position: 0px 0px; }
 .Group-icon { background-position: -16px 0px; }
 .Household-icon { background-position: -32px 0px; }
+
+.Individual-subtype-icon { background-position: 0px -48px; }
+.Household-subtype-icon { background-position: -32px -48px; }
+.Organization-subtype-icon { background-position: -48px -48px; }
+
 .Organization-icon { background-position: -48px 0px; }
 .Activity-icon { background-position: -64px 0px; }	
 .Case -icon { background-position: -80px 0px; }
