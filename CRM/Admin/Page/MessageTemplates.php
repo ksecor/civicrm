@@ -52,6 +52,8 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
     private $_revertible = array();
 
     function __construct($title = null, $mode = null) {
+        parent::__construct($title, $mode);
+
         // fetch the ids of templates which diverted from defaults and can be reverted –
         // these templates have the same workflow_id as the defaults; defaults are reserved
         $sql = '
@@ -69,8 +71,6 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
         while ($dao->fetch()) {
             $this->_revertible[] = $dao->id;
         }
-
-        parent::__construct($title, $mode);
     }
 
     /**
