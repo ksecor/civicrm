@@ -92,7 +92,7 @@ WHERE pledge_id = %1
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
-        $scheduled_date =  $params['scheduled_date'];
+        $scheduled_date =  CRM_Utils_Date::unformat( $params['scheduled_date'], '' );
 
         $contributionStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
         //calculation of schedule date according to frequency day of period
