@@ -186,11 +186,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         //get the pledge payment id
         $this->_ppID = CRM_Utils_Request::retrieve( 'ppid', 'Positive', $this );
+
         //get the contact id
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
         //get the action.
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false, 'add' );
         $this->assign( 'action', $this->_action );
+
         //get the contribution id if update
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         
