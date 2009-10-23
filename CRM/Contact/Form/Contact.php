@@ -773,7 +773,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                  $viewUrls = array( );
                  $editUrls = array( );
                  require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                 list( $viewUrls, $editUrls ) = CRM_Contact_BAO_Contact_Utils::formatContactIDSToLinks( $ids );
+                 list( $viewUrls, $editUrls, $mergeUrl) = CRM_Contact_BAO_Contact_Utils::formatContactIDSToLinks( $ids, true, true, $contactID );
                  $viewUrl  = implode( ', ',  $viewUrls );
                  $editUrl  = implode( ', ',  $editUrls );
                  $errors['_qf_default']  = ts('One matching contact was found.', array('count' => count($editUrls), 'plural' => '%count matching contacts were found.'));
@@ -782,6 +782,11 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                  $errors['_qf_default'] .= '<br />';
                  $errors['_qf_default'] .= ts('If you know the record you are creating is a duplicate, click here - %1 - to EDIT the original record instead.', array(1 => $editUrl));
                  $errors['_qf_default'] .= '<br />';
+                 //allow to merge with matching contact, CRM-3160
+                 if ( !empty( $mergeUrl ) ) {
+                     $errors['_qf_default'] .= ts('If you know the record you are editing is a duplicate, click here - %1 - to MERGE with the existing record instead.', array(1 => $mergeUrl));
+                     $errors['_qf_default'] .= '<br />'; 
+                 }
                  $errors['_qf_default'] .= ts('If you are sure this is NOT a duplicate, click the &quot;Save Matching Contact&quot; button (this button is located at the bottom of the Contact Details section below).');
 
                  // let smarty know that there are duplicates

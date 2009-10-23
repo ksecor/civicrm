@@ -514,26 +514,44 @@ UPDATE civicrm_contact
      * Given an array of contact ids this function will return array with links to view contact page
      *
      * @param array $contactIDs associated contact id's
+     * @param int $originalId associated with the contact which is edited
      *
      *
      * @return array $contactViewLinks returns array with links to contact view
      * @static
      * @access public
      */
-     static function formatContactIDSToLinks( $contactIDs, $addViewLink = true, $addEditLink = true ) {
-         $contactViewLinks = $contactEditLinks = array( );
-         
-         // retrieve display names for all contacts
-         $query = 'SELECT id, display_name FROM civicrm_contact WHERE id IN (' . implode( ',', $contactIDs) . ' )';
-         $dao = CRM_Core_DAO::executeQuery( $query );
-         
-         while ( $dao->fetch( ) ) {
-             $contactViewLinks[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->id ) .
-                 '" target="_blank">' . $dao->display_name . '</a>';
-             $contactEditLinks[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $dao->id ) .
-                 '">' . $dao->display_name . '</a>';
-         }
-         return array( $contactViewLinks, $contactEditLinks );
-     }
-     
+    static function formatContactIDSToLinks( $contactIDs, $addViewLink = true, $addEditLink = true, $originalId = null ) {
+        
+        $contactViewLinks = $contactEditLinks = array( );
+        $contactMergeLink = null;
+        
+        // retrieve display names for all contacts
+        $query = 'SELECT id, display_name, contact_type FROM civicrm_contact WHERE id IN (' . implode( ',', $contactIDs) . ' )';
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        
+        while ( $dao->fetch( ) ) {
+            $contactViewLinks[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->id ) .
+                '" target="_blank">' . $dao->display_name . '</a>';
+            $contactEditLinks[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $dao->id ) .
+                '">' . $dao->display_name . '</a>';  
+        }
+        
+        //allow to merge if only one matching contact is found during edit, CRM-3160
+        if( count( $contactIDs ) == 1 && !empty( $originalId ) ) {
+            $rgBao =& new CRM_Dedupe_BAO_RuleGroup( );
+            $rgBao->contact_type = $dao->contact_type;
+            $rgBao->level = 'Fuzzy';
+            $rgBao->is_default = 1;
+            if ( $rgBao->find( true ) ) {
+                $rgid = $rgBao->id; 
+            }
+            if ( $rgid && isset( $dao->id ) ) {
+                //get an url to merge the contact
+                $contactMergeLink = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/merge', "reset=1&cid=" . $originalId . "&oid=" . $dao->id . "&action=update&rgid=" . $rgid ) . '">' . $dao->display_name . ' ( Merge ) </a>' ;
+            }
+        }   
+        return array( $contactViewLinks, $contactEditLinks, $contactMergeLink );
+    }
+    
 }
