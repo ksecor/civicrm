@@ -4401,6 +4401,9 @@ function civicrm_views_handlers() {
                        'civicrm_handler_relationship_contact2users' => array(
                                                             'parent' => 'views_handler_relationship',
                                                            ),
+                       'civicrm_handler_field_custom' => array(
+                                                               'parent' => 'views_handler_field',
+                                                               ),
                                                                           
                        //FILTER HANDDLEAARRRS! Filter Handlers!
                        'civicrm_handler_filter_datetime' => array(
