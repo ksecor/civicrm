@@ -69,7 +69,7 @@ class CRM_Export_BAO_Export
 
         $phoneTypes = CRM_Core_PseudoConstant::phoneType();
         $imProviders = CRM_Core_PseudoConstant::IMProvider();
-        $contactRelationshipTypes = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, null, true );
+        $contactRelationshipTypes = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, null, true, 'label', false );
         $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
         
         switch ( $exportMode )  {
@@ -421,6 +421,9 @@ class CRM_Export_BAO_Export
                         }
                     }
                 } else if ( array_key_exists( $field, $contactRelationshipTypes ) ) {
+
+                    list( $id, $direction ) = explode( '_', $field, 2 );
+
                     require_once 'api/v2/Relationship.php';
                     require_once 'CRM/Contact/BAO/Contact.php';
                     require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -434,11 +437,12 @@ class CRM_Export_BAO_Export
                         asort($val['result']);
                     }
                     
-                    $is_valid = null ;
+                    $is_valid = null;
+                    $data     = null;
                     if ( $val['result'] ){
                         foreach( $val['result'] as $k => $v ){
                             //consider only active relationships
-                            if ( $v['is_active'] ) {  
+                            if ( $v['is_active'] && $v['rtype'] == $direction ) {  
                                 $cID['contact_id'] = $v['cid'];
                                 if ( $cID ) {
                                     //Get Contact Details
