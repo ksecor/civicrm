@@ -116,11 +116,10 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'title' => ts('Delete Message Templates') 
                                                                     ),
-                                  // FIXME: maybe a new action for reverting should be introduced?
-                                  CRM_Core_Action::RENEW   => array(
+                                  CRM_Core_Action::REVERT  => array(
                                                                     'name'  => ts('Revert'),
                                                                     'url'   => 'civicrm/admin/messageTemplates',
-                                                                    'qs'    => 'action=renew&id=%%id%%',
+                                                                    'qs'    => 'action=revert&id=%%id%%',
                                                                     'title' => ts('Revert the Template to Default'),
                                                                     ),
                                   );
@@ -132,7 +131,7 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
     {
         // do not expose action link for reverting to default if the template did not diverge
         if (!in_array($object->id, $this->_revertible)) {
-            $action &= ~CRM_Core_Action::RENEW;
+            $action &= ~CRM_Core_Action::REVERT;
         }
 
         parent::action($object, $action, $values, $links, $permission);
