@@ -199,11 +199,11 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                 $contact->sort_name = $uniqId;
             }
         }
+        $format = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
+                                              'birth', 'format', 'name' );
         
         if ( $date = CRM_Utils_Array::value('birth_date', $params) ) {
-            $format = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
-                                                   'birth', 'format', 'name' );
-            
+           
             if ( in_array( $format, array('dd/mm', 'mm/dd' ) ) ) {
                 $date = "{$date}/1902";
             }
@@ -215,16 +215,13 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
         }
         
         if ( $date = CRM_Utils_Array::value('deceased_date', $params) ) {
-            if (is_array($date)) {
-                //CRM-3143
-                if ( !CRM_Utils_System::isNull( $date ) && 
-                     !CRM_Utils_Array::value( 'Y', $date ) ) {
-                    $date['Y'] = '1902';
-                }
-                $contact->deceased_date = CRM_Utils_Date::format( $date );
-            } else {
-                $contact->deceased_date = preg_replace('/[^0-9]/', '', $date);
+
+            if ( in_array( $format, array('dd/mm', 'mm/dd' ) ) ) {
+                $date = "{$date}/1902";
             }
+            
+            $contact->deceased_date = CRM_Utils_Date::processDate($date) ;
+            
         } else if ( $contact->deceased_date ) {
             $contact->deceased_date = CRM_Utils_Date::isoToMysql( $contact->deceased_date );
         }

@@ -613,9 +613,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
              CRM_Utils_Array::value( 'Demographics',  $this->_editOptions ) &&
              !CRM_Utils_Array::value( 'is_deceased', $params ) ) {
             $params['is_deceased']        = false;
-            $params['deceased_date']['M'] = null;
-            $params['deceased_date']['d'] = null;
-            $params['deceased_date']['Y'] = null;
+            $params['deceased_date'] = null;
         }
         
         // action is taken depending upon the mode
