@@ -75,7 +75,7 @@
 	                            <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{ts}HTML Message{/ts}</a>
                             </h3>
                             <div class='html'>
-                                {$form.msg_html.html}<br />
+                                {$form.msg_html.html|crmReplace:class:huge}<br />
                                 <span class="description">{ts}You may optionally create an HTML formatted version of this message. It will be sent to contacts whose Email Format preference is 'HTML' or 'Both'.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
                             </div>  
                         </div>

@@ -112,8 +112,8 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
         
         $this->add('textarea', 'msg_text', ts('Text Message'), 
                    "cols=50 rows=6" );
-        $this->addWysiwyg( 'msg_html', ts('HTML Message'),
-                          CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MessageTemplates', 'msg_html' ) );
+        $this->add('textarea', 'msg_html', ts('HTML Message'),
+                   "cols=50 rows=6" );
      
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
