@@ -117,6 +117,10 @@ class CRM_Core_BAO_CustomOption {
 
     static function getOptionLabel($fieldId, $value, $htmlType = null, $dataType = null )
     {
+        if ( ! $fieldId ) {
+            return null;
+        }
+
         if ( ! $htmlType || ! $dataType ) {
             $sql = "
 SELECT html_type, data_type
@@ -150,7 +154,7 @@ WHERE  id = %1
         require_once 'CRM/Core/BAO/CustomField.php';
         return CRM_Core_BAO_CustomField::getDisplayValueCommon( $value,
                                                                 $options,
-                                                                $fieldyType,
+                                                                $htmlType,
                                                                 $dataType );
     }
 
