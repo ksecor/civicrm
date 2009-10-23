@@ -134,6 +134,11 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
             $action &= ~CRM_Core_Action::REVERT;
         }
 
+        // default templates shouldn’t be deletable
+        if ($object->is_default) {
+            $action &= ~CRM_Core_Action::DELETE;
+        }
+
         parent::action($object, $action, $values, $links, $permission);
     }
 
