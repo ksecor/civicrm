@@ -90,12 +90,18 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'title' => ts('Delete Message Templates') 
-                                                                    )
+                                                                    ),
+                                  CRM_Core_Action::RENEW   => array(
+                                                                    'name'  => ts('Revert'),
+                                                                    'url'   => 'civicrm/admin/messageTemplates',
+                                                                    'qs'    => 'action=renew&id=%%id%%',
+                                                                    'title' => ts('Revert the Template to Default'),
+                                                                    ),
                                   );
         }
         return self::$_links;
     }
-    
+
     /**
      * Get name of edit form
      *

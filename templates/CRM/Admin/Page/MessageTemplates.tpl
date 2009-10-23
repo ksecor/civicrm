@@ -25,12 +25,15 @@
         </tr>
         </thead>
         {foreach from=$rows item=row}
-        <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-	        <td>{$row.msg_title}</td>	
-	        <td>{$row.msg_subject}</td>
-	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	        <td>{$row.action|replace:'xx':$row.id}</td>
-        </tr>
+          {* we skip the reserved rows here rather than on the PHP side so that we can still edit the upstream templates if needed be *}
+          {if !$row.is_reserved}
+            <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+              <td>{$row.msg_title}</td>
+              <td>{$row.msg_subject}</td>
+              <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+              <td>{$row.action|replace:'xx':$row.id}</td>
+            </tr>
+          {/if}
         {/foreach}
         </table>
         {/strip}
