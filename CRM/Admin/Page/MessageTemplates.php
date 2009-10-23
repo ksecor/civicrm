@@ -51,6 +51,9 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
     // ids of templates which diverted from the default ones and can be reverted
     private $_revertible = array();
 
+    // set to the id that we’re reverting at the given moment (if we are)
+    private $_revertedId;
+
     function __construct($title = null, $mode = null) {
         parent::__construct($title, $mode);
 
@@ -118,6 +121,7 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     ),
                                   CRM_Core_Action::REVERT  => array(
                                                                     'name'  => ts('Revert'),
+                                                                    'extra' => 'onclick = \'return confirm("Are you sure you want to revert this template?");\'',
                                                                     'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=revert&id=%%id%%',
                                                                     'title' => ts('Revert the Template to Default'),
@@ -129,8 +133,9 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
 
     function action(&$object, $action, &$values, &$links, $permission)
     {
-        // do not expose action link for reverting to default if the template did not diverge
-        if (!in_array($object->id, $this->_revertible)) {
+        // do not expose action link for reverting to default if the template did not diverge or we just reverted it now
+        if (!in_array($object->id, $this->_revertible) or
+            ($this->_action & CRM_Core_Action::REVERT and $object->id == $this->_revertedId)) {
             $action &= ~CRM_Core_Action::REVERT;
         }
 
@@ -140,6 +145,25 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
         }
 
         parent::action($object, $action, $values, $links, $permission);
+    }
+
+    function run($args = null, $pageArgs = null, $sort = null)
+    {
+        // handle the revert action and offload the rest to parent
+        if (CRM_Utils_Request::retrieve('action', 'String', $this) & CRM_Core_Action::REVERT) {
+
+            $id = CRM_Utils_Request::retrieve('id', 'Positive', $this);
+            if (!$this->checkPermission($id, null)) {
+                CRM_Core_Error::fatal(ts('You do not have permission to revert this template.'));
+            }
+
+            $this->_revertedId = $id;
+
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            CRM_Core_BAO_MessageTemplates::revert($id);
+        }
+
+        return parent::run($args, $pageArgs, $sort);
     }
 
     /**
