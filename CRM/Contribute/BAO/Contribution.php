@@ -1035,6 +1035,8 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                   WHERE cc.is_test = {$isTest} AND ccs.contact_id = " . $contact_id;
        
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        require_once "CRM/Contribute/PseudoConstant.php";
+        require_once 'CRM/Utils/Money.php';
         $contributionStatus = CRM_Contribute_Pseudoconstant::contributionStatus( );
         $result = array();
         while( $cs->fetch( ) ) {
