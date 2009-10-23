@@ -67,9 +67,9 @@ class CRM_Contact_Page_AJAX
             case 'state_province':
                 $select[] = "{$suffix}.name";
                 if ( ! in_array( 'address', $from ) ) {
-                    $from ['address'] = 'LEFT JOIN civicrm_address sts ON cc.id = sts.contact_id ';
+                    $from ['address'] = 'LEFT JOIN civicrm_address sts ON ( cc.id = sts.contact_id AND sts.is_primary = 1) ';
                 }
-                $from[$value] = " INNER JOIN civicrm_{$value} {$suffix} ON ( sts.{$value}_id = {$suffix}.id AND sts.is_primary = 1 ) ";
+                $from[$value] = " LEFT JOIN civicrm_{$value} {$suffix} ON ( sts.{$value}_id = {$suffix}.id  ) ";
                 break;
             }
         }
