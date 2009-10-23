@@ -928,23 +928,16 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 }
 
 .block-civicrm div#recently-viewed ul li {
-  margin: 1px;
-  padding: 1px;
-  padding-left: 3px;
-  border: 1px solid #999999;
-  background-color: #fff;
-  white-space: nowrap;
-  overflow: hidden;  
-}
+  	margin: 1px;
+  	padding: 1px;
+  	padding-left: 3px;
+  	border: 1px solid #999999;
+  	background-color: #fff;
+  	white-space: nowrap;
+  	overflow: hidden;  
+	}
 
- 
-.block-civicrm div#recently-viewed ul li a {
-  margin-left: 20px;
-}
 
-.block-civicrm div#recently-viewed ul li img {
-  vertical-align: middle;
-}
 
 #crm-container div#alpha-filter {
   margin: 10px 0px 5px;
@@ -1844,37 +1837,7 @@ div.grippie {
 
 /* setup for icons */
 
-.block-civicrm div#recently-viewed ul li.Activity,
-.block-civicrm div#recently-viewed ul li.Case ,
-.block-civicrm div#recently-viewed ul li.Contribution,
-.block-civicrm div#recently-viewed ul li.Grant,
-.block-civicrm div#recently-viewed ul li.Group,
-.block-civicrm div#recently-viewed ul li.Household,
-.block-civicrm div#recently-viewed ul li.Individual,
-.block-civicrm div#recently-viewed ul li.Membership,
-.block-civicrm div#recently-viewed ul li.Note,
-.block-civicrm div#recently-viewed ul li.Organization,
-.block-civicrm div#recently-viewed ul li.Participant,
-.block-civicrm div#recently-viewed ul li.Pledge {
-	background-position:3px;
-	background-repeat: no-repeat;
-	}
- 
- /* icon images - also can be used to override specific settings for indiviudual icons */
-.block-civicrm div#recently-viewed ul li.Activity { background-image:url("../i/recent/Activity.png"); }
-.block-civicrm div#recently-viewed ul li.Case { background-image:url("../i/recent/Case.png"); }
-.block-civicrm div#recently-viewed ul li.Contribution { background-image:url("../i/recent/Contribution.png"); }
-.block-civicrm div#recently-viewed ul li.Grant { background-image:url("../i/recent/Grant.png"); }
-.block-civicrm div#recently-viewed ul li.Group { background-image:url("../i/recent/Group.png"); }
-.block-civicrm div#recently-viewed ul li.Household { background-image:url("../i/recent/Household.png"); }
-.block-civicrm div#recently-viewed ul li.Individual { background-image:url("../i/recent/Individual.png"); }
-.block-civicrm div#recently-viewed ul li.Membership { background-image:url("../i/recent/Membership.png"); }
-.block-civicrm div#recently-viewed ul li.Note { background-image:url("../i/recent/Note.png"); }
-.block-civicrm div#recently-viewed ul li.Organization { background-image:url("../i/recent/Organization.png");  }
-.block-civicrm div#recently-viewed ul li.Participant { background-image:url("../i/recent/Participant.png"); }
-.block-civicrm div#recently-viewed ul li.Pledge { background-image:url("../i/recent/Pledge.png"); }
- 
- .ac_results ul li {background-image:url('');}
+.ac_results ul li {background-image:url('');}
 .Individual {background:url('../i/contact_ind.gif') no-repeat;padding-left:20px;}
 .Household {background:url('../i/contact_house.png') no-repeat;padding-left:20px;}
 .Organization {background:url('../i/contact_org.gif') no-repeat;padding-left:20px;}
@@ -1912,6 +1875,34 @@ div.grippie {
     background: url('../i/geotag_16.png') left center no-repeat;
     font-size: .9em;
 }
+
+
+/* recently viewed icons */
+
+.block-civicrm #recently-viewed .icon {
+	background-image: url('../i/item_sprites.png');
+	float:left;
+	margin:2px 4px 0 0;
+	}
+
+/* anywhere in CiviCRM - use <div class="icon Item-icon"></div> - and you will get 16x16 icon (may need to be floated left) */
+
+.Individual-icon { background-position: 0px 0px; }
+.Group-icon { background-position: -16px 0px; }
+.Household-icon { background-position: -32px 0px; }
+.Organization-icon { background-position: -48px 0px; }
+.Activity-icon { background-position: -64px 0px; }	
+.Case -icon { background-position: -80px 0px; }
+.Grant-icon { background-position: 0px -16px; }
+.Contribution-icon { background-position: -16px -16px; }
+.Pledge-icon { background-position: -16px -16px; }
+.Membership-icon { background-position: -32px -16px; }
+.Participant-icon { background-position: 0px -32px; }
+.Note-icon { background-position: -16px -32px; }
+
+
+ 
+
 
 
 /* civicrm admin menu */
