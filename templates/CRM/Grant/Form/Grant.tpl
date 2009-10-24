@@ -30,33 +30,36 @@
 			<tr><td class="label">{$form.amount_granted.label}</td><td>{$form.amount_granted.html}</td></tr>
 
 			<tr><td class="label">{$form.application_received_date.label}</td>
-				<td>{$form.application_received_date.html}
-					{if $hideCalender neq true} &nbsp;
-					{include file="CRM/common/calendar/desc.tpl" trigger=trigger_case1}
-					{include file="CRM/common/calendar/body.tpl" dateVar=application_received_date offset=3 trigger=trigger_case1}
-					{/if}
+				<td>
+    				{if $hideCalendar neq true}
+                        {include file="CRM/common/jcalendar.tpl" elementName=application_received_date}
+                    {else}
+                        {$form.application_received_date.html|crmDate}
+                    {/if}
 				</td>
 			</tr>
 			<tr><td class="label">{$form.decision_date.label}</td>
-			<td>{$form.decision_date.html }
-				{if $hideCalender neq true} &nbsp;
-				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_case2}
-				{include file="CRM/common/calendar/body.tpl" dateVar=decision_date offset=3 trigger=trigger_case2}
-				{/if}<br />
+			<td>{if $hideCalendar neq true}
+                    {include file="CRM/common/jcalendar.tpl" elementName=decision_date}
+                {else}
+                    {$form.decision_date.html|crmDate}
+                {/if}
+			<br />
                 <span class="description">{ts}Date on which the grant decision was finalized.{/ts}</span></td></tr>
 			<tr><td class="label">{$form.money_transfer_date.label}</td>
-				<td>{$form.money_transfer_date.html}
-					{if $hideCalender neq true } &nbsp;
-					{include file="CRM/common/calendar/desc.tpl" trigger=trigger_case3}
-					{include file="CRM/common/calendar/body.tpl" dateVar=money_transfer_date offset=3 trigger=trigger_case3}
-					{/if}<br />
+				<td>{if $hideCalendar neq true}
+                        {include file="CRM/common/jcalendar.tpl" elementName=money_transfer_date}
+                    {else}
+                        {$form.money_transfer_date.html|crmDate}
+                    {/if}<br />
                     <span class="description">{ts}Date on which the grant money was transferred.{/ts}</span></td></tr>
 			<tr><td class="label">{$form.grant_due_date.label}</td>
-				<td>{$form.grant_due_date.html}
-					{if $hideCalender neq true} &nbsp;
-					{include file="CRM/common/calendar/desc.tpl" trigger=trigger_case4}
-					{include file="CRM/common/calendar/body.tpl" dateVar=grant_due_date offset=3 trigger=trigger_case4}
-					{/if}
+				<td>
+				    {if $hideCalendar neq true}
+                        {include file="CRM/common/jcalendar.tpl" elementName=grant_due_date}
+                    {else}
+                        {$form.grant_due_date.html|crmDate}
+                    {/if}
 				</td>
 			</tr>
 			<tr><td class="label">{$form.grant_report_received.label}</td><td>{$form.grant_report_received.html}</td></tr>

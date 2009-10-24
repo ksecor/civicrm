@@ -126,11 +126,21 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
                 $defaults['amount_granted'] = CRM_Utils_Money::format($defaults['amount_granted'], null, '%a');
             }
             
+            $dates = array( 'application_received_date',
+                            'decision_date',
+                            'money_transfer_date',
+                            'grant_due_date' );
+            
+            foreach( $dates as $key ) {
+                if ( CRM_Utils_Array::value( $key, $defaults ) ) {
+                    list( $defaults[$key] ) = CRM_Utils_Date::setDateDefaults( CRM_Utils_Array::value( $key, $defaults ) );
+                }
+            }
         } else {
-            $now = date("Y-m-d");
-            $defaults['application_received_date'] = $now;
+            require_once 'CRM/Utils/Date.php';
+            list( $defaults['application_received_date'] ) = CRM_Utils_Date::setDateDefaults( );
         }
-        
+                
 		// custom data set defaults
 		$defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
         return $defaults;
@@ -168,26 +178,10 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->add('select', 'status_id',  ts( 'Grant Status' ),
                    array( '' => ts( '- select -' ) ) + $grantStatus , true);
 
-
-        $this->add( 'date', 'application_received_date', ts('Application Received'),
-                    CRM_Core_SelectValues::date( 'manual',20,10 ),
-                    false);
-        $this->addRule('application_received_date', ts('Select a valid date.'), 'qfDate'); 
-
-        $this->add( 'date', 'decision_date', ts('Grant Decision'),
-                    CRM_Core_SelectValues::date( 'manual',20,10 ),
-                    false);
-        $this->addRule('decision_date', ts('Select a valid date.'), 'qfDate');
-                    
-        $this->add( 'date', 'money_transfer_date', ts('Money Transferred'),
-                    CRM_Core_SelectValues::date( 'manual',20,10 ),
-                    false);
-        $this->addRule('money_transfer_date', ts('Select a valid date.'), 'qfDate');  
-
-        $this->add( 'date', 'grant_due_date', ts('Grant Report Due'),
-                    CRM_Core_SelectValues::date('manual',20,10 ),
-                    false);
-        $this->addRule('grant_due_date', ts('Select a valid date.'), 'qfDate');
+        $this->addDate( 'application_received_date', ts('Application Received'), false, array( 'formatType' => 'manual') );
+        $this->addDate( 'decision_date', ts('Grant Decision'), false, array( 'formatType' => 'manual') );
+        $this->addDate( 'money_transfer_date', ts('Money Transferred'), false, array( 'formatType' => 'manual') );
+        $this->addDate( 'grant_due_date', ts('Grant Report Due'), false, array( 'formatType' => 'manual') );
 
         $this->addElement('checkbox','grant_report_received', ts('Grant Report Received?'),null );
         $this->add('textarea', 'rationale', ts('Rationale'), $attributes['rationale']);
@@ -284,11 +278,20 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             $this->_contactID = CRM_Utils_Array::value('contact_select_id', $params);
         }
         
-        $params['contact_id'               ] = $this->_contactID;
-        $params['application_received_date'] = CRM_Utils_Date::format($params['application_received_date']);
-        $params['decision_date'            ] = CRM_Utils_Date::format($params['decision_date']);
-        $params['money_transfer_date'      ] = CRM_Utils_Date::format($params['money_transfer_date']);
-        $params['grant_due_date'           ] = CRM_Utils_Date::format($params['grant_due_date']);
+        $params['contact_id'] = $this->_contactID;
+
+        $dates = array( 'application_received_date',
+                        'decision_date',
+                        'money_transfer_date',
+                        'grant_due_date' );
+        
+        foreach ( $dates as $d ) {
+            if ( !CRM_Utils_System::isNull( $params[$d] ) ) {
+                $params[$d] = CRM_Utils_Date::processDate( $params[$d] );
+            } else if ( array_key_exists( $d, $params ) ) {
+                $params[$d] = 'null';
+            }
+        }
      
         $ids['note'] = array( );
         if ( $this->_noteId ) {
