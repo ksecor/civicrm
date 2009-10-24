@@ -441,7 +441,11 @@ function _civicrm_member_roles_sync($ext_uid = NULL)
         }
     
         unset($dao);
-        
+
+	// also make sure the add has precedence over remove, i.e. if we add a role, we dont remove it
+	// in case of multiple membership types
+	$remove_accounts = array_diff( $remove_accounts, $add_accounts );
+	        
         //Let's make sure the rid is really an rid.
         if(is_numeric($result->rid)) {
       
