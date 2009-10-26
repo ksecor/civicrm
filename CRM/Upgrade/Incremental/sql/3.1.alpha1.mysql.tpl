@@ -61,18 +61,18 @@
 -- CRM-5106
 -- Added Autocomplete search options in civicrm_preferences 'Admin Search Settings' form
 
-   ALTER TABLE `civicrm_preferences` ADD `autocomplete_contact_search_options` VARCHAR( 255 ) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'What Autocomplete has to return';
+   ALTER TABLE `civicrm_preferences` ADD `contact_autocomplete_options` VARCHAR( 255 ) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'What Autocomplete has to return';
 
 -- Added default value checked for sort_name and email
-   UPDATE `civicrm_preferences` SET `autocomplete_contact_search_options` = '12' WHERE `civicrm_preferences`.`id` =1 LIMIT 1;
+   UPDATE `civicrm_preferences` SET `contact_autocomplete_options` = '12' WHERE `civicrm_preferences`.`id` =1 LIMIT 1;
 
 -- Insert values for option group
    INSERT INTO 
     `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) 
    VALUES 
-    ('autocomplete_contact_search_options', 'Autocomplete Contact Search'   , 0, 1);
+    ('contact_autocomplete_options', 'Autocomplete Contact Search'   , 0, 1);
    
-   SELECT @option_group_id_acsOpt := max(id) from civicrm_option_group where name = 'autocomplete_contact_search_options';
+   SELECT @option_group_id_acsOpt := max(id) from civicrm_option_group where name = 'contact_autocomplete_options';
 
    INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 

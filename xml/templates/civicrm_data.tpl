@@ -151,7 +151,7 @@ VALUES
    ('email_greeting'                , '{ts escape="sql"}Email Greeting Type{/ts}'                , 0, 1),
    ('postal_greeting'               , '{ts escape="sql"}Postal Greeting Type{/ts}'               , 0, 1),
    ('addressee'                     , '{ts escape="sql"}Addressee Type{/ts}'                     , 0, 1),
-   ('autocomplete_contact_search_options', '{ts escape="sql"}Autocomplete Contact Search{/ts}'   , 0, 1);
+   ('contact_autocomplete_options'  , '{ts escape="sql"}Autocomplete Contact Search{/ts}'        , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -196,7 +196,7 @@ SELECT @option_group_id_emailGreeting  := max(id) from civicrm_option_group wher
 SELECT @option_group_id_postalGreeting := max(id) from civicrm_option_group where name = 'postal_greeting';
 SELECT @option_group_id_addressee      := max(id) from civicrm_option_group where name = 'addressee';
 SELECT @option_group_id_report         := max(id) from civicrm_option_group where name = 'report_template';
-SELECT @option_group_id_acsOpt         := max(id) from civicrm_option_group where name = 'autocomplete_contact_search_options';
+SELECT @option_group_id_acsOpt         := max(id) from civicrm_option_group where name = 'contact_autocomplete_options';
 
 SELECT @contributeCompId := max(id) FROM civicrm_component where name = 'CiviContribute';
 SELECT @eventCompId      := max(id) FROM civicrm_component where name = 'CiviEvent';

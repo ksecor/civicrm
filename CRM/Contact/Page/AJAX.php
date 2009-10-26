@@ -44,7 +44,7 @@ class CRM_Contact_Page_AJAX
         require_once 'CRM/Core/BAO/Preferences.php';
         $name   = CRM_Utils_Type::escape( $_GET['s'], 'String' );
         $limit  = '10';
-        $list   = array_keys( CRM_Core_BAO_Preferences::valueOptions( 'autocomplete_contact_search_options' ), '1' );
+        $list   = array_keys( CRM_Core_BAO_Preferences::valueOptions( 'contact_autocomplete_options' ), '1' );
         $select = array( 'sort_name' );
         $where  = '';
         $from   = array( );
