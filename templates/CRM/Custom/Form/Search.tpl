@@ -59,11 +59,23 @@
             {if $element.is_search_range}
                 {assign var="element_name_from" value=$element_name|cat:"_from"}
                 {assign var="element_name_to" value=$element_name|cat:"_to"}
-                <dt>{$form.$element_name_from.label}</dt><dd>
-                {$form.$element_name_from.html|crmReplace:class:six}
+                {if $element.data_type neq 'Date'}
+                    <dt>{$form.$element_name_from.label}</dt><dd>
+                    {$form.$element_name_from.html|crmReplace:class:six}
                     &nbsp;&nbsp;{$form.$element_name_to.label}&nbsp;&nbsp;{$form.$element_name_to.html|crmReplace:class:six}
+                {elseif $element.skip_calendar NEQ true }
+                    <dt>{$form.$element_name_from.label}</dt><dd>
+                    {include file="CRM/common/jcalendar.tpl" elementName=$element_name_from}
+                    &nbsp;&nbsp;{$form.$element_name_to.label}&nbsp;&nbsp;
+                    {include file="CRM/common/jcalendar.tpl" elementName=$element_name_to}
+                {/if}
             {else}
-                <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
+                <dt>{$form.$element_name.label}</dt><dd>&nbsp;
+                {if $element.data_type neq 'Date'}
+                    {$form.$element_name.html}
+                {elseif $element.skip_calendar NEQ true }
+                    {include file="CRM/common/jcalendar.tpl" elementName=$element_name}    
+                {/if}
             {/if}
             {if $element.html_type eq 'Radio'}
                 &nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>

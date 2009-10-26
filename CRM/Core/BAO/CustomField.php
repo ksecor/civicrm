@@ -616,32 +616,26 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case 'Select Date':
+            //TO DO:  Need to handle date parts
+
+
             if ( $field->is_search_range && $search) {
-                $qf->add('date',
-                         $elementName.'_from',
-                         $label . ' - ' . ts('From'),
-                         CRM_Core_SelectValues::date( 'custom' ,
-                                                      $field->start_date_years,
-                                                      $field->end_date_years,
-                                                      $field->date_parts ),
-                         (($useRequired && $field->is_required) && !$search)); 
-                $qf->add('date',
-                         $elementName.'_to',
-                         ts('To'), 
-                         CRM_Core_SelectValues::date( 'custom' , 
-                                                      $field->start_date_years,
-                                                      $field->end_date_years,
-                                                      $field->date_parts ),
-                         (($useRequired && $field->is_required) && !$search)); 
+
+                $qf->addDate( $elementName.'_from', $label . ' - ' . ts('From'), false, 
+                              array( 'formatType'  => 'custom',
+                                     'startOffset' =>  $field->start_date_years,
+                                     'endOffset'   =>  $field->end_date_years) );
+
+                $qf->addDate( $elementName.'_to', ts('To'), false, 
+                              array( 'formatType'  => 'custom',
+                                     'startOffset' =>  $field->start_date_years,
+                                     'endOffset'   =>  $field->end_date_years) );
             } else {
-                $qf->add('date',
-                         $elementName,
-                         $label,
-                         CRM_Core_SelectValues::date( 'custom', 
-                                                      $field->start_date_years,
-                                                      $field->end_date_years,
-                                                      $field->date_parts ),
-                         ( ( $useRequired ||( $useRequired && $field->is_required ) ) && !$search ) );
+                $required = ( ( $useRequired ||( $useRequired && $field->is_required ) ) && !$search );
+                
+                $qf->addDate( $elementName, $label, $required, array( 'formatType'  => 'custom',
+                                                                      'startOffset' =>  $field->start_date_years,
+                                                                      'endOffset'   =>  $field->end_date_years) );
             }
             break;
 
@@ -802,7 +796,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $label)), 'integer');
             }
             break;
-            
+/*            
         case 'Date':
             if ( $field->is_search_range && $search) {
                 $qf->addRule($elementName.'_from', ts('%1 From is not a valid date.', array(1 => $label)), 'qfDate');
@@ -811,7 +805,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $qf->addRule($elementName, ts('%1 is not a valid date.', array(1 => $label)), 'qfDate');
             }
             break;
-            
+*/            
         case 'Float':
             if ( $field->is_search_range && $search) {
                 $qf->addRule($elementName.'_from', ts('%1 From must be a number (with or without decimal point).', array(1 => $label)), 'numeric');
@@ -977,11 +971,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case "Select Date":
+            //TO DO: Fix Date parts
+            /*    
             $dateParts = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
                                                       $id,
                                                       'date_parts' );
             $parts   = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $dateParts);
             $display = CRM_Utils_Date::customFormat($value, $format, $parts);
+            */
+            $display = CRM_Utils_Date::customFormat( $value );
             break;
 
         case 'Select State/Province':
@@ -1319,27 +1317,7 @@ SELECT id
         // fix the date field 
         if ( $customFields[$customFieldId]['data_type'] == 'Date' ) {
             if ( ! CRM_Utils_System::isNull( $value ) ) {
-                if ( is_string( $value ) ) {
-                    // it might be a string, so lets do an unformat
-                    // check if the seperator exists in string
-                    $separator = '-';
-                    if ( strpos( $value, $separator ) === false ) {
-                        $separator = '';
-                    }
-                    $unformat = CRM_Utils_Date::unformat( $value, $separator );
-                    if ( $unformat ) {
-                        $value = $unformat;
-                    }
-                }
-
-                //convert date to timestamp
-                $time = array( 'H', 'i', 's' );
-                foreach ( $time as $v ) {
-                    if ( ! isset( $value[$v] ) ) {
-                        $value[$v] = '00';
-                    }                    
-                    $date = CRM_Utils_Date::format( $value );                    
-                }
+                $date = CRM_Utils_Date::processDate( $value );   
             }
             $value = $date;
         }

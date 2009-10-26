@@ -967,7 +967,11 @@ SELECT $select
                     
                 case 'Select Date':
                     if (isset($value)) {
-                        $defaults[$elementName] = CRM_Utils_Date::unformat( $value, '-' );
+                        if ( !isset( $defaults[ $elementName. '_time' ] ) ) {
+                            list( $defaults[$elementName] ) = CRM_Utils_Date::setDateDefaults( $value );
+                        } else {
+                            list( $defaults[$elementName], $defaults[ $elementName. '_time' ] ) = CRM_Utils_Date::setDateDefaults( $value );
+                        }
                     }
                    
                     break;
