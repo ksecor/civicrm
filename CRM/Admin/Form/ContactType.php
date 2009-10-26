@@ -62,8 +62,7 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
                         'objectExists',
                         array( 'CRM_Contact_DAO_ContactType', $this->_id ) );
         $contactType = $this->add( 'select', 'parent_id', ts('Basic Contact Type'),
-                                   array('1'=>'Individual','2'=>'Household','3'=>'Organization'),
-                                   'required');
+                                   array('1'=>'Individual','2'=>'Household','3'=>'Organization'));
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $contactType->freeze( );   
         }

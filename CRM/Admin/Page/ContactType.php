@@ -110,7 +110,7 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
     
     function run()
     {   
-        $action = CRM_Utils_Request::retrieve( 'action', 'String',$this, false, 0 ); 
+        $action = CRM_Utils_Request::retrieve( 'action', 'String',$this, false, 0 );      
         $this->assign( 'action', $action );
         $id = CRM_Utils_Request::retrieve( 'id', 'Positive',$this, false, 0 );
         if( !$action ) {
@@ -119,10 +119,16 @@ class CRM_Admin_Page_ContactType extends CRM_Core_Page_Basic
         parent::run();    
     }
     function browse()
-    {  
-        $rows = CRM_Contact_BAO_ContactType::subTypeInfo( null , true );
-        foreach( $rows  as $key=>$value ) { 
-            $rows[$key]['action'] = CRM_Core_Action::formLink( self::links(), null, 
+    {   
+        $basicType = CRM_Contact_BAO_ContactType::contactTypeInfo( true );
+        $subType = CRM_Contact_BAO_ContactType::subTypeInfo( null , true );
+        $rows = array_merge( $basicType ,$subType );
+        foreach( $rows  as $key=>$value ) {
+            $mask = null;
+            if( CRM_Utils_Array::value( 'is_reserved', $value ) ) {
+                $mask -= CRM_Core_Action::DELETE + 1;
+            }
+            $rows[$key]['action'] = CRM_Core_Action::formLink( self::links(), $mask,
                                                                array('id' =>$value['id'] ) );
         }
         $this->assign( 'rows' ,$rows);

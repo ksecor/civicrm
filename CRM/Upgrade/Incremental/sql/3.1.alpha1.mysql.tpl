@@ -20,22 +20,23 @@
      image_URL varchar(255) collate utf8_unicode_ci default NULL  COMMENT'URL of image if any.',
      parent_id int(10) unsigned default NULL  COMMENT 'Optional FK to parent contact type.',
      is_active tinyint(4) default NULL COMMENT 'Is this entry active?',
+     is_reserved tinyint(4) default NULL COMMENT 'Is this contact type a predefined system type',
      PRIMARY KEY  ( id ),
      UNIQUE KEY contact_type ( name ),
      CONSTRAINT FK_civicrm_contact_type_parent_id FOREIGN KEY (parent_id) REFERENCES civicrm_contact_type(id) ON DELETE CASCADE       
        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
 
    INSERT INTO civicrm_contact_type 
-       ( id, name, label, description, image_URL, parent_id, is_active ) 
+       ( id, name, label, description, image_URL, parent_id, is_active,is_reserved ) 
    VALUES
-       (1, 'Individual', 'Individual', NULL, NULL, NULL, 1),
-       (2, 'Household', 'Household', NULL, NULL, NULL, 1),
-       (3, 'Organization', 'Organization', NULL, NULL, NULL, 1),
-       (4, 'Student', 'Student', NULL, NULL, 1, 1),
-       (5, 'Parent', 'Parent', NULL, NULL, 1, 1),
-       (6, 'Staff', 'Staff', NULL, NULL, 1, 1),
-       (7, 'Team', 'Team', NULL, NULL, 3, 1),
-       (8, 'Sponsor', 'Sponsor', NULL, NULL, 3, 1);
+       (1, 'Individual', 'Individual', NULL, NULL, NULL, 1,1),
+       (2, 'Household', 'Household', NULL, NULL, NULL, 1,1),
+       (3, 'Organization', 'Organization', NULL, NULL, NULL, 1,1),
+       (4, 'Student', 'Student', NULL, NULL, 1, 1,0),
+       (5, 'Parent', 'Parent', NULL, NULL, 1, 1,0),
+       (6, 'Staff', 'Staff', NULL, NULL, 1, 1,0),
+       (7, 'Team', 'Team', NULL, NULL, 3, 1,0),
+       (8, 'Sponsor', 'Sponsor', NULL, NULL, 3, 1,0);
 
 -- modify civicrm_custom_group.extends column to varchar(64)
    ALTER TABLE  `civicrm_custom_group` MODIFY column extends varchar(64) collate utf8_unicode_ci DEFAULT 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).'; 
