@@ -2,7 +2,9 @@ CRM/ACL/DAO
 CRM/Activity/DAO
 CRM/Auction/DAO
 CRM/Case/DAO
+CRM/Contact/DAO/ACLContactCache.php
 CRM/Contact/DAO/Contact.php
+CRM/Contact/DAO/ContactType.php
 CRM/Contact/DAO/Group.php
 CRM/Contact/DAO/GroupContact.php
 CRM/Contact/DAO/GroupContactCache.php
@@ -67,8 +69,10 @@ CRM/Mailing/DAO
 CRM/Mailing/Event/DAO
 CRM/Member/DAO
 CRM/Pledge/DAO
+CRM/Price/DAO
 CRM/Project/DAO
 CRM/Report/DAO
+CRM/Standalone/OpenID/DAO
 bin/setup.sh
 civicrm-version.txt
 civicrm.config.php
