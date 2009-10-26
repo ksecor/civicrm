@@ -49,7 +49,7 @@ class EmailProcessor {
         $emailActivityTypeId = 
             ( defined('EMAIL_ACTIVITY_TYPE_ID') && EMAIL_ACTIVITY_TYPE_ID )  ? 
             EMAIL_ACTIVITY_TYPE_ID : CRM_Core_OptionGroup::getValue( 'activity_type', 
-                                                                     'Inbound Email 2', 
+                                                                     'Inbound Email', 
                                                                      'name' );
         if ( ! $emailActivityTypeId ) {
             CRM_Core_Error::fatal( ts( 'Could not find a valid Activity Type ID for Inbound Email' ) );
