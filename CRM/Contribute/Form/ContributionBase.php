@@ -283,7 +283,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
                 // ensure that processor has a valid config
                 $this->_paymentObject =&
-                    CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
+                    CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor, $this );
                 $error = $this->_paymentObject->checkConfig( );
                 if ( ! empty( $error ) ) {
                     CRM_Core_Error::fatal( $error );

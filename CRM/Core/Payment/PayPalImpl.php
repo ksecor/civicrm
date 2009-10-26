@@ -217,6 +217,9 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $args['custom']         = CRM_Utils_Array::value( 'accountingCode',
                                                           $params );
 
+        // Allow further manipulation of the arguments via custom hooks ..
+        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $args );
+
         $result = $this->invokeAPI( $args );
 
         if ( is_a( $result, 'CRM_Core_Error' ) ) {  

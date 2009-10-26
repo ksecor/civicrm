@@ -106,6 +106,9 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
                          'cust_id'    => $params['contact_id']
                          );
         
+        // Allow further manipulation of params via custom hooks
+        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $txnArray );
+
         //create a transaction object passing the hash created above
         $mpgTxn = new mpgTransaction($txnArray);
   
