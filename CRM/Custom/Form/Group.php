@@ -237,7 +237,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
                            'extends',
                            ts('Used For'),
                            array('onClick' => 'showHideStyle();',
-                                 'name'    => 'extends[0]'),
+                                 'name'    => 'extends[0]',
+                                 'style'   => 'vertical-align: top;'),
                            true);
         $sel->setOptions( array( $sel1, $sel2 ) );
         if ( is_a($sel->_elements[1], 'HTML_QuickForm_select') ) {
