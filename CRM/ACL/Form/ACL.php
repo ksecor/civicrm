@@ -214,7 +214,7 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
                     $showHide->addHide( "id-custom-acl" );
                     $showHide->addHide( "id-event-acl" );
                 }
-                if ( ! in_array( $pararms['operation'], $validOperations ) ) {
+                if ( ! in_array( $params['operation'], $validOperations ) ) {
                     $errors['operation'] = $operationMessage;
                 }
                 break;
@@ -237,7 +237,7 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
                     $showHide->addHide( "id-profile-acl" );
                     $showHide->addHide( "id-event-acl" );
                 }
-                if ( ! in_array( $pararms['operation'], $validOperations ) ) {
+                if ( ! in_array( $params['operation'], $validOperations ) ) {
                     $errors['operation'] = $operationMessage;
                 }
                 break;
@@ -250,7 +250,7 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
                     $showHide->addHide( "id-group-acl" );
                     $showHide->addHide( "id-profile-acl" );
                 }
-                if ( ! in_array( $pararms['operation'], $validOperations ) ) {
+                if ( ! in_array( $params['operation'], $validOperations ) ) {
                     $errors['operation'] = $operationMessage;
                 }
                 break;

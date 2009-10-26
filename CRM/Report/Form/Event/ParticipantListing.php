@@ -205,6 +205,7 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
                     ON ({$this->_aliases['civicrm_event']}.id = {$this->_aliases['civicrm_participant']}.event_id ) AND {$this->_aliases['civicrm_event']}.is_template IS NULL
              LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
                     ON ({$this->_aliases['civicrm_participant']}.contact_id  = {$this->_aliases['civicrm_contact']}.id  )
+             {$this->_aclFrom}
              LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']}
                     ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND 
                        {$this->_aliases['civicrm_address']}.is_primary = 1 
@@ -252,6 +253,9 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }
     }
 
     function groupBy( ) {
@@ -277,6 +281,8 @@ class CRM_Report_Form_Event_ParticipantListing extends CRM_Report_Form {
         // get ready with post process params
         $this->beginPostProcess( );
 
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
         // build query
         $sql = $this->buildQuery( true );
 

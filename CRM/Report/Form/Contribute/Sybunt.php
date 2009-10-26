@@ -221,6 +221,7 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         FROM       civicrm_contribution  {$this->_aliases['civicrm_contribution']}
                    INNER JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
                            ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id $yearClause
+                   {$this->_aclFrom}
                    LEFT  JOIN civicrm_email  {$this->_aliases['civicrm_email']} 
                            ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_email']}.contact_id  
                           AND {$this->_aliases['civicrm_email']}.is_primary = 1
@@ -278,6 +279,10 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
+
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }   
     }
     
     function groupBy( $receiveDate = false ) {
@@ -307,6 +312,9 @@ class CRM_Report_Form_Contribute_Sybunt extends CRM_Report_Form {
     {
         // get ready with post process params
         $this->beginPostProcess( );
+
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
         $this->select ( );
         $this->from   ( );
         $this->where  ( );

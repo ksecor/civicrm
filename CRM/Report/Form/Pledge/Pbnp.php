@@ -172,7 +172,7 @@ class CRM_Report_Form_Pledge_Pbnp extends CRM_Report_Form {
         $this->_from = null;
         
         $this->_from = "
-        FROM civicrm_contact {$this->_aliases['civicrm_contact']}
+        FROM civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
              INNER JOIN civicrm_pledge  {$this->_aliases['civicrm_pledge']} 
                         ON ({$this->_aliases['civicrm_pledge']}.contact_id =
                             {$this->_aliases['civicrm_contact']}.id)  AND 
@@ -208,6 +208,8 @@ class CRM_Report_Form_Pledge_Pbnp extends CRM_Report_Form {
     }
     
     function postProcess( ) {
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
         parent::PostProcess();
     }
     

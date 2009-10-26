@@ -1055,6 +1055,10 @@ class CRM_Report_Form extends CRM_Core_Form {
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $whereClauses );
         }
+        
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }   
 
         if ( !empty( $havingClauses ) ) {
             // use this clause to construct group by clause.

@@ -186,7 +186,7 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
 
     function from( ) {
         $this->_from = "
-        FROM civicrm_contact {$this->_aliases['civicrm_contact']}
+        FROM civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
         	 INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} 
 		             ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_contribution']}.contact_id
         ";
@@ -237,6 +237,10 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
+
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }     
     }
 
     function groupBy( ) {
@@ -247,6 +251,9 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
 
         $this->beginPostProcess( );
         
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
+
         $this->select( );
         
         $this->from( );
@@ -256,6 +263,7 @@ class CRM_Report_Form_Contribute_TopDonor extends CRM_Report_Form {
         $this->groupBy( );
 
         $this->limit( );
+
         
         //set the variable value rank, rows = 0
         $setVariable = " SET @rows:=0, @rank=0 ";
