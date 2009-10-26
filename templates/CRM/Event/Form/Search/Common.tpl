@@ -5,16 +5,10 @@
  
 <tr> 
     <td>  
-       {$form.event_start_date_low.label}<br />{$form.event_start_date_low.html}&nbsp;
-       {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_event_1}
-       {include file="CRM/common/calendar/body.tpl" dateVar=event_start_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_event_1}
+       {$form.event_start_date_low.label}<br />{include file="CRM/common/jcalendar.tpl" elementName=event_start_date_low}
     </td>
     <td> 
-       {$form.event_end_date_high.label}
-       <br />
-       {$form.event_end_date_high.html}&nbsp;
-       {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_event_2}
-       {include file="CRM/common/calendar/body.tpl" dateVar=event_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_event_2}
+       {$form.event_end_date_high.label}<br />{include file="CRM/common/jcalendar.tpl" elementName=event_end_date_high}
     </td> 
 </tr>
 

@@ -562,7 +562,6 @@ class CRM_Contribute_BAO_Query
         //added contribution source
         $form->addElement('text', 'contribution_source', ts('Contribution Source'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Contribution', 'source') );
         
-        // Date selects for date 
         $form->addDate( 'contribution_date_low', ts('Contribution Dates - From'), false, array( 'formatType' => 'relative') );
         $form->addDate( 'contribution_date_high', ts('To'), false, array( 'formatType' => 'relative') );
  

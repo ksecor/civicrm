@@ -3485,11 +3485,16 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
             // add 235959 if its less that or equal to
             if ( $op == '<='      &&
                  $appendTimeStamp &&
-                 strlen( $date ) == 8 ) {
+                 strlen( $date ) == 10 ) {
                 $date .= ' 23:59:59';
             }
 
             $date = CRM_Utils_Date::processDate( $date );
+
+            if ( !$appendTimeStamp ) {
+                $date = substr(  $date, 0, 8 );
+            }
+
             $format  = CRM_Utils_Date::customFormat( $date );
             
             if ( $date ) {

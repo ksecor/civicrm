@@ -328,9 +328,7 @@ class CRM_Member_BAO_Query
 
     static function buildSearchForm( &$form ) 
     {
-        
         require_once 'CRM/Member/PseudoConstant.php';
-        
         foreach (CRM_Member_PseudoConstant::membershipType( ) as $id => $Name) {
             $form->_membershipType =& $form->addElement('checkbox', "member_membership_type_id[$id]", null,$Name);
         }
@@ -345,27 +343,15 @@ class CRM_Member_BAO_Query
         }
 
         $form->addElement( 'text', 'member_source', ts( 'Source' ) );
-        //$form->addElement('date', 'member_join_date', ts('Member Since :'), CRM_Core_SelectValues::date('relative')); 
-        //$form->addRule('member_join_date', ts('Select a valid date.'), 'qfDate'); 
  
-        // Date selects for date 
-        $form->add('date', 'member_join_date_low', ts('Join Date - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('member_join_date_low', ts('Select a valid date.'), 'qfDate'); 
- 
-        $form->add('date', 'member_join_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('member_join_date_high', ts('Select a valid date.'), 'qfDate');
+        $form->addDate( 'member_join_date_low', ts('Join Date - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'member_join_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
-        $form->add('date', 'member_start_date_low', ts('Start Date - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('member_start_date_low', ts('Select a valid date.'), 'qfDate'); 
- 
-        $form->add('date', 'member_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('member_start_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->addDate( 'member_start_date_low', ts('Start Date - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'member_start_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
-        $form->add('date', 'member_end_date_low', ts('End Date - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('member_end_date_low', ts('Select a valid date.'), 'qfDate'); 
- 
-        $form->add('date', 'member_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('member_end_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->addDate( 'member_end_date_low', ts('End Date - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'member_end_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
         $form->addElement( 'checkbox', 'member_test' , ts( 'Find Test Memberships?' ) );
         $form->addElement( 'checkbox', 'member_pay_later', ts( 'Find Pay Later Memberships?' ) );
