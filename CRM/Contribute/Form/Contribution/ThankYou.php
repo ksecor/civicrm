@@ -189,7 +189,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $tellAFriend = false;
         if ( $this->_pcpId ) {
             if ( $this->_pcpBlock['is_tellfriend_enabled'] ) {
-                $this->assign( 'friendText', 'Tell a Friend' );
+                $this->assign( 'friendText', ts('Tell a Friend') );
                 $subUrl = "eid={$this->_pcpId}&blockId={$this->_pcpBlock['id']}&page=pcp";
                 $tellAFriend = true;
             }
