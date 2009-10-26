@@ -88,6 +88,26 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
     
     function upgrade( $rev ) {
 
+        // fix CRM-5270: if civicrm_report_instance.description is localised,
+        // recreate it based on the first locale’s description_xx_YY contents
+        // and drop all the description_xx_YY columns
+        if (!CRM_Core_DAO::checkFieldExists('civicrm_report_instance', 'description')) {
+            require_once 'CRM/Core/I18n/SchemaStructure.php';
+            require_once 'CRM/Core/DAO/Domain.php';
+            $domain = new CRM_Core_DAO_Domain;
+            $domain->find(true);
+            $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+
+            CRM_Core_DAO::executeQuery("ALTER TABLE civicrm_report_instance ADD description VARCHAR(255)");
+            CRM_Core_DAO::executeQuery("UPDATE civicrm_report_instance SET description = description_{$locales[0]}");
+
+            CRM_Core_DAO::executeQuery("DROP TRIGGER civicrm_report_instance_before_insert");
+            foreach ($locales as $locale) {
+                CRM_Core_DAO::executeQuery("DROP VIEW civicrm_report_instance_$locale");
+                CRM_Core_DAO::executeQuery("ALTER TABLE civicrm_report_instance DROP description_$locale");
+            }
+        }
+
         //We execute some part of php after sql and then again sql
         //So using conditions for skipping some part of sql CRM-4575
                     
