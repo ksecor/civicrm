@@ -17,12 +17,18 @@
 	{if $field.is_search_range}
 	   {assign var=from value=$field.name|cat:'_from'}
 	   {assign var=to value=$field.name|cat:'_to'}
+	   {if $field.data_type neq 'Date'}
 	        <tr>
         	    <td class="label">{$form.$from.label}</td>
-	            <td class="description">{$form.$from.html}</td>
-	            <td class="label">{$form.$to.label}</td>
-        	    <td class="description">{$form.$to.html}</td>
+                <td class="description">{$form.$from.html}&nbsp;&nbsp;{$form.$to.label}&nbsp;&nbsp;{$form.$to.html}</td>
 	        </tr>
+	   {else}
+       <tr>
+   	       <td class="label">{$form.$from.label}</td>
+           <td class="description">{include file="CRM/common/jcalendar.tpl" elementName=$from}
+            &nbsp;&nbsp;{$form.$to.label}&nbsp;&nbsp;{include file="CRM/common/jcalendar.tpl" elementName=$to}</td>
+       </tr>
+	   {/if}    
 	{elseif $field.options_per_line}
 	<tr>
         <td class="option-label">{$form.$n.label}</td>
@@ -65,26 +71,31 @@
 	    <tr>
             <td class="label">{$form.$n.label}</td>
             {if $n eq 'addressee' or $n eq 'email_greeting' or $n eq 'postal_greeting'}  
-             <td class="description"> 
+              <td class="description"> 
                  {include file="CRM/Profile/Form/GreetingType.tpl"}
-             </td> 
+              </td> 
             {elseif $n eq 'group'} 
-	 	    <td>
+	 	      <td>
 	 	        <table id="selector" class="selector" style="width:auto;">
 			        <tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
 		        </table>
-		    </td>
-                {else}
-                    <td class="description">{$form.$n.html}
+		      </td>
+            {else}
+                <td class="description">
+                    {if ( $field.data_type eq 'Date' or
+                               ( ( ( $n eq 'birth_date' ) or ( $n eq 'deceased_date' ) ) ) ) }
+                       {include file="CRM/common/jcalendar.tpl" elementName=$n}  
+        		    {else}       
+                       {$form.$n.html}
+                    {/if}
 		    	{if ($n eq 'gender') or ($field.html_type eq 'Radio' and $form.formName eq 'Search')}
 			        &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
 	    	    {elseif $field.html_type eq 'Autocomplete-Select'}
                     {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
         		{/if}
-            	
-		    </td>
-                {/if}
-        	</tr>
+		        </td>
+            {/if}
+        </tr>
 	{/if}
     {/foreach}
     <tr><td></td><td>{$form.buttons.html}</td></tr>

@@ -512,6 +512,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                 } elseif ( in_array($name, array('addressee', 'email_greeting', 'postal_greeting')) ) {
                     $dname = $name . '_display';
                     $row[] = $result->$dname;
+                } elseif ( in_array($name, array('birth_date', 'deceased_date') ) ) {
+                    $row[] = CRM_Utils_Date::customFormat( $result->$name );
                 } elseif ( isset($result->$name ) ){
                     $row[] = $result->$name;
                 } else {

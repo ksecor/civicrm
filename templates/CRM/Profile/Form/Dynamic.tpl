@@ -103,19 +103,15 @@
                 {include file="CRM/Profile/Form/GreetingType.tpl"}  
            {elseif ( $n eq 'group' && $form.group ) || ( $n eq 'tag' && $form.tag )}
 				{include file="CRM/Contact/Form/Edit/TagsAndGroups.tpl" type=$n}
-           {else}        
-               {$form.$n.html}
+           {else}
+               {if ( $field.data_type eq 'Date' or
+                          ( ( ( $n eq 'birth_date' ) or ( $n eq 'deceased_date' ) ) ) ) }
+                  {include file="CRM/common/jcalendar.tpl" elementName=$n}  
+   		       {else}       
+                  {$form.$n.html}
+               {/if}
                {if ($n eq 'gender') or ($field.html_type eq 'Radio' and $form.formName eq 'Edit')}
                        &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
-               {elseif ( $field.data_type eq 'Date' or
-                       ( ( ( $n eq 'birth_date' ) or ( $n eq 'deceased_date' ) ) and 
-                             !call_user_func( array('CRM_Utils_Date','checkBrithDateFormat') ) ) ) }
-
-                        <span>
-                            {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
-		                    {include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}
-		                </span>
-
 		       {elseif $field.html_type eq 'Autocomplete-Select'}
                     {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
 			   {/if}

@@ -92,7 +92,7 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
                     $value[$item] = 1; 
                 } 
             } else if ( in_array( $key, array('birth_date', 'deceased_date')) ) {
-                $value = CRM_Utils_Date::mysqlToiso($value);
+                list( $value ) = CRM_Utils_Date::setDateDefaults($value);
             }
             
             $defaults[$key] = $value;
