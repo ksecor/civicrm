@@ -4,7 +4,7 @@ class CRM_Standalone_User {
   
   public $id;
 
-  public $identity_url;
+  public $openid;
   
   public $email;
   
@@ -24,8 +24,8 @@ class CRM_Standalone_User {
   
   public $country;
   
-  function __construct( $identityUrl, $email = null, $firstName = null, $lastName = null, $streetAddr = null, $city = null, $postalCode = null, $stateProvince = null, $country = null ) {
-    $this->identity_url = $identityUrl;
+  function __construct( $openid, $email = null, $firstName = null, $lastName = null, $streetAddr = null, $city = null, $postalCode = null, $stateProvince = null, $country = null ) {
+    $this->openid = $openid;
     $this->email = $email;
     $this->first_name = $firstName;
     $this->last_name = $lastName;

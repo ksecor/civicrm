@@ -51,13 +51,41 @@
        <rule>url</rule>
        <comment>OpenID</comment>
        <add>2.0</add>
+       <drop>3.1</drop>
   </field>
   <index>
      <name>UI_openid</name>
      <fieldName>openid</fieldName>
      <unique>true</unique>
      <add>2.0</add>
+     <drop>3.1</drop>
   </index>
+  <field>
+       <name>endpoint_url</name>
+       <type>text</type>
+       <comment>OpenID provider endpoint server URL</comment>
+       <add>3.1</add>
+  </field>
+  <field>
+       <name>claimed_id</name>
+       <type>text</type>
+       <comment>Claimed ID of this contact\'s OpenID</comment>
+       <add>3.1</add>
+  </field>
+  <index>
+       <name>UI_endpoint_url_claimed_id</name>
+       <fieldName length="166">endpoint_url</fieldName>
+       <fieldName length="166">claimed_id</fieldName>
+       <unique>true</unique>
+       <add>3.1</add>
+  </index>
+  <field>
+       <name>display_id</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Display ID of this contact\'s OpenID</comment>
+       <add>3.1</add>
+  </field>
   <field>
       <name>allowed_to_login</name>
       <type>boolean</type>
