@@ -50,65 +50,67 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
     public function preProcess( ) 
     {
         require_once 'CRM/Event/BAO/Participant.php';
-
-        $values = array( ); 
-        $ids    = array( ); 
-        $params = array( 'id' => $this->get( 'id' ) ); 
+        $values = $ids = array( ); 
+        $params = array( 'id' => $this->get( 'id' ) );
 
         CRM_Event_BAO_Participant::getValues( $params, 
                                               $values, 
                                               $ids );
         
-        CRM_Event_BAO_Participant::resolveDefaults( $values[$this->get( 'id' )] );
+        CRM_Event_BAO_Participant::resolveDefaults( $values[$params['id']] );
         
-        if ( CRM_Utils_Array::value( 'fee_level', $values[$this->get( 'id' )] ) ) {
-            CRM_Event_BAO_Participant::fixEventLevel( $values[$this->get( 'id' )]['fee_level'] );
+        if ( CRM_Utils_Array::value( 'fee_level', $values[$params['id']] ) ) {
+            CRM_Event_BAO_Participant::fixEventLevel( $values[$params['id']]['fee_level'] );
         }
         
-        if( $values[$this->get( 'id' )]['is_test'] ) {
-            $values[$this->get( 'id' )]['status'] .= ' (test) ';
+        if( $values[$params['id']]['is_test'] ) {
+            $values[$params['id']]['status'] .= ' (test) ';
         }
         
         // Get Note
-        $noteValue = CRM_Core_BAO_Note::getNote( $values[$this->get( 'id' )]['id'], 'civicrm_participant' );
-        $values[$this->get( 'id' )]['note'] = array_values( $noteValue );
+        $noteValue = CRM_Core_BAO_Note::getNote( $values[$params['id']]['id'], 'civicrm_participant' );
+        $values[$params['id']]['note'] = array_values( $noteValue );
         
         // Get Contribution Line Items
         require_once 'CRM/Core/BAO/LineItem.php';
-        $values[$this->get( 'id' )]['lineItem'][] = CRM_Core_BAO_LineItem::getLineItems( $this->get( 'id' ) );
-        $values[$this->get( 'id' )]['totalAmount'] = $values[$this->get( 'id' )]['fee_amount'];
+        $lineItem = CRM_Core_BAO_LineItem::getLineItems( $params['id'] );
+        
+        if (!CRM_Utils_System::isNull($lineItem)) {
+            $values[$params['id']]['lineItem'][] = $lineItem;
+        }
+        $values[$params['id']]['totalAmount'] = $values[$params['id']]['fee_amount'];
         // get the option value for custom data type 	
         $roleCustomDataTypeID      = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantRole', 'name' );
         $eventNameCustomDataTypeID = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantEventName', 'name' );
         
-        $roleGroupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $this, $this->get( 'id' ), null, 
-                                                             $values[$this->get( 'id' )]['role_id'], $roleCustomDataTypeID );
+        $roleGroupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $this, $params['id'], null, 
+                                                             $values[$params['id']]['role_id'], $roleCustomDataTypeID );
         
-        $eventGroupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $this, $this->get( 'id' ), null, 
-                                                              $values[$this->get( 'id' )]['event_id'], $eventNameCustomDataTypeID );
+        $eventGroupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $this, $params['id'], null, 
+                                                              $values[$params['id']]['event_id'], $eventNameCustomDataTypeID );
         
         $groupTree = CRM_Utils_Array::crmArrayMerge( $roleGroupTree, $eventGroupTree );
-        $groupTree = CRM_Utils_Array::crmArrayMerge( $groupTree, CRM_Core_BAO_CustomGroup::getTree( 'Participant', $this, $this->get( 'id' ) ) );
+        $groupTree = CRM_Utils_Array::crmArrayMerge( $groupTree, CRM_Core_BAO_CustomGroup::getTree( 'Participant', $this, $params['id'] ) );
         
         CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
-        $this->assign( $values[$this->get( 'id' )] );
+        $this->assign( $values[$params['id']] );
         
         // add viewed participant to recent items list
         require_once 'CRM/Utils/Recent.php';
         require_once 'CRM/Contact/BAO/Contact.php';
         $url = CRM_Utils_System::url( 'civicrm/contact/view/participant', 
-                                      "action=view&reset=1&id={$values[$this->get( 'id' )]['id']}&cid={$values[$this->get( 'id' )]['contact_id']}" );
+                                      "action=view&reset=1&id={$values[$params['id']]['id']}&cid={$values[$params['id']]['contact_id']}" );
         
         $participantRoles = CRM_Event_PseudoConstant::participantRole();
-        $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $values[$this->get( 'id' )]['event_id'], 'title' );
-        $title = CRM_Contact_BAO_Contact::displayName( $values[$this->get( 'id' )]['contact_id'] ) . ' (' . $participantRoles[$values[$this->get( 'id' )]['role_id']] . ' - ' . $eventTitle . ')' ;
+        $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $values[$params['id']]['event_id'], 'title' );
+        $title = CRM_Contact_BAO_Contact::displayName( $values[$params['id']]['contact_id'] ) . ' (' . $participantRoles[$values[$params['id']]['role_id']] . ' - ' . $eventTitle . ')' ;
         
         // add the recently created Activity
         CRM_Utils_Recent::add( $title,
                                $url,
-                               $values[$this->get( 'id' )]['id'],
+                               $values[$params['id']]['id'],
                                'Participant',
-                               $values[$this->get( 'id' )]['contact_id'],
+                               $values[$params['id']]['contact_id'],
                                null );
         
     }
