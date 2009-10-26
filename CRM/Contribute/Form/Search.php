@@ -436,21 +436,16 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
                                                  CRM_Core_DAO::$_nullObject );
         if ( $lowDate ) {
             $lowDate = CRM_Utils_Type::escape( $lowDate, 'Timestamp' );
-            $date = CRM_Utils_Date::unformat( $lowDate, '' );
-            $this->_formValues['contribution_date_low'] = $date;
-            $this->_defaults['contribution_date_low'] = $date;
+            $date = CRM_Utils_Date::setDateDefaults( $lowDate );
+            $this->_formValues['contribution_date_low'] = $this->_defaults['contribution_date_low'] = $date[0] .' '. $date[1];
         }
 
         $highDate= CRM_Utils_Request::retrieve( 'end', 'Timestamp',
                                                 CRM_Core_DAO::$_nullObject );
         if ( $highDate ) { 
             $highDate = CRM_Utils_Type::escape( $highDate, 'Timestamp' ); 
-            $date = CRM_Utils_Date::unformat( $highDate, '' );
-            $this->_formValues['contribution_date_high'] = $date;
-            $this->_defaults['contribution_date_high'] = $date;
-            $this->_formValues['contribution_date_high']['H'] = 23;
-            $this->_formValues['contribution_date_high']['i'] = 59;
-            $this->_formValues['contribution_date_high']['s'] = 59;
+            $date = CRM_Utils_Date::setDateDefaults( $highDate );
+            $this->_formValues['contribution_date_high'] = $this->_defaults['contribution_date_high'] = $date[0] .' 23:59:59';
         }
 
         $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',

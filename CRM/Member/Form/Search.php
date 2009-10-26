@@ -418,25 +418,22 @@ class CRM_Member_Form_Search extends CRM_Core_Form
         $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
                                                  CRM_Core_DAO::$_nullObject );
         if ( $fromDate ) {
-            $date = CRM_Utils_Date::unformat( $fromDate, '' );
-            $this->_formValues['member_start_date_low'] = $date;
-            $this->_defaults['member_start_date_low'] = $date;
+            list($date) = CRM_Utils_Date::setDateDefaults( $fromDate );
+            $this->_formValues['member_start_date_low'] = $this->_defaults['member_start_date_low'] = $date;
         }
 
         $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
                                               CRM_Core_DAO::$_nullObject );
         if ( $toDate ) { 
-            $date = CRM_Utils_Date::unformat( $toDate, '' );
-            $this->_formValues['member_start_date_high'] = $date;
-            $this->_defaults['member_start_date_high'] = $date;
+            list($date) = CRM_Utils_Date::setDateDefaults( $toDate );
+            $this->_formValues['member_start_date_high'] = $this->_defaults['member_start_date_high'] = $date;
             
         }
         $joinDate= CRM_Utils_Request::retrieve( 'join', 'Date',
                                                 CRM_Core_DAO::$_nullObject );
         if ( $joinDate ) {
-            $date = CRM_Utils_Date::unformat( $joinDate, '' );
-            $this->_formValues['member_join_date_low'] = $date;
-            $this->_defaults  ['member_join_date_low'] = $date;
+            list($date) = CRM_Utils_Date::setDateDefaults( $joinDate );
+            $this->_formValues['member_join_date_low'] = $this->_defaults  ['member_join_date_low'] = $date;
         }
 
         $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',
