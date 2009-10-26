@@ -2624,7 +2624,15 @@ function civicrm_views_data() {
 
     $data['civicrm_relationship']['contact_id_b'] = array(
                                                           'title' => t('Contact ID B'),
+                                                          'real field' => 'contact_id_b',
                                                           'help' => t('The contact B'),
+                                                          'field' => array(
+                                                                           'handler' => 'views_handler_field',
+                                                                           'click sortable' => FALSE,
+                                                                           ),
+                                                          'argument' => array(
+                                                                              'handler' => 'views_handler_argument',
+                                                                              ),
                                                           'relationship' => array(
                                                                                   'base' => 'civicrm_contact',
                                                                                   'field' => 'id',
