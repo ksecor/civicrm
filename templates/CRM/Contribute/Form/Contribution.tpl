@@ -74,7 +74,7 @@
 	    {if $hasPriceSets}
 	    <span id='totalAmountORPriceSet'> {ts}OR{/ts}</span>
 	    <span id='selectPriceSet'>{$form.price_set_id.html}</span>
-	    <fieldset id="PriceSetFields" style="display:none;"></fieldset>
+	    <fieldset id="priceset" style="display:none;"></fieldset>
 	    {/if}
 	    <span class="description">{ts}Actual amount given by contributor.{/ts}</span>
             </td>
@@ -379,7 +379,7 @@ function buildAmount( priceSetId ) {
 
   if ( !priceSetId ) priceSetId = cj("#price_set_id").val( );
 
-  var fname = '#PriceSetFields';
+  var fname = '#priceset';
   if ( !priceSetId ) {
       // hide price set fields.
       cj( fname ).hide( ); 
