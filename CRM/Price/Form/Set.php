@@ -137,7 +137,7 @@ class CRM_Price_Form_Set extends CRM_Core_Form
         $extends[] = HTML_QuickForm::createElement('checkbox', 'Contribution', null, 'Contribution');
         $extends[] = HTML_QuickForm::createElement('checkbox', 'Event', null, 'Event');
         $this->addGroup( $extends, 'extends', ts('Used For'), '&nbsp;', true );
-        
+        $this->addRule( 'extends', ts('%1 is a required field.', array(1 => ts('Used For'))), 'required' );
         // help text
         $this->add('textarea', 'help_pre',  ts('Pre-form Help'), 
                    CRM_Core_DAO::getAttribute('CRM_Price_DAO_Set', 'help_pre') );

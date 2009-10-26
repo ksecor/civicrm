@@ -61,10 +61,10 @@
         {/if} {help id="id-contribution_type"}
         </td></tr>
 	
-	{if $action eq 2 and $line_items}
+	{if $action eq 2 and $lineItem}
 	    <tr>
             <td class="label">{ts}Contribution Amount{/ts}</td>
-            <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+            <td>{include file="CRM/Price/Page/LineItem.tpl" context="Contribution"}</td>
         </tr>
 	{else}
         <tr>
@@ -398,7 +398,6 @@ function buildAmount( priceSetId ) {
 			 async: false
 			}).responseText;
   cj( fname ).show( ).html( response );
-
   // freeze total amount text field.
   cj( "#total_amount").val( '' );
 

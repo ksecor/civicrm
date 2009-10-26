@@ -70,20 +70,21 @@ class CRM_Core_BAO_LineItem extends CRM_Core_DAO_LineItem {
     static function getLineItems( $entityId, $entity = 'Participant' ) 
     {
         $whereClause  = $fromCluase = null;
-        $selectClause = "SELECT li.id, li.label, li.qty, li.unit_price, li.line_total";
+        $selectClause = "SELECT li.id, li.label, li.qty, li.unit_price, li.line_total, pf.label as description, pf.html_type";
         if ( $entity == 'Participant' ) {
             $fromClause = "
 FROM      civicrm_participant as p 
 LEFT JOIN civicrm_participant_payment pp ON ( pp.participant_id = p.id ) 
-LEFT JOIN civicrm_line_item li ON ( li.entity_id = pp.contribution_id AND li.entity_table = 'civicrm_contribution')";
+LEFT JOIN civicrm_line_item li ON ( li.entity_id = pp.contribution_id AND li.entity_table = 'civicrm_contribution')
+LEFT JOIN civicrm_price_field pf ON (pf.id = li.price_field_id )";
             $whereClause = "WHERE p.id = %1";
         } else if ( $entity == 'Contribution' ) {
             $fromClause = "
 FROM      civicrm_contribution c
-LEFT JOIN civicrm_line_item li ON ( li.entity_id = c.id AND li.entity_table = 'civicrm_contribution')";
+LEFT JOIN civicrm_line_item li ON ( li.entity_id = c.id AND li.entity_table = 'civicrm_contribution')
+LEFT JOIN civicrm_price_field pf ON (pf.id = li.price_field_id )";
             $whereClause = "WHERE c.id = %1";
         }
-        
         $lineItems = array( );
         if ( !$entityId || !$entity || !$fromClause ) return $lineItems; 
         
@@ -97,8 +98,11 @@ LEFT JOIN civicrm_line_item li ON ( li.entity_id = c.id AND li.entity_table = 'c
                                           'unit_price' => $dao->unit_price,
                                           'line_total' => $dao->line_total
                                           );
+            $lineItems[$dao->id]['description'] = $dao->description . ' - ' . $dao->label;
+            if ( $dao->html_type == 'Text' ) {
+                $lineItems[$dao->id]['description'] = $dao->label;
+            } 
         }
-        
         return $lineItems;
     }
     

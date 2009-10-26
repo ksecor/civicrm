@@ -3,10 +3,10 @@
     <table class="form-layout">
     {if $priceSet}
     	{if $action eq 2} {* Updating *}
-            {if $line_items}	
+            {if $lineItem}	
                 <tr>
                     <td class="label">{ts}Event Fees{/ts}</td>
-                    <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+                    <td>{include file="CRM/Price/Page/LineItem.tpl" context="Event"}</td>
                 </tr>
             {else}
                 <tr>

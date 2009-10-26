@@ -8,10 +8,10 @@
         <td class="label">{ts}Contribution Type{/ts}</td>
     	<td>{$contribution_type}&nbsp; {if $is_test} {ts}(test){/ts} {/if}</td>
     </tr>
-    {if $line_items}
+    {if $lineItem}
     <tr>
         <td class="label">{ts}Contribution Amount{/ts}</td>
-        <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+        <td>{include file="CRM/Price/Page/LineItem.tpl" context="Contribution"}</td>
         </tr>
     {else}
     <tr>
