@@ -1739,7 +1739,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (3112, 1106, "D", "HaDarom"),
 (3113, 1106, "M", "HaMerkaz"),
 (3114, 1106, "Z", "HaZafon"),
-(3115, 1106, "HA", "Hefa"),
+(3115, 1106, "HA", "Haifa"),
 (3116, 1106, "TA", "Tel-Aviv"),
 (3117, 1106, "JM", "Yerushalayim Al Quds"),
 (3118, 1104, "AN", "Al Anbar"),

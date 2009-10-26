@@ -93,3 +93,6 @@
 -- CRM-4160
    ALTER TABLE `civicrm_acl`
       MODIFY `operation` enum('All', 'View', 'Edit', 'Create', 'Delete', 'Grant', 'Revoke', 'Search') COLLATE utf8_unicode_ci NOT NULL   COMMENT 'What operation does this ACL entry control?';
+
+-- CRM-5285
+   UPDATE civicrm_state_province SET name = 'Haifa' where id = 3115;
