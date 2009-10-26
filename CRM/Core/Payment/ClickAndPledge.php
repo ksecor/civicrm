@@ -214,6 +214,9 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
                                             'amount' => $params['amount'],
                                             );
         }
+
+        // Allow further manipulation of the arguments via custom hooks ..
+        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $ClickAndPledgeParams );
         
         $uri = '';
         foreach ( $ClickAndPledgeParams as $key => $value ) {
