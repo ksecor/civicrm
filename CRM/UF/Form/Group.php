@@ -278,9 +278,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form
     {
         if( $this->_action & CRM_Core_Action::DELETE ) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);        
-            $ufJoinID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFJoin', $this->_id, 'id', 'uf_group_id' );
-            $wt = CRM_Utils_Weight::delWeight( 'CRM_Core_DAO_UFJoin', $ufJoinID );
-            
             CRM_Core_BAO_UFGroup::del($this->_id);
             CRM_Core_Session::setStatus(ts("Your CiviCRM Profile '%1' has been deleted.", array(1 => $title)));
         } else if( $this->_action & CRM_Core_Action::DISABLE ) {
@@ -300,11 +297,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form
 
             if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
                 $ids['ufgroup'] = $this->_id;
-                
-                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFJoin', $this->_id, 'weight', 'uf_group_id' );
-                $params['weight'] = 
-                    CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFJoin', $oldWeight, $params['weight']);
-            } elseif ( $this->_action & CRM_Core_Action::ADD ) {
+                // CRM-5284
+                // lets skip trying to mess around with profile weights and allow the user to do as needed.
+            } else if ( $this->_action & CRM_Core_Action::ADD ) {
                 $session =& CRM_Core_Session::singleton( );
                 $params['created_id']   = $session->get( 'userID' );
                 $params['created_date'] = date('YmdHis');
