@@ -670,15 +670,15 @@ WHERE  id IN ($optionIDs)
         $copyPriceField =& CRM_Core_DAO::copyGeneric( 'CRM_Price_DAO_Field', 
                                                       array( 'price_set_id' => $id ),
                                                       array( 'price_set_id' => $copy->id ) );
+        if ( !empty( $copyPriceField ) ) {
+            $price = array_combine( self::getFieldIds( $id ), self::getFieldIds( $copy->id ) );
         
-        $price = array_combine( self::getFieldIds( $id ), self::getFieldIds( $copy->id ) );
-        
-        //copy option group and values 
-        require_once "CRM/Core/BAO/OptionGroup.php";
-        foreach ($price as $originalId => $copyId)  {
-            CRM_Core_BAO_OptionGroup::copyValue( 'price', $originalId, $copyId );
+            //copy option group and values 
+            require_once "CRM/Core/BAO/OptionGroup.php";
+            foreach ($price as $originalId => $copyId)  {
+                CRM_Core_BAO_OptionGroup::copyValue( 'price', $originalId, $copyId );
+            }
         }
-        
         $copy->save( );
         
         require_once 'CRM/Utils/Hook.php';
