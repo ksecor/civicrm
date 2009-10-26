@@ -115,6 +115,10 @@ class CRM_Core_Payment_PaymentExpress extends CRM_Core_Payment {
                 $privateData .= ",e=$membershipID";
             }
 	}		
+
+    // Allow further manipulation of params via custom hooks
+    CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $privateData );
+
 	/*  
 	 *  determine whether method is pxaccess or pxpay by whether signature (mac key) is defined
          */

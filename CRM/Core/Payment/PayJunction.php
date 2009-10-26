@@ -91,6 +91,9 @@ class CRM_Core_Payment_PayJunction extends CRM_Core_Payment
                          'cust_id'    => $params['contact_id']
                         );
 
+      // Allow further manipulation of params via custom hooks
+      CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $txnArray );
+
       $pjpgTxn = new pjpgTransaction($txnArray);
   
       // set customer info (level 3 data) for the transaction
