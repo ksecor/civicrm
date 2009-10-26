@@ -162,7 +162,7 @@ class CRM_Contact_Form_Search_Custom_FullText
                   );
                   
         $sql = "
-CREATE TABLE {$this->_tableName} (
+CREATE TEMPORARY TABLE {$this->_tableName} (
 ";
 
         foreach ( $this->_tableFields as $name => $desc ) {
