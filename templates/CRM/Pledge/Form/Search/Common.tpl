@@ -2,16 +2,12 @@
     <td>
      {$form.pledge_payment_date_low.label} 
      <br />
-     {$form.pledge_payment_date_low.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_5}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_payment_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_5}
+     {include file="CRM/common/jcalendar.tpl" elementName=pledge_payment_date_low}
     </td>
     <td>
      {$form.pledge_payment_date_high.label}
-    <br />
-     {$form.pledge_payment_date_high.html}&nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_6}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_payment_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_6}
+     <br />
+     {include file="CRM/common/jcalendar.tpl" elementName=pledge_payment_date_high}
     </td> 
  </tr>
  <tr>
@@ -35,48 +31,36 @@
     <td>
      {$form.pledge_create_date_low.label} 
      <br />
-     {$form.pledge_create_date_low.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_7}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_create_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_7}
+     {include file="CRM/common/jcalendar.tpl" elementName=pledge_create_date_low}
     </td>
     <td>
      {$form.pledge_create_date_high.label}
-    <br />
-     {$form.pledge_create_date_high.html}&nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_8}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_create_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_8}
+     <br />
+     {include file="CRM/common/jcalendar.tpl" elementName=pledge_create_date_high}
     </td> 
  </tr>
  <tr>
     <td>
      {$form.pledge_start_date_low.label} 
      <br />
-     {$form.pledge_start_date_low.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_1}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_start_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_1}
+     {include file="CRM/common/jcalendar.tpl" elementName=pledge_start_date_low}
     </td>
     <td>
      {$form.pledge_start_date_high.label}
-    <br />
-     {$form.pledge_start_date_high.html}&nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_2}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_start_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_2}
+     <br />
+     {include file="CRM/common/jcalendar.tpl" elementName=pledge_start_date_high}
     </td> 
  </tr>
  <tr> 
     <td>  
      {$form.pledge_end_date_low.label} 
      <br />
-     {$form.pledge_end_date_low.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_3}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_end_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_3}
+     {include file="CRM/common/jcalendar.tpl" elementName=pledge_end_date_low}
     </td>
     <td> 
      {$form.pledge_end_date_high.label}
-    <br />
-     {$form.pledge_end_date_high.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_4}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_4}
+     <br />
+     {include file="CRM/common/jcalendar.tpl" elementName=pledge_end_date_high}
     </td> 
  </tr>
  <tr>

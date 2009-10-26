@@ -491,12 +491,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $this->_formValues['participant_status_id'] = $status;    
         }
         
-        // we fix date_to here if set to be the end of the day, i.e. 23:59:59
-        if ( isset( $this->_formValues['event_end_date_high'] ) &&
-             ! CRM_Utils_System::isNull( $this->_formValues['event_end_date_high'] ) ) {
-            $this->_formValues['event_end_date_high'] .= ' 23:59:59';
-        }
-        
         $role = CRM_Utils_Request::retrieve( 'role', 'String',
                                              CRM_Core_DAO::$_nullObject );
         

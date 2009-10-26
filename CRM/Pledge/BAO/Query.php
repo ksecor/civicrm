@@ -449,36 +449,23 @@ class CRM_Pledge_BAO_Query
 
     static function buildSearchForm( &$form ) 
     {
-        require_once 'CRM/Utils/Money.php';
-
         // Pledge date selects for date 
-        $form->add('date', 'pledge_start_date_low', ts('Payments Start Date - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_start_date_low', ts('Select a valid date.'), 'qfDate'); 
-        
-        $form->add('date', 'pledge_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_start_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->addDate( 'pledge_start_date_low', ts('Payments Start Date - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'pledge_start_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
-        $form->add('date', 'pledge_end_date_low', ts('Payments Ended Date - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_end_date_low', ts('Select a valid date.'), 'qfDate'); 
-        
-        $form->add('date', 'pledge_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_end_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->addDate( 'pledge_end_date_low', ts('Payments Ended Date - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'pledge_end_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
-        $form->add('date', 'pledge_create_date_low', ts('Pledge Made - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_create_date_low', ts('Select a valid date.'), 'qfDate'); 
-        
-        $form->add('date', 'pledge_create_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_create_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->addDate( 'pledge_create_date_low', ts('Pledge Made - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'pledge_create_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
         // Pledge payment date selects for date 
-        $form->add('date', 'pledge_payment_date_low', ts('Payment Scheduled - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_payment_date_low', ts('Select a valid date.'), 'qfDate'); 
-        
-        $form->add('date', 'pledge_payment_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_payment_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->addDate( 'pledge_payment_date_low', ts('Payment Scheduled - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'pledge_payment_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
         $form->addElement( 'checkbox', 'pledge_test' , ts( 'Find Test Pledges?' ) );
 
+        require_once 'CRM/Utils/Money.php';
         $form->add('text', 'pledge_amount_low', ts('From'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule('pledge_amount_low', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('9.99', ' '))), 'money');
         
