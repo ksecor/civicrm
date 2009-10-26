@@ -642,6 +642,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         // CRM-4395
         $checkCancelledJs = null;
+        $checkCancelledJs = array('onchange' => "return sendNotification( );");
         if ( $this->_onlinePendingContributionId ) {
             $cancelledparticipantStatusId  = array_search( 'Cancelled',CRM_Event_PseudoConstant::participantStatus() );
             $cancelledContributionStatusId = array_search( 'Cancelled', 
@@ -653,6 +654,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( null, null, 'label' ),
                     true, 
                     $checkCancelledJs );
+        
+        $this->addElement('checkbox', 'is_notify', ts( 'Send Confirmation' ) , null);
         
         $this->add( 'text', 'source', ts('Event Source') );
         
@@ -857,7 +860,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 CRM_Core_Error::fatal( ts( 'Selected Event is not Paid Event ') );
             }
             //modify params according to parameter used in create
-            //partiicpant method (addParticipant)            
+            //participant method (addParticipant)            
             $params['participant_status_id']     = $params['status_id'] ;
             $params['participant_role_id']       = $params['role_id'] ;
             $params['participant_register_date'] = $params['register_date'] ;
@@ -1115,7 +1118,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $updateStatusMsg = null;
         //send mail when participant status changed, CRM-4326
         if ( $this->_participantId && $this->_statusId && 
-             $this->_statusId != CRM_Utils_Array::value( 'status_id', $params ) ) {
+             $this->_statusId != CRM_Utils_Array::value( 'status_id', $params ) &&
+             CRM_Utils_Array::value( 'is_notify', $params )
+             ) {
             $updateStatusMsg = $this->updateStatusMessage( $this->_participantId, $params['status_id'], $this->_statusId );
         }
         

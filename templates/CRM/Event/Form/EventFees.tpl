@@ -266,6 +266,7 @@ function checkEmail( ) {
     } else {
        cj("#send_confirmation_receipt").show( );
     }	
+    sendNotification();
   }
 
 {/literal}
