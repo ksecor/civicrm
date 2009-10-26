@@ -92,7 +92,6 @@ class CRM_Upgrade_ThreeZero_ThreeZero extends CRM_Upgrade_Form {
         // recreate it based on the first locale’s description_xx_YY contents
         // and drop all the description_xx_YY columns
         if (!CRM_Core_DAO::checkFieldExists('civicrm_report_instance', 'description')) {
-            require_once 'CRM/Core/I18n/SchemaStructure.php';
             require_once 'CRM/Core/DAO/Domain.php';
             $domain = new CRM_Core_DAO_Domain;
             $domain->find(true);
