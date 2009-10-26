@@ -206,6 +206,7 @@ class CRM_Utils_Token
         // called only when we find a token in the string
 
         $loc =& $domain->getLocationValues();
+
         if ( !in_array($token, self::$_tokens['domain']) ) {
             $value = "{domain.$token}";
         } else if ($token == 'address') {
@@ -220,8 +221,12 @@ class CRM_Utils_Token
             $value = null;
             /* Construct the address token */
             if ( CRM_Utils_Array::value( $token, $loc ) ) {
-                $value = $loc[$token][1]['display'];
-                if ($html) $value = str_replace("\n", '<br />', $value);
+                if ( $html ) { 
+                    $value = $loc[$token][1]['display'];
+                   $value = str_replace("\n", '<br />', $value);
+                } else {
+                    $value = $loc[$token][1]['display_text'];
+                }
                 $addressCache[$cache_key] = $value;
             }
         } else if ( $token == 'name') {
