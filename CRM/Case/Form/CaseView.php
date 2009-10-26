@@ -163,18 +163,14 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
         $this->add('select', 'status_id',  ts( 'Status' ), array( "" => ts(' - any status - ') ) + $activityStatus );
 
-        // Date selects for date 
-        $this->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative')); 
-        $this->addRule('activity_date_low', ts('Select a valid date.'), 'qfDate'); 
-        
-        $this->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $this->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate'); 
+        // activity dates
+        $this->addDate( 'activity_date_low', ts('Activity Dates - From'), false, array( 'formatType' => 'relative') );
+        $this->addDate( 'activity_date_high', ts('To'), false, array( 'formatType' => 'relative') );
         
 		require_once"CRM/Core/Permission.php";
 		if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) { 
 			$this->add( 'checkbox', 'activity_deleted' , ts( 'Deleted Activities' ) );
 		}
-
                                                                                      
 		//get case related relationships (Case Role)
         $caseRelationships = CRM_Case_BAO_Case::getCaseRoles( $this->_contactID, $this->_caseID );

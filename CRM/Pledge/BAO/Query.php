@@ -449,7 +449,7 @@ class CRM_Pledge_BAO_Query
 
     static function buildSearchForm( &$form ) 
     {
-        // Pledge date selects for date 
+        // pledge related dates
         $form->addDate( 'pledge_start_date_low', ts('Payments Start Date - From'), false, array( 'formatType' => 'relative') );
         $form->addDate( 'pledge_start_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
@@ -459,7 +459,7 @@ class CRM_Pledge_BAO_Query
         $form->addDate( 'pledge_create_date_low', ts('Pledge Made - From'), false, array( 'formatType' => 'relative') );
         $form->addDate( 'pledge_create_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
-        // Pledge payment date selects for date 
+        // pledge payment related dates 
         $form->addDate( 'pledge_payment_date_low', ts('Payment Scheduled - From'), false, array( 'formatType' => 'relative') );
         $form->addDate( 'pledge_payment_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
