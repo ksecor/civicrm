@@ -38,12 +38,15 @@
         {strip}
 	{* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
-        <table class="selector">
-        <thead class="sticky">
+	{include file="CRM/common/jsortable.tpl"}
+        <table id="price_set" class="display">
+        <thead>
+        <tr>
             <th>{ts}Set Title{/ts}</th>
-	    <th>{ts}Used For{/ts}</th>
+            <th id="nosort">{ts}Used For{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
+        </tr>
         </thead>
         {foreach from=$rows item=row}
 	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
