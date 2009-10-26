@@ -37,5 +37,9 @@ class civicrm_handler_field_email extends views_handler_field {
     }
     return $this->render_link(check_plain($values->{$this->field_alias}), $values);
   }
+  
+  function render_link($input, $values) {
+     return $input;
+  }
 }
 ?>
