@@ -15,6 +15,7 @@ class PaypalPro extends PHPUnit_Framework_Testcase
         $paymentProcessor =& new CRM_Core_DAO_PaymentProcessor( );
         $paymentParams = array(
                                'name'                   => 'demo',
+                               'domain_id'              => CRM_Core_Config::domainID( ),
                                'payment_processor_type' => 'PayPal',
                                'is_active'              => 1,
                                'is_default'             => 0,
