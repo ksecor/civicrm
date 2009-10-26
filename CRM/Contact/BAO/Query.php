@@ -2747,7 +2747,7 @@ WHERE  id IN ( $groupIDs )
         case 'activity_date_low':
         case 'activity_date_high':
             $this->dateQueryBuilder( $values,
-                                     'civicrm_activity', 'activity_date', 'activity_date_time', 'Activity Date' );
+                                     'civicrm_activity', 'activity_date', 'activity_date_time', ts('Activity Date') );
 
             break;
         }
@@ -2760,12 +2760,12 @@ WHERE  id IN ( $groupIDs )
         if ( ($name == 'birth_date_low') ||($name == 'birth_date_high') ) {
           
             $this->dateQueryBuilder( $values,
-                                     'contact_a', 'birth_date', 'birth_date', 'Birth Date' );
+                                     'contact_a', 'birth_date', 'birth_date', ts('Birth Date'), false );
     
         } else if( ($name == 'deceased_date_low') ||($name == 'deceased_date_high') ) {
           
             $this->dateQueryBuilder( $values,
-                                     'contact_a', 'deceased_date', 'deceased_date', 'Deceased Date' );
+                                     'contact_a', 'deceased_date', 'deceased_date', ts('Deceased Date'), false );
         }
        
     }

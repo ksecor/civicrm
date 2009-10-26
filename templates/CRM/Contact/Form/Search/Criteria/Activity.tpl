@@ -7,15 +7,11 @@
             </td>
             <td >
                 {$form.activity_date_low.label|replace:'-':'<br />'}<br/>
-				{$form.activity_date_low.html} &nbsp;
-					{include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_date_low}
-					{include file="CRM/common/calendar/body.tpl" dateVar=activity_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_activity_date_low} 
+				{include file="CRM/common/jcalendar.tpl" elementName=activity_date_low} 
 			</td>
 			<td><br />
 				{$form.activity_date_high.label}<br />
-				{$form.activity_date_high.html}&nbsp;
-					{include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_date_high}
-					{include file="CRM/common/calendar/body.tpl" dateVar=activity_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_activity_date_high}
+				{include file="CRM/common/jcalendar.tpl" elementName=activity_date_high}
             </td>
         </tr>
         <tr>
