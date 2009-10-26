@@ -1,13 +1,9 @@
 <tr>
 	<td>{$form.contribution_date_low.label} <br />
-	{$form.contribution_date_low.html} &nbsp; 
-	{include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_contribution_1} 
-	{include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_contribution_1}</td>
+	{include file="CRM/common/jcalendar.tpl" elementName=contribution_date_low}</td>
 
 	<td>{$form.contribution_date_high.label}<br />
-	{$form.contribution_date_high.html} &nbsp; 
-	{include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_contribution_2} 
-	{include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_contribution_2}</td>
+	{include file="CRM/common/jcalendar.tpl" elementName=contribution_date_high}</td>
 </tr>
 <tr>
 	<td><label>{ts}Contribution Amounts{/ts}</label> <br />

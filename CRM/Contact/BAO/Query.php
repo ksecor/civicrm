@@ -3480,16 +3480,18 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
             return;
         }
 
-        if ( $value['M'] ) {
-            $revDate = array_reverse( $value );
-            $date    = CRM_Utils_Date::format( $revDate );
-            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
+        if ( $value ) {
+            $date    = $value;
             // add 235959 if its less that or equal to
             if ( $op == '<='      &&
                  $appendTimeStamp &&
                  strlen( $date ) == 8 ) {
-                $date .= '235959';
+                $date .= ' 23:59:59';
             }
+
+            $date = CRM_Utils_Date::processDate( $date );
+            $format  = CRM_Utils_Date::customFormat( $date );
+            
             if ( $date ) {
                 $this->_where[$grouping][] = "{$tableName}.{$dbFieldName} $op '$date'";
             } else {

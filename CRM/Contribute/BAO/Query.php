@@ -60,11 +60,11 @@ class CRM_Contribute_BAO_Query
             
             // add field to get recur_id
             $fields['contribution_recur_id'] = array('name'  => 'contribution_recur_id',
-                                                     'title' => 'Recurring Contributions ID',
+                                                     'title' => ts('Recurring Contributions ID'),
                                                      'where' => 'civicrm_contribution.contribution_recur_id'
                                                      );
             $fields['contribution_note']     = array('name'  => 'contribution_note',
-                                                     'title' => 'Contribution Note'
+                                                     'title' => ts('Contribution Note')
                                                      );
 
             unset( $fields['contribution_contact_id'] );
@@ -563,12 +563,9 @@ class CRM_Contribute_BAO_Query
         $form->addElement('text', 'contribution_source', ts('Contribution Source'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Contribution', 'source') );
         
         // Date selects for date 
-        $form->add('date', 'contribution_date_low', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('contribution_date_low', ts('Select a valid date.'), 'qfDate'); 
+        $form->addDate( 'contribution_date_low', ts('Contribution Dates - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'contribution_date_high', ts('To'), false, array( 'formatType' => 'relative') );
  
-        $form->add('date', 'contribution_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('contribution_date_high', ts('Select a valid date.'), 'qfDate'); 
-
         $form->add('text', 'contribution_amount_low', ts('From'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule('contribution_amount_low', ts('Please enter a valid money value (e.g. %1).', array(1 => CRM_Utils_Money::format('9.99', ' '))), 'money');
 
