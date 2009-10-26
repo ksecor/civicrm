@@ -5,13 +5,11 @@
         <td>{$form.mailing_name.label}<br />
             {$form.mailing_name.html|crmReplace:class:big} {help id="id-mailing_name"}
         </td>
-        <td class="nowrap">{$form.mailing_from.label}<br />{$form.mailing_from.html}<br />
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_1}
-            {include file="CRM/common/calendar/body.tpl" dateVar=mailing_from startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_1}
+        <td class="nowrap">{$form.mailing_from.label}
+            {include file="CRM/common/jcalendar.tpl" elementName=mailing_from}
         </td>
-        <td class="nowrap">{$form.mailing_to.label}<br />{$form.mailing_to.html}<br />
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=mailing_to startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_2}
+        <td class="nowrap">{$form.mailing_to.label}
+            {include file="CRM/common/jcalendar.tpl" elementName=mailing_to}
         </td> 
     </tr>
     <tr> 

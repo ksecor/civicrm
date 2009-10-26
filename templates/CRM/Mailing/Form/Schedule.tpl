@@ -4,19 +4,27 @@
     {ts}You can schedule this mailing to be sent starting at a specific date and time, OR you can request that it be sent as soon as possible by checking &quot;Send Immediately&quot;.{/ts} {help id="sending"}
 </div>
 
-<div class="form-item">
 <fieldset>
-  <dl>
-    <dt class="label">{$form.now.label}</dt><dd>{$form.now.html}</dd>
-    <dt class="label">{ts}OR{/ts}</dt><dd>&nbsp;</dd>
-    <dt class="label ">{$form.start_date.label}</dt>
-        <dd>{$form.start_date.html}
+ <table class="form-layout">
+  <tbody>
+    <tr>
+        <td>{$form.now.label}</td>
+        <td>{$form.now.html}</td>
+    </tr>
+    <tr>
+        <td>{ts}OR{/ts}</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>{$form.start_date.label}</td>
+        <td>{include file="CRM/common/jcalendar.tpl" elementName=start_date}
             <span class="description">{ts}Set a date and time when you want CiviMail to start sending this mailing.{/ts}</span>
-        </dd>
-    <dt></dt><dd>{$form.buttons.html}</dd>
-  </dl>
+        </td>
+    </tr>
+    <tr><td colspan="2">{$form.buttons.html}</td></tr>
+  </tbody>
+</table>
 </fieldset>
-</div>
 
 {* include jscript to warn if unsaved form field changes *}
 {include file="CRM/common/formNavigate.tpl"}

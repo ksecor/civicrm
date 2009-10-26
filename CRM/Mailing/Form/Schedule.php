@@ -63,8 +63,8 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      */
     public function buildQuickform() 
     {
-        $this->addElement('date', 'start_date', ts('Schedule Mailing'),
-            CRM_Core_SelectValues::date('mailing'));
+        $this->addDateTime( 'start_date', ts('Schedule Mailing'), false, array( 'formatType' => 'relative') );
+				
         $this->addElement('checkbox', 'now', ts('Send Immediately'));
         
         $this->addFormRule(array('CRM_Mailing_Form_Schedule', 'formRule'), $this );
@@ -141,7 +141,8 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
         if (! CRM_Utils_Rule::qfDate($params['start_date'])) {
             return array('start_date' => ts('Scheduled date is not valid.'));
         }
-        if (CRM_Utils_Date::format($params['start_date']) < date('YmdHi00')) {
+
+        if (CRM_Utils_Date::format( CRM_Utils_Date::processDate( $params['start_date'] ) ) < date('YmdHi00') ) {
             return array('start_date' => 
                 ts('Start date cannot be earlier than the current time.'));
         }
@@ -160,15 +161,15 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
         $params = array();
         $params['mailing_id'] = $ids['mailing_id'] = $this->get('mailing_id');
         
-        foreach(array('now', 'start_date') as $parameter) {
+        foreach(array('now', 'start_date', 'start_date_time') as $parameter) {
             $params[$parameter] = $this->controller->exportValue($this->_name,
                                                                  $parameter);
         }
-
+        
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $ids['mailing_id'];
-
+        
         if ($mailing->find(true)) {
             
             $job =& new CRM_Mailing_BAO_Job();
@@ -179,7 +180,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
                 if ($params['now']) {
                     $job->scheduled_date = date('YmdHis');
                 } else {
-                    $job->scheduled_date = CRM_Utils_Date::format($params['start_date']);
+                    $job->scheduled_date = CRM_Utils_Date::processDate($params['start_date'].' '.$params['start_date_time']);
                 }
                 $job->save();
             } 
