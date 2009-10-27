@@ -148,13 +148,13 @@ class CRM_Event_Form_EventFees
 
         require_once 'CRM/Price/BAO/Set.php';
         if ( $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_event', $form->_eventId ) ) {
-            
             // get price set default values, CRM-4090
-            $priceSetValues = self::setDefaultPriceSet( $form->_pId, $form->_eventId );
-            if ( !empty( $priceSetValues ) ) {
-                $defaults[$form->_pId] = array_merge( $defaults[$form->_pId], $priceSetValues );  
+            if ( 'CRM_Event_Form_Registration_Register' == CRM_Utils_System::getClassName( $form ) ) {
+                $priceSetValues = self::setDefaultPriceSet( $form->_pId, $form->_eventId );
+                if ( !empty( $priceSetValues ) ) {
+                    $defaults[$form->_pId] = array_merge( $defaults[$form->_pId], $priceSetValues );  
+                }
             }
-            
             if ( $form->_action == CRM_Core_Action::ADD ) {
                 foreach( $form->_priceSet['fields'] as $key => $val ) {
                     foreach ( $val['options'] as $keys => $values ) {
@@ -168,14 +168,7 @@ class CRM_Event_Form_EventFees
                     }
                 }
             }
-            //need to build all price set field amount string where price set ids <= current price set
-            $query = "select `id` from civicrm_price_field where `price_set_id` = $priceSetId  ORDER BY `id` desc limit 0, 1";
-            $maxFieldId = CRM_Core_DAO::singleValueQuery( $query );
-            $allFieldValues = array( );
-            for ( $count = 1; $count <= $maxFieldId; $count++ ) {
-                $allFieldValues[$count] = CRM_Utils_Array::value( $count, $priceOptionValues );
-            }
-            $form->assign( 'feeString', implode( ',', $allFieldValues ) );
+            
             $form->assign( 'totalAmount', CRM_Utils_Array::value( 'fee_amount', $defaults[$form->_pId] ) );
             if ( $form->_action == CRM_Core_Action::UPDATE ) {
                 $fee_level = $defaults[$form->_pId]['fee_level'];
