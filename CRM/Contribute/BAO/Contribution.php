@@ -363,7 +363,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults, &$ids ) {
+    static function retrieve( &$params, &$defaults, &$ids ) 
+    {
         $contribution = CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
         return $contribution;
     }
@@ -1511,7 +1512,8 @@ WHERE     c.id = $contributionId";
         return $componentDetails;
     }
     
-    function contributionCount( $contactId, $includeSoftCredit = true, $includeHonoree = true ) {
+    function contributionCount( $contactId, $includeSoftCredit = true, $includeHonoree = true ) 
+    {
         if ( !$contactId ) return 0;
         
         $fromClause      = "civicrm_contribution contribution";

@@ -662,6 +662,10 @@ WHERE  civicrm_participant.id = {$participantId}
         $p = array( 'participant_id' => $id );
         CRM_Event_BAO_ParticipantPayment::deleteParticipantPayment( $p );
 
+        // cleanup line items.
+        require_once 'CRM/Core/BAO/LineItem.php';
+        CRM_Core_BAO_LineItem::deleteLineItems( $id, 'civicrm_participant' );
+        
         $participant = new CRM_Event_DAO_Participant( );
         $participant->id = $id;
         $participant->delete( );
