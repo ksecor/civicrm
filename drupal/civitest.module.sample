@@ -751,15 +751,14 @@ ORDER BY c.sort_name ";
 function civitest_civicrm_alterPaymentProcessorParams( $paymentObj,
                                                        &$rawParams, 
                                                        &$cookedParams ) {
-    $processorName = get_class( $paymentObj );
     $mode = $paymentObj->getVar('_mode');
 
-    if ( $processorName == 'CRM_Core_Payment_Dummy' ) {
+    if ( $paymentObj instanceof CRM_Core_Payment_Dummy ) {
         $employer   = empty($rawParams['custom_1']) ? '' : $rawParams['custom_1'];
         $occupation = empty($rawParams['custom_2']) ? '' : $rawParams['custom_2'];
         $cookedParams['custom'] = "$employer|$occupation";
         
-    } else if ( $processorName == 'CRM_Contribute_Payment_AuthorizeNet' ) {
+    } else if ( $paymentObj instanceof CRM_Contribute_Payment_AuthorizeNet ) {
         //Actual translation for one application:
         //Employer > Ship to Country (x_ship_to_country)
         //Occupation > Company (x_company)
