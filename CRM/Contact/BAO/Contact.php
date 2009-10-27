@@ -1107,7 +1107,11 @@ AND    civicrm_contact.id = %1";
 
        if ( $dao->fetch( ) ) {
            if ($contactType == 'Individual') {
-               $name       = "{$dao->first_name} {$dao->last_name}";
+               if ( $dao->first_name || $dao->last_name ) {
+                   $name       = "{$dao->first_name} {$dao->last_name}";
+               } else {
+                   $name       = $dao->display_name;
+               }
            } else {
                $name       = $dao->display_name;
            }

@@ -476,7 +476,7 @@ WHERE sort_name LIKE '%$name%'";
                 echo $userEmail;
             }
         } else {
-	        echo $noemail = CRM_Utils_Array::value( 'noemail', $_GET );
+	        $noemail = CRM_Utils_Array::value( 'noemail', $_GET );
 
             if ( $name = CRM_Utils_Array::value( 'name', $_GET ) ) {
                 $name  = CRM_Utils_Type::escape(  $name, 'String' );
@@ -511,8 +511,8 @@ WHERE ce.on_hold = 0 AND cc.is_deceased = 0 AND cc.do_not_email = 0 AND {$queryS
               $dao = CRM_Core_DAO::executeQuery( $query );
             
               while( $dao->fetch( ) ) {
-                  $result[]= array( 'name' => '"'.$dao->name.'" < '.$dao->email.' >',
-                                    'id'   => (CRM_Utils_Array::value( 'id', $_GET ) ) ? $dao->id :'"'.$dao->name.'" < '.$dao->email.' >');
+                  $result[]= array( 'name' => '"'.$dao->name.'" &lt;'.$dao->email.'&gt;',
+                                    'id'   => (CRM_Utils_Array::value( 'id', $_GET ) ) ? "{$dao->id}::{$dao->email}" :'"'.$dao->name.'" &lt;'.$dao->email.'&gt;');
               }
             }
 
