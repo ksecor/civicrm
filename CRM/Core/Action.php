@@ -242,6 +242,7 @@ class CRM_Core_Action {
             $actionLink = array_slice ( $url, 0, 2 );
             $showDiv = true;
         }
+        require_once 'CRM/Utils/String.php';
         CRM_Utils_String::append( $resultLink, '', $actionLink );
         if ( $showDiv ) {
             CRM_Utils_String::append( $resultDiv, '</li><li>', $actionDiv );

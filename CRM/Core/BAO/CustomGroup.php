@@ -416,6 +416,8 @@ ORDER BY civicrm_custom_group.weight,
             }
         }
 
+        require_once 'CRM/Core/Action.php';
+
         // now that we have all the groups and fields, lets get the values
         // since we need to know the table and field names
 
