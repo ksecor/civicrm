@@ -49,10 +49,10 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
     static $_links = null;
 
     // ids of templates which diverted from the default ones and can be reverted
-    private $_revertible = array();
+    protected $_revertible = array();
 
     // set to the id that we’re reverting at the given moment (if we are)
-    private $_revertedId;
+    protected $_revertedId;
 
     function __construct($title = null, $mode = null) {
         parent::__construct($title, $mode);
