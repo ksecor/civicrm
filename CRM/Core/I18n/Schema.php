@@ -341,7 +341,7 @@ class CRM_Core_I18n_Schema
 
         $queries = array();
         foreach ($indices[$table] as $index) {
-            $unique = isset($index['unique']) ? 'UNIQUE' : '';
+            $unique = isset($index['unique']) && $index['unique'] ? 'UNIQUE' : '';
             foreach ($index['field'] as $i => $col) {
                 // if a given column is localizable, extend its name with the locale
                 if ($locale and isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
