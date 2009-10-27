@@ -88,7 +88,7 @@ abstract class CRM_Core_Payment {
             self::$_singleton = eval( 'return ' . $paymentClass . '::singleton( $mode, $paymentProcessor );' );
 
             if ( $paymentForm !== null ) {
-                self::$_singleton->setForm( &$paymentForm );
+                self::$_singleton->setForm( $paymentForm );
             }
         }
         return self::$_singleton;
