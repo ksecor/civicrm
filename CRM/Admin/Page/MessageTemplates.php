@@ -94,6 +94,7 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
     function &links()
     {
         if (!(self::$_links)) {
+            $confirm = ts('Are you sure you want to revert this template?', array('escape' => 'js'));
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
@@ -121,7 +122,7 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     ),
                                   CRM_Core_Action::REVERT  => array(
                                                                     'name'  => ts('Revert'),
-                                                                    'extra' => 'onclick = \'return confirm("Are you sure you want to revert this template?");\'',
+                                                                    'extra' => "onclick = 'return confirm(\"$confirm\");'",
                                                                     'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=revert&id=%%id%%',
                                                                     'title' => ts('Revert the Template to Default'),
