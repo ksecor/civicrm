@@ -60,7 +60,7 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
         // fetch the ids of templates which diverted from defaults and can be reverted –
         // these templates have the same workflow_id as the defaults; defaults are reserved
         $sql = '
-            SELECT diverted.id
+            SELECT diverted.id, orig.id orig_id
             FROM civicrm_msg_template diverted JOIN civicrm_msg_template orig ON (
                 diverted.workflow_id = orig.workflow_id AND
                 orig.is_reserved = 1                    AND (
@@ -72,7 +72,7 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
         ';
         $dao =& CRM_Core_DAO::executeQuery($sql);
         while ($dao->fetch()) {
-            $this->_revertible[] = $dao->id;
+            $this->_revertible[$dao->id] = $dao->orig_id;
         }
     }
 
@@ -127,6 +127,12 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     'qs'    => 'action=revert&id=%%id%%',
                                                                     'title' => ts('Revert the Template to Default'),
                                                                     ),
+                                  CRM_Core_Action::VIEW    => array(
+                                                                    'name'  => ts('View Default'),
+                                                                    'url'   => 'civicrm/admin/messageTemplates',
+                                                                    'qs'    => 'action=view&id=%%orig_id%%&reset=1',
+                                                                    'title' => ts('View the Default for This Message Template'),
+                                                                   ),
                                   );
         }
         return self::$_links;
@@ -135,9 +141,10 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
     function action(&$object, $action, &$values, &$links, $permission)
     {
         // do not expose action link for reverting to default if the template did not diverge or we just reverted it now
-        if (!in_array($object->id, $this->_revertible) or
+        if (!in_array($object->id, array_keys($this->_revertible)) or
             ($this->_action & CRM_Core_Action::REVERT and $object->id == $this->_revertedId)) {
             $action &= ~CRM_Core_Action::REVERT;
+            $action &= ~CRM_Core_Action::VIEW;
         }
 
         // default templates shouldn’t be deletable
@@ -146,6 +153,9 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
         }
 
         parent::action($object, $action, $values, $links, $permission);
+
+        // rebuild the action links HTML, as we need to handle %%orig_id%% for revertible templates
+        $values['action'] = CRM_Core_Action::formLink($links, $action, array('id' => $object->id, 'orig_id' => $this->_revertible[$object->id]));
     }
 
     function run($args = null, $pageArgs = null, $sort = null)
