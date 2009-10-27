@@ -127,7 +127,7 @@ class CRM_Contact_Form_Task_EmailCommon
 		
         $elements = array( 'cc', 'bcc' );
         foreach ( $elements as $element ) {
-            if ($$element->getValue( ) ) {
+            if ( $$element->getValue( ) ) {
                 preg_match_all('!"(.*?)"\s+<\s*(.*?)\s*>!', $$element->getValue( ), $matches);
                 $elementValues = array( );
                 for ( $i=0; $i< count( $matches[0] ); $i++ ) {
@@ -347,8 +347,10 @@ class CRM_Contact_Form_Task_EmailCommon
         foreach( $form->_contactIds as $key => $contactId ) {
             $email = $form->_toContactEmails[ $key ];
             // prevent duplicate emails if same email address is selected CRM-4067
-    		if ( !in_array( $email, $tempEmails ) ) {
-                $tempEmails[] = $email; 
+            // we should allow same emails for different contacts
+            $emailKey = "{$contactId}::{$email}";
+            if ( !in_array( $emailKey, $tempEmails ) ) {
+                $tempEmails[] = $emailKey; 
                 $details          = $form->_contactDetails[$contactId];
                 $details['email'] = $email;
                 unset( $details['email_id'] );
