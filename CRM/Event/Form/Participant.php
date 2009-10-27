@@ -582,11 +582,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             $this->add( 'select', 'payment_processor_id', ts( 'Payment Processor' ), $this->_processors, true );
         }
-         
+        
         $element = $this->add('select', 'event_id',  ts( 'Event' ),  
                               array( '' => ts( '- select -' ) ) + $events,
                               true,
-                              array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', this.value, {$this->_eventNameCustomDataTypeID} );", 'class' => 'huge' ) );
+                              array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', this.value, {$this->_eventNameCustomDataTypeID} );", 'class' => 'huge' ) 
+                              );
         
         //frozen the field fix for CRM-4171
         if ( $this->_action & CRM_Core_Action::UPDATE && $this->_participantId ) {
@@ -1077,11 +1078,26 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                             foreach ( $this->_lineItem as $key => $value ) {
                                 if ( is_array ( $value ) && $value != 'skip' ) {
                                     foreach( $value as $line ) {
-                                        $unused = array();
                                         $line['entity_table'] = 'civicrm_contribution';
                                         $line['entity_id'] = $contributions[$num]->id;
-                                        CRM_Core_BAO_LineItem::create( $line, $unused );
+                                        CRM_Core_BAO_LineItem::create( $line );
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                foreach ( $this->_contactIds as $num => $contactID ) {
+                    // also store lineitem stuff here
+                    if ( $this->_lineItem ) {
+                        require_once 'CRM/Core/BAO/LineItem.php';
+                        foreach ( $this->_lineItem as $key => $value ) {
+                            if ( is_array ( $value ) && $value != 'skip' ) {
+                                foreach( $value as $line ) {
+                                    $line['entity_table'] = 'civicrm_participant';
+                                    $line['entity_id'] = $participants[$num]->id;
+                                    CRM_Core_BAO_LineItem::create( $line );
                                 }
                             }
                         }

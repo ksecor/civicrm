@@ -422,19 +422,27 @@ WHERE  id = %1";
     {
         // get price info
         if ( $priceSetId = self::getFor( $entityTable, $id ) ) {
-            if ( $form->_action & CRM_Core_Action::UPDATE ){
+            if ( $form->_action & CRM_Core_Action::UPDATE ) {
                 $entityId = $entity = null;
+                $payment = true;
                 if ( $entityTable == 'civicrm_event' ) {
                     $entity   = 'Participant'; 
                     $entityId = $form->_participantId;
+                    if ( ! CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
+                                                        $form->_participantId, 
+                                                        'contribution_id', 
+                                                        'participant_id' ) ) {
+                        $payment = false;
+                    }
                 } else if ( $entityTable == 'civicrm_contribution_page' ||  
                             $entityTable == 'civicrm_contribution' ) {
                     $entityId = $form->_id;
                     $entity   = 'Contribution';
                 } 
+                
                 if ( $entityId && $entity ) {
                     require_once 'CRM/Core/BAO/LineItem.php';
-                    $form->_values['line_items'] = CRM_Core_BAO_LineItem::getLineItems( $entityId, $entity );
+                    $form->_values['line_items'] = CRM_Core_BAO_LineItem::getLineItems( $entityId, $entity, $payment );
                 }
                 $required = false;
             } else {

@@ -794,10 +794,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             foreach ( $form->_lineItem as $key => $value ) {
                 if ( $value != 'skip' ) {
                     foreach( $value as $line ) {
-                        $unused = array();
                         $line['entity_table'] = 'civicrm_contribution';
                         $line['entity_id'] = $contribution->id;
-                        CRM_Core_BAO_LineItem::create( $line, $unused );
+                        CRM_Core_BAO_LineItem::create( $line );
                     }
                 }
             }

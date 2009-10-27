@@ -444,10 +444,9 @@ class CRM_Contribute_Form_AdditionalInfo
         foreach ( $lineItem as $priceSetId => $values ) {
             if ( !$priceSetId ) continue;
             foreach( $values as $line ) {
-                $unused = array();
                 $line['entity_table'] = 'civicrm_contribution';
                 $line['entity_id'] = $contributionId;
-                CRM_Core_BAO_LineItem::create( $line, $unused );
+                CRM_Core_BAO_LineItem::create( $line );
             }
             CRM_Price_BAO_Set::addTo( 'civicrm_contribution', $contributionId, $priceSetId );
         }

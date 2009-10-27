@@ -69,11 +69,17 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
         
         // Get Note
         $noteValue = CRM_Core_BAO_Note::getNote( $values[$params['id']]['id'], 'civicrm_participant' );
+        
         $values[$params['id']]['note'] = array_values( $noteValue );
         
-        // Get Contribution Line Items
         require_once 'CRM/Core/BAO/LineItem.php';
-        $lineItem = CRM_Core_BAO_LineItem::getLineItems( $params['id'] );
+
+        // Get Line Items
+        if ( CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', $params['id'], 'contribution_id', 'participant_id' ) ) {
+            $lineItem = CRM_Core_BAO_LineItem::getLineItems( $params['id'] );
+        } else {
+            $lineItem = CRM_Core_BAO_LineItem::getLineItems( $params['id'], 'Participant', false );
+        }
         
         if (!CRM_Utils_System::isNull($lineItem)) {
             $values[$params['id']]['lineItem'][] = $lineItem;
