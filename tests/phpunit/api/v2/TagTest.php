@@ -39,6 +39,32 @@ class api_v2_TagTest extends CiviUnitTestCase
     {  
     }
 
+///////////////// civicrm_tag_get methods
+
+    /**
+     * Test civicrm_tag_get with wrong params type.
+     */
+    public function testGetWrongParamsType()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * Test civicrm_tag_get with empty params.
+     */
+    public function testGetEmptyParams()
+    {
+        $this->markTestIncomplete();
+    }
+    
+    /**
+     * Test civicrm_tag_get - success expected.
+     */
+    public function testGet()
+    {
+        $this->markTestIncomplete();
+    }    
+
 ///////////////// civicrm_tag_create methods
     
     function testCreateWrongParamsType()
