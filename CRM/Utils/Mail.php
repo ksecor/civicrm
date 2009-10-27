@@ -157,8 +157,9 @@ class CRM_Utils_Mail
             file_put_contents( $dirName . $fileName,
                                $content );
         } else {
-            file_put_contents( CIVICRM_MAIL_LOG,
-                               $content );
+            $current = file_get_contents( CIVICRM_MAIL_LOG );
+            $current .= $content;
+            file_put_contents( CIVICRM_MAIL_LOG, $current);
         }
     }
 
