@@ -19,8 +19,8 @@
         <thead>
         <tr>
             <th id="sortable">{ts}Message Title{/ts}</th>
-            <!-- <th>{ts}Message Subject{/ts}</th>-->
-            <th>{ts}Enabled?{/ts}</th>
+            <!-- <th>{ts}Message Subject{/ts}</th> -->
+            <!-- <th>{ts}Enabled?{/ts}</th> -->
  	        <th></th>	
         </tr>
         </thead>
@@ -30,7 +30,7 @@
             <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
               <td>{$row.msg_title}</td>
               <!-- <td>{$row.msg_subject}</td> -->
-              <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+              <!-- <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td> -->
               <td>{$row.action|replace:'xx':$row.id}</td>
             </tr>
           {/if}

@@ -101,18 +101,18 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Message Templates') 
                                                                    ),
-                                  CRM_Core_Action::DISABLE => array(
-                                                                    'name'  => ts('Disable'),
-                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'enable-disable' . '\' );"',
-                                                                    'ref'   => 'disable-action',
-                                                                    'title' => ts('Disable Message Templates') 
-                                                                    ),
-                                  CRM_Core_Action::ENABLE  => array(
-                                                                    'name'  => ts('Enable'),
-                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'disable-enable' . '\' );"',
-                                                                    'ref'   => 'enable-action',
-                                                                    'title' => ts('Enable Message Templates') 
-                                                                    ),
+                                //CRM_Core_Action::DISABLE => array(
+                                //                                  'name'  => ts('Disable'),
+                                //                                  'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'enable-disable' . '\' );"',
+                                //                                  'ref'   => 'disable-action',
+                                //                                  'title' => ts('Disable Message Templates'),
+                                //                                  ),
+                                //CRM_Core_Action::ENABLE  => array(
+                                //                                  'name'  => ts('Enable'),
+                                //                                  'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'disable-enable' . '\' );"',
+                                //                                  'ref'   => 'enable-action',
+                                //                                  'title' => ts('Enable Message Templates'),
+                                //                                  ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/admin/messageTemplates',
