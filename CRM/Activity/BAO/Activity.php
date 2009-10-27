@@ -952,6 +952,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             civicrm_smarty_register_string_resource( );
         }
 
+        require_once 'CRM/Utils/Token.php';
         $sent = $notSent = array( );
         foreach ( $contactDetails  as $values ) {
             $contactId    = $values['contact_id'];

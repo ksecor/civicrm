@@ -302,8 +302,6 @@ class CRM_Contact_Form_Task_EmailCommon
         $cc           = CRM_Utils_Array::value( 'cc_id' , $formValues );
         $bcc          = CRM_Utils_Array::value( 'bcc_id', $formValues );
         $subject      = $formValues['subject'];
-        $text_message = $formValues['text_message'];
-        $html_message = $formValues['html_message'];
         
         // process message template
         require_once 'CRM/Core/BAO/MessageTemplates.php';
@@ -324,16 +322,6 @@ class CRM_Contact_Form_Task_EmailCommon
                 CRM_Core_BAO_MessageTemplates::add( $messageTemplate );
             } 
         }
-        
-        // replace domain tokens
-        $config   = CRM_Core_Config::singleton( );
-
-        require_once 'CRM/Core/BAO/Domain.php';
-        $domain = CRM_Core_BAO_Domain::getDomain( );
-
-        require_once 'CRM/Utils/Token.php';
-        $text = CRM_Utils_Token::replaceDomainTokens( $text_message, $domain, false  );
-        $html = CRM_Utils_Token::replaceDomainTokens( $html_message, $domain, false  );
 
         $attachments = array( );
         CRM_Core_BAO_File::formatAttachment( $formValues,
@@ -363,8 +351,8 @@ class CRM_Contact_Form_Task_EmailCommon
         list( $sent, $activityId ) = 
             CRM_Activity_BAO_Activity::sendEmail( $formattedContactDetails,
                                                   $subject,
-                                                  $text,
-                                                  $html,
+                                                  $formValues['text_message'],
+                                                  $formValues['html_message'],
                                                   null,
                                                   null,
                                                   $from,
