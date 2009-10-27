@@ -128,22 +128,20 @@ class CRM_Contact_Form_Task_EmailCommon
         $elements = array( 'cc', 'bcc' );
         foreach ( $elements as $element ) {
             if ($$element->getValue( ) ) {
-                //hackish way to explode elements, may be we should fix this later on
-                $elementValues = explode( '&gt;,', $$element->getValue( ) );
-                $elementArray = array( );
-                foreach( $elementValues as $value ) {
-                    $value = "$value&gt;";
-                    $value = str_replace( '&gt;&gt;', '&gt;', $value );
-                    $elementArray[] = array( 'name' => $value,
-                                              'id'  => $value );
+                preg_match_all('!"(.*?)"\s+<\s*(.*?)\s*>!', $$element->getValue( ), $matches);
+                $elementValues = array( );
+                for ( $i=0; $i< count( $matches[0] ); $i++ ) {
+                    $name = '"'.$matches[1][$i]. '" &lt;'. $matches[2][$i] .'&gt;';
+                    $elementValues[] = array(
+                                              'name' => $name,
+                                              'id'    => $matches[0][$i]
+                                            );
                 }
+
                 $var = "{$element}Contact";
-                
-                $form->assign( $var, json_encode($elementArray) );
+                $form->assign( $var, json_encode($elementValues) );
             }
         }
-        
-        
 		
     	// when form is submitted recompute contactIds
     	$allToEmails = array( );

@@ -512,7 +512,7 @@ WHERE ce.on_hold = 0 AND cc.is_deceased = 0 AND cc.do_not_email = 0 AND {$queryS
             
               while( $dao->fetch( ) ) {
                   $result[]= array( 'name' => '"'.$dao->name.'" &lt;'.$dao->email.'&gt;',
-                                    'id'   => (CRM_Utils_Array::value( 'id', $_GET ) ) ? "{$dao->id}::{$dao->email}" :'"'.$dao->name.'" &lt;'.$dao->email.'&gt;');
+                                    'id'   => (CRM_Utils_Array::value( 'id', $_GET ) ) ? "{$dao->id}::{$dao->email}" :'"'.$dao->name.'" <'.$dao->email.'>');
               }
             }
 
