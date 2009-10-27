@@ -655,7 +655,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     true, 
                     $checkCancelledJs );
         
-        $this->addElement('checkbox', 'is_notify', ts( 'Send Confirmation' ) , null);
+        $this->addElement('checkbox', 'is_notify', ts( 'Send Notification' ) , null);
         
         $this->add( 'text', 'source', ts('Event Source') );
         
