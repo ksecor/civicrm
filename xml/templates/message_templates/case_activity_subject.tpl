@@ -1,1 +1,1 @@
-{strip}{ts}{$activitySubject}{/ts}{/strip}
+{ts}{$activitySubject}{/ts}

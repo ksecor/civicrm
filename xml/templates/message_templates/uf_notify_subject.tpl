@@ -1,3 +1,1 @@
-{strip}
-{$grouptitle}  {ts}Submitted by{/ts}  {$displayName}
-{/strip}
+{$grouptitle} {ts 1=$displayName}Submitted by %1{/ts}

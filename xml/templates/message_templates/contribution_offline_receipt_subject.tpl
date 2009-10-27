@@ -1,5 +1,3 @@
-{* Email Subject for offline contribution receipts and offline membership signup/renewal. *}
-{strip}
 {if $receiptType EQ 'contribution'}
 {ts}Contribution Receipt{/ts}
 {elseif $receiptType EQ 'membership signup'}
@@ -9,4 +7,3 @@
 {else}
 {ts}Receipt{/ts}
 {/if}
-{/strip}
