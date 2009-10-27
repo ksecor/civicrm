@@ -60,23 +60,10 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
         require_once 'CRM/Core/Session.php';
         $session =& CRM_Core_Session::singleton( );
         $this->_openID = $session->get( 'openid' );
-    }
-    
-    function setDefaultValues( ) {
-        $defaults = array( );
-        
-        $defaults['user_unique_id'] = $this->_openID;
-        
-        return $defaults;
+        $this->assign('user_unique_id',$this->_openID['display_id']);
     }
 
     function buildQuickForm( ) {
-        $this->add( 'text',
-                    'user_unique_id', 
-                    ts( 'OpenID' ),
-                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'user_unique_id' ),
-                    true );
-                    
         $this->add( 'text',
                     'email',
                     ts( 'Email' ),
@@ -115,7 +102,7 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
         require_once 'CRM/Utils/System/Standalone.php';
         require_once 'CRM/Core/BAO/OpenID.php';
 
-        $user = new CRM_Standalone_User( $formValues['user_unique_id'], 
+        $user = new CRM_Standalone_User( $this->_openID,
                                          $formValues['email'], 
                                          $formValues['first_name'], 
                                          $formValues['last_name']

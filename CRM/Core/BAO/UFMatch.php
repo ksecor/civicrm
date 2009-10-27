@@ -73,13 +73,16 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         } else if ( $uf == 'Standalone' ) {
             $key = 'id';
             $mail = 'email';
-            $uniqId = $user->identity_url;
+            $endpoint_url = $user->openid['endpoint_url'];
+            $claimed_id = $user->openid['claimed_id'];
+            $uniqId = $claimed_id;
             $query = "
 SELECT    uf_id
 FROM      civicrm_uf_match 
 LEFT JOIN civicrm_openid ON ( civicrm_uf_match.contact_id = civicrm_openid.contact_id ) 
-WHERE     openid = %1";
-            $p = array( 1 => array( $uniqId, 'String' ) );
+WHERE     endpoint_url = %1 AND claimed_id = %2";
+            $p = array( 1 => array( $endpoint_url, 'String' ),
+                        2 => array( $claimed_id,   'String' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $p );
             if ( $dao->fetch() ) {
                 $user->$key = $dao->uf_id;
@@ -244,7 +247,7 @@ WHERE     openid = %1";
                 }
 
                 if ( $uf == 'Standalone' ) {
-                    $params['openid-Primary'] = $uniqId;
+                    $params['openid-Primary'] = $user->openid;
 
                     //need to delete below code once profile is
                     //exposed on signup page
