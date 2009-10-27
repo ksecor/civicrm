@@ -117,6 +117,10 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
      
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
+        if ($this->_action & CRM_Core_Action::VIEW) {
+            $this->freeze();
+        }
+
     }
 
        

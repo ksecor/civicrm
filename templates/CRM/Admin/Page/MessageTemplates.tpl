@@ -1,6 +1,15 @@
 {capture assign=crmURL}{crmURL p='civicrm/admin/messageTemplates' q="action=add&reset=1"}{/capture}
 {if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/MessageTemplates.tpl"}
+{elseif $action eq 4}
+  <h3 class='head'>{$form.msg_subject.label}</h3>
+  <p>{$form.msg_subject.html|crmReplace:class:huge}</p>
+
+  <h3 class='head'>{ts}Text Message{/ts}</h3>
+  <p>{$form.msg_text.html|crmReplace:class:huge}</p>
+
+  <h3 class='head'>{ts}HTML Message{/ts}</h3>
+  <p>{$form.msg_html.html|crmReplace:class:huge}</p>
 {else}
     <div id="help">
     {ts}Message templates allow you to save and re-use messages with layouts. They are useful if you need to send similar emails to contacts on a recurring basis. You can also use them in CiviMail Mailings and they are required for CiviMember membership renewal reminders.{/ts} {help id="id-intro"}
