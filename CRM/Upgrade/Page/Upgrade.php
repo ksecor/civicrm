@@ -300,5 +300,24 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
             }
         }
     }
+  
+    function upgrade_3_0_2( $rev ) {
+        
+        $template =& CRM_Core_Smarty::singleton( );
+       
+        //check whether upgraded from 2.1.x or 2.2.x 
+        $inboundEmailID = CRM_Core_OptionGroup::getValue('activity_type', 'Inbound Email', 'name' );
+       
+        if ( !empty($inboundEmailID) ) {
+            $template->assign( 'addInboundEmail', false );
+        } else {
+            $template->assign( 'addInboundEmail', true ); 
+        }
+
+        $upgrade =& new CRM_Upgrade_Form( );
+        $upgrade->processSQL( $rev );
+    }
+    
+
 }
 
