@@ -842,10 +842,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @param string $subject      the subject of the message
      * @param string $message      the message contents
      * @param string $emailAddress use this 'to' email address instead of the default Primary address
-     * @param int    $userID        use this userID if set
+     * @param int    $userID       use this userID if set
      * @param string $from
-     * @param array  $attachments   the array of attachments if any
-     * @return array             (total, added, notAdded) count of emails sent
+     * @param array  $attachments  the array of attachments if any
+     * @param string $cc           cc recepient
+     * @param string $bcc          bcc recepient
+     * @param array $contactIds    contact ids   
+     * @return array               ( sent, activityId) if any email is sent and activityId
      * @access public
      * @static
      */
