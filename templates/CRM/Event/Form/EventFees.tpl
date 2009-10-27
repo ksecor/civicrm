@@ -3,10 +3,10 @@
     <table class="form-layout">
     {if $priceSet}
     	{if $action eq 2} {* Updating *}
-            {if $line_items}	
+            {if $lineItem}	
                 <tr>
                     <td class="label">{ts}Event Fees{/ts}</td>
-                    <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+                    <td>{include file="CRM/Price/Page/LineItem.tpl" context="Event"}</td>
                 </tr>
             {else}
                 <tr>
@@ -111,10 +111,8 @@
                     <td>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></td>
                 </tr>
                 <tr>
-                    <td class="label" >{$form.receive_date.label}</td><td>{$form.receive_date.html}
-                    {include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership}
-                    {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership}
-                    </td>
+                    <td class="label" >{$form.receive_date.label}</td>
+                    <td>{include file="CRM/common/jcalendar.tpl" elementName=receive_date}</td>
                 </tr> 
                 <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
                 <tr id="checkNumber"><td class="label">{$form.check_number.label}</td><td>{$form.check_number.html|crmReplace:class:six}</td></tr>
@@ -280,6 +278,7 @@ function checkEmail( ) {
     } else {
        cj("#send_confirmation_receipt").show( );
     }	
+    sendNotification();
   }
 
 {/literal}

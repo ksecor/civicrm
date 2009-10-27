@@ -117,7 +117,6 @@ WHERE    price_set_id = %1";
         if ( empty( $forms ) ) {
             return $usedBy;
         }        
-        
         foreach ( $forms as $table => $entities ) {
             switch ($table) {
             case 'civicrm_event':
@@ -157,7 +156,8 @@ WHERE     ct.id = cp.contribution_type_id AND
                 }
                 break;
 
-            case 'civicrm_contribution':  
+            case 'civicrm_contribution':
+                $usedBy[$table] = 1;
                 break;
                 
             default:
@@ -472,6 +472,8 @@ WHERE  id = %1";
                 break;
                 
             case 'Radio':
+                //special case if user select -none-
+                if ( $params["price_{$id}"] == 0 ) continue; 
                 $params["price_{$id}"] = array( $params["price_{$id}"] => 1 );
                 $optionValueId = CRM_Utils_Array::key( 1, $params["price_{$id}"] );
                 $optionLabel   = $field['options'][$optionValueId]['label'];
@@ -668,15 +670,15 @@ WHERE  id IN ($optionIDs)
         $copyPriceField =& CRM_Core_DAO::copyGeneric( 'CRM_Price_DAO_Field', 
                                                       array( 'price_set_id' => $id ),
                                                       array( 'price_set_id' => $copy->id ) );
+        if ( !empty( $copyPriceField ) ) {
+            $price = array_combine( self::getFieldIds( $id ), self::getFieldIds( $copy->id ) );
         
-        $price = array_combine( self::getFieldIds( $id ), self::getFieldIds( $copy->id ) );
-        
-        //copy option group and values 
-        require_once "CRM/Core/BAO/OptionGroup.php";
-        foreach ($price as $originalId => $copyId)  {
-            CRM_Core_BAO_OptionGroup::copyValue( 'price', $originalId, $copyId );
+            //copy option group and values 
+            require_once "CRM/Core/BAO/OptionGroup.php";
+            foreach ($price as $originalId => $copyId)  {
+                CRM_Core_BAO_OptionGroup::copyValue( 'price', $originalId, $copyId );
+            }
         }
-        
         $copy->save( );
         
         require_once 'CRM/Utils/Hook.php';

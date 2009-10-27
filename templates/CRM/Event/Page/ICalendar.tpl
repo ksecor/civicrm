@@ -1,13 +1,16 @@
 {* Displays current and upcoming public Events Listing as an HTML page. *}
-<table>
-<tr class="columnheader">
-<th>{ts}Event{/ts}</th>
-<th>&nbsp;</th>
-<th>{ts}When{/ts}</th>
-<th>{ts}Location{/ts}</th>
-<th>{ts}Category{/ts}</th>
-<th>{ts}Email{/ts}</th>
+{include file="CRM/common/jsortable.tpl"}
+<table id="options" class="display">
+<thead>
+<tr>
+    <th>{ts}Event{/ts}</th>
+    <th></th>
+    <th>{ts}When{/ts}</th>
+    <th>{ts}Location{/ts}</th>
+    <th>{ts}Category{/ts}</th>
+    <th>{ts}Email{/ts}</th>
 </tr>
+</thead>
 {foreach from=$events key=uid item=event}
 <tr class="{cycle values="odd-row,even-row"} {$row.class}">
     <td><a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$event.event_id`"}" title="{ts}read more{/ts}"><strong>{$event.title}</strong></a></td>

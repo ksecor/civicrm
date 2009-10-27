@@ -400,7 +400,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             
             $address->addDisplay( $microformat );
 
-            $values['display'] = $address->display;
+            $values['display'     ] = $address->display;
+            $values['display_text'] = $address->display_text;
 
             $addresses[$count] = $values;
             
@@ -450,7 +451,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             $fields['county'] = null;
         }
 
-        $this->display = CRM_Utils_Address::format($fields, null, $microformat);
+        $this->display      = CRM_Utils_Address::format($fields, null, $microformat);
+        $this->display_text = CRM_Utils_Address::format($fields);
     }
 
     /**

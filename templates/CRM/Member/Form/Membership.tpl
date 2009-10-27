@@ -50,19 +50,13 @@
         <span class="description">{ts}Select Membership Organization and then Membership Type.{/ts}</span></td></tr>	
     <tr><td class="label">{$form.source.label}</td><td>&nbsp;{$form.source.html}<br />
         <span class="description">{ts}Source of this membership. This value is searchable.{/ts}</span></td></tr>
-	<tr><td class="label">{$form.join_date.label}</td><td>{$form.join_date.html}
-		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_1}
-		{include file="CRM/common/calendar/body.tpl" dateVar=join_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_1}
+	<tr><td class="label">{$form.join_date.label}</td><td>{include file="CRM/common/jcalendar.tpl" elementName=join_date}
 		<br />
         <span class="description">{ts}When did this contact first become a member?{/ts}</span></td></tr>
- 	<tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
-		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_2}
-		{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_2}
+ 	<tr><td class="label">{$form.start_date.label}</td><td>{include file="CRM/common/jcalendar.tpl" elementName=start_date}
 		<br />
         <span class="description">{ts}First day of current continuous membership period. Start Date will be automatically set based on Membership Type if you don't select a date.{/ts}</span></td></tr>
- 	<tr><td class="label">{$form.end_date.label}</td><td>{$form.end_date.html}
-		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_3}
-		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_3}
+ 	<tr><td class="label">{$form.end_date.label}</td><td>{include file="CRM/common/jcalendar.tpl" elementName=end_date}
 		<br />
         <span class="description">{ts}Latest membership period expiration date. End Date will be automatically set based on Membership Type if you don't select a date.{/ts}</span></td></tr>
     {if ! $membershipMode}
@@ -99,11 +93,9 @@
                 	<span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
 		<dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}<br />
                 	<span class="description">{ts}Membership payment amount. A contribution record will be created for this amount.{/ts}</span></dd>
-           	<dt class="label" >{$form.receive_date.label}</dt><dd>{$form.receive_date.html}
-		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_4}
-		{include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_4}</dd>  
+        <dt class="label" >{$form.receive_date.label}</dt><dd>{include file="CRM/common/jcalendar.tpl" elementName=receive_date}</dd>  
           
-            	<dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
+        <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
 		<div id="checkNumber"><dt class="label">{$form.check_number.label}</dt><dd>{$form.check_number.html|crmReplace:class:six}</dd></div>
 	   	{if $action neq 2 }	
 	    	<dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>

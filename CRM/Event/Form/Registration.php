@@ -342,7 +342,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                     }
                     
                     // ensure that processor has a valid config
-                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
+                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor, $this );
                     $error = $payment->checkConfig( );
                     if ( ! empty( $error ) ) {
                         CRM_Core_Error::fatal( $error );
@@ -715,9 +715,17 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                     'civicrm_participant',
                                                     $participant->id,
                                                     'Participant' );
+
+        $createPayment = ( $this->_params['amount'] != 0 ) ? true : false;
+        // force to create zero amount payment, CRM-5095
+        if ( !$createPayment && $contribution->id
+             && ($this->_params['amount'] == 0) 
+             && $this->_priceSetId && $this->_lineItem ) {
+            $createPayment = true;
+        }
         
-        if ( $this->_values['event']['is_monetary'] && ( $this->_params['amount'] != 0 )
-             &&  CRM_Utils_Array::value( 'contributionID', $this->_params ) ) {
+        if ( $createPayment && $this->_values['event']['is_monetary'] && 
+             CRM_Utils_Array::value( 'contributionID', $this->_params ) ) {
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
             $paymentParams = array( 'participant_id'  => $participant->id ,
                                     'contribution_id' => $contribution->id, );

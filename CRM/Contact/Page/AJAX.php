@@ -44,43 +44,54 @@ class CRM_Contact_Page_AJAX
         require_once 'CRM/Core/BAO/Preferences.php';
         $name   = CRM_Utils_Type::escape( $_GET['s'], 'String' );
         $limit  = '10';
-        $list   = array_keys( CRM_Core_BAO_Preferences::valueOptions( 'autocomplete_contact_search_options' ), '1' );
-        $select = array( );
+        $list   = array_keys( CRM_Core_BAO_Preferences::valueOptions( 'contact_autocomplete_options' ), '1' );
+        $select = array( 'sort_name' );
         $where  = '';
+        $from   = array( );
         foreach( $list as $value ) {
-            $suffix = "c" . substr( $value, 0, 1 ) . substr( $value, -1 );
+            $suffix = substr( $value, 0, 2 ) . substr( $value, -1 );
             switch( $value ) {
-
+                
             case 'street_address':
-                $value = "address";
+            case 'city':
+                $selectText = $value;
+                $value      = "address";
+                $suffix     = 'sts';
             case 'phone':                
             case 'email':
-                $select[] = ( $value == 'address' ) ? 'street_address' : $value;
-                $from    .= " LEFT JOIN civicrm_{$value} {$suffix} ON cc.id = {$suffix}.contact_id";
-                $where   .= " AND {$suffix}.is_primary = 1";
+                $select[] = ( $value == 'address' ) ? $selectText : $value;
+                $from[$value] = "LEFT JOIN civicrm_{$value} {$suffix} ON ( cc.id = {$suffix}.contact_id AND {$suffix}.is_primary = 1 ) ";
                 break;
-
+                
             case 'country':
             case 'state_province':
                 $select[] = "{$suffix}.name";
-                if( ! in_array( 'street_address', $select ) ) 
-                    $from .= ' LEFT JOIN civicrm_address css ON cc.id = css.contact_id ';
-                $from     .= " LEFT JOIN civicrm_{$value} {$suffix} ON css.{$value}_id = {$suffix}.id";
-                break;
-
-            case 'sort_name':
-                array_unshift( $select, $value );
+                if ( ! in_array( 'address', $from ) ) {
+                    $from ['address'] = 'LEFT JOIN civicrm_address sts ON ( cc.id = sts.contact_id AND sts.is_primary = 1) ';
+                }
+                $from[$value] = " LEFT JOIN civicrm_{$value} {$suffix} ON ( sts.{$value}_id = {$suffix}.id  ) ";
                 break;
             }
         }
+        
         $select = implode( ', ', $select );
+        $from   = implode( ' ' , $from   );
         if ( CRM_Utils_Array::value( 'limit', $_GET) ) {
             $limit = CRM_Utils_Type::escape( $_GET['limit'], 'Positive' );
         }
-        
+
+        // add acl clause here
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
+        list( $aclFrom, $aclWhere ) = CRM_Contact_BAO_Contact_Permission::cacheClause( 'cc' );
+
+        if ( $aclWhere ) {
+            $where .= " AND $aclWhere ";
+        }
+
         $query = "
-SELECT CONCAT_WS( ' :: ', {$select} ) as data, cc.id as id
+SELECT DISTINCT(cc.id) as id, CONCAT_WS( ' :: ', {$select} ) as data
 FROM civicrm_contact cc {$from}
+{$aclFrom}
 WHERE sort_name LIKE '%$name%' {$where} 
 ORDER BY sort_name
 LIMIT 0, {$limit}
@@ -498,7 +509,7 @@ WHERE sort_name LIKE '%$name%'";
     *  Function to get email address of a contact
     */
     static function getContactEmail( ) {
-        if( CRM_Utils_Array::value( 'contact_id', $_POST ) ) {
+        if ( CRM_Utils_Array::value( 'contact_id', $_POST ) ) {
             $contactID = CRM_Utils_Type::escape( $_POST['contact_id'], 'Positive' );
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $displayName, 
@@ -507,15 +518,20 @@ WHERE sort_name LIKE '%$name%'";
                 echo $userEmail;
             }
         } else {
+	        echo $noemail = CRM_Utils_Array::value( 'noemail', $_GET );
+
             if ( $name = CRM_Utils_Array::value( 'name', $_GET ) ) {
                 $name  = CRM_Utils_Type::escape(  $name, 'String' );
-			    $queryString = " cc.sort_name LIKE '%$name%'";
+                if ( $noemail ) {
+                    $queryString = " cc.sort_name LIKE '%$name%'";
+                } else {
+                    $queryString = " ( cc.sort_name LIKE '%$name%' OR ce.email LIKE '%$name%' ) ";
+                }
             } else {
 				$cid = CRM_Utils_Array::value( 'cid', $_GET );
 				$queryString = " cc.id IN ( $cid )";
 			}
 
-	        $noemail = CRM_Utils_Array::value( 'noemail', $_GET );
             
             if ( $noemail ) {
               $query="
@@ -531,18 +547,18 @@ WHERE {$queryString}";
             } else {        
               $query="
 SELECT sort_name name, ce.email, cc.id
-FROM civicrm_email ce LEFT JOIN civicrm_contact cc ON cc.id = ce.contact_id
-WHERE ce.is_primary = 1 AND ce.on_hold = 0 AND cc.is_deceased = 0 AND cc.do_not_email = 0 AND {$queryString}";
+FROM civicrm_email ce INNER JOIN civicrm_contact cc ON cc.id = ce.contact_id
+WHERE ce.on_hold = 0 AND cc.is_deceased = 0 AND cc.do_not_email = 0 AND {$queryString} ";
             
               $dao = CRM_Core_DAO::executeQuery( $query );
             
               while( $dao->fetch( ) ) {
                   $result[]= array( 'name' => '"'.$dao->name.'" < '.$dao->email.' >',
-                                  'id'   => (CRM_Utils_Array::value( 'id', $_GET ) ) ? $dao->id :'"'.$dao->name.'" < '.$dao->email.' >');
+                                    'id'   => (CRM_Utils_Array::value( 'id', $_GET ) ) ? $dao->id :'"'.$dao->name.'" < '.$dao->email.' >');
               }
             }
 
-            if( $result ) {
+            if ( $result ) {
                 echo json_encode( $result );
             }
         }

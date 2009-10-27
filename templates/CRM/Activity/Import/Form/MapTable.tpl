@@ -80,7 +80,8 @@
         			document.getElementById("saveMappingDesc").disabled = true;
         		 }
              }
-             {/literal}	     
+             {/literal}
+	     {include file="CRM/common/highLightImport.tpl"}	     
 	    </script>
     </div>
     {/if}

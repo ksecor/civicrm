@@ -41,11 +41,9 @@
         <tr><td class="label nowrap">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
             <span class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
         {if $form.create_date}	
-        <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
-            {if $hideCalender neq true}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_1}
-            {include file="CRM/common/calendar/body.tpl" dateVar=create_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_1}
-            {/if}<br />
+        <tr>
+            <td class="label">{$form.create_date.label}</td>
+            <td>{include file="CRM/common/jcalendar.tpl" elementName=create_date}<br />
         {/if}
         {if $create_date}
             <tr><td class="label">Pledge Made</td><td class="view-value">{$create_date|truncate:10:''|crmDate}
@@ -53,11 +51,9 @@
             <span class="description">{ts}Date when pledge was made by the contributor.{/ts}</span></td></tr>
        
         {if $form.start_date}	
-            <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
-            {if $hideCalender neq true}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_2}
-            {/if}<br />
+            <tr>
+                <td class="label">{$form.start_date.label}</td>
+                <td>{include file="CRM/common/jcalendar.tpl" elementName=start_date}<br />
         {/if}
         {if $start_date}
             <tr><td class="label">Payments Start</td><td class="view-value">{$start_date|truncate:10:''|crmDate}
@@ -72,9 +68,8 @@
 	    {elseif $context eq 'standalone' and $outBound_option != 2 }
                 <tr id="acknowledgment-receipt" style="display:none;"><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html} <span class="description">{ts}Automatically email an acknowledgment of this pledge to {/ts}<span id="email-address"></span>?</span></td></tr>
         {/if}
-        <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_3}
-            {include file="CRM/common/calendar/body.tpl" dateVar=acknowledge_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_3}<br />
+        <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td>
+            <td>{include file="CRM/common/jcalendar.tpl" elementName=acknowledge_date}<br />
             <span class="description">{ts}Date when an acknowledgment of the pledge was sent.{/ts}</span></td></tr>
             <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />
             <span class="description">{ts}Sets the default contribution type for payments against this pledge.{/ts}</span></td></tr>

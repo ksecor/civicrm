@@ -91,7 +91,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             //we lost rfp in case of additional participant. So set it explicitly.
             if ( $rfp || CRM_Utils_Array::value( 'additional_participants', $this->_params[0], false ) ) {
                 require_once 'CRM/Core/Payment.php'; 
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor, $this );
                 $expressParams = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
                              
                 $params['payer'       ] = $expressParams['payer'       ];
@@ -476,7 +476,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             if ( $this->_values['event']['is_monetary'] ) {
                 require_once 'CRM/Core/Payment.php';
                 if ( is_array( $this->_paymentProcessor ) ) {
-                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
+                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor, $this );
                 }
                 $pending = false;
                 $result  = null;
@@ -528,7 +528,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $value['participant_register_date'] = $this->_values['participant']['register_date'];
                 }
                 
-                if ( $value['amount'] != 0 && CRM_Utils_Array::value( 'is_primary', $value ) &&
+                $createContrib = ( $value['amount'] != 0 ) ? true : false;
+                // force to create zero amount contribution, CRM-5095
+                if ( ! $createContrib && ($value['amount'] == 0) 
+                     && $this->_priceSetId && $this->_lineItem ) {
+                    $createContrib = true;
+                }
+                
+                if ( $createContrib && CRM_Utils_Array::value( 'is_primary', $value ) &&
                      !$this->_allowWaitlist && !$this->_requireApproval ) {
                     // if paid event add a contribution record
                     //if primary participant contributing additional amount
@@ -797,7 +804,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         
         // return if pending
-        if ( $pending ) {
+        if ( $pending || ($contribution->total_amount == 0) ) {
             $transaction->commit( );
             return $contribution;
         }

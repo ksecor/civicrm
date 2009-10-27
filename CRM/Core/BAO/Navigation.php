@@ -461,7 +461,9 @@ ORDER BY parent_id, weight";
 
             $homeURL       = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1');
 
-            if ( ( $config->userFramework == 'Drupal' ) && module_exists('admin_menu') ) {
+            if ( ( $config->userFramework == 'Drupal' ) && 
+                 function_exists( 'module_exists' ) &&
+                 module_exists('admin_menu') ) {
                $prepandString = "<li class='menumain'>" . ts('Home') . "<ul id='civicrm-home'><li><a href='{$homeURL}'>" . ts('CiviCRM Home') . "</a></li><li><a href='#' onclick='cj.Menu.closeAll( );cj(\"#civicrm-menu\").toggle( );'>" . ts('Drupal Menu') . "</a></li></ul></li>";
             } else {
                 $prepandString = "<li class='menumain'><a href='{$homeURL}' title='" . ts('CiviCRM Home') . "'>" . ts('Home') . "</a></li>";

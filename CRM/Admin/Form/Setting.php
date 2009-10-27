@@ -65,7 +65,16 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
             CRM_Core_BAO_Setting::retrieve($this->_defaults);
 
             require_once "CRM/Core/Config/Defaults.php";
-            CRM_Core_Config_Defaults::setValues($this->_defaults, $formMode);
+            CRM_Core_Config_Defaults::setValues($this->_defaults, $formMode); 
+
+            require_once "CRM/Core/OptionGroup.php";
+            $list = array_flip( CRM_Core_OptionGroup::values( 'contact_autocomplete_options', 
+                                                              false, false, true, null, 'name' ) );
+
+            require_once "CRM/Core/BAO/Preferences.php";
+            $listEnabled = CRM_Core_BAO_Preferences::valueOptions( 'contact_autocomplete_options' );
+            //Set sort_name for default
+            $this->_defaults['autocompleteContactSearch'] = array( '1' => 1 ) + array_combine($list, $listEnabled);
         }
         return $this->_defaults;
     }
@@ -110,6 +119,20 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         $cache =& CRM_Utils_Cache::singleton( );
         $cache->delete( 'CRM_Core_Config' );
 
+        // save autocomplete search options
+        if ( CRM_Utils_Array::value( 'autocompleteContactSearch', $params ) ) {
+            $config =& new CRM_Core_DAO_Preferences( );
+            $config->domain_id  = CRM_Core_Config::domainID( );
+            $config->find(true);
+            $config->contact_autocomplete_options = 
+                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                         array_keys( $params['autocompleteContactSearch'] ) ) .
+                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+            
+            $config->save();
+        }
+        
         CRM_Core_Session::setStatus( ts('Your changes have been saved.') );
     }
 

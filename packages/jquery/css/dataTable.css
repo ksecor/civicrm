@@ -80,19 +80,19 @@
 }
 
 .paginate_disabled_previous {
-	background-image: url('images/dataTable/back_disabled.jpg');
+	background-image: url('images/dataTable/back_disabled.gif');
 }
 
 .paginate_enabled_previous {
-	background-image: url('images/dataTable/back_enabled.jpg');
+	background-image: url('images/dataTable/back_enabled.gif');
 }
 
 .paginate_disabled_next {
-	background-image: url('images/dataTable/forward_disabled.jpg');
+	background-image: url('images/dataTable/forward_disabled.gif');
 }
 
 .paginate_enabled_next {
-	background-image: url('images/dataTable/forward_enabled.jpg');
+	background-image: url('images/dataTable/forward_enabled.gif');
 }
 
 
@@ -101,16 +101,17 @@
  * DataTables display
  */
 #crm-container table.display {
-	margin: 0 auto;
+	margin: 0;
 	width: 100%;
 	clear: both;
-	margin-bottom: 8px;
-	margin-top: 8px;
+        border: 1px solid #DDD;
 }
 
 #crm-container table.display thead th {
 	padding:3px 25px 4px 10px;
-	border-bottom: 1px solid black;
+        background-color:#E6E6E6;
+	border-bottom: 1px solid #DDD;
+        border-top:medium none;
 	font-weight: bold;
 	cursor: pointer;
 	* cursor: hand;
@@ -118,7 +119,7 @@
 
 #crm-container table.display tfoot th {
 	padding: 3px 10px;
-	border-top: 1px solid black;
+	border-top: 1px solid #DDD;
 	font-weight: bold;
 }
 
@@ -128,6 +129,7 @@
 
 #crm-container table.display td {
        border-right:1px solid #DDDDDD;
+       border-top:1px solid #DDDDDD;
 }
 
 #crm-container table.display td.center {
@@ -139,16 +141,21 @@
  * DataTables sorting
  */
 
+#crm-container table.display thead th.sorting_asc,
+#crm-container table.display thead th.sorting_desc {
+	background-color: #D9D9D9;
+	}
+
 .sorting_asc {
-	background: url('images/dataTable/sort_asc.jpg') no-repeat center right;
+	background: url('images/dataTable/sort_asc.gif') no-repeat center right;
 }
 
 .sorting_desc {
-	background: url('images/dataTable/sort_desc.jpg') no-repeat center right;
+	background: url('images/dataTable/sort_desc.gif') no-repeat center right;
 }
 
 .sorting {
-	background: url('images/dataTable/sort_both.jpg') no-repeat center right;
+	background: url('images/dataTable/sort_both.gif') no-repeat center right;
 }
 
 
@@ -164,11 +171,7 @@
 	background-color: #F5F5F5;
 }
 
-#crm-container tr.even td, #crm-container tr.odd td {
-    border-collapse: collapse;
-    border-top: 1px solid #DDDDDD;
-    border-bottom: 1px solid #DDDDDD;
-}
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Misc
  */
@@ -259,134 +262,27 @@ table.display tr.odd.row_selected td {
  */
 /* For the standard odd/even */
 tr.odd td.sorting_1 {
-	background-color: #C9CFC9;
+	background-color: #F1F1F1;
 }
 
 tr.odd td.sorting_2 {
-	background-color: #DADCFF;
+	background-color: #F1F1F1;
 }
 
 tr.odd td.sorting_3 {
-	background-color: #E0E2FF;
+	background-color: #F1F1F1;
 }
 
 tr.even td.sorting_1 {
-	background-color: #F6F9F9;
+	background-color: #E9E9E9;
 }
 
 tr.even td.sorting_2 {
-	background-color: #F2F3FF;
+	background-color: #E9E9E9;
 }
 
 tr.even td.sorting_3 {
-	background-color: #F9F9FF;
-}
-
-
-/* For the Conditional-CSS grading rows */
-/*
- 	Colour calculations (based off the main row colours)
-  Level 1:
-		dd > c4
-		ee > d5
-	Level 2:
-	  dd > d1
-	  ee > e2
- */
-tr.odd.gradeA td.sorting_1 {
-	background-color: #c4ffc4;
-}
-
-tr.odd.gradeA td.sorting_2 {
-	background-color: #d1ffd1;
-}
-
-tr.odd.gradeA td.sorting_3 {
-	background-color: #d1ffd1;
-}
-
-tr.even.gradeA td.sorting_1 {
-	background-color: #d5ffd5;
-}
-
-tr.even.gradeA td.sorting_2 {
-	background-color: #e2ffe2;
-}
-
-tr.even.gradeA td.sorting_3 {
-	background-color: #e2ffe2;
-}
-
-tr.odd.gradeC td.sorting_1 {
-	background-color: #c4c4ff;
-}
-
-tr.odd.gradeC td.sorting_2 {
-	background-color: #d1d1ff;
-}
-
-tr.odd.gradeC td.sorting_3 {
-	background-color: #d1d1ff;
-}
-
-tr.even.gradeC td.sorting_1 {
-	background-color: #d5d5ff;
-}
-
-tr.even.gradeC td.sorting_2 {
-	background-color: #e2e2ff;
-}
-
-tr.even.gradeC td.sorting_3 {
-	background-color: #e2e2ff;
-}
-
-tr.odd.gradeX td.sorting_1 {
-	background-color: #ffc4c4;
-}
-
-tr.odd.gradeX td.sorting_2 {
-	background-color: #ffd1d1;
-}
-
-tr.odd.gradeX td.sorting_3 {
-	background-color: #ffd1d1;
-}
-
-tr.even.gradeX td.sorting_1 {
-	background-color: #ffd5d5;
-}
-
-tr.even.gradeX td.sorting_2 {
-	background-color: #ffe2e2;
-}
-
-tr.even.gradeX td.sorting_3 {
-	background-color: #ffe2e2;
-}
-
-tr.odd.gradeU td.sorting_1 {
-	background-color: #c4c4c4;
-}
-
-tr.odd.gradeU td.sorting_2 {
-	background-color: #d1d1d1;
-}
-
-tr.odd.gradeU td.sorting_3 {
-	background-color: #d1d1d1;
-}
-
-tr.even.gradeU td.sorting_1 {
-	background-color: #d5d5d5;
-}
-
-tr.even.gradeU td.sorting_2 {
-	background-color: #e2e2e2;
-}
-
-tr.even.gradeU td.sorting_3 {
-	background-color: #e2e2e2;
+	background-color: #E9E9E9;
 }
 
 

@@ -44,12 +44,9 @@ class CRM_Mailing_Form_Search extends CRM_Core_Form {
     public function buildQuickForm( ) {
         $this->add( 'text', 'mailing_name', ts( 'Mailing Name' ),
                     CRM_Core_DAO::getAttribute('CRM_Mailing_DAO_Mailing', 'title') );
-
-        $this->add('date', 'mailing_from', ts('From'), CRM_Core_SelectValues::date('relative')); 
-        $this->addRule('mailing_from', ts('Select a valid Sent FROM date.'), 'qfDate'); 
- 
-        $this->add('date', 'mailing_to', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $this->addRule('mailing_to', ts('Select a valid Sent THROUGH date.'), 'qfDate'); 
+                    
+        $this->addDate( 'mailing_from', ts('From'), false, array( 'formatType' => 'relative') );
+        $this->addDate( 'mailing_to', ts('To'), false, array( 'formatType' => 'relative') );
         
         $this->add( 'text', 'sort_name', ts( 'Created or Sent by' ), 
                     CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
@@ -69,8 +66,12 @@ class CRM_Mailing_Form_Search extends CRM_Core_Form {
             $fields = array( 'mailing_name', 'mailing_from', 'mailing_to', 'sort_name' );
             foreach ( $fields as $field ) {
                 if ( isset( $params[$field] ) &&
-                     ! CRM_Utils_System::isNull( $params[$field] ) ) {
-                    $parent->set( $field, $params[$field] );
+                     ! CRM_Utils_System::isNull( $params[$field] ) ) { 
+                         if ( substr( $field, 7 ) != 'name' ) { 
+                            $parent->set( $field, CRM_Utils_Date::unformat( CRM_Utils_Date::processDate( $params[$field] ), '' ) );
+                         } else {
+                            $parent->set( $field, $params[$field] );
+                        }
                 } else {
                     $parent->set( $field, null );
                 }

@@ -209,7 +209,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
     static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Removed',$tracking = null) {
-        
         if ( ! is_array( $contactIds ) ) {
             return array( 0, 0, 0 );
         }
@@ -615,7 +614,8 @@ AND civicrm_group_contact.group_id = %2";
     }
 
     /**
-     * takes an associative array and creates a contact tags 
+     * takes an associative array and creates / removes
+     * contacts from the groups
      *
      *
      * @param array $params (reference ) an assoc array of name/value pairs

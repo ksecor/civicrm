@@ -233,7 +233,10 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             
         }
 
-        $result = $this->invokeAPI( $args );        
+        // Allow further manipulation of the arguments via custom hooks ..
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $args );
+
+        $result = $this->invokeAPI( $args );
 
         $params['recurr_profile_id'] = null;
 
@@ -409,6 +412,9 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                        );
         }
         
+        // Allow further manipulation of the arguments via custom hooks ..
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $paypalParams );
+
         $uri = '';
         foreach ( $paypalParams as $key => $value ) {
             if ( $value === null ) {

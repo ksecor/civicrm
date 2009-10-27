@@ -174,7 +174,7 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
 
     function from( ) {
         $this->_from = "
-FROM civicrm_contact {$this->_aliases['civicrm_contact']}
+FROM civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
 
      LEFT JOIN civicrm_contact {$this->_aliases['civicrm_employer']}
           ON {$this->_aliases['civicrm_employer']}.id={$this->_aliases['civicrm_contact']}.employer_id
@@ -234,6 +234,10 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
         } else {
             $this->_where = "WHERE ({$this->_aliases['civicrm_contact']}.employer_id!='null') AND " . implode( ' AND ', $clauses );
         }
+
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }  
     }
     
     function groupBy( ) {
@@ -243,6 +247,8 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']}
     }
     
     function postProcess( ) {
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
         parent::postProcess();
     }
     

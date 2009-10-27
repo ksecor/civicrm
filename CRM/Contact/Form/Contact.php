@@ -273,6 +273,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                     $defaults['tag'][$this->_tid] = 1;
                 }
             }
+            if ( $this->_contactSubType ) {
+                $defaults['contact_sub_type'] = $this->_contactSubType;
+            }
         } else {
             if ( isset( $this->_elementIndex[ "shared_household" ] ) ) {
                 $sharedHousehold = $this->getElementValue( "shared_household" );
@@ -522,6 +525,17 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_Edit_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_Edit_' . $this->_contactType . '::buildQuickForm( $this, $this->_action );' );
         
+        // subtype is a common field. lets keep it here
+        require_once 'CRM/Contact/BAO/ContactType.php';
+        $subtypes = CRM_Contact_BAO_ContactType::subTypePairs( $this->_contactType );
+        if ( ! empty($subtypes) ) {
+            $subtypeElem =& $this->addElement( 'select', 'contact_sub_type', 
+                                               ts('Subtype'), array( '' => '' ) + $subtypes );
+            if ( ($this->_action & CRM_Core_Action::ADD) && $this->_contactSubType ) {
+                $subtypeElem->freeze( );
+            }
+        }
+
         // build edit blocks ( custom data, demographics, communication preference, notes, tags and groups )
         foreach( $this->_editOptions as $name => $label ) {                
             if ( $name == 'Address' ) {
@@ -599,15 +613,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
              CRM_Utils_Array::value( 'Demographics',  $this->_editOptions ) &&
              !CRM_Utils_Array::value( 'is_deceased', $params ) ) {
             $params['is_deceased']        = false;
-            $params['deceased_date']['M'] = null;
-            $params['deceased_date']['d'] = null;
-            $params['deceased_date']['Y'] = null;
+            $params['deceased_date'] = null;
         }
         
-        if ( $this->_contactSubType && ($this->_action & CRM_Core_Action::ADD) ) {
-            $params['contact_sub_type'] = $this->_contactSubType;
-        }
-
         // action is taken depending upon the mode
         require_once 'CRM/Utils/Hook.php';
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
@@ -647,10 +655,26 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $params['mail_to_household_id'] = 'null';
         }
         
-        // cleanup unwanted location blocks
+        if ( ! array_key_exists( 'TagsAndGroups', $this->_editOptions ) ) {
+            unset($params['group']);
+        }
+
         if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            // cleanup unwanted location blocks
             require_once 'CRM/Core/BAO/Location.php';
             CRM_Core_BAO_Location::cleanupContactLocations( $params );
+
+            // figure out which all groups are intended to be removed
+            if ( ! empty($params['group']) ) {
+                $contactGroupList =& CRM_Contact_BAO_GroupContact::getContactGroup( $params['contact_id'], 'Added' );
+                if ( is_array($contactGroupList) ) {
+                    foreach ( $contactGroupList as $key ) {
+                        if ( $params['group'][$key['group_id']] != 1 ) {
+                            $params['group'][$key['group_id']] = -1;
+                        }
+                    }
+                }
+            }
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -691,7 +715,9 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                                    $this->_contactType,
                                    $contact->id,
                                    $displayName );
-            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', 'reset=1&ct=' . $contact->contact_type ) );
+            $resetStr  = "reset=1&ct={$contact->contact_type}";
+            $resetStr .= $this->_contactSubType ? "&cst={$this->_contactSubType}" : '';
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', $resetStr ) );
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
         }
@@ -761,7 +787,7 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                  $viewUrls = array( );
                  $editUrls = array( );
                  require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                 list( $viewUrls, $editUrls ) = CRM_Contact_BAO_Contact_Utils::formatContactIDSToLinks( $ids );
+                 list( $viewUrls, $editUrls, $mergeUrl) = CRM_Contact_BAO_Contact_Utils::formatContactIDSToLinks( $ids, true, true, $contactID );
                  $viewUrl  = implode( ', ',  $viewUrls );
                  $editUrl  = implode( ', ',  $editUrls );
                  $errors['_qf_default']  = ts('One matching contact was found.', array('count' => count($editUrls), 'plural' => '%count matching contacts were found.'));
@@ -770,6 +796,11 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                  $errors['_qf_default'] .= '<br />';
                  $errors['_qf_default'] .= ts('If you know the record you are creating is a duplicate, click here - %1 - to EDIT the original record instead.', array(1 => $editUrl));
                  $errors['_qf_default'] .= '<br />';
+                 //allow to merge with matching contact, CRM-3160
+                 if ( !empty( $mergeUrl ) ) {
+                     $errors['_qf_default'] .= ts('If you know the record you are editing is a duplicate, click here - %1 - to MERGE with the existing record instead.', array(1 => $mergeUrl));
+                     $errors['_qf_default'] .= '<br />'; 
+                 }
                  $errors['_qf_default'] .= ts('If you are sure this is NOT a duplicate, click the &quot;Save Matching Contact&quot; button (this button is located at the bottom of the Contact Details section below).');
 
                  // let smarty know that there are duplicates

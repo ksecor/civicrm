@@ -197,7 +197,8 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
             FROM civicrm_pledge {$this->_aliases['civicrm_pledge']}
                  LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} 
                       ON ({$this->_aliases['civicrm_contact']}.id = 
-                          {$this->_aliases['civicrm_pledge']}.contact_id )";
+                          {$this->_aliases['civicrm_pledge']}.contact_id )
+                 {$this->_aclFrom} ";
 
         // include address field if address column is to be included
         if ( $this->_addressField ) {  
@@ -263,17 +264,24 @@ class CRM_Report_Form_Pledge_Summary extends CRM_Report_Form {
             $this->_where = "WHERE  ({$this->_aliases['civicrm_pledge']}.is_test=0 )  AND 
                                       " . implode( ' AND ', $clauses );
         }
+
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        } 
     }
      
     function postProcess( ) {
         
-        $this->beginPostProcess( );        
+        $this->beginPostProcess( );
+
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
         $this->select ( );
         $this->from   ( null, true );
         $this->where  ( ); 
         $this->limit( );  
         
-        $sql   = "{$this->_select} {$this->_from} {$this->_where} {$this->_limit}"; 
+        $sql   = "{$this->_select} {$this->_from} {$this->_where} {$this->_limit}";
         
         $rows  = $payment = array();
         $count = $due = $paid = 0;

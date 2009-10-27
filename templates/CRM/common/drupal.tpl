@@ -20,6 +20,7 @@
     {else}
         <link rel="stylesheet" href="{$config->resourceBase}css/civicrm-new.css" type="text/css" />
     {/if}
+    <link rel="stylesheet" href="{$config->resourceBase}css/extras.css" type="text/css" />
 {/if*}
 
 {include file="CRM/common/action.tpl"}

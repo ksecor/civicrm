@@ -95,8 +95,9 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             require_once 'CRM/Contribute/BAO/Premium.php';  
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
         }
-
+        
         $this->assign( 'lineItem', $this->_lineItem );
+        $this->assign( 'priceSetID', $this->_priceSetId );
         $params = $this->_params;
      
         $honor_block_is_active = $this->get( 'honor_block_is_active'); 
@@ -191,7 +192,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $tellAFriend = false;
         if ( $this->_pcpId ) {
             if ( $this->_pcpBlock['is_tellfriend_enabled'] ) {
-                $this->assign( 'friendText', 'Tell a Friend' );
+                $this->assign( 'friendText', ts('Tell a Friend') );
                 $subUrl = "eid={$this->_pcpId}&blockId={$this->_pcpBlock['id']}&page=pcp";
                 $tellAFriend = true;
             }

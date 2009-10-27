@@ -90,7 +90,8 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
                 continue;
             }
 
-            $paymentObject =& CRM_Core_Payment::singleton( $mode, 'Contribute', $paymentProcessor );
+            // note that we are passing a CRM_Core_Page object ($this) as if it were a form here:
+            $paymentObject =& CRM_Core_Payment::singleton( $mode, 'Contribute', $paymentProcessor, $this );
             
             _civicrm_object_to_array($recur, $values);
             $values['cancelSubscriptionUrl'] = $paymentObject->cancelSubscriptionURL( );

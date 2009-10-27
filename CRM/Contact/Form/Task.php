@@ -132,6 +132,13 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
                   );
 
             $params    =  $this->get( 'queryParams' );
+
+            // fix for CRM-5165
+            $sortByCharacter = $this->get( 'sortByCharacter' );
+            if ( $sortByCharacter &&
+                 $sortByCharacter != 1 ) {
+                $params[] = array( 'sortByCharacter', '=', $sortByCharacter, 0, 0 );
+            }
             $dao       =& $selector->contactIDQuery( $params, $this->_action, $sortID );
 
             while ( $dao->fetch( ) ) {

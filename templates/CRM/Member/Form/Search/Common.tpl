@@ -15,8 +15,7 @@
                     {$membership_status_val.html}
                     </div>
                     {/foreach}
-                </div><div class="spacer"></div>
-                {$form.member_is_primary.html}&nbsp;{$form.member_is_primary.label}
+                </div>
     </td>
 </tr>
 
@@ -26,6 +25,7 @@
      <br />{$form.member_source.html}
     </td>
     <td>
+     {$form.member_is_primary.html} {help id="id-member_is_primary" file="CRM/Member/Form/Search.hlp"}<br />
      {$form.member_pay_later.html}&nbsp;{$form.member_pay_later.label}<br />
      {$form.member_test.html}&nbsp;{$form.member_test.label}
     </td> 
@@ -34,47 +34,35 @@
     <td> 
      {$form.member_join_date_low.label} 
      <br />
-     {$form.member_join_date_low.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_5}
-     {include file="CRM/common/calendar/body.tpl" dateVar=member_join_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_5}
+     {include file="CRM/common/jcalendar.tpl" elementName=member_join_date_low}
     </td>
     <td> 
      {$form.member_join_date_high.label} <br />
-     {$form.member_join_date_high.html}&nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_6}
-     {include file="CRM/common/calendar/body.tpl" dateVar=member_join_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_6}
+     {include file="CRM/common/jcalendar.tpl" elementName=member_join_date_high}
     </td> 
 </tr> 
 <tr> 
     <td> 
      {$form.member_start_date_low.label} 
      <br />
-     {$form.member_start_date_low.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_1}
-     {include file="CRM/common/calendar/body.tpl" dateVar=member_start_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_1}
+     {include file="CRM/common/jcalendar.tpl" elementName=member_start_date_low}
     </td>
     <td>
      {$form.member_start_date_high.label}
-    <br />
-     {$form.member_start_date_high.html}&nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_2}
-     {include file="CRM/common/calendar/body.tpl" dateVar=member_start_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_2}
+     <br />
+     {include file="CRM/common/jcalendar.tpl" elementName=member_start_date_high}
     </td> 
 </tr> 
 <tr> 
     <td>  
      {$form.member_end_date_low.label} 
      <br />
-     {$form.member_end_date_low.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_3}
-     {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_3}
+     {include file="CRM/common/jcalendar.tpl" elementName=member_end_date_low}
     </td>
     <td> 
      {$form.member_end_date_high.label}
      <br />
-     {$form.member_end_date_high.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_4}
-     {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_4}
+     {include file="CRM/common/jcalendar.tpl" elementName=member_end_date_high}
     </td> 
 </tr> 
 {if $membershipGroupTree}

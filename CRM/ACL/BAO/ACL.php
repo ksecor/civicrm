@@ -71,6 +71,10 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             self::$_operation = array(
                                       'View'   => ts( 'View'   ),
                                       'Edit'   => ts( 'Edit'   ),
+                                      'Create' => ts( 'Create' ),
+                                      'Delete' => ts( 'Delete' ),
+                                      'Search' => ts( 'Search' ),
+                                      'All'    => ts( 'All' ),
                                       );
         }
         return self::$_operation;

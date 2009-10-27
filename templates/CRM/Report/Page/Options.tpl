@@ -16,10 +16,10 @@
        <table id="options" class="display">
        <thead>
 		<tr>      
-		    <th id="sortable">{ts}Label{/ts}</th>
+		    <th>{ts}Label{/ts}</th>
 		    <th>{ts}URL{/ts}</th>   
 		    <th id="nosort">{ts}Description{/ts}</th>
-		    <th id="nosort">{ts}Order{/ts}</th>
+		    <th id="order">{ts}Order{/ts}</th>
 		    {if $showIsDefault}
 		        <th>{ts}Default{/ts}</th>
 		    {/if}
@@ -34,14 +34,15 @@
  		        <td>{$row.label}</td>	
 		        <td>{$row.value}</td>
 		        <td>{$row.description}</td>	
-		        <td class="nowrap">{$row.weight}</td>
+		        <td class="nowrap">{$row.order}</td>
 		        {if $showIsDefault}
 		            <td>{$row.default_value}</td>
 		        {/if}
 		        <td>{if $row.is_reserved eq 1}{ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-			<td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-			<td>{$row.component_name}</td>	
+    			<td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	    		<td>{$row.component_name}</td>	
 		        <td>{$row.action}</td>
+                <td class="order hiddenElement">{$row.weight}</td>
 		    </tr>
 		{/foreach}
 	    </table>

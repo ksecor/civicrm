@@ -564,39 +564,6 @@ function &_civicrm_location_get( $contact, $locationTypes = array( ) ) {
 }
 
 /**
- *
- * @param <type> $locObject
- * @return <type> 
- */
-function &_civicrm_location_object_to_array( $locObject ) {
-    
-    // building location array
-    $locArray = array();
-    
-    // build address block
-    if ( is_a($locObject->address, 'CRM_Core_BAO_Address') ) {
-        _civicrm_object_to_array( $locObject->address, $locArray['address']);
-        unset($locObject->address);
-    }
-    
-    // build email, phone and im block
-    $locElements = array('email', 'phone', 'im');
-    foreach ( $locElements as $element ) {
-        foreach ( $locObject->{$element} as $key => $eleObject ) {
-            if ( is_a($locObject->{$element}[$key], 'CRM_Core_DAO_' . ucfirst($element))) {
-                _civicrm_object_to_array( $locObject->{$element}[$key], $locArray[$element][$key]);
-            }
-        }
-        unset($locObject->{$element});
-    }
-    
-    _civicrm_object_to_array( $locObject, $locArray);
-    
-    return $locArray;
-    // building location array ends  
-}
-
-/**
  * This function ensures that we have the right input location parameters
  *
  * We also need to make sure we run all the form rules on the params list
@@ -711,6 +678,7 @@ function _civicrm_format_params_v2_to_v3( &$params, $locationTypeId = null ) {
     $blocks = array( 'Email', 'Phone', 'IM', 'OpenID' );
     
     // format params array.
+    $firstBlockCount = null;
     foreach ( $blocks as $block ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
         eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );

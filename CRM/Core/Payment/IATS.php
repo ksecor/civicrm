@@ -135,6 +135,11 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
         if (!$isRecur) {  // simple version
             // cvv2 only seems to get set for this!
             $iatslink1->setCVV2($params['cvv2']);
+
+            // Allow further manipulation of the arguments via custom hooks, 
+            // before initiating processCreditCard()
+            CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $iatslink1 );
+
             $iatslink1->processCreditCard();
         } else { // extra fields for recurring donations
             // implicit - test?: 1 == $params['frequency_interval'];
@@ -168,6 +173,11 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
             $iatslink1->setEndDate($endDate);
             $iatslink1->setScheduleType($scheduleType);
             $iatslink1->setScheduleDate($scheduleDate); 
+
+            // Allow further manipulation of the arguments via custom hooks, 
+            // before initiating the curl process
+            CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $iatslink1 );
+
             // this next line is the reoccc equiv of processCreditCard
             $iatslink1->createReoccCustomer();
         }

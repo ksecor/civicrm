@@ -211,12 +211,8 @@ class CRM_Contact_Form_Search_Criteria {
 
         $config =& CRM_Core_Config::singleton( );
 
-        // Date selects for activity date
-        $form->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
-        $form->addRule('activity_date_low', ts('Select a valid date.'), 'qfDate');
-
-        $form->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
-        $form->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
+        $form->addDate( 'activity_date_low', ts('Activity Dates - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'activity_date_high', ts('To'), false, array( 'formatType' => 'relative') );
         
         $activityRoles  = array( ts('With'), ts('Created by'), ts('Assigned to') );
         $form->addRadio( 'activity_role', ts( 'Contact Role and Name' ), $activityRoles, null, '<br />');
@@ -260,12 +256,9 @@ class CRM_Contact_Form_Search_Criteria {
 
         // block for change log
         $form->addElement('text', 'changed_by', ts('Modified By'), null);
-      
-        $form->add('date', 'modified_date_low', ts('Modified Between'), CRM_Core_SelectValues::date('relative'));
-        $form->addRule('modified_date_low', ts('Select a valid date.'), 'qfDate');
 
-        $form->add('date', 'modified_date_high', ts('and'), CRM_Core_SelectValues::date('relative'));
-        $form->addRule('modified_date_high', ts('Select a valid date.'), 'qfDate');
+        $form->addDate( 'modified_date_low', ts('Modified Between'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'modified_date_high', ts('and'), false, array( 'formatType' => 'relative') );
     }
 
     static function task( &$form ) {
@@ -329,22 +322,11 @@ class CRM_Contact_Form_Search_Criteria {
         }
         $form->addGroup($genderOptions, 'gender', ts('Gender'));
          
+        $form->addDate( 'birth_date_low', ts('Birth Dates - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'birth_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
-        // Date selects for birth date
-        $form->add('date', 'birth_date_low', ts('Birth Dates - From'), CRM_Core_SelectValues::date('birth'));
-        $form->addRule('birth_date_low', ts('Select a valid date.'), 'qfDate');
-
-        $form->add('date', 'birth_date_high', ts('To'), CRM_Core_SelectValues::date('birth'));
-        $form->addRule('birth_date_high', ts('Select a valid date.'), 'qfDate');
-
-
-        // Date selects for deceased date
-        $form->add('date', 'deceased_date_low', ts('Deceased Dates - From'), CRM_Core_SelectValues::date('birth'));
-        $form->addRule('deceased_date_low', ts('Select a valid date.'), 'qfDate');
-
-        $form->add('date', 'deceased_date_high', ts('To'), CRM_Core_SelectValues::date('birth'));
-        $form->addRule('deceased_date_high', ts('Select a valid date.'), 'qfDate');
-    
+        $form->addDate( 'deceased_date_low', ts('Deceased Dates - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'deceased_date_high', ts('To'), false, array( 'formatType' => 'relative') );
     }
     
     static function notes( &$form ) {

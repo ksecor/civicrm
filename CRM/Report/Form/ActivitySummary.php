@@ -247,6 +247,7 @@ class CRM_Report_Form_ActivitySummary extends CRM_Report_Form {
                     ON ({$this->_aliases['civicrm_activity']}.source_contact_id = {$this->_aliases['civicrm_contact']}.id OR
                          target_activity.target_contact_id = {$this->_aliases['civicrm_contact']}.id                      OR
                          assignment_activity.assignee_contact_id = {$this->_aliases['civicrm_contact']}.id )
+             {$this->_aclFrom}
              LEFT JOIN civicrm_option_value 
                     ON ( {$this->_aliases['civicrm_activity']}.activity_type_id = civicrm_option_value.value )
              LEFT JOIN civicrm_option_group 
@@ -313,6 +314,10 @@ class CRM_Report_Form_ActivitySummary extends CRM_Report_Form {
         } else {
             $this->_where .= " AND " . implode( ' AND ', $clauses );
         }
+
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }     
     }
     
     function groupBy( ) {
@@ -382,6 +387,8 @@ class CRM_Report_Form_ActivitySummary extends CRM_Report_Form {
     }
     
     function postProcess( ) {
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
         parent::postProcess();
     }
     

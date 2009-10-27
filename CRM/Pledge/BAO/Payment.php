@@ -92,7 +92,7 @@ WHERE pledge_id = %1
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
-        $scheduled_date =  $params['scheduled_date'];
+        $scheduled_date =  CRM_Utils_Date::unformat( $params['scheduled_date'], '' );
 
         $contributionStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
         //calculation of schedule date according to frequency day of period
@@ -461,10 +461,10 @@ LIMIT 0, 1
 
         $params[1] = array( $pledgeID, 'Integer' );
         $payment = CRM_Core_DAO::executeQuery( $query, $params );
-        $paymentDetails = array( );
-        while ( $payment->fetch( ) ) {
-            $paymentDetails[] = array( 'id'     => $payment->id,
-                                       'amount' => $payment->amount);
+        $paymentDetails = null;
+        if ( $payment->fetch( ) ) {
+            $paymentDetails = array( 'id'     => $payment->id,
+                                     'amount' => $payment->amount);
         }
 
         return $paymentDetails;

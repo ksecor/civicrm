@@ -2,6 +2,38 @@
 <!--  $Id$  -->
 <!--  Truncate all tables that will be used in the tests  -->
 <dataset>
+  <civicrm_worldregion />
+  <civicrm_country />
+  <civicrm_state_province />
+  <civicrm_currency />
+  <civicrm_component />
+  <civicrm_address />
+  <civicrm_email />  
+  <civicrm_phone />  
+  <civicrm_loc_block />
+  <civicrm_domain />
+  <civicrm_mail_settings />
+  <civicrm_location_type />
+  <civicrm_relationship_type />
+  <civicrm_tag />
+  <civicrm_mailing_component />
+  <civicrm_contribution_type />  
+  <civicrm_option_group />    
+  <civicrm_option_value />
+  <civicrm_membership_status />    
+  <civicrm_preferences_date />
+  <civicrm_payment_processor_type />
+  <civicrm_dedupe_rule_group />
+  <civicrm_dedupe_rule />
+  <civicrm_county />
+  <civicrm_mailing_bounce_type />
+  <civicrm_mailing_bounce_pattern />
+  <civicrm_uf_group />
+  <civicrm_uf_join />
+  <civicrm_uf_field />
+  <civicrm_participant_status_type />
+  <civicrm_preferences />
+  <civicrm_navigation />  
   <civicrm_acl />
   <civicrm_acl_cache />
   <civicrm_acl_entity_role />
@@ -10,7 +42,6 @@
   <civicrm_contact />
   <civicrm_custom_group />
   <civicrm_custom_field />
-  <civicrm_email />
   <civicrm_entity_tag />
   <civicrm_group />
   <civicrm_group_contact />
@@ -20,16 +51,12 @@
   <civicrm_saved_search />
   <civicrm_membership />
   <civicrm_membership_type />
-  <civicrm_membership_status />  
   <civicrm_membership_block />    
   <civicrm_membership_log />
   <civicrm_membership_payment />    
-  <civicrm_contribution_type />
   <civicrm_contribution />  
   <civicrm_event />
   <civicrm_participant />
-  <civicrm_phone />
-  <civicrm_location_type />
   <civicrm_uf_field />
   <civicrm_uf_group />
   <civicrm_uf_match />

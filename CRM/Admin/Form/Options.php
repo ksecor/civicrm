@@ -157,9 +157,10 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                        CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
             
         } else {
+            // Hard-coding attributes here since description is still stored as varchar and not text in the schema. dgg
             $this->addWysiwyg( 'description',
                                ts('Description'),
-                               CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ),
+                               array( 'rows' => 4, 'cols' => 80),
                                $required );
         }
         $this->add('text',
@@ -210,12 +211,16 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $this->add( 'select', 'contactOptions', ts('Contact Type'),array('' => '-select-' ) + $values, true );
             $this->assign( 'showContactFilter', true );
         }
-                
+        
         if ($this->_gName == 'participant_status') {
             // For Participant Status options, expose the 'filter' field to track which statuses are "Counted", and the Visibility field
             $element = $this->add('checkbox', 'filter', ts('Counted?'));
             require_once "CRM/Core/PseudoConstant.php";
             $this->add( 'select', 'visibility_id', ts('Visibility'), CRM_Core_PseudoConstant::visibility( ) );
+        }
+        if ( $this->_gName == 'participant_role') {
+            // For Participant Role options, expose the 'filter' field to track which statuses are "Counted"
+            $this->add( 'checkbox', 'filter', ts('Counted?') );
         }
         
         $this->addFormRule( array( 'CRM_Admin_Form_Options', 'formRule' ), $this );

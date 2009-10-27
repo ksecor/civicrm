@@ -14,18 +14,21 @@
         {strip}
         {* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
-        <table id="drag-handle" class="selector">
-            <thead class="sticky">
+ 	{include file="CRM/common/jsortable.tpl"}
+        <table id="options" class="display">
+            <thead>
+            <tr>
                 <th>{ts}CiviCRM Field Name{/ts}</th>
                 <th>{ts}Visibility{/ts}</th>
                 <th>{ts}Searchable?{/ts}</th>
                 <th>{ts}In Selector?{/ts}</th>
-                <th>{ts}Order{/ts}</th>
+                <th id="order">{ts}Order{/ts}</th>
                 <th>{ts}Active{/ts}</th>	
                 <th>{ts}Required{/ts}</th>	
                 <th>{ts}View Only{/ts}</th>	
                 <th>{ts}Reserved{/ts}</th>
-                <th>&nbsp;</th>
+                <th></th>
+            </tr>
             </thead>
             {foreach from=$ufField item=row}
             <tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
@@ -33,12 +36,13 @@
                 <td>{$row.visibility_display}</td>
                 <td>{if $row.is_searchable   eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
                 <td>{if $row.in_selector     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-                <td class="nowrap">{$row.weight}</td>
+                <td class="nowrap">{$row.order}</td>
                 <td id="row_{$row.id}_status">{if $row.is_active eq 1}       {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
                 <td>{if $row.is_required     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
                 <td>{if $row.is_view         eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
                 <td>{if $row.is_reserved     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
                 <td>{$row.action|replace:'xx':$row.id}</td>
+                <td class="order hiddenElement">{$row.weight}</td>
             </tr>
             {/foreach}
         </table>

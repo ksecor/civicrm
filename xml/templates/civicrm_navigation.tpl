@@ -5,9 +5,9 @@ SELECT @domainID := id FROM civicrm_domain where name = 'Default Domain Name';
 -- Initial default state of system preferences
 {literal}
 INSERT INTO 
-     civicrm_preferences(domain_id, contact_id, is_domain, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, address_standardization_provider, address_standardization_userid, address_standardization_url, editor_id, mailing_backend, autocomplete_contact_search_options )
+     civicrm_preferences(domain_id, contact_id, is_domain, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, address_standardization_provider, address_standardization_userid, address_standardization_url, editor_id, mailing_backend, contact_autocomplete_options )
 VALUES 
-     (@domainID,NULL,1,'123456789101113','12345678910','1234567891011121315161718','1234578','1234568910111314','{contact.address_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.addressee}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}',NULL,NULL,NULL,2,NULL,'1');
+     (@domainID,NULL,1,'123456789101113','12345678910','1234567891011121315161718','1234578','1234568910111314','{contact.address_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.addressee}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}',NULL,NULL,NULL,2,NULL,'12');
 {/literal}
 
 -- navigation 
@@ -238,7 +238,7 @@ VALUES
     ( @domainID, 'civicrm/admin/setting/search&reset=1',                '{ts escape="sql"}Search Settings{/ts}',    'Search Settings',  'administer CiviCRM', '',    @globalSettinglastID, '1', NULL, 10 ), 
     ( @domainID, 'civicrm/admin/setting/date&reset=1',                  '{ts escape="sql"}Date Formats{/ts}',       'Date Formats',     'administer CiviCRM', '',       @globalSettinglastID, '1', NULL, 11 ), 
     ( @domainID, 'civicrm/admin/setting/uf&reset=1',                    '{ts escape="sql"}CMS Integration{/ts}',    'CMS Integration',  'administer CiviCRM', '',    @globalSettinglastID, '1', NULL, 12 ), 
-    ( @domainID, 'civicrm/admin/setting/misc&reset=1',                  '{ts escape="sql"}Miscellaneous (version check, search, reCAPTCHA...){/ts}', 'Miscellaneous', 'administer CiviCRM', '', @globalSettinglastID, '1', NULL, 13 ), 
+    ( @domainID, 'civicrm/admin/setting/misc&reset=1',                  '{ts escape="sql"}Miscellaneous (version check, reCAPTCHA...){/ts}', 'Miscellaneous', 'administer CiviCRM', '', @globalSettinglastID, '1', NULL, 13 ), 
     ( @domainID, 'civicrm/admin/options/safe_file_extension&group=safe_file_extension&reset=1', '{ts escape="sql"}Safe File Extensions{/ts}', 'Safe File Extensions', 'administer CiviCRM', '', @globalSettinglastID, '1', NULL, 14 ), 
     ( @domainID, 'civicrm/admin/setting/debug&reset=1',                 '{ts escape="sql"}Debugging{/ts}',      'Debugging', 'administer CiviCRM', '',              @globalSettinglastID, '1', NULL, 15 ), 
     
@@ -283,7 +283,8 @@ VALUES
     ( @domainID, 'civicrm/admin/locationType&reset=1',                                                                 '{ts escape="sql"}Location Types (Home, Work...){/ts}', 'Location Types (Home, Work...)',   'administer CiviCRM', '',   @optionListlastID, '1', NULL, 11 ), 
     ( @domainID, 'civicrm/admin/options/mobile_provider&group=mobile_provider&reset=1',                                '{ts escape="sql"}Mobile Phone Providers{/ts}', 'Mobile Phone Providers',                   'administer CiviCRM', '',   @optionListlastID, '1', NULL, 12 ), 
     ( @domainID, 'civicrm/admin/options/phone_type&group=phone_type&reset=1',                                          '{ts escape="sql"}Phone Types{/ts}',            'Phone Types',                              'administer CiviCRM', '',   @optionListlastID, '1', NULL, 13 ), 
-    ( @domainID, 'civicrm/admin/options/preferred_communication_method&group=preferred_communication_method&reset=1',  '{ts escape="sql"}Preferred Communication Methods{/ts}', 'Preferred Communication Methods', 'administer CiviCRM', '',   @optionListlastID, '1', NULL, 14 );
+    ( @domainID, 'civicrm/admin/options/preferred_communication_method&group=preferred_communication_method&reset=1','{ts escape="sql"}Preferred Communication Methods{/ts}', 'Preferred Communication Methods',   'administer CiviCRM', '',   @optionListlastID, '1', NULL, 14 ),
+    ( @domainID, 'civicrm/admin/options/subtype&reset=1',                                                              '{ts escape="sql"}Contact Types{/ts}',       'Contact Types',                         'administer CiviCRM', '',   @optionListlastID, '1', NULL, 15 ); 
 
 INSERT INTO civicrm_navigation
     ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )

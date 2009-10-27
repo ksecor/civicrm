@@ -335,7 +335,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
     function from( ) {
         $group= " ";
         $this->_from = "
-        FROM civicrm_contact {$this->_aliases['civicrm_contact']} ";
+        FROM civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}";
         
         if ( $this->_addressField ) {
             $this->_from .= "
@@ -457,8 +457,14 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
+
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }            
+        
         $this->_where .= " GROUP BY {$this->_aliases['civicrm_contact']}.id ";
     }
+
     function clauseComponent( ) {
         $selectedContacts = implode( ',', $this->_contactSelected );
         $contribution = $membership =  $participant = null;
@@ -625,6 +631,9 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
         
         $this->beginPostProcess( );
         
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
+
         $sql = $this->buildQuery( true );
         
         $rows  = $graphRows = $this->_contactSelected = array();

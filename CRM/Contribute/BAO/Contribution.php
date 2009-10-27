@@ -254,10 +254,15 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
 
         if ( CRM_Utils_Array::value( 'soft_credit_to', $params ) ) {
-
             $csParams = array();
             if ( $id = CRM_Utils_Array::value( 'softID', $params ) ) {
                 $csParams['id'] = $params['softID'];
+            }
+            $csParams['pcp_display_in_roll'] = $params['pcp_display_in_roll']? 1 : 0;
+            foreach ( array ( 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+                if ( CRM_Utils_Array::value( $val, $params ) ) {
+                    $csParams[$val] = $params[$val];
+                }
             }
             $csParams['contribution_id'] = $contribution->id;
             $csParams['contact_id'] = $params['soft_credit_to'];
@@ -1004,12 +1009,11 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                 foreach ( array ('pcp_id','pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $key=>$val ) {
                     $softContribution[$val] = $cs->$val;
                 }
-                return $softContribution;
-            }else {
-                return array( 'soft_credit_to' => $cs->contact_id, 'soft_credit_id' => $cs->id );
             }
+            $softContribution['soft_credit_to'] = $cs->contact_id;
+            $softContribution['soft_credit_id'] = $cs->id;
         }
-        return null;
+        return $softContribution;
     }
     
     /**
@@ -1024,6 +1028,9 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         $query = "SELECT ccs.id, ccs.amount as amount,
                          ccs.contribution_id, 
                          ccs.pcp_id,
+                         ccs.pcp_display_in_roll,
+                         ccs.pcp_roll_nickname,
+                         ccs.pcp_personal_note,
                          cc.receive_date,
                          cc.contact_id as contributor_id,
                          cc.contribution_status_id as contribution_status_id,
@@ -1044,10 +1051,12 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                   WHERE cc.is_test = {$isTest} AND ccs.contact_id = " . $contact_id;
        
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        require_once "CRM/Contribute/PseudoConstant.php";
         $contributionStatus = CRM_Contribute_Pseudoconstant::contributionStatus( );
         $result = array();
         while( $cs->fetch( ) ) {
-            $result[$cs->id]['amount']            = CRM_Utils_Money::format( $cs->amount , $cs->currency );
+            $result[$cs->id]['amount']            = $cs->amount;
+            $result[$cs->id]['currency']          = $cs->currency;
             $result[$cs->id]['contributor_id']    = $cs->contributor_id;
             $result[$cs->id]['contribution_id']   = $cs->contribution_id;
             $result[$cs->id]['contributor_name']  = $cs->display_name;
@@ -1055,13 +1064,16 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
             $result[$cs->id]['receive_date']      = $cs->receive_date;
             $result[$cs->id]['pcp_id']            = $cs->pcp_id;
             $result[$cs->id]['pcp_title']         = $cs->pcp_title;
+            $result[$cs->id]['pcp_display_in_roll'] = $cs->pcp_display_in_roll;
+            $result[$cs->id]['pcp_roll_nickname'] = $cs->pcp_roll_nickname;
+            $result[$cs->id]['pcp_personal_note'] = $cs->pcp_personal_note;
             $result[$cs->id]['contribution_status'] = CRM_Utils_Array::value($cs->contribution_status_id, $contributionStatus );
 
             if ( $isTest ) {
                 $result[$cs->id]['contribution_status'] = $result[$cs->id]['contribution_status'].'<br /> (test)';
             }
         }
-        return $result;
+        return $result;        
     }    
     
     static function getSoftContributionTotals( $contact_id, $isTest = 0 )

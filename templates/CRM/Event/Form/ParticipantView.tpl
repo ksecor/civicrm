@@ -13,9 +13,9 @@
         {/if}
         {if $fee_level}
         <tr>
-            {if $line_items}
+            {if $lineItem}
                 <td class="label">{ts}Event Fees{/ts}</td>
-                <td>{include file="CRM/Event/Form/LineItems.tpl"}</td> 
+                <td>{include file="CRM/Price/Page/LineItem.tpl" context="Event"}</td> 
             {else}
                 <td class="label">{ts}Event Level{/ts}</td>
                 <td>{$fee_level}&nbsp;{if $fee_amount}- {$fee_amount|crmMoney:$fee_currency}{/if}</td>

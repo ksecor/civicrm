@@ -20,7 +20,7 @@ class HTML_QuickForm_CKeditor extends HTML_QuickForm_textarea
      * @var string
      * @access public
      */
-    var $width = '95%';
+    var $width = '94%';
     
     /**
      * The height of the editor in pixels or percent
@@ -40,7 +40,7 @@ class HTML_QuickForm_CKeditor extends HTML_QuickForm_textarea
      * @access  public
      * @return  void
      */
-    function HTML_QuickForm_fckeditor($elementName=null, $elementLabel=null, $attributes=null, $options=array())
+    function HTML_QuickForm_ckeditor($elementName=null, $elementLabel=null, $attributes=null, $options=array())
     {
         HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
@@ -65,6 +65,7 @@ class HTML_QuickForm_CKeditor extends HTML_QuickForm_textarea
             $name = $this->getAttribute('name');
             $html = parent::toHtml() . "<script type='text/javascript'>
                 cj( function( ) {
+                    cj('#{$name}').removeClass();
                     if ( CKEDITOR.instances['{$name}'] ) {
                         CKEDITOR.remove(CKEDITOR.instances['{$name}']);
                     }
@@ -73,6 +74,8 @@ class HTML_QuickForm_CKeditor extends HTML_QuickForm_textarea
                     editor.on( 'key', function( evt ){
                         global_formNavigate = false;
                     } );
+                    CKEDITOR.config.width  = '".$this->width."';
+                    CKEDITOR.config.height = '".$this->height."';
                 }); 
             </script>";
             return $html;

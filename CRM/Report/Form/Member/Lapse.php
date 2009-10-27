@@ -184,7 +184,7 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
         $this->_from = null;
         
         $this->_from = "
-        FROM  civicrm_contact {$this->_aliases['civicrm_contact']}
+        FROM  civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
               INNER JOIN civicrm_membership {$this->_aliases['civicrm_membership']} 
                          ON {$this->_aliases['civicrm_contact']}.id = 
                             {$this->_aliases['civicrm_membership']}.contact_id
@@ -256,10 +256,17 @@ class CRM_Report_Form_Member_Lapse extends CRM_Report_Form {
                 $this->_where = "WHERE " . implode( ' AND ', $clauses );
             }
         }
+        
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }     
     }
     
     function postProcess( ) {
         $this->beginPostProcess( );
+
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
         $sql = $this->buildQuery( true );
         
         $dao   = CRM_Core_DAO::executeQuery( $sql );

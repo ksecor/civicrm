@@ -2464,7 +2464,7 @@ WHERE  id IN ( $groupIDs )
         $name = trim( $value );
         $cond = " contact_a.sort_name LIKE '" . strtolower(CRM_Core_DAO::escapeString($name)) . "%'"; 
         $this->_where[$grouping][] = $cond;
-        $this->_qill[$grouping][]  = ts( 'Restricted to Contacts starting with: \'%1\'', array( 1 => $name ) );
+        $this->_qill[$grouping][]  = ts( 'Showing only Contacts starting with: \'%1\'', array( 1 => $name ) );
     }
 
     /**
@@ -2747,7 +2747,7 @@ WHERE  id IN ( $groupIDs )
         case 'activity_date_low':
         case 'activity_date_high':
             $this->dateQueryBuilder( $values,
-                                     'civicrm_activity', 'activity_date', 'activity_date_time', 'Activity Date' );
+                                     'civicrm_activity', 'activity_date', 'activity_date_time', ts('Activity Date') );
 
             break;
         }
@@ -2760,12 +2760,12 @@ WHERE  id IN ( $groupIDs )
         if ( ($name == 'birth_date_low') ||($name == 'birth_date_high') ) {
           
             $this->dateQueryBuilder( $values,
-                                     'contact_a', 'birth_date', 'birth_date', 'Birth Date' );
+                                     'contact_a', 'birth_date', 'birth_date', ts('Birth Date'), false );
     
         } else if( ($name == 'deceased_date_low') ||($name == 'deceased_date_high') ) {
           
             $this->dateQueryBuilder( $values,
-                                     'contact_a', 'deceased_date', 'deceased_date', 'Deceased Date' );
+                                     'contact_a', 'deceased_date', 'deceased_date', ts('Deceased Date'), false );
         }
        
     }
@@ -3480,16 +3480,23 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
             return;
         }
 
-        if ( $value['M'] ) {
-            $revDate = array_reverse( $value );
-            $date    = CRM_Utils_Date::format( $revDate );
-            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
+        if ( $value ) {
+            $date    = $value;
             // add 235959 if its less that or equal to
             if ( $op == '<='      &&
                  $appendTimeStamp &&
-                 strlen( $date ) == 8 ) {
-                $date .= '235959';
+                 strlen( $date ) == 10 ) {
+                $date .= ' 23:59:59';
             }
+
+            $date = CRM_Utils_Date::processDate( $date );
+
+            if ( !$appendTimeStamp ) {
+                $date = substr(  $date, 0, 8 );
+            }
+
+            $format  = CRM_Utils_Date::customFormat( $date );
+            
             if ( $date ) {
                 $this->_where[$grouping][] = "{$tableName}.{$dbFieldName} $op '$date'";
             } else {

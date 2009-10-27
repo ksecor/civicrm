@@ -122,21 +122,23 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      * Get all the n participant statuses
      *
      * @access public
-     * @return array - array reference of all participant statuses if any
+     * @param  string - $retColumn  tells populate() whether to return 'name' (default) or 'label' values
+     * @return array  - array reference of all participant statuses if any
      * @static
      */
-    public static function &participantStatus( $id = null, $cond = null ) 
+    public static function &participantStatus( $id = null, $cond = null, $retColumn = 'name' ) 
     { 
         if ( self::$participantStatus === null ) {
             self::$participantStatus = array( );
         }
-        
+
         $index = $cond ? $cond : 'No Condition';
+        $index = "{$index}_{$retColumn}";
         if ( ! CRM_Utils_Array::value( $index, self::$participantStatus ) ) {
             self::$participantStatus[$index] = array( );
             CRM_Core_PseudoConstant::populate( self::$participantStatus[$index],
                                                'CRM_Event_DAO_ParticipantStatusType',
-                                               false, 'label', 'is_active', $cond, 'weight' );
+                                               false, $retColumn, 'is_active', $cond, 'weight' );
         }
         
         if ( $id ) {
@@ -169,19 +171,26 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      * @return array - array reference of all participant roles if any
      * @static
      */
-    public static function &participantRole( $id = null )
+    public static function &participantRole( $id = null, $cond = null )
     {
-        if ( ! self::$participantRole ) {
-            self::$participantRole = array( );
+        $index = $cond ? $cond : 'No Condition';
+        if ( ! CRM_Utils_Array::value( $index, self::$participantRole ) ) {
+            self::$participantRole[$index] = array( );
             require_once "CRM/Core/OptionGroup.php";
-            self::$participantRole = CRM_Core_OptionGroup::values("participant_role");
+            $condition = null;
+            
+            if ( $cond ) {
+                $condition = "AND $cond";
+            }
+            
+            self::$participantRole[$index] = CRM_Core_OptionGroup::values( "participant_role",  false, false, 
+                                                                           false, $condition );
         }
         
-        If( $id ) {
-            return self::$participantRole[$id];
-        }
-        
-        return self::$participantRole;
+        if ( $id ) {
+            return self::$participantRole[$index][$id];
+        }        
+        return self::$participantRole[$index];
     }
 
     /**

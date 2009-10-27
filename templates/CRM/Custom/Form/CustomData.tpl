@@ -63,7 +63,13 @@
                         {else}
                             <tr>
                                 <td class="label">{$form.$element_name.label}</td>                                
-                                <td class="html-adjust">{$form.$element_name.html}
+                                <td class="html-adjust">
+                                    {if $element.data_type neq 'Date'}
+                                        {$form.$element_name.html}
+                                    {elseif $element.skip_calendar NEQ true }
+                                        {include file="CRM/common/jcalendar.tpl" elementName=$element_name}
+                                    {/if}
+                                    
                                     {if $element.html_type eq 'Radio'}
                                         &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 
                                     {elseif $element.data_type eq 'File'}
@@ -81,14 +87,6 @@
                                                 {/if}	
                                             </span>  
                                         {/if} 
-                                    {elseif $element.data_type eq 'Date' && $element.skip_calendar NEQ true } 
-                                        {if $element.skip_ampm NEQ true }
-                                            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name doTime=1}
-                                            {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name}
-                                        {else}
-                                            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name}
-                                            {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name ampm=1}
-                                        {/if} 
                                     {elseif $element.html_type eq 'Autocomplete-Select'}
                                         {include file="CRM/Custom/Form/AutoComplete.tpl"}
                                     {/if}
@@ -96,11 +94,10 @@
                             </tr>
                             
                             {if $element.help_post}
-				<tr>
-				    <td>&nbsp;</td>
-				    <td class="description">{$element.help_post}<br />&nbsp;</td>
-				</tr>
-				
+            				<tr>
+            				    <td>&nbsp;</td>
+            				    <td class="description">{$element.help_post}<br />&nbsp;</td>
+            				</tr>
                             {/if}
                         {/if}
                     {/if}

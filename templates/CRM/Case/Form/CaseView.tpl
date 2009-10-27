@@ -434,16 +434,12 @@ curDate = (new Date()).getTime();
     </tr>
     <tr>
         <td>
-	    {$form.activity_date_low.label}<br />
-            {$form.activity_date_low.html}&nbsp;
-                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_1} 
-                {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_activity_1}
+	        {$form.activity_date_low.label}<br />
+            {include file="CRM/common/jcalendar.tpl" elementName=activity_date_low}
         </td>
         <td> 
             {$form.activity_date_high.label}<br /> 
-            {$form.activity_date_high.html}&nbsp;
-                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_2} 
-                {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_activity_2}
+            {include file="CRM/common/jcalendar.tpl" elementName=activity_date_high}
         </td>
     </tr>
     {if $form.activity_deleted}    
@@ -500,21 +496,8 @@ cj(document).ready(function(){
 
 function search(com)
 {   
-    var month  = cj("select#activity_date_low\\[M\\]").val( );
-    if ( month.length == 1 ) month = "0" + month;
-
-    var day  = cj("select#activity_date_low\\[d\\]").val( );
-    if ( day.length == 1 ) day = "0" + day;
-
-    var activity_date_low  = cj("select#activity_date_low\\[Y\\]").val() + month + day;
-
-    var month  = cj("select#activity_date_high\\[M\\]").val( );
-    if ( month.length == 1 ) month = "0" + month;
-
-    var day  = cj("select#activity_date_high\\[d\\]").val( );
-    if ( day.length == 1 ) day = "0" + day;
-
-    var activity_date_high  =  cj("select#activity_date_high\\[Y\\]").val() + month + day;
+    var activity_date_low  = cj("#activity_date_low").val();
+    var activity_date_high = cj("#activity_date_high").val();
 
     var activity_deleted = 0;
     if ( cj("#activity_deleted:checked").val() == 1 ) {
@@ -524,7 +507,7 @@ function search(com)
 	    newp:1, 
 		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
 			{name:'status_id', value: cj("select#status_id").val()},
-			{name:'activity_date_low', value: activity_date_low },
+			{name:'activity_date_low', value: activity_date_low},
 			{name:'activity_date_high', value: activity_date_high},
 			{name:'activity_deleted', value: activity_deleted }
 			]

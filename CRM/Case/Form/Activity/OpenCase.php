@@ -73,8 +73,8 @@ class CRM_Case_Form_Activity_OpenCase
             return $defaults;
         }
 
-        $defaults['start_date'] = array();
-        CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
+        require_once 'CRM/Utils/Date.php';
+        list( $defaults['start_date'] ) = CRM_Utils_Date::setDateDefaults( );
         
         // set case status to 'ongoing'
         $defaults['status_id'] = 1;
@@ -127,11 +127,8 @@ class CRM_Case_Form_Activity_OpenCase
             $form->assign( 'clientName', $displayName );
         }
         
-        $form->add( 'date', 'start_date', ts('Case Start Date'),
-                    CRM_Core_SelectValues::date('activityDate' ),
-                    true);   
-        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-
+        $form->addDate( 'start_date', ts('Case Start Date'), true, array( 'formatType' => 'activityDate') );
+        
         $form->add('select', 'medium_id',  ts( 'Medium' ), 
                    CRM_Core_OptionGroup::values('encounter_medium'), true);
 
@@ -169,21 +166,11 @@ class CRM_Case_Form_Activity_OpenCase
         // set the contact, when contact is selected
         if ( CRM_Utils_Array::value( 'contact_select_id', $params ) ) {
             $params['contact_id'] = CRM_Utils_Array::value( 'contact_select_id', $params );
-        }
-        
-        // create contact if cid not present
-        if ( CRM_Utils_Array::value( 'contact_id', $params ) ) {
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $contact =& CRM_Contact_BAO_Contact::create( $params, true, false );
-            $form->_currentlyViewedContactId = $contact->id;
-            
-            // unset contact params
-            unset($params['location'], $params['first_name'], $params['last_name'], 
-                  $params['prefix_id'], $params['suffix_id']);
+            $form->_currentlyViewedContactId = $params['contact_id'];
         }
         
         // for open case start date should be set to current date
-        $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
+        $params['start_date'] = CRM_Utils_Date::processDate( $params['start_date'] );
         require_once 'CRM/Case/PseudoConstant.php';
         $caseStatus = CRM_Case_PseudoConstant::caseStatus( );
         // for resolved case the end date should set to now    
@@ -244,9 +231,6 @@ class CRM_Case_Form_Activity_OpenCase
                                'contact_id' => $form->_currentlyViewedContactId
                                );
         CRM_Case_BAO_Case::addCaseToContact( $contactParams );
-        //handle time stamp for Opencase
-        $time = date("Hi");
-        $params['start_date'] = $params['start_date']. $time. "00";
     
         // 2. initiate xml processor
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );

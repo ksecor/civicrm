@@ -42,6 +42,9 @@ require_once "CRM/Core/BAO/Email.php";
  */
 class CRM_Contact_Form_Task_EmailCommon
 {
+    const
+        MAX_EMAILS_KILL_SWITCH = 50;
+
     /**
      * build all the data structures needed to build the form
      *
@@ -243,6 +246,12 @@ class CRM_Contact_Form_Task_EmailCommon
      */
     static function postProcess( &$form ) 
     {
+        if ( count( $form->_contactIds ) > self::MAX_EMAILS_KILL_SWITCH ) {
+            CRM_Core_Error::fatal( ts( 'Please do not use this task to send a lot of emails (greater than %1). We recommend using CiviMail instead.',
+                                       array( 1 => self::MAX_EMAILS_KILL_SWITCH ) ) );
+        }
+
+        // check and ensure that 
         $formValues = $form->controller->exportValues( $form->getName( ) );
         
         if ( CRM_Utils_Array::value( 'to', $formValues ) ) {

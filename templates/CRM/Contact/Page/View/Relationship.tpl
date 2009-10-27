@@ -13,7 +13,7 @@
         </div>
         <div class="clear"></div>
   {/if}
-  
+  {include file="CRM/common/jsortable.tpl"}   
   {* start of code to show current relationships *}
   {if $currentRelationships}
     {* show browse table for any action *}
@@ -23,8 +23,9 @@
          <div><label>{ts}Current Relationships{/ts}</label></div>
         {/if}
         {strip}
-        <table class="selector">
-        <tr class="columnheader">
+        <table id="current_relationship" class="display">
+        <thead>
+        <tr>
             <th>{ts}Relationship{/ts}</th>
             <th></th>
             <th>{ts}Start{/ts}</th>
@@ -33,9 +34,9 @@
             <th>{ts}State/Prov{/ts}</th>
             <th>{ts}Email{/ts}</th>
             <th>{ts}Phone{/ts}</th>
-            <th>&nbsp;</th>
+            <th></th>
         </tr>
-
+        </thead>
         {foreach from=$currentRelationships item=rel}
             {*assign var = "rtype" value = "" }
             {if $rel.contact_a eq $contactId }
@@ -89,7 +90,6 @@
 <div class="spacer"></div>
 
 {* start of code to show inactive relationships *}
-
 {if $inactiveRelationships}
     {* show browse table for any action *}
       <div id="inactive-relationships">
@@ -97,17 +97,18 @@
         <div class="label font-red">{ts}Inactive Relationships{/ts}</div>
         <div class="description">{ts}These relationships are Disabled OR have a past End Date.{/ts}</div>
         {strip}
-        <table class="selector">
-        <tr class="columnheader">
+        <table id="inactive_relationship" class="display">
+        <thead>
+        <tr>
             <th>{ts}Relationship{/ts}</th>
             <th></th>
             <th>{ts}City{/ts}</th>
             <th>{ts}State/Prov{/ts}</th>
             <th>{ts}Phone{/ts}</th>
             <th>{ts}End Date{/ts}</th>
-            <th>&nbsp;</th>
+            <th></th>
         </tr>
-
+        </thead>
         {foreach from=$inactiveRelationships item=rel}
           {assign var = "rtype" value = "" }
           {if $rel.contact_a > 0 }

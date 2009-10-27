@@ -55,6 +55,7 @@
        <type>int</type>
        <comment>The minute increment number</comment>
        <add>2.0</add>
+       <drop>3.1</drop>
   </field>
   <field>
        <name>format</name>

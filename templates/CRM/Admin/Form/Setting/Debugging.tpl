@@ -6,7 +6,7 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Set this value to <strong>Yes</strong> if you want to use one of CiviCRM's debugging tools. <strong>This feature should NOT be enabled for production sites</strong>{/ts} {help id='debug'}</dd>
             {if $form.userFrameworkLogging}
             <dt>{$form.userFrameworkLogging.label}</dt><dd>{$form.userFrameworkLogging.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Set this value to <strong>Yes</strong> if you want CiviCRM error/debugging messages the appear in your CMS' error log.{/ts} {help id='userFrameworkLogging'}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Set this value to <strong>Yes</strong> if you want CiviCRM error/debugging messages to also appear in Drupal error logs{/ts} {help id='userFrameworkLogging'}</dd>
             {/if}
             <dt>{$form.backtrace.label}</dt><dd>{$form.backtrace.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Set this value to <strong>Yes</strong> if you want to display a backtrace listing when a fatal error is encountered. <strong>This feature should NOT be enabled for production sites</strong>{/ts}</dd>

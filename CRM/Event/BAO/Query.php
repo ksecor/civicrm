@@ -515,15 +515,10 @@ class CRM_Event_BAO_Query
         $eventTypeId      =& $form->add( 'hidden', 'event_type_id'     , '', array( 'id' => 'event_type_id'      ) );
         $participantFeeId =& $form->add( 'hidden', 'participant_fee_id', '', array( 'id' => 'participant_fee_id' ) );
 
-        // Date selects for date 
-        $form->add('date', 'event_start_date_low', ts('Event Date - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('event_start_date_low', ts('Select a valid date.'), 'qfDate'); 
- 
-        $form->add('date', 'event_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('event_end_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->addDate( 'event_start_date_low', ts('Event Dates - From'), false, array( 'formatType' => 'relative') );
+        $form->addDate( 'event_end_date_high', ts('To'), false, array( 'formatType' => 'relative') );
 
         require_once 'CRM/Event/PseudoConstant.php';
-
         foreach (CRM_Event_PseudoConstant::participantStatus( ) as $id => $Name) {
             $form->_participantStatus =& $form->addElement('checkbox', "participant_status_id[$id]", null,$Name);
         }

@@ -201,7 +201,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 } else if ( $paymentProcessor['payment_processor_type'] == 'Dummy' && $this->_mode == 'live' ) {
                     continue;
                 } else {
-                    $paymentObject =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $paymentProcessor );
+                    $paymentObject =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $paymentProcessor, $this );
                     $error = $paymentObject->checkConfig( );
                     if ( empty( $error ) ) {
                         $validProcessors[$ppID] = $label;
@@ -394,38 +394,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         //setting default register date
-        if ( $this->_action == CRM_Core_Action::ADD ) {
-            // CRM-5150 this is hack to fix setdefaults, we will remove this code once we migrate to
-            // new date picker plugin in v3.1
-            $config =& CRM_Core_Config::singleton( );
-            $dateFormat  = $config->dateformatQfDatetime;
-            $hour24Format = false;
-            if ( preg_match( '/%H/i', $dateFormat) ) {
-                $hour24Format = true;
-            }
-            
-            $currentDate = getDate();
-            $defaults[$this->_participantId]['register_date']['M'] = $currentDate['mon'];
-            $defaults[$this->_participantId]['register_date']['d'] = $currentDate['mday'];
-            $defaults[$this->_participantId]['register_date']['Y'] = $currentDate['year'];
-
-            if ( !$hour24Format ) {            
-                $defaults[$this->_participantId]['register_date']['A'] = 'AM';
-                $defaults[$this->_participantId]['register_date']['a'] = 'am';
-                if ( $currentDate['hours'] >= 12 ) {
-                    if ( $currentDate['hours'] != 12) {
-                        $currentDate['hours'] -= 12;                        
-                    }
-                    $defaults[$this->_participantId]['register_date']['A'] = 'PM';
-                    $defaults[$this->_participantId]['register_date']['a'] = 'pm';
-                }
-                $defaults[$this->_participantId]['register_date']['h'] = $currentDate['hours'];
-            } else {
-                $defaults[$this->_participantId]['register_date']['H'] = $currentDate['hours'];                
-            }
-            
-            $defaults[$this->_participantId]['register_date']['i'] = $currentDate['minutes'];
-
+        if ( $this->_action == CRM_Core_Action::ADD ) {            
             if ( CRM_Utils_Array::value( 'event_id' , $defaults[$this->_participantId] ) ) {
                 $contributionTypeId =  CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                     $defaults[$this->_participantId]['event_id'], 
@@ -459,9 +428,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 				$eventID  = $submittedEvent[0];
 			}
         } else {
-            $defaults[$this->_participantId]['register_date'] = CRM_Utils_Date::unformat($defaults[$this->_participantId]['register_date']);
-            $defaults[$this->_participantId]['register_date']['i']  = (integer)($defaults[$this->_participantId]['register_date']['i']/15)*15;
-           
             $defaults[$this->_participantId]['record_contribution'] = 0;
             $recordContribution = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                                $defaults[$this->_participantId]['id'], 
@@ -488,6 +454,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->set( 'discountId', $this->_discountId );
             }
         }
+        
+        list( $defaults[$this->_participantId]['register_date'], 
+              $defaults[$this->_participantId]['register_date_time'] ) = CRM_Utils_Date::setDateDefaults( 
+                                                                         CRM_Utils_Array::value( 'register_date' , $defaults[$this->_participantId] ) );
         
 		//assign event and role id, this is needed for Custom data building
 		if ( isset( $_POST['role_id'] ) ) {
@@ -626,11 +596,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
         }
        
-        $this->add( 'date', 'register_date', ts('Registration Date and Time'),
-                    CRM_Core_SelectValues::date('activityDatetime' ),
-                    true);   
-        $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
-
+        $this->addDateTime( 'register_date', ts('Registration Date'), true );
+        
 		if ( $this->_participantId ) {
 			$this->assign( 'entityID', $this->_participantId );
 		}
@@ -641,7 +608,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     array('onchange' => "buildCustomData( 'Participant', this.value, {$this->_roleCustomDataTypeID} );") );
         
         // CRM-4395
-        $checkCancelledJs = null;
+        $checkCancelledJs = array('onchange' => "return sendNotification( );");
         if ( $this->_onlinePendingContributionId ) {
             $cancelledparticipantStatusId  = array_search( 'Cancelled',CRM_Event_PseudoConstant::participantStatus() );
             $cancelledContributionStatusId = array_search( 'Cancelled', 
@@ -650,9 +617,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                       "checkCancelled( this.value, {$cancelledparticipantStatusId},{$cancelledContributionStatusId});");
         }
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
-                    array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( ),
+                    array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( null, null, 'label' ),
                     true, 
                     $checkCancelledJs );
+        
+        $this->addElement('checkbox', 'is_notify', ts( 'Send Notification' ) , null);
         
         $this->add( 'text', 'source', ts('Event Source') );
         
@@ -750,7 +719,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
               array_search( 'Failed', CRM_Contribute_PseudoConstant::contributionStatus(null, 'name'))) ) {
             $errorMsg['contribution_status_id'] = ts( "Please select a valid payment status before updating." );
         }
-        if ( CRM_Utils_Array::value( 'priceSetId', $values ) ) {
+        if ( $self->_mode && 
+             CRM_Utils_Array::value( 'priceSetId', $values ) &&
+             !CRM_Utils_System::isNull( $self->_values['fee']['fields'] ) ) {
             $lineItem = array( );
             require_once "CRM/Price/BAO/Set.php";
             CRM_Price_BAO_Set::processAmount( $self->_values['fee']['fields'], $values, $lineItem );
@@ -823,15 +794,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $params['fee_level']                = $params['amount_level'];
             $contributionParams                 = array( );
             $contributionParams['total_amount'] = $params['amount'];
-           
         }
        
         //fix for CRM-3086
         $params['fee_amount'] = $params['amount'];
         $this->_params = $params;
         unset($params['amount']);
-        $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
-        $params['receive_date' ] = CRM_Utils_Date::format(CRM_Utils_Array::value( 'receive_date', $params ));
+        $params['register_date'] = CRM_Utils_Date::processDate( $params['register_date'], $params['register_date_time'] );
+        $params['receive_date' ] = CRM_Utils_Date::processDate( CRM_Utils_Array::value( 'receive_date', $params ) );
         $params['contact_id'   ] = $this->_contactID;
         if ( $this->_participantId ) {
             $params['id'] = $this->_participantId;
@@ -865,7 +835,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 CRM_Core_Error::fatal( ts( 'Selected Event is not Paid Event ') );
             }
             //modify params according to parameter used in create
-            //partiicpant method (addParticipant)            
+            //participant method (addParticipant)            
             $params['participant_status_id']     = $params['status_id'] ;
             $params['participant_role_id']       = $params['role_id'] ;
             $params['participant_register_date'] = $params['register_date'] ;
@@ -957,7 +927,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
             
-            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor, $this );
             
             $result =& $payment->doDirectPayment( $paymentParams );
             
@@ -982,7 +952,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->set( 'params', $this->_params );
             $this->assign( 'trxn_id', $result['trxn_id'] );
             $this->assign( 'receive_date',
-                           CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+                           CRM_Utils_Date::processDate( $this->_params['receive_date']) );
             // set source if not set 
             
             $this->_params['description'] = ts( 'Submit Credit Card for Event Registration by: %1', array( 1 => $userName ) );
@@ -1123,7 +1093,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $updateStatusMsg = null;
         //send mail when participant status changed, CRM-4326
         if ( $this->_participantId && $this->_statusId && 
-             $this->_statusId != CRM_Utils_Array::value( 'status_id', $params ) ) {
+             $this->_statusId != CRM_Utils_Array::value( 'status_id', $params ) &&
+             CRM_Utils_Array::value( 'is_notify', $params )
+             ) {
             $updateStatusMsg = $this->updateStatusMessage( $this->_participantId, $params['status_id'], $this->_statusId );
         }
         

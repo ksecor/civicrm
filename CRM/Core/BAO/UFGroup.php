@@ -1337,10 +1337,8 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                 }
             }
             $form->add('text', $name, $title, $attributes, $required );
-        } else if ( $fieldName === 'birth_date' ) {  
-            $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
-        } else if ( $fieldName === 'deceased_date' ) {  
-            $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );    
+        } else if ( ( $fieldName === 'birth_date' ) || ( $fieldName === 'deceased_date' ) ) { 
+            $form->addDate( $name, $title, $required, array( 'formatType' => 'birth') );
         } else if ( in_array($fieldName, array( "membership_start_date","membership_end_date","join_date")) ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('manual'), $required ); 
         }  else if ($field['name'] == 'membership_type_id' ) { 
@@ -1561,6 +1559,8 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                         $defaults[$fldName] = $details['individual_prefix_id'];
                     } else if ($name == 'individual_suffix') {
                         $defaults[$fldName] = $details['individual_suffix_id'];
+                    } else if ( ( $name == 'birth_date' ) || ( $name == 'deceased_date' ) ) {
+                        list( $defaults[$fldName] ) = CRM_Utils_Date::setDateDefaults( $name );
                     } else if ($name == 'email_greeting') {
                          $defaults[$fldName] = $details['email_greeting_id'];
                          $defaults['email_greeting_custom'] = $details['email_greeting_custom'];
@@ -1628,7 +1628,11 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                                 $defaults[$fldName] = $label;
                             }
                             break;
-                                
+                            
+                        case 'Select Date':
+                            list( $defaults[$fldName] ) = CRM_Utils_Date::setDateDefaults( $details[$name] );
+                            break;
+                        
                         default:
                             $defaults[$fldName] = $details[$name];
                             break;

@@ -78,10 +78,6 @@ class api_v2_GroupContactTest extends CiviUnitTestCase
     
     function tearDown() 
     {
-        $this->contactDelete($this->_contactId);
-        if (  $this->_contactId1 ){
-            $this->contactDelete($this->_contactId1);
-        }
     }
 
 ///////////////// civicrm_group_contact_get methods

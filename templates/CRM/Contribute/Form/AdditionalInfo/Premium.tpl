@@ -14,9 +14,7 @@
            </div>
 
            <dl>
-           <dt class="label">{$form.fulfilled_date.label}</dt><dd>{$form.fulfilled_date.html}
-           {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_5}
-           {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_5}      
+           <dt class="label">{$form.fulfilled_date.label}</dt><dd>{include file="CRM/common/jcalendar.tpl" elementName=fulfilled_date}      
            </dd>
            </dl>
 

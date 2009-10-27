@@ -452,27 +452,26 @@ SELECT label, value
                     $toValue   = CRM_Utils_Array::value( 'to'  , $value );
   
                     if ( ! $fromValue && ! $toValue ) {
-                        if ( !CRM_Utils_Date::format( $value ) && $op != 'IS NULL' && $op != 'IS NOT NULL' ) {
+                        if ( !CRM_Utils_Date::processDate( $value ) && $op != 'IS NULL' && $op != 'IS NOT NULL' ) {
                             continue; 
                         } 
-                        $date = CRM_Utils_Date::format( $value ); 
+                        $date = CRM_Utils_Date::processDate( $value ); 
                         $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $date, 'String' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} " . CRM_Utils_Date::customFormat( $date ); 
                     } else {
-                        $fromDate = CRM_Utils_Date::format( $fromValue );
-                        $toDate   = CRM_Utils_Date::format( $toValue   );
+                        // TO DO: add / remove time based on date parts
+                        $fromDate = CRM_Utils_Date::processDate( $fromValue );
+                        $toDate   = CRM_Utils_Date::processDate( $toValue   );
                         if ( ! $fromDate && ! $toDate ) {
                             continue;
                         }
                         if ( $fromDate ) {
                             $this->_where[$grouping][] = "$fieldName >= $fromDate";
-                            $fromDate = CRM_Utils_Date::format( $fromValue, '-' );
                             $this->_qill[$grouping][]  = $field['label'] . ' >= ' .
                                 CRM_Utils_Date::customFormat( $fromDate );
                         }
                         if ( $toDate ) {
                             $this->_where[$grouping][] = "$fieldName <= $toDate";
-                            $toDate = CRM_Utils_Date::format( $toValue, '-' );
                             $this->_qill[$grouping][]  = $field['label'] . ' <= ' .
                                 CRM_Utils_Date::customFormat( $toDate );
                         }

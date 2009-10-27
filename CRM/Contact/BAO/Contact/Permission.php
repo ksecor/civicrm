@@ -51,17 +51,17 @@ class CRM_Contact_BAO_Contact_Permission {
     static function allow( $id, $type = CRM_Core_Permission::VIEW ) 
     {
         $tables     = array( );
-        $temp       = array( );
+        $whereTables       = array( );
        
         //check permission based on relationship, CRM-2963
         if ( self::relationship( $id ) ) {
             return true;
         } else {
             require_once 'CRM/ACL/API.php';
-            $permission = CRM_ACL_API::whereClause( $type, $tables, $temp );
+            $permission = CRM_ACL_API::whereClause( $type, $tables, $whereTables );
         }
         require_once "CRM/Contact/BAO/Query.php";
-        $from       = CRM_Contact_BAO_Query::fromClause( $tables );
+        $from       = CRM_Contact_BAO_Query::fromClause( $whereTables );
 
         $query = "
 SELECT count(DISTINCT contact_a.id) 
@@ -149,6 +149,25 @@ WHERE $permission
         return;
     }
 
+    static function cacheClause( $contactAlias = 'contact_a', $contactID = null ) {
+        if ( CRM_Core_Permission::check( 'view all contacts' ) ) {
+            return array( null, null );
+        }
+
+        $session = CRM_Core_Session::singleton( );
+        $contactID =  $session->get( 'userID' );
+        if ( ! $contactID ) {
+            $contactID = 0;
+        }
+        $contactID = CRM_Utils_Type::escape( $contactID, 'Integer' );
+
+        self::cache( $contactID );
+
+        return array( " INNER JOIN civicrm_acl_contact_cache aclContactCache ON {$contactAlias}.id = aclContactCache.contact_id ",
+                      " aclContactCache.user_id = $contactID " );
+    }
+
+
     /**
       * Function to get the permission base on its relationship
       * 
@@ -183,19 +202,24 @@ WHERE  ( contact_id_a = %1 AND contact_id_b = %2 AND is_permission_a_b = 1 ) OR
         }
     }
 
+
+    static function validateOnlyChecksum( $contactID, &$form ) {
+        // check if this is of the format cs=XXX
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        if ( !  CRM_Contact_BAO_Contact_Utils::validChecksum( $contactID,
+                                                              CRM_Utils_Request::retrieve( 'cs', 'String' , $form, false ) ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            CRM_Core_Error::statusBounce( ts( 'You do not have permission to edit this contact record. Contact the site administrator if you need assistance.' ),
+                                          $config->userFrameworkBaseURL );
+        }
+    }
+
     static function validateChecksumContact( $contactID, &$form ) {
         if ( ! self::allow( $contactID, CRM_Core_Permission::EDIT ) ) {
             // check if this is of the format cs=XXX
-            require_once 'CRM/Contact/BAO/Contact/Utils.php';
-            $cs = CRM_Utils_Request::retrieve( 'cs', 'String' , $form, false );
-            if ( ! CRM_Contact_BAO_Contact_Utils::validChecksum( $contactID, $cs ) ) {
-                $config =& CRM_Core_Config::singleton( );
-                CRM_Core_Error::statusBounce( ts( 'You do not have permission to edit this contact record. Contact the site administrator if you need assistance.' ),
-                                              $config->userFrameworkBaseURL );
-            }
-            return true;
+            self::validateOnlyChecksum( $contactID, $form );
         }
-        return false;
+        return;
     }
 
 }

@@ -835,11 +835,11 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         }
 
 		if ( CRM_Utils_Array::value( 'activity_date_low', $params ) ) {
-            $fromActivityDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
+            $fromActivityDate = CRM_Utils_Type::escape( CRM_Utils_Date::processDate( $params['activity_date_low'] ), 'Date' );
         }
 		if ( CRM_Utils_Array::value( 'activity_date_high', $params ) ) {
-            $toActivityDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
-            $toActivityDate   = $toActivityDate ? $toActivityDate . '235959' : null;
+            $toActivityDate   = CRM_Utils_Type::escape( CRM_Utils_Date::processDate( $params['activity_date_high'] ), 'Date' );
+            $toActivityDate   = $toActivityDate ? $toActivityDate + 235959 : null;
         }
         
         if ( $fromActivityDate ) {

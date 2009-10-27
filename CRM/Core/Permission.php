@@ -55,7 +55,10 @@ class CRM_Core_Permission {
     const
         EDIT   = 1,
         VIEW   = 2,
-        DELETE = 3; 
+        DELETE = 3,
+        CREATE = 4,
+        SEARCH = 5,
+        ALL    = 6;
     
     /**
      * get the current permission of this user
@@ -307,7 +310,9 @@ class CRM_Core_Permission {
                       'access uploaded files'             => ts( 'access uploaded files' ),
                       'profile listings and forms'        => ts( 'profile listings and forms' ),
                       'access profile listings'           => ts( 'access profile listings' ),
-                      'access profile forms'              => ts( 'access profile forms' ),
+                      'access profile create'             => ts( 'access profile create' ),
+                      'access profile edit'               => ts( 'access profile edit' ),
+                      'access profile view'               => ts( 'access profile view' ),
                       'access all custom data'            => ts( 'access all custom data' ),
                       'view all activities'               => ts( 'view all activities' ),
                       'delete activities'                 => ts( 'delete activities' ),

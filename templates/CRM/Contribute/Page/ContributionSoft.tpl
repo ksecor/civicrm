@@ -22,7 +22,7 @@
     {foreach from=$softCreditRows item=row}
         <tr id='rowid{$row.id}' class="{cycle values="odd-row,even-row"}">
             <td><a href="{crmURL p="civicrm/contact/view" q="reset=1&cid=`$row.contributor_id`"}" id="view_contact" title="{ts}View contributor contact record{/ts}">{$row.contributor_name}</a></td>
-            <td>{$row.amount}</td>
+            <td>{$row.amount|crmMoney:$row.currency}</td>
             <td>{$row.contribution_type}</td>
             <td>{$row.receive_date|truncate:10:''|crmDate}</td>
             <td>{$row.contribution_status}</td>

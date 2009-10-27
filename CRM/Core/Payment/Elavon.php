@@ -137,6 +137,8 @@ class CRM_Core_Payment_Elavon extends CRM_Core_Payment
             $requestFields['ssl_test_mode'] = "TRUE";
         }
 
+        // Allow further manipulation of the arguments via custom hooks ..
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $requestFields );
 
         /**********************************************************
          * Check to see if we have a duplicate before we send

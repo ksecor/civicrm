@@ -59,6 +59,38 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
     {
     }
 
+///////////////// civicrm_membership_status_get methods
+
+    /**
+     *  Test civicrm_membership_status_get with wrong params type
+     */
+    function testGetWrongParamsType()
+    {
+        $params = 'a string';
+        $result =& civicrm_membership_status_get($params);
+
+        $this->assertEquals( $result['is_error'], 1, 'In line ' . __LINE__ );
+        $this->assertEquals( $result['error_message'], 'Params need to be an array', 'In line ' . __LINE__ );
+    }
+
+    /**
+     *  Test civicrm_membership_status_get with empty params
+     */
+     function testGetEmptyParams()
+     {
+        $params = array();
+        $result =& civicrm_membership_status_get($params);
+        $this->markTestIncomplete();
+     }
+
+    /**
+     *  Test civicrm_membership_status_get. Success expected.
+     */
+     function testGet()
+     {
+         $this->markTestIncomplete();
+     }
+
 ///////////////// civicrm_membership_status_create methods
 
     function testCreateWithEmptyParams( ) {

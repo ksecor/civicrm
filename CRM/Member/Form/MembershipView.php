@@ -66,7 +66,7 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
 
             // build associated contributions
             require_once 'CRM/Member/Page/Tab.php';
-            CRM_Member_Page_Tab::associatedContribution( $values['contact_id'] );
+            CRM_Member_Page_Tab::associatedContribution( $values['contact_id'], $id );
 
 
             //Provide information about membership source when it is the result of a relationship (CRM-1901)
@@ -97,7 +97,21 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
             $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                          $values['contact_id'], 
                                                           'display_name' );
-            $this->assign( 'displayName', $displayName );
+            $this->assign( 'displayName', $displayName );        
+
+            // add viewed membership to recent items list
+            require_once 'CRM/Utils/Recent.php';
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/membership', 
+                                          "action=view&reset=1&id={$values['id']}&cid={$values['contact_id']}" );
+            
+            $title = $displayName . ' - ' . ts('Membership Type:') . ' ' . $values['membership_type'];
+            
+            CRM_Utils_Recent::add( $title,
+                                   $url,
+                                   $values['id'],
+                                   'Membership',
+                                   $values['contact_id'],
+                                   null );
             
             CRM_Member_Page_Tab::setContext($values['contact_id']);
 

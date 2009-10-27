@@ -105,11 +105,10 @@ class CRM_Event_Form_EventFees
                 $defaults[$form->_pId]['receipt_text'] = $details[$form->_eventId]['confirm_email_text'];
                 $defaults[$form->_pId]['receipt_html'] = $details[$form->_eventId]['confirm_email_html'];
             }
-            $today_date = getDate();
-            $defaults[$form->_pId]['receive_date']['M'] = $today_date['mon'];
-            $defaults[$form->_pId]['receive_date']['d'] = $today_date['mday'];
-            $defaults[$form->_pId]['receive_date']['Y'] = $today_date['year'];
+
+            list( $defaults[$form->_pId]['receive_date'] ) = CRM_Utils_Date::setDateDefaults( );
         }
+
         if ( $form->_mode ) {
             $fields = array( );
             
@@ -423,7 +422,11 @@ class CRM_Event_Form_EventFees
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($form, $event['id'] );
             CRM_Event_Form_Registration_Register::buildAmount( $form, true, $form->_discountId );
-            $form->assign ( 'line_items' , CRM_Utils_Array::value( 'line_items', $form->_values ) );
+            $lineItem = array();
+            if ( !CRM_Utils_System::isNull( CRM_Utils_Array::value( 'line_items', $form->_values ) ) ) {
+                $lineItem[] = $form->_values['line_items'];
+            }
+            $form->assign ( 'lineItem', empty($lineItem)?false:$lineItem );
             $discounts = array( );
             if ( !empty( $form->_values['discount'] ) ) {
                 foreach( $form->_values['discount'] as $key => $value ) { 
@@ -452,8 +455,7 @@ class CRM_Event_Form_EventFees
                            ts( 'Contribution Type' ), 
                            array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
                 
-                $form->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
-                $form->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+                $form->addDate( 'receive_date', ts('Received'), false, array( 'formatType' => 'activityDate') );
                 
                 $form->add('select', 'payment_instrument_id', 
                            ts( 'Paid By' ), 

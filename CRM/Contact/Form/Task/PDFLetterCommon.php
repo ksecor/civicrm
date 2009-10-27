@@ -180,8 +180,8 @@ class CRM_Contact_Form_Task_PDFLetterCommon
                 continue;
             }
 	
-			$tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html_message, $contact[$contactId], true , $messageToken);
-            $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
+			$tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html_message, $contact[$contactId], true       , $messageToken);
+            $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact[$contactId]   , $categories, true         );
             
             if ( $first == TRUE ) {
               $first = FALSE;
@@ -195,7 +195,7 @@ class CRM_Contact_Form_Task_PDFLetterCommon
         $html .= '</body></html>';
         
         require_once 'CRM/Utils/PDF/Utils.php';
-        CRM_Utils_PDF_Utils::html2pdf( $html, "CiviLetter.pdf" ); 
+        CRM_Utils_PDF_Utils::html2pdf( $html, "CiviLetter.pdf", 'portrait' ); 
         exit(1);
     }//end of function
 }

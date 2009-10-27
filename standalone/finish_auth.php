@@ -28,7 +28,13 @@ function run() {
         // identity URL and Simple Registration data (if it was
         // returned).
 
-        $openid = $response->getDisplayIdentifier();
+        $openid = array();
+        $openid['display_id']   = $response->getDisplayIdentifier();
+        $openid['claimed_id']   = $response->identity_url;
+        $openid['endpoint_url'] = $response->endpoint->server_url;
+      
+        #$openid = $response->getDisplayIdentifier();
+
         //$esc_identity = escape($openid);
         $session->set('openid' , $openid);
         $session->set('goahead', "yes");

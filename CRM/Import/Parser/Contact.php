@@ -455,11 +455,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $params['contact_sub_type'] = $this->_contactSubType;
         }
        
-        if ( $subType = CRM_utils_Array::value('contact_sub_type', $params) ) {
+        if ( $subType = CRM_Utils_Array::value('contact_sub_type', $params) ) {
             if ( !CRM_Contact_BAO_ContactType::isExtendsContactType($subType, $this->_contactType) ) {
                 $message = "Mismatched or Invalid Contact SubType.";
                 array_unshift($values, $message);  
-                $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                return CRM_Import_Parser::NO_MATCH;
             }
         }
 
@@ -515,15 +515,35 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $updateflag = true;
                     foreach ($matchedIDs  as $contactId) {
                         if ($params['id'] == $contactId) {
-                            $paramsValues = array('contact_id'=>$contactId);
                             $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                         $params['id'],
                                                                         'contact_type' );
+                            
                             if ($formatted['contact_type'] == $contactType ) {
-                                $newContact = $this->createContact( $formatted, $contactFields, 
-                                                                    $onDuplicate, $contactId, false );
-                                $updateflag = false; 
-                                $this->_retCode = CRM_Import_Parser::VALID;
+                                
+                                //validation of subtype for update mode
+                                //CRM-5125
+                                $contactSubType = null;
+                                if ( CRM_Utils_Array::value('contact_sub_type', $params) ) {
+                                    $contactSubType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                   $params['id'],
+                                                                                   'contact_sub_type' );
+                                }
+                                
+                                if ( !empty($contactSubType) && 
+                                     ($contactSubType != CRM_Utils_Array::value('contact_sub_type', $formatted)) ) {
+                                    
+                                    $message = "Mismatched contact SubTypes :";
+                                    array_unshift($values, $message);
+                                    $updateflag = false;
+                                    $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                                } else {
+                                    
+                                    $newContact = $this->createContact( $formatted, $contactFields, 
+                                                                        $onDuplicate, $contactId, false );
+                                    $updateflag = false; 
+                                    $this->_retCode = CRM_Import_Parser::VALID;
+                                }
                             } else {
                                 $message = "Mismatched contact Types :";
                                 array_unshift($values, $message);
@@ -541,16 +561,32 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             } else {
                 $contactType = null;
                 if ( CRM_Utils_Array::value( 'id', $params ) ) {
-                    $paramsValues = array( 'contact_id' => $params['id'] );
                     $contactType  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                  $params['id'],
                                                                  'contact_type' );
                     if ( $contactType ) {
                         if ($formatted['contact_type'] == $contactType ) {
-                            $newContact = $this->createContact( $formatted, $contactFields, 
-                                                                $onDuplicate, $params['id'], false );
+                            //validation of subtype for update mode
+                            //CRM-5125
+                            $contactSubType = null;
+                            if ( CRM_Utils_Array::value('contact_sub_type', $params) ) {
+                                $contactSubType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                               $params['id'],
+                                                                               'contact_sub_type' );
+                            }
                             
-                            $this->_retCode = CRM_Import_Parser::VALID;
+                            if ( !empty($contactSubType) && 
+                                 ($contactSubType != CRM_Utils_Array::value('contact_sub_type', $formatted)) ) {
+                                
+                                $message = "Mismatched contact SubTypes :";
+                                array_unshift($values, $message);
+                                $this->_retCode = CRM_Import_Parser::NO_MATCH;
+                            } else {
+                                $newContact = $this->createContact( $formatted, $contactFields, 
+                                                                    $onDuplicate, $params['id'], false );
+                                
+                                $this->_retCode = CRM_Import_Parser::VALID;
+                            }
                         } else {
                             $message = "Mismatched contact Types :";
                             array_unshift($values, $message);
@@ -634,14 +670,28 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     if ( !($first == 'a' && $second == 'b') && !($first == 'b' && $second == 'a') ) {
                         continue;
                     }
-                    
+                 
                     $relationType     = new CRM_Contact_DAO_RelationshipType();
                     $relationType->id = $id;
                     $relationType->find(true);
-                    $name_a_b         = $relationType->name_a_b;
+                    $direction  = "contact_sub_type_$second";
                     
                     $formatting   = array('contact_type' => $params[$key]['contact_type']);
                     
+                    //set subtype for related contact CRM-5125
+                    if ( isset($relationType->$direction) ) {
+                        //validation of related contact subtype for update mode
+                        if ( $relCsType = CRM_Utils_Array::value('contact_sub_type', $params[$key]) 
+                             && $relCsType != $relationType->$direction ) {
+                            $errorMessage = ts( "Mismatched or Invalid contact subtype found for this related contact" );
+                            array_unshift($values, $errorMessage);
+                            return CRM_Import_Parser::NO_MATCH;
+                        } else {     
+                            $formatting['contact_sub_type'] =  $relationType->$direction; 
+                        }
+                    }
+                    $relationType->free( );
+  
                     $contactFields = null;
                     $contactFields = CRM_Contact_DAO_Contact::import( );
                                         
@@ -661,9 +711,24 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             array_unshift($values, $errorMessage);
                             return CRM_Import_Parser::NO_MATCH;
                         } else {
-                            // get related contact id to format data in update/fill mode,
-                            //if external identifier is present, CRM-4423
-                            $formatting['id'] = $params[$key]['id'];
+                            //validation of related contact subtype for update mode
+                            //CRM-5125
+                            $relatedCsType = null;
+                            if ( CRM_Utils_Array::value('contact_sub_type', $formatting) ) {
+                                $relatedCsType  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                               $params[$key]['id'],
+                                                                               'contact_sub_type' );  
+                            }
+                            
+                            if ( !empty($relatedCsType) && $relatedCsType != CRM_Utils_Array::value('contact_sub_type', $formatting) ) {
+                                $errorMessage = ts( "Mismatched or Invalid contact subtype found for this related contact ID: %1", array( 1 => $params[$key]['id'] ) );
+                                array_unshift($values, $errorMessage);
+                                return CRM_Import_Parser::NO_MATCH;
+                            } else { 
+                                // get related contact id to format data in update/fill mode,
+                                //if external identifier is present, CRM-4423
+                                $formatting['id'] = $params[$key]['id'];
+                            }
                         }
                     } 
                     
@@ -702,7 +767,22 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                     // update/fill related contact after getting matching Contact Ids, CRM-4424
                     if ( in_array( $onDuplicate, array( CRM_Import_Parser::DUPLICATE_UPDATE, CRM_Import_Parser::DUPLICATE_FILL ) ) ) {
-                        $updatedContact = $this->createContact( $formatting, $contactFields, $onDuplicate, $matchedIDs[0] );
+                        //validation of related contact subtype for update mode
+                        //CRM-5125
+                        $relatedCsType = null;
+                        if ( CRM_Utils_Array::value('contact_sub_type', $formatting) ) {
+                            $relatedCsType  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                           $matchedIDs[0],
+                                                                           'contact_sub_type' );  
+                        }
+                        
+                        if ( !empty($relatedCsType) && $relatedCsType != CRM_Utils_Array::value('contact_sub_type', $formatting) ) {
+                            $errorMessage = ts( "Mismatched or Invalid contact subtype found for this related contact." );
+                            array_unshift($values, $errorMessage);
+                            return CRM_Import_Parser::NO_MATCH;
+                        } else { 
+                            $updatedContact = $this->createContact( $formatting, $contactFields, $onDuplicate, $matchedIDs[0] );
+                        }
                     } 
                     static $relativeContact = array( ) ;
                     if ( civicrm_duplicate( $relatedNewContact ) ) {
@@ -1051,7 +1131,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $relationshipType =& new CRM_Contact_BAO_RelationshipType( ); 
                     $relationshipType->id = $id;
                     if ( $relationshipType->find( true ) ) {
-                        if ( $relationshipType->$direction ) {
+                        if ( isset($relationshipType->$direction) ) {
                          $params[$key]['contact_sub_type'] = $relationshipType->$direction;
                         } 
                     }
@@ -1546,6 +1626,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( !empty($this->_contactSubType) ) {
             $csType[] = $this->_contactSubType;
         }
+
+        if ( $relCsType = CRM_Utils_Array::value('contact_sub_type', $formatted) ) {
+            $csType[] = $relCsType;
+        }
+        
         $customFields = CRM_Core_BAO_CustomField::getFields( $csType );
         
         //if a Custom Email Greeting, Custom Postal Greeting or Custom Addressee is mapped, and no "Greeting / Addressee Type ID" is provided, then automatically set the type = Customized, CRM-4575

@@ -192,6 +192,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     function setDefaultValues( ) 
     {   
         $defaults = $this->_values;
+        
         $fields   = array( );
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return $defaults;
@@ -202,10 +203,14 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         } 
         
         if ( $this->_id ) {
-            $start_date =  CRM_Utils_Array::value( 'start_date', $this->_values );
-            $create_date =  CRM_Utils_Array::value( 'start_date', $this->_values );
+            $startDate  =  CRM_Utils_Array::value( 'start_date', $this->_values );
+            $createDate =  CRM_Utils_Array::value( 'create_date', $this->_values );
+            list( $defaults['start_date' ] ) = CRM_Utils_Date::setDateDefaults( $startDate );
+            list( $defaults['create_date'] ) = CRM_Utils_Date::setDateDefaults( $createDate );
+            
             if ( $this->_values['acknowledge_date'] ) {
-                $defaults['acknowledge_date'] = CRM_Utils_Array::value( 'acknowledge_date', $this->_values );
+                list( $defaults['acknowledge_date'] ) = CRM_Utils_Date::setDateDefaults( 
+                                                        CRM_Utils_Array::value( 'acknowledge_date', $this->_values ) );
             }
             
             //check is this pledge pending 
@@ -215,8 +220,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                 $defaults['eachPaymentAmount'] = $this->_values['amount'] / $this->_values['installments'];
                 $defaults['eachPaymentAmount'] = CRM_Utils_Money::format($defaults['eachPaymentAmount'], null, '%a');
             } else {
-                $this->assign( 'start_date', $start_date );
-                $this->assign( 'create_date', $create_date );
+                $this->assign( 'start_date',  $startDate );
+                $this->assign( 'create_date', $createDate );
             }
             // fix the display of the monetary value, CRM-4038
             if (isset( $this->_values['amount'])) {
@@ -225,7 +230,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             
         } else {
             //default values.
-            $now = date("Y-m-d");
+            list( $now ) = CRM_Utils_Date::setDateDefaults( );
             $defaults['create_date']             = $now;
             $defaults['start_date']              = $now;
             $defaults['installments']            = 12;
@@ -385,11 +390,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
 
         //add various dates
         if ( !$this->_id || $this->_isPending ) {
-            $element =& $this->add('date', 'create_date', ts('Pledge Made'), CRM_Core_SelectValues::date('activityDate'), true );    
-            $this->addRule('create_date', ts('Select a valid date for the day the pledge was made.'), 'qfDate');
-
-            $element =& $this->add('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate'), true ); 
-            $this->addRule('start_date', ts('Select a valid payments start date.'), 'qfDate');
+            $this->addDate( 'create_date', ts('Pledge Made') );    
+            $this->addDate( 'start_date', ts('Payments Start') );
         }
         
         if ( $this->_id &&
@@ -404,8 +406,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             
             $this->addElement('checkbox','is_acknowledge', ts('Send Acknowledgment?'),null, array('onclick' =>"return showHideByValue('is_acknowledge','','acknowledgeDate','table-row','radio',true);") );
         }
-        $this->addElement('date', 'acknowledge_date', ts('Acknowledgment Date'), CRM_Core_SelectValues::date('activityDate')); 
-        $this->addRule('acknowledge_date', ts('Select a valid date.'), 'qfDate');
+
+        $this->addDate( 'acknowledge_date', ts('Acknowledgment Date') );
         
         $this->add('select', 'contribution_type_id', 
                    ts( 'Contribution Type' ), 
@@ -561,17 +563,14 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         foreach ( $dates as $d ) {
             if ( $this->_id && !$this->_isPending ) {
                 if ( $d == 'start_date' ) {
-                    $params['scheduled_date'] = CRM_Utils_Date::isoToMysql( $this->_values[$d] );
+                    $params['scheduled_date'] = CRM_Utils_Date::processDate( $this->_values[$d] );
                 }
-                $params[$d] = CRM_Utils_Date::isoToMysql( $this->_values[$d]);
+                $params[$d] = CRM_Utils_Date::processDate( $this->_values[$d]);
             } else if ( CRM_Utils_Array::value( $d, $formValues ) && !CRM_Utils_System::isNull( $formValues[$d] ) ) {
-                $formValues[$d]['H'] = '00';
-                $formValues[$d]['i'] = '00';
-                $formValues[$d]['s'] = '00';             
                 if ( $d == 'start_date' ) {
-                    $params['scheduled_date'] =  $formValues[$d];
+                    $params['scheduled_date'] =  CRM_Utils_Date::processDate( $formValues[$d] );
                 }
-                $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
+                $params[$d] = CRM_Utils_Date::processDate( $formValues[$d] );
             } else {
                 $params[$d] = 'null'; 
             }
@@ -614,7 +613,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         //handle pending pledge.
         $params['is_pledge_pending'] = $this->_isPending;
-        
+                
         //create pledge record.
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $pledge =& CRM_Pledge_BAO_Pledge::create( $params );

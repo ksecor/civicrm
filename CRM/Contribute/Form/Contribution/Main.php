@@ -400,17 +400,17 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             $this->assign( 'pcp', true );
             $this->add( 'checkbox', 'pcp_display_in_roll', ts('Show my contribution in the public honor roll'), null, null,
-                        array('onclick' => "showHideByValue('pcp_display_in_roll','','nameID|nickID','table-row','radio',false); pcpAnonymous( );")
+                        array('onclick' => "showHideByValue('pcp_display_in_roll','','nameID|nickID|personalNoteID','table-row','radio',false); pcpAnonymous( );")
                         );
             $extraOption = array('onclick' =>"return pcpAnonymous( );");
             $elements = array( );
-            $elements[] =& $this->createElement('radio', null, '', ts( 'Include my name'), 0, $extraOption );
+            $elements[] =& $this->createElement('radio', null, '', ts( 'Include my name and message'), 0, $extraOption );
             $elements[] =& $this->createElement('radio', null, '', ts( 'List my contribution anonymously'), 1, $extraOption );
             $this->addGroup( $elements, 'pcp_is_anonymous', null, '&nbsp;&nbsp;&nbsp;' );
             $this->_defaults['pcp_is_anonymous'] = 0;
             
             $this->add( 'text', 'pcp_roll_nickname', ts('Name'), array( 'size' => 25, 'maxlength' => 20 ) );
-            // $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 4, 'coloums' => 80 ) );
+            $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 4, 'coloums' => 80 ) );
         }
         
         if ( !( $this->_paymentProcessor['billing_mode'] == CRM_Core_Payment::BILLING_MODE_BUTTON &&
@@ -988,8 +988,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1', true, null, false ); 
                     $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
                     $params['invoiceID' ] = $invoiceID;
+
+                    //default action is Sale
+                    $params['payment_action'] = 'Sale';
                     
-                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
+                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor, $this ); 
                     $token = $payment->setExpressCheckout( $params ); 
                     if ( is_a( $token, 'CRM_Core_Error' ) ) { 
                         CRM_Core_Error::displaySessionError( $token ); 

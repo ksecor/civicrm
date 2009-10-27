@@ -480,17 +480,15 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
         $pledgeFromDate = CRM_Utils_Request::retrieve( 'pstart', 'Date',
                                                  CRM_Core_DAO::$_nullObject );
         if ( $pledgeFromDate ) {
-            $date = CRM_Utils_Date::unformat( $pledgeFromDate, '' );
-            $this->_formValues['pledge_create_date_low'] = $date;
-            $this->_defaults['pledge_create_date_low'  ] = $date;
+            list($date) = CRM_Utils_Date::setDateDefaults( $pledgeFromDate );
+            $this->_formValues['pledge_create_date_low'] = $this->_defaults['pledge_create_date_low'  ] = $date;
         }
 
         $pledgeToDate= CRM_Utils_Request::retrieve( 'pend', 'Date',
                                               CRM_Core_DAO::$_nullObject );
         if ( $pledgeToDate ) { 
-            $date = CRM_Utils_Date::unformat( $pledgeToDate, '' );
-            $this->_formValues['pledge_create_date_high'] = $date;
-            $this->_defaults['pledge_create_date_high'  ] = $date;
+            list($date) = CRM_Utils_Date::setDateDefaults( $pledgeToDate );
+            $this->_formValues['pledge_create_date_high'] = $this->_defaults['pledge_create_date_high'  ] =  $date;
         }
 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );

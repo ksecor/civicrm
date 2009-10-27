@@ -97,7 +97,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
     {
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view/basic', 'action=browse&cid=' . $this->_contactId );
+        $url = CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $this->_contactId );
         $session->pushUserContext( $url );
         
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Contact', ts('Contact Page'), CRM_Core_Action::UPDATE );
@@ -154,6 +154,12 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
         }
 
+        if ( CRM_Utils_Array::value( 'contact_sub_type',  $defaults ) ) {
+            $defaults['contact_sub_type'] = 
+                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_ContactType', 
+                                             $defaults['contact_sub_type'], 'label', 'name' );
+        }
+
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();
 
@@ -202,7 +208,7 @@ class CRM_Contact_Page_View_Summary extends CRM_Contact_Page_View {
             $defaults['current_employer_id'] = $currentEmployer[ $this->_contactId ]['org_id'];
             
             //for birthdate format with respect to birth format set 
-            $this->assign( 'birthDateViewFormat',  CRM_Utils_Array::value( 'qfMapping', CRM_Utils_Date::checkBrithDateFormat( ) ) );
+            $this->assign( 'birthDateViewFormat',  CRM_Utils_Array::value( 'qfMapping', CRM_Utils_Date::checkBirthDateFormat( ) ) );
         }
         
         $this->assign( $defaults );

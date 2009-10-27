@@ -13,29 +13,17 @@
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
       <dd>
         {if $action eq 8}
-            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' Price Field - it is currently in use by one or more active events.{/ts}
-       	{/if}
-        {ts}If you no longer want to use this Price Field, click the event title below, and modify the fees for that event.{/ts}<br />
+            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' Price Field - it is currently in use by one or more active events or contribution pages or contributions.{/ts}
+       	{/if}<br />        
         
-        {if $usedBy.civicrm_event_page} {* If and when Price Sets and Price Fields are used by entities other than events, add condition here and change text above. *}
-            <table class="report">
-            <tr class="columnheader-dark">
-                <th scope="col">{ts}Event{/ts}</th>
-                <th scope="col">{ts}Type{/ts}</th>
-                <th scope="col">{ts}Public{/ts}</th>
-                <th scope="col">{ts}Date(s){/ts}</th>
-            </tr>
-
-            {foreach from=$usedBy.civicrm_event_page item=event key=id}
-                <tr>
-                    <td><a href="{crmURL p="civicrm/admin/event" q="action=update&reset=1&subPage=Fee&id=`$id`"}">{$event.title}</a></td>
-                    <td>{$event.eventType}</td>
-                    <td>{if $event.isPublic}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-                    <td>{$event.startDate}{if $event.endDate}&nbsp;to&nbsp;{$event.endDate}{/if}</td>
-                </tr>
-            {/foreach}
-            </table>
+        {if $usedBy.civicrm_event} {* If and when Price Sets and Price Fields are used by entities other than events, add condition here and change text above. *}
+	    {ts}If you no longer want to use this Price Field, click the event title below, and modify the fees for that event.{/ts}<br />
+	    {include file="CRM/Price/Page/table.tpl" context="Event"}
         {/if}
+	{if $usedBy.civicrm_contribution_page} 
+	    {ts}If you no longer want to use this Price Field, click the contribution page title below, and modify the amount for that contribution page.{/ts}<br />	    
+	    {include file="CRM/Price/Page/table.tpl" context="Contribution"}
+	{/if}
       </dd>
       </dl>
     </div>
@@ -56,22 +44,22 @@
          <tr>
             <th>{ts}Field Label{/ts}</th>
             <th>{ts}Field Type{/ts}</th>
-            <th>{ts}Order{/ts}</th>
+            <th id="order">{ts}Order{/ts}</th>
             <th>{ts}Req?{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
 {*
             <th>{ts}Active On{/ts}</th>
             <th>{ts}Expire On{/ts}</th>
 *}
-            <th>{ts}Price{/ts}</th>
+            <th id="nosort">{ts}Price{/ts}</th>
             <th></th>
         </tr>
         </thead>
         {foreach from=$priceField key=fid item=row}
-	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+	    <tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
             <td>{$row.html_type}</td>
-            <td class="nowrap">{$row.weight}</td>
+            <td class="nowrap">{$row.order}</td>
             <td>{if $row.is_required eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 {*
@@ -80,6 +68,7 @@
 *}
             <td>{if $row.html_type eq "Text"}{$row.price|crmMoney}{else}<a href="{crmURL p="civicrm/admin/price/field/option" q="action=browse&reset=1&sid=$sid&fid=$fid"}">{ts}Edit Price Options{/ts}</a>{/if}</td>
             <td>{$row.action|replace:'xx':$row.id}</td>
+            <td class="order hiddenElement">{$row.weight}</td>
         </tr>
         {/foreach}
         </table>

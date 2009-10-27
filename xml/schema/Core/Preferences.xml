@@ -179,7 +179,7 @@
        <add>3.0</add>
   </field>
   <field>
-       <name>autocomplete_contact_search_options</name>
+       <name>contact_autocomplete_options</name>
        <type>varchar</type>
        <length>255</length>
        <comment>What Autocomplete has to return</comment>

@@ -8,10 +8,10 @@
         <td class="label">{ts}Contribution Type{/ts}</td>
     	<td>{$contribution_type}&nbsp; {if $is_test} {ts}(test){/ts} {/if}</td>
     </tr>
-    {if $line_items}
+    {if $lineItem}
     <tr>
         <td class="label">{ts}Contribution Amount{/ts}</td>
-        <td>{include file="CRM/Event/Form/LineItems.tpl"}</td>
+        <td>{include file="CRM/Price/Page/LineItem.tpl" context="Contribution"}</td>
         </tr>
     {else}
     <tr>
@@ -150,6 +150,9 @@
 	<td>{ts}In Public Honor Roll?{/ts}</td><td>{if $pcp_display_in_roll}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
     {if $pcp_roll_nickname}
         <td>{ts}Honor Roll Name{/ts}</td><td>{$pcp_roll_nickname}</td>
+    {/if}
+    {if $pcp_personal_note}
+        <td>{ts}Honor Roll Note{/ts}</td><td>{$pcp_personal_note}</td>
     {/if}
 </table>
 </fieldset>

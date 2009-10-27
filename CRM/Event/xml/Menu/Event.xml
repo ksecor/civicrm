@@ -43,7 +43,7 @@
   </item>
   <item>
      <path>civicrm/event/ical</path>
-     <title>Upcoming Events</title>
+     <title>Current and Upcoming Events</title>
      <page_callback>CRM_Event_Page_ICalendar</page_callback>
      <access_arguments>view event info</access_arguments>
      <is_public>true</is_public>
@@ -62,7 +62,7 @@
      <title>Manage Events</title>
      <page_callback>CRM_Event_Page_ManageEvent</page_callback>
      <desc>Create and edit event configuration including times, locations, online registration forms, and fees. Links for iCal and RSS syndication.</desc>
-     <access_arguments>access CiviEvent</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/event_manage.png</icon>
      <weight>370</weight>
@@ -82,7 +82,7 @@
      <title>Price Sets</title>
      <page_callback>CRM_Price_Page_Set</page_callback>
      <desc>Price sets allow you to offer multiple options with associated fees (e.g. pre-conference workshops, additional meals, etc.). Configure Price Sets for events which need more than a single set of fee levels.</desc>
-     <access_arguments>access CiviEvent</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/price_sets.png</icon>
      <weight>380</weight>
@@ -92,7 +92,7 @@
      <title>New Price Set</title>
      <page_callback>CRM_Price_Page_Set</page_callback>
      <desc>Price sets allow you to offer multiple options with associated fees (e.g. pre-conference workshops, additional meals, etc.). Configure Price Sets for events which need more than a single set of fee levels.</desc>
-     <access_arguments>access CiviEvent</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <path_arguments>action=add</path_arguments>
   </item>
   <item>
@@ -150,7 +150,7 @@
      <path>civicrm/event/manage</path>
      <title>Manage Events</title>
      <page_callback>CRM_Event_Page_ManageEvent</page_callback>
-     <access_arguments>access CiviEvent</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <page_type>1</page_type>
      <weight>820</weight>
   </item>
@@ -159,7 +159,7 @@
      <path_arguments>action=add</path_arguments>
      <title>New Event</title>
      <page_callback>CRM_Event_Page_ManageEvent</page_callback>
-     <access_arguments>access CiviEvent</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <page_type>1</page_type>
      <weight>830</weight>
   </item>
@@ -175,7 +175,7 @@
      <path>civicrm/event/price</path>
      <title>Manage Price Sets</title>
      <page_callback>CRM_Price_Page_Set</page_callback>
-     <access_arguments>access CiviEvent</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <page_type>1</page_type>
      <weight>850</weight>
   </item>

@@ -2624,7 +2624,15 @@ function civicrm_views_data() {
 
     $data['civicrm_relationship']['contact_id_b'] = array(
                                                           'title' => t('Contact ID B'),
+                                                          'real field' => 'contact_id_b',
                                                           'help' => t('The contact B'),
+                                                          'field' => array(
+                                                                           'handler' => 'views_handler_field',
+                                                                           'click sortable' => FALSE,
+                                                                           ),
+                                                          'argument' => array(
+                                                                              'handler' => 'views_handler_argument',
+                                                                              ),
                                                           'relationship' => array(
                                                                                   'base' => 'civicrm_contact',
                                                                                   'field' => 'id',
@@ -4095,18 +4103,27 @@ function civicrm_views_custom_data_cache($data, $entity_type, $groupID, $subType
                                       ),
                   );
         $currentgroupfields = $currentgroup['fields'];
+        $customHTMLTypes = array( 'Select', 'Multi-Select', 'AdvMulti-Select', 'Radio', 'CheckBox', 'Select Date', 'Select State/Province', 'Select Country', 'Multi-Select Country',
+                                  'Multi-Select State/Province' );
         foreach ($currentgroupfields as $key => $currentfield) {
             if ($currentfield['help_post'] == '' || $currentfield['help_post'] == null) { 
                 $currentfield['help_post'] = t('Custom Data Field'); 
             } // Populates help text so there isn't miles of error: Missing Help
 
 
+            if ( in_array( $currentfield['html_type'],
+                           $customHTMLTypes ) ) {
+                $handler = 'civicrm_handler_field_custom';
+            } else {
+                $handler = civicrm_get_field_handler( $currentfield['data_type'] );
+            }
+
               //Create the Views Field
             $data[$currentgroup['table_name']][$currentfield['column_name']] = array(
                                                                                      'title' => $currentfield['label'],
                                                                                      'help' => $currentfield['help_post'],
                                                                                      'field' => array(
-                                                                                                      'handler' => civicrm_get_field_handler($currentfield['data_type']),
+                                                                                                      'handler' => $handler,
                                                                                                       'click sortable' => TRUE,
                                                                                                       ),
 
@@ -4392,6 +4409,9 @@ function civicrm_views_handlers() {
                        'civicrm_handler_relationship_contact2users' => array(
                                                             'parent' => 'views_handler_relationship',
                                                            ),
+                       'civicrm_handler_field_custom' => array(
+                                                               'parent' => 'views_handler_field',
+                                                               ),
                                                                           
                        //FILTER HANDDLEAARRRS! Filter Handlers!
                        'civicrm_handler_filter_datetime' => array(

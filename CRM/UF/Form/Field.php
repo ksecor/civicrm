@@ -672,10 +672,12 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             }  
         } else {
             $basicTypes  = CRM_Contact_BAO_ContactType::getBasicType( $groupType );
-            if( !in_array( $fieldType, $basicTypes ) ) {
-                $errors['field_name'] = 
-                    ts( 'Cannot add or update profile field type "%1" with combination of subtype other than "%1".',array( 1=> $fieldType ) ); 
-            }
+	    if( $basicTypes ) {
+	        if( !in_array( $fieldType, $basicTypes ) ) {
+		    $errors['field_name'] = 
+		        ts( 'Cannot add or update profile field type "%1" with combination of subtype other than "%1".',array( 1=> $fieldType ) ); 
+		}
+	    }
         }
     }
     
@@ -814,33 +816,23 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             } 
             break;
         default:
-            $cType  = CRM_Contact_BAO_ContactType::getBasicType( $fieldType );
-            if($cType) {
-                $csType = CRM_Contact_BAO_ContactType::subTypes( );
-                if( !in_array ( $fieldType, $groupType ) ) {
-                    foreach( $groupType as $value ) {
-                        if( in_array( $value ,$csType ) ) {
-                            //make sure that new subtype extends the same basictype which
-                            //profile already extends. 
-                            $vType = CRM_Contact_BAO_ContactType::getBasicType( $value );
-                            if( $vType != $cType ) {
-                                $errors['field_name'] = 
-                                    ts( 'Cannot add or update profile field type "%1".'
-                                        ,array( 1=>$fieldType ) );
-                                break;
-                            }
-                        } else if ( $cType != $value ) {
-                            //make sure that basictype which profile already
-                            //extends is same as new basictype. 
-                            $errors['field_name'] = 
-                                ts( 'Cannot add or update profile field type "%1".'
-                                    ,array( 1=>$fieldType ) ); 
-                            break;
-                        }
-                        
-                    }  
-                }
-            }  
+	  if ( CRM_Contact_BAO_ContactType::isaSubType( $fieldType ) ) {
+	      $profileType = CRM_Core_BAO_UFField::getProfileType( $fields['group_id'] );
+	      if ( CRM_Contact_BAO_ContactType::isaSubType( $profileType ) ) {
+		  if ( $fieldType != $profileType ) {
+		      $errors['field_name'] = 
+			  ts( 'Cannot add or update profile field type "%1" with combination of "%2".', array( 1 => $fieldType, 2 => $profileType ) );
+		  }
+	      } else {
+		  $basicType = CRM_Contact_BAO_ContactType::getBasicType( $fieldType );
+		  if ( $profileType && 
+		       $profileType != $basicType  &&
+		       $profileType != 'Contact'   ) {
+		      $errors['field_name'] = 
+			  ts( 'Cannot add or update profile field type "%1" with combination of "%2".', array( 1 => $fieldType, 2 => $profileType ) );    
+		  }
+	      }        
+	    }
         }
         
         return empty($errors) ? true : $errors;

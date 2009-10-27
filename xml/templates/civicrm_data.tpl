@@ -21,7 +21,7 @@ SELECT @addId := id from civicrm_address where street_address = 'S 15S El Camino
 
 INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_billing, on_hold, hold_date, reset_date)
       VALUES
-      (NULL, 1, 'domainemail@example.org', 0, 0, 0, NULL, NULL);
+      (NULL, 1, '"Domain Email" <domainemail@example.org>', 0, 0, 0, NULL, NULL);
 
 SELECT @emailId := id from civicrm_email where email = 'domainemail@example.org';
 
@@ -151,7 +151,7 @@ VALUES
    ('email_greeting'                , '{ts escape="sql"}Email Greeting Type{/ts}'                , 0, 1),
    ('postal_greeting'               , '{ts escape="sql"}Postal Greeting Type{/ts}'               , 0, 1),
    ('addressee'                     , '{ts escape="sql"}Addressee Type{/ts}'                     , 0, 1),
-   ('autocomplete_contact_search_options', '{ts escape="sql"}Autocomplete Contact Search{/ts}'   , 0, 1);
+   ('contact_autocomplete_options'  , '{ts escape="sql"}Autocomplete Contact Search{/ts}'        , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -196,7 +196,7 @@ SELECT @option_group_id_emailGreeting  := max(id) from civicrm_option_group wher
 SELECT @option_group_id_postalGreeting := max(id) from civicrm_option_group where name = 'postal_greeting';
 SELECT @option_group_id_addressee      := max(id) from civicrm_option_group where name = 'addressee';
 SELECT @option_group_id_report         := max(id) from civicrm_option_group where name = 'report_template';
-SELECT @option_group_id_acsOpt         := max(id) from civicrm_option_group where name = 'autocomplete_contact_search_options';
+SELECT @option_group_id_acsOpt         := max(id) from civicrm_option_group where name = 'contact_autocomplete_options';
 
 SELECT @contributeCompId := max(id) FROM civicrm_component where name = 'CiviContribute';
 SELECT @eventCompId      := max(id) FROM civicrm_component where name = 'CiviEvent';
@@ -358,7 +358,6 @@ VALUES
   (@option_group_id_udOpt, '{ts escape="sql"}Pledges{/ts}'                    , 7, 'CiviPledge', NULL, 0, NULL, 7, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}Personal Campaign Pages{/ts}'    , 8, 'PCP', NULL, 0, NULL, 8, NULL, 0, 0, 1, NULL, NULL),
 
-  (@option_group_id_acsOpt, '{ts escape="sql"}Contact Name{/ts}'    , 1, 'sort_name', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_acsOpt, '{ts escape="sql"}Email Address{/ts}'   , 2, 'email', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_acsOpt, '{ts escape="sql"}Phone{/ts}'           , 3, 'phone', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_acsOpt, '{ts escape="sql"}Street Address{/ts}'  , 4, 'street_address', NULL, 4, NULL, 0, NULL, 0, 0, 1, NULL, NULL),
@@ -563,19 +562,19 @@ VALUES
 
 
 INSERT INTO `civicrm_preferences_date`
-  (name, start, end, minute_increment, format, description)
+  (name, start, end, format, description)
 VALUES
-  ( 'activityDate'    ,  20, 10,  0, null,        'Date for activities including contributions: receive, receipt, cancel. membership: join, start, renew. case: start, end.'         ),
-  ( 'activityDatetime',  20, 10, 1, null,        'Date and time for activity: scheduled. participant: registered.'                                                                  ),
-  ( 'birth'           , 100,  0,  0, null,        'Birth and deceased dates. Only year, month and day fields are supported.'                                                         ),
-  ( 'creditCard'      ,   0, 10,  0, 'M Y',       'Month and year only for credit card expiration.'                                                                                  ),
-  ( 'custom'          ,  20, 20, 15, 'Y M d h i A', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),
-  ( 'datetime'        ,  10,  3, 15, null,        'General date and time.'                                                                                                           ),
-  ( 'duration'        ,   0,  0, 15, 'H i',       'Durations in hours and minutes.'                                                                                                  ),
-  ( 'fixed'           ,   0,  5,  0, null,        'Not used ?'                                                                                                                       ),
-  ( 'mailing'         ,   0,  1, 15, 'Y M d h i A', 'Date and time. Used for scheduling mailings.'                                                                                      ),
-  ( 'manual'          ,  20, 20,  0, null,        'Date only. For non-general cases. Uses date range passed in by form field. Start and end offsets defined here are ignored.'       ),
-  ( 'relative'        ,  20, 20,  0, null,        'Used in search forms.'                                                                                                            );
+  ( 'activityDate'    ,  20, 10, 'mm/dd/yy',        'Date for activities including contributions: receive, receipt, cancel. membership: join, start, renew. case: start, end.'         ),
+  ( 'activityDatetime',  20, 10, 'mm/dd/yy',        'Date and time for activity: scheduled. participant: registered.'                                                                  ),
+  ( 'birth'           , 100,  0, 'mm/dd/yy',        'Birth and deceased dates. Only year, month and day fields are supported.'                                                         ),
+  ( 'creditCard'      ,   0, 10, 'M Y',       'Month and year only for credit card expiration.'                                                                                  ),
+  ( 'custom'          ,  20, 20, 'mm/dd/yy', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),
+  ( 'datetime'        ,  10,  3, 'mm/dd/yy',        'General date and time.'                                                                                                           ),
+  ( 'duration'        ,   0,  0, 'H i',       'Durations in hours and minutes.'                                                                                                  ),
+  ( 'fixed'           ,   0,  5, 'mm/dd/yy',        'Not used ?'                                                                                                                       ),
+  ( 'mailing'         ,   0,  1, 'mm/dd/yy', 'Date and time. Used for scheduling mailings.'                                                                                      ),
+  ( 'manual'          ,  20, 20, 'mm/dd/yy',        'Date only. For non-general cases. Uses date range passed in by form field. Start and end offsets defined here are ignored.'       ),
+  ( 'relative'        ,  20, 20, 'mm/dd/yy',        'Used in search forms.'                                                                                                            );
 
 
 -- various processor options
@@ -907,18 +906,15 @@ INSERT INTO civicrm_participant_status_type
   (12, 'Expired',                             '{ts escape="sql"}Expired{/ts}',                             'Negative', 1,           1,         0,          12,     2            );
 
 INSERT INTO `civicrm_contact_type`
-  (`id`, `name`, `label`, `description`, `image_URL`, `parent_id`, `is_active`)
+  (`id`, `name`, `label`, `description`, `image_URL`, `parent_id`, `is_active`,`is_reserved`)
  VALUES
-  ( 1, 'Individual'  , '{ts escape="sql"}Individual{/ts}'  , NULL, NULL, NULL, 1),
-  ( 2, 'Household'   , '{ts escape="sql"}Household{/ts}'   , NULL, NULL, NULL, 1),
-  ( 3, 'Organization', '{ts escape="sql"}Organization{/ts}', NULL, NULL, NULL, 1),
-  ( 4, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    1, 1),
-  ( 5, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    2, 1),
-  ( 6, NULL          , '{ts escape="sql"}All{/ts}'         , NULL, NULL,    3, 1),
-  ( 7, 'Student'     , '{ts escape="sql"}Student{/ts}'     , NULL, NULL,    1, 1),
-  ( 8, 'Parent'      , '{ts escape="sql"}Parent{/ts}'      , NULL, NULL,    1, 1),
-  ( 9, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , NULL, NULL,    1, 1),
-  (10, 'Team'        , '{ts escape="sql"}Team{/ts}'        , NULL, NULL,    3, 1),
-  (11, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , NULL, NULL,    3, 1);
+  ( 1, 'Individual'  , '{ts escape="sql"}Individual{/ts}'  , NULL, NULL, NULL, 1,1),
+  ( 2, 'Household'   , '{ts escape="sql"}Household{/ts}'   , NULL, NULL, NULL, 1,1),
+  ( 3, 'Organization', '{ts escape="sql"}Organization{/ts}', NULL, NULL, NULL, 1,1),
+  ( 4, 'Student'     , '{ts escape="sql"}Student{/ts}'     , NULL, NULL,    1, 1,0),
+  ( 5, 'Parent'      , '{ts escape="sql"}Parent{/ts}'      , NULL, NULL,    1, 1,0),
+  ( 6, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , NULL, NULL,    1, 1,0),
+  ( 7, 'Team'        , '{ts escape="sql"}Team{/ts}'        , NULL, NULL,    3, 1,0),
+  ( 8, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , NULL, NULL,    3, 1,0);
 
 {include file='civicrm_msg_template.tpl'}

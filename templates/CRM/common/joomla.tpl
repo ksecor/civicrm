@@ -22,10 +22,14 @@
     {/foreach}
 
     {if $revamp eq 0}
+        <link rel="stylesheet" href="{$config->resourceBase}css/deprecate.css" type="text/css" />
         <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
     {else}
+        <link rel="stylesheet" href="{$config->resourceBase}css/deprecate.css" type="text/css" />
         <link rel="stylesheet" href="{$config->resourceBase}css/civicrm-new.css" type="text/css" />
+
     {/if}
+    <link rel="stylesheet" href="{$config->resourceBase}css/extras.css" type="text/css" />
 {/if}
 
 {include file="CRM/common/jquery.tpl"}

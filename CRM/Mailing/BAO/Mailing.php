@@ -1085,8 +1085,10 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
                 $mailing->templates[$type] =  
                     CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->templates[$type]);
                 $mailing->templates[$type] = 
-                    CRM_Utils_Token::replaceDomainTokens($mailing->templates[$type], $domain, 
-                                                         $type == 'html'? true:false, $tokens[$type]);
+                    CRM_Utils_Token::replaceDomainTokens( $mailing->templates[$type],
+                                                          $domain, 
+                                                          $type == 'html' ? true : false,
+                                                          $tokens[$type] );
                 $mailing->templates[$type] = 
                     CRM_Utils_Token::replaceMailingTokens($mailing->templates[$type], $mailing, null, $tokens[$type]);
             }

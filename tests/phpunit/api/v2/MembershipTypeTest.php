@@ -52,7 +52,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
     {
     }
 
-///////////////// civicrm_membership_types_get methods
+///////////////// civicrm_membership_type_get methods
 
     function testGetWithWrongParamsType()
     {
@@ -65,7 +65,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
     function testGetWithEmptyParams()
     {
         $params = array();
-        $membershiptype = & civicrm_membership_types_get( $params );
+        $membershiptype = & civicrm_membership_type_get( $params );
         $this->assertEquals( $membershiptype['is_error'], 1 );
         $this->assertEquals( $membershiptype['error_message'],'No input parameters present');
     }
@@ -82,7 +82,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
                         'visibility'           => 'public'
                         );
         
-        $membershiptype = & civicrm_membership_types_get( $params );
+        $membershiptype = & civicrm_membership_type_get( $params );
         $this->assertEquals( $membershiptype['is_error'], 1 );
         $this->assertEquals( $membershiptype['error_message'],'Exact match not found' );
     }
@@ -91,7 +91,7 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
     {       
         $id = $this->membershipTypeCreate( $this->_contactID  );
         $params = array( 'id'=> $id );        
-        $membershiptype = & civicrm_membership_types_get( $params );
+        $membershiptype = & civicrm_membership_type_get( $params );
                        
         $this->assertEquals($membershiptype[$id]['name'],'General', 'In line ' . __LINE__ );
         $this->assertEquals($membershiptype[$id]['member_of_contact_id'],$this->_contactID);
@@ -217,8 +217,6 @@ class api_v2_MembershipTypeTest extends CiviUnitTestCase
     
     function testCreate()
     {
-        $this->contributionTypeCreate();
-
         $params = array(
                         'name'                 => '40+ Membership',
                         'description'          => 'people above 40 are given health instructions', 

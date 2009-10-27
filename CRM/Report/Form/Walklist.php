@@ -144,7 +144,7 @@ class CRM_Report_Form_Walklist extends CRM_Report_Form {
         $this->_from = null;
 
         $this->_from = "
-FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
+FROM       civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
 ";
         if ( $this->_addressField ) {
             $this->_from .= "LEFT JOIN civicrm_address {$this->_aliases['civicrm_address']} ON {$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_address']}.contact_id AND {$this->_aliases['civicrm_address']}.is_primary = 1\n";
@@ -196,6 +196,10 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
         } else {
             $this->_where = "WHERE " . implode( ' AND ', $clauses );
         }
+        
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }      
     }
 
 
@@ -212,6 +216,8 @@ FROM       civicrm_contact {$this->_aliases['civicrm_contact']}
     }
 
     function postProcess( ) {
+        // get the acl clauses built before we assemble the query
+        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
         parent::postProcess();
     }
 

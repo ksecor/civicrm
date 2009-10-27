@@ -203,7 +203,8 @@ class CRM_Contact_Task {
 
         require_once 'CRM/Utils/Mail.php';
         if ( !CRM_Utils_Mail::validOutBoundMail() ) { 
-            unset( $titles[6] );
+            unset( $titles[6 ] );
+            unset( $titles[20] );
         }
         
         if ( ! in_array( 'CiviSMS', $config->enableComponents ) ) {
@@ -223,6 +224,7 @@ class CRM_Contact_Task {
      * @access public
      */
     static function &permissionedTaskTitles( $permission ) {
+        $tasks = array( );
         if ( $permission == CRM_Core_Permission::EDIT ) {
             $tasks = self::taskTitles( );
         } else {

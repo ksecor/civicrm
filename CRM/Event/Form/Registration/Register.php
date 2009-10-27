@@ -575,7 +575,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
         if ( $self->_values['event']['is_monetary'] ) {
             if ( is_array( $self->_paymentProcessor ) ) {
-                $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
+                $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor, $this );
                 $error   =  $payment->checkConfig( $self->_mode );
                 if ( $error ) {
                     $errors['_qf_default'] = $error;
@@ -612,6 +612,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                         if ( is_array( $val) ) {
                             //$keys is the id of the option value
                             foreach( $val as $keys => $vals  )  {
+                                if ( !$keys ) continue;
                                 $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'name');
                             }
                         } else if( $htmlType == 'Text') {
@@ -770,7 +771,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             $this->set( 'invoiceID', $invoiceID );
             if ( is_array( $this->_paymentProcessor ) ) {
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor ); 
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor, $this ); 
             }
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
@@ -821,6 +822,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                                   $urlArgs,
                                                                   true, null, false ); 
                     $params['invoiceID' ] = $invoiceID;
+
+                    //default action is Sale
+                    $params['payment_action'] = 'Sale';
                     
                     $token = $payment->setExpressCheckout( $params ); 
                     if ( is_a( $token, 'CRM_Core_Error' ) ) { 

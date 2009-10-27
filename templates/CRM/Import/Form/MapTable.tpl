@@ -119,7 +119,7 @@
              }
             cj('select[id^="mapper"][id$="[0]"]').addClass('huge');
             {/literal}
-	    {include file="CRM/common/highLightImport.tpl"}
+	    {include file="CRM/common/highLightImport.tpl" relationship=true}	    
 	</script>
     </div>
     {/if}

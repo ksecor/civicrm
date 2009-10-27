@@ -271,7 +271,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         if ( array_key_exists('group', $params) ) {
             require_once 'CRM/Contact/BAO/GroupContact.php';
-            CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+            $contactIds = array( $params['contact_id'] );
+            foreach ( $params['group'] as $groupId => $flag ) {
+                if ( $flag == 1 ) {
+                    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $groupId );
+                } else if ( $flag == -1 ) {
+                    CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contactIds, $groupId );
+                }
+            }
         }
 
         //add location Block data
@@ -424,15 +431,15 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
         
         //lookup value of email/postal greeting, addressee, CRM-4575
-        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+        $filterCondition = array( 'contact_type'  => CRM_Utils_Array::value( 'contact_type', $defaults ),
                                   'greeting_type' => 'email_greeting' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'email_greeting', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
-        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+        $filterCondition = array( 'contact_type'  => CRM_Utils_Array::value( 'contact_type', $defaults ),
                                   'greeting_type' => 'postal_greeting' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'postal_greeting', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
-        $filterCondition = array( 'contact_type'  => $defaults['contact_type'],
+        $filterCondition = array( 'contact_type'  => CRM_Utils_Array::value( 'contact_type', $defaults ),
                                   'greeting_type' => 'addressee' ); 
         CRM_Utils_Array::lookupValue( $defaults, 'addressee', 
                                       CRM_Core_PseudoConstant::greeting($filterCondition), $reverse );
@@ -526,6 +533,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         }
 
         $contact = self::_getValues( $params, $defaults );
+        
         unset($params['id']);
         
         //get the block information for this contact
@@ -1326,7 +1334,10 @@ AND    civicrm_contact.id = %1";
                     }
                     $data['im'][$loc]['name']  = $value;  
                 } else if ($fieldName == 'openid') {
-                    $data['openid'][$loc]['openid']     = $value;
+                    # $value should be a hash of the OpenID fields
+                    foreach ($value as $key => $val) {
+                        $data['openid'][$loc][$key] = $val;
+                    }
                 } else {
                     if ($fieldName === 'state_province') {
                         // CRM-3393
@@ -1605,7 +1616,8 @@ WHERE      civicrm_email.email = %1";
      */
     static function &matchContactOnOpenId( $openId, $ctype = null ) 
     {
-        $openId = strtolower( trim( $openId ) );
+        $endpoint_url = strtolower( trim( $openId['endpoint_url'] ) );
+        $claimed_id   = strtolower( trim( $openId['claimed_id'  ] ) );
         $query  = "
 SELECT     civicrm_contact.id as contact_id,
            civicrm_contact.hash as hash,
@@ -1613,8 +1625,9 @@ SELECT     civicrm_contact.id as contact_id,
            civicrm_contact.contact_sub_type as contact_sub_type
 FROM       civicrm_contact
 INNER JOIN civicrm_openid    ON ( civicrm_contact.id = civicrm_openid.contact_id )
-WHERE      civicrm_openid.openid = %1";
-        $p = array( 1 => array( $openId, 'String' ) );
+WHERE      civicrm_openid.endpoint_url = %1 AND civicrm_openid.claimed_id = %2";
+        $p = array( 1 => array( $endpoint_url, 'String' ),
+                    2 => array( $claimed_id,   'String' ) );
 
        if ( $ctype ) {
            $query .= " AND civicrm_contact.contact_type = %3";
@@ -1665,7 +1678,8 @@ LEFT JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
      *
      * @param int $contactID contact id
      *
-     * @return string $dao->openid   OpenID if present else null
+     * @return string $dao->openid   OpenID if present else null;
+     *          returns the claimed ID
      * @static
      * @access public
      */
@@ -1673,7 +1687,7 @@ LEFT JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
     {
         // fetch the primary OpenID
         $query = "
-SELECT    civicrm_openid.openid as openid
+SELECT    civicrm_openid.claimed_id as openid
 FROM      civicrm_contact
 LEFT JOIN civicrm_openid ON ( civicrm_contact.id = civicrm_openid.contact_id )
 WHERE     civicrm_contact.id = %1
@@ -1787,8 +1801,16 @@ UNION
                     $values['age']['y'] = CRM_Utils_Array::value('years',$age);
                     $values['age']['m'] = CRM_Utils_Array::value('months',$age);
                  }
+                 
+                 list( $values['birth_date'] ) = CRM_Utils_Date::setDateDefaults( $contact->birth_date, 'birth' );
+                 $values['birth_date_display'] = $contact->birth_date;
             }
-
+            
+            if ( $contact->deceased_date ) {
+                list( $values['deceased_date'] ) = CRM_Utils_Date::setDateDefaults( $contact->deceased_date, 'birth' );
+                $values['deceased_date_display'] = $contact->deceased_date;
+            }
+            
             $contact->contact_id = $contact->id;
             
             return $contact;

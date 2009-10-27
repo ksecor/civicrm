@@ -201,6 +201,9 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
             $errors['entity_id'] = ts( 'Please assign this permission to a Role.' );
         }
 
+        $validOperations  = array( 'View', 'Edit' );
+        $operationMessage = ts( "Only 'View' and 'Edit' operations are valid for this type of data" );
+        
         // Figure out which type of object we're permissioning on and make sure user has selected a value.
         switch ( $params['object_type'] ) {
             case 1:
@@ -209,22 +212,46 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
                     $showHide->addShow( "id-group-acl" );
                     $showHide->addHide( "id-profile-acl" );
                     $showHide->addHide( "id-custom-acl" );
+                    $showHide->addHide( "id-event-acl" );
+                }
+                if ( ! in_array( $params['operation'], $validOperations ) ) {
+                    $errors['operation'] = $operationMessage;
                 }
                 break;
+
             case 2:
                 if ( $params['uf_group_id'] == -1 ) {
                     $errors['uf_group_id'] = ts( 'Please select a Profile (or ALL Profiles).' );
                     $showHide->addShow( "id-profile-acl" );
                     $showHide->addHide( "id-group-acl" );
                     $showHide->addHide( "id-custom-acl" );
+                    $showHide->addHide( "id-event-acl" );
                 }
                 break;
+
             case 3:
                 if ( $params['custom_group_id'] == -1 ) {
                     $errors['custom_group_id'] = ts( 'Please select a set of Custom Data (or ALL Custom Data).' );
                     $showHide->addShow( "id-custom-acl" );
                     $showHide->addHide( "id-group-acl" );
                     $showHide->addHide( "id-profile-acl" );
+                    $showHide->addHide( "id-event-acl" );
+                }
+                if ( ! in_array( $params['operation'], $validOperations ) ) {
+                    $errors['operation'] = $operationMessage;
+                }
+                break;
+                
+            case 4:
+                if ( $params['event_id'] == -1 ) {
+                    $errors['event_id'] = ts( 'Please select an Event (or ALL Events).' );
+                    $showHide->addShow( "id-event-acl" );
+                    $showHide->addHide( "id-custom-acl" );
+                    $showHide->addHide( "id-group-acl" );
+                    $showHide->addHide( "id-profile-acl" );
+                }
+                if ( ! in_array( $params['operation'], $validOperations ) ) {
+                    $errors['operation'] = $operationMessage;
                 }
                 break;
                 

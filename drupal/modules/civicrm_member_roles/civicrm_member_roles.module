@@ -390,15 +390,15 @@ function _civicrm_member_roles_sync($ext_uid = NULL)
         $codes = unserialize($result->status_codes);
     
         //CiviCRM query
-        $memberships = 'SELECT status_id, email, cm.contact_id FROM civicrm_membership cm
-                    LEFT JOIN civicrm_contact cc ON cm.contact_id = cc.id 
-                    LEFT JOIN civicrm_email ce ON cc.id = ce.contact_id 
-                    WHERE contact_type = \'Individual\'  
-                    AND ce.is_primary = 1
-                    AND membership_type_id = %1';
-        $params = array(
-                        1 => array($result->type_id, 'Integer'),
-                        );
+        $memberships = "
+SELECT    status_id, email, cm.contact_id
+FROM      civicrm_membership cm
+LEFT JOIN civicrm_email ce ON cm.contact_id = ce.contact_id 
+WHERE     contact_type = 'Individual'  
+AND       ce.is_primary = 1
+AND       membership_type_id = %1
+";
+        $params = array( 1 => array($result->type_id, 'Integer') );
         
         if (!empty($ext_uid)) {
       
@@ -406,7 +406,7 @@ function _civicrm_member_roles_sync($ext_uid = NULL)
             $cid = CRM_Core_BAO_UFMatch::getContactId($ext_uid);
 
             if(!empty($cid)) {
-                $memberships .= ' AND cc.id = %3';
+                $memberships .= ' AND cm.contact_id = %3';
                 $params[3] = array((int) $cid, 'Integer');
             } else {
                 watchdog('civicrm_member_roles', 
@@ -441,7 +441,11 @@ function _civicrm_member_roles_sync($ext_uid = NULL)
         }
     
         unset($dao);
-        
+
+	// also make sure the add has precedence over remove, i.e. if we add a role, we dont remove it
+	// in case of multiple membership types
+	$remove_accounts = array_diff( $remove_accounts, $add_accounts );
+	        
         //Let's make sure the rid is really an rid.
         if(is_numeric($result->rid)) {
       

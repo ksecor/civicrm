@@ -292,7 +292,7 @@ class CRM_Utils_System_Standalone {
         require_once 'CRM/Core/BAO/OpenID.php';
 
         // this returns true if the user is allowed to log in, false o/w
-        $allow_login = CRM_Core_BAO_OpenID::isAllowedToLogin( $user->identity_url );
+        $allow_login = CRM_Core_BAO_OpenID::isAllowedToLogin( $user->openid );
         return $allow_login;
     }
 

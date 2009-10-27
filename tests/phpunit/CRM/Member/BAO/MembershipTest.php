@@ -104,7 +104,7 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
 
     function testGetValues( )
     {
-        $this->markTestSkipped( 'causes mysterious exit, needs fixing!' );    
+//        $this->markTestSkipped( 'causes mysterious exit, needs fixing!' );    
         //  Calculate membership dates based on the current date
         $now           = time( );
         $year_from_now = $now + ( 365 * 24 * 60 * 60 );
@@ -278,44 +278,6 @@ class CRM_Member_BAO_MembershipTest extends CiviUnitTestCase
         $this->assertEquals( $membership['id'], $membershipId, 'Verify membership record is retrieved.' );
     }
 
-
-    /*
-     * Function to build Membership  Block in Contribution Pages
-     *
-     */
-    function testbuildMembershipBlock ( )
-    {
-        $this->markTestSkipped( 'blows up with fatal, needs fixing!' );
-
-        //create membership type 
-        $membershipType     = Membership::createMembershipType( );
-        //create contribution page
-        $contributionPageID = ContributionPage::create( );
-        //create membership blok and add to contribution page
-        $membershipBlock    = Membership::createMembershipBlock( $membershipType->id , $contributionPageID );
-        
-        $getMembershipBlock = CRM_Member_BAO_Membership::getMembershipBlock( $contributionPageID );
-        require_once 'CRM/Contribute/Form/Contribution/Main.php';
-        $main =new CRM_Contribute_Form_Contribution_Main();
-        $main->_id = 1;
-        $main->_mode = 'test';
-        $main->_membershipBlock = array(
-                                        'id'                  => $membershipBlock->id,      //block id
-                                        'entity_table'        => 'civicrm_contribution_page',
-                                        'entity_id'           => $contributionPageID, //page id
-                                        'membership_types'    => $membershipType->id,
-                                        'display_min_fee'     => 1,
-                                        'is_separate_payment' => 0,
-                                        'new_title'           => 'Membership Levels and Fees',
-                                        'new_text'            => 'Membership Levels and Fees',
-                                        'renewal_title'       => 'Renew or Upgrade Your Membership',
-                                        'renewal_text'        => 'Renew or Upgrade Your Membership',
-                                        'is_required'         => 1,
-                                        'is_active'           => 1
-                                        );
-      $buildMemberBlock = CRM_Member_BAO_Membership::buildMembershipBlock( $main, $contributionPageID, true , null,null,true,null );
-     
-    }
 
     /*
      * Function to get the contribution 
