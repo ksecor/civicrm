@@ -1120,9 +1120,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( $params['receipt_text'] ) {
                 $event['confirm_email_text'] =  $params['receipt_text'];
             }
-            if ($params['receipt_html']) {
-                $event['confirm_email_html'] =  $params['receipt_html'];
-            }
           
             $this->assign( 'isAmountzero', 1 );
             $this->assign( 'event' , $event );

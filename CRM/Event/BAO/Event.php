@@ -974,7 +974,6 @@ WHERE civicrm_event.is_active = 1
                     'tplParams' => array(
                         'email'              => $email,
                         'confirm_email_text' => CRM_Utils_Array::value('confirm_email_text', $values['event']),
-                        'confirm_email_html' => CRM_Utils_Array::value('confirm_email_html', $values['event']),
                         'isShowLocation'     => CRM_Utils_Array::value('is_show_location',   $values['event']),
                     ),
                 );

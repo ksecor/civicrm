@@ -543,7 +543,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( $params['is_pay_later'] ) {
             $this->assign( 'pay_later_text'   , $this->_values['event']['pay_later_text']    );
             $this->assign( 'pay_later_receipt', $this->_values['event']['pay_later_receipt'] );
-            $this->assign('pay_later_receipt_html', $this->_values['event']['pay_later_receipt_html']);
         }
         
     }

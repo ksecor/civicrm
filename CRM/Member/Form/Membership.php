@@ -231,9 +231,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $defaults['receipt_text_signup'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
                                                                              $defaults['membership_type_id'][1],
                                                                              'receipt_text_signup' );
-            $defaults['receipt_html_signup'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
-                                                                             $defaults['membership_type_id'][1],
-                                                                             'receipt_html_signup' );
         }
         
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
@@ -426,8 +423,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                           'send_receipt', 
                           ts('Send Confirmation and Receipt?'), null, 
                           array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
-        $this->add('textarea', 'receipt_text_signup', ts('Receipt Message (Text Part)'));
-        $this->add('textarea', 'receipt_html_signup', ts('Receipt Message (HTML Part)'));
+        $this->add('textarea', 'receipt_text_signup', ts('Receipt Message') );
         if ( $this->_mode ) {
         
             $this->add( 'select', 'payment_processor_id',
@@ -868,10 +864,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                          $params['membership_type_id'], 
                                          'receipt_text_signup',
                                          $formValues['receipt_text_signup'] );
-            CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType',
-                                         $params['membership_type_id'],
-                                         'receipt_html_signup',
-                                         $formValues['receipt_html_signup'] );
         }
 
         $receiptSend = false;

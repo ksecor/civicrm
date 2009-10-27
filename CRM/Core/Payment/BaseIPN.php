@@ -644,9 +644,6 @@ class CRM_Core_Payment_BaseIPN {
         $template->assign( 'receipt_text',
                            CRM_Utils_Array::value( 'receipt_text',
                                                    $values ) );
-        $template->assign( 'receipt_html',
-                           CRM_Utils_Array::value( 'receipt_html',
-                                                   $values ) );
         $template->assign( 'is_monetary', 1 );
         $template->assign( 'is_recur', $recur );
         if ( $recur ) {

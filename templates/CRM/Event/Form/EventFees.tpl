@@ -155,18 +155,11 @@
         <tr id='notice'>
  			<td class="label">{$form.receipt_text.label}</td> 
             <td><span class="description">
-                {ts}Enter a message you want included at the beginning of the confirmation email (text part). EXAMPLE: 'Thanks for registering for this event.'{/ts}
+                {ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}
                 </span><br />
                 {$form.receipt_text.html|crmReplace:class:huge}
             </td>
         </tr> 
-            <td class="label">{$form.receipt_html.label}</td>
-            <td><span class="description">
-                {ts}Enter a message you want included at the beginning of the confirmation email (HTML part).{/ts}
-                </span><br />
-                {$form.receipt_html.html|crmReplace:class:huge}
-            </td>
-        </tr>
       </table>
     </fieldset>
 {elseif $context eq 'standalone' and $outBound_option != 2 }
@@ -181,16 +174,9 @@
         <tr id='notice'>
     		<td class="label">{$form.receipt_text.label}</td> 
             <td><span class="description">
-                {ts}Enter a message you want included at the beginning of the confirmation email (text part). EXAMPLE: 'Thanks for registering for this event.'{/ts}
+                {ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}
                 </span><br />
                 {$form.receipt_text.html|crmReplace:class:huge}</td>
-        </tr>
-        <tr id='notice'>
-            <td class="label">{$form.receipt_html.label}</td>
-            <td><span class="description">
-                {ts}Enter a message you want included at the beginning of the confirmation email (HTML part).{/ts}
-                </span><br />
-                {$form.receipt_html.html|crmReplace:class:huge}</td>
         </tr>
       </table>
     </fieldset>
@@ -285,4 +271,4 @@ function checkEmail( ) {
 </script>
 {/if}
 
-{* ADD mode if *}
+{* ADD mode if *}    
