@@ -205,8 +205,8 @@
 
 <script type="text/javascript">
 {literal}
-
 	sendNotification();
+	cj("#notify").hide();
 	function sendNotification( ) {
 		 var status = cj("select#status_id option:selected").text();
 		 cj("#notify").hide();

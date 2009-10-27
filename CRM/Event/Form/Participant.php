@@ -641,7 +641,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     array('onchange' => "buildCustomData( 'Participant', this.value, {$this->_roleCustomDataTypeID} );") );
         
         // CRM-4395
-        $checkCancelledJs = null;
         $checkCancelledJs = array('onchange' => "return sendNotification( );");
         if ( $this->_onlinePendingContributionId ) {
             $cancelledparticipantStatusId  = array_search( 'Cancelled',CRM_Event_PseudoConstant::participantStatus() );
