@@ -70,7 +70,7 @@ class CRM_Core_BAO_LineItem extends CRM_Core_DAO_LineItem {
     static function getLineItems( $entityId, $entity = 'Participant' ) 
     {
         $whereClause  = $fromCluase = null;
-        $selectClause = "SELECT li.id, li.label, li.qty, li.unit_price, li.line_total, pf.label as description, pf.html_type";
+        $selectClause = "SELECT li.id, li.label, li.qty, li.unit_price, li.line_total, pf.label as description, pf.html_type, li.price_field_id, li.option_group_id";
         if ( $entity == 'Participant' ) {
             $fromClause = "
 FROM      civicrm_participant as p 
@@ -93,10 +93,12 @@ LEFT JOIN civicrm_price_field pf ON (pf.id = li.price_field_id )";
         $dao = CRM_Core_DAO::executeQuery( "$selectClause $fromClause $whereClause", $params );
         while ( $dao->fetch() ) {
             if ( !$dao->id ) continue;
-            $lineItems[$dao->id] = array( 'qty'        => $dao->qty,
-                                          'label'      => $dao->label,
-                                          'unit_price' => $dao->unit_price,
-                                          'line_total' => $dao->line_total
+            $lineItems[$dao->id] = array( 'qty'             => $dao->qty,
+                                          'label'           => $dao->label,
+                                          'unit_price'      => $dao->unit_price,
+                                          'line_total'      => $dao->line_total,
+                                          'price_field_id'  => $dao->price_field_id,
+                                          'option_group_id' => $dao->option_group_id
                                           );
             $lineItems[$dao->id]['description'] = $dao->description . ' - ' . $dao->label;
             if ( $dao->html_type == 'Text' ) {
