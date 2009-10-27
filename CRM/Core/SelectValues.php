@@ -448,8 +448,7 @@ class CRM_Core_SelectValues
         } elseif ($type == 'creditCard') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
-            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
-                                                             array( $config->dateformatMonthVar, 'Y' ) );
+            $newDate['format'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PreferencesDate', 'creditCard','format','name' );
         } elseif ($type == 'mailing') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
