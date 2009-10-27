@@ -10,7 +10,7 @@
     display   	    : none;
 }
 
-contact#crm-container .clear {
+#crm-container .clear {
     clear 	    : both;
 }
 
@@ -171,22 +171,17 @@ div.spacer,
 
 
 
-#crm-container td.compressed select, #crm-container td.compressed input {
+#crm-container td.compressed select, 
+#crm-container td.compressed input {
   font-size: 0.90em;
   font-weight: bold;
 }
 
-#crm-container input[type="text"], #crm-container input[type="password"] {
-  border: 1px solid #999;
-  font-size:12px;
-  font-size-adjust:none;
-  font-stretch:normal;
-  font-style:normal;
-  font-variant:normal;
-  font-weight:bold;
-  line-height:100%;
-  vertical-align:middle;
-}
+#crm-container input[type="text"], 
+#crm-container input[type="password"] {
+  	border: 1px solid #999;
+  	vertical-align:middle;
+	}
 
 
   
@@ -233,6 +228,26 @@ div.spacer,
 #crm-container div.form-item dl, #crm-container .section-hidden dl{
  margin: 0;
 }
+
+
+/* contribution page styles */
+
+#crm-container .section {
+	margin-bottom:1em;
+	}
+	#crm-container .section .section {
+		margin-bottom:0.5em; /* make subsections sit closer together */
+		}
+
+#crm-container .section .label {
+	float:left;
+	width:19%;
+	text-align: right;
+	}
+
+#crm-container .section .content {
+	margin-left:20%;
+	}
 
 /* Use definition lists for simple 2 col forms - <dt> for labels, <dd> for fields */
 #crm-container div.form-item dt {
@@ -1374,6 +1389,7 @@ table.campaign td,
 	padding:0px 5px;
 	border-right:1px solid #CCC;
 	}
+	#crm-container .action-item-last { border-right:none; /* last action item should not have right hand border */}
 
 #crm-container #panel, 
 #crm-container .panel {
