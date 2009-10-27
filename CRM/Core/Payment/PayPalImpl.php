@@ -218,7 +218,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                                                           $params );
 
         // Allow further manipulation of the arguments via custom hooks ..
-        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $args );
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $args );
 
         $result = $this->invokeAPI( $args );
 
@@ -391,7 +391,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         }
         
         // Allow further manipulation of the arguments via custom hooks ..
-        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $paypalParams );
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $paypalParams );
 
         $uri = '';
         foreach ( $paypalParams as $key => $value ) {

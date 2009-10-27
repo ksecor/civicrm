@@ -133,7 +133,7 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
         }
         
         // Allow further manipulation of the arguments via custom hooks ..
-        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $privateData );
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $privateData );
 
         $cart->SetMerchantPrivateData($privateData);
         

@@ -76,7 +76,7 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
         $args['zip']            = $params['postal_code'];
 
         // Allow further manipulation of the arguments via custom hooks ..
-        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $args );
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $args );
 
         $result = $this->invokeAPI( $args );
 
@@ -216,7 +216,7 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
         }
 
         // Allow further manipulation of the arguments via custom hooks ..
-        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $ClickAndPledgeParams );
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $ClickAndPledgeParams );
         
         $uri = '';
         foreach ( $ClickAndPledgeParams as $key => $value ) {

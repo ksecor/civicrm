@@ -92,7 +92,7 @@ class CRM_Core_Payment_PayJunction extends CRM_Core_Payment
                         );
 
       // Allow further manipulation of params via custom hooks
-      CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $txnArray );
+      CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $txnArray );
 
       $pjpgTxn = new pjpgTransaction($txnArray);
   

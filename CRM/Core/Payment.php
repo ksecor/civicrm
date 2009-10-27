@@ -114,6 +114,14 @@ abstract class CRM_Core_Payment {
     }
 
     /**
+     * Getter for accessing member vars
+     *
+     */
+    function getVar( $name ) {
+        return isset( $this->$name ) ? $this->$name : null;
+    }
+
+    /**
      * This function collects all the information from a web/api form and invokes
      * the relevant payment processor specific functions to perform the transaction
      *

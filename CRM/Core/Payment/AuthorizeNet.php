@@ -83,8 +83,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
 
         // Set up our call for hook_civicrm_paymentProcessor,
         // since we now have our parameters as assigned for the AIM back end.
-        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ),
-                                                     $this->_mode,
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this,
                                                      $params,
                                                      $authorizeNetFields );
 

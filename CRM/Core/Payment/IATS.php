@@ -138,7 +138,7 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
 
             // Allow further manipulation of the arguments via custom hooks, 
             // before initiating processCreditCard()
-            CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $iatslink1 );
+            CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $iatslink1 );
 
             $iatslink1->processCreditCard();
         } else { // extra fields for recurring donations
@@ -176,7 +176,7 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
 
             // Allow further manipulation of the arguments via custom hooks, 
             // before initiating the curl process
-            CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $iatslink1 );
+            CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $iatslink1 );
 
             // this next line is the reoccc equiv of processCreditCard
             $iatslink1->createReoccCustomer();

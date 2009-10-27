@@ -202,7 +202,7 @@ class CRM_Core_Payment_eWAY extends CRM_Core_Payment
        $eWAYRequest->EwayOption3(          $txtOptions                   );  //  255 Chars - ewayOption3
        
        // Allow further manipulation of the arguments via custom hooks ..
-       CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ), $this->_mode, $params, $eWAYRequest );
+       CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $eWAYRequest );
 
        //----------------------------------------------------------------------------------------------------
        // Check to see if we have a duplicate before we send 

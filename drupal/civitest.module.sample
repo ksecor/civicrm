@@ -740,20 +740,20 @@ ORDER BY c.sort_name ";
 /**
  * Hook implementation for altering payment parameters before talking to a payment processor back end.
  *                                        
- * @param string $processorName
- *    class name of the payment processor invoked (e.g., 'CRM_Core_Payment_Dummy')
- * @param string $mode
- *    'test' or 'live'
+ * @param string $paymentObj
+ *    instance of payment class of the payment processor invoked (e.g., 'CRM_Core_Payment_Dummy')
  * @param array &$rawParams
  *    array of params as passed to to the processor
  * @params array  &$cookedParams
  *     params after the processor code has translated them into its own key/value pairs
  * @return void
  */
-function civitest_civicrm_alterPaymentProcessorParams( $processorName, 
-                                                       $mode,
+function civitest_civicrm_alterPaymentProcessorParams( $paymentObj,
                                                        &$rawParams, 
                                                        &$cookedParams ) {
+    $processorName = get_class( $paymentObj );
+    $mode = $paymentObj->getVar('_mode');
+
     if ( $processorName == 'CRM_Core_Payment_Dummy' ) {
         $employer   = empty($rawParams['custom_1']) ? '' : $rawParams['custom_1'];
         $occupation = empty($rawParams['custom_2']) ? '' : $rawParams['custom_2'];

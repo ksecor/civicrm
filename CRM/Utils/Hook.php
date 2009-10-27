@@ -552,13 +552,11 @@ class CRM_Utils_Hook {
      *
      * Definition will look like this:
      * 
-     *   function hook_civicrm_alterPaymentProcessorParams($processorName, $mode,
+     *   function hook_civicrm_alterPaymentProcessorParams($paymentObj,
      *                                                     &$rawParams, &$cookedParams);
      *                                        
-     * @param string $processorName
-     *    class name of the payment processor invoked (e.g., 'CRM_Core_Payment_Dummy')
-     * @param string $mode
-     *    'test' or 'live'
+     * @param string $paymentObj
+     *    instance of payment class of the payment processor invoked (e.g., 'CRM_Core_Payment_Dummy')
      * @param array &$rawParams
      *    array of params as passed to to the processor
      * @params array  &$cookedParams
@@ -566,8 +564,7 @@ class CRM_Utils_Hook {
      * @return void
      */
     
-    static function alterPaymentProcessorParams( $processorName, 
-                                                 $mode,
+    static function alterPaymentProcessorParams( $paymentObj,
                                                  &$rawParams, 
                                                  &$cookedParams ) {
         $config =& CRM_Core_Config::singleton( );
@@ -577,6 +574,6 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 4, $processorName, $mode, $rawParams, $cookedParams, $null, \'civicrm_alterPaymentProcessorParams\' );' );
+                  '::invoke( 3, $paymentObj, $rawParams, $cookedParams, $null, $null, \'civicrm_alterPaymentProcessorParams\' );' );
     }
 }

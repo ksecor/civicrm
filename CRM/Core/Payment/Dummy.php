@@ -58,8 +58,7 @@ class CRM_Core_Payment_Dummy extends CRM_Core_Payment {
         // but before it actually starts talking to its proprietary back-end.
         
         $cookedParams = $params; // no translation in Dummy processor
-        CRM_Utils_Hook::alterPaymentProcessorParams( get_class( $this ),
-                                                     $this->_mode,
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this,
                                                      $params,
                                                      $cookedParams );
         //end of hook invokation
