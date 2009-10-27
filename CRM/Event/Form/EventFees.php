@@ -407,8 +407,8 @@ SELECT  id, label, name, option_group_id
             
             // make sure this is for backoffice registration.
             if ( $form->getName( ) == 'Participant' ) {
-                require_once "CRM/Event/Form/Participant.php";
-                $eventfullMsg = CRM_Event_Form_participant::eventFullMessage( $form->_eventId, $form->_pId );
+                require_once "CRM/Event/BAO/Participant.php";
+                $eventfullMsg = CRM_Event_BAO_Participant::eventFullMessage( $form->_eventId, $form->_pId );
                 $form->addElement( 'hidden', 'hidden_eventFullMsg', $eventfullMsg, array( 'id' => 'hidden_eventFullMsg' ) );
             }
         }
