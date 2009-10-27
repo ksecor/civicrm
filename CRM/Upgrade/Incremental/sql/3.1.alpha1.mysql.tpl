@@ -97,6 +97,9 @@
 -- CRM-5285
    UPDATE civicrm_state_province SET name = 'Haifa' where id = 3115;
 
+-- CRM-5287
+   UPDATE civicrm_state_province SET name = 'Jerusalem' where id = 3117;
+
 -- CRM-5224
 /* Set references to obsolete UK counties to NULL */
 UPDATE `civicrm_address` SET `state_province_id` = NULL WHERE `state_province_id` IN
