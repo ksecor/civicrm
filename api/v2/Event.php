@@ -164,7 +164,7 @@ function civicrm_event_search( &$params )
             $inputParams[$n] = $v;
         }
     }
-   
+
     if ( !empty($returnProperties ) ) {
         $returnProperties[]='id';
         $returnProperties[]='event_type_id';
@@ -184,6 +184,15 @@ function civicrm_event_search( &$params )
     $eventDAO->limit( (int)$offset, (int)$rowCount );
     $eventDAO->find( );
     while ( $eventDAO->fetch( ) ) {
+        // dont return templates unless the user has passed in a request
+        // ignore event templates
+        // ideally need to put this in the query, but not sure how to do this with the below
+        // ( ( is_template IS NULL ) OR ( is_template = 0 ) )
+        // hence doing this here for now, please fix on a future rewrite
+        if ( $eventDAO->is_template ) {
+            continue;
+        }
+
         $event[$eventDAO->id] = array( );
         CRM_Core_DAO::storeValues( $eventDAO, $event[$eventDAO->id] );
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', CRM_Core_DAO::$_nullObject, $eventDAO->id, false, $eventDAO->event_type_id );
