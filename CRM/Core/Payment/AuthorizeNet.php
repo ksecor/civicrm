@@ -80,6 +80,13 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
 
         $postFields         = array( );
         $authorizeNetFields = $this->_getAuthorizeNetFields( );
+
+        // Set up our call for hook_civicrm_paymentProcessor,
+        // since we now have our parameters as assigned for the AIM back end.
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this,
+                                                     $params,
+                                                     $authorizeNetFields );
+
         foreach ( $authorizeNetFields as $field => $value ) {
             $postFields[] = $field . '=' . urlencode( $value );
         }

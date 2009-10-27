@@ -1051,10 +1051,12 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                   WHERE cc.is_test = {$isTest} AND ccs.contact_id = " . $contact_id;
        
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        require_once "CRM/Contribute/PseudoConstant.php";
         $contributionStatus = CRM_Contribute_Pseudoconstant::contributionStatus( );
         $result = array();
         while( $cs->fetch( ) ) {
-            $result[$cs->id]['amount']            = CRM_Utils_Money::format( $cs->amount , $cs->currency );
+            $result[$cs->id]['amount']            = $cs->amount;
+            $result[$cs->id]['currency']          = $cs->currency;
             $result[$cs->id]['contributor_id']    = $cs->contributor_id;
             $result[$cs->id]['contribution_id']   = $cs->contribution_id;
             $result[$cs->id]['contributor_name']  = $cs->display_name;
@@ -1071,7 +1073,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                 $result[$cs->id]['contribution_status'] = $result[$cs->id]['contribution_status'].'<br /> (test)';
             }
         }
-        return $result;
+        return $result;        
     }    
     
     static function getSoftContributionTotals( $contact_id, $isTest = 0 )

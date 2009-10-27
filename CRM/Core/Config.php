@@ -204,6 +204,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 $include_path = self::$_singleton->customPHPPathDir . PATH_SEPARATOR . get_include_path( );
                 set_include_path( $include_path );
             }
+
+            // set the callback at the very very end, to avoid an infinite loop 
+            // set the error callback
+            CRM_Core_Error::setCallback();
         }
 
         return self::$_singleton;
@@ -307,9 +311,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
 
         // also initialize the logger
         self::$_log =& Log::singleton( 'display' );
-
-        // set the error callback
-        CRM_Core_Error::setCallback();
     }
 
 

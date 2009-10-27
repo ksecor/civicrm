@@ -70,7 +70,7 @@ class CRM_Utils_Mail_Incoming {
         if ( $part instanceof ezcMailMultiPart ) {
             return self::formatMailMultipart( $part, $attachments );
         }
-
+       
         CRM_Core_Error::fatal( ts( "No clue about the %1",
                                    array( 1 => get_class( $part ) ) ) );
     }
@@ -93,6 +93,10 @@ class CRM_Utils_Mail_Incoming {
             return self::formatMailMultipartMixed( $part, $attachments );
         }
 
+        if ( $part instanceof ezcMailMultipartReport ) {
+            return self::formatMailMultipartReport( $part, $attachments );
+        }
+        
         CRM_Core_Error::fatal( ts( "No clue about the %1",
                                    array( 1 => get_class( $part ) ) ) );
     }
@@ -152,6 +156,16 @@ class CRM_Utils_Mail_Incoming {
         return $t;
     }
 
+    function formatMailMultipartReport( $part, &$attachments ) {
+        $t = '';
+        foreach ( $part->getParts() as $key => $reportPart ) {
+            $t .= "-REPORT-$key-\n";
+            $t .= self::formatMailPart( $reportPart, $attachments );
+        }
+        $t .= "-REPORT END---\n";
+        return $t;
+    }
+    
     function formatMailFile( $part, &$attachments ) {
         $attachments[] = array( 'dispositionType' => $part->dispositionType,
                                 'contentType'     => $part->contentType,

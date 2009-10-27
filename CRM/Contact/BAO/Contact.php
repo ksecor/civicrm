@@ -271,7 +271,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         if ( array_key_exists('group', $params) ) {
             require_once 'CRM/Contact/BAO/GroupContact.php';
-            CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+            $contactIds = array( $params['contact_id'] );
+            foreach ( $params['group'] as $groupId => $flag ) {
+                if ( $flag == 1 ) {
+                    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $groupId );
+                } else if ( $flag == -1 ) {
+                    CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contactIds, $groupId );
+                }
+            }
         }
 
         //add location Block data

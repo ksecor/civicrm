@@ -61,8 +61,8 @@
                         {/if}
                     </ul> 
                     <span id="icons">
-                        <a title="vCard record for this contact." href='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}' title="{ts}vCard{/ts}"> <img src="{$config->resourceBase}i/vcard-icon.png" alt="vCard record for this contact." /></a>
-                        <a title="Printer-friendly view of this page." href='{crmURL p='civicrm/contact/view/print' q="reset=1&print=1&cid=$contactId"}' title="{ts}Print{/ts}"> <img src="{$config->resourceBase}i/print-icon.png" alt="Printer-friendly view of this page." /></a>
+                        <a title="{ts}vCard record for this contact.{/ts}" href='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}'> <img src="{$config->resourceBase}i/vcard-icon.png" alt="vCard record for this contact." /></a>
+                        <a title="{ts}Printer-friendly view of this page.{/ts}" href='{crmURL p='civicrm/contact/view/print' q="reset=1&print=1&cid=$contactId"}'"> <img src="{$config->resourceBase}i/print-icon.png" alt="Printer-friendly view of this page." /></a>
                     </span>
                 </div><!-- .buttons -->
                 
@@ -120,7 +120,7 @@
                                     {if $item.email}
                                     <tr>
                                         <td class="label">{$item.location_type}&nbsp;{ts}Email{/ts}</td>
-                                        <td><span class={if $privacy.do_not_email}"do-not-email" title="Privacy flag: Do Not Email" {elseif $item.is_primary eq 1}"primary"{/if}><a href="mailto:{$item.email}">{$item.email}</a>{if $item.is_bulkmail}&nbsp;(Bulk){/if}</span></td>
+                                        <td><span class={if $privacy.do_not_email}"do-not-email" title="{ts}Privacy flag: Do Not Email{/ts}" {elseif $item.on_hold}"email-hold" title="{ts}Email on hold - generally due to bouncing.{/ts}" {elseif $item.is_primary eq 1}"primary"{/if}><a href="mailto:{$item.email}">{$item.email}</a>{if $item.on_hold}&nbsp;({ts}On Hold{/ts}){/if}{if $item.is_bulkmail}&nbsp;({ts}Bulk{/ts}){/if}</span></td>
                                     </tr>
                                     {/if}
                                 {/foreach}

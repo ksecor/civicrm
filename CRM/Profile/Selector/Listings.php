@@ -216,7 +216,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                 self::$_links[CRM_Core_Action::PROFILE] = array(
                                                                 'name'  => ts('Website Profile'),
                                                                 'url'   => 'user/%%ufID%%',
-                                                                'qs'    => null,
+                                                                'qs'    => ' ',
                                                                 'title' => ts('View Website Profile'),
                                                                 );
             }

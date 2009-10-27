@@ -949,7 +949,7 @@ AND civicrm_membership.is_test = %2";
             $result = null;
             if ($form->_values['is_monetary'] && !$form->_params['is_pay_later']) {
                 require_once 'CRM/Core/Payment.php';
-                $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
+                $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor, $form );
                 
                 if ( $form->_contributeMode == 'express' ) {
                     $result =& $payment->doExpressCheckout( $tempParams );
@@ -1047,7 +1047,7 @@ AND civicrm_membership.is_test = %2";
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 && !$form->_params['is_pay_later'] ) {
                 // this does not return
                 require_once 'CRM/Core/Payment.php';
-                $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
+                $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor, $form );
                 $payment->doTransferCheckout( $form->_params );
             }
         }

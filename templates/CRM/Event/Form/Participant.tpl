@@ -75,6 +75,7 @@
     		</tr>
     		<tr>
     			<td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}{if $event_is_test} {ts}(test){/ts}{/if}</td>
+			<td id="notify">{$form.is_notify.label}{$form.is_notify.html}</td>
     		</tr>
 
     		<tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}<br />
@@ -115,7 +116,7 @@
 <script type="text/javascript">
 	//build fee block
 	buildFeeBlock( );
-
+	
 	//build discount block
 	if ( document.getElementById('discount_id') ) {
 		var discountId  = document.getElementById('discount_id').value;
@@ -207,3 +208,23 @@
     {include file="CRM/common/formNavigate.tpl"}
 
 {/if} {* end of eventshow condition*}
+
+<script type="text/javascript">
+{literal}
+	sendNotification();
+	cj("#notify").hide();
+	function sendNotification( ) {
+		 var status = cj("select#status_id option:selected").text();
+		 cj("#notify").hide();
+		 
+		 if ( status == 'Cancelled' || 
+     	  	      status == 'Pending from waitlist' || 
+		      status == 'Pending from approval' || 
+	  	      status == 'Expired' ) {
+          	      	  cj("#notify").show();
+	  		  cj("#is_notify").attr('checked',true);
+   		 }
+	}
+{/literal}
+</script>
+

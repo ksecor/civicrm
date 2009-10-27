@@ -75,6 +75,9 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
         $args['countryCode']    = $params['country'];
         $args['zip']            = $params['postal_code'];
 
+        // Allow further manipulation of the arguments via custom hooks ..
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $args );
+
         $result = $this->invokeAPI( $args );
 
         if ( is_a( $result, 'CRM_Core_Error' ) ) {  
@@ -211,6 +214,9 @@ class CRM_Core_Payment_ClickAndPledge extends CRM_Core_Payment {
                                             'amount' => $params['amount'],
                                             );
         }
+
+        // Allow further manipulation of the arguments via custom hooks ..
+        CRM_Utils_Hook::alterPaymentProcessorParams( $this, $params, $ClickAndPledgeParams );
         
         $uri = '';
         foreach ( $ClickAndPledgeParams as $key => $value ) {

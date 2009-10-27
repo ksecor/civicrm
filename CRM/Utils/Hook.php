@@ -547,4 +547,33 @@ class CRM_Utils_Hook {
                   '::invoke( 4, $query, $name, $context, $id, $null, \'civicrm_contactListQuery\' );' );
     }
 
+    /**
+     * Hook definition for altering payment parameters before talking to a payment processor back end.
+     *
+     * Definition will look like this:
+     * 
+     *   function hook_civicrm_alterPaymentProcessorParams($paymentObj,
+     *                                                     &$rawParams, &$cookedParams);
+     *                                        
+     * @param string $paymentObj
+     *    instance of payment class of the payment processor invoked (e.g., 'CRM_Core_Payment_Dummy')
+     * @param array &$rawParams
+     *    array of params as passed to to the processor
+     * @params array  &$cookedParams
+     *     params after the processor code has translated them into its own key/value pairs
+     * @return void
+     */
+    
+    static function alterPaymentProcessorParams( $paymentObj,
+                                                 &$rawParams, 
+                                                 &$cookedParams ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 3, $paymentObj, $rawParams, $cookedParams, $null, $null, \'civicrm_alterPaymentProcessorParams\' );' );
+    }
 }

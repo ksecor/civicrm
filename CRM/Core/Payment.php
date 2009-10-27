@@ -76,6 +76,8 @@ abstract class CRM_Core_Payment {
 
     protected $_paymentProcessor;
 
+    protected $_paymentForm = null;
+
     /**  
      * singleton function used to manage this object  
      *  
@@ -85,7 +87,7 @@ abstract class CRM_Core_Payment {
      * @static  
      *  
      */  
-    static function &singleton( $mode = 'test', $component, &$paymentProcessor ) {
+    static function &singleton( $mode = 'test', $component, &$paymentProcessor, &$paymentForm = null ) {
         if ( self::$_singleton === null ) {
             $config       =& CRM_Core_Config::singleton( );
             $paymentClass = "CRM_{$component}_" . $paymentProcessor['class_name'];
@@ -93,10 +95,41 @@ abstract class CRM_Core_Payment {
             $classPath = str_replace( '_', '/', $paymentClass ) . '.php';
             require_once($classPath);
             self::$_singleton = eval( 'return ' . $paymentClass . '::singleton( $mode, $paymentProcessor );' );
+
+            if ( $paymentForm !== null ) {
+                self::$_singleton->setForm( &$paymentForm );
+            }
         }
         return self::$_singleton;
     }
     
+    /**
+     * Setter for the payment form that wants to use the processor
+     *
+     * @param obj $paymentForm
+     * 
+     */
+    function setForm( &$paymentForm ) {
+        $this->_paymentForm = $paymentForm;
+    }
+    
+    /**
+     * Getter for payment form that is using the processor
+     *
+     * @return obj  A form object
+     */
+    function getForm( ) {
+        return $this->_paymentForm;
+    }
+
+    /**
+     * Getter for accessing member vars
+     *
+     */
+    function getVar( $name ) {
+        return isset( $this->$name ) ? $this->$name : null;
+    }
+
     /**
      * This function collects all the information from a web/api form and invokes
      * the relevant payment processor specific functions to perform the transaction

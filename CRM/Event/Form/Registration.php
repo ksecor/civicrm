@@ -342,7 +342,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                     }
                     
                     // ensure that processor has a valid config
-                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
+                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor, $this );
                     $error = $payment->checkConfig( );
                     if ( ! empty( $error ) ) {
                         CRM_Core_Error::fatal( $error );
