@@ -1507,13 +1507,6 @@ table.campaign td,
   vertical-align   : top;
 }
 
-/* loader autocomplete */
-
-body .ac_loading {
-  background       : white url('../i/loading.gif') no-repeat right center;
-}
-
-
 /*class for CMS user name check used in profile*/
 .cmsmessagebox {
    position    : absolute;
@@ -1968,6 +1961,13 @@ div.grippie {
 	color: #000;
 	font-weight: normal;
 	}
+
+/* loader autocomplete */
+
+#civicrm-menu .ac_loading {
+  background       : white url('../i/loading.gif') no-repeat right center;
+}
+
 
 /* Joomla Admin Menu alterations */
 
