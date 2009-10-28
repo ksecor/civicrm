@@ -10,7 +10,7 @@
     <column>is_reserved</column>
     <column>is_active</column>
     <row>
-      <value>1</value>  <!--  id  -->
+      <value>10</value>  <!--  id  -->
       <value>Gift</value>  <!--  name  -->
       <value>1004</value>  <!--  accounting_code  -->
       <value>For some worthwhile cause</value>  <!--  description  -->
@@ -19,8 +19,8 @@
       <value>1</value>  <!--  is_active  -->      
     </row>
     <row>
-      <value>2</value>  <!--  id  -->
-      <value>Donation</value>  <!--  name  -->
+      <value>11</value>  <!--  id  -->
+      <value>Prize</value>  <!--  name  -->
       <value>1005</value>  <!--  accounting_code  -->
       <value>Also for some worthwhile cause</value>  <!--  description  -->
       <value>0</value>  <!--  is_deductible  -->
