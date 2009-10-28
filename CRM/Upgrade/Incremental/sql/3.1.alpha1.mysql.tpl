@@ -146,3 +146,18 @@ INSERT INTO `civicrm_state_province` (id, `name`, `abbreviation`, `country_id`) 
 (10013, 'Clwyd', '', 1226),
 (10014, 'Dyfed', '', 1226),
 (10015, 'South Glamorgan', '', 1226);
+
+-- CRM-5288
+    SELECT @domain_id := min(id) FROM civicrm_domain;
+    SELECT @nav_contrbutionID    := id FROM civicrm_navigation WHERE name = 'Contributions';
+    SELECT @nav_contribution_wt  := max(weight) from civicrm_navigation WHERE parent_id = @nav_contrbutionID;
+    
+    UPDATE civicrm_navigation
+        SET has_separator = 1
+        WHERE civicrm_navigation.parent_id= @nav_contrbutionID AND civicrm_navigation.weight = @nav_contribution_wt;
+
+    INSERT INTO civicrm_navigation
+        ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
+    VALUES
+        ( @domain_id, 'civicrm/admin/price&reset=1&action=add', '{ts escape="sql"}New Price Set{/ts}',     'New Price Set',     'access CiviContribute,administer CiviCRM', 'AND',  @nav_contrbutionID, '1', NULL, @nav_contribution_wt+1 ),
+        ( @domain_id, 'civicrm/event/price&reset=1',            '{ts escape="sql"}Manage Price Sets{/ts}', 'Manage Price Sets', 'access CiviContribute,administer CiviCRM', 'AND',  @nav_contrbutionID, '1', NULL, @nav_contribution_wt+2 );
