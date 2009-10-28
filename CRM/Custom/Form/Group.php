@@ -50,6 +50,14 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
     protected $_id;
 
     /**
+     *  group is empty or not
+     *
+     * @var bool
+     * @access protected
+     */
+    protected $_isGroupEmpty = true;
+    
+    /**
      * Function to set variables up before form is built
      * 
      * @param null
@@ -96,6 +104,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         $extends = array('Activity','Relationship','Group','Contribution','Membership', 'Event','Participant');
         if(in_array($fields['extends'][0],$extends) && $fields['style'] == 'Tab' ) {
             $errors['style'] = ts("Display Style should be Inline for this Class");
+            $self->assign( 'showStyle', true );
         }
 
         if ( CRM_Utils_Array::value('is_multiple',  $fields ) ) {
@@ -106,6 +115,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
             
             if ( $fields['style'] == 'Inline' ) {
                 $errors['style'] = ts("'Multiple records' feature is not supported for the 'Inline' display style. Please select 'Tab' as the display style if you want to use this feature.");
+                $self->assign( 'showMultiple', true );
             }
         }
         
@@ -210,12 +220,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         
         require_once "CRM/Core/Component.php";
         $cSubTypes = CRM_Core_Component::contactSubTypes();
-        $freeze = false;
-        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue('CRM_Core_DAO_CustomGroup', $this->_id, 'is_multiple' ) ) {
-            $freeze = true;
-        }
-        $this->assign( 'freeze', $freeze );
-
+       
         if ( !empty( $cSubTypes ) ) {
             $contactSubTypes = array( );
             foreach($cSubTypes as $key => $value ) {
@@ -247,8 +252,13 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
             $sel->_elements[1]->setSize(5);
         }
 
-        if ($this->_action == CRM_Core_Action::UPDATE) { 
-            $sel->freeze();
+        if ($this->_action == CRM_Core_Action::UPDATE) {
+            //allow to edit settings if custom group is empty CRM-5258
+            $this->_isGroupEmpty = CRM_Core_BAO_CustomGroup::isGroupEmpty($this->_id, $extends);
+           
+            if ( !$this->_isGroupEmpty ) {
+                $sel->freeze();
+            } 
             $this->assign('gid', $this->_id);
         }
         
@@ -284,13 +294,17 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         
         $max_multiple = $this->add('text', 'max_multiple', ts('Maximum number of multiple records'), $attributes['max_multiple'] );
         $this->addRule('max_multiple', ts('is a numeric field') , 'numeric');
-        
-        if ( $freeze ) {
+
+        //allow to edit settings if custom group is empty CRM-5258
+        $this->assign( 'isGroupEmpty', $this->_isGroupEmpty );
+        if ( !$this->_isGroupEmpty ) {
             $multiple->freeze();
             //$min_multiple->freeze();
             $max_multiple->freeze();
         }
-       
+
+        $this->assign( 'showStyle', false );
+        $this->assign( 'showMultiple', false );
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -341,9 +355,13 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
             unset($defaults['extends']);
 
             $defaults['extends'][0] = $extends;
-            $defaults['extends'][1]  = CRM_Utils_Array::value( 'extends_entity_column_value', $defaults );
-			
-			$subName = CRM_Utils_Array::value( 'extends_entity_column_id', $defaults );
+            $subExtends = CRM_Utils_Array::value( 'extends_entity_column_value', $defaults );
+            
+            if ( !empty($subExtends) ) {
+                $defaults['extends'][1] = explode( CRM_Core_DAO::VALUE_SEPARATOR, substr($subExtends,1,-1) );
+            } 
+            
+            $subName = CRM_Utils_Array::value( 'extends_entity_column_id', $defaults );
 			
 			if ( $extends == 'Participant') {
 				if ( $subName == 1 ) {
@@ -353,6 +371,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
 				}
 			}
         }
+     
         return $defaults;
     }
     

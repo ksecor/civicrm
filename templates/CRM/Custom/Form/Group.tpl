@@ -12,12 +12,14 @@
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html} {help id="id-weight"}</dd>
     </dl></dl>
 
-    <div id="style"> {* This section shown only when Used For = Contact, Individ, Org or Household. *}
+    <div id="is_multiple"> {* This section shown only when Used For = Contact, Individ, Org or Household. *}
         <dl><dt>&nbsp;</dt><dd class="html-adjust">{$form.is_multiple.html}&nbsp;{$form.is_multiple.label} {help id=id-is_multiple"}</dd></dl>
         <div id="multiple">	
             {*<dt>{$form.min_multiple.label}</dt><dd>{$form.min_multiple.html}</dd>*}
             <dl class="html-adjust"><dt>{$form.max_multiple.label}</dt><dd>{$form.max_multiple.html} {help id=id-max_multiple"}</dd></dl>
         </div>
+    </div>
+    <div id="style">
         <dl class="html-adjust"><dt>{$form.style.label}</dt><dd>{$form.style.html} {help id="id-display_style}</dd></dl>
     </div>
     
@@ -54,9 +56,9 @@
 
 showHideStyle();
 
-var freeze = {/literal}"{$freeze}"{literal};
+var  isGroupEmpty = {/literal}"{$isGroupEmpty}"{literal};
 
-if ( !freeze ) {
+if ( isGroupEmpty ) {
      showRange();
 }	
 
@@ -66,16 +68,30 @@ function showHideStyle()
 	var isShow  = false;
 	var extends = document.getElementById('extends[0]').value;
         var contactTypes  = {/literal}'{$contactTypes}'{literal};
-
+        var showStyle     = {/literal}'{$showStyle}'{literal};
+        var showMultiple  = {/literal}'{$showMultiple}'{literal};
+              
         contactTypes = eval('(' + contactTypes + ')');
         if ( contactTypes.indexOf(extends) >= 0 ) {
             isShow  = true;
         }
-	if( isShow ) {	
+	if( isShow  ) {	
             show("style");
+            show("is_multiple");
+            document.forms.Group['extends[1]'].style.display = 'none';
 	} else {
 	    hide("style");
-	}
+        hide("is_multiple");
+   	}
+
+    if ( showStyle ) {
+        show("style");
+    }
+
+    if ( showMultiple ) {
+        show("is_multiple");
+        show("style");
+    }
 }
 
 function showRange()

@@ -1740,4 +1740,31 @@ SELECT  civicrm_custom_group.id as groupID, civicrm_custom_group.title as groupT
         }
     }
 
+    /**
+     * Check whether custom group is empty or not.
+     *
+     * @param   int $gID    - custom group id.
+     * @return boolean true if empty otherwise false.
+     * @access public
+     */
+
+    function isGroupEmpty( $gID ) {
+
+        if ( !$gID ) {
+            return;
+        }
+        
+        $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                  $gID,
+                                                  'table_name' );
+        
+        $query = "SELECT count(id) FROM {$tableName} WHERE id IS NOT NULL";
+        $value = CRM_Core_DAO::singleValueQuery( $query ); 
+
+        if ( empty($value) ) {
+            return true;
+        }
+        
+        return false;
+    }
 }
