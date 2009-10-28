@@ -18,6 +18,7 @@
         <th>{ts}Types{/ts}</th>
         <th>{ts}Extends{/ts}</th>
         <th id="nosort">{ts}Description{/ts}</th>
+        <th></th>
     </tr>
     </thead>
     {foreach from=$rows item=row}
