@@ -155,7 +155,7 @@ function civicrm_event_search( &$params )
             if ( substr( $n, 0, 14 ) == 'return.custom_') {
                 //take custom return properties separate
                 $returnCustomProperties[] = substr( $n, 7 );
-            } else {
+            } elseif( !in_array( substr( $n, 7 ) ,array( 'offset', 'max_results' ) ) ) {
                 $returnProperties[] = substr( $n, 7 );
             }
         } elseif ( in_array( $n, $otherVars ) ) {
