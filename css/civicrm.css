@@ -34,6 +34,8 @@
   	vertical-align: top;
   	background-color: #E6E6E6;
 	}
+    /* Set background back to normal gray for form labels which use <th>. Temporary fix until we standardize form layout markup. */
+    #crm-container table.form-layout-compressed tbody th.label { background-color: #F7F7F7; }
 
 #crm-container tbody{
     border-top: none
