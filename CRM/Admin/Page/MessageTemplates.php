@@ -102,18 +102,18 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Message Templates') 
                                                                    ),
-                                //CRM_Core_Action::DISABLE => array(
-                                //                                  'name'  => ts('Disable'),
-                                //                                  'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'enable-disable' . '\' );"',
-                                //                                  'ref'   => 'disable-action',
-                                //                                  'title' => ts('Disable Message Templates'),
-                                //                                  ),
-                                //CRM_Core_Action::ENABLE  => array(
-                                //                                  'name'  => ts('Enable'),
-                                //                                  'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'disable-enable' . '\' );"',
-                                //                                  'ref'   => 'enable-action',
-                                //                                  'title' => ts('Enable Message Templates'),
-                                //                                  ),
+                                  CRM_Core_Action::DISABLE => array(
+                                                                    'name'  => ts('Disable'),
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'enable-disable' . '\' );"',
+                                                                    'ref'   => 'disable-action',
+                                                                    'title' => ts('Disable Message Templates'),
+                                                                    ),
+                                  CRM_Core_Action::ENABLE  => array(
+                                                                    'name'  => ts('Enable'),
+                                                                    'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'disable-enable' . '\' );"',
+                                                                    'ref'   => 'enable-action',
+                                                                    'title' => ts('Enable Message Templates'),
+                                                                    ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/admin/messageTemplates',
@@ -147,14 +147,20 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
             $action &= ~CRM_Core_Action::VIEW;
         }
 
-        // default templates shouldn’t be deletable
-        if ($object->is_default) {
+        // default workflow templates shouldn’t be deletable
+        if ($object->workflow_id and $object->is_default) {
             $action &= ~CRM_Core_Action::DELETE;
+        }
+
+        // workflow templates shouldn’t have disable/enable actions (at least for CiviCRM 3.1)
+        if ($object->workflow_id) {
+            $action &= ~CRM_Core_Action::DISABLE;
         }
 
         parent::action($object, $action, $values, $links, $permission);
 
         // rebuild the action links HTML, as we need to handle %%orig_id%% for revertible templates
+        // FIXME: the below somehow hides the Enable/Disable actions even for rows which should have them
         $values['action'] = CRM_Core_Action::formLink($links, $action, array('id' => $object->id, 'orig_id' => $this->_revertible[$object->id]));
     }
 
