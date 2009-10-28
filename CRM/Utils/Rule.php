@@ -266,7 +266,7 @@ class CRM_Utils_Rule
         $config =& CRM_Core_Config::singleton( );
         
         $d = CRM_Utils_Array::value( 'd', $date );
-        $m = CRM_Utils_Array::value( $config->dateformatMonthVar, $date );
+        $m = CRM_Utils_Array::value( 'M', $date );
         $y = CRM_Utils_Array::value( 'Y', $date );
 
         if ( ! $d && ! $m && ! $y ) {
