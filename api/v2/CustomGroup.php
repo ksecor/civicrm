@@ -231,21 +231,7 @@ function civicrm_custom_field_delete( $params )
     if ( ! CRM_Utils_Array::value( 'customFieldId', $params['result'] ) ) {
         return civicrm_create_error( 'Invalid or no value for Custom Field ID' );
     }
-    
-    if ( CRM_Utils_Array::value('optionValueId', $params['result'] ) ) {
-        require_once 'CRM/Core/BAO/OptionValue.php';
-        $optionValue =& new CRM_Core_DAO_OptionValue( );
-        $optionValue->id = $params['result']['optionValueId'];
-        $optionValue->delete();
-    }
-    
-    if ( CRM_Utils_Array::value('optionGroupId', $params['result'] ) ) {
-        require_once 'CRM/Core/BAO/OptionGroup.php';
-        $optionValue =& new CRM_Core_DAO_OptionValue( );
-        $optionValue->id = $params['result']['optionGroupId'];
-        $optionValue->delete();
-    }
-    
+
     require_once 'CRM/Core/DAO/CustomField.php';
     $field =& new CRM_Core_DAO_CustomField( );
     $field->id = $params['result']['customFieldId'];
