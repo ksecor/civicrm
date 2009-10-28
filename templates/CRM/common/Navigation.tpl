@@ -48,9 +48,11 @@ cj( function() {
     cj( '#sort_name' ).autocomplete( contactUrl, {
         width: 200,
         selectFirst: false,
+	minChars:2,
         matchContains: true 	 
     }).result(function(event, data, formatted) {
-        cj("#sort_contact_id").val(data[1]);
+       document.location={/literal}"{crmURL p='civicrm/contact/view' h=0 q='reset=1&cid='}"{literal}+data[1];
+       return false;
     });    
 });
 
