@@ -56,9 +56,13 @@
    ALTER TABLE `civicrm_relationship_type` ADD `contact_sub_type_b` varchar(64) collate utf8_unicode_ci DEFAULT NULL AFTER `contact_sub_type_a`;
       
 -- Upgrade FCKEditor to CKEditor CRM-5226
-
-   UPDATE civicrm_option_value SET label = 'CKEditor' WHERE label = 'FCKEditor';
-
+    {if $multilingual}
+        {foreach from=$locales item=locale}
+        UPDATE civicrm_option_value SET label_{$locale} ='CKEditor' WHERE label_{$locale} = 'FCKEditor';
+        {/foreach}
+    {else}
+        UPDATE civicrm_option_value SET label ='CKEditor' WHERE label = 'FCKEditor';
+    {/if}
 -- CRM-5106
 -- Added Autocomplete search options in civicrm_preferences 'Admin Search Settings' form
 
@@ -69,21 +73,21 @@
 
 -- Insert values for option group
    INSERT INTO 
-    `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) 
+    `civicrm_option_group` (`name`, {localize field='description'}`description`{/localize}, `is_reserved`, `is_active`) 
    VALUES 
-    ('contact_autocomplete_options', 'Autocomplete Contact Search'   , 0, 1);
+    ('contact_autocomplete_options', {localize}'Autocomplete Contact Search'{/localize}   , 0, 1);
    
    SELECT @option_group_id_acsOpt := max(id) from civicrm_option_group where name = 'contact_autocomplete_options';
 
    INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+   `civicrm_option_value` (`option_group_id`, {localize field='label'}`label`{/localize}, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
    VALUES
-    (@option_group_id_acsOpt, 'Email Address'  , 2, 'email', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
-    (@option_group_id_acsOpt, 'Phone'          , 3, 'phone', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
-    (@option_group_id_acsOpt, 'Street Address' , 4, 'street_address', NULL, 4, NULL, 0, NULL, 0, 0, 1, NULL, NULL),
-    (@option_group_id_acsOpt, 'City'           , 5, 'city', NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL, NULL),
-    (@option_group_id_acsOpt, 'State/Province' , 6, 'state_province', NULL, 6, NULL, 0, NULL, 0, 0, 1, NULL, NULL),
-    (@option_group_id_acsOpt, 'Country'        , 7, 'country', NULL, 0, NULL, 7, NULL, 0, 0, 1, NULL, NULL);
+    (@option_group_id_acsOpt, {localize}'Email Address'{/localize}  , 2, 'email',           NULL, 0, NULL, 2,  0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, {localize}'Phone'{/localize}          , 3, 'phone',           NULL, 0, NULL, 3,  0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, {localize}'Street Address'{/localize} , 4, 'street_address',  NULL, 4, NULL, 0,  0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, {localize}'City'{/localize}           , 5, 'city',            NULL, 0, NULL, 5,  0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, {localize}'State/Province'{/localize} , 6, 'state_province',  NULL, 6, NULL, 0,  0, 0, 1, NULL, NULL),
+    (@option_group_id_acsOpt, {localize}'Country'{/localize}        , 7, 'country',         NULL, 0, NULL, 7,  0, 0, 1, NULL, NULL);
 
 -- CRM-5095
    ALTER TABLE `civicrm_price_set` ADD `extends` VARCHAR( 255 ) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Type of object this price set extends (e.g. Events, Contributions etc.).';
