@@ -1387,9 +1387,9 @@ table.campaign td,
 
 #crm-container .action-item {
 	padding:0px 5px;
-	border-right:1px solid #CCC;
+	border-left:1px solid #CCC;
 	}
-	#crm-container .action-item-last { border-right:none; /* last action item should not have right hand border */}
+	#crm-container .action-item-first { border-left:none; /* last action item should not have right hand border */}
 
 #crm-container #panel, 
 #crm-container .panel {
@@ -1426,6 +1426,7 @@ table.campaign td,
   	position: relative;
   	padding:0px 14px 0 5px;
   	background: url("../i/TreePlus.gif") no-repeat right 1px;
+	border-left:1px solid #CCC;
 	}
 
 #crm-container .panel li a {
