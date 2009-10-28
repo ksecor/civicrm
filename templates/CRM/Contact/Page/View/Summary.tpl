@@ -48,7 +48,7 @@
                         {if $url }
                         <li>
                         <a href="{$dashboardURL}" class="user-record button" title="{ts}User Record{/ts}">
-                        <span><div class="icon user-recordd-icon"></div>{ts}User Record{/ts}</span>
+                        <span><div class="icon user-record-icon"></div>{ts}User Record{/ts}</span>
                         </a>
                         </li>
                         {/if}

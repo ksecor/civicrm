@@ -1884,6 +1884,8 @@ div.grippie {
 .dashboard-icon { background-position: -193px -130px; }
 	.button:hover .dashboard-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png");}
 
+.user-record-icon { background-position:-145px -99px; }
+    .button:hover .user-record-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png");}
 
 #crm-container .geotag {
     padding: 2px 0 2px 20px !important;
