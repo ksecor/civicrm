@@ -30,9 +30,9 @@
     {assign var=n value=$field.name} 
 
     {if $field.options_per_line != 0} 
-        <tr> 
-        <td class="option-label">{$form.$n.label}</td> 
-        <td class="view-value"> 
+        <div class="section {$form.$n.id}-section"> 
+        <div class="label option-label">{$form.$n.label}</div> 
+        <div class="content 3"> 
              {assign var="count" value="1"} 
             {strip} 
             <table class="form-layout-compressed"> 
@@ -60,12 +60,13 @@
             {if $field.help_post && $action neq 4 && $action neq 1028}
                 <span class="description">{$field.help_post}</span> 
             {/if} 
-        </td> 
-        </tr> 
+        </div>
+        <div class="clear"></div> 
+        </div> 
     {else} 
-        <tr>
-           <td class="label">{$form.$n.label}</td>
-           <td class="view-value">
+        <div class="section {$form.$n.id}-section"> 
+           <div class="label">{$form.$n.label}</div>
+           <div class="content">
              {if $n|substr:0:3 eq 'im-'}
                {assign var="provider" value=$n|cat:"-provider_id"}
                {$form.$provider.html}&nbsp;
@@ -73,10 +74,10 @@
              {if $n eq 'email_greeting' or  $n eq 'postal_greeting' or $n eq 'addressee'}
                 {include file="CRM/Profile/Form/GreetingType.tpl"}  
              {elseif $n eq 'group'} 
-		<table id="selector" class="selector" style="width:auto;">
-			<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
-		</table>
-   	     {else}
+				<table id="selector" class="selector" style="width:auto;">
+					<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
+				</table>
+   	    	 {else}
                {$form.$n.html}
                {if $n eq 'gender' && $form.$fieldName.frozen neq true}
                   &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
@@ -101,8 +102,9 @@
              {if $field.help_post && $action neq 4 && $action neq 1028}
                 <br /><span class="description">{$field.help_post}</span> 
              {/if} 
-           </td>
-        </tr> 
+           </div>
+           <div class="clear"></div> 
+        </div> 
     {/if}     
     {/foreach} 
    </table>

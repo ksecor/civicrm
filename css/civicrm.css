@@ -181,6 +181,7 @@ div.spacer,
 #crm-container input[type="password"] {
   	border: 1px solid #999;
   	vertical-align:middle;
+  	padding-left: 1px;
 	}
 
 
@@ -232,6 +233,11 @@ div.spacer,
 
 /* contribution page styles */
 
+#crm-container #Main fieldset table td {
+	background-color: transparent;
+	border:none;
+	}
+
 #crm-container .section {
 	margin-bottom:1em;
 	}
@@ -241,13 +247,15 @@ div.spacer,
 
 #crm-container .section .label {
 	float:left;
-	width:19%;
+	width:15%;
 	text-align: right;
 	}
 
 #crm-container .section .content {
-	margin-left:20%;
+	margin-left:16%;
 	}
+
+#crm-container #cvv2 {vertical-align: top; }
 
 /* Use definition lists for simple 2 col forms - <dt> for labels, <dd> for fields */
 #crm-container div.form-item dt {
@@ -613,8 +621,6 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 */
 /* Inline form field 'post-help' */
 #crm-container .description {
-  	margin-bottom : 0.5em;
-  	padding: 0px 0px 5px;
   	font-size: 0.9em;
   	white-space: normal;
   	width: auto;
