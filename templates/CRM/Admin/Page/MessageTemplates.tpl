@@ -17,50 +17,50 @@
 {/if}
 
 {if $rows and $action ne 2}
-<div id="ltype">
-<p></p>
+  <div id="ltype">
+    <p></p>
     <div class="form-item" id=message_status_id>
-        {strip}
-	{* handle enable/disable actions*}
- 	{include file="CRM/common/enableDisable.tpl"}
-    {include file="CRM/common/jsortable.tpl"}
+      {strip}
+        {* handle enable/disable actions*}
+        {include file="CRM/common/enableDisable.tpl"}
+        {include file="CRM/common/jsortable.tpl"}
         <table id="options" class="display">
-        <thead>
-        <tr>
-            <th id="sortable">{ts}Message Title{/ts}</th>
-            <!-- <th>{ts}Message Subject{/ts}</th> -->
-            <!-- <th>{ts}Enabled?{/ts}</th> -->
- 	        <th></th>	
-        </tr>
-        </thead>
-        {foreach from=$rows item=row}
-          {* we skip the reserved rows here rather than on the PHP side so that we can still edit the upstream templates if needed be *}
-          {if !$row.is_reserved}
-            <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-              <td>{$row.msg_title}</td>
-              <!-- <td>{$row.msg_subject}</td> -->
-              <!-- <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td> -->
-              <td>{$row.action|replace:'xx':$row.id}</td>
+          <thead>
+            <tr>
+              <th id="sortable">{ts}Message Title{/ts}</th>
+              <!-- <th>{ts}Message Subject{/ts}</th> -->
+              <!-- <th>{ts}Enabled?{/ts}</th> -->
+              <th></th>
             </tr>
-          {/if}
-        {/foreach}
+          </thead>
+          {foreach from=$rows item=row}
+            {* we skip the reserved rows here rather than on the PHP side so that we can still edit the upstream templates if needed be *}
+            {if !$row.is_reserved}
+              <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+                <td>{$row.msg_title}</td>
+                <!-- <td>{$row.msg_subject}</td> -->
+                <!-- <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td> -->
+                <td>{$row.action|replace:'xx':$row.id}</td>
+              </tr>
+            {/if}
+          {/foreach}
         </table>
-        {/strip}
+      {/strip}
 
-        {if $action ne 1 and $action ne 2}
-	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}" id="newMessageTemplates" class="button"><span>&raquo; {ts}New Message Template{/ts}</span></a>
+      {if $action ne 1 and $action ne 2}
+        <div class="action-link">
+          <a href="{crmURL q="action=add&reset=1"}" id="newMessageTemplates" class="button"><span>&raquo; {ts}New Message Template{/ts}</span></a>
         </div>
-        {/if}
+      {/if}
     </div>
-</div>
+  </div>
 {else}
   {if $action ne 1 and $action ne 2}
     <div class="messages status">
-    <dl>
+      <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         <dd>{ts 1=$crmURL}There are no Message Templates entered. You can <a href='%1'>add one</a>.{/ts}</dd>
-        </dl>
-    </div>    
+      </dl>
+    </div>
   {/if}
 {/if}
