@@ -142,10 +142,13 @@ UPDATE `civicrm_state_province` SET `name`='Greater London' WHERE `id`='9999';
 UPDATE `civicrm_state_province` SET `name`='County Durham' WHERE `id`='2657';
 
 /* Create additional UK counties */
-INSERT INTO `civicrm_state_province` (id, `name`, `abbreviation`, `country_id`) VALUES
-(10013, 'Clwyd', '', 1226),
-(10014, 'Dyfed', '', 1226),
-(10015, 'South Glamorgan', '', 1226);
+    INSERT INTO `civicrm_state_province`
+        (id, `name`, `abbreviation`, `country_id`)
+    VALUES
+        (10013, 'Clwyd',             '', 1226),
+        (10014, 'Dyfed',             '', 1226),
+        (10015, 'South Glamorgan',   '', 1226),
+        (2715,  'London, City of', 'LND',1226);
 
 -- CRM-5288
     SELECT @domain_id := min(id) FROM civicrm_domain;
@@ -160,4 +163,71 @@ INSERT INTO `civicrm_state_province` (id, `name`, `abbreviation`, `country_id`) 
         ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
     VALUES
         ( @domain_id, 'civicrm/admin/price&reset=1&action=add', '{ts escape="sql"}New Price Set{/ts}',     'New Price Set',     'access CiviContribute,administer CiviCRM', 'AND',  @nav_contrbutionID, '1', NULL, @nav_contribution_wt+1 ),
-        ( @domain_id, 'civicrm/event/price&reset=1',            '{ts escape="sql"}Manage Price Sets{/ts}', 'Manage Price Sets', 'access CiviContribute,administer CiviCRM', 'AND',  @nav_contrbutionID, '1', NULL, @nav_contribution_wt+2 );
+        ( @domain_id, 'civicrm/admin/price&reset=1',            '{ts escape="sql"}Manage Price Sets{/ts}', 'Manage Price Sets', 'access CiviContribute,administer CiviCRM', 'AND',  @nav_contrbutionID, '1', NULL, @nav_contribution_wt+2 );
+     
+    
+    SELECT @nav_contrbutionID_admin    := id FROM civicrm_navigation WHERE name = 'CiviContribute';
+    SELECT @nav_contribution_wt_admin  := max(weight) from civicrm_navigation WHERE parent_id = @nav_contrbutionID_admin;
+    
+    UPDATE civicrm_navigation
+        SET has_separator = 1
+        WHERE civicrm_navigation.parent_id= @nav_contrbutionID_admin AND civicrm_navigation.weight = @nav_contribution_wt_admin;
+
+    INSERT INTO civicrm_navigation
+        ( domain_id, url, label, name, permission, permission_operator, parent_id, is_active, has_separator, weight )
+    VALUES
+        ( @domain_id, 'civicrm/admin/price&reset=1&action=add', '{ts escape="sql"}New Price Set{/ts}',     'New Price Set',     'access CiviContribute,administer CiviCRM', 'AND',  @nav_contrbutionID_admin, '1', NULL, @nav_contribution_wt_admin+1 ),
+        ( @domain_id, 'civicrm/admin/price&reset=1',            '{ts escape="sql"}Manage Price Sets{/ts}', 'Manage Price Sets', 'access CiviContribute,administer CiviCRM', 'AND',  @nav_contrbutionID_admin, '1', NULL, @nav_contribution_wt_admin+2 );   
+    
+    UPDATE civicrm_navigation
+        SET url = 'civicrm/admin/price&reset=1'
+        WHERE civicrm_navigation.url = 'civicrm/event/price&reset=1';
+        
+    CREATE TABLE civicrm_acl_contact_cache (
+        id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'primary key',
+        user_id int unsigned    COMMENT 'FK to civicrm_contact (could be null for anon user)',
+        contact_id int unsigned NOT NULL   COMMENT 'FK to civicrm_contact',
+        operation enum('All', 'View', 'Edit', 'Create', 'Delete', 'Grant', 'Revoke') NOT NULL   COMMENT 'What operation does this user have permission on?' 
+        ,
+        PRIMARY KEY ( id ) ,
+        UNIQUE INDEX UI_user_contact_operation(user_id, contact_id, operation ) ,     
+        CONSTRAINT FK_civicrm_acl_contact_cache_user_id FOREIGN KEY (user_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE,      
+        CONSTRAINT FK_civicrm_acl_contact_cache_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE  
+    )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+    
+    -- CRM-4690
+    INSERT INTO civicrm_payment_processor_type
+        ( name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label,  class_name, url_site_default, url_api_default, url_recur_default, url_button_default, url_site_test_default, url_api_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur, payment_type)
+    VALUES
+        ( 'Realex', 'Realex Payment', NULL, 1, 0, 'Merchant ID', 'Password', NULL, 'Account', 'Payment_Realex', 'https://epage.payandshop.com/epage.cgi', NULL, NULL, NULL, 'https://epage.payandshop.com/epage-remote.cgi', NULL, NULL, NULL, 1, 0, 1);
+    
+    -- CRM-4802
+    UPDATE civicrm_payment_processor_type
+        SET url_recur_default      = 'https://www.paypal.com/',
+            url_recur_test_default = 'https://www.sandbox.paypal.com/',
+            is_recur = 1
+        WHERE name = 'PayPal';
+    
+    UPDATE civicrm_payment_processor
+        SET is_recur  = 1,
+            url_recur = 'https://www.paypal.com/'
+        WHERE payment_processor_type = 'PayPal' AND is_test = 0;
+    
+    UPDATE civicrm_payment_processor
+        SET is_recur  = 1,
+            url_recur = 'https://www.sandbox.paypal.com/'
+        WHERE payment_processor_type = 'PayPal' AND is_test = 1;
+            
+    ALTER TABLE `civicrm_openid`
+        ADD `endpoint_url` text NULL DEFAULT NULL AFTER location_type_id,
+        ADD `claimed_id`   text NULL DEFAULT NULL AFTER endpoint_url,
+        ADD `display_id`   varchar(255) NULL DEFAULT NULL AFTER claimed_id,
+        ADD UNIQUE `UI_endpoint_url_claimed_id` (`endpoint_url`(166), `claimed_id`(166));
+        
+    ALTER TABLE `civicrm_openid`
+        DROP INDEX UI_openid,
+        DROP openid;
+        
+    ALTER TABLE `civicrm_preferences_date`
+        DROP `minute_increment`;
+
