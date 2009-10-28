@@ -170,7 +170,8 @@ class CRM_Utils_Date
             return $value;
         }
 
-        $value['Y'] = $value['M'] = $value['d'] = null;
+        $config =& CRM_Core_Config::singleton( );
+        $value['Y'] = $value[$config->dateformatMonthVar] = $value['d'] = null;
 
         if ( $separator != '' ) {
             list( $year, $mon, $day ) = explode( $separator, $date, 3 );
@@ -193,7 +194,7 @@ class CRM_Utils_Date
         }
 
         if ( is_numeric( $mon ) && $mon > 0 ) {
-            $value['M'] = $mon;
+            $value[$config->dateformatMonthVar] = $mon;
         }
 
         if ( is_numeric( $day ) && $day > 0 ) {
@@ -224,6 +225,7 @@ class CRM_Utils_Date
         if ( isset( $min ) && is_numeric( $min ) && $min >= 0 ) {
             $value['i'] = $min;
         }
+        
         return $value;
     }
 
