@@ -80,7 +80,8 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
      {
         $params = array();
         $result =& civicrm_membership_status_get($params);
-        $this->markTestIncomplete();
+
+        $this->assertEquals( $result['is_error'], 1, 'In line ' . __LINE__ );
      }
 
     /**
@@ -88,7 +89,10 @@ class api_v2_MembershipStatusTest extends CiviUnitTestCase {
      */
      function testGet()
      {
-         $this->markTestIncomplete();
+         $params = array( 'name' => 'test status');
+         $result =& civicrm_membership_status_get($params);
+         
+         $this->assertEquals( $result[$this->_membershipStatusID]['name'], "test status", "In line " . __LINE__ );
      }
 
 ///////////////// civicrm_membership_status_create methods
