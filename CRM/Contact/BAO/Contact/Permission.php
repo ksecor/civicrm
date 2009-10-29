@@ -162,9 +162,23 @@ WHERE $permission
         $contactID = CRM_Utils_Type::escape( $contactID, 'Integer' );
 
         self::cache( $contactID );
+        
+        if( is_array($contactAlias) && !empty($contactAlias) ) {
+            //More than one contact alias
+            $clauses = array();
+            foreach( $contactAlias as $k => $alias ) {
+                $clauses[] = " INNER JOIN civicrm_acl_contact_cache aclContactCache_{$k} ON {$alias}.id = aclContactCache_{$k}.contact_id AND aclContactCache_{$k}.user_id = $contactID ";  
+            }
+            
+            $fromClause = implode(" ", $clauses );
+            $whereClase = null;
+            
+        } else {
+            $fromClause = " INNER JOIN civicrm_acl_contact_cache aclContactCache ON {$contactAlias}.id = aclContactCache.contact_id ";
+            $whereClase = " aclContactCache.user_id = $contactID ";
+        }
 
-        return array( " INNER JOIN civicrm_acl_contact_cache aclContactCache ON {$contactAlias}.id = aclContactCache.contact_id ",
-                      " aclContactCache.user_id = $contactID " );
+        return array( $fromClause , $whereClase );
     }
 
 

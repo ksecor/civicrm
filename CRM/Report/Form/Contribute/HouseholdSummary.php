@@ -199,7 +199,9 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
             LEFT  JOIN civicrm_contact {$this->_aliases['civicrm_contact_household']} ON 
                       ({$this->_aliases['civicrm_contact_household']}.id = {$this->_aliases['civicrm_relationship']}.$this->householdContact AND {$this->_aliases['civicrm_contact_household']}.contact_type='Household')
             LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} ON 
-                      ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_relationship']}.$this->otherContact )           INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON
+                      ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_relationship']}.$this->otherContact )          
+            {$this->_aclFrom}
+            INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON
                       ({$this->_aliases['civicrm_contribution']}.contact_id = {$this->_aliases['civicrm_relationship']}.$this->otherContact )";
         
         if( $this->_addressField ) {
@@ -256,6 +258,10 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
         } else {
             $this->_where = "WHERE "  . implode( ' AND ', $clauses );
         }
+
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        } 
     }
     
     
@@ -289,7 +295,7 @@ class CRM_Report_Form_Contribute_HouseholdSummary extends CRM_Report_Form {
             $this->householdContact = 'contact_id_a';
             $this->otherContact     = 'contact_id_b';
         }
-
+        $this->buildACLClause( array( $this->_aliases['civicrm_contact'] ,$this->_aliases['civicrm_contact_household'] ) );
         $sql  = $this->buildQuery( true );
         $rows = array( );
 
