@@ -343,6 +343,10 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             CRM_Core_Error::fatal(ts('No such message template: option group %1, option value %2.', array(1 => $params['groupName'], 2 => $params['valueName'])));
         }
 
+        $subject = $dao->subject;
+        $text    = $dao->text;
+        $html    = $dao->html;
+
         // replace tokens in the three elements
         require_once 'CRM/Utils/Token.php';
         require_once 'CRM/Core/BAO/Domain.php';
@@ -357,16 +361,19 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
 
         // replace tokens in subject as if it was the text body
         foreach(array('subject' => 'text', 'text' => 'text', 'html' => 'html') as $type => $tokenType) {
-            if (!$dao->$type) continue; // skip all of the below if the given part is missing
+            if (!$$type) continue; // skip all of the below if the given part is missing
             $bodyType = "body_$tokenType";
             $mailing = new CRM_Mailing_BAO_Mailing;
-            $mailing->$bodyType = $dao->$type;
+            $mailing->$bodyType = $$type;
             $tokens = $mailing->getTokens();
-            $dao->$type = CRM_Utils_Token::replaceDomainTokens($dao->$type, $domain, true, $tokens[$tokenType]);
+            $$type = CRM_Utils_Token::replaceDomainTokens($$type, $domain, true, $tokens[$tokenType]);
             if ($params['contactId']) {
-                $dao->$type = CRM_Utils_Token::replaceContactTokens($dao->$type, $contact, false, $tokens[$tokenType]);
+                $$type = CRM_Utils_Token::replaceContactTokens($$type, $contact, false, $tokens[$tokenType]);
             }
         }
+
+        // strip whitespace from ends and turn into a single line
+        $subject = "{strip}$subject{/strip}";
 
         // parse the three elements with Smarty
         require_once 'CRM/Core/Smarty/resources/String.php';
@@ -382,19 +389,16 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $smarty->assign($name, $value);
         }
         foreach (array('subject', 'text', 'html') as $elem) {
-            $dao->$elem = $smarty->fetch("string:{$dao->$elem}");
+            $$elem = $smarty->fetch("string:{$$elem}");
         }
-
-        // in most cases leading/trailing whitespace in the subject is unwanted
-        $dao->subject = trim($dao->subject);
 
         // send the template
         $sent = false;
         if ($params['toEmail']) {
             require_once 'CRM/Utils/Mail.php';
-            $sent = CRM_Utils_Mail::send($params['from'], $params['toName'], $params['toEmail'], $dao->subject, $dao->text, $params['cc'], $params['bcc'], $params['replyTo'], $dao->html, $params['attachments']);
+            $sent = CRM_Utils_Mail::send($params['from'], $params['toName'], $params['toEmail'], $subject, $text, $params['cc'], $params['bcc'], $params['replyTo'], $html, $params['attachments']);
         }
 
-        return array($sent, $dao->subject, $dao->text, $dao->html);
+        return array($sent, $subject, $text, $html);
     }
 }
