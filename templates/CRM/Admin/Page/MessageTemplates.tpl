@@ -6,10 +6,29 @@
   <p>{$form.msg_subject.html|crmReplace:class:huge}</p>
 
   <h3 class='head'>{ts}Text Message{/ts}</h3>
-  <p>{$form.msg_text.html|crmReplace:class:huge}</p>
+  <form name='text_form' action='#'>
+    <div>
+      <textarea rows='20' cols='80' name='msg_text' id='msg_text'>{$form.msg_text.value|htmlentities}</textarea>
+      <div class='spacer'></div>
+      <!-- FIXME: for some reason the below cannot find the above form -->
+      <a href='#' onclick='text_form.msg_text.select(); return false;' class='button'><span>Select Text Message</span></a>
+    </div>
+    <div class='action-link'>
+      <a href='{crmURL p='civicrm/admin/messageTemplates' q='reset=1'}'>&raquo; {ts}Back to Message Templates{/ts}</a>
+    </div>
+  </form>
 
   <h3 class='head'>{ts}HTML Message{/ts}</h3>
-  <p>{$form.msg_html.html|crmReplace:class:huge}</p>
+  <form name='html_form' action='#'>
+    <div>
+      <textarea rows='20' cols='80' name='msg_html' id='msg_html'>{$form.msg_html.value|htmlentities}</textarea>
+      <div class='spacer'></div>
+      <a href='#' onclick='html_form.msg_html.select(); return false;' class='button'><span>Select HTML Message</span></a>
+    </div>
+    <div class='action-link'>
+      <a href='{crmURL p='civicrm/admin/messageTemplates' q='reset=1'}'>&raquo; {ts}Back to Message Templates{/ts}</a>
+    </div>
+  </form>
 {else}
     <div id="help">
     {ts}Message templates allow you to save and re-use messages with layouts. They are useful if you need to send similar emails to contacts on a recurring basis. You can also use them in CiviMail Mailings and they are required for CiviMember membership renewal reminders.{/ts} {help id="id-intro"}
