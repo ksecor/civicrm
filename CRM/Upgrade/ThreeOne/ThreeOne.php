@@ -107,5 +107,19 @@ class CRM_Upgrade_ThreeOne_ThreeOne extends CRM_Upgrade_Form {
                 }
             }
         }
+        
+        
+        require_once "CRM/Core/DAO/Domain.php";
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->selectAdd( );
+        $domain->selectAdd( 'config_backend' );
+        $domain->find(true);
+        if ($domain->config_backend) {
+            $defaults = unserialize($domain->config_backend);
+            if ( $defaults['dateformatQfDate'] ) {     
+                require_once "CRM/Core/BAO/Setting.php";
+                CRM_Core_BAO_Setting::add($defaults);                            
+            }
+        }
     }
 }
