@@ -64,45 +64,40 @@ class CRM_Core_BAO_LineItem extends CRM_Core_DAO_LineItem
      * return contribution/fee line items
      *
      * @param $entityId  int    participant/contribution id
-     * @param $entity    string Participant/Contribution.
+     * @param $entity    string participant/contribution.
      *
      * @return array of line items
      */
-    static function getLineItems( $entityId, $entity = 'Participant', $payment = true ) 
+    static function getLineItems( $entityId, $entity = 'participant' ) 
     {
-        $whereClause = $fromClause = null;
+        $selectClause = $whereClause = $fromClause = null;
 
-        $selectClause = "SELECT li.id, li.label, li.qty, li.unit_price, li.line_total, pf.label as description, pf.html_type, li.price_field_id, li.option_group_id";
+        $selectClause = "
+SELECT    li.id, 
+          li.label, 
+          li.qty, 
+          li.unit_price, 
+          li.line_total, 
+          pf.label as description, 
+          pf.html_type, 
+          li.price_field_id, 
+          li.option_group_id";
 
-        if ( $entity == 'Participant' ) {
-            if ( $payment == true ) {
-                $fromClause = "
-FROM      civicrm_participant as p 
-LEFT JOIN civicrm_participant_payment pp ON ( pp.participant_id = p.id ) 
-LEFT JOIN civicrm_line_item li ON ( li.entity_id = pp.contribution_id AND li.entity_table = 'civicrm_contribution')
-LEFT JOIN civicrm_price_field pf ON (pf.id = li.price_field_id )";
-            } else {
-                $fromClause = "
-FROM      civicrm_participant as p 
-LEFT JOIN civicrm_line_item li ON ( li.entity_id = p.id AND li.entity_table = 'civicrm_participant')
-LEFT JOIN civicrm_price_field pf ON (pf.id = li.price_field_id )";   
-            }
-            
-            $whereClause = "WHERE p.id = %1";
-        } else if ( $entity == 'Contribution' ) {
-            $fromClause = "
-FROM      civicrm_contribution c
-LEFT JOIN civicrm_line_item li ON ( li.entity_id = c.id AND li.entity_table = 'civicrm_contribution')
-LEFT JOIN civicrm_price_field pf ON (pf.id = li.price_field_id )";
-            
-            $whereClause = "WHERE c.id = %1";
-        }
+        $fromClause = "
+FROM      civicrm_%2 as %2 
+LEFT JOIN civicrm_line_item li ON ( li.entity_id = %2.id AND li.entity_table = 'civicrm_%2')
+LEFT JOIN civicrm_price_field pf ON (pf.id = li.price_field_id )";  
+        
+        $whereClause = "
+WHERE     %2.id = %1";
+       
         $lineItems = array( );
         
         if ( !$entityId || !$entity || !$fromClause ) return $lineItems; 
         
-        require_once 'CRM/Core/DAO.php';
-        $params = array( 1 => array( $entityId, 'Integer' ) );
+        $params = array( 1 => array( $entityId, 'Integer' ),
+                         2 => array( $entity, 'Text' ) );
+
         $dao = CRM_Core_DAO::executeQuery( "$selectClause $fromClause $whereClause", $params );
         while ( $dao->fetch() ) {
             if ( !$dao->id ) continue;
@@ -139,7 +134,6 @@ LEFT JOIN civicrm_price_field pf ON (pf.id = li.price_field_id )";
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
-        require_once 'CRM/Core/DAO/LineItem.php';
         $lineItem = new CRM_Core_DAO_LineItem( );
         $lineItem->entity_id    = $entityId;
         $lineItem->entity_table = $entityTable;

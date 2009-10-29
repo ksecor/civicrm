@@ -443,7 +443,7 @@ WHERE  contribution_id = {$this->_id}
              $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_contribution', $this->_id ) ) {
             $this->_priceSetId = $priceSetId;
             require_once 'CRM/Core/BAO/LineItem.php';
-            $this->_lineItems[] = CRM_Core_BAO_LineItem::getLineItems( $this->_id, 'Contribution' );
+            $this->_lineItems[] = CRM_Core_BAO_LineItem::getLineItems( $this->_id, 'contribution' );
         }
         $this->assign( 'lineItem', empty( $this->_lineItems ) ? false : $this->_lineItems );
     }
@@ -570,10 +570,10 @@ WHERE  contribution_id = {$this->_id}
             }
         }
 
-        $this->assign( 'receive_date', $defaults['receive_date'] );
-
+        $this->assign( 'receive_date', CRM_Utils_Array::value( 'receive_date', $defaults ) );
         $this->assign( 'currency', CRM_Utils_Array::value( 'currency', $defaults ) );
-              
+        $this->assign( 'totalAmount', CRM_Utils_Array::value( 'total_amount', $defaults ) );
+
         return $defaults;
     }
     

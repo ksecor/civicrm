@@ -594,6 +594,21 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->confirmPostProcess( $contactID, $contribution, $payment );
         }
         
+        // store line items
+        if ( $this->_lineItem ) {
+            require_once 'CRM/Core/BAO/LineItem.php';
+
+            foreach ( $this->_lineItem as $key => $value ) {
+                if ( $value != 'skip' ) {
+                    foreach( $value as $line ) {
+                        $line['entity_table'] = 'civicrm_participant';
+                        $line['entity_id'] = $this->_participantIDS[$key];
+                        CRM_Core_BAO_LineItem::create( $line );
+                    }
+                }
+            }
+        }
+        
         //update status and send mail to cancelled additonal participants, CRM-4320
         if ( $this->_allowConfirmation && is_array( $cancelledIds ) && !empty( $cancelledIds ) ) {
             require_once 'CRM/Event/BAO/Participant.php';
@@ -711,8 +726,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      */
     static function processContribution( &$form, $params, $result, $contactID, 
                                          $pending = false, $isAdditionalAmount = false ) 
-    {
-        require_once 'CRM/Core/Transaction.php';
+    {   require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
         $config =& CRM_Core_Config::singleton( );
@@ -787,20 +801,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
 		// create contribution record
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-        
-        // store line items
-        if ( $form->_lineItem ) {
-            require_once 'CRM/Core/BAO/LineItem.php';
-            foreach ( $form->_lineItem as $key => $value ) {
-                if ( $value != 'skip' ) {
-                    foreach( $value as $line ) {
-                        $line['entity_table'] = 'civicrm_contribution';
-                        $line['entity_id'] = $contribution->id;
-                        CRM_Core_BAO_LineItem::create( $line );
-                    }
-                }
-            }
-        }
         
         // return if pending
         if ( $pending || ($contribution->total_amount == 0) ) {

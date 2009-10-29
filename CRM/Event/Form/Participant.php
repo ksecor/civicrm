@@ -968,8 +968,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $contribution = CRM_Event_Form_Registration_Confirm::processContribution( $this, $this->_params, $result, $contactID, false );
           
             // add participant record
-            $participants    = array();
-            $participants[]  = CRM_Event_Form_Registration::addParticipant( $this->_params, $contactID );
+            $participants   = array();
+            $participants[] = CRM_Event_Form_Registration::addParticipant( $this->_params, $contactID );
 
             //add custom data for participant
             require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -980,8 +980,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                         'Participant' );
             //add participant payment
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
-            $paymentParticipant = array( 'participant_id'  => $participants[0]->id ,
-                                        'contribution_id' => $contribution->id, ); 
+            $paymentParticipant = array( 'participant_id' => $participants[0]->id ,
+                                         'contribution_id' => $contribution->id, ); 
             $ids = array();       
             
             CRM_Event_BAO_ParticipantPayment::create( $paymentParticipant, $ids);
@@ -1003,7 +1003,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 foreach ( $this->_contactIds as $contactID ) {
                     $commonParams = $params;
                     $commonParams['contact_id'] = $contactID;
-                    $participants[]       = CRM_Event_BAO_Participant::create( $commonParams );   
+                    $participants[] = CRM_Event_BAO_Participant::create( $commonParams );   
                 }        
             }
             
@@ -1071,35 +1071,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                         $ppDAO->participant_id  = $participants[$num]->id;
                         $ppDAO->contribution_id = $contributions[$num]->id;
                         $ppDAO->save();
-
-                        // also store lineitem stuff here
-                        if ( $this->_lineItem ) {
-                            require_once 'CRM/Core/BAO/LineItem.php';
-                            foreach ( $this->_lineItem as $key => $value ) {
-                                if ( is_array ( $value ) && $value != 'skip' ) {
-                                    foreach( $value as $line ) {
-                                        $line['entity_table'] = 'civicrm_contribution';
-                                        $line['entity_id'] = $contributions[$num]->id;
-                                        CRM_Core_BAO_LineItem::create( $line );
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
-            } else {
-                foreach ( $this->_contactIds as $num => $contactID ) {
-                    // also store lineitem stuff here
-                    if ( $this->_lineItem ) {
-                        require_once 'CRM/Core/BAO/LineItem.php';
-                        foreach ( $this->_lineItem as $key => $value ) {
-                            if ( is_array ( $value ) && $value != 'skip' ) {
-                                foreach( $value as $line ) {
-                                    $line['entity_table'] = 'civicrm_participant';
-                                    $line['entity_id'] = $participants[$num]->id;
-                                    CRM_Core_BAO_LineItem::create( $line );
-                                }
-                            }
+            } 
+        }
+
+        // also store lineitem stuff here        
+        if ( $this->_lineItem ) {
+            require_once 'CRM/Core/BAO/LineItem.php';
+            foreach ( $this->_contactIds as $num => $contactID ) {
+                foreach ( $this->_lineItem as $key => $value ) {
+                    if ( is_array ( $value ) && $value != 'skip' ) {
+                        foreach( $value as $line ) {
+                            $line['entity_table'] = 'civicrm_participant';
+                            $line['entity_id'] = $participants[$num]->id;
+                            CRM_Core_BAO_LineItem::create( $line );
                         }
                     }
                 }
