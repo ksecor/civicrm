@@ -40,7 +40,7 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight
 -- * create custom field
 -- *
 -- *******************************************************/
-INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `is_required`, `weight`, `help_post`, `is_active`, `is_view`, `is_searchable`, `options_per_line`, `column_name`, `option_group_id`, `start_date_years`, `end_date_years`, `date_parts` ) VALUES (1, 'Most Important Issue', 'String', 'Radio', 0, 1, '', 1, 0, 1, NULL, 'most_important_issue_1', @option_most_id, NULL, NULL, NULL), (1, 'Marital Status', 'String', 'Select', 0, 2, '', 1, 0, 1, NULL, 'marital_status_2', @option_marital_id, NULL, NULL, NULL), (1, 'Marriage Date', 'Date', 'Select Date', 0, 3, '', 1, 0, 1, NULL, 'marriage_date_3', NULL, 30, 0, 'MdY');
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `is_required`, `weight`, `help_post`, `is_active`, `is_view`, `is_searchable`, `options_per_line`, `column_name`, `option_group_id`, `start_date_years`, `end_date_years`, `date_format`, `time_format` ) VALUES (1, 'Most Important Issue', 'String', 'Radio', 0, 1, '', 1, 0, 1, NULL, 'most_important_issue_1', @option_most_id, NULL, NULL, NULL), (1, 'Marital Status', 'String', 'Select', 0, 2, '', 1, 0, 1, NULL, 'marital_status_2', @option_marital_id, NULL, NULL, NULL), (1, 'Marriage Date', 'Date', 'Select Date', 0, 3, '', 1, 0, 1, NULL, 'marriage_date_3', NULL, 30, 0, 'mm/dd/yy', 0);
 
 
 -- /*******************************************************

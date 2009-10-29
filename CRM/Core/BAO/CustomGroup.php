@@ -263,12 +263,13 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                         'attributes',
                         'is_required',
                         'is_view',
-			'help_pre',
+			            'help_pre',
                         'help_post',
                         'options_per_line',
                         'start_date_years',
                         'end_date_years',
-                        'date_parts',
+                        'date_format',
+                        'time_format',
                         'option_group_id' ),
                   'civicrm_custom_group' =>
                   array('id',
@@ -608,7 +609,8 @@ SELECT $select
                         'start_date_years',
                         'end_date_years',
                         'is_search_range',
-                        'date_parts',
+                        'date_format',
+                        'time_format',
                         'note_columns',
                         'note_rows',
                         'column_name',
@@ -1133,6 +1135,8 @@ SELECT $select
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/BAO/CustomOption.php';
 
+        // TO DO
+        /*
         //this is fix for calendar for date field  
         foreach ( $groupTree as $id => $group ) { 
             foreach ( $group['fields'] as $key2 => $field ) {
@@ -1151,7 +1155,8 @@ SELECT $select
                 }
             }
         }
-
+        */
+        
         $form->assign_by_ref( 'groupTree', $groupTree );
         $sBlocks = array( );
         $hBlocks = array( );
@@ -1507,8 +1512,10 @@ SELECT IF( EXISTS(SELECT name FROM civicrm_contact_type WHERE name like %1), 1, 
         switch ( $dataType ) {
 
         case 'Date':
-            $parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
-            $retValue = CRM_Utils_Date::customFormat( $value, null, $parts );
+            //FIX ME
+            //$parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
+            //$retValue = CRM_Utils_Date::customFormat( $value, null, $parts );
+            $retValue = CRM_Utils_Date::customFormat( $value );
             break;	
 
         case 'Boolean':

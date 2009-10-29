@@ -213,14 +213,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $params['attributes'] = 'rows=4, cols=60';
         }
 
-        // process data params
-        if ( is_array( CRM_Utils_Array::value( 'date_parts', $params ) ) ) {
-            $params['date_parts'] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                                             array_keys($params['date_parts']) );
-        } else {
-            $params['date_parts'] = "";
-        }
-
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->copyValues( $params );
         $customField->is_required      = CRM_Utils_Array::value( 'is_required'    , $params, false );
@@ -397,6 +389,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
                 $extends = '';
                 if ( is_array( $customDataType ) ) {
+                    $value = null;
                     foreach ( $customDataType as $dataType ) {
                         if ( in_array ( $dataType, 
                                         array_keys(CRM_Core_SelectValues::customGroupExtends()) ) ) {
@@ -426,7 +419,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                             $cgTable.extends_entity_column_id,
                             $cfTable.is_view,
                             $cfTable.option_group_id,
-                            $cfTable.date_parts,
+                            $cfTable.date_format,
+                            $cfTable.time_format,
                             $cgTable.is_multiple
                      FROM $cfTable
                      INNER JOIN $cgTable
@@ -482,7 +476,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     $fields[$dao->id]['is_view']                     = $dao->is_view;
                     $fields[$dao->id]['is_multiple']                 = $dao->is_multiple;
                     $fields[$dao->id]['option_group_id']             = $dao->option_group_id;
-                    $fields[$dao->id]['date_parts']                  = $dao->date_parts;
+                    $fields[$dao->id]['date_format']                 = $dao->date_format;
+                    $fields[$dao->id]['time_format']                 = $dao->time_format;
                 }
 
                 CRM_Core_BAO_Cache::setItem( $fields,
