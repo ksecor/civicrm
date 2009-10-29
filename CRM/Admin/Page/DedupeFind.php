@@ -76,8 +76,10 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
         $action  = CRM_Utils_Request::retrieve( 'action',  'String',   $this, false, 0);
         $context = CRM_Utils_Request::retrieve( 'context', 'String',   $this );
         
-        if ( $context == 'search' ) {
-            $session =& CRM_Core_Session::singleton( );
+        $session =& CRM_Core_Session::singleton( );
+        $contactIds = $session->get( 'selectedSearchContactIds' );
+        if ( $context == 'search' || !empty( $contactIds ) ) {
+            $context = 'search';
             $this->assign( 'backURL', $session->readUserContext( ) );
         }
         
@@ -89,6 +91,10 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
                 $foundDupes = $this->get("dedupe_dupes_$gid");
                 if (!$foundDupes) $foundDupes = CRM_Dedupe_Finder::dupesInGroup($rgid, $gid);
                 $this->set("dedupe_dupes_$gid", $foundDupes);
+            } else if ( !empty( $contactIds ) ) {
+                $foundDupes = $this->get("search_dedupe_dupes_$gid");
+                if (!$foundDupes) $foundDupes = CRM_Dedupe_Finder::dupes( $rgid, $contactIds );
+                $this->get("search_dedupe_dupes_$gid", $foundDupes );
             } else {
                 $foundDupes = $this->get("dedupe_dupes");
                 if (!$foundDupes) $foundDupes = CRM_Dedupe_Finder::dupes($rgid);
@@ -102,6 +108,7 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
                 $session =& CRM_Core_Session::singleton();
                 $session->setStatus("No possible duplicates were found using {$ruleGroup->name} rule.");
                 $url = CRM_Utils_System::url('civicrm/admin/deduperules', "reset=1");
+                if ( $context == 'search' )  $url = $session->readUserContext( ); 
                 CRM_Utils_System::redirect( $url );
             } else {
                 $cids = array( );
@@ -157,13 +164,6 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
             $this->edit($this->action);
             $this->assign('action', $this->action);
         }
-        
-        //FIXME : due to delete group here, 
-        //if we refresh browser we lost search contact set.
-        // delete tmp group, CRM-3526
-        if ( $context == 'search' && $gid ) {
-            CRM_Contact_BAO_Group::discard( $gid );
-        }
         $this->assign( 'context', $context );
         
         // parent run
@@ -183,7 +183,6 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
         if ($this->_cid) $this->assign('cid', $this->_cid);
         if (isset($this->_gid) || $this->_gid) $this->assign('gid', $this->_gid);
         $this->assign('rgid', $this->_rgid);
-
     }
 
     /**

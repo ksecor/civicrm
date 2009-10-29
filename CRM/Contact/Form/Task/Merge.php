@@ -95,22 +95,12 @@ class CRM_Contact_Form_Task_Merge extends CRM_Contact_Form_Task {
                 CRM_Core_Error::statusBounce("You can not merge contact records because $level rule for $cType does not exist.");
             }
             $ruleGroupID = $rgBao->id;
-            
-            //create group only when new saved search. 
-            $groupParams = array( 'title'      => "Hidden Group".time( ),
-                                  'is_active'  => true,
-                                  'is_hidden'  => true,
-                                  'visibility' => "User and User Admin Only" );
-            require_once 'CRM/Contact/BAO/Group.php';
-            $group = CRM_Contact_BAO_Group::create( $groupParams );
-            $groupID = $group->id;
-            
-            // add given contacts to group.
-            CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $groupID );
+            $session =& CRM_Core_Session::singleton( );
+            $session->set( 'selectedSearchContactIds', $contactIds );
             
             // create a hidden group and poceed to merge
             $url = CRM_Utils_System::url( 'civicrm/admin/dedupefind', 
-                                          "reset=1&action=update&rgid={$ruleGroupID}&gid={$groupID}&context=search" );
+                                          "reset=1&action=update&rgid={$ruleGroupID}&context=search" );
         }
         
         // redirect to merge page.

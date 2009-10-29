@@ -414,7 +414,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                                $this );
         $this->_ufGroupID       = CRM_Utils_Request::retrieve( 'id'             , 'Positive',
                                                                $this );
-
+        
+        // reset from session, CRM-3526 
+        $session =& CRM_Core_Session::singleton();
+        if ( $this->_force && $session->get( 'selectedSearchContactIds' ) ) {
+            $session->resetScope( 'selectedSearchContactIds' );
+        }
+        
         // if we dont get this from the url, use default if one exsts
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_ufGroupID == null &&
