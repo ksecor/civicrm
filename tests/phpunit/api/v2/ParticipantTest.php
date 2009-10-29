@@ -54,7 +54,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->_contactID = $this->individualCreate( ) ;
         $this->_createdParticipants = array( );
         $this->_individualId = $this->individualCreate();        
-
+        
         $this->_participantID = $this->participantCreate( array('contactID' => $this->_contactID,'eventID' => $this->_eventID  ));
         $this->_contactID2 = $this->individualCreate( ) ;
         $this->_participantID2 = $this->participantCreate( array('contactID' => $this->_contactID2,'eventID' => $this->_eventID ));
@@ -63,11 +63,11 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     
     function tearDown()
     {
-      // _participant, _contact and _event tables cleaned up in truncate.xml
+        // _participant, _contact and _event tables cleaned up in truncate.xml
     }
-
-///////////////// civicrm_participant_get methods
-
+    
+    ///////////////// civicrm_participant_get methods
+    
     /**
      * check with wrong params type
      */    
@@ -78,7 +78,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         
         $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
     }
-
+    
     /**
      * Test civicrm_participant_get with empty params
      */    
@@ -89,7 +89,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         
         $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
     }
-
+    
     /**
      * check with participant_id
      */
@@ -97,6 +97,20 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     {
         $params = array(
                         'participant_id'      => $this->_participantID,
+                        );
+        $participant = & civicrm_participant_get($params);
+        $this->assertEquals($participant['event_id'], $this->_eventID);
+        $this->assertEquals($participant['participant_register_date'], '2007-02-19 00:00:00');
+        $this->assertEquals($participant['participant_source'],'Wimbeldon');
+    }
+    
+    /**
+     * check with params id
+     */
+    function testGetParamsAsIdOnly()
+    {
+        $params = array(
+                        'id'      => $this->_participantID,
                         );
         $participant = & civicrm_participant_get($params);
         $this->assertEquals($participant['event_id'], $this->_eventID);
@@ -368,7 +382,6 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     {
         $params = 'a string';
         $result = & civicrm_participant_update($params);
-        
         $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
         $this->assertEquals( 'Parameters is not an array', $result['error_message'], 'In line ' . __LINE__ );
     }
@@ -378,8 +391,8 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
      */
     function testUpdateEmptyParams()
     {
-        $params = array();        
-        $participant = & civicrm_participant_create($params);  
+        $params = array();
+        $participant = & civicrm_participant_update($params);
         $this->assertEquals( $participant['is_error'],1 );
         $this->assertEquals( $participant['error_message'],'Required parameter missing' );
     }
@@ -421,23 +434,25 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
                         'source'        => 'US Open',
                         'event_level'   => 'Donation'                        
                         );
-        $participant = & civicrm_participant_create($params);
+        $participant = & civicrm_participant_update($params);
         $this->assertNotEquals( $participant['is_error'],1 );
         
+        
         if ( ! $participant['is_error'] ) {
-            $params['id'] = CRM_Utils_Array::value('result', $participant);
+            $params['id'] = CRM_Utils_Array::value('id', $participant);
             
             // Create $match array with DAO Field Names and expected values
             $match = array(
-                           'id'         => CRM_Utils_Array::value('result', $participant)
+                           'id'         => CRM_Utils_Array::value('id', $participant)
                            );
             // assertDBState compares expected values in $match to actual values in the DB              
-            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['result'], $match );
+            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['id'], $match );
+            
         }
         // Cleanup created participant records.
         $result = $this->participantDelete( $params['id'] );
     }
-
+    
 
 
 ///////////////// civicrm_participant_delete methods
@@ -477,7 +492,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->assertDBState( 'CRM_Event_DAO_Participant', $this->_participantID, NULL, true ); 
 
     }
-    
+      
     /**
      * check without participant_id
      * and with event_id
@@ -494,13 +509,46 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
     }
 
 ///////////////// civicrm_create_participant_formatted methods
-
-
-
+    /**
+     * Test civicrm_participant_formatted Empty  params type
+     */
+    function testParticipantFormattedEmptyParams()
+    {
+        $params = array();
+        $onDuplicate = array();
+        $participant = & civicrm_create_participant_formatted($params,$onDuplicate );
+        $this->assertEquals( $participant['error_message'] ,'Input Parameters empty' );
+    }
     
-///////////////// civicrm_participant_payment_create methods
+    function testParticipantFormattedwithDuplicateParams()
+    {  
+        $participantContact = $this->individualCreate( ); 
+        $params = array(
+                        'contact_id'    => $participantContact,
+                        'event_id'      => $this->_eventID,
+                        );
+        require_once 'CRM/Event/Import/Parser.php'; 
+        $onDuplicate = CRM_Event_Import_Parser::DUPLICATE_NOCHECK;
+        $participant = & civicrm_create_participant_formatted($params,$onDuplicate );
+        $this->assertEquals( $participant['is_error'],0);
+    }
+    
+    
+    
+    function testParticipantcheckWithParams()
+    {  
+        $participantContact = $this->individualCreate( ); 
+        $params = array(
+                        'contact_id'    => $participantContact,
+                        'event_id'      => $this->_eventID,
+                        );
+        require_once 'CRM/Event/Import/Parser.php';     
+        $participant = & civicrm_participant_check_params( $params );
+        $this->assertEquals( $participant, true , 'Check the returned True');
+    }
 
-
+    ///////////////// civicrm_participant_payment_create methods
+    
     /**
      * Test civicrm_participant_payment_create with wrong params type
      */
@@ -516,13 +564,13 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
      * Test civicrm_participant_payment_create with empty params
      */
     function testPaymentCreateEmptyParams()
-    {
+    {   
         $params = array();
         $result = & civicrm_participant_payment_create($params);
         
         $this->assertEquals( 1, $result['is_error'], 'In line ' . __LINE__ );
-    }    
-
+    }   
+    
     /**
      * check without participant_id
      */
@@ -574,7 +622,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         //Create Participant Payment record With Values
         $params = array(
                         'participant_id'  => $this->_participantID,
-                        'contribution_id' => $contributionID
+                        'contribution_id' => $contributionID,
                         );
         $participantPayment = & civicrm_participant_payment_create( $params );
         $this->assertEquals( $participantPayment['is_error'], 0 );
@@ -587,6 +635,7 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->contributionTypeDelete( $contributionTypeID );
     }
     
+  
 ///////////////// civicrm_participant_payment_update methods 
 
     /**

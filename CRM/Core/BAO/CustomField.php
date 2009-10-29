@@ -37,6 +37,7 @@ require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/DAO/CustomField.php';
 require_once 'CRM/Core/DAO/CustomGroup.php';
 require_once 'CRM/Core/BAO/CustomOption.php';
+require_once 'CRM/Contact/BAO/ContactType.php';
 
 /**
  * Business objects for managing custom data fields.
