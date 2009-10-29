@@ -279,7 +279,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $this->_values['event']['is_multiple_registrations'] ) {
             // don't allow to add additional during confirmation if not preregistered.
             if ( !$this->_allowConfirmation || $this->_additionalParticipantIds ) {
-                $element = $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'onKeyup' => "allowParticipant()", 'size' => 10, 'maxlength' => 10) );
+                // Hardcode maximum number of additional participants here for now. May need to make this configurable per event.
+                // Label is value + 1, since the code sees this is ADDITIONAL participants (in addition to "self")
+                $additionalOptions = array( '' => ts('1'),1 => ts('2'),2 => ts('3'),3 => ts('4'),4 => ts('5'),5 => ts('6'),6 => ts('7'),7 => ts('8'),8 => ts('9'),9 => ts('10') );
+                $element = $this->add( 'select', 'additional_participants',
+                                        ts('How many people are you registering?'),
+                                        $additionalOptions,
+                                        null,
+                                        array( 'onChange' => "allowParticipant()") );
             }
             
             //hack to allow group to register w/ waiting
@@ -291,8 +298,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 //case might be group become as a part of waitlist.
                 //If not waitlist then they require admin approve.
                 $allowGroupOnWaitlist = true;
-                $additionalParticipantSpaces = $this->_availableRegistrations - 1;
-                $this->_waitlistMsg = ts("This event has only %1 space(s) left. If you register yourself and %1 additional people, the whole group will be wait listed. You can reduce the number of additional people to %2 to avoid being put on the waiting list.", array( 1 => $this->_availableRegistrations,  2 => $additionalParticipantSpaces ) );
+                $this->_waitlistMsg = ts("This event has only %1 space(s) left. If you continue and register more than %1 people (including yourself ), the whole group will be wait listed. Or, you can reduce the number of people you are registering to %1 to avoid being put on the waiting list.", array( 1 => $this->_availableRegistrations ) );
                 
                 if ( $this->_requireApproval ) {
                     $this->_requireApprovalMsg = CRM_Utils_Array::value( 'approval_req_text', $this->_values['event'], 
@@ -526,7 +532,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
              CRM_Utils_Array::value( 'additional_participants', $fields ) && 
              is_array( $self->_additionalParticipantIds ) &&
              $fields['additional_participants'] > count( $self->_additionalParticipantIds ) ) {
-            $errors['additional_participants'] = ts( "Oops. It looks like you are trying to increase the number additional people you are registering for. You can confirm registration for a maximum of %1 additional people.", array( 1=>count( $self->_additionalParticipantIds ) ) );
+            $errors['additional_participants'] = ts( "Oops. It looks like you are trying to increase the number of additional people you are registering for. You can confirm registration for a maximum of %1 additional people.", array( 1=>count( $self->_additionalParticipantIds ) ) );
         }
         
         //don't allow to register w/ waiting if enough spaces available.
