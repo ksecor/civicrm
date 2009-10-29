@@ -56,7 +56,7 @@
                 <thead>
                   <tr>
                     <th>{ts}Message Title{/ts}</th>
-                    {if $smarty.section.template.first}
+                    {if $smarty.section.template_selector.first}
                       <th>{ts}Message Subject{/ts}</th>
                       <th>{ts}Enabled?{/ts}</th>
                     {/if}
@@ -69,7 +69,7 @@
                   {if !$row.is_reserved and (($smarty.section.template_selector.first and !$row.workflow_id) or ($smarty.section.template_selector.last and $row.workflow_id))}
                     <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
                       <td>{$row.msg_title}</td>
-                      {if $smarty.section.template.first}
+                      {if $smarty.section.template_selector.first}
                         <td>{$row.msg_subject}</td>
                         <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
                       {/if}
