@@ -408,9 +408,16 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $$elem = $smarty->fetch("string:{$$elem}");
         }
 
-        // send the template
+        // send the template, honouring the target user’s preferences (if any)
         $sent = false;
         if ($params['toEmail']) {
+            $contactParams = array('email' => $params['toEmail']);
+            $contact =& civicrm_contact_get($contactParams);
+            $prefs = array_pop($contact);
+
+            if (isset($prefs['preferred_mail_format']) and $prefs['preferred_mail_format'] == 'HTML') $text = null;
+            if (isset($prefs['preferred_mail_format']) and $prefs['preferred_mail_format'] == 'Text') $html = null;
+
             require_once 'CRM/Utils/Mail.php';
             $sent = CRM_Utils_Mail::send($params['from'], $params['toName'], $params['toEmail'], $subject, $text, $params['cc'], $params['bcc'], $params['replyTo'], $html, $params['attachments']);
         }
