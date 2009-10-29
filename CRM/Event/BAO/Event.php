@@ -971,6 +971,7 @@ WHERE civicrm_event.is_active = 1
                     'groupName' => 'msg_tpl_workflow_event',
                     'valueName' => 'event_receipt',
                     'contactId' => $contactID,
+                    'isTest'    => $isTest,
                     'tplParams' => array(
                         'email'              => $email,
                         'confirm_email_text' => CRM_Utils_Array::value('confirm_email_text', $values['event']),

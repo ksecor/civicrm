@@ -322,6 +322,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             'bcc'         => null,    // the Bcc: header
             'replyTo'     => null,    // the Reply-To: header
             'attachments' => null,    // email attachments
+            'isTest'      => false,   // whether this is a test email (and hence should include the test banner)
         );
         $params = array_merge($defaults, $params);
 
@@ -346,6 +347,21 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         $subject = $dao->subject;
         $text    = $dao->text;
         $html    = $dao->html;
+
+        // add the test banner (if requested)
+        if ($params['isTest']) {
+            $query = "SELECT msg_subject subject, msg_text text, msg_html html
+                      FROM civicrm_msg_template mt
+                      JOIN civicrm_option_value ov ON workflow_id = ov.id
+                      JOIN civicrm_option_group og ON ov.option_group_id = og.id
+                      WHERE og.name = 'msg_tpl_workflow_meta' AND ov.name = 'test_preview' AND mt.is_default = 1";
+            $testDao = CRM_Core_DAO::executeQuery($query);
+            $testDao->fetch();
+
+            $subject = $testDao->subject . $subject;
+            $text    = $testDao->text    . $text;
+            $html    = preg_replace('/<body(.*)$/im', "<body\\1\n{$testDao->html}", $html);
+        }
 
         // replace tokens in the three elements
         require_once 'CRM/Utils/Token.php';

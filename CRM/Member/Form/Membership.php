@@ -957,6 +957,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     'from'      => $receiptFrom,
                     'toName'    => $this->_contributorDisplayName,
                     'toEmail'   => $this->_contributorEmail,
+                    'isTest'    => (bool) ($this->_action & CRM_Core_Action::PREVIEW),
                 )
             );
         }
