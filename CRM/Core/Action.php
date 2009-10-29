@@ -236,6 +236,7 @@ class CRM_Core_Action {
                                        $linkClass,
                                        $link['title'], $ref, $link['name'] );
                 } else {
+                    $linkClass .= ' '. strtolower( $link['name'] ) . '-action';
                     $url[] = sprintf('<a title="%s" class="%s" %s ' . $extra . '>%s</a>',
                                        $link['title'],
                                        $linkClass,
