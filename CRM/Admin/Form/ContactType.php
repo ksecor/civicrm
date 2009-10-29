@@ -69,6 +69,7 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
         $this->add('text', 'description', ts('Description'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'description' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
+        $this->assign('id', $this->_id );
     }
     
     /**

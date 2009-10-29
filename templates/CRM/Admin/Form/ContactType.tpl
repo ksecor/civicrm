@@ -12,9 +12,24 @@
  </div>
 {else}
   <dl>
-    <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
-    <dt>{$form.parent_id.label}</dt><dd>&nbsp;{$form.parent_id.html}</dd>
-    <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+    <dt>{$form.label.label}</dt>
+    <dd>
+        {if $action eq 2}
+           {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact_type' field='label' 
+             id= $id }
+        {/if}
+        {$form.label.html}
+    </dd>
+    <dt>{$form.parent_id.label}</dt>
+    <dd>&nbsp;{$form.parent_id.html}</dd>
+    <dt>{$form.description.label}</dt>
+    <dd>
+        {if $action eq 2}
+	 {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact_type' field='description' 
+             id= $id }
+        {/if}
+        {$form.description.html}
+    </dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
   </dl>
 {/if}

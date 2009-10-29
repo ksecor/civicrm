@@ -34,7 +34,8 @@
        <name>label</name>
        <type>varchar</type>
        <length>64</length>
-       <comment>Name of Contact Type.</comment>
+       <comment> localized Name of Contact Type.</comment>
+       <localizable>true</localizable>
        <add>3.1</add>
   </field>
   <field>
@@ -43,7 +44,8 @@
        <htmlType>textarea</htmlType>
        <rows>2</rows>
        <cols>60</cols>
-       <comment>Optional verbose description of the type.</comment>
+       <comment> localized Optional verbose description of the type.</comment>
+       <localizable>true</localizable>
        <add>3.1</add>
   </field>
   <field>
