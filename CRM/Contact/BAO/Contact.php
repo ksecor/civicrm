@@ -766,7 +766,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 $fields = array_merge($fields,
                                       CRM_Core_DAO_Note::import());          
                 if ( $contactType != 'All' ) {  
-                    $fields       = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $showAll) );
+                    $fields       = 
+                        array_merge($fields, 
+                                    CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $showAll, true) );
                     //unset the fields, which are not related to their
                     //contact type.
                     $commonValues = array ( 'Individual'   => array( 'household_name','legal_name','sic_code','organization_name' ),

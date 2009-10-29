@@ -78,7 +78,6 @@ function showHideStyle()
 	if( isShow  ) {	
             show("style");
             show("is_multiple");
-            document.forms.Group['extends[1]'].style.display = 'none';
 	} else {
 	    hide("style");
         hide("is_multiple");

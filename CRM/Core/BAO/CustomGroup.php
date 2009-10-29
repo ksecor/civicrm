@@ -239,8 +239,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                                      $entityID = null,
                                      $groupID  = null,
                                      $subType  = null,
-                                     $subName  = null,
-                                     $csType   = null )
+                                     $subName  = null )
     {
         if ( $entityID ) {
             $entityID = CRM_Utils_Type::escape( $entityID, 'Integer' );
@@ -305,21 +304,12 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
         // if entity is either individual, organization or household pls get custom groups for 'contact' too.
         if ($entityType == "Individual" || $entityType == 'Organization' || $entityType == 'Household') {
             $in = "'$entityType', 'Contact'";
-            if ( !$csType && $entityID ) {
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $csType = CRM_Contact_BAO_Contact::getContactSubType( $entityID );
-            }
         } else if ( strpos( $entityType, "'" ) !== false ) {
             // this allows the calling function to send in multiple entity types
             $in = $entityType;
         } else {
             // quote it
             $in = "'$entityType'";
-        }
-
-        // consider subtype if any
-        if ( $csType ) {
-            $in .= ", '$csType'";
         }
 
         if ( $subType ) {
@@ -831,11 +821,6 @@ SELECT $select
         case 'Contact':
             // if contact, get all related to contact
             $extendList = "'Contact','Individual','Household','Organization'";
-
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $csType     = is_numeric($entityID) ? CRM_Contact_BAO_Contact::getContactSubType($entityID) : false;
-            $extendList = $csType ? $extendList . ", '$csType'" : $extendList; 
-
             $customGroupDAO->whereAdd("extends IN ( $extendList )");
             break;
         case 'Individual':
@@ -843,11 +828,6 @@ SELECT $select
         case 'Organization':
             // is I/H/O then get I/H/O and contact
             $extendList = "'Contact','$entityType'";
-
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $csType     = is_numeric($entityID) ? CRM_Contact_BAO_Contact::getContactSubType($entityID) : false;
-            $extendList = $csType ? $extendList . ", '$csType'" : $extendList; 
-
             $customGroupDAO->whereAdd("extends IN ( $extendList )");
             break;
         case 'Location':

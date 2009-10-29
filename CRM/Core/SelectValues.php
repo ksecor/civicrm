@@ -265,10 +265,6 @@ class CRM_Core_SelectValues
                 'Pledge'       => ts('Pledges'),
                 'Grant'        => ts('Grants'),
             );
-
-            require_once 'CRM/Contact/BAO/ContactType.php';
-            $subTypes =& CRM_Contact_BAO_ContactType::subTypePairs( );
-            $customGroupExtends = array_merge($customGroupExtends, $subTypes);
         }
         return $customGroupExtends;
     }

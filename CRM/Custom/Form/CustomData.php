@@ -41,7 +41,7 @@ require_once 'CRM/Core/BAO/CustomGroup.php';
 class CRM_Custom_Form_CustomData 
 {
     static function preProcess( &$form, $subName = null, $subType = null, 
-                                $groupCount = null, $type = null, $entityID = null, $csType = null )
+                                $groupCount = null, $type = null, $entityID = null )
     {
         if ( $type ) {
             $form->_type = $type;
@@ -69,12 +69,6 @@ class CRM_Custom_Form_CustomData
             $form->_subName = null;	
         }
 
-        if ( isset( $csType ) ) {
-            $form->_csType = $csType;
-        } else {
-            $form->_csType = CRM_Utils_Request::retrieve( 'csType', 'String', $form );
-        }
-
         if ( $groupCount ) {
             $form->_groupCount = $groupCount;
         } else {
@@ -96,8 +90,7 @@ class CRM_Custom_Form_CustomData
                                                          $form->_entityId,
                                                          $form->_groupID,
                                                          $form->_subType,
-                                                         $form->_subName,
-                                                         $form->_csType );
+                                                         $form->_subName );
 
         // we should use simplified formatted groupTree
         $groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, $form->_groupCount, $form );

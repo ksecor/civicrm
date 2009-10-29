@@ -333,11 +333,26 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
  									   $customDataSubName = null,
  									   $onlyParent = false ) 
     {
+        $onlySubType = false;
+
         if ( $customDataType && 
-             !is_array( $customDataType ) &&
-             in_array ( $customDataType, 
-                        array_keys(CRM_Core_SelectValues::customGroupExtends()) ) ) {
-            $customDataType = array( $customDataType );
+             !is_array( $customDataType ) ) {
+            
+            if ( in_array($customDataType, 
+                          CRM_Contact_BAO_ContactType::subTypes()) ) {
+                // This is the case when getFieldsForImport() requires fields 
+                // limited strictly to a subtype. 
+                $customDataSubType = $customDataType;
+                $customDataType    = CRM_Contact_BAO_ContactType::getBasicType( $customDataType );
+                $onlySubType       = true;
+            }
+
+            if ( in_array($customDataType, 
+                          array_keys(CRM_Core_SelectValues::customGroupExtends())) ) {
+                // this makes the method flexible to support retrieving fields 
+                // for multiple extends value.
+                $customDataType = array( $customDataType );
+            }
         }
 
         if ( is_array( $customDataType ) ) {
@@ -350,6 +365,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $cacheKey .= $showAll ? "_1" : "_0";
         $cacheKey .= $inline  ? "_1_" : "_0_";
 		$cacheKey .= $onlyParent  ? "_1_" : "_0_";
+		$cacheKey .= $onlySubType  ? "_1_" : "_0_";
         
         $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
@@ -385,9 +401,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                         array_keys(CRM_Core_SelectValues::customGroupExtends()) ) ) {
                             if ( in_array( $dataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
                                 $val = "'" . CRM_Utils_Type::escape( $dataType, 'String' ) . "', 'Contact' ";
-                            } else if ( in_array( $dataType, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
-                                // consider subtypes if any
-                                $val = "'" . CRM_Utils_Type::escape($dataType, 'String'). "'";
                             } else {
                                 $val = "'" . CRM_Utils_Type::escape($dataType, 'String') . "'";
                             }
@@ -398,6 +411,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                         $extends = "AND   $cgTable.extends IN ( $value ) ";
                     }
                 }
+
                 if ( $onlyParent ) {
                     $extends .= " AND $cgTable.extends_entity_column_value IS NULL AND $cgTable.extends_entity_column_id IS NULL ";
                 }
@@ -431,8 +445,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 if ( $customDataSubType ) {
                     $customDataSubType = 
                         CRM_Core_DAO::VALUE_SEPARATOR . $customDataSubType . CRM_Core_DAO::VALUE_SEPARATOR;
-                    $query .= " AND ( $cgTable.extends_entity_column_value LIKE '%$customDataSubType%' 
-                                      OR $cgTable.extends_entity_column_value IS NULL )";
+                    $query .= " AND ( $cgTable.extends_entity_column_value LIKE '%$customDataSubType%'";
+                    if ( !$onlySubType ) {
+                        $query .= " OR $cgTable.extends_entity_column_value IS NULL";
+                    }
+                    $query .= " )";
                 }
                 
                 if ( $customDataSubName ) {
@@ -488,9 +505,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    public static function &getFieldsForImport( $contactType = 'Individual', $showAll = false ) 
+    public static function &getFieldsForImport( $contactType = 'Individual', $showAll = false, $onlyParent = false ) 
     {
-        $fields =& self::getFields( $contactType, $showAll );
+        // Note: there are situations when we want getFieldsForImport() return fields related 
+        // ONLY to basic contact types, but NOT subtypes. And thats where $onlyParent is helpful
+        $fields =& self::getFields( $contactType, $showAll, false, null, null, $onlyParent );
 
         $importableFields = array();
         foreach ($fields as $id => $values) {
