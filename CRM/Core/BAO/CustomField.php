@@ -631,24 +631,23 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case 'Select Date':
-            //TO DO:  Need to handle date parts
-
-
             if ( $field->is_search_range && $search) {
-
                 $qf->addDate( $elementName.'_from', $label . ' - ' . ts('From'), false, 
-                              array( 'formatType'  => 'custom',
+                              array( 'format'      =>  $field->date_format,
+                                     'timeFormat'  =>  $field->time_format,     
                                      'startOffset' =>  $field->start_date_years,
                                      'endOffset'   =>  $field->end_date_years) );
 
                 $qf->addDate( $elementName.'_to', ts('To'), false, 
-                              array( 'formatType'  => 'custom',
+                              array( 'format'      =>  $field->date_format,
+                                     'timeFormat'  =>  $field->time_format,
                                      'startOffset' =>  $field->start_date_years,
                                      'endOffset'   =>  $field->end_date_years) );
             } else {
                 $required = ( ( $useRequired ||( $useRequired && $field->is_required ) ) && !$search );
                 
-                $qf->addDate( $elementName, $label, $required, array( 'formatType'  => 'custom',
+                $qf->addDate( $elementName, $label, $required, array( 'format'      =>  $field->date_format,
+                                                                      'timeFormat'  =>  $field->time_format,    
                                                                       'startOffset' =>  $field->start_date_years,
                                                                       'endOffset'   =>  $field->end_date_years) );
             }

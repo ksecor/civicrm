@@ -6,19 +6,15 @@
     var cal_img        = "{$config->resourceBase}i/cal.gif";    
 
     {if $timeElement}
-        var element_time   = "#{$elementName}_time";
+        var element_time  = "#{$elementName}_time";
         {*var time_img    = "{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png";*}
-        var time_format = {$config->timeInputFormat};
-        var set24hours = true;
+        var time_format   = cj( element_time ).attr('timeFormat');
         {literal}
-            if ( time_format == 1 ) {
-                set24hours = false;
-            }
-            cj(element_time).timeEntry({ show24Hours : set24hours });
+            cj(element_time).timeEntry({ show24Hours : time_format });
         {/literal}
     {/if}
 
-    var date_format = cj( element_date ).attr('formatType');
+    var date_format = cj( element_date ).attr('format');
     var startYear   = cj( element_date ).attr('startOffset');
     var endYear     = cj( element_date ).attr('endOffset');
 

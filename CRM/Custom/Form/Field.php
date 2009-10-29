@@ -285,7 +285,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                                   '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            //$this->freeze('data_type');
+            $this->freeze('data_type');
         }
         
         $optionGroups = CRM_Core_BAO_CustomField::customOptionGroup( );
