@@ -9,8 +9,12 @@
         var element_time   = "#{$elementName}_time";
         {*var time_img    = "{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png";*}
         var time_format = {$config->timeInputFormat};
+        var set24hours = true;
         {literal}
-            cj(element_time).timeEntry({ show24Hours : time_format });
+            if ( time_format == 1 ) {
+                set24hours = false;
+            }
+            cj(element_time).timeEntry({ show24Hours : set24hours });
         {/literal}
     {/if}
 

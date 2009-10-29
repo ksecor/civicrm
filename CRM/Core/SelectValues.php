@@ -718,8 +718,8 @@ class CRM_Core_SelectValues
      * Time formats
      */
     static function getTimeFormats( ) {
-        $timeFormats = array( '0' => ts( '12 Hours' ),
-                              '1' => ts( '24 Hours' ) );
+        $timeFormats = array( '1' => ts( '12 Hours' ),
+                              '2' => ts( '24 Hours' ) );
         return $timeFormats;
     }
 }

@@ -1565,14 +1565,16 @@ class CRM_Utils_Date
         $date = date( $dateFormat, strtotime( $mysqlDate) );
         
         $timeFormat = "g:iA";
-
-        if ( $config->timeInputFormat ) {
+        $appendZeroLength = 7;
+        if ( $config->timeInputFormat > 1 ) {
             $timeFormat = "G:i";
+            $appendZeroLength = 5;
         }
         
         $time = date( $timeFormat, strtotime( $mysqlDate) );
-        // need to append for hours < 10
-        if ( strlen( $time) < 5 ) {
+        
+        // need to append zero for hours < 10
+        if ( strlen( $time) < $appendZeroLength ) {
             $time = '0' . $time;
         }
         

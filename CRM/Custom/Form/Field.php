@@ -285,7 +285,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                                   '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            $this->freeze('data_type');
+            //$this->freeze('data_type');
         }
         
         $optionGroups = CRM_Core_BAO_CustomField::customOptionGroup( );
@@ -377,15 +377,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $this->addRule('start_date_years', ts('Value should be a positive number') , 'integer');
         $this->addRule('end_date_years', ts('Value should be a positive number') , 'integer');
 
-        $includedPart[] = $this->createElement('checkbox', 'M',true,ts('Month'));
-        $includedPart[] = $this->createElement('checkbox', 'd',true,ts('Day'));
-        $includedPart[] = $this->createElement('checkbox', 'Y',true,ts('Year'));
-        $includedPart[] = $this->createElement('checkbox', 'h',true,ts('Hour'));
-        $includedPart[] = $this->createElement('checkbox', 'i',true,ts('min'));
-        $includedPart[] = $this->createElement('checkbox', 'A',true,ts('AM/PM'));
-
-        $this->addGroup($includedPart, 'date_parts',ts('Included date parts'));
-        
+        $this->add( 'select', 'date_format', ts('Date Format'),
+                    array( '' => ts( '- select -' ) ) + CRM_Core_SelectValues::getDatePluginInputFormats( ) );
+                    
+        $this->add( 'select', 'time_format', ts('Time'),
+                    array( '' => ts( '- select -' ) ) + CRM_Core_SelectValues::getTimeFormats( ) );
+                    
         // for Note field
         $this->add('text',
                    'note_columns',
@@ -579,31 +576,12 @@ SELECT count(*)
             }
         } 
 
-        /**
-         * check that date parts is valid
-         */
         if ( self::$_dataTypeKeys[$fields['data_type'][0]] == 'Date' ) {
-            if ( ! isset( $fields['date_parts']['Y'] ) ) {
-                $errors['date_parts'] = ts( 'You must have a year selected for a custom date' );
-            } else {
-                $orderElements = array( 'M', 'd', 'h', 'i', 'A' );
-                $error    = false;
-                $okToHave = true;
-                foreach ( $orderElements as $order ) {
-                    if ( isset( $fields['date_parts'][$order] ) ) {
-                        if ( ! $okToHave ) {
-                            $error = true;
-                        }
-                    } else {
-                        $okToHave = false;
-                    }
-                }
-                if ( $error ) {
-                    $errors['date_parts'] = ts( 'The combination selected does not make a valid date' );
-                }
+            if ( ! $fields['date_format'] ) {
+                $errors['date_format'] = ts( 'Please select a date format.' );
             }
         }
-
+        
         /** Check the option values entered
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
