@@ -1544,34 +1544,41 @@ class CRM_Utils_Date
      *
      *  @return array $date and time 
      */
-    static function setDateDefaults( $mysqlDate = null, $formatType = null ) {        
+    static function setDateDefaults( $mysqlDate = null, $formatType = null, $format = null, $timeFormat = null ) {        
         // if date is not passed assume it as today
         if ( !$mysqlDate ) {
             $mysqlDate = date( 'Y-m-d G:i:s' ) ;
         }
 
-        if ( !$formatType ) {
-            $config =& CRM_Core_Config::singleton();
-            $formatType = $config->dateInputFormat;
-        } else {
-            $formatType = CRM_Core_Dao::getFieldValue( 'CRM_Core_DAO_PreferencesDate', 
+        $config =& CRM_Core_Config::singleton();
+
+        if ( $formatType ) {
+            $format = CRM_Core_Dao::getFieldValue( 'CRM_Core_DAO_PreferencesDate', 
                                                         $formatType, 'format', 'name' );
         }
+        
+        if ( !$format ) {
+           $format = $config->dateInputFormat; 
+        }     
 
         // get actual format
         $actualPHPFormats = CRM_Core_SelectValues::datePluginToPHPFormats( );
-        $dateFormat       = $actualPHPFormats[$formatType];
+        $dateFormat       = $actualPHPFormats[$format];
         
         $date = date( $dateFormat, strtotime( $mysqlDate) );
         
-        $timeFormat = "g:iA";
+        if ( !$timeFormat ) {
+            $timeFormat = $config->timeInputFormat;
+        }
+        
+        $actualTimeFormat = "g:iA";
         $appendZeroLength = 7;
-        if ( $config->timeInputFormat > 1 ) {
-            $timeFormat = "G:i";
+        if ( $timeFormat > 1 ) {
+            $actualTimeFormat = "G:i";
             $appendZeroLength = 5;
         }
         
-        $time = date( $timeFormat, strtotime( $mysqlDate) );
+        $time = date( $actualTimeFormat, strtotime( $mysqlDate) );
         
         // need to append zero for hours < 10
         if ( strlen( $time) < $appendZeroLength ) {

@@ -709,7 +709,8 @@ class CRM_Core_SelectValues
         $dateInputFormats = array( "mm/dd/yy"     => 'm/d/Y',
                                    "mm/dd"        =>  'm/d',
                                    "dd/mm"        =>  'd/m',
-                                   "dd.mm.yy"    =>  'd.m.Y'
+                                   "dd.mm.yy"     =>  'd.m.Y',
+                                   "yy-mm-dd"     =>  'Y-m-d' 
                                   );
         return $dateInputFormats;
     }

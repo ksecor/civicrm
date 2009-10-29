@@ -953,11 +953,13 @@ SELECT $select
                     break;
                     
                 case 'Select Date':
-                    if (isset($value)) {
-                        if ( !isset( $defaults[ $elementName. '_time' ] ) ) {
-                            list( $defaults[$elementName] ) = CRM_Utils_Date::setDateDefaults( $value );
+                    if ( isset( $value ) ) {
+                        if ( !$field[ 'time_format'] ) {
+                            list( $defaults[$elementName] ) = CRM_Utils_Date::setDateDefaults( $value, null, 
+                                                                                               $field['date_format'] );
                         } else {
-                            list( $defaults[$elementName], $defaults[ $elementName. '_time' ] ) = CRM_Utils_Date::setDateDefaults( $value );
+                            list( $defaults[$elementName], $defaults[ $elementName. '_time' ] ) = 
+                            CRM_Utils_Date::setDateDefaults( $value, null, $field['date_format'], $field['time_format'] );
                         }
                     }
                    

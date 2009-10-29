@@ -631,7 +631,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case 'Select Date':
-            if ( $field->is_search_range && $search) {
+            if ( $field->is_search_range && $search ) {
                 $qf->addDate( $elementName.'_from', $label . ' - ' . ts('From'), false, 
                               array( 'format'      =>  $field->date_format,
                                      'timeFormat'  =>  $field->time_format,     
