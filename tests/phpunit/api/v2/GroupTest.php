@@ -103,6 +103,15 @@ class api_v2_GroupTest extends CiviUnitTestCase
         }
     }
     
+    function testGetGroupParamsWithReturnName( ) 
+    {    
+        $params         = array( );
+        $params['id'] = $this->_groupID; 
+        $params['return.name'] = 1;
+        $group =&civicrm_group_get( $params );
+        $this->assertEquals( $group[$this->_groupID]['name'],'Test Group 1' );
+    }
+    
     function testGetGroupParamsWithGroupTitle( ) 
     {  
         $params          = array( );
