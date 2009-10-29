@@ -46,6 +46,7 @@
                 </thead>
                 {foreach from=$rows item=row}
                   {* we want to hide reserved rows; for the first selector show non-workflow_id templates, for the second selector show workflow_id templates *}
+                  {* FIXME: the tab UI does not work if the selector is empty; maybe it needs at least a single row_… element? * }
                   {if !$row.is_reserved and (($smarty.section.template_selector.first and !$row.workflow_id) or ($smarty.section.template_selector.last and $row.workflow_id))}
                     <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
                       <td>{$row.msg_title}</td>
