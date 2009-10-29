@@ -16,7 +16,7 @@
     </div>
 {/if}
 
-{if $rows and $action ne 2}
+{if $rows and $action ne 2 and $action ne 4}
 
   <div id='mainTabContainer'>
     <ul>
@@ -82,13 +82,11 @@
     {/literal}
   </script>
 
-{else}
-  {if $action ne 1 and $action ne 2}
-    <div class="messages status">
-      <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        <dd>{ts 1=$crmURL}There are no Message Templates entered. You can <a href='%1'>add one</a>.{/ts}</dd>
-      </dl>
-    </div>
-  {/if}
+{elseif $action ne 1 and $action ne 2 and $action ne 4}
+  <div class="messages status">
+    <dl>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
+      <dd>{ts 1=$crmURL}There are no Message Templates entered. You can <a href='%1'>add one</a>.{/ts}</dd>
+    </dl>
+  </div>
 {/if}
