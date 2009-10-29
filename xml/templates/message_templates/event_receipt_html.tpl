@@ -1,7 +1,4 @@
-{if $action eq 1024}
-{include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
-{/if}
-{* Don't use "normal" thank-you message for Waitlist and Approval Required registrations - since it will probably not make sense for those situations. dgg *}
+<body>
 {if $event.confirm_email_text AND (not $isOnWaitlist AND not $isRequireApproval)}
 {$event.confirm_email_text}
 {/if}
@@ -228,3 +225,4 @@ Participant {$priceset+1}
 {/if}
 
 
+</body>
