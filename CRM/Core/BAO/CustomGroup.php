@@ -121,14 +121,17 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         if ( isset( $params['id'] ) ) {
             $group->id = $params['id'] ;
             //check whether custom group was changed from single-valued to multiple-valued
-            if ($params['is_multiple'] && 
-                $params['is_multiple'] != CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                                       $params['id'],
-                                                                       'is_multiple' ) ) {
+            $isMultiple = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                       $params['id'],
+                                                       'is_multiple' );
+            
+            if ( ($params['is_multiple'] != $isMultiple) && (CRM_Utils_Array::value('is_multiple', $params) || $isMultiple) ) {
+
                 $oldTableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
                                                              $params['id'],
                                                              'table_name' );
             }
+            
         } else {
             $group->created_id   = CRM_Utils_Array::value('created_id', $params);
             $group->created_date = CRM_Utils_Array::value('created_date', $params);
@@ -156,7 +159,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
             self::createTable( $group );
         } elseif ( $oldTableName ) {
             require_once 'CRM/Core/BAO/SchemaHandler.php';
-            CRM_Core_BAO_SchemaHandler::changeUniqueToIndex( $oldTableName );
+            CRM_Core_BAO_SchemaHandler::changeUniqueToIndex( $oldTableName, CRM_Utils_Array::value('is_multiple', $params) );
         }
         $transaction->commit( );
 

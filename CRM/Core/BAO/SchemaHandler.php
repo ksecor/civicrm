@@ -289,13 +289,18 @@ class CRM_Core_BAO_SchemaHandler
         $dao =& CRM_Core_DAO::executeQuery( $sql );
     }
 
-    static function changeUniqueToIndex( $tableName ) 
+    static function changeUniqueToIndex( $tableName, $dropUnique = true ) 
     {
-        $sql = "ALTER TABLE $tableName 
+        if ( $dropUnique ) {
+            $sql = "ALTER TABLE $tableName 
 DROP INDEX `unique_entity_id` ,
 ADD INDEX `FK_{$tableName}_entity_id` ( `entity_id` )";
-
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
+        } else {
+            $sql = " ALTER TABLE $tableName
+DROP INDEX `FK_{$tableName}_entity_id` ,
+ADD UNIQUE INDEX `unique_entity_id` ( `entity_id` )";
+        }       
+            $dao =& CRM_Core_DAO::executeQuery( $sql );
     }
 
     static function createIndexes(&$tables, $createIndexPrefix = 'index')
