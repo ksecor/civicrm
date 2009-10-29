@@ -94,44 +94,44 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
     function &links()
     {
         if (!(self::$_links)) {
-            $confirm = ts('Are you sure you want to revert this template?', array('escape' => 'js'));
+            $confirm = ts('Are you sure you want to revert this template to the default for this workflow? You will lose any customizations you have made.\n\nWe recommend that you save a copy of the your customized Text and HTML message content to a text file before reverting so you can combine your changes with the system default messages as needed.', array('escape' => 'js'));
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
-                                                                    'title' => ts('Edit Message Templates') 
+                                                                    'title' => ts('Edit this message template') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
                                                                     'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'enable-disable' . '\' );"',
                                                                     'ref'   => 'disable-action',
-                                                                    'title' => ts('Disable Message Templates'),
+                                                                    'title' => ts('Disable this message template'),
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
                                                                     'extra' => 'onclick = "enableDisable( %%id%%,\''. 'CRM_Core_BAO_MessageTemplates' . '\',\'' . 'disable-enable' . '\' );"',
                                                                     'ref'   => 'enable-action',
-                                                                    'title' => ts('Enable Message Templates'),
+                                                                    'title' => ts('Enable this message template'),
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete Message Templates') 
+                                                                    'title' => ts('Delete this message template') 
                                                                     ),
                                   CRM_Core_Action::REVERT  => array(
                                                                     'name'  => ts('Revert to Default'),
                                                                     'extra' => "onclick = 'return confirm(\"$confirm\");'",
                                                                     'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=revert&id=%%id%%',
-                                                                    'title' => ts('Revert this Template to the CiviCRM Default'),
+                                                                    'title' => ts('Revert this workflow message template to the system default'),
                                                                     ),
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View Default'),
                                                                     'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=view&id=%%orig_id%%&reset=1',
-                                                                    'title' => ts('View the Default for This Message Template'),
+                                                                    'title' => ts('View the system default for this workflow message template'),
                                                                    ),
                                   );
         }

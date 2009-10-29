@@ -1,34 +1,56 @@
 {capture assign=crmURL}{crmURL p='civicrm/admin/messageTemplates' q="action=add&reset=1"}{/capture}
 {if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Admin/Form/MessageTemplates.tpl"}
+   
 {elseif $action eq 4}
-  <h3 class='head'>{$form.msg_subject.label}</h3>
-  <p>{$form.msg_subject.html|crmReplace:class:huge}</p>
+  {* View a system default workflow template *}
 
-  <h3 class='head'>{ts}Text Message{/ts}</h3>
-  <form name='text_form' action='#'>
-    <div>
-      <textarea rows='20' cols='80' name='msg_text' id='msg_text'>{$form.msg_text.value|htmlentities}</textarea>
-      <div class='spacer'></div>
-      <!-- FIXME: for some reason the below cannot find the above form -->
-      <a href='#' onclick='text_form.msg_text.select(); return false;' class='button'><span>Select Text Message</span></a>
-    </div>
-    <div class='action-link'>
-      <a href='{crmURL p='civicrm/admin/messageTemplates' q='reset=1'}'>&raquo; {ts}Back to Message Templates{/ts}</a>
-    </div>
-  </form>
+  <div id="help">
+  {ts}You are viewing the system default template for this workflow. After upgrades OR if you are having issues with your customized version
+  for this workflow, it is useful to compare your active message code to the default code shown here. You can use the &quot;Select&quot; buttons below
+  (with copy and paste commands) to copy the default code into a text editor and then compare it to your customized version.{/ts}
+  </div>
 
-  <h3 class='head'>{ts}HTML Message{/ts}</h3>
-  <form name='html_form' action='#'>
-    <div>
-      <textarea rows='20' cols='80' name='msg_html' id='msg_html'>{$form.msg_html.value|htmlentities}</textarea>
+  <fieldset>
+  <div class="section msg_subject-section">
+  <h3 class="header-dark">{$form.msg_subject.label}</h3>
+    <div class="text">
+      <textarea name="msg-subject" id="msg_subject" style="height: 6em; width: 45em;">{$form.msg_subject.value}</textarea>
       <div class='spacer'></div>
-      <a href='#' onclick='html_form.msg_html.select(); return false;' class='button'><span>Select HTML Message</span></a>
+      <div class="section">
+        <a href='#' onclick='MessageTemplates.msg_subject.select(); return false;' class='button'><span>Select Subject</span></a>
+        <div class='spacer'></div>
+      </div>
+    </div
+  </div>
+  
+  <div class="section msg_txt-section">
+  <h3 class="header-dark">{ts}Text Message{/ts}</h3>
+    <div class="text">
+      <textarea class="huge" name='msg_text' id='msg_text'>{$form.msg_text.value|htmlentities}</textarea>
+      <div class='spacer'></div>
+      <div class="section">
+        <a href='#' onclick='MessageTemplates.msg_text.select(); return false;' class='button'><span>Select Text Message</span></a>
+        <div class='spacer'></div>
+      </div>
     </div>
-    <div class='action-link'>
-      <a href='{crmURL p='civicrm/admin/messageTemplates' q='reset=1'}'>&raquo; {ts}Back to Message Templates{/ts}</a>
+  </div>
+
+  <div class="section msg_html-section">
+  <h3 class="header-dark">{ts}HTML Message{/ts}</h3>
+    <div class='text'>
+      <textarea class="huge" name='msg_html' id='msg_html'>{$form.msg_html.value|htmlentities}</textarea>
+      <div class='spacer'></div>
+      <div class="section">
+        <a href='#' onclick='MessageTemplates.msg_html.select(); return false;' class='button'><span>Select HTML Message</span></a>
+        <div class='spacer'></div>
+      </div>
     </div>
-  </form>
+  </div>
+  
+  <div id="crm-submit-buttons">{$form.buttons.html}</div>
+  </fieldset>
+  
 {else}
     <div id="help">
     {ts}Message templates allow you to save and re-use messages with layouts. They are useful if you need to send similar emails to contacts on a recurring basis. You can also use them in CiviMail Mailings and they are required for CiviMember membership renewal reminders.{/ts} {help id="id-intro"}
@@ -42,7 +64,7 @@
       <li id='tab_user'>    <a href='#user'     title='{ts}User-driven Messages{/ts}'>    {ts}User-driven Messages{/ts}    </a></li>
       <li id='tab_workflow'><a href='#workflow' title='{ts}System Workflow Messages{/ts}'>{ts}System Workflow Messages{/ts}</a></li>
     </ul>
-
+  
     {* create two selector tabs, first being the ‘user’ one, the second being the ‘workflow’ one *}
     {section name='template_selector' loop=2}
       <div id='{if $smarty.section.template_selector.first}user{else}workflow{/if}' class='ui-tabs-panel ui-widget-content ui-corner-bottom'>
@@ -89,6 +111,7 @@
         </div>
       </div>
     {/section}
+  </div>
 
   <script type='text/javascript'>
     var selectedTab = 'user';

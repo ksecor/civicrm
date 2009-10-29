@@ -64,11 +64,28 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
      */
     public function buildQuickForm( ) 
     {
-        parent::buildQuickForm( );
+
+        // For VIEW we only want Done button
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            $this->addButtons( array(
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => ts('Done'),
+                                         'isDefault' => true   ),
+                                        )
+                                 );
+        } else {
+            parent::buildQuickForm( );        
+        }
         
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
+        
+        require_once 'CRM/Utils/System.php';
+        $breadCrumb = array( array('title' => ts('Message Templates'), 
+                                   'url'   => CRM_Utils_System::url( 'civicrm/admin/messageTemplates', 
+                                                                     'action=browse&reset=1' )) );
+        CRM_Utils_System::appendBreadCrumb( $breadCrumb );
 
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'msg_title', ts('Message Title'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MessageTemplates', 'msg_title' ),true );
@@ -119,6 +136,7 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
 
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
+            CRM_Utils_System::setTitle(ts('View System Default Message Template'));
         }
 
     }
