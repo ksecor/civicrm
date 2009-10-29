@@ -114,8 +114,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         foreach ($fields as $field) {
             $group->$field = CRM_Utils_Array::value($field, $params, false);           
         }
-        $group->max_multiple = ( isset( $params['max_multiple'] ) &&
-                                     $params['max_multiple'] >= '0' ) ? $params['max_multiple'] : 'null';
+        $group->max_multiple =  isset( $params['is_multiple'] )  ? ( isset( $params['max_multiple'] ) &&
+                                                                     $params['max_multiple'] >= '0' ) ? $params['max_multiple'] : 'null' : 'null' ;
         
         $tableName = null;
         if ( isset( $params['id'] ) ) {
