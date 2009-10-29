@@ -231,10 +231,14 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
         if (!isset($label)) {
             $label = $field->label;
         }
-	if ( isset($qf->_online) && $qf->_online ) {
-	  $useRequired = false;
-	}
-
+        
+        if ( isset($qf->_online) && $qf->_online ) {
+            $useRequired = false;
+        }
+        
+        //use value field.
+        $valueFieldName = 'value';
+        
         switch($field->html_type) {
         case 'Text':
             $customOption = CRM_Price_BAO_Field::getOptions( $field->id, $inactiveNeeded );
@@ -244,14 +248,15 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
             
             if ($field->is_display_amounts) {
                 $label .= '&nbsp;-&nbsp;';
-                $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('name', $customOption[$optionKey]) );
+                $label .= CRM_Utils_Money::format( CRM_Utils_Array::value($valueFieldName, $customOption[$optionKey]) );
             }
-
-            $element =& $qf->add(
-                                 'text', $elementName, $label, array_merge( array('size' =>"4"), 
-                                                                            array( 'price' => $optionKey."_".$customOption[$optionKey]['name'] )),
-                                 $useRequired && $field->is_required
-                                 );
+            
+            $element =& $qf->add( 'text', $elementName, $label, 
+                                  array_merge( array('size' =>"4"), 
+                                               array( 'price' => 
+                                                      $optionKey."_".$customOption[$optionKey][$valueFieldName] )),
+                                  $useRequired && $field->is_required
+                                  );
             
             // integers will have numeric rule applied to them.
             $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $label)), 'positiveInteger');
@@ -268,13 +273,13 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
             foreach ($customOption as $opt) {
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
-                    $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
+                    $opt['label'] .= CRM_Utils_Money::format( $opt[$valueFieldName] );
                 }
                 $choice[] = $qf->createElement('radio', null, '', $opt['label'], $opt['id'],
-                                               array('price' => $elementName."-".$opt['name'] ) );
+                                               array('price' => $elementName."-".$opt[$valueFieldName] ) );
             }
             $element =& $qf->addGroup($choice, $elementName, $label);
-
+            
             if ( $useRequired && $field->is_required ) {
                 $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
@@ -285,10 +290,10 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
             $selectOption = array();
             $amount = '[{';
             foreach ($customOption as $opt) {
-                $amount .= $opt['id'].':"'. $opt['name'] .'",';
+                $amount .= $opt['id'].':"'. $opt[$valueFieldName] .'",';
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
-                    $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
+                    $opt['label'] .= CRM_Utils_Money::format( $opt[$valueFieldName] );
                 }
                 $selectOption[$opt['id']] = $opt['label'];
             }
@@ -305,10 +310,10 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
             foreach ($customOption as $opt) {
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
-                    $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
+                    $opt['label'] .= CRM_Utils_Money::format( $opt[$valueFieldName] );
                 }
                 $check[] =& $qf->createElement('checkbox', $opt['id'], null, $opt['label'], 
-                                               array('price' => $opt['id']."_".$opt['name'] ) );
+                                               array('price' => $opt['id']."_".$opt[$valueFieldName] ) );
             }
             $element =& $qf->addGroup($check, $elementName, $label);
             if ( $useRequired && $field->is_required ) {
@@ -321,7 +326,7 @@ class CRM_Price_BAO_Field extends CRM_Price_DAO_Field
             $element->freeze();
         }
     }
-
+    
     /**
      * Retrieve a list of options for the specified field
      *

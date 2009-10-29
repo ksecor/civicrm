@@ -489,6 +489,10 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 CRM_Utils_Weight::updateOtherWeights( 'CRM_Price_DAO_Field', $oldWeight, $params['weight'], $fieldValues );
         }
         
+        // make value <=> name consistency.
+        if ( isset( $params['option_name'] ) ) $params['option_value'] = $params['option_name'];
+        $params['is_enter_qty'] = CRM_Utils_Array::value( 'is_enter_qty', $params, false );
+        
         if ( $params['html_type'] == 'Text' ) {
             // if html type is Text, force is_enter_qty on
             $params['is_enter_qty'] = 1;
@@ -499,19 +503,6 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             $params['option_label'] = array( 1 => $params['label'] );
             $params['option_weight'] = array( 1 => $params['weight'] );
             $params['is_active']    = array( 1 => 1 );
-        } else {
-            $params['is_enter_qty'] = CRM_Utils_Array::value( 'is_enter_qty', $params, false );
-
-            if ($this->_action & CRM_Core_Action::ADD) {
-                // fix option_value
-                $value = 1;
-                $params['option_value'] = array( );
-                if ( isset( $params['option_name'] ) ) {
-                    foreach ( $params['option_name'] as $key => $dontCare ) {
-                        $params['option_value'][$key] = $value++;
-                    }
-                }
-            }
         }
         
         $ids = array( );

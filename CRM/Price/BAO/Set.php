@@ -573,6 +573,7 @@ WHERE  id = %1";
     {
         if ( empty( $params["price_{$fid}"] ) ) {
             return;
+            
         }
 
         $optionIDs = implode( ',', array_keys( $params["price_{$fid}"] ) );
@@ -591,7 +592,7 @@ WHERE  id IN ($optionIDs)
         }
                             
         foreach( $params["price_{$fid}"] as $oid => $qty ) {
-            $price        = $fields['options'][$oid]['name'];
+            $price        = $fields['options'][$oid]['value'];
             $values[$oid] = array(
                                   'price_field_id'   => $fid,
                                   'option_value_id'  => $oid,
@@ -600,7 +601,7 @@ WHERE  id IN ($optionIDs)
                                   'description'      => $optionValues[$oid]['description'],
                                   'qty'              => $qty,
                                   'unit_price'       => $price,
-                                  'line_total'       => $qty * $fields['options'][$oid]['name'],
+                                  'line_total'       => $qty * $price,
                                   'html_type'        => $fields['html_type']
                                   );
         }
