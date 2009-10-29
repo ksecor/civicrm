@@ -5,6 +5,7 @@
     'contribution' => 'Message Template Workflow for Contributions',
     'event'        => 'Message Template Workflow for Events',
     'friend'       => 'Message Template Workflow for Tell-a-Friend',
+    'meta'         => 'Message Template Workflow for Meta Templates',
     'pledge'       => 'Message Template Workflow for Pledges',
     'uf'           => 'Message Template Workflow for UF',
   );
@@ -31,6 +32,9 @@
     ),
     'friend' => array(
       'friend' => 'Tell-a-Friend',
+    ),
+    'meta' => array(
+      'test_preview' => 'Preview Banner Added to Test Emails',
     ),
     'pledge' => array(
       'pledge_acknowledge' => 'Pledge Acknowledge',
