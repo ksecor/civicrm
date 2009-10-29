@@ -121,11 +121,11 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
                                                                     'title' => ts('Delete Message Templates') 
                                                                     ),
                                   CRM_Core_Action::REVERT  => array(
-                                                                    'name'  => ts('Revert'),
+                                                                    'name'  => ts('Revert to Default'),
                                                                     'extra' => "onclick = 'return confirm(\"$confirm\");'",
                                                                     'url'   => 'civicrm/admin/messageTemplates',
                                                                     'qs'    => 'action=revert&id=%%id%%',
-                                                                    'title' => ts('Revert the Template to Default'),
+                                                                    'title' => ts('Revert this Template to the CiviCRM Default'),
                                                                     ),
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View Default'),
