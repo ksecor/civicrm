@@ -72,9 +72,15 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
      */
     function run()
     {
-        $gid    = CRM_Utils_Request::retrieve('gid',  'Positive', $this, false, 0);
-        $action = CRM_Utils_Request::retrieve('action',  'String', $this, false, 0);
-
+        $gid     = CRM_Utils_Request::retrieve( 'gid',     'Positive', $this, false, 0);
+        $action  = CRM_Utils_Request::retrieve( 'action',  'String',   $this, false, 0);
+        $context = CRM_Utils_Request::retrieve( 'context', 'String',   $this );
+        
+        if ( $context == 'search' ) {
+            $session =& CRM_Core_Session::singleton( );
+            $this->assign( 'backURL', $session->readUserContext( ) );
+        }
+        
         if ( $action & CRM_Core_Action::UPDATE || $action & CRM_Core_Action::BROWSE ) {
             $cid    = CRM_Utils_Request::retrieve('cid',  'Positive', $this, false, 0);
             $rgid   = CRM_Utils_Request::retrieve('rgid', 'Positive', $this, false, 0);
@@ -151,6 +157,14 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
             $this->edit($this->action);
             $this->assign('action', $this->action);
         }
+        
+        //FIXME : due to delete group here, 
+        //if we refresh browser we lost search contact set.
+        // delete tmp group, CRM-3526
+        if ( $context == 'search' && $gid ) {
+            CRM_Contact_BAO_Group::discard( $gid );
+        }
+        $this->assign( 'context', $context );
         
         // parent run
         parent::run();

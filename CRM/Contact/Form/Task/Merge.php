@@ -108,15 +108,9 @@ class CRM_Contact_Form_Task_Merge extends CRM_Contact_Form_Task {
             // add given contacts to group.
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $groupID );
             
-            // create a smart hidden smart group and poceed to merge
-            // page w/ given group id and r group id.
+            // create a hidden group and poceed to merge
             $url = CRM_Utils_System::url( 'civicrm/admin/dedupefind', 
-                                          "reset=1&action=update&rgid={$ruleGroupID}&gid={$groupID}" );
-            
-            // need to cleanup group.
-            // detete created group.
-            // CRM_Contact_BAO_Group::discard( $group->id );
-            // exit;
+                                          "reset=1&action=update&rgid={$ruleGroupID}&gid={$groupID}&context=search" );
         }
         
         // redirect to merge page.

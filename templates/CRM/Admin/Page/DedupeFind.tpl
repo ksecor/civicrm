@@ -27,8 +27,13 @@
     </table>
   {/if}
 </div>
-{capture assign=backURL}{crmURL p="civicrm/admin/dedupefind" q="reset=1&rgid=`$rgid`&action=preview" a=1}{/capture}
-<a href="{$backURL}" class="button"><span>&raquo; {ts}Done{/ts}</span></a></td>
+
+{if $context eq 'search'}
+   <a href="{$backURL}" class="button"><span>&raquo; {ts}Done{/ts}</span></a>
+{else}
+   {capture assign=backURL}{crmURL p="civicrm/admin/dedupefind" q="reset=1&rgid=`$rgid`&action=preview" a=1}{/capture}
+   <a href="{$backURL}" class="button"><span>&raquo; {ts}Done{/ts}</span></a>
+{/if}
 <div style="clear: both;"></div>
 {else}
 {include file="CRM/Admin/Form/DedupeFind.tpl"}
