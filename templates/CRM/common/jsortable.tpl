@@ -61,18 +61,40 @@ eval('tableId =[' + tableId + ']');
 	if ( id >= 0 ) {
 	    sortColumn = '[ id, "asc" ]';
 	}
-
+    var oTable = null;
 	eval('sortColumn =[' + sortColumn + ']');
-    	cj(tabId).dataTable({
-            "aaSorting"    : sortColumn,
-            "bPaginate"    : false,
-            "bLengthChange": true,
-            "bFilter"      : false,
-            "bInfo"        : false,
-            "bAutoWidth"   : false,
-            "aoColumns"    : columns
-    	});        
+    oTable = cj(tabId).dataTable({
+                "aaSorting"    : sortColumn,
+                "bPaginate"    : false,
+                "bLengthChange": true,
+                "bFilter"      : false,
+                "bInfo"        : false,
+                "bAutoWidth"   : false,
+                "aoColumns"    : columns
+    }); 
+    var object;
+    cj('a.action-item').click( function(){
+        object = cj(this);
+        cj('table.display').one( 'mouseover', function() {
+            var nNodes     = oTable.fnGetNodes( );
+            var tdSelected = cj(object).closest('td');
+            var closestEle = cj(object).closest('tr').attr('id');
+            cj.each( nNodes, function(i,n) {
+                //operation on selected row element.
+                if ( closestEle == n.id ){
+                    var col = 0; 
+                    cj('tr#' + closestEle + ' td:not(.hiddenElement)').each( function() {
+                        if ( tdSelected.get(0) !== cj(this).get(0)  ){ 
+                            oTable.fnUpdate( cj(this).text() , i, col );
+                        }
+                        col++;
+                    });
+                }
+            });
+        });
     });
+    
+    });       
 });
 
 //function to fetch the occurence of element

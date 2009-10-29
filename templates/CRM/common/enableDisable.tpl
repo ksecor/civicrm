@@ -10,14 +10,14 @@ function modifyLinkAttributes( recordID, op, recordBAO ) {
         var htmlContent = {/literal}'{ts}Enable{/ts}'{literal};
         var newClass    = 'enable-action';
         var newTitle    = {/literal}'{ts}Enable{/ts}'{literal};
-	var newText     = {/literal}'{ts}No{/ts}'{literal};
+        var newText     = {/literal}' {ts}No{/ts} '{literal};
     } else if ( op == 'disable-enable' ) {
         var fieldID     = "#row_"+ recordID + " a." + "enable-action";
         var operation   = "enable-disable";
         var htmlContent = {/literal}'{ts}Disable{/ts}'{literal};
         var newClass    = 'disable-action';
         var newTitle    = {/literal}'{ts}Disable{/ts}'{literal};
-	var newText     = {/literal}'{ts}Yes{/ts}'{literal};
+        var newText     = {/literal}' {ts}Yes{/ts} '{literal};
     }
 
     //change html
