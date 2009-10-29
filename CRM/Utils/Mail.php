@@ -77,8 +77,8 @@ class CRM_Utils_Mail
         // this fixes CRM-4631
         require_once 'CRM/Utils/Mail/FixedMailMIME.php';
         $msg = new CRM_Utils_Mail_FixedMailMIME("\n");
-        $msg->setTxtBody( $text_message );
-        $msg->setHTMLBody( $html_message );
+        if ($text_message) $msg->setTxtBody($text_message);
+        if ($html_message) $msg->setHTMLBody($html_message);
 
         if ( ! empty( $attachments ) ) {
             foreach ( $attachments as $fileID => $attach ) {
