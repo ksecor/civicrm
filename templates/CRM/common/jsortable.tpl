@@ -109,7 +109,7 @@ return optionId;
 
 //plugin to sort on currency
 var symbol = "{/literal}{$config->defaultCurrencySymbol($config->defaultSymbol)}{literal}";
-jQuery.fn.dataTableExt.oSort['currency-asc']  = function(a,b) {
+cj.fn.dataTableExt.oSort['currency-asc']  = function(a,b) {
 	var x = (a == "-") ? 0 : a.replace( symbol, "" );
 	var y = (b == "-") ? 0 : b.replace( symbol, "" );
 	x = parseFloat( x );
@@ -117,7 +117,7 @@ jQuery.fn.dataTableExt.oSort['currency-asc']  = function(a,b) {
 	return ((x < y) ? -1 : ((x > y) ?  1 : 0));
 };
 
-jQuery.fn.dataTableExt.oSort['currency-desc'] = function(a,b) {
+cj.fn.dataTableExt.oSort['currency-desc'] = function(a,b) {
 	var x = (a == "-") ? 0 : a.replace( symbol, "" );
 	var y = (b == "-") ? 0 : b.replace( symbol, "" );
 	x = parseFloat( x );
