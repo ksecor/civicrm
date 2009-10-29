@@ -124,12 +124,11 @@
 {literal} 
 <script type="text/javascript">
 
-    function allowParticipant( ) { 
-	va = document.getElementById('additional_participants'); 
-	var additionalParticipants = document.getElementById('additional_participants').options[document.getElementById('additional_participants').selectedIndex].value;
-    {/literal}{if $allowGroupOnWaitlist}{literal}
-         allowGroupOnWaitlist( additionalParticipants );
-    {/literal}{/if}{literal}
+    function allowParticipant( ) { 		
+	{/literal}{if $allowGroupOnWaitlist}{literal}
+	    var additionalParticipants = cj('#additional_participants').val();	
+	    allowGroupOnWaitlist( additionalParticipants );
+	{/literal}{/if}{literal}
     }
 
     {/literal}{if ($form.is_pay_later or $bypassPayment) and $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}
@@ -173,7 +172,7 @@
     function allowGroupOnWaitlist( additionalParticipants )
     {	
       if ( !additionalParticipants ) {
-      	additionalParticipants = document.getElementById('additional_participants').options[document.getElementById('additional_participants').selectedIndex].value;
+      	additionalParticipants = cj('#additional_participants').val();
       }
       if ( additionalParticipants == '' ) {
            additionalParticipants = 0;
