@@ -14,9 +14,10 @@
 			var customValueCount = {/literal}"{$customValueCount}"{literal}
 			var groupID = {/literal}"{$groupID}"{literal}
 			var contact_type = {/literal}"{$contact_type}"{literal};
-			buildCustomData( contact_type );
+			var contact_subtype = {/literal}"{$contact_subtype}"{literal};
+			buildCustomData( contact_type, contact_subtype );
 			for ( var i = 1; i < customValueCount; i++ ) {
-				buildCustomData( contact_type, null, null, i, groupID, true );
+				buildCustomData( contact_type, contact_subtype, null, i, groupID, true );
 			}
 		</script>
 		{/literal}
