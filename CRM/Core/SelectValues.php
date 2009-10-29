@@ -699,8 +699,8 @@ class CRM_Core_SelectValues
     		                        "DD, d MM, yy" => ts('Full - DD, d MM, yy'),
     		                        "'day' d 'of' MM 'in the year' yy" => ts('With text - "day" d "of" MM "in the year" yy'),
     		                        "mm/dd"        => ts('mm/dd'),
-    		                        "dd/mm"        => ts('dd/mm')
-    		                        
+    		                        "dd/mm"        => ts('dd/mm'),
+    		                        "dd.mm.yy"    => ts('Polish - dd.mm.yy')
                             );
         
         return $dateInputFormats;
@@ -712,7 +712,9 @@ class CRM_Core_SelectValues
     static function datePluginToPHPFormats ( ) {
         $dateInputFormats = array( "mm/dd/yy"     => 'm/d/Y',
                                    "mm/dd"        =>  'm/d',
-                                   "dd/mm"        =>  'd/m' );
+                                   "dd/mm"        =>  'd/m',
+                                   "dd.mm.yy"    =>  'd.m.Y'
+                                  );
         return $dateInputFormats;
     }
     
