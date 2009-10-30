@@ -1396,6 +1396,7 @@ table.campaign td,
 #crm-container .action-item {
 	padding:0px 5px;
 	border-left:1px solid #CCC;
+	white-space:nowrap;
 	}
 	#crm-container .action-item-first { border-left:none; /* last action item should not have right hand border */}
 

@@ -10,7 +10,6 @@
 {else}
     {if $ufField}
         <div id="field_page">
-         <p></p>
         {strip}
         {* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}

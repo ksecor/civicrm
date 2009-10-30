@@ -9,14 +9,13 @@
     {if $rows}
         {include file="CRM/common/jsortable.tpl"}
         <div id="browseValues">
-          <div class="form-item">
             {strip}
               <table id="options" class="display">
                 <thead>
                 <tr>
                   <th>{ts}Name{/ts}</th>
-                  <th>{ts}Contact Type{/ts}</th>
-                  <th id="sortable">{ts}Level{/ts}</th>
+                  <th id="sortable">{ts}Contact Type{/ts}</th>
+                  <th>{ts}Level{/ts}</th>
                   <th>{ts}Default?{/ts}</th>
                   <th></th>
                 </tr>
@@ -36,7 +35,6 @@
                 {/foreach}
               </table>
             {/strip}
-          </div>
         </div>
     {/if}
 	    <div class="action-link">

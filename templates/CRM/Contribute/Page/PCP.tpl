@@ -19,7 +19,7 @@
     <tr>
 		<th>{ts}Page Title{/ts}</th>
 		<th>{ts}Supporter{/ts}</th>
-		<th>{ts}Contribution Page{/ts}</th>
+		<th id="sortable">{ts}Contribution Page{/ts}</th>
 		<th id="start_date">{ts}Starts{/ts}</th>
 		<th id="end_date">{ts}Ends{/ts}</th>
 		<th>{ts}Status{/ts}</th>

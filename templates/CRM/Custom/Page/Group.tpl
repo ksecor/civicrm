@@ -18,7 +18,7 @@
         <table id="options" class="display">
         <thead>
             <tr>
-                <th>{ts}Group Title{/ts}</th>
+                <th id="sortable">{ts}Group Title{/ts}</th>
                 <th>{ts}Enabled?{/ts}</th>
                 <th>{ts}Used For{/ts}</th>
                 <th>{ts}Type{/ts}</th>

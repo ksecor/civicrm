@@ -15,7 +15,7 @@
  	<table id="options" class="display">
         <thead>
         <tr>
-            <th id="sortable">{ts}Membership{/ts}</th>
+            <th>{ts}Membership{/ts}</th>
             <th>{ts}Period{/ts}</th>
             <th>{ts}Fixed Start{/ts}</th>
             <th>{ts}Minimum Fee{/ts}</th>

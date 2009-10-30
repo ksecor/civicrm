@@ -4,14 +4,11 @@
 
 {if $rows}
 {include file="CRM/common/jsortable.tpl"}
-<div id="mSettings">
-  <p></p>
-  <div class="form-item">
     {strip}
       <table id="options" class="display">
         <thead>
         <tr>
-            <th>{ts}Title{/ts}</th>
+            <th id="sortable">{ts}Title{/ts}</th>
             <th>{ts}Event Type{/ts}</th>
             <th>{ts}Participant Role{/ts}</th>
             <th>{ts}Participant Listing{/ts}</th>
@@ -43,8 +40,7 @@
         <a href="{crmURL p="civicrm/event/manage" q="action=add&is_template=1&reset=1"}" id="newEventTemplate" class="button"><span>&raquo; {ts}New Event Template{/ts}</span></a>
       </div>
     {/if}
-  </div>
-</div>
+
 {else}
     <div class="messages status">
     <dl>

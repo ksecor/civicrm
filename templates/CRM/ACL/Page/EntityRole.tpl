@@ -12,35 +12,37 @@
 
 {if $rows}
 <div id="ltype">
-<p></p>
-    <div class="form-item">
-        {strip}
+    {strip}
 	{* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
-        <table>
+    {include file="CRM/common/jsortable.tpl"}   
+    <table id="options" class="display">
+        <thead>
         <tr class="columnheader">
-            <th>{ts}ACL Role{/ts}</th>
+            <th id="sortable">{ts}ACL Role{/ts}</th>
             <th>{ts}Assigned To{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>
+        </thead>
+        <tbody>
         {foreach from=$rows item=row}
-	<tr id="row_{$row.entity_id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+	    <tr id="row_{$row.entity_id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.acl_role}</td>	
 	        <td>{$row.entity}</td>	
 	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}
-        </table>
-        {/strip}
+        </tbody>
+    </table>
+    {/strip}
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
             <a href="{crmURL q="action=add&reset=1"}" id="newACL" class="button"><span>&raquo; {ts}New Role Assignment{/ts}</span></a>
         </div>
         {/if}
-    </div>
 </div>
 {elseif $action ne 1 and $action ne 2 and $action ne 8}
     <div class="messages status">
