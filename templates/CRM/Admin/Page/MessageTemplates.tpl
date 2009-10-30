@@ -77,7 +77,7 @@
               <table class="display">
                 <thead>
                   <tr>
-                    <th>{ts}Message Title{/ts}</th>
+                    <th id="sortable">{ts}Message Title{/ts}</th>
                     {if $smarty.section.template_selector.first}
                       <th>{ts}Message Subject{/ts}</th>
                       <th>{ts}Enabled?{/ts}</th>
