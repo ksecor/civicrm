@@ -21,10 +21,10 @@
 
   <tr>
    <td>
-    {if $formValues.receipt_html_signup}
-     <p>{$formValues.receipt_html_signup}</p>
-    {elseif $formValues.receipt_html_renewal}
-     <p>{$formValues.receipt_html_renewal}</p>
+    {if $formValues.receipt_text_signup}
+     <p>{$formValues.receipt_text_signup}</p>
+    {elseif $formValues.receipt_text_renewal}
+     <p>{$formValues.receipt_text_renewal}</p>
     {else}
      <p>{ts}Thanks for your support.{/ts}</p>
     {/if}

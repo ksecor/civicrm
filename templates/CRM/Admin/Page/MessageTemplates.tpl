@@ -10,6 +10,9 @@
   </div>
 
   <fieldset>
+  <div class="section msg_title-section">
+    <div class="bold">{$form.msg_title.value}</div>
+  </div>
   <div class="section msg_subject-section">
   <h3 class="header-dark">{$form.msg_subject.label}</h3>
     <div class="text">
@@ -23,7 +26,7 @@
   </div>
   
   <div class="section msg_txt-section">
-  <h3 class="header-dark">{ts}Text Message{/ts}</h3>
+  <h3 class="header-dark">{$form.msg_text.label}</h3>
     <div class="text">
       <textarea class="huge" name='msg_text' id='msg_text'>{$form.msg_text.value|htmlentities}</textarea>
       <div class='spacer'></div>
@@ -35,7 +38,7 @@
   </div>
 
   <div class="section msg_html-section">
-  <h3 class="header-dark">{ts}HTML Message{/ts}</h3>
+  <h3 class="header-dark">{$form.msg_html.label}</h3>
     <div class='text'>
       <textarea class="huge" name='msg_html' id='msg_html'>{$form.msg_html.value|htmlentities}</textarea>
       <div class='spacer'></div>
@@ -48,11 +51,6 @@
   
   <div id="crm-submit-buttons">{$form.buttons.html}</div>
   </fieldset>
-  
-{else}
-    <div id="help">
-    {ts}Message templates allow you to save and re-use messages with layouts. They are useful if you need to send similar emails to contacts on a recurring basis. You can also use them in CiviMail Mailings and they are required for CiviMember membership renewal reminders.{/ts} {help id="id-intro"}
-    </div>
 {/if}
 
 {if $rows and $action ne 2 and $action ne 4}
@@ -66,16 +64,22 @@
     {* create two selector tabs, first being the ‘user’ one, the second being the ‘workflow’ one *}
     {section name='template_selector' loop=2}
       <div id='{if $smarty.section.template_selector.first}user{else}workflow{/if}' class='ui-tabs-panel ui-widget-content ui-corner-bottom'>
+          <div class="help">
+          {if $smarty.section.template_selector.first}
+            {ts}Message templates allow you to save and re-use messages with layouts. They are useful if you need to send similar emails to contacts on a recurring basis. You can also use them in CiviMail Mailings and they are required for CiviMember membership renewal reminders.{/ts} {help id="id-intro"}
+          {else}
+            {ts}System workflow message templates are used to generate the emails sent to consituents and administrators for contribution receipts, event confirmations and many other workflows. You can customize the style and wording of these messages here.{/ts} {help id="id-system-workflow"}
+          {/if}
+          </div>
         <div>
           <p></p>
-          <div class="form-item">
             {strip}
               {include file="CRM/common/enableDisable.tpl"}
               {include file="CRM/common/jsortable.tpl"}
               <table class="display">
                 <thead>
                   <tr>
-                    <th id="sortable">{ts}Message Title{/ts}</th>
+                    <th id="sortable">{if $smarty.section.template_selector.first}{ts}Message Title{/ts}{else}{ts}Workflow{/ts}{/if}</th>
                     {if $smarty.section.template_selector.first}
                       <th>{ts}Message Subject{/ts}</th>
                       <th>{ts}Enabled?{/ts}</th>
@@ -83,8 +87,10 @@
                     <th></th>
                   </tr>
                 </thead>
+
                 {* FIXME: the tab UI does not work if the selector is empty; we should get rid of the below line *}
-                <tr><td></td><td></td><td></td><td></td></tr>
+                {if $smarty.section.template_selector.first}<tr><td></td><td></td><td></td><td></td></tr>{/if}
+
                 {foreach from=$rows item=row}
                   {* we want to hide reserved rows; for the first selector show non-workflow_id templates, for the second selector show workflow_id templates *}
                   {if !$row.is_reserved and (($smarty.section.template_selector.first and !$row.workflow_id) or ($smarty.section.template_selector.last and $row.workflow_id))}
@@ -105,9 +111,9 @@
               <div class="action-link">
                 <a href="{crmURL q="action=add&reset=1"}" id="newMessageTemplates" class="button"><span>&raquo; {ts}New Message Template{/ts}</span></a>
               </div>
+              <div class="spacer"></div>
             {/if}
           </div>
-        </div>
       </div>
     {/section}
   </div>
