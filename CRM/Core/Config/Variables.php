@@ -156,7 +156,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      * Input format for time 
      * @var string
      */
-    public $timeInputFormat = 0;
+    public $timeInputFormat = 1;
 
     /**
      * Input format for date plugin
