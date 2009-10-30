@@ -39,7 +39,7 @@
     });  
     
     function hideYear( element ) {
-        var format = cj( element ).attr('formatType');
+        var format = cj( element ).attr('format');
         if ( format == 'dd/mm' || format == 'mm/dd' ) {
             cj(".ui-datepicker-year").css( 'display', 'none' );
         }

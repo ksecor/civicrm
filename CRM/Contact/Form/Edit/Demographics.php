@@ -60,8 +60,6 @@ class CRM_Contact_Form_Edit_Demographics
         
         $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
         $form->addDate('deceased_date', ts('Deceased date'), false, array( 'formatType' => 'birth') );
-		
-        //$form->assign( 'showCalender', CRM_Utils_Date::checkBrithDateFormat( )?false:true );
     }
     
     /**

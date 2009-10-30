@@ -1544,7 +1544,7 @@ class CRM_Utils_Date
      *
      *  @return array $date and time 
      */
-    static function setDateDefaults( $mysqlDate = null, $formatType = null, $format = null, $timeFormat = null ) {        
+    static function setDateDefaults( $mysqlDate = null, $formatType = null, $format = null, $timeFormat = null ) {
         // if date is not passed assume it as today
         if ( !$mysqlDate ) {
             $mysqlDate = date( 'Y-m-d G:i:s' ) ;
