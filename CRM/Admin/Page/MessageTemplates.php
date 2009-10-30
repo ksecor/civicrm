@@ -180,6 +180,8 @@ class CRM_Admin_Page_MessageTemplates extends CRM_Core_Page_Basic
             CRM_Core_BAO_MessageTemplates::revert($id);
         }
 
+        $this->assign('selectedChild', CRM_Utils_Request::retrieve('selectedChild', 'String', $this));
+
         return parent::run($args, $pageArgs, $sort);
     }
 
