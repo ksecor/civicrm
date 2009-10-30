@@ -786,21 +786,18 @@ ORDER BY a.object_id
             $dao =& CRM_Core_DAO::executeQuery( $query, $params );
             while ( $dao->fetch( ) ) {
                 if ( $dao->object_id ) {
-                    if ( $type == CRM_ACL_API::VIEW ||
-                         ( $type == CRM_ACL_API::EDIT &&
-                           $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                    if ( self::matchType( $type, $dao->operation ) ) {
                         $ids[] = $dao->object_id;
                     }
                 } else {
                     // this user has got the permission for all objects of this type
-                    if ( $type == CRM_ACL_API::VIEW ||
-                         ( $type == CRM_ACL_API::EDIT &&
-                           $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                    // check if the type matches
+                    if ( self::matchType( $type, $dao->operation ) ) {
                         foreach ( $allGroups as $id => $dontCare ) {
                             $ids[] = $id;
                         }
-                        break;
                     }
+                    break;
                 }
             }
         }
@@ -809,6 +806,47 @@ ORDER BY a.object_id
         CRM_Utils_Hook::aclGroup( $type, $contactID, $tableName, $allGroups, $ids );
         
         return $ids;
+    }
+
+    static function matchType( $type, $operation ) {
+        $typeCheck = false;
+        switch ( $operation ) {
+        case 'All':
+            $typeCheck = true;
+            break;
+                    
+        case 'View':
+            if ( $type == CRM_ACL_API::VIEW ) {
+                $typeCheck = true;
+            }
+            break;
+
+        case 'Edit':
+            if ( $type == CRM_ACL_API::VIEW || $type == CRM_ACL_API::EDIT ) {
+                $typeCheck = true;
+            }
+            break;
+                        
+        case 'Create':
+            if ( $type == CRM_ACL_API::CREATE ) {
+                $typeCheck = true;
+            }
+            break;
+
+        case 'Delete':
+            if ( $type == CRM_ACL_API::DELETE ) {
+                $typeCheck = true;
+            }
+            break;
+
+        case 'Search':
+            if ( $type == CRM_ACL_API::SEARCH ) {
+                $typeCheck = true;
+            }
+            break;
+
+        }
+        return $typeCheck;
     }
 
     /**

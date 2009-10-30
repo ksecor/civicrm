@@ -183,13 +183,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                       $ufGroupId = null,
                                       $searchable = null,
                                       $restrict = null,
-                                      $skipPermission = false ) 
+                                      $skipPermission = false,
+                                      $permissionType = CRM_Core_Permission::SEARCH ) 
     {
         if ($ufGroupId) {
             $subset = self::getFields( $ufGroupId, false, $action,
                                        $visibility, $searchable,
                                        false, $restrict,
-                                       $skipPermission );
+                                       $skipPermission,
+                                       null,
+                                       $permissionType );
             if ($considerSelector) {
                 // drop the fields not meant for the selector
                 foreach ($subset as $name => $field) {
@@ -207,7 +210,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $subset = self::getFields( $id, false, $action,
                                            $visibility, $searchable,
                                            false, $restrict,
-                                           $skipPermission );
+                                           $skipPermission,
+                                           null,
+                                           $permissionType );
                 if ($considerSelector) {
                     // drop the fields not meant for the selector
                     foreach ($subset as $name => $field) {
@@ -239,7 +244,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                $visibility = null , $searchable = null,
                                $showAll= false, $restrict = null,
                                $skipPermission = false,
-                               $ctype = null ) 
+                               $ctype = null,
+                               $permissionType = CRM_Core_Permission::EDIT ) 
     {
         if ( $restrict ) {
             $query  = "SELECT g.* from civicrm_uf_group g, civicrm_uf_join j 
@@ -258,7 +264,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         // add permissioning for profiles only if not registration
         if ( ! $skipPermission ) {
             require_once 'CRM/Core/Permission.php';
-            $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
+            $permissionClause = CRM_Core_Permission::ufGroupClause( $permissionType, 'g.' );
             $query .= " AND $permissionClause ";
         }
        
@@ -1909,7 +1915,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
             require_once 'CRM/Core/BAO/UFGroup.php';
             if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $cid) ){
                 $values = array( );
-                $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );  
+                $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
 
                 $count = 0;//checks for array with only keys and not values

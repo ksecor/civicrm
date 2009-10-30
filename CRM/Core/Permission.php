@@ -147,9 +147,38 @@ class CRM_Core_Permission {
     public static function ufGroup( $type = CRM_Core_Permission::VIEW ) {
         $ufGroups = CRM_Core_PseudoConstant::ufGroup( );
 
+        $allGroups = array_keys( $ufGroups );
+
         // check if user has all powerful permission
         if ( self::check( 'profile listings and forms' ) ) {
-            return array_keys( $ufGroups );
+            return $allGroups;
+        }
+
+        switch ( $type ) {
+        case CRM_Core_Permission::VIEW :
+            if ( self::check( 'access profile view' ) ) {
+                return $allGroups;
+            }
+            break;
+
+        case CRM_Core_Permission::CREATE :
+            if ( self::check( 'access profile create' ) ) {
+                return $allGroups;
+            }
+            break;
+
+        case CRM_Core_Permission::EDIT :
+            if ( self::check( 'access profile edit' ) ) {
+                return $allGroups;
+            }
+            break;
+
+        case CRM_Core_Permission::SEARCH :
+            if ( self::check( 'access profile listings' ) ) {
+                return $allGroups;
+            }
+            break;
+
         }
 
         require_once 'CRM/ACL/API.php';

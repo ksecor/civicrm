@@ -208,9 +208,9 @@
 
   <civicrm_price_field />
 
-  <civicrm_county />
-
   <civicrm_line_item />
+
+  <civicrm_county />
 
   <civicrm_uf_group />
 

@@ -139,7 +139,9 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
 
             $values = array( );
             $fields = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, CRM_Core_Action::VIEW,
-                                                       null, null, false, $this->_restrict, $this->_skipPermission );
+                                                       null, null, false, $this->_restrict, $this->_skipPermission,
+                                                       null,
+                                                       CRM_Core_Permission::VIEW );
 
 
             // make sure we dont expose all fields based on permission

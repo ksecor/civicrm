@@ -163,12 +163,15 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                       false,
                                                                       $this->_gid,
                                                                       true, null,
-                                                                      $this->_skipPermission ); 
+                                                                      $this->_skipPermission,
+                                                                      CRM_Core_Permission::SEARCH ); 
         } else { 
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null,
                                                                null, null,
                                                                false, null,
-                                                               $this->_skipPermission );
+                                                               $this->_skipPermission,
+                                                               null,
+                                                               CRM_Core_Permission::EDIT );
             
             ///is profile double-opt process configurablem, key
             ///should be present in civicrm.settting.php file
