@@ -1,1 +1,1 @@
-{ts}{$activitySubject}{/ts}
+{$activitySubject}
