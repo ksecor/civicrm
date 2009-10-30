@@ -92,7 +92,7 @@
                  {include file="CRM/Custom/Form/AutoComplete.tpl" element_name = $n }
              {elseif ( $field.data_type eq 'Date'  or 
                       ( ( ( $n eq 'birth_date' ) or ( $n eq 'deceased_date' ) ) and 
-			    !call_user_func( array('CRM_Utils_Date','checkBrithDateFormat') ) ) ) }
+			    !call_user_func( array('CRM_Utils_Date','checkBirthDateFormat') ) ) ) }
                     <span>
                         {include file="CRM/common/calendar/desc.tpl" trigger="$form.$n.name"}
     	                {include file="CRM/common/calendar/body.tpl" dateVar=$form.$n.name startDate=1905 endDate=2010 doTime=1  trigger="$form.$n.name"}

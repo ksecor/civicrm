@@ -1109,7 +1109,7 @@ class CRM_Utils_Date
         $birthDateFormat = null;
         if ( !$format ) {
             $birthDateFormat = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
-                                                  'birth', 'format', 'name' );
+                                                           'birth', 'format', 'name' );
         }
         
         
