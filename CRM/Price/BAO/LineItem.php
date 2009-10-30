@@ -28,11 +28,11 @@ class CRM_Price_BAO_LineItem extends CRM_Price_DAO_LineItem
      * @access public
      * @static
      */
-    static function create (&$params)
+    static function create ( &$params )
     {
-        $lineItemBAO =& new CRM_Price_BAO_LineItem();
-        $lineItemBAO->copyValues($params);
-        return $lineItemBAO->save();
+        $lineItemBAO =& new CRM_Price_BAO_LineItem( );
+        $lineItemBAO->copyValues( $params );
+        return $lineItemBAO->save( );
     }
 
     /**
@@ -114,6 +114,58 @@ WHERE     %2.id = %1";
             } 
         }
         return $lineItems;
+    }
+
+    /**
+     * This method will create the lineItem array required for
+     * processAmount method
+     *
+     * @param  int   $fid       price set field id
+     * @param  array $params    referance to form values
+     * @param  array $fields    referance to array of fields belonging
+     *                          to the price set used for particular event
+     * @param  array $values    referance to the values array(this is
+     *                          lineItem array)
+     *
+     * @return void
+     * @access static
+     */
+    static function format( $fid, &$params, &$fields, &$values )
+    {
+        if ( empty( $params["price_{$fid}"] ) ) {
+            return;
+            
+        }
+        
+        $optionIDs = implode( ',', array_keys( $params["price_{$fid}"] ) );
+        $sql = "
+SELECT id, option_group_id, label, description
+FROM   civicrm_option_value
+WHERE  id IN ($optionIDs)
+";
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray );
+        $optionValues = array( );
+        while ( $dao->fetch( ) ) {
+            $optionValues[$dao->id] = array('gid'         => $dao->option_group_id,
+                                            'label'       => $dao->label,
+                                            'description' => $dao->description );
+        }
+                            
+        foreach( $params["price_{$fid}"] as $oid => $qty ) {
+            $price        = $fields['options'][$oid]['value'];
+            $values[$oid] = array(
+                                  'price_field_id'   => $fid,
+                                  'option_value_id'  => $oid,
+                                  'option_group_id'  => $optionValues[$oid]['gid'],
+                                  'label'            => $optionValues[$oid]['label'],
+                                  'description'      => $optionValues[$oid]['description'],
+                                  'qty'              => $qty,
+                                  'unit_price'       => $price,
+                                  'line_total'       => $qty * $price,
+                                  'html_type'        => $fields['html_type']
+                                  );
+        }
     }
     
     /**

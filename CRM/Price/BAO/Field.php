@@ -35,7 +35,6 @@
 
 require_once 'CRM/Price/DAO/Field.php';
 
-
 /**
  * Business objects for managing price fields.
  *

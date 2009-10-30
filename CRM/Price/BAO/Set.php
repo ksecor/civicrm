@@ -33,11 +33,11 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
      * @access public
      * @static
      */
-    static function create(&$params)
+    static function create( &$params )
     {
-        $priceSetBAO =& new CRM_Price_BAO_Set();
-        $priceSetBAO->copyValues($params);
-        return $priceSetBAO->save();
+        $priceSetBAO =& new CRM_Price_BAO_Set( );
+        $priceSetBAO->copyValues( $params );
+        return $priceSetBAO->save( );
     }
 
     /**
@@ -50,11 +50,11 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_DAO_CustomGroup object
+     * @return object CRM_Price_DAO_Set object
      * @access public
      * @static
      */
-    static function retrieve(&$params, &$defaults)
+    static function retrieve( &$params, &$defaults )
     {
         return CRM_Core_DAO::commonRetrieve( 'CRM_Price_DAO_Set', $params, $defaults );
     }
@@ -69,16 +69,16 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
      * @static
      * @access public
      */
-    static function setIsActive($id, $is_active) 
+    static function setIsActive( $id, $isActive ) 
     {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Price_DAO_Set', $id, 'is_active', $is_active );
+        return CRM_Core_DAO::setFieldValue( 'CRM_Price_DAO_Set', $id, 'is_active', $isActive );
     }
 
     /**
      * Get the price set title.
      *
-     * @param int $id id of price set
-     * @return string title 
+     * @param int $id   id of price set
+     * @return string   title
      *
      * @access public
      * @static
@@ -93,10 +93,6 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
      * Return a list of all forms which use this price set.
      *
      * @param int  $id id of price set
-     * @param bool $checkPast search for events in the past as well as
-     * present or future
-     * @param bool $getInactive return only active forms if false, or only
-     * inactive if true
      *
      * @return array
      */
@@ -269,9 +265,9 @@ WHERE     ct.id = cp.contribution_type_id AND
         require_once 'CRM/Price/DAO/SetEntity.php';
         $dao =& new CRM_Price_DAO_SetEntity( );
         $dao->entity_table = $entityTable;
-        $dao->entity_id = $entityId;
+        $dao->entity_id    = $entityId;
         $dao->find( true );
-        return (isset($dao->price_set_id)) ? $dao->price_set_id:false; 
+        return (isset($dao->price_set_id)) ? $dao->price_set_id : false; 
     }
 
      /**
@@ -298,18 +294,15 @@ WHERE     ct.id = cp.contribution_type_id AND
                 $groupName   = explode( ".", $optionGroup->name );
                 $fid         = $groupName[2];
             }
-            
         } else {
             $fid = CRM_Utils_Array::value( 'fid', $params ) ;
         }
         
         if ( isset ( $fid ) ) {
-            return CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Field', 
-                                                $fid, 'price_set_id' );
-            
+            return CRM_Core_DAO::getFieldValue( 'CRM_Price_DAO_Field', $fid, 'price_set_id' );
         }
-        return null;
 
+        return null;
     }
 
     /**
@@ -354,23 +347,23 @@ WHERE     ct.id = cp.contribution_type_id AND
      * @param int $setId - price set id whose details are needed
      * @return array $setTree - array consisting of field details
      */
-    public static function getSetDetail($setID, $required = true) 
+    public static function getSetDetail( $setID, $required = true ) 
     {
         // create a new tree
         $setTree = array();
         $select = $from = $where = $orderBy = '';
 
         $priceFields = array(
-            'id',
-            'name',
-            'label',
-            'html_type',
-            'is_enter_qty',
-            'help_post',
-            'is_display_amounts',
-            'options_per_line',
-            'is_active'
-        );
+                             'id',
+                             'name',
+                             'label',
+                             'html_type',
+                             'is_enter_qty',
+                             'help_post',
+                             'is_display_amounts',
+                             'options_per_line',
+                             'is_active'
+                             );
         if ( $required == true ) {
             $priceFields[] = 'is_required';   
         }
@@ -446,16 +439,15 @@ WHERE  id = %1";
             } else {
                 $required = true;
             }
-            $form->_priceSetId = $priceSetId;
-            $priceSet = self::getSetDetail($priceSetId, $required);
-            $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
+            $form->_priceSetId    = $priceSetId;
+            $priceSet             = self::getSetDetail($priceSetId, $required);
+            $form->_priceSet      = CRM_Utils_Array::value($priceSetId,$priceSet);
             $form->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
             $form->set('priceSetId', $form->_priceSetId);
             $form->set('priceSet', $form->_priceSet);
             return $priceSetId;
-        } else {
-            return false;
         }
+        return false;
     }    
     
     static function processAmount( &$fields, &$params, &$lineItem ) 
@@ -463,7 +455,8 @@ WHERE  id = %1";
         // using price set
         $totalPrice = 0;
         $radioLevel = $checkboxLevel = $selectLevel = $textLevel = array( );
-        
+
+        require_once 'CRM/Price/BAO/LineItem.php';
         foreach ( $fields as $id => $field ) {
             if ( empty( $params["price_{$id}"] ) && $params["price_{$id}"] == null ) {
                 // skip if nothing was submitted for this field
@@ -474,7 +467,7 @@ WHERE  id = %1";
 
             case 'Text':
                 $params["price_{$id}"] = array( key( $field['options'] ) => $params["price_{$id}"] );
-                self::getLineItem( $id, $params, $field, $lineItem );
+                CRM_Price_BAO_LineItem::format( $id, $params, $field, $lineItem );
                 $totalPrice += $lineItem[key( $field['options'] )]['line_total'];
                 break;
                 
@@ -492,7 +485,7 @@ WHERE  id = %1";
                 } else {
                     $radioLevel = array_keys( $params['amount_priceset_level_radio'] );
                 }
-                self::getLineItem( $id, $params, $field, $lineItem );
+                CRM_Price_BAO_LineItem::format( $id, $params, $field, $lineItem );
                 $totalPrice += $lineItem[$optionValueId]['line_total'];
                 break;
 
@@ -508,7 +501,7 @@ WHERE  id = %1";
                 } else {
                     $selectLevel = array_keys( $params['amount_priceset_level_select'] );
                 }
-                self::getLineItem( $id, $params, $field, $lineItem );
+                CRM_Price_BAO_LineItem::format( $id, $params, $field, $lineItem );
                 $totalPrice += $lineItem[$optionValueId]['line_total'];
                 break;
                 
@@ -528,7 +521,7 @@ WHERE  id = %1";
                         $checkboxLevel = array_keys( $params['amount_priceset_level_checkbox'] );
                     }
                 }
-                self::getLineItem( $id, $params, $field, $lineItem );
+                CRM_Price_BAO_LineItem::format( $id, $params, $field, $lineItem );
                 foreach ( $optionIds as $optionId ) {
                     $totalPrice += $lineItem[$optionId]['line_total'];
                 }
@@ -555,58 +548,7 @@ WHERE  id = %1";
         $params['amount']       = $totalPrice;
     }
     
-    /**
-     * This method will create the lineItem array required for
-     * processAmount method
-     *
-     * @param  int   $fid       price set field id
-     * @param  array $params    referance to form values
-     * @param  array $fields    referance to array of fields belonging
-     *                          to the price set used for particular event
-     * @param  array $values    referance to the values array(this is
-     *                          lineItem array)
-     *
-     * @return void
-     * @access static
-     */
-    static function getLineItem( $fid, &$params, &$fields, &$values )
-    {
-        if ( empty( $params["price_{$fid}"] ) ) {
-            return;
-            
-        }
-
-        $optionIDs = implode( ',', array_keys( $params["price_{$fid}"] ) );
-        $sql = "
-SELECT id, option_group_id, label, description
-FROM   civicrm_option_value
-WHERE  id IN ($optionIDs)
-";
-        $dao = CRM_Core_DAO::executeQuery( $sql,
-                                           CRM_Core_DAO::$_nullArray );
-        $optionValues = array( );
-        while ( $dao->fetch( ) ) {
-            $optionValues[$dao->id] = array('gid'         => $dao->option_group_id,
-                                            'label'       => $dao->label,
-                                            'description' => $dao->description );
-        }
-                            
-        foreach( $params["price_{$fid}"] as $oid => $qty ) {
-            $price        = $fields['options'][$oid]['value'];
-            $values[$oid] = array(
-                                  'price_field_id'   => $fid,
-                                  'option_value_id'  => $oid,
-                                  'option_group_id'  => $optionValues[$oid]['gid'],
-                                  'label'            => $optionValues[$oid]['label'],
-                                  'description'      => $optionValues[$oid]['description'],
-                                  'qty'              => $qty,
-                                  'unit_price'       => $price,
-                                  'line_total'       => $qty * $price,
-                                  'html_type'        => $fields['html_type']
-                                  );
-        }
-    }
-    
+        
     /** 
      * Function to build the price set form.
      * 
@@ -637,7 +579,7 @@ WHERE  id IN ($optionIDs)
      * @access public
      * @static
      */
-    public static function getFieldIds($id)
+    public static function getFieldIds( $id )
     {
         $priceField =& new CRM_Price_DAO_Field();
         $priceField->price_set_id = $id;
