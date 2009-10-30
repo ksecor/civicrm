@@ -286,10 +286,8 @@
         }
      }
      function status() {
-       document.getElementById("cancel_date[M]").value = "";
-       document.getElementById("cancel_date[d]").value = "";
-       document.getElementById("cancel_date[Y]").value = "";
-       document.getElementById("cancel_reason").value = "";
+       cj("#cancel_date").val('');
+       cj("#cancel_reason").val('');
      }
 
     </script>
