@@ -440,13 +440,13 @@ class CRM_Contribute_Form_AdditionalInfo
         }
         
         require_once 'CRM/Price/BAO/Set.php';
-        require_once 'CRM/Core/BAO/LineItem.php';
+        require_once 'CRM/Price/BAO/LineItem.php';
         foreach ( $lineItem as $priceSetId => $values ) {
             if ( !$priceSetId ) continue;
             foreach( $values as $line ) {
                 $line['entity_table'] = 'civicrm_contribution';
                 $line['entity_id'] = $contributionId;
-                CRM_Core_BAO_LineItem::create( $line );
+                CRM_Price_BAO_LineItem::create( $line );
             }
             CRM_Price_BAO_Set::addTo( 'civicrm_contribution', $contributionId, $priceSetId );
         }

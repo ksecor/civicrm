@@ -1078,14 +1078,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         // also store lineitem stuff here        
         if ( $this->_lineItem ) {
-            require_once 'CRM/Core/BAO/LineItem.php';
+            require_once 'CRM/Price/BAO/LineItem.php';
             foreach ( $this->_contactIds as $num => $contactID ) {
                 foreach ( $this->_lineItem as $key => $value ) {
                     if ( is_array ( $value ) && $value != 'skip' ) {
                         foreach( $value as $line ) {
                             $line['entity_table'] = 'civicrm_participant';
                             $line['entity_id'] = $participants[$num]->id;
-                            CRM_Core_BAO_LineItem::create( $line );
+                            CRM_Price_BAO_LineItem::create( $line );
                         }
                     }
                 }

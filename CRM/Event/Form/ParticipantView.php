@@ -72,10 +72,10 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
         
         $values[$params['id']]['note'] = array_values( $noteValue );
         
-        require_once 'CRM/Core/BAO/LineItem.php';
+        require_once 'CRM/Price/BAO/LineItem.php';
 
         // Get Line Items
-        $lineItem = CRM_Core_BAO_LineItem::getLineItems( $params['id'] );
+        $lineItem = CRM_Price_BAO_LineItem::getLineItems( $params['id'] );
         
         if (!CRM_Utils_System::isNull($lineItem)) {
             $values[$params['id']]['lineItem'][] = $lineItem;

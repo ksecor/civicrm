@@ -442,8 +442,8 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_id  && 
              $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_contribution', $this->_id ) ) {
             $this->_priceSetId = $priceSetId;
-            require_once 'CRM/Core/BAO/LineItem.php';
-            $this->_lineItems[] = CRM_Core_BAO_LineItem::getLineItems( $this->_id, 'contribution' );
+            require_once 'CRM/Price/BAO/LineItem.php';
+            $this->_lineItems[] = CRM_Price_BAO_LineItem::getLineItems( $this->_id, 'contribution' );
         }
         $this->assign( 'lineItem', empty( $this->_lineItems ) ? false : $this->_lineItems );
     }

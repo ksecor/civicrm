@@ -439,8 +439,8 @@ WHERE  id = %1";
                 }
                 
                 if ( $entityId && $entity ) {
-                    require_once 'CRM/Core/BAO/LineItem.php';
-                    $form->_values['line_items'] = CRM_Core_BAO_LineItem::getLineItems( $entityId, $entity );
+                    require_once 'CRM/Price/BAO/LineItem.php';
+                    $form->_values['line_items'] = CRM_Price_BAO_LineItem::getLineItems( $entityId, $entity );
                 }
                 $required = false;
             } else {

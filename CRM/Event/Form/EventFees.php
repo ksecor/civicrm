@@ -322,8 +322,8 @@ class CRM_Event_Form_EventFees
         }
         
         // use line items for setdefault price set fields, CRM-4090
-        require_once 'CRM/Core/BAO/LineItem.php';
-        $lineItems[$participantID] = CRM_Core_BAO_LineItem::getLineItems( $participantID );
+        require_once 'CRM/Price/BAO/LineItem.php';
+        $lineItems[$participantID] = CRM_Price_BAO_LineItem::getLineItems( $participantID );
         
         if ( is_array( $lineItems[$participantID] ) && 
              !CRM_Utils_System::isNull( $lineItems[$participantID] ) ) {

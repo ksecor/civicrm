@@ -596,7 +596,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         // create line items, CRM-5313 
         if ( $this->_priceSetId && !empty( $this->_lineItem ) ) {
-            require_once 'CRM/Core/BAO/LineItem.php';
+            require_once 'CRM/Price/BAO/LineItem.php';
             $entityTable = 'civicrm_participant';
             foreach ( $this->_lineItem as $key => $value ) {
                 if ( ( $value != 'skip' ) &&
@@ -604,14 +604,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     
                     // do cleanup line  items if participant re-walking wizard.
                     if ( $this->_allowConfirmation ) {
-                        CRM_Core_BAO_LineItem::deleteLineItems( $entityId, $entityTable );
+                        CRM_Price_BAO_LineItem::deleteLineItems( $entityId, $entityTable );
                     }
                     
                     // create line.
                     foreach( $value as $line ) {
                         $line['entity_id']    = $entityId;
                         $line['entity_table'] = $entityTable;
-                        CRM_Core_BAO_LineItem::create( $line );
+                        CRM_Price_BAO_LineItem::create( $line );
                     }
                 }
             }

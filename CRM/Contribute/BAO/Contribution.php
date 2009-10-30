@@ -549,8 +549,8 @@ GROUP BY currency
             CRM_Price_BAO_Set::removeFrom( 'civicrm_contribution', $id );
         }
         // cleanup line items.
-        require_once 'CRM/Core/BAO/LineItem.php';
-        CRM_Core_BAO_LineItem::deleteLineItems( $id, 'civicrm_contribution' );
+        require_once 'CRM/Price/BAO/LineItem.php';
+        CRM_Price_BAO_LineItem::deleteLineItems( $id, 'civicrm_contribution' );
         
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
