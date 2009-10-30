@@ -268,6 +268,15 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $allRelationshipType = array( );
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+
+        //adding subtype specific relationships CRM-5256
+        $relSubType = CRM_Contact_BAO_ContactType::subTypeInfo( );
+        foreach ( $relSubType as $subType => $val ) {
+            $subTypeRelationshipTypes = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $val['parent'], 
+                                                                                                  false, 'label', true, $subType );
+            $allRelationshipType = array_merge( $allRelationshipType, $subTypeRelationshipTypes);
+        }
+        
         $subTypes['Relationship'] = $allRelationshipType;
         
         require_once "CRM/Core/Component.php";
