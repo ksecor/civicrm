@@ -80,7 +80,7 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
             $params['id'] = $this->_id;
             require_once 'CRM/Pledge/BAO/Payment.php';
             CRM_Pledge_BAO_Payment::retrieve( $params, $defaults );
-            $defaults['scheduled_date'] = CRM_Utils_Date::unformat($defaults['scheduled_date']);
+            list( $defaults['scheduled_date'] ) = CRM_Utils_Date::setDateDefaults( $defaults['scheduled_date'] );
             
             $statuses = CRM_Contribute_PseudoConstant::contributionStatus( );
             $this->assign('status', $statuses[$defaults['status_id']] );
@@ -98,14 +98,11 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
     public function buildQuickForm( )  
     {   
         //add various dates
-        $element =& $this->add('date', 'scheduled_date', ts('Scheduled Date'), CRM_Core_SelectValues::date('activityDate'));    
-        $this->addRule('scheduled_date', ts('Select a valid Scheduled date.'), 'qfDate');
-        
+        $this->addDate( 'scheduled_date', ts('Scheduled Date'), false, array( 'formrule' => 'qfDate') );
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'js'        => array( 'onclick' => "return verify( );" ),
                                         'isDefault' => true   ), 
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
@@ -124,9 +121,7 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
         //get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
         $params = array( );
-        $formValues['scheduled_date']['H'] = '00';
-        $formValues['scheduled_date']['i'] = '00';
-        $formValues['scheduled_date']['s'] = '00';
+        $formValues['scheduled_date'] = CRM_Utils_Date::processDate( $formValues['scheduled_date'] );
         $params['scheduled_date'] = CRM_Utils_Date::format( $formValues['scheduled_date'] );
         $now = date( 'Ymd' );
         
