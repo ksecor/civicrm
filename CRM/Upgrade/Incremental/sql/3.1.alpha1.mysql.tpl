@@ -237,6 +237,15 @@
     ALTER TABLE `civicrm_preferences_date`
         DROP `minute_increment`;
 
+--  CRM-5313 
+-- migrate the contribution id's to participant id's in lineitem table
+    UPDATE civicrm_line_item AS li
+    	LEFT JOIN civicrm_participant_payment AS pp ON (pp.contribution_id = li.entity_id)
+    SET   	li.entity_id    = pp.participant_id,
+        li.entity_table = 'civicrm_participant'
+    WHERE   pp.contribution_id = li.entity_id
+        AND      li.entity_table = 'civicrm_contribution';
+
 --  CRM-5317    	
 --  copy name to value, since we want to use value instead of name.
     UPDATE  civicrm_option_value as vals
