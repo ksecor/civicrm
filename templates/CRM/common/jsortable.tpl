@@ -85,7 +85,7 @@ eval('tableId =[' + tableId + ']');
                     var col = 0; 
                     cj('tr#' + closestEle + ' td:not(.hiddenElement)').each( function() {
                         if ( tdSelected.get(0) !== cj(this).get(0)  ){ 
-                            oTable.fnUpdate( cj(this).text() , i, col );
+                            oTable.fnUpdate( cj(this).html() , i, col );
                         }
                         col++;
                     });
