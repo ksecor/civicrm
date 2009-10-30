@@ -1,5 +1,3 @@
-{if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}{/if}
-{if $module eq 'Membership'}
 {if $formValues.receipt_text_signup}
 {$formValues.receipt_text_signup}
 {elseif $formValues.receipt_text_renewal}
@@ -38,37 +36,6 @@
 {/if}
 {/if}
 {/if}
-{elseif $module eq 'Event Registration'}
-{if $receipt_text}
-{$receipt_text}
-{/if}
-
-{ts}Please print this confirmation for your records.{/ts}
-
-===========================================================
-{ts}Event Information{/ts}
-
-===========================================================
-{ts}Event{/ts}: {$event}
-{if $role neq 'Attendee'}{ts}Role{/ts}: {$role}
-{/if}
-{ts}Registration Date{/ts}: {$register_date|crmDate}
-{ts}Participant Status{/ts}: {$status}
-
-{if $paid}
-===========================================================
-{ts}Registration Fee{/ts}
-
-===========================================================
-{ts}Amount{/ts}: {$total_amount|crmMoney}
-{if $receive_date}
-{ts}Received Date{/ts}: {$receive_date|truncate:10:''|crmDate}
-{/if}
-{if $paidBy}
-{ts}Paid By{/ts}: {$paidBy}
-{/if}
-{/if}
-{/if}
 
 {if $isPrimary }
 {if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
@@ -94,7 +61,7 @@
 
 {if $customValues}
 ===========================================================
-{$module} {ts}Options{/ts}
+{ts}Membership Options{/ts}
 
 ===========================================================
 {foreach from=$customValues item=value key=customName}

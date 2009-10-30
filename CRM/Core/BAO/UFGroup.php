@@ -1862,16 +1862,6 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                                               "reset=1&cid=$contactID",
                                               true, null, false );
           
-        // set details in the template here
-        $template->assign( 'displayName',
-                           $displayName );            
-        $template->assign( 'currentDate',
-                           date('r') );
-        $template->assign( 'contactLink',
-                           $contactLink );
-        
-        $subject = trim( $template->fetch( 'CRM/UF/Form/NotifySubject.tpl' ) );
-        $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );
         
         //get the default domain email address.
         require_once 'CRM/Core/BAO/Domain.php';
@@ -1880,22 +1870,25 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
         if ( !$domainEmailAddress || $domainEmailAddress == 'info@FIXME.ORG') {
             CRM_Core_Error::fatal( ts( 'The site administrator needs to enter a valid \'FROM Email Address\' in Administer CiviCRM &raquo; Configure &raquo; Domain Information. The email address used may need to be a valid mail account with your email service provider.' ) );
         }
-        
-        $emailFrom = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
-        
-        if($message) {
-            foreach ( $emailList as $emailTo ) {
-                require_once 'CRM/Utils/Mail.php';
-                CRM_Utils_Mail::send( $emailFrom,
-                                      "",
-                                      $emailTo,
-                                      $subject,
-                                      $message,
-                                      null,
-                                      null
-                                      );
-            }
-        }            
+
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        foreach ($emailList as $emailTo) {
+            // FIXME: take the below out of the foreach loop
+            CRM_Core_BAO_MessageTemplates::sendTemplateParams(
+                array(
+                    'groupName' => 'msg_tpl_workflow_uf',
+                    'valueName' => 'uf_notify',
+                    'contactId' => $contactID,
+                    'tplParams' => array(
+                        'displayName' => $displayName,
+                        'currentDate' => date('r'),
+                        'contactLink' => $contactLink,
+                    ),
+                    'from'    => "$domainEmailName <$domainEmailAddress>",
+                    'toEmail' => $emailTo,
+                )
+            );
+        }
     }
     
     

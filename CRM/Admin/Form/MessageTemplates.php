@@ -42,6 +42,8 @@ require_once 'CRM/Admin/Form.php';
  */
 class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
 {
+    // which (and whether) mailing workflow this template belongs to
+    protected $_workflow_id = null;
 
     /**
      * This function sets the default values for the form. 
@@ -53,6 +55,8 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
     public function setDefaultValues( ) {
         $defaults = array( );
         $defaults =& parent::setDefaultValues( );
+        $this->_workflow_id = $defaults['workflow_id'];
+        $this->assign('workflow_id', $defaults['workflow_id']);
         return $defaults;
     }
 
@@ -64,11 +68,32 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
      */
     public function buildQuickForm( ) 
     {
-        parent::buildQuickForm( );
+
+        // For VIEW we only want Done button
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            // currently, the above action is used solely for previewing default workflow templates
+            $cancelURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'selectedChild=workflow&reset=1');
+            $cancelURL = str_replace('&amp;', '&', $cancelURL);
+            $this->addButtons( array(
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => ts('Done'),
+                                         'js'        => array('onclick' => "location.href='{$cancelURL}'; return false;"),
+                                         'isDefault' => true   ),
+                                        )
+                                 );
+        } else {
+            parent::buildQuickForm( );        
+        }
         
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
+        
+        require_once 'CRM/Utils/System.php';
+        $breadCrumb = array( array('title' => ts('Message Templates'), 
+                                   'url'   => CRM_Utils_System::url( 'civicrm/admin/messageTemplates', 
+                                                                     'action=browse&reset=1' )) );
+        CRM_Utils_System::appendBreadCrumb( $breadCrumb );
 
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'msg_title', ts('Message Title'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MessageTemplates', 'msg_title' ),true );
@@ -112,10 +137,15 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
         
         $this->add('textarea', 'msg_text', ts('Text Message'), 
                    "cols=50 rows=6" );
-        $this->addWysiwyg( 'msg_html', ts('HTML Message'),
-                          CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MessageTemplates', 'msg_html' ) );
+        $this->add('textarea', 'msg_html', ts('HTML Message'),
+                   "cols=50 rows=6" );
      
         $this->add('checkbox', 'is_active', ts('Enabled?'));
+
+        if ($this->_action & CRM_Core_Action::VIEW) {
+            $this->freeze();
+            CRM_Utils_System::setTitle(ts('View System Default Message Template'));
+        }
 
     }
 
@@ -131,6 +161,9 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             CRM_Core_BAO_MessageTemplates::del( $this->_id );
+        } elseif ($this->_action & CRM_Core_Action::VIEW) {
+            // currently, the above action is used solely for previewing default workflow templates
+            CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/messageTemplates', 'selectedChild=workflow&reset=1'));
         } else { 
             $params = array( );
             
@@ -140,9 +173,18 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
             if ( $this->_action & CRM_Core_Action::UPDATE ) {
                 $params['id'] = $this->_id;
             }
+
+            if ($this->_workflow_id) {
+                $params['workflow_id'] = $this->_workflow_id;
+                $params['is_active']   = true;
+            }
             
             $messageTemplate = CRM_Core_BAO_MessageTemplates::add( $params );
             CRM_Core_Session::setStatus( ts('The Message Template \'%1\' has been saved.', array( 1 => $messageTemplate->msg_title ) ) );
+
+            if ($this->_workflow_id) {
+                CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/messageTemplates', 'selectedChild=workflow&reset=1'));
+            }
         }
     }
 }

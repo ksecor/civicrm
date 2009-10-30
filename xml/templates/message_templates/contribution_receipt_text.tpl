@@ -1,5 +1,3 @@
-{if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}
-{/if}
 {if $receipt_text}
 {$receipt_text}
 {/if}
@@ -25,9 +23,9 @@
 {/if}
 
 {/if}
-{if $amount OR ($lineItem and $priceSetID)}
+{if $amount}
 ===========================================================
-{if !$membershipBlock AND $amount OR ($lineItem and $priceSetID)}{ts}Contribution Information{/ts}{else}{ts}Membership Fee{/ts}{/if}
+{if !$membershipBlock AND $amount}{ts}Contribution Information{/ts}{else}{ts}Membership Fee{/ts}{/if}
 
 ===========================================================
 {if $membership_amount } 
@@ -51,12 +49,11 @@
 {$ts_item|string_format:"%-30s"} {$ts_qty|string_format:"%5s"} {$ts_each|string_format:"%10s"} {$ts_total|string_format:"%10s"}
 ----------------------------------------------------------
 {foreach from=$value item=line}
-{$line.description|truncate:30:"..."|string_format:"%-30s"} {$line.qty|string_format:"%5s"} {$line.unit_price|crmMoney|string_format:"%10s"} {$line.line_total|crmMoney|string_format:"%10s"}
+{$line.label|truncate:30:"..."|string_format:"%-30s"} {$line.qty|string_format:"%5s"} {$line.unit_price|crmMoney|string_format:"%10s"} {$line.line_total|crmMoney|string_format:"%10s"}
 {/foreach}
 {/foreach}
-{if !$amount}{assign var='amount' value=0}{/if}
 
-{ts}Contribution Total{/ts}: {$amount|crmMoney}
+{ts}Total Amount{/ts}: {$amount|crmMoney}
 {else}
 {ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}

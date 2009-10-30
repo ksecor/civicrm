@@ -212,13 +212,15 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             }
             
             // set email in the template here
-            $template->assign( 'email', $email );
-            $template->assign( 'receiptFromEmail', $values['receipt_from_email'] );
-            $template->assign('contactID',   $contactID);
-            $template->assign('contributionID',   $values['contribution_id']);
-            if ( CRM_Utils_Array::value( 'membership_id', $values ) ) {
-                $template->assign('membershipID',   $values['membership_id']);
-            }
+            $tplParams = array(
+                'email'            => $email,
+                'receiptFromEmail' => $values['receipt_from_email'],
+                'contactID'        => $contactID,
+                'contributionID'   => $values['contribution_id'],
+                'membershipID'     => CRM_Utils_Array::value('membership_id', $values),
+                'lineItem'         => CRM_Utils_Array::value('lineItem',      $values), // CRM-5095
+                'priceSetID'       => CRM_Utils_Array::value('priceSetID',    $values), // CRM-5095
+            );
 
             // cc to related contacts of contributor OR the one who
             // signs up. Is used for cases like - on behalf of
@@ -232,58 +234,48 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                     ($values['cc_receipt'] . ',' . $ccMailId) : $ccMailId;
                 
                 // reset primary-email in the template
-                $template->assign( 'email', $ccEmail );
-                
-                $template->assign('onBehalfName',    $displayName);
-                $template->assign('onBehalfEmail',   $email);
+                $tplParams['email'] = $ccEmail;
+
+                $tplParams['onBehalfName']  = $displayName;
+                $tplParams['onBehalfEmail'] = $email;
             }
             
-            // CRM-5095
-            $template->assign( 'lineItem', CRM_Utils_Array::value( 'lineItem', $values ) );
-            $template->assign( 'priceSetID', CRM_Utils_Array::value( 'priceSetID', $values ) );
-            
-            $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
-            $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
+            $sendTemplateParams = array(
+                'groupName' => 'msg_tpl_workflow_contribution',
+                'valueName' => 'contribution_receipt',
+                'contactId' => $contactID,
+                'tplParams' => $tplParams,
+                'isTest'    => $isTest,
+            );
+
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+
             if ( $returnMessageText ) {
+                list ($sent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate($sendTemplateParams);
                 return array( 'subject' => $subject,
                               'body'    => $message,
                               'to'      => $displayName );
             }
             
-            $receiptFrom = CRM_Utils_Array::value('receipt_from_name',$values) .' <'. $values['receipt_from_email']. '>';
-            require_once 'CRM/Utils/Mail.php';
-            
             if ( $values['is_email_receipt'] ) {
-                CRM_Utils_Mail::send( $receiptFrom,
-                                      $displayName,
-                                      $email,
-                                      $subject,
-                                      $message,
-                                      CRM_Utils_Array::value( 'cc_receipt' , $values ),
-                                      CRM_Utils_Array::value( 'bcc_receipt', $values )
-                                      );
+                $sendTemplateParams['from']    = CRM_Utils_Array::value('receipt_from_name',$values) .' <'. $values['receipt_from_email']. '>';
+                $sendTemplateParams['toName']  = $displayName;
+                $sendTemplateParams['toEmail'] = $email;
+                $sendTemplateParams['cc']      = CRM_Utils_Array::value('cc_receipt' , $values);
+                $sendTemplateParams['bcc']     = CRM_Utils_Array::value('bcc_receipt', $values);
+                list ($sent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate($sendTemplateParams);
             }
 
             // send duplicate alert, if dupe match found during on-behalf-of processing.
             if ( CRM_Utils_Array::value( 'onbehalf_dupe_alert', $values ) ) {
-                $systemFrom = '"Automatically Generated" <' . $values['receipt_from_email'] . '>';
-                $template->assign('onBehalfID', $contactID);
-                
-                $emailTemplate  = 'CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl';
-                
-                $template->assign( 'returnContent', 'subject' );
-                $subject = $template->fetch( $emailTemplate );
-                
-                $template->assign( 'receiptMessage', $message );
-
-                $template->assign( 'returnContent', 'textMessage' );
-                $message = $template->fetch( $emailTemplate );
-                
-                CRM_Utils_Mail::send( $systemFrom,
-                                      CRM_Utils_Array::value('receipt_from_name',$values),
-                                      $values['receipt_from_email'],
-                                      $subject,
-                                      $message );
+                $sendTemplateParams['groupName']                   = 'msg_tpl_workflow_contribution';
+                $sendTemplateParams['valueName']                   = 'contribution_dupalert';
+                $sendTemplateParams['from']                        = ts('Automatically Generated') . " <{$values['receipt_from_email']}>";
+                $sendTemplateParams['toName']                      = CRM_Utils_Array::value('receipt_from_name',$values);
+                $sendTemplateParams['toEmail']                     = $values['receipt_from_email'];
+                $sendTemplateParams['tplParams']['onBehalfID']     = $contactID;
+                $sendTemplateParams['tplParams']['receiptMessage'] = $message;
+                CRM_Core_BAO_MessageTemplates::sendTemplate($sendTemplateParams);
             }
         }
     }
@@ -311,31 +303,36 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$value[$pageID]) . '" <' . $value[$pageID]['receipt_from_email'] . '>';
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false );
-            $subject  = ts('Recurring Subscription Notification');
-            
-            $template =& CRM_Core_Smarty::singleton( );
-            $template->assign('recur_frequency_interval', $recur->frequency_interval );
-            $template->assign('recur_frequency_unit',     $recur->frequency_unit );
-            $template->assign('recur_installments',       $recur->installments );
-            $template->assign('recur_start_date',         $recur->start_date );
-            $template->assign('recur_end_date',           $recur->end_date );
-            $template->assign('recur_amount',             $recur->amount);
-            $template->assign('recur_txnType',            $type );
-            $template->assign('displayName',              $displayName );
-            $template->assign('receipt_from_name',        $value[$pageID]['receipt_from_name'] );
-            $template->assign('receipt_from_email',       $value[$pageID]['receipt_from_email'] );
-            
-            $message  = $template->fetch( 'CRM/Contribute/Form/Contribution/RecurringNotify.tpl' );
-            
-            require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $receiptFrom,
-                                  $displayName,
-                                  $email,
-                                  $subject,
-                                  $message
-                                  );
 
-            CRM_Core_Error::debug_log_message( "Success: mail sent for recurring notification." );
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($sent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplateParams(
+                array(
+                    'groupName' => 'msg_tpl_workflow_contribution',
+                    'valueName' => 'contribution_recurring_notify',
+                    'contactId' => $contactID,
+                    'tplParams' => array(
+                        'recur_frequency_interval' => $recur->frequency_interval,
+                        'recur_frequency_unit'     => $recur->frequency_unit,
+                        'recur_installments'       => $recur->installments,
+                        'recur_start_date'         => $recur->start_date,
+                        'recur_end_date'           => $recur->end_date,
+                        'recur_amount'             => $recur->amount,
+                        'recur_txnType'            => $type,
+                        'displayName'              => $displayName,
+                        'receipt_from_name'        => $value[$pageID]['receipt_from_name'],
+                        'receipt_from_email'       => $value[$pageID]['receipt_from_email'],
+                    ),
+                    'from'    => $receiptFrom,
+                    'toName'  => $displayName,
+                    'toEmail' => $email,
+                )
+            );
+
+            if ($sent) {
+                CRM_Core_Error::debug_log_message('Success: mail sent for recurring notification.');
+            } else {
+                CRM_Core_Error::debug_log_message('Failure: mail not sent for recurring notification.');
+            }
         }
     }
 

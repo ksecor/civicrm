@@ -947,16 +947,19 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->assign( 'membership_name', CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                                            $formValues['membership_type_id'][1] ) );
             $this->assign( 'customValues', $customValues );
-            $template =& CRM_Core_Smarty::singleton( );
-            $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
-            $message = $template->fetch( 'CRM/Contribute/Form/ReceiptMessageOffline.tpl' );
 
-            require_once 'CRM/Utils/Mail.php';
-            $mailSend = CRM_Utils_Mail::send( $receiptFrom,
-                                              $this->_contributorDisplayName,
-                                              $this->_contributorEmail,
-                                              $subject,
-                                              $message);
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($mailSend, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate(
+                array(
+                    'groupName' => 'msg_tpl_workflow_contribution',
+                    'valueName' => 'contribution_offline_receipt',
+                    'contactId' => $this->_contactID,
+                    'from'      => $receiptFrom,
+                    'toName'    => $this->_contributorDisplayName,
+                    'toEmail'   => $this->_contributorEmail,
+                    'isTest'    => (bool) ($this->_action & CRM_Core_Action::PREVIEW),
+                )
+            );
         }
         
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {

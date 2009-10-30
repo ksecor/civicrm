@@ -1,4 +1,3 @@
-{if $returnContent eq 'subject'}{ts}CiviContribute Alert: Possible Duplicate Contact Record{/ts}{elseif $returnContent eq 'textMessage'}
 A contribution / membership signup was made on behalf of the organization listed below.
 The information provided matched multiple existing database records based on the configured
 Duplicate Matching Rules for your site.
@@ -18,5 +17,4 @@ rule for Organizations to find the potential duplicates and merge them if approp
 ###########################################################
 {$receiptMessage}
 
-{/if}
 {/if}

@@ -247,11 +247,6 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                                                     true );
             $this->assign( 'managePCPUrl', $managePCPUrl );
             
-            $subject = ts('Personal Campaign Page Notification');
-            
-            $template =& CRM_Core_Smarty::singleton( );
-            $message  = $template->fetch( 'CRM/Contribute/Form/PCPNotify.tpl' );
-          
             //get the default domain email address.
             require_once 'CRM/Core/BAO/Domain.php';
             list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
@@ -259,8 +254,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             if ( !$domainEmailAddress || $domainEmailAddress == 'info@FIXME.ORG') {
                 CRM_Core_Error::fatal( ts( 'The site administrator needs to enter a valid \'FROM Email Address\' in Administer CiviCRM &raquo; Configure &raquo; Domain Information. The email address used may need to be a valid mail account with your email service provider.' ) );
             }
-            
-            $emailFrom = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
+          
             //if more than one email present for PCP notification ,
             //first email take it as To and other as CC and First email
             //address should be sent in users email receipt for
@@ -269,16 +263,21 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             $to = $emailArray[0];
             unset( $emailArray[0] );
             $cc = implode(',', $emailArray );
+
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($sent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate(
+                array(
+                    'groupName' => 'msg_tpl_workflow_contribution',
+                    'valueName' => 'pcp_notify',
+                    'contactId' => $contactID,
+                    'from'      => "$domainEmailName <$domainEmailAddress>",
+                    'toEmail'   => $to,
+                    'cc'        => $cc,
+                )
+            );
             
-            require_once 'Mail/mime.php';
-            require_once 'CRM/Utils/Mail.php';
-            if ( CRM_Utils_Mail::send( $emailFrom,
-                                       "",
-                                       $to,
-                                       $subject,
-                                       $message,
-                                       $cc ) ) {
-                $notifyStatus = ts(' A notification email has been sent to the site administrator.'); 
+            if ($sent) {
+                $notifyStatus = ts('A notification email has been sent to the site administrator.'); 
             }
         }
         

@@ -67,7 +67,8 @@ class CRM_Core_Action {
         COPY          =  16384,
         RENEW         =  32768,
         DETACH        =  65536,
-        MAX_ACTION    =  131071;
+        REVERT        = 131072,
+        MAX_ACTION    = 262143;
     
     //make sure MAX_ACTION = 2^n - 1 ( n = total number of actions )
     
@@ -96,7 +97,8 @@ class CRM_Core_Action {
                            'copy'          => self::COPY,
                            'profile'       => self::PROFILE,
                            'renew'         => self::RENEW,
-                           'detach'        => self::DETACH
+                           'detach'        => self::DETACH,
+                           'revert'        => self::REVERT,
                            );
 
     /**

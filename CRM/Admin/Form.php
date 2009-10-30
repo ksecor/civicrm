@@ -95,16 +95,7 @@ class CRM_Admin_Form extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Save'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
-     
-        if($this->_action & CRM_Core_Action::DELETE) {
+        if ($this->_action & CRM_Core_Action::DELETE) {
             $this->addButtons(array(
                                     array ('type'      => 'next',
                                            'name'      => ts('Delete'),
@@ -113,6 +104,16 @@ class CRM_Admin_Form extends CRM_Core_Form
                                            'name'      => ts('Cancel')),
                                     )
                               );
+        } else {
+            $this->addButtons( array(
+                                     array ( 'type'      => 'next',
+                                             'name'      => ts('Save'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'      => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+            
         }
    
     }

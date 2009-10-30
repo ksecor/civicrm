@@ -1108,7 +1108,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $receiptFrom = "$userName <$userEmail>";
                         
             $this->assign( 'module', 'Event Registration' );          
-            //use of CRM/Event/Form/Registration/ReceiptMessage.tpl requires variables in different format
+            //use of the message template below requires variables in different format
             $event = $events = array();
             $returnProperties = array( 'fee_label', 'start_date', 'end_date', 'is_show_location', 'title' );
             
@@ -1236,27 +1236,30 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $this->assign( 'amount', $eventAmount );
                 }
 
-                $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubjectOffline.tpl' ) );
-                $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
-              
-                //Do not try to send emails if emailID is not present
-                //or doNotEmail option is checked for that contact 
-                if( empty($this->_contributorEmail) or $this->_toDoNotEmail ) {
-                    $notSent[] = $contactID;
+                $sendTemplateParams = array(
+                    'groupName' => 'msg_tpl_workflow_event',
+                    'valueName' => 'event_offline_receipt',
+                    'contactId' => $contactID,
+                    'isTest'    => (bool) CRM_Utils_Array::value('is_test', $this->_defaultValues),
+                );
+
+                // try to send emails only if email id is present
+                // and the do-not-email option is not checked for that contact 
+                if($this->_contributorEmail and !$this->_toDoNotEmail) {
+                    $sendTemplateParams['from']    = $receiptFrom;
+                    $sendTemplateParams['toName']  = $this->_contributorDisplayName;
+                    $sendTemplateParams['toEmail'] = $this->_contributorEmail;
+                }
+
+                require_once 'CRM/Core/BAO/MessageTemplates.php';
+                list ($mailSent, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate($sendTemplateParams);
+
+                if ($mailSent) {
+                    $sent[] = $contactID;
                 } else {
-                    require_once 'CRM/Utils/Mail.php';
-                    if ( CRM_Utils_Mail::send( $receiptFrom,
-                                               $this->_contributorDisplayName,
-                                               $this->_contributorEmail,
-                                               $subject,
-                                               $message) ) {
-                        $sent[] = $contactID;
-                    } else {
-                        $notSent[] = $contactID;
-                    }
+                    $notSent[] = $contactID;
                 }
             }
-            
         }
         
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {

@@ -26,7 +26,7 @@
         <tr>
             <td class="label">{$form.msg_subject.label}</td>
             <td>
-                  {$form.msg_subject.html}
+                  {$form.msg_subject.html|crmReplace:class:huge}
 	              <a href="#" onClick="return showToken('Subject', 3);">{$form.token3.label}</a>
 	              {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}
                   <div id='tokenSubject' style="display:none">
@@ -75,16 +75,18 @@
 	                            <span class="ui-icon ui-icon-triangle-1-e" id='html'></span><a href="#">{ts}HTML Message{/ts}</a>
                             </h3>
                             <div class='html'>
-                                {$form.msg_html.html}<br />
+                                {$form.msg_html.html|crmReplace:class:huge}<br />
                                 <span class="description">{ts}You may optionally create an HTML formatted version of this message. It will be sent to contacts whose Email Format preference is 'HTML' or 'Both'.{/ts} {ts 1=$tokenDocsRepeated}Tokens may be included (%1).{/ts}
                             </div>  
                         </div>
             </td>
         </tr>
-        <tr>
+        {if !$workflow_id}
+          <tr>
             <td class="label">{$form.is_active.label}</td>
             <td>{$form.is_active.html}</td>
-        </tr>
+          </tr>
+        {/if}
     </table> 
   {/if}
   <dl>   

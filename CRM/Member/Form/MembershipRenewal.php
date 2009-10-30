@@ -597,18 +597,20 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                     $this->assign( 'action', '1024') ;
                 }
             }
-            $template =& CRM_Core_Smarty::singleton( );
-            $message = $template->fetch( 'CRM/Contribute/Form/ReceiptMessageOffline.tpl' );
-            $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
-            
-            require_once 'CRM/Utils/Mail.php';
-            $mailSend = CRM_Utils_Mail::send( $receiptFrom,
-                                              $this->_contributorDisplayName,
-                                              $this->_contributorEmail,
-                                              $subject,
-                                              $message);
+
+            require_once 'CRM/Core/BAO/MessageTemplates.php';
+            list ($mailSend, $subject, $message, $html) = CRM_Core_BAO_MessageTemplates::sendTemplate(
+                array(
+                    'groupName' => 'msg_tpl_workflow_contribution',
+                    'valueName' => 'contribution_offline_receipt',
+                    'contactId' => $this->_contactID,
+                    'from'      => $receiptFrom,
+                    'toName'    => $this->_contributorDisplayName,
+                    'toEmail'   => $this->_contributorEmail,
+                    'isTest'    => $this->_mode == 'test',
+                )
+            );
         }
-        
        
         $statusMsg = ts('%1 membership for %2 has been renewed.', array(1 => $memType, 2 => $this->_contributorDisplayName));
        
