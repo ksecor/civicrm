@@ -1,5 +1,3 @@
-{if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}
-{/if}
 {if $receipt_text}
 {$receipt_text}
 {/if}

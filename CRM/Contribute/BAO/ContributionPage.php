@@ -245,6 +245,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                 'valueName' => 'contribution_receipt',
                 'contactId' => $contactID,
                 'tplParams' => $tplParams,
+                'isTest'    => $isTest,
             );
 
             require_once 'CRM/Core/BAO/MessageTemplates.php';

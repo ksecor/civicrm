@@ -423,6 +423,7 @@ class CRM_Contribute_Form_AdditionalInfo
                 'from'      => "$userName <$userEmail>",
                 'toName'    => $contributorDisplayName,
                 'toEmail'   => $contributorEmail,
+                'isTest'    => $form->_mode == 'test',
             )
         );
 
