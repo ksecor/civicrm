@@ -1132,11 +1132,6 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
             $activityParams['details']            = $message;
             $activityParams['target_contact_id']  = $info['contact_id'];
             
-            // FIXME: the below was originally
-            // if (!empty($result[$info['contact_id']]))
-            // (with $result[$info['contact_id']] being unconditionally set to 
-            // either true or false), which – with false being empty in PHP – 
-            // always equls the boolean value; check why it was set so
             if ($result[$info['contact_id']]) {
                 $activity = CRM_Activity_BAO_Activity::create( $activityParams );
                 
