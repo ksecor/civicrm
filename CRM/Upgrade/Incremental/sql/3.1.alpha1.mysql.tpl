@@ -237,3 +237,10 @@
     ALTER TABLE `civicrm_preferences_date`
         DROP `minute_increment`;
 
+--  CRM-5317    	
+--  copy name to value, since we want to use value instead of name.
+    UPDATE  civicrm_option_value as vals
+ LEFT JOIN  civicrm_option_group as groups ON ( groups.id = vals.option_group_id )
+INNER JOIN  civicrm_price_field fields ON ( groups.name = CONCAT( 'civicrm_price_field.amount.', fields.id ) ) 
+       SET  vals.value=vals.name;
+--
