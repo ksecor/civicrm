@@ -1502,11 +1502,11 @@ SELECT IF( EXISTS(SELECT name FROM civicrm_contact_type WHERE name like %1), 1, 
             return; 
         }
         
-        $htmlType        = CRM_Utils_Array::value('html_type'       , $field );
-        $dataType        = CRM_Utils_Array::value('data_type'       , $field );
-        $option_group_id = CRM_Utils_Array::value('option_group_id' , $field );
-        $dateParts       = CRM_Utils_Array::value('date_parts'      , $field );
-        $optionPerLine   = CRM_Utils_Array::value('options_per_line', $field );
+        $htmlType        = CRM_Utils_Array::value('html_type'        , $field );
+        $dataType        = CRM_Utils_Array::value('data_type'        , $field );
+        $option_group_id = CRM_Utils_Array::value('option_group_id'  , $field );
+        $timeFormat      = CRM_Utils_Array::value('time_format'      , $field );
+        $optionPerLine   = CRM_Utils_Array::value('options_per_line' , $field );
                                                                                          
         $freezeString = "";
         $freezeStringChecked = "";
@@ -1514,9 +1514,11 @@ SELECT IF( EXISTS(SELECT name FROM civicrm_contact_type WHERE name like %1), 1, 
         switch ( $dataType ) {
 
         case 'Date':
-            //FIX ME
-            //$parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
-            //$retValue = CRM_Utils_Date::customFormat( $value, null, $parts );
+            // remove time element display if time is not set
+            if ( !$timeFormat ) {
+                $value = substr( $value, 0, 10 );
+            }
+            
             $retValue = CRM_Utils_Date::customFormat( $value );
             break;	
 

@@ -1329,7 +1329,6 @@ SELECT id
         }
         
         $date = null;
-        // fix the date field 
         if ( $customFields[$customFieldId]['data_type'] == 'Date' ) {
             if ( ! CRM_Utils_System::isNull( $value ) ) {
                 $date = CRM_Utils_Date::processDate( $value );   
@@ -1662,6 +1661,11 @@ ORDER BY html_type";
                 // for autocomplete transfer hidden value instead of label
                 if ( $params[$key] && isset ( $params[$key. '_id'] ) ) {
                     $value = $params[$key. '_id'];
+                }
+                
+                // we need to append time with date 
+                if ( $params[$key] && isset ( $params[$key. '_time'] ) ) {
+                    $value .= ' ' . $params[$key. '_time'];
                 }
                 
                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],
