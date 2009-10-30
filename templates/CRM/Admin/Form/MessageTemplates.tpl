@@ -81,10 +81,12 @@
                         </div>
             </td>
         </tr>
-        <tr>
+        {if !$workflow_id}
+          <tr>
             <td class="label">{$form.is_active.label}</td>
             <td>{$form.is_active.html}</td>
-        </tr>
+          </tr>
+        {/if}
     </table> 
   {/if}
   <dl>   

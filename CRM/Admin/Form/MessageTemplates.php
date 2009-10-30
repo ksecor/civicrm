@@ -53,6 +53,7 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
     public function setDefaultValues( ) {
         $defaults = array( );
         $defaults =& parent::setDefaultValues( );
+        $this->assign('workflow_id', $defaults['workflow_id']);
         return $defaults;
     }
 
