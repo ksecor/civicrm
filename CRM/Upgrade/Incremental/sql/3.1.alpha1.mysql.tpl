@@ -37,9 +37,6 @@
         (6, 'Staff',         {localize}'Staff'{/localize},       NULL, 1,    1,0),
         (7, 'Team',          {localize}'Team'{/localize},        NULL, 3,    1,0),
         (8, 'Sponsor',       {localize}'Sponsor'{/localize},     NULL, 3,    1,0);
-
---  modify civicrm_custom_group.extends column to varchar(64)
-    ALTER TABLE  `civicrm_custom_group` MODIFY column extends varchar(64) collate utf8_unicode_ci DEFAULT 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).'; 
     
 --  CRM-5218
 --  added menu for contact Types in navigation
