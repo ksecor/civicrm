@@ -41,6 +41,8 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
     protected $_addressField = false;
     
     protected $_emailField   = false;
+
+    protected $_phoneField   = false;
     
     protected $_summary      = null;
     
@@ -137,6 +139,13 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                           'grouping'=> 'contact-fields',
                           ),
                    
+                   'civicrm_phone' => 
+                  array( 'dao'    => 'CRM_Core_DAO_Phone',
+                         'fields' =>
+                         array( 'phone' => null),
+                         'grouping'=> 'contact-fields',
+                         ),
+
                    'civicrm_group' => 
                    array( 'dao'    => 'CRM_Contact_DAO_GroupContact',
                           'alias'  => 'cgroup',
@@ -169,6 +178,8 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                             $this->_addressField = true;
                         } else if ( $tableName == 'civicrm_email' ) {
                             $this->_emailField = true;
+                        } else if ( $tableName == 'civicrm_phone' ) {
+                            $this->_phoneField = true;
                         }
                         $select[] = "{$field['dbAlias']} as {$tableName}_{$fieldName}";
                         $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'];
@@ -209,6 +220,14 @@ class CRM_Report_Form_Member_Detail extends CRM_Report_Form {
                         ON {$this->_aliases['civicrm_contact']}.id = 
                            {$this->_aliases['civicrm_email']}.contact_id AND 
                            {$this->_aliases['civicrm_email']}.is_primary = 1\n";
+        }
+        //used when phone field is selected
+        if ( $this->_phoneField ) {
+            $this->_from .= "
+              LEFT JOIN civicrm_phone {$this->_aliases['civicrm_phone']} 
+                        ON {$this->_aliases['civicrm_contact']}.id = 
+                           {$this->_aliases['civicrm_phone']}.contact_id AND 
+                           {$this->_aliases['civicrm_phone']}.is_primary = 1\n";
         }
     }
     
