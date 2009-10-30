@@ -55,18 +55,11 @@
 		{if !$isTemplate}
 			<tr>
 				<td class="label">{$form.start_date.label}</td>
-				<td>{$form.start_date.html}</br>
-				<span class="description">
-				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1} 
-				{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_event_1 ampm=1}</span></td>
+				<td>{include file="CRM/common/jcalendar.tpl" elementName=start_date}</td>
 			</tr>
 			<tr>
 				<td class="label">{$form.end_date.label}</td>
-				<td>{$form.end_date.html}</br>
-				<span class="description">
-				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1} 
-				{include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=10 doTime=1 trigger=trigger_event_2 ampm=1}
-				</span></td>
+				<td>{include file="CRM/common/jcalendar.tpl" elementName=end_date}</td>
 			</tr>
 		{/if}
 		<tr>
