@@ -80,9 +80,9 @@ INSERT INTO civicrm_msg_template
     {foreach from=$ovs key=vName item=title name=for_values}
       {* FIXME: the paths below will most probably not work outside of bin/setup.sh runs *}
       {* FIXME: the *_html.tpl templates do not have actual HTML yet *}
-      {capture assign=subject}{fetch file="../xml/templates/message_templates/`$vName`_subject.tpl"}{/capture}
-      {capture assign=text   }{fetch file="../xml/templates/message_templates/`$vName`_text.tpl"   }{/capture}
-      {capture assign=html   }{fetch file="../xml/templates/message_templates/`$vName`_html.tpl"   }{/capture}
+      {fetch assign=subject file="../xml/templates/message_templates/`$vName`_subject.tpl"}
+      {fetch assign=text    file="../xml/templates/message_templates/`$vName`_text.tpl"}
+      {fetch assign=html    file="../xml/templates/message_templates/`$vName`_html.tpl"}
       ('{$title|ts}', '{$subject|escape:"quotes"}', '{$text|escape:"quotes"}', '{$html|escape:"quotes"}', @tpl_ovid_{$vName}, 1,          0),
       ('{$title|ts}', '{$subject|escape:"quotes"}', '{$text|escape:"quotes"}', '{$html|escape:"quotes"}', @tpl_ovid_{$vName}, 0,          1) {if $smarty.foreach.for_groups.last and $smarty.foreach.for_values.last};{else},{/if}
     {/foreach}
