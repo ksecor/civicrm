@@ -607,6 +607,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                     'from'      => $receiptFrom,
                     'toName'    => $this->_contributorDisplayName,
                     'toEmail'   => $this->_contributorEmail,
+                    'isTest'    => $this->_mode == 'test',
                 )
             );
         }
