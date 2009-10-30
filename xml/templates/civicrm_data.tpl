@@ -906,13 +906,13 @@ INSERT INTO civicrm_participant_status_type
 INSERT INTO `civicrm_contact_type`
   (`id`, `name`, `label`,`image_URL`, `parent_id`, `is_active`,`is_reserved`)
  VALUES
-  ( 1, 'Individual'  , '{ts escape="sql"}Individual{/ts}'  , 'i/contact_ind.gif',     NULL, 1,1),
-  ( 2, 'Household'   , '{ts escape="sql"}Household{/ts}'   , 'i/contact_house.gif',   NULL, 1,1),
-  ( 3, 'Organization', '{ts escape="sql"}Organization{/ts}', 'i/contact_org.gif',     NULL, 1,1),
-  ( 4, 'Student'     , '{ts escape="sql"}Student{/ts}'     , 'i/contact_student.gif', 1, 1,0),
-  ( 5, 'Parent'      , '{ts escape="sql"}Parent{/ts}'      , 'i/contact_parent.gif',  1, 1,0),
-  ( 6, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , 'i/contact_staff.gif',   1, 1,0),
-  ( 7, 'Team'        , '{ts escape="sql"}Team{/ts}'        , 'i/contact_team.gif',    3, 1,0),
-  ( 8, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , 'i/contact_sponsor.gif', 3, 1,0);
+  ( 1, 'Individual'  , '{ts escape="sql"}Individual{/ts}'  , NULL, NULL, 1, 1),
+  ( 2, 'Household'   , '{ts escape="sql"}Household{/ts}'   , NULL, NULL, 1, 1),
+  ( 3, 'Organization', '{ts escape="sql"}Organization{/ts}', NULL, NULL, 1, 1),
+  ( 4, 'Student'     , '{ts escape="sql"}Student{/ts}'     , NULL, 1, 1, 0),
+  ( 5, 'Parent'      , '{ts escape="sql"}Parent{/ts}'      , NULL, 1, 1, 0),
+  ( 6, 'Staff'       , '{ts escape="sql"}Staff{/ts}'       , NULL, 1, 1, 0),
+  ( 7, 'Team'        , '{ts escape="sql"}Team{/ts}'        , NULL, 3, 1, 0),
+  ( 8, 'Sponsor'     , '{ts escape="sql"}Sponsor{/ts}'     , NULL, 3, 1, 0);
 
 {include file='civicrm_msg_template.tpl'}

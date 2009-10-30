@@ -7,41 +7,41 @@
     'friend'       => ts('Message Template Workflow for Tell-a-Friend',  array('escape' => 'sql')),
     'meta'         => ts('Message Template Workflow for Meta Templates', array('escape' => 'sql')),
     'pledge'       => ts('Message Template Workflow for Pledges',        array('escape' => 'sql')),
-    'uf'           => ts('Message Template Workflow for UF',             array('escape' => 'sql')),
+    'uf'           => ts('Message Template Workflow for Profiles',       array('escape' => 'sql')),
   );
   $ovNames = array(
     'case' => array(
-      'case_activity' => ts('Case Activity', array('escape' => 'sql')),
+      'case_activity' => ts('Cases - Send Copy of an Activity', array('escape' => 'sql')),
     ),
     'contribution' => array(
-      'contribution_additional_info'  => ts('Contribution Additional Information',       array('escape' => 'sql')),
-      'contribution_dupalert'         => ts('Contribution Duplicate Organization Alert', array('escape' => 'sql')),
-      'contribution_offline_receipt'  => ts('Contribution Offline Receipt',              array('escape' => 'sql')),
-      'contribution_receipt'          => ts('Contribution Receipt',                      array('escape' => 'sql')),
-      'contribution_recurring_notify' => ts('Contribution Recurring Notify',             array('escape' => 'sql')),
-      'pcp_notify'                    => ts('PCP Notify',                                array('escape' => 'sql')),
-      'pcp_status_change'             => ts('PCP Status Change',                         array('escape' => 'sql')),
-      'pcp_supporter_notify'          => ts('PCP Supporter Notify',                      array('escape' => 'sql')),
+      'contribution_additional_info'  => ts('Contributions - Additional Information',                         array('escape' => 'sql')),
+      'contribution_dupalert'         => ts('Contributions - Duplicate Organization Alert',                   array('escape' => 'sql')),
+      'contribution_offline_receipt'  => ts('Contributions and Memberships - Receipt (off-line)',             array('escape' => 'sql')),
+      'contribution_receipt'          => ts('Contributions and Memberships - Receipt (on-line)',              array('escape' => 'sql')),
+      'contribution_recurring_notify' => ts('Contributions - Recurring Start and End Notification',           array('escape' => 'sql')),
+      'pcp_notify'                    => ts('Personal Campaign Pages - Admin Notification',                   array('escape' => 'sql')),
+      'pcp_status_change'             => ts('Personal Campaign Pages - Supporter Status Change Notification', array('escape' => 'sql')),
+      'pcp_supporter_notify'          => ts('Personal Campaign Pages - Supporter Welcome',                    array('escape' => 'sql')),
     ),
     'event' => array(
-      'event_offline_receipt' => ts('Event Offline Receipt', array('escape' => 'sql')),
-      'event_receipt'         => ts('Event Receipt',         array('escape' => 'sql')),
-      'participant_cancelled' => ts('Participant Cancelled', array('escape' => 'sql')),
-      'participant_confirm'   => ts('Participant Confirm',   array('escape' => 'sql')),
-      'participant_expired'   => ts('Participant Expired',   array('escape' => 'sql')),
+      'event_offline_receipt' => ts('Events - Registration Confirmation and Receipt (off-line)', array('escape' => 'sql')),
+      'event_receipt'         => ts('Events - Registration Confirmation and Receipt (on-line)',  array('escape' => 'sql')),
+      'participant_cancelled' => ts('Events - Registration Cancellation Notice',                 array('escape' => 'sql')),
+      'participant_confirm'   => ts('Events - Registration Confirmation Invite',                 array('escape' => 'sql')),
+      'participant_expired'   => ts('Events - Pending Registration Expiration Notice',           array('escape' => 'sql')),
     ),
     'friend' => array(
-      'friend' => 'Tell-a-Friend',
+      'friend' => 'Tell-a-Friend Email',
     ),
     'meta' => array(
-      'test_preview' => ts('Preview Banner Added to Test Emails', array('escape' => 'sql')),
+      'test_preview' => ts('Test-drive - Receipt Header', array('escape' => 'sql')),
     ),
     'pledge' => array(
-      'pledge_acknowledge' => ts('Pledge Acknowledge', array('escape' => 'sql')),
-      'pledge_reminder'    => ts('Pledge Reminder',    array('escape' => 'sql')),
+      'pledge_acknowledge' => ts('Pledges - Acknowledgement',  array('escape' => 'sql')),
+      'pledge_reminder'    => ts('Pledges - Payment Reminder', array('escape' => 'sql')),
     ),
     'uf' => array(
-      'uf_notify' => ts('UF Notify', array('escape' => 'sql')),
+      'uf_notify' => ts('Profiles - Admin Notification', array('escape' => 'sql')),
     ),
   );
   $this->assign('ogNames',  $ogNames);
@@ -59,10 +59,10 @@ INSERT INTO civicrm_option_group
 {/foreach}
 
 INSERT INTO civicrm_option_value
-  (option_group_id,        name,       label) VALUES
+  (option_group_id,        name,       label,   value,  weight ) VALUES
   {foreach from=$ovNames key=gName item=ovs name=for_groups}
     {foreach from=$ovs key=vName item=label name=for_values}
-      (@tpl_ogid_{$gName}, '{$vName}', '{$label}') {if $smarty.foreach.for_groups.last and $smarty.foreach.for_values.last};{else},{/if}
+      (@tpl_ogid_{$gName}, '{$vName}', '{$label}', {$smarty.foreach.for_values.iteration}, {$smarty.foreach.for_values.iteration}) {if $smarty.foreach.for_groups.last and $smarty.foreach.for_values.last};{else},{/if}
     {/foreach}
   {/foreach}
 

@@ -2,7 +2,7 @@
 
 {if $recur_txnType eq 'START'}
 
-{ts}Thanks for Recurring Subscription sign-up.{/ts}
+{ts}Thanks for your recurring contribution sign-up.{/ts}
 
 
 {ts 1=$recur_frequency_interval 2=$recur_frequency_unit 3=$recur_installments }This recurring contribution will be automatically processed every %1 %2(s) for a total %3 installment.{/ts}
@@ -15,10 +15,10 @@
 
 {elseif $recur_txnType eq 'END'}
 
-{ts}Recurring Contribution Subscription's end-of-term{/ts}
+{ts}Your recurring contribution term has ended.{/ts}
 
 
-{ts 1=$recur_installments}You have been successfully completed %1 recurring contribution.{/ts}
+{ts 1=$recur_installments}You have successfully completed %1 recurring contributions. Thank you for your support.{/ts}
 
 
 ==================================================

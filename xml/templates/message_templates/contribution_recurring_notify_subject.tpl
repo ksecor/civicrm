@@ -1,1 +1,1 @@
-{ts}Recurring Subscription Notification{/ts}
+{ts}Recurring Contribution Notification{/ts}
