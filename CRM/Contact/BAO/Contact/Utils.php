@@ -44,22 +44,29 @@ class CRM_Contact_BAO_Contact_Utils
      * @access public
      * @static
      */
-    static function getImage( $contactType ) 
+    static function getImage( $contactType, $urlOnly = false ) 
     {
-        $config =& CRM_Core_Config::singleton( );
-        $image = '<img src="' . $config->resourceBase . 'i/contact_';
-        switch ( $contactType ) { 
-        case 'Individual' : 
-            $image .= 'ind.gif" alt="' . ts('Individual') . '" />'; 
-            break; 
-        case 'Household' : 
-            $image .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />'; 
-            break; 
-        case 'Organization' : 
-            $image .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />'; 
-            break; 
-        } 
-        return $image;
+        static $imageInfo = array( );
+        if ( ! array_key_exists( $contactType, $imageInfo ) ) {
+            $imageInfo[$contactType] = array( );
+            
+            $params = array( 'name' => $contactType );
+            CRM_Contact_BAO_ContactType::retrieve( $params, $typeInfo );
+
+            if ( $typeInfo['image_URL'] ) {
+                $imageUrl = $typeInfo['image_URL'];
+                $config   =& CRM_Core_Config::singleton( );
+                
+                if ( ! preg_match("/^(\/|(http(s)?:)).+$/i", $imageUrl) ) {
+                    $imageUrl = $config->resourceBase . $imageUrl;
+                }
+                $imageInfo[$contactType]['image'] = 
+                    "<img src=\"{$imageUrl}\" alt=\"{$typeInfo['label']}\" height=\"16\" width=\"16\"/>";
+
+                $imageInfo[$contactType]['url']   = $imageUrl;
+            }
+        }
+        return $urlOnly ? $imageInfo[$contactType]['url'] : $imageInfo[$contactType]['image'];
     }
     
     /**

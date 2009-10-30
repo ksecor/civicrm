@@ -394,14 +394,18 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $dao->query( $sql );
         if ( $dao->fetch( ) ) {
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
-            $image = CRM_Contact_BAO_Contact_Utils::getImage( $dao->contact_type );
+            $imageType = $dao->contact_sub_type ? $dao->contact_sub_type : $dao->contact_type;
+            $image     = CRM_Contact_BAO_Contact_Utils::getImage( $imageType );
+            $imageUrl  = CRM_Contact_BAO_Contact_Utils::getImage( $imageType, true );
 
             // use email if display_name is empty
             if ( empty( $dao->display_name ) ) {
                 $dao->display_name = $dao->email;
             }
-            return $type ? array( $dao->display_name, $image, 
-                                  $dao->contact_type, $dao->contact_sub_type ) : array( $dao->display_name, $image );
+            return $type ? 
+                array( $dao->display_name, $image, 
+                       $dao->contact_type, $dao->contact_sub_type, $imageUrl ) : 
+                array( $dao->display_name, $image, $imageUrl );
         }
         return null;
     }

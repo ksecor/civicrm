@@ -143,9 +143,11 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         $this->getContactDetails();
 
-        $contactImage = $this->get( 'contactImage' );
-        $displayName  = $this->get( 'displayName'  );
-        $contactType  = $this->get( 'contactType' );
+        $contactImage    = $this->get( 'contactImage' );
+        $displayName     = $this->get( 'displayName'  );
+        $contactType     = $this->get( 'contactType' );
+        $contactSubtype  = $this->get( 'contactSubType' );
+        $contactImageUrl = $this->get( 'contactImageUrl' );
         $this->assign( 'displayName', $displayName );
 
         // see if other modules want to add a link activtity bar
@@ -161,7 +163,9 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                                $this->_contactId,
                                $contactType,
                                $this->_contactId,
-                               $displayName );
+                               $displayName,
+                               $contactImageUrl,
+                               $contactSubtype );
         
         //display OtherActivity link 
         $otherAct = CRM_Core_PseudoConstant::activityType(false);
@@ -212,13 +216,14 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     {
         $displayName = $this->get( 'displayName' );
              
-        list( $displayName, $contactImage, $contactType, $contactSubType ) = 
-            CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId, true );
+        list( $displayName, $contactImage, $contactType, $contactSubtype, $contactImageUrl ) = 
+            CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId, true, true );
 
         $this->set( 'displayName' ,   $displayName    );
         $this->set( 'contactImage',   $contactImage   );
+        $this->set( 'contactImageUrl',$contactImageUrl);
         $this->set( 'contactType',    $contactType    );
-        $this->set( 'contactSubType', $contactSubType );
+        $this->set( 'contactSubType', $contactSubtype );
     }
 
     function getSearchURL( ) {

@@ -98,7 +98,14 @@ class CRM_Utils_Recent {
      * @access public
      * @static
      */
-    static function add( $title, $url, $id, $type, $contactId, $contactName ) {
+    static function add( $title, 
+                         $url, 
+                         $id, 
+                         $type, 
+                         $contactId, 
+                         $contactName, 
+                         $imageUrl = null,
+                         $subtype  = null ) {
         self::initialize( );
 
         $session =& CRM_Core_Session::singleton( );
@@ -117,8 +124,10 @@ class CRM_Utils_Recent {
                               'url'         => $url,
                               'id'          => $id,
                               'type'        => $type,
+                              'subtype'     => $subtype,
                               'contact_id'  => $contactId,
-                              'contactName' => $contactName) );
+                              'contactName' => $contactName,
+                              'image_url'   => $imageUrl ) );
         if ( count( self::$_recent ) > self::MAX_ITEMS ) {
             array_pop( self::$_recent );
         }
