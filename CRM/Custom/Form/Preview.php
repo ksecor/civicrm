@@ -126,17 +126,8 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
     {
         if ( is_array( $this->_groupTree[$this->_groupId] ) ) {
             foreach ( $this->_groupTree[$this->_groupId]['fields'] as &$field ) {
-
-                //fix for calendar for date field
-                //if date elements are less than 3 then don't show the date picker icon
-                if ( CRM_Utils_Array::value( 'data_type', $field ) == 'Date' && 
-                     isset ( $field['date_parts'] ) && 
-                     count( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $field['date_parts'] ) ) < 3 ) {
-                    $field['skip_calendar'] = true;
-                }
-                $elementName = $field['element_name'];
                 //add the form elements
-                CRM_Core_BAO_CustomField::addQuickFormElement( $this, $elementName, $field['id'], false, $field['is_required'] );
+                CRM_Core_BAO_CustomField::addQuickFormElement( $this, $field['element_name'], $field['id'], false, $field['is_required'] );
             }
         
             $this->assign( 'groupTree', $this->_groupTree );

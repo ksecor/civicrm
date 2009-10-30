@@ -688,15 +688,15 @@ class CRM_Core_SelectValues
      */
     static function getDatePluginInputFormats( ) {
         $dateInputFormats = array( 
-                                    "mm/dd/yy"     => ts('mm/dd/yy'),
-    		                        "yy-mm-dd"     => ts('ISO 8601 - yy-mm-dd'),
-    		                        "d M, y"       => ts('Short - d M, yy'),
-    		                        "d MM, y"      => ts('Medium - d MM, yy'),
-    		                        "DD, d MM, yy" => ts('Full - DD, d MM, yy'),
-    		                        "'day' d 'of' MM 'in the year' yy" => ts('With text - "day" d "of" MM "in the year" yy'),
-    		                        "mm/dd"        => ts('mm/dd'),
-    		                        "dd/mm"        => ts('dd/mm'),
-    		                        "dd.mm.yy"    => ts('Polish - dd.mm.yy')
+                                    "mm/dd/yy"     => ts('mm/dd/yy (12/31/2009)'),
+    		                        "yy-mm-dd"     => ts('yy-mm-dd (2009-12-31)'),
+    		                        "d M, y"       => ts('d M, y (31 Dec, 09)'),
+    		                        "d MM, y"      => ts('d MM, y (31 December, 09)'),
+    		                        "DD, d MM, yy" => ts('DD, d MM, yy (Thursday, 31 December, 2009)'),
+    		                        "'day' d 'of' MM 'in the year' yy" => ts('day 31 of December in the year 2009'),
+    		                        "mm/dd"        => ts('mm/dd (12/31)'),
+    		                        "dd/mm"        => ts('dd/mm (31/12)'),
+    		                        "dd.mm.yy"    => ts('dd.mm.yy (31.12.2009)')
                             );
         
         return $dateInputFormats;
@@ -707,10 +707,10 @@ class CRM_Core_SelectValues
      */
     static function datePluginToPHPFormats( ) {
         $dateInputFormats = array( "mm/dd/yy"     => 'm/d/Y',
-                                   "mm/dd"        =>  'm/d',
-                                   "dd/mm"        =>  'd/m',
-                                   "dd.mm.yy"     =>  'd.m.Y',
-                                   "yy-mm-dd"     =>  'Y-m-d' 
+                                   "mm/dd"        => 'm/d',
+                                   "dd/mm"        => 'd/m',
+                                   "dd.mm.yy"     => 'd.m.Y',
+                                   "yy-mm-dd"     => 'Y-m-d'
                                   );
         return $dateInputFormats;
     }

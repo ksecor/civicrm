@@ -65,7 +65,7 @@
                                 <td class="label">{$form.$element_name.label}</td>                                
                                 <td class="html-adjust">
                                     {if $element.data_type neq 'Date'}
-                                        {$form.$element_name.html}
+                                        {$form.$element_name.html}&nbsp;
                                     {elseif $element.skip_calendar NEQ true }
                                         {include file="CRM/common/jcalendar.tpl" elementName=$element_name}
                                     {/if}
