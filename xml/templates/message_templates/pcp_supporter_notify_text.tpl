@@ -1,4 +1,3 @@
-{* Template for sending notfication email to supporter when they initially create a Personal Campaign Page. *}
 {ts}Dear supporter{/ts},
 {ts}Thanks for creating a personal campaign page in support of {/ts}{$contribPageTitle}
 

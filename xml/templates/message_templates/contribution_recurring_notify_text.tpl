@@ -1,4 +1,3 @@
-{* Template for sending notfication email to recurring contribution. *}
 {ts}Dear{/ts} {$displayName}
 
 {if $recur_txnType eq 'START'}

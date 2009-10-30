@@ -1,4 +1,3 @@
-{* Approved message *}
 {if $pcpStatus eq 'Approved'}
 ============================
 {ts}Your Personal Campaign Page{/ts}

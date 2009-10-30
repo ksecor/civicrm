@@ -13,10 +13,10 @@
 {if $lineItem} 
 {foreach from=$lineItem item=value key=priceset}
 ---------------------------------------------------------
-{capture assign="ts_item}{ts}Item{/ts}{/capture}
-{capture assign="ts_qty}{ts}Qty{/ts}{/capture}
-{capture assign="ts_each}{ts}Each{/ts}{/capture}
-{capture assign="ts_total}{ts}Total{/ts}{/capture}
+{capture assign=ts_item}{ts}Item{/ts}{/capture}
+{capture assign=ts_qty}{ts}Qty{/ts}{/capture}
+{capture assign=ts_each}{ts}Each{/ts}{/capture}
+{capture assign=ts_total}{ts}Total{/ts}{/capture}
 {$ts_item|string_format:"%-30s"} {$ts_qty|string_format:"%5s"} {$ts_each|string_format:"%10s"} {$ts_total|string_format:"%10s"}
 ----------------------------------------------------------
 {foreach from=$value item=line}
