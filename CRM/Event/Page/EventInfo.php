@@ -101,7 +101,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                             continue;
                         }
                         foreach ( $fieldValues['options'] as $optionId => $optionVal ) {
-                            $values['feeBlock']['value'][$fieldCnt] = $optionVal['name'];
+                            $values['feeBlock']['value'][$fieldCnt] = $optionVal['value'];
                             $values['feeBlock']['label'][$fieldCnt] = $optionVal['description'];
                             $fieldCnt++;
                         }
