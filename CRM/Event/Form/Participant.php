@@ -1237,9 +1237,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 }
 
                 $sendTemplateParams = array(
-                        'groupName' => 'msg_tpl_workflow_event',
-                        'valueName' => 'event_offline_receipt',
-                        'contactId' => $contactID,
+                    'groupName' => 'msg_tpl_workflow_event',
+                    'valueName' => 'event_offline_receipt',
+                    'contactId' => $contactID,
+                    'isTest'    => (bool) CRM_Utils_Array::value('is_test', $this->_defaultValues),
                 );
 
                 // try to send emails only if email id is present
