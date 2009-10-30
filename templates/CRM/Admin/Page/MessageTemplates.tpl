@@ -6,7 +6,7 @@
   {* View a system default workflow template *}
 
   <div id="help">
-    {ts}You are viewing the system default template for this workflow. After upgrades OR if you are having issues with your customized version for this workflow, it is useful to compare your active message code to the default code shown here. You can use the 'Select' buttons below (with copy and paste commands) to copy the default code into a text editor and then compare it to your customized version.{/ts}
+    {ts}You are viewing the default message template for this system workflow.{/ts} {help id="id-view_system_default"}
   </div>
 
   <fieldset>
