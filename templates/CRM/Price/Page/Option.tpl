@@ -49,7 +49,7 @@
         {foreach from=$customOption item=row}
     	<tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
-            <td>{$row.name|crmMoney}</td>
+            <td>{$row.value|crmMoney}</td>
 	        <td>{$row.is_default}</td>
             <td class="nowrap">{$row.order}</td>
             <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
