@@ -22,7 +22,7 @@
             <th>{ts}Duration{/ts}</th>
             <th>{ts}Relationship Type{/ts}</th>   
             <th>{ts}Visibility{/ts}</th>
-            <th id="order">{ts}Order{/ts}</th>
+            <th id="order" class="sortable">{ts}Order{/ts}</th>
  	        <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>

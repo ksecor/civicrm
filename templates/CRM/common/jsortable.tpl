@@ -15,26 +15,29 @@ cj('table.display').each(function(){
 //remove last comma
 tableId = tableId.substring(0, tableId.length - 1 );
 eval('tableId =[' + tableId + ']');
-
+ 
   cj.each(tableId, function(i,n){
     tabId = '#option' + n; 
     //get the object of first tr data row.
     tdObject = cj(tabId + ' tr:nth(1) td');
-    var id = -1; var count = 0; var columns='';
+    var id = -1; var count = 0; var columns=''; var sortColumn = '';
     //build columns array for sorting or not sorting
     cj(tabId + ' th').each( function( ) {
         var option = cj(this).attr('id').split("_");
-        option = ( option.length > 1 ) ? option[1] : option[0];
-        stype  = 'numeric';
+        option  = ( option.length > 1 ) ? option[1] : option[0];
+        stype   = 'numeric';
         switch( option ) { 
             case 'sortable':
-                id = count; 
+                sortColumn += '[' + count + ', "asc" ],'; 
                 columns += ' null,';
             break;
             case 'date':
                 stype = 'date';
             case 'order':
-                sortId  = getRowId(tdObject, cj(this).attr('id')+' hiddenElement' ); 
+                if ( cj(this).attr('class') == 'sortable' ){
+                    sortColumn += '[' + count + ', "asc" ],';
+                }
+                sortId   = getRowId(tdObject, cj(this).attr('id') +' hiddenElement' ); 
                 columns += '{ "sType": \'' + stype + '\', "fnRender": function (oObj) { return oObj.aData[' + sortId + ']; },"bUseRendered": false},';
             break;
             case 'nosort':           
@@ -53,16 +56,13 @@ eval('tableId =[' + tableId + ']');
         }
         count++; 
 	});
-	columns = columns.substring(0, columns.length - 1 );
-	eval('columns =[' + columns + ']');
-
-    //build default sorting
-    var sortColumn = '';
-	if ( id >= 0 ) {
-	    sortColumn = '[ id, "asc" ]';
-	}
-    var oTable = null;
+	columns    = columns.substring(0, columns.length - 1 );
+	sortColumn = sortColumn.substring(0, sortColumn.length - 1 );
+    
 	eval('sortColumn =[' + sortColumn + ']');
+	eval('columns =[' + columns + ']');
+    
+    var oTable = null;
     oTable = cj(tabId).dataTable({
                 "aaSorting"    : sortColumn,
                 "bPaginate"    : false,

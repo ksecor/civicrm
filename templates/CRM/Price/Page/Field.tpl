@@ -44,7 +44,7 @@
          <tr>
             <th>{ts}Field Label{/ts}</th>
             <th>{ts}Field Type{/ts}</th>
-            <th id="order">{ts}Order{/ts}</th>
+            <th id="order" class="sortable">{ts}Order{/ts}</th>
             <th>{ts}Req?{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
 {*

@@ -19,7 +19,7 @@
 		    <th>{ts}Label{/ts}</th>
 		    <th>{ts}URL{/ts}</th>   
 		    <th id="nosort">{ts}Description{/ts}</th>
-		    <th id="order">{ts}Order{/ts}</th>
+		    <th id="order" class="sortable">{ts}Order{/ts}</th>
 		    {if $showIsDefault}
 		        <th>{ts}Default{/ts}</th>
 		    {/if}
