@@ -198,13 +198,13 @@
         CONSTRAINT FK_civicrm_acl_contact_cache_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE  
     )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
     
-    -- CRM-4690
+-- CRM-4690
     INSERT INTO civicrm_payment_processor_type
         ( name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label,  class_name, url_site_default, url_api_default, url_recur_default, url_button_default, url_site_test_default, url_api_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur, payment_type)
     VALUES
         ( 'Realex', 'Realex Payment', NULL, 1, 0, 'Merchant ID', 'Password', NULL, 'Account', 'Payment_Realex', 'https://epage.payandshop.com/epage.cgi', NULL, NULL, NULL, 'https://epage.payandshop.com/epage-remote.cgi', NULL, NULL, NULL, 1, 0, 1);
     
-    -- CRM-4802
+-- CRM-4802
     UPDATE civicrm_payment_processor_type
         SET url_recur_default      = 'https://www.paypal.com/',
             url_recur_test_default = 'https://www.sandbox.paypal.com/',
@@ -235,18 +235,27 @@
         DROP `minute_increment`;
 
 --  CRM-5313 
--- migrate the contribution id's to participant id's in lineitem table
+--  migrate the contribution id's to participant id's in lineitem table
     UPDATE civicrm_line_item AS li
-    	LEFT JOIN civicrm_participant_payment AS pp ON (pp.contribution_id = li.entity_id)
-    SET   	li.entity_id    = pp.participant_id,
-        li.entity_table = 'civicrm_participant'
-    WHERE   pp.contribution_id = li.entity_id
-        AND      li.entity_table = 'civicrm_contribution';
+        LEFT JOIN civicrm_participant_payment AS pp ON (pp.contribution_id = li.entity_id)
+        SET li.entity_id    = pp.participant_id,
+            li.entity_table = 'civicrm_participant'
+        WHERE pp.contribution_id = li.entity_id AND
+              li.entity_table    = 'civicrm_contribution';
 
 --  CRM-5317    	
 --  copy name to value, since we want to use value instead of name.
     UPDATE  civicrm_option_value as vals
- LEFT JOIN  civicrm_option_group as groups ON ( groups.id = vals.option_group_id )
-INNER JOIN  civicrm_price_field fields ON ( groups.name = CONCAT( 'civicrm_price_field.amount.', fields.id ) ) 
-       SET  vals.value=vals.name;
---
+        LEFT  JOIN  civicrm_option_group as groups ON ( groups.id = vals.option_group_id )
+        INNER JOIN  civicrm_price_field fields ON ( groups.name = CONCAT( 'civicrm_price_field.amount.', fields.id ) ) 
+        SET  vals.value=vals.name;
+       
+--  CRM-5244      
+    ALTER TABLE civicrm_mail_settings
+        ADD `domain_id` int(10) unsigned NOT NULL COMMENT 'Which Domain is this match entry for' AFTER id;
+    
+    ALTER TABLE civicrm_custom_field
+        ADD date_format int unsigned  COMMENT 'date format for custom date' AFTER end_date_years,
+        ADD time_format int unsigned  COMMENT 'time format for custom date' AFTER date_format,
+        DROP date_parts;
+        

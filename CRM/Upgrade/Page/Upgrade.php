@@ -270,6 +270,22 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         
         $threeZero->upgrade( $rev );
     }
+
+    function upgrade_3_1_alpha1( $rev ) {
+
+        require_once 'CRM/Upgrade/ThreeOne/ThreeOne.php';
+        $threeOne = new CRM_Upgrade_ThreeOne_ThreeOne( );
+        
+        $error = null;
+        if ( ! $threeOne->verifyPreDBState( $error ) ) {
+            if ( ! isset( $error ) ) {
+                $error = 'pre-condition failed for current upgrade for 3.0.alpha2';
+            }
+            CRM_Core_Error::fatal( $error );
+        }
+        
+        $threeOne->upgrade( $rev );
+    }
     
     function upgrade_2_2_7( $rev ) {
         $upgrade =& new CRM_Upgrade_Form( );
