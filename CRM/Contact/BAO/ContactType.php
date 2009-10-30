@@ -168,7 +168,7 @@ INNER JOIN civicrm_contact_type parent ON subtype.parent_id = parent.id
 WHERE  subtype.name IS NOT NULL AND subtype.parent_id IS NOT NULL {$ctWHERE} 
 ";
             if ( $all === false ) {
-                $sql .= " AND subtype.is_active = 1 ORDER BY parent.id";
+                $sql .= " AND subtype.is_active = 1 AND parent.is_active = 1 ORDER BY parent.id";
             }
             $dao = CRM_Core_DAO::executeQuery( $sql, array( ), 
                                                false, 'CRM_Contact_DAO_ContactType' );

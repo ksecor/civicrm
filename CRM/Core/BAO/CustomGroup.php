@@ -725,7 +725,7 @@ SELECT $select
         $customGroupDAO->whereAdd("is_active = 1");
 
         // add whereAdd for entity type
-        self::_addWhereAdd($customGroupDAO, $entityType, $cidToken);
+        self::_addWhereAdd($customGroupDAO, $entityType);
 
         $groups = array( );
 
@@ -817,7 +817,7 @@ SELECT $select
      * @static
      *
      */
-    private static function _addWhereAdd(&$customGroupDAO, $entityType, $entityID = null)
+    private static function _addWhereAdd(&$customGroupDAO, $entityType)
     {
         switch($entityType) {
         case 'Contact':
