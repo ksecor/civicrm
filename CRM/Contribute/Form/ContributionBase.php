@@ -310,12 +310,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     CRM_Core_Error::fatal( $error );
                 }
                 $this->_paymentProcessor['processorName'] = $this->_paymentObject->_processorName;
-                $this->set( 'paymentProcessor', $this->_paymentProcessor );
-                
-                // get price info
-                require_once 'CRM/Price/BAO/Set.php';
-                CRM_Price_BAO_Set::initSet( $this, $this->_id, 'civicrm_contribution_page' );
+                $this->set( 'paymentProcessor', $this->_paymentProcessor );                
             }
+
+            // get price info
+            // CRM-5095
+            require_once 'CRM/Price/BAO/Set.php';
+            CRM_Price_BAO_Set::initSet( $this, $this->_id, 'civicrm_contribution_page' );
+
             
             // this avoids getting E_NOTICE errors in php
             $setNullFields = array( 'amount_block_is_active',
