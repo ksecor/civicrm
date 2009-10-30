@@ -61,9 +61,19 @@ class CRM_Contact_BAO_Contact_Utils
                     $imageUrl = $config->resourceBase . $imageUrl;
                 }
                 $imageInfo[$contactType]['image'] = 
-                    "<img src=\"{$imageUrl}\" alt=\"{$typeInfo['label']}\" height=\"16\" width=\"16\"/>";
-
+                    "<div class=\"icon {$typeInfo['name']}-icon\" style=\"background: url('{$imageUrl}')\"></div>";
                 $imageInfo[$contactType]['url']   = $imageUrl;
+            } else {
+                $isSubtype = ( array_key_exists('parent_id', $typeInfo) && 
+                               ( $typeInfo['parent_id'] == 1 ) ) ? true : false; 
+                if ( $isSubtype ) { 
+                    $type = CRM_Contact_BAO_ContactType::getBasicType( $typeInfo['name'] ) . "-subtype";
+                } else {
+                    $type = $typeInfo['name'];
+                }
+                $imageInfo[$contactType]['image'] = 
+                    "<div class=\"icon {$type}-icon\"></div>";
+                $imageInfo[$contactType]['url']   = null;
             }
         }
         return $urlOnly ? $imageInfo[$contactType]['url'] : $imageInfo[$contactType]['image'];
