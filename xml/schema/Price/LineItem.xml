@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Core</base>
+  <base>CRM/Price</base>
   <class>LineItem</class>
   <name>civicrm_line_item</name>
   <add>1.7</add>

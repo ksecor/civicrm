@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -70,16 +70,26 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, true);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, true);
         $rgid  = CRM_Utils_Request::retrieve('rgid','Positive', $this, false);
+        $gid   = CRM_Utils_Request::retrieve('gid','Positive', $this, false);
+        
+        $session =& CRM_Core_Session::singleton( );
+        
+        // context fixed.
+        if ( $rgid ) {
+            $urlParam = "reset=1&action=browse&rgid={$rgid}";
+            if ( $gid ) $urlParam .= "&gid={$gid}";
+            $session->pushUserContext( CRM_Utils_system::url( 'civicrm/admin/dedupefind', $urlParam ) );
+        }
 
         // ensure that oid is not the current user, if so refuse to do the merge
-        $session =& CRM_Core_Session::singleton( );
+        
         if ( $session->get( 'userID' ) == $oid ) {
             $display_name = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $oid, 'display_name' );
             $message = ts( 'The contact record which is linked to the currently logged in user account - \'%1\' - cannot be deleted.',
                            array( 1 => $display_name ) );
             CRM_Core_Error::statusBounce( $message );
         }
-
+        
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
 
         $mainParams  = array('contact_id' => $cid, 'return.display_name' => 1);
@@ -311,6 +321,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         if ( $formValues['move_rel_table_cases'] == '1' && 
              array_key_exists('move_rel_table_activities', $formValues) ) {
             $formValues['move_rel_table_activities'] = '1';
+        }
+        
+        // reset all selected contact ids from session 
+        // when we came from search context, CRM-3526
+        $session =& CRM_Core_Session::singleton( );
+        if ( $session->get('selectedSearchContactIds') ) {
+            $session->resetScope( 'selectedSearchContactIds' );
         }
         
         $relTables =& CRM_Dedupe_Merger::relTables();

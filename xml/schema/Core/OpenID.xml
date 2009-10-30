@@ -81,8 +81,7 @@
   </index>
   <field>
        <name>display_id</name>
-       <type>varchar</type>
-       <length>255</length>
+       <type>text</type>
        <comment>Display ID of this contact\'s OpenID</comment>
        <add>3.1</add>
   </field>

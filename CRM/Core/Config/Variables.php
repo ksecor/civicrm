@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -156,7 +156,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      * Input format for time 
      * @var string
      */
-    public $timeInputFormat = 0;
+    public $timeInputFormat = 1;
 
     /**
      * Input format for date plugin

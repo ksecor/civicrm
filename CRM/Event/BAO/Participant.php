@@ -2,7 +2,7 @@
 
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 3.0                                                |
+   | CiviCRM version 3.1                                                |
    +--------------------------------------------------------------------+
    | Copyright CiviCRM LLC (c) 2004-2009                                |
    +--------------------------------------------------------------------+
@@ -662,6 +662,10 @@ WHERE  civicrm_participant.id = {$participantId}
         $p = array( 'participant_id' => $id );
         CRM_Event_BAO_ParticipantPayment::deleteParticipantPayment( $p );
 
+        // cleanup line items.
+        require_once 'CRM/Price/BAO/LineItem.php';
+        CRM_Price_BAO_LineItem::deleteLineItems( $id, 'civicrm_participant' );
+        
         $participant = new CRM_Event_DAO_Participant( );
         $participant->id = $id;
         $participant->delete( );
@@ -857,10 +861,9 @@ UPDATE  civicrm_participant
         
         //thumb rule is if we triggering  primary participant need to triggered additional
         $allParticipantIds = $primaryANDAdditonalIds = array( );
-        require_once 'CRM/Event/BAO/Participant.php';
         foreach ( $participantIds as $id ) {
             $allParticipantIds[] = $id; 
-            $additionalIds = CRM_Event_BAO_Participant::getAdditionalParticipantIds( $id );
+            $additionalIds = self::getAdditionalParticipantIds( $id );
             if ( !empty( $additionalIds ) ) {
                 $primaryANDAdditonalIds[$id] = $additionalIds;
                 $allParticipantIds = array_merge( $allParticipantIds, $additionalIds );
@@ -1150,6 +1153,93 @@ UPDATE  civicrm_participant
         
         return $mailSent;
     }
-    
+
+    /** 
+     * get participant status change message.
+     * 
+     * @return string
+     * @access public 
+     */ 
+    function updateStatusMessage( $participantId, $statusChangeTo, $fromStatusId )  
+    {
+        $statusMsg = null;
+        $results = self::transitionParticipants( array( $participantId ), 
+                                                 $statusChangeTo, $fromStatusId, true );
+        
+        $allStatuses = CRM_Event_PseudoConstant::participantStatus( );
+        //give user message only when mail has sent.
+        if ( is_array( $results ) && !empty( $results ) ) {
+            if ( is_array( $results['updatedParticipantIds'] ) && !empty( $results['updatedParticipantIds'] ) ) {
+                foreach ( $results['updatedParticipantIds'] as $processedId ) {
+                    if ( is_array( $results['mailedParticipants'] ) && 
+                         array_key_exists( $processedId,  $results['mailedParticipants']) ) {
+                        $statusMsg .= ts( "<br /> Participant status has been updated to '%1'. An email has been sent to %2.",
+                                          array( 1 => $allStatuses[$statusChangeTo],
+                                                 2 => $results['mailedParticipants'][$processedId] ) );
+                    }
+                }
+            }
+        }
+        
+        return $statusMsg;
+    }
+
+    /** 
+     * get event full and waiting list message.
+     * 
+     * @return string
+     * @access public 
+     */ 
+    static function eventFullMessage( $eventId, $participantId = null )  
+    {
+        $eventfullMsg = $dbStatusId =  null;
+        $checkEventFull = true;
+        if ( $participantId ) {
+            require_once 'CRM/Event/PseudoConstant.php';
+            $dbStatusId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $participantId, 'status_id' );
+            if ( array_key_exists( $dbStatusId, CRM_Event_PseudoConstant::participantStatus( null, "is_counted = 1" ) ) ) {
+                //participant already in counted status no need to check for event full messages.
+                $checkEventFull = false;
+            }
+        }
+        
+        //early return.
+        if ( !$eventId || !$checkEventFull ) {
+            return $eventfullMsg;
+        }
+        
+        //event is truly full.
+        $emptySeats = self::eventFull( $eventId, false, false );
+        if ( is_string( $emptySeats ) && $emptySeats !== null ) {
+            $maxParticipants = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'max_participants' ) ;
+            $eventfullMsg = ts( "This event currently has the maximum number of participants registered ( %1 ). 
+However, you can still override this limit and register additional participants using this form.<br >", 
+                                array( 1 =>  $maxParticipants ) ); 
+        }
+        
+        $hasWaiting = false;
+        $waitListedCount = self::eventFull( $eventId, false, true, true );
+        if ( is_numeric( $waitListedCount ) ) {
+            $hasWaiting = true;
+            //only current processing participant is on waitlist.
+            if ( $waitListedCount == 1 && CRM_Event_PseudoConstant::participantStatus( $dbStatusId ) == 'On waitlist' ) {
+                $hasWaiting = false;
+            }
+        }
+        
+        if ( $hasWaiting ) {
+            $waitingStatusId = array_search( 'On waitlist', 
+                                             CRM_Event_PseudoConstant::participantStatus(null, "class = 'Waiting'"));
+            $viewWaitListUrl = CRM_Utils_System::url( 'civicrm/event/search',
+						      "reset=1&force=1&event={$eventId}&status={$waitingStatusId}" );
+                                                     
+            $eventfullMsg .= ts( "There are %2 people currently on the waiting list for this event. You can <a href='%1'>view waitlisted registrations here</a>, or you can continue and register additional participants using this form.", 
+                                 array( 1 => $viewWaitListUrl,
+                                        2 => $waitListedCount ) );  
+        }
+        
+        return $eventfullMsg;
+    }
+  
 }
 

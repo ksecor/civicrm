@@ -10,7 +10,7 @@
     display   	    : none;
 }
 
-contact#crm-container .clear {
+#crm-container .clear {
     clear 	    : both;
 }
 
@@ -34,6 +34,8 @@ contact#crm-container .clear {
   	vertical-align: top;
   	background-color: #E6E6E6;
 	}
+    /* Set background back to normal gray for form labels which use <th>. Temporary fix until we standardize form layout markup. */
+    #crm-container table.form-layout-compressed tbody th.label { background-color: #F7F7F7; }
 
 #crm-container tbody{
     border-top: none
@@ -171,22 +173,18 @@ div.spacer,
 
 
 
-#crm-container td.compressed select, #crm-container td.compressed input {
+#crm-container td.compressed select, 
+#crm-container td.compressed input {
   font-size: 0.90em;
   font-weight: bold;
 }
 
-#crm-container input[type="text"], #crm-container input[type="password"] {
-  border: 1px solid #999;
-  font-size:12px;
-  font-size-adjust:none;
-  font-stretch:normal;
-  font-style:normal;
-  font-variant:normal;
-  font-weight:bold;
-  line-height:100%;
-  vertical-align:middle;
-}
+#crm-container input[type="text"], 
+#crm-container input[type="password"] {
+  	border: 1px solid #999;
+  	vertical-align:middle;
+  	padding-left: 1px;
+	}
 
 
   
@@ -233,6 +231,33 @@ div.spacer,
 #crm-container div.form-item dl, #crm-container .section-hidden dl{
  margin: 0;
 }
+
+
+/* contribution page styles */
+
+#crm-container #Main fieldset table td {
+	background-color: transparent;
+	border:none;
+	}
+
+#crm-container .section {
+	margin-bottom:1em;
+	}
+	#crm-container .section .section {
+		margin-bottom:0.5em; /* make subsections sit closer together */
+		}
+
+#crm-container .section .label {
+	float:left;
+	width:15%;
+	text-align: right;
+	}
+
+#crm-container .section .content {
+	margin-left:16%;
+	}
+
+#crm-container #cvv2 {vertical-align: top; }
 
 /* Use definition lists for simple 2 col forms - <dt> for labels, <dd> for fields */
 #crm-container div.form-item dt {
@@ -598,8 +623,6 @@ div.block-civicrm li, #crm-container ul li, #crm-container ul.treeview li {
 */
 /* Inline form field 'post-help' */
 #crm-container .description {
-  	margin-bottom : 0.5em;
-  	padding: 0px 0px 5px;
   	font-size: 0.9em;
   	white-space: normal;
   	width: auto;
@@ -1372,8 +1395,10 @@ table.campaign td,
 
 #crm-container .action-item {
 	padding:0px 5px;
-	border-right:1px solid #CCC;
+	border-left:1px solid #CCC;
+	white-space:nowrap;
 	}
+	#crm-container .action-item-first { border-left:none; /* last action item should not have right hand border */}
 
 #crm-container #panel, 
 #crm-container .panel {
@@ -1410,6 +1435,7 @@ table.campaign td,
   	position: relative;
   	padding:0px 14px 0 5px;
   	background: url("../i/TreePlus.gif") no-repeat right 1px;
+	border-left:1px solid #CCC;
 	}
 
 #crm-container .panel li a {
@@ -1483,13 +1509,6 @@ table.campaign td,
   text-decoration  : none;
   vertical-align   : top;
 }
-
-/* loader autocomplete */
-
-body .ac_loading {
-  background       : white url('../i/loading.gif') no-repeat right center;
-}
-
 
 /*class for CMS user name check used in profile*/
 .cmsmessagebox {
@@ -1868,6 +1887,8 @@ div.grippie {
 .dashboard-icon { background-position: -193px -130px; }
 	.button:hover .dashboard-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png");}
 
+.user-record-icon { background-position:-145px -99px; }
+    .button:hover .user-record-icon {background-image:url("../packages/jquery/themes/smoothness/images/ui-icons_222222_256x240.png");}
 
 #crm-container .geotag {
     padding: 2px 0 2px 20px !important;
@@ -1945,6 +1966,13 @@ div.grippie {
 	color: #000;
 	font-weight: normal;
 	}
+
+/* loader autocomplete */
+
+#civicrm-menu .ac_loading {
+  background       : white url('../i/loading.gif') no-repeat right center;
+}
+
 
 /* Joomla Admin Menu alterations */
 

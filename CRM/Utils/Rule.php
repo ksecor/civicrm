@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -266,7 +266,7 @@ class CRM_Utils_Rule
         $config =& CRM_Core_Config::singleton( );
         
         $d = CRM_Utils_Array::value( 'd', $date );
-        $m = CRM_Utils_Array::value( $config->dateformatMonthVar, $date );
+        $m = CRM_Utils_Array::value( 'M', $date );
         $y = CRM_Utils_Array::value( 'Y', $date );
 
         if ( ! $d && ! $m && ! $y ) {

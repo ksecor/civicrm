@@ -24,8 +24,8 @@
    <table id="options" class="display">
     <thead>
       <tr>
-      <th>{ts}Name{/ts}</th>
-      <th id="sortable">{ts}ID{/ts}</th>
+      <th id="sortable">{ts}Name{/ts}</th>
+      <th>{ts}ID{/ts}</th>
       <th id="nosort">{ts}Description{/ts}</th>
       <th>{ts}Group Type{/ts}</th>
       <th>{ts}Visibility{/ts}</th>

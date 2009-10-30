@@ -101,11 +101,10 @@
  * DataTables display
  */
 #crm-container table.display {
-	margin: 0;
 	width: 100%;
 	clear: both;
-        border: 1px solid #DDD;
-}
+	border: 1px solid #DDD;
+	}
 
 #crm-container table.display thead th {
 	padding:3px 25px 4px 10px;

@@ -42,7 +42,7 @@
         <table id="price_set" class="display">
         <thead>
         <tr>
-            <th>{ts}Set Title{/ts}</th>
+            <th id="sortable">{ts}Set Title{/ts}</th>
             <th id="nosort">{ts}Used For{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>

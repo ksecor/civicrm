@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -157,7 +157,7 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
             $params['contact_type_b'] = $cTypeB[0];
 
             $params['contact_sub_type_a'] = $cTypeA[1] ? $cTypeA[1] : 'NULL';
-            $params['contact_sub_type_b'] = $cTypeA[1] ? $cTypeB[1] : 'NULL';
+            $params['contact_sub_type_b'] = $cTypeB[1] ? $cTypeB[1] : 'NULL';
 
             CRM_Contact_BAO_RelationshipType::add($params, $ids);
 

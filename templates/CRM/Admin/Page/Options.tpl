@@ -69,7 +69,7 @@
             {if $showCounted}<th>{ts}Counted?{/ts}</th>{/if}
             {if $showVisibility}<th>{ts}Visibility{/ts}</th>{/if}
             <th id="nosort">{ts}Description{/ts}</th>
-            <th id="order">{ts}Order{/ts}</th>
+            <th id="order" class="sortable">{ts}Order{/ts}</th>
 	        {if $showIsDefault}<th>{ts}Default{/ts}</th>{/if}
             <th>{ts}Reserved{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>

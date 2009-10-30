@@ -98,7 +98,9 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
              <tr>
                 <td class="label">{$form.source_contact_id.label}</td>
                 <td class="view-value">
-                    {if $admin and $action neq 4}{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
+                    {if $admin and $action neq 4}{$form.source_contact_id.html} {else} 
+			{$source_contact_value} 
+		   {/if}
                 </td>
              </tr>
              
@@ -115,16 +117,25 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
 		     {else}
              <tr>
                 <td class="label">{ts}With Contact{/ts}</td>
-                <td class="view-value" style="white-space: normal">{$target_contact_value}</td>
+                <td class="view-value" style="white-space: normal">
+			{foreach from=$target_contact key=id item=name}
+			  <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$id"}">{$name}</a>;&nbsp;
+			{/foreach}
+		</td>
              </tr>
              {/if}
              
              <tr>
              {if $action eq 4}
-                <td class="label">{ts}Assigned To {/ts}</td><td class="view-value">{$assignee_contact_value}</td>
+                <td class="label">{ts}Assigned To {/ts}</td><td class="view-value">
+			{foreach from=$assignee_contact key=id item=name}
+			  <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$id"}">{$name}</a>;&nbsp;
+			{/foreach}
+
+		</td>
              {else}
                 <td class="label">{ts}Assigned To {/ts}</td>
-                <td>{$form.assignee_contact_id.html}                
+                <td>{$form.assignee_contact_id.html}
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Activities listing at CiviCRM Home.{/ts}<br />{ts}A copy of this activity will be emailed to each Assignee.{/ts}</span>
                    {/edit}
                 </td>
@@ -206,7 +217,16 @@ cj('#source_contact_id').autocomplete( sourceDataUrl, { width : 180, selectFirst
              {/if}
         {/if} {* End Delete vs. Add / Edit action *}
         <tr>
-            <td>&nbsp;</td><td>{$form.buttons.html}</td>
+            <td>{$form.buttons.html}</td><td>
+       {if $action eq 4}
+                        <a href="{crmURL p='civicrm/contact/view/activity' q="reset=1&atype=$atype&action=update&reset=1&id=$entityID&cid=$contactId&context=home"}" class="edit button" title="{ts}Edit{/ts}">
+                        <span><div class="icon edit-icon"></div>{ts}Edit{/ts}</span>
+                        </a>
+                        <a href="{crmURL p='civicrm/contact/view/activity' q="reset=1&atype=$atype&action=delete&reset=1&id=$entityID&cid=$contactId&context=home"}" class="delete button" title="{ts}Delete{/ts}">
+                        <span><div class="icon delete-icon"></div>{ts}Delete{/ts}</span>
+                        </a>
+	{/if}
+		</td>
         </tr> 
         </table>   
       </fieldset> 

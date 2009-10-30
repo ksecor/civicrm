@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -200,7 +200,9 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
             LEFT  JOIN civicrm_contact {$this->_aliases['civicrm_contact_organization']} ON 
                       ({$this->_aliases['civicrm_contact_organization']}.id = {$this->_aliases['civicrm_relationship']}.$this->orgContact AND {$this->_aliases['civicrm_contact_organization']}.contact_type='Organization')
             LEFT JOIN civicrm_contact {$this->_aliases['civicrm_contact']} ON 
-                      ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_relationship']}.$this->otherContact )           INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON
+                      ({$this->_aliases['civicrm_contact']}.id = {$this->_aliases['civicrm_relationship']}.$this->otherContact )       
+            {$this->_aclFrom}
+            INNER JOIN civicrm_contribution {$this->_aliases['civicrm_contribution']} ON
                       ({$this->_aliases['civicrm_contribution']}.contact_id = {$this->_aliases['civicrm_relationship']}.$this->otherContact )";
         
         if( $this->_addressField ) {
@@ -257,6 +259,10 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
         } else {
             $this->_where = "WHERE "  . implode( ' AND ', $clauses );
         }
+
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        } 
     }
     
     
@@ -290,7 +296,8 @@ class CRM_Report_Form_Contribute_OrganizationSummary extends CRM_Report_Form {
             $this->orgContact   = 'contact_id_a';
             $this->otherContact = 'contact_id_b';
         }
-        
+
+        $this->buildACLClause( array( $this->_aliases['civicrm_contact'] ,$this->_aliases['civicrm_contact_organization'] ) );
         $sql  = $this->buildQuery( true );
         $rows = array( );
         

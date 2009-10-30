@@ -25,7 +25,7 @@
         {if $lineItems.$participant_id}
         <td>
             {foreach from=$lineItems.$participant_id item=line name=lineItemsIter}
-               {$line.label}: {$line.qty}
+               {$line.description}: {$line.qty}
                {if ! $smarty.foreach.lineItemsIter.last}<br>{/if}
             {/foreach}
         </td>

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -278,7 +278,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
                             {$this->_aliases['civicrm_contribution_type']}.id
               LEFT  JOIN civicrm_contact {$alias_creditor}
                          ON {$this->_aliases['civicrm_contribution_soft']}.contact_id = 
-                            {$alias_creditor}.id ";
+                            {$alias_creditor}.id 
+              {$this->_aclFrom} ";
 
         // include Constituent email field if email column is to be included
         if ( $this->_emailField ) { 
@@ -358,6 +359,8 @@ class CRM_Report_Form_Contribute_SoftCredit extends CRM_Report_Form {
     
     function postProcess( ) {
         $this->beginPostProcess( );
+
+        $this->buildACLClause( array( 'constituentname' ,'contact_civireport' ) );
         $sql = $this->buildQuery( );
         
         require_once 'CRM/Utils/PChart.php';

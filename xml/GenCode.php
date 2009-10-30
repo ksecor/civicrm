@@ -99,8 +99,26 @@ resolveForeignKeys( $tables, $classNames );
 $tables = orderTables( $tables );
 
 //echo "\n\n\n\n\n*****************************************************************************\n\n";
-// print_r($tables);
-// exit(1);
+//print_r(array_keys($tables));
+//exit(1);
+
+echo "Generating tests truncate file\n";
+
+$truncate = '<?xml version="1.0" encoding="UTF-8" ?>
+<!--  $Id: truncate.xml 24353 2009-10-20 10:32:26Z shot $  -->
+<!--  Truncate all tables that will be used in the tests  -->
+<dataset>';
+$tbls = array_keys($tables);
+foreach( $tbls as $d => $t ) {
+    $truncate = $truncate . "\n  <$t />\n";
+}
+
+$truncate = $truncate . "</dataset>\n";
+$ft = fopen( $sqlCodePath . "../tests/phpunit/CiviTest/truncate.xml", "w" );
+fputs( $ft, $truncate );
+fclose( $ft );
+unset( $ft );
+unset( $truncate );
 
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );

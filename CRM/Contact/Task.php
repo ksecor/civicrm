@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -131,11 +131,14 @@ class CRM_Contact_Task {
                                                   'class'  => array( 'CRM_Contact_Form_Task_PickProfile',
                                                                      'CRM_Contact_Form_Task_Batch' ),
                                                   'result' => true ),
-                                  19     => array( 'title'  => ts( 'Print PDF Letter for Contacts'        ),
+                                  19    => array( 'title'  => ts( 'Print PDF Letter for Contacts' ),
                                                   'class'  => 'CRM_Contact_Form_Task_PDF',
                                                   'result' => true ),
+                                  21    => array( 'title'  => ts( 'Merge Contacts' ),
+                                                  'class'  => 'CRM_Contact_Form_Task_Merge',
+                                                  'result' => true ),
                                   );
-           
+            
             //CRM-4418, check for delete 
             if ( !CRM_Core_Permission::check( 'delete contacts' ) ) {
                 unset( self::$_tasks[8] );

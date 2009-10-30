@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -53,8 +53,7 @@ class CRM_Grant_Form_GrantView extends CRM_Core_Form
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         $values = array( ); 
-        $ids    = array( ); 
-        $params['id'] =  $this->_id;
+        $params['id'] = $this->_id;
         require_once 'CRM/Grant/BAO/Grant.php';
         CRM_Grant_BAO_Grant::retrieve( $params, $values);
         require_once 'CRM/Grant/PseudoConstant.php';

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -87,7 +87,24 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
         $result    = civicrm_group_organization_get($paramsGet);
         $this->assertEquals( $result['is_error'], 0);
     }
+
+     /**
+     * Test civicrm_group_organization_get with group_id.
+     */
+    public function testGroupOrganizationGetWithGroupId()
+    {
+
+        $params = array( 'organization_id' => $this->_orgID,
+                         'group_id'        => $this->_groupID
+                         );
+        $result =& civicrm_group_organization_create( $params );
+
+        $paramsGet = array( 'organization_id' => $result['result']['organization_id']  );
         
+        $result    = civicrm_group_organization_get($params);
+        $this->assertEquals( $result['is_error'], 0);
+    } 
+  
     /**
      * Test civicrm_group_organization_get with empty params.
      */
@@ -110,6 +127,18 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
 
         $this->assertEquals( $result['is_error'], 1);
         $this->assertEquals( $result['error_message'], 'Input parameter is not an array' );
+    }
+
+    /**
+     * Test civicrm_group_organization_get invalid keys.
+     */
+    public function testGroupOrganizationGetWithInvalidKeys()
+    {
+        $params = array( 'invalid_key' => 1 );
+        $result =& civicrm_group_organization_get($params);
+
+        $this->assertEquals( $result['is_error'], 1);
+        $this->assertEquals( $result['error_message'], 'at least one of organization_id or group_id is a required field' );
     }
 
     ///////////////// civicrm_group_organization_create methods
@@ -150,7 +179,18 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
         $this->assertEquals( $result['is_error'], 1 );
         $this->assertEquals( $result['error_message'], 'Input parameter is not an array' );
     }
+    
+    /**
+     * check with invalid params keys
+     */
+    public function testGroupOrganizationCreateWithInvalidKeys()
+    {
+        $params = array( 'invalid_key' => 1 );
+        $result =& civicrm_group_organization_create( $params );
 
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'organization_id and group_id are required field' );
+    }
 
     ///////////////// civicrm_group_organization_remove methods
 
@@ -183,8 +223,8 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
     /**
      *  Test civicrm_group_organization_remove with valid params.
      */
-    public function break_testGroupOrganizationRemove()
-    {
+    public function testGroupOrganizationRemove()
+    {   
         $params = array( 'organization_id' => $this->_orgID,
                          'group_id'        => $this->_groupID
                          );
@@ -197,6 +237,18 @@ class api_v2_GroupOrganizationTest extends CiviUnitTestCase
 
     }
 
+    /**
+     *  Test civicrm_group_organization_remove with invalid params key.
+     */
+    public function testGroupOrganizationRemoveWithInvalidKey()
+    {   
+        $paramsDelete = array( 'invalid_key' => 1 );
+        $result =& civicrm_group_organization_remove( $paramsDelete );
+ 
+        $this->assertEquals( $result['is_error'], 1 );
+        $this->assertEquals( $result['error_message'], 'Invalid or no value for Group Organization ID' );
+
+    }
 
 }
 ?>

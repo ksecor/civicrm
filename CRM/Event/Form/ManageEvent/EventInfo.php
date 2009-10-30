@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -139,7 +139,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         // Provide suggested text for event full and waitlist messages if they're empty
         $defaults['event_full_text'] = CRM_Utils_Array::value('event_full_text', $defaults, ts('This event is currently full.') );
         $defaults['waitlist_text'] = CRM_Utils_Array::value('waitlist_text', $defaults, ts('This event is currently full. However you can register now and get added to a waiting list. You will be notified if spaces become available.') );
-
+        list( $defaults['start_date'], $defaults['start_date_time'] ) = CRM_Utils_Date::setDateDefaults( CRM_Utils_Array::value( 'start_date' , $defaults ) );
+        list( $defaults['end_date'], $defaults['end_date_time'] )     = CRM_Utils_Date::setDateDefaults( CRM_Utils_Array::value( 'end_date' , $defaults ) );
         return $defaults;
     }
     
@@ -209,16 +210,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
         $this->addElement('checkbox', 'is_map', ts('Include Map to Event Location?') );
          
-        $this->add( 'date', 'start_date',
-                    ts('Start Date'),
-                    CRM_Core_SelectValues::date('activityDatetime') );
-        $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
-
-        $this->add('date', 'end_date',
-                   ts('End Date / Time'),
-                   CRM_Core_SelectValues::date('activityDatetime')
-                   );
-        $this->addRule('end_date', ts('Please select a valid end date.'), 'qfDate');
+        $this->addDateTime( 'start_date', ts('Start Date') );
+        $this->addDateTime( 'end_date', ts('End Date / Time') );
      
         $this->add('text','max_participants', ts('Max Number of Participants'),
                     array('onchange' => "if (this.value != '') {show('id-waitlist','table-row'); showHideByValue('has_waitlist','0','id-waitlist-text','table-row','radio',false); showHideByValue('has_waitlist','0','id-event_full','table-row','radio',true); return;} else {hide('id-event_full','table-row'); hide('id-waitlist','table-row'); hide('id-waitlist-text','table-row'); return;}"));
@@ -257,8 +250,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             if ( CRM_Utils_System::isNull( $values['start_date'] ) ) {
                 $errors['start_date'] = ts( 'Start Date and Time are required fields' );
             } else {
-                $start = CRM_Utils_Date::format( $values['start_date'] );
-                $end   = CRM_Utils_Date::format( $values['end_date'  ] );
+                $start = CRM_Utils_Date::processDate( $values['start_date'] );
+                $end   = CRM_Utils_Date::processDate( $values['end_date'] );
                 if ( ($end < $start) && ($end != 0) ) {
                     $errors['end_date'] = ts( 'End date should be after Start date' );
                 }
@@ -284,8 +277,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params = $this->controller->exportValues( $this->_name );
         
         //format params
-        $params['start_date']      = CRM_Utils_Date::format($params['start_date']);
-        $params['end_date'  ]      = CRM_Utils_Date::format($params['end_date']);
+        $params['start_date']      = CRM_Utils_Date::processDate( $params['start_date'], $params['start_date_time'] );
+        $params['end_date'  ]      = CRM_Utils_Date::processDate( $params['end_date'], $params['end_date_time'] );
         $params['has_waitlist']    = CRM_Utils_Array::value('has_waitlist', $params, false);
         $params['is_map'    ]      = CRM_Utils_Array::value('is_map', $params, false);
         $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);

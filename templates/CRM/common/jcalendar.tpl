@@ -6,15 +6,15 @@
     var cal_img        = "{$config->resourceBase}i/cal.gif";    
 
     {if $timeElement}
-        var element_time   = "#{$elementName}_time";
+        var element_time  = "#{$elementName}_time";
         {*var time_img    = "{$config->resourceBase}packages/jquery/css/images/calendar/spinnerDefault.png";*}
-        var time_format = {$config->timeInputFormat};
+        var time_format   = cj( element_time ).attr('timeFormat');
         {literal}
             cj(element_time).timeEntry({ show24Hours : time_format });
         {/literal}
     {/if}
 
-    var date_format = cj( element_date ).attr('formatType');
+    var date_format = cj( element_date ).attr('format');
     var startYear   = cj( element_date ).attr('startOffset');
     var endYear     = cj( element_date ).attr('endOffset');
 
@@ -39,7 +39,7 @@
     });  
     
     function hideYear( element ) {
-        var format = cj( element ).attr('formatType');
+        var format = cj( element ).attr('format');
         if ( format == 'dd/mm' || format == 'mm/dd' ) {
             cj(".ui-datepicker-year").css( 'display', 'none' );
         }

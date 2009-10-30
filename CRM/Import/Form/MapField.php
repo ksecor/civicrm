@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -455,10 +455,10 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                     $subTypeFields = CRM_Core_BAO_CustomField::getFieldsForImport( $cSubType );
                                         
                     if ( !empty($subTypeFields) ) {
-                       
+                        $subType = null;
                         foreach($subTypeFields as $customSubTypeField => $details ) {
                             $subType[$customSubTypeField] = $details['title'];
-                            $sel2[$key] =  $this->_formattedFieldNames[$cType] = array_merge( $sel2[$key], $this->formatCustomFieldName($subType) );
+                            $sel2[$key] = array_merge( $sel2[$key], $this->formatCustomFieldName($subType) );
                         }  
                     }
                 }

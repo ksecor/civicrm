@@ -24,17 +24,11 @@
        {if !$isTemplate}
         <tr>  
            <th scope="row" class="label" width="20%">{$form.registration_start_date.label}</th>
-           <td>{$form.registration_start_date.html} 
-              {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1}
-              {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}
-           </td>
+           <td>{include file="CRM/common/jcalendar.tpl" elementName=registration_start_date}</td>
         </tr>
         <tr>
            <th scope="row" class="label" width="20%">{$form.registration_end_date.label}</th>
-           <td>{$form.registration_end_date.html}
-              {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1}
-              {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
-           </td>
+           <td>{include file="CRM/common/jcalendar.tpl" elementName=registration_end_date}</td>
         </tr>
        {/if}
         <tr>

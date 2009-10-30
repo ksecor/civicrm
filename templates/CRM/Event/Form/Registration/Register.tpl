@@ -23,6 +23,21 @@
     </div>
 {/if}
 
+{if $form.additional_participants.html}
+    <div class="additional_participants-section" id="noOfparticipants">
+        <table class="form-layout-compressed">
+            <tr>
+                <td class="label" style="width: 15%;">{$form.additional_participants.label}</td>
+        		<td>&nbsp;</td>
+                <td>
+                    {$form.additional_participants.html} &nbsp; ({ts}including yourself{/ts})<br />
+                    <span class="description">{ts}Fill in your registration information on this page. If you are registering additional people, you will be able to enter their registration information after you complete this page and click &quot;Continue&quot;.{/ts}</span>
+                </td>
+           	</tr>
+        </table>
+    </div><div class="spacer"></div> 
+{/if}
+
 {if $priceSet}
     <fieldset id="priceset"><legend>{$event.fee_label}</legend>
         {include file="CRM/Price/Form/PriceSet.tpl"}
@@ -36,6 +51,7 @@
 
 {else}
     {if $paidEvent}
+    <div class="paidEvent-section">
 	<table class="form-layout-compressed">
 	    <tr>
 		<td class="label nowrap">{$event.fee_label} <span class="marker">*</span></td>
@@ -43,42 +59,24 @@
 		<td>{$form.amount.html}</td>
 	    </tr>
 	    {if $form.is_pay_later}
-	    <tr id="is-pay-later">
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td>
-	    </tr>
+	        <tr id="is-pay-later">
+		        <td>&nbsp;</td>
+		        <td>&nbsp;</td>
+		        <td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td>
+	        </tr>
 	    {/if}
  	</table>
+ 	</div><div class="spacer"></div>
     {/if}
 {/if}
 
 {assign var=n value=email-$bltID}
 <table class="form-layout-compressed">
     <tr>
-	<td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td>
+	    <td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td>
     </tr>
 </table>
-{if $form.additional_participants.html}
-    <div id="noOfparticipants_show">
-	<a href="#" class="button" onclick="hide('noOfparticipants_show'); show('noOfparticipants'); document.getElementById('additional_participants').focus(); return false;"><span>&raquo; {ts}Register additional people for this event{/ts}</span></a>
-    </div>
-    <div class="spacer"></div>
-{/if}
-<div id="noOfparticipants" style="display:none">
-    <div class="form-item">
-    <table class="form-layout">
-        <tr>
-            <td><a href="#" onclick="hide('noOfparticipants'); show('noOfparticipants_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a></a>
-                <label>{$form.additional_participants.label}</label></td>
-            <td class="description">
-                {$form.additional_participants.html|crmReplace:class:two}<br />
-                {ts}You will be able to enter registration information for each additional person after you complete this page and click Continue.{/ts}
-            </td>
-       	</tr>
-    </table>
-    </div>
-</div> 
+
 
 {* User account registration option. Displays if enabled for one of the profiles on this page. *}
 {include file="CRM/common/CMSUser.tpl"}
@@ -126,20 +124,11 @@
 {literal} 
 <script type="text/javascript">
 
-    function allowParticipant( ) { 
-	var additionalParticipant = document.getElementById('additional_participants').value; 
-	var validNumber = "";
-	for( i = 0; i< additionalParticipant.length; i++ ) {
-	    if ( additionalParticipant.charAt(i) >=1 || additionalParticipant.charAt(i) <=9 ) {
-		validNumber += additionalParticipant.charAt(i);
-	    } else {
-		document.getElementById('additional_participants').value = validNumber;
-	    }
-	}
-
-        {/literal}{if $allowGroupOnWaitlist}{literal}
-           allowGroupOnWaitlist( validNumber );
-        {/literal}{/if}{literal}
+    function allowParticipant( ) { 		
+	{/literal}{if $allowGroupOnWaitlist}{literal}
+	    var additionalParticipants = cj('#additional_participants').val();	
+	    allowGroupOnWaitlist( additionalParticipants );
+	{/literal}{/if}{literal}
     }
 
     {/literal}{if ($form.is_pay_later or $bypassPayment) and $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}
@@ -176,21 +165,6 @@
 	}
     }
     
-    {/literal}{if $form.additional_participants}{literal}
-       showAdditionalParticipant( );
-    {/literal}{/if}{literal}
-
-    function showAdditionalParticipant( )
-    {	
-	if ( document.getElementById('additional_participants').value ) { 
-             show( 'noOfparticipants' );
-	     hide( 'noOfparticipants_show' );
-	} else {
-             hide( 'noOfparticipants' );
-	     show( 'noOfparticipants_show' );
-	}
-    }
-
     {/literal}{if $allowGroupOnWaitlist}{literal}
        allowGroupOnWaitlist( 0 );
     {/literal}{/if}{literal}
@@ -198,11 +172,14 @@
     function allowGroupOnWaitlist( additionalParticipants )
     {	
       if ( !additionalParticipants ) {
-	 additionalParticipants = document.getElementById('additional_participants').value;
+      	additionalParticipants = cj('#additional_participants').val();
       }
-
+      if ( additionalParticipants == '' ) {
+           additionalParticipants = 0;
+      }
       var availableRegistrations = {/literal}'{$availableRegistrations}'{literal};
       var totalParticipants = parseInt( additionalParticipants ) + 1;
+
       var isrequireApproval = {/literal}'{$requireApprovalMsg}'{literal};
  
       if ( totalParticipants > availableRegistrations ) {

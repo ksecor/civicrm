@@ -1,6 +1,6 @@
 {if $form.credit_card_number or $form.bank_account_number}
     <div id="payment_information">
-        <fieldset>
+        <fieldset class="billing_mode-group {if $paymentProcessor.payment_type & 2}direct_debit_info-group{else}credit_card_info-group{/if}">
             <legend>
                {if $paymentProcessor.payment_type & 2}
                     {ts}Direct Debit Information{/ts}
@@ -9,104 +9,131 @@
                {/if}
             </legend> 
             {if $paymentProcessor.billing_mode & 2 and !$hidePayPalExpress }
-                <table class="form-layout-compressed">
-                	<tr>
-                		<td class="description">{ts}If you have a PayPal account, you can click the PayPal button to continue. Otherwise, fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page.{/ts}</td>
-                	</tr>
-                	<tr>
-                		<td>{$form.$expressButtonName.html} <span style="font-size: 11px; font-family: Arial, Verdana;">Save time. Checkout securely. Pay without sharing your financial information. </span></td>
-                	</tr>
-                </table>
+            <div class="section paypal_button_info-section">	
+			    <div class="content description">
+			        {ts}If you have a PayPal account, you can click the PayPal button to continue. Otherwise, fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page.{/ts}
+				</div>
+			</div>
+			 <div class="section {$form.$expressButtonName.name}-section">	
+			    <div class="content description">
+			        {$form.$expressButtonName.html}
+			        <div class="description">Save time. Checkout securely. Pay without sharing your financial information. </div>
+				</div>
+			</div>
             {/if} 
 
             {if $paymentProcessor.billing_mode & 1}
-                <table class="form-layout-compressed">
+                <div class="section billing_mode-section {if $paymentProcessor.payment_type & 2}direct_debit_info-section{else}credit_card_info-section{/if}">
                    {if $paymentProcessor.payment_type & 2}
-                        <tr>
-                            <td class="label">{$form.account_holder.label}</td><td>{$form.account_holder.html}</td>
-                        </tr>
-                        <tr>
-                            <td class="label">{$form.bank_account_number.label}</td><td>{$form.bank_account_number.html}</td>
-                        </tr>
-                        <tr>
-                            <td class="label">{$form.bank_identification_number.label}</td><td>{$form.bank_identification_number.html}</td>
-                        </tr>
-                        <tr>
-                            <td class="label">{$form.bank_name.label}</td><td>{$form.bank_name.html}</td>
-                        </tr>
+                        <div class="section {$form.account_holder.name}-section">	
+							<div class="label">{$form.account_holder.label}</div>
+                            <div class="content">{$form.account_holder.html}</div>
+                            <div class="clear"></div> 
+                        </div>
+                        <div class="section {$form.bank_account_number.name}-section">	
+							<div class="label">{$form.bank_account_number.label}</div>
+                            <div class="content">{$form.bank_account_number.html}</div>
+                            <div class="clear"></div> 
+                        </div>
+                        <div class="section {$form.bank_identification_number.name}-section">	
+							<div class="label">{$form.bank_identification_number.label}</div>
+                            <div class="content">{$form.bank_identification_number.html}</div>
+                            <div class="clear"></div> 
+                        </div>
+                        <div class="section {$form.bank_name.name}-section">	
+							<div class="label">{$form.bank_name.label}</div>
+                            <div class="content">{$form.bank_name.html}</div>
+                            <div class="clear"></div> 
+                        </div>
                    {else}
-                	<tr>
-                		<td class="label">{$form.credit_card_type.label}</td>
-                		<td colspan="2">{$form.credit_card_type.html}</td>
-                	</tr>
-                	<tr>
-                		<td class="label">{$form.credit_card_number.label}</td>
-                		<td colspan="2">{$form.credit_card_number.html}<br />
-                		<span class="description">{ts}Enter numbers only, no spaces or dashes.{/ts}</span></td>
-                	</tr>
-                	<tr>
-                		<td class="label">{$form.cvv2.label}</td>
-                		<td style="vertical-align: top;">{$form.cvv2.html}</td>
-                		<td><img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;" /><br />
-                		<span class="description">{ts}Usually the last 3-4 digits in the signature area on the back of the card.{/ts}</span></td>
-                	</tr>
-                	<tr>
-                		<td class="label">{$form.credit_card_exp_date.label}</td>
-                		<td colspan="2">{$form.credit_card_exp_date.html}</td>
-                	</tr>
+                		<div class="section {$form.credit_card_type.name}-section">	
+							<div class="label">{$form.credit_card_type.label}</div>
+                			<div class="content">{$form.credit_card_type.html}</div>
+                			<div class="clear"></div> 
+                		</div>
+                		<div class="section {$form.credit_card_number.name}-section">	
+							<div class="label">{$form.credit_card_number.label}</div>
+                			<div class="content">{$form.credit_card_number.html}
+                				<div class="description">{ts}Enter numbers only, no spaces or dashes.{/ts}</div>
+                			</div>
+                			<div class="clear"></div> 
+                		</div>
+                		<div class="section {$form.cvv2.name}-section">	
+							<div class="label">{$form.cvv2.label}</div>
+                			<div class="content">
+                				{$form.cvv2.html}
+                				<img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;" />
+                				<div class="description">{ts}Usually the last 3-4 digits in the signature area on the back of the card.{/ts}</div>
+                			</div>
+                			<div class="clear"></div> 
+                		</div>
+                		<div class="section {$form.credit_card_exp_date.name}-section">	
+							<div class="label">{$form.credit_card_exp_date.label}</div>
+                			<div class="content">{$form.credit_card_exp_date.html}</div>
+                			<div class="clear"></div> 
+                		</div>
                     {/if}
-                </table>
+                </div>
                 </fieldset>
 
-                <fieldset><legend>{ts}Billing Name and Address{/ts}</legend>
-                    <table class="form-layout-compressed">
-                        <tr>
-                          <td colspan="2"><span class="description">
-                          {if $paymentProcessor.payment_type & 2}
-                             {ts}Enter the name of the account holder, and the corresponding billing address.{/ts}
-                          {else}
-                             {ts}Enter the name as shown on your credit or debit card, and the billing address for this card.{/ts}
-                          {/if}
-                          </span></td>
-                        </tr>
-                        <tr>
-                            <td class="label">{$form.billing_first_name.label}</td>
-                            <td>{$form.billing_first_name.html}</td>
-                        </tr>
-                        <tr>
-                            <td class="label">{$form.billing_middle_name.label}</td>
-                            <td>{$form.billing_middle_name.html}</td>
-                        </tr>
-                        <tr>
-                            <td class="label">{$form.billing_last_name.label}</td>
-                            <td>{$form.billing_last_name.html}</td>
-                        </tr>
+                <fieldset class="billing_name_address-group">
+                	<legend>{ts}Billing Name and Address{/ts}</legend>
+                    <div class="section billing_name_address-section">
+                        <div class="section billingNameInfo-section">	
+                        	<div class="content description">
+                        	  {if $paymentProcessor.payment_type & 2}
+                        	     {ts}Enter the name of the account holder, and the corresponding billing address.{/ts}
+                        	  {else}
+                        	     {ts}Enter the name as shown on your credit or debit card, and the billing address for this card.{/ts}
+                        	  {/if}
+                        	</div>
+                        </div>
+                        <div class="section {$form.credit_card_exp_date.name}-section">	
+							<div class="label">{$form.billing_first_name.label}</div>
+                            <div class="content">{$form.billing_first_name.html}</div>
+                            <div class="clear"></div> 
+                        </div>
+                        <div class="section {$form.credit_card_exp_date.name}-section">	
+							<div class="label">{$form.billing_middle_name.label}</div>
+                            <div class="content">{$form.billing_middle_name.html}</div>
+                            <div class="clear"></div> 
+                        </div>
+                        <div class="section {$form.credit_card_exp_date.name}-section">	
+							<div class="label">{$form.billing_last_name.label}</div>
+                            <div class="content">{$form.billing_last_name.html}</div>
+                            <div class="clear"></div> 
+                        </div>
                         {assign var=n value=billing_street_address-$bltID}
-                        <tr>
-                            <td class="label">{$form.$n.label}</td>
-                            <td>{$form.$n.html}</td>
-                        </tr>
+                        <div class="section {$form.$n.name}-section">	
+							<div class="label">{$form.$n.label}</div>
+                            <div class="content">{$form.$n.html}</div>
+                            <div class="clear"></div> 
+                        </div>
                         {assign var=n value=billing_city-$bltID}
-                        <tr>
-                            <td class="label">{$form.$n.label}</td>
-                            <td>{$form.$n.html}</td>
-                        </tr>
+                        <div class="section {$form.$n.name}-section">	
+							<div class="label">{$form.$n.label}</div>
+                            <div class="content">{$form.$n.html}</div>
+                            <div class="clear"></div> 
+                        </div>
                         {assign var=n value=billing_country_id-$bltID}
-                        <tr>
-                            <td class="label">{$form.$n.label}</td>
-                            <td>{$form.$n.html|crmReplace:class:big}</td>
-                        </tr>
+                        <div class="section {$form.$n.name}-section">	
+							<div class="label">{$form.$n.label}</div>
+                            <div class="content">{$form.$n.html|crmReplace:class:big}</div>
+                            <div class="clear"></div> 
+                        </div>
                         {assign var=n value=billing_state_province_id-$bltID}
-                        <tr>
-                            <td class="label">{$form.$n.label}</td>
-                            <td>{$form.$n.html|crmReplace:class:big}</td>
-                        </tr>
+                        <div class="section {$form.$n.name}-section">	
+							<div class="label">{$form.$n.label}</div>
+                            <div class="content">{$form.$n.html|crmReplace:class:big}</div>
+                            <div class="clear"></div> 
+                        </div>
                         {assign var=n value=billing_postal_code-$bltID}
-                        <tr>
-                            <td class="label">{$form.$n.label}</td>
-                            <td>{$form.$n.html}</td>
-                        </tr>
-                    </table>
+                        <div class="section {$form.$n.name}-section">	
+							<div class="label">{$form.$n.label}</div>
+                            <div class="content">{$form.$n.html}</div>
+                            <div class="clear"></div> 
+                        </div>
+                    </div>
                 </fieldset>
             {else}
                 </fieldset>

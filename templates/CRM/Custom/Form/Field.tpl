@@ -162,10 +162,8 @@ function custom_option_html_type( ) {
 	    <dt id="endDateRange" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.end_date_years.label}</dt>
 	    <dd id="endDateRangeDef" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.end_date_years.html} {ts}years after the current date.{/ts}</dd> 
 
-	    <dt id="incudedDatePart"{if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.date_parts.label}</dt>
-	    <dd id="incudedDatePartDef" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.date_parts.html}</dd> 
-
-	 
+	    <dt id="incudedDatePart"{if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.date_format.label}</dt>
+	    <dd id="incudedDatePartDef" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.date_format.html}&nbsp;&nbsp;&nbsp;{$form.time_format.label}&nbsp;&nbsp;{$form.time_format.html}</dd> 
         
 	    <dt id="noteRows" {if $action eq 2 && ($form.data_type.value.0.0 == 4)}class="show-block"{else} class="hide-block"{/if}>{$form.note_rows.label}</dt>
 	    <dd id="noteRowsDef" {if $action eq 2 && ($form.data_type.value.0.0 == 4)}class="show-block"{else} class="hide-block"{/if}>{$form.note_rows.html}</dd> 

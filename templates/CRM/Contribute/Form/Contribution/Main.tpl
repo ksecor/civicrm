@@ -38,73 +38,86 @@ function clearAmountOther() {
     </div>
 
 {if $priceSet}
-    <fieldset id="priceset"><legend>{ts}Contribution{/ts}</legend>
+    <fieldset id="priceset" class="priceset-group">
+    	<legend>{ts}Contribution{/ts}</legend>
     	   {include file="CRM/Price/Form/PriceSet.tpl"}
      </fieldset>
 {else}
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="makeContribution"}
 
-    <table class="form-layout-compressed">
 	{if $form.amount}
-	    <tr>
-		<td class="label nowrap">{$form.amount.label}</td>
-		<td>{$form.amount.html}</td>
-	    </tr>
+	    <div class="section {$form.amount.name}-section">
+			<div class="label">{$form.amount.label}</div>
+			<div class="content">{$form.amount.html}</div>
+			<div class="clear"></div> 
+	    </div>
 	{/if} 
 	{if $is_allow_other_amount}
-	    <tr>
-		<td class="label">{$form.amount_other.label}</td>
-		<td>{$form.amount_other.html|crmMoney}</td>
-	    </tr>
+	    <div class="section {$form.amount_other.name}-section">
+			<div class="label">{$form.amount_other.label}</div>
+			<div class="content">{$form.amount_other.html|crmMoney}</div>
+			<div class="clear"></div> 
+	    </div>
 	{/if} 
 	{if $pledgeBlock} 
 	    {if $is_pledge_payment}
-	    <tr>
-		<td class="label">{$form.pledge_amount.label}<span class="marker"> *</span></td>
-		<td>{$form.pledge_amount.html}</td>
-	    </tr>
+	    <div class="section {$form.pledge_amount.name}-section">
+			<div class="label">{$form.pledge_amount.label}&nbsp;<span class="marker">*</span></div>
+			<div class="content">{$form.pledge_amount.html}</div>
+			<div class="clear"></div> 
+	    </div>
 	    {else}
-	    <tr>
-		<td>&nbsp;</td>
-		<td>{$form.is_pledge.html}&nbsp;&nbsp;
-		{if $is_pledge_interval}{$form.pledge_frequency_interval.html}&nbsp;&nbsp;
-		{/if}
-		{$form.pledge_frequency_unit.html}&nbsp;&nbsp;{ts}for{/ts}&nbsp;&nbsp;{$form.pledge_installments.html}&nbsp;&nbsp;{ts}installments.{/ts}</td>
-	    </tr>
+	    <div class="section {$form.is_pledge.name}-section">
+			<div class="content">
+				{$form.is_pledge.html}&nbsp;
+				{if $is_pledge_interval}
+					{$form.pledge_frequency_interval.html}&nbsp;
+				{/if}
+				{$form.pledge_frequency_unit.html}&nbsp;{ts}for{/ts}&nbsp;{$form.pledge_installments.html}&nbsp;{ts}installments.{/ts}
+			</div>
+	    </div>
 	    {/if} 
 	{/if} 
 {/if}
 	{if $form.is_pay_later}
-	    <tr>
-		<td class="label">&nbsp;</td>
-		<td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td>
-	    </tr>
+	    <div class="section {$form.is_pay_later.name}-section">
+			<div class="content">{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</div>
+	    </div>
 	{/if} 
 	{if $form.is_recur}
-	    <tr>
-		<td>&nbsp;</td>
-		<td><strong>{$form.is_recur.html} {ts}every{/ts} &nbsp;{$form.frequency_interval.html} &nbsp; {$form.frequency_unit.html}&nbsp; {ts}for{/ts} &nbsp; {$form.installments.html} &nbsp;{$form.installments.label}</strong><br />
-		<p><span class="description">{ts}Your recurring contribution will be processed automatically for the number of installments you specify. You can leave the number of installments blank if you want to make an open-ended commitment. In either case, you can choose to cancel at any time.{/ts} 
+	    <div class="section {$form.is_recur.name}-section">
+			<div div class="content">
+				<p><strong>{$form.is_recur.html} {ts}every{/ts} &nbsp;{$form.frequency_interval.html} &nbsp; {$form.frequency_unit.html}&nbsp; {ts}for{/ts} &nbsp; {$form.installments.html} &nbsp;{$form.installments.label}</strong>
+				</p>
+				<p><span class="description">{ts}Your recurring contribution will be processed automatically for the number of installments you specify. You can leave the number of installments blank if you want to make an open-ended commitment. In either case, you can choose to cancel at any time.{/ts} 
 		{if $is_email_receipt}
 		    {ts}You will receive an email receipt for each recurring contribution. The receipts will include a link you can use if you decide to modify or cancel your future contributions.{/ts} 
 		{/if} </p>
-		</td>
-	    </tr>
+		</div>
+	    </div>
 	{/if} 
 	{if $pcpSupporterText}
-	    <tr>
-		<td></td>
-		<td>{$pcpSupporterText}</td>
-	    </tr>
+	    <div class="section pcpSupporterText-section">
+			<div class="content">{$pcpSupporterText}</div>
+	    </div>
 	{/if}
-	<tr>
 	    {assign var=n value=email-$bltID}
-	    <td class="label">{$form.$n.label}</td>
-	    <td>&nbsp;{$form.$n.html}
-	    {if $form.is_for_organization}&nbsp;&nbsp;&nbsp;{$form.is_for_organization.html}&nbsp;{$form.is_for_organization.label}{/if}
-	    </td>
-	</tr>
-    </table>
+	    <div class="section {$form.$n.name}-section">
+	    	<div class="label">{$form.$n.label}</div>
+	    	<div class="content">
+	    		{$form.$n.html}
+	    	</div>
+	    	<div class="clear"></div> 
+	    </div>
+	
+	{if $form.is_for_organization}
+		<div class="section {$form.is_for_organization.name}-section">
+	    	<div class="content">
+	    		{$form.is_for_organization.html}&nbsp;{$form.is_for_organization.label}
+	    	</div>
+	    </div>
+	{/if}
+
 
     {if $is_for_organization} 
         {include file=CRM/Contact/Form/OnBehalfOf.tpl} 
@@ -115,62 +128,83 @@ function clearAmountOther() {
     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="makeContribution"} 
 
     {if $honor_block_is_active}
-	<fieldset><legend>{$honor_block_title}</legend>
-	    {$honor_block_text}
-	    <table class="form-layout-compressed">
+	<fieldset class="honor_block-group">
+		<legend>{$honor_block_title}</legend>
+	    	<div class="section honor_block_text-section">
+	    		{$honor_block_text}
+	    	</div>
 		{if $form.honor_type_id.html}
-		    <tr>
-			<td colspan="3">
-			{$form.honor_type_id.html}
-			&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('honor_type_id', '{$form.formName}');enableHonorType(); return false;">{ts}unselect{/ts}</a>&nbsp;)<br />
-			<span class="description">{ts}Please include the name, and / or email address of the person you are honoring,{/ts}</span></td>
-		    </tr>
+		    <div class="section {$form.honor_type_id.name}-section">
+				<div class="content" >
+					{$form.honor_type_id.html}
+					<span class="unselect">(<a href="#" title="unselect" onclick="unselectRadio('honor_type_id', '{$form.formName}');enableHonorType(); return false;">{ts}unselect{/ts}</a>)</span>
+					<div class="description">{ts}Please include the name, and / or email address of the person you are honoring,{/ts}</div>
+				</div>
+		    </div>
 		{/if}
-		<tr id="honorType">
-		    <td>{$form.honor_prefix_id.html}</td>
-		    <td>{$form.honor_first_name.html}<br />
-			<span class="description">{$form.honor_first_name.label}</span></td>
-		    <td>{$form.honor_last_name.html}<br />
-			<span class="description">{$form.honor_last_name.label}</span></td>
-		</tr>
-		<tr id="honorTypeEmail">
-		    <td></td>
-		    <td colspan="2">{$form.honor_email.html}<br />
-			<span class="description">{$form.honor_email.label}</td>
-		</tr>
-	    </table>
+		<div id="honorType" class="section">
+			<div class="section {$form.honor_prefix_id.name}-section">	
+			    <div class="content">{$form.honor_prefix_id.html}</div>
+			</div>
+			<div class="section {$form.honor_first_name.name}-section">	
+				<div class="label">{$form.honor_first_name.label}</div>
+			    <div class="content">
+			        {$form.honor_first_name.html}
+				</div>
+				<div class="clear"></div> 
+			</div>
+			<div class="section {$form.honor_last_name.name}-section">	
+			    <div class="label">{$form.honor_last_name.label}</div>
+			    <div class="content">
+			        {$form.honor_last_name.html}
+				</div>
+				<div class="clear"></div> 
+			</div>
+			<div id="honorTypeEmail" class="section {$form.honor_email.name}-section">
+				<div class="label">{$form.honor_email.label}</div>
+			    <div class="content">
+				    {$form.honor_email.html}
+				</div>
+				<div class="clear"></div> 
+			</div>
+		</div>
 	</fieldset>
     {/if} 
 
-    {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
+    <div class="custom_pre-profile">
+    	{include file="CRM/UF/Form/Block.tpl" fields=$customPre} 	
+    </div>
 
     {if $pcp}
-    <fieldset>
-    <table class="form-layout-compressed">
-	<tr>
-	    <td colspan="2">
-	        {$form.pcp_display_in_roll.html} &nbsp;
-	        {$form.pcp_display_in_roll.label}
-	    </td>
-	</tr>
-	<tr id="nameID">
-	    <td colspan="2">
-	        {$form.pcp_is_anonymous.html}
-	    </td>
-	</tr>
-	<tr id="nickID">
-	    <td>{$form.pcp_roll_nickname.label}</td>
-	    <td>{$form.pcp_roll_nickname.html}<br />
-		<span class="description">{ts}Enter the name you want listed with this contribution. You can use a nick name like 'The Jones Family' or 'Sarah and Sam'.{/ts}</span>
-	    </td>
-	</tr>
-	<tr id="personalNoteID">
-	    <td style="vertical-align: top">{$form.pcp_personal_note.label}</td>
-	    <td>{$form.pcp_personal_note.html}
-                <span class="description">{ts}Enter a message to accompany this contribution.{/ts}</span>
-	    </td>
-	</tr>
-    </table>
+    <fieldset class="pcp-group">
+    	<div class="section pcp-section">
+			<div class="section">
+				<div class="content">
+			        {$form.pcp_display_in_roll.html} &nbsp;
+			        {$form.pcp_display_in_roll.label}
+			    </div>
+			</div>
+			<div id="nameID" class="section nameId-section">
+			    <div class="content">
+			        {$form.pcp_is_anonymous.html}
+			    </div>
+			</div>
+			<div id="nickID" class="section nickID-section">
+			    <div class="label">{$form.pcp_roll_nickname.label}</div>
+			    <div class="content">{$form.pcp_roll_nickname.html}
+				<div class="description">{ts}Enter the name you want listed with this contribution. You can use a nick name like 'The Jones Family' or 'Sarah and Sam'.{/ts}</div>
+			    </div>
+			    <div class="clear"></div> 
+			</div>
+			<div id="personalNoteID" class="section personalNoteID-section">
+			    <div class="label">{$form.pcp_personal_note.label}</div>
+			    <div class="content">
+			    	{$form.pcp_personal_note.html}
+    		        <div class="description">{ts}Enter a message to accompany this contribution.{/ts}</div>
+			    </div>
+			    <div class="clear"></div> 
+			</div>
+    	</div>
     </fieldset>
     {/if} 
 
@@ -178,11 +212,13 @@ function clearAmountOther() {
         {include file='CRM/Core/BillingBlock.tpl'} 
     {/if} 
 
-    {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
-
+    <div class="custom_post-profile">
+    	{include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+	</div>
+	
     {if $is_monetary and $form.bank_account_number}
     <div id="payment_notice">
-      <fieldset>
+      <fieldset class="payment_notice-group">
           <legend>{ts}Agreement{/ts}</legend>
           {ts}Your account data will be used to charge your bank account via direct debit. While submitting this form you agree to the charging of your bank account via direct debit.{/ts}
       </fieldset>
@@ -197,24 +233,31 @@ function clearAmountOther() {
 	{* Put PayPal Express button after customPost block since it's the submit button in this case. *} 
 	{if $paymentProcessor.payment_processor_type EQ 'PayPal_Express'} 
 	    {assign var=expressButtonName value='_qf_Main_upload_express'}
-	    <fieldset><legend>{ts}Checkout with PayPal{/ts}</legend>
-	    <table class="form-layout-compressed">
-		<tr>
-		    <td class="description">{ts}Click the PayPal button to continue.{/ts}</td>
-		</tr>
-		<tr>
-		    <td>{$form.$expressButtonName.html} <span style="font-size: 11px; font-family: Arial, Verdana;">Checkout securely. Pay without sharing your financial information. </span></td>
-		</tr>
-	    </table>	
+	    <fieldset class="paypal_checkout-group">
+	    	<legend>{ts}Checkout with PayPal{/ts}</legend>
+	    	<div class="section">
+				<div class="section paypalButtonInfo-section">
+					<div class="content">
+					    <span class="description">{ts}Click the PayPal button to continue.{/ts}</span>
+					</div>
+					<div class="clear"></div> 
+				</div>	
+				<div class="section {$form.$expressButtonName.html}-section">
+				    <div class="content">
+				    	{$form.$expressButtonName.html} <span class="description">Checkout securely. Pay without sharing your financial information. </span>
+				    </div>
+				    <div class="clear"></div> 
+				</div>
+	    	</div>	
 	    </fieldset>
 	{/if} 
     {/if}
     </div>
     <div id="crm-submit-buttons">{$form.buttons.html}</div>
     {if $footer_text}
-    <div id="footer_text">
-	<p>{$footer_text}</p>
-    </div>
+    	<div id="footer_text">
+			<p>{$footer_text}</p>
+    	</div>
     {/if}
 </div>
 
@@ -289,15 +332,15 @@ function enableHonorType( ) {
 	}
     }
     if ( isHonor ) {
-	show('honorType', 'table-row');
-	show('honorTypeEmail', 'table-row');
+	show('honorType', 'block');
+	show('honorTypeEmail', 'block');
     } else {
 	document.getElementById('honor_first_name').value = '';
 	document.getElementById('honor_last_name').value  = '';
 	document.getElementById('honor_email').value      = '';
 	document.getElementById('honor_prefix_id').value  = '';
-	hide('honorType', 'table-row');	
-	hide('honorTypeEmail', 'table-row');
+	hide('honorType', 'block');	
+	hide('honorTypeEmail', 'block');
     }
 }
 

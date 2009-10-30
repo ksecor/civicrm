@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -174,11 +174,12 @@ class CRM_Report_Form_Contact_CurrentEmployer extends CRM_Report_Form {
 
     function from( ) {
         $this->_from = "
-FROM civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
+FROM civicrm_contact {$this->_aliases['civicrm_contact']} 
 
      LEFT JOIN civicrm_contact {$this->_aliases['civicrm_employer']}
           ON {$this->_aliases['civicrm_employer']}.id={$this->_aliases['civicrm_contact']}.employer_id
- 
+
+     {$this->_aclFrom}
      LEFT JOIN civicrm_relationship {$this->_aliases['civicrm_relationship']}
           ON ( {$this->_aliases['civicrm_relationship']}.contact_id_a={$this->_aliases['civicrm_contact']}.id 
               AND {$this->_aliases['civicrm_relationship']}.contact_id_b={$this->_aliases['civicrm_contact']}.employer_id 
@@ -248,7 +249,7 @@ FROM civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
     
     function postProcess( ) {
         // get the acl clauses built before we assemble the query
-        $this->buildACLClause( $this->_aliases['civicrm_contact'] );
+        $this->buildACLClause( array( $this->_aliases['civicrm_contact'], $this->_aliases['civicrm_employer'] ) );
         parent::postProcess();
     }
     

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -247,6 +247,8 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
                         ON ( {$this->_aliases['civicrm_relationship']}.contact_id_b = 
                              {$this->_aliases['civicrm_contact_b']}.id )
 
+             {$this->_aclFrom}
+
              LEFT  JOIN civicrm_address {$this->_aliases['civicrm_address']} 
                          ON (( {$this->_aliases['civicrm_address']}.contact_id =
                                {$this->_aliases['civicrm_contact']}.id  OR
@@ -366,6 +368,10 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
             $this->_where = "WHERE " . implode( ' AND ', $whereClauses );
         }
 
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        }    
+ 
         if ( !empty( $havingClauses ) ) {
             // use this clause to construct group by clause.
             $this->_having = "HAVING " . implode( ' AND ', $havingClauses );
@@ -432,7 +438,8 @@ class CRM_Report_Form_Contact_Relationship extends CRM_Report_Form {
             $this->relationType = $relType[1].'_'.$relType[2];
             $this->_params['relationship_type_id_value'] = intval( $relType[0] );
         }
-        
+
+        $this->buildACLClause( array( $this->_aliases['civicrm_contact'] ,$this->_aliases['civicrm_contact_b'] ) );
         $sql = $this->buildQuery( );
         $this->buildRows ( $sql, $rows );
 

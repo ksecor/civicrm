@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -766,7 +766,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 $fields = array_merge($fields,
                                       CRM_Core_DAO_Note::import());          
                 if ( $contactType != 'All' ) {  
-                    $fields       = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $showAll) );
+                    $fields       = 
+                        array_merge($fields, 
+                                    CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $showAll, true) );
                     //unset the fields, which are not related to their
                     //contact type.
                     $commonValues = array ( 'Individual'   => array( 'household_name','legal_name','sic_code','organization_name' ),
@@ -1383,12 +1385,14 @@ AND    civicrm_contact.id = %1";
                     if ( isset ( $params[$key. '_id'] ) ) {
                         $value = $params[$key. '_id'];
                     }
+                    
+
+                    $type = CRM_Utils_Array::value('contact_sub_type', $data) ? $data['contact_sub_type'] : $data['contact_type'];
+                    
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
                                                                  $data['custom'], 
-                                                                 $value,
-                                                                 array( $data['contact_type'],
-                                                                        CRM_Utils_Array::value( 'contact_sub_type', 
-                                                                                                $data ) ),
+                                                                 $value, 
+                                                                 $type,
                                                                  null,
                                                                  $contactID );
                 } else if ($key == 'edit') {

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -222,13 +222,9 @@ class CRM_Profile_Form extends CRM_Core_Form
         require_once "CRM/Core/BAO/CustomField.php";
         foreach ( $this->_fields as $name => $field ) {
             if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID($name) ) {
+                $htmlType = $field['html_type'];
                 
-                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                         $customFieldID,
-                                                         'html_type',
-                                                         'id' );
-                
-                if ( !isset( $this->_defaults[$name] ) || $htmlType == 'File') {
+                if ( !CRM_Utils_Array::value( $name, $this->_defaults ) || $htmlType == 'File') {
                     CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID,
                                                                   $name,
                                                                   $this->_defaults,

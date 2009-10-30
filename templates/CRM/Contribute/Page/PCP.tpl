@@ -19,7 +19,7 @@
     <tr>
 		<th>{ts}Page Title{/ts}</th>
 		<th>{ts}Supporter{/ts}</th>
-		<th>{ts}Contribution Page{/ts}</th>
+		<th id="sortable">{ts}Contribution Page{/ts}</th>
 		<th id="start_date">{ts}Starts{/ts}</th>
 		<th id="end_date">{ts}Ends{/ts}</th>
 		<th>{ts}Status{/ts}</th>
@@ -35,7 +35,7 @@
 		<td>{$row.start_date|crmDate:"%b %d, %Y %l:%M %P"}</td>
 		<td>{if $row.end_date}{$row.end_date|crmDate:"%b %d, %Y %l:%M %P"}{else}({ts}ongoing{/ts}){/if}</td>
 		<td>{$row.status_id}</td>
-		<td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
+		<td id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
 		<td class="start_date hiddenElement">{$row.start_date|truncate:10:''|crmDate}</td>
 		<td class="end_date hiddenElement">{if $row.end_date}{$row.end_date|truncate:10:''|crmDate}{else}({ts}ongoing{/ts}){/if}</td>
 	</tr>

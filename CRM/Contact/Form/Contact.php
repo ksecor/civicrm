@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -237,8 +237,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         if ( array_key_exists( 'CustomData', $this->_editOptions ) ) {
             //only custom data has preprocess hence directly call it
-            CRM_Custom_Form_CustomData::preProcess( $this, null, null, 1, $this->_contactType, 
-                                                    $this->_contactId, $this->_contactSubType );
+            CRM_Custom_Form_CustomData::preProcess( $this, null, $this->_contactSubType, 
+                                                    1, $this->_contactType, $this->_contactId );
         }
         
         // this is needed for custom data.
@@ -626,13 +626,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         
         require_once 'CRM/Core/BAO/CustomField.php';
         $customFields     = 
-            CRM_Core_BAO_CustomField::getFields( array($params['contact_type'], 
-                                                       $this->_contactSubType), false, true );
+            CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, true );
+
         $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params, 
                                                                    $customFields, 
                                                                    $this->_contactId,
-                                                                   array($params['contact_type'], 
-                                                                         $this->_contactSubType), 
+                                                                   $params['contact_type'], 
                                                                    true );
         
         if ( array_key_exists( 'CommunicationPreferences',  $this->_editOptions ) ) {

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -56,6 +56,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @protected
      */
     public $_eventId;
+    
+    /**
+     * the array of ids of all the participant we are proceessing
+     *
+     * @var int
+     * @protected
+     */
+    protected $_participantIDs;
     
     /**
      * the id of the participant we are proceessing
@@ -702,6 +710,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
+        $this->_participantIDS[] = $participant->id;
         
         //setting register_by_id field and primaryContactId
         if( CRM_Utils_Array::value('is_primary', $this->_params ) ) {
@@ -818,11 +827,11 @@ WHERE  v.option_group_id = g.id
                                                 'contribution_id' );
             $participantParams['id'] = $pID;
         }
-        
         require_once 'CRM/Core/BAO/Discount.php';
         $participantParams['discount_id'] = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
+
         if ( !$participantParams['discount_id'] ) {
-            $participantParams['discount_id'] = "null";            
+            $participantParams['discount_id'] = "null";
         }
 
         require_once 'CRM/Event/BAO/Participant.php';

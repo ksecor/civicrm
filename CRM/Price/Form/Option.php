@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -107,7 +107,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
 
             // fix the display of the monetary value, CRM-4038
             require_once 'CRM/Utils/Money.php';
-            $defaults['name'] = CRM_Utils_Money::format($defaults['name'], null, '%a');
+            $defaults['value'] = CRM_Utils_Money::format($defaults['value'], null, '%a');
         }
         
         require_once 'CRM/Core/DAO.php';
@@ -120,6 +120,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         }
         
         return $defaults;
+       
     }
     
     /**
@@ -159,12 +160,12 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                             array( 'CRM_Core_DAO_OptionValue', $this->_oid, $this->_ogId, 'label' ) );
             
             // value
-            $this->add('text', 'name', ts('Option Amount'),null, true);
+            $this->add('text', 'value', ts('Option Amount'),null, true);
                       
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
-            $this->registerRule( 'name', 'callback', 'moneySigned', 'CRM_Utils_Rule' );
-            $this->addRule('name', ts('Please enter a monetary value for this field.'), 'moneySigned');
+            $this->registerRule( 'value', 'callback', 'moneySigned', 'CRM_Utils_Rule' );
+            $this->addRule('value', ts('Please enter a monetary value for this field.'), 'moneySigned');
             
             // weight
             $this->add('text', 'weight', ts('Order'), null, true);
@@ -258,6 +259,9 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
 
             $groupParams = array( 'id' => $this->_ogId );
            
+            // make name value consistant.
+            $params['name'] = $params['value'];
+            
             $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_oid);
             
             CRM_Core_Session::setStatus( ts('The option \'%1\' has been saved.', array(1 => $params['label'])) );

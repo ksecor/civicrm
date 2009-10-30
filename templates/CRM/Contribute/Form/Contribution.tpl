@@ -316,6 +316,7 @@
     field_type          ="select"
     invert              = 0
 }
+{if $pcp}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="pcp_display_in_roll"
     trigger_value       =""
@@ -324,6 +325,7 @@
     field_type          ="radio"
     invert              = 0
 }
+{/if}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="payment_instrument_id"
     trigger_value       = '4'

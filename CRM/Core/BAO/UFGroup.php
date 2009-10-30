@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -1560,7 +1560,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                     } else if ($name == 'individual_suffix') {
                         $defaults[$fldName] = $details['individual_suffix_id'];
                     } else if ( ( $name == 'birth_date' ) || ( $name == 'deceased_date' ) ) {
-                        list( $defaults[$fldName] ) = CRM_Utils_Date::setDateDefaults( $name );
+                        list( $defaults[$fldName] ) = CRM_Utils_Date::setDateDefaults( $details[$name], 'birth' );
                     } else if ($name == 'email_greeting') {
                          $defaults[$fldName] = $details['email_greeting_id'];
                          $defaults['email_greeting_custom'] = $details['email_greeting_custom'];

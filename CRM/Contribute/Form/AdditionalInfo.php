@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -443,14 +443,13 @@ class CRM_Contribute_Form_AdditionalInfo
         }
         
         require_once 'CRM/Price/BAO/Set.php';
-        require_once 'CRM/Core/BAO/LineItem.php';
+        require_once 'CRM/Price/BAO/LineItem.php';
         foreach ( $lineItem as $priceSetId => $values ) {
             if ( !$priceSetId ) continue;
             foreach( $values as $line ) {
-                $unused = array();
                 $line['entity_table'] = 'civicrm_contribution';
                 $line['entity_id'] = $contributionId;
-                CRM_Core_BAO_LineItem::create( $line, $unused );
+                CRM_Price_BAO_LineItem::create( $line );
             }
             CRM_Price_BAO_Set::addTo( 'civicrm_contribution', $contributionId, $priceSetId );
         }

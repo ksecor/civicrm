@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -363,7 +363,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults, &$ids ) {
+    static function retrieve( &$params, &$defaults, &$ids ) 
+    {
         $contribution = CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
         return $contribution;
     }
@@ -548,8 +549,8 @@ GROUP BY currency
             CRM_Price_BAO_Set::removeFrom( 'civicrm_contribution', $id );
         }
         // cleanup line items.
-        require_once 'CRM/Core/BAO/LineItem.php';
-        CRM_Core_BAO_LineItem::deleteLineItems( $id, 'civicrm_contribution' );
+        require_once 'CRM/Price/BAO/LineItem.php';
+        CRM_Price_BAO_LineItem::deleteLineItems( $id, 'civicrm_contribution' );
         
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
@@ -1511,7 +1512,8 @@ WHERE     c.id = $contributionId";
         return $componentDetails;
     }
     
-    function contributionCount( $contactId, $includeSoftCredit = true, $includeHonoree = true ) {
+    function contributionCount( $contactId, $includeSoftCredit = true, $includeHonoree = true ) 
+    {
         if ( !$contactId ) return 0;
         
         $fromClause      = "civicrm_contribution contribution";

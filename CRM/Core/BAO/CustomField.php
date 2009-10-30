@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -37,6 +37,7 @@ require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/DAO/CustomField.php';
 require_once 'CRM/Core/DAO/CustomGroup.php';
 require_once 'CRM/Core/BAO/CustomOption.php';
+require_once 'CRM/Contact/BAO/ContactType.php';
 
 /**
  * Business objects for managing custom data fields.
@@ -212,14 +213,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $params['attributes'] = 'rows=4, cols=60';
         }
 
-        // process data params
-        if ( is_array( CRM_Utils_Array::value( 'date_parts', $params ) ) ) {
-            $params['date_parts'] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                                             array_keys($params['date_parts']) );
-        } else {
-            $params['date_parts'] = "";
-        }
-
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->copyValues( $params );
         $customField->is_required      = CRM_Utils_Array::value( 'is_required'    , $params, false );
@@ -333,11 +326,26 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
  									   $customDataSubName = null,
  									   $onlyParent = false ) 
     {
+        $onlySubType = false;
+
         if ( $customDataType && 
-             !is_array( $customDataType ) &&
-             in_array ( $customDataType, 
-                        array_keys(CRM_Core_SelectValues::customGroupExtends()) ) ) {
-            $customDataType = array( $customDataType );
+             !is_array( $customDataType ) ) {
+            
+            if ( in_array($customDataType, 
+                          CRM_Contact_BAO_ContactType::subTypes()) ) {
+                // This is the case when getFieldsForImport() requires fields 
+                // limited strictly to a subtype. 
+                $customDataSubType = $customDataType;
+                $customDataType    = CRM_Contact_BAO_ContactType::getBasicType( $customDataType );
+                $onlySubType       = true;
+            }
+
+            if ( in_array($customDataType, 
+                          array_keys(CRM_Core_SelectValues::customGroupExtends())) ) {
+                // this makes the method flexible to support retrieving fields 
+                // for multiple extends value.
+                $customDataType = array( $customDataType );
+            }
         }
 
         if ( is_array( $customDataType ) ) {
@@ -350,6 +358,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $cacheKey .= $showAll ? "_1" : "_0";
         $cacheKey .= $inline  ? "_1_" : "_0_";
 		$cacheKey .= $onlyParent  ? "_1_" : "_0_";
+		$cacheKey .= $onlySubType  ? "_1_" : "_0_";
         
         $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
@@ -380,14 +389,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
                 $extends = '';
                 if ( is_array( $customDataType ) ) {
+                    $value = null;
                     foreach ( $customDataType as $dataType ) {
                         if ( in_array ( $dataType, 
                                         array_keys(CRM_Core_SelectValues::customGroupExtends()) ) ) {
                             if ( in_array( $dataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
                                 $val = "'" . CRM_Utils_Type::escape( $dataType, 'String' ) . "', 'Contact' ";
-                            } else if ( in_array( $dataType, CRM_Contact_BAO_ContactType::subTypes( ) ) ) {
-                                // consider subtypes if any
-                                $val = "'" . CRM_Utils_Type::escape($dataType, 'String'). "'";
                             } else {
                                 $val = "'" . CRM_Utils_Type::escape($dataType, 'String') . "'";
                             }
@@ -398,6 +405,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                         $extends = "AND   $cgTable.extends IN ( $value ) ";
                     }
                 }
+
                 if ( $onlyParent ) {
                     $extends .= " AND $cgTable.extends_entity_column_value IS NULL AND $cgTable.extends_entity_column_id IS NULL ";
                 }
@@ -411,7 +419,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                             $cgTable.extends_entity_column_id,
                             $cfTable.is_view,
                             $cfTable.option_group_id,
-                            $cfTable.date_parts,
+                            $cfTable.date_format,
+                            $cfTable.time_format,
                             $cgTable.is_multiple
                      FROM $cfTable
                      INNER JOIN $cgTable
@@ -431,8 +440,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 if ( $customDataSubType ) {
                     $customDataSubType = 
                         CRM_Core_DAO::VALUE_SEPARATOR . $customDataSubType . CRM_Core_DAO::VALUE_SEPARATOR;
-                    $query .= " AND ( $cgTable.extends_entity_column_value LIKE '%$customDataSubType%' 
-                                      OR $cgTable.extends_entity_column_value IS NULL )";
+                    $query .= " AND ( $cgTable.extends_entity_column_value LIKE '%$customDataSubType%'";
+                    if ( !$onlySubType ) {
+                        $query .= " OR $cgTable.extends_entity_column_value IS NULL";
+                    }
+                    $query .= " )";
                 }
                 
                 if ( $customDataSubName ) {
@@ -464,7 +476,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     $fields[$dao->id]['is_view']                     = $dao->is_view;
                     $fields[$dao->id]['is_multiple']                 = $dao->is_multiple;
                     $fields[$dao->id]['option_group_id']             = $dao->option_group_id;
-                    $fields[$dao->id]['date_parts']                  = $dao->date_parts;
+                    $fields[$dao->id]['date_format']                 = $dao->date_format;
+                    $fields[$dao->id]['time_format']                 = $dao->time_format;
                 }
 
                 CRM_Core_BAO_Cache::setItem( $fields,
@@ -488,9 +501,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    public static function &getFieldsForImport( $contactType = 'Individual', $showAll = false ) 
+    public static function &getFieldsForImport( $contactType = 'Individual', $showAll = false, $onlyParent = false ) 
     {
-        $fields =& self::getFields( $contactType, $showAll );
+        // Note: there are situations when we want getFieldsForImport() return fields related 
+        // ONLY to basic contact types, but NOT subtypes. And thats where $onlyParent is helpful
+        $fields =& self::getFields( $contactType, $showAll, false, null, null, $onlyParent );
 
         $importableFields = array();
         foreach ($fields as $id => $values) {
@@ -616,24 +631,23 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case 'Select Date':
-            //TO DO:  Need to handle date parts
-
-
-            if ( $field->is_search_range && $search) {
-
+            if ( $field->is_search_range && $search ) {
                 $qf->addDate( $elementName.'_from', $label . ' - ' . ts('From'), false, 
-                              array( 'formatType'  => 'custom',
+                              array( 'format'      =>  $field->date_format,
+                                     'timeFormat'  =>  $field->time_format,     
                                      'startOffset' =>  $field->start_date_years,
                                      'endOffset'   =>  $field->end_date_years) );
 
                 $qf->addDate( $elementName.'_to', ts('To'), false, 
-                              array( 'formatType'  => 'custom',
+                              array( 'format'      =>  $field->date_format,
+                                     'timeFormat'  =>  $field->time_format,
                                      'startOffset' =>  $field->start_date_years,
                                      'endOffset'   =>  $field->end_date_years) );
             } else {
                 $required = ( ( $useRequired ||( $useRequired && $field->is_required ) ) && !$search );
                 
-                $qf->addDate( $elementName, $label, $required, array( 'formatType'  => 'custom',
+                $qf->addDate( $elementName, $label, $required, array( 'format'      =>  $field->date_format,
+                                                                      'timeFormat'  =>  $field->time_format,    
                                                                       'startOffset' =>  $field->start_date_years,
                                                                       'endOffset'   =>  $field->end_date_years) );
             }
@@ -972,14 +986,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case "Select Date":
-            //TO DO: Fix Date parts
-            /*    
-            $dateParts = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                      $id,
-                                                      'date_parts' );
-            $parts   = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $dateParts);
-            $display = CRM_Utils_Date::customFormat($value, $format, $parts);
-            */
+            // remove time element display if time is not set
+            if ( !$option['attributes']['time_format'] ) {
+                $value = substr( $value, 0, 10 );
+            }
+            
             $display = CRM_Utils_Date::customFormat( $value );
             break;
 
@@ -1169,9 +1180,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             break;
 
-        case 'File':
-            //$defaults["custom_value_{$customFieldId}_id"] = $cv->id; 
-            $defaults[$elementName] = $value;
+        case 'Select Date':
+            list( $defaults[$elementName], $defaults[$elementName . '_time' ] ) = CRM_Utils_Date::setDateDefaults( $value,
+                                                                                                                   null,
+                                                                                                                   $customField->date_format,
+                                                                                                                   $customField->time_format );
             break;
             
         default:
@@ -1245,8 +1258,18 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                        $inline = false ) 
     {
         //get the custom fields for the entity
-        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend, false, $inline );
-       
+        //subtype and basic type
+        $customDataSubType = null;
+        if ( in_array($customFieldExtend, 
+                      CRM_Contact_BAO_ContactType::subTypes()) ) {
+            // This is the case when getFieldsForImport() requires fields 
+            // of subtype and its parent.CRM-5143 
+            $customDataSubType = $customFieldExtend;
+            $customFieldExtend = CRM_Contact_BAO_ContactType::getBasicType( $customDataSubType );
+        }
+        
+        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend, false, $inline, $customDataSubType );
+        
         if ( ! array_key_exists( $customFieldId, $customFields )) {
             return;
         }
@@ -1315,7 +1338,6 @@ SELECT id
         }
         
         $date = null;
-        // fix the date field 
         if ( $customFields[$customFieldId]['data_type'] == 'Date' ) {
             if ( ! CRM_Utils_System::isNull( $value ) ) {
                 $date = CRM_Utils_Date::processDate( $value );   
@@ -1648,6 +1670,11 @@ ORDER BY html_type";
                 // for autocomplete transfer hidden value instead of label
                 if ( $params[$key] && isset ( $params[$key. '_id'] ) ) {
                     $value = $params[$key. '_id'];
+                }
+                
+                // we need to append time with date 
+                if ( $params[$key] && isset ( $params[$key. '_time'] ) ) {
+                    $value .= ' ' . $params[$key. '_time'];
                 }
                 
                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],

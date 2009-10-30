@@ -2,7 +2,7 @@
 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 3.0                                                | 
+ | CiviCRM version 3.1                                                | 
  +--------------------------------------------------------------------+ 
  | Copyright CiviCRM LLC (c) 2004-2009                                | 
  +--------------------------------------------------------------------+ 
@@ -154,7 +154,8 @@ class CRM_Core_BAO_CustomQuery
 SELECT f.id, f.label, f.data_type,
        f.html_type, f.is_search_range,
        f.option_group_id, f.custom_group_id,
-       f.column_name, g.table_name 
+       f.column_name, g.table_name,
+       f.date_format,f.time_format 
   FROM civicrm_custom_field f,
        civicrm_custom_group g
  WHERE f.custom_group_id = g.id
@@ -188,6 +189,7 @@ SELECT f.id, f.label, f.data_type,
             $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
+                                                             
             $optionGroupID = null;
             $htmlTypes = array( 'CheckBox','Radio','Select','Multi-Select', 'AdvMulti-Select', 'Autocomplete-Select' );                            
             if ( in_array( $dao->html_type, $htmlTypes ) && $dao->data_type != 'ContactReference' ) { 
@@ -198,6 +200,9 @@ SELECT f.id, f.label, f.data_type,
                                         array( 1 => $dao->label ) );
                     CRM_Core_Error::fatal( $errorMessage );
                 }
+            } else if ( $dao->html_type == 'Select Date' ) {
+                $this->_options[$dao->id]['attributes']['date_format'] = $dao->date_format;
+                $this->_options[$dao->id]['attributes']['time_format'] = $dao->time_format;
             }
            
             // build the cache for custom values with options (label => value)

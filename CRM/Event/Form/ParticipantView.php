@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -69,11 +69,13 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
         
         // Get Note
         $noteValue = CRM_Core_BAO_Note::getNote( $values[$params['id']]['id'], 'civicrm_participant' );
+        
         $values[$params['id']]['note'] = array_values( $noteValue );
         
-        // Get Contribution Line Items
-        require_once 'CRM/Core/BAO/LineItem.php';
-        $lineItem = CRM_Core_BAO_LineItem::getLineItems( $params['id'] );
+        require_once 'CRM/Price/BAO/LineItem.php';
+
+        // Get Line Items
+        $lineItem = CRM_Price_BAO_LineItem::getLineItems( $params['id'] );
         
         if (!CRM_Utils_System::isNull($lineItem)) {
             $values[$params['id']]['lineItem'][] = $lineItem;

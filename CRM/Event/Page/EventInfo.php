@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -101,8 +101,8 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                             continue;
                         }
                         foreach ( $fieldValues['options'] as $optionId => $optionVal ) {
-                            $values['feeBlock']['value'][$fieldCnt] = $optionVal['name'];
-                            $values['feeBlock']['label'][$fieldCnt] = $optionVal['label'];
+                            $values['feeBlock']['value'][$fieldCnt] = $optionVal['value'];
+                            $values['feeBlock']['label'][$fieldCnt] = $optionVal['description'];
                             $fieldCnt++;
                         }
                     }

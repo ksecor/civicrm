@@ -15,15 +15,14 @@
 {if $rows}
 <div id="ltype">
 <p></p>
-    <div class="form-item">
-        {strip}
+    {strip}
 	{* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
 	{include file="CRM/common/jsortable.tpl"}
         <table id="options" class="display">
           <thead>
            <tr>
-            <th>{ts}Name{/ts}</th>
+            <th id="sortable">{ts}Name{/ts}</th>
             <th>{ts}SKU{/ts}</th>
             <th>{ts}Market Value{/ts}</th>
             <th>{ts}Min Contribution{/ts}</th>
@@ -32,23 +31,22 @@
            </tr>
           </thead>
         {foreach from=$rows item=row}
-	  <tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">        
+	      <tr id="row_{$row.id}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">        
 	        <td>{$row.name}</td>	
 	        <td>{$row.sku}</td>
                 <td>{$row.price }</td>
 	        <td>{$row.min_contribution}</td>
 	        <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	        <td class="btn-slide" id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
+	        <td id={$row.id}>{$row.action|replace:'xx':$row.id}</td>
           </tr>
         {/foreach}
         </table>
-        {/strip}
-        {if $action ne 1 and $action ne 2}
+    {/strip}
+    {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
     	<a href="{crmURL q="action=add&reset=1"}" id="newManagePremium" class="button"><span>&raquo; {ts}New Premium{/ts}</span></a>
         </div>
-        {/if}
-    </div>
+    {/if}
 </div>
 {else}
     {if $action ne 1 and $action ne 2}

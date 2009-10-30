@@ -1263,7 +1263,6 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (2699, 1226, "KEN", "Kent"),
 (2705, 1226, "LAN", "Lancashire"),
 (2709, 1226, "LEC", "Leicestershire"),
-(2715, 1226, "LND", "London, City of"),
 (2723, 1226, "MLN", "Midlothian"),
 (2726, 1226, "MRY", "Moray"),
 (2734, 1226, "NFK", "Norfolk"),

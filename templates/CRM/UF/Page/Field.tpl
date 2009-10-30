@@ -10,7 +10,6 @@
 {else}
     {if $ufField}
         <div id="field_page">
-         <p></p>
         {strip}
         {* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
@@ -22,7 +21,7 @@
                 <th>{ts}Visibility{/ts}</th>
                 <th>{ts}Searchable?{/ts}</th>
                 <th>{ts}In Selector?{/ts}</th>
-                <th id="order">{ts}Order{/ts}</th>
+                <th id="order" class="sortable">{ts}Order{/ts}</th>
                 <th>{ts}Active{/ts}</th>	
                 <th>{ts}Required{/ts}</th>	
                 <th>{ts}View Only{/ts}</th>	

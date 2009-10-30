@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -39,14 +39,63 @@ class api_v2_TagTest extends CiviUnitTestCase
     {  
     }
 
+///////////////// civicrm_tag_get methods
+
+    /**
+     * Test civicrm_tag_get with wrong params type.
+     */
+    public function testGetWrongParamsType()
+    {
+        $params ='is_string';
+        $result =& civicrm_tag_get($params);
+        $this->assertEquals( $result['error_message'],'Params is not an array.' );       
+    }
+
+    /**
+     * Test civicrm_tag_get with empty params.
+     */
+    public function testGetEmptyParams()
+    {
+        $params = array( );
+        $result =& civicrm_tag_get($params);
+        $this->assertEquals( $result['error_message'],'Required parameters missing.' );
+    }
+
+    /* Test civicrm_tag_get with wrong params.
+     */
+    public function testGetWrongParams()
+    {
+        $params = array(
+                        'name'        => 'Wrong Tag Name',
+                       );
+        $result =& civicrm_tag_get($params);
+        $this->assertEquals( $result['error_message'],'Exact match not found.' );
+    }
+    
+    /**
+     * Test civicrm_tag_get - success expected.
+     */
+    public function testGet()
+    {   
+        $params = array( 'name'        => 'New Tag',
+                         'description' => 'This is description for New Tag 02' );
+        $tag =& civicrm_tag_create($params);
+        $params = array( 'name'        => 'New Tag',
+                         );
+        $GetTag = & civicrm_tag_get($params);
+        $this->assertEquals($tag['is_error'], 0);
+        $this->assertEquals($GetTag['id'],$tag['tag_id'],' Checking Tag Id '); 
+    }  
+    
+
 ///////////////// civicrm_tag_create methods
     
     function testCreateWrongParamsType()
     {
         $params = 'a string';
         $result =& civicrm_tag_create($params);
-        $this->assertEquals( $result['is_error'], 1,
-                            "In line " . __LINE__ );
+        $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
+        $this->assertEquals( $result['error_message'],'Input parameters is not an array' );
     }
 
     function testCreateEmptyParams()
@@ -55,7 +104,17 @@ class api_v2_TagTest extends CiviUnitTestCase
         $result =& civicrm_tag_create($params); 
         $this->assertEquals( $result['is_error'], 1,"In line " . __LINE__ );
         $this->assertEquals( $result['error_message'],'No input parameters present' );
-    }    
+    }  
+    
+    function testCreatePasstagInParams()
+    {
+        $params = array( 'tag'         => 10,
+                         'name'        => 'New Tag23',
+                         'description' => 'This is description for New Tag 02' );
+        $tag =& civicrm_tag_create($params);
+        $this->assertEquals( $tag['tag_id'], 10, 'Checking tag ID' );
+       
+    }  
 
     function testCreate()
     {
@@ -69,12 +128,20 @@ class api_v2_TagTest extends CiviUnitTestCase
 
 ///////////////// civicrm_tag_delete methods
 
-    function testDeleteWrongParamsType()
+    function testDeleteWrongParams()
     {
         $tag = array( 'tag_id' => 'incorrect value');
         $tagDelete =& civicrm_tag_delete( $tag );
         $this->assertEquals( $tagDelete['is_error'], 1 );
         $this->assertEquals( $tagDelete['error_message'],'Could not delete tag' );
+    }
+     
+    function testDeleteWrongParamsType()
+    {
+        $tag = 'is string';
+        $tagDelete =& civicrm_tag_delete( $tag );
+        $this->assertEquals( $tagDelete['is_error'], 1 );
+        $this->assertEquals( $tagDelete['error_message'],'Input parameters is not an array' );
     }
 
     function testDeleteEmptyParams()

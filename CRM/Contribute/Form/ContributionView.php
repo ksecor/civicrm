@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -85,7 +85,7 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
             }
         }
 
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this, $this->get( 'id' ),0,$values['contribution_type_id'] );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this, $id, 0,$values['contribution_type_id'] );
 		CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
         
         $premiumId = null;
@@ -137,8 +137,8 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
         require_once 'CRM/Price/BAO/Set.php';
         $lineItems = array( );
         if ( $id && CRM_Price_BAO_Set::getFor( 'civicrm_contribution', $id ) ) {
-            require_once 'CRM/Core/BAO/LineItem.php';
-            $lineItems[] = CRM_Core_BAO_LineItem::getLineItems( $id, 'Contribution' );
+            require_once 'CRM/Price/BAO/LineItem.php';
+            $lineItems[] = CRM_Price_BAO_LineItem::getLineItems( $id, 'contribution' );
         }
         $this->assign( 'lineItem', empty( $lineItems ) ? false : $lineItems );
         $values['totalAmount'] = $values['total_amount'];

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -1109,7 +1109,7 @@ class CRM_Utils_Date
         $birthDateFormat = null;
         if ( !$format ) {
             $birthDateFormat = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
-                                                  'birth', 'format', 'name' );
+                                                           'birth', 'format', 'name' );
         }
         
         
@@ -1544,35 +1544,44 @@ class CRM_Utils_Date
      *
      *  @return array $date and time 
      */
-    static function setDateDefaults( $mysqlDate = null, $formatType = null ) {        
+    static function setDateDefaults( $mysqlDate = null, $formatType = null, $format = null, $timeFormat = null ) {
         // if date is not passed assume it as today
         if ( !$mysqlDate ) {
             $mysqlDate = date( 'Y-m-d G:i:s' ) ;
         }
 
-        if ( !$formatType ) {
-            $config =& CRM_Core_Config::singleton();
-            $formatType = $config->dateInputFormat;
-        } else {
-            $formatType = CRM_Core_Dao::getFieldValue( 'CRM_Core_DAO_PreferencesDate', 
+        $config =& CRM_Core_Config::singleton();
+
+        if ( $formatType ) {
+            $format = CRM_Core_Dao::getFieldValue( 'CRM_Core_DAO_PreferencesDate', 
                                                         $formatType, 'format', 'name' );
         }
+        
+        if ( !$format ) {
+           $format = $config->dateInputFormat; 
+        }     
 
         // get actual format
         $actualPHPFormats = CRM_Core_SelectValues::datePluginToPHPFormats( );
-        $dateFormat       = $actualPHPFormats[$formatType];
+        $dateFormat       = $actualPHPFormats[$format];
         
         $date = date( $dateFormat, strtotime( $mysqlDate) );
         
-        $timeFormat = "g:iA";
-
-        if ( $config->timeInputFormat ) {
-            $timeFormat = "G:i";
+        if ( !$timeFormat ) {
+            $timeFormat = $config->timeInputFormat;
         }
         
-        $time = date( $timeFormat, strtotime( $mysqlDate) );
-        // need to append for hours < 10
-        if ( strlen( $time) < 5 ) {
+        $actualTimeFormat = "g:iA";
+        $appendZeroLength = 7;
+        if ( $timeFormat > 1 ) {
+            $actualTimeFormat = "G:i";
+            $appendZeroLength = 5;
+        }
+        
+        $time = date( $actualTimeFormat, strtotime( $mysqlDate) );
+        
+        // need to append zero for hours < 10
+        if ( strlen( $time) < $appendZeroLength ) {
             $time = '0' . $time;
         }
         

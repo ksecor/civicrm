@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -110,6 +110,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $defaults['confirm_title']          = CRM_Utils_Array::value('confirm_title', $defaults, ts('Confirm Your Registration Information') );
         $defaults['thankyou_title']         = CRM_Utils_Array::value('thankyou_title', $defaults, ts('Thank You for Registering') );
         $defaults['approval_req_text']      = CRM_Utils_Array::value('approval_req_text', $defaults, ts( 'Participation in this event requires approval. Submit your registration request here. Once approved, you will receive an email with a link to a web page where you can complete the registration process.' ) ); 
+        list( $defaults['registration_start_date'], $defaults['registration_start_date_time'] ) = CRM_Utils_Date::setDateDefaults( 
+                                                                                                  CRM_Utils_Array::value( 'registration_start_date' , $defaults ) );
+        list( $defaults['registration_end_date'], $defaults['registration_end_date_time'] )     = CRM_Utils_Date::setDateDefaults( 
+                                                                                                  CRM_Utils_Array::value( 'registration_end_date' , $defaults ) );
         return $defaults;
     }   
     
@@ -185,17 +189,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $this->add('text','registration_link_text',ts('Registration Link Text'));
 
         if (!$this->_isTemplate) {
-            $this->add( 'date',
-                        'registration_start_date',
-                        ts( 'Registration Start Date'  ),
-                        CRM_Core_SelectValues::date('datetime') );
-            $this->addRule('registration_start_date', ts('Please select a valid start date.'), 'qfDate');
-
-            $this->add( 'date',
-                        'registration_end_date',
-                        ts( 'Registration End Date'  ),
-                        CRM_Core_SelectValues::date('datetime') );
-            $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
+            $this->addDateTime( 'registration_start_date', ts('Registration Start Date') );
+            $this->addDateTime( 'registration_end_date', ts('Registration End Date') );
         }
      
         $this->addElement('checkbox',
@@ -367,8 +362,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         }
         
         if (!$this->_isTemplate) {
-            $params['registration_start_date'] = CRM_Utils_Date::format( $params['registration_start_date'] );
-            $params['registration_end_date'] = CRM_Utils_Date::format( $params['registration_end_date'] );
+            $params['registration_start_date'] = CRM_Utils_Date::processDate( $params['registration_start_date'], $params['registration_start_date_time'] );
+            $params['registration_end_date']   = CRM_Utils_Date::processDate( $params['registration_end_date'], $params['registration_end_date_time'] );
         }
         
         require_once 'CRM/Event/BAO/Event.php';

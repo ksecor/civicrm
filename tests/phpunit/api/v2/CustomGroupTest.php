@@ -1,4 +1,4 @@
-<?php
+echo<?php
 
 /**
  *  Include class definitions
@@ -67,6 +67,60 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
     }
 
     /**
+     * check with empty array
+     */
+    function testCustomGroupCreateInvalidExtends()
+    {
+        $params = array( 'domain_id'        => 1,
+                         'title'            => 'Test_Group_1',
+                         'name'             => 'test_group_1',
+                         'weight'           => 4,
+                         'collapse_display' => 1,
+                         'style'            => 'Tab',
+                         'help_pre'         => 'This is Pre Help For Test Group 1',
+                         'help_post'        => 'This is Post Help For Test Group 1',
+                         'is_active'        => 1,
+                         'extends'          => array(),
+                         );
+        
+        $customGroup =& civicrm_custom_group_create($params);
+        $this->assertEquals($customGroup['error_message'], 'First item in params[\'extends\'] must be a class name (e.g. \'Contact\').');
+        $this->assertEquals($customGroup['is_error'], 1);
+    }
+
+    
+    /**
+     * check with create fields
+     */
+    function testCustomGroupCreateWithFields()
+    {
+        $params = array( 'title'            => 'Test_Group_1',
+                         'name'             => 'test_group_1',
+                         'extends'          => array('Individual'),
+                         'weight'           => 4,
+                         'collapse_display' => 1,
+                         'style'            => 'Inline',
+                         'help_pre'         => 'This is Pre Help For Test Group 1',
+                         'help_post'        => 'This is Post Help For Test Group 1',
+                         'is_active'        => 1,
+                         'html_type'       => 'Select',
+                         'data_type'       => 'String',
+                         'option_label'     => array('Label1', 'Label2'),
+                         'option_value'     => array( 'value1', 'value2'),
+                         'option_name'      => array( $name.'_1', $name.'_2'),
+                         'option_weight'    => array(1, 2),
+                         'label'            => 'Country'
+                         );
+        
+        $customGroup =& civicrm_custom_group_create($params);
+        $this->assertEquals($customGroup['is_error'], 0);
+        $this->assertNotNull($customGroup['id']);
+        $this->assertNotNull($customGroup['customFieldId']);
+        $this->assertEquals($customGroup['extends'], 'Individual');
+        $this->customGroupDelete($customGroup['id']);
+    }
+
+    /**
      * check with valid array
      */
     function testCustomGroupCreate()
@@ -87,7 +141,25 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertNotNull($customGroup['id']);
         $this->assertEquals($customGroup['extends'], 'Individual');
         $this->customGroupDelete($customGroup['id']);
+
+        unset( $params['style'] );
+        $customGroup =& civicrm_custom_group_create($params);
+        $this->assertEquals($customGroup['is_error'], 0);
+        $this->assertNotNull($customGroup['id']);
+        $this->assertEquals($customGroup['style'], 'Inline');
+        $this->customGroupDelete($customGroup['id']);
     } 
+    
+    /**
+     * check with not array
+     */
+    function testCustomGroupCreatNotArray()
+    {
+        $params = null;
+        $customGroup =& civicrm_custom_group_create($params);
+        $this->assertEquals($customGroup['is_error'], 1);
+        $this->assertEquals($customGroup['error_message'],'params is not an array');
+    }
 
     /**
      * check without title
@@ -214,6 +286,16 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
     }    
    
     /**
+     * check with no array
+     */
+    function testCustomGroupDeleteNoArray( )
+    {
+        $params = null;
+        $customGroup =& civicrm_custom_group_delete($params);
+        $this->assertEquals($customGroup['is_error'], 1);
+        $this->assertEquals($customGroup['error_message'],'Params is not an array');
+    }    
+    /**
      * check with empty array
      */ 
     function testCustomFieldCreateNoParam()
@@ -235,7 +317,71 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customGroup['is_error'], 0);
     } 
     
-///////////////// civicrm_custom_field_create methods
+//////////////// civicrm_custom_field_create methods
+    
+    /**
+     * check with no array
+     */  
+    function testCustomFieldCreateNoArray( )
+    {
+        $fieldParams = null;
+               
+        $customField =& civicrm_custom_field_create($fieldParams);
+        $this->assertEquals($customField['is_error'], 1);
+        $this->assertEquals( $customField['error_message'],'params is not an array ' );
+    }    
+
+    /**
+     * check with no label
+     */ 
+    function testCustomFieldCreateWithoutLabel( )
+    {
+        $customGroup = $this->customGroupCreate('Individual','text_test_group');
+        $params = array('custom_group_id' => $customGroup['id'],
+                        'name'            => 'test_textfield2',
+                        'html_type'       => 'Text',
+                        'data_type'       => 'String',
+                        'default_value'   => 'abc',
+                        'weight'          => 4,
+                        'is_required'     => 1,
+                        'is_searchable'   => 0,
+                        'is_active'       => 1
+                        );
+        
+        $customField =& civicrm_custom_field_create($params);
+        $this->assertEquals($customField['is_error'],1);
+        $this->assertEquals( $customField['error_message'],'Missing Required field :label' );
+        $this->customGroupDelete($customGroup['id']); 
+    } 
+
+    /**
+     * check with edit
+     */ 
+    function testCustomFieldCreateWithEdit( )
+    {
+        $customGroup = $this->customGroupCreate('Individual','text_test_group');
+        $params = array('custom_group_id' => $customGroup['id'],
+                        'name'            => 'test_textfield2',
+                        'label'           => 'Name1',
+                        'html_type'       => 'Text',
+                        'data_type'       => 'String',
+                        'default_value'   => 'abc',
+                        'weight'          => 4,
+                        'is_required'     => 1,
+                        'is_searchable'   => 0,
+                        'is_active'       => 1
+                        );
+        
+        $customField =& civicrm_custom_field_create($params);
+        $params['id'] = $customField['result']['customFieldId'];
+        $customField =& civicrm_custom_field_create($params);
+
+        $this->assertEquals($customField['is_error'],0);
+        $this->assertNotNull($customField['result']['customFieldId']);
+        $this->customFieldDelete($customField['result']['customFieldId']); 
+        $this->customGroupDelete($customGroup['id']); 
+
+    } 
 
     /**
      * check without groupId
@@ -378,13 +524,49 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
                          );
 
         $customField =& civicrm_custom_field_create($params);
-       
+
         $this->assertEquals($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
         $this->customGroupDelete($customGroup['id']); 
     } 
-    
+     
+    /**
+     * check with data type - Options with option_values
+     */
+    function testCustomFieldCreateWithOptionValues()
+    {
+        $customGroup = $this->customGroupCreate('Contact', 'select_test_group');
+
+        $option_values = array( array( 'weight'    => 1,
+                                       'label'     => 'Label1',
+                                       'value'     => 1,
+                                       'is_active' => 1 ),
+                                
+                                array( 'weight'    => 2,
+                                       'label'     => 'Label2',
+                                       'value'     => 2,
+                                       'is_active' => 1 ),
+                                );
+
+        $params = array ('custom_group_id' => 1,
+                         'label'           => 'Country',
+                         'html_type'       => 'Select',
+                         'data_type'       => 'String',
+                         'weight'          => 4,
+                         'is_required'     => 1,
+                         'is_searchable'   => 0,
+                         'is_active'       => 1,
+                         'option_values'   => $option_values,
+                         );
+
+        $customField =& civicrm_custom_field_create($params);
+
+        $this->assertEquals($customField['is_error'],0);
+        $this->assertNotNull($customField['result']['customFieldId']);
+        $this->customFieldDelete($customField['result']['customFieldId']);
+        $this->customGroupDelete($customGroup['id']); 
+    }
     /**
      * check with data type - Select Option array
      */
@@ -498,7 +680,17 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
     }     
 
 ///////////////// civicrm_custom_field_delete methods
-
+    
+    /**
+     * check with no array
+     */
+    function testCustomFieldDeleteNoArray( )
+    {
+        $params = null; 
+        $customField =& civicrm_custom_field_delete($params); 
+        $this->assertEquals($customField['is_error'], 1);
+        $this->assertEquals($customField['error_message'], 'Params is not an array');
+    }    
     /**
      * check without Field ID
      */
@@ -534,5 +726,6 @@ class api_v2_CustomGroupTest extends CiviUnitTestCase
         $this->assertEquals($customField['is_error'], 0);
         $this->customGroupDelete($customGroup['id']); 
     } 
+ 
 }
 

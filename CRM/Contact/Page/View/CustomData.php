@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -104,8 +104,10 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
 
         if ( $this->_action == CRM_Core_Action::BROWSE ) {
             //Custom Groups Inline
-            $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
-            $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_contactId, $this->_groupId);
+            $entityType = CRM_Contact_BAO_Contact::getContactType( $this->_contactId );
+            $entitySubType = CRM_Contact_BAO_Contact::getContactSubType( $this->_contactId );
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $entityType, $this, $this->_contactId, 
+                                                             $this->_groupId, $entitySubType );
             CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
         } else {
             

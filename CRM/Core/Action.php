@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -206,6 +206,8 @@ class CRM_Core_Action {
         }
         
         $url = array( );
+
+        $firstLink = true;
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
                 $extra = null;
@@ -225,15 +227,25 @@ class CRM_Core_Action {
                 if ( isset( $link['ref'] ) ) {
                     $ref = "class = {$link['ref']}";
                 }
+                $linkClass = "action-item";
+                if ( $firstLink) {
+                    $linkClass .= " action-item-first";
+                    $firstLink = false;
+                }
                 if ( $urlPath ) {                      
-                    $url[] = sprintf('<a href="%s" class="action-item" title="%s" %s ' . $extra . '>%s</a>',
+                    $url[] = sprintf('<a href="%s" class="%s" title="%s" %s ' . $extra . '>%s</a>',
                                        $urlPath,
+                                       $linkClass,
                                        $link['title'], $ref, $link['name'] );
                 } else {
-                    $url[] = sprintf('<a title="%s" class="action-item" %s ' . $extra . '>%s</a>',
-                                       $link['title'], $ref, $link['name'] );
+                    $linkClass .= ' '. strtolower( $link['name'] ) . '-action';
+                    $url[] = sprintf('<a title="%s" class="%s" %s ' . $extra . '>%s</a>',
+                                       $link['title'],
+                                       $linkClass,
+                                       $ref, $link['name'] );
                 }
             }
+            
         }
         
         $result     = $resultDiv = '';
@@ -244,6 +256,7 @@ class CRM_Core_Action {
             $actionLink = array_slice ( $url, 0, 2 );
             $showDiv = true;
         }
+        require_once 'CRM/Utils/String.php';
         CRM_Utils_String::append( $resultLink, '', $actionLink );
         if ( $showDiv ) {
             CRM_Utils_String::append( $resultDiv, '</li><li>', $actionDiv );

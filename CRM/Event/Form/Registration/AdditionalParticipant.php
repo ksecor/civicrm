@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -405,7 +405,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
 
                 } else {
                     $lineItem = array( ); 
-                    require_once 'CRM/Event/Form/Registration/Register.php';
+                    require_once 'CRM/Price/BAO/Set.php';
                     CRM_Price_BAO_Set::processAmount( $this->_values['fee']['fields'], 
                                                       $params, $lineItem );
                     //build the line item..

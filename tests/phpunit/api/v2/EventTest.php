@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -232,7 +232,16 @@ class api_v2_EventTest extends CiviUnitTestCase
      */
      function testSearch()
      {
-         $this->markTestIncomplete();
+          $params = array(
+                    'event_type_id'        => 1,
+                    'return.title'         => 1,
+                    'return.id'            => 1,
+                    'return.start_date'    => 1,
+                    );
+          $result =& civicrm_event_search($params);
+
+          $this->assertEquals( $result[$this->_eventId]['id'], $this->_eventId , 'In line ' . __LINE__ );
+          $this->assertEquals( $result[$this->_eventId]['title'], 'Annual CiviCRM meet' , 'In line ' . __LINE__ );
      }
 
     /**
@@ -241,7 +250,27 @@ class api_v2_EventTest extends CiviUnitTestCase
      */
      function testSearchWithOffsetAndMaxResults()
      {
-         $this->markTestIncomplete();
+         $maxEvents = 5;
+         $events    = array( );
+         while( $maxEvents > 0 ) {
+             $params = array(
+                             'title'         => 'Test Event'.$maxEvents,
+                             'event_type_id' => 2,
+                             'start_date'    => 20081021,
+                             );
+             
+             $events[$maxEvents]  = civicrm_event_create($params);
+             $maxEvents--;
+         }
+         $params = array(
+                         'event_type_id'      => 2,
+                         'return.id'          => 1,
+                         'return.title'       => 1,
+                         'return.offset'      => 2,
+                         'return.max_results' => 2
+                         );
+         $result =& civicrm_event_search($params);
+         $this->assertEquals( count($result), 2 , 'In line ' . __LINE__ ); 
      }
 
 }

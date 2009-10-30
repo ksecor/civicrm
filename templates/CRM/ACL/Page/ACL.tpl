@@ -12,14 +12,14 @@
 
 {if $rows}
 <div id="ltype">
-<p></p>
-    <div class="form-item">
-        {strip}
+    {strip}
 	{* handle enable/disable actions*}
  	{include file="CRM/common/enableDisable.tpl"}
-        <table>
+    {include file="CRM/common/jsortable.tpl"}   
+        <table id="options" class="display">
+        <thead>
         <tr class="columnheader">
-            <th>{ts}Role{/ts}</th>
+            <th id="sortable">{ts}Role{/ts}</th>
             <th>{ts}Operation{/ts}</th>
             <th>{ts}Type of Data{/ts}</th>
             <th>{ts}Which Data{/ts}</th>
@@ -27,6 +27,8 @@
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>
+        </thead>
+        <tbody>
         {foreach from=$rows item=row key=aclID}
 	    <tr id="row_{$aclID}"class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.entity}</td>	
@@ -38,6 +40,7 @@
 	        <td>{$row.action|replace:'xx':$aclID}</td>
         </tr>
         {/foreach}
+        </tbody>
         </table>
         {/strip}
 
@@ -46,7 +49,6 @@
     	<a href="{crmURL q="action=add&reset=1"}" id="newACL" class="button"><span>&raquo; {ts}New ACL{/ts}</span></a>
         </div>
         {/if}
-    </div>
 </div>
 {elseif $action ne 1 and $action ne 2 and $action ne 8}
     <div class="messages status">

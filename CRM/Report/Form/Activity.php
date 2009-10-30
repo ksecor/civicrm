@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -228,6 +228,8 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
                     ON {$this->_aliases['civicrm_activity_target']}.target_contact_id = civicrm_contact_target.id
              LEFT JOIN civicrm_contact civicrm_contact_assignee 
                     ON {$this->_aliases['civicrm_activity_assignment']}.assignee_contact_id = civicrm_contact_assignee.id
+            
+             {$this->_aclFrom}
              LEFT JOIN civicrm_option_value 
                     ON ( {$this->_aliases['civicrm_activity']}.activity_type_id = civicrm_option_value.value )
              LEFT JOIN civicrm_option_group 
@@ -294,6 +296,10 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
         } else {
             $this->_where .= " AND " . implode( ' AND ', $clauses );
         }
+         
+        if ( $this->_aclWhere ) {
+            $this->_where .= " AND {$this->_aclWhere} ";
+        } 
     }
 
     function groupBy( ) {
@@ -313,7 +319,36 @@ class CRM_Report_Form_Activity extends CRM_Report_Form {
         $this->_groupBy   = "GROUP BY " . implode( ', ', $this->_groupBy ) . " ";
     }
 
+    function buildACLClause( $tableAlias ) {
+        //override for ACL( Since Cotact may be source
+        //contact/assignee or target also it may be null )
+        
+        require_once 'CRM/Core/Permission.php';
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
+        if ( CRM_Core_Permission::check( 'view all contacts' ) ) {
+            $this->_aclFrom = $this->_aclWhere = null;
+            return;
+        }
+        
+        $session = CRM_Core_Session::singleton( );
+        $contactID =  $session->get( 'userID' );
+        if ( ! $contactID ) {
+            $contactID = 0;
+        }
+        $contactID = CRM_Utils_Type::escape( $contactID, 'Integer' );
+        
+        CRM_Contact_BAO_Contact_Permission::cache( $contactID );
+        $clauses = array();
+        foreach( $tableAlias as $k => $alias ) {
+            $clauses[] = " INNER JOIN civicrm_acl_contact_cache aclContactCache_{$k} ON ( {$alias}.id = aclContactCache_{$k}.contact_id OR {$alias}.id IS NULL ) AND aclContactCache_{$k}.user_id = $contactID ";  
+        }
+        
+        $this->_aclFrom  = implode(" ", $clauses );
+        $this->_aclWhere = null;
+    }
     function postProcess( ) {
+        
+        $this->buildACLClause( array( 'contact_civireport' , 'civicrm_contact_target', 'civicrm_contact_assignee' ) );
         parent::postProcess();
     }
 

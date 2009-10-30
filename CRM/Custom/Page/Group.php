@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -246,6 +246,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
 		require_once "CRM/Event/PseudoConstant.php";
+        require_once 'CRM/Contact/BAO/ContactType.php';
                 
         $subTypes['Activity']     = CRM_Core_PseudoConstant::activityType( false, true );
         $subTypes['Contribution'] = CRM_Contribute_PseudoConstant::contributionType( );
@@ -254,6 +255,9 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $subTypes['Participant']  = array( );
 		$subTypes['ParticipantRole'     ] = CRM_Core_OptionGroup::values( 'participant_role' );;
 	    $subTypes['ParticipantEventName'] = CRM_Event_PseudoConstant::event( );
+        $subTypes['Individual']           = CRM_Contact_BAO_ContactType::subTypePairs( 'Individual' );
+        $subTypes['Household' ]           = CRM_Contact_BAO_ContactType::subTypePairs( 'Household' );
+        $subTypes['Organization']         = CRM_Contact_BAO_ContactType::subTypePairs( 'Organization' );
                
         require_once "CRM/Contact/BAO/Relationship.php";
         

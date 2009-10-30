@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -954,26 +954,43 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $values = array( );
             CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_PreferencesDate', $params, $values );
             
-            $attributes['formatType']  = $values['format'];
-            
-            if ( !isset( $attributes['startOffset'] ) ) {
-                $attributes['startOffset'] = $values['start'];
-            }
-            
-            if ( !isset( $attributes['endOffset'] ) ) { 
-                $attributes['endOffset']   = $values['end'];
-            } 
-        } else {
-            $config =& CRM_Core_Config::singleton( );
-            $attributes['formatType']  = $config->dateInputFormat;
+            $attributes['format']      = $values['format'];
+            $attributes['startOffset'] = $values['start'];
+            $attributes['endOffset']   = $values['end'];
+        }
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( !isset( $attributes['format'] ) ) {
+            $attributes['format']  = $config->dateInputFormat;
+        }
+        
+        if ( !isset( $attributes['startOffset'] ) ) {
             $attributes['startOffset'] = 10; 
+        }
+        
+        if ( !isset( $attributes['endOffset'] ) ) { 
             $attributes['endOffset']   = 10; 
         }
         
         $this->add('text', $name, $label, $attributes );
 
-        if ( CRM_Utils_Array::value( 'addTime', $attributes ) ) {
-            $this->add('text', $name . '_time', ts('Time') );
+        if ( CRM_Utils_Array::value( 'addTime', $attributes ) || 
+             CRM_Utils_Array::value( 'timeFormat', $attributes ) ) {
+            
+            if ( !isset( $attributes['timeFormat'] ) ) {
+                $timeFormat = $config->timeInputFormat;
+            } else {
+                $timeFormat = $attributes['timeFormat'];
+            }
+            
+            // 1 - 12 hours and 2 - 24 hours, but for jquery widget it is 0 and 1 respectively
+            if ( $timeFormat ) {
+                $show24Hours = true;
+                if ( $timeFormat == 1 ) {
+                    $show24Hours = false;
+                }
+                $this->add('text', $name . '_time', ts('Time'), array( 'timeFormat' => $show24Hours ) );
+            }            
         }
                 
         if ( $required ) {

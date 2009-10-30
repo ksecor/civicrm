@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -199,22 +199,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 $this->_defaultDataType = $defaults['data_type'];
             }
             
-            if ( CRM_Utils_Array::value( 'date_parts', $defaults  ) ) {
-                $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                                       $defaults['date_parts'] );
-                
-                $temp_date_parts = array( );
-                if (is_array( $date_parts )) {
-                    foreach($date_parts as $v  ) {
-                        if ( $v == 'H') {
-                            $temp_date_parts['h'] = 1;
-                        } else {
-                            $temp_date_parts[$v] = 1;
-                        }
-                    }
-                    $defaults['date_parts'] = $temp_date_parts;
-                }
-            }
             $defaults['option_type'] = 2;
         } else {
             $defaults['is_active']   = 1;
@@ -232,10 +216,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $defaults['weight']       = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomField', $fieldValues);
             
             $defaults['text_length']  = 255;
-            $defaults['date_parts']   = array('d' => 1,'M' => 1,'Y' => 1); 
             $defaults['note_columns'] = 60;
             $defaults['note_rows']    = 4;
-            
             $defaults['is_view'] = 0;
         }
         
@@ -377,15 +359,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $this->addRule('start_date_years', ts('Value should be a positive number') , 'integer');
         $this->addRule('end_date_years', ts('Value should be a positive number') , 'integer');
 
-        $includedPart[] = $this->createElement('checkbox', 'M',true,ts('Month'));
-        $includedPart[] = $this->createElement('checkbox', 'd',true,ts('Day'));
-        $includedPart[] = $this->createElement('checkbox', 'Y',true,ts('Year'));
-        $includedPart[] = $this->createElement('checkbox', 'h',true,ts('Hour'));
-        $includedPart[] = $this->createElement('checkbox', 'i',true,ts('min'));
-        $includedPart[] = $this->createElement('checkbox', 'A',true,ts('AM/PM'));
-
-        $this->addGroup($includedPart, 'date_parts',ts('Included date parts'));
-        
+        $this->add( 'select', 'date_format', ts('Date Format'),
+                    array( '' => ts( '- select -' ) ) + CRM_Core_SelectValues::getDatePluginInputFormats( ) );
+                    
+        $this->add( 'select', 'time_format', ts('Time'),
+                    array( '' => ts( '- select -' ) ) + CRM_Core_SelectValues::getTimeFormats( ) );
+                    
         // for Note field
         $this->add('text',
                    'note_columns',
@@ -579,31 +558,12 @@ SELECT count(*)
             }
         } 
 
-        /**
-         * check that date parts is valid
-         */
         if ( self::$_dataTypeKeys[$fields['data_type'][0]] == 'Date' ) {
-            if ( ! isset( $fields['date_parts']['Y'] ) ) {
-                $errors['date_parts'] = ts( 'You must have a year selected for a custom date' );
-            } else {
-                $orderElements = array( 'M', 'd', 'h', 'i', 'A' );
-                $error    = false;
-                $okToHave = true;
-                foreach ( $orderElements as $order ) {
-                    if ( isset( $fields['date_parts'][$order] ) ) {
-                        if ( ! $okToHave ) {
-                            $error = true;
-                        }
-                    } else {
-                        $okToHave = false;
-                    }
-                }
-                if ( $error ) {
-                    $errors['date_parts'] = ts( 'The combination selected does not make a valid date' );
-                }
+            if ( ! $fields['date_format'] ) {
+                $errors['date_format'] = ts( 'Please select a date format.' );
             }
         }
-
+        
         /** Check the option values entered
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
@@ -874,13 +834,6 @@ SELECT id
                 }
                 break;
             }
-        }
-        
-        if ( !isset ( $params['date_parts']['A'] ) && isset ( $params['date_parts']['h'] ) ) {
-            unset( $params['date_parts']['h'] );
-            unset( $params['date_parts']['i'] );
-            $params['date_parts']['h'] = 1;
-            $params['date_parts']['i'] = 1;
         }
         
         // need the FKEY - custom group id

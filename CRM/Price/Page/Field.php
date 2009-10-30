@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 3.0                                                |
+ | CiviCRM version 3.1                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
@@ -140,13 +140,9 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             if ( $priceFieldBAO->html_type == 'Text' ) {
                 $optionValues = array( );
                 $params       = array( 'name' => "civicrm_price_field.amount.{$priceFieldBAO->id}" );
-                
                 require_once 'CRM/Core/OptionValue.php';
                 CRM_Core_OptionValue::getValues( $params, $optionValues );
-                
-                foreach( $optionValues as $values ) {
-                    $priceField[$priceFieldBAO->id]['price'] = CRM_Utils_Array::value('name', $values);
-                }
+                $priceField[$priceFieldBAO->id]['price'] = CRM_Utils_Array::value( 'value', array_pop( $optionValues ) );
             }
             
             $action = array_sum(array_keys($this->actionLinks()));
