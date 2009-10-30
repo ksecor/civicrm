@@ -71,17 +71,8 @@ class CRM_Contact_Form_Search_Custom_ContributionAggregate
                     ts( '...and $' ) );
         $form->addRule( 'max_amount', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
 
-        $form->add( 'date',
-                    'start_date',
-                    ts('Contribution Date From'),
-                    CRM_Core_SelectValues::date('custom', 10, 3 ) );
-        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-
-        $form->add( 'date',
-                    'end_date',
-                    ts('...through'),
-                    CRM_Core_SelectValues::date('custom', 10, 0 ) );
-        $form->addRule('end_date', ts('Select a valid date.'), 'qfDate');
+        $form->addDate( 'start_date', ts('Contribution Date From'), false, array( 'formatType' => 'custom') );
+        $form->addDate( 'end_date', ts('...through'), false, array( 'formatType' => 'custom') );
 
         /**
          * If you are using the sample template, this array tells the template fields to render
@@ -168,12 +159,12 @@ civicrm_contact AS contact_a
         $clauses[] = "contrib.contact_id = contact_a.id";
         $clauses[] = "contrib.is_test = 0";
 
-        $startDate = CRM_Utils_Date::format( $this->_formValues['start_date'] );
+        $startDate = CRM_Utils_Date::processDate( $this->_formValues['start_date'] );
         if ( $startDate ) {
             $clauses[] = "contrib.receive_date >= $startDate";
         }
 
-        $endDate = CRM_Utils_Date::format( $this->_formValues['end_date'] );
+        $endDate = CRM_Utils_Date::processDate( $this->_formValues['end_date'] );
         if ( $endDate ) {
             $clauses[] = "contrib.receive_date <= $endDate";
         }

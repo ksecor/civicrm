@@ -16,7 +16,13 @@
             {foreach from=$elements item=element}
                 <tr>
                     <td class="label">{$form.$element.label}</td>
-                    <td>{$form.$element.html}</td>
+                    {if $element eq 'start_date'}
+                        <td>{include file="CRM/common/jcalendar.tpl" elementName=start_date}</td>
+                    {elseif $element eq 'end_date'}
+                        <td>{include file="CRM/common/jcalendar.tpl" elementName=end_date}</td>
+                    {else}
+                        <td>{$form.$element.html}</td>
+                    {/if}
                 </tr>
             {/foreach}
             <tr>

@@ -80,17 +80,8 @@ implements CRM_Contact_Form_Search_Interface {
         $events = CRM_Event_BAO_Event::getEvents( true );
         $form->add('select', 'event_id',  ts( 'Event Name' ), array( '' => ts( '- select -' ) ) + $events ) ;
         
-        $form->add( 'date',
-                    'start_date',
-                    ts('Payments Date From'),
-                    CRM_Core_SelectValues::date('custom', 10, 3 ) );
-        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-        
-        $form->add( 'date',
-                    'end_date',
-                    ts('...through'),
-                    CRM_Core_SelectValues::date('custom', 10, 0 ) );
-        $form->addRule('end_date', ts('Select a valid date.'), 'qfDate');
+        $form->addDate('start_date', ts('Payments Date From'), false, array( 'formatType' => 'custom' ) );
+        $form->addDate('end_date', ts('...through'), false, array( 'formatType' => 'custom' ) );
         
         /**
          * If you are using the sample template, this array tells the template fields to render
@@ -207,12 +198,12 @@ implements CRM_Contact_Form_Search_Interface {
             $clauses[] = "civicrm_contribution.payment_instrument_id <> 0";
         }
         
-        $startDate = CRM_Utils_Date::format( $this->_formValues['start_date'] );
+        $startDate = CRM_Utils_Date::processDate( $this->_formValues['start_date'] );
         if ( $startDate ) {
             $clauses[] = "civicrm_contribution.receive_date >= $startDate";
         }
         
-        $endDate = CRM_Utils_Date::format( $this->_formValues['end_date'] );
+        $endDate = CRM_Utils_Date::processDate( $this->_formValues['end_date'] );
         if ( $endDate ) {
             $clauses[] = "civicrm_contribution.receive_date <= {$endDate}235959";
         }
