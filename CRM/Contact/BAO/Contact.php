@@ -787,12 +787,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 } else {
                     foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
                         $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($type, $showAll));
-
-                        $contactSubType = CRM_Contact_BAO_ContactType::subTypes( $type );
-                        foreach( $contactSubType as $subTypeName => $subTypeLabel ) {
-                            $fields = array_merge($fields,
-                                                  CRM_Core_BAO_CustomField::getFieldsForImport($subTypeName, $showAll) );
-                        }
                     }
                 }
                 
@@ -915,18 +909,12 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 
                 if ( $contactType != 'All' ) { 
                     $fields = array_merge($fields,
-                                          CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );
+                                          CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status, true) );
                     
                 } else {
                     foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
                         $fields = array_merge( $fields, 
                                                CRM_Core_BAO_CustomField::getFieldsForImport($type));     
-                        
-                        $contactSubType = CRM_Contact_BAO_ContactType::subTypes( $type );
-                        foreach( $contactSubType as $subTypeName => $subTypeLabel ) {
-                            $fields = array_merge($fields,
-                                                  CRM_Core_BAO_CustomField::getFieldsForImport($subTypeName) );
-                        }
                     }
                 }
                 
