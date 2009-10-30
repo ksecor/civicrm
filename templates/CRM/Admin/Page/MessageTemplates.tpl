@@ -6,9 +6,7 @@
   {* View a system default workflow template *}
 
   <div id="help">
-  {ts}You are viewing the system default template for this workflow. After upgrades OR if you are having issues with your customized version
-  for this workflow, it is useful to compare your active message code to the default code shown here. You can use the &quot;Select&quot; buttons below
-  (with copy and paste commands) to copy the default code into a text editor and then compare it to your customized version.{/ts}
+    {ts}You are viewing the system default template for this workflow. After upgrades OR if you are having issues with your customized version for this workflow, it is useful to compare your active message code to the default code shown here. You can use the 'Select' buttons below (with copy and paste commands) to copy the default code into a text editor and then compare it to your customized version.{/ts}
   </div>
 
   <fieldset>
@@ -21,7 +19,7 @@
         <a href='#' onclick='MessageTemplates.msg_subject.select(); return false;' class='button'><span>Select Subject</span></a>
         <div class='spacer'></div>
       </div>
-    </div
+    </div>
   </div>
   
   <div class="section msg_txt-section">
