@@ -100,43 +100,15 @@
               </table>
             {/strip}
 
-          {if $action ne 1 and $action ne 2}
-            <div class="action-link">
-              <a href="{crmURL q="action=add&reset=1"}" id="newMessageTemplates" class="button"><span>&raquo; {ts}New Message Template{/ts}</span></a>
-            </div>
-          {/if}
+            {if $action ne 1 and $action ne 2 and $smarty.section.template_selector.first}
+              <div class="action-link">
+                <a href="{crmURL q="action=add&reset=1"}" id="newMessageTemplates" class="button"><span>&raquo; {ts}New Message Template{/ts}</span></a>
+              </div>
+            {/if}
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-
-    <div id='workflow' class='ui-tabs-panel ui-widget-content ui-corner-bottom'>
-      <div>
-        <p></p>
-        <div class="form-item">
-          {strip}
-            <table class="display">
-              <thead>
-                <tr>
-                  <th>{ts}Message Title{/ts}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              {foreach from=$rows item=row}
-                {* we skip the reserved rows here rather than on the PHP side so that we can still edit the upstream templates if needed be *}
-                {if !$row.is_reserved and $row.workflow_id}
-                  <tr id="row_{$row.id}" class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-                    <td>{$row.msg_title}</td>
-                    <td>{$row.action|replace:'xx':$row.id}</td>
-                  </tr>
-                {/if}
-              {/foreach}
-            </table>
-          {/strip}
-
-        </div>
-      </div>
-    </div>
+    {/section}
   </div>
 
   <script type='text/javascript'>
