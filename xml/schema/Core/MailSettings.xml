@@ -16,6 +16,13 @@
     <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain is this match entry for</comment>
+      <add>3.1</add>
+  </field>
+  <field>
     <name>name</name>
     <type>varchar</type>
     <length>255</length>

@@ -58,8 +58,9 @@ class EmailProcessor {
 
         require_once 'CRM/Core/DAO/MailSettings.php';
         $dao = new CRM_Core_DAO_MailSettings;
+        $dao->domain_id = CRM_Core_Config::domainID( );
         $dao->find( );
-
+        
         while ( $dao->fetch() ) {
             // FIXME: legacy regexen to handle CiviCRM 2.1 address patterns, with domain id and possible VERP part
             $commonRegex = '/^' . preg_quote($dao->localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+)\.(\d+)\.(\d+)\.([0-9a-f]{16})(-.*)?@' . preg_quote($dao->domain) . '$/';

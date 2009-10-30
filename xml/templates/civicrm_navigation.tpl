@@ -1,4 +1,4 @@
--- Navigation Menu and Preferences
+-- Navigation Menu, Preferences and Mail Settings
 
 SELECT @domainID := id FROM civicrm_domain where name = 'Default Domain Name';
 
@@ -9,6 +9,10 @@ INSERT INTO
 VALUES 
      (@domainID,NULL,1,'123456789101113','12345678910','1234567891011121315161718','1234578','1234568910111314','{contact.address_name}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.addressee}\n{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}',NULL,NULL,NULL,2,NULL,'12');
 {/literal}
+
+-- mail settings 
+
+INSERT INTO civicrm_mail_settings (domain_id, name, is_default, domain) VALUES (@domainID, 'default', true, 'FIXME.ORG');
 
 -- navigation 
 

@@ -49,6 +49,7 @@ class CRM_Mailing_MailStore
     function getStore($name = null)
     {
         $dao = new CRM_Core_DAO_MailSettings;
+        $dao->domain_id =  CRM_Core_Config::domainID( );
         $name ? $dao->name = $name : $dao->is_default = 1;
         if (!$dao->find(true)) throw new Exception("Could not find entry named $name in civicrm_mail_settings");
 

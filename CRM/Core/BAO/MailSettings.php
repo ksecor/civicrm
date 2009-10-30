@@ -58,6 +58,7 @@ class CRM_Core_BAO_MailSettings extends CRM_Core_DAO_MailSettings
         if (!$dao) {
             $dao = new self;
             $dao->is_default = 1;
+            $dao->domain_id  = CRM_Core_Config::domainID( );
             $dao->find(true);
         }
         return $dao;
@@ -82,7 +83,16 @@ class CRM_Core_BAO_MailSettings extends CRM_Core_DAO_MailSettings
     {
         return self::defaultDAO()->localpart;
     }
-    
+
+    /**
+     * Return the return path from the default set of settings
+     *
+     * @return string  default return path
+     */
+    static function defaultReturnPath()
+    {
+        return self::defaultDAO()->return_path;
+    }
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only

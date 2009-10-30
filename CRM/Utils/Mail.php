@@ -46,7 +46,10 @@ class CRM_Utils_Mail
                           $replyTo = null,
                           $html_message = null,
                           $attachments = null ) {
-        $returnPath = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_MailSettings', 1, 'return_path', 'is_default');
+        
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $returnPath = CRM_Core_BAO_MailSettings::defaultReturnPath();
+        
         if ( ! $returnPath ) {
             $returnPath = self::pluckEmailFromHeader($from);
         }

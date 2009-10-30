@@ -130,7 +130,9 @@ class CRM_Admin_Form_MailSettings extends CRM_Admin_Form
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
         }
-        
+
+        $params['domain_id'] = CRM_Core_Config::domainID( );
+
         // assign id only in update mode
         $status = ts( 'Your New  Email Settings have been saved.' );
         if ( $this->_action & CRM_Core_Action::UPDATE ) { 
