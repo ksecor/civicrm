@@ -98,11 +98,12 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
     public function buildQuickForm( )  
     {   
         //add various dates
-        $this->addDate( 'scheduled_date', ts('Scheduled Date'), false, array( 'formrule' => 'qfDate') );
+        $this->addDate( 'scheduled_date', ts('Scheduled Date') );
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                        'js'        => array( 'onclick' => "return verify( );" ),
                                         'isDefault' => true   ), 
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
