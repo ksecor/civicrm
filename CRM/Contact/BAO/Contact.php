@@ -1385,12 +1385,14 @@ AND    civicrm_contact.id = %1";
                     if ( isset ( $params[$key. '_id'] ) ) {
                         $value = $params[$key. '_id'];
                     }
+                    
+
+                    $type = CRM_Utils_Array::value('contact_sub_type', $data) ? $data['contact_sub_type'] : $data['contact_type'];
+                    
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
                                                                  $data['custom'], 
-                                                                 $value,
-                                                                 array( $data['contact_type'],
-                                                                        CRM_Utils_Array::value( 'contact_sub_type', 
-                                                                                                $data ) ),
+                                                                 $value, 
+                                                                 $type,
                                                                  null,
                                                                  $contactID );
                 } else if ($key == 'edit') {
