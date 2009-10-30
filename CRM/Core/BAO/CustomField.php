@@ -986,14 +986,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case "Select Date":
-            //TO DO: Fix Date parts
-            /*    
-            $dateParts = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                      $id,
-                                                      'date_parts' );
-            $parts   = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $dateParts);
-            $display = CRM_Utils_Date::customFormat($value, $format, $parts);
-            */
+            // remove time element display if time is not set
+            if ( !$option['attributes']['time_format'] ) {
+                $value = substr( $value, 0, 10 );
+            }
+            
             $display = CRM_Utils_Date::customFormat( $value );
             break;
 
@@ -1183,9 +1180,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             break;
 
-        case 'File':
-            //$defaults["custom_value_{$customFieldId}_id"] = $cv->id; 
-            $defaults[$elementName] = $value;
+        case 'Select Date':
+            list( $defaults[$elementName], $defaults[$elementName . '_time' ] ) = CRM_Utils_Date::setDateDefaults( $value,
+                                                                                                                   null,
+                                                                                                                   $customField->date_format,
+                                                                                                                   $customField->time_format );
             break;
             
         default:

@@ -1136,28 +1136,6 @@ SELECT $select
     {
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/BAO/CustomOption.php';
-
-        // TO DO
-        /*
-        //this is fix for calendar for date field  
-        foreach ( $groupTree as $id => $group ) { 
-            foreach ( $group['fields'] as $key2 => $field ) {
-                if ( $field['data_type'] == 'Date' && $field['date_parts'] ) {
-                    $datePart = explode( CRM_Core_DAO::VALUE_SEPARATOR , $field['date_parts']);
-                    $datePart = array_flip( $datePart);
-                    
-                    if (( !array_key_exists( 'M', $datePart))||
-                        ( !array_key_exists( 'd', $datePart))||
-                        ( !array_key_exists( 'Y', $datePart))) {
-                        $groupTree[$key1]['fields'][$key2]['skip_calendar'] = true;
-                    }
-                    if (array_key_exists( 'H', $datePart)){
-                        $groupTree[$key1]['fields'][$key2]['skip_ampm'] = true; 
-                    }
-                }
-            }
-        }
-        */
         
         $form->assign_by_ref( 'groupTree', $groupTree );
         $sBlocks = array( );
