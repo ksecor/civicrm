@@ -22,6 +22,8 @@
     </dd>
     <dt>{$form.parent_id.label}</dt>
     <dd>&nbsp;{$form.parent_id.html}</dd>
+    <dt>{$form.image_URL.label}</dt>
+    <dd>{$form.image_URL.html|crmReplace:class:'huge40'}</dd>
     <dt>{$form.description.label}</dt>
     <dd>
         {if $action eq 2}
