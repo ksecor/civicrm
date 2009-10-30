@@ -149,7 +149,9 @@ class CRM_Event_Form_EventFees
         require_once 'CRM/Price/BAO/Set.php';
         if ( $priceSetId = CRM_Price_BAO_Set::getFor( 'civicrm_event', $form->_eventId ) ) {
             // get price set default values, CRM-4090
-            if ( 'CRM_Event_Form_Registration_Register' == CRM_Utils_System::getClassName( $form ) ) {
+            if ( in_array( get_class( $form ), 
+                           array( 'CRM_Event_Form_Registration_Register',
+                                  'CRM_Event_Form_Registration_AdditionalParticipant' ) ) ) {
                 $priceSetValues = self::setDefaultPriceSet( $form->_pId, $form->_eventId );
                 if ( !empty( $priceSetValues ) ) {
                     $defaults[$form->_pId] = array_merge( $defaults[$form->_pId], $priceSetValues );  
