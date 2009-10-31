@@ -648,7 +648,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
 
                 require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
-                $searchRows[$contactID]['type'] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+                $searchRows[$contactID]['type'] = 
+                    CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_sub_type ? 
+                                                             $result->contact_sub_type : $result->contact_type );
 
             }
 

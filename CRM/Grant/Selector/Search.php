@@ -319,7 +319,9 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                                   'cxt' => $this->_context ) );
 
              require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
-             $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+             $row['contact_type' ] = 
+                 CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_sub_type ? 
+                                                          $result->contact_sub_type : $result->contact_type );
 
              $rows[] = $row;
          }

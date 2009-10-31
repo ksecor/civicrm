@@ -399,6 +399,7 @@ class CRM_Pledge_BAO_Query
         if ( $mode & CRM_Contact_BAO_Query::MODE_PLEDGE ) {
             $properties = array(  
                                 'contact_type'                    => 1, 
+                                'contact_sub_type'                => 1, 
                                 'sort_name'                       => 1, 
                                 'display_name'                    => 1,
                                 'pledge_id'                       => 1,

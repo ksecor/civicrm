@@ -637,7 +637,8 @@ AND civicrm_case.status_id != $closedId";
                 $casesList[$result->case_id][$field] = $result->$field;
                 if( $field == 'contact_type' ) {
                     $casesList[$result->case_id]['contact_type_icon'] 
-                        = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+                        = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_sub_type ? 
+                                                                   $result->contact_sub_type : $result->contact_type );
                     $casesList[$result->case_id]['action'] 
                         = CRM_Core_Action::formLink( $actions, $mask,
                                                      array( 'id'  => $result->case_id,

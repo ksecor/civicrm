@@ -328,7 +328,9 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             
             $row['action']       = CRM_Core_Action::formLink( self::links( $componentId, $componentAction ), $mask, $actions );
 
-            $row['contact_type'] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+            $row['contact_type'] = 
+                CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_sub_type ? 
+                                                         $result->contact_sub_type : $result->contact_type );
 
             if ( CRM_Utils_Array::value( 'amount_level', $row ) ) {
                 CRM_Event_BAO_Participant::fixEventLevel( $row['amount_level'] );

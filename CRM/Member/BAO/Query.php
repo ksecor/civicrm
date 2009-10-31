@@ -299,6 +299,7 @@ class CRM_Member_BAO_Query
         if ( $mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
             $properties = array(  
                                 'contact_type'           => 1, 
+                                'contact_sub_type'       => 1, 
                                 'sort_name'              => 1, 
                                 'display_name'           => 1,
                                 'membership_type_id'     => 1,

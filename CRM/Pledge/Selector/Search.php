@@ -324,8 +324,9 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
 
 
              require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
-             $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );             
-
+             $row['contact_type' ] = 
+                 CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_sub_type ? 
+                                                          $result->contact_sub_type : $result->contact_type );
              $rows[] = $row;
          }
          return $rows;

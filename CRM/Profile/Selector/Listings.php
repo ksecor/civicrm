@@ -467,7 +467,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             }
             $row = array( );
             $empty = true;
-            $row[] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+            $row[] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_sub_type ? 
+                                                              $result->contact_sub_type : $result->contact_type );
             if ( $result->sort_name ) {
                 $row['sort_name'] = $result->sort_name;
                 $empty            = false;
