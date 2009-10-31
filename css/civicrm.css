@@ -1899,7 +1899,7 @@ div.grippie {
 
 /* recently viewed icons */
 
-.block-civicrm #recently-viewed .icon {
+.block-civicrm #recently-viewed .crm-icon, .crm-icon {
 	background-image: url('../i/item_sprites.png');
 	margin:2px 4px 0 0;
 	}
