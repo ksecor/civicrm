@@ -1,4 +1,17 @@
 <?php
+
+$req_headers = array();
+loadHeaders();
+
+function loadHeaders() {
+    global $req_headers;
+    if (function_exists('apache_request_headers')) {
+        $req_headers = apache_request_headers();
+    } else {
+        $req_headers = $_SERVER;
+    }
+}
+
 function displayError($message) {
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"../packages/jquery/css/openid-selector.css\" />"; 
     print "<div class=\"error\">$message\n<br/>";
@@ -71,15 +84,18 @@ function &getConsumer() {
 }
 
 function getScheme() {
+    global $req_headers;
     $scheme = 'http';
-    if ((isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') or
-	(isset($_SERVER['HTTP_SSLPROXY']) and $_SERVER['HTTP_SSLPROXY'])) {
+    if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ||
+        (isset($req_headers['X_FORWARDED_PROTO']) &&
+            strtolower($req_headers['X_FORWARDED_PROTO']) == 'https')) {
         $scheme .= 's';
     }
     return $scheme;
 }
 
 function getReturnTo() {
+    loadHeaders();
     $urlPort = getUrlPort();
     
     return sprintf("%s://%s%s%s/finish_auth.php",
@@ -98,8 +114,10 @@ function getTrustRoot() {
 }
 
 function getUrlPort() {
+    global $req_headers;
     $scheme = getScheme();
-    if ( array_key_exists('HTTP_SSLPROXY', $_SERVER ) ) {
+    if ( array_key_exists('X_FORWARDED_PROTO', $req_headers ) &&
+         $req_headers['X_FORWARDED_PROTO'] == 'https' ) {
         $server_port = 443;
     } else {
 	    $matches = array();
