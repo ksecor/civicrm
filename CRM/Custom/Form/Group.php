@@ -373,8 +373,15 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
 				} elseif ( $subName == 2 ) {
 					$defaults['extends'][0] = 'ParticipantEventName';
 				}
-			}
-        }
+			} else if ( $extends == 'Relationship' && !empty($subExtends) ) {
+                $relationshipDefaults = array ( );
+                foreach ( $defaults['extends'][1] as $donCare => $rel_type_id ) {
+                    $relationshipDefaults[] = $rel_type_id.'_a_b';
+                }
+                
+                $defaults['extends'][1] = $relationshipDefaults;
+            }
+            
      
         return $defaults;
     }
