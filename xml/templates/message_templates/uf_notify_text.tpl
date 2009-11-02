@@ -1,16 +1,11 @@
-{if $grouptitle} 
-
-Submitted For: {$displayName}
-Date: {$currentDate}
-Contact Summary: {$contactLink} 
+{ts}Submitted For:{/ts} {$displayName}
+{ts}Date:{/ts} {$currentDate}
+{ts}Contact Summary:{/ts} {$contactLink}
 
 ===========================================================
-{ts}{$grouptitle} {/ts}
+{$grouptitle}
 
 ===========================================================
 {foreach from=$values item=value key=valueName}
- {$valueName} : {$value}
+{$valueName}: {$value}
 {/foreach}
-
-{/if}
-
