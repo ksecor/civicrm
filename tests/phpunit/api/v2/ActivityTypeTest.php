@@ -42,8 +42,8 @@ class api_v2_ActivityTypeTest extends CiviUnitTestCase
     {
         return array(
                      'name'        => 'Activity Type',
-                     'description' => 'Test all Activity_BAO_ActivityType methods.',
-                     'group'       => 'CiviCRM BAO Tests',
+                     'description' => 'Test all ActivityType Get/Create/Delete methods.',
+                     'group'       => 'CiviCRM API Tests',
                      );
     }
     
@@ -53,7 +53,7 @@ class api_v2_ActivityTypeTest extends CiviUnitTestCase
     }
     
     /**
-     *  Test civicrm_activities_type_get()
+     *  Test civicrm_activity_type_get()
      */
     function testActivityTypeCheckValues()
     {
@@ -64,7 +64,7 @@ class api_v2_ActivityTypeTest extends CiviUnitTestCase
     }
     
     /**
-     *  Test civicrm_activities_type_create with no label()
+     *  Test civicrm_activity_type_create with no label()
      */
     function testActivityTypecreate( ) {
         
@@ -78,7 +78,7 @@ class api_v2_ActivityTypeTest extends CiviUnitTestCase
     }
     
     /**
-     *  Test civicrm_activities_type_create - check id
+     *  Test civicrm_activity_type_create - check id
      */
     function testActivityTypecreatecheckId( ) {
         
@@ -94,7 +94,7 @@ class api_v2_ActivityTypeTest extends CiviUnitTestCase
     }
     
     /**
-     *  Test civicrm_activities_type_delete()
+     *  Test civicrm_activity_type_delete()
      */
     function testActivityTypeDelete( ) {
         
