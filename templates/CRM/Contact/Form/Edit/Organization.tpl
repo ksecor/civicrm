@@ -16,7 +16,7 @@
        <td>{$form.sic_code.label}<br/>
        {$form.sic_code.html|crmReplace:class:big}</td>
 
-       <td>{if $action == 1 and $contactSubType}&nbsp;{else}
+       <td>{if ($action == 1 and $contactSubType) or !$allowEditSubType}&nbsp;{else}
               {$form.contact_sub_type.label}<br />
               {$form.contact_sub_type.html}
            {/if}

@@ -2177,5 +2177,72 @@ UNION
          
          return $contextMenu;
      }
-     
+
+     /**
+      * Function to check whether allow to edit any contact's subtype
+      * on the basis of custom data and relationship of specific subtype
+      *
+      * @param  int     $contactId    contact id.
+      * @param  string  $subType      subtype.  
+      *
+      * @return boolean true/false.
+      * @static
+      */
+     static function allowEditSubtype( $contactId, $subType, $groupTree = null ) 
+     {
+         if ( !$contactId || empty($subType) ) {
+             return true;
+         }
+
+         require_once 'CRM/Contact/BAO/ContactType.php';
+         $contactType = CRM_Contact_BAO_ContactType::getBasicType( $subType );
+         $subTypeGroupTree = array( );
+         if ( !array_key_exists($contactType.'_'.$subType, $subTypeGroupTree) && empty($groupTree) ) { 
+             $form = null;
+             require_once 'CRM/Core/BAO/CustomGroup.php';
+             $subTypeGroupTree[$contactType.'_'.$subType]  = CRM_Core_BAO_CustomGroup::getTree( $contactType,
+                                                                                                $form,
+                                                                                                $contactId,
+                                                                                                null,
+                                                                                                $subType,
+                                                                                                null );
+         } else {
+             $subTypeGroupTree[$contactType.'_'.$subType] = $groupTree;  
+         }
+         
+         if (!empty($subTypeGroupTree[$contactType.'_'.$subType]) ) {
+
+             foreach( $subTypeGroupTree[$contactType.'_'.$subType] as $groupId => $groupDetails ) {
+                 if( CRM_Utils_Array::value('extends_entity_column_value', $groupDetails) ) {
+                     $customValue = CRM_Utils_Array::retrieveValueRecursive($groupDetails['fields'], 'element_value');
+                     if ( !empty($customValue) ) {
+                         return false;
+                     }else {
+                         continue;
+                     }
+                 }
+             } 
+         }
+
+         if ( !array_key_exists('rel_'.$contactType.'_'.$subType, $subTypeGroupTree) ) { 
+             require_once 'CRM/Contact/BAO/Relationship.php';
+             $relationshipTypes = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $contactType, 
+                                                                                            false, 'label', true, $subType, true );
+             $subTypeGroupTree['rel_'.$contactType.'_'.$subType] = $relationshipTypes;
+         }
+         
+         $relationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId );
+        
+         if ( !empty($relationships) ) {
+             foreach ( $relationships as $relId => $details ) {
+                 if( in_array($details['relation'],$subTypeGroupTree['rel_'.$contactType.'_'.$subType]) ) {
+                     return false;
+                 } else {
+                     continue;  
+                 }
+             }   
+         }
+         
+         return true;
+     } 
 }

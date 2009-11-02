@@ -533,6 +533,12 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
                                                ts('Subtype'), array( '' => '' ) + $subtypes );
         }
 
+        $allowEditSubType = true;
+        if ( $this->_contactId ) {
+            $allowEditSubType = CRM_Contact_BAO_Contact::allowEditSubtype( $this->_contactId, $this->_contactSubType, $this->_groupTree );
+        }
+        $this->assign('allowEditSubType', $allowEditSubType);
+        
         // build edit blocks ( custom data, demographics, communication preference, notes, tags and groups )
         foreach( $this->_editOptions as $name => $label ) {                
             if ( $name == 'Address' ) {

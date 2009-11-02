@@ -228,13 +228,19 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @param boolean $all            if true returns relationship types in both the direction
      * @param string  $column         name/label that going to retrieve from db.
      *
+     * 
+     * @param string  $contactSubType includes relationshiptypes between this subtype
+     *
+     * @param boolean $onlySubTypeRelationTypes if set only subtype which is passed by $contactSubType 
+     *                                          related relationshiptypes get return 
      * @access public
      * @static
      *
      * @return array - array reference of all relationship types with context to current contact.
      */
     function getContactRelationshipType( $contactId = null, $contactSuffix, $relationshipId, 
-                                         $contactType = null, $all = false, $column = 'label', $biDirectional = true, $contactSubType = null )
+                                         $contactType = null, $all = false, $column = 'label', 
+                                         $biDirectional = true, $contactSubType = null, $onlySubTypeRelationTypes = false )
     {
         $allRelationshipType = array( );
         $relationshipType    = array( );
@@ -274,14 +280,16 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             if ( ( ( ! $value['contact_type_a'] ) || $value['contact_type_a'] == $contactType ) &&
                  // the other contact type is required or present or matches
                  ( ( ! $value['contact_type_b'] ) || ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) &&
-                 ( ( $value['contact_sub_type_a'] == $contactSubType ) || ( !$value['contact_sub_type_b'] && !$value['contact_sub_type_a'] ))) {
+                 ( ( $value['contact_sub_type_a'] == $contactSubType ) || 
+                   ( (!$value['contact_sub_type_b'] && !$value['contact_sub_type_a']) && !$onlySubTypeRelationTypes) ) ) {
                 $relationshipType[ $key . '_a_b' ] =  $value[ "{$column}_a_b" ];
                      
             } 
             
             if ( ( ( ! $value['contact_type_b'] ) || $value['contact_type_b'] == $contactType ) &&
                  ( ( ! $value['contact_type_a'] ) || ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) &&
-                 ( ( !$value['contact_sub_type_a'] && !$value['contact_sub_type_b'] ) || ( $value['contact_sub_type_b'] == $contactSubType ))) {
+                 ( ( (!$value['contact_sub_type_a'] && !$value['contact_sub_type_b']) && !$onlySubTypeRelationTypes) 
+                   || ( $value['contact_sub_type_b'] == $contactSubType ) ) ) {
                 $relationshipType[ $key . '_b_a' ] = $value[ "{$column}_b_a" ];
             }
             
