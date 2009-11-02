@@ -3,7 +3,6 @@
  Examples Could be:
   <ul>
     <li> i/contact_ind.gif</li>
-    <li>/directory_path/new_icon.png</li>  
-    <li>http://external_path/new_icon.gif</li>  
+    <li> http://external_path/new_icon.gif</li>  
   </ul>
 {/htxt}

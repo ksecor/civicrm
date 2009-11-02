@@ -65,7 +65,8 @@ class CRM_Contact_BAO_Contact_Utils
                 $imageInfo[$contactType]['url']   = $imageUrl;
             } else {
                 $isSubtype = ( array_key_exists('parent_id', $typeInfo) && 
-                               ( $typeInfo['parent_id'] == 1 ) ) ? true : false; 
+                               $typeInfo['parent_id'] ) ? true : false;
+
                 if ( $isSubtype ) { 
                     $type = CRM_Contact_BAO_ContactType::getBasicType( $typeInfo['name'] ) . "-subtype";
                 } else {
