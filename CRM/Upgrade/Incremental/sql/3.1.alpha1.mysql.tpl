@@ -233,6 +233,11 @@
         
     ALTER TABLE `civicrm_preferences_date`
         DROP `minute_increment`;
+        
+    UPDATE civicrm_preferences_date
+        SET format = 'mm/dd/yy'
+        WHERE name IN ( 'activityDate', 'activityDatetime', 'birth', 'custom',
+                        'datetime', 'fixed', 'mailing', 'manual', 'relative' );
 
 --  CRM-5313 
 --  migrate the contribution id's to participant id's in lineitem table
@@ -258,4 +263,4 @@
         ADD date_format int unsigned  COMMENT 'date format for custom date' AFTER end_date_years,
         ADD time_format int unsigned  COMMENT 'time format for custom date' AFTER date_format,
         DROP date_parts;
-        
+    
