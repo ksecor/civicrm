@@ -246,7 +246,7 @@ class CRM_Report_Form_Contact_Detail extends CRM_Report_Form {
                           'alias'  => 'cgroup',
                           'filters' =>             
                           array( 'gid' => 
-                                 array( 'name'    => 'id',
+                                 array( 'name'    => 'group_id',
                                         'title'   => ts( 'Group' ),
                                         'operatorType' => CRM_Report_Form::OP_MULTISELECT,
                                         'group'   => true,
