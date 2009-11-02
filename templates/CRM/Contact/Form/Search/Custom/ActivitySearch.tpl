@@ -15,7 +15,13 @@
     {* Loop through all defined search criteria fields (defined in the buildForm() function). *}
     {foreach from=$elements item=element}
     <tr>
-        <td class="label">{$form.$element.label}</td><td>{$form.$element.html}</td>
+        <td class="label">{$form.$element.label}</td>
+        <td>{if $element eq 'start_date' OR $element eq 'end_date'}
+                {include file="CRM/common/jcalendar.tpl" elementName=$element}
+            {else}
+                {$form.$element.html}
+            {/if}
+        </td>
     </tr>
     {/foreach}
     <tr>

@@ -98,17 +98,8 @@ implements CRM_Contact_Form_Search_Interface {
                      false);
        
        	// Activity Date range
-       	$form->add( 'date',
-                    'start_date',
-                    ts('Activity Date From'),
-                    CRM_Core_SelectValues::date('custom', 10, 3 ) );
-        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-
-        $form->add( 'date',
-                    'end_date',
-                    ts('...through'),
-                    CRM_Core_SelectValues::date('custom', 10, 0 ) );
-        $form->addRule('end_date', ts('Select a valid date.'), 'qfDate');
+       	$form->addDate( 'start_date', ts('Activity Date From'),false, array( 'formatType' => 'custom' ) );
+       	$form->addDate( 'end_date'  , ts('...through')        ,false, array( 'formatType' => 'custom' ) );
 
         /**
          * If you are using the sample template, this array tells the template fields to render
@@ -228,19 +219,15 @@ LEFT JOIN civicrm_case_activity cca ON activity.id = cca.activity_id
 	}
 
         $startDate = $this->_formValues['start_date'];
-        $startDate['H'] = '00';
-        $startDate['i'] = '00';
-        $startDate['s'] = '00';
-	$startDateFormatted = CRM_Utils_Date::format( $startDate );
+        $startDate .= '00:00:00';
+        $startDateFormatted = CRM_Utils_Date::processDate( $startDate );
         if ( $startDateFormatted ) {
             $clauses[] = "activity.activity_date_time >= $startDateFormatted";
         }
 
         $endDate = $this->_formValues['end_date'];
-        $endDate['H'] = '23';
-        $endDate['i'] = '59';
-        $endDate['s'] = '59';
-        $endDateFormatted = CRM_Utils_Date::format( $endDate );
+        $endDate .= '23:59:59';
+        $endDateFormatted = CRM_Utils_Date::processDate( $endDate );
         if ( $endDateFormatted ) {
                     $clauses[] = "activity.activity_date_time <= $endDateFormatted";
                 }
