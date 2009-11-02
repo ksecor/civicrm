@@ -74,7 +74,7 @@
 	    {if $hasPriceSets}
 	    <span id='totalAmountORPriceSet'> {ts}OR{/ts}</span>
 	    <span id='selectPriceSet'>{$form.price_set_id.html}</span>
-	    <fieldset id="priceset" class="hiddenElement"></fieldset>
+            <div id="priceset" class="hiddenElement"></div>	    
 	    {/if}
 	    <span class="description">{ts}Actual amount given by contributor.{/ts}</span>
             </td>

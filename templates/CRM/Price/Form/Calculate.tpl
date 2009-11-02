@@ -1,6 +1,13 @@
-<table id="pricelabel" style="display:none" class="form-layout">
-<tr>  <td class="label"><label>Total Fee(s)</label> </td> <td id="pricevalue" class="view-value"></td> </tr>
-</table>
+<div id="pricesetTotal">
+   <table id="pricelabel" style="display:none" class="form-layout-compressed">
+     <tr>
+        <td class="label"><label>Total Fee(s)</label>
+        </td> 
+        <td id="pricevalue" class="view-value">
+        </td> 
+     </tr>
+   </table>
+</div>
 
 <script type="text/javascript">
 {literal}

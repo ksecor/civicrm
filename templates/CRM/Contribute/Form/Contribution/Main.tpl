@@ -38,10 +38,9 @@ function clearAmountOther() {
     </div>
 
 {if $priceSet}
-    <fieldset id="priceset" class="priceset-group">
-    	<legend>{ts}Contribution{/ts}</legend>
-    	   {include file="CRM/Price/Form/PriceSet.tpl"}
-     </fieldset>
+    <div id="priceset">
+         {include file="CRM/Price/Form/PriceSet.tpl"}
+    </div>
 {else}
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="makeContribution"}
 
