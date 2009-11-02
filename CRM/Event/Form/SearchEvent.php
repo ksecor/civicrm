@@ -74,11 +74,8 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
         $searchOption  = array( ts('Show Current and Upcoming Events'), ts('Search All or by Date Range') );
         $this->addRadio( 'eventsByDates', ts( 'Events by Dates' ), $searchOption, array('onclick' =>"return showHideByValue('eventsByDates','1','id_fromToDates','block','radio',true);"), "<br />");
 
-        $this->add('date', 'start_date', ts('From'), CRM_Core_SelectValues::date('relative')); 
-        $this->addRule('start_date', ts('Select a valid Event FROM date.'), 'qfDate'); 
-        
-        $this->add('date', 'end_date', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $this->addRule('end_date', ts('Select a valid Event TO date.'), 'qfDate'); 
+        $this->addDate( 'start_date', ts('From'), false, array( 'formatType' => 'relative') ); 
+        $this->addDate( 'end_date', ts('To'), false, array( 'formatType' => 'relative') ); 
         
         $this->addButtons(array( 
                                 array ('type'      => 'refresh', 
@@ -98,7 +95,11 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
             foreach ( $fields as $field ) {
                 if ( isset( $params[$field] ) &&
                      ! CRM_Utils_System::isNull( $params[$field] ) ) {
-                    $parent->set( $field, $params[$field] );
+                        if ( substr( $field, -4 ) == 'date' ) {
+                            $parent->set( $field, CRM_Utils_Date::unformat( CRM_Utils_Date::processDate( $params[$field] ), '' ) );
+                        } else {
+                            $parent->set( $field, $params[$field] );
+                        }
                 } else {
                     $parent->set( $field, null );
                 }

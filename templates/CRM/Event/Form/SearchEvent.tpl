@@ -25,20 +25,14 @@
        <td></td>
        <td colspan="2">
        <table class="form-layout-compressed" id="id_fromToDates">
-         <tr>
-           <td>{$form.start_date.label}</td>
-           <td>&nbsp;{$form.start_date.html}&nbsp;
-            &nbsp;{include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_1}
-            {include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_1}
-            </td>
-          </tr>
-          <tr>
+        <tr>
+            <td>{$form.start_date.label}</td>
+            <td>{include file="CRM/common/jcalendar.tpl" elementName=start_date}</td>
+        </tr>
+        <tr>
             <td>{$form.end_date.label}</td>
-            <td>&nbsp;{$form.end_date.html}&nbsp;
-             &nbsp;{include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_2}
-             {include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_2}
-            </td> 
-          </tr>
+            <td>{include file="CRM/common/jcalendar.tpl" elementName=end_date}</td>             
+        </tr>
       </table> 
     </td></tr>  
   </table>
