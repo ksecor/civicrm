@@ -38,25 +38,18 @@
       </tr>
      {/if}
      {foreach from=$activity.fields item=field}
-      {if $field.type eq 'Date'}
-       <tr>
-        <td {$labelStyle}>
-         {$field.label}{if $field.category}({$field.category}){/if}
-        </td>
-        <td {$valueStyle}>
+      <tr>
+       <td {$labelStyle}>
+        {$field.label}{if $field.category}({$field.category}){/if}
+       </td>
+       <td {$valueStyle}>
+        {if $field.type eq 'Date'}
          {$field.value|crmDate:$config->dateformatDatetime}
-        </td>
-       </tr>
-      {else}
-       <tr>
-        <td {$labelStyle}>
-         {$field.label}{if $field.category}({$field.category}){/if}
-        </td>
-        <td {$valueStyle}>
+        {else}
          {$field.value}
-        </td>
-       </tr>
-      {/if}
+        {/if}
+       </td>
+      </tr>
      {/foreach}
 
      {foreach from=$activity.customGroups key=customGroupName item=customGroup}
@@ -66,25 +59,18 @@
        </th>
       </tr>
       {foreach from=$customGroup item=field}
-       {if $field.type eq 'Date'}
-        <tr>
-         <td {$labelStyle}>
-          {$field.label}
-         </td>
-         <td {$valueStyle}>
+       <tr>
+        <td {$labelStyle}>
+         {$field.label}
+        </td>
+        <td {$valueStyle}>
+         {if $field.type eq 'Date'}
           {$field.value|crmDate:$config->dateformatDatetime}
-         </td>
-        </tr>
-       {else}
-        <tr>
-         <td {$labelStyle}>
-          {$field.label}
-         </td>
-         <td {$valueStyle}>
+         {else}
           {$field.value}
-         </td>
-        </tr>
-       {/if}
+         {/if}
+        </td>
+       </tr>
       {/foreach}
      {/foreach}
     </table>
