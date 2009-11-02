@@ -34,7 +34,7 @@
     {assign var="element_name" value="trxn_id_"|cat:$row.contribution_id}
     <td>{$form.$element_name.html|crmReplace:class:eight}</td>
     {assign var="element_name" value="trxn_date_"|cat:$row.contribution_id}
-    <td class="nowrap">{$form.$element_name.html}</td>
+    <td>{include file="CRM/common/jcalendar.tpl" elementName=$element_name}</td>
 </tr>
 {/foreach}
 </table>

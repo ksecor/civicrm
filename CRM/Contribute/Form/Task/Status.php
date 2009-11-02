@@ -140,7 +140,7 @@ AND    co.id IN ( $contribIDs )";
         $this->_rows   = array( );
         $attributes    = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
         $defaults      = array( );
-        $now           = date( "Y-m-d" );
+        $now           = date( "m/d/Y" );
         $paidByOptions = array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( );
         
         while ( $dao->fetch( ) ) {
@@ -161,9 +161,8 @@ AND    co.id IN ( $contribIDs )";
             $this->addRule( "fee_amount_{$row['contribution_id']}", ts('Please enter a valid amount.'), 'money');
             $defaults["fee_amount_{$row['contribution_id']}"] = 0.0;
 
-            $row['trxn_date'] =& $this->addElement('date', "trxn_date_{$row['contribution_id']}",
-                                                   ts('Receipt Date'), CRM_Core_SelectValues::date('activityDate')); 
-            $this->addRule("trxn_date_{$row['contribution_id']}", ts('Select a valid date.'), 'qfDate');
+            $row['trxn_date'] =& $this->addDate( "trxn_date_{$row['contribution_id']}", false, 
+                                                ts('Receipt Date'), array('formatType' => 'activityDate') ); 
             $defaults["trxn_date_{$row['contribution_id']}"] = $now;
 
             $this->add( "text", "check_number_{$row['contribution_id']}", ts('Check Number') );
@@ -229,7 +228,7 @@ AND    co.id IN ( $contribIDs )";
      * @access public
      * @return None
      */
-    public function postProcess() {
+    public function postProcess() {    
         $params = $this->controller->exportValues( $this->_name );
         $statusID = $params['contribution_status_id'];
 
@@ -294,7 +293,7 @@ AND    co.id IN ( $contribIDs )";
             } else {
                 $input['trxn_id'] = $contribution->invoice_id;
             }
-            $input['trxn_date'] = CRM_Utils_Date::format( $params["trxn_date_{$row['contribution_id']}"] );
+            $input['trxn_date'] = CRM_Utils_Date::processDate( $params["trxn_date_{$row['contribution_id']}"] );
 
             $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
 
