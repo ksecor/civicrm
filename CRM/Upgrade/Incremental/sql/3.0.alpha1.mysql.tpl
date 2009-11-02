@@ -149,6 +149,17 @@
         (@option_group_id_activity_type, {localize}'Assign Case Role'{/localize},  {localize}''{/localize},                              (SELECT @max_val := @max_val+2), 'Assign Case Role', (SELECT @max_wt := @max_wt+2), 0,      @caseCompId),
         (@option_group_id_activity_type, {localize}'Remove Case Role'{/localize},  {localize}''{/localize},                              (SELECT @max_val := @max_val+3), 'Remove Case Role', (SELECT @max_wt := @max_wt+3), 0,      @caseCompId);   
 
+    -- CRM-5333
+    -- Drop unique indexes of activity_target and activity_assignment
+ 
+    ALTER TABLE  civicrm_activity_assignment 
+    DROP INDEX `UI_activity_assignee_contact_id` ,
+    ADD  INDEX `UI_activity_assignee_contact_id` (`assignee_contact_id`,`activity_id`);
+
+    ALTER TABLE  civicrm_activity_target 
+    DROP INDEX `UI_activity_target_contact_id` ,
+    ADD INDEX `UI_activity_target_contact_id` (`target_contact_id`,`activity_id`);
+
     -- delete unnecessary activities
     SELECT @bulkEmailID := op.value from civicrm_option_value op where op.name = 'Bulk Email' and op.option_group_id  = @option_group_id_activity_type;
 
