@@ -560,19 +560,15 @@ VALUES
 
 
 INSERT INTO `civicrm_preferences_date`
-  (name, start, end, format, description)
+  (name, start, end, date_format, time_format, description)
 VALUES
-  ( 'activityDate'    ,  20, 10, 'mm/dd/yy',        'Date for activities including contributions: receive, receipt, cancel. membership: join, start, renew. case: start, end.'         ),
-  ( 'activityDatetime',  20, 10, 'mm/dd/yy',        'Date and time for activity: scheduled. participant: registered.'                                                                  ),
-  ( 'birth'           , 100,  0, 'mm/dd/yy',        'Birth and deceased dates. Only year, month and day fields are supported.'                                                         ),
-  ( 'creditCard'      ,   0, 10, 'M Y',       'Month and year only for credit card expiration.'                                                                                  ),
-  ( 'custom'          ,  20, 20, 'mm/dd/yy', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),
-  ( 'datetime'        ,  10,  3, 'mm/dd/yy',        'General date and time.'                                                                                                           ),
-  ( 'duration'        ,   0,  0, 'H i',       'Durations in hours and minutes.'                                                                                                  ),
-  ( 'fixed'           ,   0,  5, 'mm/dd/yy',        'Not used ?'                                                                                                                       ),
-  ( 'mailing'         ,   0,  1, 'mm/dd/yy', 'Date and time. Used for scheduling mailings.'                                                                                      ),
-  ( 'manual'          ,  20, 20, 'mm/dd/yy',        'Date only. For non-general cases. Uses date range passed in by form field. Start and end offsets defined here are ignored.'       ),
-  ( 'relative'        ,  20, 20, 'mm/dd/yy',        'Used in search forms.'                                                                                                            );
+  ( 'activityDate'    ,  20, 10, '',    '',   'Date for activities including contributions: receive, receipt, cancel. membership: join, start, renew. case: start, end.'         ),
+  ( 'activityDatetime',  20, 10, '',    '',   'Date and time for activity: scheduled. participant: registered.'                                                                  ),
+  ( 'birth'           , 100,  0, '',    '',   'Birth and deceased dates. Only year, month and day fields are supported.'                                                         ),
+  ( 'creditCard'      ,   0, 10, 'M Y', '',   'Month and year only for credit card expiration.'                                                                                  ),
+  ( 'custom'          ,  20, 20, '',    '',   'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),
+  ( 'mailing'         ,   0,  1, '',    '',   'Date and time. Used for scheduling mailings.'                                                                                      ),
+  ( 'searchDate'        ,  20, 20, '',    '',   'Used in search forms.'                                                                                                            );
 
 
 -- various processor options

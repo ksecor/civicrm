@@ -76,7 +76,7 @@ class CRM_Admin_Form_PreferencesDate extends CRM_Admin_Form
             $this->add('text', 'format', ts('Format'), $attributes['format'] , true  );
         } else {
             $this->add('select', 'format', ts('Format'),  
-                        array( '' => ts( '- Use global input format -') ) + CRM_Core_SelectValues::getDatePluginInputFormats( ) );
+                        array( '' => ts( '- default input format -') ) + CRM_Core_SelectValues::getDatePluginInputFormats( ) );
         }
         $this->addRule( 'start'           , ts( 'Value should be a positive number' ) , 'positiveInteger');
         $this->addRule( 'end'             , ts( 'Value should be a positive number' ) , 'positiveInteger');

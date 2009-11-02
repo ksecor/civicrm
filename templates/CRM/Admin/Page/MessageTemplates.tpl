@@ -90,7 +90,7 @@
 
                 {* FIXME: the tab UI does not work if the selector is empty; we should get rid of the below line *}
                 {if $smarty.section.template_selector.first}<tr><td></td><td></td><td></td><td></td></tr>{/if}
-
+{debug}
                 {foreach from=$rows item=row}
                   {* we want to hide reserved rows; for the first selector show non-workflow_id templates, for the second selector show workflow_id templates *}
                   {if !$row.is_reserved and (($smarty.section.template_selector.first and !$row.workflow_id) or ($smarty.section.template_selector.last and $row.workflow_id))}

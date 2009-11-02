@@ -58,10 +58,17 @@
        <drop>3.1</drop>
   </field>
   <field>
-       <name>format</name>
+       <name>date_format</name>
        <type>varchar</type>
        <length>64</length>
        <comment>The date type</comment>
        <add>2.0</add>
+  </field>
+  <field>
+       <name>time_format</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>time format</comment>
+       <add>3.1</add>
   </field>
 </table>

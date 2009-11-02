@@ -203,7 +203,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
             }
         }
         $format = CRM_Core_Dao::getFieldValue('CRM_Core_DAO_PreferencesDate', 
-                                              'birth', 'format', 'name' );
+                                              'birth', 'date_format', 'name' );
         
         if ( $date = CRM_Utils_Array::value('birth_date', $params) ) {
            
