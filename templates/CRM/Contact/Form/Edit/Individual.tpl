@@ -51,8 +51,10 @@
             {$form.nick_name.html|crmReplace:class:big}
         </td>
         <td>
-            {$form.contact_sub_type.label}<br />
-            {$form.contact_sub_type.html}
+            {if $action == 1 and $contactSubType}&nbsp;{else}
+               {$form.contact_sub_type.label}<br />
+               {$form.contact_sub_type.html}
+            {/if}
         </td>
     </tr>
 </table>

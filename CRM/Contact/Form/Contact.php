@@ -531,9 +531,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
         if ( ! empty($subtypes) ) {
             $subtypeElem =& $this->addElement( 'select', 'contact_sub_type', 
                                                ts('Subtype'), array( '' => '' ) + $subtypes );
-            if ( ($this->_action & CRM_Core_Action::ADD) && $this->_contactSubType ) {
-                $subtypeElem->freeze( );
-            }
         }
 
         // build edit blocks ( custom data, demographics, communication preference, notes, tags and groups )
@@ -616,6 +613,10 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form
             $params['deceased_date'] = null;
         }
         
+        if ( $this->_contactSubType && ($this->_action & CRM_Core_Action::ADD) ) {
+            $params['contact_sub_type'] = $this->_contactSubType;
+        }
+
         // action is taken depending upon the mode
         require_once 'CRM/Utils/Hook.php';
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
