@@ -136,16 +136,20 @@ class CRM_Price_Form_Set extends CRM_Core_Form
         $tables = array();
         if ( $this->_action == CRM_Core_Action::UPDATE && $this->_sid ) {
             $tables = CRM_Price_BAO_Set::getUsedBy( $this->_sid, true );
-
-        }          
-
+        }      
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+        $enabledComponents = $config->enableComponents;
+      
         // used for component
         foreach ( $components AS $i => $component ) {
-            $extends[$i] = HTML_QuickForm::createElement( 'checkbox', ucfirst($component), null, ucfirst($component) );
-            if( !empty( $tables ) && ( in_array( 'civicrm_' . $component,  $tables ) || 
-                                       in_array( 'civicrm_' . $component . '_page',  $tables ) ) ) {
-                $extends[$i]->_flagFrozen = true;
-            }            
+            if ( $enabledComponents && in_array( 'Civi' . ucfirst($component),  $enabledComponents ) ) {
+                $extends[$i] = HTML_QuickForm::createElement( 'checkbox', ucfirst($component), null, ucfirst($component) );
+                if( !empty( $tables ) && ( in_array( 'civicrm_' . $component,  $tables ) || 
+                                           in_array( 'civicrm_' . $component . '_page',  $tables ) ) ) {
+                    $extends[$i]->_flagFrozen = true;
+                }            
+            }
         }            
         
         $this->addGroup( $extends, 'extends', ts('Used For'), '&nbsp;', true );
