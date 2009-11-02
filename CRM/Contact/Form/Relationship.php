@@ -192,8 +192,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             if ( !empty( $this->_values ) ) {
                 //$defaults['relationship_type_id'] = $relationship->relationship_type_id . '_' . $this->_rtype;
                 $defaults['relationship_type_id'] = $this->_rtypeId;
-                $defaults['start_date'          ] = CRM_Utils_Date::unformat( CRM_Utils_Array::value( 'start_date', $this->_values ) );
-                $defaults['end_date'            ] = CRM_Utils_Date::unformat( CRM_Utils_Array::value( 'end_date', $this->_values ) );
+                list( $defaults['start_date'  ] ) = CRM_Utils_Date::setDateDefaults( CRM_Utils_Array::value( 'start_date', $this->_values ) );
+                list( $defaults['end_date'    ] ) = CRM_Utils_Date::setDateDefaults( CRM_Utils_Array::value( 'end_date', $this->_values )   );
                 $defaults['description'         ] = CRM_Utils_Array::value( 'description', $this->_values );
                 $defaults['is_active'           ] = CRM_Utils_Array::value( 'is_active', $this->_values );
                 $defaults['is_permission_a_b'   ] = CRM_Utils_Array::value( 'is_permission_a_b', $this->_values );
@@ -311,8 +311,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 		$dataUrl = CRM_Utils_System::url( "civicrm/ajax/search", "reset=1", true, null, false );
 		$this->assign('dataUrl',$dataUrl );
         $this->addElement('text', 'name'      , ts('Find Target Contact') );
-        $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
-        $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
+        $this->addDate( 'start_date', ts('Start Date'), false, array( 'formatType' => 'relative' ) );
+        $this->addDate( 'end_date'  , ts('End Date')  , false, array( 'formatType' => 'relative' ) );
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
         
         $this->addElement('checkbox', 'is_permission_a_b', ts( 'Permission for contact a to view and update information for contact b' ) , null);
@@ -441,7 +441,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $this->_values['current_employee_id'] );
             }
         }
-        
+        $params['start_date'] = ( $params['start_date'] ) ? CRM_Utils_Date::processDate( $params['start_date'] ) : '';
+        $params['end_date']   = ( $params['end_date']   ) ? CRM_Utils_Date::processDate( $params['end_date']   ) : '';
+
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Relationship', false, false, $relationshipTypeId );
         $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,

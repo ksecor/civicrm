@@ -157,28 +157,25 @@
         {if $searchRows OR $action EQ 2}
             <div class="form-item">
                 <dl class="html-adjust">
-                <dt>{$form.start_date.label}</dt>
-                <dd>{$form.start_date.html} {include file="CRM/common/calendar/desc.tpl" trigger=trigger_relationship_1}
-{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=1985 endDate=2025 trigger=trigger_relationship_1}
-                </dd>
-                <dt>{$form.end_date.label}</dt>
-                <dd>{$form.end_date.html} {include file="CRM/common/calendar/desc.tpl" trigger=trigger_relationship_2} 
-{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=1985 endDate=2025 trigger=trigger_relationship_2}
-                </dd>
-                <dt>&nbsp;</dt>
+                    <dt>{$form.start_date.label}</dt>
+                    <dd>{include file="CRM/common/jcalendar.tpl" elementName=start_date}</dd>
+                    <dt>{$form.end_date.label}</dt>
+                    <dd>{include file="CRM/common/jcalendar.tpl" elementName=end_date}</dd>
+                    <dt>&nbsp;</dt>
                     <dd class="description">
                         {ts}If this relationship has start and/or end dates, specify them here.{/ts}
                     </dd>
-                <dt>{$form.description.label}</dt>
-                <dd>{$form.description.html}</dd>
-                <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
-                <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<strong>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}{ts}Selected contact(s){/ts}{/if}{/if}</strong> {ts}can view and update information for{/ts} <strong>{if $rtype eq 'a_b'}{if $sort_name_b}'{$sort_name_b}'{else}{ts}selected contact(s){/ts}{/if}{else}'{$sort_name_a}'{/if}</strong></dd>
+                    <dt>{$form.description.label}</dt>
+                    <dd>{$form.description.html}</dd>
+                    <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
+                    <dt>&nbsp;</dt>
+                    <dd>{$form.is_permission_a_b.html}&nbsp;<strong>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}{ts}Selected contact(s){/ts}{/if}{/if}</strong> {ts}can view and update information for{/ts} <strong>{if $rtype eq 'a_b'}{if $sort_name_b}'{$sort_name_b}'{else}{ts}selected contact(s){/ts}{/if}{else}'{$sort_name_a}'{/if}</strong></dd>
 
-                <dt>&nbsp;</dt><dd>{$form.is_permission_b_a.html}&nbsp;<strong>{if $rtype eq 'b_a'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}{ts}Selected contact(s){/ts}{/if}{/if}</strong> {ts}can view and update information for{/ts} <strong>{if $rtype eq 'b_a'}{if $sort_name_b}'{$sort_name_b}'{else}{ts}selected contact(s){/ts}{/if}{else}'{$sort_name_a}'{/if}</strong></dd>
+                    <dt>&nbsp;</dt><dd>{$form.is_permission_b_a.html}&nbsp;<strong>{if $rtype eq 'b_a'}'{$sort_name_a}'{else}{if $sort_name_b}'{$sort_name_b}'{else}{ts}Selected contact(s){/ts}{/if}{/if}</strong> {ts}can view and update information for{/ts} <strong>{if $rtype eq 'b_a'}{if $sort_name_b}'{$sort_name_b}'{else}{ts}selected contact(s){/ts}{/if}{else}'{$sort_name_a}'{/if}</strong></dd>
 
-                <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
-        </dl>
-        </div>
+                    <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+                </dl>
+            </div>
         {if $action eq 2}
 	<div>
             <dt id="employee">{ts}Is current employee?{/ts}</dt>
