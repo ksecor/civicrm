@@ -149,8 +149,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $defaults = array( );
         $defaults =& parent::setDefaultValues( );
         $this->_memType = $defaults["membership_type_id"] ;
-
-        CRM_Utils_Date::getAllDefaultValues( $defaults['renewal_date'] );
+        $defaults['renewal_date'] = CRM_Utils_Date::getToday( $defaults['renewal_date'], 'm/d/Y' );
 
         if ($defaults['id']) {
             $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
@@ -222,7 +221,6 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             }
         }
         return $defaults;
-
     }
 
     /**
@@ -237,8 +235,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
 
         $this->applyFilter('__ALL__', 'trim');
         
-        $this->add('date', 'renewal_date', ts('Date Renewal Entered'), CRM_Core_SelectValues::date('activityDate'), false );    
-        $this->addRule('renewal_date', ts('Select a valid date.'), 'qfDate');
+        $this->addDate( 'renewal_date', ts('Date Renewal Entered'), false, array( 'formatType' => 'activityDate') );    
         if( ! $this->_mode ) {
             $this->addElement('checkbox', 'record_contribution', ts('Record Renewal Payment?'), null, array('onclick' =>"checkPayment();"));
             require_once 'CRM/Contribute/PseudoConstant.php';
@@ -341,7 +338,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $formValues['payment_processor_id'],
                                                                                   $this->_mode );
             require_once "CRM/Contact/BAO/Contact.php";
-            $now = date( 'YmdHis' );
+            $now = CRM_Utils_Date::getToday( $now, 'YmdHis' );
             $fields = array( );
             
             // set email for primary location.
@@ -436,13 +433,14 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         }
 
         $renewalDate = null;
-        
+
         if ( $formValues['renewal_date'] ) {
-            $renewalDate = CRM_Utils_Date::format( $formValues['renewal_date'], '-' );
+            $renewalDate = CRM_Utils_Date::processDate( $formValues['renewal_date'] );
             $changeToday = array( );
-            $changeToday['month'] = $formValues['renewal_date']['M'];
-            $changeToday['day']   = $formValues['renewal_date']['d'];
-            $changeToday['year']  = $formValues['renewal_date']['Y'];
+            $dateUnformated = CRM_Utils_Date::unformat( $renewalDate,'' );
+            $changeToday['month'] = $dateUnformated[$config->dateformatMonthVar];
+            $changeToday['day']   = $dateUnformated['d'];
+            $changeToday['year']  = $dateUnformated['Y'];
             $this->set( 'renewDate', $changeToday );
         }
         $this->_membershipId = $this->_id;

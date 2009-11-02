@@ -25,16 +25,22 @@
         {ts}Renewing will add the normal membership period to the End Date of the previous period for members whose status is Current or Grace. For Expired memberships, renewing will create a membership period commencing from the 'Date Renewal Entered'. This date can be adjusted including being set to the day after the previous End Date - if continuous membership is required.{/ts}
     </div>
     <dl>
-	<dt>{$form.payment_processor_id.label}</dt><dd class="html-adjust">{$form.payment_processor_id.html}</dd><br />
- 	<dt>{ts}Membership Organization and Type{/ts}</dt><dd class="html-adjust">{$orgName}&nbsp;&nbsp;-&nbsp;&nbsp;{$memType}
-        {if $member_is_test} {ts}(test){/ts}{/if}</dd>
-    <dt>{ts}Membership Status{/ts}</dt><dd class="html-adjust">&nbsp;{$membershipStatus}<br />
-        <span class="description">{ts}Status of this membership.{/ts}</span></dd>
+        <dt>{$form.payment_processor_id.label}</dt>
+        <dd class="html-adjust">{$form.payment_processor_id.html}</dd><br />
+        
+        <dt>{ts}Membership Organization and Type{/ts}</dt>
+        <dd class="html-adjust">{$orgName}&nbsp;&nbsp;-&nbsp;&nbsp;{$memType}
+            {if $member_is_test} {ts}(test){/ts}{/if}</dd>
+        
+        <dt>{ts}Membership Status{/ts}</dt>
+        <dd class="html-adjust">&nbsp;{$membershipStatus}<br />
+            <span class="description">{ts}Status of this membership.{/ts}</span></dd>
 
-	<dt>{ts}Membership End Date{/ts}</dt><dd class="html-adjust">&nbsp;{$endDate}</dd>
-	<dt>{$form.renewal_date.label}</dt><dd class="html-adjust">{$form.renewal_date.html}
-		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_1}
-		{include file="CRM/common/calendar/body.tpl" dateVar=renewal_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_1}</dd>
+        <dt>{ts}Membership End Date{/ts}</dt>
+        <dd class="html-adjust">&nbsp;{$endDate}</dd>
+        
+        <dt>{$form.renewal_date.label}</dt>
+        <dd>{include file="CRM/common/jcalendar.tpl" elementName=renewal_date}</dd>
     </dl>
 
     {if $accessContribution and ! $membershipMode}
