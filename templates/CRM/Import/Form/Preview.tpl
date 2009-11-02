@@ -76,7 +76,7 @@ function verify( ) {
  </div>
 
 {* Import Progress Bar and Info *}
-<div id="id-processing">
+<div id="id-processing" class="hiddenElement">
 	<h3>Importing records...</h3><br />
 	<div class="progressBar" id="importProgressBar" style="margin-left:45px;display:none;"></div>
 	<div id="intermediate"></div>

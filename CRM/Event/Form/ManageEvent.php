@@ -207,6 +207,13 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             }
             CRM_Core_Session::setStatus( ts("'%1' information has been saved.", array(1 => $title)) );
 
+
+            // we need to call the hook manually here since we redirect and never 
+            // go back to CRM/Core/Form.php
+            // A better way might have been to setUserContext so the framework does the rediret
+            CRM_Utils_Hook::postProcess( get_class( $this ),
+                                         $this );
+
             $className = CRM_Utils_String::getClassName( $this->_name );
             if ( $this->controller->getButtonName('submit') == "_qf_{$className}_upload_done" ) {
                 CRM_Utils_System::redirect( $this->_doneUrl );

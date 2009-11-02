@@ -48,29 +48,22 @@
 </fieldset>
 <dl>{$form.buttons.html}</dl>
 </div>
-{literal}
 <script type="text/javascript">
-var toContact  = ccContact = bccContact = '';
+var toContact = ccContact = bccContact = '';
 
-{/literal}
-{foreach from=$toContact key=id item=name}
-     {literal} toContact += '{"name":"'+{/literal}"{$name}"{literal}+'","id":"'+{/literal}"{$id}"{literal}+'"},';{/literal}
-{/foreach}
+{if $toContact}
+    toContact  = {$toContact};
+{/if}
 
-//loop to set the value of cc and bcc if form rule.
-{foreach from=","|explode:"cc,bcc" key=key item=element}
-	{assign var=currentElement value=`$element`_id}
-	{foreach from=","|explode:$form.$currentElement.value key=id item=email}
-                {* make sure email is valid to build object. *} 
-		{if $email|strpos:'@'}
-			{$element}{literal}Contact += '{"name":"'+{/literal}"{$email|replace:'"':''}"{literal}+'","id":"'+{/literal}"{$email|replace:'"':''}"{literal}+'"},';{/literal}
-		{/if}
-	{/foreach}
-{/foreach}
+{if $ccContact}
+    ccContact  = {$ccContact};
+{/if}
 
-{literal} 
-toContact = '[' + toContact + ']';
+{if $bccContact}
+    bccContact = {$bccContact};
+{/if}
 
+{literal}
 cj('#addcc').toggle( function() { cj(this).text('Remove CC');
                                   cj('tr#cc').show().find('ul').find('input').focus();
                    },function() { cj(this).text('Add CC');cj('#cc_id').val('');
@@ -87,17 +80,6 @@ eval( 'tokenClass = { tokenList: "token-input-list-facebook", token: "token-inpu
 var hintText = "{/literal}{ts}Type in a partial or complete name or email{/ts}{literal}";
 var sourceDataUrl = "{/literal}{crmURL p='civicrm/ajax/checkemail' h=0 }{literal}";
 var toDataUrl     = "{/literal}{crmURL p='civicrm/ajax/checkemail' q='id=1' h=0 }{literal}";
-
-{/literal}
-{if $form.to.value}
-{literal}
-	toContact = cj.ajax({ url: toDataUrl + "&cid={/literal}{$form.to.value}{literal}", async: false }).responseText;
-{/literal}
-{/if}
-{literal}
-eval( 'toContact = ' + toContact );
-eval( 'ccContact = [' + ccContact + ']');
-eval( 'bccContact = [' + bccContact + ']');
 
 cj( "#to"     ).tokenInput( toDataUrl, { prePopulate: toContact, classes: tokenClass, hintText: hintText });
 cj( "#cc_id"  ).tokenInput( sourceDataUrl, { prePopulate: ccContact, classes: tokenClass, hintText: hintText });

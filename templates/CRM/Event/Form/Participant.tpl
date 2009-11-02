@@ -74,8 +74,11 @@
     			</td>
     		</tr>
     		<tr>
-    			<td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}{if $event_is_test} {ts}(test){/ts}{/if}</td>
-			<td id="notify">{$form.is_notify.label}{$form.is_notify.html}</td>
+    			<td class="label">{$form.status_id.label}</td>
+			<td>{$form.status_id.html}{if $event_is_test} {ts}(test){/ts}{/if}
+			    <div id="notify">{$form.is_notify.html}{$form.is_notify.label}</div>
+			</td>
+			
     		</tr>
 
     		<tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}<br />
