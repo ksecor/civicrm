@@ -105,7 +105,6 @@ $tables = orderTables( $tables );
 echo "Generating tests truncate file\n";
 
 $truncate = '<?xml version="1.0" encoding="UTF-8" ?>
-<!--  $Id: truncate.xml 24353 2009-10-20 10:32:26Z shot $  -->
 <!--  Truncate all tables that will be used in the tests  -->
 <dataset>';
 $tbls = array_keys($tables);
