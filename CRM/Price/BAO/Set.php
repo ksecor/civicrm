@@ -96,9 +96,9 @@ class CRM_Price_BAO_Set extends CRM_Price_DAO_Set
      *
      * @return array
      */
-    public static function &getUsedBy( $id ) 
+    public static function &getUsedBy( $id, $onlyTable = false ) 
     {
-        $usedBy = $forms = array( );
+        $usedBy = $forms = $tables = array( );
         $queryString = "
 SELECT   entity_table, entity_id 
 FROM     civicrm_price_set_entity
@@ -108,8 +108,12 @@ WHERE    price_set_id = %1";
         
         while ( $crmFormDAO->fetch( ) ) {
             $forms[ $crmFormDAO->entity_table ][] = $crmFormDAO->entity_id;
+            $tables[] = $crmFormDAO->entity_table;
         }
-
+        
+        if ( $onlyTable == true ) {
+            return $tables;
+        }
         if ( empty( $forms ) ) {
             return $usedBy;
         }        
