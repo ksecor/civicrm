@@ -533,6 +533,20 @@ class api_v2_ParticipantTest extends CiviUnitTestCase
         $this->assertEquals( $participant['is_error'],0);
     }
     
+    /**
+     * Test civicrm_participant_formatted with wrong $onDuplicate 
+     */
+    function testParticipantFormattedwithWrongDuplicateConstant()
+    {     
+        $participantContact = $this->individualCreate( );
+        $params = array(
+                        'contact_id'    => $participantContact,
+                        'event_id'      => $this->_eventID,
+                        );
+        $onDuplicate =11;
+        $participant = & civicrm_create_participant_formatted($params,$onDuplicate );
+        $this->assertEquals( $participant['is_error'],0);
+    }
     
     
     function testParticipantcheckWithParams()
