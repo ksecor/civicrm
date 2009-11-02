@@ -20,18 +20,26 @@
         {/if}
         {$form.label.html}
     </dd>
-    <dt>{$form.parent_id.label}</dt>
-    <dd>&nbsp;{$form.parent_id.html}</dd>
-    <dt>{$form.image_URL.label}</dt>
-    <dd>{$form.image_URL.html|crmReplace:class:'huge40'}</dd>
-    <dt>{$form.description.label}</dt>
-    <dd>
+        {if $is_parent}
+          <dt>{$form.parent_id.label}</dt>
+          <dd>&nbsp;{$form.parent_id.html}</dd>
+        {/if}
+        {if $action eq 1}
+          <dt>{$form.parent_id.label}</dt>
+          <dd>&nbsp;{$form.parent_id.html}</dd> 
+        {/if}
+     <dt>{$form.image_URL.label}</dt>
+     <dd>
+         {$form.image_URL.html|crmReplace:class:'huge40'}{help id="id-image_URL"}
+     </dd> 
+     <dt>{$form.description.label}</dt>
+     <dd>
         {if $action eq 2}
-	 {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact_type' field='description' 
+	  {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact_type' field='description' 
              id= $id }
         {/if}
         {$form.description.html}
-    </dd>
+     </dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
   </dl>
 {/if}

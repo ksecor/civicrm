@@ -1,0 +1,9 @@
+{htxt id="id-image_URL"}
+<div>Use this field to set your own icon for this Contact Type.</div>
+ Examples Could be:
+  <ul>
+    <li> i/contact_ind.gif</li>
+    <li>/directory_path/new_icon.png</li>  
+    <li>http://external_path/new_icon.gif</li>  
+  </ul>
+{/htxt}

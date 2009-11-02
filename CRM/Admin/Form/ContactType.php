@@ -66,7 +66,7 @@ class CRM_Admin_Form_ContactType extends CRM_Admin_Form
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $contactType->freeze( );   
         }
-        $this->addElement('text','image_URL', ts('Image Upload URL'));  
+        $this->addElement('text','image_URL', ts('Image URL'));  
         $this->add('text', 'description', ts('Description'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_ContactType', 'description' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));

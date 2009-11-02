@@ -84,10 +84,12 @@ class CRM_Admin_Form extends CRM_Core_Form
 
         // its ok if there is no element called is_active
         $defaults['is_active'] = ( $this->_id ) ? $defaults['is_active'] : 1;
-
+        if( CRM_Utils_Array::value( 'parent_id',$defaults ) ) {
+            $this->assign( 'is_parent', true );
+        }       
         return $defaults;
     }
-
+    
     /**
      * Function to actually build the form
      *
