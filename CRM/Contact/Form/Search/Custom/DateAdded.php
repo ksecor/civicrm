@@ -51,17 +51,8 @@ class CRM_Contact_Form_Search_Custom_DateAdded
     }
 
     function buildForm( &$form ) {
-        $form->add( 'date',
-                    'start_date',
-                    ts('Start Date'),
-                    CRM_Core_SelectValues::date( 'custom', 10, 0 ) );
-        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-        
-        $form->add( 'date',
-                    'end_date',
-                    ts('End Date'),
-                    CRM_Core_SelectValues::date( 'custom', 10, 0 ) );
-        $form->addRule('end_date', ts('Select a valid date.'), 'qfDate');    
+        $form->addDate( 'start_date', ts('Start Date'), false, array( 'formatType' => 'custom') );    
+        $form->addDate( 'end_date', ts('End Date'), false, array( 'formatType' => 'custom') );
         
         $groups =& CRM_Core_PseudoConstant::group( );
         $inG =& $form->addElement('advmultiselect', 'includeGroups', 
@@ -149,8 +140,8 @@ class CRM_Contact_Form_Search_Custom_DateAdded
         }
         CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         
-        $startDate = CRM_Utils_Date::format( $this->_formValues['start_date'], '-' );
-        $endDate = CRM_Utils_Date::format( $this->_formValues['end_date'], '-' );
+        $startDate = CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::processDate( $this->_formValues['start_date'] ) );
+        $endDate   = CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::processDate( $this->_formValues['end_date'] ) );
         
         $dateRange =
          "INSERT INTO dates_{$this->_tableName} ( id, date_added )

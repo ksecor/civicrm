@@ -61,8 +61,7 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate
         $defaults = array( );
 
         $defaults['start_date'] = array( );
-        CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
-
+        $defaults['start_date'] = CRM_Utils_Date::getToday( $defaults['start_date'], 'm/d/Y' );
         return $defaults;
     }
 
@@ -70,8 +69,7 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate
     { 
         $currentStartDate = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $form->_caseId, 'start_date' );
         $form->assign('current_start_date',  $currentStartDate );
-        $form->add( 'date', 'start_date', ts('New Start Date'), CRM_Core_SelectValues::date( ), false );   
-        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
+        $form->addDate( 'start_date', ts('New Start Date'), false, array( 'formatType' => 'birth' ) );   
     }
 
     /**
@@ -110,7 +108,7 @@ class CRM_Case_Form_Activity_ChangeCaseStartDate
     public function endPostProcess( &$form, &$params, $activity ) 
     {
         if ( CRM_Utils_Array::value('start_date', $params ) ) {
-            $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
+            $params['start_date'] = CRM_Utils_Date::processDate( $params['start_date'] );
         }
        
         $caseType = $form->_caseType;

@@ -20,8 +20,8 @@
             </tr>
             <tr>
                 <td><label>Inclusion Date One: Start/End</label></td>
-                <td>{$form.start_date_1.html}</td>
-                <td>{$form.end_date_1.html}</td>
+                <td>{include file="CRM/common/jcalendar.tpl" elementName=start_date_1}</td>
+                <td>{include file="CRM/common/jcalendar.tpl" elementName=end_date_1}</td>
                 <td>{$form.is_first_amount.html}&nbsp;{ts}First time donor only?{/ts}</td>
             </tr>
             <tr>
@@ -32,8 +32,8 @@
             </tr>
             <tr>
                 <td><label>Inclusion Date Two: Start/End</label></td>
-                <td>{$form.start_date_2.html}</td>
-                <td>{$form.end_date_2.html}</td>
+                <td>{include file="CRM/common/jcalendar.tpl" elementName=start_date_2}</td>
+                <td>{include file="CRM/common/jcalendar.tpl" elementName=end_date_2}</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
@@ -44,8 +44,8 @@
             </tr>
             <tr>
                 <td><label>Exclusion Date: Start/End</label></td>
-                <td>{$form.exclude_start_date.html}</td>
-                <td>{$form.exclude_end_date.html}</td>
+                <td>{include file="CRM/common/jcalendar.tpl" elementName=exclude_start_date}</td>
+                <td>{include file="CRM/common/jcalendar.tpl" elementName=exclude_end_date}</td>
                 <td>&nbsp;</td>
             <tr>
             <tr>

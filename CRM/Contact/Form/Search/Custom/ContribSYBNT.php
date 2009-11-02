@@ -75,7 +75,10 @@ implements CRM_Contact_Form_Search_Interface {
         }
 
         foreach ( $this->_dates as $name => $title ) {
-            $this->{$name} = CRM_Utils_Date::format( $this->_formValues[$name] );
+            // if ( ! empty( $this->_formValues[$name] ) ) {
+            if ( CRM_Utils_Array::value( $name, $this->_formValues ) ) {
+                $this->{$name} = CRM_Utils_Date::processDate( $this->_formValues[$name] );
+            } 
         }
 
     }
@@ -89,11 +92,7 @@ implements CRM_Contact_Form_Search_Interface {
         }
             
         foreach ( $this->_dates as $name => $title ) {
-            $form->add( 'date',
-                        $name,
-                        $title,
-                        CRM_Core_SelectValues::date('custom', 10, 0 ) );
-            $form->addRule($name, ts('Select a valid date.'), 'qfDate');
+            $form->addDate( $name, $title, false, array('formatType' => 'custom') );
         }
 
         foreach ( $this->_checkboxes as $name => $title ) {
